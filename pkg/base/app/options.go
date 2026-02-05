@@ -35,7 +35,7 @@ func detectConfigSource() config.ConfigSource {
 			VerifySSL:  os.Getenv("VAULT_SKIP_VERIFY") != "true",
 		})
 	default:
-		return config.NewFileSource(getEnv("CONFIG_FILE", "config.json"))
+		return config.NewFileSource(getEnv("CONFIG_FILE", "config.yaml"))
 	}
 }
 
