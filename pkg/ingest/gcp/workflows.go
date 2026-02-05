@@ -7,6 +7,7 @@ import (
 	"go.temporal.io/sdk/workflow"
 
 	"hotpot/pkg/ingest/gcp/compute"
+	"hotpot/pkg/ingest/gcp/container"
 )
 
 // GCPInventoryWorkflowParams contains parameters for the GCP inventory workflow.
@@ -18,14 +19,14 @@ type GCPInventoryWorkflowParams struct {
 type GCPInventoryWorkflowResult struct {
 	ProjectResults []ProjectResult
 	TotalInstances int
-	// TotalDisks     int  // future
-	// TotalNetworks  int  // future
+	TotalClusters  int
 }
 
 // ProjectResult contains the ingestion result for a single project.
 type ProjectResult struct {
 	ProjectID     string
 	InstanceCount int
+	ClusterCount  int
 	Error         string
 }
 
@@ -69,13 +70,23 @@ func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParam
 			result.TotalInstances += computeResult.InstanceCount
 		}
 
-		// Execute GKEWorkflow for this project (future)
-		// var gkeResult gke.GKEWorkflowResult
-		// err = workflow.ExecuteChildWorkflow(ctx, gke.GKEWorkflow, gke.GKEWorkflowParams{...}).Get(ctx, &gkeResult)
+		// Execute GCPContainerWorkflow for this project
+		var containerResult container.GCPContainerWorkflowResult
+		err = workflow.ExecuteChildWorkflow(ctx, container.GCPContainerWorkflow, container.GCPContainerWorkflowParams{
+			ProjectID: projectID,
+		}).Get(ctx, &containerResult)
 
-		// Execute IAMWorkflow for this project (future)
-		// var iamResult iam.IAMWorkflowResult
-		// err = workflow.ExecuteChildWorkflow(ctx, iam.IAMWorkflow, iam.IAMWorkflowParams{...}).Get(ctx, &iamResult)
+		if err != nil {
+			logger.Error("Failed to execute GCPContainerWorkflow", "projectID", projectID, "error", err)
+			if projectResult.Error == "" {
+				projectResult.Error = err.Error()
+			} else {
+				projectResult.Error += "; " + err.Error()
+			}
+		} else {
+			projectResult.ClusterCount = containerResult.ClusterCount
+			result.TotalClusters += containerResult.ClusterCount
+		}
 
 		result.ProjectResults = append(result.ProjectResults, projectResult)
 	}
@@ -83,6 +94,7 @@ func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParam
 	logger.Info("Completed GCPInventoryWorkflow",
 		"projectCount", len(params.ProjectIDs),
 		"totalInstances", result.TotalInstances,
+		"totalClusters", result.TotalClusters,
 	)
 
 	return result, nil
