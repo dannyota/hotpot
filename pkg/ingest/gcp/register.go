@@ -6,6 +6,7 @@ import (
 
 	"hotpot/pkg/base/config"
 	"hotpot/pkg/ingest/gcp/compute"
+	"hotpot/pkg/ingest/gcp/container"
 	"hotpot/pkg/ingest/gcp/resourcemanager"
 )
 
@@ -18,8 +19,8 @@ func Register(w worker.Worker, configService *config.Service, db *gorm.DB) {
 	// Register compute (instances, disks, networks)
 	compute.Register(w, configService, db)
 
-	// Register GKE (future)
-	// gke.Register(w, configService, db)
+	// Register container (GKE clusters)
+	container.Register(w, configService, db)
 
 	// Register IAM (future)
 	// iam.Register(w, configService, db)

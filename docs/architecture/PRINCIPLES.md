@@ -266,7 +266,63 @@ type GCPComputeInstanceNIC struct {
 
 See [HISTORY.md](./HISTORY.md) for details.
 
-## 10. Cross-Layer References
+## 10. Bronze Data Design
+
+Bronze stores API responses with minimal transformation. Two storage options:
+
+| API Data Type | Storage | Example |
+|---------------|---------|---------|
+| Scalar fields (top-level) | Columns | `name`, `status`, `endpoint` |
+| Arrays | Separate table | `nodePools[]` → `cluster_node_pools` |
+| Maps (key-value) | Separate table | `labels` → `cluster_labels` |
+| Nested objects | JSONB column | `privateClusterConfig` → `private_cluster_config_json` |
+
+**Rule: Tables or JSONB, never extract nested fields as columns.**
+
+Don't extract fields from nested objects into parent columns—it's confusing and breaks traceability. Keep nested objects as JSONB; if you need to query them, use PostgreSQL JSON operators.
+
+```
+# Wrong: extracting nested fields as columns
+enable_private_nodes    ← from privateClusterConfig.enablePrivateNodes
+master_ipv4_cidr_block  ← from privateClusterConfig.masterIpv4CidrBlock
+
+# Correct: store entire nested object as JSONB
+private_cluster_config_json JSONB  ← entire privateClusterConfig object
+```
+
+**Separate table** — use for top-level arrays and maps:
+- Arrays of objects: `nodePools[]` → `cluster_node_pools` table
+- Maps: `resourceLabels` → `cluster_labels` table (key, value columns)
+
+**Nested arrays/maps** — judgment call based on query needs:
+- If queryable via parent table link, store in JSONB for audit and completeness
+- Example: `nodePool.config.taints[]` → stays in `config_json` (can join to node_pool for queries)
+- Create separate table only if direct querying is required and parent link isn't sufficient
+
+**JSONB column** — use for nested config objects:
+- Preserves raw API structure
+- Query with JSON operators if needed: `WHERE config_json->>'enabled' = 'true'`
+- No need to update schema when API adds fields
+
+**Example:**
+
+```go
+// API: { "name": "x", "labels": {...}, "nodePools": [...], "privateClusterConfig": {...} }
+
+type GCPContainerCluster struct {
+    // Top-level scalars → columns
+    Name string `gorm:"column:name" json:"name"`
+
+    // Nested object → JSONB (not extracted as columns)
+    PrivateClusterConfigJSON string `gorm:"column:private_cluster_config_json;type:jsonb" json:"privateClusterConfig"`
+
+    // Arrays/maps → separate tables
+    Labels    []GCPContainerClusterLabel    `gorm:"foreignKey:ClusterResourceID"`
+    NodePools []GCPContainerClusterNodePool `gorm:"foreignKey:ClusterResourceID"`
+}
+```
+
+## 11. Cross-Layer References
 
 Layers are loosely coupled. No FK constraints between layers:
 
