@@ -2,14 +2,14 @@ package config
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"os"
 
 	"github.com/fsnotify/fsnotify"
+	"gopkg.in/yaml.v3"
 )
 
-// FileSource reads config from a JSON file.
+// FileSource reads config from a YAML file.
 type FileSource struct {
 	path string
 }
@@ -19,7 +19,7 @@ func NewFileSource(path string) *FileSource {
 	return &FileSource{path: path}
 }
 
-// Load reads config from the JSON file.
+// Load reads config from the YAML file.
 func (f *FileSource) Load(ctx context.Context) (*Config, error) {
 	data, err := os.ReadFile(f.path)
 	if err != nil {
@@ -27,7 +27,7 @@ func (f *FileSource) Load(ctx context.Context) (*Config, error) {
 	}
 
 	var cfg Config
-	if err := json.Unmarshal(data, &cfg); err != nil {
+	if err := yaml.Unmarshal(data, &cfg); err != nil {
 		return nil, fmt.Errorf("parse config file: %w", err)
 	}
 
