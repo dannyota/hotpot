@@ -1,0 +1,52 @@
+# Binaries
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test artifacts
+*.test
+*.out
+coverage.*
+*.coverprofile
+profile.cov
+
+# Go
+vendor/
+go.work
+go.work.sum
+
+# Secrets & credentials
+.env
+.env.*
+*.pem
+*.key
+*-credentials.json
+*-key.json
+service-account*.json
+credentials/
+secrets/
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+old/
+CLAUDE.local.md
