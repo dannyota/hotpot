@@ -12,7 +12,7 @@ import (
 
 // ConvertInstance converts a GCP API Instance to a Bronze model.
 // Preserves raw API data with minimal transformation.
-func ConvertInstance(inst *computepb.Instance, projectID string, collectedAt time.Time) bronze.GCPComputeInstance {
+func ConvertInstance(inst *computepb.Instance, projectID string, collectedAt time.Time) (bronze.GCPComputeInstance, error) {
 	instance := bronze.GCPComputeInstance{
 		ResourceID:             fmt.Sprintf("%d", inst.GetId()),
 		Name:                   inst.GetName(),
@@ -34,30 +34,40 @@ func ConvertInstance(inst *computepb.Instance, projectID string, collectedAt tim
 		CollectedAt:            collectedAt,
 	}
 
-	// Convert scheduling to JSON (kept as JSONB)
+	// Convert scheduling to JSONB (nil → SQL NULL, data → JSON bytes)
 	if inst.Scheduling != nil {
-		if data, err := json.Marshal(inst.Scheduling); err == nil {
-			instance.SchedulingJSON = string(data)
+		var err error
+		instance.SchedulingJSON, err = json.Marshal(inst.Scheduling)
+		if err != nil {
+			return bronze.GCPComputeInstance{}, fmt.Errorf("failed to marshal scheduling for instance %s: %w", inst.GetName(), err)
 		}
 	}
 
 	// Convert related entities
-	instance.Disks = ConvertDisks(inst.Disks)
+	var convertErr error
+	instance.Disks, convertErr = ConvertDisks(inst.Disks)
+	if convertErr != nil {
+		return bronze.GCPComputeInstance{}, fmt.Errorf("failed to convert disks for instance %s: %w", inst.GetName(), convertErr)
+	}
 	instance.NICs = ConvertNICs(inst.NetworkInterfaces)
 	instance.Labels = ConvertLabels(inst.Labels)
 	instance.Tags = ConvertTags(inst.Tags)
 	instance.Metadata = ConvertMetadata(inst.Metadata)
-	instance.ServiceAccounts = ConvertServiceAccounts(inst.ServiceAccounts)
+	instance.ServiceAccounts, convertErr = ConvertServiceAccounts(inst.ServiceAccounts)
+	if convertErr != nil {
+		return bronze.GCPComputeInstance{}, fmt.Errorf("failed to convert service accounts for instance %s: %w", inst.GetName(), convertErr)
+	}
 
-	return instance
+	return instance, nil
 }
 
 // ConvertDisks converts attached disk info from GCP API to Bronze models.
-func ConvertDisks(disks []*computepb.AttachedDisk) []bronze.GCPComputeInstanceDisk {
+func ConvertDisks(disks []*computepb.AttachedDisk) ([]bronze.GCPComputeInstanceDisk, error) {
 	if len(disks) == 0 {
-		return nil
+		return nil, nil
 	}
 
+	var err error
 	result := make([]bronze.GCPComputeInstanceDisk, 0, len(disks))
 	for _, disk := range disks {
 		d := bronze.GCPComputeInstanceDisk{
@@ -72,17 +82,19 @@ func ConvertDisks(disks []*computepb.AttachedDisk) []bronze.GCPComputeInstanceDi
 			DiskSizeGb: disk.GetDiskSizeGb(),
 		}
 
-		// Convert encryption key to JSON (kept as JSONB)
+		// Convert encryption key to JSONB (nil → SQL NULL, data → JSON bytes)
 		if disk.DiskEncryptionKey != nil {
-			if data, err := json.Marshal(disk.DiskEncryptionKey); err == nil {
-				d.DiskEncryptionKeyJSON = string(data)
+			d.DiskEncryptionKeyJSON, err = json.Marshal(disk.DiskEncryptionKey)
+			if err != nil {
+				return nil, fmt.Errorf("failed to marshal disk encryption key for %s: %w", disk.GetDeviceName(), err)
 			}
 		}
 
-		// Convert initialize params to JSON (kept as JSONB)
+		// Convert initialize params to JSONB (nil → SQL NULL, data → JSON bytes)
 		if disk.InitializeParams != nil {
-			if data, err := json.Marshal(disk.InitializeParams); err == nil {
-				d.InitializeParamsJSON = string(data)
+			d.InitializeParamsJSON, err = json.Marshal(disk.InitializeParams)
+			if err != nil {
+				return nil, fmt.Errorf("failed to marshal initialize params for %s: %w", disk.GetDeviceName(), err)
 			}
 		}
 
@@ -92,7 +104,7 @@ func ConvertDisks(disks []*computepb.AttachedDisk) []bronze.GCPComputeInstanceDi
 		result = append(result, d)
 	}
 
-	return result
+	return result, nil
 }
 
 // ConvertNICs converts network interfaces from GCP API to Bronze models.
@@ -178,28 +190,30 @@ func ConvertMetadata(metadata *computepb.Metadata) []bronze.GCPComputeInstanceMe
 }
 
 // ConvertServiceAccounts converts service accounts from GCP API to Bronze models.
-func ConvertServiceAccounts(serviceAccounts []*computepb.ServiceAccount) []bronze.GCPComputeInstanceServiceAccount {
+func ConvertServiceAccounts(serviceAccounts []*computepb.ServiceAccount) ([]bronze.GCPComputeInstanceServiceAccount, error) {
 	if len(serviceAccounts) == 0 {
-		return nil
+		return nil, nil
 	}
 
+	var err error
 	result := make([]bronze.GCPComputeInstanceServiceAccount, 0, len(serviceAccounts))
 	for _, sa := range serviceAccounts {
 		s := bronze.GCPComputeInstanceServiceAccount{
 			Email: sa.GetEmail(),
 		}
 
-		// Convert scopes to JSON
-		if len(sa.Scopes) > 0 {
-			if data, err := json.Marshal(sa.Scopes); err == nil {
-				s.ScopesJSON = string(data)
+		// Convert scopes to JSONB (nil → SQL NULL, data → JSON bytes)
+		if sa.Scopes != nil {
+			s.ScopesJSON, err = json.Marshal(sa.Scopes)
+			if err != nil {
+				return nil, fmt.Errorf("failed to marshal scopes for %s: %w", sa.GetEmail(), err)
 			}
 		}
 
 		result = append(result, s)
 	}
 
-	return result
+	return result, nil
 }
 
 // ConvertDiskLicenses converts disk licenses from GCP API to Bronze models.

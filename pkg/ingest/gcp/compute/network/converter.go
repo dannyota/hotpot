@@ -12,7 +12,7 @@ import (
 
 // ConvertNetwork converts a GCP API Network to a Bronze model.
 // Preserves raw API data with minimal transformation.
-func ConvertNetwork(n *computepb.Network, projectID string, collectedAt time.Time) bronze.GCPComputeNetwork {
+func ConvertNetwork(n *computepb.Network, projectID string, collectedAt time.Time) (bronze.GCPComputeNetwork, error) {
 	network := bronze.GCPComputeNetwork{
 		ResourceID:                            fmt.Sprintf("%d", n.GetId()),
 		Name:                                  n.GetName(),
@@ -34,17 +34,19 @@ func ConvertNetwork(n *computepb.Network, projectID string, collectedAt time.Tim
 		network.RoutingMode = n.RoutingConfig.GetRoutingMode()
 	}
 
-	// Convert subnetworks array to JSON
-	if len(n.Subnetworks) > 0 {
-		if data, err := json.Marshal(n.Subnetworks); err == nil {
-			network.SubnetworksJSON = string(data)
+	// Convert subnetworks array to JSONB (nil → SQL NULL, data → JSON bytes)
+	if n.Subnetworks != nil {
+		var err error
+		network.SubnetworksJSON, err = json.Marshal(n.Subnetworks)
+		if err != nil {
+			return bronze.GCPComputeNetwork{}, fmt.Errorf("failed to marshal subnetworks for network %s: %w", n.GetName(), err)
 		}
 	}
 
 	// Convert peerings to separate table
 	network.Peerings = ConvertPeerings(n.Peerings)
 
-	return network
+	return network, nil
 }
 
 // ConvertPeerings converts network peerings from GCP API to Bronze models.

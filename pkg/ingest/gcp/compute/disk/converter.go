@@ -12,7 +12,7 @@ import (
 
 // ConvertDisk converts a GCP API Disk to a Bronze model.
 // Preserves raw API data with minimal transformation.
-func ConvertDisk(d *computepb.Disk, projectID string, collectedAt time.Time) bronze.GCPComputeDisk {
+func ConvertDisk(d *computepb.Disk, projectID string, collectedAt time.Time) (bronze.GCPComputeDisk, error) {
 	disk := bronze.GCPComputeDisk{
 		ResourceID:                fmt.Sprintf("%d", d.GetId()),
 		Name:                      d.GetName(),
@@ -41,38 +41,36 @@ func ConvertDisk(d *computepb.Disk, projectID string, collectedAt time.Time) bro
 		CollectedAt:               collectedAt,
 	}
 
-	// Convert encryption key to JSON
+	// Convert JSONB fields (nil → SQL NULL, data → JSON bytes)
+	var err error
 	if d.DiskEncryptionKey != nil {
-		if data, err := json.Marshal(d.DiskEncryptionKey); err == nil {
-			disk.DiskEncryptionKeyJSON = string(data)
+		disk.DiskEncryptionKeyJSON, err = json.Marshal(d.DiskEncryptionKey)
+		if err != nil {
+			return bronze.GCPComputeDisk{}, fmt.Errorf("failed to marshal JSON for disk %s: %w", d.GetName(), err)
 		}
 	}
-
-	// Convert users array to JSON
-	if len(d.Users) > 0 {
-		if data, err := json.Marshal(d.Users); err == nil {
-			disk.UsersJSON = string(data)
+	if d.Users != nil {
+		disk.UsersJSON, err = json.Marshal(d.Users)
+		if err != nil {
+			return bronze.GCPComputeDisk{}, fmt.Errorf("failed to marshal JSON for disk %s: %w", d.GetName(), err)
 		}
 	}
-
-	// Convert replica zones to JSON
-	if len(d.ReplicaZones) > 0 {
-		if data, err := json.Marshal(d.ReplicaZones); err == nil {
-			disk.ReplicaZonesJSON = string(data)
+	if d.ReplicaZones != nil {
+		disk.ReplicaZonesJSON, err = json.Marshal(d.ReplicaZones)
+		if err != nil {
+			return bronze.GCPComputeDisk{}, fmt.Errorf("failed to marshal JSON for disk %s: %w", d.GetName(), err)
 		}
 	}
-
-	// Convert resource policies to JSON
-	if len(d.ResourcePolicies) > 0 {
-		if data, err := json.Marshal(d.ResourcePolicies); err == nil {
-			disk.ResourcePoliciesJSON = string(data)
+	if d.ResourcePolicies != nil {
+		disk.ResourcePoliciesJSON, err = json.Marshal(d.ResourcePolicies)
+		if err != nil {
+			return bronze.GCPComputeDisk{}, fmt.Errorf("failed to marshal JSON for disk %s: %w", d.GetName(), err)
 		}
 	}
-
-	// Convert guest OS features to JSON
-	if len(d.GuestOsFeatures) > 0 {
-		if data, err := json.Marshal(d.GuestOsFeatures); err == nil {
-			disk.GuestOsFeaturesJSON = string(data)
+	if d.GuestOsFeatures != nil {
+		disk.GuestOsFeaturesJSON, err = json.Marshal(d.GuestOsFeatures)
+		if err != nil {
+			return bronze.GCPComputeDisk{}, fmt.Errorf("failed to marshal JSON for disk %s: %w", d.GetName(), err)
 		}
 	}
 
@@ -82,7 +80,7 @@ func ConvertDisk(d *computepb.Disk, projectID string, collectedAt time.Time) bro
 	// Convert licenses to separate table
 	disk.Licenses = ConvertLicenses(d.Licenses)
 
-	return disk
+	return disk, nil
 }
 
 // ConvertLabels converts disk labels from GCP API to Bronze models.

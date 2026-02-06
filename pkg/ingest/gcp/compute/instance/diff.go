@@ -3,6 +3,7 @@ package instance
 import (
 	"reflect"
 
+	"hotpot/pkg/base/jsonb"
 	"hotpot/pkg/base/models/bronze"
 )
 
@@ -81,7 +82,7 @@ func hasInstanceFieldsChanged(old, new *bronze.GCPComputeInstance) bool {
 		old.Description != new.Description ||
 		old.DeletionProtection != new.DeletionProtection ||
 		old.CanIpForward != new.CanIpForward ||
-		old.SchedulingJSON != new.SchedulingJSON
+		jsonb.Changed(old.SchedulingJSON, new.SchedulingJSON)
 }
 
 func diffDisks(old, new []bronze.GCPComputeInstanceDisk) ChildDiff {
@@ -106,8 +107,8 @@ func hasDiskChanged(old, new *bronze.GCPComputeInstanceDisk) bool {
 		old.Interface != new.Interface ||
 		old.Type != new.Type ||
 		old.DiskSizeGb != new.DiskSizeGb ||
-		old.DiskEncryptionKeyJSON != new.DiskEncryptionKeyJSON ||
-		old.InitializeParamsJSON != new.InitializeParamsJSON ||
+		jsonb.Changed(old.DiskEncryptionKeyJSON, new.DiskEncryptionKeyJSON) ||
+		jsonb.Changed(old.InitializeParamsJSON, new.InitializeParamsJSON) ||
 		!reflect.DeepEqual(old.Licenses, new.Licenses)
 }
 
@@ -187,7 +188,7 @@ func diffServiceAccounts(old, new []bronze.GCPComputeInstanceServiceAccount) Chi
 		return ChildDiff{Changed: true}
 	}
 	for i := range old {
-		if old[i].Email != new[i].Email || old[i].ScopesJSON != new[i].ScopesJSON {
+		if old[i].Email != new[i].Email || jsonb.Changed(old[i].ScopesJSON, new[i].ScopesJSON) {
 			return ChildDiff{Changed: true}
 		}
 	}

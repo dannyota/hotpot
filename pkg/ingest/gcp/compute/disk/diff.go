@@ -1,6 +1,7 @@
 package disk
 
 import (
+	"hotpot/pkg/base/jsonb"
 	"hotpot/pkg/base/models/bronze"
 )
 
@@ -72,11 +73,11 @@ func hasDiskFieldsChanged(old, new *bronze.GCPComputeDisk) bool {
 		old.ProvisionedThroughput != new.ProvisionedThroughput ||
 		old.PhysicalBlockSizeBytes != new.PhysicalBlockSizeBytes ||
 		old.EnableConfidentialCompute != new.EnableConfidentialCompute ||
-		old.DiskEncryptionKeyJSON != new.DiskEncryptionKeyJSON ||
-		old.UsersJSON != new.UsersJSON ||
-		old.ReplicaZonesJSON != new.ReplicaZonesJSON ||
-		old.ResourcePoliciesJSON != new.ResourcePoliciesJSON ||
-		old.GuestOsFeaturesJSON != new.GuestOsFeaturesJSON
+		jsonb.Changed(old.DiskEncryptionKeyJSON, new.DiskEncryptionKeyJSON) ||
+		jsonb.Changed(old.UsersJSON, new.UsersJSON) ||
+		jsonb.Changed(old.ReplicaZonesJSON, new.ReplicaZonesJSON) ||
+		jsonb.Changed(old.ResourcePoliciesJSON, new.ResourcePoliciesJSON) ||
+		jsonb.Changed(old.GuestOsFeaturesJSON, new.GuestOsFeaturesJSON)
 }
 
 func diffLabels(old, new []bronze.GCPComputeDiskLabel) ChildDiff {

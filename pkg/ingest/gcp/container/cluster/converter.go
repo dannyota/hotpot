@@ -2,6 +2,7 @@ package cluster
 
 import (
 	"encoding/json"
+	"fmt"
 	"time"
 
 	"cloud.google.com/go/container/apiv1/containerpb"
@@ -11,7 +12,7 @@ import (
 
 // ConvertCluster converts a GCP API Cluster to a Bronze model.
 // Preserves raw API data with minimal transformation.
-func ConvertCluster(cluster *containerpb.Cluster, projectID string, collectedAt time.Time) bronze.GCPContainerCluster {
+func ConvertCluster(cluster *containerpb.Cluster, projectID string, collectedAt time.Time) (bronze.GCPContainerCluster, error) {
 	c := bronze.GCPContainerCluster{
 		ResourceID:            cluster.GetId(),
 		Name:                  cluster.GetName(),
@@ -44,33 +45,130 @@ func ConvertCluster(cluster *containerpb.Cluster, projectID string, collectedAt 
 		CollectedAt:           collectedAt,
 	}
 
-	// Convert nested objects to JSONB
-	c.AddonsConfigJSON = toJSON(cluster.GetAddonsConfig())
-	c.PrivateClusterConfigJSON = toJSON(cluster.GetPrivateClusterConfig())
-	c.IpAllocationPolicyJSON = toJSON(cluster.GetIpAllocationPolicy())
-	c.NetworkConfigJSON = toJSON(cluster.GetNetworkConfig())
-	c.MasterAuthJSON = toJSON(cluster.GetMasterAuth())
-	c.AutoscalingJSON = toJSON(cluster.GetAutoscaling())
-	c.VerticalPodAutoscalingJSON = toJSON(cluster.GetVerticalPodAutoscaling())
-	c.MonitoringConfigJSON = toJSON(cluster.GetMonitoringConfig())
-	c.LoggingConfigJSON = toJSON(cluster.GetLoggingConfig())
-	c.MaintenancePolicyJSON = toJSON(cluster.GetMaintenancePolicy())
-	c.DatabaseEncryptionJSON = toJSON(cluster.GetDatabaseEncryption())
-	c.WorkloadIdentityConfigJSON = toJSON(cluster.GetWorkloadIdentityConfig())
-	c.AutopilotJSON = toJSON(cluster.GetAutopilot())
-	c.ReleaseChannelJSON = toJSON(cluster.GetReleaseChannel())
-	c.BinaryAuthorizationJSON = toJSON(cluster.GetBinaryAuthorization())
-	c.SecurityPostureConfigJSON = toJSON(cluster.GetSecurityPostureConfig())
-	c.NodePoolDefaultsJSON = toJSON(cluster.GetNodePoolDefaults())
-	c.FleetJSON = toJSON(cluster.GetFleet())
+	// Convert nested objects to JSONB (nil → SQL NULL, data → JSON bytes)
+	var err error
+	if cluster.AddonsConfig != nil {
+		c.AddonsConfigJSON, err = json.Marshal(cluster.AddonsConfig)
+		if err != nil {
+			return bronze.GCPContainerCluster{}, fmt.Errorf("failed to marshal JSON for cluster %s: %w", cluster.GetName(), err)
+		}
+	}
+	if cluster.PrivateClusterConfig != nil {
+		c.PrivateClusterConfigJSON, err = json.Marshal(cluster.PrivateClusterConfig)
+		if err != nil {
+			return bronze.GCPContainerCluster{}, fmt.Errorf("failed to marshal JSON for cluster %s: %w", cluster.GetName(), err)
+		}
+	}
+	if cluster.IpAllocationPolicy != nil {
+		c.IpAllocationPolicyJSON, err = json.Marshal(cluster.IpAllocationPolicy)
+		if err != nil {
+			return bronze.GCPContainerCluster{}, fmt.Errorf("failed to marshal JSON for cluster %s: %w", cluster.GetName(), err)
+		}
+	}
+	if cluster.NetworkConfig != nil {
+		c.NetworkConfigJSON, err = json.Marshal(cluster.NetworkConfig)
+		if err != nil {
+			return bronze.GCPContainerCluster{}, fmt.Errorf("failed to marshal JSON for cluster %s: %w", cluster.GetName(), err)
+		}
+	}
+	if cluster.MasterAuth != nil {
+		c.MasterAuthJSON, err = json.Marshal(cluster.MasterAuth)
+		if err != nil {
+			return bronze.GCPContainerCluster{}, fmt.Errorf("failed to marshal JSON for cluster %s: %w", cluster.GetName(), err)
+		}
+	}
+	if cluster.Autoscaling != nil {
+		c.AutoscalingJSON, err = json.Marshal(cluster.Autoscaling)
+		if err != nil {
+			return bronze.GCPContainerCluster{}, fmt.Errorf("failed to marshal JSON for cluster %s: %w", cluster.GetName(), err)
+		}
+	}
+	if cluster.VerticalPodAutoscaling != nil {
+		c.VerticalPodAutoscalingJSON, err = json.Marshal(cluster.VerticalPodAutoscaling)
+		if err != nil {
+			return bronze.GCPContainerCluster{}, fmt.Errorf("failed to marshal JSON for cluster %s: %w", cluster.GetName(), err)
+		}
+	}
+	if cluster.MonitoringConfig != nil {
+		c.MonitoringConfigJSON, err = json.Marshal(cluster.MonitoringConfig)
+		if err != nil {
+			return bronze.GCPContainerCluster{}, fmt.Errorf("failed to marshal JSON for cluster %s: %w", cluster.GetName(), err)
+		}
+	}
+	if cluster.LoggingConfig != nil {
+		c.LoggingConfigJSON, err = json.Marshal(cluster.LoggingConfig)
+		if err != nil {
+			return bronze.GCPContainerCluster{}, fmt.Errorf("failed to marshal JSON for cluster %s: %w", cluster.GetName(), err)
+		}
+	}
+	if cluster.MaintenancePolicy != nil {
+		c.MaintenancePolicyJSON, err = json.Marshal(cluster.MaintenancePolicy)
+		if err != nil {
+			return bronze.GCPContainerCluster{}, fmt.Errorf("failed to marshal JSON for cluster %s: %w", cluster.GetName(), err)
+		}
+	}
+	if cluster.DatabaseEncryption != nil {
+		c.DatabaseEncryptionJSON, err = json.Marshal(cluster.DatabaseEncryption)
+		if err != nil {
+			return bronze.GCPContainerCluster{}, fmt.Errorf("failed to marshal JSON for cluster %s: %w", cluster.GetName(), err)
+		}
+	}
+	if cluster.WorkloadIdentityConfig != nil {
+		c.WorkloadIdentityConfigJSON, err = json.Marshal(cluster.WorkloadIdentityConfig)
+		if err != nil {
+			return bronze.GCPContainerCluster{}, fmt.Errorf("failed to marshal JSON for cluster %s: %w", cluster.GetName(), err)
+		}
+	}
+	if cluster.Autopilot != nil {
+		c.AutopilotJSON, err = json.Marshal(cluster.Autopilot)
+		if err != nil {
+			return bronze.GCPContainerCluster{}, fmt.Errorf("failed to marshal JSON for cluster %s: %w", cluster.GetName(), err)
+		}
+	}
+	if cluster.ReleaseChannel != nil {
+		c.ReleaseChannelJSON, err = json.Marshal(cluster.ReleaseChannel)
+		if err != nil {
+			return bronze.GCPContainerCluster{}, fmt.Errorf("failed to marshal JSON for cluster %s: %w", cluster.GetName(), err)
+		}
+	}
+	if cluster.BinaryAuthorization != nil {
+		c.BinaryAuthorizationJSON, err = json.Marshal(cluster.BinaryAuthorization)
+		if err != nil {
+			return bronze.GCPContainerCluster{}, fmt.Errorf("failed to marshal JSON for cluster %s: %w", cluster.GetName(), err)
+		}
+	}
+	if cluster.SecurityPostureConfig != nil {
+		c.SecurityPostureConfigJSON, err = json.Marshal(cluster.SecurityPostureConfig)
+		if err != nil {
+			return bronze.GCPContainerCluster{}, fmt.Errorf("failed to marshal JSON for cluster %s: %w", cluster.GetName(), err)
+		}
+	}
+	if cluster.NodePoolDefaults != nil {
+		c.NodePoolDefaultsJSON, err = json.Marshal(cluster.NodePoolDefaults)
+		if err != nil {
+			return bronze.GCPContainerCluster{}, fmt.Errorf("failed to marshal JSON for cluster %s: %w", cluster.GetName(), err)
+		}
+	}
+	if cluster.Fleet != nil {
+		c.FleetJSON, err = json.Marshal(cluster.Fleet)
+		if err != nil {
+			return bronze.GCPContainerCluster{}, fmt.Errorf("failed to marshal JSON for cluster %s: %w", cluster.GetName(), err)
+		}
+	}
 
 	// Convert related entities to separate tables
 	c.Labels = ConvertLabels(cluster.GetResourceLabels())
-	c.Addons = ConvertAddons(cluster.GetAddonsConfig())
+	c.Addons, err = ConvertAddons(cluster.GetAddonsConfig())
+	if err != nil {
+		return bronze.GCPContainerCluster{}, fmt.Errorf("failed to convert addons for cluster %s: %w", cluster.GetName(), err)
+	}
 	c.Conditions = ConvertConditions(cluster.GetConditions())
-	c.NodePools = ConvertNodePools(cluster.GetNodePools())
+	c.NodePools, err = ConvertNodePools(cluster.GetNodePools())
+	if err != nil {
+		return bronze.GCPContainerCluster{}, fmt.Errorf("failed to convert node pools for cluster %s: %w", cluster.GetName(), err)
+	}
 
-	return c
+	return c, nil
 }
 
 // ConvertLabels converts cluster resource labels to Bronze models.
@@ -90,132 +188,103 @@ func ConvertLabels(labels map[string]string) []bronze.GCPContainerClusterLabel {
 	return result
 }
 
+// marshalAddonConfig marshals a config and returns the addon entry.
+// cfg is already known to be non-nil when called.
+func marshalAddonConfig(name string, enabled bool, cfg any) (bronze.GCPContainerClusterAddon, error) {
+	data, err := json.Marshal(cfg)
+	if err != nil {
+		return bronze.GCPContainerClusterAddon{}, fmt.Errorf("failed to marshal %s config: %w", name, err)
+	}
+	return bronze.GCPContainerClusterAddon{
+		AddonName:  name,
+		Enabled:    enabled,
+		ConfigJSON: data,
+	}, nil
+}
+
 // ConvertAddons converts addons config to Bronze models (one row per addon).
-func ConvertAddons(addonsConfig *containerpb.AddonsConfig) []bronze.GCPContainerClusterAddon {
+func ConvertAddons(addonsConfig *containerpb.AddonsConfig) ([]bronze.GCPContainerClusterAddon, error) {
 	if addonsConfig == nil {
-		return nil
+		return nil, nil
 	}
 
 	var result []bronze.GCPContainerClusterAddon
+	add := func(name string, enabled bool, cfg any) error {
+		addon, err := marshalAddonConfig(name, enabled, cfg)
+		if err != nil {
+			return err
+		}
+		result = append(result, addon)
+		return nil
+	}
 
-	// HTTP Load Balancing
 	if cfg := addonsConfig.GetHttpLoadBalancing(); cfg != nil {
-		result = append(result, bronze.GCPContainerClusterAddon{
-			AddonName:  "http_load_balancing",
-			Enabled:    !cfg.GetDisabled(),
-			ConfigJSON: toJSON(cfg),
-		})
+		if err := add("http_load_balancing", !cfg.GetDisabled(), cfg); err != nil {
+			return nil, err
+		}
 	}
-
-	// Horizontal Pod Autoscaling
 	if cfg := addonsConfig.GetHorizontalPodAutoscaling(); cfg != nil {
-		result = append(result, bronze.GCPContainerClusterAddon{
-			AddonName:  "horizontal_pod_autoscaling",
-			Enabled:    !cfg.GetDisabled(),
-			ConfigJSON: toJSON(cfg),
-		})
+		if err := add("horizontal_pod_autoscaling", !cfg.GetDisabled(), cfg); err != nil {
+			return nil, err
+		}
 	}
-
-	// Kubernetes Dashboard (deprecated)
 	if cfg := addonsConfig.GetKubernetesDashboard(); cfg != nil {
-		result = append(result, bronze.GCPContainerClusterAddon{
-			AddonName:  "kubernetes_dashboard",
-			Enabled:    !cfg.GetDisabled(),
-			ConfigJSON: toJSON(cfg),
-		})
+		if err := add("kubernetes_dashboard", !cfg.GetDisabled(), cfg); err != nil {
+			return nil, err
+		}
 	}
-
-	// Network Policy Config
 	if cfg := addonsConfig.GetNetworkPolicyConfig(); cfg != nil {
-		result = append(result, bronze.GCPContainerClusterAddon{
-			AddonName:  "network_policy",
-			Enabled:    !cfg.GetDisabled(),
-			ConfigJSON: toJSON(cfg),
-		})
+		if err := add("network_policy", !cfg.GetDisabled(), cfg); err != nil {
+			return nil, err
+		}
 	}
-
-	// Cloud Run Config
 	if cfg := addonsConfig.GetCloudRunConfig(); cfg != nil {
-		result = append(result, bronze.GCPContainerClusterAddon{
-			AddonName:  "cloud_run",
-			Enabled:    !cfg.GetDisabled(),
-			ConfigJSON: toJSON(cfg),
-		})
+		if err := add("cloud_run", !cfg.GetDisabled(), cfg); err != nil {
+			return nil, err
+		}
 	}
-
-	// DNS Cache Config
 	if cfg := addonsConfig.GetDnsCacheConfig(); cfg != nil {
-		result = append(result, bronze.GCPContainerClusterAddon{
-			AddonName:  "dns_cache",
-			Enabled:    cfg.GetEnabled(),
-			ConfigJSON: toJSON(cfg),
-		})
+		if err := add("dns_cache", cfg.GetEnabled(), cfg); err != nil {
+			return nil, err
+		}
 	}
-
-	// Config Connector Config
 	if cfg := addonsConfig.GetConfigConnectorConfig(); cfg != nil {
-		result = append(result, bronze.GCPContainerClusterAddon{
-			AddonName:  "config_connector",
-			Enabled:    cfg.GetEnabled(),
-			ConfigJSON: toJSON(cfg),
-		})
+		if err := add("config_connector", cfg.GetEnabled(), cfg); err != nil {
+			return nil, err
+		}
 	}
-
-	// GCE Persistent Disk CSI Driver Config
 	if cfg := addonsConfig.GetGcePersistentDiskCsiDriverConfig(); cfg != nil {
-		result = append(result, bronze.GCPContainerClusterAddon{
-			AddonName:  "gce_persistent_disk_csi_driver",
-			Enabled:    cfg.GetEnabled(),
-			ConfigJSON: toJSON(cfg),
-		})
+		if err := add("gce_persistent_disk_csi_driver", cfg.GetEnabled(), cfg); err != nil {
+			return nil, err
+		}
 	}
-
-	// GCP Filestore CSI Driver Config
 	if cfg := addonsConfig.GetGcpFilestoreCsiDriverConfig(); cfg != nil {
-		result = append(result, bronze.GCPContainerClusterAddon{
-			AddonName:  "gcp_filestore_csi_driver",
-			Enabled:    cfg.GetEnabled(),
-			ConfigJSON: toJSON(cfg),
-		})
+		if err := add("gcp_filestore_csi_driver", cfg.GetEnabled(), cfg); err != nil {
+			return nil, err
+		}
 	}
-
-	// GCS Fuse CSI Driver Config
 	if cfg := addonsConfig.GetGcsFuseCsiDriverConfig(); cfg != nil {
-		result = append(result, bronze.GCPContainerClusterAddon{
-			AddonName:  "gcs_fuse_csi_driver",
-			Enabled:    cfg.GetEnabled(),
-			ConfigJSON: toJSON(cfg),
-		})
+		if err := add("gcs_fuse_csi_driver", cfg.GetEnabled(), cfg); err != nil {
+			return nil, err
+		}
 	}
-
-	// GKE Backup Agent Config
 	if cfg := addonsConfig.GetGkeBackupAgentConfig(); cfg != nil {
-		result = append(result, bronze.GCPContainerClusterAddon{
-			AddonName:  "gke_backup_agent",
-			Enabled:    cfg.GetEnabled(),
-			ConfigJSON: toJSON(cfg),
-		})
+		if err := add("gke_backup_agent", cfg.GetEnabled(), cfg); err != nil {
+			return nil, err
+		}
 	}
-
-	// Ray Operator Config
 	if cfg := addonsConfig.GetRayOperatorConfig(); cfg != nil {
-		result = append(result, bronze.GCPContainerClusterAddon{
-			AddonName:  "ray_operator",
-			Enabled:    cfg.GetEnabled(),
-			ConfigJSON: toJSON(cfg),
-		})
+		if err := add("ray_operator", cfg.GetEnabled(), cfg); err != nil {
+			return nil, err
+		}
 	}
-
-	// Stateful HA Config
 	if cfg := addonsConfig.GetStatefulHaConfig(); cfg != nil {
-		result = append(result, bronze.GCPContainerClusterAddon{
-			AddonName:  "stateful_ha",
-			Enabled:    cfg.GetEnabled(),
-			ConfigJSON: toJSON(cfg),
-		})
+		if err := add("stateful_ha", cfg.GetEnabled(), cfg); err != nil {
+			return nil, err
+		}
 	}
 
-	return result
+	return result, nil
 }
 
 // ConvertConditions converts cluster conditions to Bronze models.
@@ -237,9 +306,9 @@ func ConvertConditions(conditions []*containerpb.StatusCondition) []bronze.GCPCo
 }
 
 // ConvertNodePools converts node pools to Bronze models.
-func ConvertNodePools(nodePools []*containerpb.NodePool) []bronze.GCPContainerClusterNodePool {
+func ConvertNodePools(nodePools []*containerpb.NodePool) ([]bronze.GCPContainerClusterNodePool, error) {
 	if len(nodePools) == 0 {
-		return nil
+		return nil, nil
 	}
 
 	result := make([]bronze.GCPContainerClusterNodePool, 0, len(nodePools))
@@ -255,30 +324,59 @@ func ConvertNodePools(nodePools []*containerpb.NodePool) []bronze.GCPContainerCl
 			Etag:             np.GetEtag(),
 		}
 
-		// Convert nested objects to JSONB
-		pool.LocationsJSON = toJSON(np.GetLocations())
-		pool.ConfigJSON = toJSON(np.GetConfig())
-		pool.AutoscalingJSON = toJSON(np.GetAutoscaling())
-		pool.ManagementJSON = toJSON(np.GetManagement())
-		pool.UpgradeSettingsJSON = toJSON(np.GetUpgradeSettings())
-		pool.NetworkConfigJSON = toJSON(np.GetNetworkConfig())
-		pool.PlacementPolicyJSON = toJSON(np.GetPlacementPolicy())
-		pool.MaxPodsConstraintJSON = toJSON(np.GetMaxPodsConstraint())
+		// Convert nested objects to JSONB (nil → SQL NULL, data → JSON bytes)
+		var err error
+		if np.Locations != nil {
+			pool.LocationsJSON, err = json.Marshal(np.Locations)
+			if err != nil {
+				return nil, fmt.Errorf("failed to marshal node pool %s JSON: %w", np.GetName(), err)
+			}
+		}
+		if np.Config != nil {
+			pool.ConfigJSON, err = json.Marshal(np.Config)
+			if err != nil {
+				return nil, fmt.Errorf("failed to marshal node pool %s JSON: %w", np.GetName(), err)
+			}
+		}
+		if np.Autoscaling != nil {
+			pool.AutoscalingJSON, err = json.Marshal(np.Autoscaling)
+			if err != nil {
+				return nil, fmt.Errorf("failed to marshal node pool %s JSON: %w", np.GetName(), err)
+			}
+		}
+		if np.Management != nil {
+			pool.ManagementJSON, err = json.Marshal(np.Management)
+			if err != nil {
+				return nil, fmt.Errorf("failed to marshal node pool %s JSON: %w", np.GetName(), err)
+			}
+		}
+		if np.UpgradeSettings != nil {
+			pool.UpgradeSettingsJSON, err = json.Marshal(np.UpgradeSettings)
+			if err != nil {
+				return nil, fmt.Errorf("failed to marshal node pool %s JSON: %w", np.GetName(), err)
+			}
+		}
+		if np.NetworkConfig != nil {
+			pool.NetworkConfigJSON, err = json.Marshal(np.NetworkConfig)
+			if err != nil {
+				return nil, fmt.Errorf("failed to marshal node pool %s JSON: %w", np.GetName(), err)
+			}
+		}
+		if np.PlacementPolicy != nil {
+			pool.PlacementPolicyJSON, err = json.Marshal(np.PlacementPolicy)
+			if err != nil {
+				return nil, fmt.Errorf("failed to marshal node pool %s JSON: %w", np.GetName(), err)
+			}
+		}
+		if np.MaxPodsConstraint != nil {
+			pool.MaxPodsConstraintJSON, err = json.Marshal(np.MaxPodsConstraint)
+			if err != nil {
+				return nil, fmt.Errorf("failed to marshal node pool %s JSON: %w", np.GetName(), err)
+			}
+		}
 
 		result = append(result, pool)
 	}
 
-	return result
-}
-
-// toJSON converts any value to JSON string, returns empty string on error.
-func toJSON(v any) string {
-	if v == nil {
-		return ""
-	}
-	data, err := json.Marshal(v)
-	if err != nil {
-		return ""
-	}
-	return string(data)
+	return result, nil
 }

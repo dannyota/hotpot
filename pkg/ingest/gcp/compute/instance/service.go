@@ -53,7 +53,11 @@ func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResul
 	// Convert to bronze models
 	bronzeInstances := make([]bronze.GCPComputeInstance, 0, len(instances))
 	for _, inst := range instances {
-		bronzeInstances = append(bronzeInstances, ConvertInstance(inst, params.ProjectID, collectedAt))
+		bi, err := ConvertInstance(inst, params.ProjectID, collectedAt)
+		if err != nil {
+			return nil, fmt.Errorf("failed to convert instance: %w", err)
+		}
+		bronzeInstances = append(bronzeInstances, bi)
 	}
 
 	// Save to database

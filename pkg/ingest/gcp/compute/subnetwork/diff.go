@@ -1,6 +1,7 @@
 package subnetwork
 
 import (
+	"hotpot/pkg/base/jsonb"
 	"hotpot/pkg/base/models/bronze"
 )
 
@@ -63,7 +64,7 @@ func hasSubnetworkFieldsChanged(old, new *bronze.GCPComputeSubnetwork) bool {
 		old.Ipv6AccessType != new.Ipv6AccessType ||
 		old.InternalIpv6Prefix != new.InternalIpv6Prefix ||
 		old.ExternalIpv6Prefix != new.ExternalIpv6Prefix ||
-		old.LogConfigJSON != new.LogConfigJSON ||
+		jsonb.Changed(old.LogConfigJSON, new.LogConfigJSON) ||
 		old.Fingerprint != new.Fingerprint
 }
 
