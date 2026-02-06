@@ -5,6 +5,7 @@ import (
 	"gorm.io/gorm"
 
 	"hotpot/pkg/base/config"
+	"hotpot/pkg/ingest/gcp/compute/address"
 	"hotpot/pkg/ingest/gcp/compute/disk"
 	"hotpot/pkg/ingest/gcp/compute/instance"
 	"hotpot/pkg/ingest/gcp/compute/instancegroup"
@@ -23,6 +24,7 @@ func Register(w worker.Worker, configService *config.Service, db *gorm.DB) {
 	subnetwork.Register(w, configService, db)
 	instancegroup.Register(w, configService, db)
 	targetinstance.Register(w, configService, db)
+	address.Register(w, configService, db)
 
 	// Register compute workflow
 	w.RegisterWorkflow(GCPComputeWorkflow)
