@@ -262,11 +262,7 @@ Bronze stores API responses with minimal transformation. Two storage options:
 | Nested objects | JSONB column | `privateClusterConfig` → `private_cluster_config_json` |
 | Arrays of primitives | JSONB column | `users[]` → `users_json` |
 
-**Rule: Tables or JSONB, never extract nested fields as columns. Use JSONB (`type:jsonb`) for any JSON data not stored in a separate table.**
-
-**Rule: Store unsigned integers as strings.** PostgreSQL has no unsigned integer types — `bigint` (signed int64) overflows for large `uint64`, and `integer` (signed int32) overflows for large `uint32`. Store as `string` (`varchar(255)`) and convert via `fmt.Sprintf("%d", value)` in the converter.
-
-Don't extract fields from nested objects into parent columns—it's confusing and breaks traceability. Keep nested objects as JSONB; if you need to query them, use PostgreSQL JSON operators.
+**Rule: Tables or JSONB, never extract nested fields as columns.** Use JSONB (`type:jsonb`) for any JSON data not stored in a separate table. Query with PostgreSQL JSON operators if needed.
 
 ```
 # Wrong: extracting nested fields as columns
@@ -276,6 +272,8 @@ master_ipv4_cidr_block  ← from privateClusterConfig.masterIpv4CidrBlock
 # Correct: store entire nested object as JSONB
 private_cluster_config_json JSONB  ← entire privateClusterConfig object
 ```
+
+**Rule: Store unsigned integers as strings.** PostgreSQL has no unsigned integer types — `bigint` (signed int64) overflows for large `uint64`, and `integer` (signed int32) overflows for large `uint32`. Store as `string` (`varchar(255)`) and convert via `fmt.Sprintf("%d", value)` in the converter.
 
 **Separate table** — use for top-level arrays and maps:
 - Arrays of objects: `nodePools[]` → `cluster_node_pools` table
