@@ -12,7 +12,7 @@ GCP resource ingestion coverage in the bronze layer.
 | Disks | `DisksClient` | `AggregatedList()` | ✅ |
 | Instance Groups | `InstanceGroupsClient` | `AggregatedList()` | ✅ |
 | Instance Group Members | `InstanceGroupsClient` | `ListInstances()` | ✅ |
-| Target Instances | `TargetInstancesClient` | `AggregatedList()` | |
+| Target Instances | `TargetInstancesClient` | `AggregatedList()` | ✅ |
 
 ### Networking
 
@@ -67,11 +67,11 @@ GCP resource ingestion coverage in the bronze layer.
 
 ## Summary
 
-**Total: 8/24 (33%)**
+**Total: 9/24 (38%)**
 
 | API | Implemented | Total |
 |-----|:-----------:|:-----:|
-| Compute Engine | 6 | 21 |
+| Compute Engine | 7 | 21 |
 | Container | 2 | 2 |
 | Resource Manager | 1 | 1 |
 | VPC Access | 0 | 1 |
