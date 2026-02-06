@@ -27,8 +27,8 @@ GCP resource ingestion coverage in the bronze layer.
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Forwarding Rules (Regional) | `ForwardingRulesClient` | `AggregatedList()` | |
-| Forwarding Rules (Global) | `GlobalForwardingRulesClient` | `List()` | |
+| Forwarding Rules (Regional) | `ForwardingRulesClient` | `AggregatedList()` | ✅ |
+| Forwarding Rules (Global) | `GlobalForwardingRulesClient` | `List()` | ✅ |
 | Backend Services | `BackendServicesClient` | `AggregatedList()` | |
 | URL Maps | `UrlMapsClient` | `AggregatedList()` | |
 | Target HTTP Proxies | `TargetHttpProxiesClient` | `AggregatedList()` | |
@@ -67,11 +67,11 @@ GCP resource ingestion coverage in the bronze layer.
 
 ## Summary
 
-**Total: 11/24 (46%)**
+**Total: 13/24 (54%)**
 
 | API | Implemented | Total |
 |-----|:-----------:|:-----:|
-| Compute Engine | 9 | 21 |
+| Compute Engine | 11 | 21 |
 | Container | 2 | 2 |
 | Resource Manager | 1 | 1 |
 | VPC Access | 0 | 1 |

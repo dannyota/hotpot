@@ -8,7 +8,9 @@ import (
 
 	"hotpot/pkg/ingest/gcp/compute/address"
 	"hotpot/pkg/ingest/gcp/compute/disk"
+	"hotpot/pkg/ingest/gcp/compute/forwardingrule"
 	"hotpot/pkg/ingest/gcp/compute/globaladdress"
+	"hotpot/pkg/ingest/gcp/compute/globalforwardingrule"
 	"hotpot/pkg/ingest/gcp/compute/instance"
 	"hotpot/pkg/ingest/gcp/compute/instancegroup"
 	"hotpot/pkg/ingest/gcp/compute/network"
@@ -30,8 +32,10 @@ type GCPComputeWorkflowResult struct {
 	SubnetworkCount     int
 	InstanceGroupCount  int
 	TargetInstanceCount int
-	AddressCount        int
-	GlobalAddressCount  int
+	AddressCount              int
+	GlobalAddressCount        int
+	ForwardingRuleCount       int
+	GlobalForwardingRuleCount int
 }
 
 // GCPComputeWorkflow ingests all GCP Compute Engine resources for a single project.
@@ -136,6 +140,26 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 	}
 	result.GlobalAddressCount = globalAddressResult.GlobalAddressCount
 
+	// Execute forwarding rule workflow
+	var forwardingRuleResult forwardingrule.GCPComputeForwardingRuleWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, forwardingrule.GCPComputeForwardingRuleWorkflow,
+		forwardingrule.GCPComputeForwardingRuleWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &forwardingRuleResult)
+	if err != nil {
+		logger.Error("Failed to ingest forwarding rules", "error", err)
+		return nil, err
+	}
+	result.ForwardingRuleCount = forwardingRuleResult.ForwardingRuleCount
+
+	// Execute global forwarding rule workflow
+	var globalForwardingRuleResult globalforwardingrule.GCPComputeGlobalForwardingRuleWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, globalforwardingrule.GCPComputeGlobalForwardingRuleWorkflow,
+		globalforwardingrule.GCPComputeGlobalForwardingRuleWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &globalForwardingRuleResult)
+	if err != nil {
+		logger.Error("Failed to ingest global forwarding rules", "error", err)
+		return nil, err
+	}
+	result.GlobalForwardingRuleCount = globalForwardingRuleResult.GlobalForwardingRuleCount
+
 	logger.Info("Completed GCPComputeWorkflow",
 		"projectID", params.ProjectID,
 		"instanceCount", result.InstanceCount,
@@ -146,6 +170,8 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		"targetInstanceCount", result.TargetInstanceCount,
 		"addressCount", result.AddressCount,
 		"globalAddressCount", result.GlobalAddressCount,
+		"forwardingRuleCount", result.ForwardingRuleCount,
+		"globalForwardingRuleCount", result.GlobalForwardingRuleCount,
 	)
 
 	return result, nil
