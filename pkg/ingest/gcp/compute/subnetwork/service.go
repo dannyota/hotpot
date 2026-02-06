@@ -53,7 +53,11 @@ func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResul
 	// Convert to bronze models
 	bronzeSubnetworks := make([]bronze.GCPComputeSubnetwork, 0, len(subnetworks))
 	for _, sn := range subnetworks {
-		bronzeSubnetworks = append(bronzeSubnetworks, ConvertSubnetwork(sn, params.ProjectID, collectedAt))
+		bs, err := ConvertSubnetwork(sn, params.ProjectID, collectedAt)
+		if err != nil {
+			return nil, fmt.Errorf("failed to convert subnetwork: %w", err)
+		}
+		bronzeSubnetworks = append(bronzeSubnetworks, bs)
 	}
 
 	// Save to database

@@ -53,7 +53,11 @@ func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResul
 	// Convert to bronze models
 	bronzeDisks := make([]bronze.GCPComputeDisk, 0, len(disks))
 	for _, d := range disks {
-		bronzeDisks = append(bronzeDisks, ConvertDisk(d, params.ProjectID, collectedAt))
+		bd, err := ConvertDisk(d, params.ProjectID, collectedAt)
+		if err != nil {
+			return nil, fmt.Errorf("failed to convert disk: %w", err)
+		}
+		bronzeDisks = append(bronzeDisks, bd)
 	}
 
 	// Save to database

@@ -12,7 +12,7 @@ import (
 
 // ConvertSubnetwork converts a GCP API Subnetwork to a Bronze model.
 // Preserves raw API data with minimal transformation.
-func ConvertSubnetwork(s *computepb.Subnetwork, projectID string, collectedAt time.Time) bronze.GCPComputeSubnetwork {
+func ConvertSubnetwork(s *computepb.Subnetwork, projectID string, collectedAt time.Time) (bronze.GCPComputeSubnetwork, error) {
 	subnet := bronze.GCPComputeSubnetwork{
 		ResourceID:              fmt.Sprintf("%d", s.GetId()),
 		Name:                    s.GetName(),
@@ -36,17 +36,19 @@ func ConvertSubnetwork(s *computepb.Subnetwork, projectID string, collectedAt ti
 		CollectedAt:             collectedAt,
 	}
 
-	// Convert log config to JSON
+	// Convert log config to JSONB (nil → SQL NULL, data → JSON bytes)
 	if s.LogConfig != nil {
-		if data, err := json.Marshal(s.LogConfig); err == nil {
-			subnet.LogConfigJSON = string(data)
+		var err error
+		subnet.LogConfigJSON, err = json.Marshal(s.LogConfig)
+		if err != nil {
+			return bronze.GCPComputeSubnetwork{}, fmt.Errorf("failed to marshal log config for subnetwork %s: %w", s.GetName(), err)
 		}
 	}
 
 	// Convert secondary IP ranges to separate table
 	subnet.SecondaryIpRanges = ConvertSecondaryRanges(s.SecondaryIpRanges)
 
-	return subnet
+	return subnet, nil
 }
 
 // ConvertSecondaryRanges converts secondary IP ranges from GCP API to Bronze models.

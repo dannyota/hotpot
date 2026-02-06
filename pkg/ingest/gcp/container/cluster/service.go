@@ -53,7 +53,11 @@ func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResul
 	// Convert to bronze models
 	bronzeClusters := make([]bronze.GCPContainerCluster, 0, len(clusters))
 	for _, cluster := range clusters {
-		bronzeClusters = append(bronzeClusters, ConvertCluster(cluster, params.ProjectID, collectedAt))
+		bc, err := ConvertCluster(cluster, params.ProjectID, collectedAt)
+		if err != nil {
+			return nil, fmt.Errorf("failed to convert cluster: %w", err)
+		}
+		bronzeClusters = append(bronzeClusters, bc)
 	}
 
 	// Save to database

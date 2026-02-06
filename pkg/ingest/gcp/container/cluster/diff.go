@@ -1,6 +1,7 @@
 package cluster
 
 import (
+	"hotpot/pkg/base/jsonb"
 	"hotpot/pkg/base/models/bronze"
 )
 
@@ -79,14 +80,14 @@ func hasClusterFieldsChanged(old, new *bronze.GCPContainerCluster) bool {
 		old.MonitoringService != new.MonitoringService ||
 		old.EnableKubernetesAlpha != new.EnableKubernetesAlpha ||
 		old.EnableTpu != new.EnableTpu ||
-		old.AddonsConfigJSON != new.AddonsConfigJSON ||
-		old.PrivateClusterConfigJSON != new.PrivateClusterConfigJSON ||
-		old.IpAllocationPolicyJSON != new.IpAllocationPolicyJSON ||
-		old.NetworkConfigJSON != new.NetworkConfigJSON ||
-		old.AutoscalingJSON != new.AutoscalingJSON ||
-		old.MaintenancePolicyJSON != new.MaintenancePolicyJSON ||
-		old.AutopilotJSON != new.AutopilotJSON ||
-		old.ReleaseChannelJSON != new.ReleaseChannelJSON
+		jsonb.Changed(old.AddonsConfigJSON, new.AddonsConfigJSON) ||
+		jsonb.Changed(old.PrivateClusterConfigJSON, new.PrivateClusterConfigJSON) ||
+		jsonb.Changed(old.IpAllocationPolicyJSON, new.IpAllocationPolicyJSON) ||
+		jsonb.Changed(old.NetworkConfigJSON, new.NetworkConfigJSON) ||
+		jsonb.Changed(old.AutoscalingJSON, new.AutoscalingJSON) ||
+		jsonb.Changed(old.MaintenancePolicyJSON, new.MaintenancePolicyJSON) ||
+		jsonb.Changed(old.AutopilotJSON, new.AutopilotJSON) ||
+		jsonb.Changed(old.ReleaseChannelJSON, new.ReleaseChannelJSON)
 }
 
 func diffLabels(old, new []bronze.GCPContainerClusterLabel) ChildDiff {
@@ -116,7 +117,7 @@ func diffAddons(old, new []bronze.GCPContainerClusterAddon) ChildDiff {
 	for _, a := range new {
 		if oldAddon, ok := oldMap[a.AddonName]; !ok ||
 			oldAddon.Enabled != a.Enabled ||
-			oldAddon.ConfigJSON != a.ConfigJSON {
+			jsonb.Changed(oldAddon.ConfigJSON, a.ConfigJSON) {
 			return ChildDiff{Changed: true}
 		}
 	}
@@ -160,10 +161,10 @@ func hasNodePoolChanged(old, new *bronze.GCPContainerClusterNodePool) bool {
 		old.StatusMessage != new.StatusMessage ||
 		old.InitialNodeCount != new.InitialNodeCount ||
 		old.PodIpv4CidrSize != new.PodIpv4CidrSize ||
-		old.LocationsJSON != new.LocationsJSON ||
-		old.ConfigJSON != new.ConfigJSON ||
-		old.AutoscalingJSON != new.AutoscalingJSON ||
-		old.ManagementJSON != new.ManagementJSON ||
-		old.UpgradeSettingsJSON != new.UpgradeSettingsJSON ||
-		old.NetworkConfigJSON != new.NetworkConfigJSON
+		jsonb.Changed(old.LocationsJSON, new.LocationsJSON) ||
+		jsonb.Changed(old.ConfigJSON, new.ConfigJSON) ||
+		jsonb.Changed(old.AutoscalingJSON, new.AutoscalingJSON) ||
+		jsonb.Changed(old.ManagementJSON, new.ManagementJSON) ||
+		jsonb.Changed(old.UpgradeSettingsJSON, new.UpgradeSettingsJSON) ||
+		jsonb.Changed(old.NetworkConfigJSON, new.NetworkConfigJSON)
 }

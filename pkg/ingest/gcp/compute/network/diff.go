@@ -1,6 +1,7 @@
 package network
 
 import (
+	"hotpot/pkg/base/jsonb"
 	"hotpot/pkg/base/models/bronze"
 )
 
@@ -58,7 +59,7 @@ func hasNetworkFieldsChanged(old, new *bronze.GCPComputeNetwork) bool {
 		old.EnableUlaInternalIpv6 != new.EnableUlaInternalIpv6 ||
 		old.InternalIpv6Range != new.InternalIpv6Range ||
 		old.GatewayIpv4 != new.GatewayIpv4 ||
-		old.SubnetworksJSON != new.SubnetworksJSON
+		jsonb.Changed(old.SubnetworksJSON, new.SubnetworksJSON)
 }
 
 func diffPeerings(old, new []bronze.GCPComputeNetworkPeering) ChildDiff {
