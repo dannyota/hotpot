@@ -107,7 +107,7 @@ func (a *Activities) IngestComputeInstances(ctx context.Context, params IngestCo
 
 ## Session Client
 
-Client lives for workflow duration, not worker lifetime. Credentials priority: Vault JSON > file path > ADC.
+Client lives for workflow duration, not worker lifetime. Credentials priority: Vault JSON > ADC.
 
 ```go
 var sessionClients sync.Map
@@ -120,10 +120,8 @@ func GetOrCreateSessionClient(ctx context.Context, sessionID string, configServi
     var opts []option.ClientOption
     if credJSON := configService.GCPCredentialsJSON(); len(credJSON) > 0 {
         opts = append(opts, option.WithCredentialsJSON(credJSON))
-    } else if credFile := configService.GCPCredentialsFile(); credFile != "" {
-        opts = append(opts, option.WithCredentialsFile(credFile))
     }
-    // If both empty, uses Application Default Credentials (ADC)
+    // If empty, uses Application Default Credentials (ADC)
 
     client, err := NewClient(ctx, opts...)
     if err != nil {

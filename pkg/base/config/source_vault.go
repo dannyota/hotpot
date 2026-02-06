@@ -206,10 +206,6 @@ func (v *VaultSource) parseConfig(data map[string]interface{}) (*Config, error) 
 	if val, ok := data["gcp_credentials_json"].(string); ok && val != "" {
 		cfg.GCP.CredentialsJSON = []byte(val)
 	}
-	if val, ok := data["gcp_credentials_file"].(string); ok {
-		cfg.GCP.CredentialsFile = val
-	}
-
 	// Database config
 	if val, ok := data["database_host"].(string); ok {
 		cfg.Database.Host = val

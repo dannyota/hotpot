@@ -19,14 +19,11 @@ func GetOrCreateSessionClient(ctx context.Context, sessionID string, configServi
 		return client.(*Client), nil
 	}
 
-	// Create new client - prefer JSON credentials (from Vault) over file path
+	// Create new client - use Vault JSON credentials, fall back to ADC
 	var opts []option.ClientOption
 	if credJSON := configService.GCPCredentialsJSON(); len(credJSON) > 0 {
 		opts = append(opts, option.WithAuthCredentialsJSON(option.ServiceAccount, credJSON))
-	} else if credFile := configService.GCPCredentialsFile(); credFile != "" {
-		opts = append(opts, option.WithAuthCredentialsFile(option.ServiceAccount, credFile))
 	}
-	// If both empty, uses Application Default Credentials (ADC)
 
 	client, err := NewClient(ctx, opts...)
 	if err != nil {
