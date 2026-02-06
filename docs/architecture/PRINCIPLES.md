@@ -164,52 +164,7 @@ pkg/base/models/bronze/
 1. Parent model with `TableName()` method
 2. Child models alphabetically, each with `TableName()` method
 
-**Bronze models** — document original API field in `json` tag for traceability:
-
-```go
-// pkg/base/models/bronze/gcp_compute_instance.go
-package bronze
-
-type GCPComputeInstance struct {
-    ID uint `gorm:"primaryKey"`
-
-    // gorm = our name + type, json = original API field
-    ResourceID  string `gorm:"column:resource_id;type:varchar(255);uniqueIndex" json:"id"`
-    Name        string `gorm:"column:name;type:varchar(255);not null" json:"name"`
-    MachineType string `gorm:"column:machine_type;type:text" json:"machineType"`
-    Status      string `gorm:"column:status;type:varchar(50);index" json:"status"`
-
-    // Collection metadata (not from API)
-    ProjectID   string    `gorm:"column:project_id;type:varchar(255);not null;index" json:"-"`
-    CollectedAt time.Time `gorm:"column:collected_at;not null;index" json:"-"`
-
-    // Relationships
-    Disks []GCPComputeInstanceDisk `gorm:"foreignKey:InstanceID;constraint:OnDelete:CASCADE"`
-}
-
-func (GCPComputeInstance) TableName() string {
-    return "bronze.gcp_compute_instances"
-}
-```
-
-**Silver/Gold models** — `json` tag matches column name (for API responses):
-
-```go
-// pkg/base/models/silver/assets.go
-package silver
-
-type Asset struct {
-    ID       string `gorm:"column:id" json:"id"`
-    Name     string `gorm:"column:name" json:"name"`
-    Type     string `gorm:"column:type" json:"type"`
-    SourceID string `gorm:"column:source_id" json:"source_id"`  // FK to bronze
-}
-```
-
-| Layer | `json` tag purpose |
-|-------|-------------------|
-| Bronze | Original external API field name |
-| Silver/Gold | API response field (matches column) |
+See [CODE_STYLE.md](../guides/CODE_STYLE.md#model-tags) for `json`/`gorm` tag conventions.
 
 ## 9. History Tables (SCD Type 4)
 
@@ -273,11 +228,12 @@ Bronze stores API responses with minimal transformation. Two storage options:
 | API Data Type | Storage | Example |
 |---------------|---------|---------|
 | Scalar fields (top-level) | Columns | `name`, `status`, `endpoint` |
-| Arrays | Separate table | `nodePools[]` → `cluster_node_pools` |
+| Arrays of objects | Separate table | `nodePools[]` → `cluster_node_pools` |
 | Maps (key-value) | Separate table | `labels` → `cluster_labels` |
 | Nested objects | JSONB column | `privateClusterConfig` → `private_cluster_config_json` |
+| Arrays of primitives | JSONB column | `users[]` → `users_json` |
 
-**Rule: Tables or JSONB, never extract nested fields as columns.**
+**Rule: Tables or JSONB, never extract nested fields as columns. Use JSONB (`type:jsonb`) for any JSON data not stored in a separate table.**
 
 Don't extract fields from nested objects into parent columns—it's confusing and breaks traceability. Keep nested objects as JSONB; if you need to query them, use PostgreSQL JSON operators.
 
@@ -299,28 +255,12 @@ private_cluster_config_json JSONB  ← entire privateClusterConfig object
 - Example: `nodePool.config.taints[]` → stays in `config_json` (can join to node_pool for queries)
 - Create separate table only if direct querying is required and parent link isn't sufficient
 
-**JSONB column** — use for nested config objects:
+**JSONB column** — use for nested objects and primitive arrays:
 - Preserves raw API structure
 - Query with JSON operators if needed: `WHERE config_json->>'enabled' = 'true'`
 - No need to update schema when API adds fields
 
-**Example:**
-
-```go
-// API: { "name": "x", "labels": {...}, "nodePools": [...], "privateClusterConfig": {...} }
-
-type GCPContainerCluster struct {
-    // Top-level scalars → columns
-    Name string `gorm:"column:name" json:"name"`
-
-    // Nested object → JSONB (not extracted as columns)
-    PrivateClusterConfigJSON string `gorm:"column:private_cluster_config_json;type:jsonb" json:"privateClusterConfig"`
-
-    // Arrays/maps → separate tables
-    Labels    []GCPContainerClusterLabel    `gorm:"foreignKey:ClusterResourceID"`
-    NodePools []GCPContainerClusterNodePool `gorm:"foreignKey:ClusterResourceID"`
-}
-```
+See [CODE_STYLE.md](../guides/CODE_STYLE.md#jsonb-fields) for implementation conventions.
 
 ## 11. Cross-Layer References
 

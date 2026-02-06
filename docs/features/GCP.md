@@ -20,7 +20,7 @@ GCP resource ingestion coverage in the bronze layer.
 |----------|-----------|--------|:------:|
 | Networks | `NetworksClient` | `List()` | ✅ |
 | Subnetworks | `SubnetworksClient` | `AggregatedList()` | ✅ |
-| Addresses (Regional) | `AddressesClient` | `AggregatedList()` | |
+| Addresses (Regional) | `AddressesClient` | `AggregatedList()` | ✅ |
 | Addresses (Global) | `GlobalAddressesClient` | `List()` | |
 
 ### Load Balancing
@@ -67,11 +67,11 @@ GCP resource ingestion coverage in the bronze layer.
 
 ## Summary
 
-**Total: 9/24 (38%)**
+**Total: 10/24 (42%)**
 
 | API | Implemented | Total |
 |-----|:-----------:|:-----:|
-| Compute Engine | 7 | 21 |
+| Compute Engine | 8 | 21 |
 | Container | 2 | 2 |
 | Resource Manager | 1 | 1 |
 | VPC Access | 0 | 1 |
