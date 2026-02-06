@@ -2,6 +2,8 @@ package bronze_history
 
 import (
 	"time"
+
+	"hotpot/pkg/base/jsonb"
 )
 
 // GCPComputeDisk stores historical snapshots of GCP Compute persistent disks.
@@ -46,14 +48,14 @@ type GCPComputeDisk struct {
 	PhysicalBlockSizeBytes int64 `gorm:"column:physical_block_size_bytes" json:"physicalBlockSizeBytes"`
 
 	// Security
-	EnableConfidentialCompute bool   `gorm:"column:enable_confidential_compute" json:"enableConfidentialCompute"`
-	DiskEncryptionKeyJSON     string `gorm:"column:disk_encryption_key_json;type:jsonb" json:"diskEncryptionKey"`
+	EnableConfidentialCompute bool       `gorm:"column:enable_confidential_compute" json:"enableConfidentialCompute"`
+	DiskEncryptionKeyJSON     jsonb.JSON `gorm:"column:disk_encryption_key_json;type:jsonb" json:"diskEncryptionKey"`
 
 	// JSON arrays
-	UsersJSON            string `gorm:"column:users_json;type:jsonb" json:"users"`
-	ReplicaZonesJSON     string `gorm:"column:replica_zones_json;type:jsonb" json:"replicaZones"`
-	ResourcePoliciesJSON string `gorm:"column:resource_policies_json;type:jsonb" json:"resourcePolicies"`
-	GuestOsFeaturesJSON  string `gorm:"column:guest_os_features_json;type:jsonb" json:"guestOsFeatures"`
+	UsersJSON            jsonb.JSON `gorm:"column:users_json;type:jsonb" json:"users"`
+	ReplicaZonesJSON     jsonb.JSON `gorm:"column:replica_zones_json;type:jsonb" json:"replicaZones"`
+	ResourcePoliciesJSON jsonb.JSON `gorm:"column:resource_policies_json;type:jsonb" json:"resourcePolicies"`
+	GuestOsFeaturesJSON  jsonb.JSON `gorm:"column:guest_os_features_json;type:jsonb" json:"guestOsFeatures"`
 
 	// Collection metadata
 	ProjectID   string    `gorm:"column:project_id;type:varchar(255);not null;index" json:"projectId"`

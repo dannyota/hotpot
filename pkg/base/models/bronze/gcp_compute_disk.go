@@ -2,6 +2,8 @@ package bronze
 
 import (
 	"time"
+
+	"hotpot/pkg/base/jsonb"
 )
 
 // GCPComputeDisk represents a GCP Compute Engine persistent disk in the bronze layer.
@@ -34,8 +36,8 @@ type GCPComputeDisk struct {
 	SourceDiskId     string `gorm:"column:source_disk_id;type:varchar(255)" json:"sourceDiskId"`
 
 	// Performance settings
-	ProvisionedIops       int64 `gorm:"column:provisioned_iops" json:"provisionedIops"`
-	ProvisionedThroughput int64 `gorm:"column:provisioned_throughput" json:"provisionedThroughput"`
+	ProvisionedIops        int64 `gorm:"column:provisioned_iops" json:"provisionedIops"`
+	ProvisionedThroughput  int64 `gorm:"column:provisioned_throughput" json:"provisionedThroughput"`
 	PhysicalBlockSizeBytes int64 `gorm:"column:physical_block_size_bytes" json:"physicalBlockSizeBytes"`
 
 	// Security
@@ -47,27 +49,27 @@ type GCPComputeDisk struct {
 	//	  "sha256": "...",
 	//	  "kmsKeyName": "projects/.../cryptoKeys/..."
 	//	}
-	DiskEncryptionKeyJSON string `gorm:"column:disk_encryption_key_json;type:jsonb" json:"diskEncryptionKey"`
+	DiskEncryptionKeyJSON jsonb.JSON `gorm:"column:disk_encryption_key_json;type:jsonb" json:"diskEncryptionKey"`
 
 	// UsersJSON contains list of instance URLs using this disk.
 	//
 	//	["projects/.../instances/vm1", "projects/.../instances/vm2"]
-	UsersJSON string `gorm:"column:users_json;type:jsonb" json:"users"`
+	UsersJSON jsonb.JSON `gorm:"column:users_json;type:jsonb" json:"users"`
 
 	// ReplicaZonesJSON contains zones for regional disk replication.
 	//
 	//	["zones/us-central1-a", "zones/us-central1-b"]
-	ReplicaZonesJSON string `gorm:"column:replica_zones_json;type:jsonb" json:"replicaZones"`
+	ReplicaZonesJSON jsonb.JSON `gorm:"column:replica_zones_json;type:jsonb" json:"replicaZones"`
 
 	// ResourcePoliciesJSON contains attached resource policies for snapshots.
 	//
 	//	["projects/.../resourcePolicies/policy1"]
-	ResourcePoliciesJSON string `gorm:"column:resource_policies_json;type:jsonb" json:"resourcePolicies"`
+	ResourcePoliciesJSON jsonb.JSON `gorm:"column:resource_policies_json;type:jsonb" json:"resourcePolicies"`
 
 	// GuestOsFeaturesJSON contains guest OS features enabled on disk.
 	//
 	//	[{"type": "VIRTIO_SCSI_MULTIQUEUE"}, {"type": "UEFI_COMPATIBLE"}]
-	GuestOsFeaturesJSON string `gorm:"column:guest_os_features_json;type:jsonb" json:"guestOsFeatures"`
+	GuestOsFeaturesJSON jsonb.JSON `gorm:"column:guest_os_features_json;type:jsonb" json:"guestOsFeatures"`
 
 	// Collection metadata
 	ProjectID   string    `gorm:"column:project_id;type:varchar(255);not null;index" json:"-"`

@@ -2,6 +2,8 @@ package bronze_history
 
 import (
 	"time"
+
+	"hotpot/pkg/base/jsonb"
 )
 
 // GCPComputeInstance stores historical snapshots of GCP Compute instances.
@@ -17,24 +19,24 @@ type GCPComputeInstance struct {
 	ValidTo   *time.Time `gorm:"column:valid_to;index" json:"validTo"` // null = current
 
 	// All instance fields (same as bronze.GCPComputeInstance)
-	Name                   string    `gorm:"column:name;type:varchar(255);not null" json:"name"`
-	Zone                   string    `gorm:"column:zone;type:text" json:"zone"`
-	MachineType            string    `gorm:"column:machine_type;type:text" json:"machineType"`
-	Status                 string    `gorm:"column:status;type:varchar(50)" json:"status"`
-	StatusMessage          string    `gorm:"column:status_message;type:text" json:"statusMessage"`
-	CpuPlatform            string    `gorm:"column:cpu_platform;type:varchar(100)" json:"cpuPlatform"`
-	Hostname               string    `gorm:"column:hostname;type:varchar(255)" json:"hostname"`
-	Description            string    `gorm:"column:description;type:text" json:"description"`
-	CreationTimestamp      string    `gorm:"column:creation_timestamp;type:varchar(50)" json:"creationTimestamp"`
-	LastStartTimestamp     string    `gorm:"column:last_start_timestamp;type:varchar(50)" json:"lastStartTimestamp"`
-	LastStopTimestamp      string    `gorm:"column:last_stop_timestamp;type:varchar(50)" json:"lastStopTimestamp"`
-	LastSuspendedTimestamp string    `gorm:"column:last_suspended_timestamp;type:varchar(50)" json:"lastSuspendedTimestamp"`
-	DeletionProtection     bool      `gorm:"column:deletion_protection" json:"deletionProtection"`
-	CanIpForward           bool      `gorm:"column:can_ip_forward" json:"canIpForward"`
-	SelfLink               string    `gorm:"column:self_link;type:text" json:"selfLink"`
-	SchedulingJSON         string    `gorm:"column:scheduling_json;type:jsonb" json:"scheduling"`
-	ProjectID              string    `gorm:"column:project_id;type:varchar(255);not null;index" json:"projectId"`
-	CollectedAt            time.Time `gorm:"column:collected_at;not null" json:"collectedAt"`
+	Name                   string     `gorm:"column:name;type:varchar(255);not null" json:"name"`
+	Zone                   string     `gorm:"column:zone;type:text" json:"zone"`
+	MachineType            string     `gorm:"column:machine_type;type:text" json:"machineType"`
+	Status                 string     `gorm:"column:status;type:varchar(50)" json:"status"`
+	StatusMessage          string     `gorm:"column:status_message;type:text" json:"statusMessage"`
+	CpuPlatform            string     `gorm:"column:cpu_platform;type:varchar(100)" json:"cpuPlatform"`
+	Hostname               string     `gorm:"column:hostname;type:varchar(255)" json:"hostname"`
+	Description            string     `gorm:"column:description;type:text" json:"description"`
+	CreationTimestamp      string     `gorm:"column:creation_timestamp;type:varchar(50)" json:"creationTimestamp"`
+	LastStartTimestamp     string     `gorm:"column:last_start_timestamp;type:varchar(50)" json:"lastStartTimestamp"`
+	LastStopTimestamp      string     `gorm:"column:last_stop_timestamp;type:varchar(50)" json:"lastStopTimestamp"`
+	LastSuspendedTimestamp string     `gorm:"column:last_suspended_timestamp;type:varchar(50)" json:"lastSuspendedTimestamp"`
+	DeletionProtection     bool       `gorm:"column:deletion_protection" json:"deletionProtection"`
+	CanIpForward           bool       `gorm:"column:can_ip_forward" json:"canIpForward"`
+	SelfLink               string     `gorm:"column:self_link;type:text" json:"selfLink"`
+	SchedulingJSON         jsonb.JSON `gorm:"column:scheduling_json;type:jsonb" json:"scheduling"`
+	ProjectID              string     `gorm:"column:project_id;type:varchar(255);not null;index" json:"projectId"`
+	CollectedAt            time.Time  `gorm:"column:collected_at;not null" json:"collectedAt"`
 }
 
 func (GCPComputeInstance) TableName() string {
@@ -52,17 +54,17 @@ type GCPComputeInstanceDisk struct {
 	ValidTo   *time.Time `gorm:"column:valid_to;index" json:"validTo"`
 
 	// All disk fields (same as bronze.GCPComputeInstanceDisk)
-	Source                string `gorm:"column:source;type:text" json:"source"`
-	DeviceName            string `gorm:"column:device_name;type:varchar(255)" json:"deviceName"`
-	Index                 int    `gorm:"column:index" json:"index"`
-	Boot                  bool   `gorm:"column:boot" json:"boot"`
-	AutoDelete            bool   `gorm:"column:auto_delete" json:"autoDelete"`
-	Mode                  string `gorm:"column:mode;type:varchar(50)" json:"mode"`
-	Interface             string `gorm:"column:interface;type:varchar(50)" json:"interface"`
-	Type                  string `gorm:"column:type;type:varchar(50)" json:"type"`
-	DiskSizeGb            int64  `gorm:"column:disk_size_gb" json:"diskSizeGb"`
-	DiskEncryptionKeyJSON string `gorm:"column:disk_encryption_key_json;type:jsonb" json:"diskEncryptionKey"`
-	InitializeParamsJSON  string `gorm:"column:initialize_params_json;type:jsonb" json:"initializeParams"`
+	Source                string     `gorm:"column:source;type:text" json:"source"`
+	DeviceName            string     `gorm:"column:device_name;type:varchar(255)" json:"deviceName"`
+	Index                 int        `gorm:"column:index" json:"index"`
+	Boot                  bool       `gorm:"column:boot" json:"boot"`
+	AutoDelete            bool       `gorm:"column:auto_delete" json:"autoDelete"`
+	Mode                  string     `gorm:"column:mode;type:varchar(50)" json:"mode"`
+	Interface             string     `gorm:"column:interface;type:varchar(50)" json:"interface"`
+	Type                  string     `gorm:"column:type;type:varchar(50)" json:"type"`
+	DiskSizeGb            int64      `gorm:"column:disk_size_gb" json:"diskSizeGb"`
+	DiskEncryptionKeyJSON jsonb.JSON `gorm:"column:disk_encryption_key_json;type:jsonb" json:"diskEncryptionKey"`
+	InitializeParamsJSON  jsonb.JSON `gorm:"column:initialize_params_json;type:jsonb" json:"initializeParams"`
 }
 
 func (GCPComputeInstanceDisk) TableName() string {
@@ -194,8 +196,8 @@ type GCPComputeInstanceServiceAccount struct {
 	ValidFrom time.Time  `gorm:"column:valid_from;not null;index" json:"validFrom"`
 	ValidTo   *time.Time `gorm:"column:valid_to;index" json:"validTo"`
 
-	Email      string `gorm:"column:email;type:varchar(255)" json:"email"`
-	ScopesJSON string `gorm:"column:scopes_json;type:jsonb" json:"scopes"`
+	Email      string     `gorm:"column:email;type:varchar(255)" json:"email"`
+	ScopesJSON jsonb.JSON `gorm:"column:scopes_json;type:jsonb" json:"scopes"`
 }
 
 func (GCPComputeInstanceServiceAccount) TableName() string {

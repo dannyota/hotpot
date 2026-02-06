@@ -2,6 +2,8 @@ package bronze_history
 
 import (
 	"time"
+
+	"hotpot/pkg/base/jsonb"
 )
 
 // GCPComputeNetwork stores historical snapshots of GCP VPC networks.
@@ -36,7 +38,7 @@ type GCPComputeNetwork struct {
 	GatewayIpv4 string `gorm:"column:gateway_ipv4;type:varchar(50)" json:"gatewayIPv4"`
 
 	// SubnetworksJSON
-	SubnetworksJSON string `gorm:"column:subnetworks_json;type:jsonb" json:"subnetworks"`
+	SubnetworksJSON jsonb.JSON `gorm:"column:subnetworks_json;type:jsonb" json:"subnetworks"`
 
 	// Collection metadata
 	ProjectID   string    `gorm:"column:project_id;type:varchar(255);not null;index" json:"projectId"`
