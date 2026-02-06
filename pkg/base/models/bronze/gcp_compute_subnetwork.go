@@ -2,6 +2,8 @@ package bronze
 
 import (
 	"time"
+
+	"hotpot/pkg/base/jsonb"
 )
 
 // GCPComputeSubnetwork represents a GCP VPC subnetwork in the bronze layer.
@@ -45,7 +47,7 @@ type GCPComputeSubnetwork struct {
 	//	  "flowSampling": 0.5,
 	//	  "metadata": "INCLUDE_ALL_METADATA"
 	//	}
-	LogConfigJSON string `gorm:"column:log_config_json;type:jsonb" json:"logConfig"`
+	LogConfigJSON jsonb.JSON `gorm:"column:log_config_json;type:jsonb" json:"logConfig"`
 
 	// Fingerprint for optimistic locking
 	Fingerprint string `gorm:"column:fingerprint;type:varchar(255)" json:"fingerprint"`

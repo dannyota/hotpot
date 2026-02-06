@@ -2,6 +2,8 @@ package bronze
 
 import (
 	"time"
+
+	"hotpot/pkg/base/jsonb"
 )
 
 // GCPComputeInstance represents a GCP Compute Engine instance in the bronze layer.
@@ -34,7 +36,7 @@ type GCPComputeInstance struct {
 	//	  "automaticRestart": bool,
 	//	  "provisioningModel": "STANDARD" | "SPOT"
 	//	}
-	SchedulingJSON string `gorm:"column:scheduling_json;type:jsonb" json:"scheduling"`
+	SchedulingJSON jsonb.JSON `gorm:"column:scheduling_json;type:jsonb" json:"scheduling"`
 
 	// Collection metadata
 	ProjectID   string    `gorm:"column:project_id;type:varchar(255);not null;index" json:"-"`
@@ -76,7 +78,7 @@ type GCPComputeInstanceDisk struct {
 	//	  "kmsKeyName": "projects/.../cryptoKeys/...",
 	//	  "sha256": "base64-encoded-hash"
 	//	}
-	DiskEncryptionKeyJSON string `gorm:"column:disk_encryption_key_json;type:jsonb" json:"diskEncryptionKey"`
+	DiskEncryptionKeyJSON jsonb.JSON `gorm:"column:disk_encryption_key_json;type:jsonb" json:"diskEncryptionKey"`
 
 	// InitializeParamsJSON contains boot disk creation parameters.
 	//
@@ -85,7 +87,7 @@ type GCPComputeInstanceDisk struct {
 	//	  "diskType": "pd-balanced" | "pd-ssd" | "pd-standard",
 	//	  "diskSizeGb": "100"
 	//	}
-	InitializeParamsJSON string `gorm:"column:initialize_params_json;type:jsonb" json:"initializeParams"`
+	InitializeParamsJSON jsonb.JSON `gorm:"column:initialize_params_json;type:jsonb" json:"initializeParams"`
 
 	// Relationships
 	Licenses []GCPComputeInstanceDiskLicense `gorm:"foreignKey:DiskID;constraint:OnDelete:CASCADE" json:"licenses,omitempty"`
@@ -194,7 +196,7 @@ type GCPComputeInstanceServiceAccount struct {
 	// ScopesJSON contains OAuth scopes granted to the service account.
 	//
 	//	["https://www.googleapis.com/auth/cloud-platform", ...]
-	ScopesJSON string `gorm:"column:scopes_json;type:jsonb" json:"scopes"`
+	ScopesJSON jsonb.JSON `gorm:"column:scopes_json;type:jsonb" json:"scopes"`
 }
 
 func (GCPComputeInstanceServiceAccount) TableName() string {

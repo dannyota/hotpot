@@ -2,6 +2,8 @@ package bronze_history
 
 import (
 	"time"
+
+	"hotpot/pkg/base/jsonb"
 )
 
 // GCPComputeSubnetwork stores historical snapshots of GCP VPC subnetworks.
@@ -45,7 +47,7 @@ type GCPComputeSubnetwork struct {
 	ExternalIpv6Prefix string `gorm:"column:external_ipv6_prefix;type:varchar(50)" json:"externalIpv6Prefix"`
 
 	// LogConfigJSON
-	LogConfigJSON string `gorm:"column:log_config_json;type:jsonb" json:"logConfig"`
+	LogConfigJSON jsonb.JSON `gorm:"column:log_config_json;type:jsonb" json:"logConfig"`
 
 	// Fingerprint
 	Fingerprint string `gorm:"column:fingerprint;type:varchar(255)" json:"fingerprint"`
