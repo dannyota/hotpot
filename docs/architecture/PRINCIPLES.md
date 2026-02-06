@@ -139,7 +139,35 @@ func Register(w worker.Worker, configService *config.Service, db *gorm.DB) {
 
 Worker requires `EnableSessionWorker: true` for session support.
 
-## 8. Model Conventions
+## 8. Config Defaults
+
+Defaults live in `config.Service` accessors, not in consumers:
+
+```go
+// Wrong: default in consumer (run.go)
+hostPort := cfg.Temporal.HostPort
+if hostPort == "" {
+    hostPort = "localhost:7233"
+}
+
+// Correct: default in config service accessor
+func (s *Service) TemporalHostPort() string {
+    if s.config == nil || s.config.Temporal.HostPort == "" {
+        return "localhost:7233"
+    }
+    return s.config.Temporal.HostPort
+}
+```
+
+**Why:** Single source of truth for defaults, consumers don't duplicate logic.
+
+| Field | Default |
+|-------|---------|
+| `TemporalHostPort` | `localhost:7233` |
+| `TemporalNamespace` | `default` |
+| `SSLMode` | `require` |
+
+## 9. Model Conventions
 
 All models live in `pkg/base/models/{layer}/`.
 
@@ -166,7 +194,7 @@ pkg/base/models/bronze/
 
 See [CODE_STYLE.md](../guides/CODE_STYLE.md#model-tags) for `json`/`gorm` tag conventions.
 
-## 9. History Tables (SCD Type 4)
+## 10. History Tables (SCD Type 4)
 
 Separate `*_history` packages for change tracking with granular time ranges:
 
@@ -221,19 +249,22 @@ type GCPComputeInstanceNIC struct {
 
 See [HISTORY.md](./HISTORY.md) for details.
 
-## 10. Bronze Data Design
+## 11. Bronze Data Design
 
 Bronze stores API responses with minimal transformation. Two storage options:
 
 | API Data Type | Storage | Example |
 |---------------|---------|---------|
 | Scalar fields (top-level) | Columns | `name`, `status`, `endpoint` |
+| Unsigned integers (`uint64`, `uint32`) | String column | `id` → `resource_id varchar(255)` |
 | Arrays of objects | Separate table | `nodePools[]` → `cluster_node_pools` |
 | Maps (key-value) | Separate table | `labels` → `cluster_labels` |
 | Nested objects | JSONB column | `privateClusterConfig` → `private_cluster_config_json` |
 | Arrays of primitives | JSONB column | `users[]` → `users_json` |
 
 **Rule: Tables or JSONB, never extract nested fields as columns. Use JSONB (`type:jsonb`) for any JSON data not stored in a separate table.**
+
+**Rule: Store unsigned integers as strings.** PostgreSQL has no unsigned integer types — `bigint` (signed int64) overflows for large `uint64`, and `integer` (signed int32) overflows for large `uint32`. Store as `string` (`varchar(255)`) and convert via `fmt.Sprintf("%d", value)` in the converter.
 
 Don't extract fields from nested objects into parent columns—it's confusing and breaks traceability. Keep nested objects as JSONB; if you need to query them, use PostgreSQL JSON operators.
 
@@ -262,7 +293,7 @@ private_cluster_config_json JSONB  ← entire privateClusterConfig object
 
 See [CODE_STYLE.md](../guides/CODE_STYLE.md#jsonb-fields) for implementation conventions.
 
-## 11. Cross-Layer References
+## 12. Cross-Layer References
 
 Layers are loosely coupled. No FK constraints between layers:
 
