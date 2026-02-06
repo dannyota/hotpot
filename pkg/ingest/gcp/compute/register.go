@@ -10,6 +10,7 @@ import (
 	"hotpot/pkg/ingest/gcp/compute/instancegroup"
 	"hotpot/pkg/ingest/gcp/compute/network"
 	"hotpot/pkg/ingest/gcp/compute/subnetwork"
+	"hotpot/pkg/ingest/gcp/compute/targetinstance"
 )
 
 // Register registers all Compute Engine activities and workflows.
@@ -21,6 +22,7 @@ func Register(w worker.Worker, configService *config.Service, db *gorm.DB) {
 	network.Register(w, configService, db)
 	subnetwork.Register(w, configService, db)
 	instancegroup.Register(w, configService, db)
+	targetinstance.Register(w, configService, db)
 
 	// Register compute workflow
 	w.RegisterWorkflow(GCPComputeWorkflow)
