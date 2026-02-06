@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"hotpot/pkg/ingest/gcp/compute/address"
 	"hotpot/pkg/ingest/gcp/compute/disk"
 	"hotpot/pkg/ingest/gcp/compute/instance"
 	"hotpot/pkg/ingest/gcp/compute/instancegroup"
@@ -21,13 +22,14 @@ type GCPComputeWorkflowParams struct {
 
 // GCPComputeWorkflowResult contains the result of the compute workflow.
 type GCPComputeWorkflowResult struct {
-	ProjectID       string
-	InstanceCount   int
-	DiskCount       int
-	NetworkCount    int
-	SubnetworkCount    int
+	ProjectID           string
+	InstanceCount       int
+	DiskCount           int
+	NetworkCount        int
+	SubnetworkCount     int
 	InstanceGroupCount  int
 	TargetInstanceCount int
+	AddressCount        int
 }
 
 // GCPComputeWorkflow ingests all GCP Compute Engine resources for a single project.
@@ -112,6 +114,16 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 	}
 	result.TargetInstanceCount = targetInstanceResult.TargetInstanceCount
 
+	// Execute address workflow
+	var addressResult address.GCPComputeAddressWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, address.GCPComputeAddressWorkflow,
+		address.GCPComputeAddressWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &addressResult)
+	if err != nil {
+		logger.Error("Failed to ingest addresses", "error", err)
+		return nil, err
+	}
+	result.AddressCount = addressResult.AddressCount
+
 	logger.Info("Completed GCPComputeWorkflow",
 		"projectID", params.ProjectID,
 		"instanceCount", result.InstanceCount,
@@ -120,6 +132,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		"subnetworkCount", result.SubnetworkCount,
 		"instanceGroupCount", result.InstanceGroupCount,
 		"targetInstanceCount", result.TargetInstanceCount,
+		"addressCount", result.AddressCount,
 	)
 
 	return result, nil
