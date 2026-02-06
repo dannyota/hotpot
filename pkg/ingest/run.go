@@ -24,21 +24,10 @@ const (
 // Run starts the ingest workers.
 // The context is used to signal shutdown - when cancelled, workers will stop.
 func Run(ctx context.Context, configService *config.Service, db *gorm.DB) error {
-	cfg := configService.Config()
-
 	// Create Temporal client
-	hostPort := cfg.Temporal.HostPort
-	if hostPort == "" {
-		hostPort = "localhost:7233"
-	}
-	namespace := cfg.Temporal.Namespace
-	if namespace == "" {
-		namespace = "default"
-	}
-
 	temporalClient, err := client.Dial(client.Options{
-		HostPort:  hostPort,
-		Namespace: namespace,
+		HostPort:  configService.TemporalHostPort(),
+		Namespace: configService.TemporalNamespace(),
 	})
 	if err != nil {
 		return fmt.Errorf("failed to create Temporal client: %w", err)
