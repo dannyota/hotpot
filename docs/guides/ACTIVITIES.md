@@ -15,11 +15,15 @@ flowchart LR
 
 ```
 pkg/ingest/{provider}/{resource}/
-├── activities.go    # Activity struct + methods
+├── client.go        # External API client wrapper
 ├── session.go       # Session-based client management
+├── converter.go     # API response → Bronze model
+├── diff.go          # Change detection between old/new
+├── history.go       # SCD Type 4 history tracking
 ├── service.go       # Business logic (CRUD + history)
-├── register.go      # Register with Temporal worker
-└── workflows.go     # Workflow calling activities
+├── activities.go    # Activity struct + methods
+├── workflows.go     # Workflow calling activities
+└── register.go      # Register with Temporal worker
 ```
 
 ## Activity Struct
@@ -28,12 +32,12 @@ Hold dependencies, not state:
 
 ```go
 type Activities struct {
-    credentialsFile string   // Credentials path (client created per session)
-    db              *gorm.DB
+    configService *config.Service
+    db            *gorm.DB
 }
 
-func NewActivities(credentialsFile string, db *gorm.DB) *Activities {
-    return &Activities{credentialsFile: credentialsFile, db: db}
+func NewActivities(configService *config.Service, db *gorm.DB) *Activities {
+    return &Activities{configService: configService, db: db}
 }
 ```
 
@@ -75,7 +79,7 @@ func (a *Activities) IngestComputeInstances(ctx context.Context, params IngestCo
     logger.Info("Starting ingestion", "projectID", params.ProjectID)
 
     // 1. Get session client
-    client, err := GetOrCreateSessionClient(ctx, params.SessionID, a.credentialsFile)
+    client, err := GetOrCreateSessionClient(ctx, params.SessionID, a.configService)
     if err != nil {
         return nil, fmt.Errorf("get client: %w", err)
     }
@@ -103,16 +107,25 @@ func (a *Activities) IngestComputeInstances(ctx context.Context, params IngestCo
 
 ## Session Client
 
-Client lives for workflow duration, not worker lifetime:
+Client lives for workflow duration, not worker lifetime. Credentials priority: Vault JSON > file path > ADC.
 
 ```go
 var sessionClients sync.Map
 
-func GetOrCreateSessionClient(ctx context.Context, sessionID, credentialsFile string) (*Client, error) {
+func GetOrCreateSessionClient(ctx context.Context, sessionID string, configService *config.Service) (*Client, error) {
     if client, ok := sessionClients.Load(sessionID); ok {
         return client.(*Client), nil
     }
-    client, err := NewClient(ctx, option.WithCredentialsFile(credentialsFile))
+
+    var opts []option.ClientOption
+    if credJSON := configService.GCPCredentialsJSON(); len(credJSON) > 0 {
+        opts = append(opts, option.WithCredentialsJSON(credJSON))
+    } else if credFile := configService.GCPCredentialsFile(); credFile != "" {
+        opts = append(opts, option.WithCredentialsFile(credFile))
+    }
+    // If both empty, uses Application Default Credentials (ADC)
+
+    client, err := NewClient(ctx, opts...)
     if err != nil {
         return nil, err
     }
@@ -141,8 +154,8 @@ func (a *Activities) CloseSessionClient(ctx context.Context, params CloseSession
 ## Registration
 
 ```go
-func Register(w worker.Worker, credentialsFile string, db *gorm.DB) {
-    activities := NewActivities(credentialsFile, db)
+func Register(w worker.Worker, configService *config.Service, db *gorm.DB) {
+    activities := NewActivities(configService, db)
     w.RegisterActivity(activities.IngestComputeInstances)
     w.RegisterActivity(activities.CloseSessionClient)
     w.RegisterWorkflow(InstanceWorkflow)
@@ -179,18 +192,21 @@ func InstanceWorkflow(ctx workflow.Context, params InstanceWorkflowParams) (*Ins
 
 ## Checklist
 
-New activity implementation:
+New resource implementation:
 
 | Step | File | Action |
 |------|------|--------|
-| 1 | `activities.go` | Add `*Params` struct |
-| 2 | `activities.go` | Add `*Result` struct |
-| 3 | `activities.go` | Add activity function reference variable |
-| 4 | `activities.go` | Implement activity method |
-| 5 | `session.go` | Add session client functions (if new provider) |
-| 6 | `service.go` | Implement business logic with history tracking |
-| 7 | `register.go` | Register activity with worker |
-| 8 | `workflows.go` | Call activity from workflow |
+| 1 | `client.go` | Wrap GCP API client, implement List method |
+| 2 | `session.go` | Add session client functions (sync.Map + credentials) |
+| 3 | `converter.go` | Convert API response → bronze model |
+| 4 | `diff.go` | Implement change detection (parent + children) |
+| 5 | `history.go` | Implement SCD Type 4 history tracking |
+| 6 | `service.go` | Implement Ingest, save, delete stale with history |
+| 7 | `activities.go` | Add Params/Result structs, activity var, method |
+| 8 | `workflows.go` | Create workflow with session management |
+| 9 | `register.go` | Register activities + workflow with worker |
+| 10 | parent `register.go` | Import and call `Register()` |
+| 11 | parent `workflows.go` | Add child workflow execution |
 
 ## Error Handling
 
@@ -208,17 +224,20 @@ Service layer handles history tracking:
 ```go
 // In service.go
 func (s *Service) saveInstances(ctx context.Context, instances []bronze.GCPComputeInstance) error {
-    // 1. Load existing
+    // 1. Load existing with Preload (all relations)
     // 2. Compute diff
     // 3. Skip if no changes (update collected_at only)
-    // 4. Upsert instance
-    // 5. Track history (CreateHistory or UpdateHistory)
+    // 4. Delete old relations (manual cascade)
+    // 5. Upsert resource
+    // 6. Create new relations
+    // 7. Track history (CreateHistory or UpdateHistory based on diff)
 }
 
 func (s *Service) DeleteStaleInstances(ctx context.Context, projectID string, collectedAt time.Time) error {
-    // 1. Find stale
-    // 2. Close history
-    // 3. Delete
+    // 1. Find stale (collected_at < latest)
+    // 2. Close history (set valid_to)
+    // 3. Delete relations
+    // 4. Delete resource
 }
 ```
 
