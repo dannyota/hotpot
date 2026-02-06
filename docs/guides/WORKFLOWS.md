@@ -32,7 +32,7 @@ ComputeWorkflow Start
 ```
 
 **Why session-based:**
-- Fresh credentials each workflow (picks up file changes)
+- Fresh credentials each workflow (picks up Vault/config changes)
 - Shared client across activities within workflow (efficient)
 - Clean boundary - workflow = client lifetime
 - No stale connections from long-running workers
@@ -106,7 +106,7 @@ Session clients stored in `sync.Map` keyed by session ID:
 ```
 pkg/ingest/gcp/compute/instance/session.go
     │
-    ├── GetOrCreateSessionClient(sessionID, credentialsFile)
+    ├── GetOrCreateSessionClient(sessionID, configService)
     │       └── creates client on first call, reuses for session
     │
     └── CloseSessionClient(sessionID)

@@ -82,10 +82,10 @@ defer func() {
 }()
 
 // activities use session to get/create client
-client, _ := GetOrCreateClient(ctx, sessionID, credentialsFile)
+client, _ := GetOrCreateSessionClient(ctx, sessionID, configService)
 ```
 
-**Why:** Fresh credentials each workflow, picks up config file changes.
+**Why:** Fresh credentials each workflow, picks up Vault/config changes.
 
 See [WORKFLOWS.md](../guides/WORKFLOWS.md) for details.
 
@@ -96,12 +96,12 @@ Activities use a struct to hold dependencies:
 ```go
 // activities.go
 type Activities struct {
-    credentialsFile string
-    db              *gorm.DB
+    configService *config.Service
+    db            *gorm.DB
 }
 
-func NewActivities(credentialsFile string, db *gorm.DB) *Activities {
-    return &Activities{credentialsFile: credentialsFile, db: db}
+func NewActivities(configService *config.Service, db *gorm.DB) *Activities {
+    return &Activities{configService: configService, db: db}
 }
 
 // Activity params/results use dedicated structs
@@ -115,7 +115,7 @@ type IngestResult struct {
 }
 
 func (a *Activities) Ingest(ctx context.Context, params IngestParams) (*IngestResult, error) {
-    client, err := GetOrCreateSessionClient(ctx, params.SessionID, a.credentialsFile)
+    client, err := GetOrCreateSessionClient(ctx, params.SessionID, a.configService)
     if err != nil {
         return nil, fmt.Errorf("get client: %w", err)
     }
@@ -131,8 +131,8 @@ Each package has `register.go` to register workflows and activities:
 
 ```go
 // pkg/ingest/gcp/compute/register.go
-func Register(w worker.Worker, credentialsFile string, db *gorm.DB) {
-    instance.Register(w, credentialsFile, db)
+func Register(w worker.Worker, configService *config.Service, db *gorm.DB) {
+    instance.Register(w, configService, db)
     w.RegisterWorkflow(ComputeWorkflow)
 }
 ```
