@@ -8,6 +8,7 @@ import (
 
 	"hotpot/pkg/ingest/gcp/compute/disk"
 	"hotpot/pkg/ingest/gcp/compute/instance"
+	"hotpot/pkg/ingest/gcp/compute/instancegroup"
 	"hotpot/pkg/ingest/gcp/compute/network"
 	"hotpot/pkg/ingest/gcp/compute/subnetwork"
 )
@@ -23,7 +24,8 @@ type GCPComputeWorkflowResult struct {
 	InstanceCount   int
 	DiskCount       int
 	NetworkCount    int
-	SubnetworkCount int
+	SubnetworkCount    int
+	InstanceGroupCount int
 }
 
 // GCPComputeWorkflow ingests all GCP Compute Engine resources for a single project.
@@ -88,12 +90,23 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 	}
 	result.SubnetworkCount = subnetworkResult.SubnetworkCount
 
+	// Execute instance group workflow
+	var instanceGroupResult instancegroup.GCPComputeInstanceGroupWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, instancegroup.GCPComputeInstanceGroupWorkflow,
+		instancegroup.GCPComputeInstanceGroupWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &instanceGroupResult)
+	if err != nil {
+		logger.Error("Failed to ingest instance groups", "error", err)
+		return nil, err
+	}
+	result.InstanceGroupCount = instanceGroupResult.InstanceGroupCount
+
 	logger.Info("Completed GCPComputeWorkflow",
 		"projectID", params.ProjectID,
 		"instanceCount", result.InstanceCount,
 		"diskCount", result.DiskCount,
 		"networkCount", result.NetworkCount,
 		"subnetworkCount", result.SubnetworkCount,
+		"instanceGroupCount", result.InstanceGroupCount,
 	)
 
 	return result, nil
