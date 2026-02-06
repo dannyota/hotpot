@@ -108,7 +108,7 @@ func (s *Service) Config() Config {
 }
 
 // GCPCredentialsJSON returns credentials JSON for GCP client options.
-// Returns nil if only file path is configured.
+// Returns nil if not configured (caller should fall back to ADC).
 func (s *Service) GCPCredentialsJSON() []byte {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
@@ -121,16 +121,6 @@ func (s *Service) GCPCredentialsJSON() []byte {
 	return result
 }
 
-// GCPCredentialsFile returns credentials file path (fallback).
-func (s *Service) GCPCredentialsFile() string {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
-	if s.config == nil {
-		return ""
-	}
-	return s.config.GCP.CredentialsFile
-}
-
 // DatabaseDSN returns the database connection string.
 func (s *Service) DatabaseDSN() string {
 	s.mu.RLock()
@@ -141,28 +131,30 @@ func (s *Service) DatabaseDSN() string {
 	db := s.config.Database
 	sslmode := db.SSLMode
 	if sslmode == "" {
-		sslmode = "disable"
+		sslmode = "require"
 	}
 	return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
 		db.Host, db.Port, db.User, db.Password, db.DBName, sslmode)
 }
 
 // TemporalHostPort returns the Temporal server address.
+// Defaults to "localhost:7233" if not configured.
 func (s *Service) TemporalHostPort() string {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
-	if s.config == nil {
-		return ""
+	if s.config == nil || s.config.Temporal.HostPort == "" {
+		return "localhost:7233"
 	}
 	return s.config.Temporal.HostPort
 }
 
 // TemporalNamespace returns the Temporal namespace.
+// Defaults to "default" if not configured.
 func (s *Service) TemporalNamespace() string {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
-	if s.config == nil {
-		return ""
+	if s.config == nil || s.config.Temporal.Namespace == "" {
+		return "default"
 	}
 	return s.config.Temporal.Namespace
 }
