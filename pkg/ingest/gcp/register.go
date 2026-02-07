@@ -10,6 +10,7 @@ import (
 	"hotpot/pkg/ingest/gcp/container"
 	"hotpot/pkg/ingest/gcp/iam"
 	"hotpot/pkg/ingest/gcp/resourcemanager"
+	"hotpot/pkg/ingest/gcp/vpcaccess"
 )
 
 // Register registers all GCP activities and workflows with the Temporal worker.
@@ -34,6 +35,9 @@ func Register(w worker.Worker, configService *config.Service, db *gorm.DB) *rate
 
 	// Register IAM (service accounts, keys)
 	iam.Register(w, configService, db, limiter)
+
+	// Register VPC Access (connectors)
+	vpcaccess.Register(w, configService, db, limiter)
 
 	// Register GCP inventory workflow
 	w.RegisterWorkflow(GCPInventoryWorkflow)

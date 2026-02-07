@@ -352,11 +352,11 @@ GCP resource ingestion coverage in the bronze layer.
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| VPC Connectors | `VpcAccessClient` | `ListConnectors()` | |
+| VPC Connectors | `VpcAccessClient` | `ListConnectors()` | :white_check_mark: |
 
 ## Summary
 
-**Total: 18/117 (15%)**
+**Total: 19/117 (16%)**
 
 | API | Implemented | Total |
 |-----|:-----------:|:-----:|
@@ -402,6 +402,6 @@ GCP resource ingestion coverage in the bronze layer.
 | Memorystore Redis | 0 | 1 |
 | Filestore | 0 | 1 |
 | AlloyDB | 0 | 1 |
-| VPC Access | 0 | 1 |
+| VPC Access | 1 | 1 |
 
 See [REFERENCES.md](../REFERENCES.md) for compliance benchmarks, open source tools, and cloud provider documentation.

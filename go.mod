@@ -7,6 +7,7 @@ require (
 	cloud.google.com/go/container v1.46.0
 	cloud.google.com/go/iam v1.5.3
 	cloud.google.com/go/resourcemanager v1.10.7
+	cloud.google.com/go/vpcaccess v1.8.7
 	github.com/alicebob/miniredis/v2 v2.36.1
 	github.com/fsnotify/fsnotify v1.9.0
 	github.com/redis/go-redis/v9 v9.17.3
