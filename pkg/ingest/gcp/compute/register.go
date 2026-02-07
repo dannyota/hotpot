@@ -14,6 +14,7 @@ import (
 	"hotpot/pkg/ingest/gcp/compute/instance"
 	"hotpot/pkg/ingest/gcp/compute/instancegroup"
 	"hotpot/pkg/ingest/gcp/compute/network"
+	"hotpot/pkg/ingest/gcp/compute/snapshot"
 	"hotpot/pkg/ingest/gcp/compute/subnetwork"
 	"hotpot/pkg/ingest/gcp/compute/targetinstance"
 )
@@ -27,6 +28,7 @@ func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limit
 	network.Register(w, configService, db, limiter)
 	subnetwork.Register(w, configService, db, limiter)
 	instancegroup.Register(w, configService, db, limiter)
+	snapshot.Register(w, configService, db, limiter)
 	targetinstance.Register(w, configService, db, limiter)
 	address.Register(w, configService, db, limiter)
 	globaladdress.Register(w, configService, db, limiter)
