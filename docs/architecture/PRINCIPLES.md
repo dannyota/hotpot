@@ -13,10 +13,9 @@ pkg/ingest/{provider}/
 ├── workflows.go            # Top-level workflow (e.g., GCPInventoryWorkflow)
 └── {resource}/
     ├── client.go           # External API client
-    ├── session.go          # Session-based client management
     ├── service.go          # Business logic (upsert, delete stale)
     ├── converter.go        # API response → Bronze model
-    ├── activities.go       # Temporal activities
+    ├── activities.go       # Temporal activities (creates client)
     ├── workflows.go        # Resource workflow (e.g., InstanceWorkflow)
     └── register.go         # Register resource activities
 
@@ -67,25 +66,26 @@ db.Find(&instances)
 
 Layers communicate through database, not imports. Exception: `pkg/base/` can be imported by all layers.
 
-## 5. Session-Based Client Pattern
+## 5. Activity Client Lifecycle
 
-External API clients live for workflow duration, not worker lifetime:
+Activities create and close their own API client:
 
 ```go
-// workflow creates session
-sess, _ := workflow.CreateSession(ctx, sessionOpts)
-sessionID := workflow.GetSessionInfo(sess).SessionID
+func (a *Activities) Ingest(ctx context.Context, params IngestParams) (*IngestResult, error) {
+    client, err := a.createClient(ctx)
+    if err != nil {
+        return nil, fmt.Errorf("create client: %w", err)
+    }
+    defer client.Close()
 
-defer func() {
-    workflow.ExecuteActivity(sess, CloseSessionClientActivity, sessionID)
-    workflow.CompleteSession(sess)
-}()
-
-// activities use session to get/create client
-client, _ := GetOrCreateSessionClient(ctx, sessionID, configService, limiter)
+    service := NewService(client, a.db)
+    // ...
+}
 ```
 
-**Why:** Fresh credentials each workflow, picks up Vault/config changes.
+**Why:** Fresh credentials per activity invocation. No shared state needed for single-activity workflows. Retries can run on any worker.
+
+**When to use sessions:** Only if a workflow runs multiple activities sharing an expensive resource on the same worker. No current workflows require this.
 
 See [WORKFLOWS.md](../guides/WORKFLOWS.md) for details.
 
@@ -107,7 +107,6 @@ func NewActivities(configService *config.Service, db *gorm.DB, limiter *rate.Lim
 
 // Activity params/results use dedicated structs
 type IngestParams struct {
-    SessionID string
     ProjectID string
 }
 
@@ -116,10 +115,11 @@ type IngestResult struct {
 }
 
 func (a *Activities) Ingest(ctx context.Context, params IngestParams) (*IngestResult, error) {
-    client, err := GetOrCreateSessionClient(ctx, params.SessionID, a.configService, a.limiter)
+    client, err := a.createClient(ctx)
     if err != nil {
-        return nil, fmt.Errorf("get client: %w", err)
+        return nil, fmt.Errorf("create client: %w", err)
     }
+    defer client.Close()
     // ...
 }
 ```
@@ -137,8 +137,6 @@ func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limit
     w.RegisterWorkflow(ComputeWorkflow)
 }
 ```
-
-Worker requires `EnableSessionWorker: true` for session support.
 
 ## 8. Config Defaults
 
@@ -327,7 +325,7 @@ type Asset struct {
 ## 13. Rate Limiting
 
 External API clients share a per-provider rate limiter (`pkg/base/ratelimit`).
-One `*rate.Limiter` is created per provider in `Register()`, passed down to sessions.
+One `*rate.Limiter` is created per provider in `Register()`, passed down to activities.
 
 Three integration methods — all share the same token bucket:
 

@@ -5,36 +5,38 @@ Temporal workflow architecture for Hotpot ingestion.
 ## Hierarchy
 
 ```
-GCPInventoryWorkflow          # All GCP resources, multiple projects
-    └── ComputeWorkflow       # Compute Engine, single project (owns session)
-            └── activities    # Instance, Disk, Network ingestion
+GCPInventoryWorkflow              # All GCP resources, multiple projects
+    ├── ComputeWorkflow           # Compute Engine, single project (orchestrator)
+    │       ├── InstanceWorkflow  # Instances
+    │       ├── DiskWorkflow      # Disks
+    │       └── ...               # 10 resource workflows total
+    ├── ContainerWorkflow         # GKE, single project (orchestrator)
+    │       └── ClusterWorkflow   # Clusters
+    └── ResourceManagerWorkflow   # Project discovery (orchestrator)
+            └── ProjectWorkflow   # Projects
 ```
 
 Each level can be triggered independently.
 
 ## Client Lifecycle
 
-GCP client lifetime = workflow session lifetime (not worker lifetime).
+GCP client lifetime = activity invocation (not worker lifetime).
 
 ```
-ComputeWorkflow Start
+InstanceWorkflow Start
     │
-    ├── CreateSession()              # Temporal session created
+    ├── IngestInstances activity
+    │       ├── createClient()        # new client per activity
+    │       ├── ingest + save
+    │       └── defer client.Close()  # closed when activity returns
     │
-    ├── IngestInstances activity     # GetOrCreateClient(sessionID)
-    │       └── uses session client      ├── first call: creates client
-    │                                    └── reuses for session
-    ├── IngestDisks activity         # same session, same client
-    │
-    ├── CloseSessionClient activity  # CloseSessionClient(sessionID)
-    │
-    └── CompleteSession()
+    └── Done
 ```
 
-**Why session-based:**
-- Fresh credentials each workflow (picks up Vault/config changes)
-- Shared client across activities within workflow (efficient)
-- Clean boundary - workflow = client lifetime
+**Why activity-scoped:**
+- Fresh credentials each invocation (picks up Vault/config changes)
+- No shared state needed for single-activity workflows
+- Retries can run on any worker (not pinned to one)
 - No stale connections from long-running workers
 
 ## Triggering Workflows
@@ -47,9 +49,9 @@ Caller ─► ExecuteWorkflow(GCPInventoryWorkflow, {ProjectIDs: [a,b,c]})
                 ▼
           GCPInventoryWorkflow
                 │
-                ├─► ComputeWorkflow(a) [session] ─► activities ─► cleanup
-                ├─► ComputeWorkflow(b) [session] ─► activities ─► cleanup
-                └─► ComputeWorkflow(c) [session] ─► activities ─► cleanup
+                ├─► ComputeWorkflow(a) ─► 10 resource workflows
+                ├─► ComputeWorkflow(b) ─► 10 resource workflows
+                └─► ComputeWorkflow(c) ─► 10 resource workflows
 ```
 
 ### ComputeWorkflow
@@ -60,12 +62,10 @@ Caller ─► ExecuteWorkflow(ComputeWorkflow, {ProjectID: "a"})
                 ▼
           ComputeWorkflow(a)
                 │
-                ├── CreateSession
-                ├─► IngestInstances (session client)
-                ├─► IngestDisks (session client, future)
-                ├─► IngestNetworks (session client, future)
-                ├── CloseSessionClient
-                └── CompleteSession
+                ├─► InstanceWorkflow ─► IngestInstances activity
+                ├─► DiskWorkflow ─► IngestDisks activity
+                ├─► NetworkWorkflow ─► IngestNetworks activity
+                └─► ... (10 total)
 ```
 
 ### InstanceWorkflow
@@ -76,10 +76,7 @@ Caller ─► ExecuteWorkflow(InstanceWorkflow, {ProjectID: "a"})
                 ▼
           InstanceWorkflow(a)
                 │
-                ├── CreateSession
-                ├─► IngestInstances (session client)
-                ├── CloseSessionClient
-                └── CompleteSession
+                └─► IngestInstances activity (creates + closes own client)
 ```
 
 ## When to Use
@@ -98,19 +95,3 @@ Caller ─► ExecuteWorkflow(InstanceWorkflow, {ProjectID: "a"})
 | VNG Cloud | `hotpot-ingest-vng` (future) |
 | SentinelOne | `hotpot-ingest-s1` (future) |
 | Fortinet | `hotpot-ingest-fortinet` (future) |
-
-## Session Management
-
-Session clients stored in `sync.Map` keyed by session ID:
-
-```
-pkg/ingest/gcp/compute/instance/session.go
-    │
-    ├── GetOrCreateSessionClient(sessionID, configService)
-    │       └── creates client on first call, reuses for session
-    │
-    └── CloseSessionClient(sessionID)
-            └── closes and removes client from map
-```
-
-Worker must enable sessions: `worker.Options{EnableSessionWorker: true}`

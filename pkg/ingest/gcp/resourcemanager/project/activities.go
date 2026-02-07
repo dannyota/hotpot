@@ -6,9 +6,12 @@ import (
 
 	"go.temporal.io/sdk/activity"
 	"golang.org/x/time/rate"
+	"google.golang.org/api/option"
+	"google.golang.org/grpc"
 	"gorm.io/gorm"
 
 	"hotpot/pkg/base/config"
+	"hotpot/pkg/base/ratelimit"
 )
 
 // Activities holds dependencies for Temporal activities.
@@ -27,9 +30,20 @@ func NewActivities(configService *config.Service, db *gorm.DB, limiter *rate.Lim
 	}
 }
 
+// createClient creates a rate-limited GCP client with credentials.
+func (a *Activities) createClient(ctx context.Context) (*Client, error) {
+	var opts []option.ClientOption
+	if credJSON := a.configService.GCPCredentialsJSON(); len(credJSON) > 0 {
+		opts = append(opts, option.WithAuthCredentialsJSON(option.ServiceAccount, credJSON))
+	}
+	opts = append(opts, option.WithGRPCDialOption(
+		grpc.WithUnaryInterceptor(ratelimit.UnaryInterceptor(a.limiter)),
+	))
+	return NewClient(ctx, opts...)
+}
+
 // IngestProjectsParams contains parameters for the ingest activity.
 type IngestProjectsParams struct {
-	SessionID string
 }
 
 // IngestProjectsResult contains the result of the ingest activity.
@@ -43,18 +57,18 @@ type IngestProjectsResult struct {
 var IngestProjectsActivity = (*Activities).IngestProjects
 
 // IngestProjects is a Temporal activity that discovers and ingests all accessible GCP projects.
-// Client is created/reused per session - lives for workflow duration.
 func (a *Activities) IngestProjects(ctx context.Context, params IngestProjectsParams) (*IngestProjectsResult, error) {
 	logger := activity.GetLogger(ctx)
-	logger.Info("Starting GCP project discovery", "sessionID", params.SessionID)
+	logger.Info("Starting GCP project discovery")
 
-	// Get or create client for this session
-	client, err := GetOrCreateSessionClient(ctx, params.SessionID, a.configService, a.limiter)
+	// Create client for this activity
+	client, err := a.createClient(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get client: %w", err)
+		return nil, fmt.Errorf("create client: %w", err)
 	}
+	defer client.Close()
 
-	// Create service with session client
+	// Create service
 	service := NewService(client, a.db)
 	result, err := service.Ingest(ctx)
 	if err != nil {
@@ -78,19 +92,3 @@ func (a *Activities) IngestProjects(ctx context.Context, params IngestProjectsPa
 	}, nil
 }
 
-// CloseSessionClientParams contains parameters for cleanup activity.
-type CloseSessionClientParams struct {
-	SessionID string
-}
-
-// CloseSessionClientActivity is the activity function reference for workflow registration.
-var CloseSessionClientActivity = (*Activities).CloseSessionClient
-
-// CloseSessionClient closes the client for a session.
-func (a *Activities) CloseSessionClient(ctx context.Context, params CloseSessionClientParams) error {
-	logger := activity.GetLogger(ctx)
-	logger.Info("Closing session client", "sessionID", params.SessionID)
-
-	CloseSessionClient(params.SessionID)
-	return nil
-}

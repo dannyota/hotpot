@@ -20,35 +20,9 @@ type GCPComputeNetworkWorkflowResult struct {
 }
 
 // GCPComputeNetworkWorkflow ingests GCP Compute networks for a single project.
-// Creates its own session to manage client lifetime.
 func GCPComputeNetworkWorkflow(ctx workflow.Context, params GCPComputeNetworkWorkflowParams) (*GCPComputeNetworkWorkflowResult, error) {
 	logger := workflow.GetLogger(ctx)
 	logger.Info("Starting GCPComputeNetworkWorkflow", "projectID", params.ProjectID)
-
-	// Create session for client management
-	sessionOpts := &workflow.SessionOptions{
-		CreationTimeout:  time.Minute,
-		ExecutionTimeout: 15 * time.Minute,
-	}
-	sess, err := workflow.CreateSession(ctx, sessionOpts)
-	if err != nil {
-		return nil, err
-	}
-
-	sessionInfo := workflow.GetSessionInfo(sess)
-	sessionID := sessionInfo.SessionID
-
-	// Ensure cleanup
-	defer func() {
-		workflow.ExecuteActivity(
-			workflow.WithActivityOptions(sess, workflow.ActivityOptions{
-				StartToCloseTimeout: time.Minute,
-			}),
-			CloseSessionClientActivity,
-			CloseSessionClientParams{SessionID: sessionID},
-		)
-		workflow.CompleteSession(sess)
-	}()
 
 	// Activity options
 	activityOpts := workflow.ActivityOptions{
@@ -60,12 +34,11 @@ func GCPComputeNetworkWorkflow(ctx workflow.Context, params GCPComputeNetworkWor
 			MaximumAttempts:    3,
 		},
 	}
-	sessCtx := workflow.WithActivityOptions(sess, activityOpts)
+	activityCtx := workflow.WithActivityOptions(ctx, activityOpts)
 
 	// Execute ingest activity
 	var result IngestComputeNetworksResult
-	err = workflow.ExecuteActivity(sessCtx, IngestComputeNetworksActivity, IngestComputeNetworksParams{
-		SessionID: sessionID,
+	err := workflow.ExecuteActivity(activityCtx, IngestComputeNetworksActivity, IngestComputeNetworksParams{
 		ProjectID: params.ProjectID,
 	}).Get(ctx, &result)
 	if err != nil {

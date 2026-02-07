@@ -5,7 +5,7 @@ Temporal activities for data ingestion and processing.
 ```mermaid
 flowchart LR
     Workflow --> Activity
-    Activity --> Session[Session Client]
+    Activity --> Client[API Client]
     Activity --> Service
     Service --> DB[(PostgreSQL)]
     Service --> History[History Service]
@@ -16,12 +16,11 @@ flowchart LR
 ```
 pkg/ingest/{provider}/{resource}/
 ├── client.go        # External API client wrapper
-├── session.go       # Session-based client management
 ├── converter.go     # API response → Bronze model
 ├── diff.go          # Change detection between old/new
 ├── history.go       # SCD Type 4 history tracking
 ├── service.go       # Business logic (CRUD + history)
-├── activities.go    # Activity struct + methods
+├── activities.go    # Activity struct + methods + createClient
 ├── workflows.go     # Workflow calling activities
 └── register.go      # Register with Temporal worker
 ```
@@ -34,11 +33,36 @@ Hold dependencies, not state:
 type Activities struct {
     configService *config.Service
     db            *gorm.DB
+    limiter       *rate.Limiter
 }
 
-func NewActivities(configService *config.Service, db *gorm.DB) *Activities {
-    return &Activities{configService: configService, db: db}
+func NewActivities(configService *config.Service, db *gorm.DB, limiter *rate.Limiter) *Activities {
+    return &Activities{configService: configService, db: db, limiter: limiter}
 }
+```
+
+## Client Creation
+
+Each activity creates and closes its own client:
+
+```go
+// REST client (compute resources)
+func (a *Activities) createClient(ctx context.Context) (*Client, error) {
+    var opts []option.ClientOption
+    if credJSON := a.configService.GCPCredentialsJSON(); len(credJSON) > 0 {
+        opts = append(opts, option.WithAuthCredentialsJSON(option.ServiceAccount, credJSON))
+    }
+    opts = append(opts, option.WithHTTPClient(&http.Client{
+        Transport: ratelimit.NewRateLimitedTransport(a.limiter, nil),
+    }))
+    return NewClient(ctx, opts...)
+}
+
+// gRPC client (container/cluster, resourcemanager/project)
+// Replace WithHTTPClient with:
+//   opts = append(opts, option.WithGRPCDialOption(
+//       grpc.WithUnaryInterceptor(ratelimit.UnaryInterceptor(a.limiter)),
+//   ))
 ```
 
 ## Params/Result Structs
@@ -48,7 +72,6 @@ Dedicated structs for each activity:
 ```go
 // Params: inputs to activity
 type IngestComputeInstancesParams struct {
-    SessionID string  // Required for session-based client
     ProjectID string
 }
 
@@ -78,11 +101,12 @@ func (a *Activities) IngestComputeInstances(ctx context.Context, params IngestCo
     logger := activity.GetLogger(ctx)
     logger.Info("Starting ingestion", "projectID", params.ProjectID)
 
-    // 1. Get session client
-    client, err := GetOrCreateSessionClient(ctx, params.SessionID, a.configService)
+    // 1. Create client
+    client, err := a.createClient(ctx)
     if err != nil {
-        return nil, fmt.Errorf("get client: %w", err)
+        return nil, fmt.Errorf("create client: %w", err)
     }
+    defer client.Close()
 
     // 2. Create service and execute
     service := NewService(client, a.db)
@@ -105,57 +129,12 @@ func (a *Activities) IngestComputeInstances(ctx context.Context, params IngestCo
 }
 ```
 
-## Session Client
-
-Client lives for workflow duration, not worker lifetime. Credentials priority: Vault JSON > ADC.
-
-```go
-var sessionClients sync.Map
-
-func GetOrCreateSessionClient(ctx context.Context, sessionID string, configService *config.Service) (*Client, error) {
-    if client, ok := sessionClients.Load(sessionID); ok {
-        return client.(*Client), nil
-    }
-
-    var opts []option.ClientOption
-    if credJSON := configService.GCPCredentialsJSON(); len(credJSON) > 0 {
-        opts = append(opts, option.WithCredentialsJSON(credJSON))
-    }
-    // If empty, uses Application Default Credentials (ADC)
-
-    client, err := NewClient(ctx, opts...)
-    if err != nil {
-        return nil, err
-    }
-    sessionClients.Store(sessionID, client)
-    return client, nil
-}
-
-func CloseSessionClient(sessionID string) {
-    if client, ok := sessionClients.LoadAndDelete(sessionID); ok {
-        client.(*Client).Close()
-    }
-}
-```
-
-**Cleanup activity:**
-
-```go
-var CloseSessionClientActivity = (*Activities).CloseSessionClient
-
-func (a *Activities) CloseSessionClient(ctx context.Context, params CloseSessionClientParams) error {
-    CloseSessionClient(params.SessionID)
-    return nil
-}
-```
-
 ## Registration
 
 ```go
-func Register(w worker.Worker, configService *config.Service, db *gorm.DB) {
-    activities := NewActivities(configService, db)
+func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limiter *rate.Limiter) {
+    activities := NewActivities(configService, db, limiter)
     w.RegisterActivity(activities.IngestComputeInstances)
-    w.RegisterActivity(activities.CloseSessionClient)
     w.RegisterWorkflow(InstanceWorkflow)
 }
 ```
@@ -164,23 +143,19 @@ func Register(w worker.Worker, configService *config.Service, db *gorm.DB) {
 
 ```go
 func InstanceWorkflow(ctx workflow.Context, params InstanceWorkflowParams) (*InstanceWorkflowResult, error) {
-    // Create session
-    sess, _ := workflow.CreateSession(ctx, &workflow.SessionOptions{
-        CreationTimeout:  time.Minute,
-        ExecutionTimeout: 15 * time.Minute,
-    })
-    sessionID := workflow.GetSessionInfo(sess).SessionID
+    activityOpts := workflow.ActivityOptions{
+        StartToCloseTimeout: 10 * time.Minute,
+        RetryPolicy: &temporal.RetryPolicy{
+            InitialInterval:    time.Second,
+            BackoffCoefficient: 2.0,
+            MaximumInterval:    time.Minute,
+            MaximumAttempts:    3,
+        },
+    }
+    activityCtx := workflow.WithActivityOptions(ctx, activityOpts)
 
-    // Cleanup on exit
-    defer func() {
-        workflow.ExecuteActivity(sess, CloseSessionClientActivity, CloseSessionClientParams{SessionID: sessionID})
-        workflow.CompleteSession(sess)
-    }()
-
-    // Execute activity
     var result IngestComputeInstancesResult
-    err := workflow.ExecuteActivity(sess, IngestComputeInstancesActivity, IngestComputeInstancesParams{
-        SessionID: sessionID,
+    err := workflow.ExecuteActivity(activityCtx, IngestComputeInstancesActivity, IngestComputeInstancesParams{
         ProjectID: params.ProjectID,
     }).Get(ctx, &result)
 
@@ -195,16 +170,15 @@ New resource implementation:
 | Step | File | Action |
 |------|------|--------|
 | 1 | `client.go` | Wrap GCP API client, implement List method |
-| 2 | `session.go` | Add session client functions (sync.Map + credentials) |
-| 3 | `converter.go` | Convert API response → bronze model |
-| 4 | `diff.go` | Implement change detection (parent + children) |
-| 5 | `history.go` | Implement SCD Type 4 history tracking |
-| 6 | `service.go` | Implement Ingest, save, delete stale with history |
-| 7 | `activities.go` | Add Params/Result structs, activity var, method |
-| 8 | `workflows.go` | Create workflow with session management |
-| 9 | `register.go` | Register activities + workflow with worker |
-| 10 | parent `register.go` | Import and call `Register()` |
-| 11 | parent `workflows.go` | Add child workflow execution |
+| 2 | `converter.go` | Convert API response → bronze model |
+| 3 | `diff.go` | Implement change detection (parent + children) |
+| 4 | `history.go` | Implement SCD Type 4 history tracking |
+| 5 | `service.go` | Implement Ingest, save, delete stale with history |
+| 6 | `activities.go` | Add createClient, Params/Result structs, activity var, method |
+| 7 | `workflows.go` | Create workflow with activity execution |
+| 8 | `register.go` | Register activities + workflow with worker |
+| 9 | parent `register.go` | Import and call `Register()` |
+| 10 | parent `workflows.go` | Add child workflow execution |
 
 ## Error Handling
 
@@ -213,7 +187,6 @@ New resource implementation:
 | Client creation fails | Return error (Temporal retries) |
 | Service error | Return error with context |
 | Cleanup error (stale delete) | Log warning, don't fail activity |
-| Session client not found | Create new client |
 
 ## History Integration
 
