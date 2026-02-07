@@ -9,6 +9,7 @@ import (
 	"hotpot/pkg/ingest/gcp/compute"
 	"hotpot/pkg/ingest/gcp/container"
 	"hotpot/pkg/ingest/gcp/iam"
+	"hotpot/pkg/ingest/gcp/vpcaccess"
 )
 
 // GCPInventoryWorkflowParams contains parameters for the GCP inventory workflow.
@@ -22,6 +23,7 @@ type GCPInventoryWorkflowResult struct {
 	TotalInstances       int
 	TotalClusters        int
 	TotalServiceAccounts int
+	TotalConnectors      int
 }
 
 // ProjectResult contains the ingestion result for a single project.
@@ -30,6 +32,7 @@ type ProjectResult struct {
 	InstanceCount       int
 	ClusterCount        int
 	ServiceAccountCount int
+	ConnectorCount      int
 	Error               string
 }
 
@@ -109,6 +112,24 @@ func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParam
 			result.TotalServiceAccounts += iamResult.ServiceAccountCount
 		}
 
+		// Execute GCPVpcAccessWorkflow for this project (after Compute, needs subnetwork regions)
+		var vpcAccessResult vpcaccess.GCPVpcAccessWorkflowResult
+		err = workflow.ExecuteChildWorkflow(ctx, vpcaccess.GCPVpcAccessWorkflow, vpcaccess.GCPVpcAccessWorkflowParams{
+			ProjectID: projectID,
+		}).Get(ctx, &vpcAccessResult)
+
+		if err != nil {
+			logger.Error("Failed to execute GCPVpcAccessWorkflow", "projectID", projectID, "error", err)
+			if projectResult.Error == "" {
+				projectResult.Error = err.Error()
+			} else {
+				projectResult.Error += "; " + err.Error()
+			}
+		} else {
+			projectResult.ConnectorCount = vpcAccessResult.ConnectorCount
+			result.TotalConnectors += vpcAccessResult.ConnectorCount
+		}
+
 		result.ProjectResults = append(result.ProjectResults, projectResult)
 	}
 
@@ -117,6 +138,7 @@ func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParam
 		"totalInstances", result.TotalInstances,
 		"totalClusters", result.TotalClusters,
 		"totalServiceAccounts", result.TotalServiceAccounts,
+		"totalConnectors", result.TotalConnectors,
 	)
 
 	return result, nil
