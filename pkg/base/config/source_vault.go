@@ -226,6 +226,11 @@ func (v *VaultSource) parseConfig(data map[string]interface{}) (*Config, error) 
 		cfg.Database.SSLMode = val
 	}
 
+	// GCP rate limit
+	if val, ok := data["gcp_rate_limit_per_minute"]; ok {
+		cfg.GCP.RateLimitPerMinute = toInt(val)
+	}
+
 	// Temporal config
 	if val, ok := data["temporal_host_port"].(string); ok {
 		cfg.Temporal.HostPort = val

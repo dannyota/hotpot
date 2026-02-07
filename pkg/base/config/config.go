@@ -12,6 +12,10 @@ type GCPConfig struct {
 	// CredentialsJSON is the raw JSON bytes of the service account.
 	// Loaded from Vault or YAML config. Falls back to ADC if empty.
 	CredentialsJSON []byte `yaml:"credentials_json,omitempty"`
+
+	// RateLimitPerMinute is the max API requests per minute across all GCP clients.
+	// Default: 600 (see Service.GCPRateLimitPerMinute()).
+	RateLimitPerMinute int `yaml:"rate_limit_per_minute,omitempty"`
 }
 
 // DatabaseConfig holds database connection configuration.

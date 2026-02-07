@@ -82,7 +82,7 @@ defer func() {
 }()
 
 // activities use session to get/create client
-client, _ := GetOrCreateSessionClient(ctx, sessionID, configService)
+client, _ := GetOrCreateSessionClient(ctx, sessionID, configService, limiter)
 ```
 
 **Why:** Fresh credentials each workflow, picks up Vault/config changes.
@@ -98,10 +98,11 @@ Activities use a struct to hold dependencies:
 type Activities struct {
     configService *config.Service
     db            *gorm.DB
+    limiter       *rate.Limiter
 }
 
-func NewActivities(configService *config.Service, db *gorm.DB) *Activities {
-    return &Activities{configService: configService, db: db}
+func NewActivities(configService *config.Service, db *gorm.DB, limiter *rate.Limiter) *Activities {
+    return &Activities{configService: configService, db: db, limiter: limiter}
 }
 
 // Activity params/results use dedicated structs
@@ -115,7 +116,7 @@ type IngestResult struct {
 }
 
 func (a *Activities) Ingest(ctx context.Context, params IngestParams) (*IngestResult, error) {
-    client, err := GetOrCreateSessionClient(ctx, params.SessionID, a.configService)
+    client, err := GetOrCreateSessionClient(ctx, params.SessionID, a.configService, a.limiter)
     if err != nil {
         return nil, fmt.Errorf("get client: %w", err)
     }
@@ -131,8 +132,8 @@ Each package has `register.go` to register workflows and activities:
 
 ```go
 // pkg/ingest/gcp/compute/register.go
-func Register(w worker.Worker, configService *config.Service, db *gorm.DB) {
-    instance.Register(w, configService, db)
+func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limiter *rate.Limiter) {
+    instance.Register(w, configService, db, limiter)
     w.RegisterWorkflow(ComputeWorkflow)
 }
 ```
@@ -166,6 +167,7 @@ func (s *Service) TemporalHostPort() string {
 | `TemporalHostPort` | `localhost:7233` |
 | `TemporalNamespace` | `default` |
 | `SSLMode` | `require` |
+| `GCPRateLimitPerMinute` | `600` |
 
 ## 9. Model Conventions
 
@@ -321,3 +323,21 @@ type Asset struct {
     SourceID   string `gorm:"column:source_id;index"`   // resource_id (API ID), not bronze.id
 }
 ```
+
+## 13. Rate Limiting
+
+External API clients share a per-provider rate limiter (`pkg/base/ratelimit`).
+One `*rate.Limiter` is created per provider in `Register()`, passed down to sessions.
+
+Three integration methods — all share the same token bucket:
+
+| Method | When to use |
+|--------|------------|
+| `limiter.Wait(ctx)` | SDK-agnostic fallback — call before each API request |
+| `NewRateLimitedTransport(limiter, base)` | SDK accepts custom `http.Client` (REST) |
+| `UnaryInterceptor(limiter)` | SDK accepts `grpc.DialOption` (gRPC) |
+
+Choose the appropriate method per client type. Prefer transport/interceptor
+injection when the SDK supports it — keeps client code clean.
+
+Config: `rate_limit_per_minute` per provider, default 600.
