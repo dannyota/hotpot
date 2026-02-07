@@ -2,11 +2,14 @@ package instancegroup
 
 import (
 	"context"
+	"net/http"
 	"sync"
 
+	"golang.org/x/time/rate"
 	"google.golang.org/api/option"
 
 	"hotpot/pkg/base/config"
+	"hotpot/pkg/base/ratelimit"
 )
 
 // sessionClients stores clients keyed by Temporal session ID.
@@ -14,7 +17,7 @@ import (
 var sessionClients sync.Map
 
 // GetOrCreateSessionClient returns existing client for session or creates new one.
-func GetOrCreateSessionClient(ctx context.Context, sessionID string, configService *config.Service) (*Client, error) {
+func GetOrCreateSessionClient(ctx context.Context, sessionID string, configService *config.Service, limiter *rate.Limiter) (*Client, error) {
 	if client, ok := sessionClients.Load(sessionID); ok {
 		return client.(*Client), nil
 	}
@@ -24,6 +27,11 @@ func GetOrCreateSessionClient(ctx context.Context, sessionID string, configServi
 	if credJSON := configService.GCPCredentialsJSON(); len(credJSON) > 0 {
 		opts = append(opts, option.WithAuthCredentialsJSON(option.ServiceAccount, credJSON))
 	}
+
+	// Rate limit via HTTP transport
+	opts = append(opts, option.WithHTTPClient(&http.Client{
+		Transport: ratelimit.NewRateLimitedTransport(limiter, nil),
+	}))
 
 	client, err := NewClient(ctx, opts...)
 	if err != nil {

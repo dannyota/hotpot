@@ -2,6 +2,7 @@ package compute
 
 import (
 	"go.temporal.io/sdk/worker"
+	"golang.org/x/time/rate"
 	"gorm.io/gorm"
 
 	"hotpot/pkg/base/config"
@@ -19,18 +20,18 @@ import (
 
 // Register registers all Compute Engine activities and workflows.
 // Client is NOT created here - it's created per workflow session.
-func Register(w worker.Worker, configService *config.Service, db *gorm.DB) {
+func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limiter *rate.Limiter) {
 	// Register sub-packages with config service
-	instance.Register(w, configService, db)
-	disk.Register(w, configService, db)
-	network.Register(w, configService, db)
-	subnetwork.Register(w, configService, db)
-	instancegroup.Register(w, configService, db)
-	targetinstance.Register(w, configService, db)
-	address.Register(w, configService, db)
-	globaladdress.Register(w, configService, db)
-	forwardingrule.Register(w, configService, db)
-	globalforwardingrule.Register(w, configService, db)
+	instance.Register(w, configService, db, limiter)
+	disk.Register(w, configService, db, limiter)
+	network.Register(w, configService, db, limiter)
+	subnetwork.Register(w, configService, db, limiter)
+	instancegroup.Register(w, configService, db, limiter)
+	targetinstance.Register(w, configService, db, limiter)
+	address.Register(w, configService, db, limiter)
+	globaladdress.Register(w, configService, db, limiter)
+	forwardingrule.Register(w, configService, db, limiter)
+	globalforwardingrule.Register(w, configService, db, limiter)
 
 	// Register compute workflow
 	w.RegisterWorkflow(GCPComputeWorkflow)
