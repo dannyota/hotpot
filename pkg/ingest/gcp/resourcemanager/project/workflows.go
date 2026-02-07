@@ -20,35 +20,9 @@ type GCPResourceManagerProjectWorkflowResult struct {
 }
 
 // GCPResourceManagerProjectWorkflow discovers all GCP projects accessible by the service account.
-// Creates its own session to manage client lifetime.
 func GCPResourceManagerProjectWorkflow(ctx workflow.Context, params GCPResourceManagerProjectWorkflowParams) (*GCPResourceManagerProjectWorkflowResult, error) {
 	logger := workflow.GetLogger(ctx)
 	logger.Info("Starting GCPResourceManagerProjectWorkflow")
-
-	// Create session for client management
-	sessionOpts := &workflow.SessionOptions{
-		CreationTimeout:  time.Minute,
-		ExecutionTimeout: 15 * time.Minute,
-	}
-	sess, err := workflow.CreateSession(ctx, sessionOpts)
-	if err != nil {
-		return nil, err
-	}
-
-	sessionInfo := workflow.GetSessionInfo(sess)
-	sessionID := sessionInfo.SessionID
-
-	// Ensure cleanup
-	defer func() {
-		workflow.ExecuteActivity(
-			workflow.WithActivityOptions(sess, workflow.ActivityOptions{
-				StartToCloseTimeout: time.Minute,
-			}),
-			CloseSessionClientActivity,
-			CloseSessionClientParams{SessionID: sessionID},
-		)
-		workflow.CompleteSession(sess)
-	}()
 
 	// Activity options
 	activityOpts := workflow.ActivityOptions{
@@ -60,13 +34,11 @@ func GCPResourceManagerProjectWorkflow(ctx workflow.Context, params GCPResourceM
 			MaximumAttempts:    3,
 		},
 	}
-	sessCtx := workflow.WithActivityOptions(sess, activityOpts)
+	activityCtx := workflow.WithActivityOptions(ctx, activityOpts)
 
 	// Execute ingest activity
 	var result IngestProjectsResult
-	err = workflow.ExecuteActivity(sessCtx, IngestProjectsActivity, IngestProjectsParams{
-		SessionID: sessionID,
-	}).Get(ctx, &result)
+	err := workflow.ExecuteActivity(activityCtx, IngestProjectsActivity, IngestProjectsParams{}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to discover projects", "error", err)
 		return nil, err

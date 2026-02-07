@@ -9,14 +9,13 @@ import (
 )
 
 // Register registers cluster activities and workflows with the Temporal worker.
-// Client is NOT created here - it's created per workflow session.
+// Client is created per activity invocation.
 func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limiter *rate.Limiter) {
-	// Create activities with config service (client created per session)
+	// Create activities with dependencies
 	activities := NewActivities(configService, db, limiter)
 
 	// Register activities
 	w.RegisterActivity(activities.IngestContainerClusters)
-	w.RegisterActivity(activities.CloseSessionClient)
 
 	// Register workflows
 	w.RegisterWorkflow(GCPContainerClusterWorkflow)

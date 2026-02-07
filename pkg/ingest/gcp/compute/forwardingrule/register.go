@@ -12,6 +12,5 @@ import (
 func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limiter *rate.Limiter) {
 	activities := NewActivities(configService, db, limiter)
 	w.RegisterActivity(activities.IngestComputeForwardingRules)
-	w.RegisterActivity(activities.CloseSessionClient)
 	w.RegisterWorkflow(GCPComputeForwardingRuleWorkflow)
 }

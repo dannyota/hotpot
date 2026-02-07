@@ -9,9 +9,10 @@ import (
 )
 
 // Register registers disk workflows and activities with the Temporal worker.
+// Client is created per activity invocation.
 func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limiter *rate.Limiter) {
+	// Create activities with dependencies
 	activities := NewActivities(configService, db, limiter)
 	w.RegisterActivity(activities.IngestComputeDisks)
-	w.RegisterActivity(activities.CloseSessionClient)
 	w.RegisterWorkflow(GCPComputeDiskWorkflow)
 }

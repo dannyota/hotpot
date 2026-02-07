@@ -118,8 +118,6 @@ cmd/detect/main.go      →  imports pkg/detect  →  calls detect.Run()
 | normalize | `hotpot-normalize` | Data normalization |
 | detect | `hotpot-detect` | Detection rules |
 
-**Note:** Ingest workers require `EnableSessionWorker: true` for session-based client management.
-
 ## Data Flow
 
 ```mermaid
@@ -210,13 +208,12 @@ pkg/ingest/
 │   ├── workflows.go            # GCPInventoryWorkflow
 │   └── compute/
 │       ├── register.go         # Register compute workflows
-│       ├── workflows.go        # ComputeWorkflow (owns session)
+│       ├── workflows.go        # ComputeWorkflow (orchestrator)
 │       └── instance/
 │           ├── client.go       # GCP Compute API client
-│           ├── session.go      # Session-based client management
 │           ├── service.go      # Ingest logic
 │           ├── converter.go    # API → Bronze model
-│           ├── activities.go   # Temporal activities
+│           ├── activities.go   # Temporal activities (creates client)
 │           ├── workflows.go    # InstanceWorkflow
 │           └── register.go     # Register instance activities
 ├── vngcloud/

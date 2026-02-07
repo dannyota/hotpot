@@ -34,13 +34,10 @@ func Run(ctx context.Context, configService *config.Service, db *gorm.DB) error 
 	}
 	defer temporalClient.Close()
 
-	// Create GCP worker with session support
-	gcpWorker := worker.New(temporalClient, TaskQueueGCP, worker.Options{
-		EnableSessionWorker: true, // Required for workflow sessions
-	})
+	// Create GCP worker
+	gcpWorker := worker.New(temporalClient, TaskQueueGCP, worker.Options{})
 
 	// Register GCP workflows and activities
-	// No cleanup needed - clients managed per workflow session
 	gcp.Register(gcpWorker, configService, db)
 
 	// Create and register VNGCloud worker (future)

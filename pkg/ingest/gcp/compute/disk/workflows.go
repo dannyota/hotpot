@@ -20,35 +20,9 @@ type GCPComputeDiskWorkflowResult struct {
 }
 
 // GCPComputeDiskWorkflow ingests GCP Compute disks for a single project.
-// Creates its own session to manage client lifetime.
 func GCPComputeDiskWorkflow(ctx workflow.Context, params GCPComputeDiskWorkflowParams) (*GCPComputeDiskWorkflowResult, error) {
 	logger := workflow.GetLogger(ctx)
 	logger.Info("Starting GCPComputeDiskWorkflow", "projectID", params.ProjectID)
-
-	// Create session for client management
-	sessionOpts := &workflow.SessionOptions{
-		CreationTimeout:  time.Minute,
-		ExecutionTimeout: 15 * time.Minute,
-	}
-	sess, err := workflow.CreateSession(ctx, sessionOpts)
-	if err != nil {
-		return nil, err
-	}
-
-	sessionInfo := workflow.GetSessionInfo(sess)
-	sessionID := sessionInfo.SessionID
-
-	// Ensure cleanup
-	defer func() {
-		workflow.ExecuteActivity(
-			workflow.WithActivityOptions(sess, workflow.ActivityOptions{
-				StartToCloseTimeout: time.Minute,
-			}),
-			CloseSessionClientActivity,
-			CloseSessionClientParams{SessionID: sessionID},
-		)
-		workflow.CompleteSession(sess)
-	}()
 
 	// Activity options
 	activityOpts := workflow.ActivityOptions{
@@ -60,12 +34,11 @@ func GCPComputeDiskWorkflow(ctx workflow.Context, params GCPComputeDiskWorkflowP
 			MaximumAttempts:    3,
 		},
 	}
-	sessCtx := workflow.WithActivityOptions(sess, activityOpts)
+	activityCtx := workflow.WithActivityOptions(ctx, activityOpts)
 
 	// Execute ingest activity
 	var result IngestComputeDisksResult
-	err = workflow.ExecuteActivity(sessCtx, IngestComputeDisksActivity, IngestComputeDisksParams{
-		SessionID: sessionID,
+	err := workflow.ExecuteActivity(activityCtx, IngestComputeDisksActivity, IngestComputeDisksParams{
 		ProjectID: params.ProjectID,
 	}).Get(ctx, &result)
 	if err != nil {
