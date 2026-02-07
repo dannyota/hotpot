@@ -19,6 +19,9 @@ import (
 	"hotpot/pkg/ingest/gcp/compute/snapshot"
 	"hotpot/pkg/ingest/gcp/compute/subnetwork"
 	"hotpot/pkg/ingest/gcp/compute/targetinstance"
+	"hotpot/pkg/ingest/gcp/compute/targetvpngateway"
+	"hotpot/pkg/ingest/gcp/compute/vpngateway"
+	"hotpot/pkg/ingest/gcp/compute/vpntunnel"
 )
 
 // GCPComputeWorkflowParams contains parameters for the compute workflow.
@@ -42,6 +45,9 @@ type GCPComputeWorkflowResult struct {
 	HealthCheckCount          int
 	ForwardingRuleCount       int
 	GlobalForwardingRuleCount int
+	VpnGatewayCount           int
+	TargetVpnGatewayCount     int
+	VpnTunnelCount            int
 }
 
 // GCPComputeWorkflow ingests all GCP Compute Engine resources for a single project.
@@ -196,6 +202,36 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 	}
 	result.HealthCheckCount = healthCheckResult.HealthCheckCount
 
+	// Execute VPN gateway workflow
+	var vpnGatewayResult vpngateway.GCPComputeVpnGatewayWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, vpngateway.GCPComputeVpnGatewayWorkflow,
+		vpngateway.GCPComputeVpnGatewayWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &vpnGatewayResult)
+	if err != nil {
+		logger.Error("Failed to ingest vpn gateways", "error", err)
+		return nil, err
+	}
+	result.VpnGatewayCount = vpnGatewayResult.VpnGatewayCount
+
+	// Execute target VPN gateway workflow
+	var targetVpnGatewayResult targetvpngateway.GCPComputeTargetVpnGatewayWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, targetvpngateway.GCPComputeTargetVpnGatewayWorkflow,
+		targetvpngateway.GCPComputeTargetVpnGatewayWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetVpnGatewayResult)
+	if err != nil {
+		logger.Error("Failed to ingest target vpn gateways", "error", err)
+		return nil, err
+	}
+	result.TargetVpnGatewayCount = targetVpnGatewayResult.TargetVpnGatewayCount
+
+	// Execute VPN tunnel workflow
+	var vpnTunnelResult vpntunnel.GCPComputeVpnTunnelWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, vpntunnel.GCPComputeVpnTunnelWorkflow,
+		vpntunnel.GCPComputeVpnTunnelWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &vpnTunnelResult)
+	if err != nil {
+		logger.Error("Failed to ingest vpn tunnels", "error", err)
+		return nil, err
+	}
+	result.VpnTunnelCount = vpnTunnelResult.VpnTunnelCount
+
 	logger.Info("Completed GCPComputeWorkflow",
 		"projectID", params.ProjectID,
 		"instanceCount", result.InstanceCount,
@@ -211,6 +247,9 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		"snapshotCount", result.SnapshotCount,
 		"imageCount", result.ImageCount,
 		"healthCheckCount", result.HealthCheckCount,
+		"vpnGatewayCount", result.VpnGatewayCount,
+		"targetVpnGatewayCount", result.TargetVpnGatewayCount,
+		"vpnTunnelCount", result.VpnTunnelCount,
 	)
 
 	return result, nil

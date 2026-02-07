@@ -53,9 +53,9 @@ GCP resource ingestion coverage in the bronze layer.
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| VPN Gateways (HA) | `VpnGatewaysClient` | `AggregatedList()` | |
-| VPN Gateways (Classic) | `TargetVpnGatewaysClient` | `AggregatedList()` | |
-| VPN Tunnels | `VpnTunnelsClient` | `AggregatedList()` | |
+| VPN Gateways (HA) | `VpnGatewaysClient` | `AggregatedList()` | ✅ |
+| VPN Gateways (Classic) | `TargetVpnGatewaysClient` | `AggregatedList()` | ✅ |
+| VPN Tunnels | `VpnTunnelsClient` | `AggregatedList()` | ✅ |
 
 ## Container API (`container.googleapis.com`)
 

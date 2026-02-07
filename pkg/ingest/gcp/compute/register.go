@@ -19,6 +19,9 @@ import (
 	"hotpot/pkg/ingest/gcp/compute/snapshot"
 	"hotpot/pkg/ingest/gcp/compute/subnetwork"
 	"hotpot/pkg/ingest/gcp/compute/targetinstance"
+	"hotpot/pkg/ingest/gcp/compute/targetvpngateway"
+	"hotpot/pkg/ingest/gcp/compute/vpngateway"
+	"hotpot/pkg/ingest/gcp/compute/vpntunnel"
 )
 
 // Register registers all Compute Engine activities and workflows.
@@ -38,6 +41,9 @@ func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limit
 	globalforwardingrule.Register(w, configService, db, limiter)
 	healthcheck.Register(w, configService, db, limiter)
 	image.Register(w, configService, db, limiter)
+	vpngateway.Register(w, configService, db, limiter)
+	targetvpngateway.Register(w, configService, db, limiter)
+	vpntunnel.Register(w, configService, db, limiter)
 
 	// Register compute workflow
 	w.RegisterWorkflow(GCPComputeWorkflow)
