@@ -8,6 +8,7 @@ import (
 
 	"hotpot/pkg/ingest/gcp/compute"
 	"hotpot/pkg/ingest/gcp/container"
+	"hotpot/pkg/ingest/gcp/iam"
 )
 
 // GCPInventoryWorkflowParams contains parameters for the GCP inventory workflow.
@@ -17,17 +18,19 @@ type GCPInventoryWorkflowParams struct {
 
 // GCPInventoryWorkflowResult contains the result of the GCP inventory workflow.
 type GCPInventoryWorkflowResult struct {
-	ProjectResults []ProjectResult
-	TotalInstances int
-	TotalClusters  int
+	ProjectResults       []ProjectResult
+	TotalInstances       int
+	TotalClusters        int
+	TotalServiceAccounts int
 }
 
 // ProjectResult contains the ingestion result for a single project.
 type ProjectResult struct {
-	ProjectID     string
-	InstanceCount int
-	ClusterCount  int
-	Error         string
+	ProjectID           string
+	InstanceCount       int
+	ClusterCount        int
+	ServiceAccountCount int
+	Error               string
 }
 
 // GCPInventoryWorkflow ingests all GCP resources across multiple projects.
@@ -88,6 +91,24 @@ func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParam
 			result.TotalClusters += containerResult.ClusterCount
 		}
 
+		// Execute GCPIAMWorkflow for this project
+		var iamResult iam.GCPIAMWorkflowResult
+		err = workflow.ExecuteChildWorkflow(ctx, iam.GCPIAMWorkflow, iam.GCPIAMWorkflowParams{
+			ProjectID: projectID,
+		}).Get(ctx, &iamResult)
+
+		if err != nil {
+			logger.Error("Failed to execute GCPIAMWorkflow", "projectID", projectID, "error", err)
+			if projectResult.Error == "" {
+				projectResult.Error = err.Error()
+			} else {
+				projectResult.Error += "; " + err.Error()
+			}
+		} else {
+			projectResult.ServiceAccountCount = iamResult.ServiceAccountCount
+			result.TotalServiceAccounts += iamResult.ServiceAccountCount
+		}
+
 		result.ProjectResults = append(result.ProjectResults, projectResult)
 	}
 
@@ -95,6 +116,7 @@ func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParam
 		"projectCount", len(params.ProjectIDs),
 		"totalInstances", result.TotalInstances,
 		"totalClusters", result.TotalClusters,
+		"totalServiceAccounts", result.TotalServiceAccounts,
 	)
 
 	return result, nil

@@ -79,8 +79,8 @@ GCP resource ingestion coverage in the bronze layer.
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Service Accounts | `IAMClient` | `ListServiceAccounts()` | |
-| Service Account Keys | `IAMClient` | `ListServiceAccountKeys()` | |
+| Service Accounts | `IAMClient` | `ListServiceAccounts()` | ✅ |
+| Service Account Keys | `IAMClient` | `ListServiceAccountKeys()` | ✅ |
 
 ## Cloud KMS API (`cloudkms.googleapis.com`)
 
@@ -356,14 +356,14 @@ GCP resource ingestion coverage in the bronze layer.
 
 ## Summary
 
-**Total: 16/117 (14%)**
+**Total: 18/117 (15%)**
 
 | API | Implemented | Total |
 |-----|:-----------:|:-----:|
 | Compute Engine | 14 | 32 |
 | Container | 2 | 2 |
 | Resource Manager | 1 | 6 |
-| IAM | 0 | 2 |
+| IAM | 2 | 2 |
 | Cloud KMS | 0 | 2 |
 | API Keys | 0 | 1 |
 | Essential Contacts | 0 | 1 |
