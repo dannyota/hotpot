@@ -34,25 +34,34 @@ func Run(ctx context.Context, configService *config.Service, db *gorm.DB) error 
 	}
 	defer temporalClient.Close()
 
+	// Server-side activity rate limit: always set as a safety net.
+	// Caps activity dispatches across all workers on this task queue.
+	reqPerMin := configService.GCPRateLimitPerMinute()
+	activitiesPerSec := float64(reqPerMin) / 60.0
+
 	// Create GCP worker
-	gcpWorker := worker.New(temporalClient, TaskQueueGCP, worker.Options{})
+	gcpWorker := worker.New(temporalClient, TaskQueueGCP, worker.Options{
+		TaskQueueActivitiesPerSecond: activitiesPerSec,
+	})
 
 	// Register GCP workflows and activities
-	gcp.Register(gcpWorker, configService, db)
+	rateLimitSvc := gcp.Register(gcpWorker, configService, db)
+	defer rateLimitSvc.Close()
 
 	// Create and register VNGCloud worker (future)
-	// vngWorker := worker.New(temporalClient, TaskQueueVNGCloud, worker.Options{EnableSessionWorker: true})
+	// vngWorker := worker.New(temporalClient, TaskQueueVNGCloud, worker.Options{})
 	// vngcloud.Register(vngWorker, cfg.VNGCloud, db)
 
 	// Create and register SentinelOne worker (future)
-	// s1Worker := worker.New(temporalClient, TaskQueueS1, worker.Options{EnableSessionWorker: true})
+	// s1Worker := worker.New(temporalClient, TaskQueueS1, worker.Options{})
 	// sentinelone.Register(s1Worker, cfg.S1, db)
 
 	// Create and register Fortinet worker (future)
-	// fortinetWorker := worker.New(temporalClient, TaskQueueFortinet, worker.Options{EnableSessionWorker: true})
+	// fortinetWorker := worker.New(temporalClient, TaskQueueFortinet, worker.Options{})
 	// fortinet.Register(fortinetWorker, cfg.Fortinet, db)
 
-	log.Println("Starting ingest workers...")
+	log.Printf("Starting ingest workers (GCP rate limit: %d rpm, Temporal: %.1f activities/sec)...",
+		reqPerMin, activitiesPerSec)
 
 	// Convert context cancellation to interrupt channel for Temporal worker
 	interruptCh := make(chan interface{})

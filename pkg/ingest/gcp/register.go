@@ -12,10 +12,15 @@ import (
 )
 
 // Register registers all GCP activities and workflows with the Temporal worker.
-// No cleanup needed - clients are managed per workflow session.
-func Register(w worker.Worker, configService *config.Service, db *gorm.DB) {
+// Returns the rate limit service for cleanup (caller should defer Close()).
+func Register(w worker.Worker, configService *config.Service, db *gorm.DB) *ratelimit.Service {
 	// Create shared rate limiter for all GCP API calls
-	limiter := ratelimit.NewLimiter(configService.GCPRateLimitPerMinute())
+	rateLimitSvc := ratelimit.NewService(ratelimit.ServiceOptions{
+		RedisConfig: configService.RedisConfig(),
+		KeyPrefix:   "ratelimit:gcp",
+		ReqPerMin:   configService.GCPRateLimitPerMinute(),
+	})
+	limiter := rateLimitSvc.Limiter()
 
 	// Register resource manager (project discovery)
 	resourcemanager.Register(w, configService, db, limiter)
@@ -31,4 +36,6 @@ func Register(w worker.Worker, configService *config.Service, db *gorm.DB) {
 
 	// Register GCP inventory workflow
 	w.RegisterWorkflow(GCPInventoryWorkflow)
+
+	return rateLimitSvc
 }

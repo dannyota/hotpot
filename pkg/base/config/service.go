@@ -169,3 +169,15 @@ func (s *Service) TemporalNamespace() string {
 	}
 	return s.config.Temporal.Namespace
 }
+
+// RedisConfig returns the Redis configuration.
+// Returns nil if not configured.
+func (s *Service) RedisConfig() *RedisConfig {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || s.config.Redis.Address == "" {
+		return nil
+	}
+	cfg := s.config.Redis
+	return &cfg
+}

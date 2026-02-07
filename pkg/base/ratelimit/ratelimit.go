@@ -8,6 +8,12 @@ import (
 	"google.golang.org/grpc"
 )
 
+// Limiter abstracts rate limiting. Activities call Wait() before each API request.
+// Implementations: local (*rate.Limiter), Redis (distributed).
+type Limiter interface {
+	Wait(ctx context.Context) error
+}
+
 // NewLimiter creates a rate limiter from requests-per-minute.
 // Burst = max(1, reqPerMin/60) for per-second smoothing.
 func NewLimiter(reqPerMin int) *rate.Limiter {
@@ -20,12 +26,12 @@ func NewLimiter(reqPerMin int) *rate.Limiter {
 // Use when a SDK accepts a custom http.Client.
 type RateLimitedTransport struct {
 	base    http.RoundTripper
-	limiter *rate.Limiter
+	limiter Limiter
 }
 
 // NewRateLimitedTransport creates a transport that calls limiter.Wait()
 // before each request. If base is nil, http.DefaultTransport is used.
-func NewRateLimitedTransport(limiter *rate.Limiter, base http.RoundTripper) *RateLimitedTransport {
+func NewRateLimitedTransport(limiter Limiter, base http.RoundTripper) *RateLimitedTransport {
 	if base == nil {
 		base = http.DefaultTransport
 	}
@@ -42,7 +48,7 @@ func (t *RateLimitedTransport) RoundTrip(req *http.Request) (*http.Response, err
 
 // UnaryInterceptor returns a gRPC unary client interceptor that calls
 // limiter.Wait() before each RPC. Pass as grpc.WithUnaryInterceptor().
-func UnaryInterceptor(limiter *rate.Limiter) grpc.UnaryClientInterceptor {
+func UnaryInterceptor(limiter Limiter) grpc.UnaryClientInterceptor {
 	return func(ctx context.Context, method string, req, reply any,
 		cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 		if err := limiter.Wait(ctx); err != nil {

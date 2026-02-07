@@ -2,10 +2,10 @@ package compute
 
 import (
 	"go.temporal.io/sdk/worker"
-	"golang.org/x/time/rate"
 	"gorm.io/gorm"
 
 	"hotpot/pkg/base/config"
+	"hotpot/pkg/base/ratelimit"
 	"hotpot/pkg/ingest/gcp/compute/address"
 	"hotpot/pkg/ingest/gcp/compute/disk"
 	"hotpot/pkg/ingest/gcp/compute/forwardingrule"
@@ -20,7 +20,7 @@ import (
 
 // Register registers all Compute Engine activities and workflows.
 // Client is NOT created here - it's created per workflow session.
-func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limiter *rate.Limiter) {
+func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limiter ratelimit.Limiter) {
 	// Register sub-packages with config service
 	instance.Register(w, configService, db, limiter)
 	disk.Register(w, configService, db, limiter)
