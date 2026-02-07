@@ -107,6 +107,17 @@ func (s *Service) Config() Config {
 	return *s.config
 }
 
+// GCPRateLimitPerMinute returns the max API requests per minute for GCP.
+// Defaults to 600 if not configured.
+func (s *Service) GCPRateLimitPerMinute() int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || s.config.GCP.RateLimitPerMinute <= 0 {
+		return 600
+	}
+	return s.config.GCP.RateLimitPerMinute
+}
+
 // GCPCredentialsJSON returns credentials JSON for GCP client options.
 // Returns nil if not configured (caller should fall back to ADC).
 func (s *Service) GCPCredentialsJSON() []byte {
