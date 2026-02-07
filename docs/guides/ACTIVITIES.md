@@ -33,10 +33,10 @@ Hold dependencies, not state:
 type Activities struct {
     configService *config.Service
     db            *gorm.DB
-    limiter       *rate.Limiter
+    limiter       ratelimit.Limiter
 }
 
-func NewActivities(configService *config.Service, db *gorm.DB, limiter *rate.Limiter) *Activities {
+func NewActivities(configService *config.Service, db *gorm.DB, limiter ratelimit.Limiter) *Activities {
     return &Activities{configService: configService, db: db, limiter: limiter}
 }
 ```
@@ -132,7 +132,7 @@ func (a *Activities) IngestComputeInstances(ctx context.Context, params IngestCo
 ## Registration
 
 ```go
-func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limiter *rate.Limiter) {
+func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limiter ratelimit.Limiter) {
     activities := NewActivities(configService, db, limiter)
     w.RegisterActivity(activities.IngestComputeInstances)
     w.RegisterWorkflow(InstanceWorkflow)

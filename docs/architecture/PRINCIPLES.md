@@ -325,9 +325,14 @@ type Asset struct {
 ## 13. Rate Limiting
 
 External API clients share a per-provider rate limiter (`pkg/base/ratelimit`).
-One `*rate.Limiter` is created per provider in `Register()`, passed down to activities.
+A `ratelimit.Service` is created per provider in `Register()`, returning a
+`ratelimit.Limiter` interface passed down to activities.
 
-Three integration methods — all share the same token bucket:
+**Backend priority:** Redis (distributed, per-second INCR counter) → local
+`x/time/rate` (fallback). Temporal `TaskQueueActivitiesPerSecond` is always
+set as a server-side safety net (`rate_limit_per_minute / 60`).
+
+Three integration methods — all accept the `ratelimit.Limiter` interface:
 
 | Method | When to use |
 |--------|------------|
@@ -338,4 +343,5 @@ Three integration methods — all share the same token bucket:
 Choose the appropriate method per client type. Prefer transport/interceptor
 injection when the SDK supports it — keeps client code clean.
 
-Config: `rate_limit_per_minute` per provider, default 600.
+Config: `rate_limit_per_minute` per provider (default 600), `redis.address`
+for distributed limiting.
