@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"go.temporal.io/sdk/activity"
+	"golang.org/x/time/rate"
 	"gorm.io/gorm"
 
 	"hotpot/pkg/base/config"
@@ -14,13 +15,15 @@ import (
 type Activities struct {
 	configService *config.Service
 	db            *gorm.DB
+	limiter       *rate.Limiter
 }
 
 // NewActivities creates a new Activities instance.
-func NewActivities(configService *config.Service, db *gorm.DB) *Activities {
+func NewActivities(configService *config.Service, db *gorm.DB, limiter *rate.Limiter) *Activities {
 	return &Activities{
 		configService: configService,
 		db:            db,
+		limiter:       limiter,
 	}
 }
 
@@ -50,7 +53,7 @@ func (a *Activities) IngestContainerClusters(ctx context.Context, params IngestC
 	)
 
 	// Get or create client for this session
-	client, err := GetOrCreateSessionClient(ctx, params.SessionID, a.configService)
+	client, err := GetOrCreateSessionClient(ctx, params.SessionID, a.configService, a.limiter)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get client: %w", err)
 	}
