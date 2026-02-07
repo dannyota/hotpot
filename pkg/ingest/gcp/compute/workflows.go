@@ -11,6 +11,8 @@ import (
 	"hotpot/pkg/ingest/gcp/compute/forwardingrule"
 	"hotpot/pkg/ingest/gcp/compute/globaladdress"
 	"hotpot/pkg/ingest/gcp/compute/globalforwardingrule"
+	"hotpot/pkg/ingest/gcp/compute/healthcheck"
+	"hotpot/pkg/ingest/gcp/compute/image"
 	"hotpot/pkg/ingest/gcp/compute/instance"
 	"hotpot/pkg/ingest/gcp/compute/instancegroup"
 	"hotpot/pkg/ingest/gcp/compute/network"
@@ -36,6 +38,8 @@ type GCPComputeWorkflowResult struct {
 	AddressCount              int
 	GlobalAddressCount        int
 	SnapshotCount             int
+	ImageCount                int
+	HealthCheckCount          int
 	ForwardingRuleCount       int
 	GlobalForwardingRuleCount int
 }
@@ -172,6 +176,26 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 	}
 	result.SnapshotCount = snapshotResult.SnapshotCount
 
+	// Execute image workflow
+	var imageResult image.GCPComputeImageWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, image.GCPComputeImageWorkflow,
+		image.GCPComputeImageWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &imageResult)
+	if err != nil {
+		logger.Error("Failed to ingest images", "error", err)
+		return nil, err
+	}
+	result.ImageCount = imageResult.ImageCount
+
+	// Execute health check workflow
+	var healthCheckResult healthcheck.GCPComputeHealthCheckWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, healthcheck.GCPComputeHealthCheckWorkflow,
+		healthcheck.GCPComputeHealthCheckWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &healthCheckResult)
+	if err != nil {
+		logger.Error("Failed to ingest health checks", "error", err)
+		return nil, err
+	}
+	result.HealthCheckCount = healthCheckResult.HealthCheckCount
+
 	logger.Info("Completed GCPComputeWorkflow",
 		"projectID", params.ProjectID,
 		"instanceCount", result.InstanceCount,
@@ -185,6 +209,8 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		"forwardingRuleCount", result.ForwardingRuleCount,
 		"globalForwardingRuleCount", result.GlobalForwardingRuleCount,
 		"snapshotCount", result.SnapshotCount,
+		"imageCount", result.ImageCount,
+		"healthCheckCount", result.HealthCheckCount,
 	)
 
 	return result, nil

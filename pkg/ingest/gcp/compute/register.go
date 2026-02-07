@@ -11,6 +11,8 @@ import (
 	"hotpot/pkg/ingest/gcp/compute/forwardingrule"
 	"hotpot/pkg/ingest/gcp/compute/globaladdress"
 	"hotpot/pkg/ingest/gcp/compute/globalforwardingrule"
+	"hotpot/pkg/ingest/gcp/compute/healthcheck"
+	"hotpot/pkg/ingest/gcp/compute/image"
 	"hotpot/pkg/ingest/gcp/compute/instance"
 	"hotpot/pkg/ingest/gcp/compute/instancegroup"
 	"hotpot/pkg/ingest/gcp/compute/network"
@@ -34,6 +36,8 @@ func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limit
 	globaladdress.Register(w, configService, db, limiter)
 	forwardingrule.Register(w, configService, db, limiter)
 	globalforwardingrule.Register(w, configService, db, limiter)
+	healthcheck.Register(w, configService, db, limiter)
+	image.Register(w, configService, db, limiter)
 
 	// Register compute workflow
 	w.RegisterWorkflow(GCPComputeWorkflow)
