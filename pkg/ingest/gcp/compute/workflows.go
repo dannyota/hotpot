@@ -14,6 +14,7 @@ import (
 	"hotpot/pkg/ingest/gcp/compute/instance"
 	"hotpot/pkg/ingest/gcp/compute/instancegroup"
 	"hotpot/pkg/ingest/gcp/compute/network"
+	"hotpot/pkg/ingest/gcp/compute/snapshot"
 	"hotpot/pkg/ingest/gcp/compute/subnetwork"
 	"hotpot/pkg/ingest/gcp/compute/targetinstance"
 )
@@ -34,6 +35,7 @@ type GCPComputeWorkflowResult struct {
 	TargetInstanceCount int
 	AddressCount              int
 	GlobalAddressCount        int
+	SnapshotCount             int
 	ForwardingRuleCount       int
 	GlobalForwardingRuleCount int
 }
@@ -160,6 +162,16 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 	}
 	result.GlobalForwardingRuleCount = globalForwardingRuleResult.GlobalForwardingRuleCount
 
+	// Execute snapshot workflow
+	var snapshotResult snapshot.GCPComputeSnapshotWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, snapshot.GCPComputeSnapshotWorkflow,
+		snapshot.GCPComputeSnapshotWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &snapshotResult)
+	if err != nil {
+		logger.Error("Failed to ingest snapshots", "error", err)
+		return nil, err
+	}
+	result.SnapshotCount = snapshotResult.SnapshotCount
+
 	logger.Info("Completed GCPComputeWorkflow",
 		"projectID", params.ProjectID,
 		"instanceCount", result.InstanceCount,
@@ -172,6 +184,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		"globalAddressCount", result.GlobalAddressCount,
 		"forwardingRuleCount", result.ForwardingRuleCount,
 		"globalForwardingRuleCount", result.GlobalForwardingRuleCount,
+		"snapshotCount", result.SnapshotCount,
 	)
 
 	return result, nil
