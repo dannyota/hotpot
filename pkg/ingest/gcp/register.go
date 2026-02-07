@@ -8,6 +8,7 @@ import (
 	"hotpot/pkg/base/ratelimit"
 	"hotpot/pkg/ingest/gcp/compute"
 	"hotpot/pkg/ingest/gcp/container"
+	"hotpot/pkg/ingest/gcp/iam"
 	"hotpot/pkg/ingest/gcp/resourcemanager"
 )
 
@@ -31,8 +32,8 @@ func Register(w worker.Worker, configService *config.Service, db *gorm.DB) *rate
 	// Register container (GKE clusters)
 	container.Register(w, configService, db, limiter)
 
-	// Register IAM (future)
-	// iam.Register(w, configService, db, limiter)
+	// Register IAM (service accounts, keys)
+	iam.Register(w, configService, db, limiter)
 
 	// Register GCP inventory workflow
 	w.RegisterWorkflow(GCPInventoryWorkflow)
