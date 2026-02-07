@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"go.temporal.io/sdk/activity"
-	"golang.org/x/time/rate"
 	"google.golang.org/api/option"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
@@ -18,11 +17,11 @@ import (
 type Activities struct {
 	configService *config.Service
 	db            *gorm.DB
-	limiter       *rate.Limiter
+	limiter       ratelimit.Limiter
 }
 
 // NewActivities creates a new Activities instance.
-func NewActivities(configService *config.Service, db *gorm.DB, limiter *rate.Limiter) *Activities {
+func NewActivities(configService *config.Service, db *gorm.DB, limiter ratelimit.Limiter) *Activities {
 	return &Activities{
 		configService: configService,
 		db:            db,

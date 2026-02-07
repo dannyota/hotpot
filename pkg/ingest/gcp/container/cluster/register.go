@@ -2,7 +2,7 @@ package cluster
 
 import (
 	"go.temporal.io/sdk/worker"
-	"golang.org/x/time/rate"
+	"hotpot/pkg/base/ratelimit"
 	"gorm.io/gorm"
 
 	"hotpot/pkg/base/config"
@@ -10,7 +10,7 @@ import (
 
 // Register registers cluster activities and workflows with the Temporal worker.
 // Client is created per activity invocation.
-func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limiter *rate.Limiter) {
+func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limiter ratelimit.Limiter) {
 	// Create activities with dependencies
 	activities := NewActivities(configService, db, limiter)
 

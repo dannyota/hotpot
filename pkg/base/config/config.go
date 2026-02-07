@@ -5,6 +5,7 @@ type Config struct {
 	GCP      GCPConfig      `yaml:"gcp"`
 	Database DatabaseConfig `yaml:"database"`
 	Temporal TemporalConfig `yaml:"temporal"`
+	Redis    RedisConfig    `yaml:"redis"`
 }
 
 // GCPConfig holds GCP-specific configuration.
@@ -32,4 +33,11 @@ type DatabaseConfig struct {
 type TemporalConfig struct {
 	HostPort  string `yaml:"host_port,omitempty"`
 	Namespace string `yaml:"namespace,omitempty"`
+}
+
+// RedisConfig holds Redis connection configuration.
+type RedisConfig struct {
+	Address  string `yaml:"address"`
+	Password string `yaml:"password,omitempty"`
+	DB       int    `yaml:"db,omitempty"`
 }
