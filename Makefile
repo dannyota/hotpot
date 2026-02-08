@@ -1,4 +1,4 @@
-.PHONY: help build clean test vet lint generate genmigrate migrate dev-up dev-down dev-reset
+.PHONY: help build clean test vet generate genmigrate migrate dev-up dev-down dev-reset
 
 NAME    ?= auto
 SCHEMA  ?= pkg/storage/ent
@@ -19,20 +19,18 @@ endif
 
 help: ## Show this help
 ifeq ($(OS),Windows_NT)
-	@echo Available targets: help build clean test vet lint generate genmigrate migrate dev-up dev-down dev-reset
+	@echo Available targets: help build clean test vet generate genmigrate migrate dev-up dev-down dev-reset
 else
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 endif
 
-build: ## Build all binaries to bin/
+build: ## Build production binaries (migrate, ingest) to bin/
 	@$(MKDIR_BIN)
-	@echo "Building ingest..."
-	@go build -o bin/ingest$(BIN_EXT) ./cmd/ingest
 	@echo "Building migrate..."
 	@go build -o bin/migrate$(BIN_EXT) ./cmd/migrate
-	@echo "Building genmigrate..."
-	@go build -o bin/genmigrate$(BIN_EXT) ./cmd/genmigrate
-	@echo "Binaries built in bin/"
+	@echo "Building ingest..."
+	@go build -o bin/ingest$(BIN_EXT) ./cmd/ingest
+	@echo "Production binaries built in bin/"
 
 clean: ## Remove built binaries
 	@$(RM_BIN)
@@ -45,9 +43,6 @@ test: ## Run tests
 vet: ## Run go vet
 	@go vet ./...
 
-lint: ## Run golangci-lint (requires golangci-lint installed)
-	@golangci-lint run
-
 generate: ## Generate ent code
 	@cd pkg/storage && go generate
 	@echo "Ent code generated"
@@ -55,9 +50,17 @@ generate: ## Generate ent code
 ## ── Migrations ────────────────────────────────────────────
 
 genmigrate: ## Generate migration SQL (NAME=description DB=dbname)
+	@$(MKDIR_BIN)
+	@echo "Building genmigrate..."
+	@go build -o bin/genmigrate$(BIN_EXT) ./cmd/genmigrate
+	@echo "genmigrate built in bin/"
 	@go run ./cmd/genmigrate --schema $(SCHEMA) --out $(MIGDIR) --db $(DB) $(NAME)
 
 migrate: ## Apply pending migrations
+	@$(MKDIR_BIN)
+	@echo "Building migrate..."
+	@go build -o bin/migrate$(BIN_EXT) ./cmd/migrate
+	@echo "migrate built in bin/"
 	@go run ./cmd/migrate
 
 ## ── Dev Infrastructure ──────────────────────────────────────
