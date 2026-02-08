@@ -118,9 +118,15 @@ func buildAtlasConfig(dbURL, devURL string) string {
 	return b.String()
 }
 
-// runAtlasCommand executes atlas command for a layer, piping the config via
-// stdin so credentials never appear in CLI args or on disk.
+// runAtlasCommand executes atlas command for a layer, piping the config via a
+// platform-specific pipe so credentials never appear in CLI args or on disk.
 func runAtlasCommand(command, layer, config string) error {
+	uri, setupCmd, cleanup, err := configPipe(config)
+	if err != nil {
+		return fmt.Errorf("config pipe: %w", err)
+	}
+	defer cleanup()
+
 	var args []string
 
 	switch command {
@@ -129,15 +135,15 @@ func runAtlasCommand(command, layer, config string) error {
 		if len(os.Args) > 2 {
 			name = os.Args[2]
 		}
-		args = []string{"migrate", "diff", name, "--config", "file:///dev/stdin", "--env", layer}
+		args = []string{"migrate", "diff", name, "--config", uri, "--env", layer}
 	case "apply":
-		args = []string{"migrate", "apply", "--config", "file:///dev/stdin", "--env", layer}
+		args = []string{"migrate", "apply", "--config", uri, "--env", layer}
 	default:
 		return fmt.Errorf("unknown command: %s", command)
 	}
 
 	cmd := exec.Command("atlas", args...)
-	cmd.Stdin = strings.NewReader(config)
+	setupCmd(cmd)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 

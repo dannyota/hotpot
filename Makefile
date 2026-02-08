@@ -1,20 +1,36 @@
 .PHONY: help build clean test vet lint generate dev-up dev-down dev-reset
 
+ifeq ($(OS),Windows_NT)
+  MKDIR_BIN = if not exist bin mkdir bin
+  RM_BIN = if exist bin rmdir /s /q bin
+  RM_LOOSE = if exist ingest.exe del /q ingest.exe & if exist migrate.exe del /q migrate.exe
+  BIN_EXT = .exe
+else
+  MKDIR_BIN = mkdir -p bin
+  RM_BIN = rm -rf bin/
+  RM_LOOSE = rm -f ingest migrate
+  BIN_EXT =
+endif
+
 help: ## Show this help
+ifeq ($(OS),Windows_NT)
+	@echo Available targets: help build clean test vet lint generate dev-up dev-down dev-reset
+else
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+endif
 
 build: ## Build all binaries to bin/
-	@mkdir -p bin
+	@$(MKDIR_BIN)
 	@echo "Building ingest..."
-	@go build -o bin/ingest ./cmd/ingest
+	@go build -o bin/ingest$(BIN_EXT) ./cmd/ingest
 	@echo "Building migrate..."
-	@go build -o bin/migrate ./cmd/migrate
-	@echo "✅ Binaries built in bin/"
+	@go build -o bin/migrate$(BIN_EXT) ./cmd/migrate
+	@echo "Binaries built in bin/"
 
 clean: ## Remove built binaries
-	@rm -rf bin/
-	@rm -f ingest migrate
-	@echo "✅ Cleaned"
+	@$(RM_BIN)
+	@$(RM_LOOSE)
+	@echo "Cleaned"
 
 test: ## Run tests
 	@go test ./... -v
@@ -27,7 +43,7 @@ lint: ## Run golangci-lint (requires golangci-lint installed)
 
 generate: ## Generate ent code
 	@cd pkg/storage && go generate
-	@echo "✅ Ent code generated"
+	@echo "Ent code generated"
 
 ## ── Dev Infrastructure ──────────────────────────────────────
 

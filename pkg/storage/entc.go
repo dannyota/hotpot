@@ -107,7 +107,7 @@ func discoverSchemas(root string) map[string][]schemaInfo {
 		if err != nil || info.IsDir() || !strings.HasSuffix(path, ".go") {
 			return nil
 		}
-		if strings.Contains(path, "/mixin/") {
+		if strings.Contains(path, string(filepath.Separator)+"mixin"+string(filepath.Separator)) {
 			return nil
 		}
 
