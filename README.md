@@ -1,26 +1,23 @@
 # Hotpot
 
-**Unified security data platform for multi-cloud environments.**
+![Go](https://img.shields.io/github/go-mod/go-version/dannyota/hotpot)
+![License](https://img.shields.io/github/license/dannyota/hotpot)
+![Last Commit](https://img.shields.io/github/last-commit/dannyota/hotpot)
+![Repo Size](https://img.shields.io/github/repo-size/dannyota/hotpot)
 
-Hotpot throws your cloud security data into one pot.
+Unified security data platform for multi-cloud environments.
 
-Raw ingredients from GCP, AWS, and on-prem sources simmer through bronze, silver, and gold layers—coming out as actionable insights, compliance reports, and AI-powered answers.
+Raw data from GCP, AWS, and on-prem sources flows through bronze, silver, and gold layers into actionable insights, compliance reports, and AI-powered answers.
 
-Just ask:
-- *"Which VMs exist in GCP but are missing from SentinelOne?"*
-- *"What firewall rules reference instances that no longer exist?"*
+## 🚀 Features
 
-...and get results.
+- **Multi-cloud ingestion** — GCP (Compute, IAM, Resource Manager, VPC Access), with AWS and VNG Cloud planned
+- **Asset inventory** — Track VMs, disks, networks, projects with change history (SCD Type 4)
+- **Durable workflows** — Temporal-based pipelines with automatic retries and rate limiting
+- **AI-powered queries** — Natural language to SQL via WrenAI + Ollama
+- **Hot-reload config** — Vault or YAML-based configuration with live database reconnection
 
-## Features
-
-- **Multi-cloud ingestion** - GCP (Compute, IAM, Resource Manager), with VNG Cloud, SentinelOne, Fortinet planned
-- **Asset inventory** - Track VMs, disks, networks, projects with change history (SCD Type 4)
-- **Durable workflows** - Temporal-based pipelines with automatic retries and session management
-- **AI-powered queries** - Natural language to SQL via WrenAI + Ollama
-- **Hot-reload config** - Vault or file-based configuration with live database reconnection
-
-## Data Flow
+## 🏗️ Architecture
 
 ```mermaid
 flowchart LR
@@ -31,11 +28,11 @@ flowchart LR
 
 | Layer | Schema | Purpose |
 |-------|--------|---------|
-| Bronze | `bronze.*` | Raw data from APIs, preserved as-is |
+| Bronze | `bronze.*` | Raw API data, preserved as-is |
 | Silver | `silver.*` | Normalized, unified asset models |
-| Gold | `gold.*` | Alerts, compliance reports, analytics |
+| Gold | `gold.*` | Alerts, compliance, analytics |
 
-## Tech Stack
+## ⚙️ Tech Stack
 
 | Component | Technology |
 |-----------|------------|
@@ -45,20 +42,21 @@ flowchart LR
 | Database | PostgreSQL (multi-schema) |
 | Admin UI | Metabase |
 | Agent | WrenAI + Ollama / Vertex AI |
-| Config | Vault / JSON file with hot-reload |
+| Config | Vault / YAML with hot-reload |
 
-## Documentation
+## 📖 Documentation
 
 | Document | Description |
 |----------|-------------|
 | [Architecture](docs/architecture/OVERVIEW.md) | System design, project structure |
-| [Admin](docs/setup/METABASE.md) | Metabase setup |
-| [Agent](docs/features/AGENT.md) | Text-to-SQL interface |
-| [Workflows](docs/guides/WORKFLOWS.md) | Temporal workflow patterns |
+| [Principles](docs/architecture/PRINCIPLES.md) | Architecture rules and patterns |
+| [Activities](docs/guides/ACTIVITIES.md) | Adding new resource pipelines |
+| [Ent Schemas](docs/guides/ENT_SCHEMAS.md) | Schema patterns for bronze and history |
+| [Code Style](docs/guides/CODE_STYLE.md) | Coding conventions |
+| [Configuration](docs/setup/CONFIGURATION.md) | Vault/YAML config setup |
+| [Migrations](docs/setup/MIGRATIONS.md) | Database migration guide |
 | [Contributing](docs/CONTRIBUTING.md) | Contribution guidelines |
 
-## License
+## 📋 License
 
-Apache 2.0 - see [LICENSE](LICENSE).
-
-If you use Hotpot, please keep the copyright notice and give credit to the original author.
+Apache 2.0 — see [LICENSE](LICENSE).
