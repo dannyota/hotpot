@@ -32,13 +32,9 @@ database:
   port: 5432
   user: postgres   # Replace with your database user
   password: postgres  # CHANGEME: Use strong password or Vault in production
-  dbname: hotpot
+  dbname: hotpot_dev
   sslmode: disable  # SECURITY: Use 'require' or 'verify-full' in production
   # sslmode options: disable (dev only), require, verify-ca, verify-full
-
-  # Dev database for Atlas schema migrations (optional)
-  # Defaults to "{dbname}_dev" if not set
-  dev_dbname: hotpot_dev
 
 # Temporal Configuration (REQUIRED)
 temporal:

@@ -27,10 +27,6 @@ type DatabaseConfig struct {
 	Password string `yaml:"password"`
 	DBName   string `yaml:"dbname"`
 	SSLMode  string `yaml:"sslmode,omitempty"`
-
-	// DevDBName is the database name for Atlas dev database (schema diffing).
-	// Defaults to "{dbname}_dev" if not set.
-	DevDBName string `yaml:"dev_dbname,omitempty"`
 }
 
 // TemporalConfig holds Temporal connection configuration.

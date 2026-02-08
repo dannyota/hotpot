@@ -1,20 +1,25 @@
-.PHONY: help build clean test vet lint generate dev-up dev-down dev-reset
+.PHONY: help build clean test vet lint generate genmigrate migrate dev-up dev-down dev-reset
+
+NAME    ?= auto
+SCHEMA  ?= pkg/storage/ent
+MIGDIR  ?= deploy/migrations
+DB      ?= hotpot_dev
 
 ifeq ($(OS),Windows_NT)
   MKDIR_BIN = if not exist bin mkdir bin
   RM_BIN = if exist bin rmdir /s /q bin
-  RM_LOOSE = if exist ingest.exe del /q ingest.exe & if exist migrate.exe del /q migrate.exe
+  RM_LOOSE = if exist ingest.exe del /q ingest.exe & if exist migrate.exe del /q migrate.exe & if exist genmigrate.exe del /q genmigrate.exe
   BIN_EXT = .exe
 else
   MKDIR_BIN = mkdir -p bin
   RM_BIN = rm -rf bin/
-  RM_LOOSE = rm -f ingest migrate
+  RM_LOOSE = rm -f ingest migrate genmigrate
   BIN_EXT =
 endif
 
 help: ## Show this help
 ifeq ($(OS),Windows_NT)
-	@echo Available targets: help build clean test vet lint generate dev-up dev-down dev-reset
+	@echo Available targets: help build clean test vet lint generate genmigrate migrate dev-up dev-down dev-reset
 else
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 endif
@@ -25,6 +30,8 @@ build: ## Build all binaries to bin/
 	@go build -o bin/ingest$(BIN_EXT) ./cmd/ingest
 	@echo "Building migrate..."
 	@go build -o bin/migrate$(BIN_EXT) ./cmd/migrate
+	@echo "Building genmigrate..."
+	@go build -o bin/genmigrate$(BIN_EXT) ./cmd/genmigrate
 	@echo "Binaries built in bin/"
 
 clean: ## Remove built binaries
@@ -44,6 +51,14 @@ lint: ## Run golangci-lint (requires golangci-lint installed)
 generate: ## Generate ent code
 	@cd pkg/storage && go generate
 	@echo "Ent code generated"
+
+## ── Migrations ────────────────────────────────────────────
+
+genmigrate: ## Generate migration SQL (NAME=description DB=dbname)
+	@go run ./cmd/genmigrate --schema $(SCHEMA) --out $(MIGDIR) --db $(DB) $(NAME)
+
+migrate: ## Apply pending migrations
+	@go run ./cmd/migrate
 
 ## ── Dev Infrastructure ──────────────────────────────────────
 

@@ -117,7 +117,6 @@ database:
   password: secret        # REQUIRED (use Vault in production)
   dbname: hotpot          # REQUIRED
   sslmode: require        # Optional - default: "require"
-  dev_dbname: hotpot_dev  # Optional - default: "{dbname}_dev"
 ```
 
 **sslmode options:**
@@ -125,11 +124,6 @@ database:
 - `require` - SSL required (default)
 - `verify-ca` - Verify certificate authority
 - `verify-full` - Full certificate verification
-
-**dev_dbname:**
-- Scratch database for Atlas schema migrations
-- Used by `bin/migrate diff` command
-- Must be different from production database
 
 ### Temporal (Required)
 

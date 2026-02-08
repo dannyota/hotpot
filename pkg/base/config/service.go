@@ -153,29 +153,6 @@ func (s *Service) DatabaseDSN() string {
 		db.Host, db.Port, db.User, db.Password, db.DBName, sslmode)
 }
 
-// DevDatabaseDSN returns the dev database connection string for Atlas.
-// Uses dev_dbname if set, otherwise defaults to "{dbname}_dev".
-func (s *Service) DevDatabaseDSN() string {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
-	if s.config == nil {
-		return ""
-	}
-	db := s.config.Database
-	sslmode := db.SSLMode
-	if sslmode == "" {
-		sslmode = "require"
-	}
-
-	devDBName := db.DevDBName
-	if devDBName == "" {
-		devDBName = db.DBName + "_dev"
-	}
-
-	return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
-		db.Host, db.Port, db.User, db.Password, devDBName, sslmode)
-}
-
 // TemporalHostPort returns the Temporal server address.
 // Panics if config is not loaded (should never happen after Start()).
 func (s *Service) TemporalHostPort() string {

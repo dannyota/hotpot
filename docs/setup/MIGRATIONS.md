@@ -2,96 +2,114 @@
 
 Atlas schema migrations for Hotpot's multi-layer database (bronze, bronzehistory, silver, gold).
 
+## Tools
+
+There are two separate tools:
+
+| Tool | Purpose | When to use |
+|------|---------|-------------|
+| `bin/migrate` | Apply migrations to a database | Production deployments |
+| `bin/genmigrate` | Generate migration SQL files | Development (after schema changes) |
+
+The `migrate` binary is self-contained — it embeds all SQL migration files, so no extra files are needed at deploy time.
+
 ## Quick Start
 
 ```bash
-# Build the tool
-make migrate-tool
-# or: go build -o bin/migrate ./cmd/migrate
+# Build the tools
+make build
 
-# Generate migration
-bin/migrate diff migration_name
+# Generate migration (dev)
+bin/genmigrate add_firewall_tables
 
-# Apply migration
-bin/migrate apply
+# Apply migration (production)
+bin/migrate
 ```
 
-## How It Works
-
-The `migrate` tool:
-
-1. Loads database config from **Vault or YAML** (same as ingest)
-2. Converts DSN to PostgreSQL URL format
-3. Sets `HOTPOT_DATABASE_URL` environment variable
-4. Runs `atlas migrate` commands for each layer in order
-5. Atlas reads the database URL from the env var (configured in `atlas.hcl`)
-6. Applies migrations sequentially: bronze → bronzehistory → silver → gold
-
-**Security:** Credentials are passed to Atlas via the `HOTPOT_DATABASE_URL` environment variable, not command-line arguments. This prevents passwords from appearing in `ps aux` or process lists.
-
-## Commands
-
-### Generate Migration
+## Generating Migrations (Dev)
 
 ```bash
-bin/migrate diff <name>
+bin/genmigrate [--schema <dir>] [--out <dir>] <name>
 ```
 
-Creates new migration files in `migrations/{layer}/` for each layer.
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--schema` | `pkg/storage/ent` | Ent schema root directory |
+| `--out` | `deploy/migrations` | Migrations output directory |
+| `<name>` | (required) | Migration name |
 
 **Example:**
 ```bash
-bin/migrate diff add_firewall_tables
+bin/genmigrate add_firewall_tables
 ```
 
 **Output:**
 ```
-==> bronze: atlas migrate diff add_firewall_tables --env bronze
-==> bronzehistory: atlas migrate diff add_firewall_tables --env bronzehistory
-==> silver: atlas migrate diff add_firewall_tables --env silver
-==> gold: atlas migrate diff add_firewall_tables --env gold
-✅ Migration complete
+==> bronze: atlas migrate diff add_firewall_tables
+==> bronzehistory: atlas migrate diff add_firewall_tables
+    rename: 20260208154545_add_firewall_tables.sql -> 0003_add_firewall_tables.sql
+==> silver: atlas migrate diff add_firewall_tables
+==> gold: atlas migrate diff add_firewall_tables
+
+✅ Migration diff complete
 ```
 
-### Apply Migration
+Migration files use globally sequential numbering across all layers so versions don't collide in the shared `atlas_schema_revisions` table.
+
+**Safety rule:** The configured `dbname` must end with `_dev`. Atlas drops and recreates tables during diff, so `genmigrate` refuses to run against a non-dev database.
+
+## Applying Migrations (Production)
 
 ```bash
-bin/migrate apply
+bin/migrate
 ```
 
-Applies all pending migrations to the database.
+Applies all pending migrations to the database. Only the target DB URL is needed.
 
-**Example:**
-```bash
-bin/migrate apply
-```
+The `migrate` binary embeds the SQL files from `deploy/migrations/` at build time, so it works as a single binary without needing the source tree.
+
+## How It Works
+
+Both tools:
+
+1. Load database config from **Vault or YAML** (same as ingest)
+2. Convert DSN to PostgreSQL URL format
+3. Generate Atlas HCL config in memory with embedded URLs
+4. Pipe the config to Atlas via a platform-specific mechanism (stdin on Unix, named pipe on Windows) — credentials never appear in CLI args or on disk
+
+**`genmigrate` additionally:**
+5. Safety-checks that `dbname` ends with `_dev` (Atlas drops and recreates tables during diff)
+6. Runs `atlas migrate diff` for each layer: bronze → bronzehistory → silver → gold
+7. Renames timestamp-based filenames to globally sequential numbering (0001_, 0002_, …)
+
+**Security:** Credentials are passed to Atlas through a pipe (kernel memory only), not command-line arguments or files. This prevents passwords from appearing in `ps aux`, process lists, or the filesystem.
 
 ## Configuration
 
-The tool uses the same config system as the ingest worker:
+Both tools use the same config system as the ingest worker:
 
 **YAML file (config.yaml):**
 ```yaml
+# For genmigrate (dev) — dbname must end with _dev
 database:
   host: localhost
   port: 5432
   user: postgres
   password: secret
-  dbname: hotpot
+  dbname: hotpot_dev
   sslmode: disable
-  dev_dbname: hotpot_dev  # Optional - defaults to "{dbname}_dev"
+
+# For migrate (production)
+database:
+  host: prod-db.internal
+  port: 5432
+  user: hotpot
+  password: secret
+  dbname: hotpot
+  sslmode: require
 ```
 
-**Database vs Dev Database:**
-
-| Field | Purpose | Default |
-|-------|---------|---------|
-| `dbname` | Target database for migrations | Required |
-| `dev_dbname` | Scratch database for Atlas diffs | `{dbname}_dev` |
-
-The dev database is a **scratch/sandbox database** used by Atlas to compute schema diffs. It never contains production data.
-
-**⚠️ CRITICAL:** The dev database **MUST be different** from your production database. Atlas will DROP and RECREATE tables in the dev database during `migrate diff`. The migrate tool includes a safety check to prevent this.
+**CRITICAL:** `genmigrate` requires `dbname` to end with `_dev`. Atlas drops and recreates tables during diff, so the tool refuses to run against a production database. Use separate config files for dev and production.
 
 **Environment variables:**
 ```bash
@@ -114,49 +132,28 @@ Migrations are stored in `deploy/migrations/` per layer:
 ```
 deploy/
 └── migrations/
-    ├── atlas.hcl           # Atlas configuration
+    ├── embed.go          # Embeds SQL files into migrate binary
     ├── bronze/
-    │   ├── 20260101_init.sql
-    │   └── 20260108_add_firewall.sql
+    │   ├── 0001_initial.sql
+    │   └── atlas.sum
     ├── bronzehistory/
-    │   ├── 20260101_init.sql
-    │   └── 20260108_add_firewall.sql
+    │   ├── 0002_initial.sql
+    │   └── atlas.sum
     ├── silver/
-    │   └── 20260101_init.sql
     └── gold/
-        └── 20260101_init.sql
 ```
 
-## Atlas Configuration
-
-Atlas config is in `deploy/migrations/atlas.hcl`:
-
-```hcl
-env "bronze" {
-  src = "ent://../../pkg/storage/ent/bronze/atlas_schema"
-  dev = env("HOTPOT_DEV_DATABASE_URL") # Scratch DB for diffing
-  url = env("HOTPOT_DATABASE_URL")     # Target DB for migrations
-  migration {
-    dir = "file://bronze"
-  }
-}
-```
-
-**Environment variables set by migrate tool:**
-- `HOTPOT_DATABASE_URL` - Target database from config
-- `HOTPOT_DEV_DATABASE_URL` - Dev database (defaults to `{dbname}_dev`)
-
-Each layer has its own environment with separate schema and migration directory.
+There is no `atlas.hcl` file — both tools generate the Atlas config in memory and pipe it directly to Atlas.
 
 ## Workflow
 
 ### After Schema Changes
 
 1. **Modify ent schemas** in `pkg/schema/`
-2. **Generate ent code**: `cd pkg/storage && go generate`
-3. **Generate migration**: `./migrate diff description`
-4. **Review migration** files in `migrations/{layer}/`
-5. **Apply migration**: `./migrate apply`
+2. **Generate ent code**: `make generate`
+3. **Generate migration**: `bin/genmigrate description`
+4. **Review migration** files in `deploy/migrations/{layer}/`
+5. **Apply migration**: `bin/migrate`
 
 ### Example
 
@@ -165,54 +162,49 @@ Each layer has its own environment with separate schema and migration directory.
 vim pkg/schema/bronze/gcp/compute/firewall.go
 
 # 2. Generate ent code
-cd pkg/storage && go generate && cd ../..
+make generate
 
 # 3. Generate migration
-./migrate diff add_gcp_compute_firewall
+bin/genmigrate add_gcp_compute_firewall
 
 # 4. Review
-cat migrations/bronze/20260108_add_gcp_compute_firewall.sql
+cat deploy/migrations/bronze/0003_add_gcp_compute_firewall.sql
 
 # 5. Apply
-./migrate apply
+bin/migrate
 ```
 
 ## Setup
 
 ### Create Dev Database
 
-Before running migrations, create the dev database:
+Before running `genmigrate`, create the dev database:
 
 ```bash
-# If your main database is "hotpot", create "hotpot_dev"
 psql -U postgres -c "CREATE DATABASE hotpot_dev;"
 ```
 
-Or specify a custom dev database in config:
+Then point your config at it (`dbname: hotpot_dev`).
 
-```yaml
-database:
-  dbname: hotpot
-  dev_dbname: my_custom_dev_db
-```
+## Platform Support
+
+Both tools work on Linux, macOS, and Windows:
+
+| Platform | Config delivery | Details |
+|----------|----------------|---------|
+| Linux/macOS | stdin (`/dev/stdin`) | Config piped via `cmd.Stdin` |
+| Windows | Named pipe (`\\.\pipe\hotpot-atlas-<pid>`) | Config served via Win32 named pipe |
+
+Both approaches keep credentials in kernel memory only — nothing touches disk or CLI args.
 
 ## Troubleshooting
 
 | Problem | Solution |
 |---------|----------|
 | "Database DSN not configured" | Set database config in YAML or Vault |
-| "Dev database DSN not configured" | Create `{dbname}_dev` database or set `dev_dbname` |
+| "database name must end with _dev" | Set `dbname` to a `_dev` database (e.g. `hotpot_dev`) |
 | "atlas: command not found" | Install Atlas CLI: `brew install ariga/tap/atlas` |
-| Migration fails on one layer | Check `migrations/{layer}/` for conflicts |
+| Migration fails on one layer | Check `deploy/migrations/{layer}/` for conflicts |
 | "incomplete DSN" | Ensure database.host, port, user, dbname are set |
 | Dev database doesn't exist | Run `CREATE DATABASE hotpot_dev;` |
-
-## Migration Tool Features
-
-| Feature | Details |
-|---------|---------|
-| Database config | From Vault/YAML (centralized) |
-| Credentials | Never hardcoded |
-| Config validation | Required fields checked on load |
-| Layer order | Bronze → bronzehistory → silver → gold |
-| Error handling | Stops on first failure |
+| "config pipe" error on Windows | Check that no other migrate/genmigrate process is running (pipe name collision) |
