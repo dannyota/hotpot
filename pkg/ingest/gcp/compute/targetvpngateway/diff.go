@@ -1,72 +1,82 @@
 package targetvpngateway
 
 import (
-	"hotpot/pkg/base/jsonb"
-	"hotpot/pkg/base/models/bronze"
+	"bytes"
+
+	"hotpot/pkg/storage/ent"
 )
 
 // TargetVpnGatewayDiff represents changes between old and new target VPN gateway states.
 type TargetVpnGatewayDiff struct {
-	IsNew     bool
-	IsChanged bool
-
+	IsNew      bool
+	IsChanged  bool
 	LabelsDiff ChildDiff
 }
 
 // ChildDiff represents changes in a child collection.
 type ChildDiff struct {
-	Changed bool
-}
-
-// DiffTargetVpnGateway compares old and new target VPN gateway states.
-func DiffTargetVpnGateway(old, new *bronze.GCPComputeTargetVpnGateway) *TargetVpnGatewayDiff {
-	if old == nil {
-		return &TargetVpnGatewayDiff{
-			IsNew:      true,
-			LabelsDiff: ChildDiff{Changed: true},
-		}
-	}
-
-	diff := &TargetVpnGatewayDiff{}
-	diff.IsChanged = hasTargetVpnGatewayFieldsChanged(old, new)
-	diff.LabelsDiff = diffLabels(old.Labels, new.Labels)
-
-	return diff
+	HasChanges bool
 }
 
 // HasAnyChange returns true if any part of the target VPN gateway changed.
 func (d *TargetVpnGatewayDiff) HasAnyChange() bool {
-	if d.IsNew || d.IsChanged {
-		return true
-	}
-	return d.LabelsDiff.Changed
+	return d.IsNew || d.IsChanged || d.LabelsDiff.HasChanges
 }
 
-func hasTargetVpnGatewayFieldsChanged(old, new *bronze.GCPComputeTargetVpnGateway) bool {
+// DiffTargetVpnGatewayData compares existing Ent entity with new TargetVpnGatewayData.
+func DiffTargetVpnGatewayData(old *ent.BronzeGCPVPNTargetGateway, new *TargetVpnGatewayData) *TargetVpnGatewayDiff {
+	diff := &TargetVpnGatewayDiff{}
+
+	// New target VPN gateway
+	if old == nil {
+		diff.IsNew = true
+		return diff
+	}
+
+	// Compare core fields
+	diff.IsChanged = hasTargetVpnGatewayFieldsChanged(old, new)
+
+	// Compare labels
+	diff.LabelsDiff = diffLabelsData(old.Edges.Labels, new.Labels)
+
+	return diff
+}
+
+// hasTargetVpnGatewayFieldsChanged compares target VPN gateway-level fields (excluding children).
+func hasTargetVpnGatewayFieldsChanged(old *ent.BronzeGCPVPNTargetGateway, new *TargetVpnGatewayData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Status != new.Status ||
 		old.Region != new.Region ||
 		old.Network != new.Network ||
+		old.SelfLink != new.SelfLink ||
+		old.CreationTimestamp != new.CreationTimestamp ||
 		old.LabelFingerprint != new.LabelFingerprint ||
-		jsonb.Changed(old.ForwardingRulesJSON, new.ForwardingRulesJSON) ||
-		jsonb.Changed(old.TunnelsJSON, new.TunnelsJSON)
+		!bytes.Equal(old.ForwardingRulesJSON, new.ForwardingRulesJSON) ||
+		!bytes.Equal(old.TunnelsJSON, new.TunnelsJSON)
 }
 
-func diffLabels(old, new []bronze.GCPComputeTargetVpnGatewayLabel) ChildDiff {
+func diffLabelsData(old []*ent.BronzeGCPVPNTargetGatewayLabel, new []LabelData) ChildDiff {
+	diff := ChildDiff{}
+
 	if len(old) != len(new) {
-		return ChildDiff{Changed: true}
+		diff.HasChanges = true
+		return diff
 	}
 
-	oldMap := make(map[string]string)
+	// Build map of old labels
+	oldMap := make(map[string]string, len(old))
 	for _, l := range old {
 		oldMap[l.Key] = l.Value
 	}
+
+	// Compare with new labels
 	for _, l := range new {
-		if v, ok := oldMap[l.Key]; !ok || v != l.Value {
-			return ChildDiff{Changed: true}
+		if oldValue, ok := oldMap[l.Key]; !ok || oldValue != l.Value {
+			diff.HasChanges = true
+			return diff
 		}
 	}
 
-	return ChildDiff{Changed: false}
+	return diff
 }

@@ -5,24 +5,25 @@ import (
 	"fmt"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzegcpcomputeimage"
+	"hotpot/pkg/storage/ent/bronzegcpcomputeimagelabel"
+	"hotpot/pkg/storage/ent/bronzegcpcomputeimagelicense"
 )
 
 // Service handles GCP Compute image ingestion.
 type Service struct {
-	client  *Client
-	db      *gorm.DB
-	history *HistoryService
+	client    *Client
+	entClient *ent.Client
+	history   *HistoryService
 }
 
 // NewService creates a new image ingestion service.
-func NewService(client *Client, db *gorm.DB) *Service {
+func NewService(client *Client, entClient *ent.Client) *Service {
 	return &Service{
-		client:  client,
-		db:      db,
-		history: NewHistoryService(db),
+		client:    client,
+		entClient: entClient,
+		history:   NewHistoryService(entClient),
 	}
 }
 
@@ -50,132 +51,284 @@ func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResul
 		return nil, fmt.Errorf("failed to list images: %w", err)
 	}
 
-	// Convert to bronze models
-	bronzeImages := make([]bronze.GCPComputeImage, 0, len(images))
+	// Convert to data structs
+	imageDataList := make([]*ImageData, 0, len(images))
 	for _, img := range images {
-		bi, err := ConvertImage(img, params.ProjectID, collectedAt)
+		data, err := ConvertImage(img, params.ProjectID, collectedAt)
 		if err != nil {
 			return nil, fmt.Errorf("failed to convert image: %w", err)
 		}
-		bronzeImages = append(bronzeImages, bi)
+		imageDataList = append(imageDataList, data)
 	}
 
 	// Save to database
-	if err := s.saveImages(ctx, bronzeImages); err != nil {
+	if err := s.saveImages(ctx, imageDataList); err != nil {
 		return nil, fmt.Errorf("failed to save images: %w", err)
 	}
 
 	return &IngestResult{
 		ProjectID:      params.ProjectID,
-		ImageCount:     len(bronzeImages),
+		ImageCount:     len(imageDataList),
 		CollectedAt:    collectedAt,
 		DurationMillis: time.Since(startTime).Milliseconds(),
 	}, nil
 }
 
 // saveImages saves images to the database with history tracking.
-func (s *Service) saveImages(ctx context.Context, images []bronze.GCPComputeImage) error {
+func (s *Service) saveImages(ctx context.Context, images []*ImageData) error {
 	if len(images) == 0 {
 		return nil
 	}
 
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		for _, img := range images {
-			// Load existing image with all relations
-			var existing *bronze.GCPComputeImage
-			var old bronze.GCPComputeImage
-			err := tx.Preload("Labels").Preload("Licenses").
-				Where("resource_id = ?", img.ResourceID).
-				First(&old).Error
-			if err == nil {
-				existing = &old
-			} else if err != gorm.ErrRecordNotFound {
-				return fmt.Errorf("failed to load existing image %s: %w", img.Name, err)
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to start transaction: %w", err)
+	}
+
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	for _, imageData := range images {
+		// Load existing image with all relations
+		existing, err := tx.BronzeGCPComputeImage.Query().
+			Where(bronzegcpcomputeimage.ID(imageData.ID)).
+			WithLabels().
+			WithLicenses().
+			First(ctx)
+		if err != nil && !ent.IsNotFound(err) {
+			tx.Rollback()
+			return fmt.Errorf("failed to load existing image %s: %w", imageData.Name, err)
+		}
+
+		// Compute diff
+		diff := DiffImageData(existing, imageData)
+
+		// Skip if no changes
+		if !diff.HasAnyChange() && existing != nil {
+			// Update collected_at only
+			if err := tx.BronzeGCPComputeImage.UpdateOneID(imageData.ID).
+				SetCollectedAt(imageData.CollectedAt).
+				Exec(ctx); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update collected_at for image %s: %w", imageData.Name, err)
 			}
+			continue
+		}
 
-			// Compute diff
-			diff := DiffImage(existing, &img)
-
-			// Skip if no changes
-			if !diff.HasAnyChange() && existing != nil {
-				// Update collected_at only
-				if err := tx.Model(&bronze.GCPComputeImage{}).
-					Where("resource_id = ?", img.ResourceID).
-					Update("collected_at", img.CollectedAt).Error; err != nil {
-					return fmt.Errorf("failed to update collected_at for image %s: %w", img.Name, err)
-				}
-				continue
-			}
-
-			// Delete old relations (manual cascade)
-			if existing != nil {
-				if err := s.deleteImageRelations(tx, img.ResourceID); err != nil {
-					return fmt.Errorf("failed to delete old relations for image %s: %w", img.Name, err)
-				}
-			}
-
-			// Upsert image
-			if err := tx.Save(&img).Error; err != nil {
-				return fmt.Errorf("failed to upsert image %s: %w", img.Name, err)
-			}
-
-			// Create new relations
-			if err := s.createImageRelations(tx, img.ResourceID, &img); err != nil {
-				return fmt.Errorf("failed to create relations for image %s: %w", img.Name, err)
-			}
-
-			// Track history
-			if diff.IsNew {
-				if err := s.history.CreateHistory(tx, &img, now); err != nil {
-					return fmt.Errorf("failed to create history for image %s: %w", img.Name, err)
-				}
-			} else {
-				if err := s.history.UpdateHistory(tx, existing, &img, diff, now); err != nil {
-					return fmt.Errorf("failed to update history for image %s: %w", img.Name, err)
-				}
+		// Delete old child entities if updating
+		if existing != nil {
+			if err := s.deleteImageChildren(ctx, tx, imageData.ID); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to delete old children for image %s: %w", imageData.Name, err)
 			}
 		}
 
-		return nil
-	})
-}
+		// Create or update image
+		var savedImage *ent.BronzeGCPComputeImage
+		if existing == nil {
+			// Create new image
+			create := tx.BronzeGCPComputeImage.Create().
+				SetID(imageData.ID).
+				SetName(imageData.Name).
+				SetDescription(imageData.Description).
+				SetStatus(imageData.Status).
+				SetArchitecture(imageData.Architecture).
+				SetSelfLink(imageData.SelfLink).
+				SetCreationTimestamp(imageData.CreationTimestamp).
+				SetLabelFingerprint(imageData.LabelFingerprint).
+				SetFamily(imageData.Family).
+				SetSourceDisk(imageData.SourceDisk).
+				SetSourceDiskID(imageData.SourceDiskId).
+				SetSourceImage(imageData.SourceImage).
+				SetSourceImageID(imageData.SourceImageId).
+				SetSourceSnapshot(imageData.SourceSnapshot).
+				SetSourceSnapshotID(imageData.SourceSnapshotId).
+				SetSourceType(imageData.SourceType).
+				SetDiskSizeGB(imageData.DiskSizeGb).
+				SetArchiveSizeBytes(imageData.ArchiveSizeBytes).
+				SetSatisfiesPzi(imageData.SatisfiesPzi).
+				SetSatisfiesPzs(imageData.SatisfiesPzs).
+				SetEnableConfidentialCompute(imageData.EnableConfidentialCompute).
+				SetProjectID(imageData.ProjectID).
+				SetCollectedAt(imageData.CollectedAt)
 
-// deleteImageRelations deletes all related records for an image.
-func (s *Service) deleteImageRelations(tx *gorm.DB, imageResourceID string) error {
-	// Delete labels
-	if err := tx.Where("image_resource_id = ?", imageResourceID).Delete(&bronze.GCPComputeImageLabel{}).Error; err != nil {
-		return err
+			if imageData.ImageEncryptionKeyJSON != nil {
+				create.SetImageEncryptionKeyJSON(imageData.ImageEncryptionKeyJSON)
+			}
+			if imageData.SourceDiskEncryptionKeyJSON != nil {
+				create.SetSourceDiskEncryptionKeyJSON(imageData.SourceDiskEncryptionKeyJSON)
+			}
+			if imageData.SourceImageEncryptionKeyJSON != nil {
+				create.SetSourceImageEncryptionKeyJSON(imageData.SourceImageEncryptionKeyJSON)
+			}
+			if imageData.SourceSnapshotEncryptionKeyJSON != nil {
+				create.SetSourceSnapshotEncryptionKeyJSON(imageData.SourceSnapshotEncryptionKeyJSON)
+			}
+			if imageData.DeprecatedJSON != nil {
+				create.SetDeprecatedJSON(imageData.DeprecatedJSON)
+			}
+			if imageData.GuestOsFeaturesJSON != nil {
+				create.SetGuestOsFeaturesJSON(imageData.GuestOsFeaturesJSON)
+			}
+			if imageData.ShieldedInstanceInitialStateJSON != nil {
+				create.SetShieldedInstanceInitialStateJSON(imageData.ShieldedInstanceInitialStateJSON)
+			}
+			if imageData.RawDiskJSON != nil {
+				create.SetRawDiskJSON(imageData.RawDiskJSON)
+			}
+			if imageData.StorageLocationsJSON != nil {
+				create.SetStorageLocationsJSON(imageData.StorageLocationsJSON)
+			}
+			if imageData.LicenseCodesJSON != nil {
+				create.SetLicenseCodesJSON(imageData.LicenseCodesJSON)
+			}
+
+			savedImage, err = create.Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create image %s: %w", imageData.Name, err)
+			}
+		} else {
+			// Update existing image
+			update := tx.BronzeGCPComputeImage.UpdateOneID(imageData.ID).
+				SetName(imageData.Name).
+				SetDescription(imageData.Description).
+				SetStatus(imageData.Status).
+				SetArchitecture(imageData.Architecture).
+				SetSelfLink(imageData.SelfLink).
+				SetCreationTimestamp(imageData.CreationTimestamp).
+				SetLabelFingerprint(imageData.LabelFingerprint).
+				SetFamily(imageData.Family).
+				SetSourceDisk(imageData.SourceDisk).
+				SetSourceDiskID(imageData.SourceDiskId).
+				SetSourceImage(imageData.SourceImage).
+				SetSourceImageID(imageData.SourceImageId).
+				SetSourceSnapshot(imageData.SourceSnapshot).
+				SetSourceSnapshotID(imageData.SourceSnapshotId).
+				SetSourceType(imageData.SourceType).
+				SetDiskSizeGB(imageData.DiskSizeGb).
+				SetArchiveSizeBytes(imageData.ArchiveSizeBytes).
+				SetSatisfiesPzi(imageData.SatisfiesPzi).
+				SetSatisfiesPzs(imageData.SatisfiesPzs).
+				SetEnableConfidentialCompute(imageData.EnableConfidentialCompute).
+				SetProjectID(imageData.ProjectID).
+				SetCollectedAt(imageData.CollectedAt)
+
+			if imageData.ImageEncryptionKeyJSON != nil {
+				update.SetImageEncryptionKeyJSON(imageData.ImageEncryptionKeyJSON)
+			}
+			if imageData.SourceDiskEncryptionKeyJSON != nil {
+				update.SetSourceDiskEncryptionKeyJSON(imageData.SourceDiskEncryptionKeyJSON)
+			}
+			if imageData.SourceImageEncryptionKeyJSON != nil {
+				update.SetSourceImageEncryptionKeyJSON(imageData.SourceImageEncryptionKeyJSON)
+			}
+			if imageData.SourceSnapshotEncryptionKeyJSON != nil {
+				update.SetSourceSnapshotEncryptionKeyJSON(imageData.SourceSnapshotEncryptionKeyJSON)
+			}
+			if imageData.DeprecatedJSON != nil {
+				update.SetDeprecatedJSON(imageData.DeprecatedJSON)
+			}
+			if imageData.GuestOsFeaturesJSON != nil {
+				update.SetGuestOsFeaturesJSON(imageData.GuestOsFeaturesJSON)
+			}
+			if imageData.ShieldedInstanceInitialStateJSON != nil {
+				update.SetShieldedInstanceInitialStateJSON(imageData.ShieldedInstanceInitialStateJSON)
+			}
+			if imageData.RawDiskJSON != nil {
+				update.SetRawDiskJSON(imageData.RawDiskJSON)
+			}
+			if imageData.StorageLocationsJSON != nil {
+				update.SetStorageLocationsJSON(imageData.StorageLocationsJSON)
+			}
+			if imageData.LicenseCodesJSON != nil {
+				update.SetLicenseCodesJSON(imageData.LicenseCodesJSON)
+			}
+
+			savedImage, err = update.Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update image %s: %w", imageData.Name, err)
+			}
+		}
+
+		// Create child entities
+		if err := s.createImageChildren(ctx, tx, savedImage, imageData); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to create children for image %s: %w", imageData.Name, err)
+		}
+
+		// Track history
+		if diff.IsNew {
+			if err := s.history.CreateHistory(ctx, tx, imageData, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create history for image %s: %w", imageData.Name, err)
+			}
+		} else {
+			if err := s.history.UpdateHistory(ctx, tx, existing, imageData, diff, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update history for image %s: %w", imageData.Name, err)
+			}
+		}
 	}
 
-	// Delete licenses
-	if err := tx.Where("image_resource_id = ?", imageResourceID).Delete(&bronze.GCPComputeImageLicense{}).Error; err != nil {
-		return err
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
 	}
 
 	return nil
 }
 
-// createImageRelations creates all related records for an image.
-func (s *Service) createImageRelations(tx *gorm.DB, imageResourceID string, img *bronze.GCPComputeImage) error {
-	// Create labels
-	for i := range img.Labels {
-		img.Labels[i].ImageResourceID = imageResourceID
+// deleteImageChildren deletes all child entities for an image.
+// Note: Ent CASCADE DELETE is set on edges, so we just need to delete direct children.
+func (s *Service) deleteImageChildren(ctx context.Context, tx *ent.Tx, imageID string) error {
+	// Delete labels
+	_, err := tx.BronzeGCPComputeImageLabel.Delete().
+		Where(bronzegcpcomputeimagelabel.HasImageWith(bronzegcpcomputeimage.ID(imageID))).
+		Exec(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to delete labels: %w", err)
 	}
-	if len(img.Labels) > 0 {
-		if err := tx.Create(&img.Labels).Error; err != nil {
-			return fmt.Errorf("failed to create labels: %w", err)
+
+	// Delete licenses
+	_, err = tx.BronzeGCPComputeImageLicense.Delete().
+		Where(bronzegcpcomputeimagelicense.HasImageWith(bronzegcpcomputeimage.ID(imageID))).
+		Exec(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to delete licenses: %w", err)
+	}
+
+	return nil
+}
+
+// createImageChildren creates all child entities for an image.
+func (s *Service) createImageChildren(ctx context.Context, tx *ent.Tx, image *ent.BronzeGCPComputeImage, data *ImageData) error {
+	// Create labels
+	for _, labelData := range data.Labels {
+		_, err := tx.BronzeGCPComputeImageLabel.Create().
+			SetImage(image).
+			SetKey(labelData.Key).
+			SetValue(labelData.Value).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create label: %w", err)
 		}
 	}
 
 	// Create licenses
-	for i := range img.Licenses {
-		img.Licenses[i].ImageResourceID = imageResourceID
-	}
-	if len(img.Licenses) > 0 {
-		if err := tx.Create(&img.Licenses).Error; err != nil {
-			return fmt.Errorf("failed to create licenses: %w", err)
+	for _, licenseData := range data.Licenses {
+		_, err := tx.BronzeGCPComputeImageLicense.Create().
+			SetImage(image).
+			SetLicense(licenseData.License).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create license: %w", err)
 		}
 	}
 
@@ -187,32 +340,48 @@ func (s *Service) createImageRelations(tx *gorm.DB, imageResourceID string, img 
 func (s *Service) DeleteStaleImages(ctx context.Context, projectID string, collectedAt time.Time) error {
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		// Find stale images
-		var staleImages []bronze.GCPComputeImage
-		if err := tx.Where("project_id = ? AND collected_at < ?", projectID, collectedAt).
-			Find(&staleImages).Error; err != nil {
-			return err
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to start transaction: %w", err)
+	}
+
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	// Find stale images
+	staleImages, err := tx.BronzeGCPComputeImage.Query().
+		Where(
+			bronzegcpcomputeimage.ProjectID(projectID),
+			bronzegcpcomputeimage.CollectedAtLT(collectedAt),
+		).
+		All(ctx)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	// Close history and delete each stale image
+	for _, img := range staleImages {
+		// Close history
+		if err := s.history.CloseHistory(ctx, tx, img.ID, now); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to close history for image %s: %w", img.ID, err)
 		}
 
-		// Close history and delete each stale image
-		for _, img := range staleImages {
-			// Close history
-			if err := s.history.CloseHistory(tx, img.ResourceID, now); err != nil {
-				return fmt.Errorf("failed to close history for image %s: %w", img.ResourceID, err)
-			}
-
-			// Delete relations
-			if err := s.deleteImageRelations(tx, img.ResourceID); err != nil {
-				return fmt.Errorf("failed to delete relations for image %s: %w", img.ResourceID, err)
-			}
-
-			// Delete image
-			if err := tx.Delete(&img).Error; err != nil {
-				return fmt.Errorf("failed to delete image %s: %w", img.ResourceID, err)
-			}
+		// Delete image (CASCADE will delete children)
+		if err := tx.BronzeGCPComputeImage.DeleteOne(img).Exec(ctx); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to delete image %s: %w", img.ID, err)
 		}
+	}
 
-		return nil
-	})
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
+	}
+
+	return nil
 }

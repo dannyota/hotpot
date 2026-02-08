@@ -404,4 +404,4 @@ GCP resource ingestion coverage in the bronze layer.
 | AlloyDB | 0 | 1 |
 | VPC Access | 1 | 1 |
 
-See [REFERENCES.md](../REFERENCES.md) for compliance benchmarks, open source tools, and cloud provider documentation.
+See [EXTERNAL_RESOURCES.md](../reference/EXTERNAL_RESOURCES.md) for compliance benchmarks, open source tools, and cloud provider documentation.

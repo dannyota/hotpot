@@ -6,15 +6,49 @@ import (
 	"time"
 
 	"cloud.google.com/go/compute/apiv1/computepb"
-
-	"hotpot/pkg/base/models/bronze"
 )
 
-// ConvertNetwork converts a GCP API Network to a Bronze model.
+// NetworkData holds converted network data ready for Ent insertion.
+type NetworkData struct {
+	ID                                    string
+	Name                                  string
+	Description                           string
+	SelfLink                              string
+	CreationTimestamp                     string
+	AutoCreateSubnetworks                 bool
+	Mtu                                   int
+	RoutingMode                           string
+	NetworkFirewallPolicyEnforcementOrder string
+	EnableUlaInternalIpv6                 bool
+	InternalIpv6Range                     string
+	GatewayIpv4                           string
+	SubnetworksJSON                       json.RawMessage
+	Peerings                              []PeeringData
+	ProjectID                             string
+	CollectedAt                           time.Time
+}
+
+// PeeringData holds converted peering data.
+type PeeringData struct {
+	Name                           string
+	Network                        string
+	State                          string
+	StateDetails                   string
+	ExportCustomRoutes             bool
+	ImportCustomRoutes             bool
+	ExportSubnetRoutesWithPublicIp bool
+	ImportSubnetRoutesWithPublicIp bool
+	ExchangeSubnetRoutes           bool
+	StackType                      string
+	PeerMtu                        int
+	AutoCreateRoutes               bool
+}
+
+// ConvertNetwork converts a GCP API Network to Ent-compatible data.
 // Preserves raw API data with minimal transformation.
-func ConvertNetwork(n *computepb.Network, projectID string, collectedAt time.Time) (bronze.GCPComputeNetwork, error) {
-	network := bronze.GCPComputeNetwork{
-		ResourceID:                            fmt.Sprintf("%d", n.GetId()),
+func ConvertNetwork(n *computepb.Network, projectID string, collectedAt time.Time) (*NetworkData, error) {
+	data := &NetworkData{
+		ID:                                    fmt.Sprintf("%d", n.GetId()),
 		Name:                                  n.GetName(),
 		Description:                           n.GetDescription(),
 		SelfLink:                              n.GetSelfLink(),
@@ -31,33 +65,33 @@ func ConvertNetwork(n *computepb.Network, projectID string, collectedAt time.Tim
 
 	// Extract routing mode from routingConfig
 	if n.RoutingConfig != nil {
-		network.RoutingMode = n.RoutingConfig.GetRoutingMode()
+		data.RoutingMode = n.RoutingConfig.GetRoutingMode()
 	}
 
 	// Convert subnetworks array to JSONB (nil → SQL NULL, data → JSON bytes)
 	if n.Subnetworks != nil {
 		var err error
-		network.SubnetworksJSON, err = json.Marshal(n.Subnetworks)
+		data.SubnetworksJSON, err = json.Marshal(n.Subnetworks)
 		if err != nil {
-			return bronze.GCPComputeNetwork{}, fmt.Errorf("failed to marshal subnetworks for network %s: %w", n.GetName(), err)
+			return nil, fmt.Errorf("failed to marshal subnetworks for network %s: %w", n.GetName(), err)
 		}
 	}
 
 	// Convert peerings to separate table
-	network.Peerings = ConvertPeerings(n.Peerings)
+	data.Peerings = ConvertPeerings(n.Peerings)
 
-	return network, nil
+	return data, nil
 }
 
-// ConvertPeerings converts network peerings from GCP API to Bronze models.
-func ConvertPeerings(peerings []*computepb.NetworkPeering) []bronze.GCPComputeNetworkPeering {
+// ConvertPeerings converts network peerings from GCP API to data structs.
+func ConvertPeerings(peerings []*computepb.NetworkPeering) []PeeringData {
 	if len(peerings) == 0 {
 		return nil
 	}
 
-	result := make([]bronze.GCPComputeNetworkPeering, 0, len(peerings))
+	result := make([]PeeringData, 0, len(peerings))
 	for _, p := range peerings {
-		result = append(result, bronze.GCPComputeNetworkPeering{
+		result = append(result, PeeringData{
 			Name:                           p.GetName(),
 			Network:                        p.GetNetwork(),
 			State:                          p.GetState(),

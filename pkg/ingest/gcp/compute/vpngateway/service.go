@@ -5,24 +5,24 @@ import (
 	"fmt"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzegcpvpngateway"
+	"hotpot/pkg/storage/ent/bronzegcpvpngatewaylabel"
 )
 
 // Service handles GCP Compute VPN gateway ingestion.
 type Service struct {
-	client  *Client
-	db      *gorm.DB
-	history *HistoryService
+	client    *Client
+	entClient *ent.Client
+	history   *HistoryService
 }
 
 // NewService creates a new VPN gateway ingestion service.
-func NewService(client *Client, db *gorm.DB) *Service {
+func NewService(client *Client, entClient *ent.Client) *Service {
 	return &Service{
-		client:  client,
-		db:      db,
-		history: NewHistoryService(db),
+		client:    client,
+		entClient: entClient,
+		history:   NewHistoryService(entClient),
 	}
 }
 
@@ -50,118 +50,168 @@ func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResul
 		return nil, fmt.Errorf("failed to list vpn gateways: %w", err)
 	}
 
-	// Convert to bronze models
-	bronzeVpnGateways := make([]bronze.GCPComputeVpnGateway, 0, len(vpnGateways))
+	// Convert to data structs
+	vpnGatewayDataList := make([]*VpnGatewayData, 0, len(vpnGateways))
 	for _, gw := range vpnGateways {
-		bg, err := ConvertVpnGateway(gw, params.ProjectID, collectedAt)
+		data, err := ConvertVpnGateway(gw, params.ProjectID, collectedAt)
 		if err != nil {
 			return nil, fmt.Errorf("failed to convert vpn gateway: %w", err)
 		}
-		bronzeVpnGateways = append(bronzeVpnGateways, bg)
+		vpnGatewayDataList = append(vpnGatewayDataList, data)
 	}
 
 	// Save to database
-	if err := s.saveVpnGateways(ctx, bronzeVpnGateways); err != nil {
+	if err := s.saveVpnGateways(ctx, vpnGatewayDataList); err != nil {
 		return nil, fmt.Errorf("failed to save vpn gateways: %w", err)
 	}
 
 	return &IngestResult{
 		ProjectID:       params.ProjectID,
-		VpnGatewayCount: len(bronzeVpnGateways),
+		VpnGatewayCount: len(vpnGatewayDataList),
 		CollectedAt:     collectedAt,
 		DurationMillis:  time.Since(startTime).Milliseconds(),
 	}, nil
 }
 
 // saveVpnGateways saves VPN gateways to the database with history tracking.
-func (s *Service) saveVpnGateways(ctx context.Context, vpnGateways []bronze.GCPComputeVpnGateway) error {
+func (s *Service) saveVpnGateways(ctx context.Context, vpnGateways []*VpnGatewayData) error {
 	if len(vpnGateways) == 0 {
 		return nil
 	}
 
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		for _, gw := range vpnGateways {
-			// Load existing VPN gateway with all relations
-			var existing *bronze.GCPComputeVpnGateway
-			var old bronze.GCPComputeVpnGateway
-			err := tx.Preload("Labels").
-				Where("resource_id = ?", gw.ResourceID).
-				First(&old).Error
-			if err == nil {
-				existing = &old
-			} else if err != gorm.ErrRecordNotFound {
-				return fmt.Errorf("failed to load existing vpn gateway %s: %w", gw.Name, err)
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("start transaction: %w", err)
+	}
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	for _, data := range vpnGateways {
+		// Load existing VPN gateway with all relations
+		existing, err := tx.BronzeGCPVPNGateway.Query().
+			Where(bronzegcpvpngateway.ID(data.ID)).
+			WithLabels().
+			First(ctx)
+		if err != nil && !ent.IsNotFound(err) {
+			tx.Rollback()
+			return fmt.Errorf("query existing vpn gateway %s: %w", data.Name, err)
+		}
+
+		// Compute diff
+		diff := DiffVpnGatewayData(existing, data)
+
+		// Skip if no changes
+		if !diff.HasAnyChange() && existing != nil {
+			// Update collected_at only
+			_, err := tx.BronzeGCPVPNGateway.UpdateOneID(data.ID).
+				SetCollectedAt(data.CollectedAt).
+				Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("update collected_at for vpn gateway %s: %w", data.Name, err)
+			}
+			continue
+		}
+
+		// Upsert VPN gateway
+		var savedGateway *ent.BronzeGCPVPNGateway
+		if existing == nil {
+			// Create new VPN gateway
+			create := tx.BronzeGCPVPNGateway.Create().
+				SetID(data.ID).
+				SetName(data.Name).
+				SetDescription(data.Description).
+				SetRegion(data.Region).
+				SetNetwork(data.Network).
+				SetSelfLink(data.SelfLink).
+				SetCreationTimestamp(data.CreationTimestamp).
+				SetLabelFingerprint(data.LabelFingerprint).
+				SetGatewayIPVersion(data.GatewayIpVersion).
+				SetStackType(data.StackType).
+				SetProjectID(data.ProjectID).
+				SetCollectedAt(data.CollectedAt)
+
+			if len(data.VpnInterfacesJSON) > 0 {
+				create.SetVpnInterfacesJSON(data.VpnInterfacesJSON)
 			}
 
-			// Compute diff
-			diff := DiffVpnGateway(existing, &gw)
-
-			// Skip if no changes
-			if !diff.HasAnyChange() && existing != nil {
-				// Update collected_at only
-				if err := tx.Model(&bronze.GCPComputeVpnGateway{}).
-					Where("resource_id = ?", gw.ResourceID).
-					Update("collected_at", gw.CollectedAt).Error; err != nil {
-					return fmt.Errorf("failed to update collected_at for vpn gateway %s: %w", gw.Name, err)
-				}
-				continue
+			savedGateway, err = create.Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("create vpn gateway %s: %w", data.Name, err)
 			}
+		} else {
+			// Update existing VPN gateway
+			update := tx.BronzeGCPVPNGateway.UpdateOneID(data.ID).
+				SetName(data.Name).
+				SetDescription(data.Description).
+				SetRegion(data.Region).
+				SetNetwork(data.Network).
+				SetSelfLink(data.SelfLink).
+				SetCreationTimestamp(data.CreationTimestamp).
+				SetLabelFingerprint(data.LabelFingerprint).
+				SetGatewayIPVersion(data.GatewayIpVersion).
+				SetStackType(data.StackType).
+				SetProjectID(data.ProjectID).
+				SetCollectedAt(data.CollectedAt)
 
-			// Delete old relations (manual cascade)
-			if existing != nil {
-				if err := s.deleteVpnGatewayRelations(tx, gw.ResourceID); err != nil {
-					return fmt.Errorf("failed to delete old relations for vpn gateway %s: %w", gw.Name, err)
-				}
-			}
-
-			// Upsert VPN gateway
-			if err := tx.Save(&gw).Error; err != nil {
-				return fmt.Errorf("failed to upsert vpn gateway %s: %w", gw.Name, err)
-			}
-
-			// Create new relations
-			if err := s.createVpnGatewayRelations(tx, gw.ResourceID, &gw); err != nil {
-				return fmt.Errorf("failed to create relations for vpn gateway %s: %w", gw.Name, err)
-			}
-
-			// Track history
-			if diff.IsNew {
-				if err := s.history.CreateHistory(tx, &gw, now); err != nil {
-					return fmt.Errorf("failed to create history for vpn gateway %s: %w", gw.Name, err)
-				}
+			if len(data.VpnInterfacesJSON) > 0 {
+				update.SetVpnInterfacesJSON(data.VpnInterfacesJSON)
 			} else {
-				if err := s.history.UpdateHistory(tx, existing, &gw, diff, now); err != nil {
-					return fmt.Errorf("failed to update history for vpn gateway %s: %w", gw.Name, err)
-				}
+				update.ClearVpnInterfacesJSON()
+			}
+
+			savedGateway, err = update.Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("update vpn gateway %s: %w", data.Name, err)
+			}
+
+			// Delete old labels (cascade handled by edges)
+			_, err = tx.BronzeGCPVPNGatewayLabel.Delete().
+				Where(bronzegcpvpngatewaylabel.HasVpnGatewayWith(bronzegcpvpngateway.ID(data.ID))).
+				Exec(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("delete old labels for vpn gateway %s: %w", data.Name, err)
 			}
 		}
 
-		return nil
-	})
-}
-
-// deleteVpnGatewayRelations deletes all related records for a VPN gateway.
-func (s *Service) deleteVpnGatewayRelations(tx *gorm.DB, vpnGatewayResourceID string) error {
-	// Delete labels
-	if err := tx.Where("vpn_gateway_resource_id = ?", vpnGatewayResourceID).Delete(&bronze.GCPComputeVpnGatewayLabel{}).Error; err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// createVpnGatewayRelations creates all related records for a VPN gateway.
-func (s *Service) createVpnGatewayRelations(tx *gorm.DB, vpnGatewayResourceID string, gw *bronze.GCPComputeVpnGateway) error {
-	// Create labels
-	for i := range gw.Labels {
-		gw.Labels[i].VpnGatewayResourceID = vpnGatewayResourceID
-	}
-	if len(gw.Labels) > 0 {
-		if err := tx.Create(&gw.Labels).Error; err != nil {
-			return fmt.Errorf("failed to create labels: %w", err)
+		// Create labels
+		for _, labelData := range data.Labels {
+			_, err := tx.BronzeGCPVPNGatewayLabel.Create().
+				SetKey(labelData.Key).
+				SetValue(labelData.Value).
+				SetVpnGateway(savedGateway).
+				Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("create label for vpn gateway %s: %w", data.Name, err)
+			}
 		}
+
+		// Track history
+		if diff.IsNew {
+			if err := s.history.CreateHistory(ctx, tx, data, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("create history for vpn gateway %s: %w", data.Name, err)
+			}
+		} else {
+			if err := s.history.UpdateHistory(ctx, tx, existing, data, diff, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("update history for vpn gateway %s: %w", data.Name, err)
+			}
+		}
+	}
+
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("commit transaction: %w", err)
 	}
 
 	return nil
@@ -172,32 +222,47 @@ func (s *Service) createVpnGatewayRelations(tx *gorm.DB, vpnGatewayResourceID st
 func (s *Service) DeleteStaleVpnGateways(ctx context.Context, projectID string, collectedAt time.Time) error {
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		// Find stale VPN gateways
-		var staleVpnGateways []bronze.GCPComputeVpnGateway
-		if err := tx.Where("project_id = ? AND collected_at < ?", projectID, collectedAt).
-			Find(&staleVpnGateways).Error; err != nil {
-			return err
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("start transaction: %w", err)
+	}
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	// Find stale VPN gateways
+	staleVpnGateways, err := tx.BronzeGCPVPNGateway.Query().
+		Where(
+			bronzegcpvpngateway.ProjectID(projectID),
+			bronzegcpvpngateway.CollectedAtLT(collectedAt),
+		).
+		All(ctx)
+	if err != nil {
+		tx.Rollback()
+		return fmt.Errorf("query stale vpn gateways: %w", err)
+	}
+
+	// Close history and delete each stale VPN gateway
+	for _, gw := range staleVpnGateways {
+		// Close history
+		if err := s.history.CloseHistory(ctx, tx, gw.ID, now); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("close history for vpn gateway %s: %w", gw.ID, err)
 		}
 
-		// Close history and delete each stale VPN gateway
-		for _, gw := range staleVpnGateways {
-			// Close history
-			if err := s.history.CloseHistory(tx, gw.ResourceID, now); err != nil {
-				return fmt.Errorf("failed to close history for vpn gateway %s: %w", gw.ResourceID, err)
-			}
-
-			// Delete relations
-			if err := s.deleteVpnGatewayRelations(tx, gw.ResourceID); err != nil {
-				return fmt.Errorf("failed to delete relations for vpn gateway %s: %w", gw.ResourceID, err)
-			}
-
-			// Delete VPN gateway
-			if err := tx.Delete(&gw).Error; err != nil {
-				return fmt.Errorf("failed to delete vpn gateway %s: %w", gw.ResourceID, err)
-			}
+		// Delete VPN gateway (labels cascade via edge)
+		if err := tx.BronzeGCPVPNGateway.DeleteOneID(gw.ID).Exec(ctx); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("delete vpn gateway %s: %w", gw.ID, err)
 		}
+	}
 
-		return nil
-	})
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("commit transaction: %w", err)
+	}
+
+	return nil
 }

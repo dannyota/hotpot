@@ -1,156 +1,301 @@
 package instance
 
 import (
+	"context"
+	"fmt"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
-	"hotpot/pkg/base/models/bronze_history"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstance"
+	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancedisk"
+	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancedisklicense"
+	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancelabel"
+	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancemetadata"
+	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancenic"
+	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancenicaccessconfig"
+	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancenicaliasrange"
+	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstanceserviceaccount"
+	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancetag"
 )
 
 // HistoryService handles history tracking for instances.
 type HistoryService struct {
-	db *gorm.DB
+	entClient *ent.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(db *gorm.DB) *HistoryService {
-	return &HistoryService{db: db}
+func NewHistoryService(entClient *ent.Client) *HistoryService {
+	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new instance and all children.
-func (h *HistoryService) CreateHistory(tx *gorm.DB, instance *bronze.GCPComputeInstance, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, instanceData *InstanceData, now time.Time) error {
 	// Create instance history
-	instHist := toInstanceHistory(instance, now)
-	if err := tx.Create(&instHist).Error; err != nil {
-		return err
+	instHistCreate := tx.BronzeHistoryGCPComputeInstance.Create().
+		SetResourceID(instanceData.ResourceID).
+		SetValidFrom(now).
+		SetCollectedAt(instanceData.CollectedAt).
+		SetName(instanceData.Name).
+		SetZone(instanceData.Zone).
+		SetMachineType(instanceData.MachineType).
+		SetStatus(instanceData.Status).
+		SetStatusMessage(instanceData.StatusMessage).
+		SetCPUPlatform(instanceData.CpuPlatform).
+		SetHostname(instanceData.Hostname).
+		SetDescription(instanceData.Description).
+		SetCreationTimestamp(instanceData.CreationTimestamp).
+		SetLastStartTimestamp(instanceData.LastStartTimestamp).
+		SetLastStopTimestamp(instanceData.LastStopTimestamp).
+		SetLastSuspendedTimestamp(instanceData.LastSuspendedTimestamp).
+		SetDeletionProtection(instanceData.DeletionProtection).
+		SetCanIPForward(instanceData.CanIpForward).
+		SetSelfLink(instanceData.SelfLink).
+		SetProjectID(instanceData.ProjectID)
+
+	if instanceData.SchedulingJSON != nil {
+		instHistCreate.SetSchedulingJSON(instanceData.SchedulingJSON)
+	}
+
+	instHist, err := instHistCreate.Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to create instance history: %w", err)
 	}
 
 	// Create children history with instance_history_id
-	return h.createChildrenHistory(tx, instHist.HistoryID, instance, now)
+	return h.createChildrenHistory(ctx, tx, instHist.HistoryID, instanceData, now)
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(tx *gorm.DB, old, new *bronze.GCPComputeInstance, diff *InstanceDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeInstance, new *InstanceData, diff *InstanceDiff, now time.Time) error {
 	// Get current instance history
-	var currentHist bronze_history.GCPComputeInstance
-	if err := tx.Where("resource_id = ? AND valid_to IS NULL", old.ResourceID).First(&currentHist).Error; err != nil {
-		return err
+	currentHist, err := tx.BronzeHistoryGCPComputeInstance.Query().
+		Where(
+			bronzehistorygcpcomputeinstance.ResourceID(old.ID),
+			bronzehistorygcpcomputeinstance.ValidToIsNil(),
+		).
+		First(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to find current instance history: %w", err)
 	}
 
 	// If instance-level fields changed, close old and create new instance history
 	if diff.IsChanged {
 		// Close old instance history
-		if err := tx.Model(&currentHist).Update("valid_to", now).Error; err != nil {
-			return err
+		if err := tx.BronzeHistoryGCPComputeInstance.UpdateOne(currentHist).
+			SetValidTo(now).
+			Exec(ctx); err != nil {
+			return fmt.Errorf("failed to close instance history: %w", err)
 		}
 
 		// Create new instance history
-		instHist := toInstanceHistory(new, now)
-		if err := tx.Create(&instHist).Error; err != nil {
-			return err
+		instHistCreate := tx.BronzeHistoryGCPComputeInstance.Create().
+			SetResourceID(new.ResourceID).
+			SetValidFrom(now).
+			SetCollectedAt(new.CollectedAt).
+			SetName(new.Name).
+			SetZone(new.Zone).
+			SetMachineType(new.MachineType).
+			SetStatus(new.Status).
+			SetStatusMessage(new.StatusMessage).
+			SetCPUPlatform(new.CpuPlatform).
+			SetHostname(new.Hostname).
+			SetDescription(new.Description).
+			SetCreationTimestamp(new.CreationTimestamp).
+			SetLastStartTimestamp(new.LastStartTimestamp).
+			SetLastStopTimestamp(new.LastStopTimestamp).
+			SetLastSuspendedTimestamp(new.LastSuspendedTimestamp).
+			SetDeletionProtection(new.DeletionProtection).
+			SetCanIPForward(new.CanIpForward).
+			SetSelfLink(new.SelfLink).
+			SetProjectID(new.ProjectID)
+
+		if new.SchedulingJSON != nil {
+			instHistCreate.SetSchedulingJSON(new.SchedulingJSON)
+		}
+
+		instHist, err := instHistCreate.Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create new instance history: %w", err)
 		}
 
 		// Close all children history and create new ones
-		if err := h.closeChildrenHistory(tx, currentHist.HistoryID, now); err != nil {
-			return err
+		if err := h.closeChildrenHistory(ctx, tx, currentHist.HistoryID, now); err != nil {
+			return fmt.Errorf("failed to close children history: %w", err)
 		}
-		return h.createChildrenHistory(tx, instHist.HistoryID, new, now)
+		return h.createChildrenHistory(ctx, tx, instHist.HistoryID, new, now)
 	}
 
 	// Instance unchanged, check children individually (granular tracking)
-	return h.updateChildrenHistory(tx, currentHist.HistoryID, old, new, diff, now)
+	return h.updateChildrenHistory(ctx, tx, currentHist.HistoryID, old, new, diff, now)
 }
 
 // CloseHistory closes history records for a deleted instance.
-func (h *HistoryService) CloseHistory(tx *gorm.DB, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
 	// Get current instance history
-	var currentHist bronze_history.GCPComputeInstance
-	if err := tx.Where("resource_id = ? AND valid_to IS NULL", resourceID).First(&currentHist).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
+	currentHist, err := tx.BronzeHistoryGCPComputeInstance.Query().
+		Where(
+			bronzehistorygcpcomputeinstance.ResourceID(resourceID),
+			bronzehistorygcpcomputeinstance.ValidToIsNil(),
+		).
+		First(ctx)
+	if err != nil {
+		if ent.IsNotFound(err) {
 			return nil // No history to close
 		}
-		return err
+		return fmt.Errorf("failed to find current instance history: %w", err)
 	}
 
 	// Close instance history
-	if err := tx.Model(&currentHist).Update("valid_to", now).Error; err != nil {
-		return err
+	if err := tx.BronzeHistoryGCPComputeInstance.UpdateOne(currentHist).
+		SetValidTo(now).
+		Exec(ctx); err != nil {
+		return fmt.Errorf("failed to close instance history: %w", err)
 	}
 
 	// Close all children history
-	return h.closeChildrenHistory(tx, currentHist.HistoryID, now)
+	return h.closeChildrenHistory(ctx, tx, currentHist.HistoryID, now)
 }
 
 // createChildrenHistory creates history records for all children.
-func (h *HistoryService) createChildrenHistory(tx *gorm.DB, instanceHistoryID uint, instance *bronze.GCPComputeInstance, now time.Time) error {
+func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, data *InstanceData, now time.Time) error {
 	// Disks
-	for _, disk := range instance.Disks {
-		diskHist := toDiskHistory(&disk, instanceHistoryID, now)
-		if err := tx.Create(&diskHist).Error; err != nil {
-			return err
+	for _, diskData := range data.Disks {
+		diskHistCreate := tx.BronzeHistoryGCPComputeInstanceDisk.Create().
+			SetInstanceHistoryID(instanceHistoryID).
+			SetValidFrom(now).
+			SetSource(diskData.Source).
+			SetDeviceName(diskData.DeviceName).
+			SetIndex(diskData.Index).
+			SetBoot(diskData.Boot).
+			SetAutoDelete(diskData.AutoDelete).
+			SetMode(diskData.Mode).
+			SetInterface(diskData.Interface).
+			SetType(diskData.Type).
+			SetDiskSizeGB(diskData.DiskSizeGb)
+
+		if diskData.DiskEncryptionKeyJSON != nil {
+			diskHistCreate.SetDiskEncryptionKeyJSON(diskData.DiskEncryptionKeyJSON)
 		}
+		if diskData.InitializeParamsJSON != nil {
+			diskHistCreate.SetInitializeParamsJSON(diskData.InitializeParamsJSON)
+		}
+
+		diskHist, err := diskHistCreate.Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create disk history: %w", err)
+		}
+
 		// Disk licenses
-		for _, lic := range disk.Licenses {
-			licHist := toDiskLicenseHistory(&lic, diskHist.HistoryID, now)
-			if err := tx.Create(&licHist).Error; err != nil {
-				return err
+		for _, licData := range diskData.Licenses {
+			_, err := tx.BronzeHistoryGCPComputeInstanceDiskLicense.Create().
+				SetDiskHistoryID(diskHist.HistoryID).
+				SetValidFrom(now).
+				SetLicense(licData.License).
+				Save(ctx)
+			if err != nil {
+				return fmt.Errorf("failed to create disk license history: %w", err)
 			}
 		}
 	}
 
 	// NICs
-	for _, nic := range instance.NICs {
-		nicHist := toNICHistory(&nic, instanceHistoryID, now)
-		if err := tx.Create(&nicHist).Error; err != nil {
-			return err
+	for _, nicData := range data.NICs {
+		nicHistCreate := tx.BronzeHistoryGCPComputeInstanceNIC.Create().
+			SetInstanceHistoryID(instanceHistoryID).
+			SetValidFrom(now).
+			SetName(nicData.Name).
+			SetNetwork(nicData.Network).
+			SetSubnetwork(nicData.Subnetwork).
+			SetNetworkIP(nicData.NetworkIP).
+			SetStackType(nicData.StackType).
+			SetNicType(nicData.NicType)
+
+		nicHist, err := nicHistCreate.Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create NIC history: %w", err)
 		}
+
 		// Access configs
-		for _, ac := range nic.AccessConfigs {
-			acHist := toAccessConfigHistory(&ac, nicHist.HistoryID, now)
-			if err := tx.Create(&acHist).Error; err != nil {
-				return err
+		for _, acData := range nicData.AccessConfigs {
+			_, err := tx.BronzeHistoryGCPComputeInstanceNICAccessConfig.Create().
+				SetNicHistoryID(nicHist.HistoryID).
+				SetValidFrom(now).
+				SetType(acData.Type).
+				SetName(acData.Name).
+				SetNatIP(acData.NatIP).
+				SetNetworkTier(acData.NetworkTier).
+				Save(ctx)
+			if err != nil {
+				return fmt.Errorf("failed to create access config history: %w", err)
 			}
 		}
+
 		// Alias ranges
-		for _, ar := range nic.AliasIpRanges {
-			arHist := toAliasRangeHistory(&ar, nicHist.HistoryID, now)
-			if err := tx.Create(&arHist).Error; err != nil {
-				return err
+		for _, arData := range nicData.AliasIPRanges {
+			_, err := tx.BronzeHistoryGCPComputeInstanceNICAliasRange.Create().
+				SetNicHistoryID(nicHist.HistoryID).
+				SetValidFrom(now).
+				SetIPCidrRange(arData.IPCidrRange).
+				SetSubnetworkRangeName(arData.SubnetworkRangeName).
+				Save(ctx)
+			if err != nil {
+				return fmt.Errorf("failed to create alias range history: %w", err)
 			}
 		}
 	}
 
 	// Labels
-	for _, label := range instance.Labels {
-		labelHist := toLabelHistory(&label, instanceHistoryID, now)
-		if err := tx.Create(&labelHist).Error; err != nil {
-			return err
+	for _, labelData := range data.Labels {
+		_, err := tx.BronzeHistoryGCPComputeInstanceLabel.Create().
+			SetInstanceHistoryID(instanceHistoryID).
+			SetValidFrom(now).
+			SetKey(labelData.Key).
+			SetValue(labelData.Value).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create label history: %w", err)
 		}
 	}
 
 	// Tags
-	for _, tag := range instance.Tags {
-		tagHist := toTagHistory(&tag, instanceHistoryID, now)
-		if err := tx.Create(&tagHist).Error; err != nil {
-			return err
+	for _, tagData := range data.Tags {
+		_, err := tx.BronzeHistoryGCPComputeInstanceTag.Create().
+			SetInstanceHistoryID(instanceHistoryID).
+			SetValidFrom(now).
+			SetTag(tagData.Tag).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create tag history: %w", err)
 		}
 	}
 
 	// Metadata
-	for _, meta := range instance.Metadata {
-		metaHist := toMetadataHistory(&meta, instanceHistoryID, now)
-		if err := tx.Create(&metaHist).Error; err != nil {
-			return err
+	for _, metaData := range data.Metadata {
+		_, err := tx.BronzeHistoryGCPComputeInstanceMetadata.Create().
+			SetInstanceHistoryID(instanceHistoryID).
+			SetValidFrom(now).
+			SetKey(metaData.Key).
+			SetValue(metaData.Value).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create metadata history: %w", err)
 		}
 	}
 
 	// Service accounts
-	for _, sa := range instance.ServiceAccounts {
-		saHist := toServiceAccountHistory(&sa, instanceHistoryID, now)
-		if err := tx.Create(&saHist).Error; err != nil {
-			return err
+	for _, saData := range data.ServiceAccounts {
+		saCreate := tx.BronzeHistoryGCPComputeInstanceServiceAccount.Create().
+			SetInstanceHistoryID(instanceHistoryID).
+			SetValidFrom(now).
+			SetEmail(saData.Email)
+
+		if saData.ScopesJSON != nil {
+			saCreate.SetScopesJSON(saData.ScopesJSON)
+		}
+
+		_, err := saCreate.Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create service account history: %w", err)
 		}
 	}
 
@@ -158,90 +303,172 @@ func (h *HistoryService) createChildrenHistory(tx *gorm.DB, instanceHistoryID ui
 }
 
 // closeChildrenHistory closes all children history records.
-func (h *HistoryService) closeChildrenHistory(tx *gorm.DB, instanceHistoryID uint, now time.Time) error {
-	// Close direct children
-	tables := []string{
-		"bronze_history.gcp_compute_instance_disks",
-		"bronze_history.gcp_compute_instance_nics",
-		"bronze_history.gcp_compute_instance_labels",
-		"bronze_history.gcp_compute_instance_tags",
-		"bronze_history.gcp_compute_instance_metadata",
-		"bronze_history.gcp_compute_instance_service_accounts",
-	}
-	for _, table := range tables {
-		if err := tx.Table(table).
-			Where("instance_history_id = ? AND valid_to IS NULL", instanceHistoryID).
-			Update("valid_to", now).Error; err != nil {
-			return err
-		}
+func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, now time.Time) error {
+	// Close direct children (disks, NICs, labels, tags, metadata, service accounts)
+	_, err := tx.BronzeHistoryGCPComputeInstanceDisk.Update().
+		Where(
+			bronzehistorygcpcomputeinstancedisk.InstanceHistoryID(instanceHistoryID),
+			bronzehistorygcpcomputeinstancedisk.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close disk history: %w", err)
 	}
 
-	// Close nested children (disk licenses, nic access configs, alias ranges)
+	_, err = tx.BronzeHistoryGCPComputeInstanceNIC.Update().
+		Where(
+			bronzehistorygcpcomputeinstancenic.InstanceHistoryID(instanceHistoryID),
+			bronzehistorygcpcomputeinstancenic.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close NIC history: %w", err)
+	}
+
+	_, err = tx.BronzeHistoryGCPComputeInstanceLabel.Update().
+		Where(
+			bronzehistorygcpcomputeinstancelabel.InstanceHistoryID(instanceHistoryID),
+			bronzehistorygcpcomputeinstancelabel.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close label history: %w", err)
+	}
+
+	_, err = tx.BronzeHistoryGCPComputeInstanceTag.Update().
+		Where(
+			bronzehistorygcpcomputeinstancetag.InstanceHistoryID(instanceHistoryID),
+			bronzehistorygcpcomputeinstancetag.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close tag history: %w", err)
+	}
+
+	_, err = tx.BronzeHistoryGCPComputeInstanceMetadata.Update().
+		Where(
+			bronzehistorygcpcomputeinstancemetadata.InstanceHistoryID(instanceHistoryID),
+			bronzehistorygcpcomputeinstancemetadata.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close metadata history: %w", err)
+	}
+
+	_, err = tx.BronzeHistoryGCPComputeInstanceServiceAccount.Update().
+		Where(
+			bronzehistorygcpcomputeinstanceserviceaccount.InstanceHistoryID(instanceHistoryID),
+			bronzehistorygcpcomputeinstanceserviceaccount.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close service account history: %w", err)
+	}
+
+	// Close nested children (disk licenses, NIC access configs, NIC alias ranges)
 	// Get disk history IDs
 	var diskHistIDs []uint
-	tx.Table("bronze_history.gcp_compute_instance_disks").
-		Where("instance_history_id = ?", instanceHistoryID).
-		Pluck("history_id", &diskHistIDs)
+	err = tx.BronzeHistoryGCPComputeInstanceDisk.Query().
+		Where(bronzehistorygcpcomputeinstancedisk.InstanceHistoryID(instanceHistoryID)).
+		Select(bronzehistorygcpcomputeinstancedisk.FieldHistoryID).
+		Scan(ctx, &diskHistIDs)
+	if err != nil {
+		return fmt.Errorf("failed to get disk history IDs: %w", err)
+	}
+
 	if len(diskHistIDs) > 0 {
-		tx.Table("bronze_history.gcp_compute_instance_disk_licenses").
-			Where("disk_history_id IN ? AND valid_to IS NULL", diskHistIDs).
-			Update("valid_to", now)
+		_, err = tx.BronzeHistoryGCPComputeInstanceDiskLicense.Update().
+			Where(
+				bronzehistorygcpcomputeinstancedisklicense.DiskHistoryIDIn(diskHistIDs...),
+				bronzehistorygcpcomputeinstancedisklicense.ValidToIsNil(),
+			).
+			SetValidTo(now).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to close disk license history: %w", err)
+		}
 	}
 
 	// Get NIC history IDs
 	var nicHistIDs []uint
-	tx.Table("bronze_history.gcp_compute_instance_nics").
-		Where("instance_history_id = ?", instanceHistoryID).
-		Pluck("history_id", &nicHistIDs)
+	err = tx.BronzeHistoryGCPComputeInstanceNIC.Query().
+		Where(bronzehistorygcpcomputeinstancenic.InstanceHistoryID(instanceHistoryID)).
+		Select(bronzehistorygcpcomputeinstancenic.FieldHistoryID).
+		Scan(ctx, &nicHistIDs)
+	if err != nil {
+		return fmt.Errorf("failed to get NIC history IDs: %w", err)
+	}
+
 	if len(nicHistIDs) > 0 {
-		tx.Table("bronze_history.gcp_compute_instance_nic_access_configs").
-			Where("nic_history_id IN ? AND valid_to IS NULL", nicHistIDs).
-			Update("valid_to", now)
-		tx.Table("bronze_history.gcp_compute_instance_nic_alias_ranges").
-			Where("nic_history_id IN ? AND valid_to IS NULL", nicHistIDs).
-			Update("valid_to", now)
+		_, err = tx.BronzeHistoryGCPComputeInstanceNICAccessConfig.Update().
+			Where(
+				bronzehistorygcpcomputeinstancenicaccessconfig.NicHistoryIDIn(nicHistIDs...),
+				bronzehistorygcpcomputeinstancenicaccessconfig.ValidToIsNil(),
+			).
+			SetValidTo(now).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to close NIC access config history: %w", err)
+		}
+
+		_, err = tx.BronzeHistoryGCPComputeInstanceNICAliasRange.Update().
+			Where(
+				bronzehistorygcpcomputeinstancenicaliasrange.NicHistoryIDIn(nicHistIDs...),
+				bronzehistorygcpcomputeinstancenicaliasrange.ValidToIsNil(),
+			).
+			SetValidTo(now).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to close NIC alias range history: %w", err)
+		}
 	}
 
 	return nil
 }
 
 // updateChildrenHistory updates children history based on diff (granular tracking).
-func (h *HistoryService) updateChildrenHistory(tx *gorm.DB, instanceHistoryID uint, old, new *bronze.GCPComputeInstance, diff *InstanceDiff, now time.Time) error {
+func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, old *ent.BronzeGCPComputeInstance, new *InstanceData, diff *InstanceDiff, now time.Time) error {
 	// For each child type, if changed: close old + create new
 	// If unchanged: no action (still links to same instance_history_id)
 
 	if diff.DisksDiff.Changed {
-		if err := h.updateDisksHistory(tx, instanceHistoryID, new.Disks, now); err != nil {
+		if err := h.updateDisksHistory(ctx, tx, instanceHistoryID, new.Disks, now); err != nil {
 			return err
 		}
 	}
 
 	if diff.NICsDiff.Changed {
-		if err := h.updateNICsHistory(tx, instanceHistoryID, new.NICs, now); err != nil {
+		if err := h.updateNICsHistory(ctx, tx, instanceHistoryID, new.NICs, now); err != nil {
 			return err
 		}
 	}
 
 	if diff.LabelsDiff.Changed {
-		if err := h.updateLabelsHistory(tx, instanceHistoryID, new.Labels, now); err != nil {
+		if err := h.updateLabelsHistory(ctx, tx, instanceHistoryID, new.Labels, now); err != nil {
 			return err
 		}
 	}
 
 	if diff.TagsDiff.Changed {
-		if err := h.updateTagsHistory(tx, instanceHistoryID, new.Tags, now); err != nil {
+		if err := h.updateTagsHistory(ctx, tx, instanceHistoryID, new.Tags, now); err != nil {
 			return err
 		}
 	}
 
 	if diff.MetadataDiff.Changed {
-		if err := h.updateMetadataHistory(tx, instanceHistoryID, new.Metadata, now); err != nil {
+		if err := h.updateMetadataHistory(ctx, tx, instanceHistoryID, new.Metadata, now); err != nil {
 			return err
 		}
 	}
 
 	if diff.ServiceAccountsDiff.Changed {
-		if err := h.updateServiceAccountsHistory(tx, instanceHistoryID, new.ServiceAccounts, now); err != nil {
+		if err := h.updateServiceAccountsHistory(ctx, tx, instanceHistoryID, new.ServiceAccounts, now); err != nil {
 			return err
 		}
 	}
@@ -249,262 +476,288 @@ func (h *HistoryService) updateChildrenHistory(tx *gorm.DB, instanceHistoryID ui
 	return nil
 }
 
-func (h *HistoryService) updateDisksHistory(tx *gorm.DB, instanceHistoryID uint, disks []bronze.GCPComputeInstanceDisk, now time.Time) error {
-	// Close old disk history
+func (h *HistoryService) updateDisksHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, disks []DiskData, now time.Time) error {
+	// Get old disk history IDs to close nested licenses
 	var oldDiskHistIDs []uint
-	tx.Table("bronze_history.gcp_compute_instance_disks").
-		Where("instance_history_id = ? AND valid_to IS NULL", instanceHistoryID).
-		Pluck("history_id", &oldDiskHistIDs)
+	err := tx.BronzeHistoryGCPComputeInstanceDisk.Query().
+		Where(
+			bronzehistorygcpcomputeinstancedisk.InstanceHistoryID(instanceHistoryID),
+			bronzehistorygcpcomputeinstancedisk.ValidToIsNil(),
+		).
+		Select(bronzehistorygcpcomputeinstancedisk.FieldHistoryID).
+		Scan(ctx, &oldDiskHistIDs)
+	if err != nil {
+		return fmt.Errorf("failed to get old disk history IDs: %w", err)
+	}
 
+	// Close old disk licenses
 	if len(oldDiskHistIDs) > 0 {
-		tx.Table("bronze_history.gcp_compute_instance_disks").
-			Where("history_id IN ?", oldDiskHistIDs).
-			Update("valid_to", now)
-		tx.Table("bronze_history.gcp_compute_instance_disk_licenses").
-			Where("disk_history_id IN ? AND valid_to IS NULL", oldDiskHistIDs).
-			Update("valid_to", now)
+		_, err = tx.BronzeHistoryGCPComputeInstanceDiskLicense.Update().
+			Where(
+				bronzehistorygcpcomputeinstancedisklicense.DiskHistoryIDIn(oldDiskHistIDs...),
+				bronzehistorygcpcomputeinstancedisklicense.ValidToIsNil(),
+			).
+			SetValidTo(now).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to close disk license history: %w", err)
+		}
+	}
+
+	// Close old disk history
+	_, err = tx.BronzeHistoryGCPComputeInstanceDisk.Update().
+		Where(
+			bronzehistorygcpcomputeinstancedisk.InstanceHistoryID(instanceHistoryID),
+			bronzehistorygcpcomputeinstancedisk.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close disk history: %w", err)
 	}
 
 	// Create new disk history
-	for _, disk := range disks {
-		diskHist := toDiskHistory(&disk, instanceHistoryID, now)
-		if err := tx.Create(&diskHist).Error; err != nil {
-			return err
+	for _, diskData := range disks {
+		diskHistCreate := tx.BronzeHistoryGCPComputeInstanceDisk.Create().
+			SetInstanceHistoryID(instanceHistoryID).
+			SetValidFrom(now).
+			SetSource(diskData.Source).
+			SetDeviceName(diskData.DeviceName).
+			SetIndex(diskData.Index).
+			SetBoot(diskData.Boot).
+			SetAutoDelete(diskData.AutoDelete).
+			SetMode(diskData.Mode).
+			SetInterface(diskData.Interface).
+			SetType(diskData.Type).
+			SetDiskSizeGB(diskData.DiskSizeGb)
+
+		if diskData.DiskEncryptionKeyJSON != nil {
+			diskHistCreate.SetDiskEncryptionKeyJSON(diskData.DiskEncryptionKeyJSON)
 		}
-		for _, lic := range disk.Licenses {
-			licHist := toDiskLicenseHistory(&lic, diskHist.HistoryID, now)
-			if err := tx.Create(&licHist).Error; err != nil {
-				return err
+		if diskData.InitializeParamsJSON != nil {
+			diskHistCreate.SetInitializeParamsJSON(diskData.InitializeParamsJSON)
+		}
+
+		diskHist, err := diskHistCreate.Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create disk history: %w", err)
+		}
+
+		for _, licData := range diskData.Licenses {
+			_, err := tx.BronzeHistoryGCPComputeInstanceDiskLicense.Create().
+				SetDiskHistoryID(diskHist.HistoryID).
+				SetValidFrom(now).
+				SetLicense(licData.License).
+				Save(ctx)
+			if err != nil {
+				return fmt.Errorf("failed to create disk license history: %w", err)
 			}
 		}
 	}
+
 	return nil
 }
 
-func (h *HistoryService) updateNICsHistory(tx *gorm.DB, instanceHistoryID uint, nics []bronze.GCPComputeInstanceNIC, now time.Time) error {
-	// Close old NIC history
+func (h *HistoryService) updateNICsHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, nics []NICData, now time.Time) error {
+	// Get old NIC history IDs to close nested children
 	var oldNICHistIDs []uint
-	tx.Table("bronze_history.gcp_compute_instance_nics").
-		Where("instance_history_id = ? AND valid_to IS NULL", instanceHistoryID).
-		Pluck("history_id", &oldNICHistIDs)
+	err := tx.BronzeHistoryGCPComputeInstanceNIC.Query().
+		Where(
+			bronzehistorygcpcomputeinstancenic.InstanceHistoryID(instanceHistoryID),
+			bronzehistorygcpcomputeinstancenic.ValidToIsNil(),
+		).
+		Select(bronzehistorygcpcomputeinstancenic.FieldHistoryID).
+		Scan(ctx, &oldNICHistIDs)
+	if err != nil {
+		return fmt.Errorf("failed to get old NIC history IDs: %w", err)
+	}
 
+	// Close old NIC access configs and alias ranges
 	if len(oldNICHistIDs) > 0 {
-		tx.Table("bronze_history.gcp_compute_instance_nics").
-			Where("history_id IN ?", oldNICHistIDs).
-			Update("valid_to", now)
-		tx.Table("bronze_history.gcp_compute_instance_nic_access_configs").
-			Where("nic_history_id IN ? AND valid_to IS NULL", oldNICHistIDs).
-			Update("valid_to", now)
-		tx.Table("bronze_history.gcp_compute_instance_nic_alias_ranges").
-			Where("nic_history_id IN ? AND valid_to IS NULL", oldNICHistIDs).
-			Update("valid_to", now)
+		_, err = tx.BronzeHistoryGCPComputeInstanceNICAccessConfig.Update().
+			Where(
+				bronzehistorygcpcomputeinstancenicaccessconfig.NicHistoryIDIn(oldNICHistIDs...),
+				bronzehistorygcpcomputeinstancenicaccessconfig.ValidToIsNil(),
+			).
+			SetValidTo(now).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to close access config history: %w", err)
+		}
+
+		_, err = tx.BronzeHistoryGCPComputeInstanceNICAliasRange.Update().
+			Where(
+				bronzehistorygcpcomputeinstancenicaliasrange.NicHistoryIDIn(oldNICHistIDs...),
+				bronzehistorygcpcomputeinstancenicaliasrange.ValidToIsNil(),
+			).
+			SetValidTo(now).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to close alias range history: %w", err)
+		}
+	}
+
+	// Close old NIC history
+	_, err = tx.BronzeHistoryGCPComputeInstanceNIC.Update().
+		Where(
+			bronzehistorygcpcomputeinstancenic.InstanceHistoryID(instanceHistoryID),
+			bronzehistorygcpcomputeinstancenic.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close NIC history: %w", err)
 	}
 
 	// Create new NIC history
-	for _, nic := range nics {
-		nicHist := toNICHistory(&nic, instanceHistoryID, now)
-		if err := tx.Create(&nicHist).Error; err != nil {
-			return err
+	for _, nicData := range nics {
+		nicHist, err := tx.BronzeHistoryGCPComputeInstanceNIC.Create().
+			SetInstanceHistoryID(instanceHistoryID).
+			SetValidFrom(now).
+			SetName(nicData.Name).
+			SetNetwork(nicData.Network).
+			SetSubnetwork(nicData.Subnetwork).
+			SetNetworkIP(nicData.NetworkIP).
+			SetStackType(nicData.StackType).
+			SetNicType(nicData.NicType).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create NIC history: %w", err)
 		}
-		for _, ac := range nic.AccessConfigs {
-			acHist := toAccessConfigHistory(&ac, nicHist.HistoryID, now)
-			if err := tx.Create(&acHist).Error; err != nil {
-				return err
+
+		for _, acData := range nicData.AccessConfigs {
+			_, err := tx.BronzeHistoryGCPComputeInstanceNICAccessConfig.Create().
+				SetNicHistoryID(nicHist.HistoryID).
+				SetValidFrom(now).
+				SetType(acData.Type).
+				SetName(acData.Name).
+				SetNatIP(acData.NatIP).
+				SetNetworkTier(acData.NetworkTier).
+				Save(ctx)
+			if err != nil {
+				return fmt.Errorf("failed to create access config history: %w", err)
 			}
 		}
-		for _, ar := range nic.AliasIpRanges {
-			arHist := toAliasRangeHistory(&ar, nicHist.HistoryID, now)
-			if err := tx.Create(&arHist).Error; err != nil {
-				return err
+
+		for _, arData := range nicData.AliasIPRanges {
+			_, err := tx.BronzeHistoryGCPComputeInstanceNICAliasRange.Create().
+				SetNicHistoryID(nicHist.HistoryID).
+				SetValidFrom(now).
+				SetIPCidrRange(arData.IPCidrRange).
+				SetSubnetworkRangeName(arData.SubnetworkRangeName).
+				Save(ctx)
+			if err != nil {
+				return fmt.Errorf("failed to create alias range history: %w", err)
 			}
 		}
 	}
+
 	return nil
 }
 
-func (h *HistoryService) updateLabelsHistory(tx *gorm.DB, instanceHistoryID uint, labels []bronze.GCPComputeInstanceLabel, now time.Time) error {
-	tx.Table("bronze_history.gcp_compute_instance_labels").
-		Where("instance_history_id = ? AND valid_to IS NULL", instanceHistoryID).
-		Update("valid_to", now)
+func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, labels []LabelData, now time.Time) error {
+	_, err := tx.BronzeHistoryGCPComputeInstanceLabel.Update().
+		Where(
+			bronzehistorygcpcomputeinstancelabel.InstanceHistoryID(instanceHistoryID),
+			bronzehistorygcpcomputeinstancelabel.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close label history: %w", err)
+	}
 
-	for _, label := range labels {
-		labelHist := toLabelHistory(&label, instanceHistoryID, now)
-		if err := tx.Create(&labelHist).Error; err != nil {
-			return err
+	for _, labelData := range labels {
+		_, err := tx.BronzeHistoryGCPComputeInstanceLabel.Create().
+			SetInstanceHistoryID(instanceHistoryID).
+			SetValidFrom(now).
+			SetKey(labelData.Key).
+			SetValue(labelData.Value).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create label history: %w", err)
 		}
 	}
 	return nil
 }
 
-func (h *HistoryService) updateTagsHistory(tx *gorm.DB, instanceHistoryID uint, tags []bronze.GCPComputeInstanceTag, now time.Time) error {
-	tx.Table("bronze_history.gcp_compute_instance_tags").
-		Where("instance_history_id = ? AND valid_to IS NULL", instanceHistoryID).
-		Update("valid_to", now)
+func (h *HistoryService) updateTagsHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, tags []TagData, now time.Time) error {
+	_, err := tx.BronzeHistoryGCPComputeInstanceTag.Update().
+		Where(
+			bronzehistorygcpcomputeinstancetag.InstanceHistoryID(instanceHistoryID),
+			bronzehistorygcpcomputeinstancetag.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close tag history: %w", err)
+	}
 
-	for _, tag := range tags {
-		tagHist := toTagHistory(&tag, instanceHistoryID, now)
-		if err := tx.Create(&tagHist).Error; err != nil {
-			return err
+	for _, tagData := range tags {
+		_, err := tx.BronzeHistoryGCPComputeInstanceTag.Create().
+			SetInstanceHistoryID(instanceHistoryID).
+			SetValidFrom(now).
+			SetTag(tagData.Tag).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create tag history: %w", err)
 		}
 	}
 	return nil
 }
 
-func (h *HistoryService) updateMetadataHistory(tx *gorm.DB, instanceHistoryID uint, metadata []bronze.GCPComputeInstanceMetadata, now time.Time) error {
-	tx.Table("bronze_history.gcp_compute_instance_metadata").
-		Where("instance_history_id = ? AND valid_to IS NULL", instanceHistoryID).
-		Update("valid_to", now)
+func (h *HistoryService) updateMetadataHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, metadata []MetadataData, now time.Time) error {
+	_, err := tx.BronzeHistoryGCPComputeInstanceMetadata.Update().
+		Where(
+			bronzehistorygcpcomputeinstancemetadata.InstanceHistoryID(instanceHistoryID),
+			bronzehistorygcpcomputeinstancemetadata.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close metadata history: %w", err)
+	}
 
-	for _, meta := range metadata {
-		metaHist := toMetadataHistory(&meta, instanceHistoryID, now)
-		if err := tx.Create(&metaHist).Error; err != nil {
-			return err
+	for _, metaData := range metadata {
+		_, err := tx.BronzeHistoryGCPComputeInstanceMetadata.Create().
+			SetInstanceHistoryID(instanceHistoryID).
+			SetValidFrom(now).
+			SetKey(metaData.Key).
+			SetValue(metaData.Value).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create metadata history: %w", err)
 		}
 	}
 	return nil
 }
 
-func (h *HistoryService) updateServiceAccountsHistory(tx *gorm.DB, instanceHistoryID uint, sas []bronze.GCPComputeInstanceServiceAccount, now time.Time) error {
-	tx.Table("bronze_history.gcp_compute_instance_service_accounts").
-		Where("instance_history_id = ? AND valid_to IS NULL", instanceHistoryID).
-		Update("valid_to", now)
+func (h *HistoryService) updateServiceAccountsHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, sas []ServiceAccountData, now time.Time) error {
+	_, err := tx.BronzeHistoryGCPComputeInstanceServiceAccount.Update().
+		Where(
+			bronzehistorygcpcomputeinstanceserviceaccount.InstanceHistoryID(instanceHistoryID),
+			bronzehistorygcpcomputeinstanceserviceaccount.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close service account history: %w", err)
+	}
 
-	for _, sa := range sas {
-		saHist := toServiceAccountHistory(&sa, instanceHistoryID, now)
-		if err := tx.Create(&saHist).Error; err != nil {
-			return err
+	for _, saData := range sas {
+		saCreate := tx.BronzeHistoryGCPComputeInstanceServiceAccount.Create().
+			SetInstanceHistoryID(instanceHistoryID).
+			SetValidFrom(now).
+			SetEmail(saData.Email)
+
+		if saData.ScopesJSON != nil {
+			saCreate.SetScopesJSON(saData.ScopesJSON)
+		}
+
+		_, err := saCreate.Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create service account history: %w", err)
 		}
 	}
 	return nil
-}
-
-// Conversion functions: bronze -> bronze_history
-
-func toInstanceHistory(inst *bronze.GCPComputeInstance, now time.Time) bronze_history.GCPComputeInstance {
-	return bronze_history.GCPComputeInstance{
-		ResourceID:             inst.ResourceID,
-		ValidFrom:              now,
-		ValidTo:                nil,
-		Name:                   inst.Name,
-		Zone:                   inst.Zone,
-		MachineType:            inst.MachineType,
-		Status:                 inst.Status,
-		StatusMessage:          inst.StatusMessage,
-		CpuPlatform:            inst.CpuPlatform,
-		Hostname:               inst.Hostname,
-		Description:            inst.Description,
-		CreationTimestamp:      inst.CreationTimestamp,
-		LastStartTimestamp:     inst.LastStartTimestamp,
-		LastStopTimestamp:      inst.LastStopTimestamp,
-		LastSuspendedTimestamp: inst.LastSuspendedTimestamp,
-		DeletionProtection:     inst.DeletionProtection,
-		CanIpForward:           inst.CanIpForward,
-		SelfLink:               inst.SelfLink,
-		SchedulingJSON:         inst.SchedulingJSON,
-		ProjectID:              inst.ProjectID,
-		CollectedAt:            inst.CollectedAt,
-	}
-}
-
-func toDiskHistory(disk *bronze.GCPComputeInstanceDisk, instanceHistoryID uint, now time.Time) bronze_history.GCPComputeInstanceDisk {
-	return bronze_history.GCPComputeInstanceDisk{
-		InstanceHistoryID:     instanceHistoryID,
-		ValidFrom:             now,
-		ValidTo:               nil,
-		Source:                disk.Source,
-		DeviceName:            disk.DeviceName,
-		Index:                 disk.Index,
-		Boot:                  disk.Boot,
-		AutoDelete:            disk.AutoDelete,
-		Mode:                  disk.Mode,
-		Interface:             disk.Interface,
-		Type:                  disk.Type,
-		DiskSizeGb:            disk.DiskSizeGb,
-		DiskEncryptionKeyJSON: disk.DiskEncryptionKeyJSON,
-		InitializeParamsJSON:  disk.InitializeParamsJSON,
-	}
-}
-
-func toDiskLicenseHistory(lic *bronze.GCPComputeInstanceDiskLicense, diskHistoryID uint, now time.Time) bronze_history.GCPComputeInstanceDiskLicense {
-	return bronze_history.GCPComputeInstanceDiskLicense{
-		DiskHistoryID: diskHistoryID,
-		ValidFrom:     now,
-		ValidTo:       nil,
-		License:       lic.License,
-	}
-}
-
-func toNICHistory(nic *bronze.GCPComputeInstanceNIC, instanceHistoryID uint, now time.Time) bronze_history.GCPComputeInstanceNIC {
-	return bronze_history.GCPComputeInstanceNIC{
-		InstanceHistoryID: instanceHistoryID,
-		ValidFrom:         now,
-		ValidTo:           nil,
-		Name:              nic.Name,
-		Network:           nic.Network,
-		Subnetwork:        nic.Subnetwork,
-		NetworkIP:         nic.NetworkIP,
-		StackType:         nic.StackType,
-		NicType:           nic.NicType,
-	}
-}
-
-func toAccessConfigHistory(ac *bronze.GCPComputeInstanceNICAccessConfig, nicHistoryID uint, now time.Time) bronze_history.GCPComputeInstanceNICAccessConfig {
-	return bronze_history.GCPComputeInstanceNICAccessConfig{
-		NICHistoryID: nicHistoryID,
-		ValidFrom:    now,
-		ValidTo:      nil,
-		Type:         ac.Type,
-		Name:         ac.Name,
-		NatIP:        ac.NatIP,
-		NetworkTier:  ac.NetworkTier,
-	}
-}
-
-func toAliasRangeHistory(ar *bronze.GCPComputeInstanceNICAliasRange, nicHistoryID uint, now time.Time) bronze_history.GCPComputeInstanceNICAliasRange {
-	return bronze_history.GCPComputeInstanceNICAliasRange{
-		NICHistoryID:        nicHistoryID,
-		ValidFrom:           now,
-		ValidTo:             nil,
-		IpCidrRange:         ar.IpCidrRange,
-		SubnetworkRangeName: ar.SubnetworkRangeName,
-	}
-}
-
-func toLabelHistory(label *bronze.GCPComputeInstanceLabel, instanceHistoryID uint, now time.Time) bronze_history.GCPComputeInstanceLabel {
-	return bronze_history.GCPComputeInstanceLabel{
-		InstanceHistoryID: instanceHistoryID,
-		ValidFrom:         now,
-		ValidTo:           nil,
-		Key:               label.Key,
-		Value:             label.Value,
-	}
-}
-
-func toTagHistory(tag *bronze.GCPComputeInstanceTag, instanceHistoryID uint, now time.Time) bronze_history.GCPComputeInstanceTag {
-	return bronze_history.GCPComputeInstanceTag{
-		InstanceHistoryID: instanceHistoryID,
-		ValidFrom:         now,
-		ValidTo:           nil,
-		Tag:               tag.Tag,
-	}
-}
-
-func toMetadataHistory(meta *bronze.GCPComputeInstanceMetadata, instanceHistoryID uint, now time.Time) bronze_history.GCPComputeInstanceMetadata {
-	return bronze_history.GCPComputeInstanceMetadata{
-		InstanceHistoryID: instanceHistoryID,
-		ValidFrom:         now,
-		ValidTo:           nil,
-		Key:               meta.Key,
-		Value:             meta.Value,
-	}
-}
-
-func toServiceAccountHistory(sa *bronze.GCPComputeInstanceServiceAccount, instanceHistoryID uint, now time.Time) bronze_history.GCPComputeInstanceServiceAccount {
-	return bronze_history.GCPComputeInstanceServiceAccount{
-		InstanceHistoryID: instanceHistoryID,
-		ValidFrom:         now,
-		ValidTo:           nil,
-		Email:             sa.Email,
-		ScopesJSON:        sa.ScopesJSON,
-	}
 }

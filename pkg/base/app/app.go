@@ -8,13 +8,12 @@ import (
 	"sync"
 	"syscall"
 
-	"gorm.io/gorm"
-
 	"hotpot/pkg/base/config"
+	"hotpot/pkg/storage/ent"
 )
 
 // App provides a unified interface for config and database with hot-reload.
-// It manages config.Service and gorm.DB lifecycle, including automatic
+// It manages config.Service and ent.Client lifecycle, including automatic
 // reconnection when database configuration changes.
 type App struct {
 	configService *config.Service
@@ -126,10 +125,10 @@ func (a *App) ConfigService() *config.Service {
 	return a.configService
 }
 
-// DB returns the current database connection.
-// The connection may change after a config reload.
-func (a *App) DB() *gorm.DB {
-	return a.dbManager.DB()
+// EntClient returns the current Ent client.
+// The client may change after a config reload.
+func (a *App) EntClient() *ent.Client {
+	return a.dbManager.EntClient()
 }
 
 // Config returns a copy of current configuration.
@@ -139,7 +138,7 @@ func (a *App) Config() config.Config {
 
 // RunFunc is the signature for service runner functions.
 // The context is cancelled when the app receives SIGINT/SIGTERM.
-type RunFunc func(ctx context.Context, configService *config.Service, db *gorm.DB) error
+type RunFunc func(ctx context.Context, configService *config.Service, entClient *ent.Client) error
 
 // Run starts a service runner in a goroutine (non-blocking).
 // Use Wait() to block until all runners complete.
@@ -149,7 +148,7 @@ func (a *App) Run(runner RunFunc) {
 	a.wg.Add(1)
 	go func() {
 		defer a.wg.Done()
-		if err := runner(a.ctx, a.configService, a.dbManager.DB()); err != nil {
+		if err := runner(a.ctx, a.configService, a.dbManager.EntClient()); err != nil {
 			a.errMu.Lock()
 			a.errors = append(a.errors, err)
 			a.errMu.Unlock()

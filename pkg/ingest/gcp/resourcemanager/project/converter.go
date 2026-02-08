@@ -5,15 +5,34 @@ import (
 	"time"
 
 	"cloud.google.com/go/resourcemanager/apiv3/resourcemanagerpb"
-
-	"hotpot/pkg/base/models/bronze"
 )
 
-// ConvertProject converts a GCP API Project to a Bronze model.
+// ProjectData holds converted project data ready for Ent insertion.
+type ProjectData struct {
+	ID            string
+	ProjectNumber string
+	DisplayName   string
+	State         string
+	Parent        string
+	Etag          string
+	CreateTime    string
+	UpdateTime    string
+	DeleteTime    string
+	Labels        []LabelData
+	CollectedAt   time.Time
+}
+
+// LabelData holds converted label data.
+type LabelData struct {
+	Key   string
+	Value string
+}
+
+// ConvertProject converts a GCP API Project to Ent-compatible data.
 // Preserves raw API data with minimal transformation.
-func ConvertProject(proj *resourcemanagerpb.Project, collectedAt time.Time) bronze.GCPProject {
-	project := bronze.GCPProject{
-		ProjectID:     proj.GetProjectId(),
+func ConvertProject(proj *resourcemanagerpb.Project, collectedAt time.Time) *ProjectData {
+	data := &ProjectData{
+		ID:            proj.GetProjectId(),
 		ProjectNumber: extractProjectNumber(proj.GetName()),
 		DisplayName:   proj.GetDisplayName(),
 		State:         proj.GetState().String(),
@@ -24,30 +43,30 @@ func ConvertProject(proj *resourcemanagerpb.Project, collectedAt time.Time) bron
 
 	// Convert timestamps
 	if proj.CreateTime != nil {
-		project.CreateTime = proj.CreateTime.AsTime().Format(time.RFC3339)
+		data.CreateTime = proj.CreateTime.AsTime().Format(time.RFC3339)
 	}
 	if proj.UpdateTime != nil {
-		project.UpdateTime = proj.UpdateTime.AsTime().Format(time.RFC3339)
+		data.UpdateTime = proj.UpdateTime.AsTime().Format(time.RFC3339)
 	}
 	if proj.DeleteTime != nil {
-		project.DeleteTime = proj.DeleteTime.AsTime().Format(time.RFC3339)
+		data.DeleteTime = proj.DeleteTime.AsTime().Format(time.RFC3339)
 	}
 
 	// Convert labels
-	project.Labels = ConvertLabels(proj.Labels)
+	data.Labels = ConvertLabels(proj.Labels)
 
-	return project
+	return data
 }
 
-// ConvertLabels converts project labels from GCP API to Bronze models.
-func ConvertLabels(labels map[string]string) []bronze.GCPProjectLabel {
+// ConvertLabels converts project labels from GCP API to label data.
+func ConvertLabels(labels map[string]string) []LabelData {
 	if len(labels) == 0 {
 		return nil
 	}
 
-	result := make([]bronze.GCPProjectLabel, 0, len(labels))
+	result := make([]LabelData, 0, len(labels))
 	for key, value := range labels {
-		result = append(result, bronze.GCPProjectLabel{
+		result = append(result, LabelData{
 			Key:   key,
 			Value: value,
 		})
@@ -55,6 +74,7 @@ func ConvertLabels(labels map[string]string) []bronze.GCPProjectLabel {
 
 	return result
 }
+
 
 // extractProjectNumber extracts the project number from the name field.
 // Name format: "projects/123456789" -> "123456789"

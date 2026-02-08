@@ -1,57 +1,54 @@
 package project
 
 import (
+	"context"
 	"fmt"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
-	"hotpot/pkg/base/models/bronze_history"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzehistorygcpproject"
+	"hotpot/pkg/storage/ent/bronzehistorygcpprojectlabel"
 )
 
 // HistoryService manages project history tracking.
 type HistoryService struct {
-	db *gorm.DB
+	entClient *ent.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(db *gorm.DB) *HistoryService {
-	return &HistoryService{db: db}
+func NewHistoryService(entClient *ent.Client) *HistoryService {
+	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new project.
-func (h *HistoryService) CreateHistory(tx *gorm.DB, project *bronze.GCPProject, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, projectData *ProjectData, now time.Time) error {
 	// Create project history
-	projectHistory := bronze_history.GCPProject{
-		ProjectID:     project.ProjectID,
-		ValidFrom:     now,
-		ValidTo:       nil,
-		ProjectNumber: project.ProjectNumber,
-		DisplayName:   project.DisplayName,
-		State:         project.State,
-		Parent:        project.Parent,
-		CreateTime:    project.CreateTime,
-		UpdateTime:    project.UpdateTime,
-		DeleteTime:    project.DeleteTime,
-		Etag:          project.Etag,
-		CollectedAt:   project.CollectedAt,
-	}
-
-	if err := tx.Create(&projectHistory).Error; err != nil {
+	projectHistory, err := tx.BronzeHistoryGCPProject.Create().
+		SetProjectID(projectData.ID).
+		SetValidFrom(now).
+		SetCollectedAt(projectData.CollectedAt).
+		SetProjectNumber(projectData.ProjectNumber).
+		SetDisplayName(projectData.DisplayName).
+		SetState(projectData.State).
+		SetParent(projectData.Parent).
+		SetCreateTime(projectData.CreateTime).
+		SetUpdateTime(projectData.UpdateTime).
+		SetDeleteTime(projectData.DeleteTime).
+		SetEtag(projectData.Etag).
+		Save(ctx)
+	if err != nil {
 		return fmt.Errorf("failed to create project history: %w", err)
 	}
 
 	// Create label history
-	for _, label := range project.Labels {
-		labelHistory := bronze_history.GCPProjectLabel{
-			ProjectHistoryID: projectHistory.HistoryID,
-			ValidFrom:        now,
-			ValidTo:          nil,
-			Key:              label.Key,
-			Value:            label.Value,
-		}
-		if err := tx.Create(&labelHistory).Error; err != nil {
+	for _, label := range projectData.Labels {
+		_, err := tx.BronzeHistoryGCPProjectLabel.Create().
+			SetProjectHistoryID(projectHistory.HistoryID).
+			SetValidFrom(now).
+			SetKey(label.Key).
+			SetValue(label.Value).
+			Save(ctx)
+		if err != nil {
 			return fmt.Errorf("failed to create label history: %w", err)
 		}
 	}
@@ -60,76 +57,91 @@ func (h *HistoryService) CreateHistory(tx *gorm.DB, project *bronze.GCPProject, 
 }
 
 // UpdateHistory updates history records for a changed project.
-func (h *HistoryService) UpdateHistory(tx *gorm.DB, old, new *bronze.GCPProject, diff *ProjectDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPProject, new *ProjectData, diff *ProjectDiff, now time.Time) error {
 	// Get current project history
-	var currentHistory bronze_history.GCPProject
-	if err := tx.Where("project_id = ? AND valid_to IS NULL", old.ProjectID).
-		First(&currentHistory).Error; err != nil {
+	currentHistory, err := tx.BronzeHistoryGCPProject.Query().
+		Where(
+			bronzehistorygcpproject.ProjectID(old.ID),
+			bronzehistorygcpproject.ValidToIsNil(),
+		).
+		First(ctx)
+	if err != nil {
 		return fmt.Errorf("failed to find current project history: %w", err)
 	}
 
 	// Close current project history if core fields changed
 	if diff.IsChanged {
 		// Close old label history first
-		if err := tx.Model(&bronze_history.GCPProjectLabel{}).
-			Where("project_history_id = ? AND valid_to IS NULL", currentHistory.HistoryID).
-			Update("valid_to", now).Error; err != nil {
+		_, err := tx.BronzeHistoryGCPProjectLabel.Update().
+			Where(
+				bronzehistorygcpprojectlabel.ProjectHistoryID(currentHistory.HistoryID),
+				bronzehistorygcpprojectlabel.ValidToIsNil(),
+			).
+			SetValidTo(now).
+			Save(ctx)
+		if err != nil {
 			return fmt.Errorf("failed to close old label history: %w", err)
 		}
 
-		if err := tx.Model(&currentHistory).Update("valid_to", now).Error; err != nil {
+		// Close current project history
+		err = tx.BronzeHistoryGCPProject.UpdateOne(currentHistory).
+			SetValidTo(now).
+			Exec(ctx)
+		if err != nil {
 			return fmt.Errorf("failed to close current project history: %w", err)
 		}
 
 		// Create new project history
-		newHistory := bronze_history.GCPProject{
-			ProjectID:     new.ProjectID,
-			ValidFrom:     now,
-			ValidTo:       nil,
-			ProjectNumber: new.ProjectNumber,
-			DisplayName:   new.DisplayName,
-			State:         new.State,
-			Parent:        new.Parent,
-			CreateTime:    new.CreateTime,
-			UpdateTime:    new.UpdateTime,
-			DeleteTime:    new.DeleteTime,
-			Etag:          new.Etag,
-			CollectedAt:   new.CollectedAt,
-		}
-		if err := tx.Create(&newHistory).Error; err != nil {
+		newHistory, err := tx.BronzeHistoryGCPProject.Create().
+			SetProjectID(new.ID).
+			SetValidFrom(now).
+			SetCollectedAt(new.CollectedAt).
+			SetProjectNumber(new.ProjectNumber).
+			SetDisplayName(new.DisplayName).
+			SetState(new.State).
+			SetParent(new.Parent).
+			SetCreateTime(new.CreateTime).
+			SetUpdateTime(new.UpdateTime).
+			SetDeleteTime(new.DeleteTime).
+			SetEtag(new.Etag).
+			Save(ctx)
+		if err != nil {
 			return fmt.Errorf("failed to create new project history: %w", err)
 		}
 
 		// Create new label history linked to new project history
 		for _, label := range new.Labels {
-			labelHistory := bronze_history.GCPProjectLabel{
-				ProjectHistoryID: newHistory.HistoryID,
-				ValidFrom:        now,
-				ValidTo:          nil,
-				Key:              label.Key,
-				Value:            label.Value,
-			}
-			if err := tx.Create(&labelHistory).Error; err != nil {
+			_, err := tx.BronzeHistoryGCPProjectLabel.Create().
+				SetProjectHistoryID(newHistory.HistoryID).
+				SetValidFrom(now).
+				SetKey(label.Key).
+				SetValue(label.Value).
+				Save(ctx)
+			if err != nil {
 				return fmt.Errorf("failed to create label history: %w", err)
 			}
 		}
 	} else if diff.LabelsDiff.HasChanges {
 		// Only labels changed - close old label history and create new ones
-		if err := tx.Model(&bronze_history.GCPProjectLabel{}).
-			Where("project_history_id = ? AND valid_to IS NULL", currentHistory.HistoryID).
-			Update("valid_to", now).Error; err != nil {
+		_, err := tx.BronzeHistoryGCPProjectLabel.Update().
+			Where(
+				bronzehistorygcpprojectlabel.ProjectHistoryID(currentHistory.HistoryID),
+				bronzehistorygcpprojectlabel.ValidToIsNil(),
+			).
+			SetValidTo(now).
+			Save(ctx)
+		if err != nil {
 			return fmt.Errorf("failed to close label history: %w", err)
 		}
 
 		for _, label := range new.Labels {
-			labelHistory := bronze_history.GCPProjectLabel{
-				ProjectHistoryID: currentHistory.HistoryID,
-				ValidFrom:        now,
-				ValidTo:          nil,
-				Key:              label.Key,
-				Value:            label.Value,
-			}
-			if err := tx.Create(&labelHistory).Error; err != nil {
+			_, err := tx.BronzeHistoryGCPProjectLabel.Create().
+				SetProjectHistoryID(currentHistory.HistoryID).
+				SetValidFrom(now).
+				SetKey(label.Key).
+				SetValue(label.Value).
+				Save(ctx)
+			if err != nil {
 				return fmt.Errorf("failed to create label history: %w", err)
 			}
 		}
@@ -139,26 +151,38 @@ func (h *HistoryService) UpdateHistory(tx *gorm.DB, old, new *bronze.GCPProject,
 }
 
 // CloseHistory closes all history records for a deleted project.
-func (h *HistoryService) CloseHistory(tx *gorm.DB, projectID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, projectID string, now time.Time) error {
 	// Get current project history
-	var currentHistory bronze_history.GCPProject
-	if err := tx.Where("project_id = ? AND valid_to IS NULL", projectID).
-		First(&currentHistory).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
+	currentHistory, err := tx.BronzeHistoryGCPProject.Query().
+		Where(
+			bronzehistorygcpproject.ProjectID(projectID),
+			bronzehistorygcpproject.ValidToIsNil(),
+		).
+		First(ctx)
+	if err != nil {
+		if ent.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current project history: %w", err)
 	}
 
 	// Close project history
-	if err := tx.Model(&currentHistory).Update("valid_to", now).Error; err != nil {
+	err = tx.BronzeHistoryGCPProject.UpdateOne(currentHistory).
+		SetValidTo(now).
+		Exec(ctx)
+	if err != nil {
 		return fmt.Errorf("failed to close project history: %w", err)
 	}
 
 	// Close label history
-	if err := tx.Model(&bronze_history.GCPProjectLabel{}).
-		Where("project_history_id = ? AND valid_to IS NULL", currentHistory.HistoryID).
-		Update("valid_to", now).Error; err != nil {
+	_, err = tx.BronzeHistoryGCPProjectLabel.Update().
+		Where(
+			bronzehistorygcpprojectlabel.ProjectHistoryID(currentHistory.HistoryID),
+			bronzehistorygcpprojectlabel.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
 		return fmt.Errorf("failed to close label history: %w", err)
 	}
 

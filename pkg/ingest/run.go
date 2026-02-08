@@ -7,10 +7,10 @@ import (
 
 	"go.temporal.io/sdk/client"
 	"go.temporal.io/sdk/worker"
-	"gorm.io/gorm"
 
 	"hotpot/pkg/base/config"
 	"hotpot/pkg/ingest/gcp"
+	"hotpot/pkg/storage/ent"
 )
 
 // TaskQueues for different providers.
@@ -23,7 +23,7 @@ const (
 
 // Run starts the ingest workers.
 // The context is used to signal shutdown - when cancelled, workers will stop.
-func Run(ctx context.Context, configService *config.Service, db *gorm.DB) error {
+func Run(ctx context.Context, configService *config.Service, entClient *ent.Client) error {
 	// Create Temporal client
 	temporalClient, err := client.Dial(client.Options{
 		HostPort:  configService.TemporalHostPort(),
@@ -45,7 +45,7 @@ func Run(ctx context.Context, configService *config.Service, db *gorm.DB) error 
 	})
 
 	// Register GCP workflows and activities
-	rateLimitSvc := gcp.Register(gcpWorker, configService, db)
+	rateLimitSvc := gcp.Register(gcpWorker, configService, entClient)
 	defer rateLimitSvc.Close()
 
 	// Create and register VNGCloud worker (future)

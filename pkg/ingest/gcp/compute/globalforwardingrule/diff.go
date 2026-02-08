@@ -1,55 +1,49 @@
 package globalforwardingrule
 
 import (
-	"hotpot/pkg/base/jsonb"
-	"hotpot/pkg/base/models/bronze"
+	"encoding/json"
+
+	"hotpot/pkg/storage/ent"
 )
 
 // GlobalForwardingRuleDiff represents changes between old and new global forwarding rule states.
 type GlobalForwardingRuleDiff struct {
-	IsNew     bool
-	IsChanged bool
-
-	// Child diffs (for granular tracking)
+	IsNew      bool
+	IsChanged  bool
 	LabelsDiff ChildDiff
 }
 
 // ChildDiff represents changes in a child collection.
 type ChildDiff struct {
-	Changed bool
-}
-
-// DiffGlobalForwardingRule compares old and new global forwarding rule states.
-// Returns nil if old is nil (new forwarding rule).
-func DiffGlobalForwardingRule(old, new *bronze.GCPComputeGlobalForwardingRule) *GlobalForwardingRuleDiff {
-	if old == nil {
-		return &GlobalForwardingRuleDiff{
-			IsNew:      true,
-			LabelsDiff: ChildDiff{Changed: true},
-		}
-	}
-
-	diff := &GlobalForwardingRuleDiff{}
-
-	// Compare forwarding rule-level fields
-	diff.IsChanged = hasGlobalForwardingRuleFieldsChanged(old, new)
-
-	// Compare children
-	diff.LabelsDiff = diffLabels(old.Labels, new.Labels)
-
-	return diff
+	HasChanges bool
 }
 
 // HasAnyChange returns true if any part of the global forwarding rule changed.
 func (d *GlobalForwardingRuleDiff) HasAnyChange() bool {
-	if d.IsNew || d.IsChanged {
-		return true
-	}
-	return d.LabelsDiff.Changed
+	return d.IsNew || d.IsChanged || d.LabelsDiff.HasChanges
 }
 
-// hasGlobalForwardingRuleFieldsChanged compares forwarding rule-level fields (excluding children).
-func hasGlobalForwardingRuleFieldsChanged(old, new *bronze.GCPComputeGlobalForwardingRule) bool {
+// DiffGlobalForwardingRuleData compares existing Ent entity with new GlobalForwardingRuleData.
+func DiffGlobalForwardingRuleData(old *ent.BronzeGCPComputeGlobalForwardingRule, new *GlobalForwardingRuleData) *GlobalForwardingRuleDiff {
+	diff := &GlobalForwardingRuleDiff{}
+
+	// New global forwarding rule
+	if old == nil {
+		diff.IsNew = true
+		return diff
+	}
+
+	// Compare core fields
+	diff.IsChanged = hasGlobalForwardingRuleFieldsChanged(old, new)
+
+	// Compare labels
+	diff.LabelsDiff = diffLabelsData(old.Edges.Labels, new.Labels)
+
+	return diff
+}
+
+// hasGlobalForwardingRuleFieldsChanged compares global forwarding rule-level fields (excluding children).
+func hasGlobalForwardingRuleFieldsChanged(old *ent.BronzeGCPComputeGlobalForwardingRule, new *GlobalForwardingRuleData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.IPAddress != new.IPAddress ||
@@ -63,42 +57,57 @@ func hasGlobalForwardingRuleFieldsChanged(old, new *bronze.GCPComputeGlobalForwa
 		old.ExternalManagedBackendBucketMigrationState != new.ExternalManagedBackendBucketMigrationState ||
 		old.ExternalManagedBackendBucketMigrationTestingPercentage != new.ExternalManagedBackendBucketMigrationTestingPercentage ||
 		old.Fingerprint != new.Fingerprint ||
-		old.IpCollection != new.IpCollection ||
-		old.IpVersion != new.IpVersion ||
+		old.IPCollection != new.IpCollection ||
+		old.IPVersion != new.IpVersion ||
 		old.IsMirroringCollector != new.IsMirroringCollector ||
 		old.LabelFingerprint != new.LabelFingerprint ||
 		old.LoadBalancingScheme != new.LoadBalancingScheme ||
 		old.Network != new.Network ||
 		old.NetworkTier != new.NetworkTier ||
-		old.NoAutomateDnsZone != new.NoAutomateDnsZone ||
+		old.NoAutomateDNSZone != new.NoAutomateDnsZone ||
 		old.PortRange != new.PortRange ||
-		old.PscConnectionId != new.PscConnectionId ||
+		old.PscConnectionID != new.PscConnectionId ||
 		old.PscConnectionStatus != new.PscConnectionStatus ||
 		old.Region != new.Region ||
 		old.SelfLink != new.SelfLink ||
-		old.SelfLinkWithId != new.SelfLinkWithId ||
+		old.SelfLinkWithID != new.SelfLinkWithId ||
 		old.ServiceLabel != new.ServiceLabel ||
 		old.ServiceName != new.ServiceName ||
 		old.Subnetwork != new.Subnetwork ||
 		old.Target != new.Target ||
-		jsonb.Changed(old.PortsJSON, new.PortsJSON) ||
-		jsonb.Changed(old.SourceIpRangesJSON, new.SourceIpRangesJSON) ||
-		jsonb.Changed(old.MetadataFiltersJSON, new.MetadataFiltersJSON) ||
-		jsonb.Changed(old.ServiceDirectoryRegistrationsJSON, new.ServiceDirectoryRegistrationsJSON)
+		jsonChanged(old.PortsJSON, new.PortsJSON) ||
+		jsonChanged(old.SourceIPRangesJSON, new.SourceIpRangesJSON) ||
+		jsonChanged(old.MetadataFiltersJSON, new.MetadataFiltersJSON) ||
+		jsonChanged(old.ServiceDirectoryRegistrationsJSON, new.ServiceDirectoryRegistrationsJSON)
 }
 
-func diffLabels(old, new []bronze.GCPComputeGlobalForwardingRuleLabel) ChildDiff {
+func jsonChanged(old, new []interface{}) bool {
+	oldBytes, _ := json.Marshal(old)
+	newBytes, _ := json.Marshal(new)
+	return string(oldBytes) != string(newBytes)
+}
+
+func diffLabelsData(old []*ent.BronzeGCPComputeGlobalForwardingRuleLabel, new []LabelData) ChildDiff {
+	diff := ChildDiff{}
+
 	if len(old) != len(new) {
-		return ChildDiff{Changed: true}
+		diff.HasChanges = true
+		return diff
 	}
-	oldMap := make(map[string]string)
+
+	// Build map of old labels
+	oldMap := make(map[string]string, len(old))
 	for _, l := range old {
 		oldMap[l.Key] = l.Value
 	}
+
+	// Compare with new labels
 	for _, l := range new {
-		if v, ok := oldMap[l.Key]; !ok || v != l.Value {
-			return ChildDiff{Changed: true}
+		if oldValue, ok := oldMap[l.Key]; !ok || oldValue != l.Value {
+			diff.HasChanges = true
+			return diff
 		}
 	}
-	return ChildDiff{Changed: false}
+
+	return diff
 }

@@ -1,80 +1,95 @@
 package targetinstance
 
 import (
+	"context"
+	"fmt"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
-	"hotpot/pkg/base/models/bronze_history"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzehistorygcpcomputetargetinstance"
 )
 
-// HistoryService handles history tracking for target instances.
+// HistoryService manages target instance history tracking.
 type HistoryService struct {
-	db *gorm.DB
+	entClient *ent.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(db *gorm.DB) *HistoryService {
-	return &HistoryService{db: db}
+func NewHistoryService(entClient *ent.Client) *HistoryService {
+	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new target instance.
-func (h *HistoryService) CreateHistory(tx *gorm.DB, ti *bronze.GCPComputeTargetInstance, now time.Time) error {
-	hist := toTargetInstanceHistory(ti, now)
-	return tx.Create(&hist).Error
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *TargetInstanceData, now time.Time) error {
+	create := tx.BronzeHistoryGCPComputeTargetInstance.Create().
+		SetResourceID(data.ID).
+		SetValidFrom(now).
+		SetCollectedAt(data.CollectedAt).
+		SetName(data.Name).
+		SetProjectID(data.ProjectID)
+
+	if data.Description != "" {
+		create.SetDescription(data.Description)
+	}
+	if data.Zone != "" {
+		create.SetZone(data.Zone)
+	}
+	if data.Instance != "" {
+		create.SetInstance(data.Instance)
+	}
+	if data.Network != "" {
+		create.SetNetwork(data.Network)
+	}
+	if data.NatPolicy != "" {
+		create.SetNatPolicy(data.NatPolicy)
+	}
+	if data.SecurityPolicy != "" {
+		create.SetSecurityPolicy(data.SecurityPolicy)
+	}
+	if data.SelfLink != "" {
+		create.SetSelfLink(data.SelfLink)
+	}
+	if data.CreationTimestamp != "" {
+		create.SetCreationTimestamp(data.CreationTimestamp)
+	}
+
+	_, err := create.Save(ctx)
+	return err
 }
 
-// UpdateHistory closes old history and creates new history if changed.
-func (h *HistoryService) UpdateHistory(tx *gorm.DB, old, new *bronze.GCPComputeTargetInstance, diff *TargetInstanceDiff, now time.Time) error {
+// UpdateHistory closes old history and creates new history based on diff.
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeTargetInstance, new *TargetInstanceData, diff *TargetInstanceDiff, now time.Time) error {
 	if !diff.IsChanged {
 		return nil
 	}
 
 	// Close old history
-	var currentHist bronze_history.GCPComputeTargetInstance
-	if err := tx.Where("resource_id = ? AND valid_to IS NULL", old.ResourceID).First(&currentHist).Error; err != nil {
-		return err
-	}
-
-	if err := tx.Model(&currentHist).Update("valid_to", now).Error; err != nil {
-		return err
+	_, err := tx.BronzeHistoryGCPComputeTargetInstance.Update().
+		Where(
+			bronzehistorygcpcomputetargetinstance.ResourceID(old.ID),
+			bronzehistorygcpcomputetargetinstance.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("close old history: %w", err)
 	}
 
 	// Create new history
-	hist := toTargetInstanceHistory(new, now)
-	return tx.Create(&hist).Error
+	return h.CreateHistory(ctx, tx, new, now)
 }
 
 // CloseHistory closes history records for a deleted target instance.
-func (h *HistoryService) CloseHistory(tx *gorm.DB, resourceID string, now time.Time) error {
-	var currentHist bronze_history.GCPComputeTargetInstance
-	if err := tx.Where("resource_id = ? AND valid_to IS NULL", resourceID).First(&currentHist).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return nil // No history to close
-		}
-		return err
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+	_, err := tx.BronzeHistoryGCPComputeTargetInstance.Update().
+		Where(
+			bronzehistorygcpcomputetargetinstance.ResourceID(resourceID),
+			bronzehistorygcpcomputetargetinstance.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if ent.IsNotFound(err) {
+		return nil // No history to close
 	}
-
-	return tx.Model(&currentHist).Update("valid_to", now).Error
-}
-
-// toTargetInstanceHistory converts a bronze target instance to a history record.
-func toTargetInstanceHistory(ti *bronze.GCPComputeTargetInstance, now time.Time) bronze_history.GCPComputeTargetInstance {
-	return bronze_history.GCPComputeTargetInstance{
-		ResourceID:        ti.ResourceID,
-		ValidFrom:         now,
-		ValidTo:           nil,
-		Name:              ti.Name,
-		Description:       ti.Description,
-		Zone:              ti.Zone,
-		Instance:          ti.Instance,
-		Network:           ti.Network,
-		NatPolicy:         ti.NatPolicy,
-		SecurityPolicy:    ti.SecurityPolicy,
-		SelfLink:          ti.SelfLink,
-		CreationTimestamp: ti.CreationTimestamp,
-		ProjectID:         ti.ProjectID,
-		CollectedAt:       ti.CollectedAt,
-	}
+	return err
 }

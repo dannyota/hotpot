@@ -5,11 +5,24 @@ import (
 	"time"
 
 	"cloud.google.com/go/iam/admin/apiv1/adminpb"
-	"hotpot/pkg/base/models/bronze"
 )
 
-func ConvertServiceAccount(sa *adminpb.ServiceAccount, projectID string, collectedAt time.Time) bronze.GCPIAMServiceAccount {
-	return bronze.GCPIAMServiceAccount{
+// ServiceAccountData holds converted service account data ready for Ent insertion.
+type ServiceAccountData struct {
+	ResourceID     string
+	Name           string
+	Email          string
+	DisplayName    string
+	Description    string
+	Oauth2ClientId string
+	Disabled       bool
+	Etag           string
+	ProjectID      string
+	CollectedAt    time.Time
+}
+
+func ConvertServiceAccount(sa *adminpb.ServiceAccount, projectID string, collectedAt time.Time) *ServiceAccountData {
+	return &ServiceAccountData{
 		ResourceID:     sa.GetUniqueId(),
 		Name:           sa.GetName(),
 		Email:          sa.GetEmail(),

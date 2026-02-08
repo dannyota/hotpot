@@ -1,103 +1,188 @@
 package instancegroup
 
 import (
+	"context"
+	"fmt"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
-	"hotpot/pkg/base/models/bronze_history"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancegroup"
+	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancegroupmember"
+	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancegroupnamedport"
 )
 
-// HistoryService handles history tracking for instance groups.
+// HistoryService manages instance group history tracking.
 type HistoryService struct {
-	db *gorm.DB
+	entClient *ent.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(db *gorm.DB) *HistoryService {
-	return &HistoryService{db: db}
+func NewHistoryService(entClient *ent.Client) *HistoryService {
+	return &HistoryService{entClient: entClient}
 }
 
-// CreateHistory creates history records for a new instance group and all children.
-func (h *HistoryService) CreateHistory(tx *gorm.DB, group *bronze.GCPComputeInstanceGroup, now time.Time) error {
-	// Create group history
-	groupHist := toGroupHistory(group, now)
-	if err := tx.Create(&groupHist).Error; err != nil {
-		return err
+// CreateHistory creates initial history records for a new instance group.
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, groupData *InstanceGroupData, now time.Time) error {
+	// Create instance group history
+	groupHistory, err := tx.BronzeHistoryGCPComputeInstanceGroup.Create().
+		SetResourceID(groupData.ID).
+		SetValidFrom(now).
+		SetCollectedAt(groupData.CollectedAt).
+		SetName(groupData.Name).
+		SetDescription(groupData.Description).
+		SetZone(groupData.Zone).
+		SetNetwork(groupData.Network).
+		SetSubnetwork(groupData.Subnetwork).
+		SetSize(groupData.Size).
+		SetSelfLink(groupData.SelfLink).
+		SetCreationTimestamp(groupData.CreationTimestamp).
+		SetFingerprint(groupData.Fingerprint).
+		SetProjectID(groupData.ProjectID).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to create instance group history: %w", err)
 	}
 
-	// Create children history with group_history_id
-	return h.createChildrenHistory(tx, groupHist.HistoryID, group, now)
+	// Create named port history
+	for _, port := range groupData.NamedPorts {
+		_, err := tx.BronzeHistoryGCPComputeInstanceGroupNamedPort.Create().
+			SetGroupHistoryID(groupHistory.HistoryID).
+			SetValidFrom(now).
+			SetName(port.Name).
+			SetPort(port.Port).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create named port history: %w", err)
+		}
+	}
+
+	// Create member history
+	for _, member := range groupData.Members {
+		_, err := tx.BronzeHistoryGCPComputeInstanceGroupMember.Create().
+			SetGroupHistoryID(groupHistory.HistoryID).
+			SetValidFrom(now).
+			SetInstanceURL(member.InstanceURL).
+			SetInstanceName(member.InstanceName).
+			SetStatus(member.Status).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create member history: %w", err)
+		}
+	}
+
+	return nil
 }
 
-// UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(tx *gorm.DB, old, new *bronze.GCPComputeInstanceGroup, diff *InstanceGroupDiff, now time.Time) error {
-	// Get current group history
-	var currentHist bronze_history.GCPComputeInstanceGroup
-	if err := tx.Where("resource_id = ? AND valid_to IS NULL", old.ResourceID).First(&currentHist).Error; err != nil {
-		return err
+// UpdateHistory updates history records for a changed instance group.
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeInstanceGroup, new *InstanceGroupData, diff *InstanceGroupDiff, now time.Time) error {
+	// Get current instance group history
+	currentHistory, err := tx.BronzeHistoryGCPComputeInstanceGroup.Query().
+		Where(
+			bronzehistorygcpcomputeinstancegroup.ResourceID(old.ID),
+			bronzehistorygcpcomputeinstancegroup.ValidToIsNil(),
+		).
+		First(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to find current instance group history: %w", err)
 	}
 
-	// If group-level fields changed, close old and create new group history
+	// Close current instance group history if core fields changed
 	if diff.IsChanged {
-		// Close old group history
-		if err := tx.Model(&currentHist).Update("valid_to", now).Error; err != nil {
+		// Close old children history first
+		if err := h.closeChildrenHistory(ctx, tx, currentHistory.HistoryID, now); err != nil {
 			return err
 		}
 
-		// Create new group history
-		groupHist := toGroupHistory(new, now)
-		if err := tx.Create(&groupHist).Error; err != nil {
-			return err
+		// Close current instance group history
+		err = tx.BronzeHistoryGCPComputeInstanceGroup.UpdateOne(currentHistory).
+			SetValidTo(now).
+			Exec(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to close current instance group history: %w", err)
 		}
 
-		// Close all children history and create new ones
-		if err := h.closeChildrenHistory(tx, currentHist.HistoryID, now); err != nil {
-			return err
+		// Create new instance group history
+		newHistory, err := tx.BronzeHistoryGCPComputeInstanceGroup.Create().
+			SetResourceID(new.ID).
+			SetValidFrom(now).
+			SetCollectedAt(new.CollectedAt).
+			SetName(new.Name).
+			SetDescription(new.Description).
+			SetZone(new.Zone).
+			SetNetwork(new.Network).
+			SetSubnetwork(new.Subnetwork).
+			SetSize(new.Size).
+			SetSelfLink(new.SelfLink).
+			SetCreationTimestamp(new.CreationTimestamp).
+			SetFingerprint(new.Fingerprint).
+			SetProjectID(new.ProjectID).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create new instance group history: %w", err)
 		}
-		return h.createChildrenHistory(tx, groupHist.HistoryID, new, now)
+
+		// Create new children history linked to new group history
+		return h.createChildrenHistory(ctx, tx, newHistory.HistoryID, new, now)
 	}
 
-	// Group unchanged, check children individually (granular tracking)
-	return h.updateChildrenHistory(tx, currentHist.HistoryID, new, diff, now)
+	// Instance group unchanged, check children individually (granular tracking)
+	return h.updateChildrenHistory(ctx, tx, currentHistory.HistoryID, new, diff, now)
 }
 
-// CloseHistory closes history records for a deleted instance group.
-func (h *HistoryService) CloseHistory(tx *gorm.DB, resourceID string, now time.Time) error {
-	// Get current group history
-	var currentHist bronze_history.GCPComputeInstanceGroup
-	if err := tx.Where("resource_id = ? AND valid_to IS NULL", resourceID).First(&currentHist).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
+// CloseHistory closes all history records for a deleted instance group.
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+	// Get current instance group history
+	currentHistory, err := tx.BronzeHistoryGCPComputeInstanceGroup.Query().
+		Where(
+			bronzehistorygcpcomputeinstancegroup.ResourceID(resourceID),
+			bronzehistorygcpcomputeinstancegroup.ValidToIsNil(),
+		).
+		First(ctx)
+	if err != nil {
+		if ent.IsNotFound(err) {
 			return nil // No history to close
 		}
-		return err
+		return fmt.Errorf("failed to find current instance group history: %w", err)
 	}
 
-	// Close group history
-	if err := tx.Model(&currentHist).Update("valid_to", now).Error; err != nil {
-		return err
+	// Close instance group history
+	err = tx.BronzeHistoryGCPComputeInstanceGroup.UpdateOne(currentHistory).
+		SetValidTo(now).
+		Exec(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close instance group history: %w", err)
 	}
 
 	// Close all children history
-	return h.closeChildrenHistory(tx, currentHist.HistoryID, now)
+	return h.closeChildrenHistory(ctx, tx, currentHistory.HistoryID, now)
 }
 
 // createChildrenHistory creates history records for all children.
-func (h *HistoryService) createChildrenHistory(tx *gorm.DB, groupHistoryID uint, group *bronze.GCPComputeInstanceGroup, now time.Time) error {
-	// Named ports
-	for _, port := range group.NamedPorts {
-		portHist := toNamedPortHistory(&port, groupHistoryID, now)
-		if err := tx.Create(&portHist).Error; err != nil {
-			return err
+func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, groupHistoryID uint, groupData *InstanceGroupData, now time.Time) error {
+	// Create named port history
+	for _, port := range groupData.NamedPorts {
+		_, err := tx.BronzeHistoryGCPComputeInstanceGroupNamedPort.Create().
+			SetGroupHistoryID(groupHistoryID).
+			SetValidFrom(now).
+			SetName(port.Name).
+			SetPort(port.Port).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create named port history: %w", err)
 		}
 	}
 
-	// Members
-	for _, member := range group.Members {
-		memberHist := toMemberHistory(&member, groupHistoryID, now)
-		if err := tx.Create(&memberHist).Error; err != nil {
-			return err
+	// Create member history
+	for _, member := range groupData.Members {
+		_, err := tx.BronzeHistoryGCPComputeInstanceGroupMember.Create().
+			SetGroupHistoryID(groupHistoryID).
+			SetValidFrom(now).
+			SetInstanceURL(member.InstanceURL).
+			SetInstanceName(member.InstanceName).
+			SetStatus(member.Status).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create member history: %w", err)
 		}
 	}
 
@@ -105,111 +190,90 @@ func (h *HistoryService) createChildrenHistory(tx *gorm.DB, groupHistoryID uint,
 }
 
 // closeChildrenHistory closes all children history records.
-func (h *HistoryService) closeChildrenHistory(tx *gorm.DB, groupHistoryID uint, now time.Time) error {
-	// Close named ports
-	if err := tx.Table("bronze_history.gcp_compute_instance_group_named_ports").
-		Where("group_history_id = ? AND valid_to IS NULL", groupHistoryID).
-		Update("valid_to", now).Error; err != nil {
-		return err
+func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, groupHistoryID uint, now time.Time) error {
+	// Close named port history
+	_, err := tx.BronzeHistoryGCPComputeInstanceGroupNamedPort.Update().
+		Where(
+			bronzehistorygcpcomputeinstancegroupnamedport.GroupHistoryID(groupHistoryID),
+			bronzehistorygcpcomputeinstancegroupnamedport.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close named port history: %w", err)
 	}
 
-	// Close members
-	if err := tx.Table("bronze_history.gcp_compute_instance_group_members").
-		Where("group_history_id = ? AND valid_to IS NULL", groupHistoryID).
-		Update("valid_to", now).Error; err != nil {
-		return err
+	// Close member history
+	_, err = tx.BronzeHistoryGCPComputeInstanceGroupMember.Update().
+		Where(
+			bronzehistorygcpcomputeinstancegroupmember.GroupHistoryID(groupHistoryID),
+			bronzehistorygcpcomputeinstancegroupmember.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close member history: %w", err)
 	}
 
 	return nil
 }
 
 // updateChildrenHistory updates children history based on diff (granular tracking).
-func (h *HistoryService) updateChildrenHistory(tx *gorm.DB, groupHistoryID uint, new *bronze.GCPComputeInstanceGroup, diff *InstanceGroupDiff, now time.Time) error {
-	if diff.NamedPortsDiff.Changed {
-		if err := h.updateNamedPortsHistory(tx, groupHistoryID, new.NamedPorts, now); err != nil {
-			return err
+func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, groupHistoryID uint, new *InstanceGroupData, diff *InstanceGroupDiff, now time.Time) error {
+	if diff.NamedPortsDiff.HasChanges {
+		// Close old named port history
+		_, err := tx.BronzeHistoryGCPComputeInstanceGroupNamedPort.Update().
+			Where(
+				bronzehistorygcpcomputeinstancegroupnamedport.GroupHistoryID(groupHistoryID),
+				bronzehistorygcpcomputeinstancegroupnamedport.ValidToIsNil(),
+			).
+			SetValidTo(now).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to close named port history: %w", err)
+		}
+
+		// Create new named port history
+		for _, port := range new.NamedPorts {
+			_, err := tx.BronzeHistoryGCPComputeInstanceGroupNamedPort.Create().
+				SetGroupHistoryID(groupHistoryID).
+				SetValidFrom(now).
+				SetName(port.Name).
+				SetPort(port.Port).
+				Save(ctx)
+			if err != nil {
+				return fmt.Errorf("failed to create named port history: %w", err)
+			}
 		}
 	}
 
-	if diff.MembersDiff.Changed {
-		if err := h.updateMembersHistory(tx, groupHistoryID, new.Members, now); err != nil {
-			return err
+	if diff.MembersDiff.HasChanges {
+		// Close old member history
+		_, err := tx.BronzeHistoryGCPComputeInstanceGroupMember.Update().
+			Where(
+				bronzehistorygcpcomputeinstancegroupmember.GroupHistoryID(groupHistoryID),
+				bronzehistorygcpcomputeinstancegroupmember.ValidToIsNil(),
+			).
+			SetValidTo(now).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to close member history: %w", err)
+		}
+
+		// Create new member history
+		for _, member := range new.Members {
+			_, err := tx.BronzeHistoryGCPComputeInstanceGroupMember.Create().
+				SetGroupHistoryID(groupHistoryID).
+				SetValidFrom(now).
+				SetInstanceURL(member.InstanceURL).
+				SetInstanceName(member.InstanceName).
+				SetStatus(member.Status).
+				Save(ctx)
+			if err != nil {
+				return fmt.Errorf("failed to create member history: %w", err)
+			}
 		}
 	}
 
 	return nil
-}
-
-func (h *HistoryService) updateNamedPortsHistory(tx *gorm.DB, groupHistoryID uint, ports []bronze.GCPComputeInstanceGroupNamedPort, now time.Time) error {
-	if err := tx.Table("bronze_history.gcp_compute_instance_group_named_ports").
-		Where("group_history_id = ? AND valid_to IS NULL", groupHistoryID).
-		Update("valid_to", now).Error; err != nil {
-		return err
-	}
-
-	for _, port := range ports {
-		portHist := toNamedPortHistory(&port, groupHistoryID, now)
-		if err := tx.Create(&portHist).Error; err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-func (h *HistoryService) updateMembersHistory(tx *gorm.DB, groupHistoryID uint, members []bronze.GCPComputeInstanceGroupMember, now time.Time) error {
-	if err := tx.Table("bronze_history.gcp_compute_instance_group_members").
-		Where("group_history_id = ? AND valid_to IS NULL", groupHistoryID).
-		Update("valid_to", now).Error; err != nil {
-		return err
-	}
-
-	for _, member := range members {
-		memberHist := toMemberHistory(&member, groupHistoryID, now)
-		if err := tx.Create(&memberHist).Error; err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-// Conversion functions: bronze -> bronze_history
-
-func toGroupHistory(group *bronze.GCPComputeInstanceGroup, now time.Time) bronze_history.GCPComputeInstanceGroup {
-	return bronze_history.GCPComputeInstanceGroup{
-		ResourceID:        group.ResourceID,
-		ValidFrom:         now,
-		ValidTo:           nil,
-		Name:              group.Name,
-		Description:       group.Description,
-		Zone:              group.Zone,
-		Network:           group.Network,
-		Subnetwork:        group.Subnetwork,
-		Size:              group.Size,
-		SelfLink:          group.SelfLink,
-		CreationTimestamp: group.CreationTimestamp,
-		Fingerprint:       group.Fingerprint,
-		ProjectID:         group.ProjectID,
-		CollectedAt:       group.CollectedAt,
-	}
-}
-
-func toNamedPortHistory(port *bronze.GCPComputeInstanceGroupNamedPort, groupHistoryID uint, now time.Time) bronze_history.GCPComputeInstanceGroupNamedPort {
-	return bronze_history.GCPComputeInstanceGroupNamedPort{
-		GroupHistoryID: groupHistoryID,
-		ValidFrom:      now,
-		ValidTo:        nil,
-		Name:           port.Name,
-		Port:           port.Port,
-	}
-}
-
-func toMemberHistory(member *bronze.GCPComputeInstanceGroupMember, groupHistoryID uint, now time.Time) bronze_history.GCPComputeInstanceGroupMember {
-	return bronze_history.GCPComputeInstanceGroupMember{
-		GroupHistoryID: groupHistoryID,
-		ValidFrom:      now,
-		ValidTo:        nil,
-		InstanceURL:    member.InstanceURL,
-		InstanceName:   member.InstanceName,
-		Status:         member.Status,
-	}
 }

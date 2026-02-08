@@ -6,15 +6,37 @@ import (
 	"time"
 
 	"cloud.google.com/go/compute/apiv1/computepb"
-
-	"hotpot/pkg/base/models/bronze"
 )
 
-// ConvertTargetVpnGateway converts a GCP API TargetVpnGateway to a Bronze model.
+// TargetVpnGatewayData holds converted target VPN gateway data ready for Ent insertion.
+type TargetVpnGatewayData struct {
+	ID                  string
+	Name                string
+	Description         string
+	Status              string
+	Region              string
+	Network             string
+	SelfLink            string
+	CreationTimestamp   string
+	LabelFingerprint    string
+	ForwardingRulesJSON json.RawMessage
+	TunnelsJSON         json.RawMessage
+	Labels              []LabelData
+	ProjectID           string
+	CollectedAt         time.Time
+}
+
+// LabelData holds converted label data.
+type LabelData struct {
+	Key   string
+	Value string
+}
+
+// ConvertTargetVpnGateway converts a GCP API TargetVpnGateway to TargetVpnGatewayData.
 // Preserves raw API data with minimal transformation.
-func ConvertTargetVpnGateway(t *computepb.TargetVpnGateway, projectID string, collectedAt time.Time) (bronze.GCPComputeTargetVpnGateway, error) {
-	gw := bronze.GCPComputeTargetVpnGateway{
-		ResourceID:        fmt.Sprintf("%d", t.GetId()),
+func ConvertTargetVpnGateway(t *computepb.TargetVpnGateway, projectID string, collectedAt time.Time) (*TargetVpnGatewayData, error) {
+	gw := &TargetVpnGatewayData{
+		ID:                fmt.Sprintf("%d", t.GetId()),
 		Name:              t.GetName(),
 		Description:       t.GetDescription(),
 		Status:            t.GetStatus(),
@@ -28,18 +50,20 @@ func ConvertTargetVpnGateway(t *computepb.TargetVpnGateway, projectID string, co
 	}
 
 	// Convert JSONB fields (nil -> SQL NULL, data -> JSON bytes)
-	var err error
 	if t.ForwardingRules != nil {
-		gw.ForwardingRulesJSON, err = json.Marshal(t.ForwardingRules)
+		rulesBytes, err := json.Marshal(t.ForwardingRules)
 		if err != nil {
-			return bronze.GCPComputeTargetVpnGateway{}, fmt.Errorf("failed to marshal forwarding rules JSON for target vpn gateway %s: %w", t.GetName(), err)
+			return nil, fmt.Errorf("failed to marshal forwarding rules for target vpn gateway %s: %w", t.GetName(), err)
 		}
+		gw.ForwardingRulesJSON = rulesBytes
 	}
+
 	if t.Tunnels != nil {
-		gw.TunnelsJSON, err = json.Marshal(t.Tunnels)
+		tunnelsBytes, err := json.Marshal(t.Tunnels)
 		if err != nil {
-			return bronze.GCPComputeTargetVpnGateway{}, fmt.Errorf("failed to marshal tunnels JSON for target vpn gateway %s: %w", t.GetName(), err)
+			return nil, fmt.Errorf("failed to marshal tunnels for target vpn gateway %s: %w", t.GetName(), err)
 		}
+		gw.TunnelsJSON = tunnelsBytes
 	}
 
 	// Convert labels to separate table
@@ -48,15 +72,15 @@ func ConvertTargetVpnGateway(t *computepb.TargetVpnGateway, projectID string, co
 	return gw, nil
 }
 
-// ConvertLabels converts target VPN gateway labels from GCP API to Bronze models.
-func ConvertLabels(labels map[string]string) []bronze.GCPComputeTargetVpnGatewayLabel {
+// ConvertLabels converts target VPN gateway labels from GCP API to label data.
+func ConvertLabels(labels map[string]string) []LabelData {
 	if len(labels) == 0 {
 		return nil
 	}
 
-	result := make([]bronze.GCPComputeTargetVpnGatewayLabel, 0, len(labels))
+	result := make([]LabelData, 0, len(labels))
 	for key, value := range labels {
-		result = append(result, bronze.GCPComputeTargetVpnGatewayLabel{
+		result = append(result, LabelData{
 			Key:   key,
 			Value: value,
 		})

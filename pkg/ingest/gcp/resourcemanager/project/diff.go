@@ -1,7 +1,7 @@
 package project
 
 import (
-	"hotpot/pkg/base/models/bronze"
+	"hotpot/pkg/storage/ent"
 )
 
 // ProjectDiff represents changes between old and new project state.
@@ -21,8 +21,8 @@ func (d *ProjectDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged || d.LabelsDiff.HasChanges
 }
 
-// DiffProject compares old and new project states and returns differences.
-func DiffProject(old, new *bronze.GCPProject) *ProjectDiff {
+// DiffProjectData compares existing Ent entity with new ProjectData and returns differences.
+func DiffProjectData(old *ent.BronzeGCPProject, new *ProjectData) *ProjectDiff {
 	diff := &ProjectDiff{}
 
 	// New project
@@ -42,13 +42,13 @@ func DiffProject(old, new *bronze.GCPProject) *ProjectDiff {
 	}
 
 	// Compare labels
-	diff.LabelsDiff = diffLabels(old.Labels, new.Labels)
+	diff.LabelsDiff = diffLabelsData(old.Edges.Labels, new.Labels)
 
 	return diff
 }
 
-// diffLabels compares two sets of labels.
-func diffLabels(old, new []bronze.GCPProjectLabel) ChildDiff {
+// diffLabelsData compares Ent labels with new label data.
+func diffLabelsData(old []*ent.BronzeGCPProjectLabel, new []LabelData) ChildDiff {
 	diff := ChildDiff{}
 
 	if len(old) != len(new) {

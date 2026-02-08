@@ -1,57 +1,49 @@
 package instancegroup
 
 import (
-	"hotpot/pkg/base/models/bronze"
+	"hotpot/pkg/storage/ent"
 )
 
 // InstanceGroupDiff represents changes between old and new instance group states.
 type InstanceGroupDiff struct {
-	IsNew     bool
-	IsChanged bool
-
-	// Child diffs (for granular tracking)
+	IsNew          bool
+	IsChanged      bool
 	NamedPortsDiff ChildDiff
 	MembersDiff    ChildDiff
 }
 
 // ChildDiff represents changes in a child collection.
 type ChildDiff struct {
-	Changed bool
-}
-
-// DiffInstanceGroup compares old and new instance group states.
-// Returns nil if old is nil (new instance group).
-func DiffInstanceGroup(old, new *bronze.GCPComputeInstanceGroup) *InstanceGroupDiff {
-	if old == nil {
-		return &InstanceGroupDiff{
-			IsNew:          true,
-			NamedPortsDiff: ChildDiff{Changed: true},
-			MembersDiff:    ChildDiff{Changed: true},
-		}
-	}
-
-	diff := &InstanceGroupDiff{}
-
-	// Compare group-level fields
-	diff.IsChanged = hasGroupFieldsChanged(old, new)
-
-	// Compare children
-	diff.NamedPortsDiff = diffNamedPorts(old.NamedPorts, new.NamedPorts)
-	diff.MembersDiff = diffMembers(old.Members, new.Members)
-
-	return diff
+	HasChanges bool
 }
 
 // HasAnyChange returns true if any part of the instance group changed.
 func (d *InstanceGroupDiff) HasAnyChange() bool {
-	if d.IsNew || d.IsChanged {
-		return true
+	return d.IsNew || d.IsChanged || d.NamedPortsDiff.HasChanges || d.MembersDiff.HasChanges
+}
+
+// DiffInstanceGroupData compares existing Ent entity with new InstanceGroupData.
+func DiffInstanceGroupData(old *ent.BronzeGCPComputeInstanceGroup, new *InstanceGroupData) *InstanceGroupDiff {
+	diff := &InstanceGroupDiff{}
+
+	// New instance group
+	if old == nil {
+		diff.IsNew = true
+		return diff
 	}
-	return d.NamedPortsDiff.Changed || d.MembersDiff.Changed
+
+	// Compare core fields
+	diff.IsChanged = hasGroupFieldsChanged(old, new)
+
+	// Compare children
+	diff.NamedPortsDiff = diffNamedPortsData(old.Edges.NamedPorts, new.NamedPorts)
+	diff.MembersDiff = diffMembersData(old.Edges.Members, new.Members)
+
+	return diff
 }
 
 // hasGroupFieldsChanged compares group-level fields (excluding children).
-func hasGroupFieldsChanged(old, new *bronze.GCPComputeInstanceGroup) bool {
+func hasGroupFieldsChanged(old *ent.BronzeGCPComputeInstanceGroup, new *InstanceGroupData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Zone != new.Zone ||
@@ -61,34 +53,52 @@ func hasGroupFieldsChanged(old, new *bronze.GCPComputeInstanceGroup) bool {
 		old.Fingerprint != new.Fingerprint
 }
 
-func diffNamedPorts(old, new []bronze.GCPComputeInstanceGroupNamedPort) ChildDiff {
+func diffNamedPortsData(old []*ent.BronzeGCPComputeInstanceGroupNamedPort, new []NamedPortData) ChildDiff {
+	diff := ChildDiff{}
+
 	if len(old) != len(new) {
-		return ChildDiff{Changed: true}
+		diff.HasChanges = true
+		return diff
 	}
-	oldMap := make(map[string]int32)
+
+	// Build map of old named ports
+	oldMap := make(map[string]int32, len(old))
 	for _, p := range old {
 		oldMap[p.Name] = p.Port
 	}
+
+	// Compare with new named ports
 	for _, p := range new {
-		if port, ok := oldMap[p.Name]; !ok || port != p.Port {
-			return ChildDiff{Changed: true}
+		if oldPort, ok := oldMap[p.Name]; !ok || oldPort != p.Port {
+			diff.HasChanges = true
+			return diff
 		}
 	}
-	return ChildDiff{Changed: false}
+
+	return diff
 }
 
-func diffMembers(old, new []bronze.GCPComputeInstanceGroupMember) ChildDiff {
+func diffMembersData(old []*ent.BronzeGCPComputeInstanceGroupMember, new []MemberData) ChildDiff {
+	diff := ChildDiff{}
+
 	if len(old) != len(new) {
-		return ChildDiff{Changed: true}
+		diff.HasChanges = true
+		return diff
 	}
-	oldMap := make(map[string]string)
+
+	// Build map of old members
+	oldMap := make(map[string]string, len(old))
 	for _, m := range old {
 		oldMap[m.InstanceURL] = m.Status
 	}
+
+	// Compare with new members
 	for _, m := range new {
-		if status, ok := oldMap[m.InstanceURL]; !ok || status != m.Status {
-			return ChildDiff{Changed: true}
+		if oldStatus, ok := oldMap[m.InstanceURL]; !ok || oldStatus != m.Status {
+			diff.HasChanges = true
+			return diff
 		}
 	}
-	return ChildDiff{Changed: false}
+
+	return diff
 }

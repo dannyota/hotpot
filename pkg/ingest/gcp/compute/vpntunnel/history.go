@@ -1,176 +1,189 @@
 package vpntunnel
 
 import (
+	"context"
+	"fmt"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
-	"hotpot/pkg/base/models/bronze_history"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzehistorygcpvpntunnel"
+	"hotpot/pkg/storage/ent/bronzehistorygcpvpntunnellabel"
 )
 
 // HistoryService handles history tracking for VPN tunnels.
 type HistoryService struct {
-	db *gorm.DB
+	entClient *ent.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(db *gorm.DB) *HistoryService {
-	return &HistoryService{db: db}
+func NewHistoryService(entClient *ent.Client) *HistoryService {
+	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new VPN tunnel and all children.
-func (h *HistoryService) CreateHistory(tx *gorm.DB, tunnel *bronze.GCPComputeVpnTunnel, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *VpnTunnelData, now time.Time) error {
 	// Create VPN tunnel history
-	tunnelHist := toVpnTunnelHistory(tunnel, now)
-	if err := tx.Create(&tunnelHist).Error; err != nil {
-		return err
+	create := tx.BronzeHistoryGCPVPNTunnel.Create().
+		SetResourceID(data.ID).
+		SetValidFrom(now).
+		SetCollectedAt(data.CollectedAt).
+		SetName(data.Name).
+		SetDescription(data.Description).
+		SetStatus(data.Status).
+		SetDetailedStatus(data.DetailedStatus).
+		SetRegion(data.Region).
+		SetSelfLink(data.SelfLink).
+		SetCreationTimestamp(data.CreationTimestamp).
+		SetLabelFingerprint(data.LabelFingerprint).
+		SetIkeVersion(data.IkeVersion).
+		SetPeerIP(data.PeerIp).
+		SetPeerExternalGateway(data.PeerExternalGateway).
+		SetPeerExternalGatewayInterface(data.PeerExternalGatewayInterface).
+		SetPeerGcpGateway(data.PeerGcpGateway).
+		SetRouter(data.Router).
+		SetSharedSecretHash(data.SharedSecretHash).
+		SetVpnGateway(data.VpnGateway).
+		SetTargetVpnGateway(data.TargetVpnGateway).
+		SetVpnGatewayInterface(data.VpnGatewayInterface).
+		SetProjectID(data.ProjectID)
+
+	if len(data.LocalTrafficSelectorJSON) > 0 {
+		create.SetLocalTrafficSelectorJSON(data.LocalTrafficSelectorJSON)
+	}
+	if len(data.RemoteTrafficSelectorJSON) > 0 {
+		create.SetRemoteTrafficSelectorJSON(data.RemoteTrafficSelectorJSON)
 	}
 
-	// Create children history with vpn_tunnel_history_id
-	return h.createChildrenHistory(tx, tunnelHist.HistoryID, tunnel, now)
+	tunnelHist, err := create.Save(ctx)
+	if err != nil {
+		return fmt.Errorf("create vpn tunnel history: %w", err)
+	}
+
+	// Create labels history
+	for _, label := range data.Labels {
+		_, err := tx.BronzeHistoryGCPVPNTunnelLabel.Create().
+			SetVpnTunnelHistoryID(tunnelHist.HistoryID).
+			SetValidFrom(now).
+			SetKey(label.Key).
+			SetValue(label.Value).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("create label history: %w", err)
+		}
+	}
+
+	return nil
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(tx *gorm.DB, old, new *bronze.GCPComputeVpnTunnel, diff *VpnTunnelDiff, now time.Time) error {
-	// Get current VPN tunnel history
-	var currentHist bronze_history.GCPComputeVpnTunnel
-	if err := tx.Where("resource_id = ? AND valid_to IS NULL", old.ResourceID).First(&currentHist).Error; err != nil {
-		return err
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPVPNTunnel, new *VpnTunnelData, diff *VpnTunnelDiff, now time.Time) error {
+	if !diff.IsChanged && !diff.LabelsDiff.HasChanges {
+		return nil
 	}
 
-	// If VPN tunnel-level fields changed, close old and create new history
+	// Get current VPN tunnel history
+	currentHist, err := tx.BronzeHistoryGCPVPNTunnel.Query().
+		Where(
+			bronzehistorygcpvpntunnel.ResourceID(old.ID),
+			bronzehistorygcpvpntunnel.ValidToIsNil(),
+		).
+		First(ctx)
+	if err != nil {
+		return fmt.Errorf("query current history: %w", err)
+	}
+
+	// If VPN tunnel-level fields changed, close old and create new VPN tunnel history
 	if diff.IsChanged {
 		// Close old VPN tunnel history
-		if err := tx.Model(&currentHist).Update("valid_to", now).Error; err != nil {
-			return err
+		_, err := tx.BronzeHistoryGCPVPNTunnel.UpdateOneID(int(currentHist.HistoryID)).
+			SetValidTo(now).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("close old history: %w", err)
 		}
 
-		// Create new VPN tunnel history
-		tunnelHist := toVpnTunnelHistory(new, now)
-		if err := tx.Create(&tunnelHist).Error; err != nil {
-			return err
+		// Close all children history
+		_, err = tx.BronzeHistoryGCPVPNTunnelLabel.Update().
+			Where(
+				bronzehistorygcpvpntunnellabel.VpnTunnelHistoryID(currentHist.HistoryID),
+				bronzehistorygcpvpntunnellabel.ValidToIsNil(),
+			).
+			SetValidTo(now).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("close children history: %w", err)
 		}
 
-		// Close all children history and create new ones
-		if err := h.closeChildrenHistory(tx, currentHist.HistoryID, now); err != nil {
-			return err
-		}
-		return h.createChildrenHistory(tx, tunnelHist.HistoryID, new, now)
+		// Create new history
+		return h.CreateHistory(ctx, tx, new, now)
 	}
 
-	// VPN tunnel unchanged, check children individually (granular tracking)
-	return h.updateChildrenHistory(tx, currentHist.HistoryID, new, diff, now)
+	// VPN tunnel unchanged, update children individually (granular tracking)
+	if diff.LabelsDiff.HasChanges {
+		// Close old labels history
+		_, err := tx.BronzeHistoryGCPVPNTunnelLabel.Update().
+			Where(
+				bronzehistorygcpvpntunnellabel.VpnTunnelHistoryID(currentHist.HistoryID),
+				bronzehistorygcpvpntunnellabel.ValidToIsNil(),
+			).
+			SetValidTo(now).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("close old labels history: %w", err)
+		}
+
+		// Create new labels history
+		for _, label := range new.Labels {
+			_, err := tx.BronzeHistoryGCPVPNTunnelLabel.Create().
+				SetVpnTunnelHistoryID(currentHist.HistoryID).
+				SetValidFrom(now).
+				SetKey(label.Key).
+				SetValue(label.Value).
+				Save(ctx)
+			if err != nil {
+				return fmt.Errorf("create label history: %w", err)
+			}
+		}
+	}
+
+	return nil
 }
 
 // CloseHistory closes history records for a deleted VPN tunnel.
-func (h *HistoryService) CloseHistory(tx *gorm.DB, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
 	// Get current VPN tunnel history
-	var currentHist bronze_history.GCPComputeVpnTunnel
-	if err := tx.Where("resource_id = ? AND valid_to IS NULL", resourceID).First(&currentHist).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
+	currentHist, err := tx.BronzeHistoryGCPVPNTunnel.Query().
+		Where(
+			bronzehistorygcpvpntunnel.ResourceID(resourceID),
+			bronzehistorygcpvpntunnel.ValidToIsNil(),
+		).
+		First(ctx)
+	if err != nil {
+		if ent.IsNotFound(err) {
 			return nil // No history to close
 		}
-		return err
+		return fmt.Errorf("query current history: %w", err)
 	}
 
 	// Close VPN tunnel history
-	if err := tx.Model(&currentHist).Update("valid_to", now).Error; err != nil {
-		return err
+	_, err = tx.BronzeHistoryGCPVPNTunnel.UpdateOneID(int(currentHist.HistoryID)).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("close vpn tunnel history: %w", err)
 	}
 
 	// Close all children history
-	return h.closeChildrenHistory(tx, currentHist.HistoryID, now)
-}
-
-// createChildrenHistory creates history records for all children.
-func (h *HistoryService) createChildrenHistory(tx *gorm.DB, vpnTunnelHistoryID uint, tunnel *bronze.GCPComputeVpnTunnel, now time.Time) error {
-	// Labels
-	for _, label := range tunnel.Labels {
-		labelHist := toLabelHistory(&label, vpnTunnelHistoryID, now)
-		if err := tx.Create(&labelHist).Error; err != nil {
-			return err
-		}
+	_, err = tx.BronzeHistoryGCPVPNTunnelLabel.Update().
+		Where(
+			bronzehistorygcpvpntunnellabel.VpnTunnelHistoryID(currentHist.HistoryID),
+			bronzehistorygcpvpntunnellabel.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("close children history: %w", err)
 	}
 
 	return nil
-}
-
-// closeChildrenHistory closes all children history records.
-func (h *HistoryService) closeChildrenHistory(tx *gorm.DB, vpnTunnelHistoryID uint, now time.Time) error {
-	// Close labels
-	if err := tx.Table("bronze_history.gcp_compute_vpn_tunnel_labels").
-		Where("vpn_tunnel_history_id = ? AND valid_to IS NULL", vpnTunnelHistoryID).
-		Update("valid_to", now).Error; err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// updateChildrenHistory updates children history based on diff (granular tracking).
-func (h *HistoryService) updateChildrenHistory(tx *gorm.DB, vpnTunnelHistoryID uint, new *bronze.GCPComputeVpnTunnel, diff *VpnTunnelDiff, now time.Time) error {
-	if diff.LabelsDiff.Changed {
-		if err := h.updateLabelsHistory(tx, vpnTunnelHistoryID, new.Labels, now); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (h *HistoryService) updateLabelsHistory(tx *gorm.DB, vpnTunnelHistoryID uint, labels []bronze.GCPComputeVpnTunnelLabel, now time.Time) error {
-	tx.Table("bronze_history.gcp_compute_vpn_tunnel_labels").
-		Where("vpn_tunnel_history_id = ? AND valid_to IS NULL", vpnTunnelHistoryID).
-		Update("valid_to", now)
-
-	for _, label := range labels {
-		labelHist := toLabelHistory(&label, vpnTunnelHistoryID, now)
-		if err := tx.Create(&labelHist).Error; err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-// Conversion functions: bronze -> bronze_history
-
-func toVpnTunnelHistory(tunnel *bronze.GCPComputeVpnTunnel, now time.Time) bronze_history.GCPComputeVpnTunnel {
-	return bronze_history.GCPComputeVpnTunnel{
-		ResourceID:                   tunnel.ResourceID,
-		ValidFrom:                    now,
-		ValidTo:                      nil,
-		Name:                         tunnel.Name,
-		Description:                  tunnel.Description,
-		Status:                       tunnel.Status,
-		DetailedStatus:               tunnel.DetailedStatus,
-		Region:                       tunnel.Region,
-		SelfLink:                     tunnel.SelfLink,
-		CreationTimestamp:            tunnel.CreationTimestamp,
-		LabelFingerprint:             tunnel.LabelFingerprint,
-		IkeVersion:                   tunnel.IkeVersion,
-		PeerIp:                       tunnel.PeerIp,
-		PeerExternalGateway:          tunnel.PeerExternalGateway,
-		PeerExternalGatewayInterface: tunnel.PeerExternalGatewayInterface,
-		PeerGcpGateway:               tunnel.PeerGcpGateway,
-		Router:                       tunnel.Router,
-		SharedSecretHash:             tunnel.SharedSecretHash,
-		VpnGateway:                   tunnel.VpnGateway,
-		TargetVpnGateway:             tunnel.TargetVpnGateway,
-		VpnGatewayInterface:          tunnel.VpnGatewayInterface,
-		LocalTrafficSelectorJSON:     tunnel.LocalTrafficSelectorJSON,
-		RemoteTrafficSelectorJSON:    tunnel.RemoteTrafficSelectorJSON,
-		ProjectID:                    tunnel.ProjectID,
-		CollectedAt:                  tunnel.CollectedAt,
-	}
-}
-
-func toLabelHistory(label *bronze.GCPComputeVpnTunnelLabel, vpnTunnelHistoryID uint, now time.Time) bronze_history.GCPComputeVpnTunnelLabel {
-	return bronze_history.GCPComputeVpnTunnelLabel{
-		VpnTunnelHistoryID: vpnTunnelHistoryID,
-		ValidFrom:          now,
-		ValidTo:            nil,
-		Key:                label.Key,
-		Value:              label.Value,
-	}
 }

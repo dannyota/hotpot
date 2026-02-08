@@ -1,6 +1,6 @@
 # Ent Schema Guide
 
-This guide covers creating and maintaining ent schemas for Hotpot's multi-layer data model.
+Type-safe ent schema patterns for Hotpot's multi-layer data model (bronze, bronzehistory, silver, gold).
 
 ## Quick Start Checklist
 
@@ -394,6 +394,6 @@ This runs `entc.go` which:
 
 Due to [ent issue #2330](https://github.com/ent/ent/issues/2330), we must use `_history` suffix on history table names to avoid duplicate constant collisions.
 
-**See**: `docs/decisions/001-ent-issue-2330-workaround.md`
+**See**: `docs/decisions/002-ent-issue-2330-workaround.md`
 
 When ent fixes this issue, we'll rename history tables to remove the suffix.

@@ -2,17 +2,17 @@ package network
 
 import (
 	"go.temporal.io/sdk/worker"
-	"hotpot/pkg/base/ratelimit"
-	"gorm.io/gorm"
 
 	"hotpot/pkg/base/config"
+	"hotpot/pkg/base/ratelimit"
+	"hotpot/pkg/storage/ent"
 )
 
 // Register registers network workflows and activities with the Temporal worker.
 // Client is created per activity invocation.
-func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limiter ratelimit.Limiter) {
+func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
 	// Create activities with dependencies
-	activities := NewActivities(configService, db, limiter)
+	activities := NewActivities(configService, entClient, limiter)
 	w.RegisterActivity(activities.IngestComputeNetworks)
 	w.RegisterWorkflow(GCPComputeNetworkWorkflow)
 }

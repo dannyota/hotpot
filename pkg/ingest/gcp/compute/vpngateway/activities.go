@@ -7,24 +7,24 @@ import (
 
 	"go.temporal.io/sdk/activity"
 	"google.golang.org/api/option"
-	"gorm.io/gorm"
 
 	"hotpot/pkg/base/config"
 	"hotpot/pkg/base/ratelimit"
+	"hotpot/pkg/storage/ent"
 )
 
 // Activities holds dependencies for Temporal activities.
 type Activities struct {
 	configService *config.Service
-	db            *gorm.DB
+	entClient     *ent.Client
 	limiter       ratelimit.Limiter
 }
 
 // NewActivities creates a new Activities instance.
-func NewActivities(configService *config.Service, db *gorm.DB, limiter ratelimit.Limiter) *Activities {
+func NewActivities(configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) *Activities {
 	return &Activities{
 		configService: configService,
-		db:            db,
+		entClient:     entClient,
 		limiter:       limiter,
 	}
 }
@@ -71,7 +71,7 @@ func (a *Activities) IngestComputeVpnGateways(ctx context.Context, params Ingest
 	defer client.Close()
 
 	// Create service
-	service := NewService(client, a.db)
+	service := NewService(client, a.entClient)
 	result, err := service.Ingest(ctx, IngestParams{
 		ProjectID: params.ProjectID,
 	})

@@ -1,10 +1,8 @@
 package instance
 
 import (
-	"reflect"
-
-	"hotpot/pkg/base/jsonb"
-	"hotpot/pkg/base/models/bronze"
+	"bytes"
+	"hotpot/pkg/storage/ent"
 )
 
 // InstanceDiff represents changes between old and new instance states.
@@ -26,9 +24,8 @@ type ChildDiff struct {
 	Changed bool
 }
 
-// DiffInstance compares old and new instance states.
-// Returns nil if old is nil (new instance).
-func DiffInstance(old, new *bronze.GCPComputeInstance) *InstanceDiff {
+// DiffInstanceData compares old Ent entity and new data.
+func DiffInstanceData(old *ent.BronzeGCPComputeInstance, new *InstanceData) *InstanceDiff {
 	if old == nil {
 		return &InstanceDiff{
 			IsNew:               true,
@@ -46,13 +43,13 @@ func DiffInstance(old, new *bronze.GCPComputeInstance) *InstanceDiff {
 	// Compare instance-level fields
 	diff.IsChanged = hasInstanceFieldsChanged(old, new)
 
-	// Compare children
-	diff.DisksDiff = diffDisks(old.Disks, new.Disks)
-	diff.NICsDiff = diffNICs(old.NICs, new.NICs)
-	diff.LabelsDiff = diffLabels(old.Labels, new.Labels)
-	diff.TagsDiff = diffTags(old.Tags, new.Tags)
-	diff.MetadataDiff = diffMetadata(old.Metadata, new.Metadata)
-	diff.ServiceAccountsDiff = diffServiceAccounts(old.ServiceAccounts, new.ServiceAccounts)
+	// Compare children (need to load edges from old)
+	diff.DisksDiff = diffDisksData(old.Edges.Disks, new.Disks)
+	diff.NICsDiff = diffNICsData(old.Edges.Nics, new.NICs)
+	diff.LabelsDiff = diffLabelsData(old.Edges.Labels, new.Labels)
+	diff.TagsDiff = diffTagsData(old.Edges.Tags, new.Tags)
+	diff.MetadataDiff = diffMetadataData(old.Edges.Metadata, new.Metadata)
+	diff.ServiceAccountsDiff = diffServiceAccountsData(old.Edges.ServiceAccounts, new.ServiceAccounts)
 
 	return diff
 }
@@ -71,34 +68,35 @@ func (d *InstanceDiff) HasAnyChange() bool {
 }
 
 // hasInstanceFieldsChanged compares instance-level fields (excluding children).
-func hasInstanceFieldsChanged(old, new *bronze.GCPComputeInstance) bool {
+func hasInstanceFieldsChanged(old *ent.BronzeGCPComputeInstance, new *InstanceData) bool {
 	return old.Name != new.Name ||
 		old.Zone != new.Zone ||
 		old.MachineType != new.MachineType ||
 		old.Status != new.Status ||
 		old.StatusMessage != new.StatusMessage ||
-		old.CpuPlatform != new.CpuPlatform ||
+		old.CPUPlatform != new.CpuPlatform ||
 		old.Hostname != new.Hostname ||
 		old.Description != new.Description ||
 		old.DeletionProtection != new.DeletionProtection ||
-		old.CanIpForward != new.CanIpForward ||
-		jsonb.Changed(old.SchedulingJSON, new.SchedulingJSON)
+		old.CanIPForward != new.CanIpForward ||
+		!bytes.Equal(old.SchedulingJSON, new.SchedulingJSON)
 }
 
-func diffDisks(old, new []bronze.GCPComputeInstanceDisk) ChildDiff {
+func diffDisksData(old []*ent.BronzeGCPComputeInstanceDisk, new []DiskData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
 	for i := range old {
-		if hasDiskChanged(&old[i], &new[i]) {
+		if hasDiskChangedData(old[i], &new[i]) {
 			return ChildDiff{Changed: true}
 		}
 	}
 	return ChildDiff{Changed: false}
 }
 
-func hasDiskChanged(old, new *bronze.GCPComputeInstanceDisk) bool {
-	return old.Source != new.Source ||
+func hasDiskChangedData(old *ent.BronzeGCPComputeInstanceDisk, new *DiskData) bool {
+	// Compare fields
+	if old.Source != new.Source ||
 		old.DeviceName != new.DeviceName ||
 		old.Index != new.Index ||
 		old.Boot != new.Boot ||
@@ -106,36 +104,74 @@ func hasDiskChanged(old, new *bronze.GCPComputeInstanceDisk) bool {
 		old.Mode != new.Mode ||
 		old.Interface != new.Interface ||
 		old.Type != new.Type ||
-		old.DiskSizeGb != new.DiskSizeGb ||
-		jsonb.Changed(old.DiskEncryptionKeyJSON, new.DiskEncryptionKeyJSON) ||
-		jsonb.Changed(old.InitializeParamsJSON, new.InitializeParamsJSON) ||
-		!reflect.DeepEqual(old.Licenses, new.Licenses)
+		old.DiskSizeGB != new.DiskSizeGb ||
+		!bytes.Equal(old.DiskEncryptionKeyJSON, new.DiskEncryptionKeyJSON) ||
+		!bytes.Equal(old.InitializeParamsJSON, new.InitializeParamsJSON) {
+		return true
+	}
+
+	// Compare licenses
+	if len(old.Edges.Licenses) != len(new.Licenses) {
+		return true
+	}
+	for i := range old.Edges.Licenses {
+		if old.Edges.Licenses[i].License != new.Licenses[i].License {
+			return true
+		}
+	}
+	return false
 }
 
-func diffNICs(old, new []bronze.GCPComputeInstanceNIC) ChildDiff {
+func diffNICsData(old []*ent.BronzeGCPComputeInstanceNIC, new []NICData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
 	for i := range old {
-		if hasNICChanged(&old[i], &new[i]) {
+		if hasNICChangedData(old[i], &new[i]) {
 			return ChildDiff{Changed: true}
 		}
 	}
 	return ChildDiff{Changed: false}
 }
 
-func hasNICChanged(old, new *bronze.GCPComputeInstanceNIC) bool {
-	return old.Name != new.Name ||
+func hasNICChangedData(old *ent.BronzeGCPComputeInstanceNIC, new *NICData) bool {
+	if old.Name != new.Name ||
 		old.Network != new.Network ||
 		old.Subnetwork != new.Subnetwork ||
 		old.NetworkIP != new.NetworkIP ||
 		old.StackType != new.StackType ||
-		old.NicType != new.NicType ||
-		!reflect.DeepEqual(old.AccessConfigs, new.AccessConfigs) ||
-		!reflect.DeepEqual(old.AliasIpRanges, new.AliasIpRanges)
+		old.NicType != new.NicType {
+		return true
+	}
+
+	// Compare access configs
+	if len(old.Edges.AccessConfigs) != len(new.AccessConfigs) {
+		return true
+	}
+	for i := range old.Edges.AccessConfigs {
+		if old.Edges.AccessConfigs[i].Type != new.AccessConfigs[i].Type ||
+			old.Edges.AccessConfigs[i].Name != new.AccessConfigs[i].Name ||
+			old.Edges.AccessConfigs[i].NatIP != new.AccessConfigs[i].NatIP ||
+			old.Edges.AccessConfigs[i].NetworkTier != new.AccessConfigs[i].NetworkTier {
+			return true
+		}
+	}
+
+	// Compare alias ranges
+	if len(old.Edges.AliasIPRanges) != len(new.AliasIPRanges) {
+		return true
+	}
+	for i := range old.Edges.AliasIPRanges {
+		if old.Edges.AliasIPRanges[i].IPCidrRange != new.AliasIPRanges[i].IPCidrRange ||
+			old.Edges.AliasIPRanges[i].SubnetworkRangeName != new.AliasIPRanges[i].SubnetworkRangeName {
+			return true
+		}
+	}
+
+	return false
 }
 
-func diffLabels(old, new []bronze.GCPComputeInstanceLabel) ChildDiff {
+func diffLabelsData(old []*ent.BronzeGCPComputeInstanceLabel, new []LabelData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -151,7 +187,7 @@ func diffLabels(old, new []bronze.GCPComputeInstanceLabel) ChildDiff {
 	return ChildDiff{Changed: false}
 }
 
-func diffTags(old, new []bronze.GCPComputeInstanceTag) ChildDiff {
+func diffTagsData(old []*ent.BronzeGCPComputeInstanceTag, new []TagData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -167,7 +203,7 @@ func diffTags(old, new []bronze.GCPComputeInstanceTag) ChildDiff {
 	return ChildDiff{Changed: false}
 }
 
-func diffMetadata(old, new []bronze.GCPComputeInstanceMetadata) ChildDiff {
+func diffMetadataData(old []*ent.BronzeGCPComputeInstanceMetadata, new []MetadataData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -183,12 +219,12 @@ func diffMetadata(old, new []bronze.GCPComputeInstanceMetadata) ChildDiff {
 	return ChildDiff{Changed: false}
 }
 
-func diffServiceAccounts(old, new []bronze.GCPComputeInstanceServiceAccount) ChildDiff {
+func diffServiceAccountsData(old []*ent.BronzeGCPComputeInstanceServiceAccount, new []ServiceAccountData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
 	for i := range old {
-		if old[i].Email != new[i].Email || jsonb.Changed(old[i].ScopesJSON, new[i].ScopesJSON) {
+		if old[i].Email != new[i].Email || !bytes.Equal(old[i].ScopesJSON, new[i].ScopesJSON) {
 			return ChildDiff{Changed: true}
 		}
 	}

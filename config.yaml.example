@@ -1,0 +1,55 @@
+# Hotpot Configuration Example
+#
+# ⚠️  WARNING: This is an EXAMPLE file with PLACEHOLDER values
+# ⚠️  DO NOT use these values in production
+# ⚠️  Copy to config.yaml and replace ALL placeholders
+#
+# Usage:
+#   1. cp config.yaml.example config.yaml
+#   2. Replace all <PLACEHOLDER> values
+#   3. CONFIG_SOURCE=file CONFIG_FILE=config.yaml ./bin/ingest
+
+# GCP Configuration
+gcp:
+  # Service account credentials (JSON format)
+  # Optional - falls back to Application Default Credentials (ADC) if not set
+  # nosemgrep: generic.secrets.security.detected-generic-secret
+  credentials_json: |
+    {
+      "type": "service_account",
+      "project_id": "...",
+      "private_key": "...",
+      ...
+    }
+
+  # API rate limiting (requests per minute across all GCP clients)
+  # Default: 600 if not set
+  rate_limit_per_minute: 600
+
+# Database Configuration (REQUIRED)
+# nosemgrep: generic.secrets.security.detected-generic-secret
+database:
+  host: localhost  # or <YOUR_DATABASE_HOST>
+  port: 5432
+  user: postgres   # Replace with your database user
+  password: <REPLACE_WITH_SECURE_PASSWORD>  # CHANGEME: Use strong password or Vault
+  dbname: hotpot
+  sslmode: require  # SECURITY: Use 'require' or 'verify-full' in production
+  # sslmode options: disable (dev only), require, verify-ca, verify-full
+
+  # Dev database for Atlas schema migrations (optional)
+  # Defaults to "{dbname}_dev" if not set
+  dev_dbname: hotpot_dev
+
+# Temporal Configuration (REQUIRED)
+temporal:
+  host_port: localhost:7233  # REQUIRED - Replace with your Temporal server
+  namespace: default         # Optional - defaults to "default"
+
+# Redis Configuration (for rate limiting)
+# Optional - falls back to in-memory rate limiting if not set
+# nosemgrep: generic.secrets.security.detected-generic-secret
+redis:
+  address: localhost:6379  # or <YOUR_REDIS_HOST>:6379
+  password: <REPLACE_WITH_REDIS_PASSWORD>  # CHANGEME: Leave empty if no auth
+  db: 0  # Optional - defaults to 0

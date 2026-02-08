@@ -1,103 +1,242 @@
 package image
 
 import (
+	"context"
+	"fmt"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
-	"hotpot/pkg/base/models/bronze_history"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeimage"
+	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeimagelabel"
+	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeimagelicense"
 )
 
 // HistoryService handles history tracking for images.
 type HistoryService struct {
-	db *gorm.DB
+	entClient *ent.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(db *gorm.DB) *HistoryService {
-	return &HistoryService{db: db}
+func NewHistoryService(entClient *ent.Client) *HistoryService {
+	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new image and all children.
-func (h *HistoryService) CreateHistory(tx *gorm.DB, img *bronze.GCPComputeImage, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, imageData *ImageData, now time.Time) error {
 	// Create image history
-	imgHist := toImageHistory(img, now)
-	if err := tx.Create(&imgHist).Error; err != nil {
-		return err
+	imgHistCreate := tx.BronzeHistoryGCPComputeImage.Create().
+		SetResourceID(imageData.ID).
+		SetValidFrom(now).
+		SetCollectedAt(imageData.CollectedAt).
+		SetName(imageData.Name).
+		SetDescription(imageData.Description).
+		SetStatus(imageData.Status).
+		SetArchitecture(imageData.Architecture).
+		SetSelfLink(imageData.SelfLink).
+		SetCreationTimestamp(imageData.CreationTimestamp).
+		SetLabelFingerprint(imageData.LabelFingerprint).
+		SetFamily(imageData.Family).
+		SetSourceDisk(imageData.SourceDisk).
+		SetSourceDiskID(imageData.SourceDiskId).
+		SetSourceImage(imageData.SourceImage).
+		SetSourceImageID(imageData.SourceImageId).
+		SetSourceSnapshot(imageData.SourceSnapshot).
+		SetSourceSnapshotID(imageData.SourceSnapshotId).
+		SetSourceType(imageData.SourceType).
+		SetDiskSizeGB(imageData.DiskSizeGb).
+		SetArchiveSizeBytes(imageData.ArchiveSizeBytes).
+		SetSatisfiesPzi(imageData.SatisfiesPzi).
+		SetSatisfiesPzs(imageData.SatisfiesPzs).
+		SetEnableConfidentialCompute(imageData.EnableConfidentialCompute).
+		SetProjectID(imageData.ProjectID)
+
+	if imageData.ImageEncryptionKeyJSON != nil {
+		imgHistCreate.SetImageEncryptionKeyJSON(imageData.ImageEncryptionKeyJSON)
+	}
+	if imageData.SourceDiskEncryptionKeyJSON != nil {
+		imgHistCreate.SetSourceDiskEncryptionKeyJSON(imageData.SourceDiskEncryptionKeyJSON)
+	}
+	if imageData.SourceImageEncryptionKeyJSON != nil {
+		imgHistCreate.SetSourceImageEncryptionKeyJSON(imageData.SourceImageEncryptionKeyJSON)
+	}
+	if imageData.SourceSnapshotEncryptionKeyJSON != nil {
+		imgHistCreate.SetSourceSnapshotEncryptionKeyJSON(imageData.SourceSnapshotEncryptionKeyJSON)
+	}
+	if imageData.DeprecatedJSON != nil {
+		imgHistCreate.SetDeprecatedJSON(imageData.DeprecatedJSON)
+	}
+	if imageData.GuestOsFeaturesJSON != nil {
+		imgHistCreate.SetGuestOsFeaturesJSON(imageData.GuestOsFeaturesJSON)
+	}
+	if imageData.ShieldedInstanceInitialStateJSON != nil {
+		imgHistCreate.SetShieldedInstanceInitialStateJSON(imageData.ShieldedInstanceInitialStateJSON)
+	}
+	if imageData.RawDiskJSON != nil {
+		imgHistCreate.SetRawDiskJSON(imageData.RawDiskJSON)
+	}
+	if imageData.StorageLocationsJSON != nil {
+		imgHistCreate.SetStorageLocationsJSON(imageData.StorageLocationsJSON)
+	}
+	if imageData.LicenseCodesJSON != nil {
+		imgHistCreate.SetLicenseCodesJSON(imageData.LicenseCodesJSON)
+	}
+
+	imgHist, err := imgHistCreate.Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to create image history: %w", err)
 	}
 
 	// Create children history with image_history_id
-	return h.createChildrenHistory(tx, imgHist.HistoryID, img, now)
+	return h.createChildrenHistory(ctx, tx, imgHist.HistoryID, imageData, now)
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(tx *gorm.DB, old, new *bronze.GCPComputeImage, diff *ImageDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeImage, new *ImageData, diff *ImageDiff, now time.Time) error {
 	// Get current image history
-	var currentHist bronze_history.GCPComputeImage
-	if err := tx.Where("resource_id = ? AND valid_to IS NULL", old.ResourceID).First(&currentHist).Error; err != nil {
-		return err
+	currentHist, err := tx.BronzeHistoryGCPComputeImage.Query().
+		Where(
+			bronzehistorygcpcomputeimage.ResourceID(old.ID),
+			bronzehistorygcpcomputeimage.ValidToIsNil(),
+		).
+		First(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to find current image history: %w", err)
 	}
 
 	// If image-level fields changed, close old and create new image history
 	if diff.IsChanged {
 		// Close old image history
-		if err := tx.Model(&currentHist).Update("valid_to", now).Error; err != nil {
-			return err
+		if err := tx.BronzeHistoryGCPComputeImage.UpdateOne(currentHist).
+			SetValidTo(now).
+			Exec(ctx); err != nil {
+			return fmt.Errorf("failed to close image history: %w", err)
 		}
 
 		// Create new image history
-		imgHist := toImageHistory(new, now)
-		if err := tx.Create(&imgHist).Error; err != nil {
-			return err
+		imgHistCreate := tx.BronzeHistoryGCPComputeImage.Create().
+			SetResourceID(new.ID).
+			SetValidFrom(now).
+			SetCollectedAt(new.CollectedAt).
+			SetName(new.Name).
+			SetDescription(new.Description).
+			SetStatus(new.Status).
+			SetArchitecture(new.Architecture).
+			SetSelfLink(new.SelfLink).
+			SetCreationTimestamp(new.CreationTimestamp).
+			SetLabelFingerprint(new.LabelFingerprint).
+			SetFamily(new.Family).
+			SetSourceDisk(new.SourceDisk).
+			SetSourceDiskID(new.SourceDiskId).
+			SetSourceImage(new.SourceImage).
+			SetSourceImageID(new.SourceImageId).
+			SetSourceSnapshot(new.SourceSnapshot).
+			SetSourceSnapshotID(new.SourceSnapshotId).
+			SetSourceType(new.SourceType).
+			SetDiskSizeGB(new.DiskSizeGb).
+			SetArchiveSizeBytes(new.ArchiveSizeBytes).
+			SetSatisfiesPzi(new.SatisfiesPzi).
+			SetSatisfiesPzs(new.SatisfiesPzs).
+			SetEnableConfidentialCompute(new.EnableConfidentialCompute).
+			SetProjectID(new.ProjectID)
+
+		if new.ImageEncryptionKeyJSON != nil {
+			imgHistCreate.SetImageEncryptionKeyJSON(new.ImageEncryptionKeyJSON)
+		}
+		if new.SourceDiskEncryptionKeyJSON != nil {
+			imgHistCreate.SetSourceDiskEncryptionKeyJSON(new.SourceDiskEncryptionKeyJSON)
+		}
+		if new.SourceImageEncryptionKeyJSON != nil {
+			imgHistCreate.SetSourceImageEncryptionKeyJSON(new.SourceImageEncryptionKeyJSON)
+		}
+		if new.SourceSnapshotEncryptionKeyJSON != nil {
+			imgHistCreate.SetSourceSnapshotEncryptionKeyJSON(new.SourceSnapshotEncryptionKeyJSON)
+		}
+		if new.DeprecatedJSON != nil {
+			imgHistCreate.SetDeprecatedJSON(new.DeprecatedJSON)
+		}
+		if new.GuestOsFeaturesJSON != nil {
+			imgHistCreate.SetGuestOsFeaturesJSON(new.GuestOsFeaturesJSON)
+		}
+		if new.ShieldedInstanceInitialStateJSON != nil {
+			imgHistCreate.SetShieldedInstanceInitialStateJSON(new.ShieldedInstanceInitialStateJSON)
+		}
+		if new.RawDiskJSON != nil {
+			imgHistCreate.SetRawDiskJSON(new.RawDiskJSON)
+		}
+		if new.StorageLocationsJSON != nil {
+			imgHistCreate.SetStorageLocationsJSON(new.StorageLocationsJSON)
+		}
+		if new.LicenseCodesJSON != nil {
+			imgHistCreate.SetLicenseCodesJSON(new.LicenseCodesJSON)
+		}
+
+		imgHist, err := imgHistCreate.Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create image history: %w", err)
 		}
 
 		// Close all children history and create new ones
-		if err := h.closeChildrenHistory(tx, currentHist.HistoryID, now); err != nil {
-			return err
+		if err := h.closeChildrenHistory(ctx, tx, currentHist.HistoryID, now); err != nil {
+			return fmt.Errorf("failed to close children history: %w", err)
 		}
-		return h.createChildrenHistory(tx, imgHist.HistoryID, new, now)
+		return h.createChildrenHistory(ctx, tx, imgHist.HistoryID, new, now)
 	}
 
 	// Image unchanged, check children individually (granular tracking)
-	return h.updateChildrenHistory(tx, currentHist.HistoryID, new, diff, now)
+	return h.updateChildrenHistory(ctx, tx, currentHist.HistoryID, old, new, diff, now)
 }
 
 // CloseHistory closes history records for a deleted image.
-func (h *HistoryService) CloseHistory(tx *gorm.DB, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
 	// Get current image history
-	var currentHist bronze_history.GCPComputeImage
-	if err := tx.Where("resource_id = ? AND valid_to IS NULL", resourceID).First(&currentHist).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
+	currentHist, err := tx.BronzeHistoryGCPComputeImage.Query().
+		Where(
+			bronzehistorygcpcomputeimage.ResourceID(resourceID),
+			bronzehistorygcpcomputeimage.ValidToIsNil(),
+		).
+		First(ctx)
+	if err != nil {
+		if ent.IsNotFound(err) {
 			return nil // No history to close
 		}
-		return err
+		return fmt.Errorf("failed to find current image history: %w", err)
 	}
 
 	// Close image history
-	if err := tx.Model(&currentHist).Update("valid_to", now).Error; err != nil {
-		return err
+	if err := tx.BronzeHistoryGCPComputeImage.UpdateOne(currentHist).
+		SetValidTo(now).
+		Exec(ctx); err != nil {
+		return fmt.Errorf("failed to close image history: %w", err)
 	}
 
 	// Close all children history
-	return h.closeChildrenHistory(tx, currentHist.HistoryID, now)
+	return h.closeChildrenHistory(ctx, tx, currentHist.HistoryID, now)
 }
 
 // createChildrenHistory creates history records for all children.
-func (h *HistoryService) createChildrenHistory(tx *gorm.DB, imageHistoryID uint, img *bronze.GCPComputeImage, now time.Time) error {
+func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, imageHistoryID uint, data *ImageData, now time.Time) error {
 	// Labels
-	for _, label := range img.Labels {
-		labelHist := toLabelHistory(&label, imageHistoryID, now)
-		if err := tx.Create(&labelHist).Error; err != nil {
-			return err
+	for _, labelData := range data.Labels {
+		_, err := tx.BronzeHistoryGCPComputeImageLabel.Create().
+			SetImageHistoryID(imageHistoryID).
+			SetValidFrom(now).
+			SetKey(labelData.Key).
+			SetValue(labelData.Value).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create label history: %w", err)
 		}
 	}
 
 	// Licenses
-	for _, license := range img.Licenses {
-		licHist := toLicenseHistory(&license, imageHistoryID, now)
-		if err := tx.Create(&licHist).Error; err != nil {
-			return err
+	for _, licenseData := range data.Licenses {
+		_, err := tx.BronzeHistoryGCPComputeImageLicense.Create().
+			SetImageHistoryID(imageHistoryID).
+			SetValidFrom(now).
+			SetLicense(licenseData.License).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create license history: %w", err)
 		}
 	}
 
@@ -105,34 +244,44 @@ func (h *HistoryService) createChildrenHistory(tx *gorm.DB, imageHistoryID uint,
 }
 
 // closeChildrenHistory closes all children history records.
-func (h *HistoryService) closeChildrenHistory(tx *gorm.DB, imageHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, imageHistoryID uint, now time.Time) error {
 	// Close labels
-	if err := tx.Table("bronze_history.gcp_compute_image_labels").
-		Where("image_history_id = ? AND valid_to IS NULL", imageHistoryID).
-		Update("valid_to", now).Error; err != nil {
-		return err
+	_, err := tx.BronzeHistoryGCPComputeImageLabel.Update().
+		Where(
+			bronzehistorygcpcomputeimagelabel.ImageHistoryID(imageHistoryID),
+			bronzehistorygcpcomputeimagelabel.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close label history: %w", err)
 	}
 
 	// Close licenses
-	if err := tx.Table("bronze_history.gcp_compute_image_licenses").
-		Where("image_history_id = ? AND valid_to IS NULL", imageHistoryID).
-		Update("valid_to", now).Error; err != nil {
-		return err
+	_, err = tx.BronzeHistoryGCPComputeImageLicense.Update().
+		Where(
+			bronzehistorygcpcomputeimagelicense.ImageHistoryID(imageHistoryID),
+			bronzehistorygcpcomputeimagelicense.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close license history: %w", err)
 	}
 
 	return nil
 }
 
 // updateChildrenHistory updates children history based on diff (granular tracking).
-func (h *HistoryService) updateChildrenHistory(tx *gorm.DB, imageHistoryID uint, new *bronze.GCPComputeImage, diff *ImageDiff, now time.Time) error {
+func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, imageHistoryID uint, old *ent.BronzeGCPComputeImage, new *ImageData, diff *ImageDiff, now time.Time) error {
 	if diff.LabelsDiff.Changed {
-		if err := h.updateLabelsHistory(tx, imageHistoryID, new.Labels, now); err != nil {
+		if err := h.updateLabelsHistory(ctx, tx, imageHistoryID, new.Labels, now); err != nil {
 			return err
 		}
 	}
 
 	if diff.LicensesDiff.Changed {
-		if err := h.updateLicensesHistory(tx, imageHistoryID, new.Licenses, now); err != nil {
+		if err := h.updateLicensesHistory(ctx, tx, imageHistoryID, new.Licenses, now); err != nil {
 			return err
 		}
 	}
@@ -140,91 +289,57 @@ func (h *HistoryService) updateChildrenHistory(tx *gorm.DB, imageHistoryID uint,
 	return nil
 }
 
-func (h *HistoryService) updateLabelsHistory(tx *gorm.DB, imageHistoryID uint, labels []bronze.GCPComputeImageLabel, now time.Time) error {
-	tx.Table("bronze_history.gcp_compute_image_labels").
-		Where("image_history_id = ? AND valid_to IS NULL", imageHistoryID).
-		Update("valid_to", now)
+func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *ent.Tx, imageHistoryID uint, labels []ImageLabelData, now time.Time) error {
+	// Close old labels
+	_, err := tx.BronzeHistoryGCPComputeImageLabel.Update().
+		Where(
+			bronzehistorygcpcomputeimagelabel.ImageHistoryID(imageHistoryID),
+			bronzehistorygcpcomputeimagelabel.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close label history: %w", err)
+	}
 
-	for _, label := range labels {
-		labelHist := toLabelHistory(&label, imageHistoryID, now)
-		if err := tx.Create(&labelHist).Error; err != nil {
-			return err
+	// Create new labels
+	for _, labelData := range labels {
+		_, err := tx.BronzeHistoryGCPComputeImageLabel.Create().
+			SetImageHistoryID(imageHistoryID).
+			SetValidFrom(now).
+			SetKey(labelData.Key).
+			SetValue(labelData.Value).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create label history: %w", err)
 		}
 	}
 	return nil
 }
 
-func (h *HistoryService) updateLicensesHistory(tx *gorm.DB, imageHistoryID uint, licenses []bronze.GCPComputeImageLicense, now time.Time) error {
-	tx.Table("bronze_history.gcp_compute_image_licenses").
-		Where("image_history_id = ? AND valid_to IS NULL", imageHistoryID).
-		Update("valid_to", now)
+func (h *HistoryService) updateLicensesHistory(ctx context.Context, tx *ent.Tx, imageHistoryID uint, licenses []ImageLicenseData, now time.Time) error {
+	// Close old licenses
+	_, err := tx.BronzeHistoryGCPComputeImageLicense.Update().
+		Where(
+			bronzehistorygcpcomputeimagelicense.ImageHistoryID(imageHistoryID),
+			bronzehistorygcpcomputeimagelicense.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close license history: %w", err)
+	}
 
-	for _, license := range licenses {
-		licHist := toLicenseHistory(&license, imageHistoryID, now)
-		if err := tx.Create(&licHist).Error; err != nil {
-			return err
+	// Create new licenses
+	for _, licenseData := range licenses {
+		_, err := tx.BronzeHistoryGCPComputeImageLicense.Create().
+			SetImageHistoryID(imageHistoryID).
+			SetValidFrom(now).
+			SetLicense(licenseData.License).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create license history: %w", err)
 		}
 	}
 	return nil
-}
-
-// Conversion functions: bronze -> bronze_history
-
-func toImageHistory(img *bronze.GCPComputeImage, now time.Time) bronze_history.GCPComputeImage {
-	return bronze_history.GCPComputeImage{
-		ResourceID:                       img.ResourceID,
-		ValidFrom:                        now,
-		ValidTo:                          nil,
-		Name:                             img.Name,
-		Description:                      img.Description,
-		Status:                           img.Status,
-		Architecture:                     img.Architecture,
-		SelfLink:                         img.SelfLink,
-		CreationTimestamp:                img.CreationTimestamp,
-		LabelFingerprint:                 img.LabelFingerprint,
-		Family:                           img.Family,
-		SourceDisk:                       img.SourceDisk,
-		SourceDiskId:                     img.SourceDiskId,
-		SourceImage:                      img.SourceImage,
-		SourceImageId:                    img.SourceImageId,
-		SourceSnapshot:                   img.SourceSnapshot,
-		SourceSnapshotId:                 img.SourceSnapshotId,
-		SourceType:                       img.SourceType,
-		DiskSizeGb:                       img.DiskSizeGb,
-		ArchiveSizeBytes:                 img.ArchiveSizeBytes,
-		SatisfiesPzi:                     img.SatisfiesPzi,
-		SatisfiesPzs:                     img.SatisfiesPzs,
-		EnableConfidentialCompute:        img.EnableConfidentialCompute,
-		ImageEncryptionKeyJSON:           img.ImageEncryptionKeyJSON,
-		SourceDiskEncryptionKeyJSON:      img.SourceDiskEncryptionKeyJSON,
-		SourceImageEncryptionKeyJSON:     img.SourceImageEncryptionKeyJSON,
-		SourceSnapshotEncryptionKeyJSON:  img.SourceSnapshotEncryptionKeyJSON,
-		DeprecatedJSON:                   img.DeprecatedJSON,
-		GuestOsFeaturesJSON:              img.GuestOsFeaturesJSON,
-		ShieldedInstanceInitialStateJSON: img.ShieldedInstanceInitialStateJSON,
-		RawDiskJSON:                      img.RawDiskJSON,
-		StorageLocationsJSON:             img.StorageLocationsJSON,
-		LicenseCodesJSON:                 img.LicenseCodesJSON,
-		ProjectID:                        img.ProjectID,
-		CollectedAt:                      img.CollectedAt,
-	}
-}
-
-func toLabelHistory(label *bronze.GCPComputeImageLabel, imageHistoryID uint, now time.Time) bronze_history.GCPComputeImageLabel {
-	return bronze_history.GCPComputeImageLabel{
-		ImageHistoryID: imageHistoryID,
-		ValidFrom:      now,
-		ValidTo:        nil,
-		Key:            label.Key,
-		Value:          label.Value,
-	}
-}
-
-func toLicenseHistory(license *bronze.GCPComputeImageLicense, imageHistoryID uint, now time.Time) bronze_history.GCPComputeImageLicense {
-	return bronze_history.GCPComputeImageLicense{
-		ImageHistoryID: imageHistoryID,
-		ValidFrom:      now,
-		ValidTo:        nil,
-		License:        license.License,
-	}
 }

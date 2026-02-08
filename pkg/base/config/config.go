@@ -27,11 +27,15 @@ type DatabaseConfig struct {
 	Password string `yaml:"password"`
 	DBName   string `yaml:"dbname"`
 	SSLMode  string `yaml:"sslmode,omitempty"`
+
+	// DevDBName is the database name for Atlas dev database (schema diffing).
+	// Defaults to "{dbname}_dev" if not set.
+	DevDBName string `yaml:"dev_dbname,omitempty"`
 }
 
 // TemporalConfig holds Temporal connection configuration.
 type TemporalConfig struct {
-	HostPort  string `yaml:"host_port,omitempty"`
+	HostPort  string `yaml:"host_port"`
 	Namespace string `yaml:"namespace,omitempty"`
 }
 

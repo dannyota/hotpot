@@ -284,6 +284,5 @@ return tx.Commit()
 ## References
 
 - [ENT_SCHEMAS.md](ENT_SCHEMAS.md) - Complete ent schema guide
-- [GORM_TO_ENT_MIGRATION.md](GORM_TO_ENT_MIGRATION.md) - Migration reference
 - [Google Go Style Guide](https://google.github.io/styleguide/go/)
 - [Uber Go Guide](https://github.com/uber-go/guide)

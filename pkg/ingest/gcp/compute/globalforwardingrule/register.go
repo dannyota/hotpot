@@ -2,15 +2,15 @@ package globalforwardingrule
 
 import (
 	"go.temporal.io/sdk/worker"
-	"hotpot/pkg/base/ratelimit"
-	"gorm.io/gorm"
 
 	"hotpot/pkg/base/config"
+	"hotpot/pkg/base/ratelimit"
+	"hotpot/pkg/storage/ent"
 )
 
 // Register registers global forwarding rule workflows and activities with the Temporal worker.
-func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limiter ratelimit.Limiter) {
-	activities := NewActivities(configService, db, limiter)
+func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
+	activities := NewActivities(configService, entClient, limiter)
 	w.RegisterActivity(activities.IngestComputeGlobalForwardingRules)
 	w.RegisterWorkflow(GCPComputeGlobalForwardingRuleWorkflow)
 }

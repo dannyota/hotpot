@@ -5,24 +5,24 @@ import (
 	"fmt"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzegcpcomputeforwardingrule"
+	"hotpot/pkg/storage/ent/bronzegcpcomputeforwardingrulelabel"
 )
 
 // Service handles GCP Compute forwarding rule ingestion.
 type Service struct {
-	client  *Client
-	db      *gorm.DB
-	history *HistoryService
+	client    *Client
+	entClient *ent.Client
+	history   *HistoryService
 }
 
 // NewService creates a new forwarding rule ingestion service.
-func NewService(client *Client, db *gorm.DB) *Service {
+func NewService(client *Client, entClient *ent.Client) *Service {
 	return &Service{
-		client:  client,
-		db:      db,
-		history: NewHistoryService(db),
+		client:    client,
+		entClient: entClient,
+		history:   NewHistoryService(entClient),
 	}
 }
 
@@ -50,116 +50,244 @@ func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResul
 		return nil, fmt.Errorf("failed to list forwarding rules: %w", err)
 	}
 
-	// Convert to bronze models
-	bronzeRules := make([]bronze.GCPComputeForwardingRule, 0, len(forwardingRules))
+	// Convert to data structs
+	ruleDataList := make([]*ForwardingRuleData, 0, len(forwardingRules))
 	for _, fr := range forwardingRules {
-		rule, err := ConvertForwardingRule(fr, params.ProjectID, collectedAt)
+		ruleData, err := ConvertForwardingRule(fr, params.ProjectID, collectedAt)
 		if err != nil {
 			return nil, fmt.Errorf("failed to convert forwarding rule: %w", err)
 		}
-		bronzeRules = append(bronzeRules, rule)
+		ruleDataList = append(ruleDataList, ruleData)
 	}
 
 	// Save to database
-	if err := s.saveForwardingRules(ctx, bronzeRules); err != nil {
+	if err := s.saveForwardingRules(ctx, ruleDataList); err != nil {
 		return nil, fmt.Errorf("failed to save forwarding rules: %w", err)
 	}
 
 	return &IngestResult{
 		ProjectID:          params.ProjectID,
-		ForwardingRuleCount: len(bronzeRules),
+		ForwardingRuleCount: len(ruleDataList),
 		CollectedAt:        collectedAt,
 		DurationMillis:     time.Since(startTime).Milliseconds(),
 	}, nil
 }
 
 // saveForwardingRules saves forwarding rules to the database with history tracking.
-func (s *Service) saveForwardingRules(ctx context.Context, forwardingRules []bronze.GCPComputeForwardingRule) error {
+func (s *Service) saveForwardingRules(ctx context.Context, forwardingRules []*ForwardingRuleData) error {
 	if len(forwardingRules) == 0 {
 		return nil
 	}
 
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		for _, rule := range forwardingRules {
-			// Load existing forwarding rule with all relations
-			var existing *bronze.GCPComputeForwardingRule
-			var old bronze.GCPComputeForwardingRule
-			err := tx.Preload("Labels").
-				Where("resource_id = ?", rule.ResourceID).
-				First(&old).Error
-			if err == nil {
-				existing = &old
-			} else if err != gorm.ErrRecordNotFound {
-				return fmt.Errorf("failed to load existing forwarding rule %s: %w", rule.Name, err)
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to start transaction: %w", err)
+	}
+
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	for _, ruleData := range forwardingRules {
+		// Load existing forwarding rule with labels
+		existing, err := tx.BronzeGCPComputeForwardingRule.Query().
+			Where(bronzegcpcomputeforwardingrule.ID(ruleData.ID)).
+			WithLabels().
+			First(ctx)
+		if err != nil && !ent.IsNotFound(err) {
+			tx.Rollback()
+			return fmt.Errorf("failed to load existing forwarding rule %s: %w", ruleData.ID, err)
+		}
+
+		// Compute diff
+		diff := DiffForwardingRuleData(existing, ruleData)
+
+		// Skip if no changes
+		if !diff.HasAnyChange() && existing != nil {
+			// Update collected_at only
+			if err := tx.BronzeGCPComputeForwardingRule.UpdateOneID(ruleData.ID).
+				SetCollectedAt(ruleData.CollectedAt).
+				Exec(ctx); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update collected_at for forwarding rule %s: %w", ruleData.ID, err)
+			}
+			continue
+		}
+
+		// Delete old labels if updating
+		if existing != nil {
+			_, err := tx.BronzeGCPComputeForwardingRuleLabel.Delete().
+				Where(bronzegcpcomputeforwardingrulelabel.HasForwardingRuleWith(bronzegcpcomputeforwardingrule.ID(ruleData.ID))).
+				Exec(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to delete old labels for forwarding rule %s: %w", ruleData.ID, err)
+			}
+		}
+
+		// Create or update forwarding rule
+		var savedRule *ent.BronzeGCPComputeForwardingRule
+		if existing == nil {
+			// Create new forwarding rule
+			create := tx.BronzeGCPComputeForwardingRule.Create().
+				SetID(ruleData.ID).
+				SetName(ruleData.Name).
+				SetDescription(ruleData.Description).
+				SetIPAddress(ruleData.IPAddress).
+				SetIPProtocol(ruleData.IPProtocol).
+				SetAllPorts(ruleData.AllPorts).
+				SetAllowGlobalAccess(ruleData.AllowGlobalAccess).
+				SetAllowPscGlobalAccess(ruleData.AllowPscGlobalAccess).
+				SetBackendService(ruleData.BackendService).
+				SetBaseForwardingRule(ruleData.BaseForwardingRule).
+				SetCreationTimestamp(ruleData.CreationTimestamp).
+				SetExternalManagedBackendBucketMigrationState(ruleData.ExternalManagedBackendBucketMigrationState).
+				SetExternalManagedBackendBucketMigrationTestingPercentage(ruleData.ExternalManagedBackendBucketMigrationTestingPercentage).
+				SetFingerprint(ruleData.Fingerprint).
+				SetIPCollection(ruleData.IpCollection).
+				SetIPVersion(ruleData.IpVersion).
+				SetIsMirroringCollector(ruleData.IsMirroringCollector).
+				SetLabelFingerprint(ruleData.LabelFingerprint).
+				SetLoadBalancingScheme(ruleData.LoadBalancingScheme).
+				SetNetwork(ruleData.Network).
+				SetNetworkTier(ruleData.NetworkTier).
+				SetNoAutomateDNSZone(ruleData.NoAutomateDnsZone).
+				SetPortRange(ruleData.PortRange).
+				SetPscConnectionID(ruleData.PscConnectionId).
+				SetPscConnectionStatus(ruleData.PscConnectionStatus).
+				SetRegion(ruleData.Region).
+				SetSelfLink(ruleData.SelfLink).
+				SetSelfLinkWithID(ruleData.SelfLinkWithId).
+				SetServiceLabel(ruleData.ServiceLabel).
+				SetServiceName(ruleData.ServiceName).
+				SetSubnetwork(ruleData.Subnetwork).
+				SetTarget(ruleData.Target).
+				SetProjectID(ruleData.ProjectID).
+				SetCollectedAt(ruleData.CollectedAt)
+
+			if ruleData.PortsJSON != nil {
+				create.SetPortsJSON(ruleData.PortsJSON)
+			}
+			if ruleData.SourceIpRangesJSON != nil {
+				create.SetSourceIPRangesJSON(ruleData.SourceIpRangesJSON)
+			}
+			if ruleData.MetadataFiltersJSON != nil {
+				create.SetMetadataFiltersJSON(ruleData.MetadataFiltersJSON)
+			}
+			if ruleData.ServiceDirectoryRegistrationsJSON != nil {
+				create.SetServiceDirectoryRegistrationsJSON(ruleData.ServiceDirectoryRegistrationsJSON)
 			}
 
-			// Compute diff
-			diff := DiffForwardingRule(existing, &rule)
+			savedRule, err = create.Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create forwarding rule %s: %w", ruleData.ID, err)
+			}
 
-			// Skip if no changes
-			if !diff.HasAnyChange() && existing != nil {
-				// Update collected_at only
-				if err := tx.Model(&bronze.GCPComputeForwardingRule{}).
-					Where("resource_id = ?", rule.ResourceID).
-					Update("collected_at", rule.CollectedAt).Error; err != nil {
-					return fmt.Errorf("failed to update collected_at for forwarding rule %s: %w", rule.Name, err)
+			// Create labels for new forwarding rule
+			for _, label := range ruleData.Labels {
+				_, err := tx.BronzeGCPComputeForwardingRuleLabel.Create().
+					SetKey(label.Key).
+					SetValue(label.Value).
+					SetForwardingRule(savedRule).
+					Save(ctx)
+				if err != nil {
+					tx.Rollback()
+					return fmt.Errorf("failed to create label for forwarding rule %s: %w", ruleData.ID, err)
 				}
-				continue
+			}
+		} else {
+			// Update existing forwarding rule
+			update := tx.BronzeGCPComputeForwardingRule.UpdateOneID(ruleData.ID).
+				SetName(ruleData.Name).
+				SetDescription(ruleData.Description).
+				SetIPAddress(ruleData.IPAddress).
+				SetIPProtocol(ruleData.IPProtocol).
+				SetAllPorts(ruleData.AllPorts).
+				SetAllowGlobalAccess(ruleData.AllowGlobalAccess).
+				SetAllowPscGlobalAccess(ruleData.AllowPscGlobalAccess).
+				SetBackendService(ruleData.BackendService).
+				SetBaseForwardingRule(ruleData.BaseForwardingRule).
+				SetCreationTimestamp(ruleData.CreationTimestamp).
+				SetExternalManagedBackendBucketMigrationState(ruleData.ExternalManagedBackendBucketMigrationState).
+				SetExternalManagedBackendBucketMigrationTestingPercentage(ruleData.ExternalManagedBackendBucketMigrationTestingPercentage).
+				SetFingerprint(ruleData.Fingerprint).
+				SetIPCollection(ruleData.IpCollection).
+				SetIPVersion(ruleData.IpVersion).
+				SetIsMirroringCollector(ruleData.IsMirroringCollector).
+				SetLabelFingerprint(ruleData.LabelFingerprint).
+				SetLoadBalancingScheme(ruleData.LoadBalancingScheme).
+				SetNetwork(ruleData.Network).
+				SetNetworkTier(ruleData.NetworkTier).
+				SetNoAutomateDNSZone(ruleData.NoAutomateDnsZone).
+				SetPortRange(ruleData.PortRange).
+				SetPscConnectionID(ruleData.PscConnectionId).
+				SetPscConnectionStatus(ruleData.PscConnectionStatus).
+				SetRegion(ruleData.Region).
+				SetSelfLink(ruleData.SelfLink).
+				SetSelfLinkWithID(ruleData.SelfLinkWithId).
+				SetServiceLabel(ruleData.ServiceLabel).
+				SetServiceName(ruleData.ServiceName).
+				SetSubnetwork(ruleData.Subnetwork).
+				SetTarget(ruleData.Target).
+				SetCollectedAt(ruleData.CollectedAt)
+
+			if ruleData.PortsJSON != nil {
+				update.SetPortsJSON(ruleData.PortsJSON)
+			}
+			if ruleData.SourceIpRangesJSON != nil {
+				update.SetSourceIPRangesJSON(ruleData.SourceIpRangesJSON)
+			}
+			if ruleData.MetadataFiltersJSON != nil {
+				update.SetMetadataFiltersJSON(ruleData.MetadataFiltersJSON)
+			}
+			if ruleData.ServiceDirectoryRegistrationsJSON != nil {
+				update.SetServiceDirectoryRegistrationsJSON(ruleData.ServiceDirectoryRegistrationsJSON)
 			}
 
-			// Delete old relations (manual cascade)
-			if existing != nil {
-				if err := s.deleteForwardingRuleRelations(tx, rule.ResourceID); err != nil {
-					return fmt.Errorf("failed to delete old relations for forwarding rule %s: %w", rule.Name, err)
-				}
+			savedRule, err = update.Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update forwarding rule %s: %w", ruleData.ID, err)
 			}
 
-			// Upsert forwarding rule
-			if err := tx.Save(&rule).Error; err != nil {
-				return fmt.Errorf("failed to upsert forwarding rule %s: %w", rule.Name, err)
-			}
-
-			// Create new relations
-			if err := s.createForwardingRuleRelations(tx, rule.ResourceID, &rule); err != nil {
-				return fmt.Errorf("failed to create relations for forwarding rule %s: %w", rule.Name, err)
-			}
-
-			// Track history
-			if diff.IsNew {
-				if err := s.history.CreateHistory(tx, &rule, now); err != nil {
-					return fmt.Errorf("failed to create history for forwarding rule %s: %w", rule.Name, err)
-				}
-			} else {
-				if err := s.history.UpdateHistory(tx, existing, &rule, diff, now); err != nil {
-					return fmt.Errorf("failed to update history for forwarding rule %s: %w", rule.Name, err)
+			// Create new labels
+			for _, label := range ruleData.Labels {
+				_, err := tx.BronzeGCPComputeForwardingRuleLabel.Create().
+					SetKey(label.Key).
+					SetValue(label.Value).
+					SetForwardingRule(savedRule).
+					Save(ctx)
+				if err != nil {
+					tx.Rollback()
+					return fmt.Errorf("failed to create label for forwarding rule %s: %w", ruleData.ID, err)
 				}
 			}
 		}
 
-		return nil
-	})
-}
-
-// deleteForwardingRuleRelations deletes all related records for a forwarding rule.
-func (s *Service) deleteForwardingRuleRelations(tx *gorm.DB, forwardingRuleResourceID string) error {
-	if err := tx.Where("forwarding_rule_resource_id = ?", forwardingRuleResourceID).Delete(&bronze.GCPComputeForwardingRuleLabel{}).Error; err != nil {
-		return err
-	}
-	return nil
-}
-
-// createForwardingRuleRelations creates all related records for a forwarding rule.
-func (s *Service) createForwardingRuleRelations(tx *gorm.DB, forwardingRuleResourceID string, rule *bronze.GCPComputeForwardingRule) error {
-	for i := range rule.Labels {
-		rule.Labels[i].ForwardingRuleResourceID = forwardingRuleResourceID
-	}
-	if len(rule.Labels) > 0 {
-		if err := tx.Create(&rule.Labels).Error; err != nil {
-			return fmt.Errorf("failed to create labels: %w", err)
+		// Track history
+		if diff.IsNew {
+			if err := s.history.CreateHistory(ctx, tx, ruleData, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create history for forwarding rule %s: %w", ruleData.ID, err)
+			}
+		} else {
+			if err := s.history.UpdateHistory(ctx, tx, existing, ruleData, diff, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update history for forwarding rule %s: %w", ruleData.ID, err)
+			}
 		}
 	}
+
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
+	}
+
 	return nil
 }
 
@@ -168,32 +296,48 @@ func (s *Service) createForwardingRuleRelations(tx *gorm.DB, forwardingRuleResou
 func (s *Service) DeleteStaleForwardingRules(ctx context.Context, projectID string, collectedAt time.Time) error {
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		// Find stale forwarding rules
-		var staleRules []bronze.GCPComputeForwardingRule
-		if err := tx.Where("project_id = ? AND collected_at < ?", projectID, collectedAt).
-			Find(&staleRules).Error; err != nil {
-			return err
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to start transaction: %w", err)
+	}
+
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	// Find stale forwarding rules
+	staleRules, err := tx.BronzeGCPComputeForwardingRule.Query().
+		Where(
+			bronzegcpcomputeforwardingrule.ProjectID(projectID),
+			bronzegcpcomputeforwardingrule.CollectedAtLT(collectedAt),
+		).
+		All(ctx)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	// Close history and delete each stale forwarding rule
+	for _, rule := range staleRules {
+		// Close history
+		if err := s.history.CloseHistory(ctx, tx, rule.ID, now); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to close history for forwarding rule %s: %w", rule.ID, err)
 		}
 
-		// Close history and delete each stale forwarding rule
-		for _, r := range staleRules {
-			// Close history
-			if err := s.history.CloseHistory(tx, r.ResourceID, now); err != nil {
-				return fmt.Errorf("failed to close history for forwarding rule %s: %w", r.ResourceID, err)
-			}
-
-			// Delete relations
-			if err := s.deleteForwardingRuleRelations(tx, r.ResourceID); err != nil {
-				return fmt.Errorf("failed to delete relations for forwarding rule %s: %w", r.ResourceID, err)
-			}
-
-			// Delete forwarding rule
-			if err := tx.Delete(&r).Error; err != nil {
-				return fmt.Errorf("failed to delete forwarding rule %s: %w", r.ResourceID, err)
-			}
+		// Delete forwarding rule (labels will be deleted automatically via CASCADE)
+		if err := tx.BronzeGCPComputeForwardingRule.DeleteOne(rule).Exec(ctx); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to delete forwarding rule %s: %w", rule.ID, err)
 		}
+	}
 
-		return nil
-	})
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
+	}
+
+	return nil
 }

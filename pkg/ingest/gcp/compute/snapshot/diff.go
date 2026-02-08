@@ -1,8 +1,8 @@
 package snapshot
 
 import (
-	"hotpot/pkg/base/jsonb"
-	"hotpot/pkg/base/models/bronze"
+	"bytes"
+	"hotpot/pkg/storage/ent"
 )
 
 // SnapshotDiff represents changes between old and new snapshot states.
@@ -10,6 +10,7 @@ type SnapshotDiff struct {
 	IsNew     bool
 	IsChanged bool
 
+	// Child diffs (for granular tracking)
 	LabelsDiff   ChildDiff
 	LicensesDiff ChildDiff
 }
@@ -19,8 +20,8 @@ type ChildDiff struct {
 	Changed bool
 }
 
-// DiffSnapshot compares old and new snapshot states.
-func DiffSnapshot(old, new *bronze.GCPComputeSnapshot) *SnapshotDiff {
+// DiffSnapshotData compares old Ent entity and new SnapshotData.
+func DiffSnapshotData(old *ent.BronzeGCPComputeSnapshot, new *SnapshotData) *SnapshotDiff {
 	if old == nil {
 		return &SnapshotDiff{
 			IsNew:        true,
@@ -30,9 +31,13 @@ func DiffSnapshot(old, new *bronze.GCPComputeSnapshot) *SnapshotDiff {
 	}
 
 	diff := &SnapshotDiff{}
+
+	// Compare snapshot-level fields
 	diff.IsChanged = hasSnapshotFieldsChanged(old, new)
-	diff.LabelsDiff = diffLabels(old.Labels, new.Labels)
-	diff.LicensesDiff = diffLicenses(old.Licenses, new.Licenses)
+
+	// Compare children
+	diff.LabelsDiff = diffLabels(old.Edges.Labels, new.Labels)
+	diff.LicensesDiff = diffLicenses(old.Edges.Licenses, new.Licenses)
 
 	return diff
 }
@@ -45,11 +50,12 @@ func (d *SnapshotDiff) HasAnyChange() bool {
 	return d.LabelsDiff.Changed || d.LicensesDiff.Changed
 }
 
-func hasSnapshotFieldsChanged(old, new *bronze.GCPComputeSnapshot) bool {
+// hasSnapshotFieldsChanged compares snapshot-level fields (excluding children).
+func hasSnapshotFieldsChanged(old *ent.BronzeGCPComputeSnapshot, new *SnapshotData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Status != new.Status ||
-		old.DiskSizeGb != new.DiskSizeGb ||
+		old.DiskSizeGB != new.DiskSizeGB ||
 		old.StorageBytes != new.StorageBytes ||
 		old.StorageBytesStatus != new.StorageBytesStatus ||
 		old.DownloadBytes != new.DownloadBytes ||
@@ -57,23 +63,22 @@ func hasSnapshotFieldsChanged(old, new *bronze.GCPComputeSnapshot) bool {
 		old.Architecture != new.Architecture ||
 		old.LabelFingerprint != new.LabelFingerprint ||
 		old.SourceDisk != new.SourceDisk ||
-		old.SourceDiskId != new.SourceDiskId ||
+		old.SourceDiskID != new.SourceDiskID ||
 		old.SourceDiskForRecoveryCheckpoint != new.SourceDiskForRecoveryCheckpoint ||
 		old.AutoCreated != new.AutoCreated ||
 		old.SatisfiesPzi != new.SatisfiesPzi ||
 		old.SatisfiesPzs != new.SatisfiesPzs ||
 		old.EnableConfidentialCompute != new.EnableConfidentialCompute ||
-		jsonb.Changed(old.SnapshotEncryptionKeyJSON, new.SnapshotEncryptionKeyJSON) ||
-		jsonb.Changed(old.SourceDiskEncryptionKeyJSON, new.SourceDiskEncryptionKeyJSON) ||
-		jsonb.Changed(old.GuestOsFeaturesJSON, new.GuestOsFeaturesJSON) ||
-		jsonb.Changed(old.StorageLocationsJSON, new.StorageLocationsJSON)
+		!bytes.Equal(old.SnapshotEncryptionKeyJSON, new.SnapshotEncryptionKeyJSON) ||
+		!bytes.Equal(old.SourceDiskEncryptionKeyJSON, new.SourceDiskEncryptionKeyJSON) ||
+		!bytes.Equal(old.GuestOsFeaturesJSON, new.GuestOsFeaturesJSON) ||
+		!bytes.Equal(old.StorageLocationsJSON, new.StorageLocationsJSON)
 }
 
-func diffLabels(old, new []bronze.GCPComputeSnapshotLabel) ChildDiff {
+func diffLabels(old []*ent.BronzeGCPComputeSnapshotLabel, new []SnapshotLabelData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
-
 	oldMap := make(map[string]string)
 	for _, l := range old {
 		oldMap[l.Key] = l.Value
@@ -83,15 +88,13 @@ func diffLabels(old, new []bronze.GCPComputeSnapshotLabel) ChildDiff {
 			return ChildDiff{Changed: true}
 		}
 	}
-
 	return ChildDiff{Changed: false}
 }
 
-func diffLicenses(old, new []bronze.GCPComputeSnapshotLicense) ChildDiff {
+func diffLicenses(old []*ent.BronzeGCPComputeSnapshotLicense, new []SnapshotLicenseData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
-
 	oldSet := make(map[string]bool)
 	for _, l := range old {
 		oldSet[l.License] = true
@@ -101,6 +104,5 @@ func diffLicenses(old, new []bronze.GCPComputeSnapshotLicense) ChildDiff {
 			return ChildDiff{Changed: true}
 		}
 	}
-
 	return ChildDiff{Changed: false}
 }

@@ -6,24 +6,25 @@ import (
 	"strings"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzegcpcomputeinstancegroup"
+	"hotpot/pkg/storage/ent/bronzegcpcomputeinstancegroupmember"
+	"hotpot/pkg/storage/ent/bronzegcpcomputeinstancegroupnamedport"
 )
 
 // Service handles GCP Compute instance group ingestion.
 type Service struct {
-	client  *Client
-	db      *gorm.DB
-	history *HistoryService
+	client    *Client
+	entClient *ent.Client
+	history   *HistoryService
 }
 
 // NewService creates a new instance group ingestion service.
-func NewService(client *Client, db *gorm.DB) *Service {
+func NewService(client *Client, entClient *ent.Client) *Service {
 	return &Service{
-		client:  client,
-		db:      db,
-		history: NewHistoryService(db),
+		client:    client,
+		entClient: entClient,
+		history:   NewHistoryService(entClient),
 	}
 }
 
@@ -52,7 +53,7 @@ func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResul
 	}
 
 	// For each group, fetch members and convert
-	bronzeGroups := make([]bronze.GCPComputeInstanceGroup, 0, len(groups))
+	groupDataList := make([]*InstanceGroupData, 0, len(groups))
 	for _, g := range groups {
 		// Extract zone name from zone URL for the members API call
 		zoneName := extractZoneName(g.GetZone())
@@ -62,136 +63,185 @@ func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResul
 			return nil, fmt.Errorf("failed to list members for instance group %s: %w", g.GetName(), err)
 		}
 
-		bronzeGroups = append(bronzeGroups, ConvertInstanceGroup(g, members, params.ProjectID, collectedAt))
+		groupDataList = append(groupDataList, ConvertInstanceGroup(g, members, params.ProjectID, collectedAt))
 	}
 
 	// Save to database
-	if err := s.saveInstanceGroups(ctx, bronzeGroups); err != nil {
+	if err := s.saveInstanceGroups(ctx, groupDataList); err != nil {
 		return nil, fmt.Errorf("failed to save instance groups: %w", err)
 	}
 
 	return &IngestResult{
 		ProjectID:          params.ProjectID,
-		InstanceGroupCount: len(bronzeGroups),
+		InstanceGroupCount: len(groupDataList),
 		CollectedAt:        collectedAt,
 		DurationMillis:     time.Since(startTime).Milliseconds(),
 	}, nil
 }
 
-// extractZoneName extracts the zone name from a full zone URL.
+// extractZoneName extracts the zone name from a zone URL.
 // Example: "https://www.googleapis.com/compute/v1/projects/my-project/zones/us-central1-a" -> "us-central1-a"
 func extractZoneName(zoneURL string) string {
 	parts := strings.Split(zoneURL, "/")
 	if len(parts) > 0 {
 		return parts[len(parts)-1]
 	}
-	return zoneURL
+	return ""
 }
 
 // saveInstanceGroups saves instance groups to the database with history tracking.
-func (s *Service) saveInstanceGroups(ctx context.Context, groups []bronze.GCPComputeInstanceGroup) error {
+func (s *Service) saveInstanceGroups(ctx context.Context, groups []*InstanceGroupData) error {
 	if len(groups) == 0 {
 		return nil
 	}
 
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		for _, group := range groups {
-			// Load existing group with all relations
-			var existing *bronze.GCPComputeInstanceGroup
-			var old bronze.GCPComputeInstanceGroup
-			err := tx.Preload("NamedPorts").Preload("Members").
-				Where("resource_id = ?", group.ResourceID).
-				First(&old).Error
-			if err == nil {
-				existing = &old
-			} else if err != gorm.ErrRecordNotFound {
-				return fmt.Errorf("failed to load existing instance group %s: %w", group.Name, err)
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to start transaction: %w", err)
+	}
+
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	for _, groupData := range groups {
+		// Load existing instance group with edges
+		existing, err := tx.BronzeGCPComputeInstanceGroup.Query().
+			Where(bronzegcpcomputeinstancegroup.ID(groupData.ID)).
+			WithNamedPorts().
+			WithMembers().
+			First(ctx)
+		if err != nil && !ent.IsNotFound(err) {
+			tx.Rollback()
+			return fmt.Errorf("failed to load existing instance group %s: %w", groupData.ID, err)
+		}
+
+		// Compute diff
+		diff := DiffInstanceGroupData(existing, groupData)
+
+		// Skip if no changes
+		if !diff.HasAnyChange() && existing != nil {
+			// Update collected_at only
+			if err := tx.BronzeGCPComputeInstanceGroup.UpdateOneID(groupData.ID).
+				SetCollectedAt(groupData.CollectedAt).
+				Exec(ctx); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update collected_at for instance group %s: %w", groupData.ID, err)
+			}
+			continue
+		}
+
+		// Delete old children if updating
+		if existing != nil {
+			// Delete named ports
+			_, err := tx.BronzeGCPComputeInstanceGroupNamedPort.Delete().
+				Where(bronzegcpcomputeinstancegroupnamedport.HasInstanceGroupWith(bronzegcpcomputeinstancegroup.ID(groupData.ID))).
+				Exec(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to delete old named ports for instance group %s: %w", groupData.ID, err)
 			}
 
-			// Compute diff
-			diff := DiffInstanceGroup(existing, &group)
-
-			// Skip if no changes
-			if !diff.HasAnyChange() && existing != nil {
-				// Update collected_at only
-				if err := tx.Model(&bronze.GCPComputeInstanceGroup{}).
-					Where("resource_id = ?", group.ResourceID).
-					Update("collected_at", group.CollectedAt).Error; err != nil {
-					return fmt.Errorf("failed to update collected_at for instance group %s: %w", group.Name, err)
-				}
-				continue
-			}
-
-			// Delete old relations (manual cascade)
-			if existing != nil {
-				if err := s.deleteInstanceGroupRelations(tx, group.ResourceID); err != nil {
-					return fmt.Errorf("failed to delete old relations for instance group %s: %w", group.Name, err)
-				}
-			}
-
-			// Upsert instance group
-			if err := tx.Save(&group).Error; err != nil {
-				return fmt.Errorf("failed to upsert instance group %s: %w", group.Name, err)
-			}
-
-			// Create new relations
-			if err := s.createInstanceGroupRelations(tx, group.ResourceID, &group); err != nil {
-				return fmt.Errorf("failed to create relations for instance group %s: %w", group.Name, err)
-			}
-
-			// Track history
-			if diff.IsNew {
-				if err := s.history.CreateHistory(tx, &group, now); err != nil {
-					return fmt.Errorf("failed to create history for instance group %s: %w", group.Name, err)
-				}
-			} else {
-				if err := s.history.UpdateHistory(tx, existing, &group, diff, now); err != nil {
-					return fmt.Errorf("failed to update history for instance group %s: %w", group.Name, err)
-				}
+			// Delete members
+			_, err = tx.BronzeGCPComputeInstanceGroupMember.Delete().
+				Where(bronzegcpcomputeinstancegroupmember.HasInstanceGroupWith(bronzegcpcomputeinstancegroup.ID(groupData.ID))).
+				Exec(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to delete old members for instance group %s: %w", groupData.ID, err)
 			}
 		}
 
-		return nil
-	})
-}
+		// Create or update instance group
+		var savedGroup *ent.BronzeGCPComputeInstanceGroup
+		if existing == nil {
+			// Create new instance group
+			savedGroup, err = tx.BronzeGCPComputeInstanceGroup.Create().
+				SetID(groupData.ID).
+				SetName(groupData.Name).
+				SetDescription(groupData.Description).
+				SetZone(groupData.Zone).
+				SetNetwork(groupData.Network).
+				SetSubnetwork(groupData.Subnetwork).
+				SetSize(groupData.Size).
+				SetSelfLink(groupData.SelfLink).
+				SetCreationTimestamp(groupData.CreationTimestamp).
+				SetFingerprint(groupData.Fingerprint).
+				SetProjectID(groupData.ProjectID).
+				SetCollectedAt(groupData.CollectedAt).
+				Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create instance group %s: %w", groupData.ID, err)
+			}
+		} else {
+			// Update existing instance group
+			savedGroup, err = tx.BronzeGCPComputeInstanceGroup.UpdateOneID(groupData.ID).
+				SetName(groupData.Name).
+				SetDescription(groupData.Description).
+				SetZone(groupData.Zone).
+				SetNetwork(groupData.Network).
+				SetSubnetwork(groupData.Subnetwork).
+				SetSize(groupData.Size).
+				SetSelfLink(groupData.SelfLink).
+				SetCreationTimestamp(groupData.CreationTimestamp).
+				SetFingerprint(groupData.Fingerprint).
+				SetCollectedAt(groupData.CollectedAt).
+				Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update instance group %s: %w", groupData.ID, err)
+			}
+		}
 
-// deleteInstanceGroupRelations deletes all related records for an instance group.
-func (s *Service) deleteInstanceGroupRelations(tx *gorm.DB, groupResourceID string) error {
-	// Delete named ports
-	if err := tx.Where("group_resource_id = ?", groupResourceID).Delete(&bronze.GCPComputeInstanceGroupNamedPort{}).Error; err != nil {
-		return err
-	}
+		// Create named ports
+		for _, port := range groupData.NamedPorts {
+			_, err := tx.BronzeGCPComputeInstanceGroupNamedPort.Create().
+				SetName(port.Name).
+				SetPort(port.Port).
+				SetInstanceGroup(savedGroup).
+				Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create named port for instance group %s: %w", groupData.ID, err)
+			}
+		}
 
-	// Delete members
-	if err := tx.Where("group_resource_id = ?", groupResourceID).Delete(&bronze.GCPComputeInstanceGroupMember{}).Error; err != nil {
-		return err
-	}
+		// Create members
+		for _, member := range groupData.Members {
+			_, err := tx.BronzeGCPComputeInstanceGroupMember.Create().
+				SetInstanceURL(member.InstanceURL).
+				SetInstanceName(member.InstanceName).
+				SetStatus(member.Status).
+				SetInstanceGroup(savedGroup).
+				Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create member for instance group %s: %w", groupData.ID, err)
+			}
+		}
 
-	return nil
-}
-
-// createInstanceGroupRelations creates all related records for an instance group.
-func (s *Service) createInstanceGroupRelations(tx *gorm.DB, groupResourceID string, group *bronze.GCPComputeInstanceGroup) error {
-	// Create named ports
-	for i := range group.NamedPorts {
-		group.NamedPorts[i].GroupResourceID = groupResourceID
-	}
-	if len(group.NamedPorts) > 0 {
-		if err := tx.Create(&group.NamedPorts).Error; err != nil {
-			return fmt.Errorf("failed to create named ports: %w", err)
+		// Track history
+		if diff.IsNew {
+			if err := s.history.CreateHistory(ctx, tx, groupData, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create history for instance group %s: %w", groupData.ID, err)
+			}
+		} else {
+			if err := s.history.UpdateHistory(ctx, tx, existing, groupData, diff, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update history for instance group %s: %w", groupData.ID, err)
+			}
 		}
 	}
 
-	// Create members
-	for i := range group.Members {
-		group.Members[i].GroupResourceID = groupResourceID
-	}
-	if len(group.Members) > 0 {
-		if err := tx.Create(&group.Members).Error; err != nil {
-			return fmt.Errorf("failed to create members: %w", err)
-		}
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
 	}
 
 	return nil
@@ -202,32 +252,48 @@ func (s *Service) createInstanceGroupRelations(tx *gorm.DB, groupResourceID stri
 func (s *Service) DeleteStaleInstanceGroups(ctx context.Context, projectID string, collectedAt time.Time) error {
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		// Find stale instance groups
-		var staleGroups []bronze.GCPComputeInstanceGroup
-		if err := tx.Where("project_id = ? AND collected_at < ?", projectID, collectedAt).
-			Find(&staleGroups).Error; err != nil {
-			return err
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to start transaction: %w", err)
+	}
+
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	// Find stale instance groups
+	staleGroups, err := tx.BronzeGCPComputeInstanceGroup.Query().
+		Where(
+			bronzegcpcomputeinstancegroup.ProjectID(projectID),
+			bronzegcpcomputeinstancegroup.CollectedAtLT(collectedAt),
+		).
+		All(ctx)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	// Close history and delete each stale instance group
+	for _, group := range staleGroups {
+		// Close history
+		if err := s.history.CloseHistory(ctx, tx, group.ID, now); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to close history for instance group %s: %w", group.ID, err)
 		}
 
-		// Close history and delete each stale instance group
-		for _, g := range staleGroups {
-			// Close history
-			if err := s.history.CloseHistory(tx, g.ResourceID, now); err != nil {
-				return fmt.Errorf("failed to close history for instance group %s: %w", g.ResourceID, err)
-			}
-
-			// Delete relations
-			if err := s.deleteInstanceGroupRelations(tx, g.ResourceID); err != nil {
-				return fmt.Errorf("failed to delete relations for instance group %s: %w", g.ResourceID, err)
-			}
-
-			// Delete instance group
-			if err := tx.Delete(&g).Error; err != nil {
-				return fmt.Errorf("failed to delete instance group %s: %w", g.ResourceID, err)
-			}
+		// Delete instance group (named ports and members will be deleted automatically via CASCADE)
+		if err := tx.BronzeGCPComputeInstanceGroup.DeleteOne(group).Exec(ctx); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to delete instance group %s: %w", group.ID, err)
 		}
+	}
 
-		return nil
-	})
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
+	}
+
+	return nil
 }

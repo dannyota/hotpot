@@ -6,15 +6,44 @@ import (
 	"time"
 
 	"cloud.google.com/go/compute/apiv1/computepb"
-
-	"hotpot/pkg/base/models/bronze"
 )
 
-// ConvertInstanceGroup converts a GCP API InstanceGroup and its members to a Bronze model.
+// InstanceGroupData holds converted instance group data ready for Ent insertion.
+type InstanceGroupData struct {
+	ID                string
+	Name              string
+	Description       string
+	Zone              string
+	Network           string
+	Subnetwork        string
+	Size              int32
+	SelfLink          string
+	CreationTimestamp string
+	Fingerprint       string
+	NamedPorts        []NamedPortData
+	Members           []MemberData
+	ProjectID         string
+	CollectedAt       time.Time
+}
+
+// NamedPortData holds converted named port data.
+type NamedPortData struct {
+	Name string
+	Port int32
+}
+
+// MemberData holds converted member data.
+type MemberData struct {
+	InstanceURL  string
+	InstanceName string
+	Status       string
+}
+
+// ConvertInstanceGroup converts a GCP API InstanceGroup and its members to InstanceGroupData.
 // Preserves raw API data with minimal transformation.
-func ConvertInstanceGroup(g *computepb.InstanceGroup, members []*computepb.InstanceWithNamedPorts, projectID string, collectedAt time.Time) bronze.GCPComputeInstanceGroup {
-	group := bronze.GCPComputeInstanceGroup{
-		ResourceID:        fmt.Sprintf("%d", g.GetId()),
+func ConvertInstanceGroup(g *computepb.InstanceGroup, members []*computepb.InstanceWithNamedPorts, projectID string, collectedAt time.Time) *InstanceGroupData {
+	group := &InstanceGroupData{
+		ID:                fmt.Sprintf("%d", g.GetId()),
 		Name:              g.GetName(),
 		Description:       g.GetDescription(),
 		Zone:              g.GetZone(),
@@ -37,15 +66,15 @@ func ConvertInstanceGroup(g *computepb.InstanceGroup, members []*computepb.Insta
 	return group
 }
 
-// ConvertNamedPorts converts instance group named ports from GCP API to Bronze models.
-func ConvertNamedPorts(ports []*computepb.NamedPort) []bronze.GCPComputeInstanceGroupNamedPort {
+// ConvertNamedPorts converts instance group named ports from GCP API to named port data.
+func ConvertNamedPorts(ports []*computepb.NamedPort) []NamedPortData {
 	if len(ports) == 0 {
 		return nil
 	}
 
-	result := make([]bronze.GCPComputeInstanceGroupNamedPort, 0, len(ports))
+	result := make([]NamedPortData, 0, len(ports))
 	for _, p := range ports {
-		result = append(result, bronze.GCPComputeInstanceGroupNamedPort{
+		result = append(result, NamedPortData{
 			Name: p.GetName(),
 			Port: p.GetPort(),
 		})
@@ -54,16 +83,16 @@ func ConvertNamedPorts(ports []*computepb.NamedPort) []bronze.GCPComputeInstance
 	return result
 }
 
-// ConvertMembers converts instance group members from GCP API to Bronze models.
-func ConvertMembers(members []*computepb.InstanceWithNamedPorts) []bronze.GCPComputeInstanceGroupMember {
+// ConvertMembers converts instance group members from GCP API to member data.
+func ConvertMembers(members []*computepb.InstanceWithNamedPorts) []MemberData {
 	if len(members) == 0 {
 		return nil
 	}
 
-	result := make([]bronze.GCPComputeInstanceGroupMember, 0, len(members))
+	result := make([]MemberData, 0, len(members))
 	for _, m := range members {
 		instanceURL := m.GetInstance()
-		result = append(result, bronze.GCPComputeInstanceGroupMember{
+		result = append(result, MemberData{
 			InstanceURL:  instanceURL,
 			InstanceName: extractInstanceName(instanceURL),
 			Status:       m.GetStatus(),

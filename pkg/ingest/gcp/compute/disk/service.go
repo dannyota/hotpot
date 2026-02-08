@@ -5,24 +5,25 @@ import (
 	"fmt"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzegcpcomputedisk"
+	"hotpot/pkg/storage/ent/bronzegcpcomputedisklabel"
+	"hotpot/pkg/storage/ent/bronzegcpcomputedisklicense"
 )
 
 // Service handles GCP Compute disk ingestion.
 type Service struct {
-	client  *Client
-	db      *gorm.DB
-	history *HistoryService
+	client    *Client
+	entClient *ent.Client
+	history   *HistoryService
 }
 
 // NewService creates a new disk ingestion service.
-func NewService(client *Client, db *gorm.DB) *Service {
+func NewService(client *Client, entClient *ent.Client) *Service {
 	return &Service{
-		client:  client,
-		db:      db,
-		history: NewHistoryService(db),
+		client:    client,
+		entClient: entClient,
+		history:   NewHistoryService(entClient),
 	}
 }
 
@@ -50,132 +51,257 @@ func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResul
 		return nil, fmt.Errorf("failed to list disks: %w", err)
 	}
 
-	// Convert to bronze models
-	bronzeDisks := make([]bronze.GCPComputeDisk, 0, len(disks))
+	// Convert to data structs
+	diskDataList := make([]*DiskData, 0, len(disks))
 	for _, d := range disks {
-		bd, err := ConvertDisk(d, params.ProjectID, collectedAt)
+		data, err := ConvertDisk(d, params.ProjectID, collectedAt)
 		if err != nil {
 			return nil, fmt.Errorf("failed to convert disk: %w", err)
 		}
-		bronzeDisks = append(bronzeDisks, bd)
+		diskDataList = append(diskDataList, data)
 	}
 
 	// Save to database
-	if err := s.saveDisks(ctx, bronzeDisks); err != nil {
+	if err := s.saveDisks(ctx, diskDataList); err != nil {
 		return nil, fmt.Errorf("failed to save disks: %w", err)
 	}
 
 	return &IngestResult{
 		ProjectID:      params.ProjectID,
-		DiskCount:      len(bronzeDisks),
+		DiskCount:      len(diskDataList),
 		CollectedAt:    collectedAt,
 		DurationMillis: time.Since(startTime).Milliseconds(),
 	}, nil
 }
 
 // saveDisks saves disks to the database with history tracking.
-func (s *Service) saveDisks(ctx context.Context, disks []bronze.GCPComputeDisk) error {
+func (s *Service) saveDisks(ctx context.Context, disks []*DiskData) error {
 	if len(disks) == 0 {
 		return nil
 	}
 
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		for _, disk := range disks {
-			// Load existing disk with all relations
-			var existing *bronze.GCPComputeDisk
-			var old bronze.GCPComputeDisk
-			err := tx.Preload("Labels").Preload("Licenses").
-				Where("resource_id = ?", disk.ResourceID).
-				First(&old).Error
-			if err == nil {
-				existing = &old
-			} else if err != gorm.ErrRecordNotFound {
-				return fmt.Errorf("failed to load existing disk %s: %w", disk.Name, err)
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to start transaction: %w", err)
+	}
+
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	for _, diskData := range disks {
+		// Load existing disk with all edges
+		existing, err := tx.BronzeGCPComputeDisk.Query().
+			Where(bronzegcpcomputedisk.ID(diskData.ID)).
+			WithLabels().
+			WithLicenses().
+			First(ctx)
+		if err != nil && !ent.IsNotFound(err) {
+			tx.Rollback()
+			return fmt.Errorf("failed to load existing disk %s: %w", diskData.Name, err)
+		}
+
+		// Compute diff
+		diff := DiffDiskData(existing, diskData)
+
+		// Skip if no changes
+		if !diff.HasAnyChange() && existing != nil {
+			// Update collected_at only
+			if err := tx.BronzeGCPComputeDisk.UpdateOneID(diskData.ID).
+				SetCollectedAt(diskData.CollectedAt).
+				Exec(ctx); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update collected_at for disk %s: %w", diskData.Name, err)
 			}
+			continue
+		}
 
-			// Compute diff
-			diff := DiffDisk(existing, &disk)
-
-			// Skip if no changes
-			if !diff.HasAnyChange() && existing != nil {
-				// Update collected_at only
-				if err := tx.Model(&bronze.GCPComputeDisk{}).
-					Where("resource_id = ?", disk.ResourceID).
-					Update("collected_at", disk.CollectedAt).Error; err != nil {
-					return fmt.Errorf("failed to update collected_at for disk %s: %w", disk.Name, err)
-				}
-				continue
-			}
-
-			// Delete old relations (manual cascade)
-			if existing != nil {
-				if err := s.deleteDiskRelations(tx, disk.ResourceID); err != nil {
-					return fmt.Errorf("failed to delete old relations for disk %s: %w", disk.Name, err)
-				}
-			}
-
-			// Upsert disk
-			if err := tx.Save(&disk).Error; err != nil {
-				return fmt.Errorf("failed to upsert disk %s: %w", disk.Name, err)
-			}
-
-			// Create new relations
-			if err := s.createDiskRelations(tx, disk.ResourceID, &disk); err != nil {
-				return fmt.Errorf("failed to create relations for disk %s: %w", disk.Name, err)
-			}
-
-			// Track history
-			if diff.IsNew {
-				if err := s.history.CreateHistory(tx, &disk, now); err != nil {
-					return fmt.Errorf("failed to create history for disk %s: %w", disk.Name, err)
-				}
-			} else {
-				if err := s.history.UpdateHistory(tx, existing, &disk, diff, now); err != nil {
-					return fmt.Errorf("failed to update history for disk %s: %w", disk.Name, err)
-				}
+		// Delete old child entities if updating
+		if existing != nil {
+			if err := s.deleteDiskChildren(ctx, tx, diskData.ID); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to delete old children for disk %s: %w", diskData.Name, err)
 			}
 		}
 
-		return nil
-	})
-}
+		// Create or update disk
+		var savedDisk *ent.BronzeGCPComputeDisk
+		if existing == nil {
+			// Create new disk
+			create := tx.BronzeGCPComputeDisk.Create().
+				SetID(diskData.ID).
+				SetName(diskData.Name).
+				SetDescription(diskData.Description).
+				SetZone(diskData.Zone).
+				SetRegion(diskData.Region).
+				SetType(diskData.Type).
+				SetStatus(diskData.Status).
+				SetSizeGB(diskData.SizeGb).
+				SetArchitecture(diskData.Architecture).
+				SetSelfLink(diskData.SelfLink).
+				SetCreationTimestamp(diskData.CreationTimestamp).
+				SetLastAttachTimestamp(diskData.LastAttachTimestamp).
+				SetLastDetachTimestamp(diskData.LastDetachTimestamp).
+				SetSourceImage(diskData.SourceImage).
+				SetSourceImageID(diskData.SourceImageId).
+				SetSourceSnapshot(diskData.SourceSnapshot).
+				SetSourceSnapshotID(diskData.SourceSnapshotId).
+				SetSourceDisk(diskData.SourceDisk).
+				SetSourceDiskID(diskData.SourceDiskId).
+				SetProvisionedIops(diskData.ProvisionedIops).
+				SetProvisionedThroughput(diskData.ProvisionedThroughput).
+				SetPhysicalBlockSizeBytes(diskData.PhysicalBlockSizeBytes).
+				SetEnableConfidentialCompute(diskData.EnableConfidentialCompute).
+				SetProjectID(diskData.ProjectID).
+				SetCollectedAt(diskData.CollectedAt)
 
-// deleteDiskRelations deletes all related records for a disk.
-func (s *Service) deleteDiskRelations(tx *gorm.DB, diskResourceID string) error {
-	// Delete labels
-	if err := tx.Where("disk_resource_id = ?", diskResourceID).Delete(&bronze.GCPComputeDiskLabel{}).Error; err != nil {
-		return err
+			if diskData.DiskEncryptionKeyJSON != nil {
+				create.SetDiskEncryptionKeyJSON(diskData.DiskEncryptionKeyJSON)
+			}
+			if diskData.UsersJSON != nil {
+				create.SetUsersJSON(diskData.UsersJSON)
+			}
+			if diskData.ReplicaZonesJSON != nil {
+				create.SetReplicaZonesJSON(diskData.ReplicaZonesJSON)
+			}
+			if diskData.ResourcePoliciesJSON != nil {
+				create.SetResourcePoliciesJSON(diskData.ResourcePoliciesJSON)
+			}
+			if diskData.GuestOsFeaturesJSON != nil {
+				create.SetGuestOsFeaturesJSON(diskData.GuestOsFeaturesJSON)
+			}
+
+			savedDisk, err = create.Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create disk %s: %w", diskData.Name, err)
+			}
+		} else {
+			// Update existing disk
+			update := tx.BronzeGCPComputeDisk.UpdateOneID(diskData.ID).
+				SetName(diskData.Name).
+				SetDescription(diskData.Description).
+				SetZone(diskData.Zone).
+				SetRegion(diskData.Region).
+				SetType(diskData.Type).
+				SetStatus(diskData.Status).
+				SetSizeGB(diskData.SizeGb).
+				SetArchitecture(diskData.Architecture).
+				SetSelfLink(diskData.SelfLink).
+				SetCreationTimestamp(diskData.CreationTimestamp).
+				SetLastAttachTimestamp(diskData.LastAttachTimestamp).
+				SetLastDetachTimestamp(diskData.LastDetachTimestamp).
+				SetSourceImage(diskData.SourceImage).
+				SetSourceImageID(diskData.SourceImageId).
+				SetSourceSnapshot(diskData.SourceSnapshot).
+				SetSourceSnapshotID(diskData.SourceSnapshotId).
+				SetSourceDisk(diskData.SourceDisk).
+				SetSourceDiskID(diskData.SourceDiskId).
+				SetProvisionedIops(diskData.ProvisionedIops).
+				SetProvisionedThroughput(diskData.ProvisionedThroughput).
+				SetPhysicalBlockSizeBytes(diskData.PhysicalBlockSizeBytes).
+				SetEnableConfidentialCompute(diskData.EnableConfidentialCompute).
+				SetProjectID(diskData.ProjectID).
+				SetCollectedAt(diskData.CollectedAt)
+
+			if diskData.DiskEncryptionKeyJSON != nil {
+				update.SetDiskEncryptionKeyJSON(diskData.DiskEncryptionKeyJSON)
+			}
+			if diskData.UsersJSON != nil {
+				update.SetUsersJSON(diskData.UsersJSON)
+			}
+			if diskData.ReplicaZonesJSON != nil {
+				update.SetReplicaZonesJSON(diskData.ReplicaZonesJSON)
+			}
+			if diskData.ResourcePoliciesJSON != nil {
+				update.SetResourcePoliciesJSON(diskData.ResourcePoliciesJSON)
+			}
+			if diskData.GuestOsFeaturesJSON != nil {
+				update.SetGuestOsFeaturesJSON(diskData.GuestOsFeaturesJSON)
+			}
+
+			savedDisk, err = update.Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update disk %s: %w", diskData.Name, err)
+			}
+		}
+
+		// Create child entities
+		if err := s.createDiskChildren(ctx, tx, savedDisk, diskData); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to create children for disk %s: %w", diskData.Name, err)
+		}
+
+		// Track history
+		if diff.IsNew {
+			if err := s.history.CreateHistory(ctx, tx, diskData, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create history for disk %s: %w", diskData.Name, err)
+			}
+		} else {
+			if err := s.history.UpdateHistory(ctx, tx, existing, diskData, diff, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update history for disk %s: %w", diskData.Name, err)
+			}
+		}
 	}
 
-	// Delete licenses
-	if err := tx.Where("disk_resource_id = ?", diskResourceID).Delete(&bronze.GCPComputeDiskLicense{}).Error; err != nil {
-		return err
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
 	}
 
 	return nil
 }
 
-// createDiskRelations creates all related records for a disk.
-func (s *Service) createDiskRelations(tx *gorm.DB, diskResourceID string, disk *bronze.GCPComputeDisk) error {
-	// Create labels
-	for i := range disk.Labels {
-		disk.Labels[i].DiskResourceID = diskResourceID
+// deleteDiskChildren deletes all child entities for a disk.
+func (s *Service) deleteDiskChildren(ctx context.Context, tx *ent.Tx, diskID string) error {
+	// Delete labels
+	_, err := tx.BronzeGCPComputeDiskLabel.Delete().
+		Where(bronzegcpcomputedisklabel.HasDiskWith(bronzegcpcomputedisk.ID(diskID))).
+		Exec(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to delete labels: %w", err)
 	}
-	if len(disk.Labels) > 0 {
-		if err := tx.Create(&disk.Labels).Error; err != nil {
-			return fmt.Errorf("failed to create labels: %w", err)
+
+	// Delete licenses
+	_, err = tx.BronzeGCPComputeDiskLicense.Delete().
+		Where(bronzegcpcomputedisklicense.HasDiskWith(bronzegcpcomputedisk.ID(diskID))).
+		Exec(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to delete licenses: %w", err)
+	}
+
+	return nil
+}
+
+// createDiskChildren creates all child entities for a disk.
+func (s *Service) createDiskChildren(ctx context.Context, tx *ent.Tx, disk *ent.BronzeGCPComputeDisk, data *DiskData) error {
+	// Create labels
+	for _, labelData := range data.Labels {
+		_, err := tx.BronzeGCPComputeDiskLabel.Create().
+			SetDisk(disk).
+			SetKey(labelData.Key).
+			SetValue(labelData.Value).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create label %s: %w", labelData.Key, err)
 		}
 	}
 
 	// Create licenses
-	for i := range disk.Licenses {
-		disk.Licenses[i].DiskResourceID = diskResourceID
-	}
-	if len(disk.Licenses) > 0 {
-		if err := tx.Create(&disk.Licenses).Error; err != nil {
-			return fmt.Errorf("failed to create licenses: %w", err)
+	for _, licenseData := range data.Licenses {
+		_, err := tx.BronzeGCPComputeDiskLicense.Create().
+			SetDisk(disk).
+			SetLicense(licenseData.License).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create license %s: %w", licenseData.License, err)
 		}
 	}
 
@@ -187,32 +313,54 @@ func (s *Service) createDiskRelations(tx *gorm.DB, diskResourceID string, disk *
 func (s *Service) DeleteStaleDisks(ctx context.Context, projectID string, collectedAt time.Time) error {
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		// Find stale disks
-		var staleDisks []bronze.GCPComputeDisk
-		if err := tx.Where("project_id = ? AND collected_at < ?", projectID, collectedAt).
-			Find(&staleDisks).Error; err != nil {
-			return err
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to start transaction: %w", err)
+	}
+
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	// Find stale disks
+	staleDisks, err := tx.BronzeGCPComputeDisk.Query().
+		Where(
+			bronzegcpcomputedisk.ProjectID(projectID),
+			bronzegcpcomputedisk.CollectedAtLT(collectedAt),
+		).
+		All(ctx)
+	if err != nil {
+		tx.Rollback()
+		return fmt.Errorf("failed to query stale disks: %w", err)
+	}
+
+	// Close history and delete each stale disk
+	for _, d := range staleDisks {
+		// Close history
+		if err := s.history.CloseHistory(ctx, tx, d.ID, now); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to close history for disk %s: %w", d.ID, err)
 		}
 
-		// Close history and delete each stale disk
-		for _, d := range staleDisks {
-			// Close history
-			if err := s.history.CloseHistory(tx, d.ResourceID, now); err != nil {
-				return fmt.Errorf("failed to close history for disk %s: %w", d.ResourceID, err)
-			}
-
-			// Delete relations
-			if err := s.deleteDiskRelations(tx, d.ResourceID); err != nil {
-				return fmt.Errorf("failed to delete relations for disk %s: %w", d.ResourceID, err)
-			}
-
-			// Delete disk
-			if err := tx.Delete(&d).Error; err != nil {
-				return fmt.Errorf("failed to delete disk %s: %w", d.ResourceID, err)
-			}
+		// Delete children
+		if err := s.deleteDiskChildren(ctx, tx, d.ID); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to delete children for disk %s: %w", d.ID, err)
 		}
 
-		return nil
-	})
+		// Delete disk
+		if err := tx.BronzeGCPComputeDisk.DeleteOneID(d.ID).Exec(ctx); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to delete disk %s: %w", d.ID, err)
+		}
+	}
+
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
+	}
+
+	return nil
 }

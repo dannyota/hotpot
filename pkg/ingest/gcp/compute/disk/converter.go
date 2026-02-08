@@ -6,15 +6,61 @@ import (
 	"time"
 
 	"cloud.google.com/go/compute/apiv1/computepb"
-
-	"hotpot/pkg/base/models/bronze"
 )
 
-// ConvertDisk converts a GCP API Disk to a Bronze model.
+// DiskData represents a GCP Compute disk in a data structure.
+type DiskData struct {
+	ID                        string
+	Name                      string
+	Description               string
+	Zone                      string
+	Region                    string
+	Type                      string
+	Status                    string
+	SizeGb                    int64
+	Architecture              string
+	SelfLink                  string
+	CreationTimestamp         string
+	LastAttachTimestamp       string
+	LastDetachTimestamp       string
+	SourceImage               string
+	SourceImageId             string
+	SourceSnapshot            string
+	SourceSnapshotId          string
+	SourceDisk                string
+	SourceDiskId              string
+	ProvisionedIops           int64
+	ProvisionedThroughput     int64
+	PhysicalBlockSizeBytes    int64
+	EnableConfidentialCompute bool
+	DiskEncryptionKeyJSON     json.RawMessage
+	UsersJSON                 json.RawMessage
+	ReplicaZonesJSON          json.RawMessage
+	ResourcePoliciesJSON      json.RawMessage
+	GuestOsFeaturesJSON       json.RawMessage
+	ProjectID                 string
+	CollectedAt               time.Time
+
+	Labels   []DiskLabelData
+	Licenses []DiskLicenseData
+}
+
+// DiskLabelData represents a label attached to a disk.
+type DiskLabelData struct {
+	Key   string
+	Value string
+}
+
+// DiskLicenseData represents a license attached to a disk.
+type DiskLicenseData struct {
+	License string
+}
+
+// ConvertDisk converts a GCP API Disk to DiskData.
 // Preserves raw API data with minimal transformation.
-func ConvertDisk(d *computepb.Disk, projectID string, collectedAt time.Time) (bronze.GCPComputeDisk, error) {
-	disk := bronze.GCPComputeDisk{
-		ResourceID:                fmt.Sprintf("%d", d.GetId()),
+func ConvertDisk(d *computepb.Disk, projectID string, collectedAt time.Time) (*DiskData, error) {
+	disk := &DiskData{
+		ID:                        fmt.Sprintf("%d", d.GetId()),
 		Name:                      d.GetName(),
 		Description:               d.GetDescription(),
 		Zone:                      d.GetZone(),
@@ -46,31 +92,31 @@ func ConvertDisk(d *computepb.Disk, projectID string, collectedAt time.Time) (br
 	if d.DiskEncryptionKey != nil {
 		disk.DiskEncryptionKeyJSON, err = json.Marshal(d.DiskEncryptionKey)
 		if err != nil {
-			return bronze.GCPComputeDisk{}, fmt.Errorf("failed to marshal JSON for disk %s: %w", d.GetName(), err)
+			return nil, fmt.Errorf("failed to marshal JSON for disk %s: %w", d.GetName(), err)
 		}
 	}
 	if d.Users != nil {
 		disk.UsersJSON, err = json.Marshal(d.Users)
 		if err != nil {
-			return bronze.GCPComputeDisk{}, fmt.Errorf("failed to marshal JSON for disk %s: %w", d.GetName(), err)
+			return nil, fmt.Errorf("failed to marshal JSON for disk %s: %w", d.GetName(), err)
 		}
 	}
 	if d.ReplicaZones != nil {
 		disk.ReplicaZonesJSON, err = json.Marshal(d.ReplicaZones)
 		if err != nil {
-			return bronze.GCPComputeDisk{}, fmt.Errorf("failed to marshal JSON for disk %s: %w", d.GetName(), err)
+			return nil, fmt.Errorf("failed to marshal JSON for disk %s: %w", d.GetName(), err)
 		}
 	}
 	if d.ResourcePolicies != nil {
 		disk.ResourcePoliciesJSON, err = json.Marshal(d.ResourcePolicies)
 		if err != nil {
-			return bronze.GCPComputeDisk{}, fmt.Errorf("failed to marshal JSON for disk %s: %w", d.GetName(), err)
+			return nil, fmt.Errorf("failed to marshal JSON for disk %s: %w", d.GetName(), err)
 		}
 	}
 	if d.GuestOsFeatures != nil {
 		disk.GuestOsFeaturesJSON, err = json.Marshal(d.GuestOsFeatures)
 		if err != nil {
-			return bronze.GCPComputeDisk{}, fmt.Errorf("failed to marshal JSON for disk %s: %w", d.GetName(), err)
+			return nil, fmt.Errorf("failed to marshal JSON for disk %s: %w", d.GetName(), err)
 		}
 	}
 
@@ -83,15 +129,15 @@ func ConvertDisk(d *computepb.Disk, projectID string, collectedAt time.Time) (br
 	return disk, nil
 }
 
-// ConvertLabels converts disk labels from GCP API to Bronze models.
-func ConvertLabels(labels map[string]string) []bronze.GCPComputeDiskLabel {
+// ConvertLabels converts disk labels from GCP API to DiskLabelData.
+func ConvertLabels(labels map[string]string) []DiskLabelData {
 	if len(labels) == 0 {
 		return nil
 	}
 
-	result := make([]bronze.GCPComputeDiskLabel, 0, len(labels))
+	result := make([]DiskLabelData, 0, len(labels))
 	for key, value := range labels {
-		result = append(result, bronze.GCPComputeDiskLabel{
+		result = append(result, DiskLabelData{
 			Key:   key,
 			Value: value,
 		})
@@ -100,15 +146,15 @@ func ConvertLabels(labels map[string]string) []bronze.GCPComputeDiskLabel {
 	return result
 }
 
-// ConvertLicenses converts disk licenses from GCP API to Bronze models.
-func ConvertLicenses(licenses []string) []bronze.GCPComputeDiskLicense {
+// ConvertLicenses converts disk licenses from GCP API to DiskLicenseData.
+func ConvertLicenses(licenses []string) []DiskLicenseData {
 	if len(licenses) == 0 {
 		return nil
 	}
 
-	result := make([]bronze.GCPComputeDiskLicense, 0, len(licenses))
+	result := make([]DiskLicenseData, 0, len(licenses))
 	for _, license := range licenses {
-		result = append(result, bronze.GCPComputeDiskLicense{
+		result = append(result, DiskLicenseData{
 			License: license,
 		})
 	}

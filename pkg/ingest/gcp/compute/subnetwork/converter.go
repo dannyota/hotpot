@@ -6,15 +6,45 @@ import (
 	"time"
 
 	"cloud.google.com/go/compute/apiv1/computepb"
-
-	"hotpot/pkg/base/models/bronze"
 )
 
-// ConvertSubnetwork converts a GCP API Subnetwork to a Bronze model.
+// SubnetworkData holds converted subnetwork data ready for Ent insertion.
+type SubnetworkData struct {
+	ID                      string
+	Name                    string
+	Description             string
+	SelfLink                string
+	CreationTimestamp       string
+	Network                 string
+	Region                  string
+	IpCidrRange             string
+	GatewayAddress          string
+	Purpose                 string
+	Role                    string
+	PrivateIpGoogleAccess   bool
+	PrivateIpv6GoogleAccess string
+	StackType               string
+	Ipv6AccessType          string
+	InternalIpv6Prefix      string
+	ExternalIpv6Prefix      string
+	LogConfigJSON           json.RawMessage
+	Fingerprint             string
+	SecondaryIpRanges       []SecondaryRangeData
+	ProjectID               string
+	CollectedAt             time.Time
+}
+
+// SecondaryRangeData holds converted secondary range data.
+type SecondaryRangeData struct {
+	RangeName   string
+	IpCidrRange string
+}
+
+// ConvertSubnetwork converts a GCP API Subnetwork to Ent-compatible data.
 // Preserves raw API data with minimal transformation.
-func ConvertSubnetwork(s *computepb.Subnetwork, projectID string, collectedAt time.Time) (bronze.GCPComputeSubnetwork, error) {
-	subnet := bronze.GCPComputeSubnetwork{
-		ResourceID:              fmt.Sprintf("%d", s.GetId()),
+func ConvertSubnetwork(s *computepb.Subnetwork, projectID string, collectedAt time.Time) (*SubnetworkData, error) {
+	data := &SubnetworkData{
+		ID:                      fmt.Sprintf("%d", s.GetId()),
 		Name:                    s.GetName(),
 		Description:             s.GetDescription(),
 		SelfLink:                s.GetSelfLink(),
@@ -39,27 +69,27 @@ func ConvertSubnetwork(s *computepb.Subnetwork, projectID string, collectedAt ti
 	// Convert log config to JSONB (nil → SQL NULL, data → JSON bytes)
 	if s.LogConfig != nil {
 		var err error
-		subnet.LogConfigJSON, err = json.Marshal(s.LogConfig)
+		data.LogConfigJSON, err = json.Marshal(s.LogConfig)
 		if err != nil {
-			return bronze.GCPComputeSubnetwork{}, fmt.Errorf("failed to marshal log config for subnetwork %s: %w", s.GetName(), err)
+			return nil, fmt.Errorf("failed to marshal log config for subnetwork %s: %w", s.GetName(), err)
 		}
 	}
 
 	// Convert secondary IP ranges to separate table
-	subnet.SecondaryIpRanges = ConvertSecondaryRanges(s.SecondaryIpRanges)
+	data.SecondaryIpRanges = ConvertSecondaryRanges(s.SecondaryIpRanges)
 
-	return subnet, nil
+	return data, nil
 }
 
-// ConvertSecondaryRanges converts secondary IP ranges from GCP API to Bronze models.
-func ConvertSecondaryRanges(ranges []*computepb.SubnetworkSecondaryRange) []bronze.GCPComputeSubnetworkSecondaryRange {
+// ConvertSecondaryRanges converts secondary IP ranges from GCP API to data structs.
+func ConvertSecondaryRanges(ranges []*computepb.SubnetworkSecondaryRange) []SecondaryRangeData {
 	if len(ranges) == 0 {
 		return nil
 	}
 
-	result := make([]bronze.GCPComputeSubnetworkSecondaryRange, 0, len(ranges))
+	result := make([]SecondaryRangeData, 0, len(ranges))
 	for _, r := range ranges {
-		result = append(result, bronze.GCPComputeSubnetworkSecondaryRange{
+		result = append(result, SecondaryRangeData{
 			RangeName:   r.GetRangeName(),
 			IpCidrRange: r.GetIpCidrRange(),
 		})

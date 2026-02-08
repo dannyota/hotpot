@@ -6,15 +6,46 @@ import (
 	"time"
 
 	"cloud.google.com/go/compute/apiv1/computepb"
-
-	"hotpot/pkg/base/models/bronze"
 )
 
-// ConvertGlobalAddress converts a GCP API Address to a Bronze model.
+// GlobalAddressData represents a GCP Compute global address in a data structure.
+type GlobalAddressData struct {
+	ID                string
+	Name              string
+	Description       string
+	Address           string
+	AddressType       string
+	IpVersion         string
+	Ipv6EndpointType  string
+	IpCollection      string
+	Region            string
+	Status            string
+	Purpose           string
+	Network           string
+	Subnetwork        string
+	NetworkTier       string
+	PrefixLength      int32
+	SelfLink          string
+	CreationTimestamp string
+	LabelFingerprint  string
+	UsersJSON         json.RawMessage
+	ProjectID         string
+	CollectedAt       time.Time
+
+	Labels []GlobalAddressLabelData
+}
+
+// GlobalAddressLabelData represents a label attached to a global address.
+type GlobalAddressLabelData struct {
+	Key   string
+	Value string
+}
+
+// ConvertGlobalAddress converts a GCP API Address to GlobalAddressData.
 // Preserves raw API data with minimal transformation.
-func ConvertGlobalAddress(a *computepb.Address, projectID string, collectedAt time.Time) (bronze.GCPComputeGlobalAddress, error) {
-	addr := bronze.GCPComputeGlobalAddress{
-		ResourceID:        fmt.Sprintf("%d", a.GetId()),
+func ConvertGlobalAddress(a *computepb.Address, projectID string, collectedAt time.Time) (*GlobalAddressData, error) {
+	addr := &GlobalAddressData{
+		ID:                fmt.Sprintf("%d", a.GetId()),
 		Name:              a.GetName(),
 		Description:       a.GetDescription(),
 		Address:           a.GetAddress(),
@@ -41,7 +72,7 @@ func ConvertGlobalAddress(a *computepb.Address, projectID string, collectedAt ti
 		var err error
 		addr.UsersJSON, err = json.Marshal(a.Users)
 		if err != nil {
-			return bronze.GCPComputeGlobalAddress{}, fmt.Errorf("failed to marshal users for global address %s: %w", a.GetName(), err)
+			return nil, fmt.Errorf("failed to marshal users for global address %s: %w", a.GetName(), err)
 		}
 	}
 
@@ -51,15 +82,15 @@ func ConvertGlobalAddress(a *computepb.Address, projectID string, collectedAt ti
 	return addr, nil
 }
 
-// ConvertLabels converts global address labels from GCP API to Bronze models.
-func ConvertLabels(labels map[string]string) []bronze.GCPComputeGlobalAddressLabel {
+// ConvertLabels converts global address labels from GCP API to GlobalAddressLabelData.
+func ConvertLabels(labels map[string]string) []GlobalAddressLabelData {
 	if len(labels) == 0 {
 		return nil
 	}
 
-	result := make([]bronze.GCPComputeGlobalAddressLabel, 0, len(labels))
+	result := make([]GlobalAddressLabelData, 0, len(labels))
 	for key, value := range labels {
-		result = append(result, bronze.GCPComputeGlobalAddressLabel{
+		result = append(result, GlobalAddressLabelData{
 			Key:   key,
 			Value: value,
 		})

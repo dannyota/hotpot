@@ -1,8 +1,8 @@
 package cluster
 
 import (
-	"hotpot/pkg/base/jsonb"
-	"hotpot/pkg/base/models/bronze"
+	"bytes"
+	"hotpot/pkg/storage/ent"
 )
 
 // ClusterDiff represents changes between old and new cluster states.
@@ -22,8 +22,8 @@ type ChildDiff struct {
 	Changed bool
 }
 
-// DiffCluster compares old and new cluster states.
-func DiffCluster(old, new *bronze.GCPContainerCluster) *ClusterDiff {
+// DiffClusterData compares old Ent entity and new data.
+func DiffClusterData(old *ent.BronzeGCPContainerCluster, new *ClusterData) *ClusterDiff {
 	if old == nil {
 		return &ClusterDiff{
 			IsNew:          true,
@@ -39,11 +39,11 @@ func DiffCluster(old, new *bronze.GCPContainerCluster) *ClusterDiff {
 	// Compare cluster-level fields
 	diff.IsChanged = hasClusterFieldsChanged(old, new)
 
-	// Compare children
-	diff.LabelsDiff = diffLabels(old.Labels, new.Labels)
-	diff.AddonsDiff = diffAddons(old.Addons, new.Addons)
-	diff.ConditionsDiff = diffConditions(old.Conditions, new.Conditions)
-	diff.NodePoolsDiff = diffNodePools(old.NodePools, new.NodePools)
+	// Compare children (need to load edges from old)
+	diff.LabelsDiff = diffLabelsData(old.Edges.Labels, new.Labels)
+	diff.AddonsDiff = diffAddonsData(old.Edges.Addons, new.Addons)
+	diff.ConditionsDiff = diffConditionsData(old.Edges.Conditions, new.Conditions)
+	diff.NodePoolsDiff = diffNodePoolsData(old.Edges.NodePools, new.NodePools)
 
 	return diff
 }
@@ -60,7 +60,7 @@ func (d *ClusterDiff) HasAnyChange() bool {
 }
 
 // hasClusterFieldsChanged compares cluster-level fields (excluding children).
-func hasClusterFieldsChanged(old, new *bronze.GCPContainerCluster) bool {
+func hasClusterFieldsChanged(old *ent.BronzeGCPContainerCluster, new *ClusterData) bool {
 	return old.Name != new.Name ||
 		old.Location != new.Location ||
 		old.Zone != new.Zone ||
@@ -80,17 +80,17 @@ func hasClusterFieldsChanged(old, new *bronze.GCPContainerCluster) bool {
 		old.MonitoringService != new.MonitoringService ||
 		old.EnableKubernetesAlpha != new.EnableKubernetesAlpha ||
 		old.EnableTpu != new.EnableTpu ||
-		jsonb.Changed(old.AddonsConfigJSON, new.AddonsConfigJSON) ||
-		jsonb.Changed(old.PrivateClusterConfigJSON, new.PrivateClusterConfigJSON) ||
-		jsonb.Changed(old.IpAllocationPolicyJSON, new.IpAllocationPolicyJSON) ||
-		jsonb.Changed(old.NetworkConfigJSON, new.NetworkConfigJSON) ||
-		jsonb.Changed(old.AutoscalingJSON, new.AutoscalingJSON) ||
-		jsonb.Changed(old.MaintenancePolicyJSON, new.MaintenancePolicyJSON) ||
-		jsonb.Changed(old.AutopilotJSON, new.AutopilotJSON) ||
-		jsonb.Changed(old.ReleaseChannelJSON, new.ReleaseChannelJSON)
+		!bytes.Equal(old.AddonsConfigJSON, new.AddonsConfigJSON) ||
+		!bytes.Equal(old.PrivateClusterConfigJSON, new.PrivateClusterConfigJSON) ||
+		!bytes.Equal(old.IPAllocationPolicyJSON, new.IPAllocationPolicyJSON) ||
+		!bytes.Equal(old.NetworkConfigJSON, new.NetworkConfigJSON) ||
+		!bytes.Equal(old.AutoscalingJSON, new.AutoscalingJSON) ||
+		!bytes.Equal(old.MaintenancePolicyJSON, new.MaintenancePolicyJSON) ||
+		!bytes.Equal(old.AutopilotJSON, new.AutopilotJSON) ||
+		!bytes.Equal(old.ReleaseChannelJSON, new.ReleaseChannelJSON)
 }
 
-func diffLabels(old, new []bronze.GCPContainerClusterLabel) ChildDiff {
+func diffLabelsData(old []*ent.BronzeGCPContainerClusterLabel, new []LabelData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -106,25 +106,25 @@ func diffLabels(old, new []bronze.GCPContainerClusterLabel) ChildDiff {
 	return ChildDiff{Changed: false}
 }
 
-func diffAddons(old, new []bronze.GCPContainerClusterAddon) ChildDiff {
+func diffAddonsData(old []*ent.BronzeGCPContainerClusterAddon, new []AddonData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
-	oldMap := make(map[string]bronze.GCPContainerClusterAddon)
+	oldMap := make(map[string]*ent.BronzeGCPContainerClusterAddon)
 	for _, a := range old {
 		oldMap[a.AddonName] = a
 	}
 	for _, a := range new {
 		if oldAddon, ok := oldMap[a.AddonName]; !ok ||
 			oldAddon.Enabled != a.Enabled ||
-			jsonb.Changed(oldAddon.ConfigJSON, a.ConfigJSON) {
+			!bytes.Equal(oldAddon.ConfigJSON, a.ConfigJSON) {
 			return ChildDiff{Changed: true}
 		}
 	}
 	return ChildDiff{Changed: false}
 }
 
-func diffConditions(old, new []bronze.GCPContainerClusterCondition) ChildDiff {
+func diffConditionsData(old []*ent.BronzeGCPContainerClusterCondition, new []ConditionData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -138,33 +138,33 @@ func diffConditions(old, new []bronze.GCPContainerClusterCondition) ChildDiff {
 	return ChildDiff{Changed: false}
 }
 
-func diffNodePools(old, new []bronze.GCPContainerClusterNodePool) ChildDiff {
+func diffNodePoolsData(old []*ent.BronzeGCPContainerClusterNodePool, new []NodePoolData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
-	oldMap := make(map[string]bronze.GCPContainerClusterNodePool)
+	oldMap := make(map[string]*ent.BronzeGCPContainerClusterNodePool)
 	for _, np := range old {
 		oldMap[np.Name] = np
 	}
 	for _, np := range new {
 		oldNP, ok := oldMap[np.Name]
-		if !ok || hasNodePoolChanged(&oldNP, &np) {
+		if !ok || hasNodePoolChangedData(oldNP, &np) {
 			return ChildDiff{Changed: true}
 		}
 	}
 	return ChildDiff{Changed: false}
 }
 
-func hasNodePoolChanged(old, new *bronze.GCPContainerClusterNodePool) bool {
+func hasNodePoolChangedData(old *ent.BronzeGCPContainerClusterNodePool, new *NodePoolData) bool {
 	return old.Version != new.Version ||
 		old.Status != new.Status ||
 		old.StatusMessage != new.StatusMessage ||
 		old.InitialNodeCount != new.InitialNodeCount ||
 		old.PodIpv4CidrSize != new.PodIpv4CidrSize ||
-		jsonb.Changed(old.LocationsJSON, new.LocationsJSON) ||
-		jsonb.Changed(old.ConfigJSON, new.ConfigJSON) ||
-		jsonb.Changed(old.AutoscalingJSON, new.AutoscalingJSON) ||
-		jsonb.Changed(old.ManagementJSON, new.ManagementJSON) ||
-		jsonb.Changed(old.UpgradeSettingsJSON, new.UpgradeSettingsJSON) ||
-		jsonb.Changed(old.NetworkConfigJSON, new.NetworkConfigJSON)
+		!bytes.Equal(old.LocationsJSON, new.LocationsJSON) ||
+		!bytes.Equal(old.ConfigJSON, new.ConfigJSON) ||
+		!bytes.Equal(old.AutoscalingJSON, new.AutoscalingJSON) ||
+		!bytes.Equal(old.ManagementJSON, new.ManagementJSON) ||
+		!bytes.Equal(old.UpgradeSettingsJSON, new.UpgradeSettingsJSON) ||
+		!bytes.Equal(old.NetworkConfigJSON, new.NetworkConfigJSON)
 }

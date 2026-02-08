@@ -1,13 +1,13 @@
 package serviceaccount
 
-import "hotpot/pkg/base/models/bronze"
+import "hotpot/pkg/storage/ent"
 
 type ServiceAccountDiff struct {
 	IsNew     bool
 	IsChanged bool
 }
 
-func DiffServiceAccount(old, new *bronze.GCPIAMServiceAccount) *ServiceAccountDiff {
+func DiffServiceAccountData(old *ent.BronzeGCPIAMServiceAccount, new *ServiceAccountData) *ServiceAccountDiff {
 	if old == nil {
 		return &ServiceAccountDiff{IsNew: true}
 	}
@@ -20,12 +20,12 @@ func (d *ServiceAccountDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged
 }
 
-func hasFieldsChanged(old, new *bronze.GCPIAMServiceAccount) bool {
+func hasFieldsChanged(old *ent.BronzeGCPIAMServiceAccount, new *ServiceAccountData) bool {
 	return old.Name != new.Name ||
 		old.Email != new.Email ||
 		old.DisplayName != new.DisplayName ||
 		old.Description != new.Description ||
-		old.Oauth2ClientId != new.Oauth2ClientId ||
+		old.Oauth2ClientID != new.Oauth2ClientId ||
 		old.Disabled != new.Disabled ||
 		old.Etag != new.Etag
 }

@@ -1,15 +1,18 @@
 package app
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"sync"
 	"time"
 
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	"entgo.io/ent/dialect"
+	entsql "entgo.io/ent/dialect/sql"
+	_ "github.com/jackc/pgx/v5/stdlib"
 
 	"hotpot/pkg/base/config"
+	"hotpot/pkg/storage/ent"
 )
 
 // dbManager handles database connections with hot-reload support.
@@ -18,7 +21,7 @@ type dbManager struct {
 	gracePeriod   time.Duration
 	onReconnect   func(oldDSN, newDSN string)
 
-	db         *gorm.DB
+	entClient  *ent.Client
 	currentDSN string
 	mu         sync.RWMutex
 }
@@ -42,13 +45,23 @@ func (m *dbManager) connect() error {
 		return fmt.Errorf("database DSN is empty")
 	}
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	// Open database connection
+	db, err := sql.Open("pgx", dsn)
 	if err != nil {
-		return fmt.Errorf("connect to database: %w", err)
+		return fmt.Errorf("open database: %w", err)
 	}
 
+	// Create Ent driver
+	drv := entsql.OpenDB(dialect.Postgres, db)
+
+	// Create Ent client with schema routing
+	entClient := ent.NewClient(
+		ent.Driver(drv),
+		ent.AlternateSchema(ent.DefaultSchemaConfig()),
+	)
+
 	m.mu.Lock()
-	m.db = db
+	m.entClient = entClient
 	m.currentDSN = dsn
 	m.mu.Unlock()
 
@@ -71,18 +84,25 @@ func (m *dbManager) reconnectIfChanged() {
 
 	log.Printf("Database config changed, reconnecting...")
 
-	// Create new connection
-	newDB, err := gorm.Open(postgres.Open(newDSN), &gorm.Config{})
+	// Open new database connection
+	db, err := sql.Open("pgx", newDSN)
 	if err != nil {
-		log.Printf("Failed to reconnect to database: %v (keeping old connection)", err)
+		log.Printf("Failed to open new database connection: %v (keeping old connection)", err)
 		return
 	}
 
+	// Create Ent driver and client
+	drv := entsql.OpenDB(dialect.Postgres, db)
+	newClient := ent.NewClient(
+		ent.Driver(drv),
+		ent.AlternateSchema(ent.DefaultSchemaConfig()),
+	)
+
 	// Swap connections
 	m.mu.Lock()
-	oldDB := m.db
+	oldClient := m.entClient
 	oldDSN := m.currentDSN
-	m.db = newDB
+	m.entClient = newClient
 	m.currentDSN = newDSN
 	m.mu.Unlock()
 
@@ -94,25 +114,19 @@ func (m *dbManager) reconnectIfChanged() {
 	}
 
 	// Close old connection after grace period (in background)
-	go m.closeAfterGracePeriod(oldDB)
+	go m.closeAfterGracePeriod(oldClient)
 }
 
 // closeAfterGracePeriod waits then closes the old connection.
-func (m *dbManager) closeAfterGracePeriod(oldDB *gorm.DB) {
-	if oldDB == nil {
+func (m *dbManager) closeAfterGracePeriod(oldClient *ent.Client) {
+	if oldClient == nil {
 		return
 	}
 
 	log.Printf("Waiting %v before closing old database connection...", m.gracePeriod)
 	time.Sleep(m.gracePeriod)
 
-	sqlDB, err := oldDB.DB()
-	if err != nil {
-		log.Printf("Failed to get underlying DB for closure: %v", err)
-		return
-	}
-
-	if err := sqlDB.Close(); err != nil {
+	if err := oldClient.Close(); err != nil {
 		log.Printf("Failed to close old database connection: %v", err)
 		return
 	}
@@ -120,11 +134,11 @@ func (m *dbManager) closeAfterGracePeriod(oldDB *gorm.DB) {
 	log.Printf("Old database connection closed")
 }
 
-// DB returns the current database connection (thread-safe).
-func (m *dbManager) DB() *gorm.DB {
+// EntClient returns the current Ent client (thread-safe).
+func (m *dbManager) EntClient() *ent.Client {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
-	return m.db
+	return m.entClient
 }
 
 // close closes the current database connection.
@@ -132,14 +146,9 @@ func (m *dbManager) close() error {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
-	if m.db == nil {
+	if m.entClient == nil {
 		return nil
 	}
 
-	sqlDB, err := m.db.DB()
-	if err != nil {
-		return fmt.Errorf("get underlying DB: %w", err)
-	}
-
-	return sqlDB.Close()
+	return m.entClient.Close()
 }

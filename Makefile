@@ -1,42 +1,32 @@
-.PHONY: all build clean ingest normalize detect admin
+.PHONY: help build clean test vet lint migrate-tool ingest-tool
 
-# Build all services
-all: build
+help: ## Show this help
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
-# Build all available services
-build: ingest
-
-# Individual service targets
-ingest:
+build: ## Build all binaries to bin/
 	@mkdir -p bin
-	go build -o bin/ingest ./cmd/ingest
+	@echo "Building ingest..."
+	@go build -o bin/ingest ./cmd/ingest
+	@echo "Building migrate..."
+	@go build -o bin/migrate ./cmd/migrate
+	@echo "✅ Binaries built in bin/"
 
-normalize:
-	@mkdir -p bin
-	go build -o bin/normalize ./cmd/normalize
+clean: ## Remove built binaries
+	@rm -rf bin/
+	@rm -f ingest migrate
+	@echo "✅ Cleaned"
 
-detect:
-	@mkdir -p bin
-	go build -o bin/detect ./cmd/detect
+test: ## Run tests
+	@go test ./... -v
 
-admin:
-	@mkdir -p bin
-	go build -o bin/admin ./cmd/admin
+vet: ## Run go vet
+	@go vet ./...
 
-# Clean build artifacts
-clean:
-	rm -rf bin/
+lint: ## Run golangci-lint (requires golangci-lint installed)
+	@golangci-lint run
 
-# Development helpers
-tidy:
-	go mod tidy
+generate: ## Generate ent code
+	@cd pkg/storage && go generate
+	@echo "✅ Ent code generated"
 
-fmt:
-	go fmt ./...
-
-vet:
-	go vet ./...
-
-# Run checks before commit
-check: fmt vet
-	go build ./...
+.DEFAULT_GOAL := help

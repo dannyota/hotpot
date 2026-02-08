@@ -6,14 +6,104 @@ import (
 	"time"
 
 	"cloud.google.com/go/compute/apiv1/computepb"
-
-	"hotpot/pkg/base/models/bronze"
 )
 
-// ConvertInstance converts a GCP API Instance to a Bronze model.
+// InstanceData holds converted instance data ready for Ent insertion.
+type InstanceData struct {
+	ResourceID             string
+	Name                   string
+	Zone                   string
+	MachineType            string
+	Status                 string
+	StatusMessage          string
+	CpuPlatform            string
+	Hostname               string
+	Description            string
+	CreationTimestamp      string
+	LastStartTimestamp     string
+	LastStopTimestamp      string
+	LastSuspendedTimestamp string
+	DeletionProtection     bool
+	CanIpForward           bool
+	SelfLink               string
+	SchedulingJSON         json.RawMessage
+	ProjectID              string
+	CollectedAt            time.Time
+
+	// Child data
+	Disks           []DiskData
+	NICs            []NICData
+	Labels          []LabelData
+	Tags            []TagData
+	Metadata        []MetadataData
+	ServiceAccounts []ServiceAccountData
+}
+
+type DiskData struct {
+	Source                string
+	DeviceName            string
+	Index                 int
+	Boot                  bool
+	AutoDelete            bool
+	Mode                  string
+	Interface             string
+	Type                  string
+	DiskSizeGb            int64
+	DiskEncryptionKeyJSON json.RawMessage
+	InitializeParamsJSON  json.RawMessage
+	Licenses              []DiskLicenseData
+}
+
+type DiskLicenseData struct {
+	License string
+}
+
+type NICData struct {
+	Name            string
+	Network         string
+	Subnetwork      string
+	NetworkIP       string
+	StackType       string
+	NicType         string
+	AccessConfigs   []AccessConfigData
+	AliasIPRanges   []AliasRangeData
+}
+
+type AccessConfigData struct {
+	Type        string
+	Name        string
+	NatIP       string
+	NetworkTier string
+}
+
+type AliasRangeData struct {
+	IPCidrRange         string
+	SubnetworkRangeName string
+}
+
+type LabelData struct {
+	Key   string
+	Value string
+}
+
+type TagData struct {
+	Tag string
+}
+
+type MetadataData struct {
+	Key   string
+	Value string
+}
+
+type ServiceAccountData struct {
+	Email      string
+	ScopesJSON json.RawMessage
+}
+
+// ConvertInstance converts a GCP API Instance to InstanceData.
 // Preserves raw API data with minimal transformation.
-func ConvertInstance(inst *computepb.Instance, projectID string, collectedAt time.Time) (bronze.GCPComputeInstance, error) {
-	instance := bronze.GCPComputeInstance{
+func ConvertInstance(inst *computepb.Instance, projectID string, collectedAt time.Time) (*InstanceData, error) {
+	instance := &InstanceData{
 		ResourceID:             fmt.Sprintf("%d", inst.GetId()),
 		Name:                   inst.GetName(),
 		Zone:                   inst.GetZone(),
@@ -39,7 +129,7 @@ func ConvertInstance(inst *computepb.Instance, projectID string, collectedAt tim
 		var err error
 		instance.SchedulingJSON, err = json.Marshal(inst.Scheduling)
 		if err != nil {
-			return bronze.GCPComputeInstance{}, fmt.Errorf("failed to marshal scheduling for instance %s: %w", inst.GetName(), err)
+			return nil, fmt.Errorf("failed to marshal scheduling for instance %s: %w", inst.GetName(), err)
 		}
 	}
 
@@ -47,7 +137,7 @@ func ConvertInstance(inst *computepb.Instance, projectID string, collectedAt tim
 	var convertErr error
 	instance.Disks, convertErr = ConvertDisks(inst.Disks)
 	if convertErr != nil {
-		return bronze.GCPComputeInstance{}, fmt.Errorf("failed to convert disks for instance %s: %w", inst.GetName(), convertErr)
+		return nil, fmt.Errorf("failed to convert disks for instance %s: %w", inst.GetName(), convertErr)
 	}
 	instance.NICs = ConvertNICs(inst.NetworkInterfaces)
 	instance.Labels = ConvertLabels(inst.Labels)
@@ -55,22 +145,22 @@ func ConvertInstance(inst *computepb.Instance, projectID string, collectedAt tim
 	instance.Metadata = ConvertMetadata(inst.Metadata)
 	instance.ServiceAccounts, convertErr = ConvertServiceAccounts(inst.ServiceAccounts)
 	if convertErr != nil {
-		return bronze.GCPComputeInstance{}, fmt.Errorf("failed to convert service accounts for instance %s: %w", inst.GetName(), convertErr)
+		return nil, fmt.Errorf("failed to convert service accounts for instance %s: %w", inst.GetName(), convertErr)
 	}
 
 	return instance, nil
 }
 
-// ConvertDisks converts attached disk info from GCP API to Bronze models.
-func ConvertDisks(disks []*computepb.AttachedDisk) ([]bronze.GCPComputeInstanceDisk, error) {
+// ConvertDisks converts attached disk info from GCP API to DiskData.
+func ConvertDisks(disks []*computepb.AttachedDisk) ([]DiskData, error) {
 	if len(disks) == 0 {
 		return nil, nil
 	}
 
 	var err error
-	result := make([]bronze.GCPComputeInstanceDisk, 0, len(disks))
+	result := make([]DiskData, 0, len(disks))
 	for _, disk := range disks {
-		d := bronze.GCPComputeInstanceDisk{
+		d := DiskData{
 			Source:     disk.GetSource(),
 			DeviceName: disk.GetDeviceName(),
 			Index:      int(disk.GetIndex()),
@@ -107,15 +197,15 @@ func ConvertDisks(disks []*computepb.AttachedDisk) ([]bronze.GCPComputeInstanceD
 	return result, nil
 }
 
-// ConvertNICs converts network interfaces from GCP API to Bronze models.
-func ConvertNICs(nics []*computepb.NetworkInterface) []bronze.GCPComputeInstanceNIC {
+// ConvertNICs converts network interfaces from GCP API to NICData.
+func ConvertNICs(nics []*computepb.NetworkInterface) []NICData {
 	if len(nics) == 0 {
 		return nil
 	}
 
-	result := make([]bronze.GCPComputeInstanceNIC, 0, len(nics))
+	result := make([]NICData, 0, len(nics))
 	for _, nic := range nics {
-		n := bronze.GCPComputeInstanceNIC{
+		n := NICData{
 			Name:       nic.GetName(),
 			Network:    nic.GetNetwork(),
 			Subnetwork: nic.GetSubnetwork(),
@@ -128,7 +218,7 @@ func ConvertNICs(nics []*computepb.NetworkInterface) []bronze.GCPComputeInstance
 		n.AccessConfigs = ConvertNICAccessConfigs(nic.AccessConfigs)
 
 		// Convert alias IP ranges to separate table
-		n.AliasIpRanges = ConvertNICAliasRanges(nic.AliasIpRanges)
+		n.AliasIPRanges = ConvertNICAliasRanges(nic.AliasIpRanges)
 
 		result = append(result, n)
 	}
@@ -136,15 +226,15 @@ func ConvertNICs(nics []*computepb.NetworkInterface) []bronze.GCPComputeInstance
 	return result
 }
 
-// ConvertLabels converts instance labels from GCP API to Bronze models.
-func ConvertLabels(labels map[string]string) []bronze.GCPComputeInstanceLabel {
+// ConvertLabels converts instance labels from GCP API to LabelData.
+func ConvertLabels(labels map[string]string) []LabelData {
 	if len(labels) == 0 {
 		return nil
 	}
 
-	result := make([]bronze.GCPComputeInstanceLabel, 0, len(labels))
+	result := make([]LabelData, 0, len(labels))
 	for key, value := range labels {
-		result = append(result, bronze.GCPComputeInstanceLabel{
+		result = append(result, LabelData{
 			Key:   key,
 			Value: value,
 		})
@@ -153,15 +243,15 @@ func ConvertLabels(labels map[string]string) []bronze.GCPComputeInstanceLabel {
 	return result
 }
 
-// ConvertTags converts network tags from GCP API to Bronze models.
-func ConvertTags(tags *computepb.Tags) []bronze.GCPComputeInstanceTag {
+// ConvertTags converts network tags from GCP API to TagData.
+func ConvertTags(tags *computepb.Tags) []TagData {
 	if tags == nil || len(tags.Items) == 0 {
 		return nil
 	}
 
-	result := make([]bronze.GCPComputeInstanceTag, 0, len(tags.Items))
+	result := make([]TagData, 0, len(tags.Items))
 	for _, tag := range tags.Items {
-		result = append(result, bronze.GCPComputeInstanceTag{
+		result = append(result, TagData{
 			Tag: tag,
 		})
 	}
@@ -169,15 +259,15 @@ func ConvertTags(tags *computepb.Tags) []bronze.GCPComputeInstanceTag {
 	return result
 }
 
-// ConvertMetadata converts instance metadata from GCP API to Bronze models.
-func ConvertMetadata(metadata *computepb.Metadata) []bronze.GCPComputeInstanceMetadata {
+// ConvertMetadata converts instance metadata from GCP API to MetadataData.
+func ConvertMetadata(metadata *computepb.Metadata) []MetadataData {
 	if metadata == nil || len(metadata.Items) == 0 {
 		return nil
 	}
 
-	result := make([]bronze.GCPComputeInstanceMetadata, 0, len(metadata.Items))
+	result := make([]MetadataData, 0, len(metadata.Items))
 	for _, item := range metadata.Items {
-		m := bronze.GCPComputeInstanceMetadata{
+		m := MetadataData{
 			Key: item.GetKey(),
 		}
 		if item.Value != nil {
@@ -189,16 +279,16 @@ func ConvertMetadata(metadata *computepb.Metadata) []bronze.GCPComputeInstanceMe
 	return result
 }
 
-// ConvertServiceAccounts converts service accounts from GCP API to Bronze models.
-func ConvertServiceAccounts(serviceAccounts []*computepb.ServiceAccount) ([]bronze.GCPComputeInstanceServiceAccount, error) {
+// ConvertServiceAccounts converts service accounts from GCP API to ServiceAccountData.
+func ConvertServiceAccounts(serviceAccounts []*computepb.ServiceAccount) ([]ServiceAccountData, error) {
 	if len(serviceAccounts) == 0 {
 		return nil, nil
 	}
 
 	var err error
-	result := make([]bronze.GCPComputeInstanceServiceAccount, 0, len(serviceAccounts))
+	result := make([]ServiceAccountData, 0, len(serviceAccounts))
 	for _, sa := range serviceAccounts {
-		s := bronze.GCPComputeInstanceServiceAccount{
+		s := ServiceAccountData{
 			Email: sa.GetEmail(),
 		}
 
@@ -216,15 +306,15 @@ func ConvertServiceAccounts(serviceAccounts []*computepb.ServiceAccount) ([]bron
 	return result, nil
 }
 
-// ConvertDiskLicenses converts disk licenses from GCP API to Bronze models.
-func ConvertDiskLicenses(licenses []string) []bronze.GCPComputeInstanceDiskLicense {
+// ConvertDiskLicenses converts disk licenses from GCP API to DiskLicenseData.
+func ConvertDiskLicenses(licenses []string) []DiskLicenseData {
 	if len(licenses) == 0 {
 		return nil
 	}
 
-	result := make([]bronze.GCPComputeInstanceDiskLicense, 0, len(licenses))
+	result := make([]DiskLicenseData, 0, len(licenses))
 	for _, license := range licenses {
-		result = append(result, bronze.GCPComputeInstanceDiskLicense{
+		result = append(result, DiskLicenseData{
 			License: license,
 		})
 	}
@@ -232,15 +322,15 @@ func ConvertDiskLicenses(licenses []string) []bronze.GCPComputeInstanceDiskLicen
 	return result
 }
 
-// ConvertNICAccessConfigs converts NIC access configs from GCP API to Bronze models.
-func ConvertNICAccessConfigs(accessConfigs []*computepb.AccessConfig) []bronze.GCPComputeInstanceNICAccessConfig {
+// ConvertNICAccessConfigs converts NIC access configs from GCP API to AccessConfigData.
+func ConvertNICAccessConfigs(accessConfigs []*computepb.AccessConfig) []AccessConfigData {
 	if len(accessConfigs) == 0 {
 		return nil
 	}
 
-	result := make([]bronze.GCPComputeInstanceNICAccessConfig, 0, len(accessConfigs))
+	result := make([]AccessConfigData, 0, len(accessConfigs))
 	for _, ac := range accessConfigs {
-		result = append(result, bronze.GCPComputeInstanceNICAccessConfig{
+		result = append(result, AccessConfigData{
 			Type:        ac.GetType(),
 			Name:        ac.GetName(),
 			NatIP:       ac.GetNatIP(),
@@ -251,16 +341,16 @@ func ConvertNICAccessConfigs(accessConfigs []*computepb.AccessConfig) []bronze.G
 	return result
 }
 
-// ConvertNICAliasRanges converts NIC alias IP ranges from GCP API to Bronze models.
-func ConvertNICAliasRanges(aliasRanges []*computepb.AliasIpRange) []bronze.GCPComputeInstanceNICAliasRange {
+// ConvertNICAliasRanges converts NIC alias IP ranges from GCP API to AliasRangeData.
+func ConvertNICAliasRanges(aliasRanges []*computepb.AliasIpRange) []AliasRangeData {
 	if len(aliasRanges) == 0 {
 		return nil
 	}
 
-	result := make([]bronze.GCPComputeInstanceNICAliasRange, 0, len(aliasRanges))
+	result := make([]AliasRangeData, 0, len(aliasRanges))
 	for _, ar := range aliasRanges {
-		result = append(result, bronze.GCPComputeInstanceNICAliasRange{
-			IpCidrRange:         ar.GetIpCidrRange(),
+		result = append(result, AliasRangeData{
+			IPCidrRange:         ar.GetIpCidrRange(),
 			SubnetworkRangeName: ar.GetSubnetworkRangeName(),
 		})
 	}

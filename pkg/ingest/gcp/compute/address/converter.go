@@ -6,15 +6,46 @@ import (
 	"time"
 
 	"cloud.google.com/go/compute/apiv1/computepb"
-
-	"hotpot/pkg/base/models/bronze"
 )
 
-// ConvertAddress converts a GCP API Address to a Bronze model.
+// AddressData represents a GCP Compute address in a data structure.
+type AddressData struct {
+	ID                string
+	Name              string
+	Description       string
+	Address           string
+	AddressType       string
+	IpVersion         string
+	Ipv6EndpointType  string
+	IpCollection      string
+	Region            string
+	Status            string
+	Purpose           string
+	Network           string
+	Subnetwork        string
+	NetworkTier       string
+	PrefixLength      int32
+	SelfLink          string
+	CreationTimestamp string
+	LabelFingerprint  string
+	UsersJSON         json.RawMessage
+	ProjectID         string
+	CollectedAt       time.Time
+
+	Labels []AddressLabelData
+}
+
+// AddressLabelData represents a label attached to an address.
+type AddressLabelData struct {
+	Key   string
+	Value string
+}
+
+// ConvertAddress converts a GCP API Address to AddressData.
 // Preserves raw API data with minimal transformation.
-func ConvertAddress(a *computepb.Address, projectID string, collectedAt time.Time) (bronze.GCPComputeAddress, error) {
-	addr := bronze.GCPComputeAddress{
-		ResourceID:        fmt.Sprintf("%d", a.GetId()),
+func ConvertAddress(a *computepb.Address, projectID string, collectedAt time.Time) (*AddressData, error) {
+	addr := &AddressData{
+		ID:                fmt.Sprintf("%d", a.GetId()),
 		Name:              a.GetName(),
 		Description:       a.GetDescription(),
 		Address:           a.GetAddress(),
@@ -41,7 +72,7 @@ func ConvertAddress(a *computepb.Address, projectID string, collectedAt time.Tim
 		var err error
 		addr.UsersJSON, err = json.Marshal(a.Users)
 		if err != nil {
-			return bronze.GCPComputeAddress{}, fmt.Errorf("failed to marshal users for address %s: %w", a.GetName(), err)
+			return nil, fmt.Errorf("failed to marshal users for address %s: %w", a.GetName(), err)
 		}
 	}
 
@@ -51,15 +82,15 @@ func ConvertAddress(a *computepb.Address, projectID string, collectedAt time.Tim
 	return addr, nil
 }
 
-// ConvertLabels converts address labels from GCP API to Bronze models.
-func ConvertLabels(labels map[string]string) []bronze.GCPComputeAddressLabel {
+// ConvertLabels converts address labels from GCP API to AddressLabelData.
+func ConvertLabels(labels map[string]string) []AddressLabelData {
 	if len(labels) == 0 {
 		return nil
 	}
 
-	result := make([]bronze.GCPComputeAddressLabel, 0, len(labels))
+	result := make([]AddressLabelData, 0, len(labels))
 	for key, value := range labels {
-		result = append(result, bronze.GCPComputeAddressLabel{
+		result = append(result, AddressLabelData{
 			Key:   key,
 			Value: value,
 		})

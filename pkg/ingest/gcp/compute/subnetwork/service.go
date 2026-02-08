@@ -5,24 +5,24 @@ import (
 	"fmt"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzegcpcomputesubnetwork"
+	"hotpot/pkg/storage/ent/bronzegcpcomputesubnetworksecondaryrange"
 )
 
 // Service handles GCP Compute subnetwork ingestion.
 type Service struct {
-	client  *Client
-	db      *gorm.DB
-	history *HistoryService
+	client    *Client
+	entClient *ent.Client
+	history   *HistoryService
 }
 
 // NewService creates a new subnetwork ingestion service.
-func NewService(client *Client, db *gorm.DB) *Service {
+func NewService(client *Client, entClient *ent.Client) *Service {
 	return &Service{
-		client:  client,
-		db:      db,
-		history: NewHistoryService(db),
+		client:    client,
+		entClient: entClient,
+		history:   NewHistoryService(entClient),
 	}
 }
 
@@ -50,118 +50,184 @@ func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResul
 		return nil, fmt.Errorf("failed to list subnetworks: %w", err)
 	}
 
-	// Convert to bronze models
-	bronzeSubnetworks := make([]bronze.GCPComputeSubnetwork, 0, len(subnetworks))
+	// Convert to data structs
+	subnetworkDataList := make([]*SubnetworkData, 0, len(subnetworks))
 	for _, sn := range subnetworks {
-		bs, err := ConvertSubnetwork(sn, params.ProjectID, collectedAt)
+		data, err := ConvertSubnetwork(sn, params.ProjectID, collectedAt)
 		if err != nil {
 			return nil, fmt.Errorf("failed to convert subnetwork: %w", err)
 		}
-		bronzeSubnetworks = append(bronzeSubnetworks, bs)
+		subnetworkDataList = append(subnetworkDataList, data)
 	}
 
 	// Save to database
-	if err := s.saveSubnetworks(ctx, bronzeSubnetworks); err != nil {
+	if err := s.saveSubnetworks(ctx, subnetworkDataList); err != nil {
 		return nil, fmt.Errorf("failed to save subnetworks: %w", err)
 	}
 
 	return &IngestResult{
 		ProjectID:       params.ProjectID,
-		SubnetworkCount: len(bronzeSubnetworks),
+		SubnetworkCount: len(subnetworkDataList),
 		CollectedAt:     collectedAt,
 		DurationMillis:  time.Since(startTime).Milliseconds(),
 	}, nil
 }
 
 // saveSubnetworks saves subnetworks to the database with history tracking.
-func (s *Service) saveSubnetworks(ctx context.Context, subnetworks []bronze.GCPComputeSubnetwork) error {
+func (s *Service) saveSubnetworks(ctx context.Context, subnetworks []*SubnetworkData) error {
 	if len(subnetworks) == 0 {
 		return nil
 	}
 
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		for _, subnet := range subnetworks {
-			// Load existing subnetwork with all relations
-			var existing *bronze.GCPComputeSubnetwork
-			var old bronze.GCPComputeSubnetwork
-			err := tx.Preload("SecondaryIpRanges").
-				Where("resource_id = ?", subnet.ResourceID).
-				First(&old).Error
-			if err == nil {
-				existing = &old
-			} else if err != gorm.ErrRecordNotFound {
-				return fmt.Errorf("failed to load existing subnetwork %s: %w", subnet.Name, err)
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to start transaction: %w", err)
+	}
+
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	for _, subnetData := range subnetworks {
+		// Load existing subnetwork with secondary ranges
+		existing, err := tx.BronzeGCPComputeSubnetwork.Query().
+			Where(bronzegcpcomputesubnetwork.ID(subnetData.ID)).
+			WithSecondaryIPRanges().
+			First(ctx)
+		if err != nil && !ent.IsNotFound(err) {
+			tx.Rollback()
+			return fmt.Errorf("failed to load existing subnetwork %s: %w", subnetData.Name, err)
+		}
+
+		// Compute diff
+		diff := DiffSubnetworkData(existing, subnetData)
+
+		// Skip if no changes
+		if !diff.HasAnyChange() && existing != nil {
+			// Update collected_at only
+			if err := tx.BronzeGCPComputeSubnetwork.UpdateOneID(subnetData.ID).
+				SetCollectedAt(subnetData.CollectedAt).
+				Exec(ctx); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update collected_at for subnetwork %s: %w", subnetData.Name, err)
 			}
+			continue
+		}
 
-			// Compute diff
-			diff := DiffSubnetwork(existing, &subnet)
-
-			// Skip if no changes
-			if !diff.HasAnyChange() && existing != nil {
-				// Update collected_at only
-				if err := tx.Model(&bronze.GCPComputeSubnetwork{}).
-					Where("resource_id = ?", subnet.ResourceID).
-					Update("collected_at", subnet.CollectedAt).Error; err != nil {
-					return fmt.Errorf("failed to update collected_at for subnetwork %s: %w", subnet.Name, err)
-				}
-				continue
-			}
-
-			// Delete old relations (manual cascade)
-			if existing != nil {
-				if err := s.deleteSubnetworkRelations(tx, subnet.ResourceID); err != nil {
-					return fmt.Errorf("failed to delete old relations for subnetwork %s: %w", subnet.Name, err)
-				}
-			}
-
-			// Upsert subnetwork
-			if err := tx.Save(&subnet).Error; err != nil {
-				return fmt.Errorf("failed to upsert subnetwork %s: %w", subnet.Name, err)
-			}
-
-			// Create new relations
-			if err := s.createSubnetworkRelations(tx, subnet.ResourceID, &subnet); err != nil {
-				return fmt.Errorf("failed to create relations for subnetwork %s: %w", subnet.Name, err)
-			}
-
-			// Track history
-			if diff.IsNew {
-				if err := s.history.CreateHistory(tx, &subnet, now); err != nil {
-					return fmt.Errorf("failed to create history for subnetwork %s: %w", subnet.Name, err)
-				}
-			} else {
-				if err := s.history.UpdateHistory(tx, existing, &subnet, diff, now); err != nil {
-					return fmt.Errorf("failed to update history for subnetwork %s: %w", subnet.Name, err)
-				}
+		// Delete old secondary ranges if updating
+		if existing != nil {
+			_, err := tx.BronzeGCPComputeSubnetworkSecondaryRange.Delete().
+				Where(bronzegcpcomputesubnetworksecondaryrange.HasSubnetworkWith(bronzegcpcomputesubnetwork.ID(subnetData.ID))).
+				Exec(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to delete old secondary ranges for subnetwork %s: %w", subnetData.Name, err)
 			}
 		}
 
-		return nil
-	})
-}
+		// Create or update subnetwork
+		var savedSubnet *ent.BronzeGCPComputeSubnetwork
+		if existing == nil {
+			// Create new subnetwork
+			create := tx.BronzeGCPComputeSubnetwork.Create().
+				SetID(subnetData.ID).
+				SetName(subnetData.Name).
+				SetDescription(subnetData.Description).
+				SetSelfLink(subnetData.SelfLink).
+				SetCreationTimestamp(subnetData.CreationTimestamp).
+				SetNetwork(subnetData.Network).
+				SetRegion(subnetData.Region).
+				SetIPCidrRange(subnetData.IpCidrRange).
+				SetGatewayAddress(subnetData.GatewayAddress).
+				SetPurpose(subnetData.Purpose).
+				SetRole(subnetData.Role).
+				SetPrivateIPGoogleAccess(subnetData.PrivateIpGoogleAccess).
+				SetPrivateIpv6GoogleAccess(subnetData.PrivateIpv6GoogleAccess).
+				SetStackType(subnetData.StackType).
+				SetIpv6AccessType(subnetData.Ipv6AccessType).
+				SetInternalIpv6Prefix(subnetData.InternalIpv6Prefix).
+				SetExternalIpv6Prefix(subnetData.ExternalIpv6Prefix).
+				SetFingerprint(subnetData.Fingerprint).
+				SetProjectID(subnetData.ProjectID).
+				SetCollectedAt(subnetData.CollectedAt)
 
-// deleteSubnetworkRelations deletes all related records for a subnetwork.
-func (s *Service) deleteSubnetworkRelations(tx *gorm.DB, subnetworkResourceID string) error {
-	// Delete secondary ranges
-	if err := tx.Where("subnetwork_resource_id = ?", subnetworkResourceID).Delete(&bronze.GCPComputeSubnetworkSecondaryRange{}).Error; err != nil {
-		return err
-	}
+			if subnetData.LogConfigJSON != nil {
+				create.SetLogConfigJSON(subnetData.LogConfigJSON)
+			}
 
-	return nil
-}
+			savedSubnet, err = create.Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create subnetwork %s: %w", subnetData.Name, err)
+			}
+		} else {
+			// Update existing subnetwork
+			update := tx.BronzeGCPComputeSubnetwork.UpdateOneID(subnetData.ID).
+				SetName(subnetData.Name).
+				SetDescription(subnetData.Description).
+				SetSelfLink(subnetData.SelfLink).
+				SetCreationTimestamp(subnetData.CreationTimestamp).
+				SetNetwork(subnetData.Network).
+				SetRegion(subnetData.Region).
+				SetIPCidrRange(subnetData.IpCidrRange).
+				SetGatewayAddress(subnetData.GatewayAddress).
+				SetPurpose(subnetData.Purpose).
+				SetRole(subnetData.Role).
+				SetPrivateIPGoogleAccess(subnetData.PrivateIpGoogleAccess).
+				SetPrivateIpv6GoogleAccess(subnetData.PrivateIpv6GoogleAccess).
+				SetStackType(subnetData.StackType).
+				SetIpv6AccessType(subnetData.Ipv6AccessType).
+				SetInternalIpv6Prefix(subnetData.InternalIpv6Prefix).
+				SetExternalIpv6Prefix(subnetData.ExternalIpv6Prefix).
+				SetFingerprint(subnetData.Fingerprint).
+				SetProjectID(subnetData.ProjectID).
+				SetCollectedAt(subnetData.CollectedAt)
 
-// createSubnetworkRelations creates all related records for a subnetwork.
-func (s *Service) createSubnetworkRelations(tx *gorm.DB, subnetworkResourceID string, subnet *bronze.GCPComputeSubnetwork) error {
-	// Create secondary ranges
-	for i := range subnet.SecondaryIpRanges {
-		subnet.SecondaryIpRanges[i].SubnetworkResourceID = subnetworkResourceID
-	}
-	if len(subnet.SecondaryIpRanges) > 0 {
-		if err := tx.Create(&subnet.SecondaryIpRanges).Error; err != nil {
-			return fmt.Errorf("failed to create secondary ranges: %w", err)
+			if subnetData.LogConfigJSON != nil {
+				update.SetLogConfigJSON(subnetData.LogConfigJSON)
+			}
+
+			savedSubnet, err = update.Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update subnetwork %s: %w", subnetData.Name, err)
+			}
 		}
+
+		// Create new secondary ranges
+		for _, rangeData := range subnetData.SecondaryIpRanges {
+			_, err := tx.BronzeGCPComputeSubnetworkSecondaryRange.Create().
+				SetRangeName(rangeData.RangeName).
+				SetIPCidrRange(rangeData.IpCidrRange).
+				SetSubnetwork(savedSubnet).
+				Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create secondary range for subnetwork %s: %w", subnetData.Name, err)
+			}
+		}
+
+		// Track history
+		if diff.IsNew {
+			if err := s.history.CreateHistory(ctx, tx, subnetData, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create history for subnetwork %s: %w", subnetData.Name, err)
+			}
+		} else {
+			if err := s.history.UpdateHistory(ctx, tx, existing, subnetData, diff, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update history for subnetwork %s: %w", subnetData.Name, err)
+			}
+		}
+	}
+
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
 	}
 
 	return nil
@@ -172,32 +238,48 @@ func (s *Service) createSubnetworkRelations(tx *gorm.DB, subnetworkResourceID st
 func (s *Service) DeleteStaleSubnetworks(ctx context.Context, projectID string, collectedAt time.Time) error {
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		// Find stale subnetworks
-		var staleSubnetworks []bronze.GCPComputeSubnetwork
-		if err := tx.Where("project_id = ? AND collected_at < ?", projectID, collectedAt).
-			Find(&staleSubnetworks).Error; err != nil {
-			return err
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to start transaction: %w", err)
+	}
+
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	// Find stale subnetworks
+	staleSubnets, err := tx.BronzeGCPComputeSubnetwork.Query().
+		Where(
+			bronzegcpcomputesubnetwork.ProjectID(projectID),
+			bronzegcpcomputesubnetwork.CollectedAtLT(collectedAt),
+		).
+		All(ctx)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	// Close history and delete each stale subnetwork
+	for _, subnet := range staleSubnets {
+		// Close history
+		if err := s.history.CloseHistory(ctx, tx, subnet.ID, now); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to close history for subnetwork %s: %w", subnet.ID, err)
 		}
 
-		// Close history and delete each stale subnetwork
-		for _, sn := range staleSubnetworks {
-			// Close history
-			if err := s.history.CloseHistory(tx, sn.ResourceID, now); err != nil {
-				return fmt.Errorf("failed to close history for subnetwork %s: %w", sn.ResourceID, err)
-			}
-
-			// Delete relations
-			if err := s.deleteSubnetworkRelations(tx, sn.ResourceID); err != nil {
-				return fmt.Errorf("failed to delete relations for subnetwork %s: %w", sn.ResourceID, err)
-			}
-
-			// Delete subnetwork
-			if err := tx.Delete(&sn).Error; err != nil {
-				return fmt.Errorf("failed to delete subnetwork %s: %w", sn.ResourceID, err)
-			}
+		// Delete subnetwork (secondary ranges will be deleted automatically via CASCADE)
+		if err := tx.BronzeGCPComputeSubnetwork.DeleteOne(subnet).Exec(ctx); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to delete subnetwork %s: %w", subnet.ID, err)
 		}
+	}
 
-		return nil
-	})
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
+	}
+
+	return nil
 }

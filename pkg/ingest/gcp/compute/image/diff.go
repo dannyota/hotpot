@@ -1,8 +1,8 @@
 package image
 
 import (
-	"hotpot/pkg/base/jsonb"
-	"hotpot/pkg/base/models/bronze"
+	"bytes"
+	"hotpot/pkg/storage/ent"
 )
 
 // ImageDiff represents changes between old and new image states.
@@ -19,8 +19,8 @@ type ChildDiff struct {
 	Changed bool
 }
 
-// DiffImage compares old and new image states.
-func DiffImage(old, new *bronze.GCPComputeImage) *ImageDiff {
+// DiffImageData compares old Ent entity and new ImageData.
+func DiffImageData(old *ent.BronzeGCPComputeImage, new *ImageData) *ImageDiff {
 	if old == nil {
 		return &ImageDiff{
 			IsNew:        true,
@@ -31,8 +31,8 @@ func DiffImage(old, new *bronze.GCPComputeImage) *ImageDiff {
 
 	diff := &ImageDiff{}
 	diff.IsChanged = hasImageFieldsChanged(old, new)
-	diff.LabelsDiff = diffLabels(old.Labels, new.Labels)
-	diff.LicensesDiff = diffLicenses(old.Licenses, new.Licenses)
+	diff.LabelsDiff = diffLabels(old.Edges.Labels, new.Labels)
+	diff.LicensesDiff = diffLicenses(old.Edges.Licenses, new.Licenses)
 
 	return diff
 }
@@ -45,7 +45,7 @@ func (d *ImageDiff) HasAnyChange() bool {
 	return d.LabelsDiff.Changed || d.LicensesDiff.Changed
 }
 
-func hasImageFieldsChanged(old, new *bronze.GCPComputeImage) bool {
+func hasImageFieldsChanged(old *ent.BronzeGCPComputeImage, new *ImageData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Status != new.Status ||
@@ -53,30 +53,30 @@ func hasImageFieldsChanged(old, new *bronze.GCPComputeImage) bool {
 		old.LabelFingerprint != new.LabelFingerprint ||
 		old.Family != new.Family ||
 		old.SourceDisk != new.SourceDisk ||
-		old.SourceDiskId != new.SourceDiskId ||
+		old.SourceDiskID != new.SourceDiskId ||
 		old.SourceImage != new.SourceImage ||
-		old.SourceImageId != new.SourceImageId ||
+		old.SourceImageID != new.SourceImageId ||
 		old.SourceSnapshot != new.SourceSnapshot ||
-		old.SourceSnapshotId != new.SourceSnapshotId ||
+		old.SourceSnapshotID != new.SourceSnapshotId ||
 		old.SourceType != new.SourceType ||
-		old.DiskSizeGb != new.DiskSizeGb ||
+		old.DiskSizeGB != new.DiskSizeGb ||
 		old.ArchiveSizeBytes != new.ArchiveSizeBytes ||
 		old.SatisfiesPzi != new.SatisfiesPzi ||
 		old.SatisfiesPzs != new.SatisfiesPzs ||
 		old.EnableConfidentialCompute != new.EnableConfidentialCompute ||
-		jsonb.Changed(old.ImageEncryptionKeyJSON, new.ImageEncryptionKeyJSON) ||
-		jsonb.Changed(old.SourceDiskEncryptionKeyJSON, new.SourceDiskEncryptionKeyJSON) ||
-		jsonb.Changed(old.SourceImageEncryptionKeyJSON, new.SourceImageEncryptionKeyJSON) ||
-		jsonb.Changed(old.SourceSnapshotEncryptionKeyJSON, new.SourceSnapshotEncryptionKeyJSON) ||
-		jsonb.Changed(old.DeprecatedJSON, new.DeprecatedJSON) ||
-		jsonb.Changed(old.GuestOsFeaturesJSON, new.GuestOsFeaturesJSON) ||
-		jsonb.Changed(old.ShieldedInstanceInitialStateJSON, new.ShieldedInstanceInitialStateJSON) ||
-		jsonb.Changed(old.RawDiskJSON, new.RawDiskJSON) ||
-		jsonb.Changed(old.StorageLocationsJSON, new.StorageLocationsJSON) ||
-		jsonb.Changed(old.LicenseCodesJSON, new.LicenseCodesJSON)
+		!bytes.Equal(old.ImageEncryptionKeyJSON, new.ImageEncryptionKeyJSON) ||
+		!bytes.Equal(old.SourceDiskEncryptionKeyJSON, new.SourceDiskEncryptionKeyJSON) ||
+		!bytes.Equal(old.SourceImageEncryptionKeyJSON, new.SourceImageEncryptionKeyJSON) ||
+		!bytes.Equal(old.SourceSnapshotEncryptionKeyJSON, new.SourceSnapshotEncryptionKeyJSON) ||
+		!bytes.Equal(old.DeprecatedJSON, new.DeprecatedJSON) ||
+		!bytes.Equal(old.GuestOsFeaturesJSON, new.GuestOsFeaturesJSON) ||
+		!bytes.Equal(old.ShieldedInstanceInitialStateJSON, new.ShieldedInstanceInitialStateJSON) ||
+		!bytes.Equal(old.RawDiskJSON, new.RawDiskJSON) ||
+		!bytes.Equal(old.StorageLocationsJSON, new.StorageLocationsJSON) ||
+		!bytes.Equal(old.LicenseCodesJSON, new.LicenseCodesJSON)
 }
 
-func diffLabels(old, new []bronze.GCPComputeImageLabel) ChildDiff {
+func diffLabels(old []*ent.BronzeGCPComputeImageLabel, new []ImageLabelData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -94,7 +94,7 @@ func diffLabels(old, new []bronze.GCPComputeImageLabel) ChildDiff {
 	return ChildDiff{Changed: false}
 }
 
-func diffLicenses(old, new []bronze.GCPComputeImageLicense) ChildDiff {
+func diffLicenses(old []*ent.BronzeGCPComputeImageLicense, new []ImageLicenseData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

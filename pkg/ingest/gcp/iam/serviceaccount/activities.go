@@ -7,22 +7,22 @@ import (
 	"go.temporal.io/sdk/activity"
 	"google.golang.org/api/option"
 	"google.golang.org/grpc"
-	"gorm.io/gorm"
 
 	"hotpot/pkg/base/config"
 	"hotpot/pkg/base/ratelimit"
+	"hotpot/pkg/storage/ent"
 )
 
 type Activities struct {
 	configService *config.Service
-	db            *gorm.DB
+	entClient     *ent.Client
 	limiter       ratelimit.Limiter
 }
 
-func NewActivities(configService *config.Service, db *gorm.DB, limiter ratelimit.Limiter) *Activities {
+func NewActivities(configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) *Activities {
 	return &Activities{
 		configService: configService,
-		db:            db,
+		entClient:     entClient,
 		limiter:       limiter,
 	}
 }
@@ -60,7 +60,7 @@ func (a *Activities) IngestIAMServiceAccounts(ctx context.Context, params Ingest
 	}
 	defer client.Close()
 
-	service := NewService(client, a.db)
+	service := NewService(client, a.entClient)
 	result, err := service.Ingest(ctx, IngestParams{ProjectID: params.ProjectID})
 	if err != nil {
 		return nil, fmt.Errorf("failed to ingest service accounts: %w", err)

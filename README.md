@@ -41,7 +41,8 @@ flowchart LR
 |-----------|------------|
 | Language | Go |
 | Workflows | Temporal |
-| Database | PostgreSQL + GORM |
+| ORM | Ent (type-safe, code-first) |
+| Database | PostgreSQL (multi-schema) |
 | Admin UI | Metabase |
 | Agent | WrenAI + Ollama / Vertex AI |
 | Config | Vault / JSON file with hot-reload |
@@ -51,7 +52,7 @@ flowchart LR
 | Document | Description |
 |----------|-------------|
 | [Architecture](docs/architecture/OVERVIEW.md) | System design, project structure |
-| [Admin](docs/ADMIN.md) | Metabase setup |
+| [Admin](docs/setup/METABASE.md) | Metabase setup |
 | [Agent](docs/features/AGENT.md) | Text-to-SQL interface |
 | [Workflows](docs/guides/WORKFLOWS.md) | Temporal workflow patterns |
 | [Contributing](docs/CONTRIBUTING.md) | Contribution guidelines |

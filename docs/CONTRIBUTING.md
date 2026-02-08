@@ -15,28 +15,42 @@ See [CODE_STYLE.md](guides/CODE_STYLE.md) for coding conventions.
 
 ## Commit Messages
 
-Follow [Go commit message style](https://go.dev/wiki/CommitMessage):
+Follow **Conventional Commits** format:
 
 ```
-pkg/area: short summary in lowercase
+<type>: <subject>
 
-Optional body explaining why, not what.
-Wrap at ~72 characters.
+<optional body>
 ```
+
+**Types:**
+- `feat:` - New feature
+- `fix:` - Bug fix
+- `docs:` - Documentation changes
+- `refactor:` - Code refactoring (no functional change)
+- `test:` - Adding or updating tests
+- `chore:` - Build, dependencies, tooling
 
 **Rules:**
-- First line: `package: summary` (lowercase, no period)
-- Keep subject under 72 characters
-- Use imperative mood: "add", "fix", "update" (not "added", "fixes")
-- Body explains *why* the change was made
+- **Subject:** < 72 characters, imperative mood ("add" not "added")
+- **Body:** Optional, explain *why* not *what* (code shows what)
+- **No Co-Authored-By** lines (project policy)
 
 **Examples:**
 
 ```
-ingest/gcp: add compute disk ingestion
+feat: add GCP firewall ingestion
 
-Adds support for GCP Compute Disk resources with SCD Type 4
-history tracking.
+- Create bronze schema for firewall rules
+- Implement converter and diff logic
+- Add workflow integration
+```
+
+```
+fix: prevent dev database = production in migrate tool
+
+Add safety check that compares database URLs before running
+atlas migrate diff. Prevents accidental data loss.
 ```
 
 ```
@@ -44,10 +58,8 @@ docs: update architecture overview
 ```
 
 ```
-fix: resolve nil pointer in config reload
+refactor: simplify config validation logic
 ```
-
-For initial commits or multi-area changes, omit the package prefix.
 
 ## Pull Requests
 

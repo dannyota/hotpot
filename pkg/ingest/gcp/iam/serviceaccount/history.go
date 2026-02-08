@@ -1,63 +1,83 @@
 package serviceaccount
 
 import (
+	"context"
+	"fmt"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
-	"hotpot/pkg/base/models/bronze_history"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzehistorygcpiamserviceaccount"
 )
 
 type HistoryService struct {
-	db *gorm.DB
+	entClient *ent.Client
 }
 
-func NewHistoryService(db *gorm.DB) *HistoryService {
-	return &HistoryService{db: db}
+func NewHistoryService(entClient *ent.Client) *HistoryService {
+	return &HistoryService{entClient: entClient}
 }
 
-func (h *HistoryService) CreateHistory(tx *gorm.DB, sa *bronze.GCPIAMServiceAccount, now time.Time) error {
-	hist := toServiceAccountHistory(sa, now)
-	return tx.Create(&hist).Error
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, saData *ServiceAccountData, now time.Time) error {
+	_, err := tx.BronzeHistoryGCPIAMServiceAccount.Create().
+		SetResourceID(saData.ResourceID).
+		SetValidFrom(now).
+		SetCollectedAt(saData.CollectedAt).
+		SetName(saData.Name).
+		SetEmail(saData.Email).
+		SetDisplayName(saData.DisplayName).
+		SetDescription(saData.Description).
+		SetOauth2ClientID(saData.Oauth2ClientId).
+		SetDisabled(saData.Disabled).
+		SetEtag(saData.Etag).
+		SetProjectID(saData.ProjectID).
+		Save(ctx)
+	return err
 }
 
-func (h *HistoryService) UpdateHistory(tx *gorm.DB, old, new *bronze.GCPIAMServiceAccount, diff *ServiceAccountDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPIAMServiceAccount, new *ServiceAccountData, diff *ServiceAccountDiff, now time.Time) error {
 	if !diff.IsChanged {
 		return nil
 	}
 
 	// Close old history
-	if err := tx.Model(&bronze_history.GCPIAMServiceAccount{}).
-		Where("resource_id = ? AND valid_to IS NULL", old.ResourceID).
-		Update("valid_to", now).Error; err != nil {
-		return err
+	_, err := tx.BronzeHistoryGCPIAMServiceAccount.Update().
+		Where(
+			bronzehistorygcpiamserviceaccount.ResourceID(old.ID),
+			bronzehistorygcpiamserviceaccount.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to close old history: %w", err)
 	}
 
 	// Create new history
-	hist := toServiceAccountHistory(new, now)
-	return tx.Create(&hist).Error
+	_, err = tx.BronzeHistoryGCPIAMServiceAccount.Create().
+		SetResourceID(new.ResourceID).
+		SetValidFrom(now).
+		SetCollectedAt(new.CollectedAt).
+		SetName(new.Name).
+		SetEmail(new.Email).
+		SetDisplayName(new.DisplayName).
+		SetDescription(new.Description).
+		SetOauth2ClientID(new.Oauth2ClientId).
+		SetDisabled(new.Disabled).
+		SetEtag(new.Etag).
+		SetProjectID(new.ProjectID).
+		Save(ctx)
+	return err
 }
 
-func (h *HistoryService) CloseHistory(tx *gorm.DB, resourceID string, now time.Time) error {
-	return tx.Model(&bronze_history.GCPIAMServiceAccount{}).
-		Where("resource_id = ? AND valid_to IS NULL", resourceID).
-		Update("valid_to", now).Error
-}
-
-func toServiceAccountHistory(sa *bronze.GCPIAMServiceAccount, now time.Time) bronze_history.GCPIAMServiceAccount {
-	return bronze_history.GCPIAMServiceAccount{
-		ResourceID:     sa.ResourceID,
-		ValidFrom:      now,
-		ValidTo:        nil,
-		Name:           sa.Name,
-		Email:          sa.Email,
-		DisplayName:    sa.DisplayName,
-		Description:    sa.Description,
-		Oauth2ClientId: sa.Oauth2ClientId,
-		Disabled:       sa.Disabled,
-		Etag:           sa.Etag,
-		ProjectID:      sa.ProjectID,
-		CollectedAt:    sa.CollectedAt,
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+	_, err := tx.BronzeHistoryGCPIAMServiceAccount.Update().
+		Where(
+			bronzehistorygcpiamserviceaccount.ResourceID(resourceID),
+			bronzehistorygcpiamserviceaccount.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if ent.IsNotFound(err) {
+		return nil // No history to close
 	}
+	return err
 }

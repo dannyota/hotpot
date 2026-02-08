@@ -1,8 +1,9 @@
 package connector
 
 import (
-	"hotpot/pkg/base/jsonb"
-	"hotpot/pkg/base/models/bronze"
+	"bytes"
+
+	"hotpot/pkg/storage/ent"
 )
 
 // ConnectorDiff represents changes between old and new connector states.
@@ -11,24 +12,19 @@ type ConnectorDiff struct {
 	IsChanged bool
 }
 
-// DiffConnector compares old and new connector states.
-func DiffConnector(old, new *bronze.GCPVpcAccessConnector) *ConnectorDiff {
+// DiffConnectorData compares existing Ent entity with new ConnectorData and returns differences.
+func DiffConnectorData(old *ent.BronzeGCPVPCAccessConnector, new *ConnectorData) *ConnectorDiff {
+	diff := &ConnectorDiff{}
+
+	// New connector
 	if old == nil {
-		return &ConnectorDiff{IsNew: true}
+		diff.IsNew = true
+		return diff
 	}
-	return &ConnectorDiff{
-		IsChanged: hasFieldsChanged(old, new),
-	}
-}
 
-// HasAnyChange returns true if any part of the connector changed.
-func (d *ConnectorDiff) HasAnyChange() bool {
-	return d.IsNew || d.IsChanged
-}
-
-func hasFieldsChanged(old, new *bronze.GCPVpcAccessConnector) bool {
-	return old.Network != new.Network ||
-		old.IpCidrRange != new.IpCidrRange ||
+	// Compare fields
+	if old.Network != new.Network ||
+		old.IPCidrRange != new.IpCidrRange ||
 		old.State != new.State ||
 		old.MinThroughput != new.MinThroughput ||
 		old.MaxThroughput != new.MaxThroughput ||
@@ -36,6 +32,15 @@ func hasFieldsChanged(old, new *bronze.GCPVpcAccessConnector) bool {
 		old.MaxInstances != new.MaxInstances ||
 		old.MachineType != new.MachineType ||
 		old.Region != new.Region ||
-		jsonb.Changed(old.SubnetJSON, new.SubnetJSON) ||
-		jsonb.Changed(old.ConnectedProjectsJSON, new.ConnectedProjectsJSON)
+		!bytes.Equal(old.SubnetJSON, new.SubnetJSON) ||
+		!bytes.Equal(old.ConnectedProjectsJSON, new.ConnectedProjectsJSON) {
+		diff.IsChanged = true
+	}
+
+	return diff
+}
+
+// HasAnyChange returns true if any part of the connector changed.
+func (d *ConnectorDiff) HasAnyChange() bool {
+	return d.IsNew || d.IsChanged
 }

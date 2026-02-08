@@ -1,8 +1,9 @@
 package subnetwork
 
 import (
-	"hotpot/pkg/base/jsonb"
-	"hotpot/pkg/base/models/bronze"
+	"bytes"
+
+	"hotpot/pkg/storage/ent"
 )
 
 // SubnetworkDiff represents changes between old and new subnetwork states.
@@ -19,9 +20,8 @@ type ChildDiff struct {
 	Changed bool
 }
 
-// DiffSubnetwork compares old and new subnetwork states.
-// Returns nil if old is nil (new subnetwork).
-func DiffSubnetwork(old, new *bronze.GCPComputeSubnetwork) *SubnetworkDiff {
+// DiffSubnetworkData compares old Ent entity and new data.
+func DiffSubnetworkData(old *ent.BronzeGCPComputeSubnetwork, new *SubnetworkData) *SubnetworkDiff {
 	if old == nil {
 		return &SubnetworkDiff{
 			IsNew:               true,
@@ -35,7 +35,11 @@ func DiffSubnetwork(old, new *bronze.GCPComputeSubnetwork) *SubnetworkDiff {
 	diff.IsChanged = hasSubnetworkFieldsChanged(old, new)
 
 	// Compare children
-	diff.SecondaryRangesDiff = diffSecondaryRanges(old.SecondaryIpRanges, new.SecondaryIpRanges)
+	var oldRanges []*ent.BronzeGCPComputeSubnetworkSecondaryRange
+	if old.Edges.SecondaryIPRanges != nil {
+		oldRanges = old.Edges.SecondaryIPRanges
+	}
+	diff.SecondaryRangesDiff = diffSecondaryRanges(oldRanges, new.SecondaryIpRanges)
 
 	return diff
 }
@@ -49,26 +53,26 @@ func (d *SubnetworkDiff) HasAnyChange() bool {
 }
 
 // hasSubnetworkFieldsChanged compares subnetwork-level fields (excluding children).
-func hasSubnetworkFieldsChanged(old, new *bronze.GCPComputeSubnetwork) bool {
+func hasSubnetworkFieldsChanged(old *ent.BronzeGCPComputeSubnetwork, new *SubnetworkData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Network != new.Network ||
 		old.Region != new.Region ||
-		old.IpCidrRange != new.IpCidrRange ||
+		old.IPCidrRange != new.IpCidrRange ||
 		old.GatewayAddress != new.GatewayAddress ||
 		old.Purpose != new.Purpose ||
 		old.Role != new.Role ||
-		old.PrivateIpGoogleAccess != new.PrivateIpGoogleAccess ||
+		old.PrivateIPGoogleAccess != new.PrivateIpGoogleAccess ||
 		old.PrivateIpv6GoogleAccess != new.PrivateIpv6GoogleAccess ||
 		old.StackType != new.StackType ||
 		old.Ipv6AccessType != new.Ipv6AccessType ||
 		old.InternalIpv6Prefix != new.InternalIpv6Prefix ||
 		old.ExternalIpv6Prefix != new.ExternalIpv6Prefix ||
-		jsonb.Changed(old.LogConfigJSON, new.LogConfigJSON) ||
+		!bytes.Equal(old.LogConfigJSON, new.LogConfigJSON) ||
 		old.Fingerprint != new.Fingerprint
 }
 
-func diffSecondaryRanges(old, new []bronze.GCPComputeSubnetworkSecondaryRange) ChildDiff {
+func diffSecondaryRanges(old []*ent.BronzeGCPComputeSubnetworkSecondaryRange, new []SecondaryRangeData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -76,7 +80,7 @@ func diffSecondaryRanges(old, new []bronze.GCPComputeSubnetworkSecondaryRange) C
 	// Build map of old ranges by name
 	oldMap := make(map[string]string)
 	for _, r := range old {
-		oldMap[r.RangeName] = r.IpCidrRange
+		oldMap[r.RangeName] = r.IPCidrRange
 	}
 
 	// Compare each new range

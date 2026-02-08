@@ -298,5 +298,4 @@ return tx.Commit()
 ## References
 
 - [ENT_SCHEMAS.md](ENT_SCHEMAS.md) - Ent schema patterns
-- [GORM_TO_ENT_MIGRATION.md](GORM_TO_ENT_MIGRATION.md) - Migration guide
 - [Ent Documentation](https://entgo.io/docs/getting-started)

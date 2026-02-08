@@ -1,8 +1,8 @@
 package globaladdress
 
 import (
-	"hotpot/pkg/base/jsonb"
-	"hotpot/pkg/base/models/bronze"
+	"bytes"
+	"hotpot/pkg/storage/ent"
 )
 
 // GlobalAddressDiff represents changes between old and new global address states.
@@ -19,9 +19,8 @@ type ChildDiff struct {
 	Changed bool
 }
 
-// DiffGlobalAddress compares old and new global address states.
-// Returns nil if old is nil (new address).
-func DiffGlobalAddress(old, new *bronze.GCPComputeGlobalAddress) *GlobalAddressDiff {
+// DiffGlobalAddressData compares old Ent entity and new GlobalAddressData.
+func DiffGlobalAddressData(old *ent.BronzeGCPComputeGlobalAddress, new *GlobalAddressData) *GlobalAddressDiff {
 	if old == nil {
 		return &GlobalAddressDiff{
 			IsNew:      true,
@@ -34,8 +33,9 @@ func DiffGlobalAddress(old, new *bronze.GCPComputeGlobalAddress) *GlobalAddressD
 	// Compare address-level fields
 	diff.IsChanged = hasGlobalAddressFieldsChanged(old, new)
 
-	// Compare children
-	diff.LabelsDiff = diffLabels(old.Labels, new.Labels)
+	// Compare children (note: old.Edges.Labels may be nil if not loaded)
+	oldLabels := old.Edges.Labels
+	diff.LabelsDiff = diffLabels(oldLabels, new.Labels)
 
 	return diff
 }
@@ -49,14 +49,14 @@ func (d *GlobalAddressDiff) HasAnyChange() bool {
 }
 
 // hasGlobalAddressFieldsChanged compares address-level fields (excluding children).
-func hasGlobalAddressFieldsChanged(old, new *bronze.GCPComputeGlobalAddress) bool {
+func hasGlobalAddressFieldsChanged(old *ent.BronzeGCPComputeGlobalAddress, new *GlobalAddressData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Address != new.Address ||
 		old.AddressType != new.AddressType ||
-		old.IpVersion != new.IpVersion ||
+		old.IPVersion != new.IpVersion ||
 		old.Ipv6EndpointType != new.Ipv6EndpointType ||
-		old.IpCollection != new.IpCollection ||
+		old.IPCollection != new.IpCollection ||
 		old.Region != new.Region ||
 		old.Status != new.Status ||
 		old.Purpose != new.Purpose ||
@@ -65,10 +65,10 @@ func hasGlobalAddressFieldsChanged(old, new *bronze.GCPComputeGlobalAddress) boo
 		old.NetworkTier != new.NetworkTier ||
 		old.PrefixLength != new.PrefixLength ||
 		old.LabelFingerprint != new.LabelFingerprint ||
-		jsonb.Changed(old.UsersJSON, new.UsersJSON)
+		!bytes.Equal(old.UsersJSON, new.UsersJSON)
 }
 
-func diffLabels(old, new []bronze.GCPComputeGlobalAddressLabel) ChildDiff {
+func diffLabels(old []*ent.BronzeGCPComputeGlobalAddressLabel, new []GlobalAddressLabelData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

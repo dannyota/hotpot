@@ -1,7 +1,5 @@
 # Hotpot Architecture
 
-## Overview
-
 Hotpot follows the **Medallion Data Architecture** pattern, designed as independent microservices that can be deployed and scaled separately.
 
 ```mermaid
@@ -60,7 +58,9 @@ hotpot/
 │   ├── architecture/           # System design
 │   ├── guides/                 # How-to guides
 │   ├── features/               # Feature docs
-│   └── GLOSSARY.md
+│   └── reference/
+│       ├── GLOSSARY.md
+│       └── EXTERNAL_RESOURCES.md
 │
 ├── pkg/                        # Main packages
 │   ├── base/                   # Shared utilities

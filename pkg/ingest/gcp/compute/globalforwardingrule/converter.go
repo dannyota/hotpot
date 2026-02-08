@@ -6,15 +6,62 @@ import (
 	"time"
 
 	"cloud.google.com/go/compute/apiv1/computepb"
-
-	"hotpot/pkg/base/models/bronze"
 )
 
-// ConvertGlobalForwardingRule converts a GCP API ForwardingRule to a Bronze global forwarding rule model.
+// GlobalForwardingRuleData holds converted global forwarding rule data ready for Ent insertion.
+type GlobalForwardingRuleData struct {
+	ID                                                      string
+	Name                                                    string
+	Description                                             string
+	IPAddress                                               string
+	IPProtocol                                              string
+	AllPorts                                                bool
+	AllowGlobalAccess                                       bool
+	AllowPscGlobalAccess                                    bool
+	BackendService                                          string
+	BaseForwardingRule                                      string
+	CreationTimestamp                                       string
+	ExternalManagedBackendBucketMigrationState              string
+	ExternalManagedBackendBucketMigrationTestingPercentage  float32
+	Fingerprint                                             string
+	IpCollection                                            string
+	IpVersion                                               string
+	IsMirroringCollector                                    bool
+	LabelFingerprint                                        string
+	LoadBalancingScheme                                     string
+	Network                                                 string
+	NetworkTier                                             string
+	NoAutomateDnsZone                                       bool
+	PortRange                                               string
+	PscConnectionId                                         string
+	PscConnectionStatus                                     string
+	Region                                                  string
+	SelfLink                                                string
+	SelfLinkWithId                                          string
+	ServiceLabel                                            string
+	ServiceName                                             string
+	Subnetwork                                              string
+	Target                                                  string
+	PortsJSON                                               []interface{}
+	SourceIpRangesJSON                                      []interface{}
+	MetadataFiltersJSON                                     []interface{}
+	ServiceDirectoryRegistrationsJSON                       []interface{}
+	Labels                                                  []LabelData
+	ProjectID                                               string
+	CollectedAt                                             time.Time
+}
+
+// LabelData holds converted label data.
+type LabelData struct {
+	Key   string
+	Value string
+}
+
+// ConvertGlobalForwardingRule converts a GCP API ForwardingRule to GlobalForwardingRuleData.
 // Preserves raw API data with minimal transformation.
-func ConvertGlobalForwardingRule(fr *computepb.ForwardingRule, projectID string, collectedAt time.Time) (bronze.GCPComputeGlobalForwardingRule, error) {
-	rule := bronze.GCPComputeGlobalForwardingRule{
-		ResourceID:                                          fmt.Sprintf("%d", fr.GetId()),
+func ConvertGlobalForwardingRule(fr *computepb.ForwardingRule, projectID string, collectedAt time.Time) (*GlobalForwardingRuleData, error) {
+	rule := &GlobalForwardingRuleData{
+		ID:                                                  fmt.Sprintf("%d", fr.GetId()),
 		Name:                                                fr.GetName(),
 		Description:                                         fr.GetDescription(),
 		IPAddress:                                           fr.GetIPAddress(),
@@ -53,33 +100,45 @@ func ConvertGlobalForwardingRule(fr *computepb.ForwardingRule, projectID string,
 	// Convert JSONB fields (nil → SQL NULL, data → JSON bytes)
 	if fr.Ports != nil {
 		var err error
-		rule.PortsJSON, err = json.Marshal(fr.Ports)
+		portsBytes, err := json.Marshal(fr.Ports)
 		if err != nil {
-			return bronze.GCPComputeGlobalForwardingRule{}, fmt.Errorf("failed to marshal ports for global forwarding rule %s: %w", fr.GetName(), err)
+			return nil, fmt.Errorf("failed to marshal ports for global forwarding rule %s: %w", fr.GetName(), err)
+		}
+		if err := json.Unmarshal(portsBytes, &rule.PortsJSON); err != nil {
+			return nil, fmt.Errorf("failed to unmarshal ports: %w", err)
 		}
 	}
 
 	if fr.SourceIpRanges != nil {
 		var err error
-		rule.SourceIpRangesJSON, err = json.Marshal(fr.SourceIpRanges)
+		sourceBytes, err := json.Marshal(fr.SourceIpRanges)
 		if err != nil {
-			return bronze.GCPComputeGlobalForwardingRule{}, fmt.Errorf("failed to marshal source ip ranges for global forwarding rule %s: %w", fr.GetName(), err)
+			return nil, fmt.Errorf("failed to marshal source ip ranges for global forwarding rule %s: %w", fr.GetName(), err)
+		}
+		if err := json.Unmarshal(sourceBytes, &rule.SourceIpRangesJSON); err != nil {
+			return nil, fmt.Errorf("failed to unmarshal source ip ranges: %w", err)
 		}
 	}
 
 	if fr.MetadataFilters != nil {
 		var err error
-		rule.MetadataFiltersJSON, err = json.Marshal(fr.MetadataFilters)
+		metaBytes, err := json.Marshal(fr.MetadataFilters)
 		if err != nil {
-			return bronze.GCPComputeGlobalForwardingRule{}, fmt.Errorf("failed to marshal metadata filters for global forwarding rule %s: %w", fr.GetName(), err)
+			return nil, fmt.Errorf("failed to marshal metadata filters for global forwarding rule %s: %w", fr.GetName(), err)
+		}
+		if err := json.Unmarshal(metaBytes, &rule.MetadataFiltersJSON); err != nil {
+			return nil, fmt.Errorf("failed to unmarshal metadata filters: %w", err)
 		}
 	}
 
 	if fr.ServiceDirectoryRegistrations != nil {
 		var err error
-		rule.ServiceDirectoryRegistrationsJSON, err = json.Marshal(fr.ServiceDirectoryRegistrations)
+		serviceBytes, err := json.Marshal(fr.ServiceDirectoryRegistrations)
 		if err != nil {
-			return bronze.GCPComputeGlobalForwardingRule{}, fmt.Errorf("failed to marshal service directory registrations for global forwarding rule %s: %w", fr.GetName(), err)
+			return nil, fmt.Errorf("failed to marshal service directory registrations for global forwarding rule %s: %w", fr.GetName(), err)
+		}
+		if err := json.Unmarshal(serviceBytes, &rule.ServiceDirectoryRegistrationsJSON); err != nil {
+			return nil, fmt.Errorf("failed to unmarshal service directory registrations: %w", err)
 		}
 	}
 
@@ -89,15 +148,15 @@ func ConvertGlobalForwardingRule(fr *computepb.ForwardingRule, projectID string,
 	return rule, nil
 }
 
-// ConvertLabels converts global forwarding rule labels from GCP API to Bronze models.
-func ConvertLabels(labels map[string]string) []bronze.GCPComputeGlobalForwardingRuleLabel {
+// ConvertLabels converts global forwarding rule labels from GCP API to label data.
+func ConvertLabels(labels map[string]string) []LabelData {
 	if len(labels) == 0 {
 		return nil
 	}
 
-	result := make([]bronze.GCPComputeGlobalForwardingRuleLabel, 0, len(labels))
+	result := make([]LabelData, 0, len(labels))
 	for key, value := range labels {
-		result = append(result, bronze.GCPComputeGlobalForwardingRuleLabel{
+		result = append(result, LabelData{
 			Key:   key,
 			Value: value,
 		})

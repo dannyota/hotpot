@@ -1,166 +1,180 @@
 package targetvpngateway
 
 import (
+	"context"
+	"fmt"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
-	"hotpot/pkg/base/models/bronze_history"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzehistorygcpvpntargetgateway"
+	"hotpot/pkg/storage/ent/bronzehistorygcpvpntargetgatewaylabel"
 )
 
 // HistoryService handles history tracking for Classic VPN gateways.
 type HistoryService struct {
-	db *gorm.DB
+	entClient *ent.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(db *gorm.DB) *HistoryService {
-	return &HistoryService{db: db}
+func NewHistoryService(entClient *ent.Client) *HistoryService {
+	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new target VPN gateway and all children.
-func (h *HistoryService) CreateHistory(tx *gorm.DB, gw *bronze.GCPComputeTargetVpnGateway, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *TargetVpnGatewayData, now time.Time) error {
 	// Create target VPN gateway history
-	gwHist := toTargetVpnGatewayHistory(gw, now)
-	if err := tx.Create(&gwHist).Error; err != nil {
-		return err
+	create := tx.BronzeHistoryGCPVPNTargetGateway.Create().
+		SetResourceID(data.ID).
+		SetValidFrom(now).
+		SetCollectedAt(data.CollectedAt).
+		SetName(data.Name).
+		SetDescription(data.Description).
+		SetStatus(data.Status).
+		SetRegion(data.Region).
+		SetNetwork(data.Network).
+		SetSelfLink(data.SelfLink).
+		SetCreationTimestamp(data.CreationTimestamp).
+		SetLabelFingerprint(data.LabelFingerprint).
+		SetProjectID(data.ProjectID)
+
+	if len(data.ForwardingRulesJSON) > 0 {
+		create.SetForwardingRulesJSON(data.ForwardingRulesJSON)
 	}
 
-	// Create children history with target_vpn_gateway_history_id
-	return h.createChildrenHistory(tx, gwHist.HistoryID, gw, now)
+	if len(data.TunnelsJSON) > 0 {
+		create.SetTunnelsJSON(data.TunnelsJSON)
+	}
+
+	gwHist, err := create.Save(ctx)
+	if err != nil {
+		return fmt.Errorf("create target vpn gateway history: %w", err)
+	}
+
+	// Create labels history
+	for _, label := range data.Labels {
+		_, err := tx.BronzeHistoryGCPVPNTargetGatewayLabel.Create().
+			SetTargetVpnGatewayHistoryID(gwHist.HistoryID).
+			SetValidFrom(now).
+			SetKey(label.Key).
+			SetValue(label.Value).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("create label history: %w", err)
+		}
+	}
+
+	return nil
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(tx *gorm.DB, old, new *bronze.GCPComputeTargetVpnGateway, diff *TargetVpnGatewayDiff, now time.Time) error {
-	// Get current target VPN gateway history
-	var currentHist bronze_history.GCPComputeTargetVpnGateway
-	if err := tx.Where("resource_id = ? AND valid_to IS NULL", old.ResourceID).First(&currentHist).Error; err != nil {
-		return err
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPVPNTargetGateway, new *TargetVpnGatewayData, diff *TargetVpnGatewayDiff, now time.Time) error {
+	if !diff.IsChanged && !diff.LabelsDiff.HasChanges {
+		return nil
 	}
 
-	// If target VPN gateway-level fields changed, close old and create new history
+	// Get current target VPN gateway history
+	currentHist, err := tx.BronzeHistoryGCPVPNTargetGateway.Query().
+		Where(
+			bronzehistorygcpvpntargetgateway.ResourceID(old.ID),
+			bronzehistorygcpvpntargetgateway.ValidToIsNil(),
+		).
+		First(ctx)
+	if err != nil {
+		return fmt.Errorf("query current history: %w", err)
+	}
+
+	// If target VPN gateway-level fields changed, close old and create new target VPN gateway history
 	if diff.IsChanged {
 		// Close old target VPN gateway history
-		if err := tx.Model(&currentHist).Update("valid_to", now).Error; err != nil {
-			return err
+		_, err := tx.BronzeHistoryGCPVPNTargetGateway.UpdateOneID(int(currentHist.HistoryID)).
+			SetValidTo(now).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("close old history: %w", err)
 		}
 
-		// Create new target VPN gateway history
-		gwHist := toTargetVpnGatewayHistory(new, now)
-		if err := tx.Create(&gwHist).Error; err != nil {
-			return err
+		// Close all children history
+		_, err = tx.BronzeHistoryGCPVPNTargetGatewayLabel.Update().
+			Where(
+				bronzehistorygcpvpntargetgatewaylabel.TargetVpnGatewayHistoryID(currentHist.HistoryID),
+				bronzehistorygcpvpntargetgatewaylabel.ValidToIsNil(),
+			).
+			SetValidTo(now).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("close children history: %w", err)
 		}
 
-		// Close all children history and create new ones
-		if err := h.closeChildrenHistory(tx, currentHist.HistoryID, now); err != nil {
-			return err
-		}
-		return h.createChildrenHistory(tx, gwHist.HistoryID, new, now)
+		// Create new history
+		return h.CreateHistory(ctx, tx, new, now)
 	}
 
-	// Target VPN gateway unchanged, check children individually (granular tracking)
-	return h.updateChildrenHistory(tx, currentHist.HistoryID, new, diff, now)
+	// Target VPN gateway unchanged, update children individually (granular tracking)
+	if diff.LabelsDiff.HasChanges {
+		// Close old labels history
+		_, err := tx.BronzeHistoryGCPVPNTargetGatewayLabel.Update().
+			Where(
+				bronzehistorygcpvpntargetgatewaylabel.TargetVpnGatewayHistoryID(currentHist.HistoryID),
+				bronzehistorygcpvpntargetgatewaylabel.ValidToIsNil(),
+			).
+			SetValidTo(now).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("close old labels history: %w", err)
+		}
+
+		// Create new labels history
+		for _, label := range new.Labels {
+			_, err := tx.BronzeHistoryGCPVPNTargetGatewayLabel.Create().
+				SetTargetVpnGatewayHistoryID(currentHist.HistoryID).
+				SetValidFrom(now).
+				SetKey(label.Key).
+				SetValue(label.Value).
+				Save(ctx)
+			if err != nil {
+				return fmt.Errorf("create label history: %w", err)
+			}
+		}
+	}
+
+	return nil
 }
 
 // CloseHistory closes history records for a deleted target VPN gateway.
-func (h *HistoryService) CloseHistory(tx *gorm.DB, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
 	// Get current target VPN gateway history
-	var currentHist bronze_history.GCPComputeTargetVpnGateway
-	if err := tx.Where("resource_id = ? AND valid_to IS NULL", resourceID).First(&currentHist).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
+	currentHist, err := tx.BronzeHistoryGCPVPNTargetGateway.Query().
+		Where(
+			bronzehistorygcpvpntargetgateway.ResourceID(resourceID),
+			bronzehistorygcpvpntargetgateway.ValidToIsNil(),
+		).
+		First(ctx)
+	if err != nil {
+		if ent.IsNotFound(err) {
 			return nil // No history to close
 		}
-		return err
+		return fmt.Errorf("query current history: %w", err)
 	}
 
 	// Close target VPN gateway history
-	if err := tx.Model(&currentHist).Update("valid_to", now).Error; err != nil {
-		return err
+	_, err = tx.BronzeHistoryGCPVPNTargetGateway.UpdateOneID(int(currentHist.HistoryID)).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("close target vpn gateway history: %w", err)
 	}
 
 	// Close all children history
-	return h.closeChildrenHistory(tx, currentHist.HistoryID, now)
-}
-
-// createChildrenHistory creates history records for all children.
-func (h *HistoryService) createChildrenHistory(tx *gorm.DB, targetVpnGatewayHistoryID uint, gw *bronze.GCPComputeTargetVpnGateway, now time.Time) error {
-	// Labels
-	for _, label := range gw.Labels {
-		labelHist := toLabelHistory(&label, targetVpnGatewayHistoryID, now)
-		if err := tx.Create(&labelHist).Error; err != nil {
-			return err
-		}
+	_, err = tx.BronzeHistoryGCPVPNTargetGatewayLabel.Update().
+		Where(
+			bronzehistorygcpvpntargetgatewaylabel.TargetVpnGatewayHistoryID(currentHist.HistoryID),
+			bronzehistorygcpvpntargetgatewaylabel.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("close children history: %w", err)
 	}
 
 	return nil
-}
-
-// closeChildrenHistory closes all children history records.
-func (h *HistoryService) closeChildrenHistory(tx *gorm.DB, targetVpnGatewayHistoryID uint, now time.Time) error {
-	// Close labels
-	if err := tx.Table("bronze_history.gcp_compute_target_vpn_gateway_labels").
-		Where("target_vpn_gateway_history_id = ? AND valid_to IS NULL", targetVpnGatewayHistoryID).
-		Update("valid_to", now).Error; err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// updateChildrenHistory updates children history based on diff (granular tracking).
-func (h *HistoryService) updateChildrenHistory(tx *gorm.DB, targetVpnGatewayHistoryID uint, new *bronze.GCPComputeTargetVpnGateway, diff *TargetVpnGatewayDiff, now time.Time) error {
-	if diff.LabelsDiff.Changed {
-		if err := h.updateLabelsHistory(tx, targetVpnGatewayHistoryID, new.Labels, now); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (h *HistoryService) updateLabelsHistory(tx *gorm.DB, targetVpnGatewayHistoryID uint, labels []bronze.GCPComputeTargetVpnGatewayLabel, now time.Time) error {
-	tx.Table("bronze_history.gcp_compute_target_vpn_gateway_labels").
-		Where("target_vpn_gateway_history_id = ? AND valid_to IS NULL", targetVpnGatewayHistoryID).
-		Update("valid_to", now)
-
-	for _, label := range labels {
-		labelHist := toLabelHistory(&label, targetVpnGatewayHistoryID, now)
-		if err := tx.Create(&labelHist).Error; err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-// Conversion functions: bronze -> bronze_history
-
-func toTargetVpnGatewayHistory(gw *bronze.GCPComputeTargetVpnGateway, now time.Time) bronze_history.GCPComputeTargetVpnGateway {
-	return bronze_history.GCPComputeTargetVpnGateway{
-		ResourceID:          gw.ResourceID,
-		ValidFrom:           now,
-		ValidTo:             nil,
-		Name:                gw.Name,
-		Description:         gw.Description,
-		Status:              gw.Status,
-		Region:              gw.Region,
-		Network:             gw.Network,
-		SelfLink:            gw.SelfLink,
-		CreationTimestamp:   gw.CreationTimestamp,
-		LabelFingerprint:    gw.LabelFingerprint,
-		ForwardingRulesJSON: gw.ForwardingRulesJSON,
-		TunnelsJSON:         gw.TunnelsJSON,
-		ProjectID:           gw.ProjectID,
-		CollectedAt:         gw.CollectedAt,
-	}
-}
-
-func toLabelHistory(label *bronze.GCPComputeTargetVpnGatewayLabel, targetVpnGatewayHistoryID uint, now time.Time) bronze_history.GCPComputeTargetVpnGatewayLabel {
-	return bronze_history.GCPComputeTargetVpnGatewayLabel{
-		TargetVpnGatewayHistoryID: targetVpnGatewayHistoryID,
-		ValidFrom:                 now,
-		ValidTo:                   nil,
-		Key:                       label.Key,
-		Value:                     label.Value,
-	}
 }

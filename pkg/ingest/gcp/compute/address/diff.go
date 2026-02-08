@@ -1,8 +1,8 @@
 package address
 
 import (
-	"hotpot/pkg/base/jsonb"
-	"hotpot/pkg/base/models/bronze"
+	"bytes"
+	"hotpot/pkg/storage/ent"
 )
 
 // AddressDiff represents changes between old and new address states.
@@ -19,9 +19,8 @@ type ChildDiff struct {
 	Changed bool
 }
 
-// DiffAddress compares old and new address states.
-// Returns nil if old is nil (new address).
-func DiffAddress(old, new *bronze.GCPComputeAddress) *AddressDiff {
+// DiffAddressData compares old Ent entity and new AddressData.
+func DiffAddressData(old *ent.BronzeGCPComputeAddress, new *AddressData) *AddressDiff {
 	if old == nil {
 		return &AddressDiff{
 			IsNew:      true,
@@ -34,8 +33,9 @@ func DiffAddress(old, new *bronze.GCPComputeAddress) *AddressDiff {
 	// Compare address-level fields
 	diff.IsChanged = hasAddressFieldsChanged(old, new)
 
-	// Compare children
-	diff.LabelsDiff = diffLabels(old.Labels, new.Labels)
+	// Compare children (note: old.Edges.Labels may be nil if not loaded)
+	oldLabels := old.Edges.Labels
+	diff.LabelsDiff = diffLabels(oldLabels, new.Labels)
 
 	return diff
 }
@@ -49,14 +49,14 @@ func (d *AddressDiff) HasAnyChange() bool {
 }
 
 // hasAddressFieldsChanged compares address-level fields (excluding children).
-func hasAddressFieldsChanged(old, new *bronze.GCPComputeAddress) bool {
+func hasAddressFieldsChanged(old *ent.BronzeGCPComputeAddress, new *AddressData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Address != new.Address ||
 		old.AddressType != new.AddressType ||
-		old.IpVersion != new.IpVersion ||
+		old.IPVersion != new.IpVersion ||
 		old.Ipv6EndpointType != new.Ipv6EndpointType ||
-		old.IpCollection != new.IpCollection ||
+		old.IPCollection != new.IpCollection ||
 		old.Region != new.Region ||
 		old.Status != new.Status ||
 		old.Purpose != new.Purpose ||
@@ -65,10 +65,10 @@ func hasAddressFieldsChanged(old, new *bronze.GCPComputeAddress) bool {
 		old.NetworkTier != new.NetworkTier ||
 		old.PrefixLength != new.PrefixLength ||
 		old.LabelFingerprint != new.LabelFingerprint ||
-		jsonb.Changed(old.UsersJSON, new.UsersJSON)
+		!bytes.Equal(old.UsersJSON, new.UsersJSON)
 }
 
-func diffLabels(old, new []bronze.GCPComputeAddressLabel) ChildDiff {
+func diffLabels(old []*ent.BronzeGCPComputeAddressLabel, new []AddressLabelData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

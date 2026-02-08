@@ -1,62 +1,88 @@
 package serviceaccountkey
 
 import (
+	"context"
+	"fmt"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
-	"hotpot/pkg/base/models/bronze_history"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzehistorygcpiamserviceaccountkey"
 )
 
+// HistoryService manages service account key history tracking.
 type HistoryService struct {
-	db *gorm.DB
+	entClient *ent.Client
 }
 
-func NewHistoryService(db *gorm.DB) *HistoryService {
-	return &HistoryService{db: db}
+// NewHistoryService creates a new history service.
+func NewHistoryService(entClient *ent.Client) *HistoryService {
+	return &HistoryService{entClient: entClient}
 }
 
-func (h *HistoryService) CreateHistory(tx *gorm.DB, key *bronze.GCPIAMServiceAccountKey, now time.Time) error {
-	hist := toKeyHistory(key, now)
-	return tx.Create(&hist).Error
+// CreateHistory creates a history record for a new service account key.
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *ServiceAccountKeyData, now time.Time) error {
+	create := tx.BronzeHistoryGCPIAMServiceAccountKey.Create().
+		SetResourceID(data.ID).
+		SetValidFrom(now).
+		SetCollectedAt(data.CollectedAt).
+		SetName(data.Name).
+		SetServiceAccountEmail(data.ServiceAccountEmail).
+		SetDisabled(data.Disabled).
+		SetProjectID(data.ProjectID)
+
+	if data.KeyOrigin != "" {
+		create.SetKeyOrigin(data.KeyOrigin)
+	}
+	if data.KeyType != "" {
+		create.SetKeyType(data.KeyType)
+	}
+	if data.KeyAlgorithm != "" {
+		create.SetKeyAlgorithm(data.KeyAlgorithm)
+	}
+	if !data.ValidAfterTime.IsZero() {
+		create.SetValidAfterTime(data.ValidAfterTime)
+	}
+	if !data.ValidBeforeTime.IsZero() {
+		create.SetValidBeforeTime(data.ValidBeforeTime)
+	}
+
+	_, err := create.Save(ctx)
+	return err
 }
 
-func (h *HistoryService) UpdateHistory(tx *gorm.DB, old, new *bronze.GCPIAMServiceAccountKey, diff *ServiceAccountKeyDiff, now time.Time) error {
+// UpdateHistory closes old history and creates new history based on diff.
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPIAMServiceAccountKey, new *ServiceAccountKeyData, diff *ServiceAccountKeyDiff, now time.Time) error {
 	if !diff.IsChanged {
 		return nil
 	}
 
-	if err := tx.Model(&bronze_history.GCPIAMServiceAccountKey{}).
-		Where("resource_id = ? AND valid_to IS NULL", old.ResourceID).
-		Update("valid_to", now).Error; err != nil {
-		return err
+	// Close old history
+	_, err := tx.BronzeHistoryGCPIAMServiceAccountKey.Update().
+		Where(
+			bronzehistorygcpiamserviceaccountkey.ResourceID(old.ID),
+			bronzehistorygcpiamserviceaccountkey.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("close old history: %w", err)
 	}
 
-	hist := toKeyHistory(new, now)
-	return tx.Create(&hist).Error
+	// Create new history
+	return h.CreateHistory(ctx, tx, new, now)
 }
 
-func (h *HistoryService) CloseHistory(tx *gorm.DB, resourceID string, now time.Time) error {
-	return tx.Model(&bronze_history.GCPIAMServiceAccountKey{}).
-		Where("resource_id = ? AND valid_to IS NULL", resourceID).
-		Update("valid_to", now).Error
-}
-
-func toKeyHistory(key *bronze.GCPIAMServiceAccountKey, now time.Time) bronze_history.GCPIAMServiceAccountKey {
-	return bronze_history.GCPIAMServiceAccountKey{
-		ResourceID:          key.ResourceID,
-		ValidFrom:           now,
-		ValidTo:             nil,
-		Name:                key.Name,
-		ServiceAccountEmail: key.ServiceAccountEmail,
-		KeyOrigin:           key.KeyOrigin,
-		KeyType:             key.KeyType,
-		KeyAlgorithm:        key.KeyAlgorithm,
-		ValidAfterTime:      key.ValidAfterTime,
-		ValidBeforeTime:     key.ValidBeforeTime,
-		Disabled:            key.Disabled,
-		ProjectID:           key.ProjectID,
-		CollectedAt:         key.CollectedAt,
+// CloseHistory closes history records for a deleted service account key.
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+	_, err := tx.BronzeHistoryGCPIAMServiceAccountKey.Update().
+		Where(
+			bronzehistorygcpiamserviceaccountkey.ResourceID(resourceID),
+			bronzehistorygcpiamserviceaccountkey.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if ent.IsNotFound(err) {
+		return nil // No history to close
 	}
+	return err
 }

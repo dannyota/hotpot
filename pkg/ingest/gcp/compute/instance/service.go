@@ -5,24 +5,29 @@ import (
 	"fmt"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzegcpcomputeinstance"
+	"hotpot/pkg/storage/ent/bronzegcpcomputeinstancedisk"
+	"hotpot/pkg/storage/ent/bronzegcpcomputeinstancelabel"
+	"hotpot/pkg/storage/ent/bronzegcpcomputeinstancemetadata"
+	"hotpot/pkg/storage/ent/bronzegcpcomputeinstancenic"
+	"hotpot/pkg/storage/ent/bronzegcpcomputeinstanceserviceaccount"
+	"hotpot/pkg/storage/ent/bronzegcpcomputeinstancetag"
 )
 
 // Service handles GCP Compute instance ingestion.
 type Service struct {
-	client  *Client
-	db      *gorm.DB
-	history *HistoryService
+	client    *Client
+	entClient *ent.Client
+	history   *HistoryService
 }
 
 // NewService creates a new instance ingestion service.
-func NewService(client *Client, db *gorm.DB) *Service {
+func NewService(client *Client, entClient *ent.Client) *Service {
 	return &Service{
-		client:  client,
-		db:      db,
-		history: NewHistoryService(db),
+		client:    client,
+		entClient: entClient,
+		history:   NewHistoryService(entClient),
 	}
 }
 
@@ -50,213 +55,373 @@ func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResul
 		return nil, fmt.Errorf("failed to list instances: %w", err)
 	}
 
-	// Convert to bronze models
-	bronzeInstances := make([]bronze.GCPComputeInstance, 0, len(instances))
+	// Convert to data structs
+	instanceDataList := make([]*InstanceData, 0, len(instances))
 	for _, inst := range instances {
-		bi, err := ConvertInstance(inst, params.ProjectID, collectedAt)
+		data, err := ConvertInstance(inst, params.ProjectID, collectedAt)
 		if err != nil {
 			return nil, fmt.Errorf("failed to convert instance: %w", err)
 		}
-		bronzeInstances = append(bronzeInstances, bi)
+		instanceDataList = append(instanceDataList, data)
 	}
 
 	// Save to database
-	if err := s.saveInstances(ctx, bronzeInstances); err != nil {
+	if err := s.saveInstances(ctx, instanceDataList); err != nil {
 		return nil, fmt.Errorf("failed to save instances: %w", err)
 	}
 
 	return &IngestResult{
 		ProjectID:      params.ProjectID,
-		InstanceCount:  len(bronzeInstances),
+		InstanceCount:  len(instanceDataList),
 		CollectedAt:    collectedAt,
 		DurationMillis: time.Since(startTime).Milliseconds(),
 	}, nil
 }
 
 // saveInstances saves instances to the database with history tracking.
-func (s *Service) saveInstances(ctx context.Context, instances []bronze.GCPComputeInstance) error {
+func (s *Service) saveInstances(ctx context.Context, instances []*InstanceData) error {
 	if len(instances) == 0 {
 		return nil
 	}
 
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		for _, instance := range instances {
-			// Load existing instance with all relations
-			var existing *bronze.GCPComputeInstance
-			var old bronze.GCPComputeInstance
-			err := tx.Preload("Disks").Preload("Disks.Licenses").
-				Preload("NICs").Preload("NICs.AccessConfigs").Preload("NICs.AliasIpRanges").
-				Preload("Labels").Preload("Tags").Preload("Metadata").Preload("ServiceAccounts").
-				Where("resource_id = ?", instance.ResourceID).
-				First(&old).Error
-			if err == nil {
-				existing = &old
-			} else if err != gorm.ErrRecordNotFound {
-				return fmt.Errorf("failed to load existing instance %s: %w", instance.Name, err)
-			}
-
-			// Compute diff
-			diff := DiffInstance(existing, &instance)
-
-			// Skip if no changes
-			if !diff.HasAnyChange() && existing != nil {
-				// Update collected_at only
-				if err := tx.Model(&bronze.GCPComputeInstance{}).
-					Where("resource_id = ?", instance.ResourceID).
-					Update("collected_at", instance.CollectedAt).Error; err != nil {
-					return fmt.Errorf("failed to update collected_at for instance %s: %w", instance.Name, err)
-				}
-				continue
-			}
-
-			// Delete old relations (manual cascade)
-			if existing != nil {
-				if err := s.deleteInstanceRelations(tx, instance.ResourceID); err != nil {
-					return fmt.Errorf("failed to delete old relations for instance %s: %w", instance.Name, err)
-				}
-			}
-
-			// Upsert instance
-			if err := tx.Save(&instance).Error; err != nil {
-				return fmt.Errorf("failed to upsert instance %s: %w", instance.Name, err)
-			}
-
-			// Create new relations
-			if err := s.createInstanceRelations(tx, instance.ResourceID, &instance); err != nil {
-				return fmt.Errorf("failed to create relations for instance %s: %w", instance.Name, err)
-			}
-
-			// Track history
-			if diff.IsNew {
-				if err := s.history.CreateHistory(tx, &instance, now); err != nil {
-					return fmt.Errorf("failed to create history for instance %s: %w", instance.Name, err)
-				}
-			} else {
-				if err := s.history.UpdateHistory(tx, existing, &instance, diff, now); err != nil {
-					return fmt.Errorf("failed to update history for instance %s: %w", instance.Name, err)
-				}
-			}
-		}
-
-		return nil
-	})
-}
-
-// deleteInstanceRelations deletes all related records for an instance.
-func (s *Service) deleteInstanceRelations(tx *gorm.DB, instanceResourceID string) error {
-	// Delete instance-level relations (linked by instance_resource_id)
-	tables := []interface{}{
-		&bronze.GCPComputeInstanceDisk{},
-		&bronze.GCPComputeInstanceNIC{},
-		&bronze.GCPComputeInstanceLabel{},
-		&bronze.GCPComputeInstanceTag{},
-		&bronze.GCPComputeInstanceMetadata{},
-		&bronze.GCPComputeInstanceServiceAccount{},
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to start transaction: %w", err)
 	}
 
-	for _, table := range tables {
-		if err := tx.Where("instance_resource_id = ?", instanceResourceID).Delete(table).Error; err != nil {
-			return err
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
 		}
+	}()
+
+	for _, instanceData := range instances {
+		// Load existing instance with all nested edges
+		existing, err := tx.BronzeGCPComputeInstance.Query().
+			Where(bronzegcpcomputeinstance.ID(instanceData.ResourceID)).
+			WithDisks(func(q *ent.BronzeGCPComputeInstanceDiskQuery) {
+				q.WithLicenses()
+			}).
+			WithNics(func(q *ent.BronzeGCPComputeInstanceNICQuery) {
+				q.WithAccessConfigs().WithAliasIPRanges()
+			}).
+			WithLabels().
+			WithTags().
+			WithMetadata().
+			WithServiceAccounts().
+			First(ctx)
+		if err != nil && !ent.IsNotFound(err) {
+			tx.Rollback()
+			return fmt.Errorf("failed to load existing instance %s: %w", instanceData.Name, err)
+		}
+
+		// Compute diff
+		diff := DiffInstanceData(existing, instanceData)
+
+		// Skip if no changes
+		if !diff.HasAnyChange() && existing != nil {
+			// Update collected_at only
+			if err := tx.BronzeGCPComputeInstance.UpdateOneID(instanceData.ResourceID).
+				SetCollectedAt(instanceData.CollectedAt).
+				Exec(ctx); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update collected_at for instance %s: %w", instanceData.Name, err)
+			}
+			continue
+		}
+
+		// Delete old child entities if updating
+		if existing != nil {
+			if err := s.deleteInstanceChildren(ctx, tx, instanceData.ResourceID); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to delete old children for instance %s: %w", instanceData.Name, err)
+			}
+		}
+
+		// Create or update instance
+		var savedInstance *ent.BronzeGCPComputeInstance
+		if existing == nil {
+			// Create new instance
+			create := tx.BronzeGCPComputeInstance.Create().
+				SetID(instanceData.ResourceID).
+				SetName(instanceData.Name).
+				SetZone(instanceData.Zone).
+				SetMachineType(instanceData.MachineType).
+				SetStatus(instanceData.Status).
+				SetStatusMessage(instanceData.StatusMessage).
+				SetCPUPlatform(instanceData.CpuPlatform).
+				SetHostname(instanceData.Hostname).
+				SetDescription(instanceData.Description).
+				SetCreationTimestamp(instanceData.CreationTimestamp).
+				SetLastStartTimestamp(instanceData.LastStartTimestamp).
+				SetLastStopTimestamp(instanceData.LastStopTimestamp).
+				SetLastSuspendedTimestamp(instanceData.LastSuspendedTimestamp).
+				SetDeletionProtection(instanceData.DeletionProtection).
+				SetCanIPForward(instanceData.CanIpForward).
+				SetSelfLink(instanceData.SelfLink).
+				SetProjectID(instanceData.ProjectID).
+				SetCollectedAt(instanceData.CollectedAt)
+
+			if instanceData.SchedulingJSON != nil {
+				create.SetSchedulingJSON(instanceData.SchedulingJSON)
+			}
+
+			savedInstance, err = create.Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create instance %s: %w", instanceData.Name, err)
+			}
+		} else {
+			// Update existing instance
+			update := tx.BronzeGCPComputeInstance.UpdateOneID(instanceData.ResourceID).
+				SetName(instanceData.Name).
+				SetZone(instanceData.Zone).
+				SetMachineType(instanceData.MachineType).
+				SetStatus(instanceData.Status).
+				SetStatusMessage(instanceData.StatusMessage).
+				SetCPUPlatform(instanceData.CpuPlatform).
+				SetHostname(instanceData.Hostname).
+				SetDescription(instanceData.Description).
+				SetCreationTimestamp(instanceData.CreationTimestamp).
+				SetLastStartTimestamp(instanceData.LastStartTimestamp).
+				SetLastStopTimestamp(instanceData.LastStopTimestamp).
+				SetLastSuspendedTimestamp(instanceData.LastSuspendedTimestamp).
+				SetDeletionProtection(instanceData.DeletionProtection).
+				SetCanIPForward(instanceData.CanIpForward).
+				SetSelfLink(instanceData.SelfLink).
+				SetProjectID(instanceData.ProjectID).
+				SetCollectedAt(instanceData.CollectedAt)
+
+			if instanceData.SchedulingJSON != nil {
+				update.SetSchedulingJSON(instanceData.SchedulingJSON)
+			}
+
+			savedInstance, err = update.Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update instance %s: %w", instanceData.Name, err)
+			}
+		}
+
+		// Create child entities
+		if err := s.createInstanceChildren(ctx, tx, savedInstance, instanceData); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to create children for instance %s: %w", instanceData.Name, err)
+		}
+
+		// Track history
+		if diff.IsNew {
+			if err := s.history.CreateHistory(ctx, tx, instanceData, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create history for instance %s: %w", instanceData.Name, err)
+			}
+		} else {
+			if err := s.history.UpdateHistory(ctx, tx, existing, instanceData, diff, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update history for instance %s: %w", instanceData.Name, err)
+			}
+		}
+	}
+
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
 	}
 
 	return nil
 }
 
-// createInstanceRelations creates all related records for an instance.
-func (s *Service) createInstanceRelations(tx *gorm.DB, instanceResourceID string, instance *bronze.GCPComputeInstance) error {
-	// Create disks and their nested relations
-	for i := range instance.Disks {
-		instance.Disks[i].InstanceResourceID = instanceResourceID
-	}
-	if len(instance.Disks) > 0 {
-		if err := tx.Create(&instance.Disks).Error; err != nil {
-			return fmt.Errorf("failed to create disks: %w", err)
-		}
+// deleteInstanceChildren deletes all child entities for an instance.
+// Note: Ent CASCADE DELETE is set on edges, so deleting parent entities
+// will automatically delete their children. We just need to delete from top-level down.
+func (s *Service) deleteInstanceChildren(ctx context.Context, tx *ent.Tx, instanceID string) error {
+	// Delete direct children using Has...With predicates
+	// The CASCADE DELETE on edges will automatically remove nested children
 
-		// Create disk licenses (nested under disks, still use surrogate DiskID)
-		for _, disk := range instance.Disks {
-			for j := range disk.Licenses {
-				disk.Licenses[j].DiskID = disk.ID
-			}
-			if len(disk.Licenses) > 0 {
-				if err := tx.Create(&disk.Licenses).Error; err != nil {
-					return fmt.Errorf("failed to create disk licenses: %w", err)
-				}
-			}
-		}
+	// Disks (CASCADE will delete licenses)
+	_, err := tx.BronzeGCPComputeInstanceDisk.Delete().
+		Where(bronzegcpcomputeinstancedisk.HasInstanceWith(bronzegcpcomputeinstance.ID(instanceID))).
+		Exec(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to delete disks: %w", err)
 	}
 
-	// Create NICs and their nested relations
-	for i := range instance.NICs {
-		instance.NICs[i].InstanceResourceID = instanceResourceID
+	// NICs (CASCADE will delete access configs and alias ranges)
+	_, err = tx.BronzeGCPComputeInstanceNIC.Delete().
+		Where(bronzegcpcomputeinstancenic.HasInstanceWith(bronzegcpcomputeinstance.ID(instanceID))).
+		Exec(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to delete NICs: %w", err)
 	}
-	if len(instance.NICs) > 0 {
-		if err := tx.Create(&instance.NICs).Error; err != nil {
-			return fmt.Errorf("failed to create NICs: %w", err)
+
+	// Labels
+	_, err = tx.BronzeGCPComputeInstanceLabel.Delete().
+		Where(bronzegcpcomputeinstancelabel.HasInstanceWith(bronzegcpcomputeinstance.ID(instanceID))).
+		Exec(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to delete labels: %w", err)
+	}
+
+	// Tags
+	_, err = tx.BronzeGCPComputeInstanceTag.Delete().
+		Where(bronzegcpcomputeinstancetag.HasInstanceWith(bronzegcpcomputeinstance.ID(instanceID))).
+		Exec(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to delete tags: %w", err)
+	}
+
+	// Metadata
+	_, err = tx.BronzeGCPComputeInstanceMetadata.Delete().
+		Where(bronzegcpcomputeinstancemetadata.HasInstanceWith(bronzegcpcomputeinstance.ID(instanceID))).
+		Exec(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to delete metadata: %w", err)
+	}
+
+	// Service Accounts
+	_, err = tx.BronzeGCPComputeInstanceServiceAccount.Delete().
+		Where(bronzegcpcomputeinstanceserviceaccount.HasInstanceWith(bronzegcpcomputeinstance.ID(instanceID))).
+		Exec(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to delete service accounts: %w", err)
+	}
+
+	return nil
+}
+
+// createInstanceChildren creates all child entities for an instance.
+func (s *Service) createInstanceChildren(ctx context.Context, tx *ent.Tx, instance *ent.BronzeGCPComputeInstance, data *InstanceData) error {
+	// Create disks and their licenses
+	for _, diskData := range data.Disks {
+		diskCreate := tx.BronzeGCPComputeInstanceDisk.Create().
+			SetInstance(instance).
+			SetSource(diskData.Source).
+			SetDeviceName(diskData.DeviceName).
+			SetIndex(diskData.Index).
+			SetBoot(diskData.Boot).
+			SetAutoDelete(diskData.AutoDelete).
+			SetMode(diskData.Mode).
+			SetInterface(diskData.Interface).
+			SetType(diskData.Type).
+			SetDiskSizeGB(diskData.DiskSizeGb)
+
+		if diskData.DiskEncryptionKeyJSON != nil {
+			diskCreate.SetDiskEncryptionKeyJSON(diskData.DiskEncryptionKeyJSON)
+		}
+		if diskData.InitializeParamsJSON != nil {
+			diskCreate.SetInitializeParamsJSON(diskData.InitializeParamsJSON)
 		}
 
-		// Create NIC access configs and alias ranges (nested under NICs, still use surrogate NICID)
-		for _, nic := range instance.NICs {
-			for j := range nic.AccessConfigs {
-				nic.AccessConfigs[j].NICID = nic.ID
-			}
-			if len(nic.AccessConfigs) > 0 {
-				if err := tx.Create(&nic.AccessConfigs).Error; err != nil {
-					return fmt.Errorf("failed to create NIC access configs: %w", err)
-				}
-			}
+		savedDisk, err := diskCreate.Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create disk: %w", err)
+		}
 
-			for j := range nic.AliasIpRanges {
-				nic.AliasIpRanges[j].NICID = nic.ID
+		// Create licenses for this disk
+		for _, licData := range diskData.Licenses {
+			_, err := tx.BronzeGCPComputeInstanceDiskLicense.Create().
+				SetDisk(savedDisk).
+				SetLicense(licData.License).
+				Save(ctx)
+			if err != nil {
+				return fmt.Errorf("failed to create disk license: %w", err)
 			}
-			if len(nic.AliasIpRanges) > 0 {
-				if err := tx.Create(&nic.AliasIpRanges).Error; err != nil {
-					return fmt.Errorf("failed to create NIC alias ranges: %w", err)
-				}
+		}
+	}
+
+	// Create NICs and their nested children
+	for _, nicData := range data.NICs {
+		nicCreate := tx.BronzeGCPComputeInstanceNIC.Create().
+			SetInstance(instance).
+			SetName(nicData.Name).
+			SetNetwork(nicData.Network).
+			SetSubnetwork(nicData.Subnetwork).
+			SetNetworkIP(nicData.NetworkIP).
+			SetStackType(nicData.StackType).
+			SetNicType(nicData.NicType)
+
+		savedNIC, err := nicCreate.Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create NIC: %w", err)
+		}
+
+		// Create access configs for this NIC
+		for _, acData := range nicData.AccessConfigs {
+			_, err := tx.BronzeGCPComputeInstanceNICAccessConfig.Create().
+				SetNic(savedNIC).
+				SetType(acData.Type).
+				SetName(acData.Name).
+				SetNatIP(acData.NatIP).
+				SetNetworkTier(acData.NetworkTier).
+				Save(ctx)
+			if err != nil {
+				return fmt.Errorf("failed to create access config: %w", err)
+			}
+		}
+
+		// Create alias ranges for this NIC
+		for _, arData := range nicData.AliasIPRanges {
+			_, err := tx.BronzeGCPComputeInstanceNICAliasRange.Create().
+				SetNic(savedNIC).
+				SetIPCidrRange(arData.IPCidrRange).
+				SetSubnetworkRangeName(arData.SubnetworkRangeName).
+				Save(ctx)
+			if err != nil {
+				return fmt.Errorf("failed to create alias range: %w", err)
 			}
 		}
 	}
 
 	// Create labels
-	for i := range instance.Labels {
-		instance.Labels[i].InstanceResourceID = instanceResourceID
-	}
-	if len(instance.Labels) > 0 {
-		if err := tx.Create(&instance.Labels).Error; err != nil {
-			return fmt.Errorf("failed to create labels: %w", err)
+	for _, labelData := range data.Labels {
+		_, err := tx.BronzeGCPComputeInstanceLabel.Create().
+			SetInstance(instance).
+			SetKey(labelData.Key).
+			SetValue(labelData.Value).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create label: %w", err)
 		}
 	}
 
 	// Create tags
-	for i := range instance.Tags {
-		instance.Tags[i].InstanceResourceID = instanceResourceID
-	}
-	if len(instance.Tags) > 0 {
-		if err := tx.Create(&instance.Tags).Error; err != nil {
-			return fmt.Errorf("failed to create tags: %w", err)
+	for _, tagData := range data.Tags {
+		_, err := tx.BronzeGCPComputeInstanceTag.Create().
+			SetInstance(instance).
+			SetTag(tagData.Tag).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create tag: %w", err)
 		}
 	}
 
 	// Create metadata
-	for i := range instance.Metadata {
-		instance.Metadata[i].InstanceResourceID = instanceResourceID
-	}
-	if len(instance.Metadata) > 0 {
-		if err := tx.Create(&instance.Metadata).Error; err != nil {
+	for _, metaData := range data.Metadata {
+		_, err := tx.BronzeGCPComputeInstanceMetadata.Create().
+			SetInstance(instance).
+			SetKey(metaData.Key).
+			SetValue(metaData.Value).
+			Save(ctx)
+		if err != nil {
 			return fmt.Errorf("failed to create metadata: %w", err)
 		}
 	}
 
 	// Create service accounts
-	for i := range instance.ServiceAccounts {
-		instance.ServiceAccounts[i].InstanceResourceID = instanceResourceID
-	}
-	if len(instance.ServiceAccounts) > 0 {
-		if err := tx.Create(&instance.ServiceAccounts).Error; err != nil {
-			return fmt.Errorf("failed to create service accounts: %w", err)
+	for _, saData := range data.ServiceAccounts {
+		saCreate := tx.BronzeGCPComputeInstanceServiceAccount.Create().
+			SetInstance(instance).
+			SetEmail(saData.Email)
+
+		if saData.ScopesJSON != nil {
+			saCreate.SetScopesJSON(saData.ScopesJSON)
+		}
+
+		_, err := saCreate.Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create service account: %w", err)
 		}
 	}
 
@@ -268,32 +433,54 @@ func (s *Service) createInstanceRelations(tx *gorm.DB, instanceResourceID string
 func (s *Service) DeleteStaleInstances(ctx context.Context, projectID string, collectedAt time.Time) error {
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		// Find stale instances
-		var staleInstances []bronze.GCPComputeInstance
-		if err := tx.Where("project_id = ? AND collected_at < ?", projectID, collectedAt).
-			Find(&staleInstances).Error; err != nil {
-			return err
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to start transaction: %w", err)
+	}
+
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	// Find stale instances
+	staleInstances, err := tx.BronzeGCPComputeInstance.Query().
+		Where(
+			bronzegcpcomputeinstance.ProjectID(projectID),
+			bronzegcpcomputeinstance.CollectedAtLT(collectedAt),
+		).
+		All(ctx)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	// Close history and delete each stale instance
+	for _, inst := range staleInstances {
+		// Close history
+		if err := s.history.CloseHistory(ctx, tx, inst.ID, now); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to close history for instance %s: %w", inst.ID, err)
 		}
 
-		// Close history and delete each stale instance
-		for _, inst := range staleInstances {
-			// Close history
-			if err := s.history.CloseHistory(tx, inst.ResourceID, now); err != nil {
-				return fmt.Errorf("failed to close history for instance %s: %w", inst.ResourceID, err)
-			}
-
-			// Delete relations
-			if err := s.deleteInstanceRelations(tx, inst.ResourceID); err != nil {
-				return fmt.Errorf("failed to delete relations for instance %s: %w", inst.ResourceID, err)
-			}
-
-			// Delete instance
-			if err := tx.Delete(&inst).Error; err != nil {
-				return fmt.Errorf("failed to delete instance %s: %w", inst.ResourceID, err)
-			}
+		// Delete children (CASCADE will handle nested children)
+		if err := s.deleteInstanceChildren(ctx, tx, inst.ID); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to delete children for instance %s: %w", inst.ID, err)
 		}
 
-		return nil
-	})
+		// Delete instance
+		if err := tx.BronzeGCPComputeInstance.DeleteOne(inst).Exec(ctx); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to delete instance %s: %w", inst.ID, err)
+		}
+	}
+
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
+	}
+
+	return nil
 }

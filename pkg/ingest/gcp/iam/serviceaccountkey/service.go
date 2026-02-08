@@ -5,29 +5,32 @@ import (
 	"fmt"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzegcpiamserviceaccountkey"
 )
 
+// Service handles GCP IAM service account key ingestion.
 type Service struct {
-	client  *Client
-	db      *gorm.DB
-	history *HistoryService
+	client    *Client
+	entClient *ent.Client
+	history   *HistoryService
 }
 
-func NewService(client *Client, db *gorm.DB) *Service {
+// NewService creates a new service account key ingestion service.
+func NewService(client *Client, entClient *ent.Client) *Service {
 	return &Service{
-		client:  client,
-		db:      db,
-		history: NewHistoryService(db),
+		client:    client,
+		entClient: entClient,
+		history:   NewHistoryService(entClient),
 	}
 }
 
+// IngestParams contains parameters for service account key ingestion.
 type IngestParams struct {
 	ProjectID string
 }
 
+// IngestResult contains the result of service account key ingestion.
 type IngestResult struct {
 	ProjectID              string
 	ServiceAccountKeyCount int
@@ -35,97 +38,214 @@ type IngestResult struct {
 	DurationMillis         int64
 }
 
+// Ingest fetches service account keys from GCP and stores them in the bronze layer.
 func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResult, error) {
 	startTime := time.Now()
 	collectedAt := startTime
 
+	// Fetch service account keys from GCP
 	keysWithAccounts, err := s.client.ListServiceAccountKeys(ctx, params.ProjectID)
 	if err != nil {
 		return nil, fmt.Errorf("failed to list service account keys: %w", err)
 	}
 
-	bronzeKeys := make([]bronze.GCPIAMServiceAccountKey, 0, len(keysWithAccounts))
+	// Convert to data structs
+	keyDataList := make([]*ServiceAccountKeyData, 0, len(keysWithAccounts))
 	for _, kwa := range keysWithAccounts {
-		bronzeKeys = append(bronzeKeys, ConvertServiceAccountKey(kwa, params.ProjectID, collectedAt))
+		data := ConvertServiceAccountKey(kwa, params.ProjectID, collectedAt)
+		keyDataList = append(keyDataList, data)
 	}
 
-	if err := s.saveServiceAccountKeys(ctx, bronzeKeys); err != nil {
+	// Save to database
+	if err := s.saveServiceAccountKeys(ctx, keyDataList); err != nil {
 		return nil, fmt.Errorf("failed to save service account keys: %w", err)
 	}
 
 	return &IngestResult{
 		ProjectID:              params.ProjectID,
-		ServiceAccountKeyCount: len(bronzeKeys),
+		ServiceAccountKeyCount: len(keyDataList),
 		CollectedAt:            collectedAt,
 		DurationMillis:         time.Since(startTime).Milliseconds(),
 	}, nil
 }
 
-func (s *Service) saveServiceAccountKeys(ctx context.Context, keys []bronze.GCPIAMServiceAccountKey) error {
+// saveServiceAccountKeys saves service account keys to the database with history tracking.
+func (s *Service) saveServiceAccountKeys(ctx context.Context, keys []*ServiceAccountKeyData) error {
 	if len(keys) == 0 {
 		return nil
 	}
 
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		for _, key := range keys {
-			var existing *bronze.GCPIAMServiceAccountKey
-			var old bronze.GCPIAMServiceAccountKey
-			err := tx.Where("resource_id = ?", key.ResourceID).First(&old).Error
-			if err == nil {
-				existing = &old
-			} else if err != gorm.ErrRecordNotFound {
-				return fmt.Errorf("failed to load existing key %s: %w", key.ResourceID, err)
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to start transaction: %w", err)
+	}
+
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	for _, keyData := range keys {
+		// Load existing service account key
+		existing, err := tx.BronzeGCPIAMServiceAccountKey.Query().
+			Where(bronzegcpiamserviceaccountkey.ID(keyData.ID)).
+			First(ctx)
+		if err != nil && !ent.IsNotFound(err) {
+			tx.Rollback()
+			return fmt.Errorf("failed to load existing key %s: %w", keyData.ID, err)
+		}
+
+		// Compute diff
+		diff := DiffServiceAccountKeyData(existing, keyData)
+
+		// Skip if no changes
+		if !diff.HasAnyChange() && existing != nil {
+			// Update collected_at only
+			if err := tx.BronzeGCPIAMServiceAccountKey.UpdateOneID(keyData.ID).
+				SetCollectedAt(keyData.CollectedAt).
+				Exec(ctx); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update collected_at for key %s: %w", keyData.ID, err)
+			}
+			continue
+		}
+
+		// Create or update service account key
+		if existing == nil {
+			// Create new service account key
+			create := tx.BronzeGCPIAMServiceAccountKey.Create().
+				SetID(keyData.ID).
+				SetName(keyData.Name).
+				SetServiceAccountEmail(keyData.ServiceAccountEmail).
+				SetDisabled(keyData.Disabled).
+				SetProjectID(keyData.ProjectID).
+				SetCollectedAt(keyData.CollectedAt)
+
+			if keyData.KeyOrigin != "" {
+				create.SetKeyOrigin(keyData.KeyOrigin)
+			}
+			if keyData.KeyType != "" {
+				create.SetKeyType(keyData.KeyType)
+			}
+			if keyData.KeyAlgorithm != "" {
+				create.SetKeyAlgorithm(keyData.KeyAlgorithm)
+			}
+			if !keyData.ValidAfterTime.IsZero() {
+				create.SetValidAfterTime(keyData.ValidAfterTime)
+			}
+			if !keyData.ValidBeforeTime.IsZero() {
+				create.SetValidBeforeTime(keyData.ValidBeforeTime)
 			}
 
-			diff := DiffServiceAccountKey(existing, &key)
+			_, err = create.Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create service account key %s: %w", keyData.ID, err)
+			}
+		} else {
+			// Update existing service account key
+			update := tx.BronzeGCPIAMServiceAccountKey.UpdateOneID(keyData.ID).
+				SetName(keyData.Name).
+				SetServiceAccountEmail(keyData.ServiceAccountEmail).
+				SetDisabled(keyData.Disabled).
+				SetProjectID(keyData.ProjectID).
+				SetCollectedAt(keyData.CollectedAt)
 
-			if !diff.HasAnyChange() && existing != nil {
-				if err := tx.Model(&bronze.GCPIAMServiceAccountKey{}).
-					Where("resource_id = ?", key.ResourceID).
-					Update("collected_at", key.CollectedAt).Error; err != nil {
-					return fmt.Errorf("failed to update collected_at for key %s: %w", key.ResourceID, err)
-				}
-				continue
+			if keyData.KeyOrigin != "" {
+				update.SetKeyOrigin(keyData.KeyOrigin)
+			}
+			if keyData.KeyType != "" {
+				update.SetKeyType(keyData.KeyType)
+			}
+			if keyData.KeyAlgorithm != "" {
+				update.SetKeyAlgorithm(keyData.KeyAlgorithm)
+			}
+			if !keyData.ValidAfterTime.IsZero() {
+				update.SetValidAfterTime(keyData.ValidAfterTime)
+			}
+			if !keyData.ValidBeforeTime.IsZero() {
+				update.SetValidBeforeTime(keyData.ValidBeforeTime)
 			}
 
-			if err := tx.Save(&key).Error; err != nil {
-				return fmt.Errorf("failed to upsert key %s: %w", key.ResourceID, err)
-			}
-
-			if diff.IsNew {
-				if err := s.history.CreateHistory(tx, &key, now); err != nil {
-					return fmt.Errorf("failed to create history for key %s: %w", key.ResourceID, err)
-				}
-			} else {
-				if err := s.history.UpdateHistory(tx, existing, &key, diff, now); err != nil {
-					return fmt.Errorf("failed to update history for key %s: %w", key.ResourceID, err)
-				}
+			_, err = update.Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update service account key %s: %w", keyData.ID, err)
 			}
 		}
-		return nil
-	})
+
+		// Track history
+		if diff.IsNew {
+			if err := s.history.CreateHistory(ctx, tx, keyData, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create history for key %s: %w", keyData.ID, err)
+			}
+		} else if diff.IsChanged {
+			if err := s.history.UpdateHistory(ctx, tx, existing, keyData, diff, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update history for key %s: %w", keyData.ID, err)
+			}
+		}
+	}
+
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
+	}
+
+	return nil
 }
 
+// DeleteStaleKeys removes service account keys that were not collected in the latest run.
+// Also closes history records for deleted keys.
 func (s *Service) DeleteStaleKeys(ctx context.Context, projectID string, collectedAt time.Time) error {
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		var stale []bronze.GCPIAMServiceAccountKey
-		if err := tx.Where("project_id = ? AND collected_at < ?", projectID, collectedAt).
-			Find(&stale).Error; err != nil {
-			return err
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to start transaction: %w", err)
+	}
+
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	// Find stale keys
+	staleKeys, err := tx.BronzeGCPIAMServiceAccountKey.Query().
+		Where(
+			bronzegcpiamserviceaccountkey.ProjectID(projectID),
+			bronzegcpiamserviceaccountkey.CollectedAtLT(collectedAt),
+		).
+		All(ctx)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	// Close history and delete each stale key
+	for _, key := range staleKeys {
+		// Close history
+		if err := s.history.CloseHistory(ctx, tx, key.ID, now); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to close history for key %s: %w", key.ID, err)
 		}
 
-		for _, key := range stale {
-			if err := s.history.CloseHistory(tx, key.ResourceID, now); err != nil {
-				return fmt.Errorf("failed to close history for key %s: %w", key.ResourceID, err)
-			}
-			if err := tx.Delete(&key).Error; err != nil {
-				return fmt.Errorf("failed to delete key %s: %w", key.ResourceID, err)
-			}
+		// Delete key
+		if err := tx.BronzeGCPIAMServiceAccountKey.DeleteOne(key).Exec(ctx); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to delete key %s: %w", key.ID, err)
 		}
-		return nil
-	})
+	}
+
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
+	}
+
+	return nil
 }

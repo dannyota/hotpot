@@ -1,8 +1,9 @@
 package healthcheck
 
 import (
-	"hotpot/pkg/base/jsonb"
-	"hotpot/pkg/base/models/bronze"
+	"reflect"
+
+	"hotpot/pkg/storage/ent"
 )
 
 // HealthCheckDiff represents changes between old and new health check states.
@@ -11,27 +12,18 @@ type HealthCheckDiff struct {
 	IsChanged bool
 }
 
-// DiffHealthCheck compares old and new health check states.
-func DiffHealthCheck(old, new *bronze.GCPComputeHealthCheck) *HealthCheckDiff {
+// DiffHealthCheckData compares existing Ent entity with new HealthCheckData and returns differences.
+func DiffHealthCheckData(old *ent.BronzeGCPComputeHealthCheck, new *HealthCheckData) *HealthCheckDiff {
+	diff := &HealthCheckDiff{}
+
+	// New health check
 	if old == nil {
-		return &HealthCheckDiff{
-			IsNew: true,
-		}
+		diff.IsNew = true
+		return diff
 	}
 
-	diff := &HealthCheckDiff{}
-	diff.IsChanged = hasHealthCheckFieldsChanged(old, new)
-
-	return diff
-}
-
-// HasAnyChange returns true if any part of the health check changed.
-func (d *HealthCheckDiff) HasAnyChange() bool {
-	return d.IsNew || d.IsChanged
-}
-
-func hasHealthCheckFieldsChanged(old, new *bronze.GCPComputeHealthCheck) bool {
-	return old.Name != new.Name ||
+	// Compare fields
+	if old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.CreationTimestamp != new.CreationTimestamp ||
 		old.SelfLink != new.SelfLink ||
@@ -41,11 +33,20 @@ func hasHealthCheckFieldsChanged(old, new *bronze.GCPComputeHealthCheck) bool {
 		old.TimeoutSec != new.TimeoutSec ||
 		old.HealthyThreshold != new.HealthyThreshold ||
 		old.UnhealthyThreshold != new.UnhealthyThreshold ||
-		jsonb.Changed(old.TcpHealthCheckJSON, new.TcpHealthCheckJSON) ||
-		jsonb.Changed(old.HttpHealthCheckJSON, new.HttpHealthCheckJSON) ||
-		jsonb.Changed(old.HttpsHealthCheckJSON, new.HttpsHealthCheckJSON) ||
-		jsonb.Changed(old.Http2HealthCheckJSON, new.Http2HealthCheckJSON) ||
-		jsonb.Changed(old.SslHealthCheckJSON, new.SslHealthCheckJSON) ||
-		jsonb.Changed(old.GrpcHealthCheckJSON, new.GrpcHealthCheckJSON) ||
-		jsonb.Changed(old.LogConfigJSON, new.LogConfigJSON)
+		!reflect.DeepEqual(old.TCPHealthCheckJSON, new.TcpHealthCheckJSON) ||
+		!reflect.DeepEqual(old.HTTPHealthCheckJSON, new.HttpHealthCheckJSON) ||
+		!reflect.DeepEqual(old.HTTPSHealthCheckJSON, new.HttpsHealthCheckJSON) ||
+		!reflect.DeepEqual(old.Http2HealthCheckJSON, new.Http2HealthCheckJSON) ||
+		!reflect.DeepEqual(old.SslHealthCheckJSON, new.SslHealthCheckJSON) ||
+		!reflect.DeepEqual(old.GrpcHealthCheckJSON, new.GrpcHealthCheckJSON) ||
+		!reflect.DeepEqual(old.LogConfigJSON, new.LogConfigJSON) {
+		diff.IsChanged = true
+	}
+
+	return diff
+}
+
+// HasAnyChange returns true if any part of the health check changed.
+func (d *HealthCheckDiff) HasAnyChange() bool {
+	return d.IsNew || d.IsChanged
 }

@@ -3,11 +3,25 @@ package serviceaccountkey
 import (
 	"path"
 	"time"
-
-	"hotpot/pkg/base/models/bronze"
 )
 
-func ConvertServiceAccountKey(kwa KeyWithAccount, projectID string, collectedAt time.Time) bronze.GCPIAMServiceAccountKey {
+// ServiceAccountKeyData holds converted service account key data ready for Ent insertion.
+type ServiceAccountKeyData struct {
+	ID                  string
+	Name                string
+	ServiceAccountEmail string
+	KeyOrigin           string
+	KeyType             string
+	KeyAlgorithm        string
+	ValidAfterTime      time.Time
+	ValidBeforeTime     time.Time
+	Disabled            bool
+	ProjectID           string
+	CollectedAt         time.Time
+}
+
+// ConvertServiceAccountKey converts a GCP API ServiceAccountKey to Ent-compatible data.
+func ConvertServiceAccountKey(kwa KeyWithAccount, projectID string, collectedAt time.Time) *ServiceAccountKeyData {
 	key := kwa.Key
 
 	// Extract key ID from Name path (e.g., "projects/.../serviceAccounts/.../keys/abc123" -> "abc123")
@@ -21,8 +35,8 @@ func ConvertServiceAccountKey(kwa KeyWithAccount, projectID string, collectedAt 
 		validBefore = key.GetValidBeforeTime().AsTime()
 	}
 
-	return bronze.GCPIAMServiceAccountKey{
-		ResourceID:          resourceID,
+	return &ServiceAccountKeyData{
+		ID:                  resourceID,
 		Name:                key.GetName(),
 		ServiceAccountEmail: kwa.ServiceAccountEmail,
 		KeyOrigin:           key.GetKeyOrigin().String(),

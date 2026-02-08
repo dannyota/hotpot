@@ -5,24 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzegcpcomputetargetinstance"
 )
 
 // Service handles GCP Compute target instance ingestion.
 type Service struct {
-	client  *Client
-	db      *gorm.DB
-	history *HistoryService
+	client    *Client
+	entClient *ent.Client
+	history   *HistoryService
 }
 
 // NewService creates a new target instance ingestion service.
-func NewService(client *Client, db *gorm.DB) *Service {
+func NewService(client *Client, entClient *ent.Client) *Service {
 	return &Service{
-		client:  client,
-		db:      db,
-		history: NewHistoryService(db),
+		client:    client,
+		entClient: entClient,
+		history:   NewHistoryService(entClient),
 	}
 }
 
@@ -50,79 +49,168 @@ func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResul
 		return nil, fmt.Errorf("failed to list target instances: %w", err)
 	}
 
-	// Convert to bronze models
-	bronzeTargetInstances := make([]bronze.GCPComputeTargetInstance, 0, len(targetInstances))
+	// Convert to data structs
+	targetInstanceDataList := make([]*TargetInstanceData, 0, len(targetInstances))
 	for _, ti := range targetInstances {
-		bronzeTargetInstances = append(bronzeTargetInstances, ConvertTargetInstance(ti, params.ProjectID, collectedAt))
+		data := ConvertTargetInstance(ti, params.ProjectID, collectedAt)
+		targetInstanceDataList = append(targetInstanceDataList, data)
 	}
 
 	// Save to database
-	if err := s.saveTargetInstances(ctx, bronzeTargetInstances); err != nil {
+	if err := s.saveTargetInstances(ctx, targetInstanceDataList); err != nil {
 		return nil, fmt.Errorf("failed to save target instances: %w", err)
 	}
 
 	return &IngestResult{
 		ProjectID:           params.ProjectID,
-		TargetInstanceCount: len(bronzeTargetInstances),
+		TargetInstanceCount: len(targetInstanceDataList),
 		CollectedAt:         collectedAt,
 		DurationMillis:      time.Since(startTime).Milliseconds(),
 	}, nil
 }
 
 // saveTargetInstances saves target instances to the database with history tracking.
-func (s *Service) saveTargetInstances(ctx context.Context, targetInstances []bronze.GCPComputeTargetInstance) error {
-	if len(targetInstances) == 0 {
+func (s *Service) saveTargetInstances(ctx context.Context, instances []*TargetInstanceData) error {
+	if len(instances) == 0 {
 		return nil
 	}
 
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		for _, ti := range targetInstances {
-			// Load existing target instance
-			var existing *bronze.GCPComputeTargetInstance
-			var old bronze.GCPComputeTargetInstance
-			err := tx.Where("resource_id = ?", ti.ResourceID).
-				First(&old).Error
-			if err == nil {
-				existing = &old
-			} else if err != gorm.ErrRecordNotFound {
-				return fmt.Errorf("failed to load existing target instance %s: %w", ti.Name, err)
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to start transaction: %w", err)
+	}
+
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	for _, instanceData := range instances {
+		// Load existing target instance
+		existing, err := tx.BronzeGCPComputeTargetInstance.Query().
+			Where(bronzegcpcomputetargetinstance.ID(instanceData.ID)).
+			First(ctx)
+		if err != nil && !ent.IsNotFound(err) {
+			tx.Rollback()
+			return fmt.Errorf("failed to load existing target instance %s: %w", instanceData.Name, err)
+		}
+
+		// Compute diff
+		diff := DiffTargetInstanceData(existing, instanceData)
+
+		// Skip if no changes
+		if !diff.HasAnyChange() && existing != nil {
+			// Update collected_at only
+			if err := tx.BronzeGCPComputeTargetInstance.UpdateOneID(instanceData.ID).
+				SetCollectedAt(instanceData.CollectedAt).
+				Exec(ctx); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update collected_at for target instance %s: %w", instanceData.Name, err)
+			}
+			continue
+		}
+
+		// Create or update target instance
+		if existing == nil {
+			// Create new target instance
+			create := tx.BronzeGCPComputeTargetInstance.Create().
+				SetID(instanceData.ID).
+				SetName(instanceData.Name).
+				SetProjectID(instanceData.ProjectID).
+				SetCollectedAt(instanceData.CollectedAt)
+
+			if instanceData.Description != "" {
+				create.SetDescription(instanceData.Description)
+			}
+			if instanceData.Zone != "" {
+				create.SetZone(instanceData.Zone)
+			}
+			if instanceData.Instance != "" {
+				create.SetInstance(instanceData.Instance)
+			}
+			if instanceData.Network != "" {
+				create.SetNetwork(instanceData.Network)
+			}
+			if instanceData.NatPolicy != "" {
+				create.SetNatPolicy(instanceData.NatPolicy)
+			}
+			if instanceData.SecurityPolicy != "" {
+				create.SetSecurityPolicy(instanceData.SecurityPolicy)
+			}
+			if instanceData.SelfLink != "" {
+				create.SetSelfLink(instanceData.SelfLink)
+			}
+			if instanceData.CreationTimestamp != "" {
+				create.SetCreationTimestamp(instanceData.CreationTimestamp)
 			}
 
-			// Compute diff
-			diff := DiffTargetInstance(existing, &ti)
+			_, err = create.Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create target instance %s: %w", instanceData.Name, err)
+			}
+		} else {
+			// Update existing target instance
+			update := tx.BronzeGCPComputeTargetInstance.UpdateOneID(instanceData.ID).
+				SetName(instanceData.Name).
+				SetProjectID(instanceData.ProjectID).
+				SetCollectedAt(instanceData.CollectedAt)
 
-			// Skip if no changes
-			if !diff.HasAnyChange() && existing != nil {
-				// Update collected_at only
-				if err := tx.Model(&bronze.GCPComputeTargetInstance{}).
-					Where("resource_id = ?", ti.ResourceID).
-					Update("collected_at", ti.CollectedAt).Error; err != nil {
-					return fmt.Errorf("failed to update collected_at for target instance %s: %w", ti.Name, err)
-				}
-				continue
+			if instanceData.Description != "" {
+				update.SetDescription(instanceData.Description)
+			}
+			if instanceData.Zone != "" {
+				update.SetZone(instanceData.Zone)
+			}
+			if instanceData.Instance != "" {
+				update.SetInstance(instanceData.Instance)
+			}
+			if instanceData.Network != "" {
+				update.SetNetwork(instanceData.Network)
+			}
+			if instanceData.NatPolicy != "" {
+				update.SetNatPolicy(instanceData.NatPolicy)
+			}
+			if instanceData.SecurityPolicy != "" {
+				update.SetSecurityPolicy(instanceData.SecurityPolicy)
+			}
+			if instanceData.SelfLink != "" {
+				update.SetSelfLink(instanceData.SelfLink)
+			}
+			if instanceData.CreationTimestamp != "" {
+				update.SetCreationTimestamp(instanceData.CreationTimestamp)
 			}
 
-			// Upsert target instance
-			if err := tx.Save(&ti).Error; err != nil {
-				return fmt.Errorf("failed to upsert target instance %s: %w", ti.Name, err)
-			}
-
-			// Track history
-			if diff.IsNew {
-				if err := s.history.CreateHistory(tx, &ti, now); err != nil {
-					return fmt.Errorf("failed to create history for target instance %s: %w", ti.Name, err)
-				}
-			} else {
-				if err := s.history.UpdateHistory(tx, existing, &ti, diff, now); err != nil {
-					return fmt.Errorf("failed to update history for target instance %s: %w", ti.Name, err)
-				}
+			_, err = update.Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update target instance %s: %w", instanceData.Name, err)
 			}
 		}
 
-		return nil
-	})
+		// Track history
+		if diff.IsNew {
+			if err := s.history.CreateHistory(ctx, tx, instanceData, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create history for target instance %s: %w", instanceData.Name, err)
+			}
+		} else if diff.IsChanged {
+			if err := s.history.UpdateHistory(ctx, tx, existing, instanceData, diff, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update history for target instance %s: %w", instanceData.Name, err)
+			}
+		}
+	}
+
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
+	}
+
+	return nil
 }
 
 // DeleteStaleTargetInstances removes target instances that were not collected in the latest run.
@@ -130,27 +218,48 @@ func (s *Service) saveTargetInstances(ctx context.Context, targetInstances []bro
 func (s *Service) DeleteStaleTargetInstances(ctx context.Context, projectID string, collectedAt time.Time) error {
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		// Find stale target instances
-		var staleTargetInstances []bronze.GCPComputeTargetInstance
-		if err := tx.Where("project_id = ? AND collected_at < ?", projectID, collectedAt).
-			Find(&staleTargetInstances).Error; err != nil {
-			return err
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to start transaction: %w", err)
+	}
+
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	// Find stale target instances
+	staleInstances, err := tx.BronzeGCPComputeTargetInstance.Query().
+		Where(
+			bronzegcpcomputetargetinstance.ProjectID(projectID),
+			bronzegcpcomputetargetinstance.CollectedAtLT(collectedAt),
+		).
+		All(ctx)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	// Close history and delete each stale target instance
+	for _, instance := range staleInstances {
+		// Close history
+		if err := s.history.CloseHistory(ctx, tx, instance.ID, now); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to close history for target instance %s: %w", instance.ID, err)
 		}
 
-		// Close history and delete each stale target instance
-		for _, ti := range staleTargetInstances {
-			// Close history
-			if err := s.history.CloseHistory(tx, ti.ResourceID, now); err != nil {
-				return fmt.Errorf("failed to close history for target instance %s: %w", ti.ResourceID, err)
-			}
-
-			// Delete target instance
-			if err := tx.Delete(&ti).Error; err != nil {
-				return fmt.Errorf("failed to delete target instance %s: %w", ti.ResourceID, err)
-			}
+		// Delete target instance
+		if err := tx.BronzeGCPComputeTargetInstance.DeleteOne(instance).Exec(ctx); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to delete target instance %s: %w", instance.ID, err)
 		}
+	}
 
-		return nil
-	})
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
+	}
+
+	return nil
 }

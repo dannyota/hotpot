@@ -5,24 +5,25 @@ import (
 	"fmt"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzegcpcomputesnapshot"
+	"hotpot/pkg/storage/ent/bronzegcpcomputesnapshotlabel"
+	"hotpot/pkg/storage/ent/bronzegcpcomputesnapshotlicense"
 )
 
 // Service handles GCP Compute snapshot ingestion.
 type Service struct {
-	client  *Client
-	db      *gorm.DB
-	history *HistoryService
+	client    *Client
+	entClient *ent.Client
+	history   *HistoryService
 }
 
 // NewService creates a new snapshot ingestion service.
-func NewService(client *Client, db *gorm.DB) *Service {
+func NewService(client *Client, entClient *ent.Client) *Service {
 	return &Service{
-		client:  client,
-		db:      db,
-		history: NewHistoryService(db),
+		client:    client,
+		entClient: entClient,
+		history:   NewHistoryService(entClient),
 	}
 }
 
@@ -50,132 +51,245 @@ func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResul
 		return nil, fmt.Errorf("failed to list snapshots: %w", err)
 	}
 
-	// Convert to bronze models
-	bronzeSnapshots := make([]bronze.GCPComputeSnapshot, 0, len(snapshots))
+	// Convert to data structs
+	snapshotDataList := make([]*SnapshotData, 0, len(snapshots))
 	for _, snap := range snapshots {
-		bs, err := ConvertSnapshot(snap, params.ProjectID, collectedAt)
+		data, err := ConvertSnapshot(snap, params.ProjectID, collectedAt)
 		if err != nil {
 			return nil, fmt.Errorf("failed to convert snapshot: %w", err)
 		}
-		bronzeSnapshots = append(bronzeSnapshots, bs)
+		snapshotDataList = append(snapshotDataList, data)
 	}
 
 	// Save to database
-	if err := s.saveSnapshots(ctx, bronzeSnapshots); err != nil {
+	if err := s.saveSnapshots(ctx, snapshotDataList); err != nil {
 		return nil, fmt.Errorf("failed to save snapshots: %w", err)
 	}
 
 	return &IngestResult{
 		ProjectID:      params.ProjectID,
-		SnapshotCount:  len(bronzeSnapshots),
+		SnapshotCount:  len(snapshotDataList),
 		CollectedAt:    collectedAt,
 		DurationMillis: time.Since(startTime).Milliseconds(),
 	}, nil
 }
 
 // saveSnapshots saves snapshots to the database with history tracking.
-func (s *Service) saveSnapshots(ctx context.Context, snapshots []bronze.GCPComputeSnapshot) error {
+func (s *Service) saveSnapshots(ctx context.Context, snapshots []*SnapshotData) error {
 	if len(snapshots) == 0 {
 		return nil
 	}
 
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		for _, snap := range snapshots {
-			// Load existing snapshot with all relations
-			var existing *bronze.GCPComputeSnapshot
-			var old bronze.GCPComputeSnapshot
-			err := tx.Preload("Labels").Preload("Licenses").
-				Where("resource_id = ?", snap.ResourceID).
-				First(&old).Error
-			if err == nil {
-				existing = &old
-			} else if err != gorm.ErrRecordNotFound {
-				return fmt.Errorf("failed to load existing snapshot %s: %w", snap.Name, err)
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to start transaction: %w", err)
+	}
+
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	for _, snapshotData := range snapshots {
+		// Load existing snapshot with all edges
+		existing, err := tx.BronzeGCPComputeSnapshot.Query().
+			Where(bronzegcpcomputesnapshot.ID(snapshotData.ID)).
+			WithLabels().
+			WithLicenses().
+			First(ctx)
+		if err != nil && !ent.IsNotFound(err) {
+			tx.Rollback()
+			return fmt.Errorf("failed to load existing snapshot %s: %w", snapshotData.Name, err)
+		}
+
+		// Compute diff
+		diff := DiffSnapshotData(existing, snapshotData)
+
+		// Skip if no changes
+		if !diff.HasAnyChange() && existing != nil {
+			// Update collected_at only
+			if err := tx.BronzeGCPComputeSnapshot.UpdateOneID(snapshotData.ID).
+				SetCollectedAt(snapshotData.CollectedAt).
+				Exec(ctx); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update collected_at for snapshot %s: %w", snapshotData.Name, err)
 			}
+			continue
+		}
 
-			// Compute diff
-			diff := DiffSnapshot(existing, &snap)
-
-			// Skip if no changes
-			if !diff.HasAnyChange() && existing != nil {
-				// Update collected_at only
-				if err := tx.Model(&bronze.GCPComputeSnapshot{}).
-					Where("resource_id = ?", snap.ResourceID).
-					Update("collected_at", snap.CollectedAt).Error; err != nil {
-					return fmt.Errorf("failed to update collected_at for snapshot %s: %w", snap.Name, err)
-				}
-				continue
-			}
-
-			// Delete old relations (manual cascade)
-			if existing != nil {
-				if err := s.deleteSnapshotRelations(tx, snap.ResourceID); err != nil {
-					return fmt.Errorf("failed to delete old relations for snapshot %s: %w", snap.Name, err)
-				}
-			}
-
-			// Upsert snapshot
-			if err := tx.Save(&snap).Error; err != nil {
-				return fmt.Errorf("failed to upsert snapshot %s: %w", snap.Name, err)
-			}
-
-			// Create new relations
-			if err := s.createSnapshotRelations(tx, snap.ResourceID, &snap); err != nil {
-				return fmt.Errorf("failed to create relations for snapshot %s: %w", snap.Name, err)
-			}
-
-			// Track history
-			if diff.IsNew {
-				if err := s.history.CreateHistory(tx, &snap, now); err != nil {
-					return fmt.Errorf("failed to create history for snapshot %s: %w", snap.Name, err)
-				}
-			} else {
-				if err := s.history.UpdateHistory(tx, existing, &snap, diff, now); err != nil {
-					return fmt.Errorf("failed to update history for snapshot %s: %w", snap.Name, err)
-				}
+		// Delete old child entities if updating
+		if existing != nil {
+			if err := s.deleteSnapshotChildren(ctx, tx, snapshotData.ID); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to delete old children for snapshot %s: %w", snapshotData.Name, err)
 			}
 		}
 
-		return nil
-	})
-}
+		// Create or update snapshot
+		var savedSnapshot *ent.BronzeGCPComputeSnapshot
+		if existing == nil {
+			// Create new snapshot
+			create := tx.BronzeGCPComputeSnapshot.Create().
+				SetID(snapshotData.ID).
+				SetName(snapshotData.Name).
+				SetDescription(snapshotData.Description).
+				SetStatus(snapshotData.Status).
+				SetDiskSizeGB(snapshotData.DiskSizeGB).
+				SetStorageBytes(snapshotData.StorageBytes).
+				SetStorageBytesStatus(snapshotData.StorageBytesStatus).
+				SetDownloadBytes(snapshotData.DownloadBytes).
+				SetSnapshotType(snapshotData.SnapshotType).
+				SetArchitecture(snapshotData.Architecture).
+				SetSelfLink(snapshotData.SelfLink).
+				SetCreationTimestamp(snapshotData.CreationTimestamp).
+				SetLabelFingerprint(snapshotData.LabelFingerprint).
+				SetSourceDisk(snapshotData.SourceDisk).
+				SetSourceDiskID(snapshotData.SourceDiskID).
+				SetSourceDiskForRecoveryCheckpoint(snapshotData.SourceDiskForRecoveryCheckpoint).
+				SetAutoCreated(snapshotData.AutoCreated).
+				SetSatisfiesPzi(snapshotData.SatisfiesPzi).
+				SetSatisfiesPzs(snapshotData.SatisfiesPzs).
+				SetEnableConfidentialCompute(snapshotData.EnableConfidentialCompute).
+				SetProjectID(snapshotData.ProjectID).
+				SetCollectedAt(snapshotData.CollectedAt)
 
-// deleteSnapshotRelations deletes all related records for a snapshot.
-func (s *Service) deleteSnapshotRelations(tx *gorm.DB, snapshotResourceID string) error {
-	// Delete labels
-	if err := tx.Where("snapshot_resource_id = ?", snapshotResourceID).Delete(&bronze.GCPComputeSnapshotLabel{}).Error; err != nil {
-		return err
+			if snapshotData.SnapshotEncryptionKeyJSON != nil {
+				create.SetSnapshotEncryptionKeyJSON(snapshotData.SnapshotEncryptionKeyJSON)
+			}
+			if snapshotData.SourceDiskEncryptionKeyJSON != nil {
+				create.SetSourceDiskEncryptionKeyJSON(snapshotData.SourceDiskEncryptionKeyJSON)
+			}
+			if snapshotData.GuestOsFeaturesJSON != nil {
+				create.SetGuestOsFeaturesJSON(snapshotData.GuestOsFeaturesJSON)
+			}
+			if snapshotData.StorageLocationsJSON != nil {
+				create.SetStorageLocationsJSON(snapshotData.StorageLocationsJSON)
+			}
+
+			savedSnapshot, err = create.Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create snapshot %s: %w", snapshotData.Name, err)
+			}
+		} else {
+			// Update existing snapshot
+			update := tx.BronzeGCPComputeSnapshot.UpdateOneID(snapshotData.ID).
+				SetName(snapshotData.Name).
+				SetDescription(snapshotData.Description).
+				SetStatus(snapshotData.Status).
+				SetDiskSizeGB(snapshotData.DiskSizeGB).
+				SetStorageBytes(snapshotData.StorageBytes).
+				SetStorageBytesStatus(snapshotData.StorageBytesStatus).
+				SetDownloadBytes(snapshotData.DownloadBytes).
+				SetSnapshotType(snapshotData.SnapshotType).
+				SetArchitecture(snapshotData.Architecture).
+				SetSelfLink(snapshotData.SelfLink).
+				SetCreationTimestamp(snapshotData.CreationTimestamp).
+				SetLabelFingerprint(snapshotData.LabelFingerprint).
+				SetSourceDisk(snapshotData.SourceDisk).
+				SetSourceDiskID(snapshotData.SourceDiskID).
+				SetSourceDiskForRecoveryCheckpoint(snapshotData.SourceDiskForRecoveryCheckpoint).
+				SetAutoCreated(snapshotData.AutoCreated).
+				SetSatisfiesPzi(snapshotData.SatisfiesPzi).
+				SetSatisfiesPzs(snapshotData.SatisfiesPzs).
+				SetEnableConfidentialCompute(snapshotData.EnableConfidentialCompute).
+				SetProjectID(snapshotData.ProjectID).
+				SetCollectedAt(snapshotData.CollectedAt)
+
+			if snapshotData.SnapshotEncryptionKeyJSON != nil {
+				update.SetSnapshotEncryptionKeyJSON(snapshotData.SnapshotEncryptionKeyJSON)
+			}
+			if snapshotData.SourceDiskEncryptionKeyJSON != nil {
+				update.SetSourceDiskEncryptionKeyJSON(snapshotData.SourceDiskEncryptionKeyJSON)
+			}
+			if snapshotData.GuestOsFeaturesJSON != nil {
+				update.SetGuestOsFeaturesJSON(snapshotData.GuestOsFeaturesJSON)
+			}
+			if snapshotData.StorageLocationsJSON != nil {
+				update.SetStorageLocationsJSON(snapshotData.StorageLocationsJSON)
+			}
+
+			savedSnapshot, err = update.Save(ctx)
+			if err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update snapshot %s: %w", snapshotData.Name, err)
+			}
+		}
+
+		// Create child entities
+		if err := s.createSnapshotChildren(ctx, tx, savedSnapshot, snapshotData); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to create children for snapshot %s: %w", snapshotData.Name, err)
+		}
+
+		// Track history
+		if diff.IsNew {
+			if err := s.history.CreateHistory(ctx, tx, snapshotData, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to create history for snapshot %s: %w", snapshotData.Name, err)
+			}
+		} else {
+			if err := s.history.UpdateHistory(ctx, tx, existing, snapshotData, diff, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("failed to update history for snapshot %s: %w", snapshotData.Name, err)
+			}
+		}
 	}
 
-	// Delete licenses
-	if err := tx.Where("snapshot_resource_id = ?", snapshotResourceID).Delete(&bronze.GCPComputeSnapshotLicense{}).Error; err != nil {
-		return err
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
 	}
 
 	return nil
 }
 
-// createSnapshotRelations creates all related records for a snapshot.
-func (s *Service) createSnapshotRelations(tx *gorm.DB, snapshotResourceID string, snap *bronze.GCPComputeSnapshot) error {
-	// Create labels
-	for i := range snap.Labels {
-		snap.Labels[i].SnapshotResourceID = snapshotResourceID
+// deleteSnapshotChildren deletes all child entities for a snapshot.
+func (s *Service) deleteSnapshotChildren(ctx context.Context, tx *ent.Tx, snapshotID string) error {
+	// Delete labels
+	_, err := tx.BronzeGCPComputeSnapshotLabel.Delete().
+		Where(bronzegcpcomputesnapshotlabel.HasSnapshotWith(bronzegcpcomputesnapshot.ID(snapshotID))).
+		Exec(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to delete labels: %w", err)
 	}
-	if len(snap.Labels) > 0 {
-		if err := tx.Create(&snap.Labels).Error; err != nil {
-			return fmt.Errorf("failed to create labels: %w", err)
+
+	// Delete licenses
+	_, err = tx.BronzeGCPComputeSnapshotLicense.Delete().
+		Where(bronzegcpcomputesnapshotlicense.HasSnapshotWith(bronzegcpcomputesnapshot.ID(snapshotID))).
+		Exec(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to delete licenses: %w", err)
+	}
+
+	return nil
+}
+
+// createSnapshotChildren creates all child entities for a snapshot.
+func (s *Service) createSnapshotChildren(ctx context.Context, tx *ent.Tx, snapshot *ent.BronzeGCPComputeSnapshot, data *SnapshotData) error {
+	// Create labels
+	for _, labelData := range data.Labels {
+		_, err := tx.BronzeGCPComputeSnapshotLabel.Create().
+			SetSnapshot(snapshot).
+			SetKey(labelData.Key).
+			SetValue(labelData.Value).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create label %s: %w", labelData.Key, err)
 		}
 	}
 
 	// Create licenses
-	for i := range snap.Licenses {
-		snap.Licenses[i].SnapshotResourceID = snapshotResourceID
-	}
-	if len(snap.Licenses) > 0 {
-		if err := tx.Create(&snap.Licenses).Error; err != nil {
-			return fmt.Errorf("failed to create licenses: %w", err)
+	for _, licenseData := range data.Licenses {
+		_, err := tx.BronzeGCPComputeSnapshotLicense.Create().
+			SetSnapshot(snapshot).
+			SetLicense(licenseData.License).
+			Save(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to create license %s: %w", licenseData.License, err)
 		}
 	}
 
@@ -187,32 +301,54 @@ func (s *Service) createSnapshotRelations(tx *gorm.DB, snapshotResourceID string
 func (s *Service) DeleteStaleSnapshots(ctx context.Context, projectID string, collectedAt time.Time) error {
 	now := time.Now()
 
-	return s.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		// Find stale snapshots
-		var staleSnapshots []bronze.GCPComputeSnapshot
-		if err := tx.Where("project_id = ? AND collected_at < ?", projectID, collectedAt).
-			Find(&staleSnapshots).Error; err != nil {
-			return err
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to start transaction: %w", err)
+	}
+
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	// Find stale snapshots
+	staleSnapshots, err := tx.BronzeGCPComputeSnapshot.Query().
+		Where(
+			bronzegcpcomputesnapshot.ProjectID(projectID),
+			bronzegcpcomputesnapshot.CollectedAtLT(collectedAt),
+		).
+		All(ctx)
+	if err != nil {
+		tx.Rollback()
+		return fmt.Errorf("failed to query stale snapshots: %w", err)
+	}
+
+	// Close history and delete each stale snapshot
+	for _, snap := range staleSnapshots {
+		// Close history
+		if err := s.history.CloseHistory(ctx, tx, snap.ID, now); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to close history for snapshot %s: %w", snap.ID, err)
 		}
 
-		// Close history and delete each stale snapshot
-		for _, snap := range staleSnapshots {
-			// Close history
-			if err := s.history.CloseHistory(tx, snap.ResourceID, now); err != nil {
-				return fmt.Errorf("failed to close history for snapshot %s: %w", snap.ResourceID, err)
-			}
-
-			// Delete relations
-			if err := s.deleteSnapshotRelations(tx, snap.ResourceID); err != nil {
-				return fmt.Errorf("failed to delete relations for snapshot %s: %w", snap.ResourceID, err)
-			}
-
-			// Delete snapshot
-			if err := tx.Delete(&snap).Error; err != nil {
-				return fmt.Errorf("failed to delete snapshot %s: %w", snap.ResourceID, err)
-			}
+		// Delete children
+		if err := s.deleteSnapshotChildren(ctx, tx, snap.ID); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to delete children for snapshot %s: %w", snap.ID, err)
 		}
 
-		return nil
-	})
+		// Delete snapshot
+		if err := tx.BronzeGCPComputeSnapshot.DeleteOneID(snap.ID).Exec(ctx); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to delete snapshot %s: %w", snap.ID, err)
+		}
+	}
+
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
+	}
+
+	return nil
 }

@@ -1,89 +1,119 @@
 package healthcheck
 
 import (
+	"context"
+	"fmt"
 	"time"
 
-	"gorm.io/gorm"
-
-	"hotpot/pkg/base/models/bronze"
-	"hotpot/pkg/base/models/bronze_history"
+	"hotpot/pkg/storage/ent"
+	"hotpot/pkg/storage/ent/bronzehistorygcpcomputehealthcheck"
 )
 
-// HistoryService handles history tracking for health checks.
+// HistoryService manages health check history tracking.
 type HistoryService struct {
-	db *gorm.DB
+	entClient *ent.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(db *gorm.DB) *HistoryService {
-	return &HistoryService{db: db}
+func NewHistoryService(entClient *ent.Client) *HistoryService {
+	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new health check.
-func (h *HistoryService) CreateHistory(tx *gorm.DB, check *bronze.GCPComputeHealthCheck, now time.Time) error {
-	hist := toHealthCheckHistory(check, now)
-	return tx.Create(&hist).Error
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *HealthCheckData, now time.Time) error {
+	create := tx.BronzeHistoryGCPComputeHealthCheck.Create().
+		SetResourceID(data.ID).
+		SetValidFrom(now).
+		SetCollectedAt(data.CollectedAt).
+		SetName(data.Name).
+		SetProjectID(data.ProjectID)
+
+	if data.Description != "" {
+		create.SetDescription(data.Description)
+	}
+	if data.CreationTimestamp != "" {
+		create.SetCreationTimestamp(data.CreationTimestamp)
+	}
+	if data.SelfLink != "" {
+		create.SetSelfLink(data.SelfLink)
+	}
+	if data.Type != "" {
+		create.SetType(data.Type)
+	}
+	if data.Region != "" {
+		create.SetRegion(data.Region)
+	}
+	if data.CheckIntervalSec != 0 {
+		create.SetCheckIntervalSec(data.CheckIntervalSec)
+	}
+	if data.TimeoutSec != 0 {
+		create.SetTimeoutSec(data.TimeoutSec)
+	}
+	if data.HealthyThreshold != 0 {
+		create.SetHealthyThreshold(data.HealthyThreshold)
+	}
+	if data.UnhealthyThreshold != 0 {
+		create.SetUnhealthyThreshold(data.UnhealthyThreshold)
+	}
+	if data.TcpHealthCheckJSON != nil {
+		create.SetTCPHealthCheckJSON(data.TcpHealthCheckJSON)
+	}
+	if data.HttpHealthCheckJSON != nil {
+		create.SetHTTPHealthCheckJSON(data.HttpHealthCheckJSON)
+	}
+	if data.HttpsHealthCheckJSON != nil {
+		create.SetHTTPSHealthCheckJSON(data.HttpsHealthCheckJSON)
+	}
+	if data.Http2HealthCheckJSON != nil {
+		create.SetHttp2HealthCheckJSON(data.Http2HealthCheckJSON)
+	}
+	if data.SslHealthCheckJSON != nil {
+		create.SetSslHealthCheckJSON(data.SslHealthCheckJSON)
+	}
+	if data.GrpcHealthCheckJSON != nil {
+		create.SetGrpcHealthCheckJSON(data.GrpcHealthCheckJSON)
+	}
+	if data.LogConfigJSON != nil {
+		create.SetLogConfigJSON(data.LogConfigJSON)
+	}
+
+	_, err := create.Save(ctx)
+	return err
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(tx *gorm.DB, old, new *bronze.GCPComputeHealthCheck, diff *HealthCheckDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeHealthCheck, new *HealthCheckData, diff *HealthCheckDiff, now time.Time) error {
 	if !diff.IsChanged {
-		return nil // nothing to update
-	}
-
-	// Get current health check history
-	var currentHist bronze_history.GCPComputeHealthCheck
-	if err := tx.Where("resource_id = ? AND valid_to IS NULL", old.ResourceID).First(&currentHist).Error; err != nil {
-		return err
+		return nil
 	}
 
 	// Close old history
-	if err := tx.Model(&currentHist).Update("valid_to", now).Error; err != nil {
-		return err
+	_, err := tx.BronzeHistoryGCPComputeHealthCheck.Update().
+		Where(
+			bronzehistorygcpcomputehealthcheck.ResourceID(old.ID),
+			bronzehistorygcpcomputehealthcheck.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("close old history: %w", err)
 	}
 
 	// Create new history
-	hist := toHealthCheckHistory(new, now)
-	return tx.Create(&hist).Error
+	return h.CreateHistory(ctx, tx, new, now)
 }
 
 // CloseHistory closes history records for a deleted health check.
-func (h *HistoryService) CloseHistory(tx *gorm.DB, resourceID string, now time.Time) error {
-	var currentHist bronze_history.GCPComputeHealthCheck
-	if err := tx.Where("resource_id = ? AND valid_to IS NULL", resourceID).First(&currentHist).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return nil // No history to close
-		}
-		return err
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+	_, err := tx.BronzeHistoryGCPComputeHealthCheck.Update().
+		Where(
+			bronzehistorygcpcomputehealthcheck.ResourceID(resourceID),
+			bronzehistorygcpcomputehealthcheck.ValidToIsNil(),
+		).
+		SetValidTo(now).
+		Save(ctx)
+	if ent.IsNotFound(err) {
+		return nil // No history to close
 	}
-
-	return tx.Model(&currentHist).Update("valid_to", now).Error
-}
-
-// toHealthCheckHistory converts a bronze health check to a history record.
-func toHealthCheckHistory(check *bronze.GCPComputeHealthCheck, now time.Time) bronze_history.GCPComputeHealthCheck {
-	return bronze_history.GCPComputeHealthCheck{
-		ResourceID:         check.ResourceID,
-		ValidFrom:          now,
-		ValidTo:            nil,
-		Name:               check.Name,
-		Description:        check.Description,
-		CreationTimestamp:  check.CreationTimestamp,
-		SelfLink:           check.SelfLink,
-		Type:               check.Type,
-		Region:             check.Region,
-		CheckIntervalSec:  check.CheckIntervalSec,
-		TimeoutSec:         check.TimeoutSec,
-		HealthyThreshold:   check.HealthyThreshold,
-		UnhealthyThreshold: check.UnhealthyThreshold,
-		TcpHealthCheckJSON:   check.TcpHealthCheckJSON,
-		HttpHealthCheckJSON:  check.HttpHealthCheckJSON,
-		HttpsHealthCheckJSON: check.HttpsHealthCheckJSON,
-		Http2HealthCheckJSON: check.Http2HealthCheckJSON,
-		SslHealthCheckJSON:   check.SslHealthCheckJSON,
-		GrpcHealthCheckJSON:  check.GrpcHealthCheckJSON,
-		LogConfigJSON:        check.LogConfigJSON,
-		ProjectID:          check.ProjectID,
-		CollectedAt:        check.CollectedAt,
-	}
+	return err
 }

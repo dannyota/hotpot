@@ -1,8 +1,8 @@
 package disk
 
 import (
-	"hotpot/pkg/base/jsonb"
-	"hotpot/pkg/base/models/bronze"
+	"bytes"
+	"hotpot/pkg/storage/ent"
 )
 
 // DiskDiff represents changes between old and new disk states.
@@ -20,9 +20,8 @@ type ChildDiff struct {
 	Changed bool
 }
 
-// DiffDisk compares old and new disk states.
-// Returns nil if old is nil (new disk).
-func DiffDisk(old, new *bronze.GCPComputeDisk) *DiskDiff {
+// DiffDiskData compares old Ent entity and new DiskData.
+func DiffDiskData(old *ent.BronzeGCPComputeDisk, new *DiskData) *DiskDiff {
 	if old == nil {
 		return &DiskDiff{
 			IsNew:        true,
@@ -37,8 +36,8 @@ func DiffDisk(old, new *bronze.GCPComputeDisk) *DiskDiff {
 	diff.IsChanged = hasDiskFieldsChanged(old, new)
 
 	// Compare children
-	diff.LabelsDiff = diffLabels(old.Labels, new.Labels)
-	diff.LicensesDiff = diffLicenses(old.Licenses, new.Licenses)
+	diff.LabelsDiff = diffLabels(old.Edges.Labels, new.Labels)
+	diff.LicensesDiff = diffLicenses(old.Edges.Licenses, new.Licenses)
 
 	return diff
 }
@@ -52,35 +51,35 @@ func (d *DiskDiff) HasAnyChange() bool {
 }
 
 // hasDiskFieldsChanged compares disk-level fields (excluding children).
-func hasDiskFieldsChanged(old, new *bronze.GCPComputeDisk) bool {
+func hasDiskFieldsChanged(old *ent.BronzeGCPComputeDisk, new *DiskData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Zone != new.Zone ||
 		old.Region != new.Region ||
 		old.Type != new.Type ||
 		old.Status != new.Status ||
-		old.SizeGb != new.SizeGb ||
+		old.SizeGB != new.SizeGb ||
 		old.Architecture != new.Architecture ||
 		old.LastAttachTimestamp != new.LastAttachTimestamp ||
 		old.LastDetachTimestamp != new.LastDetachTimestamp ||
 		old.SourceImage != new.SourceImage ||
-		old.SourceImageId != new.SourceImageId ||
+		old.SourceImageID != new.SourceImageId ||
 		old.SourceSnapshot != new.SourceSnapshot ||
-		old.SourceSnapshotId != new.SourceSnapshotId ||
+		old.SourceSnapshotID != new.SourceSnapshotId ||
 		old.SourceDisk != new.SourceDisk ||
-		old.SourceDiskId != new.SourceDiskId ||
+		old.SourceDiskID != new.SourceDiskId ||
 		old.ProvisionedIops != new.ProvisionedIops ||
 		old.ProvisionedThroughput != new.ProvisionedThroughput ||
 		old.PhysicalBlockSizeBytes != new.PhysicalBlockSizeBytes ||
 		old.EnableConfidentialCompute != new.EnableConfidentialCompute ||
-		jsonb.Changed(old.DiskEncryptionKeyJSON, new.DiskEncryptionKeyJSON) ||
-		jsonb.Changed(old.UsersJSON, new.UsersJSON) ||
-		jsonb.Changed(old.ReplicaZonesJSON, new.ReplicaZonesJSON) ||
-		jsonb.Changed(old.ResourcePoliciesJSON, new.ResourcePoliciesJSON) ||
-		jsonb.Changed(old.GuestOsFeaturesJSON, new.GuestOsFeaturesJSON)
+		!bytes.Equal(old.DiskEncryptionKeyJSON, new.DiskEncryptionKeyJSON) ||
+		!bytes.Equal(old.UsersJSON, new.UsersJSON) ||
+		!bytes.Equal(old.ReplicaZonesJSON, new.ReplicaZonesJSON) ||
+		!bytes.Equal(old.ResourcePoliciesJSON, new.ResourcePoliciesJSON) ||
+		!bytes.Equal(old.GuestOsFeaturesJSON, new.GuestOsFeaturesJSON)
 }
 
-func diffLabels(old, new []bronze.GCPComputeDiskLabel) ChildDiff {
+func diffLabels(old []*ent.BronzeGCPComputeDiskLabel, new []DiskLabelData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -96,7 +95,7 @@ func diffLabels(old, new []bronze.GCPComputeDiskLabel) ChildDiff {
 	return ChildDiff{Changed: false}
 }
 
-func diffLicenses(old, new []bronze.GCPComputeDiskLicense) ChildDiff {
+func diffLicenses(old []*ent.BronzeGCPComputeDiskLicense, new []DiskLicenseData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

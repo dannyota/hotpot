@@ -2,7 +2,6 @@ package compute
 
 import (
 	"go.temporal.io/sdk/worker"
-	"gorm.io/gorm"
 
 	"hotpot/pkg/base/config"
 	"hotpot/pkg/base/ratelimit"
@@ -22,28 +21,29 @@ import (
 	"hotpot/pkg/ingest/gcp/compute/targetvpngateway"
 	"hotpot/pkg/ingest/gcp/compute/vpngateway"
 	"hotpot/pkg/ingest/gcp/compute/vpntunnel"
+	"hotpot/pkg/storage/ent"
 )
 
 // Register registers all Compute Engine activities and workflows.
 // Client is NOT created here - it's created per workflow session.
-func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limiter ratelimit.Limiter) {
+func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
 	// Register sub-packages with config service
-	instance.Register(w, configService, db, limiter)
-	disk.Register(w, configService, db, limiter)
-	network.Register(w, configService, db, limiter)
-	subnetwork.Register(w, configService, db, limiter)
-	instancegroup.Register(w, configService, db, limiter)
-	snapshot.Register(w, configService, db, limiter)
-	targetinstance.Register(w, configService, db, limiter)
-	address.Register(w, configService, db, limiter)
-	globaladdress.Register(w, configService, db, limiter)
-	forwardingrule.Register(w, configService, db, limiter)
-	globalforwardingrule.Register(w, configService, db, limiter)
-	healthcheck.Register(w, configService, db, limiter)
-	image.Register(w, configService, db, limiter)
-	vpngateway.Register(w, configService, db, limiter)
-	targetvpngateway.Register(w, configService, db, limiter)
-	vpntunnel.Register(w, configService, db, limiter)
+	instance.Register(w, configService, entClient, limiter)
+	disk.Register(w, configService, entClient, limiter)
+	network.Register(w, configService, entClient, limiter)
+	subnetwork.Register(w, configService, entClient, limiter)
+	instancegroup.Register(w, configService, entClient, limiter)
+	snapshot.Register(w, configService, entClient, limiter)
+	targetinstance.Register(w, configService, entClient, limiter)
+	address.Register(w, configService, entClient, limiter)
+	globaladdress.Register(w, configService, entClient, limiter)
+	forwardingrule.Register(w, configService, entClient, limiter)
+	globalforwardingrule.Register(w, configService, entClient, limiter)
+	healthcheck.Register(w, configService, entClient, limiter)
+	image.Register(w, configService, entClient, limiter)
+	vpngateway.Register(w, configService, entClient, limiter)
+	targetvpngateway.Register(w, configService, entClient, limiter)
+	vpntunnel.Register(w, configService, entClient, limiter)
 
 	// Register compute workflow
 	w.RegisterWorkflow(GCPComputeWorkflow)
