@@ -19,13 +19,7 @@ gcp:
   # Service account credentials (JSON format)
   # Optional - falls back to Application Default Credentials (ADC) if not set
   # nosemgrep: generic.secrets.security.detected-generic-secret
-  credentials_json: |
-    {
-      "type": "service_account",
-      "project_id": "...",
-      "private_key": "...",
-      ...
-    }
+  # credentials_json: '{"type":"service_account","project_id":"...","private_key":"..."}'
 
   # API rate limiting (requests per minute across all GCP clients)
   # Default: 600 if not set

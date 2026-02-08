@@ -5,6 +5,7 @@ env "bronze" {
   migration {
     dir = "file://bronze"
   }
+
 }
 
 env "bronzehistory" {
@@ -14,6 +15,7 @@ env "bronzehistory" {
   migration {
     dir = "file://bronzehistory"
   }
+
 }
 
 env "silver" {
@@ -23,6 +25,7 @@ env "silver" {
   migration {
     dir = "file://silver"
   }
+
 }
 
 env "gold" {
@@ -32,4 +35,5 @@ env "gold" {
   migration {
     dir = "file://gold"
   }
+
 }

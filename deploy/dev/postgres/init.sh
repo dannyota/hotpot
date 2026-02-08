@@ -31,39 +31,10 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-'
     SELECT 'CREATE DATABASE hotpot_dev OWNER postgres'
     WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'hotpot_dev')\gexec
 
-    -- =========================================================
-    -- Hotpot schemas
-    -- =========================================================
-    CREATE SCHEMA IF NOT EXISTS bronze;
-    CREATE SCHEMA IF NOT EXISTS bronze_history;
-    CREATE SCHEMA IF NOT EXISTS silver;
-    CREATE SCHEMA IF NOT EXISTS gold;
 
-    -- =========================================================
-    -- Metabase read-only user
-    -- =========================================================
-    DO $$
-    BEGIN
-        IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'metabase') THEN
-            CREATE USER metabase WITH PASSWORD 'metabase';
-        END IF;
-    END
-    $$;
-
-    GRANT USAGE ON SCHEMA bronze TO metabase;
-    GRANT USAGE ON SCHEMA bronze_history TO metabase;
-    GRANT USAGE ON SCHEMA silver TO metabase;
-    GRANT USAGE ON SCHEMA gold TO metabase;
-
-    GRANT SELECT ON ALL TABLES IN SCHEMA bronze TO metabase;
-    GRANT SELECT ON ALL TABLES IN SCHEMA bronze_history TO metabase;
-    GRANT SELECT ON ALL TABLES IN SCHEMA silver TO metabase;
-    GRANT SELECT ON ALL TABLES IN SCHEMA gold TO metabase;
-
-    ALTER DEFAULT PRIVILEGES IN SCHEMA bronze GRANT SELECT ON TABLES TO metabase;
-    ALTER DEFAULT PRIVILEGES IN SCHEMA bronze_history GRANT SELECT ON TABLES TO metabase;
-    ALTER DEFAULT PRIVILEGES IN SCHEMA silver GRANT SELECT ON TABLES TO metabase;
-    ALTER DEFAULT PRIVILEGES IN SCHEMA gold GRANT SELECT ON TABLES TO metabase;
 EOSQL
+
+# NOTE: Do NOT create schemas in hotpot_dev — Atlas manages the dev DB from
+# scratch during 'migrate diff' and will create schemas itself.
 
 echo "Hotpot dev databases and schemas initialized successfully"
