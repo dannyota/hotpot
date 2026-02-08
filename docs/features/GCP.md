@@ -39,15 +39,15 @@ GCP resource ingestion coverage in the bronze layer.
 |----------|-----------|--------|:------:|
 | Forwarding Rules (Regional) | `ForwardingRulesClient` | `AggregatedList()` | ✅ |
 | Forwarding Rules (Global) | `GlobalForwardingRulesClient` | `List()` | ✅ |
-| Backend Services | `BackendServicesClient` | `AggregatedList()` | |
-| URL Maps | `UrlMapsClient` | `AggregatedList()` | |
-| Target HTTP Proxies | `TargetHttpProxiesClient` | `AggregatedList()` | |
-| Target HTTPS Proxies | `TargetHttpsProxiesClient` | `AggregatedList()` | |
-| Target SSL Proxies | `TargetSslProxiesClient` | `List()` | |
-| Target TCP Proxies | `TargetTcpProxiesClient` | `List()` | |
-| Target Pools | `TargetPoolsClient` | `AggregatedList()` | |
-| NEGs | `NetworkEndpointGroupsClient` | `AggregatedList()` | |
-| NEG Endpoints | `NetworkEndpointGroupsClient` | `ListNetworkEndpoints()` | |
+| Backend Services | `BackendServicesClient` | `AggregatedList()` | ✅ |
+| URL Maps | `UrlMapsClient` | `AggregatedList()` | ✅ |
+| Target HTTP Proxies | `TargetHttpProxiesClient` | `AggregatedList()` | ✅ |
+| Target HTTPS Proxies | `TargetHttpsProxiesClient` | `AggregatedList()` | ✅ |
+| Target SSL Proxies | `TargetSslProxiesClient` | `List()` | ✅ |
+| Target TCP Proxies | `TargetTcpProxiesClient` | `List()` | ✅ |
+| Target Pools | `TargetPoolsClient` | `AggregatedList()` | ✅ |
+| NEGs | `NetworkEndpointGroupsClient` | `AggregatedList()` | ✅ |
+| NEG Endpoints | `NetworkEndpointGroupsClient` | `ListNetworkEndpoints()` | ✅ |
 
 ### VPN
 
@@ -356,11 +356,11 @@ GCP resource ingestion coverage in the bronze layer.
 
 ## Summary
 
-**Total: 19/117 (16%)**
+**Total: 28/117 (24%)**
 
 | API | Implemented | Total |
 |-----|:-----------:|:-----:|
-| Compute Engine | 14 | 32 |
+| Compute Engine | 23 | 32 |
 | Container | 2 | 2 |
 | Resource Manager | 1 | 6 |
 | IAM | 2 | 2 |

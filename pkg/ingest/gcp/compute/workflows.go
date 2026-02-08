@@ -7,6 +7,7 @@ import (
 	"go.temporal.io/sdk/workflow"
 
 	"hotpot/pkg/ingest/gcp/compute/address"
+	"hotpot/pkg/ingest/gcp/compute/backendservice"
 	"hotpot/pkg/ingest/gcp/compute/disk"
 	"hotpot/pkg/ingest/gcp/compute/forwardingrule"
 	"hotpot/pkg/ingest/gcp/compute/globaladdress"
@@ -15,11 +16,19 @@ import (
 	"hotpot/pkg/ingest/gcp/compute/image"
 	"hotpot/pkg/ingest/gcp/compute/instance"
 	"hotpot/pkg/ingest/gcp/compute/instancegroup"
+	"hotpot/pkg/ingest/gcp/compute/neg"
+	"hotpot/pkg/ingest/gcp/compute/negendpoint"
 	"hotpot/pkg/ingest/gcp/compute/network"
 	"hotpot/pkg/ingest/gcp/compute/snapshot"
 	"hotpot/pkg/ingest/gcp/compute/subnetwork"
+	"hotpot/pkg/ingest/gcp/compute/targethttpproxy"
+	"hotpot/pkg/ingest/gcp/compute/targethttpsproxy"
 	"hotpot/pkg/ingest/gcp/compute/targetinstance"
+	"hotpot/pkg/ingest/gcp/compute/targetpool"
+	"hotpot/pkg/ingest/gcp/compute/targetsslproxy"
+	"hotpot/pkg/ingest/gcp/compute/targettcpproxy"
 	"hotpot/pkg/ingest/gcp/compute/targetvpngateway"
+	"hotpot/pkg/ingest/gcp/compute/urlmap"
 	"hotpot/pkg/ingest/gcp/compute/vpngateway"
 	"hotpot/pkg/ingest/gcp/compute/vpntunnel"
 )
@@ -48,6 +57,15 @@ type GCPComputeWorkflowResult struct {
 	VpnGatewayCount           int
 	TargetVpnGatewayCount     int
 	VpnTunnelCount            int
+	TargetHttpProxyCount      int
+	TargetTcpProxyCount       int
+	TargetSslProxyCount       int
+	TargetHttpsProxyCount     int
+	UrlMapCount               int
+	TargetPoolCount           int
+	NegCount                  int
+	NegEndpointCount          int
+	BackendServiceCount       int
 }
 
 // GCPComputeWorkflow ingests all GCP Compute Engine resources for a single project.
@@ -232,6 +250,96 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 	}
 	result.VpnTunnelCount = vpnTunnelResult.VpnTunnelCount
 
+	// Execute target HTTP proxy workflow
+	var targetHttpProxyResult targethttpproxy.GCPComputeTargetHttpProxyWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, targethttpproxy.GCPComputeTargetHttpProxyWorkflow,
+		targethttpproxy.GCPComputeTargetHttpProxyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetHttpProxyResult)
+	if err != nil {
+		logger.Error("Failed to ingest target HTTP proxies", "error", err)
+		return nil, err
+	}
+	result.TargetHttpProxyCount = targetHttpProxyResult.TargetHttpProxyCount
+
+	// Execute target TCP proxy workflow
+	var targetTcpProxyResult targettcpproxy.GCPComputeTargetTcpProxyWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, targettcpproxy.GCPComputeTargetTcpProxyWorkflow,
+		targettcpproxy.GCPComputeTargetTcpProxyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetTcpProxyResult)
+	if err != nil {
+		logger.Error("Failed to ingest target TCP proxies", "error", err)
+		return nil, err
+	}
+	result.TargetTcpProxyCount = targetTcpProxyResult.TargetTcpProxyCount
+
+	// Execute target SSL proxy workflow
+	var targetSslProxyResult targetsslproxy.GCPComputeTargetSslProxyWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, targetsslproxy.GCPComputeTargetSslProxyWorkflow,
+		targetsslproxy.GCPComputeTargetSslProxyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetSslProxyResult)
+	if err != nil {
+		logger.Error("Failed to ingest target SSL proxies", "error", err)
+		return nil, err
+	}
+	result.TargetSslProxyCount = targetSslProxyResult.TargetSslProxyCount
+
+	// Execute target HTTPS proxy workflow
+	var targetHttpsProxyResult targethttpsproxy.GCPComputeTargetHttpsProxyWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, targethttpsproxy.GCPComputeTargetHttpsProxyWorkflow,
+		targethttpsproxy.GCPComputeTargetHttpsProxyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetHttpsProxyResult)
+	if err != nil {
+		logger.Error("Failed to ingest target HTTPS proxies", "error", err)
+		return nil, err
+	}
+	result.TargetHttpsProxyCount = targetHttpsProxyResult.TargetHttpsProxyCount
+
+	// Execute URL map workflow
+	var urlMapResult urlmap.GCPComputeUrlMapWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, urlmap.GCPComputeUrlMapWorkflow,
+		urlmap.GCPComputeUrlMapWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &urlMapResult)
+	if err != nil {
+		logger.Error("Failed to ingest URL maps", "error", err)
+		return nil, err
+	}
+	result.UrlMapCount = urlMapResult.UrlMapCount
+
+	// Execute target pool workflow
+	var targetPoolResult targetpool.GCPComputeTargetPoolWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, targetpool.GCPComputeTargetPoolWorkflow,
+		targetpool.GCPComputeTargetPoolWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetPoolResult)
+	if err != nil {
+		logger.Error("Failed to ingest target pools", "error", err)
+		return nil, err
+	}
+	result.TargetPoolCount = targetPoolResult.TargetPoolCount
+
+	// Execute NEG workflow
+	var negResult neg.GCPComputeNegWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, neg.GCPComputeNegWorkflow,
+		neg.GCPComputeNegWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &negResult)
+	if err != nil {
+		logger.Error("Failed to ingest NEGs", "error", err)
+		return nil, err
+	}
+	result.NegCount = negResult.NegCount
+
+	// Execute backend service workflow
+	var backendServiceResult backendservice.GCPComputeBackendServiceWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, backendservice.GCPComputeBackendServiceWorkflow,
+		backendservice.GCPComputeBackendServiceWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &backendServiceResult)
+	if err != nil {
+		logger.Error("Failed to ingest backend services", "error", err)
+		return nil, err
+	}
+	result.BackendServiceCount = backendServiceResult.BackendServiceCount
+
+	// Execute NEG endpoint workflow (must run after NEG workflow since it queries NEGs from database)
+	var negEndpointResult negendpoint.GCPComputeNegEndpointWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, negendpoint.GCPComputeNegEndpointWorkflow,
+		negendpoint.GCPComputeNegEndpointWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &negEndpointResult)
+	if err != nil {
+		logger.Error("Failed to ingest NEG endpoints", "error", err)
+		return nil, err
+	}
+	result.NegEndpointCount = negEndpointResult.NegEndpointCount
+
 	logger.Info("Completed GCPComputeWorkflow",
 		"projectID", params.ProjectID,
 		"instanceCount", result.InstanceCount,
@@ -250,6 +358,15 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		"vpnGatewayCount", result.VpnGatewayCount,
 		"targetVpnGatewayCount", result.TargetVpnGatewayCount,
 		"vpnTunnelCount", result.VpnTunnelCount,
+		"targetHttpProxyCount", result.TargetHttpProxyCount,
+		"targetTcpProxyCount", result.TargetTcpProxyCount,
+		"targetSslProxyCount", result.TargetSslProxyCount,
+		"targetHttpsProxyCount", result.TargetHttpsProxyCount,
+		"urlMapCount", result.UrlMapCount,
+		"targetPoolCount", result.TargetPoolCount,
+		"negCount", result.NegCount,
+		"negEndpointCount", result.NegEndpointCount,
+		"backendServiceCount", result.BackendServiceCount,
 	)
 
 	return result, nil

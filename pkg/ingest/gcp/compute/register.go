@@ -6,6 +6,7 @@ import (
 	"hotpot/pkg/base/config"
 	"hotpot/pkg/base/ratelimit"
 	"hotpot/pkg/ingest/gcp/compute/address"
+	"hotpot/pkg/ingest/gcp/compute/backendservice"
 	"hotpot/pkg/ingest/gcp/compute/disk"
 	"hotpot/pkg/ingest/gcp/compute/forwardingrule"
 	"hotpot/pkg/ingest/gcp/compute/globaladdress"
@@ -14,11 +15,19 @@ import (
 	"hotpot/pkg/ingest/gcp/compute/image"
 	"hotpot/pkg/ingest/gcp/compute/instance"
 	"hotpot/pkg/ingest/gcp/compute/instancegroup"
+	"hotpot/pkg/ingest/gcp/compute/neg"
+	"hotpot/pkg/ingest/gcp/compute/negendpoint"
 	"hotpot/pkg/ingest/gcp/compute/network"
 	"hotpot/pkg/ingest/gcp/compute/snapshot"
 	"hotpot/pkg/ingest/gcp/compute/subnetwork"
+	"hotpot/pkg/ingest/gcp/compute/targethttpproxy"
+	"hotpot/pkg/ingest/gcp/compute/targethttpsproxy"
 	"hotpot/pkg/ingest/gcp/compute/targetinstance"
+	"hotpot/pkg/ingest/gcp/compute/targetpool"
+	"hotpot/pkg/ingest/gcp/compute/targetsslproxy"
+	"hotpot/pkg/ingest/gcp/compute/targettcpproxy"
 	"hotpot/pkg/ingest/gcp/compute/targetvpngateway"
+	"hotpot/pkg/ingest/gcp/compute/urlmap"
 	"hotpot/pkg/ingest/gcp/compute/vpngateway"
 	"hotpot/pkg/ingest/gcp/compute/vpntunnel"
 	"hotpot/pkg/storage/ent"
@@ -44,6 +53,15 @@ func Register(w worker.Worker, configService *config.Service, entClient *ent.Cli
 	vpngateway.Register(w, configService, entClient, limiter)
 	targetvpngateway.Register(w, configService, entClient, limiter)
 	vpntunnel.Register(w, configService, entClient, limiter)
+	targethttpproxy.Register(w, configService, entClient, limiter)
+	targettcpproxy.Register(w, configService, entClient, limiter)
+	targetsslproxy.Register(w, configService, entClient, limiter)
+	targethttpsproxy.Register(w, configService, entClient, limiter)
+	urlmap.Register(w, configService, entClient, limiter)
+	targetpool.Register(w, configService, entClient, limiter)
+	neg.Register(w, configService, entClient, limiter)
+	negendpoint.Register(w, configService, entClient, limiter)
+	backendservice.Register(w, configService, entClient, limiter)
 
 	// Register compute workflow
 	w.RegisterWorkflow(GCPComputeWorkflow)
