@@ -10,17 +10,17 @@ Keep files focused on a single responsibility. Split when:
 
 No hard line limit—prefer logical grouping.
 
-**Model files** — group parent and child models together:
+**Ent schema files** — group parent and child schemas together:
 
 ```go
-// gcp_compute_instance.go - all instance-related models
-type GCPComputeInstance struct { ... }
-type GCPComputeInstanceDisk struct { ... }
-type GCPComputeInstanceNIC struct { ... }
+// pkg/schema/bronze/gcp/compute/instance.go - all instance-related schemas
+type BronzeGCPComputeInstance struct { ent.Schema }
+type BronzeGCPComputeInstanceDisk struct { ent.Schema }
+type BronzeGCPComputeInstanceNIC struct { ent.Schema }
 // ... other children
 ```
 
-See [PRINCIPLES.md](../architecture/PRINCIPLES.md#8-model-conventions) for details.
+See [ENT_SCHEMAS.md](ENT_SCHEMAS.md) for ent schema patterns.
 
 ## Naming
 
@@ -29,6 +29,14 @@ Follow [Google Go Style Guide](https://google.github.io/styleguide/go/):
 - Descriptive names for package-level or wide scope
 - MixedCaps, not underscores
 - Acronyms: consistent case (`HTTPClient` or `httpClient`)
+
+### Ent Schema Naming
+
+| Component | Pattern | Example |
+|-----------|---------|---------|
+| Type name | `{Layer}{Provider}{Service}{Resource}` | `BronzeGCPComputeInstance` |
+| Table name | `{provider}_{service}_{resource}` | `gcp_compute_instances` |
+| History table | `{provider}_{service}_{resource}_history` | `gcp_compute_instances_history` |
 
 ## Code Patterns
 
@@ -49,67 +57,127 @@ Follow [Google Go Style Guide](https://google.github.io/styleguide/go/):
 - Use sentinel errors for expected conditions
 - Always propagate `json.Marshal` errors — never silently ignore them
 
-## Model Tags
+## Ent Schema Patterns
 
-**Bronze models** — `json` tag = original API field name (for traceability):
+**Bronze schemas** — use API field names for traceability:
 
 ```go
-type GCPComputeInstance struct {
-    // gorm = our name + type, json = original API field
-    ResourceID  string `gorm:"column:resource_id;type:varchar(255);uniqueIndex" json:"id"`
-    Name        string `gorm:"column:name;type:varchar(255);not null" json:"name"`
-    MachineType string `gorm:"column:machine_type;type:text" json:"machineType"`
-    Status      string `gorm:"column:status;type:varchar(50);index" json:"status"`
+// pkg/schema/bronze/gcp/compute/instance.go
+func (BronzeGCPComputeInstance) Fields() []ent.Field {
+    return []ent.Field{
+        // Primary key - maps to resource_id column
+        field.String("id").StorageKey("resource_id").Immutable(),
 
-    // Collection metadata (not from API)
-    ProjectID   string    `gorm:"column:project_id;type:varchar(255);not null;index" json:"-"`
-    CollectedAt time.Time `gorm:"column:collected_at;not null;index" json:"-"`
+        // GCP API fields - names match API response
+        field.String("name").NotEmpty(),
+        field.String("machine_type").Optional(),
+        field.String("status").Optional(),
+
+        // Collection metadata (not from API)
+        field.String("project_id").NotEmpty(),
+        // collected_at comes from mixin
+    }
+}
+
+func (BronzeGCPComputeInstance) Annotations() []schema.Annotation {
+    return []schema.Annotation{
+        entsql.Annotation{Table: "gcp_compute_instances"},
+    }
 }
 ```
 
-**Silver/Gold models** — `json` tag matches column name (for API responses):
+**Bronze history schemas** — denormalized snapshots:
 
 ```go
-type Asset struct {
-    ID       string `gorm:"column:id" json:"id"`
-    Name     string `gorm:"column:name" json:"name"`
-    SourceID string `gorm:"column:source_id" json:"source_id"`
+// pkg/schema/bronzehistory/gcp/compute/instance.go
+func (BronzeHistoryGCPComputeInstance) Fields() []ent.Field {
+    return []ent.Field{
+        // History tracking
+        field.Uint("history_id").Unique().Immutable(),
+        field.String("resource_id").NotEmpty(),
+        field.Time("valid_from").Immutable(),
+        field.Time("valid_to").Optional().Nillable(),
+
+        // All bronze fields repeated
+        field.String("name").NotEmpty(),
+        field.String("machine_type").Optional(),
+        field.String("status").Optional(),
+        field.String("project_id").NotEmpty(),
+        field.Time("collected_at"),  // Explicit in history
+    }
+}
+
+func (BronzeHistoryGCPComputeInstance) Annotations() []schema.Annotation {
+    return []schema.Annotation{
+        entsql.Annotation{Table: "gcp_compute_instances_history"},
+    }
 }
 ```
 
-| Layer | `json` tag purpose |
-|-------|-------------------|
-| Bronze | Original external API field name |
-| Silver/Gold | API response field (matches column) |
+## Field Types
 
-## JSONB Fields
+### String Fields
 
-Use `jsonb.JSON` (from `hotpot/pkg/base/jsonb`) with `type:jsonb` GORM tag for JSONB columns. This is `[]byte` under the hood — nil maps to SQL NULL, non-nil maps to valid JSONB. Do NOT use `gorm.io/datatypes` — it pulls in MySQL/SQLite as transitive dependencies.
-
-**Model:**
 ```go
-import "hotpot/pkg/base/jsonb"
+field.String("name").NotEmpty()          // Required, non-empty
+field.String("description").Optional()   // Nullable
+field.Text("long_description").Optional() // TEXT type for long content
+```
 
-UsersJSON jsonb.JSON `gorm:"column:users_json;type:jsonb" json:"users"`
+### Numeric Fields
+
+```go
+field.Int("count").Default(0)            // int
+field.Int32("small_number").Default(0)   // int32
+field.Int64("big_number").Default(0)     // int64
+field.Float("decimal").Optional()        // float64
+field.Uint("id").Unique()                // unsigned int (for history_id)
+```
+
+### Boolean Fields
+
+```go
+field.Bool("enabled").Default(false)     // Required, default false
+field.Bool("deleted").Optional()         // Nullable
+```
+
+### Time Fields
+
+```go
+field.Time("created_at")                 // Required
+field.Time("deleted_at").Optional().Nillable() // Nullable
+```
+
+### JSON Fields
+
+**Always use `json.RawMessage{}`** for JSONB columns:
+
+```go
+import "encoding/json"
+
+field.JSON("settings_json", json.RawMessage{}).Optional()
+field.JSON("metadata_json", json.RawMessage{}).Optional()
 ```
 
 **Converter** — nil-check + `json.Marshal`:
 ```go
-if obj.Users != nil {
-    model.UsersJSON, err = json.Marshal(obj.Users)
+if obj.Settings != nil {
+    model.SettingsJSON, err = json.Marshal(obj.Settings)
     if err != nil {
-        return Model{}, fmt.Errorf("failed to marshal users: %w", err)
+        return nil, fmt.Errorf("failed to marshal settings: %w", err)
     }
 }
 // nil field → stays nil → SQL NULL
 // non-nil field → JSON bytes → valid JSONB
 ```
 
-**Diff** — use `jsonb.Changed` for comparison (`[]byte` cannot use `!=`):
+**Diff** — use `bytes.Equal` for comparison:
 ```go
-import "hotpot/pkg/base/jsonb"
+import "bytes"
 
-jsonb.Changed(old.UsersJSON, new.UsersJSON)
+if !bytes.Equal(old.SettingsJSON, new.SettingsJSON) {
+    // changed
+}
 ```
 
 ## Imports
@@ -119,11 +187,16 @@ Group and separate with blank lines:
 ```go
 import (
     "context"
+    "encoding/json"
     "fmt"
 
-    "go.temporal.io/sdk/workflow"
+    "entgo.io/ent"
+    "entgo.io/ent/dialect/entsql"
+    "entgo.io/ent/schema"
+    "entgo.io/ent/schema/field"
 
-    "hotpot/pkg/base"
+    "hotpot/pkg/schema/bronze/mixin"
+    "hotpot/pkg/storage/ent"
 )
 ```
 
@@ -144,3 +217,73 @@ import (
 | Gold | Test fixtures with sample silver data |
 
 Future: integration tests with recorded responses (go-vcr).
+
+## Common Ent Patterns
+
+### Parent-Child Relationships
+
+```go
+// Parent edge
+func (BronzeGCPComputeInstance) Edges() []ent.Edge {
+    return []ent.Edge{
+        edge.To("disks", BronzeGCPComputeInstanceDisk.Type),
+        edge.To("labels", BronzeGCPComputeInstanceLabel.Type),
+    }
+}
+
+// Child edge
+func (BronzeGCPComputeInstanceDisk) Edges() []ent.Edge {
+    return []ent.Edge{
+        edge.From("instance", BronzeGCPComputeInstance.Type).
+            Ref("disks").
+            Unique().
+            Required(),
+    }
+}
+```
+
+### Querying with Edges
+
+```go
+// Load all edges
+instance, err := client.BronzeGCPComputeInstance.Query().
+    Where(bronzegcpcomputeinstance.IDEQ(id)).
+    WithDisks().
+    WithLabels().
+    WithNics().
+    Only(ctx)
+
+// Filter through edges
+instances, err := client.BronzeGCPComputeInstance.Query().
+    Where(bronzegcpcomputeinstance.HasDisksWith(
+        bronzegcpcomputeinstancedisk.SourceEQ("image-1"),
+    )).
+    All(ctx)
+```
+
+### Transactions
+
+```go
+tx, err := client.Tx(ctx)
+if err != nil {
+    return err
+}
+defer tx.Rollback()
+
+// All operations in same transaction
+if _, err := tx.BronzeGCPComputeInstance.Create()...; err != nil {
+    return err
+}
+if _, err := tx.BronzeHistoryGCPComputeInstance.Create()...; err != nil {
+    return err
+}
+
+return tx.Commit()
+```
+
+## References
+
+- [ENT_SCHEMAS.md](ENT_SCHEMAS.md) - Complete ent schema guide
+- [GORM_TO_ENT_MIGRATION.md](GORM_TO_ENT_MIGRATION.md) - Migration reference
+- [Google Go Style Guide](https://google.github.io/styleguide/go/)
+- [Uber Go Guide](https://github.com/uber-go/guide)

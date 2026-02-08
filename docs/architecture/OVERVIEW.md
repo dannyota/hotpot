@@ -64,10 +64,19 @@ hotpot/
 │
 ├── pkg/                        # Main packages
 │   ├── base/                   # Shared utilities
-│   │   └── models/             # Shared GORM models
-│   │       ├── bronze/         # Bronze models by domain
-│   │       ├── silver/         # Silver models (unified)
-│   │       └── gold/           # Gold models
+│   │   ├── config/             # Configuration
+│   │   ├── app/                # Application setup
+│   │   └── ratelimit/          # Rate limiting
+│   │
+│   ├── schema/                 # Ent schema definitions
+│   │   ├── bronze/             # Bronze schemas
+│   │   ├── bronzehistory/      # Bronze history schemas
+│   │   ├── silver/             # Silver schemas
+│   │   └── gold/               # Gold schemas
+│   │
+│   ├── storage/                # Generated ent code
+│   │   ├── entc.go             # Schema auto-discovery
+│   │   └── ent/                # Generated client (DO NOT EDIT)
 │   │
 │   ├── ingest/                 # Bronze: data collection
 │   │   ├── run.go
@@ -180,18 +189,26 @@ CREATE SCHEMA gold_history;    -- Historical versions
 
 History uses SCD Type 4 with granular change tracking. See [HISTORY.md](./HISTORY.md).
 
-**GORM model example** (in `pkg/base/models/bronze/gcp.go`):
+**Ent schema example** (in `pkg/schema/bronze/gcp/compute/instance.go`):
 
 ```go
-package bronze
+package compute
 
-type GCPInstance struct {
-    ID   string `gorm:"primaryKey"`
-    Name string
+type BronzeGCPComputeInstance struct {
+    ent.Schema
 }
 
-func (GCPInstance) TableName() string {
-    return "bronze.gcp_instances"
+func (BronzeGCPComputeInstance) Fields() []ent.Field {
+    return []ent.Field{
+        field.String("id").StorageKey("resource_id").Immutable(),
+        field.String("name").NotEmpty(),
+    }
+}
+
+func (BronzeGCPComputeInstance) Annotations() []schema.Annotation {
+    return []schema.Annotation{
+        entsql.Annotation{Table: "gcp_compute_instances"},
+    }
 }
 ```
 
@@ -224,36 +241,42 @@ pkg/ingest/
 
 See [WORKFLOWS.md](../guides/WORKFLOWS.md) for workflow patterns and client lifecycle.
 
-**Models live in `pkg/base/models/`** (not in each module):
+**Ent schemas live in `pkg/schema/`** (not in each module):
 
 ```
-pkg/base/models/
-├── bronze/                          # Current state models
-│   ├── gcp_compute_instance.go
-│   ├── gcp_compute_instance_disk.go
-│   ├── gcp_compute_instance_nic.go
-│   └── ...
-├── bronze_history/                  # History models (same structure)
-│   ├── gcp_compute_instance.go
-│   ├── gcp_compute_instance_disk.go
-│   ├── gcp_compute_instance_nic.go
-│   └── ...
+pkg/schema/
+├── bronze/                          # Current state schemas
+│   ├── mixin/                       # Shared mixins
+│   │   └── timestamp.go
+│   └── gcp/
+│       ├── compute/
+│       │   ├── instance.go          # BronzeGCPComputeInstance + children
+│       │   ├── disk.go
+│       │   └── ...
+│       ├── networking/
+│       └── ...
+├── bronzehistory/                   # History schemas
+│   └── gcp/
+│       ├── compute/
+│       │   ├── instance.go          # BronzeHistoryGCPComputeInstance + children
+│       │   └── ...
+│       └── ...
 ├── silver/
-│   └── assets.go
-├── silver_history/
-│   └── assets.go
+│   └── asset/
+│       └── enriched.go
 └── gold/
-    ├── alerts.go
-    └── compliance.go
+    ├── compliance/
+    └── alerts/
 ```
 
-This allows all layers to import models without cross-layer dependencies:
+Ent generates a unified client in `pkg/storage/ent/`:
 
 ```go
-import (
-    "hotpot/pkg/base/models/bronze"
-    "hotpot/pkg/base/models/silver"
-)
+import "hotpot/pkg/storage/ent"
+
+// All schemas in one client
+client.BronzeGCPComputeInstance.Query()...
+client.SilverEnrichedAsset.Query()...
 ```
 
 ## Scaling
@@ -277,7 +300,7 @@ kubectl scale deployment hotpot-detect --replicas=3
 |-----------|------------|
 | Language | Go |
 | Workflow Engine | Temporal |
-| Database | PostgreSQL + GORM |
+| Database | PostgreSQL + Ent |
 | Dependency Injection | uber-go/dig |
 | Admin UI | Metabase |
 | Deployment | Docker + Kubernetes |

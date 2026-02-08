@@ -38,7 +38,7 @@
 | **Temporal** | Workflow orchestration engine |
 | **Activity** | Single unit of work in Temporal |
 | **Workflow** | Orchestrates multiple activities |
-| **GORM** | Go ORM for database access |
+| **Ent** | Type-safe Go entity framework |
 | **DI / dig** | Dependency injection (uber-go/dig) |
 
 ## Database
@@ -46,7 +46,7 @@
 | Term | Definition |
 |------|------------|
 | **Schema** | PostgreSQL schema (bronze/silver/gold) |
-| **TableName()** | GORM method to specify `schema.table` |
+| **Annotations()** | Ent method to specify table name and indexes |
 
 ## Code Patterns
 

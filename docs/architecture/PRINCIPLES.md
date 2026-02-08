@@ -19,13 +19,24 @@ pkg/ingest/{provider}/
     ├── workflows.go        # Resource workflow (e.g., InstanceWorkflow)
     └── register.go         # Register resource activities
 
-pkg/base/models/            # Shared models (all layers import from here)
-├── bronze/                 # Bronze models by domain
-│   ├── gcp_compute_instance.go
-│   ├── gcp_compute_disk.go
-│   └── ...
-├── silver/                 # Silver models (assets.go, vulns.go...)
-└── gold/                   # Gold models (alerts.go, compliance.go...)
+pkg/schema/                 # Ent schemas (auto-discovered)
+├── bronze/                 # Bronze schemas by provider/service
+│   ├── mixin/
+│   │   └── timestamp.go
+│   └── gcp/
+│       ├── compute/
+│       │   ├── instance.go  # BronzeGCPComputeInstance + children
+│       │   ├── disk.go
+│       │   └── ...
+│       └── ...
+├── bronzehistory/          # History schemas (separate from bronze)
+├── silver/                 # Silver schemas
+└── gold/                   # Gold schemas
+
+pkg/storage/ent/            # Generated code (DO NOT EDIT)
+├── client.go               # Unified ent client
+├── bronzegcpcomputeinstance.go
+└── ...
 ```
 
 ## 2. Database Schemas
@@ -57,11 +68,10 @@ gold.alerts               -- Security alerts
 // Wrong: importing another layer
 import "hotpot/pkg/ingest/gcp"
 
-// Correct: import shared models from base/
-import "hotpot/pkg/base/models/bronze"
+// Correct: use generated ent client
+import "hotpot/pkg/storage/ent"
 
-var instances []bronze.GCPInstance
-db.Find(&instances)
+instances, err := client.BronzeGCPComputeInstance.Query().All(ctx)
 ```
 
 Layers communicate through database, not imports. Exception: `pkg/base/` can be imported by all layers.
@@ -78,7 +88,7 @@ func (a *Activities) Ingest(ctx context.Context, params IngestParams) (*IngestRe
     }
     defer client.Close()
 
-    service := NewService(client, a.db)
+    service := NewService(client, a.entClient)
     // ...
 }
 ```
@@ -97,12 +107,12 @@ Activities use a struct to hold dependencies:
 // activities.go
 type Activities struct {
     configService *config.Service
-    db            *gorm.DB
+    db            *ent.Client
     limiter       *rate.Limiter
 }
 
-func NewActivities(configService *config.Service, db *gorm.DB, limiter *rate.Limiter) *Activities {
-    return &Activities{configService: configService, db: db, limiter: limiter}
+func NewActivities(configService *config.Service, db *ent.Client, limiter *rate.Limiter) *Activities {
+    return &Activities{configService: configService, entClient: entClient, limiter: limiter}
 }
 
 // Activity params/results use dedicated structs
@@ -132,8 +142,8 @@ Each package has `register.go` to register workflows and activities:
 
 ```go
 // pkg/ingest/gcp/compute/register.go
-func Register(w worker.Worker, configService *config.Service, db *gorm.DB, limiter *rate.Limiter) {
-    instance.Register(w, configService, db, limiter)
+func Register(w worker.Worker, configService *config.Service, db *ent.Client, limiter *rate.Limiter) {
+    instance.Register(w, configService, entClient, limiter)
     w.RegisterWorkflow(ComputeWorkflow)
 }
 ```
@@ -189,43 +199,59 @@ pkg/base/models/bronze/
 - Changes to parent often require changes to children
 
 **Model order within file:**
-1. Parent model with `TableName()` method
-2. Child models alphabetically, each with `TableName()` method
+1. Parent schema with `Fields()`, `Edges()`, `Annotations()` methods
+2. Child schemas alphabetically, each with same methods
 
-See [CODE_STYLE.md](../guides/CODE_STYLE.md#model-tags) for `json`/`gorm` tag conventions.
+See [ENT_SCHEMAS.md](../guides/ENT_SCHEMAS.md) for ent schema patterns and [CODE_STYLE.md](../guides/CODE_STYLE.md) for field conventions.
 
 ## 10. History Tables (SCD Type 4)
 
 Separate `*_history` packages for change tracking with granular time ranges:
 
 ```go
-// Current: pkg/base/models/bronze/
-package bronze
+// Current: pkg/schema/bronze/gcp/compute/
+package compute
 
-type GCPComputeInstance struct {
-    ResourceID string `gorm:"primaryKey"`  // GCP API ID
-    // ...
+type BronzeGCPComputeInstance struct {
+    ent.Schema
 }
 
-func (GCPComputeInstance) TableName() string {
-    return "bronze.gcp_compute_instances"
+func (BronzeGCPComputeInstance) Fields() []ent.Field {
+    return []ent.Field{
+        field.String("id").StorageKey("resource_id").Immutable(),  // GCP API ID
+        // ...
+    }
+}
+
+func (BronzeGCPComputeInstance) Annotations() []schema.Annotation {
+    return []schema.Annotation{
+        entsql.Annotation{Table: "gcp_compute_instances"},
+    }
 }
 ```
 
 ```go
-// History: pkg/base/models/bronze_history/
-package bronze_history
+// History: pkg/schema/bronzehistory/gcp/compute/
+package compute
 
-type GCPComputeInstance struct {
-    HistoryID  uint       `gorm:"primaryKey"`
-    ResourceID string     `gorm:"index"`
-    ValidFrom  time.Time  `gorm:"not null"`
-    ValidTo    *time.Time                       // NULL = current
-    // ... same fields
+type BronzeHistoryGCPComputeInstance struct {
+    ent.Schema
 }
 
-func (GCPComputeInstance) TableName() string {
-    return "bronze_history.gcp_compute_instances"
+func (BronzeHistoryGCPComputeInstance) Fields() []ent.Field {
+    return []ent.Field{
+        field.Uint("history_id").Unique().Immutable(),
+        field.String("resource_id").NotEmpty(),
+        field.Time("valid_from").Immutable(),
+        field.Time("valid_to").Optional().Nillable(),  // NULL = current
+        // ... same fields as bronze
+    }
+}
+
+func (BronzeHistoryGCPComputeInstance) Annotations() []schema.Annotation {
+    return []schema.Annotation{
+        entsql.Annotation{Table: "gcp_compute_instances_history"},
+    }
 }
 ```
 
@@ -233,19 +259,25 @@ func (GCPComputeInstance) TableName() string {
 
 ```go
 // Child history: own time range (can change independently)
-type GCPComputeInstanceNIC struct {
-    HistoryID         uint       `gorm:"primaryKey"`
-    InstanceHistoryID uint       `gorm:"index"`
-    ValidFrom         time.Time  `gorm:"not null"`  // NIC's own time range
-    ValidTo           *time.Time
-    // ...
+type BronzeHistoryGCPComputeInstanceNIC struct {
+    ent.Schema
+}
+
+func (BronzeHistoryGCPComputeInstanceNIC) Fields() []ent.Field {
+    return []ent.Field{
+        field.Uint("history_id").Unique().Immutable(),
+        field.Uint("instance_history_id"),
+        field.Time("valid_from").Immutable(),  // NIC's own time range
+        field.Time("valid_to").Optional().Nillable(),
+        // ...
+    }
 }
 ```
 
 | Schema | Package | Purpose |
 |--------|---------|---------|
-| `bronze` | `bronze/` | Current state |
-| `bronze_history` | `bronze_history/` | All versions with time ranges |
+| `bronze` | `pkg/schema/bronze/` | Current state |
+| `bronze_history` | `pkg/schema/bronzehistory/` | All versions with time ranges |
 
 See [HISTORY.md](./HISTORY.md) for details.
 
@@ -316,9 +348,9 @@ Across layers: Business key only (silver.source_id stores resource_id, not bronz
 ```go
 // Silver references bronze by business key, not surrogate ID
 type Asset struct {
-    ID         string `gorm:"primaryKey"`
-    SourceType string `gorm:"column:source_type"`       // "gcp_compute_instance"
-    SourceID   string `gorm:"column:source_id;index"`   // resource_id (API ID), not bronze.id
+    field.String("id").Unique().Immutable(),
+    field.String("source_type"),       // "gcp_compute_instance"
+    field.String("source_id"),         // resource_id (API ID), not bronze.id
 }
 ```
 
