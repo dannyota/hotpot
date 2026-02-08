@@ -154,7 +154,8 @@ func (s *Service) saveSubnetworks(ctx context.Context, subnetworks []*Subnetwork
 				SetExternalIpv6Prefix(subnetData.ExternalIpv6Prefix).
 				SetFingerprint(subnetData.Fingerprint).
 				SetProjectID(subnetData.ProjectID).
-				SetCollectedAt(subnetData.CollectedAt)
+				SetCollectedAt(subnetData.CollectedAt).
+				SetFirstCollectedAt(subnetData.CollectedAt)
 
 			if subnetData.LogConfigJSON != nil {
 				create.SetLogConfigJSON(subnetData.LogConfigJSON)

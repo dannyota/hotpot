@@ -28,6 +28,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, imageDat
 		SetResourceID(imageData.ID).
 		SetValidFrom(now).
 		SetCollectedAt(imageData.CollectedAt).
+		SetFirstCollectedAt(imageData.CollectedAt).
 		SetName(imageData.Name).
 		SetDescription(imageData.Description).
 		SetStatus(imageData.Status).
@@ -117,6 +118,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 			SetResourceID(new.ID).
 			SetValidFrom(now).
 			SetCollectedAt(new.CollectedAt).
+			SetFirstCollectedAt(old.FirstCollectedAt).
 			SetName(new.Name).
 			SetDescription(new.Description).
 			SetStatus(new.Status).

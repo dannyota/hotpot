@@ -166,7 +166,8 @@ func (s *Service) saveClusters(ctx context.Context, clusters []*ClusterData) err
 				SetEnableTpu(clusterData.EnableTpu).
 				SetTpuIpv4CidrBlock(clusterData.TpuIpv4CidrBlock).
 				SetProjectID(clusterData.ProjectID).
-				SetCollectedAt(clusterData.CollectedAt)
+				SetCollectedAt(clusterData.CollectedAt).
+				SetFirstCollectedAt(clusterData.CollectedAt)
 
 			// Set optional JSON fields
 			if clusterData.AddonsConfigJSON != nil {

@@ -8,12 +8,18 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
+
+	historymixin "hotpot/pkg/schema/bronzehistory/mixin"
 )
 
 // BronzeHistoryGCPVPNTunnel stores historical versions of VPN tunnels.
 // Uses resource_id for lookup (has API ID), with valid_from/valid_to for time range.
 type BronzeHistoryGCPVPNTunnel struct {
 	ent.Schema
+}
+
+func (BronzeHistoryGCPVPNTunnel) Mixin() []ent.Mixin {
+	return []ent.Mixin{historymixin.Timestamp{}}
 }
 
 func (BronzeHistoryGCPVPNTunnel) Fields() []ent.Field {
@@ -24,15 +30,6 @@ func (BronzeHistoryGCPVPNTunnel) Fields() []ent.Field {
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze VPN tunnel by resource_id"),
-		field.Time("valid_from").
-			Immutable().
-			Comment("Start of validity period"),
-		field.Time("valid_to").
-			Optional().
-			Nillable().
-			Comment("End of validity period (null = current)"),
-		field.Time("collected_at").
-			Comment("Timestamp when this snapshot was collected"),
 
 		// All VPN tunnel fields (same as bronze.BronzeGCPVPNTunnel)
 		field.String("name").

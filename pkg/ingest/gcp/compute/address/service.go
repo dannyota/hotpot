@@ -151,7 +151,8 @@ func (s *Service) saveAddresses(ctx context.Context, addresses []*AddressData) e
 				SetCreationTimestamp(addressData.CreationTimestamp).
 				SetLabelFingerprint(addressData.LabelFingerprint).
 				SetProjectID(addressData.ProjectID).
-				SetCollectedAt(addressData.CollectedAt)
+				SetCollectedAt(addressData.CollectedAt).
+				SetFirstCollectedAt(addressData.CollectedAt)
 
 			if addressData.UsersJSON != nil {
 				create.SetUsersJSON(addressData.UsersJSON)

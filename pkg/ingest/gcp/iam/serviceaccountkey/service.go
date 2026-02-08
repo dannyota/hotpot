@@ -123,7 +123,8 @@ func (s *Service) saveServiceAccountKeys(ctx context.Context, keys []*ServiceAcc
 				SetServiceAccountEmail(keyData.ServiceAccountEmail).
 				SetDisabled(keyData.Disabled).
 				SetProjectID(keyData.ProjectID).
-				SetCollectedAt(keyData.CollectedAt)
+				SetCollectedAt(keyData.CollectedAt).
+				SetFirstCollectedAt(keyData.CollectedAt)
 
 			if keyData.KeyOrigin != "" {
 				create.SetKeyOrigin(keyData.KeyOrigin)

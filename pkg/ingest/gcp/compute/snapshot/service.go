@@ -155,7 +155,8 @@ func (s *Service) saveSnapshots(ctx context.Context, snapshots []*SnapshotData) 
 				SetSatisfiesPzs(snapshotData.SatisfiesPzs).
 				SetEnableConfidentialCompute(snapshotData.EnableConfidentialCompute).
 				SetProjectID(snapshotData.ProjectID).
-				SetCollectedAt(snapshotData.CollectedAt)
+				SetCollectedAt(snapshotData.CollectedAt).
+				SetFirstCollectedAt(snapshotData.CollectedAt)
 
 			if snapshotData.SnapshotEncryptionKeyJSON != nil {
 				create.SetSnapshotEncryptionKeyJSON(snapshotData.SnapshotEncryptionKeyJSON)

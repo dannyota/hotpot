@@ -27,6 +27,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Vp
 		SetResourceID(data.ID).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
+		SetFirstCollectedAt(data.CollectedAt).
 		SetName(data.Name).
 		SetDescription(data.Description).
 		SetStatus(data.Status).
@@ -115,7 +116,57 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		}
 
 		// Create new history
-		return h.CreateHistory(ctx, tx, new, now)
+		create := tx.BronzeHistoryGCPVPNTunnel.Create().
+			SetResourceID(new.ID).
+			SetValidFrom(now).
+			SetCollectedAt(new.CollectedAt).
+			SetFirstCollectedAt(old.FirstCollectedAt).
+			SetName(new.Name).
+			SetDescription(new.Description).
+			SetStatus(new.Status).
+			SetDetailedStatus(new.DetailedStatus).
+			SetRegion(new.Region).
+			SetSelfLink(new.SelfLink).
+			SetCreationTimestamp(new.CreationTimestamp).
+			SetLabelFingerprint(new.LabelFingerprint).
+			SetIkeVersion(new.IkeVersion).
+			SetPeerIP(new.PeerIp).
+			SetPeerExternalGateway(new.PeerExternalGateway).
+			SetPeerExternalGatewayInterface(new.PeerExternalGatewayInterface).
+			SetPeerGcpGateway(new.PeerGcpGateway).
+			SetRouter(new.Router).
+			SetSharedSecretHash(new.SharedSecretHash).
+			SetVpnGateway(new.VpnGateway).
+			SetTargetVpnGateway(new.TargetVpnGateway).
+			SetVpnGatewayInterface(new.VpnGatewayInterface).
+			SetProjectID(new.ProjectID)
+
+		if len(new.LocalTrafficSelectorJSON) > 0 {
+			create.SetLocalTrafficSelectorJSON(new.LocalTrafficSelectorJSON)
+		}
+		if len(new.RemoteTrafficSelectorJSON) > 0 {
+			create.SetRemoteTrafficSelectorJSON(new.RemoteTrafficSelectorJSON)
+		}
+
+		tunnelHist, err := create.Save(ctx)
+		if err != nil {
+			return fmt.Errorf("create vpn tunnel history: %w", err)
+		}
+
+		// Create labels history
+		for _, label := range new.Labels {
+			_, err := tx.BronzeHistoryGCPVPNTunnelLabel.Create().
+				SetVpnTunnelHistoryID(tunnelHist.HistoryID).
+				SetValidFrom(now).
+				SetKey(label.Key).
+				SetValue(label.Value).
+				Save(ctx)
+			if err != nil {
+				return fmt.Errorf("create label history: %w", err)
+			}
+		}
+
+		return nil
 	}
 
 	// VPN tunnel unchanged, update children individually (granular tracking)

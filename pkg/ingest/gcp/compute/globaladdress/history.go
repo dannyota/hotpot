@@ -27,6 +27,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, addressD
 		SetResourceID(addressData.ID).
 		SetValidFrom(now).
 		SetCollectedAt(addressData.CollectedAt).
+		SetFirstCollectedAt(addressData.CollectedAt).
 		SetName(addressData.Name).
 		SetDescription(addressData.Description).
 		SetAddress(addressData.Address).
@@ -86,6 +87,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 			SetResourceID(new.ID).
 			SetValidFrom(now).
 			SetCollectedAt(new.CollectedAt).
+			SetFirstCollectedAt(old.FirstCollectedAt).
 			SetName(new.Name).
 			SetDescription(new.Description).
 			SetAddress(new.Address).

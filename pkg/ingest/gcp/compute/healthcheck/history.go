@@ -25,6 +25,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *He
 		SetResourceID(data.ID).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
+		SetFirstCollectedAt(data.CollectedAt).
 		SetName(data.Name).
 		SetProjectID(data.ProjectID)
 
@@ -100,7 +101,65 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 	}
 
 	// Create new history
-	return h.CreateHistory(ctx, tx, new, now)
+	create := tx.BronzeHistoryGCPComputeHealthCheck.Create().
+		SetResourceID(new.ID).
+		SetValidFrom(now).
+		SetCollectedAt(new.CollectedAt).
+		SetFirstCollectedAt(old.FirstCollectedAt).
+		SetName(new.Name).
+		SetProjectID(new.ProjectID)
+
+	if new.Description != "" {
+		create.SetDescription(new.Description)
+	}
+	if new.CreationTimestamp != "" {
+		create.SetCreationTimestamp(new.CreationTimestamp)
+	}
+	if new.SelfLink != "" {
+		create.SetSelfLink(new.SelfLink)
+	}
+	if new.Type != "" {
+		create.SetType(new.Type)
+	}
+	if new.Region != "" {
+		create.SetRegion(new.Region)
+	}
+	if new.CheckIntervalSec != 0 {
+		create.SetCheckIntervalSec(new.CheckIntervalSec)
+	}
+	if new.TimeoutSec != 0 {
+		create.SetTimeoutSec(new.TimeoutSec)
+	}
+	if new.HealthyThreshold != 0 {
+		create.SetHealthyThreshold(new.HealthyThreshold)
+	}
+	if new.UnhealthyThreshold != 0 {
+		create.SetUnhealthyThreshold(new.UnhealthyThreshold)
+	}
+	if new.TcpHealthCheckJSON != nil {
+		create.SetTCPHealthCheckJSON(new.TcpHealthCheckJSON)
+	}
+	if new.HttpHealthCheckJSON != nil {
+		create.SetHTTPHealthCheckJSON(new.HttpHealthCheckJSON)
+	}
+	if new.HttpsHealthCheckJSON != nil {
+		create.SetHTTPSHealthCheckJSON(new.HttpsHealthCheckJSON)
+	}
+	if new.Http2HealthCheckJSON != nil {
+		create.SetHttp2HealthCheckJSON(new.Http2HealthCheckJSON)
+	}
+	if new.SslHealthCheckJSON != nil {
+		create.SetSslHealthCheckJSON(new.SslHealthCheckJSON)
+	}
+	if new.GrpcHealthCheckJSON != nil {
+		create.SetGrpcHealthCheckJSON(new.GrpcHealthCheckJSON)
+	}
+	if new.LogConfigJSON != nil {
+		create.SetLogConfigJSON(new.LogConfigJSON)
+	}
+
+	_, err = create.Save(ctx)
+	return err
 }
 
 // CloseHistory closes history records for a deleted health check.

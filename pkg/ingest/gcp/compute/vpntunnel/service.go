@@ -144,7 +144,8 @@ func (s *Service) saveVpnTunnels(ctx context.Context, vpnTunnels []*VpnTunnelDat
 				SetTargetVpnGateway(data.TargetVpnGateway).
 				SetVpnGatewayInterface(data.VpnGatewayInterface).
 				SetProjectID(data.ProjectID).
-				SetCollectedAt(data.CollectedAt)
+				SetCollectedAt(data.CollectedAt).
+				SetFirstCollectedAt(data.CollectedAt)
 
 			if len(data.LocalTrafficSelectorJSON) > 0 {
 				create.SetLocalTrafficSelectorJSON(data.LocalTrafficSelectorJSON)

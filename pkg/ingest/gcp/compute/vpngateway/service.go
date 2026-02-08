@@ -135,7 +135,8 @@ func (s *Service) saveVpnGateways(ctx context.Context, vpnGateways []*VpnGateway
 				SetGatewayIPVersion(data.GatewayIpVersion).
 				SetStackType(data.StackType).
 				SetProjectID(data.ProjectID).
-				SetCollectedAt(data.CollectedAt)
+				SetCollectedAt(data.CollectedAt).
+				SetFirstCollectedAt(data.CollectedAt)
 
 			if len(data.VpnInterfacesJSON) > 0 {
 				create.SetVpnInterfacesJSON(data.VpnInterfacesJSON)

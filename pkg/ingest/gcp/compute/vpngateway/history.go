@@ -27,6 +27,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Vp
 		SetResourceID(data.ID).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
+		SetFirstCollectedAt(data.CollectedAt).
 		SetName(data.Name).
 		SetDescription(data.Description).
 		SetRegion(data.Region).
@@ -103,7 +104,45 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		}
 
 		// Create new history
-		return h.CreateHistory(ctx, tx, new, now)
+		create := tx.BronzeHistoryGCPVPNGateway.Create().
+			SetResourceID(new.ID).
+			SetValidFrom(now).
+			SetCollectedAt(new.CollectedAt).
+			SetFirstCollectedAt(old.FirstCollectedAt).
+			SetName(new.Name).
+			SetDescription(new.Description).
+			SetRegion(new.Region).
+			SetNetwork(new.Network).
+			SetSelfLink(new.SelfLink).
+			SetCreationTimestamp(new.CreationTimestamp).
+			SetLabelFingerprint(new.LabelFingerprint).
+			SetGatewayIPVersion(new.GatewayIpVersion).
+			SetStackType(new.StackType).
+			SetProjectID(new.ProjectID)
+
+		if len(new.VpnInterfacesJSON) > 0 {
+			create.SetVpnInterfacesJSON(new.VpnInterfacesJSON)
+		}
+
+		gwHist, err := create.Save(ctx)
+		if err != nil {
+			return fmt.Errorf("create vpn gateway history: %w", err)
+		}
+
+		// Create labels history
+		for _, label := range new.Labels {
+			_, err := tx.BronzeHistoryGCPVPNGatewayLabel.Create().
+				SetVpnGatewayHistoryID(gwHist.HistoryID).
+				SetValidFrom(now).
+				SetKey(label.Key).
+				SetValue(label.Value).
+				Save(ctx)
+			if err != nil {
+				return fmt.Errorf("create label history: %w", err)
+			}
+		}
+
+		return nil
 	}
 
 	// VPN gateway unchanged, update children individually (granular tracking)

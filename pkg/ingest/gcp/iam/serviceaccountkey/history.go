@@ -25,6 +25,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Se
 		SetResourceID(data.ID).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
+		SetFirstCollectedAt(data.CollectedAt).
 		SetName(data.Name).
 		SetServiceAccountEmail(data.ServiceAccountEmail).
 		SetDisabled(data.Disabled).
@@ -69,7 +70,34 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 	}
 
 	// Create new history
-	return h.CreateHistory(ctx, tx, new, now)
+	create := tx.BronzeHistoryGCPIAMServiceAccountKey.Create().
+		SetResourceID(new.ID).
+		SetValidFrom(now).
+		SetCollectedAt(new.CollectedAt).
+		SetFirstCollectedAt(old.FirstCollectedAt).
+		SetName(new.Name).
+		SetServiceAccountEmail(new.ServiceAccountEmail).
+		SetDisabled(new.Disabled).
+		SetProjectID(new.ProjectID)
+
+	if new.KeyOrigin != "" {
+		create.SetKeyOrigin(new.KeyOrigin)
+	}
+	if new.KeyType != "" {
+		create.SetKeyType(new.KeyType)
+	}
+	if new.KeyAlgorithm != "" {
+		create.SetKeyAlgorithm(new.KeyAlgorithm)
+	}
+	if !new.ValidAfterTime.IsZero() {
+		create.SetValidAfterTime(new.ValidAfterTime)
+	}
+	if !new.ValidBeforeTime.IsZero() {
+		create.SetValidBeforeTime(new.ValidBeforeTime)
+	}
+
+	_, err = create.Save(ctx)
+	return err
 }
 
 // CloseHistory closes history records for a deleted service account key.

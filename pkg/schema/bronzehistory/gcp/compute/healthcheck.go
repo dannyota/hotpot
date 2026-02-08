@@ -6,6 +6,8 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
+
+	historymixin "hotpot/pkg/schema/bronzehistory/mixin"
 )
 
 // BronzeHistoryGCPComputeHealthCheck stores historical snapshots of GCP Compute Engine health checks.
@@ -13,6 +15,10 @@ import (
 // No child history tables - protocol-specific checks are JSON on the parent record.
 type BronzeHistoryGCPComputeHealthCheck struct {
 	ent.Schema
+}
+
+func (BronzeHistoryGCPComputeHealthCheck) Mixin() []ent.Mixin {
+	return []ent.Mixin{historymixin.Timestamp{}}
 }
 
 func (BronzeHistoryGCPComputeHealthCheck) Fields() []ent.Field {
@@ -23,15 +29,6 @@ func (BronzeHistoryGCPComputeHealthCheck) Fields() []ent.Field {
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze health check by resource_id"),
-		field.Time("valid_from").
-			Immutable().
-			Comment("Start of validity period"),
-		field.Time("valid_to").
-			Optional().
-			Nillable().
-			Comment("End of validity period (null = current)"),
-		field.Time("collected_at").
-			Comment("Timestamp when this snapshot was collected"),
 
 		// All health check fields (same as bronze.BronzeGCPComputeHealthCheck)
 		field.String("name").

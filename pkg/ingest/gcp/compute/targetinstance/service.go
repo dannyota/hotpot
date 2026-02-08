@@ -121,7 +121,8 @@ func (s *Service) saveTargetInstances(ctx context.Context, instances []*TargetIn
 				SetID(instanceData.ID).
 				SetName(instanceData.Name).
 				SetProjectID(instanceData.ProjectID).
-				SetCollectedAt(instanceData.CollectedAt)
+				SetCollectedAt(instanceData.CollectedAt).
+				SetFirstCollectedAt(instanceData.CollectedAt)
 
 			if instanceData.Description != "" {
 				create.SetDescription(instanceData.Description)

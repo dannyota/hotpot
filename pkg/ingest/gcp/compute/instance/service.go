@@ -163,7 +163,8 @@ func (s *Service) saveInstances(ctx context.Context, instances []*InstanceData) 
 				SetCanIPForward(instanceData.CanIpForward).
 				SetSelfLink(instanceData.SelfLink).
 				SetProjectID(instanceData.ProjectID).
-				SetCollectedAt(instanceData.CollectedAt)
+				SetCollectedAt(instanceData.CollectedAt).
+				SetFirstCollectedAt(instanceData.CollectedAt)
 
 			if instanceData.SchedulingJSON != nil {
 				create.SetSchedulingJSON(instanceData.SchedulingJSON)

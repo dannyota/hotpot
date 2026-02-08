@@ -25,6 +25,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Ta
 		SetResourceID(data.ID).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
+		SetFirstCollectedAt(data.CollectedAt).
 		SetName(data.Name).
 		SetProjectID(data.ProjectID)
 
@@ -76,7 +77,41 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 	}
 
 	// Create new history
-	return h.CreateHistory(ctx, tx, new, now)
+	create := tx.BronzeHistoryGCPComputeTargetInstance.Create().
+		SetResourceID(new.ID).
+		SetValidFrom(now).
+		SetCollectedAt(new.CollectedAt).
+		SetFirstCollectedAt(old.FirstCollectedAt).
+		SetName(new.Name).
+		SetProjectID(new.ProjectID)
+
+	if new.Description != "" {
+		create.SetDescription(new.Description)
+	}
+	if new.Zone != "" {
+		create.SetZone(new.Zone)
+	}
+	if new.Instance != "" {
+		create.SetInstance(new.Instance)
+	}
+	if new.Network != "" {
+		create.SetNetwork(new.Network)
+	}
+	if new.NatPolicy != "" {
+		create.SetNatPolicy(new.NatPolicy)
+	}
+	if new.SecurityPolicy != "" {
+		create.SetSecurityPolicy(new.SecurityPolicy)
+	}
+	if new.SelfLink != "" {
+		create.SetSelfLink(new.SelfLink)
+	}
+	if new.CreationTimestamp != "" {
+		create.SetCreationTimestamp(new.CreationTimestamp)
+	}
+
+	_, err = create.Save(ctx)
+	return err
 }
 
 // CloseHistory closes history records for a deleted target instance.

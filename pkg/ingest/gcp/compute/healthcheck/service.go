@@ -124,7 +124,8 @@ func (s *Service) saveHealthChecks(ctx context.Context, checks []*HealthCheckDat
 				SetID(checkData.ID).
 				SetName(checkData.Name).
 				SetProjectID(checkData.ProjectID).
-				SetCollectedAt(checkData.CollectedAt)
+				SetCollectedAt(checkData.CollectedAt).
+				SetFirstCollectedAt(checkData.CollectedAt)
 
 			if checkData.Description != "" {
 				create.SetDescription(checkData.Description)

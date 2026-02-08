@@ -28,6 +28,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, snapshot
 		SetResourceID(snapshotData.ID).
 		SetValidFrom(now).
 		SetCollectedAt(snapshotData.CollectedAt).
+		SetFirstCollectedAt(snapshotData.CollectedAt).
 		SetName(snapshotData.Name).
 		SetDescription(snapshotData.Description).
 		SetStatus(snapshotData.Status).
@@ -98,6 +99,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 			SetResourceID(new.ID).
 			SetValidFrom(now).
 			SetCollectedAt(new.CollectedAt).
+			SetFirstCollectedAt(old.FirstCollectedAt).
 			SetName(new.Name).
 			SetDescription(new.Description).
 			SetStatus(new.Status).

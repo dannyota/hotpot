@@ -8,12 +8,18 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
+
+	historymixin "hotpot/pkg/schema/bronzehistory/mixin"
 )
 
 // BronzeHistoryGCPComputeDisk stores historical snapshots of GCP Compute persistent disks.
 // Uses resource_id for lookup (has API ID), with valid_from/valid_to for time range.
 type BronzeHistoryGCPComputeDisk struct {
 	ent.Schema
+}
+
+func (BronzeHistoryGCPComputeDisk) Mixin() []ent.Mixin {
+	return []ent.Mixin{historymixin.Timestamp{}}
 }
 
 func (BronzeHistoryGCPComputeDisk) Fields() []ent.Field {
@@ -24,15 +30,6 @@ func (BronzeHistoryGCPComputeDisk) Fields() []ent.Field {
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze disk by resource_id"),
-		field.Time("valid_from").
-			Immutable().
-			Comment("Start of validity period"),
-		field.Time("valid_to").
-			Optional().
-			Nillable().
-			Comment("End of validity period (null = current)"),
-		field.Time("collected_at").
-			Comment("Timestamp when this snapshot was collected"),
 
 		// All disk fields (same as bronze.BronzeGCPComputeDisk)
 		field.String("name").

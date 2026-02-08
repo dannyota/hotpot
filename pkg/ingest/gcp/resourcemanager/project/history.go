@@ -27,6 +27,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, projectD
 		SetProjectID(projectData.ID).
 		SetValidFrom(now).
 		SetCollectedAt(projectData.CollectedAt).
+		SetFirstCollectedAt(projectData.CollectedAt).
 		SetProjectNumber(projectData.ProjectNumber).
 		SetDisplayName(projectData.DisplayName).
 		SetState(projectData.State).
@@ -96,6 +97,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 			SetProjectID(new.ID).
 			SetValidFrom(now).
 			SetCollectedAt(new.CollectedAt).
+			SetFirstCollectedAt(old.FirstCollectedAt).
 			SetProjectNumber(new.ProjectNumber).
 			SetDisplayName(new.DisplayName).
 			SetState(new.State).

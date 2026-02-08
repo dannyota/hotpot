@@ -35,6 +35,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, instance
 		SetResourceID(instanceData.ResourceID).
 		SetValidFrom(now).
 		SetCollectedAt(instanceData.CollectedAt).
+		SetFirstCollectedAt(instanceData.CollectedAt).
 		SetName(instanceData.Name).
 		SetZone(instanceData.Zone).
 		SetMachineType(instanceData.MachineType).
@@ -92,6 +93,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 			SetResourceID(new.ResourceID).
 			SetValidFrom(now).
 			SetCollectedAt(new.CollectedAt).
+			SetFirstCollectedAt(old.FirstCollectedAt).
 			SetName(new.Name).
 			SetZone(new.Zone).
 			SetMachineType(new.MachineType).

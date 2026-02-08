@@ -27,6 +27,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, subnetDa
 		SetResourceID(subnetData.ID).
 		SetValidFrom(now).
 		SetCollectedAt(subnetData.CollectedAt).
+		SetFirstCollectedAt(subnetData.CollectedAt).
 		SetName(subnetData.Name).
 		SetDescription(subnetData.Description).
 		SetSelfLink(subnetData.SelfLink).
@@ -83,6 +84,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 			SetResourceID(new.ID).
 			SetValidFrom(now).
 			SetCollectedAt(new.CollectedAt).
+			SetFirstCollectedAt(old.FirstCollectedAt).
 			SetName(new.Name).
 			SetDescription(new.Description).
 			SetSelfLink(new.SelfLink).

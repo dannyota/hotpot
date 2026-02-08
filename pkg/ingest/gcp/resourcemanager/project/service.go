@@ -133,7 +133,8 @@ func (s *Service) saveProjects(ctx context.Context, projects []*ProjectData) err
 				SetProjectNumber(projectData.ProjectNumber).
 				SetState(projectData.State).
 				SetEtag(projectData.Etag).
-				SetCollectedAt(projectData.CollectedAt)
+				SetCollectedAt(projectData.CollectedAt).
+				SetFirstCollectedAt(projectData.CollectedAt)
 
 			if projectData.DisplayName != "" {
 				create.SetDisplayName(projectData.DisplayName)

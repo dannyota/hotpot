@@ -6,12 +6,18 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
+
+	historymixin "hotpot/pkg/schema/bronzehistory/mixin"
 )
 
 // BronzeHistoryGCPIAMServiceAccount stores historical snapshots of GCP IAM service accounts.
 // Uses resource_id for lookup, with valid_from/valid_to for time range.
 type BronzeHistoryGCPIAMServiceAccount struct {
 	ent.Schema
+}
+
+func (BronzeHistoryGCPIAMServiceAccount) Mixin() []ent.Mixin {
+	return []ent.Mixin{historymixin.Timestamp{}}
 }
 
 func (BronzeHistoryGCPIAMServiceAccount) Fields() []ent.Field {
@@ -22,15 +28,6 @@ func (BronzeHistoryGCPIAMServiceAccount) Fields() []ent.Field {
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze service account by resource_id"),
-		field.Time("valid_from").
-			Immutable().
-			Comment("Start of validity period"),
-		field.Time("valid_to").
-			Optional().
-			Nillable().
-			Comment("End of validity period (null = current)"),
-		field.Time("collected_at").
-			Comment("Timestamp when this snapshot was collected"),
 
 		// All service account fields (same as bronze.BronzeGCPIAMServiceAccount)
 		field.String("name").

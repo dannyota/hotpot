@@ -6,12 +6,18 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
+
+	historymixin "hotpot/pkg/schema/bronzehistory/mixin"
 )
 
 // BronzeHistoryGCPComputeForwardingRule stores historical snapshots of GCP Compute regional forwarding rules.
 // Uses resource_id for lookup, with valid_from/valid_to for time range.
 type BronzeHistoryGCPComputeForwardingRule struct {
 	ent.Schema
+}
+
+func (BronzeHistoryGCPComputeForwardingRule) Mixin() []ent.Mixin {
+	return []ent.Mixin{historymixin.Timestamp{}}
 }
 
 func (BronzeHistoryGCPComputeForwardingRule) Fields() []ent.Field {
@@ -22,15 +28,6 @@ func (BronzeHistoryGCPComputeForwardingRule) Fields() []ent.Field {
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze forwarding rule by resource_id"),
-		field.Time("valid_from").
-			Immutable().
-			Comment("Start of validity period"),
-		field.Time("valid_to").
-			Optional().
-			Nillable().
-			Comment("End of validity period (null = current)"),
-		field.Time("collected_at").
-			Comment("Timestamp when this snapshot was collected"),
 
 		// All forwarding rule fields (same as bronze.BronzeGCPComputeForwardingRule)
 		field.String("name").
@@ -175,6 +172,10 @@ type BronzeHistoryGCPComputeGlobalForwardingRule struct {
 	ent.Schema
 }
 
+func (BronzeHistoryGCPComputeGlobalForwardingRule) Mixin() []ent.Mixin {
+	return []ent.Mixin{historymixin.Timestamp{}}
+}
+
 func (BronzeHistoryGCPComputeGlobalForwardingRule) Fields() []ent.Field {
 	return []ent.Field{
 		field.Uint("history_id").
@@ -183,15 +184,6 @@ func (BronzeHistoryGCPComputeGlobalForwardingRule) Fields() []ent.Field {
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze global forwarding rule by resource_id"),
-		field.Time("valid_from").
-			Immutable().
-			Comment("Start of validity period"),
-		field.Time("valid_to").
-			Optional().
-			Nillable().
-			Comment("End of validity period (null = current)"),
-		field.Time("collected_at").
-			Comment("Timestamp when this snapshot was collected"),
 
 		// All global forwarding rule fields (same as bronze.BronzeGCPComputeGlobalForwardingRule)
 		field.String("name").

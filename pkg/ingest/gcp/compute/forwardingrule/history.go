@@ -27,6 +27,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, ruleData
 		SetResourceID(ruleData.ID).
 		SetValidFrom(now).
 		SetCollectedAt(ruleData.CollectedAt).
+		SetFirstCollectedAt(ruleData.CollectedAt).
 		SetName(ruleData.Name).
 		SetDescription(ruleData.Description).
 		SetIPAddress(ruleData.IPAddress).
@@ -151,6 +152,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 			SetResourceID(new.ID).
 			SetValidFrom(now).
 			SetCollectedAt(new.CollectedAt).
+			SetFirstCollectedAt(old.FirstCollectedAt).
 			SetName(new.Name).
 			SetDescription(new.Description).
 			SetIPAddress(new.IPAddress).

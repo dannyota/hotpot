@@ -156,7 +156,8 @@ func (s *Service) saveImages(ctx context.Context, images []*ImageData) error {
 				SetSatisfiesPzs(imageData.SatisfiesPzs).
 				SetEnableConfidentialCompute(imageData.EnableConfidentialCompute).
 				SetProjectID(imageData.ProjectID).
-				SetCollectedAt(imageData.CollectedAt)
+				SetCollectedAt(imageData.CollectedAt).
+				SetFirstCollectedAt(imageData.CollectedAt)
 
 			if imageData.ImageEncryptionKeyJSON != nil {
 				create.SetImageEncryptionKeyJSON(imageData.ImageEncryptionKeyJSON)

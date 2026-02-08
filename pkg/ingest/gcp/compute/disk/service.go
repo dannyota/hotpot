@@ -158,7 +158,8 @@ func (s *Service) saveDisks(ctx context.Context, disks []*DiskData) error {
 				SetPhysicalBlockSizeBytes(diskData.PhysicalBlockSizeBytes).
 				SetEnableConfidentialCompute(diskData.EnableConfidentialCompute).
 				SetProjectID(diskData.ProjectID).
-				SetCollectedAt(diskData.CollectedAt)
+				SetCollectedAt(diskData.CollectedAt).
+				SetFirstCollectedAt(diskData.CollectedAt)
 
 			if diskData.DiskEncryptionKeyJSON != nil {
 				create.SetDiskEncryptionKeyJSON(diskData.DiskEncryptionKeyJSON)

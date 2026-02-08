@@ -6,12 +6,18 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
+
+	historymixin "hotpot/pkg/schema/bronzehistory/mixin"
 )
 
 // BronzeHistoryGCPProject stores historical snapshots of GCP projects.
 // Uses project_id for lookup, with valid_from/valid_to for time range.
 type BronzeHistoryGCPProject struct {
 	ent.Schema
+}
+
+func (BronzeHistoryGCPProject) Mixin() []ent.Mixin {
+	return []ent.Mixin{historymixin.Timestamp{}}
 }
 
 func (BronzeHistoryGCPProject) Fields() []ent.Field {
@@ -22,15 +28,6 @@ func (BronzeHistoryGCPProject) Fields() []ent.Field {
 		field.String("project_id").
 			NotEmpty().
 			Comment("Link to bronze project by project_id"),
-		field.Time("valid_from").
-			Immutable().
-			Comment("Start of validity period"),
-		field.Time("valid_to").
-			Optional().
-			Nillable().
-			Comment("End of validity period (null = current)"),
-		field.Time("collected_at").
-			Comment("Timestamp when this snapshot was collected"),
 
 		// All project fields (same as bronze.BronzeGCPProject)
 		field.String("project_number").

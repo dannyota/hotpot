@@ -28,6 +28,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, diskData
 		SetResourceID(diskData.ID).
 		SetValidFrom(now).
 		SetCollectedAt(diskData.CollectedAt).
+		SetFirstCollectedAt(diskData.CollectedAt).
 		SetName(diskData.Name).
 		SetDescription(diskData.Description).
 		SetZone(diskData.Zone).
@@ -104,6 +105,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 			SetResourceID(new.ID).
 			SetValidFrom(now).
 			SetCollectedAt(new.CollectedAt).
+			SetFirstCollectedAt(old.FirstCollectedAt).
 			SetName(new.Name).
 			SetDescription(new.Description).
 			SetZone(new.Zone).

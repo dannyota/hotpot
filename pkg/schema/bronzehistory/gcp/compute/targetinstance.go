@@ -6,12 +6,18 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
+
+	historymixin "hotpot/pkg/schema/bronzehistory/mixin"
 )
 
 // BronzeHistoryGCPComputeTargetInstance stores historical snapshots of GCP Compute target instances.
 // Uses resource_id for lookup, with valid_from/valid_to for time range.
 type BronzeHistoryGCPComputeTargetInstance struct {
 	ent.Schema
+}
+
+func (BronzeHistoryGCPComputeTargetInstance) Mixin() []ent.Mixin {
+	return []ent.Mixin{historymixin.Timestamp{}}
 }
 
 func (BronzeHistoryGCPComputeTargetInstance) Fields() []ent.Field {
@@ -22,15 +28,6 @@ func (BronzeHistoryGCPComputeTargetInstance) Fields() []ent.Field {
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze target instance by resource_id"),
-		field.Time("valid_from").
-			Immutable().
-			Comment("Start of validity period"),
-		field.Time("valid_to").
-			Optional().
-			Nillable().
-			Comment("End of validity period (null = current)"),
-		field.Time("collected_at").
-			Comment("Timestamp when this snapshot was collected"),
 
 		// All target instance fields (same as bronze.BronzeGCPComputeTargetInstance)
 		field.String("name").

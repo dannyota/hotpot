@@ -174,6 +174,7 @@ func (s *Service) saveInstanceGroups(ctx context.Context, groups []*InstanceGrou
 				SetFingerprint(groupData.Fingerprint).
 				SetProjectID(groupData.ProjectID).
 				SetCollectedAt(groupData.CollectedAt).
+				SetFirstCollectedAt(groupData.CollectedAt).
 				Save(ctx)
 			if err != nil {
 				tx.Rollback()

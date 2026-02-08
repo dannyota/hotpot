@@ -113,6 +113,7 @@ func (s *Service) saveServiceAccounts(ctx context.Context, accounts []*ServiceAc
 				SetEtag(saData.Etag).
 				SetProjectID(saData.ProjectID).
 				SetCollectedAt(saData.CollectedAt).
+				SetFirstCollectedAt(saData.CollectedAt).
 				Save(ctx)
 			if err != nil {
 				tx.Rollback()

@@ -30,6 +30,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, clusterD
 		SetResourceID(clusterData.ResourceID).
 		SetValidFrom(now).
 		SetCollectedAt(clusterData.CollectedAt).
+		SetFirstCollectedAt(clusterData.CollectedAt).
 		SetName(clusterData.Name).
 		SetLocation(clusterData.Location).
 		SetZone(clusterData.Zone).
@@ -150,6 +151,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 			SetResourceID(new.ResourceID).
 			SetValidFrom(now).
 			SetCollectedAt(new.CollectedAt).
+			SetFirstCollectedAt(old.FirstCollectedAt).
 			SetName(new.Name).
 			SetLocation(new.Location).
 			SetZone(new.Zone).

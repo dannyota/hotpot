@@ -14,5 +14,6 @@ type Timestamp struct {
 func (Timestamp) Fields() []ent.Field {
 	return []ent.Field{
 		field.Time("collected_at"),
+		field.Time("first_collected_at").Immutable(),
 	}
 }

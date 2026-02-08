@@ -124,7 +124,8 @@ func (s *Service) saveConnectors(ctx context.Context, connectors []*ConnectorDat
 			create := tx.BronzeGCPVPCAccessConnector.Create().
 				SetID(connectorData.ID).
 				SetProjectID(connectorData.ProjectID).
-				SetCollectedAt(connectorData.CollectedAt)
+				SetCollectedAt(connectorData.CollectedAt).
+				SetFirstCollectedAt(connectorData.CollectedAt)
 
 			if connectorData.Network != "" {
 				create.SetNetwork(connectorData.Network)

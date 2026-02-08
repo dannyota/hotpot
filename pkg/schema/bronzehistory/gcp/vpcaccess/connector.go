@@ -8,12 +8,18 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
+
+	historymixin "hotpot/pkg/schema/bronzehistory/mixin"
 )
 
 // BronzeHistoryGCPVPCAccessConnector stores historical snapshots of GCP VPC Access connectors.
 // Uses resource_id for lookup (full resource name), with valid_from/valid_to for time range.
 type BronzeHistoryGCPVPCAccessConnector struct {
 	ent.Schema
+}
+
+func (BronzeHistoryGCPVPCAccessConnector) Mixin() []ent.Mixin {
+	return []ent.Mixin{historymixin.Timestamp{}}
 }
 
 func (BronzeHistoryGCPVPCAccessConnector) Fields() []ent.Field {
@@ -24,15 +30,6 @@ func (BronzeHistoryGCPVPCAccessConnector) Fields() []ent.Field {
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze connector by resource_id"),
-		field.Time("valid_from").
-			Immutable().
-			Comment("Start of validity period"),
-		field.Time("valid_to").
-			Optional().
-			Nillable().
-			Comment("End of validity period (null = current)"),
-		field.Time("collected_at").
-			Comment("Timestamp when this snapshot was collected"),
 
 		// All connector fields (same as bronze.BronzeGCPVPCAccessConnector)
 		field.String("network").

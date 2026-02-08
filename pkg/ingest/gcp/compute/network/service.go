@@ -148,7 +148,8 @@ func (s *Service) saveNetworks(ctx context.Context, networks []*NetworkData) err
 				SetInternalIpv6Range(networkData.InternalIpv6Range).
 				SetGatewayIpv4(networkData.GatewayIpv4).
 				SetProjectID(networkData.ProjectID).
-				SetCollectedAt(networkData.CollectedAt)
+				SetCollectedAt(networkData.CollectedAt).
+				SetFirstCollectedAt(networkData.CollectedAt)
 
 			if networkData.SubnetworksJSON != nil {
 				create.SetSubnetworksJSON(networkData.SubnetworksJSON)

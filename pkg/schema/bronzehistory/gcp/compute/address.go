@@ -8,12 +8,18 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
+
+	historymixin "hotpot/pkg/schema/bronzehistory/mixin"
 )
 
 // BronzeHistoryGCPComputeAddress stores historical snapshots of GCP Compute regional addresses.
 // Uses resource_id for lookup (has API ID), with valid_from/valid_to for time range.
 type BronzeHistoryGCPComputeAddress struct {
 	ent.Schema
+}
+
+func (BronzeHistoryGCPComputeAddress) Mixin() []ent.Mixin {
+	return []ent.Mixin{historymixin.Timestamp{}}
 }
 
 func (BronzeHistoryGCPComputeAddress) Fields() []ent.Field {
@@ -24,15 +30,6 @@ func (BronzeHistoryGCPComputeAddress) Fields() []ent.Field {
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze address by resource_id"),
-		field.Time("valid_from").
-			Immutable().
-			Comment("Start of validity period"),
-		field.Time("valid_to").
-			Optional().
-			Nillable().
-			Comment("End of validity period (null = current)"),
-		field.Time("collected_at").
-			Comment("Timestamp when this snapshot was collected"),
 
 		// All address fields (same as bronze.BronzeGCPComputeAddress)
 		field.String("name").
@@ -143,6 +140,10 @@ type BronzeHistoryGCPComputeGlobalAddress struct {
 	ent.Schema
 }
 
+func (BronzeHistoryGCPComputeGlobalAddress) Mixin() []ent.Mixin {
+	return []ent.Mixin{historymixin.Timestamp{}}
+}
+
 func (BronzeHistoryGCPComputeGlobalAddress) Fields() []ent.Field {
 	return []ent.Field{
 		field.Uint("history_id").
@@ -151,15 +152,6 @@ func (BronzeHistoryGCPComputeGlobalAddress) Fields() []ent.Field {
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze global address by resource_id"),
-		field.Time("valid_from").
-			Immutable().
-			Comment("Start of validity period"),
-		field.Time("valid_to").
-			Optional().
-			Nillable().
-			Comment("End of validity period (null = current)"),
-		field.Time("collected_at").
-			Comment("Timestamp when this snapshot was collected"),
 
 		// All address fields (same as bronze.BronzeGCPComputeGlobalAddress)
 		field.String("name").

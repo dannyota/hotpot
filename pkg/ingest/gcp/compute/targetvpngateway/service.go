@@ -134,7 +134,8 @@ func (s *Service) saveTargetVpnGateways(ctx context.Context, targetVpnGateways [
 				SetCreationTimestamp(data.CreationTimestamp).
 				SetLabelFingerprint(data.LabelFingerprint).
 				SetProjectID(data.ProjectID).
-				SetCollectedAt(data.CollectedAt)
+				SetCollectedAt(data.CollectedAt).
+				SetFirstCollectedAt(data.CollectedAt)
 
 			if len(data.ForwardingRulesJSON) > 0 {
 				create.SetForwardingRulesJSON(data.ForwardingRulesJSON)

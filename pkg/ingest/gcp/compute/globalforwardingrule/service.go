@@ -168,7 +168,8 @@ func (s *Service) saveGlobalForwardingRules(ctx context.Context, forwardingRules
 				SetSubnetwork(ruleData.Subnetwork).
 				SetTarget(ruleData.Target).
 				SetProjectID(ruleData.ProjectID).
-				SetCollectedAt(ruleData.CollectedAt)
+				SetCollectedAt(ruleData.CollectedAt).
+				SetFirstCollectedAt(ruleData.CollectedAt)
 
 			if ruleData.PortsJSON != nil {
 				create.SetPortsJSON(ruleData.PortsJSON)
