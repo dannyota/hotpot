@@ -1,0 +1,104 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: hotpot-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: hotpot
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./postgres/init.sh:/docker-entrypoint-initdb.d/01-init.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d hotpot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - backend
+
+  redis:
+    image: redis:7-alpine
+    container_name: hotpot-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - backend
+
+  temporal:
+    image: temporalio/auto-setup:1.29.3
+    container_name: hotpot-temporal
+    ports:
+      - "7233:7233"
+    environment:
+      - DB=postgres12
+      - DB_PORT=5432
+      - POSTGRES_USER=temporal
+      - POSTGRES_PWD=temporal
+      - POSTGRES_SEEDS=postgres
+      - DYNAMIC_CONFIG_FILE_PATH=/etc/temporal/config/dynamicconfig/docker.yaml
+      - SKIP_DEFAULT_NAMESPACE_CREATION=false
+      - DEFAULT_NAMESPACE_RETENTION=2160h
+    volumes:
+      - ./temporal/dynamicconfig:/etc/temporal/config/dynamicconfig:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "temporal workflow list --namespace default || exit 0"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - backend
+
+  temporal-ui:
+    image: temporalio/ui:2.45.1
+    container_name: hotpot-temporal-ui
+    ports:
+      - "8080:8080"
+    environment:
+      - TEMPORAL_ADDRESS=temporal:7233
+      - TEMPORAL_UI_PORT=8080
+    depends_on:
+      temporal:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - backend
+
+  metabase:
+    image: metabase/metabase:latest
+    container_name: hotpot-metabase
+    ports:
+      - "3000:3000"
+    environment:
+      MB_DB_TYPE: h2
+      MB_JETTY_PORT: 3000
+    volumes:
+      - metabase_data:/metabase-data
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - backend
+
+volumes:
+  postgres_data:
+  metabase_data:
+
+networks:
+  backend:
+    driver: bridge

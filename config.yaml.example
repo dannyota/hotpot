@@ -4,6 +4,11 @@
 # ⚠️  DO NOT use these values in production
 # ⚠️  Copy to config.yaml and replace ALL placeholders
 #
+# Quick start with docker compose (deploy/dev/):
+#   make dev-up
+#   cp config.yaml.example config.yaml
+# The defaults below match the dev docker-compose services.
+#
 # Usage:
 #   1. cp config.yaml.example config.yaml
 #   2. Replace all <PLACEHOLDER> values
@@ -32,9 +37,9 @@ database:
   host: localhost  # or <YOUR_DATABASE_HOST>
   port: 5432
   user: postgres   # Replace with your database user
-  password: <REPLACE_WITH_SECURE_PASSWORD>  # CHANGEME: Use strong password or Vault
+  password: postgres  # CHANGEME: Use strong password or Vault in production
   dbname: hotpot
-  sslmode: require  # SECURITY: Use 'require' or 'verify-full' in production
+  sslmode: disable  # SECURITY: Use 'require' or 'verify-full' in production
   # sslmode options: disable (dev only), require, verify-ca, verify-full
 
   # Dev database for Atlas schema migrations (optional)
@@ -51,5 +56,5 @@ temporal:
 # nosemgrep: generic.secrets.security.detected-generic-secret
 redis:
   address: localhost:6379  # or <YOUR_REDIS_HOST>:6379
-  password: <REPLACE_WITH_REDIS_PASSWORD>  # CHANGEME: Leave empty if no auth
+  password: ""  # No password for dev; set for production
   db: 0  # Optional - defaults to 0
