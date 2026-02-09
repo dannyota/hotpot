@@ -1,15 +1,15 @@
 # ADR 001: Build vs Buy Decision
 
-## Status
+## 📌 Status
 Accepted
 
-## Date
+## 📅 Date
 2024 (Project inception)
 
-## Context
+## 📖 Context
 Evaluating whether to build Hotpot in-house or purchase a commercial CMDB solution.
 
-## Summary
+## 📊 Summary
 No vendor supports local cloud providers, native firewall policy-to-asset mapping, or local regulatory reporting. Buying adds cost and consulting dependency without eliminating the build effort.
 
 ```mermaid
@@ -25,7 +25,7 @@ flowchart LR
     DB --> Reports([Compliance Reports])
 ```
 
-## Requirements
+## 📋 Requirements
 
 | # | Requirement | Driver |
 |---|------------|--------|
@@ -37,7 +37,7 @@ flowchart LR
 | 6 | Regulatory compliance reporting | Local regulation |
 | 7 | Change tracking with audit trail | Local regulation |
 
-## Evaluated Options
+## 🔍 Evaluated Options
 
 ### ServiceNow ITOM
 
@@ -67,7 +67,7 @@ flowchart LR
 
 **Estimated cost:** ~$5,000–10,000/year (by device count)
 
-## Buy vs Build
+## ⚖️ Buy vs Build
 
 Buying does not eliminate custom development. It adds a license fee and consulting dependency on top of the same work.
 
@@ -80,7 +80,7 @@ Buying does not eliminate custom development. It adds a license fee and consulti
 | Local regulatory reports | Consulting | Built in-house |
 | Ongoing maintenance | Vendor + consultants | Internal team |
 
-## Cost
+## 💰 Cost
 
 | | Build | ServiceNow | Device42 |
 |---|---|---|---|
@@ -90,7 +90,7 @@ Buying does not eliminate custom development. It adds a license fee and consulti
 | Time to production | 3–6 months | 6–12 months | 6–12 months |
 | Maintenance | Internal | Vendor + consultants | Vendor + consultants |
 
-## Risk
+## ⚠️ Risk
 
 | Concern | Impact |
 |---------|--------|
@@ -99,7 +99,7 @@ Buying does not eliminate custom development. It adds a license fee and consulti
 | Vendor lock-in | Custom integrations tied to vendor platform, not portable |
 | Local knowledge gap | No vendor understands local cloud providers or local regulations |
 
-## When Buying Makes Sense
+## 🛒 When Buying Makes Sense
 
 | Condition | Status |
 |-----------|--------|
@@ -108,7 +108,7 @@ Buying does not eliminate custom development. It adds a license fee and consulti
 | Vendors provide local regulatory reporting templates | Not available |
 | Budget for license + permanent consulting retainer | Not now |
 
-## Decision
+## ✅ Decision
 
 | Factor | Buy | Build |
 |--------|-----|-------|

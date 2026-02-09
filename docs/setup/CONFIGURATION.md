@@ -2,7 +2,7 @@
 
 Hotpot configuration via YAML file or HashiCorp Vault.
 
-## Quick Start
+## 🚀 Quick Start
 
 ```bash
 # Copy example config
@@ -24,14 +24,14 @@ CONFIG_SOURCE=file CONFIG_FILE=config.yaml bin/ingest
 - Never commit `config.yaml` to git (already in `.gitignore`)
 - Use Vault for production credentials
 
-## Configuration Sources
+## 📋 Configuration Sources
 
 | Source | Use Case | How to Enable |
 |--------|----------|---------------|
 | YAML file | Development, simple deployments | `CONFIG_SOURCE=file CONFIG_FILE=config.yaml` |
 | Vault | Production, secrets management | `CONFIG_SOURCE=vault VAULT_ADDR=... VAULT_TOKEN=...` |
 
-## YAML Configuration
+## 📄 YAML Configuration
 
 ### Minimal Config
 
@@ -52,7 +52,7 @@ temporal:
 
 See `config.yaml.example` for complete configuration with all options.
 
-## Environment Variables
+## 🌐 Environment Variables
 
 ### File Source
 
@@ -86,7 +86,7 @@ export VAULT_PATH=secret/hotpot/config
 bin/ingest
 ```
 
-## Configuration Fields
+## 📋 Configuration Fields
 
 ### GCP (Optional)
 
@@ -158,7 +158,7 @@ redis:
 **Fallback:**
 - If not configured, uses in-memory rate limiting (single process only)
 
-## Hot Reload
+## 🔥 Hot Reload
 
 Configuration changes are detected automatically:
 
@@ -180,7 +180,7 @@ Configuration changes are detected automatically:
 **What doesn't reload:**
 - Temporal namespace (requires restart)
 
-## Validation
+## ✅ Validation
 
 Configuration is validated on load and reload:
 
@@ -194,7 +194,7 @@ $ bin/ingest
 Failed to start: config validation failed: temporal.host_port is required
 ```
 
-## Security Best Practices
+## 🔒 Security Best Practices
 
 | Practice | Reason |
 |----------|--------|
@@ -204,7 +204,7 @@ Failed to start: config validation failed: temporal.host_port is required
 | Use separate dev database | Prevent accidental data loss |
 | Use service accounts with minimal permissions | Principle of least privilege |
 
-## Examples
+## 💡 Examples
 
 ### Development (File)
 
@@ -250,7 +250,7 @@ temporal:
 }
 ```
 
-## Troubleshooting
+## 🆘 Troubleshooting
 
 | Problem | Solution |
 |---------|----------|
@@ -260,7 +260,7 @@ temporal:
 | Hot reload not working | Check file permissions, Vault connectivity |
 | Rate limiting not working | Check Redis connection or use file-based config |
 
-## References
+## 📚 References
 
 - [MIGRATIONS.md](./MIGRATIONS.md) - Database migration setup
 - [GCP.md](../features/GCP.md) - GCP service account setup

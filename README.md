@@ -1,4 +1,4 @@
-# Hotpot
+# 🍲 Hotpot
 
 ![Go](https://img.shields.io/github/go-mod/go-version/dannyota/hotpot)
 ![License](https://img.shields.io/github/license/dannyota/hotpot)
@@ -7,7 +7,17 @@
 
 Unified security data platform for multi-cloud environments.
 
-Raw data from GCP, AWS, and on-prem sources flows through bronze, silver, and gold layers into actionable insights, compliance reports, and AI-powered answers.
+Hotpot throws your cloud security data into one pot.
+
+Raw ingredients from GCP, AWS, and on-prem sources simmer through bronze, silver, and gold layers — coming out as actionable insights, compliance reports, and AI-powered answers.
+
+Just ask:
+
+> "Which VMs exist in GCP but are missing from SentinelOne?"
+>
+> "What firewall rules reference instances that no longer exist?"
+
+...and get results.
 
 ## 🚀 Features
 

@@ -2,7 +2,7 @@
 
 Atlas schema migrations for Hotpot's multi-layer database (bronze, bronzehistory, silver, gold).
 
-## Tools
+## 🔧 Tools
 
 There are two separate tools:
 
@@ -13,7 +13,7 @@ There are two separate tools:
 
 The `migrate` binary is self-contained — it embeds all SQL migration files, so no extra files are needed at deploy time.
 
-## Quick Start
+## 🚀 Quick Start
 
 ```bash
 # Build the tools
@@ -26,7 +26,7 @@ bin/genmigrate add_firewall_tables
 bin/migrate
 ```
 
-## Generating Migrations (Dev)
+## ⚙️ Generating Migrations (Dev)
 
 ```bash
 bin/genmigrate [--schema <dir>] [--out <dir>] <name>
@@ -58,7 +58,7 @@ Migration files use globally sequential numbering across all layers so versions 
 
 **Safety rule:** The configured `dbname` must end with `_dev`. Atlas drops and recreates tables during diff, so `genmigrate` refuses to run against a non-dev database.
 
-## Applying Migrations (Production)
+## 🚀 Applying Migrations (Production)
 
 ```bash
 bin/migrate
@@ -68,7 +68,7 @@ Applies all pending migrations to the database. Only the target DB URL is needed
 
 The `migrate` binary embeds the SQL files from `deploy/migrations/` at build time, so it works as a single binary without needing the source tree.
 
-## How It Works
+## 🔍 How It Works
 
 Both tools:
 
@@ -84,7 +84,7 @@ Both tools:
 
 **Security:** Credentials are passed to Atlas through a pipe (kernel memory only), not command-line arguments or files. This prevents passwords from appearing in `ps aux`, process lists, or the filesystem.
 
-## Configuration
+## 📋 Configuration
 
 Both tools use the same config system as the ingest worker:
 
@@ -125,7 +125,7 @@ VAULT_TOKEN=your-token
 VAULT_PATH=secret/hotpot/config
 ```
 
-## Migration Files
+## 📂 Migration Files
 
 Migrations are stored in `deploy/migrations/` per layer:
 
@@ -145,7 +145,7 @@ deploy/
 
 There is no `atlas.hcl` file — both tools generate the Atlas config in memory and pipe it directly to Atlas.
 
-## Workflow
+## 🔄 Workflow
 
 ### After Schema Changes
 
@@ -174,7 +174,7 @@ cat deploy/migrations/bronze/0003_add_gcp_compute_firewall.sql
 bin/migrate
 ```
 
-## Setup
+## ⚙️ Setup
 
 ### Create Dev Database
 
@@ -186,7 +186,7 @@ psql -U postgres -c "CREATE DATABASE hotpot_dev;"
 
 Then point your config at it (`dbname: hotpot_dev`).
 
-## Platform Support
+## 💻 Platform Support
 
 Both tools work on Linux, macOS, and Windows:
 
@@ -197,7 +197,7 @@ Both tools work on Linux, macOS, and Windows:
 
 Both approaches keep credentials in kernel memory only — nothing touches disk or CLI args.
 
-## Troubleshooting
+## 🆘 Troubleshooting
 
 | Problem | Solution |
 |---------|----------|

@@ -2,7 +2,7 @@
 
 Code style and testing conventions for Hotpot.
 
-## File Organization
+## 📂 File Organization
 
 Keep files focused on a single responsibility. Split when:
 - A file covers multiple unrelated concerns
@@ -22,7 +22,7 @@ type BronzeGCPComputeInstanceNIC struct { ent.Schema }
 
 See [ENT_SCHEMAS.md](ENT_SCHEMAS.md) for ent schema patterns.
 
-## Naming
+## 📛 Naming
 
 Follow [Google Go Style Guide](https://google.github.io/styleguide/go/):
 - Short names for small scopes (`i`, `n`, `err`)
@@ -38,26 +38,26 @@ Follow [Google Go Style Guide](https://google.github.io/styleguide/go/):
 | Table name | `{provider}_{service}_{resource}` | `gcp_compute_instances` |
 | History table | `{provider}_{service}_{resource}_history` | `gcp_compute_instances_history` |
 
-## Code Patterns
+## 🔧 Code Patterns
 
 - Early returns over deep nesting
 - One responsibility per function
 - No dead code or commented-out blocks
 
-## Comments
+## 💬 Comments
 
 - Doc comments: start with the name being documented
 - Explain *why*, not *what*
 - Use `/* param */` for unclear arguments ([Uber guide](https://github.com/uber-go/guide))
 
-## Error Handling
+## ⚠️ Error Handling
 
 - Always handle errors; never use `_`
 - Wrap with context: `fmt.Errorf("fetch assets: %w", err)`
 - Use sentinel errors for expected conditions
 - Always propagate `json.Marshal` errors — never silently ignore them
 
-## Ent Schema Patterns
+## 🗄️ Ent Schema Patterns
 
 **Bronze schemas** — use API field names for traceability:
 
@@ -114,7 +114,7 @@ func (BronzeHistoryGCPComputeInstance) Annotations() []schema.Annotation {
 }
 ```
 
-## Field Types
+## 📋 Field Types
 
 ### String Fields
 
@@ -180,7 +180,7 @@ if !bytes.Equal(old.SettingsJSON, new.SettingsJSON) {
 }
 ```
 
-## Imports
+## 📦 Imports
 
 Group and separate with blank lines:
 
@@ -200,7 +200,7 @@ import (
 )
 ```
 
-## Testing
+## 🧪 Testing
 
 ### Test Structure
 
@@ -218,7 +218,7 @@ import (
 
 Future: integration tests with recorded responses (go-vcr).
 
-## Common Ent Patterns
+## 🔁 Common Ent Patterns
 
 ### Parent-Child Relationships
 
@@ -281,7 +281,7 @@ if _, err := tx.BronzeHistoryGCPComputeInstance.Create()...; err != nil {
 return tx.Commit()
 ```
 
-## References
+## 📚 References
 
 - [ENT_SCHEMAS.md](ENT_SCHEMAS.md) - Complete ent schema guide
 - [Google Go Style Guide](https://google.github.io/styleguide/go/)

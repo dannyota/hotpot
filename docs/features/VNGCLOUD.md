@@ -2,7 +2,7 @@
 
 VNGCloud resource ingestion coverage in the bronze layer.
 
-## Auth
+## 🔑 Auth
 
 OAuth2 PKCE flow simulating browser login (no API token mechanism). Not in the OpenAPI spec.
 
@@ -12,7 +12,7 @@ OAuth2 PKCE flow simulating browser login (no API token mechanism). Not in the O
 | Credentials | Root email + IAM username + password |
 | 2FA | Optional TOTP |
 
-## API Gateways
+## 🌐 API Gateways
 
 | Gateway | Base URL Pattern | Scope |
 |---------|-----------------|-------|
@@ -21,7 +21,7 @@ OAuth2 PKCE flow simulating browser login (no API token mechanism). Not in the O
 
 Resources scope to **project + region** (`hcm-3`, `han-1`, etc.).
 
-## Pagination
+## 📄 Pagination
 
 | Gateway | Style | Wrapper |
 |---------|-------|---------|
@@ -30,7 +30,7 @@ Resources scope to **project + region** (`hcm-3`, `han-1`, etc.).
 | vServer (projects) | None | `{success, projects}` |
 | vNetwork (endpoints) | JSON `params` query string | `{success, data, page, size, totalPage, total}` |
 
-## vServer API v1 (`/v1/`)
+## 🖥️ vServer API v1 (`/v1/`)
 
 ### Projects
 
@@ -67,7 +67,7 @@ Resources scope to **project + region** (`hcm-3`, `han-1`, etc.).
 | Volume Types | `GET /v1/{projectId}/volume_types` | |
 | Volume Type Zones | `GET /v1/{projectId}/volume_type_zones` | |
 
-## vServer API v2 (`/v2/`)
+## 🖥️ vServer API v2 (`/v2/`)
 
 ### Compute
 
@@ -121,7 +121,7 @@ Resources scope to **project + region** (`hcm-3`, `han-1`, etc.).
 |----------|----------|:------:|
 | Protocols | `GET /v2/protocols` | |
 
-## vNetwork API (`/vnetwork/v1/`)
+## 🌐 vNetwork API (`/vnetwork/v1/`)
 
 Not in the OpenAPI spec.
 
@@ -130,7 +130,7 @@ Not in the OpenAPI spec.
 | Regions | `GET /vnetwork/v1/regions` | |
 | VPC Endpoints | `GET /vnetwork/v1/{regionId}/{projectId}/endpoints` | |
 
-## OpenAPI Spec vs Console API
+## ⚠️ OpenAPI Spec vs Console API
 
 The OpenAPI spec documents the official API. Ingestion uses the web console backend (`console.vngcloud.vn/vserver/iam-vserver-gateway`), which may return different response shapes. Differences to watch for during implementation:
 
@@ -142,7 +142,7 @@ The OpenAPI spec documents the official API. Ingestion uses the web console back
 | ServerGroup | `servers` | Full `Server` objects | Subset of fields |
 | Project | `errorCode` | `integer(int32)` | `string` |
 
-## Summary
+## 📊 Summary
 
 **Total: 0/39 (0%)**
 

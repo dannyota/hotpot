@@ -2,7 +2,7 @@
 
 GCP resource ingestion coverage in the bronze layer.
 
-## Compute Engine API (`compute.googleapis.com`)
+## 🖥️ Compute Engine API (`compute.googleapis.com`)
 
 ### Compute
 
@@ -57,14 +57,14 @@ GCP resource ingestion coverage in the bronze layer.
 | VPN Gateways (Classic) | `TargetVpnGatewaysClient` | `AggregatedList()` | ✅ |
 | VPN Tunnels | `VpnTunnelsClient` | `AggregatedList()` | ✅ |
 
-## Container API (`container.googleapis.com`)
+## 📦 Container API (`container.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | GKE Clusters | `ClusterManagerClient` | `ListClusters()` | ✅ |
 | Node Pools | (included in cluster response) | — | ✅ |
 
-## Resource Manager API (`cloudresourcemanager.googleapis.com`)
+## 📂 Resource Manager API (`cloudresourcemanager.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
@@ -75,39 +75,39 @@ GCP resource ingestion coverage in the bronze layer.
 | Folder IAM Policies | `FoldersClient` | `GetIamPolicy()` | |
 | Project IAM Policies | `ProjectsClient` | `GetIamPolicy()` | |
 
-## IAM API (`iam.googleapis.com`)
+## 🔑 IAM API (`iam.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Service Accounts | `IAMClient` | `ListServiceAccounts()` | ✅ |
 | Service Account Keys | `IAMClient` | `ListServiceAccountKeys()` | ✅ |
 
-## Cloud KMS API (`cloudkms.googleapis.com`)
+## 🔐 Cloud KMS API (`cloudkms.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Key Rings | `KeyManagementClient` | `ListKeyRings()` | |
 | Crypto Keys | `KeyManagementClient` | `ListCryptoKeys()` | |
 
-## API Keys API (`apikeys.googleapis.com`)
+## 🗝️ API Keys API (`apikeys.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | API Keys | `ApiKeysClient` | `ListKeys()` | |
 
-## Essential Contacts API (`essentialcontacts.googleapis.com`)
+## 📇 Essential Contacts API (`essentialcontacts.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Essential Contacts | `EssentialContactsClient` | `ListContacts()` | |
 
-## Cloud Functions API (`cloudfunctions.googleapis.com`)
+## ⚡ Cloud Functions API (`cloudfunctions.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Cloud Functions | `CloudFunctionsClient` | `ListFunctions()` | |
 
-## Logging API (`logging.googleapis.com`)
+## 📝 Logging API (`logging.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
@@ -116,73 +116,73 @@ GCP resource ingestion coverage in the bronze layer.
 | Log Buckets | `ConfigClient` | `ListBuckets()` | |
 | Log Exclusions | `ConfigClient` | `ListExclusions()` | |
 
-## Monitoring API (`monitoring.googleapis.com`)
+## 📊 Monitoring API (`monitoring.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Alert Policies | `AlertPolicyClient` | `ListAlertPolicies()` | |
 | Uptime Check Configs | `UptimeCheckClient` | `ListUptimeCheckConfigs()` | |
 
-## DNS API (`dns.googleapis.com`)
+## 🌐 DNS API (`dns.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Managed Zones | `ManagedZonesClient` | `List()` | |
 | DNS Policies | `PoliciesClient` | `List()` | |
 
-## Access Approval API (`accessapproval.googleapis.com`)
+## ✋ Access Approval API (`accessapproval.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Access Approval Settings | `AccessApprovalClient` | `GetAccessApprovalSettings()` | |
 | Approval Requests | `AccessApprovalClient` | `ListApprovalRequests()` | |
 
-## Cloud Storage API (`storage.googleapis.com`)
+## 🪣 Cloud Storage API (`storage.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Buckets | `StorageClient` | `ListBuckets()` | |
 | Bucket IAM Policies | `StorageClient` | `GetIamPolicy()` | |
 
-## Cloud SQL Admin API (`sqladmin.googleapis.com`)
+## 🗄️ Cloud SQL Admin API (`sqladmin.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | SQL Instances | `SqlInstancesClient` | `List()` | |
 
-## BigQuery API (`bigquery.googleapis.com`)
+## 📈 BigQuery API (`bigquery.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Datasets | `BigQueryClient` | `ListDatasets()` | |
 | Tables | `BigQueryClient` | `ListTables()` | |
 
-## Dataproc API (`dataproc.googleapis.com`)
+## ⚙️ Dataproc API (`dataproc.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Clusters | `ClusterControllerClient` | `ListClusters()` | |
 
-## Service Usage API (`serviceusage.googleapis.com`)
+## 📋 Service Usage API (`serviceusage.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Enabled Services | `ServiceUsageClient` | `ListServices()` | |
 
-## Secret Manager API (`secretmanager.googleapis.com`)
+## 🤫 Secret Manager API (`secretmanager.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Secrets | `SecretManagerClient` | `ListSecrets()` | |
 
-## App Engine Admin API (`appengine.googleapis.com`)
+## 🚀 App Engine Admin API (`appengine.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Applications | `ApplicationsClient` | `GetApplication()` | |
 | Services | `ServicesClient` | `ListServices()` | |
 
-## Security Command Center API (`securitycenter.googleapis.com`)
+## 🛡️ Security Command Center API (`securitycenter.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
@@ -190,7 +190,7 @@ GCP resource ingestion coverage in the bronze layer.
 | Findings | `SecurityCenterClient` | `ListFindings()` | |
 | Notification Configs | `SecurityCenterClient` | `ListNotificationConfigs()` | |
 
-## Organization Policy API (`orgpolicy.googleapis.com`)
+## 🏛️ Organization Policy API (`orgpolicy.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
@@ -198,7 +198,7 @@ GCP resource ingestion coverage in the bronze layer.
 | Org Policies | `OrgPolicyClient` | `ListPolicies()` | |
 | Custom Constraints | `OrgPolicyClient` | `ListCustomConstraints()` | |
 
-## Access Context Manager API (`accesscontextmanager.googleapis.com`)
+## 🚧 Access Context Manager API (`accesscontextmanager.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
@@ -206,7 +206,7 @@ GCP resource ingestion coverage in the bronze layer.
 | Access Levels | `AccessContextManagerClient` | `ListAccessLevels()` | |
 | Service Perimeters | `AccessContextManagerClient` | `ListServicePerimeters()` | |
 
-## Cloud Asset API (`cloudasset.googleapis.com`)
+## 🏷️ Cloud Asset API (`cloudasset.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
@@ -214,7 +214,7 @@ GCP resource ingestion coverage in the bronze layer.
 | IAM Policy Search | `AssetServiceClient` | `SearchAllIamPolicies()` | |
 | Resource Search | `AssetServiceClient` | `SearchAllResources()` | |
 
-## Sensitive Data Protection API (`dlp.googleapis.com`)
+## 🔏 Sensitive Data Protection API (`dlp.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
@@ -224,21 +224,21 @@ GCP resource ingestion coverage in the bronze layer.
 | DLP Jobs | `DlpServiceClient` | `ListDlpJobs()` | |
 | Discovery Configs | `DlpServiceClient` | `ListDiscoveryConfigs()` | |
 
-## Binary Authorization API (`binaryauthorization.googleapis.com`)
+## ✅ Binary Authorization API (`binaryauthorization.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Policy | `BinauthzManagementClient` | `GetPolicy()` | |
 | Attestors | `BinauthzManagementClient` | `ListAttestors()` | |
 
-## Container Analysis API (`containeranalysis.googleapis.com`)
+## 🔍 Container Analysis API (`containeranalysis.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Notes | `GrafeasClient` | `ListNotes()` | |
 | Occurrences | `GrafeasClient` | `ListOccurrences()` | |
 
-## Certificate Authority Service API (`privateca.googleapis.com`)
+## 📜 Certificate Authority Service API (`privateca.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
@@ -246,20 +246,20 @@ GCP resource ingestion coverage in the bronze layer.
 | Certificate Authorities | `CertificateAuthorityClient` | `ListCertificateAuthorities()` | |
 | Certificates | `CertificateAuthorityClient` | `ListCertificates()` | |
 
-## Assured Workloads API (`assuredworkloads.googleapis.com`)
+## 🏢 Assured Workloads API (`assuredworkloads.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Workloads | `AssuredWorkloadsClient` | `ListWorkloads()` | |
 | Violations | `AssuredWorkloadsClient` | `ListViolations()` | |
 
-## Cloud IDS API (`ids.googleapis.com`)
+## 🕵️ Cloud IDS API (`ids.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Endpoints | `IDSClient` | `ListEndpoints()` | |
 
-## Backup and DR API (`backupdr.googleapis.com`)
+## 💾 Backup and DR API (`backupdr.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
@@ -267,28 +267,28 @@ GCP resource ingestion coverage in the bronze layer.
 | Backup Plans | `BackupDRClient` | `ListBackupPlans()` | |
 | Backup Plan Associations | `BackupDRClient` | `ListBackupPlanAssociations()` | |
 
-## Web Security Scanner API (`websecurityscanner.googleapis.com`)
+## 🕸️ Web Security Scanner API (`websecurityscanner.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Scan Configs | `WebSecurityScannerClient` | `ListScanConfigs()` | |
 | Scan Runs | `WebSecurityScannerClient` | `ListScanRuns()` | |
 
-## Identity-Aware Proxy API (`iap.googleapis.com`)
+## 🔒 Identity-Aware Proxy API (`iap.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | IAP Settings | `IdentityAwareProxyAdminClient` | `GetIapSettings()` | |
 | IAP IAM Policies | `IdentityAwareProxyAdminClient` | `GetIamPolicy()` | |
 
-## Recommender API (`recommender.googleapis.com`)
+## 💡 Recommender API (`recommender.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | IAM Recommendations | `RecommenderClient` | `ListRecommendations()` | |
 | IAM Insights | `RecommenderClient` | `ListInsights()` | |
 
-## Cloud Billing API (`cloudbilling.googleapis.com`)
+## 💰 Cloud Billing API (`cloudbilling.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
@@ -296,65 +296,65 @@ GCP resource ingestion coverage in the bronze layer.
 | Project Billing Info | `CloudBillingClient` | `GetProjectBillingInfo()` | |
 | Budgets | `BudgetServiceClient` | `ListBudgets()` | |
 
-## Network Management API (`networkmanagement.googleapis.com`)
+## 🌍 Network Management API (`networkmanagement.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Connectivity Tests | `ReachabilityServiceClient` | `ListConnectivityTests()` | |
 
-## Cloud Run API (`run.googleapis.com`)
+## 🏃 Cloud Run API (`run.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Services | `ServicesClient` | `ListServices()` | |
 | Revisions | `RevisionsClient` | `ListRevisions()` | |
 
-## Pub/Sub API (`pubsub.googleapis.com`)
+## 📬 Pub/Sub API (`pubsub.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Topics | `PublisherClient` | `ListTopics()` | |
 | Subscriptions | `SubscriberClient` | `ListSubscriptions()` | |
 
-## Spanner API (`spanner.googleapis.com`)
+## 🗃️ Spanner API (`spanner.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Instances | `InstanceAdminClient` | `ListInstances()` | |
 | Databases | `DatabaseAdminClient` | `ListDatabases()` | |
 
-## Bigtable Admin API (`bigtableadmin.googleapis.com`)
+## 📚 Bigtable Admin API (`bigtableadmin.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Instances | `BigtableInstanceAdminClient` | `ListInstances()` | |
 | Clusters | `BigtableInstanceAdminClient` | `ListClusters()` | |
 
-## Memorystore for Redis API (`redis.googleapis.com`)
+## 🧠 Memorystore for Redis API (`redis.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Instances | `CloudRedisClient` | `ListInstances()` | |
 
-## Filestore API (`file.googleapis.com`)
+## 📁 Filestore API (`file.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Instances | `CloudFilestoreManagerClient` | `ListInstances()` | |
 
-## AlloyDB API (`alloydb.googleapis.com`)
+## 🔗 AlloyDB API (`alloydb.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Clusters | `AlloyDBAdminClient` | `ListClusters()` | |
 
-## VPC Access API (`vpcaccess.googleapis.com`)
+## 🔌 VPC Access API (`vpcaccess.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| VPC Connectors | `VpcAccessClient` | `ListConnectors()` | :white_check_mark: |
+| VPC Connectors | `VpcAccessClient` | `ListConnectors()` | ✅ |
 
-## Summary
+## 📊 Summary
 
 **Total: 28/117 (24%)**
 

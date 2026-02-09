@@ -1,12 +1,12 @@
 # Security Policy
 
-## Supported Versions
+## 🔒 Supported Versions
 
 | Version | Supported          |
 | ------- | ------------------ |
-| latest  | :white_check_mark: |
+| latest  | ✅ |
 
-## Reporting a Vulnerability
+## 🛡️ Reporting a Vulnerability
 
 If you discover a security vulnerability, please report it privately using [GitHub's private vulnerability reporting](../../security/advisories/new).
 
@@ -18,7 +18,7 @@ Please include:
 - Potential impact
 - Any suggested fixes (optional)
 
-## Response Timeline
+## ⏱️ Response Timeline
 
 - **Acknowledgment**: Within 1 week
 - **Initial assessment**: Within 2 weeks
@@ -27,6 +27,6 @@ Please include:
   - High: 2 months
   - Medium/Low: 3 months
 
-## Security Updates
+## 🔄 Security Updates
 
 Security patches are released after verification. Enable GitHub Dependabot alerts to receive notifications about vulnerable dependencies.

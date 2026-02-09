@@ -2,18 +2,18 @@
 
 Guidelines for contributing to Hotpot.
 
-## Getting Started
+## 🚀 Getting Started
 
 1. Fork the repository
 2. Create a feature branch
 3. Make changes following code style
 4. Submit a pull request
 
-## Code Style
+## 📐 Code Style
 
 See [CODE_STYLE.md](guides/CODE_STYLE.md) for coding conventions.
 
-## Commit Messages
+## 💬 Commit Messages
 
 Follow **Conventional Commits** format:
 
@@ -61,7 +61,7 @@ docs: update architecture overview
 refactor: simplify config validation logic
 ```
 
-## Pull Requests
+## 🔀 Pull Requests
 
 - Keep PRs focused on a single change
 - Update documentation if needed

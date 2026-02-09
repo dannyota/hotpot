@@ -8,7 +8,7 @@ flowchart LR
     Current -->|on change| History[bronze_history.*]
 ```
 
-## Schemas
+## 📋 Schemas
 
 | Schema | Purpose | Retention |
 |--------|---------|-----------|
@@ -17,7 +17,7 @@ flowchart LR
 | `silver` / `silver_history` | Normalized | Configurable |
 | `gold` / `gold_history` | Analytics | Indefinite |
 
-## Linking Strategy
+## 🔗 Linking Strategy
 
 | Resource | Has API ID? | History Link |
 |----------|-------------|--------------|
@@ -29,7 +29,7 @@ flowchart LR
 
 **All levels have `valid_from/valid_to`** for granular tracking.
 
-## Granular Tracking
+## 🔍 Granular Tracking
 
 When only a nested child changes:
 
@@ -43,7 +43,7 @@ At T2:
 - access_config_history: new record, links to SAME nic_history_id
 ```
 
-## Table Structure
+## 🗄️ Table Structure
 
 ```sql
 -- Current
@@ -67,7 +67,7 @@ bronze_history.gcp_compute_instance_nics (
 )
 ```
 
-## History Chain
+## ⛓️ History Chain
 
 ```
 bronze_history.gcp_compute_instances
@@ -84,7 +84,7 @@ bronze_history.gcp_compute_instances
 
 All tables have `valid_from/valid_to` columns.
 
-## Queries
+## 🔎 Queries
 
 **State at specific time:**
 ```sql
@@ -104,7 +104,7 @@ WHERE resource_id = '123'
 ORDER BY valid_from DESC
 ```
 
-## Flow
+## 🔄 Flow
 
 | Event | Current Table | History Table |
 |-------|---------------|---------------|
@@ -114,7 +114,7 @@ ORDER BY valid_from DESC
 
 Children: if changed → close old + insert new. If unchanged → no action.
 
-## Models
+## 📐 Models
 
 | Package | Schema | Example |
 |---------|--------|---------|
@@ -123,7 +123,7 @@ Children: if changed → close old + insert new. If unchanged → no action.
 
 History models have `HistoryID`, `ValidFrom`, `ValidTo` + parent link.
 
-## Why Type 4?
+## ❓ Why Type 4?
 
 | Type | Approach | Trade-off |
 |------|----------|-----------|

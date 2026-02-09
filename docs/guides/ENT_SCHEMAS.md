@@ -2,7 +2,7 @@
 
 Type-safe ent schema patterns for Hotpot's multi-layer data model (bronze, bronzehistory, silver, gold).
 
-## Quick Start Checklist
+## ✅ Quick Start Checklist
 
 When adding a new GCP resource type:
 
@@ -11,7 +11,7 @@ When adding a new GCP resource type:
 - [ ] Run `cd pkg/storage && go generate`
 - [ ] Verify compilation: `go build ./...`
 
-## Naming Conventions
+## 📐 Naming Conventions
 
 ### Go Type Names (CRITICAL)
 
@@ -55,7 +55,7 @@ entsql.Annotation{Table: "gcp_compute_instances_history"}
 
 ⚠️ **IMPORTANT**: The `_history` suffix goes in the TABLE NAME annotation, NOT in the Go type name!
 
-## Bronze Schema Pattern
+## 🥉 Bronze Schema Pattern
 
 ```go
 package compute
@@ -162,7 +162,7 @@ func (BronzeGCPComputeInstanceLabel) Annotations() []schema.Annotation {
 }
 ```
 
-## Bronze History Schema Pattern
+## 📜 Bronze History Schema Pattern
 
 ```go
 package compute
@@ -256,7 +256,7 @@ func (BronzeHistoryGCPComputeInstanceLabel) Annotations() []schema.Annotation {
 }
 ```
 
-## Common Patterns
+## 🔧 Common Patterns
 
 ### Field Types
 
@@ -304,7 +304,7 @@ func (Child) Edges() []ent.Edge {
 }
 ```
 
-## Common Mistakes
+## ⚠️ Common Mistakes
 
 ### ❌ Adding explicit foreign key fields
 
@@ -375,7 +375,7 @@ func (BronzeHistoryGCPComputeInstance) Edges() []ent.Edge {
 
 History tables are denormalized - no relationships.
 
-## Generating Code
+## ⚙️ Generating Code
 
 After creating or modifying schemas:
 
@@ -390,7 +390,7 @@ This runs `entc.go` which:
 3. Runs ent code generation
 4. Creates `pkg/storage/ent/` with all client code
 
-## Workaround: Ent Issue #2330
+## 🩹 Workaround: Ent Issue #2330
 
 Due to [ent issue #2330](https://github.com/ent/ent/issues/2330), we must use `_history` suffix on history table names to avoid duplicate constant collisions.
 

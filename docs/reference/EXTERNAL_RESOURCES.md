@@ -2,7 +2,7 @@
 
 Compliance benchmarks, CSPM tools, and cloud provider documentation.
 
-## Compliance Benchmarks
+## 📋 Compliance Benchmarks
 
 | Benchmark | Clouds | What to study |
 |-----------|--------|---------------|
@@ -13,7 +13,7 @@ Compliance benchmarks, CSPM tools, and cloud provider documentation.
 | [CIS Amazon Elastic Kubernetes Service (EKS)](https://www.cisecurity.org/benchmark/kubernetes) | AWS | EKS-specific security controls |
 | [CIS Kubernetes](https://www.cisecurity.org/benchmark/kubernetes) | Any | General Kubernetes hardening |
 
-## Open Source CSPM / Auditing Tools
+## 🔓 Open Source CSPM / Auditing Tools
 
 ### Multi-Cloud
 
@@ -48,7 +48,7 @@ Compliance benchmarks, CSPM tools, and cloud provider documentation.
 | [turbot/steampipe-plugin-azure](https://github.com/turbot/steampipe-plugin-azure) | Azure API client patterns and data schemas |
 | [turbot/steampipe-mod-azure-compliance](https://github.com/turbot/steampipe-mod-azure-compliance) | SQL compliance queries for CIS, PCI DSS, HIPAA, NIST |
 
-## Data Pipeline References
+## 🔄 Data Pipeline References
 
 | Project | What to study |
 |---------|---------------|
@@ -56,7 +56,7 @@ Compliance benchmarks, CSPM tools, and cloud provider documentation.
 | [cloudquery/plugin-sdk](https://github.com/cloudquery/plugin-sdk) | Plugin SDK for writing source/destination plugins, resource table definitions |
 | [turbot/steampipe-plugin-sdk](https://github.com/turbot/steampipe-plugin-sdk) | Go SDK for building cloud API plugins with caching, hydrate functions, column definitions |
 
-## Cloud Provider Documentation
+## ☁️ Cloud Provider Documentation
 
 ### GCP
 
@@ -82,7 +82,7 @@ Compliance benchmarks, CSPM tools, and cloud provider documentation.
 - [Azure Activity Log](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/activity-log) — subscription-level events
 - [Azure Policy](https://learn.microsoft.com/en-us/azure/governance/policy/) — policy-as-code enforcement
 
-## Compliance Frameworks
+## 🛡️ Compliance Frameworks
 
 | Framework | Focus | Key resource |
 |-----------|-------|-------------|
@@ -96,6 +96,6 @@ Compliance benchmarks, CSPM tools, and cloud provider documentation.
 | FedRAMP | Federal cloud authorization | [FedRAMP](https://www.fedramp.gov/) |
 | CSA CCM v4 | Cloud Controls Matrix | [CSA CCM](https://cloudsecurityalliance.org/research/cloud-controls-matrix/) |
 
-## Archived (read for patterns only)
+## 📦 Archived (read for patterns only)
 
 - [forseti-security/forseti-security](https://github.com/forseti-security/forseti-security) — archived Jan 2025, was Google's standard GCP security tool; useful for understanding inventory snapshot and policy scanning patterns

@@ -10,7 +10,7 @@ flowchart LR
     DEPLOY([Deploy/CI]) -->|localhost| METABASE
 ```
 
-## Stack
+## ⚙️ Stack
 
 | Need | Tool |
 |------|------|
@@ -19,7 +19,7 @@ flowchart LR
 
 No custom UI development required.
 
-## Metabase Features
+## 🚀 Metabase Features
 
 | Feature | Supported |
 |---------|-----------|
@@ -31,7 +31,7 @@ No custom UI development required.
 | Export CSV/JSON | Yes |
 | Row drill-down | Yes |
 
-## Gold Tables
+## 🥇 Gold Tables
 
 Detect workflows create pre-computed tables. Metabase displays them directly.
 
@@ -43,14 +43,14 @@ Detect workflows create pre-computed tables. Metabase displays them directly.
 | `gold.alerts` | Pre-calculated severity |
 | `gold.compliance_summary` | Aggregated compliance status |
 
-## Access Control
+## 🔒 Access Control
 
 | Path | External | Localhost |
 |------|----------|-----------|
 | Metabase UI (`/`) | Allowed | Allowed |
 | Metabase API (`/api/*`) | Blocked | Allowed |
 
-## Configuration
+## 📋 Configuration
 
 Dashboard import via localhost API during deploy:
 

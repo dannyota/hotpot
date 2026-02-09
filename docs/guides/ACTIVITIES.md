@@ -12,7 +12,7 @@ flowchart LR
     Service --> History[History Service]
 ```
 
-## File Structure
+## 📂 File Structure
 
 ```
 pkg/ingest/{provider}/{resource}/
@@ -26,7 +26,7 @@ pkg/ingest/{provider}/{resource}/
 └── register.go      # Register with Temporal worker
 ```
 
-## Activity Struct
+## 🏗️ Activity Struct
 
 Hold dependencies, not state:
 
@@ -46,7 +46,7 @@ func NewActivities(configService *config.Service, entClient *ent.Client, limiter
 }
 ```
 
-## Client Creation
+## 🔌 Client Creation
 
 Each activity creates and closes its own API client:
 
@@ -70,7 +70,7 @@ func (a *Activities) createClient(ctx context.Context) (*Client, error) {
 //   ))
 ```
 
-## Params/Result Structs
+## 📦 Params/Result Structs
 
 Dedicated structs for each activity:
 
@@ -88,7 +88,7 @@ type IngestComputeInstancesResult struct {
 }
 ```
 
-## Activity Function Reference
+## 🔗 Activity Function Reference
 
 Export a variable for workflow registration:
 
@@ -99,7 +99,7 @@ var IngestComputeInstancesActivity = (*Activities).IngestComputeInstances
 
 **Why:** Allows type-safe activity execution in workflows.
 
-## Activity Method
+## ⚡ Activity Method
 
 ```go
 func (a *Activities) IngestComputeInstances(ctx context.Context, params IngestComputeInstancesParams) (*IngestComputeInstancesResult, error) {
@@ -134,7 +134,7 @@ func (a *Activities) IngestComputeInstances(ctx context.Context, params IngestCo
 }
 ```
 
-## Registration
+## 📋 Registration
 
 ```go
 func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
@@ -144,7 +144,7 @@ func Register(w worker.Worker, configService *config.Service, entClient *ent.Cli
 }
 ```
 
-## Workflow Calling
+## 🔄 Workflow Calling
 
 ```go
 func InstanceWorkflow(ctx workflow.Context, params InstanceWorkflowParams) (*InstanceWorkflowResult, error) {
@@ -168,7 +168,7 @@ func InstanceWorkflow(ctx workflow.Context, params InstanceWorkflowParams) (*Ins
 }
 ```
 
-## Checklist
+## ✅ Checklist
 
 New resource implementation:
 
@@ -190,7 +190,7 @@ New resource implementation:
 
 See [ENT_SCHEMAS.md](ENT_SCHEMAS.md) for ent schema patterns.
 
-## Error Handling
+## ⚠️ Error Handling
 
 | Scenario | Action |
 |----------|--------|
@@ -198,7 +198,7 @@ See [ENT_SCHEMAS.md](ENT_SCHEMAS.md) for ent schema patterns.
 | Service error | Return error with context |
 | Cleanup error (stale delete) | Log warning, don't fail activity |
 
-## History Integration
+## 📜 History Integration
 
 Service layer handles history tracking:
 
@@ -222,7 +222,7 @@ func (s *Service) DeleteStaleInstances(ctx context.Context, projectID string, co
 
 See [HISTORY.md](../architecture/HISTORY.md) for history tracking details.
 
-## Ent Client Usage
+## 🗄️ Ent Client Usage
 
 ### Querying
 
@@ -295,7 +295,7 @@ if _, err := tx.BronzeHistoryGCPComputeInstance.Create()...; err != nil {
 return tx.Commit()
 ```
 
-## References
+## 📚 References
 
 - [ENT_SCHEMAS.md](ENT_SCHEMAS.md) - Ent schema patterns
 - [Ent Documentation](https://entgo.io/docs/getting-started)

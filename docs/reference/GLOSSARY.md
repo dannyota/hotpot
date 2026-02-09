@@ -1,6 +1,6 @@
 # Glossary
 
-## Architecture Terms
+## 🏗️ Architecture Terms
 
 | Term | Definition |
 |------|------------|
@@ -11,7 +11,7 @@
 | **Layer** | One stage in the medallion pipeline (ingest/normalize/detect) |
 | **Provider** | External data source (GCP, VNGCloud, SentinelOne, etc.) |
 
-## Package Names
+## 📦 Package Names
 
 | Package | Layer | Purpose |
 |---------|-------|---------|
@@ -22,7 +22,7 @@
 | `base` | Shared | Utilities and models used by all layers |
 | Agent | External | Text-to-SQL (WrenAI + Ollama / Vertex AI) |
 
-## External Sources
+## 🌐 External Sources
 
 | Abbreviation | Full Name | Type |
 |--------------|-----------|------|
@@ -31,7 +31,7 @@
 | **S1** | SentinelOne | EDR/Endpoint security |
 | **SCC** | Security Command Center (GCP) | Vulnerability scanner |
 
-## Tech Stack
+## ⚙️ Tech Stack
 
 | Term | Definition |
 |------|------------|
@@ -41,14 +41,14 @@
 | **Ent** | Type-safe Go entity framework |
 | **DI / dig** | Dependency injection (uber-go/dig) |
 
-## Database
+## 🗄️ Database
 
 | Term | Definition |
 |------|------------|
 | **Schema** | PostgreSQL schema (bronze/silver/gold) |
 | **Annotations()** | Ent method to specify table name and indexes |
 
-## Code Patterns
+## 🔧 Code Patterns
 
 | Term | Definition |
 |------|------------|
@@ -58,7 +58,7 @@
 | **container.go** | Dependency injection setup |
 | **run.go** | Module entry point (`Run()` function) |
 
-## Agent Terms
+## 🤖 Agent Terms
 
 | Term | Definition |
 |------|------------|

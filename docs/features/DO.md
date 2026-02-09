@@ -2,7 +2,7 @@
 
 DigitalOcean API resource ingestion coverage in the bronze layer.
 
-## API v2 (`/v2/`)
+## 🌐 API v2 (`/v2/`)
 
 ### Account & Billing
 
@@ -223,7 +223,7 @@ DigitalOcean API resource ingestion coverage in the bronze layer.
 | OpenAI Keys | `/gen-ai/openai/keys` | |
 | Anthropic Keys | `/gen-ai/anthropic/keys` | |
 
-## Summary
+## 📊 Summary
 
 **Total: 0/113 (0%)**
 

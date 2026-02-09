@@ -4,7 +4,7 @@ Architecture principles for Hotpot development.
 
 See [OVERVIEW.md](./OVERVIEW.md) for system design.
 
-## 1. Package Structure
+## 📦 1. Package Structure
 
 ```
 pkg/ingest/{provider}/
@@ -39,7 +39,7 @@ pkg/storage/ent/            # Generated code (DO NOT EDIT)
 └── ...
 ```
 
-## 2. Database Schemas
+## 🗄️ 2. Database Schemas
 
 Use PostgreSQL schemas to separate layers:
 
@@ -52,7 +52,7 @@ gold.compliance           -- Compliance results
 gold.alerts               -- Security alerts
 ```
 
-## 3. Data Flow
+## 🔄 3. Data Flow
 
 | Layer | Reads | Writes |
 |-------|-------|--------|
@@ -62,7 +62,7 @@ gold.alerts               -- Security alerts
 | Metabase | all schemas | nothing |
 | Agent | all schemas | nothing |
 
-## 4. No Cross-Layer Imports
+## 🚫 4. No Cross-Layer Imports
 
 ```go
 // Wrong: importing another layer
@@ -76,7 +76,7 @@ instances, err := client.BronzeGCPComputeInstance.Query().All(ctx)
 
 Layers communicate through database, not imports. Exception: `pkg/base/` can be imported by all layers.
 
-## 5. Activity Client Lifecycle
+## ♻️ 5. Activity Client Lifecycle
 
 Activities create and close their own API client:
 
@@ -99,7 +99,7 @@ func (a *Activities) Ingest(ctx context.Context, params IngestParams) (*IngestRe
 
 See [WORKFLOWS.md](../guides/WORKFLOWS.md) for details.
 
-## 6. Activities Pattern
+## 🏗️ 6. Activities Pattern
 
 Activities use a struct to hold dependencies:
 
@@ -136,7 +136,7 @@ func (a *Activities) Ingest(ctx context.Context, params IngestParams) (*IngestRe
 
 See [ACTIVITIES.md](../guides/ACTIVITIES.md) for details.
 
-## 7. Register Pattern
+## 📋 7. Register Pattern
 
 Each package has `register.go` to register workflows and activities:
 
@@ -148,7 +148,7 @@ func Register(w worker.Worker, configService *config.Service, db *ent.Client, li
 }
 ```
 
-## 8. Config Defaults
+## ⚙️ 8. Config Defaults
 
 Defaults live in `config.Service` accessors, not in consumers:
 
@@ -177,7 +177,7 @@ func (s *Service) TemporalHostPort() string {
 | `SSLMode` | `require` |
 | `GCPRateLimitPerMinute` | `600` |
 
-## 9. Model Conventions
+## 📐 9. Model Conventions
 
 All models live in `pkg/base/models/{layer}/`.
 
@@ -204,7 +204,7 @@ pkg/base/models/bronze/
 
 See [ENT_SCHEMAS.md](../guides/ENT_SCHEMAS.md) for ent schema patterns and [CODE_STYLE.md](../guides/CODE_STYLE.md) for field conventions.
 
-## 10. History Tables (SCD Type 4)
+## 📜 10. History Tables (SCD Type 4)
 
 Separate `*_history` packages for change tracking with granular time ranges:
 
@@ -281,7 +281,7 @@ func (BronzeHistoryGCPComputeInstanceNIC) Fields() []ent.Field {
 
 See [HISTORY.md](./HISTORY.md) for details.
 
-## 11. Bronze Data Design
+## 🥉 11. Bronze Data Design
 
 Bronze stores API responses with minimal transformation. Two storage options:
 
@@ -323,7 +323,7 @@ private_cluster_config_json JSONB  ← entire privateClusterConfig object
 
 See [CODE_STYLE.md](../guides/CODE_STYLE.md#jsonb-fields) for implementation conventions.
 
-## 12. Cross-Layer References
+## 🔗 12. Cross-Layer References
 
 Layers are loosely coupled. No FK constraints between layers:
 
@@ -354,7 +354,7 @@ type Asset struct {
 }
 ```
 
-## 13. Rate Limiting
+## 🚦 13. Rate Limiting
 
 External API clients share a per-provider rate limiter (`pkg/base/ratelimit`).
 A `ratelimit.Service` is created per provider in `Register()`, returning a

@@ -9,7 +9,7 @@ flowchart LR
     Agent --> DB[(PostgreSQL)]
 ```
 
-## LLM Providers
+## 🤖 LLM Providers
 
 | Deployment | Stack | Use Case |
 |------------|-------|----------|
@@ -45,14 +45,14 @@ agent:
   model: "gemini-2.0-flash"
 ```
 
-## Tools
+## 🔧 Tools
 
 | Tool | Purpose | Constraints |
 |------|---------|-------------|
 | Query | Execute SQL | `SELECT` only, 100 row limit |
 | Schema | Inspect DB structure | Tables, columns, relationships |
 
-## Security Use Cases
+## 🛡️ Security Use Cases
 
 Agent analyzes security findings from the Detect layer:
 
@@ -68,7 +68,7 @@ Agent analyzes security findings from the Detect layer:
 | Overly Permissive Rules | Firewall rules allowing 0.0.0.0/0 on sensitive ports (SSH, RDP, DB) | Fortinet, GCP |
 | Missing Encryption | Disks or storage buckets without encryption enabled | GCP, VNGCloud |
 
-## Security
+## 🔒 Security
 
 | Concern | Mitigation |
 |---------|------------|

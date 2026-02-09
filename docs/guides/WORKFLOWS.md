@@ -2,7 +2,7 @@
 
 Temporal workflow architecture for Hotpot ingestion.
 
-## Hierarchy
+## 📊 Hierarchy
 
 ```
 GCPInventoryWorkflow              # All GCP resources, multiple projects
@@ -18,7 +18,7 @@ GCPInventoryWorkflow              # All GCP resources, multiple projects
 
 Each level can be triggered independently.
 
-## Client Lifecycle
+## ♻️ Client Lifecycle
 
 GCP client lifetime = activity invocation (not worker lifetime).
 
@@ -39,7 +39,7 @@ InstanceWorkflow Start
 - Retries can run on any worker (not pinned to one)
 - No stale connections from long-running workers
 
-## Triggering Workflows
+## ▶️ Triggering Workflows
 
 ### GCPInventoryWorkflow
 
@@ -79,7 +79,7 @@ Caller ─► ExecuteWorkflow(InstanceWorkflow, {ProjectID: "a"})
                 └─► IngestInstances activity (creates + closes own client)
 ```
 
-## When to Use
+## 🤔 When to Use
 
 | Workflow | Use Case |
 |----------|----------|
@@ -87,7 +87,7 @@ Caller ─► ExecuteWorkflow(InstanceWorkflow, {ProjectID: "a"})
 | `ComputeWorkflow` | Re-sync Compute after incident |
 | `InstanceWorkflow` | Debug/test, on-demand refresh |
 
-## Task Queues
+## 📋 Task Queues
 
 | Provider | Queue |
 |----------|-------|
