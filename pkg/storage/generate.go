@@ -1,3 +1,3 @@
 package storage
 
-//go:generate go run entc.go
+//go:generate go run github.com/dannyota/hotpot/cmd/entcgen
