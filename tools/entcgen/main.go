@@ -38,9 +38,17 @@ func main() {
 	hotpotDir := findModuleDir(hotpotModule)
 	schemaRoot := filepath.Join(hotpotDir, "pkg", "schema")
 
-	callerModule := readModulePath(".")
+	callerModule, modDir := readModulePath(".")
 	target := "ent"
-	pkg := callerModule + "/pkg/storage/ent"
+	cwd, err := os.Getwd()
+	if err != nil {
+		log.Fatalf("get cwd: %v", err)
+	}
+	rel, err := filepath.Rel(modDir, cwd)
+	if err != nil {
+		log.Fatalf("compute relative path: %v", err)
+	}
+	pkg := callerModule + "/" + filepath.ToSlash(filepath.Join(rel, target))
 
 	allSchemas := discoverSchemas(schemaRoot)
 
@@ -105,15 +113,18 @@ func findModuleDir(module string) string {
 	return info.Dir
 }
 
-// readModulePath reads the module path from the go.mod in the given directory.
-func readModulePath(dir string) string {
-	f, err := os.Open(filepath.Join(dir, "go.mod"))
+// readModulePath reads the module path and directory from the go.mod
+// in the given directory (or a parent).
+func readModulePath(dir string) (modulePath, modDir string) {
+	abs, _ := filepath.Abs(dir)
+	searchDir := abs
+
+	f, err := os.Open(filepath.Join(searchDir, "go.mod"))
 	if err != nil {
 		// Walk up to find go.mod
-		abs, _ := filepath.Abs(dir)
-		for abs != "/" {
-			abs = filepath.Dir(abs)
-			f, err = os.Open(filepath.Join(abs, "go.mod"))
+		for searchDir != "/" {
+			searchDir = filepath.Dir(searchDir)
+			f, err = os.Open(filepath.Join(searchDir, "go.mod"))
 			if err == nil {
 				break
 			}
@@ -128,11 +139,11 @@ func readModulePath(dir string) string {
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
 		if strings.HasPrefix(line, "module ") {
-			return strings.TrimSpace(strings.TrimPrefix(line, "module"))
+			return strings.TrimSpace(strings.TrimPrefix(line, "module")), searchDir
 		}
 	}
 	log.Fatal("no module directive in go.mod")
-	return ""
+	return "", ""
 }
 
 func discoverSchemas(root string) map[string][]schemaInfo {
