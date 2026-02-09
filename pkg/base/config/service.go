@@ -175,6 +175,58 @@ func (s *Service) TemporalNamespace() string {
 	return s.config.Temporal.Namespace
 }
 
+// S1BaseURL returns the SentinelOne management console base URL.
+func (s *Service) S1BaseURL() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.S1.BaseURL
+}
+
+// S1APIToken returns the SentinelOne API token.
+func (s *Service) S1APIToken() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.S1.APIToken
+}
+
+// S1RateLimitPerMinute returns the max API requests per minute for SentinelOne.
+// Defaults to 600 if not configured.
+func (s *Service) S1RateLimitPerMinute() int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || s.config.S1.RateLimitPerMinute <= 0 {
+		return 600
+	}
+	return s.config.S1.RateLimitPerMinute
+}
+
+// S1BatchSize returns the batch size for SentinelOne API pagination.
+// Defaults to 1000 if not configured. Capped at 1000 (API max).
+func (s *Service) S1BatchSize() int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || s.config.S1.BatchSize <= 0 {
+		return 1000
+	}
+	if s.config.S1.BatchSize > 1000 {
+		return 1000
+	}
+	return s.config.S1.BatchSize
+}
+
+// S1Configured returns true if SentinelOne is configured with base URL and API token.
+func (s *Service) S1Configured() bool {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.config != nil && s.config.S1.BaseURL != "" && s.config.S1.APIToken != ""
+}
+
 // RedisConfig returns the Redis configuration.
 // Returns nil if not configured.
 func (s *Service) RedisConfig() *RedisConfig {

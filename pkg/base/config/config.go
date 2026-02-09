@@ -3,6 +3,7 @@ package config
 // Config holds all application configuration values.
 type Config struct {
 	GCP      GCPConfig      `yaml:"gcp"`
+	S1       S1Config       `yaml:"s1"`
 	Database DatabaseConfig `yaml:"database"`
 	Temporal TemporalConfig `yaml:"temporal"`
 	Redis    RedisConfig    `yaml:"redis"`
@@ -33,6 +34,14 @@ type DatabaseConfig struct {
 type TemporalConfig struct {
 	HostPort  string `yaml:"host_port"`
 	Namespace string `yaml:"namespace,omitempty"`
+}
+
+// S1Config holds SentinelOne configuration.
+type S1Config struct {
+	BaseURL            string `yaml:"base_url"`
+	APIToken           string `yaml:"api_token"`
+	RateLimitPerMinute int    `yaml:"rate_limit_per_minute,omitempty"`
+	BatchSize          int    `yaml:"batch_size,omitempty"`
 }
 
 // RedisConfig holds Redis connection configuration.

@@ -7,9 +7,12 @@ import (
 
 	"go.temporal.io/sdk/client"
 	"go.temporal.io/sdk/worker"
+	"golang.org/x/sync/errgroup"
 
 	"hotpot/pkg/base/config"
+	"hotpot/pkg/base/ratelimit"
 	"hotpot/pkg/ingest/gcp"
+	"hotpot/pkg/ingest/sentinelone"
 	"hotpot/pkg/storage/ent"
 )
 
@@ -52,9 +55,23 @@ func Run(ctx context.Context, configService *config.Service, entClient *ent.Clie
 	// vngWorker := worker.New(temporalClient, TaskQueueVNGCloud, worker.Options{})
 	// vngcloud.Register(vngWorker, cfg.VNGCloud, db)
 
-	// Create and register SentinelOne worker (future)
-	// s1Worker := worker.New(temporalClient, TaskQueueS1, worker.Options{})
-	// sentinelone.Register(s1Worker, cfg.S1, db)
+	// Create and register SentinelOne worker if configured
+	var s1RateLimitSvc *ratelimit.Service
+	var s1Worker worker.Worker
+	if configService.S1Configured() {
+		s1ReqPerMin := configService.S1RateLimitPerMinute()
+		s1ActivitiesPerSec := float64(s1ReqPerMin) / 60.0
+
+		s1Worker = worker.New(temporalClient, TaskQueueS1, worker.Options{
+			TaskQueueActivitiesPerSecond: s1ActivitiesPerSec,
+		})
+
+		s1RateLimitSvc = sentinelone.Register(s1Worker, configService, entClient)
+		defer s1RateLimitSvc.Close()
+
+		log.Printf("SentinelOne worker configured (rate limit: %d rpm, Temporal: %.1f activities/sec)",
+			s1ReqPerMin, s1ActivitiesPerSec)
+	}
 
 	// Create and register Fortinet worker (future)
 	// fortinetWorker := worker.New(temporalClient, TaskQueueFortinet, worker.Options{})
@@ -70,11 +87,24 @@ func Run(ctx context.Context, configService *config.Service, entClient *ent.Clie
 		close(interruptCh)
 	}()
 
-	// Run GCP worker (blocking until interrupted)
-	err = gcpWorker.Run(interruptCh)
-	if err != nil {
-		return fmt.Errorf("GCP worker failed: %w", err)
+	// Run workers concurrently
+	g, _ := errgroup.WithContext(ctx)
+
+	g.Go(func() error {
+		if err := gcpWorker.Run(interruptCh); err != nil {
+			return fmt.Errorf("GCP worker failed: %w", err)
+		}
+		return nil
+	})
+
+	if s1Worker != nil {
+		g.Go(func() error {
+			if err := s1Worker.Run(interruptCh); err != nil {
+				return fmt.Errorf("S1 worker failed: %w", err)
+			}
+			return nil
+		})
 	}
 
-	return nil
+	return g.Wait()
 }
