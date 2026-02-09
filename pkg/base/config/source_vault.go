@@ -29,7 +29,7 @@ type VaultSourceOptions struct {
 	// Token is the Vault authentication token.
 	Token string
 
-	// SecretPath is the path to the secret (e.g., "hotpot/config").
+	// SecretPath is the path to the secret (e.g., "github.com/dannyota/hotpot/config").
 	SecretPath string
 
 	// Mount is the KV v2 mount point (default: "secret").

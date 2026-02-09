@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzegcpcomputesnapshot"
-	"hotpot/pkg/storage/ent/bronzegcpcomputesnapshotlabel"
-	"hotpot/pkg/storage/ent/bronzegcpcomputesnapshotlicense"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesnapshot"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesnapshotlabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesnapshotlicense"
 )
 
 // Service handles GCP Compute snapshot ingestion.

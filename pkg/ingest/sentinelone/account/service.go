@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzes1account"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1account"
 )
 
 // Service handles SentinelOne account ingestion.

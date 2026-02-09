@@ -6,12 +6,12 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"hotpot/pkg/ingest/sentinelone/account"
-	"hotpot/pkg/ingest/sentinelone/agent"
-	"hotpot/pkg/ingest/sentinelone/app"
-	"hotpot/pkg/ingest/sentinelone/group"
-	"hotpot/pkg/ingest/sentinelone/site"
-	"hotpot/pkg/ingest/sentinelone/threat"
+	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/account"
+	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/agent"
+	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/app"
+	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/group"
+	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/site"
+	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/threat"
 )
 
 // S1InventoryWorkflowResult contains the result of SentinelOne inventory collection.

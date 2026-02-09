@@ -8,8 +8,8 @@ import (
 	"sync"
 	"syscall"
 
-	"hotpot/pkg/base/config"
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/base/config"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // App provides a unified interface for config and database with hot-reload.

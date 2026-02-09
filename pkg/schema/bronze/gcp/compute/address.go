@@ -10,7 +10,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 
-	"hotpot/pkg/schema/bronze/mixin"
+	"github.com/dannyota/hotpot/pkg/schema/bronze/mixin"
 )
 
 // BronzeGCPComputeAddress represents a GCP Compute Engine regional address in the bronze layer.

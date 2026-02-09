@@ -1,7 +1,7 @@
 package targetinstance
 
 import (
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // TargetInstanceDiff represents changes between old and new target instance states.

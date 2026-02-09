@@ -7,7 +7,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 
-	historymixin "hotpot/pkg/schema/bronzehistory/mixin"
+	historymixin "github.com/dannyota/hotpot/pkg/schema/bronzehistory/mixin"
 )
 
 // BronzeHistoryGCPComputeTargetPool stores historical snapshots of GCP Compute target pools.

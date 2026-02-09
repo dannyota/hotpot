@@ -3,10 +3,10 @@ package vpcaccess
 import (
 	"go.temporal.io/sdk/worker"
 
-	"hotpot/pkg/base/config"
-	"hotpot/pkg/base/ratelimit"
-	"hotpot/pkg/ingest/gcp/vpcaccess/connector"
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/base/config"
+	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/vpcaccess/connector"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // Register registers all VPC Access activities and workflows.

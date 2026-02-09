@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzegcpcomputenetwork"
-	"hotpot/pkg/storage/ent/bronzegcpcomputenetworkpeering"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputenetwork"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputenetworkpeering"
 )
 
 // Service handles GCP Compute network ingestion.

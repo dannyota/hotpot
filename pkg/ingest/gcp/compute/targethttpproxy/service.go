@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzegcpcomputetargethttpproxy"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputetargethttpproxy"
 )
 
 // Service handles GCP Compute target HTTP proxy ingestion.

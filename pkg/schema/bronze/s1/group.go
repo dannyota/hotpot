@@ -7,7 +7,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 
-	"hotpot/pkg/schema/bronze/mixin"
+	"github.com/dannyota/hotpot/pkg/schema/bronze/mixin"
 )
 
 // BronzeS1Group represents a SentinelOne group in the bronze layer.

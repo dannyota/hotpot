@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzegcpvpcaccessconnector"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpcaccessconnector"
 )
 
 // Service handles GCP VPC Access connector ingestion.

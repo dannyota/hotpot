@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputetargetinstance"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputetargetinstance"
 )
 
 // HistoryService manages target instance history tracking.

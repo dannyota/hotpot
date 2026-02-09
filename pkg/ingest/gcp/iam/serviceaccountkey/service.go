@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzegcpiamserviceaccountkey"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpiamserviceaccountkey"
 )
 
 // Service handles GCP IAM service account key ingestion.

@@ -1,7 +1,7 @@
 package instancegroup
 
 import (
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // InstanceGroupDiff represents changes between old and new instance group states.

@@ -1,6 +1,6 @@
 package group
 
-import "hotpot/pkg/storage/ent"
+import "github.com/dannyota/hotpot/pkg/storage/ent"
 
 // GroupDiff represents changes between old and new group states.
 type GroupDiff struct {

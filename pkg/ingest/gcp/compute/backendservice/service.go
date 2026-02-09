@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzegcpcomputebackendservice"
-	"hotpot/pkg/storage/ent/bronzegcpcomputebackendservicebackend"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputebackendservice"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputebackendservicebackend"
 )
 
 // Service handles GCP Compute backend service ingestion.

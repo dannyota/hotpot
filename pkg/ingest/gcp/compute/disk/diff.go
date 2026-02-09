@@ -2,7 +2,7 @@ package disk
 
 import (
 	"bytes"
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // DiskDiff represents changes between old and new disk states.

@@ -6,10 +6,10 @@ import (
 	"strings"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzegcpcomputeinstancegroup"
-	"hotpot/pkg/storage/ent/bronzegcpcomputeinstancegroupmember"
-	"hotpot/pkg/storage/ent/bronzegcpcomputeinstancegroupnamedport"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstancegroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstancegroupmember"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstancegroupnamedport"
 )
 
 // Service handles GCP Compute instance group ingestion.

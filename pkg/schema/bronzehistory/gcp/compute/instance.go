@@ -9,7 +9,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 
-	historymixin "hotpot/pkg/schema/bronzehistory/mixin"
+	historymixin "github.com/dannyota/hotpot/pkg/schema/bronzehistory/mixin"
 )
 
 // BronzeHistoryGCPComputeInstance stores historical snapshots of GCP Compute instances.

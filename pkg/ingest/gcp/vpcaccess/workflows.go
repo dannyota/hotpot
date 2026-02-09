@@ -6,7 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"hotpot/pkg/ingest/gcp/vpcaccess/connector"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/vpcaccess/connector"
 )
 
 // GCPVpcAccessWorkflowParams contains parameters for the VPC Access workflow.

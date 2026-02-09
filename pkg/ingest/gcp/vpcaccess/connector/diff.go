@@ -3,7 +3,7 @@ package connector
 import (
 	"bytes"
 
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // ConnectorDiff represents changes between old and new connector states.

@@ -2,7 +2,7 @@ package instance
 
 import (
 	"bytes"
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // InstanceDiff represents changes between old and new instance states.

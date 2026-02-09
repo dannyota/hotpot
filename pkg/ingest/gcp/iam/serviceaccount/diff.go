@@ -1,6 +1,6 @@
 package serviceaccount
 
-import "hotpot/pkg/storage/ent"
+import "github.com/dannyota/hotpot/pkg/storage/ent"
 
 type ServiceAccountDiff struct {
 	IsNew     bool

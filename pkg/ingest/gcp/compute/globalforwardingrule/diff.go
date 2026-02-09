@@ -3,7 +3,7 @@ package globalforwardingrule
 import (
 	"encoding/json"
 
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // GlobalForwardingRuleDiff represents changes between old and new global forwarding rule states.

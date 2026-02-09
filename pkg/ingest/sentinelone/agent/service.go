@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzes1agent"
-	"hotpot/pkg/storage/ent/bronzes1agentnic"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1agent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1agentnic"
 )
 
 // Service handles SentinelOne agent ingestion.

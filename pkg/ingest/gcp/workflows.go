@@ -6,10 +6,10 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"hotpot/pkg/ingest/gcp/compute"
-	"hotpot/pkg/ingest/gcp/container"
-	"hotpot/pkg/ingest/gcp/iam"
-	"hotpot/pkg/ingest/gcp/vpcaccess"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/container"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/iam"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/vpcaccess"
 )
 
 // GCPInventoryWorkflowParams contains parameters for the GCP inventory workflow.

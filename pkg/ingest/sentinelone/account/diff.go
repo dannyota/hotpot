@@ -1,6 +1,6 @@
 package account
 
-import "hotpot/pkg/storage/ent"
+import "github.com/dannyota/hotpot/pkg/storage/ent"
 
 // AccountDiff represents changes between old and new account states.
 type AccountDiff struct {

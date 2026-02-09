@@ -1,6 +1,6 @@
 package app
 
-import "hotpot/pkg/storage/ent"
+import "github.com/dannyota/hotpot/pkg/storage/ent"
 
 // AppDiff represents changes between old and new app states.
 type AppDiff struct {

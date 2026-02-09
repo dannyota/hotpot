@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzehistorygcpvpntunnel"
-	"hotpot/pkg/storage/ent/bronzehistorygcpvpntunnellabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpvpntunnel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpvpntunnellabel"
 )
 
 // HistoryService handles history tracking for VPN tunnels.

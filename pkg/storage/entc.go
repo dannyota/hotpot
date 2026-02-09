@@ -19,7 +19,7 @@ import (
 
 type schemaInfo struct {
 	TypeName   string // e.g. "BronzeGCPComputeInstance"
-	ImportPath string // e.g. "hotpot/pkg/schema/bronze/gcp/compute"
+	ImportPath string // e.g. "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/compute"
 	Alias      string // e.g. "bronze_gcp_compute"
 }
 
@@ -58,7 +58,7 @@ func main() {
 	}
 
 	if err := entc.Generate(absRuntimeSchemaDir, &gen.Config{
-		Package:  "hotpot/pkg/storage/ent",
+		Package:  "github.com/dannyota/hotpot/pkg/storage/ent",
 		Target:   "ent",
 		Features: []gen.Feature{gen.FeatureSchemaConfig},
 	}); err != nil {
@@ -136,7 +136,7 @@ func discoverSchemas(root string) map[string][]schemaInfo {
 					alias := strings.ReplaceAll(relDir, string(os.PathSeparator), "_")
 					layers[layer] = append(layers[layer], schemaInfo{
 						TypeName:   typeSpec.Name.Name,
-						ImportPath: "hotpot/pkg/schema/" + strings.ReplaceAll(relDir, string(os.PathSeparator), "/"),
+						ImportPath: "github.com/dannyota/hotpot/pkg/schema/" + strings.ReplaceAll(relDir, string(os.PathSeparator), "/"),
 						Alias:      alias,
 					})
 				}

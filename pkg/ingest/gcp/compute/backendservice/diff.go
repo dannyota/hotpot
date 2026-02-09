@@ -3,7 +3,7 @@ package backendservice
 import (
 	"encoding/json"
 
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // BackendServiceDiff represents changes between old and new backend service states.

@@ -1,6 +1,6 @@
 package serviceaccountkey
 
-import "hotpot/pkg/storage/ent"
+import "github.com/dannyota/hotpot/pkg/storage/ent"
 
 // ServiceAccountKeyDiff represents changes between old and new service account key states.
 type ServiceAccountKeyDiff struct {

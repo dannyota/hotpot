@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzegcpcomputeinstance"
-	"hotpot/pkg/storage/ent/bronzegcpcomputeinstancedisk"
-	"hotpot/pkg/storage/ent/bronzegcpcomputeinstancelabel"
-	"hotpot/pkg/storage/ent/bronzegcpcomputeinstancemetadata"
-	"hotpot/pkg/storage/ent/bronzegcpcomputeinstancenic"
-	"hotpot/pkg/storage/ent/bronzegcpcomputeinstanceserviceaccount"
-	"hotpot/pkg/storage/ent/bronzegcpcomputeinstancetag"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstancedisk"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstancelabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstancemetadata"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstancenic"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstanceserviceaccount"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstancetag"
 )
 
 // Service handles GCP Compute instance ingestion.

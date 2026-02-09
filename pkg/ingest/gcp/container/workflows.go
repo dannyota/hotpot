@@ -6,7 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"hotpot/pkg/ingest/gcp/container/cluster"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/container/cluster"
 )
 
 // GCPContainerWorkflowParams contains parameters for the container workflow.

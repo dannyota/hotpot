@@ -2,7 +2,7 @@ package globaladdress
 
 import (
 	"bytes"
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // GlobalAddressDiff represents changes between old and new global address states.

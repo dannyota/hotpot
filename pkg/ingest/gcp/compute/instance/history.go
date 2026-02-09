@@ -5,17 +5,17 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstance"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancedisk"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancedisklicense"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancelabel"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancemetadata"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancenic"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancenicaccessconfig"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancenicaliasrange"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstanceserviceaccount"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancetag"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancedisk"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancedisklicense"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancelabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancemetadata"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancenic"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancenicaccessconfig"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancenicaliasrange"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstanceserviceaccount"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancetag"
 )
 
 // HistoryService handles history tracking for instances.

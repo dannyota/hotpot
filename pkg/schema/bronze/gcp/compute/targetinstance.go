@@ -7,7 +7,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 
-	"hotpot/pkg/schema/bronze/mixin"
+	"github.com/dannyota/hotpot/pkg/schema/bronze/mixin"
 )
 
 // BronzeGCPComputeTargetInstance represents a GCP Compute Engine target instance in the bronze layer.

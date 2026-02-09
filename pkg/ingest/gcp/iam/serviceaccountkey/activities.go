@@ -8,9 +8,9 @@ import (
 	"google.golang.org/api/option"
 	"google.golang.org/grpc"
 
-	"hotpot/pkg/base/config"
-	"hotpot/pkg/base/ratelimit"
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/base/config"
+	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 type Activities struct {

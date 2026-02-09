@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeglobalforwardingrule"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeglobalforwardingrulelabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeglobalforwardingrule"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeglobalforwardingrulelabel"
 )
 
 // HistoryService manages global forwarding rule history tracking.

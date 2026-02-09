@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzehistorygcpvpngateway"
-	"hotpot/pkg/storage/ent/bronzehistorygcpvpngatewaylabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpvpngateway"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpvpngatewaylabel"
 )
 
 // HistoryService handles history tracking for VPN gateways.

@@ -3,7 +3,7 @@ package negendpoint
 import (
 	"reflect"
 
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 type NegEndpointDiff struct {

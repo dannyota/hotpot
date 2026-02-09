@@ -3,7 +3,7 @@ package targetpool
 import (
 	"encoding/json"
 
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // TargetPoolDiff represents changes between old and new target pool states.

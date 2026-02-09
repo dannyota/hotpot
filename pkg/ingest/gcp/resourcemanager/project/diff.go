@@ -1,7 +1,7 @@
 package project
 
 import (
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // ProjectDiff represents changes between old and new project state.

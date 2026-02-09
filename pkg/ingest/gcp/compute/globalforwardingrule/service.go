@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzegcpcomputeglobalforwardingrule"
-	"hotpot/pkg/storage/ent/bronzegcpcomputeglobalforwardingrulelabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeglobalforwardingrule"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeglobalforwardingrulelabel"
 )
 
 // Service handles GCP Compute global forwarding rule ingestion.

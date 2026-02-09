@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeimage"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeimagelabel"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeimagelicense"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeimage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeimagelabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeimagelicense"
 )
 
 // HistoryService handles history tracking for images.

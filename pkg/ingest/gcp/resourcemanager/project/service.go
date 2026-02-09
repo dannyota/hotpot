@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzegcpproject"
-	"hotpot/pkg/storage/ent/bronzegcpprojectlabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpproject"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectlabel"
 )
 
 // Service handles GCP Project ingestion.

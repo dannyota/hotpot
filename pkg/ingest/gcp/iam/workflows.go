@@ -6,8 +6,8 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"hotpot/pkg/ingest/gcp/iam/serviceaccount"
-	"hotpot/pkg/ingest/gcp/iam/serviceaccountkey"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/iam/serviceaccount"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/iam/serviceaccountkey"
 )
 
 // GCPIAMWorkflowParams contains parameters for the IAM workflow.

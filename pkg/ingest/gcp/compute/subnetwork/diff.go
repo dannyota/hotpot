@@ -3,7 +3,7 @@ package subnetwork
 import (
 	"bytes"
 
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // SubnetworkDiff represents changes between old and new subnetwork states.

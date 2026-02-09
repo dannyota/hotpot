@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzehistorygcpproject"
-	"hotpot/pkg/storage/ent/bronzehistorygcpprojectlabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpproject"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectlabel"
 )
 
 // HistoryService manages project history tracking.

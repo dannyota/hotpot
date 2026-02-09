@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputedisk"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputedisklabel"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputedisklicense"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputedisk"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputedisklabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputedisklicense"
 )
 
 // HistoryService handles history tracking for disks.

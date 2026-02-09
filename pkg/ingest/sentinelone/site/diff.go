@@ -1,6 +1,6 @@
 package site
 
-import "hotpot/pkg/storage/ent"
+import "github.com/dannyota/hotpot/pkg/storage/ent"
 
 // SiteDiff represents changes between old and new site states.
 type SiteDiff struct {

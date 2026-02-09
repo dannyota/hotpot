@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputebackendservice"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputebackendservicebackend"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputebackendservice"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputebackendservicebackend"
 )
 
 // HistoryService manages backend service history tracking.

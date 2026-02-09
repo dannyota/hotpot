@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddress"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddresslabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddress"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddresslabel"
 )
 
 // HistoryService handles history tracking for addresses.

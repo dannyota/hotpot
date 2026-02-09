@@ -10,9 +10,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"hotpot/deploy/migrations"
-	"hotpot/internal/atlascfg"
-	"hotpot/pkg/base/app"
+	"github.com/dannyota/hotpot/deploy/migrations"
+	"github.com/dannyota/hotpot/internal/atlascfg"
+	"github.com/dannyota/hotpot/pkg/base/app"
 )
 
 func main() {

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzegcpcomputeglobaladdress"
-	"hotpot/pkg/storage/ent/bronzegcpcomputeglobaladdresslabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeglobaladdress"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeglobaladdresslabel"
 )
 
 // Service handles GCP Compute global address ingestion.

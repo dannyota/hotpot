@@ -2,7 +2,7 @@ package snapshot
 
 import (
 	"bytes"
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // SnapshotDiff represents changes between old and new snapshot states.

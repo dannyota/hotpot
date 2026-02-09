@@ -8,10 +8,10 @@ import (
 	"go.temporal.io/sdk/activity"
 	"google.golang.org/api/option"
 
-	"hotpot/pkg/base/config"
-	"hotpot/pkg/base/ratelimit"
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzegcpcomputesubnetwork"
+	"github.com/dannyota/hotpot/pkg/base/config"
+	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesubnetwork"
 )
 
 // Activities holds dependencies for Temporal activities.

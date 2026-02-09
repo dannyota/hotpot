@@ -4,8 +4,8 @@ import (
 	"context"
 	"log"
 
-	"hotpot/pkg/base/app"
-	"hotpot/pkg/ingest"
+	"github.com/dannyota/hotpot/pkg/base/app"
+	"github.com/dannyota/hotpot/pkg/ingest"
 )
 
 func main() {

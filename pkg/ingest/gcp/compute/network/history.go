@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"hotpot/pkg/storage/ent"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputenetwork"
-	"hotpot/pkg/storage/ent/bronzehistorygcpcomputenetworkpeering"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenetwork"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenetworkpeering"
 )
 
 // HistoryService handles history tracking for networks.

@@ -3,7 +3,7 @@ package threat
 import (
 	"bytes"
 
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // ThreatDiff represents changes between old and new threat states.

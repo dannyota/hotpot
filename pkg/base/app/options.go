@@ -4,7 +4,7 @@ import (
 	"os"
 	"time"
 
-	"hotpot/pkg/base/config"
+	"github.com/dannyota/hotpot/pkg/base/config"
 )
 
 // Options configures the App.
@@ -31,7 +31,7 @@ func detectConfigSource() config.ConfigSource {
 		return config.NewVaultSource(config.VaultSourceOptions{
 			Address:    os.Getenv("VAULT_ADDR"),
 			Token:      os.Getenv("VAULT_TOKEN"),
-			SecretPath: getEnv("VAULT_SECRET_PATH", "hotpot/config"),
+			SecretPath: getEnv("VAULT_SECRET_PATH", "github.com/dannyota/hotpot/config"),
 			VerifySSL:  os.Getenv("VAULT_SKIP_VERIFY") != "true",
 		})
 	default:

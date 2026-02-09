@@ -2,7 +2,7 @@ package image
 
 import (
 	"bytes"
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // ImageDiff represents changes between old and new image states.

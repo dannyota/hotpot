@@ -6,7 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"hotpot/pkg/ingest/gcp/resourcemanager/project"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/resourcemanager/project"
 )
 
 // GCPResourceManagerWorkflowParams contains parameters for the resource manager workflow.

@@ -2,7 +2,7 @@ package address
 
 import (
 	"bytes"
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // AddressDiff represents changes between old and new address states.

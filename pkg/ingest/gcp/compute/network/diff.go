@@ -3,7 +3,7 @@ package network
 import (
 	"bytes"
 
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // NetworkDiff represents changes between old and new network states.

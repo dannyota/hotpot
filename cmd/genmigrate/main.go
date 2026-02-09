@@ -19,8 +19,8 @@ import (
 	"sort"
 	"strings"
 
-	"hotpot/internal/atlascfg"
-	"hotpot/pkg/base/app"
+	"github.com/dannyota/hotpot/internal/atlascfg"
+	"github.com/dannyota/hotpot/pkg/base/app"
 )
 
 // Layer order: bronze first, then history, then silver, gold.

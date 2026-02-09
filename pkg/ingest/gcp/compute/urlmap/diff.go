@@ -3,7 +3,7 @@ package urlmap
 import (
 	"reflect"
 
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // UrlMapDiff represents changes between old and new URL map states.

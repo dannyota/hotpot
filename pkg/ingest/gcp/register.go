@@ -3,14 +3,14 @@ package gcp
 import (
 	"go.temporal.io/sdk/worker"
 
-	"hotpot/pkg/base/config"
-	"hotpot/pkg/base/ratelimit"
-	"hotpot/pkg/ingest/gcp/compute"
-	"hotpot/pkg/ingest/gcp/container"
-	"hotpot/pkg/ingest/gcp/iam"
-	"hotpot/pkg/ingest/gcp/resourcemanager"
-	"hotpot/pkg/ingest/gcp/vpcaccess"
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/base/config"
+	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/container"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/iam"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/resourcemanager"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/vpcaccess"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // Register registers all GCP activities and workflows with the Temporal worker.

@@ -3,7 +3,7 @@ package healthcheck
 import (
 	"reflect"
 
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // HealthCheckDiff represents changes between old and new health check states.

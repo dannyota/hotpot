@@ -3,7 +3,7 @@ package targethttpsproxy
 import (
 	"encoding/json"
 
-	"hotpot/pkg/storage/ent"
+	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // TargetHttpsProxyDiff represents changes between old and new target HTTPS proxy states.
