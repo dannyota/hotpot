@@ -49,6 +49,3 @@ logs/
 # OS
 .DS_Store
 Thumbs.db
-
-# Generated code
-pkg/storage/ent/
