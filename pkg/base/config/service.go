@@ -227,6 +227,34 @@ func (s *Service) S1Configured() bool {
 	return s.config != nil && s.config.S1.BaseURL != "" && s.config.S1.APIToken != ""
 }
 
+// DOAPIToken returns the DigitalOcean API token.
+func (s *Service) DOAPIToken() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.DO.APIToken
+}
+
+// DORateLimitPerMinute returns the max API requests per minute for DigitalOcean.
+// Defaults to 300 if not configured.
+func (s *Service) DORateLimitPerMinute() int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || s.config.DO.RateLimitPerMinute <= 0 {
+		return 300
+	}
+	return s.config.DO.RateLimitPerMinute
+}
+
+// DOConfigured returns true if DigitalOcean is configured with an API token.
+func (s *Service) DOConfigured() bool {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.config != nil && s.config.DO.APIToken != ""
+}
+
 // RedisConfig returns the Redis configuration.
 // Returns nil if not configured.
 func (s *Service) RedisConfig() *RedisConfig {

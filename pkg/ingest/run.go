@@ -11,6 +11,7 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"github.com/dannyota/hotpot/pkg/ingest/digitalocean"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone"
 	"github.com/dannyota/hotpot/pkg/storage/ent"
@@ -21,6 +22,7 @@ const (
 	TaskQueueGCP      = "hotpot-ingest-gcp"
 	TaskQueueVNGCloud = "hotpot-ingest-vng"
 	TaskQueueS1       = "hotpot-ingest-s1"
+	TaskQueueDO       = "hotpot-ingest-do"
 	TaskQueueFortinet = "hotpot-ingest-fortinet"
 )
 
@@ -73,6 +75,24 @@ func Run(ctx context.Context, configService *config.Service, entClient *ent.Clie
 			s1ReqPerMin, s1ActivitiesPerSec)
 	}
 
+	// Create and register DigitalOcean worker if configured
+	var doRateLimitSvc *ratelimit.Service
+	var doWorker worker.Worker
+	if configService.DOConfigured() {
+		doReqPerMin := configService.DORateLimitPerMinute()
+		doActivitiesPerSec := float64(doReqPerMin) / 60.0
+
+		doWorker = worker.New(temporalClient, TaskQueueDO, worker.Options{
+			TaskQueueActivitiesPerSecond: doActivitiesPerSec,
+		})
+
+		doRateLimitSvc = digitalocean.Register(doWorker, configService, entClient)
+		defer doRateLimitSvc.Close()
+
+		log.Printf("DigitalOcean worker configured (rate limit: %d rpm, Temporal: %.1f activities/sec)",
+			doReqPerMin, doActivitiesPerSec)
+	}
+
 	// Create and register Fortinet worker (future)
 	// fortinetWorker := worker.New(temporalClient, TaskQueueFortinet, worker.Options{})
 	// fortinet.Register(fortinetWorker, cfg.Fortinet, db)
@@ -101,6 +121,15 @@ func Run(ctx context.Context, configService *config.Service, entClient *ent.Clie
 		g.Go(func() error {
 			if err := s1Worker.Run(interruptCh); err != nil {
 				return fmt.Errorf("S1 worker failed: %w", err)
+			}
+			return nil
+		})
+	}
+
+	if doWorker != nil {
+		g.Go(func() error {
+			if err := doWorker.Run(interruptCh); err != nil {
+				return fmt.Errorf("DO worker failed: %w", err)
 			}
 			return nil
 		})

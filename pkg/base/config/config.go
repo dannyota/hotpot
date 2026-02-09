@@ -4,6 +4,7 @@ package config
 type Config struct {
 	GCP      GCPConfig      `yaml:"gcp"`
 	S1       S1Config       `yaml:"s1"`
+	DO       DOConfig       `yaml:"do"`
 	Database DatabaseConfig `yaml:"database"`
 	Temporal TemporalConfig `yaml:"temporal"`
 	Redis    RedisConfig    `yaml:"redis"`
@@ -42,6 +43,12 @@ type S1Config struct {
 	APIToken           string `yaml:"api_token"`
 	RateLimitPerMinute int    `yaml:"rate_limit_per_minute,omitempty"`
 	BatchSize          int    `yaml:"batch_size,omitempty"`
+}
+
+// DOConfig holds DigitalOcean configuration.
+type DOConfig struct {
+	APIToken           string `yaml:"api_token"`
+	RateLimitPerMinute int    `yaml:"rate_limit_per_minute,omitempty"`
 }
 
 // RedisConfig holds Redis connection configuration.
