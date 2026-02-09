@@ -50,5 +50,5 @@ logs/
 .DS_Store
 Thumbs.db
 
-
-ent/
+# Generated code
+pkg/storage/ent/
