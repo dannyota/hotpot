@@ -8,6 +8,9 @@ import (
 
 	"hotpot/pkg/ingest/sentinelone/account"
 	"hotpot/pkg/ingest/sentinelone/agent"
+	"hotpot/pkg/ingest/sentinelone/app"
+	"hotpot/pkg/ingest/sentinelone/group"
+	"hotpot/pkg/ingest/sentinelone/site"
 	"hotpot/pkg/ingest/sentinelone/threat"
 )
 
@@ -15,6 +18,9 @@ import (
 type S1InventoryWorkflowResult struct {
 	AccountCount int
 	AgentCount   int
+	AppCount     int
+	GroupCount   int
+	SiteCount    int
 	ThreatCount  int
 }
 
@@ -54,6 +60,24 @@ func S1InventoryWorkflow(ctx workflow.Context) (*S1InventoryWorkflowResult, erro
 		result.AgentCount = agentResult.AgentCount
 	}
 
+	// Execute site workflow
+	var siteResult site.S1SiteWorkflowResult
+	err = workflow.ExecuteChildWorkflow(ctx, site.S1SiteWorkflow).Get(ctx, &siteResult)
+	if err != nil {
+		logger.Error("Failed to execute S1SiteWorkflow", "error", err)
+	} else {
+		result.SiteCount = siteResult.SiteCount
+	}
+
+	// Execute group workflow
+	var groupResult group.S1GroupWorkflowResult
+	err = workflow.ExecuteChildWorkflow(ctx, group.S1GroupWorkflow).Get(ctx, &groupResult)
+	if err != nil {
+		logger.Error("Failed to execute S1GroupWorkflow", "error", err)
+	} else {
+		result.GroupCount = groupResult.GroupCount
+	}
+
 	// Execute threat workflow
 	var threatResult threat.S1ThreatWorkflowResult
 	err = workflow.ExecuteChildWorkflow(ctx, threat.S1ThreatWorkflow).Get(ctx, &threatResult)
@@ -63,9 +87,21 @@ func S1InventoryWorkflow(ctx workflow.Context) (*S1InventoryWorkflowResult, erro
 		result.ThreatCount = threatResult.ThreatCount
 	}
 
+	// Execute app workflow
+	var appResult app.S1AppWorkflowResult
+	err = workflow.ExecuteChildWorkflow(ctx, app.S1AppWorkflow).Get(ctx, &appResult)
+	if err != nil {
+		logger.Error("Failed to execute S1AppWorkflow", "error", err)
+	} else {
+		result.AppCount = appResult.AppCount
+	}
+
 	logger.Info("Completed S1InventoryWorkflow",
 		"accounts", result.AccountCount,
 		"agents", result.AgentCount,
+		"apps", result.AppCount,
+		"groups", result.GroupCount,
+		"sites", result.SiteCount,
 		"threats", result.ThreatCount,
 	)
 

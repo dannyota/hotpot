@@ -7,6 +7,9 @@ import (
 	"hotpot/pkg/base/ratelimit"
 	"hotpot/pkg/ingest/sentinelone/account"
 	"hotpot/pkg/ingest/sentinelone/agent"
+	"hotpot/pkg/ingest/sentinelone/app"
+	"hotpot/pkg/ingest/sentinelone/group"
+	"hotpot/pkg/ingest/sentinelone/site"
 	"hotpot/pkg/ingest/sentinelone/threat"
 	"hotpot/pkg/storage/ent"
 )
@@ -23,6 +26,9 @@ func Register(w worker.Worker, configService *config.Service, entClient *ent.Cli
 
 	account.Register(w, configService, entClient, limiter)
 	agent.Register(w, configService, entClient, limiter)
+	app.Register(w, configService, entClient, limiter)
+	group.Register(w, configService, entClient, limiter)
+	site.Register(w, configService, entClient, limiter)
 	threat.Register(w, configService, entClient, limiter)
 
 	w.RegisterWorkflow(S1InventoryWorkflow)
