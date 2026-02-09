@@ -32,7 +32,7 @@ flowchart TD
     DB --> METABASE & AGENT
 ```
 
-## Medallion Layers
+## 🏅 Medallion Layers
 
 | Layer | Package | Purpose | Data State |
 |-------|---------|---------|------------|
@@ -42,16 +42,20 @@ flowchart TD
 | Agent | External | Text-to-SQL (WrenAI + Ollama / Vertex AI) | Read-only access to all layers |
 | Admin | Metabase | Web interface for humans | Read-only access to all layers |
 
-## Project Structure
+## 📂 Project Structure
 
 ```
 hotpot/
 ├── bin/                        # Compiled binaries (gitignored)
 │
-├── cmd/                        # Thin entry points
+├── cmd/                        # Production binaries
 │   ├── ingest/main.go
-│   ├── normalize/main.go
-│   └── detect/main.go
+│   ├── migrate/main.go
+│   └── ...
+│
+├── tools/                      # Dev-only tools
+│   ├── entcgen/main.go         # Ent code generation
+│   └── genmigrate/main.go      # Migration SQL generation
 │
 ├── docs/                       # Documentation
 │   ├── README.md               # Index
@@ -102,7 +106,7 @@ hotpot/
 └── go.mod
 ```
 
-## Microservices
+## 🔧 Microservices
 
 Each layer runs as an independent Temporal worker. Admin UI uses Metabase (external service).
 
@@ -110,11 +114,10 @@ Each layer runs as an independent Temporal worker. Admin UI uses Metabase (exter
 
 ```
 cmd/ingest/main.go      →  imports pkg/ingest  →  calls ingest.Run()
-cmd/normalize/main.go   →  imports pkg/normalize  →  calls normalize.Run()
-cmd/detect/main.go      →  imports pkg/detect  →  calls detect.Run()
+cmd/migrate/main.go     →  imports pkg/migrate  →  calls migrate.Run()
 ```
 
-`cmd/` contains only thin `main.go` files. All logic lives in `pkg/`.
+`cmd/` contains only production binaries. Dev tools live in `tools/`. All logic lives in `pkg/`.
 
 ### Task Queues
 
@@ -127,7 +130,7 @@ cmd/detect/main.go      →  imports pkg/detect  →  calls detect.Run()
 | normalize | `hotpot-normalize` | Data normalization |
 | detect | `hotpot-detect` | Detection rules |
 
-## Data Flow
+## 🔄 Data Flow
 
 ```mermaid
 flowchart LR
@@ -165,7 +168,7 @@ flowchart LR
     bronze & silver & gold -.-> AGENT
 ```
 
-## Database Schemas
+## 🗄️ Database Schemas
 
 Single PostgreSQL database with current and history schemas per layer:
 
@@ -212,7 +215,7 @@ func (BronzeGCPComputeInstance) Annotations() []schema.Annotation {
 }
 ```
 
-## Module Structure
+## 📦 Module Structure
 
 Each module in `pkg/` is self-contained with nested provider/resource structure:
 
@@ -279,7 +282,7 @@ client.BronzeGCPComputeInstance.Query()...
 client.SilverEnrichedAsset.Query()...
 ```
 
-## Scaling
+## 📈 Scaling
 
 Each service can be scaled independently:
 
@@ -294,7 +297,7 @@ kubectl scale deployment hotpot-normalize --replicas=1
 kubectl scale deployment hotpot-detect --replicas=3
 ```
 
-## Tech Stack
+## ⚙️ Tech Stack
 
 | Component | Technology |
 |-----------|------------|
@@ -305,7 +308,7 @@ kubectl scale deployment hotpot-detect --replicas=3
 | Admin UI | Metabase |
 | Deployment | Docker + Kubernetes |
 
-## Admin
+## 🖥️ Admin
 
 Web interface for viewing data.
 
@@ -313,7 +316,7 @@ Web interface for viewing data.
 |------|---------|
 | Metabase | Data tables, dashboards, charts |
 
-## Agent
+## 🤖 Agent
 
 AI-powered natural language interface. See [AGENT.md](../features/AGENT.md).
 

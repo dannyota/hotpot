@@ -56,9 +56,9 @@ generate: ## Generate ent code
 genmigrate: ## Generate migration SQL (NAME=description DB=dbname)
 	@$(MKDIR_BIN)
 	@echo "Building genmigrate..."
-	@go build -o bin/genmigrate$(BIN_EXT) ./cmd/genmigrate
+	@go build -o bin/genmigrate$(BIN_EXT) ./tools/genmigrate
 	@echo "genmigrate built in bin/"
-	@go run ./cmd/genmigrate --schema $(SCHEMA) --out $(MIGDIR) --db $(DB) $(NAME)
+	@go run ./tools/genmigrate --schema $(SCHEMA) --out $(MIGDIR) --db $(DB) $(NAME)
 
 migrate: ## Apply pending migrations
 	@$(MKDIR_BIN)
