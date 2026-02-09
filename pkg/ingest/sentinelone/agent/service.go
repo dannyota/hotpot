@@ -146,7 +146,7 @@ func (s *Service) saveAgents(ctx context.Context, agents []*AgentData) error {
 				SetDomain(data.Domain).
 				SetUUID(data.UUID).
 				SetNetworkStatus(data.NetworkStatus).
-				SetThreatCount(data.ThreatCount).
+				SetActiveThreats(data.ActiveThreats).
 				SetEncryptedApplications(data.EncryptedApplications).
 				SetGroupName(data.GroupName).
 				SetGroupID(data.GroupID).
@@ -157,6 +157,23 @@ func (s *Service) saveAgents(ctx context.Context, agents []*AgentData) error {
 				SetModelName(data.ModelName).
 				SetSerialNumber(data.SerialNumber).
 				SetStorageEncryptionStatus(data.StorageEncryptionStatus).
+				SetSiteID(data.SiteID).
+				SetOsUsername(data.OSUsername).
+				SetGroupIP(data.GroupIP).
+				SetScanStatus(data.ScanStatus).
+				SetMitigationMode(data.MitigationMode).
+				SetMitigationModeSuspicious(data.MitigationModeSuspicious).
+				SetLastLoggedInUserName(data.LastLoggedInUserName).
+				SetInstallerType(data.InstallerType).
+				SetExternalID(data.ExternalID).
+				SetLastIPToMgmt(data.LastIpToMgmt).
+				SetIsUpToDate(data.IsUpToDate).
+				SetIsPendingUninstall(data.IsPendingUninstall).
+				SetIsUninstalled(data.IsUninstalled).
+				SetAppsVulnerabilityStatus(data.AppsVulnerabilityStatus).
+				SetConsoleMigrationStatus(data.ConsoleMigrationStatus).
+				SetRangerVersion(data.RangerVersion).
+				SetRangerStatus(data.RangerStatus).
 				SetCollectedAt(data.CollectedAt).
 				SetFirstCollectedAt(data.CollectedAt)
 
@@ -174,6 +191,27 @@ func (s *Service) saveAgents(ctx context.Context, agents []*AgentData) error {
 			}
 			if data.NetworkInterfacesJSON != nil {
 				create.SetNetworkInterfacesJSON(data.NetworkInterfacesJSON)
+			}
+			if data.APICreatedAt != nil {
+				create.SetAPICreatedAt(*data.APICreatedAt)
+			}
+			if data.ScanStartedAt != nil {
+				create.SetScanStartedAt(*data.ScanStartedAt)
+			}
+			if data.ScanFinishedAt != nil {
+				create.SetScanFinishedAt(*data.ScanFinishedAt)
+			}
+			if data.ActiveDirectoryJSON != nil {
+				create.SetActiveDirectoryJSON(data.ActiveDirectoryJSON)
+			}
+			if data.LocationsJSON != nil {
+				create.SetLocationsJSON(data.LocationsJSON)
+			}
+			if data.UserActionsNeededJSON != nil {
+				create.SetUserActionsNeededJSON(data.UserActionsNeededJSON)
+			}
+			if data.MissingPermissionsJSON != nil {
+				create.SetMissingPermissionsJSON(data.MissingPermissionsJSON)
 			}
 
 			savedAgent, err = create.Save(ctx)
@@ -200,7 +238,7 @@ func (s *Service) saveAgents(ctx context.Context, agents []*AgentData) error {
 				SetDomain(data.Domain).
 				SetUUID(data.UUID).
 				SetNetworkStatus(data.NetworkStatus).
-				SetThreatCount(data.ThreatCount).
+				SetActiveThreats(data.ActiveThreats).
 				SetEncryptedApplications(data.EncryptedApplications).
 				SetGroupName(data.GroupName).
 				SetGroupID(data.GroupID).
@@ -211,6 +249,23 @@ func (s *Service) saveAgents(ctx context.Context, agents []*AgentData) error {
 				SetModelName(data.ModelName).
 				SetSerialNumber(data.SerialNumber).
 				SetStorageEncryptionStatus(data.StorageEncryptionStatus).
+				SetSiteID(data.SiteID).
+				SetOsUsername(data.OSUsername).
+				SetGroupIP(data.GroupIP).
+				SetScanStatus(data.ScanStatus).
+				SetMitigationMode(data.MitigationMode).
+				SetMitigationModeSuspicious(data.MitigationModeSuspicious).
+				SetLastLoggedInUserName(data.LastLoggedInUserName).
+				SetInstallerType(data.InstallerType).
+				SetExternalID(data.ExternalID).
+				SetLastIPToMgmt(data.LastIpToMgmt).
+				SetIsUpToDate(data.IsUpToDate).
+				SetIsPendingUninstall(data.IsPendingUninstall).
+				SetIsUninstalled(data.IsUninstalled).
+				SetAppsVulnerabilityStatus(data.AppsVulnerabilityStatus).
+				SetConsoleMigrationStatus(data.ConsoleMigrationStatus).
+				SetRangerVersion(data.RangerVersion).
+				SetRangerStatus(data.RangerStatus).
 				SetCollectedAt(data.CollectedAt)
 
 			if data.LastActiveDate != nil {
@@ -227,6 +282,27 @@ func (s *Service) saveAgents(ctx context.Context, agents []*AgentData) error {
 			}
 			if data.NetworkInterfacesJSON != nil {
 				update.SetNetworkInterfacesJSON(data.NetworkInterfacesJSON)
+			}
+			if data.APICreatedAt != nil {
+				update.SetAPICreatedAt(*data.APICreatedAt)
+			}
+			if data.ScanStartedAt != nil {
+				update.SetScanStartedAt(*data.ScanStartedAt)
+			}
+			if data.ScanFinishedAt != nil {
+				update.SetScanFinishedAt(*data.ScanFinishedAt)
+			}
+			if data.ActiveDirectoryJSON != nil {
+				update.SetActiveDirectoryJSON(data.ActiveDirectoryJSON)
+			}
+			if data.LocationsJSON != nil {
+				update.SetLocationsJSON(data.LocationsJSON)
+			}
+			if data.UserActionsNeededJSON != nil {
+				update.SetUserActionsNeededJSON(data.UserActionsNeededJSON)
+			}
+			if data.MissingPermissionsJSON != nil {
+				update.SetMissingPermissionsJSON(data.MissingPermissionsJSON)
 			}
 
 			savedAgent, err = update.Save(ctx)

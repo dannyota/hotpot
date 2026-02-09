@@ -127,11 +127,24 @@ func (s *Service) saveApps(ctx context.Context, apps []*AppData) error {
 				SetAgentIsDecommissioned(data.AgentIsDecommissioned).
 				SetRiskLevel(data.RiskLevel).
 				SetSigned(data.Signed).
+				SetAgentUUID(data.AgentUUID).
+				SetAgentDomain(data.AgentDomain).
+				SetAgentVersion(data.AgentVersion).
+				SetAgentOsType(data.AgentOsType).
+				SetAgentNetworkStatus(data.AgentNetworkStatus).
+				SetAgentInfected(data.AgentInfected).
+				SetAgentOperationalState(data.AgentOperationalState).
 				SetCollectedAt(data.CollectedAt).
 				SetFirstCollectedAt(data.CollectedAt)
 
 			if data.InstalledDate != nil {
 				create.SetInstalledDate(*data.InstalledDate)
+			}
+			if data.APICreatedAt != nil {
+				create.SetAPICreatedAt(*data.APICreatedAt)
+			}
+			if data.APIUpdatedAt != nil {
+				create.SetAPIUpdatedAt(*data.APIUpdatedAt)
 			}
 
 			if _, err := create.Save(ctx); err != nil {
@@ -158,10 +171,23 @@ func (s *Service) saveApps(ctx context.Context, apps []*AppData) error {
 				SetAgentIsDecommissioned(data.AgentIsDecommissioned).
 				SetRiskLevel(data.RiskLevel).
 				SetSigned(data.Signed).
+				SetAgentUUID(data.AgentUUID).
+				SetAgentDomain(data.AgentDomain).
+				SetAgentVersion(data.AgentVersion).
+				SetAgentOsType(data.AgentOsType).
+				SetAgentNetworkStatus(data.AgentNetworkStatus).
+				SetAgentInfected(data.AgentInfected).
+				SetAgentOperationalState(data.AgentOperationalState).
 				SetCollectedAt(data.CollectedAt)
 
 			if data.InstalledDate != nil {
 				update.SetInstalledDate(*data.InstalledDate)
+			}
+			if data.APIUpdatedAt != nil {
+				update.SetAPIUpdatedAt(*data.APIUpdatedAt)
+			}
+			if data.APICreatedAt != nil {
+				update.SetAPICreatedAt(*data.APICreatedAt)
 			}
 
 			if _, err := update.Save(ctx); err != nil {

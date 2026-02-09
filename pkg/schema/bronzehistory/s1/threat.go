@@ -51,6 +51,37 @@ func (BronzeHistoryS1Threat) Fields() []ent.Field {
 			Nillable(),
 		field.JSON("threat_info_json", json.RawMessage{}).
 			Optional(),
+		field.Time("api_updated_at").
+			Optional().
+			Nillable(),
+		field.String("file_content_hash").
+			Optional(),
+		field.String("file_sha256").
+			Optional(),
+		field.String("cloud_verdict").
+			Optional(),
+		field.String("classification_source").
+			Optional(),
+		field.String("site_id").
+			Optional(),
+		field.String("site_name").
+			Optional(),
+		field.String("account_id").
+			Optional(),
+		field.String("account_name").
+			Optional(),
+		field.String("agent_computer_name").
+			Optional(),
+		field.String("agent_os_type").
+			Optional(),
+		field.String("agent_machine_type").
+			Optional(),
+		field.Bool("agent_is_active").
+			Default(false),
+		field.Bool("agent_is_decommissioned").
+			Default(false),
+		field.String("agent_version").
+			Optional(),
 	}
 }
 

@@ -33,13 +33,30 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Th
 		SetStatus(data.Status).
 		SetAnalystVerdict(data.AnalystVerdict).
 		SetConfidenceLevel(data.ConfidenceLevel).
-		SetInitiatedBy(data.InitiatedBy)
+		SetInitiatedBy(data.InitiatedBy).
+		SetFileContentHash(data.FileContentHash).
+		SetFileSha256(data.FileSHA256).
+		SetCloudVerdict(data.CloudVerdict).
+		SetClassificationSource(data.ClassificationSource).
+		SetSiteID(data.SiteID).
+		SetSiteName(data.SiteName).
+		SetAccountID(data.AccountID).
+		SetAccountName(data.AccountName).
+		SetAgentComputerName(data.AgentComputerName).
+		SetAgentOsType(data.AgentOsType).
+		SetAgentMachineType(data.AgentMachineType).
+		SetAgentIsActive(data.AgentIsActive).
+		SetAgentIsDecommissioned(data.AgentIsDecommissioned).
+		SetAgentVersion(data.AgentVersion)
 
 	if data.APICreatedAt != nil {
 		create.SetAPICreatedAt(*data.APICreatedAt)
 	}
 	if data.ThreatInfoJSON != nil {
 		create.SetThreatInfoJSON(data.ThreatInfoJSON)
+	}
+	if data.APIUpdatedAt != nil {
+		create.SetAPIUpdatedAt(*data.APIUpdatedAt)
 	}
 
 	if _, err := create.Save(ctx); err != nil {
@@ -78,13 +95,30 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		SetStatus(new.Status).
 		SetAnalystVerdict(new.AnalystVerdict).
 		SetConfidenceLevel(new.ConfidenceLevel).
-		SetInitiatedBy(new.InitiatedBy)
+		SetInitiatedBy(new.InitiatedBy).
+		SetFileContentHash(new.FileContentHash).
+		SetFileSha256(new.FileSHA256).
+		SetCloudVerdict(new.CloudVerdict).
+		SetClassificationSource(new.ClassificationSource).
+		SetSiteID(new.SiteID).
+		SetSiteName(new.SiteName).
+		SetAccountID(new.AccountID).
+		SetAccountName(new.AccountName).
+		SetAgentComputerName(new.AgentComputerName).
+		SetAgentOsType(new.AgentOsType).
+		SetAgentMachineType(new.AgentMachineType).
+		SetAgentIsActive(new.AgentIsActive).
+		SetAgentIsDecommissioned(new.AgentIsDecommissioned).
+		SetAgentVersion(new.AgentVersion)
 
 	if new.APICreatedAt != nil {
 		create.SetAPICreatedAt(*new.APICreatedAt)
 	}
 	if new.ThreatInfoJSON != nil {
 		create.SetThreatInfoJSON(new.ThreatInfoJSON)
+	}
+	if new.APIUpdatedAt != nil {
+		create.SetAPIUpdatedAt(*new.APIUpdatedAt)
 	}
 
 	if _, err := create.Save(ctx); err != nil {

@@ -122,6 +122,20 @@ func (s *Service) saveThreats(ctx context.Context, threats []*ThreatData) error 
 				SetAnalystVerdict(data.AnalystVerdict).
 				SetConfidenceLevel(data.ConfidenceLevel).
 				SetInitiatedBy(data.InitiatedBy).
+				SetFileContentHash(data.FileContentHash).
+				SetFileSha256(data.FileSHA256).
+				SetCloudVerdict(data.CloudVerdict).
+				SetClassificationSource(data.ClassificationSource).
+				SetSiteID(data.SiteID).
+				SetSiteName(data.SiteName).
+				SetAccountID(data.AccountID).
+				SetAccountName(data.AccountName).
+				SetAgentComputerName(data.AgentComputerName).
+				SetAgentOsType(data.AgentOsType).
+				SetAgentMachineType(data.AgentMachineType).
+				SetAgentIsActive(data.AgentIsActive).
+				SetAgentIsDecommissioned(data.AgentIsDecommissioned).
+				SetAgentVersion(data.AgentVersion).
 				SetCollectedAt(data.CollectedAt).
 				SetFirstCollectedAt(data.CollectedAt)
 
@@ -130,6 +144,9 @@ func (s *Service) saveThreats(ctx context.Context, threats []*ThreatData) error 
 			}
 			if data.ThreatInfoJSON != nil {
 				create.SetThreatInfoJSON(data.ThreatInfoJSON)
+			}
+			if data.APIUpdatedAt != nil {
+				create.SetAPIUpdatedAt(*data.APIUpdatedAt)
 			}
 
 			if _, err := create.Save(ctx); err != nil {
@@ -151,6 +168,20 @@ func (s *Service) saveThreats(ctx context.Context, threats []*ThreatData) error 
 				SetAnalystVerdict(data.AnalystVerdict).
 				SetConfidenceLevel(data.ConfidenceLevel).
 				SetInitiatedBy(data.InitiatedBy).
+				SetFileContentHash(data.FileContentHash).
+				SetFileSha256(data.FileSHA256).
+				SetCloudVerdict(data.CloudVerdict).
+				SetClassificationSource(data.ClassificationSource).
+				SetSiteID(data.SiteID).
+				SetSiteName(data.SiteName).
+				SetAccountID(data.AccountID).
+				SetAccountName(data.AccountName).
+				SetAgentComputerName(data.AgentComputerName).
+				SetAgentOsType(data.AgentOsType).
+				SetAgentMachineType(data.AgentMachineType).
+				SetAgentIsActive(data.AgentIsActive).
+				SetAgentIsDecommissioned(data.AgentIsDecommissioned).
+				SetAgentVersion(data.AgentVersion).
 				SetCollectedAt(data.CollectedAt)
 
 			if data.APICreatedAt != nil {
@@ -158,6 +189,9 @@ func (s *Service) saveThreats(ctx context.Context, threats []*ThreatData) error 
 			}
 			if data.ThreatInfoJSON != nil {
 				update.SetThreatInfoJSON(data.ThreatInfoJSON)
+			}
+			if data.APIUpdatedAt != nil {
+				update.SetAPIUpdatedAt(*data.APIUpdatedAt)
 			}
 
 			if _, err := update.Save(ctx); err != nil {

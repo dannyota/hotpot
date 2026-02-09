@@ -76,6 +76,30 @@ type APIAgent struct {
 	SerialNumber            string                `json:"serialNumber"`
 	StorageEncryptionStatus string                `json:"storageEncryptionStatus"`
 	NetworkInterfaces       []APINetworkInterface `json:"networkInterfaces"`
+	SiteID                   string          `json:"siteId"`
+	CreatedAt                *time.Time      `json:"createdAt"`
+	OSUsername               string          `json:"osUsername"`
+	GroupIP                  string          `json:"groupIp"`
+	ScanStatus               string          `json:"scanStatus"`
+	ScanStartedAt            *time.Time      `json:"scanStartedAt"`
+	ScanFinishedAt           *time.Time      `json:"scanFinishedAt"`
+	MitigationMode           string          `json:"mitigationMode"`
+	MitigationModeSuspicious string          `json:"mitigationModeSuspicious"`
+	LastLoggedInUserName     string          `json:"lastLoggedInUserName"`
+	InstallerType            string          `json:"installerType"`
+	ExternalID               string          `json:"externalId"`
+	LastIpToMgmt             string          `json:"lastIpToMgmt"`
+	IsUpToDate               bool            `json:"isUpToDate"`
+	IsPendingUninstall       bool            `json:"isPendingUninstall"`
+	IsUninstalled            bool            `json:"isUninstalled"`
+	AppsVulnerabilityStatus  string          `json:"appsVulnerabilityStatus"`
+	ConsoleMigrationStatus   string          `json:"consoleMigrationStatus"`
+	RangerVersion            string          `json:"rangerVersion"`
+	RangerStatus             string          `json:"rangerStatus"`
+	ActiveDirectory          json.RawMessage `json:"activeDirectory"`
+	Locations                json.RawMessage `json:"locations"`
+	UserActionsNeeded        json.RawMessage `json:"userActionsNeeded"`
+	MissingPermissions       json.RawMessage `json:"missingPermissions"`
 }
 
 // AgentBatchResult contains a batch of agents and pagination info.

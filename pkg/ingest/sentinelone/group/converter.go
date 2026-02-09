@@ -16,9 +16,10 @@ type GroupData struct {
 	CreatorID    string
 	FilterName   string
 	FilterID     string
-	APICreatedAt *time.Time
-	APIUpdatedAt *time.Time
-	CollectedAt  time.Time
+	APICreatedAt      *time.Time
+	APIUpdatedAt      *time.Time
+	RegistrationToken string
+	CollectedAt       time.Time
 }
 
 // ConvertGroup converts an API group to GroupData.
@@ -34,9 +35,10 @@ func ConvertGroup(g APIGroup, collectedAt time.Time) *GroupData {
 		TotalAgents: g.TotalAgents,
 		Creator:     g.Creator,
 		CreatorID:   g.CreatorID,
-		FilterName:  g.FilterName,
-		FilterID:    g.FilterID,
-		CollectedAt: collectedAt,
+		FilterName:        g.FilterName,
+		FilterID:          g.FilterID,
+		RegistrationToken: g.RegistrationToken,
+		CollectedAt:       collectedAt,
 	}
 
 	if g.CreatedAt != nil {

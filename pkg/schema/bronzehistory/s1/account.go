@@ -1,6 +1,8 @@
 package s1
 
 import (
+	"encoding/json"
+
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
@@ -30,6 +32,39 @@ func (BronzeHistoryS1Account) Fields() []ent.Field {
 
 		field.String("name").
 			NotEmpty(),
+		field.String("state").
+			Optional(),
+		field.String("account_type").
+			Optional(),
+		field.Time("api_created_at").
+			Optional().
+			Nillable(),
+		field.Time("api_updated_at").
+			Optional().
+			Nillable(),
+		field.Time("expiration").
+			Optional().
+			Nillable(),
+		field.Bool("unlimited_expiration").
+			Default(false),
+		field.Int("active_agents").
+			Default(0),
+		field.Int("total_licenses").
+			Default(0),
+		field.String("usage_type").
+			Optional(),
+		field.String("billing_mode").
+			Optional(),
+		field.String("creator").
+			Optional(),
+		field.String("creator_id").
+			Optional(),
+		field.Int("number_of_sites").
+			Default(0),
+		field.String("external_id").
+			Optional(),
+		field.JSON("licenses_json", json.RawMessage{}).
+			Optional(),
 	}
 }
 

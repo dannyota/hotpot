@@ -77,7 +77,7 @@ func (BronzeS1Agent) Fields() []ent.Field {
 		field.Time("os_start_time").
 			Optional().
 			Nillable(),
-		field.Int("threat_count").
+		field.Int("active_threats").
 			Default(0),
 		field.Bool("encrypted_applications").
 			Default(false),
@@ -105,6 +105,57 @@ func (BronzeS1Agent) Fields() []ent.Field {
 		//	[{"id": "...", "name": "eth0", "inet": ["10.0.0.1"], ...}]
 		field.JSON("network_interfaces_json", json.RawMessage{}).
 			Optional(),
+		field.String("site_id").
+			Optional(),
+		field.Time("api_created_at").
+			Optional().
+			Nillable(),
+		field.String("os_username").
+			Optional(),
+		field.String("group_ip").
+			Optional(),
+		field.String("scan_status").
+			Optional(),
+		field.Time("scan_started_at").
+			Optional().
+			Nillable(),
+		field.Time("scan_finished_at").
+			Optional().
+			Nillable(),
+		field.String("mitigation_mode").
+			Optional(),
+		field.String("mitigation_mode_suspicious").
+			Optional(),
+		field.String("last_logged_in_user_name").
+			Optional(),
+		field.String("installer_type").
+			Optional(),
+		field.String("external_id").
+			Optional(),
+		field.String("last_ip_to_mgmt").
+			Optional(),
+		field.Bool("is_up_to_date").
+			Default(false),
+		field.Bool("is_pending_uninstall").
+			Default(false),
+		field.Bool("is_uninstalled").
+			Default(false),
+		field.String("apps_vulnerability_status").
+			Optional(),
+		field.String("console_migration_status").
+			Optional(),
+		field.String("ranger_version").
+			Optional(),
+		field.String("ranger_status").
+			Optional(),
+		field.JSON("active_directory_json", json.RawMessage{}).
+			Optional(),
+		field.JSON("locations_json", json.RawMessage{}).
+			Optional(),
+		field.JSON("user_actions_needed_json", json.RawMessage{}).
+			Optional(),
+		field.JSON("missing_permissions_json", json.RawMessage{}).
+			Optional(),
 	}
 }
 
@@ -121,6 +172,8 @@ func (BronzeS1Agent) Indexes() []ent.Index {
 		index.Fields("is_infected"),
 		index.Fields("os_type"),
 		index.Fields("collected_at"),
+		index.Fields("site_id"),
+		index.Fields("scan_status"),
 	}
 }
 

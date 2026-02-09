@@ -24,6 +24,7 @@ func DiffGroupData(old *ent.BronzeS1Group, new *GroupData) *GroupDiff {
 		old.CreatorID != new.CreatorID ||
 		old.FilterName != new.FilterName ||
 		old.FilterID != new.FilterID ||
+		old.RegistrationToken != new.RegistrationToken ||
 		!nillableIntEqual(old.Rank, new.Rank)
 
 	return &GroupDiff{IsChanged: changed}

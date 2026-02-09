@@ -128,6 +128,11 @@ func (s *Service) saveSites(ctx context.Context, sites []*SiteData) error {
 				SetUnlimitedLicenses(data.UnlimitedLicenses).
 				SetIsDefault(data.IsDefault).
 				SetDescription(data.Description).
+				SetExternalID(data.ExternalID).
+				SetSku(data.SKU).
+				SetUsageType(data.UsageType).
+				SetUnlimitedExpiration(data.UnlimitedExpiration).
+				SetInheritAccountExpiration(data.InheritAccountExpiration).
 				SetCollectedAt(data.CollectedAt).
 				SetFirstCollectedAt(data.CollectedAt)
 
@@ -136,6 +141,12 @@ func (s *Service) saveSites(ctx context.Context, sites []*SiteData) error {
 			}
 			if data.Expiration != nil {
 				create.SetExpiration(*data.Expiration)
+			}
+			if data.APIUpdatedAt != nil {
+				create.SetAPIUpdatedAt(*data.APIUpdatedAt)
+			}
+			if data.LicensesJSON != nil {
+				create.SetLicensesJSON(data.LicensesJSON)
 			}
 
 			if _, err := create.Save(ctx); err != nil {
@@ -163,6 +174,11 @@ func (s *Service) saveSites(ctx context.Context, sites []*SiteData) error {
 				SetUnlimitedLicenses(data.UnlimitedLicenses).
 				SetIsDefault(data.IsDefault).
 				SetDescription(data.Description).
+				SetExternalID(data.ExternalID).
+				SetSku(data.SKU).
+				SetUsageType(data.UsageType).
+				SetUnlimitedExpiration(data.UnlimitedExpiration).
+				SetInheritAccountExpiration(data.InheritAccountExpiration).
 				SetCollectedAt(data.CollectedAt)
 
 			if data.APICreatedAt != nil {
@@ -170,6 +186,12 @@ func (s *Service) saveSites(ctx context.Context, sites []*SiteData) error {
 			}
 			if data.Expiration != nil {
 				update.SetExpiration(*data.Expiration)
+			}
+			if data.APIUpdatedAt != nil {
+				update.SetAPIUpdatedAt(*data.APIUpdatedAt)
+			}
+			if data.LicensesJSON != nil {
+				update.SetLicensesJSON(data.LicensesJSON)
 			}
 
 			if _, err := update.Save(ctx); err != nil {

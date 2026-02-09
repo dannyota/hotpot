@@ -30,7 +30,7 @@ type AgentData struct {
 	RegisteredAt            *time.Time
 	APIUpdatedAt            *time.Time
 	OSStartTime             *time.Time
-	ThreatCount             int
+	ActiveThreats           int
 	EncryptedApplications   bool
 	GroupName               string
 	GroupID                 string
@@ -42,6 +42,30 @@ type AgentData struct {
 	SerialNumber            string
 	StorageEncryptionStatus string
 	NetworkInterfacesJSON   json.RawMessage
+	SiteID                   string
+	APICreatedAt             *time.Time
+	OSUsername               string
+	GroupIP                  string
+	ScanStatus               string
+	ScanStartedAt            *time.Time
+	ScanFinishedAt           *time.Time
+	MitigationMode           string
+	MitigationModeSuspicious string
+	LastLoggedInUserName     string
+	InstallerType            string
+	ExternalID               string
+	LastIpToMgmt             string
+	IsUpToDate               bool
+	IsPendingUninstall       bool
+	IsUninstalled            bool
+	AppsVulnerabilityStatus  string
+	ConsoleMigrationStatus   string
+	RangerVersion            string
+	RangerStatus             string
+	ActiveDirectoryJSON      json.RawMessage
+	LocationsJSON            json.RawMessage
+	UserActionsNeededJSON    json.RawMessage
+	MissingPermissionsJSON   json.RawMessage
 	CollectedAt             time.Time
 
 	// Child data
@@ -86,7 +110,7 @@ func ConvertAgent(agent APIAgent, collectedAt time.Time) (*AgentData, error) {
 		RegisteredAt:            agent.RegisteredAt,
 		APIUpdatedAt:            agent.UpdatedAt,
 		OSStartTime:             agent.OSStartTime,
-		ThreatCount:             agent.ActiveThreats,
+		ActiveThreats:           agent.ActiveThreats,
 		EncryptedApplications:   agent.EncryptedApplications,
 		GroupName:               agent.GroupName,
 		GroupID:                 agent.GroupID,
@@ -97,6 +121,30 @@ func ConvertAgent(agent APIAgent, collectedAt time.Time) (*AgentData, error) {
 		ModelName:               agent.ModelName,
 		SerialNumber:            agent.SerialNumber,
 		StorageEncryptionStatus: agent.StorageEncryptionStatus,
+		SiteID:                   agent.SiteID,
+		APICreatedAt:             agent.CreatedAt,
+		OSUsername:               agent.OSUsername,
+		GroupIP:                  agent.GroupIP,
+		ScanStatus:               agent.ScanStatus,
+		ScanStartedAt:            agent.ScanStartedAt,
+		ScanFinishedAt:           agent.ScanFinishedAt,
+		MitigationMode:           agent.MitigationMode,
+		MitigationModeSuspicious: agent.MitigationModeSuspicious,
+		LastLoggedInUserName:     agent.LastLoggedInUserName,
+		InstallerType:            agent.InstallerType,
+		ExternalID:               agent.ExternalID,
+		LastIpToMgmt:             agent.LastIpToMgmt,
+		IsUpToDate:               agent.IsUpToDate,
+		IsPendingUninstall:       agent.IsPendingUninstall,
+		IsUninstalled:            agent.IsUninstalled,
+		AppsVulnerabilityStatus:  agent.AppsVulnerabilityStatus,
+		ConsoleMigrationStatus:   agent.ConsoleMigrationStatus,
+		RangerVersion:            agent.RangerVersion,
+		RangerStatus:             agent.RangerStatus,
+		ActiveDirectoryJSON:      agent.ActiveDirectory,
+		LocationsJSON:            agent.Locations,
+		UserActionsNeededJSON:    agent.UserActionsNeeded,
+		MissingPermissionsJSON:   agent.MissingPermissions,
 		CollectedAt:             collectedAt,
 	}
 

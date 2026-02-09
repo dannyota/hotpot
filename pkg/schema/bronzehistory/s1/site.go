@@ -1,6 +1,8 @@
 package s1
 
 import (
+	"encoding/json"
+
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
@@ -62,6 +64,21 @@ func (BronzeHistoryS1Site) Fields() []ent.Field {
 		field.Time("expiration").
 			Optional().
 			Nillable(),
+		field.Time("api_updated_at").
+			Optional().
+			Nillable(),
+		field.String("external_id").
+			Optional(),
+		field.String("sku").
+			Optional(),
+		field.String("usage_type").
+			Optional(),
+		field.Bool("unlimited_expiration").
+			Default(false),
+		field.Bool("inherit_account_expiration").
+			Default(false),
+		field.JSON("licenses_json", json.RawMessage{}).
+			Optional(),
 	}
 }
 

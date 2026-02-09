@@ -35,7 +35,7 @@ type APIApp struct {
 	Size                  int64   `json:"size"`
 	Type                  string  `json:"type"`
 	OsType                string  `json:"osType"`
-	InstalledDate         *string `json:"installedDate"`
+	InstalledDate         *string `json:"installedAt"`
 	AgentID               string  `json:"agentId"`
 	AgentComputerName     string  `json:"agentComputerName"`
 	AgentMachineType      string  `json:"agentMachineType"`
@@ -43,6 +43,15 @@ type APIApp struct {
 	AgentIsDecommissioned bool    `json:"agentIsDecommissioned"`
 	RiskLevel             string  `json:"riskLevel"`
 	Signed                bool    `json:"signed"`
+	CreatedAt             *string `json:"createdAt"`
+	UpdatedAt             *string `json:"updatedAt"`
+	AgentUUID             string  `json:"agentUuid"`
+	AgentDomain           string  `json:"agentDomain"`
+	AgentVersion          string  `json:"agentVersion"`
+	AgentOsType           string  `json:"agentOsType"`
+	AgentNetworkStatus    string  `json:"agentNetworkStatus"`
+	AgentInfected         bool    `json:"agentInfected"`
+	AgentOperationalState string  `json:"agentOperationalState"`
 }
 
 // AppBatchResult contains a batch of apps and pagination info.

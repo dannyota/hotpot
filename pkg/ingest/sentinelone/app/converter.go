@@ -19,6 +19,15 @@ type AppData struct {
 	AgentIsDecommissioned bool
 	RiskLevel             string
 	Signed                bool
+	APICreatedAt          *time.Time
+	APIUpdatedAt          *time.Time
+	AgentUUID             string
+	AgentDomain           string
+	AgentVersion          string
+	AgentOsType           string
+	AgentNetworkStatus    string
+	AgentInfected         bool
+	AgentOperationalState string
 	CollectedAt           time.Time
 }
 
@@ -39,12 +48,29 @@ func ConvertApp(a APIApp, collectedAt time.Time) *AppData {
 		AgentIsDecommissioned: a.AgentIsDecommissioned,
 		RiskLevel:             a.RiskLevel,
 		Signed:                a.Signed,
+		AgentUUID:             a.AgentUUID,
+		AgentDomain:           a.AgentDomain,
+		AgentVersion:          a.AgentVersion,
+		AgentOsType:           a.AgentOsType,
+		AgentNetworkStatus:    a.AgentNetworkStatus,
+		AgentInfected:         a.AgentInfected,
+		AgentOperationalState: a.AgentOperationalState,
 		CollectedAt:           collectedAt,
 	}
 
 	if a.InstalledDate != nil {
 		if t, err := time.Parse(time.RFC3339, *a.InstalledDate); err == nil {
 			data.InstalledDate = &t
+		}
+	}
+	if a.CreatedAt != nil {
+		if t, err := time.Parse(time.RFC3339, *a.CreatedAt); err == nil {
+			data.APICreatedAt = &t
+		}
+	}
+	if a.UpdatedAt != nil {
+		if t, err := time.Parse(time.RFC3339, *a.UpdatedAt); err == nil {
+			data.APIUpdatedAt = &t
 		}
 	}
 

@@ -1,6 +1,9 @@
 package site
 
-import "time"
+import (
+	"encoding/json"
+	"time"
+)
 
 // SiteData holds converted site data ready for Ent insertion.
 type SiteData struct {
@@ -20,8 +23,15 @@ type SiteData struct {
 	IsDefault         bool
 	Description       string
 	APICreatedAt      *time.Time
-	Expiration        *time.Time
-	CollectedAt       time.Time
+	Expiration               *time.Time
+	APIUpdatedAt             *time.Time
+	ExternalID               string
+	SKU                      string
+	UsageType                string
+	UnlimitedExpiration      bool
+	InheritAccountExpiration bool
+	LicensesJSON             json.RawMessage
+	CollectedAt              time.Time
 }
 
 // ConvertSite converts an API site to SiteData.
@@ -41,8 +51,14 @@ func ConvertSite(s APISite, collectedAt time.Time) *SiteData {
 		TotalLicenses:     s.TotalLicenses,
 		UnlimitedLicenses: s.UnlimitedLicenses,
 		IsDefault:         s.IsDefault,
-		Description:       s.Description,
-		CollectedAt:       collectedAt,
+		Description:              s.Description,
+		UnlimitedExpiration:      s.UnlimitedExpiration,
+		InheritAccountExpiration: s.InheritAccountExpiration,
+		ExternalID:               s.ExternalID,
+		SKU:                      s.SKU,
+		UsageType:                s.UsageType,
+		LicensesJSON:             s.Licenses,
+		CollectedAt:              collectedAt,
 	}
 
 	if s.CreatedAt != nil {
@@ -53,6 +69,11 @@ func ConvertSite(s APISite, collectedAt time.Time) *SiteData {
 	if s.Expiration != nil {
 		if t, err := time.Parse(time.RFC3339, *s.Expiration); err == nil {
 			data.Expiration = &t
+		}
+	}
+	if s.UpdatedAt != nil {
+		if t, err := time.Parse(time.RFC3339, *s.UpdatedAt); err == nil {
+			data.APIUpdatedAt = &t
 		}
 	}
 

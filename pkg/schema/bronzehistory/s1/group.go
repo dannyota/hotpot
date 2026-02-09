@@ -57,6 +57,8 @@ func (BronzeHistoryS1Group) Fields() []ent.Field {
 		field.Time("api_updated_at").
 			Optional().
 			Nillable(),
+		field.String("registration_token").
+			Optional(),
 	}
 }
 

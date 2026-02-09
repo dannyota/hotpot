@@ -1,6 +1,10 @@
 package site
 
-import "github.com/dannyota/hotpot/pkg/storage/ent"
+import (
+	"bytes"
+
+	"github.com/dannyota/hotpot/pkg/storage/ent"
+)
 
 // SiteDiff represents changes between old and new site states.
 type SiteDiff struct {
@@ -27,7 +31,13 @@ func DiffSiteData(old *ent.BronzeS1Site, new *SiteData) *SiteDiff {
 		old.TotalLicenses != new.TotalLicenses ||
 		old.UnlimitedLicenses != new.UnlimitedLicenses ||
 		old.IsDefault != new.IsDefault ||
-		old.Description != new.Description
+		old.Description != new.Description ||
+		old.ExternalID != new.ExternalID ||
+		old.Sku != new.SKU ||
+		old.UsageType != new.UsageType ||
+		old.UnlimitedExpiration != new.UnlimitedExpiration ||
+		old.InheritAccountExpiration != new.InheritAccountExpiration ||
+		!bytes.Equal(old.LicensesJSON, new.LicensesJSON)
 
 	return &SiteDiff{IsChanged: changed}
 }

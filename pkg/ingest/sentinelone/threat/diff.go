@@ -27,6 +27,20 @@ func DiffThreatData(old *ent.BronzeS1Threat, new *ThreatData) *ThreatDiff {
 			old.AnalystVerdict != new.AnalystVerdict ||
 			old.ConfidenceLevel != new.ConfidenceLevel ||
 			old.InitiatedBy != new.InitiatedBy ||
-			!bytes.Equal(old.ThreatInfoJSON, new.ThreatInfoJSON),
+			!bytes.Equal(old.ThreatInfoJSON, new.ThreatInfoJSON) ||
+			old.FileContentHash != new.FileContentHash ||
+			old.FileSha256 != new.FileSHA256 ||
+			old.CloudVerdict != new.CloudVerdict ||
+			old.ClassificationSource != new.ClassificationSource ||
+			old.SiteID != new.SiteID ||
+			old.SiteName != new.SiteName ||
+			old.AccountID != new.AccountID ||
+			old.AccountName != new.AccountName ||
+			old.AgentComputerName != new.AgentComputerName ||
+			old.AgentOsType != new.AgentOsType ||
+			old.AgentMachineType != new.AgentMachineType ||
+			old.AgentIsActive != new.AgentIsActive ||
+			old.AgentIsDecommissioned != new.AgentIsDecommissioned ||
+			old.AgentVersion != new.AgentVersion,
 	}
 }

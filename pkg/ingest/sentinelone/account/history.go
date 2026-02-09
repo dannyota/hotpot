@@ -19,14 +19,44 @@ func NewHistoryService(entClient *ent.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
+func (h *HistoryService) buildCreate(tx *ent.Tx, data *AccountData) *ent.BronzeHistoryS1AccountCreate {
+	create := tx.BronzeHistoryS1Account.Create().
+		SetResourceID(data.ResourceID).
+		SetName(data.Name).
+		SetState(data.State).
+		SetAccountType(data.AccountType).
+		SetUnlimitedExpiration(data.UnlimitedExpiration).
+		SetActiveAgents(data.ActiveAgents).
+		SetTotalLicenses(data.TotalLicenses).
+		SetUsageType(data.UsageType).
+		SetBillingMode(data.BillingMode).
+		SetCreator(data.Creator).
+		SetCreatorID(data.CreatorID).
+		SetNumberOfSites(data.NumberOfSites).
+		SetExternalID(data.ExternalID)
+
+	if data.APICreatedAt != nil {
+		create.SetAPICreatedAt(*data.APICreatedAt)
+	}
+	if data.APIUpdatedAt != nil {
+		create.SetAPIUpdatedAt(*data.APIUpdatedAt)
+	}
+	if data.Expiration != nil {
+		create.SetExpiration(*data.Expiration)
+	}
+	if data.LicensesJSON != nil {
+		create.SetLicensesJSON(data.LicensesJSON)
+	}
+
+	return create
+}
+
 // CreateHistory creates a history record for a new account.
 func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *AccountData, now time.Time) error {
-	_, err := tx.BronzeHistoryS1Account.Create().
-		SetResourceID(data.ResourceID).
+	_, err := h.buildCreate(tx, data).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
 		SetFirstCollectedAt(data.CollectedAt).
-		SetName(data.Name).
 		Save(ctx)
 	if err != nil {
 		return fmt.Errorf("create account history: %w", err)
@@ -52,12 +82,10 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		return fmt.Errorf("close account history: %w", err)
 	}
 
-	_, err = tx.BronzeHistoryS1Account.Create().
-		SetResourceID(new.ResourceID).
+	_, err = h.buildCreate(tx, new).
 		SetValidFrom(now).
 		SetCollectedAt(new.CollectedAt).
 		SetFirstCollectedAt(old.FirstCollectedAt).
-		SetName(new.Name).
 		Save(ctx)
 	if err != nil {
 		return fmt.Errorf("create new account history: %w", err)

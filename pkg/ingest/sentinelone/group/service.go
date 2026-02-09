@@ -124,6 +124,7 @@ func (s *Service) saveGroups(ctx context.Context, groups []*GroupData) error {
 				SetCreatorID(data.CreatorID).
 				SetFilterName(data.FilterName).
 				SetFilterID(data.FilterID).
+				SetRegistrationToken(data.RegistrationToken).
 				SetCollectedAt(data.CollectedAt).
 				SetFirstCollectedAt(data.CollectedAt)
 
@@ -158,6 +159,7 @@ func (s *Service) saveGroups(ctx context.Context, groups []*GroupData) error {
 				SetCreatorID(data.CreatorID).
 				SetFilterName(data.FilterName).
 				SetFilterID(data.FilterID).
+				SetRegistrationToken(data.RegistrationToken).
 				SetCollectedAt(data.CollectedAt)
 
 			if data.Rank != nil {

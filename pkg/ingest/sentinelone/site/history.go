@@ -35,13 +35,24 @@ func (h *HistoryService) buildCreate(tx *ent.Tx, data *SiteData) *ent.BronzeHist
 		SetTotalLicenses(data.TotalLicenses).
 		SetUnlimitedLicenses(data.UnlimitedLicenses).
 		SetIsDefault(data.IsDefault).
-		SetDescription(data.Description)
+		SetDescription(data.Description).
+		SetExternalID(data.ExternalID).
+		SetSku(data.SKU).
+		SetUsageType(data.UsageType).
+		SetUnlimitedExpiration(data.UnlimitedExpiration).
+		SetInheritAccountExpiration(data.InheritAccountExpiration)
 
 	if data.APICreatedAt != nil {
 		create.SetAPICreatedAt(*data.APICreatedAt)
 	}
 	if data.Expiration != nil {
 		create.SetExpiration(*data.Expiration)
+	}
+	if data.APIUpdatedAt != nil {
+		create.SetAPIUpdatedAt(*data.APIUpdatedAt)
+	}
+	if data.LicensesJSON != nil {
+		create.SetLicensesJSON(data.LicensesJSON)
 	}
 
 	return create

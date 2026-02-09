@@ -40,8 +40,9 @@ type APIGroup struct {
 	CreatorID   string  `json:"creatorId"`
 	FilterName  string  `json:"filterName"`
 	FilterID    string  `json:"filterId"`
-	CreatedAt   *string `json:"createdAt"`
-	UpdatedAt   *string `json:"updatedAt"`
+	CreatedAt         *string `json:"createdAt"`
+	UpdatedAt         *string `json:"updatedAt"`
+	RegistrationToken string  `json:"registrationToken"`
 }
 
 // GroupBatchResult contains a batch of groups and pagination info.

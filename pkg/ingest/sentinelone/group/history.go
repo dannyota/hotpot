@@ -31,7 +31,8 @@ func (h *HistoryService) buildCreate(tx *ent.Tx, data *GroupData) *ent.BronzeHis
 		SetCreator(data.Creator).
 		SetCreatorID(data.CreatorID).
 		SetFilterName(data.FilterName).
-		SetFilterID(data.FilterID)
+		SetFilterID(data.FilterID).
+		SetRegistrationToken(data.RegistrationToken)
 
 	if data.Rank != nil {
 		create.SetRank(*data.Rank)

@@ -26,7 +26,14 @@ func DiffAppData(old *ent.BronzeS1App, new *AppData) *AppDiff {
 		old.AgentIsActive != new.AgentIsActive ||
 		old.AgentIsDecommissioned != new.AgentIsDecommissioned ||
 		old.RiskLevel != new.RiskLevel ||
-		old.Signed != new.Signed
+		old.Signed != new.Signed ||
+		old.AgentUUID != new.AgentUUID ||
+		old.AgentDomain != new.AgentDomain ||
+		old.AgentVersion != new.AgentVersion ||
+		old.AgentOsType != new.AgentOsType ||
+		old.AgentNetworkStatus != new.AgentNetworkStatus ||
+		old.AgentInfected != new.AgentInfected ||
+		old.AgentOperationalState != new.AgentOperationalState
 
 	return &AppDiff{IsChanged: changed}
 }

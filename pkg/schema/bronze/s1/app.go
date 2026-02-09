@@ -57,6 +57,26 @@ func (BronzeS1App) Fields() []ent.Field {
 			Optional(),
 		field.Bool("signed").
 			Default(false),
+		field.Time("api_created_at").
+			Optional().
+			Nillable(),
+		field.Time("api_updated_at").
+			Optional().
+			Nillable(),
+		field.String("agent_uuid").
+			Optional(),
+		field.String("agent_domain").
+			Optional(),
+		field.String("agent_version").
+			Optional(),
+		field.String("agent_os_type").
+			Optional(),
+		field.String("agent_network_status").
+			Optional(),
+		field.Bool("agent_infected").
+			Default(false),
+		field.String("agent_operational_state").
+			Optional(),
 	}
 }
 

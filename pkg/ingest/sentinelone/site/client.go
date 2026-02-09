@@ -44,7 +44,14 @@ type APISite struct {
 	IsDefault         bool    `json:"isDefault"`
 	Description       string  `json:"description"`
 	CreatedAt         *string `json:"createdAt"`
-	Expiration        *string `json:"expiration"`
+	Expiration               *string         `json:"expiration"`
+	UpdatedAt                *string         `json:"updatedAt"`
+	ExternalID               string          `json:"externalId"`
+	SKU                      string          `json:"sku"`
+	UsageType                string          `json:"usageType"`
+	UnlimitedExpiration      bool            `json:"unlimitedExpiration"`
+	InheritAccountExpiration bool            `json:"inheritAccountExpiration"`
+	Licenses                 json.RawMessage `json:"licenses"`
 }
 
 // SiteBatchResult contains a batch of sites and pagination info.

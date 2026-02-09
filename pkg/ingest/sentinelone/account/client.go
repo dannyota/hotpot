@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"time"
 )
 
 // Client wraps the SentinelOne Accounts API.
@@ -28,8 +29,23 @@ func NewClient(baseURL, apiToken string, batchSize int, httpClient *http.Client)
 
 // APIAccount represents the account data from the SentinelOne API response.
 type APIAccount struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	ID                  string          `json:"id"`
+	Name                string          `json:"name"`
+	State               string          `json:"state"`
+	AccountType         string          `json:"accountType"`
+	CreatedAt           *time.Time      `json:"createdAt"`
+	UpdatedAt           *time.Time      `json:"updatedAt"`
+	Expiration          *string         `json:"expiration"`
+	UnlimitedExpiration bool            `json:"unlimitedExpiration"`
+	ActiveAgents        int             `json:"activeAgents"`
+	TotalLicenses       int             `json:"totalLicenses"`
+	UsageType           string          `json:"usageType"`
+	BillingMode         string          `json:"billingMode"`
+	Creator             string          `json:"creator"`
+	CreatorID           string          `json:"creatorId"`
+	NumberOfSites       int             `json:"numberOfSites"`
+	ExternalID          string          `json:"externalId"`
+	Licenses            json.RawMessage `json:"licenses"`
 }
 
 // GetAccounts retrieves all accounts.

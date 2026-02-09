@@ -41,10 +41,30 @@ type APIThreat struct {
 	CreatedAt       *time.Time      `json:"createdDate"`
 	ThreatInfo      json.RawMessage `json:"threatInfo"`
 
+	UpdatedAt            *time.Time `json:"updatedAt"`
+	FileContentHash      string     `json:"fileContentHash"`
+	CloudVerdict         string     `json:"cloudVerdict"`
+	ClassificationSource string     `json:"classificationSource"`
+
 	// The API nests agent info under agentRealtimeInfo
 	AgentRealtimeInfo struct {
-		AgentID string `json:"agentId"`
+		AgentID              string `json:"agentId"`
+		SiteID               string `json:"siteId"`
+		SiteName             string `json:"siteName"`
+		AccountID            string `json:"accountId"`
+		AccountName          string `json:"accountName"`
+		AgentComputerName    string `json:"agentComputerName"`
+		AgentOsType          string `json:"agentOsType"`
+		AgentMachineType     string `json:"agentMachineType"`
+		AgentIsActive        bool   `json:"agentIsActive"`
+		AgentIsDecommissioned bool  `json:"agentIsDecommissioned"`
+		AgentVersion         string `json:"agentVersion"`
 	} `json:"agentRealtimeInfo"`
+}
+
+// ThreatInfoData is used to extract specific fields from the threatInfo JSON blob.
+type ThreatInfoData struct {
+	SHA256 string `json:"sha256"`
 }
 
 // ThreatBatchResult contains a batch of threats and pagination info.

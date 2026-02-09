@@ -99,13 +99,37 @@ func (s *Service) saveAccounts(ctx context.Context, accounts []*AccountData) err
 		}
 
 		if existing == nil {
-			_, err = tx.BronzeS1Account.Create().
+			create := tx.BronzeS1Account.Create().
 				SetID(data.ResourceID).
 				SetName(data.Name).
+				SetState(data.State).
+				SetAccountType(data.AccountType).
+				SetUnlimitedExpiration(data.UnlimitedExpiration).
+				SetActiveAgents(data.ActiveAgents).
+				SetTotalLicenses(data.TotalLicenses).
+				SetUsageType(data.UsageType).
+				SetBillingMode(data.BillingMode).
+				SetCreator(data.Creator).
+				SetCreatorID(data.CreatorID).
+				SetNumberOfSites(data.NumberOfSites).
+				SetExternalID(data.ExternalID).
 				SetCollectedAt(data.CollectedAt).
-				SetFirstCollectedAt(data.CollectedAt).
-				Save(ctx)
-			if err != nil {
+				SetFirstCollectedAt(data.CollectedAt)
+
+			if data.APICreatedAt != nil {
+				create.SetAPICreatedAt(*data.APICreatedAt)
+			}
+			if data.APIUpdatedAt != nil {
+				create.SetAPIUpdatedAt(*data.APIUpdatedAt)
+			}
+			if data.Expiration != nil {
+				create.SetExpiration(*data.Expiration)
+			}
+			if data.LicensesJSON != nil {
+				create.SetLicensesJSON(data.LicensesJSON)
+			}
+
+			if _, err := create.Save(ctx); err != nil {
 				tx.Rollback()
 				return fmt.Errorf("create account %s: %w", data.ResourceID, err)
 			}
@@ -115,11 +139,35 @@ func (s *Service) saveAccounts(ctx context.Context, accounts []*AccountData) err
 				return fmt.Errorf("create history for account %s: %w", data.ResourceID, err)
 			}
 		} else {
-			_, err = tx.BronzeS1Account.UpdateOneID(data.ResourceID).
+			update := tx.BronzeS1Account.UpdateOneID(data.ResourceID).
 				SetName(data.Name).
-				SetCollectedAt(data.CollectedAt).
-				Save(ctx)
-			if err != nil {
+				SetState(data.State).
+				SetAccountType(data.AccountType).
+				SetUnlimitedExpiration(data.UnlimitedExpiration).
+				SetActiveAgents(data.ActiveAgents).
+				SetTotalLicenses(data.TotalLicenses).
+				SetUsageType(data.UsageType).
+				SetBillingMode(data.BillingMode).
+				SetCreator(data.Creator).
+				SetCreatorID(data.CreatorID).
+				SetNumberOfSites(data.NumberOfSites).
+				SetExternalID(data.ExternalID).
+				SetCollectedAt(data.CollectedAt)
+
+			if data.APICreatedAt != nil {
+				update.SetAPICreatedAt(*data.APICreatedAt)
+			}
+			if data.APIUpdatedAt != nil {
+				update.SetAPIUpdatedAt(*data.APIUpdatedAt)
+			}
+			if data.Expiration != nil {
+				update.SetExpiration(*data.Expiration)
+			}
+			if data.LicensesJSON != nil {
+				update.SetLicensesJSON(data.LicensesJSON)
+			}
+
+			if _, err := update.Save(ctx); err != nil {
 				tx.Rollback()
 				return fmt.Errorf("update account %s: %w", data.ResourceID, err)
 			}

@@ -58,7 +58,7 @@ func hasAgentFieldsChanged(old *ent.BronzeS1Agent, new *AgentData) bool {
 		old.Domain != new.Domain ||
 		old.UUID != new.UUID ||
 		old.NetworkStatus != new.NetworkStatus ||
-		old.ThreatCount != new.ThreatCount ||
+		old.ActiveThreats != new.ActiveThreats ||
 		old.EncryptedApplications != new.EncryptedApplications ||
 		old.GroupName != new.GroupName ||
 		old.GroupID != new.GroupID ||
@@ -69,7 +69,28 @@ func hasAgentFieldsChanged(old *ent.BronzeS1Agent, new *AgentData) bool {
 		old.ModelName != new.ModelName ||
 		old.SerialNumber != new.SerialNumber ||
 		old.StorageEncryptionStatus != new.StorageEncryptionStatus ||
-		!bytes.Equal(old.NetworkInterfacesJSON, new.NetworkInterfacesJSON)
+		!bytes.Equal(old.NetworkInterfacesJSON, new.NetworkInterfacesJSON) ||
+		old.SiteID != new.SiteID ||
+		old.OsUsername != new.OSUsername ||
+		old.GroupIP != new.GroupIP ||
+		old.ScanStatus != new.ScanStatus ||
+		old.MitigationMode != new.MitigationMode ||
+		old.MitigationModeSuspicious != new.MitigationModeSuspicious ||
+		old.LastLoggedInUserName != new.LastLoggedInUserName ||
+		old.InstallerType != new.InstallerType ||
+		old.ExternalID != new.ExternalID ||
+		old.LastIPToMgmt != new.LastIpToMgmt ||
+		old.IsUpToDate != new.IsUpToDate ||
+		old.IsPendingUninstall != new.IsPendingUninstall ||
+		old.IsUninstalled != new.IsUninstalled ||
+		old.AppsVulnerabilityStatus != new.AppsVulnerabilityStatus ||
+		old.ConsoleMigrationStatus != new.ConsoleMigrationStatus ||
+		old.RangerVersion != new.RangerVersion ||
+		old.RangerStatus != new.RangerStatus ||
+		!bytes.Equal(old.ActiveDirectoryJSON, new.ActiveDirectoryJSON) ||
+		!bytes.Equal(old.LocationsJSON, new.LocationsJSON) ||
+		!bytes.Equal(old.UserActionsNeededJSON, new.UserActionsNeededJSON) ||
+		!bytes.Equal(old.MissingPermissionsJSON, new.MissingPermissionsJSON)
 }
 
 func diffNICsData(old []*ent.BronzeS1AgentNIC, new []NICData) ChildDiff {

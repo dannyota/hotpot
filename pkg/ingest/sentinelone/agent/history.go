@@ -121,7 +121,7 @@ func (h *HistoryService) buildAgentHistoryCreate(tx *ent.Tx, data *AgentData, fi
 		SetDomain(data.Domain).
 		SetUUID(data.UUID).
 		SetNetworkStatus(data.NetworkStatus).
-		SetThreatCount(data.ThreatCount).
+		SetActiveThreats(data.ActiveThreats).
 		SetEncryptedApplications(data.EncryptedApplications).
 		SetGroupName(data.GroupName).
 		SetGroupID(data.GroupID).
@@ -131,7 +131,24 @@ func (h *HistoryService) buildAgentHistoryCreate(tx *ent.Tx, data *AgentData, fi
 		SetTotalMemory(data.TotalMemory).
 		SetModelName(data.ModelName).
 		SetSerialNumber(data.SerialNumber).
-		SetStorageEncryptionStatus(data.StorageEncryptionStatus)
+		SetStorageEncryptionStatus(data.StorageEncryptionStatus).
+		SetSiteID(data.SiteID).
+		SetOsUsername(data.OSUsername).
+		SetGroupIP(data.GroupIP).
+		SetScanStatus(data.ScanStatus).
+		SetMitigationMode(data.MitigationMode).
+		SetMitigationModeSuspicious(data.MitigationModeSuspicious).
+		SetLastLoggedInUserName(data.LastLoggedInUserName).
+		SetInstallerType(data.InstallerType).
+		SetExternalID(data.ExternalID).
+		SetLastIPToMgmt(data.LastIpToMgmt).
+		SetIsUpToDate(data.IsUpToDate).
+		SetIsPendingUninstall(data.IsPendingUninstall).
+		SetIsUninstalled(data.IsUninstalled).
+		SetAppsVulnerabilityStatus(data.AppsVulnerabilityStatus).
+		SetConsoleMigrationStatus(data.ConsoleMigrationStatus).
+		SetRangerVersion(data.RangerVersion).
+		SetRangerStatus(data.RangerStatus)
 
 	if data.LastActiveDate != nil {
 		create.SetLastActiveDate(*data.LastActiveDate)
@@ -147,6 +164,27 @@ func (h *HistoryService) buildAgentHistoryCreate(tx *ent.Tx, data *AgentData, fi
 	}
 	if data.NetworkInterfacesJSON != nil {
 		create.SetNetworkInterfacesJSON(data.NetworkInterfacesJSON)
+	}
+	if data.APICreatedAt != nil {
+		create.SetAPICreatedAt(*data.APICreatedAt)
+	}
+	if data.ScanStartedAt != nil {
+		create.SetScanStartedAt(*data.ScanStartedAt)
+	}
+	if data.ScanFinishedAt != nil {
+		create.SetScanFinishedAt(*data.ScanFinishedAt)
+	}
+	if data.ActiveDirectoryJSON != nil {
+		create.SetActiveDirectoryJSON(data.ActiveDirectoryJSON)
+	}
+	if data.LocationsJSON != nil {
+		create.SetLocationsJSON(data.LocationsJSON)
+	}
+	if data.UserActionsNeededJSON != nil {
+		create.SetUserActionsNeededJSON(data.UserActionsNeededJSON)
+	}
+	if data.MissingPermissionsJSON != nil {
+		create.SetMissingPermissionsJSON(data.MissingPermissionsJSON)
 	}
 
 	return create

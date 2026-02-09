@@ -34,10 +34,23 @@ func (h *HistoryService) buildCreate(tx *ent.Tx, data *AppData) *ent.BronzeHisto
 		SetAgentIsActive(data.AgentIsActive).
 		SetAgentIsDecommissioned(data.AgentIsDecommissioned).
 		SetRiskLevel(data.RiskLevel).
-		SetSigned(data.Signed)
+		SetSigned(data.Signed).
+		SetAgentUUID(data.AgentUUID).
+		SetAgentDomain(data.AgentDomain).
+		SetAgentVersion(data.AgentVersion).
+		SetAgentOsType(data.AgentOsType).
+		SetAgentNetworkStatus(data.AgentNetworkStatus).
+		SetAgentInfected(data.AgentInfected).
+		SetAgentOperationalState(data.AgentOperationalState)
 
 	if data.InstalledDate != nil {
 		create.SetInstalledDate(*data.InstalledDate)
+	}
+	if data.APICreatedAt != nil {
+		create.SetAPICreatedAt(*data.APICreatedAt)
+	}
+	if data.APIUpdatedAt != nil {
+		create.SetAPIUpdatedAt(*data.APIUpdatedAt)
 	}
 
 	return create
