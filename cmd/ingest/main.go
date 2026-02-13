@@ -6,6 +6,11 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/app"
 	"github.com/dannyota/hotpot/pkg/ingest"
+
+	// Register providers — add/remove lines to control what's compiled into the binary.
+	_ "github.com/dannyota/hotpot/pkg/ingest/gcp"
+	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone"
+	// _ "github.com/dannyota/hotpot/pkg/ingest/digitalocean"
 )
 
 func main() {
