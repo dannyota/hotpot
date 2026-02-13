@@ -202,6 +202,17 @@ func (v *VaultSource) getSecretVersion(ctx context.Context) (int64, error) {
 func (v *VaultSource) parseConfig(data map[string]interface{}) (*Config, error) {
 	cfg := &Config{}
 
+	// Provider enabled flags
+	if val, ok := data["gcp_enabled"]; ok {
+		cfg.GCP.Enabled = toBool(val)
+	}
+	if val, ok := data["s1_enabled"]; ok {
+		cfg.S1.Enabled = toBool(val)
+	}
+	if val, ok := data["do_enabled"]; ok {
+		cfg.DO.Enabled = toBool(val)
+	}
+
 	// GCP credentials
 	if val, ok := data["gcp_credentials_json"].(string); ok && val != "" {
 		cfg.GCP.CredentialsJSON = []byte(val)
@@ -239,7 +250,43 @@ func (v *VaultSource) parseConfig(data map[string]interface{}) (*Config, error) 
 		cfg.Temporal.Namespace = val
 	}
 
+	// SentinelOne config
+	if val, ok := data["s1_base_url"].(string); ok {
+		cfg.S1.BaseURL = val
+	}
+	if val, ok := data["s1_api_token"].(string); ok {
+		cfg.S1.APIToken = val
+	}
+	if val, ok := data["s1_rate_limit_per_minute"]; ok {
+		cfg.S1.RateLimitPerMinute = toInt(val)
+	}
+	if val, ok := data["s1_batch_size"]; ok {
+		cfg.S1.BatchSize = toInt(val)
+	}
+
+	// DigitalOcean config
+	if val, ok := data["do_api_token"].(string); ok {
+		cfg.DO.APIToken = val
+	}
+	if val, ok := data["do_rate_limit_per_minute"]; ok {
+		cfg.DO.RateLimitPerMinute = toInt(val)
+	}
+
 	return cfg, nil
+}
+
+// toBool converts interface{} to bool (handles bool, string "true"/"false", and float64 0/1).
+func toBool(val interface{}) bool {
+	switch v := val.(type) {
+	case bool:
+		return v
+	case string:
+		return v == "true" || v == "1"
+	case float64:
+		return v != 0
+	default:
+		return false
+	}
 }
 
 // toInt converts interface{} to int (handles both float64 from JSON and string).

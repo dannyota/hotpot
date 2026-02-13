@@ -12,6 +12,9 @@ type Config struct {
 
 // GCPConfig holds GCP-specific configuration.
 type GCPConfig struct {
+	// Enabled controls whether GCP ingestion runs and tables are created.
+	Enabled bool `yaml:"enabled"`
+
 	// CredentialsJSON is the raw JSON bytes of the service account.
 	// Loaded from Vault or YAML config. Falls back to ADC if empty.
 	CredentialsJSON []byte `yaml:"credentials_json,omitempty"`
@@ -39,6 +42,7 @@ type TemporalConfig struct {
 
 // S1Config holds SentinelOne configuration.
 type S1Config struct {
+	Enabled            bool   `yaml:"enabled"`
 	BaseURL            string `yaml:"base_url"`
 	APIToken           string `yaml:"api_token"`
 	RateLimitPerMinute int    `yaml:"rate_limit_per_minute,omitempty"`
@@ -47,6 +51,7 @@ type S1Config struct {
 
 // DOConfig holds DigitalOcean configuration.
 type DOConfig struct {
+	Enabled            bool   `yaml:"enabled"`
 	APIToken           string `yaml:"api_token"`
 	RateLimitPerMinute int    `yaml:"rate_limit_per_minute,omitempty"`
 }

@@ -10,7 +10,6 @@ import (
 	"golang.org/x/sync/errgroup"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone"
@@ -39,66 +38,11 @@ func Run(ctx context.Context, configService *config.Service, entClient *ent.Clie
 	}
 	defer temporalClient.Close()
 
-	// Server-side activity rate limit: always set as a safety net.
-	// Caps activity dispatches across all workers on this task queue.
-	reqPerMin := configService.GCPRateLimitPerMinute()
-	activitiesPerSec := float64(reqPerMin) / 60.0
-
-	// Create GCP worker
-	gcpWorker := worker.New(temporalClient, TaskQueueGCP, worker.Options{
-		TaskQueueActivitiesPerSecond: activitiesPerSec,
-	})
-
-	// Register GCP workflows and activities
-	rateLimitSvc := gcp.Register(gcpWorker, configService, entClient)
-	defer rateLimitSvc.Close()
-
-	// Create and register VNGCloud worker (future)
-	// vngWorker := worker.New(temporalClient, TaskQueueVNGCloud, worker.Options{})
-	// vngcloud.Register(vngWorker, cfg.VNGCloud, db)
-
-	// Create and register SentinelOne worker if configured
-	var s1RateLimitSvc *ratelimit.Service
-	var s1Worker worker.Worker
-	if configService.S1Configured() {
-		s1ReqPerMin := configService.S1RateLimitPerMinute()
-		s1ActivitiesPerSec := float64(s1ReqPerMin) / 60.0
-
-		s1Worker = worker.New(temporalClient, TaskQueueS1, worker.Options{
-			TaskQueueActivitiesPerSecond: s1ActivitiesPerSec,
-		})
-
-		s1RateLimitSvc = sentinelone.Register(s1Worker, configService, entClient)
-		defer s1RateLimitSvc.Close()
-
-		log.Printf("SentinelOne worker configured (rate limit: %d rpm, Temporal: %.1f activities/sec)",
-			s1ReqPerMin, s1ActivitiesPerSec)
+	enabled := configService.EnabledProviders()
+	if len(enabled) == 0 {
+		return fmt.Errorf("no providers enabled in config; set enabled: true for at least one provider")
 	}
-
-	// Create and register DigitalOcean worker if configured
-	var doRateLimitSvc *ratelimit.Service
-	var doWorker worker.Worker
-	if configService.DOConfigured() {
-		doReqPerMin := configService.DORateLimitPerMinute()
-		doActivitiesPerSec := float64(doReqPerMin) / 60.0
-
-		doWorker = worker.New(temporalClient, TaskQueueDO, worker.Options{
-			TaskQueueActivitiesPerSecond: doActivitiesPerSec,
-		})
-
-		doRateLimitSvc = digitalocean.Register(doWorker, configService, entClient)
-		defer doRateLimitSvc.Close()
-
-		log.Printf("DigitalOcean worker configured (rate limit: %d rpm, Temporal: %.1f activities/sec)",
-			doReqPerMin, doActivitiesPerSec)
-	}
-
-	// Create and register Fortinet worker (future)
-	// fortinetWorker := worker.New(temporalClient, TaskQueueFortinet, worker.Options{})
-	// fortinet.Register(fortinetWorker, cfg.Fortinet, db)
-
-	log.Printf("Starting ingest workers (GCP rate limit: %d rpm, Temporal: %.1f activities/sec)...",
-		reqPerMin, activitiesPerSec)
+	log.Printf("Enabled providers: %v", enabled)
 
 	// Convert context cancellation to interrupt channel for Temporal worker
 	interruptCh := make(chan interface{})
@@ -110,14 +54,44 @@ func Run(ctx context.Context, configService *config.Service, entClient *ent.Clie
 	// Run workers concurrently
 	g, _ := errgroup.WithContext(ctx)
 
-	g.Go(func() error {
-		if err := gcpWorker.Run(interruptCh); err != nil {
-			return fmt.Errorf("GCP worker failed: %w", err)
-		}
-		return nil
-	})
+	// GCP
+	if configService.GCPEnabled() {
+		reqPerMin := configService.GCPRateLimitPerMinute()
+		activitiesPerSec := float64(reqPerMin) / 60.0
 
-	if s1Worker != nil {
+		gcpWorker := worker.New(temporalClient, TaskQueueGCP, worker.Options{
+			TaskQueueActivitiesPerSecond: activitiesPerSec,
+		})
+
+		rateLimitSvc := gcp.Register(gcpWorker, configService, entClient)
+		defer rateLimitSvc.Close()
+
+		log.Printf("GCP worker enabled (rate limit: %d rpm, Temporal: %.1f activities/sec)",
+			reqPerMin, activitiesPerSec)
+
+		g.Go(func() error {
+			if err := gcpWorker.Run(interruptCh); err != nil {
+				return fmt.Errorf("GCP worker failed: %w", err)
+			}
+			return nil
+		})
+	}
+
+	// SentinelOne
+	if configService.S1Enabled() {
+		s1ReqPerMin := configService.S1RateLimitPerMinute()
+		s1ActivitiesPerSec := float64(s1ReqPerMin) / 60.0
+
+		s1Worker := worker.New(temporalClient, TaskQueueS1, worker.Options{
+			TaskQueueActivitiesPerSecond: s1ActivitiesPerSec,
+		})
+
+		s1RateLimitSvc := sentinelone.Register(s1Worker, configService, entClient)
+		defer s1RateLimitSvc.Close()
+
+		log.Printf("SentinelOne worker enabled (rate limit: %d rpm, Temporal: %.1f activities/sec)",
+			s1ReqPerMin, s1ActivitiesPerSec)
+
 		g.Go(func() error {
 			if err := s1Worker.Run(interruptCh); err != nil {
 				return fmt.Errorf("S1 worker failed: %w", err)
@@ -126,7 +100,21 @@ func Run(ctx context.Context, configService *config.Service, entClient *ent.Clie
 		})
 	}
 
-	if doWorker != nil {
+	// DigitalOcean
+	if configService.DOEnabled() {
+		doReqPerMin := configService.DORateLimitPerMinute()
+		doActivitiesPerSec := float64(doReqPerMin) / 60.0
+
+		doWorker := worker.New(temporalClient, TaskQueueDO, worker.Options{
+			TaskQueueActivitiesPerSecond: doActivitiesPerSec,
+		})
+
+		doRateLimitSvc := digitalocean.Register(doWorker, configService, entClient)
+		defer doRateLimitSvc.Close()
+
+		log.Printf("DigitalOcean worker enabled (rate limit: %d rpm, Temporal: %.1f activities/sec)",
+			doReqPerMin, doActivitiesPerSec)
+
 		g.Go(func() error {
 			if err := doWorker.Run(interruptCh); err != nil {
 				return fmt.Errorf("DO worker failed: %w", err)

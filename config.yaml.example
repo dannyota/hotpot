@@ -16,6 +16,9 @@
 
 # GCP Configuration
 gcp:
+  # Enable GCP ingestion (default: false)
+  enabled: true
+
   # Service account credentials (JSON format)
   # Optional - falls back to Application Default Credentials (ADC) if not set
   # nosemgrep: generic.secrets.security.detected-generic-secret
@@ -24,6 +27,24 @@ gcp:
   # API rate limiting (requests per minute across all GCP clients)
   # Default: 600 if not set
   rate_limit_per_minute: 600
+
+# SentinelOne Configuration
+# nosemgrep: generic.secrets.security.detected-generic-secret
+s1:
+  # Enable SentinelOne ingestion (default: false)
+  enabled: false
+  # base_url: "https://<YOUR_S1_CONSOLE>.sentinelone.net"
+  # api_token: "<YOUR_S1_API_TOKEN>"
+  # rate_limit_per_minute: 600  # Default: 600
+  # batch_size: 1000            # Default: 1000 (API max)
+
+# DigitalOcean Configuration
+# nosemgrep: generic.secrets.security.detected-generic-secret
+do:
+  # Enable DigitalOcean ingestion (default: false)
+  enabled: false
+  # api_token: "<YOUR_DO_API_TOKEN>"
+  # rate_limit_per_minute: 300  # Default: 300
 
 # Database Configuration (REQUIRED)
 # nosemgrep: generic.secrets.security.detected-generic-secret

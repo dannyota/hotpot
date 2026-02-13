@@ -94,11 +94,25 @@ func main() {
 		log.Fatalf("Failed to change to output dir %s: %v", absOut, err)
 	}
 
-	config := buildDiffConfig(absSchema, postgresURL)
+	enabledProviders := application.ConfigService().EnabledProviders()
+	if len(enabledProviders) == 0 {
+		log.Fatal("No providers enabled in config. Set enabled: true for at least one provider.")
+	}
+	fmt.Printf("Enabled providers: %s\n", strings.Join(enabledProviders, ", "))
+
+	config := buildDiffConfig(absSchema, postgresURL, enabledProviders)
 
 	for _, layer := range layerOrder {
-		atlasSchemaDir := filepath.Join(absSchema, layer, "atlas_schema")
-		if _, err := os.Stat(atlasSchemaDir); os.IsNotExist(err) {
+		// Check that at least one enabled provider has schemas for this layer.
+		hasSchemas := false
+		for _, provider := range enabledProviders {
+			dir := filepath.Join(absSchema, layer, "atlas_schema", provider)
+			if _, err := os.Stat(dir); err == nil {
+				hasSchemas = true
+				break
+			}
+		}
+		if !hasSchemas {
 			continue
 		}
 
@@ -117,13 +131,34 @@ func main() {
 }
 
 // buildDiffConfig returns an Atlas HCL config with src, dev, url, and migration
-// dir for each layer. The same URL is used for both dev and url since genmigrate
-// only runs against a _dev database.
-func buildDiffConfig(schemaDir, dbURL string) string {
+// dir for each layer. The src is built from per-provider atlas_schema dirs for
+// the enabled providers only. The same URL is used for both dev and url since
+// genmigrate only runs against a _dev database.
+func buildDiffConfig(schemaDir, dbURL string, providers []string) string {
 	var b strings.Builder
 	for _, layer := range layerOrder {
+		// Collect per-provider atlas_schema dirs that exist for this layer.
+		var srcs []string
+		for _, provider := range providers {
+			dir := filepath.Join(schemaDir, layer, "atlas_schema", provider)
+			if _, err := os.Stat(dir); err == nil {
+				srcs = append(srcs, fmt.Sprintf("\"ent://%s\"", dir))
+			}
+		}
+		if len(srcs) == 0 {
+			continue
+		}
+
 		fmt.Fprintf(&b, "env %q {\n", layer)
-		fmt.Fprintf(&b, "  src = \"ent://%s\"\n", filepath.Join(schemaDir, layer, "atlas_schema"))
+		if len(srcs) == 1 {
+			fmt.Fprintf(&b, "  src = %s\n", srcs[0])
+		} else {
+			fmt.Fprintf(&b, "  src = [\n")
+			for _, src := range srcs {
+				fmt.Fprintf(&b, "    %s,\n", src)
+			}
+			fmt.Fprintf(&b, "  ]\n")
+		}
 		fmt.Fprintf(&b, "  dev = %q\n", dbURL)
 		fmt.Fprintf(&b, "  url = %q\n", dbURL)
 		fmt.Fprintf(&b, "  migration {\n    dir = \"file://%s\"\n  }\n", layer)

@@ -137,6 +137,33 @@ func (s *Service) GCPCredentialsJSON() []byte {
 	return result
 }
 
+// GCPEnabled returns true if GCP ingestion is enabled in config.
+func (s *Service) GCPEnabled() bool {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.config != nil && s.config.GCP.Enabled
+}
+
+// EnabledProviders returns the list of provider names that are enabled in config.
+func (s *Service) EnabledProviders() []string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return nil
+	}
+	var providers []string
+	if s.config.GCP.Enabled {
+		providers = append(providers, "gcp")
+	}
+	if s.config.S1.Enabled {
+		providers = append(providers, "s1")
+	}
+	if s.config.DO.Enabled {
+		providers = append(providers, "do")
+	}
+	return providers
+}
+
 // DatabaseDSN returns the database connection string.
 func (s *Service) DatabaseDSN() string {
 	s.mu.RLock()
@@ -220,11 +247,11 @@ func (s *Service) S1BatchSize() int {
 	return s.config.S1.BatchSize
 }
 
-// S1Configured returns true if SentinelOne is configured with base URL and API token.
-func (s *Service) S1Configured() bool {
+// S1Enabled returns true if SentinelOne ingestion is enabled in config.
+func (s *Service) S1Enabled() bool {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
-	return s.config != nil && s.config.S1.BaseURL != "" && s.config.S1.APIToken != ""
+	return s.config != nil && s.config.S1.Enabled
 }
 
 // DOAPIToken returns the DigitalOcean API token.
@@ -248,11 +275,11 @@ func (s *Service) DORateLimitPerMinute() int {
 	return s.config.DO.RateLimitPerMinute
 }
 
-// DOConfigured returns true if DigitalOcean is configured with an API token.
-func (s *Service) DOConfigured() bool {
+// DOEnabled returns true if DigitalOcean ingestion is enabled in config.
+func (s *Service) DOEnabled() bool {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
-	return s.config != nil && s.config.DO.APIToken != ""
+	return s.config != nil && s.config.DO.Enabled
 }
 
 // RedisConfig returns the Redis configuration.

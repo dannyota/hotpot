@@ -50,18 +50,18 @@ func main() {
 	}
 	pkg := callerModule + "/" + filepath.ToSlash(filepath.Join(rel, target))
 
-	allSchemas := discoverSchemas(schemaRoot)
+	discovered := discoverSchemas(schemaRoot)
 
 	// 1. Generate runtime wrappers (all layers combined)
 	runtimeSchemaDir := filepath.Join(target, "schema")
 	os.MkdirAll(runtimeSchemaDir, 0755)
 
-	if err := generateWrappers(runtimeSchemaDir, allSchemas); err != nil {
+	if err := generateWrappers(runtimeSchemaDir, discovered.byLayer); err != nil {
 		log.Fatalf("generate runtime wrappers: %v", err)
 	}
 
 	// 2. Generate per-layer wrappers for Atlas (with entsql.Schema annotation)
-	for layer, schemas := range allSchemas {
+	for layer, schemas := range discovered.byLayer {
 		atlasSchemaDir := filepath.Join(target, layer, "atlas_schema")
 		os.MkdirAll(atlasSchemaDir, 0755)
 
@@ -71,12 +71,25 @@ func main() {
 		}
 	}
 
-	// 3. Generate schema config helper (maps types to PG schemas)
-	if err := generateSchemaConfig(target, allSchemas); err != nil {
+	// 3. Generate per-provider atlas wrappers (for config-driven migration)
+	for layer, providerSchemas := range discovered.byLayerProvider {
+		pgSchema := layerToSchema[layer]
+		for provider, schemas := range providerSchemas {
+			dir := filepath.Join(target, layer, "atlas_schema", provider)
+			os.MkdirAll(dir, 0755)
+
+			if err := generateAtlasWrappers(dir, schemas, pgSchema); err != nil {
+				log.Fatalf("generate atlas wrappers for %s/%s: %v", layer, provider, err)
+			}
+		}
+	}
+
+	// 4. Generate schema config helper (maps types to PG schemas)
+	if err := generateSchemaConfig(target, discovered.byLayer); err != nil {
 		log.Fatalf("generate schema config: %v", err)
 	}
 
-	// 4. Run entc ONCE — generates ONE client with all types
+	// 5. Run entc ONCE — generates ONE client with all types
 	absRuntimeSchemaDir, err := filepath.Abs(runtimeSchemaDir)
 	if err != nil {
 		log.Fatalf("get abs path: %v", err)
@@ -146,8 +159,17 @@ func readModulePath(dir string) (modulePath, modDir string) {
 	return "", ""
 }
 
-func discoverSchemas(root string) map[string][]schemaInfo {
-	layers := map[string][]schemaInfo{}
+// discoverResult holds schemas grouped by layer and by layer+provider.
+type discoverResult struct {
+	byLayer         map[string][]schemaInfo
+	byLayerProvider map[string]map[string][]schemaInfo
+}
+
+func discoverSchemas(root string) discoverResult {
+	result := discoverResult{
+		byLayer:         map[string][]schemaInfo{},
+		byLayerProvider: map[string]map[string][]schemaInfo{},
+	}
 
 	filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
 		if err != nil || info.IsDir() || !strings.HasSuffix(path, ".go") {
@@ -168,6 +190,13 @@ func discoverSchemas(root string) map[string][]schemaInfo {
 		parts := strings.Split(relDir, string(os.PathSeparator))
 		layer := parts[0]
 
+		// Provider is parts[1] if present (e.g., "gcp" in "bronze/gcp/compute").
+		// Some schemas may be directly under layer (e.g., "bronze/s1/") where parts[1] is the provider.
+		var provider string
+		if len(parts) >= 2 {
+			provider = parts[1]
+		}
+
 		for _, decl := range f.Decls {
 			genDecl, ok := decl.(*ast.GenDecl)
 			if !ok {
@@ -180,18 +209,25 @@ func discoverSchemas(root string) map[string][]schemaInfo {
 				}
 				if embedsEntSchema(typeSpec) {
 					alias := strings.ReplaceAll(relDir, string(os.PathSeparator), "_")
-					layers[layer] = append(layers[layer], schemaInfo{
+					si := schemaInfo{
 						TypeName:   typeSpec.Name.Name,
 						ImportPath: hotpotModule + "/pkg/schema/" + strings.ReplaceAll(relDir, string(os.PathSeparator), "/"),
 						Alias:      alias,
-					})
+					}
+					result.byLayer[layer] = append(result.byLayer[layer], si)
+					if provider != "" {
+						if result.byLayerProvider[layer] == nil {
+							result.byLayerProvider[layer] = map[string][]schemaInfo{}
+						}
+						result.byLayerProvider[layer][provider] = append(result.byLayerProvider[layer][provider], si)
+					}
 				}
 			}
 		}
 		return nil
 	})
 
-	return layers
+	return result
 }
 
 func embedsEntSchema(ts *ast.TypeSpec) bool {
