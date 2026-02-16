@@ -12,6 +12,36 @@ type BronzeAWSEC2Instance func(*sql.Selector)
 // BronzeAWSEC2InstanceTag is the predicate function for bronzeawsec2instancetag builders.
 type BronzeAWSEC2InstanceTag func(*sql.Selector)
 
+// BronzeDOAccount is the predicate function for bronzedoaccount builders.
+type BronzeDOAccount func(*sql.Selector)
+
+// BronzeDODomain is the predicate function for bronzedodomain builders.
+type BronzeDODomain func(*sql.Selector)
+
+// BronzeDODomainRecord is the predicate function for bronzedodomainrecord builders.
+type BronzeDODomainRecord func(*sql.Selector)
+
+// BronzeDODroplet is the predicate function for bronzedodroplet builders.
+type BronzeDODroplet func(*sql.Selector)
+
+// BronzeDOFirewall is the predicate function for bronzedofirewall builders.
+type BronzeDOFirewall func(*sql.Selector)
+
+// BronzeDOKey is the predicate function for bronzedokey builders.
+type BronzeDOKey func(*sql.Selector)
+
+// BronzeDOLoadBalancer is the predicate function for bronzedoloadbalancer builders.
+type BronzeDOLoadBalancer func(*sql.Selector)
+
+// BronzeDOProject is the predicate function for bronzedoproject builders.
+type BronzeDOProject func(*sql.Selector)
+
+// BronzeDOProjectResource is the predicate function for bronzedoprojectresource builders.
+type BronzeDOProjectResource func(*sql.Selector)
+
+// BronzeDOVolume is the predicate function for bronzedovolume builders.
+type BronzeDOVolume func(*sql.Selector)
+
 // BronzeDOVpc is the predicate function for bronzedovpc builders.
 type BronzeDOVpc func(*sql.Selector)
 
@@ -260,6 +290,36 @@ type BronzeHistoryAWSEC2Instance func(*sql.Selector)
 
 // BronzeHistoryAWSEC2InstanceTag is the predicate function for bronzehistoryawsec2instancetag builders.
 type BronzeHistoryAWSEC2InstanceTag func(*sql.Selector)
+
+// BronzeHistoryDOAccount is the predicate function for bronzehistorydoaccount builders.
+type BronzeHistoryDOAccount func(*sql.Selector)
+
+// BronzeHistoryDODomain is the predicate function for bronzehistorydodomain builders.
+type BronzeHistoryDODomain func(*sql.Selector)
+
+// BronzeHistoryDODomainRecord is the predicate function for bronzehistorydodomainrecord builders.
+type BronzeHistoryDODomainRecord func(*sql.Selector)
+
+// BronzeHistoryDODroplet is the predicate function for bronzehistorydodroplet builders.
+type BronzeHistoryDODroplet func(*sql.Selector)
+
+// BronzeHistoryDOFirewall is the predicate function for bronzehistorydofirewall builders.
+type BronzeHistoryDOFirewall func(*sql.Selector)
+
+// BronzeHistoryDOKey is the predicate function for bronzehistorydokey builders.
+type BronzeHistoryDOKey func(*sql.Selector)
+
+// BronzeHistoryDOLoadBalancer is the predicate function for bronzehistorydoloadbalancer builders.
+type BronzeHistoryDOLoadBalancer func(*sql.Selector)
+
+// BronzeHistoryDOProject is the predicate function for bronzehistorydoproject builders.
+type BronzeHistoryDOProject func(*sql.Selector)
+
+// BronzeHistoryDOProjectResource is the predicate function for bronzehistorydoprojectresource builders.
+type BronzeHistoryDOProjectResource func(*sql.Selector)
+
+// BronzeHistoryDOVolume is the predicate function for bronzehistorydovolume builders.
+type BronzeHistoryDOVolume func(*sql.Selector)
 
 // BronzeHistoryDOVpc is the predicate function for bronzehistorydovpc builders.
 type BronzeHistoryDOVpc func(*sql.Selector)

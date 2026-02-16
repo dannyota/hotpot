@@ -33,6 +33,126 @@ func (f BronzeAWSEC2InstanceTagFunc) Mutate(ctx context.Context, m ent.Mutation)
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeAWSEC2InstanceTagMutation", m)
 }
 
+// The BronzeDOAccountFunc type is an adapter to allow the use of ordinary
+// function as BronzeDOAccount mutator.
+type BronzeDOAccountFunc func(context.Context, *ent.BronzeDOAccountMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeDOAccountFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeDOAccountMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeDOAccountMutation", m)
+}
+
+// The BronzeDODomainFunc type is an adapter to allow the use of ordinary
+// function as BronzeDODomain mutator.
+type BronzeDODomainFunc func(context.Context, *ent.BronzeDODomainMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeDODomainFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeDODomainMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeDODomainMutation", m)
+}
+
+// The BronzeDODomainRecordFunc type is an adapter to allow the use of ordinary
+// function as BronzeDODomainRecord mutator.
+type BronzeDODomainRecordFunc func(context.Context, *ent.BronzeDODomainRecordMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeDODomainRecordFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeDODomainRecordMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeDODomainRecordMutation", m)
+}
+
+// The BronzeDODropletFunc type is an adapter to allow the use of ordinary
+// function as BronzeDODroplet mutator.
+type BronzeDODropletFunc func(context.Context, *ent.BronzeDODropletMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeDODropletFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeDODropletMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeDODropletMutation", m)
+}
+
+// The BronzeDOFirewallFunc type is an adapter to allow the use of ordinary
+// function as BronzeDOFirewall mutator.
+type BronzeDOFirewallFunc func(context.Context, *ent.BronzeDOFirewallMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeDOFirewallFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeDOFirewallMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeDOFirewallMutation", m)
+}
+
+// The BronzeDOKeyFunc type is an adapter to allow the use of ordinary
+// function as BronzeDOKey mutator.
+type BronzeDOKeyFunc func(context.Context, *ent.BronzeDOKeyMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeDOKeyFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeDOKeyMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeDOKeyMutation", m)
+}
+
+// The BronzeDOLoadBalancerFunc type is an adapter to allow the use of ordinary
+// function as BronzeDOLoadBalancer mutator.
+type BronzeDOLoadBalancerFunc func(context.Context, *ent.BronzeDOLoadBalancerMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeDOLoadBalancerFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeDOLoadBalancerMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeDOLoadBalancerMutation", m)
+}
+
+// The BronzeDOProjectFunc type is an adapter to allow the use of ordinary
+// function as BronzeDOProject mutator.
+type BronzeDOProjectFunc func(context.Context, *ent.BronzeDOProjectMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeDOProjectFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeDOProjectMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeDOProjectMutation", m)
+}
+
+// The BronzeDOProjectResourceFunc type is an adapter to allow the use of ordinary
+// function as BronzeDOProjectResource mutator.
+type BronzeDOProjectResourceFunc func(context.Context, *ent.BronzeDOProjectResourceMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeDOProjectResourceFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeDOProjectResourceMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeDOProjectResourceMutation", m)
+}
+
+// The BronzeDOVolumeFunc type is an adapter to allow the use of ordinary
+// function as BronzeDOVolume mutator.
+type BronzeDOVolumeFunc func(context.Context, *ent.BronzeDOVolumeMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeDOVolumeFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeDOVolumeMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeDOVolumeMutation", m)
+}
+
 // The BronzeDOVpcFunc type is an adapter to allow the use of ordinary
 // function as BronzeDOVpc mutator.
 type BronzeDOVpcFunc func(context.Context, *ent.BronzeDOVpcMutation) (ent.Value, error)
@@ -1027,6 +1147,126 @@ func (f BronzeHistoryAWSEC2InstanceTagFunc) Mutate(ctx context.Context, m ent.Mu
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryAWSEC2InstanceTagMutation", m)
+}
+
+// The BronzeHistoryDOAccountFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryDOAccount mutator.
+type BronzeHistoryDOAccountFunc func(context.Context, *ent.BronzeHistoryDOAccountMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryDOAccountFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryDOAccountMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryDOAccountMutation", m)
+}
+
+// The BronzeHistoryDODomainFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryDODomain mutator.
+type BronzeHistoryDODomainFunc func(context.Context, *ent.BronzeHistoryDODomainMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryDODomainFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryDODomainMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryDODomainMutation", m)
+}
+
+// The BronzeHistoryDODomainRecordFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryDODomainRecord mutator.
+type BronzeHistoryDODomainRecordFunc func(context.Context, *ent.BronzeHistoryDODomainRecordMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryDODomainRecordFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryDODomainRecordMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryDODomainRecordMutation", m)
+}
+
+// The BronzeHistoryDODropletFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryDODroplet mutator.
+type BronzeHistoryDODropletFunc func(context.Context, *ent.BronzeHistoryDODropletMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryDODropletFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryDODropletMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryDODropletMutation", m)
+}
+
+// The BronzeHistoryDOFirewallFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryDOFirewall mutator.
+type BronzeHistoryDOFirewallFunc func(context.Context, *ent.BronzeHistoryDOFirewallMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryDOFirewallFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryDOFirewallMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryDOFirewallMutation", m)
+}
+
+// The BronzeHistoryDOKeyFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryDOKey mutator.
+type BronzeHistoryDOKeyFunc func(context.Context, *ent.BronzeHistoryDOKeyMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryDOKeyFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryDOKeyMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryDOKeyMutation", m)
+}
+
+// The BronzeHistoryDOLoadBalancerFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryDOLoadBalancer mutator.
+type BronzeHistoryDOLoadBalancerFunc func(context.Context, *ent.BronzeHistoryDOLoadBalancerMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryDOLoadBalancerFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryDOLoadBalancerMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryDOLoadBalancerMutation", m)
+}
+
+// The BronzeHistoryDOProjectFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryDOProject mutator.
+type BronzeHistoryDOProjectFunc func(context.Context, *ent.BronzeHistoryDOProjectMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryDOProjectFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryDOProjectMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryDOProjectMutation", m)
+}
+
+// The BronzeHistoryDOProjectResourceFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryDOProjectResource mutator.
+type BronzeHistoryDOProjectResourceFunc func(context.Context, *ent.BronzeHistoryDOProjectResourceMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryDOProjectResourceFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryDOProjectResourceMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryDOProjectResourceMutation", m)
+}
+
+// The BronzeHistoryDOVolumeFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryDOVolume mutator.
+type BronzeHistoryDOVolumeFunc func(context.Context, *ent.BronzeHistoryDOVolumeMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryDOVolumeFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryDOVolumeMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryDOVolumeMutation", m)
 }
 
 // The BronzeHistoryDOVpcFunc type is an adapter to allow the use of ordinary

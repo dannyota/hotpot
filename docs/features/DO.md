@@ -8,7 +8,7 @@ DigitalOcean API resource ingestion coverage in the bronze layer.
 
 | Resource | Endpoint | Status |
 |----------|----------|:------:|
-| Account | `/account` | |
+| Account | `/account` | ✅ |
 | Balance | `/customers/my/balance` | |
 | Billing History | `/customers/my/billing_history` | |
 | Invoices | `/customers/my/invoices` | |
@@ -18,7 +18,7 @@ DigitalOcean API resource ingestion coverage in the bronze layer.
 
 | Resource | Endpoint | Status |
 |----------|----------|:------:|
-| Droplets | `/droplets` | |
+| Droplets | `/droplets` | ✅ |
 | Droplet Backups | `/droplets/{id}/backups` | |
 | Droplet Backup Policies | `/droplets/backups/policies` | |
 | Droplet Firewalls | `/droplets/{id}/firewalls` | |
@@ -85,7 +85,7 @@ DigitalOcean API resource ingestion coverage in the bronze layer.
 
 | Resource | Endpoint | Status |
 |----------|----------|:------:|
-| Volumes | `/volumes` | |
+| Volumes | `/volumes` | ✅ |
 | Volume Snapshots | `/volumes/{id}/snapshots` | |
 
 ### NFS
@@ -111,14 +111,14 @@ DigitalOcean API resource ingestion coverage in the bronze layer.
 
 | Resource | Endpoint | Status |
 |----------|----------|:------:|
-| VPCs | `/vpcs` | |
+| VPCs | `/vpcs` | ✅ |
 | VPC Members | `/vpcs/{id}/members` | |
 | VPC Peerings | `/vpc_peerings` | |
 | VPC NAT Gateways | `/vpc_nat_gateways` | |
-| Domains | `/domains` | |
-| Domain Records | `/domains/{name}/records` | |
-| Firewalls | `/firewalls` | |
-| Load Balancers | `/load_balancers` | |
+| Domains | `/domains` | ✅ |
+| Domain Records | `/domains/{name}/records` | ✅ |
+| Firewalls | `/firewalls` | ✅ |
+| Load Balancers | `/load_balancers` | ✅ |
 | Reserved IPs | `/reserved_ips` | |
 | Reserved IPv6 | `/reserved_ipv6` | |
 | Floating IPs | `/floating_ips` | |
@@ -149,8 +149,8 @@ DigitalOcean API resource ingestion coverage in the bronze layer.
 
 | Resource | Endpoint | Status |
 |----------|----------|:------:|
-| Projects | `/projects` | |
-| Project Resources | `/projects/{id}/resources` | |
+| Projects | `/projects` | ✅ |
+| Project Resources | `/projects/{id}/resources` | ✅ |
 
 ### Monitoring
 
@@ -172,7 +172,7 @@ DigitalOcean API resource ingestion coverage in the bronze layer.
 
 | Resource | Endpoint | Status |
 |----------|----------|:------:|
-| SSH Keys | `/account/keys` | |
+| SSH Keys | `/account/keys` | ✅ |
 
 ### Tags
 
@@ -225,27 +225,27 @@ DigitalOcean API resource ingestion coverage in the bronze layer.
 
 ## 📊 Summary
 
-**Total: 0/113 (0%)**
+**Total: 11/113 (10%)**
 
 | API | Implemented | Total |
 |-----|:-----------:|:-----:|
-| Account & Billing | 0 | 5 |
-| Droplets | 0 | 10 |
+| Account & Billing | 1 | 5 |
+| Droplets | 1 | 10 |
 | Kubernetes | 0 | 6 |
 | App Platform | 0 | 7 |
 | Functions | 0 | 2 |
 | Databases | 0 | 17 |
-| Block Storage | 0 | 2 |
+| Block Storage | 1 | 2 |
 | NFS | 0 | 2 |
 | Spaces | 0 | 1 |
 | Snapshots | 0 | 1 |
-| Networking | 0 | 15 |
+| Networking | 5 | 15 |
 | Container Registry | 0 | 7 |
 | Images | 0 | 1 |
-| Projects | 0 | 2 |
+| Projects | 2 | 2 |
 | Monitoring | 0 | 3 |
 | Uptime | 0 | 3 |
-| SSH Keys | 0 | 1 |
+| SSH Keys | 1 | 1 |
 | Tags | 0 | 1 |
 | Actions | 0 | 1 |
 | Sizes & Regions | 0 | 2 |

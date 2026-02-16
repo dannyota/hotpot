@@ -9,6 +9,16 @@ import "context"
 type SchemaConfig struct {
 	BronzeAWSEC2Instance                             string // BronzeAWSEC2Instance table.
 	BronzeAWSEC2InstanceTag                          string // BronzeAWSEC2InstanceTag table.
+	BronzeDOAccount                                  string // BronzeDOAccount table.
+	BronzeDODomain                                   string // BronzeDODomain table.
+	BronzeDODomainRecord                             string // BronzeDODomainRecord table.
+	BronzeDODroplet                                  string // BronzeDODroplet table.
+	BronzeDOFirewall                                 string // BronzeDOFirewall table.
+	BronzeDOKey                                      string // BronzeDOKey table.
+	BronzeDOLoadBalancer                             string // BronzeDOLoadBalancer table.
+	BronzeDOProject                                  string // BronzeDOProject table.
+	BronzeDOProjectResource                          string // BronzeDOProjectResource table.
+	BronzeDOVolume                                   string // BronzeDOVolume table.
 	BronzeDOVpc                                      string // BronzeDOVpc table.
 	BronzeGCPComputeAddress                          string // BronzeGCPComputeAddress table.
 	BronzeGCPComputeAddressLabel                     string // BronzeGCPComputeAddressLabel table.
@@ -92,6 +102,16 @@ type SchemaConfig struct {
 	BronzeGCPVPNTunnelLabel                          string // BronzeGCPVPNTunnelLabel table.
 	BronzeHistoryAWSEC2Instance                      string // BronzeHistoryAWSEC2Instance table.
 	BronzeHistoryAWSEC2InstanceTag                   string // BronzeHistoryAWSEC2InstanceTag table.
+	BronzeHistoryDOAccount                           string // BronzeHistoryDOAccount table.
+	BronzeHistoryDODomain                            string // BronzeHistoryDODomain table.
+	BronzeHistoryDODomainRecord                      string // BronzeHistoryDODomainRecord table.
+	BronzeHistoryDODroplet                           string // BronzeHistoryDODroplet table.
+	BronzeHistoryDOFirewall                          string // BronzeHistoryDOFirewall table.
+	BronzeHistoryDOKey                               string // BronzeHistoryDOKey table.
+	BronzeHistoryDOLoadBalancer                      string // BronzeHistoryDOLoadBalancer table.
+	BronzeHistoryDOProject                           string // BronzeHistoryDOProject table.
+	BronzeHistoryDOProjectResource                   string // BronzeHistoryDOProjectResource table.
+	BronzeHistoryDOVolume                            string // BronzeHistoryDOVolume table.
 	BronzeHistoryDOVpc                               string // BronzeHistoryDOVpc table.
 	BronzeHistoryGCPComputeAddress                   string // BronzeHistoryGCPComputeAddress table.
 	BronzeHistoryGCPComputeAddressLabel              string // BronzeHistoryGCPComputeAddressLabel table.

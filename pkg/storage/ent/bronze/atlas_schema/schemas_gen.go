@@ -53,6 +53,166 @@ func (BronzeAWSEC2InstanceTag) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze"})
 }
 
+type BronzeDOAccount struct {
+	bronze_do.BronzeDOAccount
+}
+
+func (BronzeDOAccount) Annotations() []schema.Annotation {
+	anns := bronze_do.BronzeDOAccount{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeDODomain struct {
+	bronze_do.BronzeDODomain
+}
+
+func (BronzeDODomain) Annotations() []schema.Annotation {
+	anns := bronze_do.BronzeDODomain{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeDODomainRecord struct {
+	bronze_do.BronzeDODomainRecord
+}
+
+func (BronzeDODomainRecord) Annotations() []schema.Annotation {
+	anns := bronze_do.BronzeDODomainRecord{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeDODroplet struct {
+	bronze_do.BronzeDODroplet
+}
+
+func (BronzeDODroplet) Annotations() []schema.Annotation {
+	anns := bronze_do.BronzeDODroplet{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeDOFirewall struct {
+	bronze_do.BronzeDOFirewall
+}
+
+func (BronzeDOFirewall) Annotations() []schema.Annotation {
+	anns := bronze_do.BronzeDOFirewall{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeDOKey struct {
+	bronze_do.BronzeDOKey
+}
+
+func (BronzeDOKey) Annotations() []schema.Annotation {
+	anns := bronze_do.BronzeDOKey{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeDOLoadBalancer struct {
+	bronze_do.BronzeDOLoadBalancer
+}
+
+func (BronzeDOLoadBalancer) Annotations() []schema.Annotation {
+	anns := bronze_do.BronzeDOLoadBalancer{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeDOProject struct {
+	bronze_do.BronzeDOProject
+}
+
+func (BronzeDOProject) Annotations() []schema.Annotation {
+	anns := bronze_do.BronzeDOProject{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeDOProjectResource struct {
+	bronze_do.BronzeDOProjectResource
+}
+
+func (BronzeDOProjectResource) Annotations() []schema.Annotation {
+	anns := bronze_do.BronzeDOProjectResource{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeDOVolume struct {
+	bronze_do.BronzeDOVolume
+}
+
+func (BronzeDOVolume) Annotations() []schema.Annotation {
+	anns := bronze_do.BronzeDOVolume{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
 type BronzeDOVpc struct {
 	bronze_do.BronzeDOVpc
 }

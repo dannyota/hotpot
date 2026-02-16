@@ -17,6 +17,16 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzeawsec2instance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzeawsec2instancetag"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoaccount"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodomain"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodomainrecord"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodroplet"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedofirewall"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoloadbalancer"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoproject"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoprojectresource"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedovolume"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedovpc"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeaddress"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeaddresslabel"
@@ -100,6 +110,16 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntunnellabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instancetag"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoaccount"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodomain"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodomainrecord"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodroplet"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydofirewall"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoloadbalancer"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoproject"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoprojectresource"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydovolume"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydovpc"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddress"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddresslabel"
@@ -208,6 +228,26 @@ type Client struct {
 	BronzeAWSEC2Instance *BronzeAWSEC2InstanceClient
 	// BronzeAWSEC2InstanceTag is the client for interacting with the BronzeAWSEC2InstanceTag builders.
 	BronzeAWSEC2InstanceTag *BronzeAWSEC2InstanceTagClient
+	// BronzeDOAccount is the client for interacting with the BronzeDOAccount builders.
+	BronzeDOAccount *BronzeDOAccountClient
+	// BronzeDODomain is the client for interacting with the BronzeDODomain builders.
+	BronzeDODomain *BronzeDODomainClient
+	// BronzeDODomainRecord is the client for interacting with the BronzeDODomainRecord builders.
+	BronzeDODomainRecord *BronzeDODomainRecordClient
+	// BronzeDODroplet is the client for interacting with the BronzeDODroplet builders.
+	BronzeDODroplet *BronzeDODropletClient
+	// BronzeDOFirewall is the client for interacting with the BronzeDOFirewall builders.
+	BronzeDOFirewall *BronzeDOFirewallClient
+	// BronzeDOKey is the client for interacting with the BronzeDOKey builders.
+	BronzeDOKey *BronzeDOKeyClient
+	// BronzeDOLoadBalancer is the client for interacting with the BronzeDOLoadBalancer builders.
+	BronzeDOLoadBalancer *BronzeDOLoadBalancerClient
+	// BronzeDOProject is the client for interacting with the BronzeDOProject builders.
+	BronzeDOProject *BronzeDOProjectClient
+	// BronzeDOProjectResource is the client for interacting with the BronzeDOProjectResource builders.
+	BronzeDOProjectResource *BronzeDOProjectResourceClient
+	// BronzeDOVolume is the client for interacting with the BronzeDOVolume builders.
+	BronzeDOVolume *BronzeDOVolumeClient
 	// BronzeDOVpc is the client for interacting with the BronzeDOVpc builders.
 	BronzeDOVpc *BronzeDOVpcClient
 	// BronzeGCPComputeAddress is the client for interacting with the BronzeGCPComputeAddress builders.
@@ -374,6 +414,26 @@ type Client struct {
 	BronzeHistoryAWSEC2Instance *BronzeHistoryAWSEC2InstanceClient
 	// BronzeHistoryAWSEC2InstanceTag is the client for interacting with the BronzeHistoryAWSEC2InstanceTag builders.
 	BronzeHistoryAWSEC2InstanceTag *BronzeHistoryAWSEC2InstanceTagClient
+	// BronzeHistoryDOAccount is the client for interacting with the BronzeHistoryDOAccount builders.
+	BronzeHistoryDOAccount *BronzeHistoryDOAccountClient
+	// BronzeHistoryDODomain is the client for interacting with the BronzeHistoryDODomain builders.
+	BronzeHistoryDODomain *BronzeHistoryDODomainClient
+	// BronzeHistoryDODomainRecord is the client for interacting with the BronzeHistoryDODomainRecord builders.
+	BronzeHistoryDODomainRecord *BronzeHistoryDODomainRecordClient
+	// BronzeHistoryDODroplet is the client for interacting with the BronzeHistoryDODroplet builders.
+	BronzeHistoryDODroplet *BronzeHistoryDODropletClient
+	// BronzeHistoryDOFirewall is the client for interacting with the BronzeHistoryDOFirewall builders.
+	BronzeHistoryDOFirewall *BronzeHistoryDOFirewallClient
+	// BronzeHistoryDOKey is the client for interacting with the BronzeHistoryDOKey builders.
+	BronzeHistoryDOKey *BronzeHistoryDOKeyClient
+	// BronzeHistoryDOLoadBalancer is the client for interacting with the BronzeHistoryDOLoadBalancer builders.
+	BronzeHistoryDOLoadBalancer *BronzeHistoryDOLoadBalancerClient
+	// BronzeHistoryDOProject is the client for interacting with the BronzeHistoryDOProject builders.
+	BronzeHistoryDOProject *BronzeHistoryDOProjectClient
+	// BronzeHistoryDOProjectResource is the client for interacting with the BronzeHistoryDOProjectResource builders.
+	BronzeHistoryDOProjectResource *BronzeHistoryDOProjectResourceClient
+	// BronzeHistoryDOVolume is the client for interacting with the BronzeHistoryDOVolume builders.
+	BronzeHistoryDOVolume *BronzeHistoryDOVolumeClient
 	// BronzeHistoryDOVpc is the client for interacting with the BronzeHistoryDOVpc builders.
 	BronzeHistoryDOVpc *BronzeHistoryDOVpcClient
 	// BronzeHistoryGCPComputeAddress is the client for interacting with the BronzeHistoryGCPComputeAddress builders.
@@ -577,6 +637,16 @@ func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.BronzeAWSEC2Instance = NewBronzeAWSEC2InstanceClient(c.config)
 	c.BronzeAWSEC2InstanceTag = NewBronzeAWSEC2InstanceTagClient(c.config)
+	c.BronzeDOAccount = NewBronzeDOAccountClient(c.config)
+	c.BronzeDODomain = NewBronzeDODomainClient(c.config)
+	c.BronzeDODomainRecord = NewBronzeDODomainRecordClient(c.config)
+	c.BronzeDODroplet = NewBronzeDODropletClient(c.config)
+	c.BronzeDOFirewall = NewBronzeDOFirewallClient(c.config)
+	c.BronzeDOKey = NewBronzeDOKeyClient(c.config)
+	c.BronzeDOLoadBalancer = NewBronzeDOLoadBalancerClient(c.config)
+	c.BronzeDOProject = NewBronzeDOProjectClient(c.config)
+	c.BronzeDOProjectResource = NewBronzeDOProjectResourceClient(c.config)
+	c.BronzeDOVolume = NewBronzeDOVolumeClient(c.config)
 	c.BronzeDOVpc = NewBronzeDOVpcClient(c.config)
 	c.BronzeGCPComputeAddress = NewBronzeGCPComputeAddressClient(c.config)
 	c.BronzeGCPComputeAddressLabel = NewBronzeGCPComputeAddressLabelClient(c.config)
@@ -660,6 +730,16 @@ func (c *Client) init() {
 	c.BronzeGCPVPNTunnelLabel = NewBronzeGCPVPNTunnelLabelClient(c.config)
 	c.BronzeHistoryAWSEC2Instance = NewBronzeHistoryAWSEC2InstanceClient(c.config)
 	c.BronzeHistoryAWSEC2InstanceTag = NewBronzeHistoryAWSEC2InstanceTagClient(c.config)
+	c.BronzeHistoryDOAccount = NewBronzeHistoryDOAccountClient(c.config)
+	c.BronzeHistoryDODomain = NewBronzeHistoryDODomainClient(c.config)
+	c.BronzeHistoryDODomainRecord = NewBronzeHistoryDODomainRecordClient(c.config)
+	c.BronzeHistoryDODroplet = NewBronzeHistoryDODropletClient(c.config)
+	c.BronzeHistoryDOFirewall = NewBronzeHistoryDOFirewallClient(c.config)
+	c.BronzeHistoryDOKey = NewBronzeHistoryDOKeyClient(c.config)
+	c.BronzeHistoryDOLoadBalancer = NewBronzeHistoryDOLoadBalancerClient(c.config)
+	c.BronzeHistoryDOProject = NewBronzeHistoryDOProjectClient(c.config)
+	c.BronzeHistoryDOProjectResource = NewBronzeHistoryDOProjectResourceClient(c.config)
+	c.BronzeHistoryDOVolume = NewBronzeHistoryDOVolumeClient(c.config)
 	c.BronzeHistoryDOVpc = NewBronzeHistoryDOVpcClient(c.config)
 	c.BronzeHistoryGCPComputeAddress = NewBronzeHistoryGCPComputeAddressClient(c.config)
 	c.BronzeHistoryGCPComputeAddressLabel = NewBronzeHistoryGCPComputeAddressLabelClient(c.config)
@@ -851,6 +931,16 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		config:                                           cfg,
 		BronzeAWSEC2Instance:                             NewBronzeAWSEC2InstanceClient(cfg),
 		BronzeAWSEC2InstanceTag:                          NewBronzeAWSEC2InstanceTagClient(cfg),
+		BronzeDOAccount:                                  NewBronzeDOAccountClient(cfg),
+		BronzeDODomain:                                   NewBronzeDODomainClient(cfg),
+		BronzeDODomainRecord:                             NewBronzeDODomainRecordClient(cfg),
+		BronzeDODroplet:                                  NewBronzeDODropletClient(cfg),
+		BronzeDOFirewall:                                 NewBronzeDOFirewallClient(cfg),
+		BronzeDOKey:                                      NewBronzeDOKeyClient(cfg),
+		BronzeDOLoadBalancer:                             NewBronzeDOLoadBalancerClient(cfg),
+		BronzeDOProject:                                  NewBronzeDOProjectClient(cfg),
+		BronzeDOProjectResource:                          NewBronzeDOProjectResourceClient(cfg),
+		BronzeDOVolume:                                   NewBronzeDOVolumeClient(cfg),
 		BronzeDOVpc:                                      NewBronzeDOVpcClient(cfg),
 		BronzeGCPComputeAddress:                          NewBronzeGCPComputeAddressClient(cfg),
 		BronzeGCPComputeAddressLabel:                     NewBronzeGCPComputeAddressLabelClient(cfg),
@@ -934,6 +1024,16 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		BronzeGCPVPNTunnelLabel:                          NewBronzeGCPVPNTunnelLabelClient(cfg),
 		BronzeHistoryAWSEC2Instance:                      NewBronzeHistoryAWSEC2InstanceClient(cfg),
 		BronzeHistoryAWSEC2InstanceTag:                   NewBronzeHistoryAWSEC2InstanceTagClient(cfg),
+		BronzeHistoryDOAccount:                           NewBronzeHistoryDOAccountClient(cfg),
+		BronzeHistoryDODomain:                            NewBronzeHistoryDODomainClient(cfg),
+		BronzeHistoryDODomainRecord:                      NewBronzeHistoryDODomainRecordClient(cfg),
+		BronzeHistoryDODroplet:                           NewBronzeHistoryDODropletClient(cfg),
+		BronzeHistoryDOFirewall:                          NewBronzeHistoryDOFirewallClient(cfg),
+		BronzeHistoryDOKey:                               NewBronzeHistoryDOKeyClient(cfg),
+		BronzeHistoryDOLoadBalancer:                      NewBronzeHistoryDOLoadBalancerClient(cfg),
+		BronzeHistoryDOProject:                           NewBronzeHistoryDOProjectClient(cfg),
+		BronzeHistoryDOProjectResource:                   NewBronzeHistoryDOProjectResourceClient(cfg),
+		BronzeHistoryDOVolume:                            NewBronzeHistoryDOVolumeClient(cfg),
 		BronzeHistoryDOVpc:                               NewBronzeHistoryDOVpcClient(cfg),
 		BronzeHistoryGCPComputeAddress:                   NewBronzeHistoryGCPComputeAddressClient(cfg),
 		BronzeHistoryGCPComputeAddressLabel:              NewBronzeHistoryGCPComputeAddressLabelClient(cfg),
@@ -1050,6 +1150,16 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		config:                                           cfg,
 		BronzeAWSEC2Instance:                             NewBronzeAWSEC2InstanceClient(cfg),
 		BronzeAWSEC2InstanceTag:                          NewBronzeAWSEC2InstanceTagClient(cfg),
+		BronzeDOAccount:                                  NewBronzeDOAccountClient(cfg),
+		BronzeDODomain:                                   NewBronzeDODomainClient(cfg),
+		BronzeDODomainRecord:                             NewBronzeDODomainRecordClient(cfg),
+		BronzeDODroplet:                                  NewBronzeDODropletClient(cfg),
+		BronzeDOFirewall:                                 NewBronzeDOFirewallClient(cfg),
+		BronzeDOKey:                                      NewBronzeDOKeyClient(cfg),
+		BronzeDOLoadBalancer:                             NewBronzeDOLoadBalancerClient(cfg),
+		BronzeDOProject:                                  NewBronzeDOProjectClient(cfg),
+		BronzeDOProjectResource:                          NewBronzeDOProjectResourceClient(cfg),
+		BronzeDOVolume:                                   NewBronzeDOVolumeClient(cfg),
 		BronzeDOVpc:                                      NewBronzeDOVpcClient(cfg),
 		BronzeGCPComputeAddress:                          NewBronzeGCPComputeAddressClient(cfg),
 		BronzeGCPComputeAddressLabel:                     NewBronzeGCPComputeAddressLabelClient(cfg),
@@ -1133,6 +1243,16 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		BronzeGCPVPNTunnelLabel:                          NewBronzeGCPVPNTunnelLabelClient(cfg),
 		BronzeHistoryAWSEC2Instance:                      NewBronzeHistoryAWSEC2InstanceClient(cfg),
 		BronzeHistoryAWSEC2InstanceTag:                   NewBronzeHistoryAWSEC2InstanceTagClient(cfg),
+		BronzeHistoryDOAccount:                           NewBronzeHistoryDOAccountClient(cfg),
+		BronzeHistoryDODomain:                            NewBronzeHistoryDODomainClient(cfg),
+		BronzeHistoryDODomainRecord:                      NewBronzeHistoryDODomainRecordClient(cfg),
+		BronzeHistoryDODroplet:                           NewBronzeHistoryDODropletClient(cfg),
+		BronzeHistoryDOFirewall:                          NewBronzeHistoryDOFirewallClient(cfg),
+		BronzeHistoryDOKey:                               NewBronzeHistoryDOKeyClient(cfg),
+		BronzeHistoryDOLoadBalancer:                      NewBronzeHistoryDOLoadBalancerClient(cfg),
+		BronzeHistoryDOProject:                           NewBronzeHistoryDOProjectClient(cfg),
+		BronzeHistoryDOProjectResource:                   NewBronzeHistoryDOProjectResourceClient(cfg),
+		BronzeHistoryDOVolume:                            NewBronzeHistoryDOVolumeClient(cfg),
 		BronzeHistoryDOVpc:                               NewBronzeHistoryDOVpcClient(cfg),
 		BronzeHistoryGCPComputeAddress:                   NewBronzeHistoryGCPComputeAddressClient(cfg),
 		BronzeHistoryGCPComputeAddressLabel:              NewBronzeHistoryGCPComputeAddressLabelClient(cfg),
@@ -1257,7 +1377,10 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.BronzeAWSEC2Instance, c.BronzeAWSEC2InstanceTag, c.BronzeDOVpc,
+		c.BronzeAWSEC2Instance, c.BronzeAWSEC2InstanceTag, c.BronzeDOAccount,
+		c.BronzeDODomain, c.BronzeDODomainRecord, c.BronzeDODroplet,
+		c.BronzeDOFirewall, c.BronzeDOKey, c.BronzeDOLoadBalancer, c.BronzeDOProject,
+		c.BronzeDOProjectResource, c.BronzeDOVolume, c.BronzeDOVpc,
 		c.BronzeGCPComputeAddress, c.BronzeGCPComputeAddressLabel,
 		c.BronzeGCPComputeBackendService, c.BronzeGCPComputeBackendServiceBackend,
 		c.BronzeGCPComputeDisk, c.BronzeGCPComputeDiskLabel,
@@ -1299,9 +1422,13 @@ func (c *Client) Use(hooks ...Hook) {
 		c.BronzeGCPVPNGatewayLabel, c.BronzeGCPVPNTargetGateway,
 		c.BronzeGCPVPNTargetGatewayLabel, c.BronzeGCPVPNTunnel,
 		c.BronzeGCPVPNTunnelLabel, c.BronzeHistoryAWSEC2Instance,
-		c.BronzeHistoryAWSEC2InstanceTag, c.BronzeHistoryDOVpc,
-		c.BronzeHistoryGCPComputeAddress, c.BronzeHistoryGCPComputeAddressLabel,
-		c.BronzeHistoryGCPComputeBackendService,
+		c.BronzeHistoryAWSEC2InstanceTag, c.BronzeHistoryDOAccount,
+		c.BronzeHistoryDODomain, c.BronzeHistoryDODomainRecord,
+		c.BronzeHistoryDODroplet, c.BronzeHistoryDOFirewall, c.BronzeHistoryDOKey,
+		c.BronzeHistoryDOLoadBalancer, c.BronzeHistoryDOProject,
+		c.BronzeHistoryDOProjectResource, c.BronzeHistoryDOVolume,
+		c.BronzeHistoryDOVpc, c.BronzeHistoryGCPComputeAddress,
+		c.BronzeHistoryGCPComputeAddressLabel, c.BronzeHistoryGCPComputeBackendService,
 		c.BronzeHistoryGCPComputeBackendServiceBackend, c.BronzeHistoryGCPComputeDisk,
 		c.BronzeHistoryGCPComputeDiskLabel, c.BronzeHistoryGCPComputeDiskLicense,
 		c.BronzeHistoryGCPComputeFirewall, c.BronzeHistoryGCPComputeFirewallAllowed,
@@ -1367,7 +1494,10 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.BronzeAWSEC2Instance, c.BronzeAWSEC2InstanceTag, c.BronzeDOVpc,
+		c.BronzeAWSEC2Instance, c.BronzeAWSEC2InstanceTag, c.BronzeDOAccount,
+		c.BronzeDODomain, c.BronzeDODomainRecord, c.BronzeDODroplet,
+		c.BronzeDOFirewall, c.BronzeDOKey, c.BronzeDOLoadBalancer, c.BronzeDOProject,
+		c.BronzeDOProjectResource, c.BronzeDOVolume, c.BronzeDOVpc,
 		c.BronzeGCPComputeAddress, c.BronzeGCPComputeAddressLabel,
 		c.BronzeGCPComputeBackendService, c.BronzeGCPComputeBackendServiceBackend,
 		c.BronzeGCPComputeDisk, c.BronzeGCPComputeDiskLabel,
@@ -1409,9 +1539,13 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.BronzeGCPVPNGatewayLabel, c.BronzeGCPVPNTargetGateway,
 		c.BronzeGCPVPNTargetGatewayLabel, c.BronzeGCPVPNTunnel,
 		c.BronzeGCPVPNTunnelLabel, c.BronzeHistoryAWSEC2Instance,
-		c.BronzeHistoryAWSEC2InstanceTag, c.BronzeHistoryDOVpc,
-		c.BronzeHistoryGCPComputeAddress, c.BronzeHistoryGCPComputeAddressLabel,
-		c.BronzeHistoryGCPComputeBackendService,
+		c.BronzeHistoryAWSEC2InstanceTag, c.BronzeHistoryDOAccount,
+		c.BronzeHistoryDODomain, c.BronzeHistoryDODomainRecord,
+		c.BronzeHistoryDODroplet, c.BronzeHistoryDOFirewall, c.BronzeHistoryDOKey,
+		c.BronzeHistoryDOLoadBalancer, c.BronzeHistoryDOProject,
+		c.BronzeHistoryDOProjectResource, c.BronzeHistoryDOVolume,
+		c.BronzeHistoryDOVpc, c.BronzeHistoryGCPComputeAddress,
+		c.BronzeHistoryGCPComputeAddressLabel, c.BronzeHistoryGCPComputeBackendService,
 		c.BronzeHistoryGCPComputeBackendServiceBackend, c.BronzeHistoryGCPComputeDisk,
 		c.BronzeHistoryGCPComputeDiskLabel, c.BronzeHistoryGCPComputeDiskLicense,
 		c.BronzeHistoryGCPComputeFirewall, c.BronzeHistoryGCPComputeFirewallAllowed,
@@ -1480,6 +1614,26 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeAWSEC2Instance.mutate(ctx, m)
 	case *BronzeAWSEC2InstanceTagMutation:
 		return c.BronzeAWSEC2InstanceTag.mutate(ctx, m)
+	case *BronzeDOAccountMutation:
+		return c.BronzeDOAccount.mutate(ctx, m)
+	case *BronzeDODomainMutation:
+		return c.BronzeDODomain.mutate(ctx, m)
+	case *BronzeDODomainRecordMutation:
+		return c.BronzeDODomainRecord.mutate(ctx, m)
+	case *BronzeDODropletMutation:
+		return c.BronzeDODroplet.mutate(ctx, m)
+	case *BronzeDOFirewallMutation:
+		return c.BronzeDOFirewall.mutate(ctx, m)
+	case *BronzeDOKeyMutation:
+		return c.BronzeDOKey.mutate(ctx, m)
+	case *BronzeDOLoadBalancerMutation:
+		return c.BronzeDOLoadBalancer.mutate(ctx, m)
+	case *BronzeDOProjectMutation:
+		return c.BronzeDOProject.mutate(ctx, m)
+	case *BronzeDOProjectResourceMutation:
+		return c.BronzeDOProjectResource.mutate(ctx, m)
+	case *BronzeDOVolumeMutation:
+		return c.BronzeDOVolume.mutate(ctx, m)
 	case *BronzeDOVpcMutation:
 		return c.BronzeDOVpc.mutate(ctx, m)
 	case *BronzeGCPComputeAddressMutation:
@@ -1646,6 +1800,26 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeHistoryAWSEC2Instance.mutate(ctx, m)
 	case *BronzeHistoryAWSEC2InstanceTagMutation:
 		return c.BronzeHistoryAWSEC2InstanceTag.mutate(ctx, m)
+	case *BronzeHistoryDOAccountMutation:
+		return c.BronzeHistoryDOAccount.mutate(ctx, m)
+	case *BronzeHistoryDODomainMutation:
+		return c.BronzeHistoryDODomain.mutate(ctx, m)
+	case *BronzeHistoryDODomainRecordMutation:
+		return c.BronzeHistoryDODomainRecord.mutate(ctx, m)
+	case *BronzeHistoryDODropletMutation:
+		return c.BronzeHistoryDODroplet.mutate(ctx, m)
+	case *BronzeHistoryDOFirewallMutation:
+		return c.BronzeHistoryDOFirewall.mutate(ctx, m)
+	case *BronzeHistoryDOKeyMutation:
+		return c.BronzeHistoryDOKey.mutate(ctx, m)
+	case *BronzeHistoryDOLoadBalancerMutation:
+		return c.BronzeHistoryDOLoadBalancer.mutate(ctx, m)
+	case *BronzeHistoryDOProjectMutation:
+		return c.BronzeHistoryDOProject.mutate(ctx, m)
+	case *BronzeHistoryDOProjectResourceMutation:
+		return c.BronzeHistoryDOProjectResource.mutate(ctx, m)
+	case *BronzeHistoryDOVolumeMutation:
+		return c.BronzeHistoryDOVolume.mutate(ctx, m)
 	case *BronzeHistoryDOVpcMutation:
 		return c.BronzeHistoryDOVpc.mutate(ctx, m)
 	case *BronzeHistoryGCPComputeAddressMutation:
@@ -2142,6 +2316,1336 @@ func (c *BronzeAWSEC2InstanceTagClient) mutate(ctx context.Context, m *BronzeAWS
 		return (&BronzeAWSEC2InstanceTagDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown BronzeAWSEC2InstanceTag mutation op: %q", m.Op())
+	}
+}
+
+// BronzeDOAccountClient is a client for the BronzeDOAccount schema.
+type BronzeDOAccountClient struct {
+	config
+}
+
+// NewBronzeDOAccountClient returns a client for the BronzeDOAccount from the given config.
+func NewBronzeDOAccountClient(c config) *BronzeDOAccountClient {
+	return &BronzeDOAccountClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzedoaccount.Hooks(f(g(h())))`.
+func (c *BronzeDOAccountClient) Use(hooks ...Hook) {
+	c.hooks.BronzeDOAccount = append(c.hooks.BronzeDOAccount, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzedoaccount.Intercept(f(g(h())))`.
+func (c *BronzeDOAccountClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeDOAccount = append(c.inters.BronzeDOAccount, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeDOAccount entity.
+func (c *BronzeDOAccountClient) Create() *BronzeDOAccountCreate {
+	mutation := newBronzeDOAccountMutation(c.config, OpCreate)
+	return &BronzeDOAccountCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeDOAccount entities.
+func (c *BronzeDOAccountClient) CreateBulk(builders ...*BronzeDOAccountCreate) *BronzeDOAccountCreateBulk {
+	return &BronzeDOAccountCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeDOAccountClient) MapCreateBulk(slice any, setFunc func(*BronzeDOAccountCreate, int)) *BronzeDOAccountCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeDOAccountCreateBulk{err: fmt.Errorf("calling to BronzeDOAccountClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeDOAccountCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeDOAccountCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeDOAccount.
+func (c *BronzeDOAccountClient) Update() *BronzeDOAccountUpdate {
+	mutation := newBronzeDOAccountMutation(c.config, OpUpdate)
+	return &BronzeDOAccountUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeDOAccountClient) UpdateOne(_m *BronzeDOAccount) *BronzeDOAccountUpdateOne {
+	mutation := newBronzeDOAccountMutation(c.config, OpUpdateOne, withBronzeDOAccount(_m))
+	return &BronzeDOAccountUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeDOAccountClient) UpdateOneID(id string) *BronzeDOAccountUpdateOne {
+	mutation := newBronzeDOAccountMutation(c.config, OpUpdateOne, withBronzeDOAccountID(id))
+	return &BronzeDOAccountUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeDOAccount.
+func (c *BronzeDOAccountClient) Delete() *BronzeDOAccountDelete {
+	mutation := newBronzeDOAccountMutation(c.config, OpDelete)
+	return &BronzeDOAccountDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeDOAccountClient) DeleteOne(_m *BronzeDOAccount) *BronzeDOAccountDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeDOAccountClient) DeleteOneID(id string) *BronzeDOAccountDeleteOne {
+	builder := c.Delete().Where(bronzedoaccount.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeDOAccountDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeDOAccount.
+func (c *BronzeDOAccountClient) Query() *BronzeDOAccountQuery {
+	return &BronzeDOAccountQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeDOAccount},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeDOAccount entity by its id.
+func (c *BronzeDOAccountClient) Get(ctx context.Context, id string) (*BronzeDOAccount, error) {
+	return c.Query().Where(bronzedoaccount.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeDOAccountClient) GetX(ctx context.Context, id string) *BronzeDOAccount {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeDOAccountClient) Hooks() []Hook {
+	return c.hooks.BronzeDOAccount
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeDOAccountClient) Interceptors() []Interceptor {
+	return c.inters.BronzeDOAccount
+}
+
+func (c *BronzeDOAccountClient) mutate(ctx context.Context, m *BronzeDOAccountMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeDOAccountCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeDOAccountUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeDOAccountUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeDOAccountDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeDOAccount mutation op: %q", m.Op())
+	}
+}
+
+// BronzeDODomainClient is a client for the BronzeDODomain schema.
+type BronzeDODomainClient struct {
+	config
+}
+
+// NewBronzeDODomainClient returns a client for the BronzeDODomain from the given config.
+func NewBronzeDODomainClient(c config) *BronzeDODomainClient {
+	return &BronzeDODomainClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzedodomain.Hooks(f(g(h())))`.
+func (c *BronzeDODomainClient) Use(hooks ...Hook) {
+	c.hooks.BronzeDODomain = append(c.hooks.BronzeDODomain, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzedodomain.Intercept(f(g(h())))`.
+func (c *BronzeDODomainClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeDODomain = append(c.inters.BronzeDODomain, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeDODomain entity.
+func (c *BronzeDODomainClient) Create() *BronzeDODomainCreate {
+	mutation := newBronzeDODomainMutation(c.config, OpCreate)
+	return &BronzeDODomainCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeDODomain entities.
+func (c *BronzeDODomainClient) CreateBulk(builders ...*BronzeDODomainCreate) *BronzeDODomainCreateBulk {
+	return &BronzeDODomainCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeDODomainClient) MapCreateBulk(slice any, setFunc func(*BronzeDODomainCreate, int)) *BronzeDODomainCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeDODomainCreateBulk{err: fmt.Errorf("calling to BronzeDODomainClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeDODomainCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeDODomainCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeDODomain.
+func (c *BronzeDODomainClient) Update() *BronzeDODomainUpdate {
+	mutation := newBronzeDODomainMutation(c.config, OpUpdate)
+	return &BronzeDODomainUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeDODomainClient) UpdateOne(_m *BronzeDODomain) *BronzeDODomainUpdateOne {
+	mutation := newBronzeDODomainMutation(c.config, OpUpdateOne, withBronzeDODomain(_m))
+	return &BronzeDODomainUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeDODomainClient) UpdateOneID(id string) *BronzeDODomainUpdateOne {
+	mutation := newBronzeDODomainMutation(c.config, OpUpdateOne, withBronzeDODomainID(id))
+	return &BronzeDODomainUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeDODomain.
+func (c *BronzeDODomainClient) Delete() *BronzeDODomainDelete {
+	mutation := newBronzeDODomainMutation(c.config, OpDelete)
+	return &BronzeDODomainDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeDODomainClient) DeleteOne(_m *BronzeDODomain) *BronzeDODomainDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeDODomainClient) DeleteOneID(id string) *BronzeDODomainDeleteOne {
+	builder := c.Delete().Where(bronzedodomain.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeDODomainDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeDODomain.
+func (c *BronzeDODomainClient) Query() *BronzeDODomainQuery {
+	return &BronzeDODomainQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeDODomain},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeDODomain entity by its id.
+func (c *BronzeDODomainClient) Get(ctx context.Context, id string) (*BronzeDODomain, error) {
+	return c.Query().Where(bronzedodomain.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeDODomainClient) GetX(ctx context.Context, id string) *BronzeDODomain {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeDODomainClient) Hooks() []Hook {
+	return c.hooks.BronzeDODomain
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeDODomainClient) Interceptors() []Interceptor {
+	return c.inters.BronzeDODomain
+}
+
+func (c *BronzeDODomainClient) mutate(ctx context.Context, m *BronzeDODomainMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeDODomainCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeDODomainUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeDODomainUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeDODomainDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeDODomain mutation op: %q", m.Op())
+	}
+}
+
+// BronzeDODomainRecordClient is a client for the BronzeDODomainRecord schema.
+type BronzeDODomainRecordClient struct {
+	config
+}
+
+// NewBronzeDODomainRecordClient returns a client for the BronzeDODomainRecord from the given config.
+func NewBronzeDODomainRecordClient(c config) *BronzeDODomainRecordClient {
+	return &BronzeDODomainRecordClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzedodomainrecord.Hooks(f(g(h())))`.
+func (c *BronzeDODomainRecordClient) Use(hooks ...Hook) {
+	c.hooks.BronzeDODomainRecord = append(c.hooks.BronzeDODomainRecord, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzedodomainrecord.Intercept(f(g(h())))`.
+func (c *BronzeDODomainRecordClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeDODomainRecord = append(c.inters.BronzeDODomainRecord, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeDODomainRecord entity.
+func (c *BronzeDODomainRecordClient) Create() *BronzeDODomainRecordCreate {
+	mutation := newBronzeDODomainRecordMutation(c.config, OpCreate)
+	return &BronzeDODomainRecordCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeDODomainRecord entities.
+func (c *BronzeDODomainRecordClient) CreateBulk(builders ...*BronzeDODomainRecordCreate) *BronzeDODomainRecordCreateBulk {
+	return &BronzeDODomainRecordCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeDODomainRecordClient) MapCreateBulk(slice any, setFunc func(*BronzeDODomainRecordCreate, int)) *BronzeDODomainRecordCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeDODomainRecordCreateBulk{err: fmt.Errorf("calling to BronzeDODomainRecordClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeDODomainRecordCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeDODomainRecordCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeDODomainRecord.
+func (c *BronzeDODomainRecordClient) Update() *BronzeDODomainRecordUpdate {
+	mutation := newBronzeDODomainRecordMutation(c.config, OpUpdate)
+	return &BronzeDODomainRecordUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeDODomainRecordClient) UpdateOne(_m *BronzeDODomainRecord) *BronzeDODomainRecordUpdateOne {
+	mutation := newBronzeDODomainRecordMutation(c.config, OpUpdateOne, withBronzeDODomainRecord(_m))
+	return &BronzeDODomainRecordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeDODomainRecordClient) UpdateOneID(id string) *BronzeDODomainRecordUpdateOne {
+	mutation := newBronzeDODomainRecordMutation(c.config, OpUpdateOne, withBronzeDODomainRecordID(id))
+	return &BronzeDODomainRecordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeDODomainRecord.
+func (c *BronzeDODomainRecordClient) Delete() *BronzeDODomainRecordDelete {
+	mutation := newBronzeDODomainRecordMutation(c.config, OpDelete)
+	return &BronzeDODomainRecordDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeDODomainRecordClient) DeleteOne(_m *BronzeDODomainRecord) *BronzeDODomainRecordDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeDODomainRecordClient) DeleteOneID(id string) *BronzeDODomainRecordDeleteOne {
+	builder := c.Delete().Where(bronzedodomainrecord.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeDODomainRecordDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeDODomainRecord.
+func (c *BronzeDODomainRecordClient) Query() *BronzeDODomainRecordQuery {
+	return &BronzeDODomainRecordQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeDODomainRecord},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeDODomainRecord entity by its id.
+func (c *BronzeDODomainRecordClient) Get(ctx context.Context, id string) (*BronzeDODomainRecord, error) {
+	return c.Query().Where(bronzedodomainrecord.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeDODomainRecordClient) GetX(ctx context.Context, id string) *BronzeDODomainRecord {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeDODomainRecordClient) Hooks() []Hook {
+	return c.hooks.BronzeDODomainRecord
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeDODomainRecordClient) Interceptors() []Interceptor {
+	return c.inters.BronzeDODomainRecord
+}
+
+func (c *BronzeDODomainRecordClient) mutate(ctx context.Context, m *BronzeDODomainRecordMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeDODomainRecordCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeDODomainRecordUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeDODomainRecordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeDODomainRecordDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeDODomainRecord mutation op: %q", m.Op())
+	}
+}
+
+// BronzeDODropletClient is a client for the BronzeDODroplet schema.
+type BronzeDODropletClient struct {
+	config
+}
+
+// NewBronzeDODropletClient returns a client for the BronzeDODroplet from the given config.
+func NewBronzeDODropletClient(c config) *BronzeDODropletClient {
+	return &BronzeDODropletClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzedodroplet.Hooks(f(g(h())))`.
+func (c *BronzeDODropletClient) Use(hooks ...Hook) {
+	c.hooks.BronzeDODroplet = append(c.hooks.BronzeDODroplet, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzedodroplet.Intercept(f(g(h())))`.
+func (c *BronzeDODropletClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeDODroplet = append(c.inters.BronzeDODroplet, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeDODroplet entity.
+func (c *BronzeDODropletClient) Create() *BronzeDODropletCreate {
+	mutation := newBronzeDODropletMutation(c.config, OpCreate)
+	return &BronzeDODropletCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeDODroplet entities.
+func (c *BronzeDODropletClient) CreateBulk(builders ...*BronzeDODropletCreate) *BronzeDODropletCreateBulk {
+	return &BronzeDODropletCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeDODropletClient) MapCreateBulk(slice any, setFunc func(*BronzeDODropletCreate, int)) *BronzeDODropletCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeDODropletCreateBulk{err: fmt.Errorf("calling to BronzeDODropletClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeDODropletCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeDODropletCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeDODroplet.
+func (c *BronzeDODropletClient) Update() *BronzeDODropletUpdate {
+	mutation := newBronzeDODropletMutation(c.config, OpUpdate)
+	return &BronzeDODropletUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeDODropletClient) UpdateOne(_m *BronzeDODroplet) *BronzeDODropletUpdateOne {
+	mutation := newBronzeDODropletMutation(c.config, OpUpdateOne, withBronzeDODroplet(_m))
+	return &BronzeDODropletUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeDODropletClient) UpdateOneID(id string) *BronzeDODropletUpdateOne {
+	mutation := newBronzeDODropletMutation(c.config, OpUpdateOne, withBronzeDODropletID(id))
+	return &BronzeDODropletUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeDODroplet.
+func (c *BronzeDODropletClient) Delete() *BronzeDODropletDelete {
+	mutation := newBronzeDODropletMutation(c.config, OpDelete)
+	return &BronzeDODropletDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeDODropletClient) DeleteOne(_m *BronzeDODroplet) *BronzeDODropletDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeDODropletClient) DeleteOneID(id string) *BronzeDODropletDeleteOne {
+	builder := c.Delete().Where(bronzedodroplet.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeDODropletDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeDODroplet.
+func (c *BronzeDODropletClient) Query() *BronzeDODropletQuery {
+	return &BronzeDODropletQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeDODroplet},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeDODroplet entity by its id.
+func (c *BronzeDODropletClient) Get(ctx context.Context, id string) (*BronzeDODroplet, error) {
+	return c.Query().Where(bronzedodroplet.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeDODropletClient) GetX(ctx context.Context, id string) *BronzeDODroplet {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeDODropletClient) Hooks() []Hook {
+	return c.hooks.BronzeDODroplet
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeDODropletClient) Interceptors() []Interceptor {
+	return c.inters.BronzeDODroplet
+}
+
+func (c *BronzeDODropletClient) mutate(ctx context.Context, m *BronzeDODropletMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeDODropletCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeDODropletUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeDODropletUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeDODropletDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeDODroplet mutation op: %q", m.Op())
+	}
+}
+
+// BronzeDOFirewallClient is a client for the BronzeDOFirewall schema.
+type BronzeDOFirewallClient struct {
+	config
+}
+
+// NewBronzeDOFirewallClient returns a client for the BronzeDOFirewall from the given config.
+func NewBronzeDOFirewallClient(c config) *BronzeDOFirewallClient {
+	return &BronzeDOFirewallClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzedofirewall.Hooks(f(g(h())))`.
+func (c *BronzeDOFirewallClient) Use(hooks ...Hook) {
+	c.hooks.BronzeDOFirewall = append(c.hooks.BronzeDOFirewall, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzedofirewall.Intercept(f(g(h())))`.
+func (c *BronzeDOFirewallClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeDOFirewall = append(c.inters.BronzeDOFirewall, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeDOFirewall entity.
+func (c *BronzeDOFirewallClient) Create() *BronzeDOFirewallCreate {
+	mutation := newBronzeDOFirewallMutation(c.config, OpCreate)
+	return &BronzeDOFirewallCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeDOFirewall entities.
+func (c *BronzeDOFirewallClient) CreateBulk(builders ...*BronzeDOFirewallCreate) *BronzeDOFirewallCreateBulk {
+	return &BronzeDOFirewallCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeDOFirewallClient) MapCreateBulk(slice any, setFunc func(*BronzeDOFirewallCreate, int)) *BronzeDOFirewallCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeDOFirewallCreateBulk{err: fmt.Errorf("calling to BronzeDOFirewallClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeDOFirewallCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeDOFirewallCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeDOFirewall.
+func (c *BronzeDOFirewallClient) Update() *BronzeDOFirewallUpdate {
+	mutation := newBronzeDOFirewallMutation(c.config, OpUpdate)
+	return &BronzeDOFirewallUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeDOFirewallClient) UpdateOne(_m *BronzeDOFirewall) *BronzeDOFirewallUpdateOne {
+	mutation := newBronzeDOFirewallMutation(c.config, OpUpdateOne, withBronzeDOFirewall(_m))
+	return &BronzeDOFirewallUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeDOFirewallClient) UpdateOneID(id string) *BronzeDOFirewallUpdateOne {
+	mutation := newBronzeDOFirewallMutation(c.config, OpUpdateOne, withBronzeDOFirewallID(id))
+	return &BronzeDOFirewallUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeDOFirewall.
+func (c *BronzeDOFirewallClient) Delete() *BronzeDOFirewallDelete {
+	mutation := newBronzeDOFirewallMutation(c.config, OpDelete)
+	return &BronzeDOFirewallDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeDOFirewallClient) DeleteOne(_m *BronzeDOFirewall) *BronzeDOFirewallDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeDOFirewallClient) DeleteOneID(id string) *BronzeDOFirewallDeleteOne {
+	builder := c.Delete().Where(bronzedofirewall.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeDOFirewallDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeDOFirewall.
+func (c *BronzeDOFirewallClient) Query() *BronzeDOFirewallQuery {
+	return &BronzeDOFirewallQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeDOFirewall},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeDOFirewall entity by its id.
+func (c *BronzeDOFirewallClient) Get(ctx context.Context, id string) (*BronzeDOFirewall, error) {
+	return c.Query().Where(bronzedofirewall.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeDOFirewallClient) GetX(ctx context.Context, id string) *BronzeDOFirewall {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeDOFirewallClient) Hooks() []Hook {
+	return c.hooks.BronzeDOFirewall
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeDOFirewallClient) Interceptors() []Interceptor {
+	return c.inters.BronzeDOFirewall
+}
+
+func (c *BronzeDOFirewallClient) mutate(ctx context.Context, m *BronzeDOFirewallMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeDOFirewallCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeDOFirewallUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeDOFirewallUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeDOFirewallDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeDOFirewall mutation op: %q", m.Op())
+	}
+}
+
+// BronzeDOKeyClient is a client for the BronzeDOKey schema.
+type BronzeDOKeyClient struct {
+	config
+}
+
+// NewBronzeDOKeyClient returns a client for the BronzeDOKey from the given config.
+func NewBronzeDOKeyClient(c config) *BronzeDOKeyClient {
+	return &BronzeDOKeyClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzedokey.Hooks(f(g(h())))`.
+func (c *BronzeDOKeyClient) Use(hooks ...Hook) {
+	c.hooks.BronzeDOKey = append(c.hooks.BronzeDOKey, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzedokey.Intercept(f(g(h())))`.
+func (c *BronzeDOKeyClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeDOKey = append(c.inters.BronzeDOKey, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeDOKey entity.
+func (c *BronzeDOKeyClient) Create() *BronzeDOKeyCreate {
+	mutation := newBronzeDOKeyMutation(c.config, OpCreate)
+	return &BronzeDOKeyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeDOKey entities.
+func (c *BronzeDOKeyClient) CreateBulk(builders ...*BronzeDOKeyCreate) *BronzeDOKeyCreateBulk {
+	return &BronzeDOKeyCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeDOKeyClient) MapCreateBulk(slice any, setFunc func(*BronzeDOKeyCreate, int)) *BronzeDOKeyCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeDOKeyCreateBulk{err: fmt.Errorf("calling to BronzeDOKeyClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeDOKeyCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeDOKeyCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeDOKey.
+func (c *BronzeDOKeyClient) Update() *BronzeDOKeyUpdate {
+	mutation := newBronzeDOKeyMutation(c.config, OpUpdate)
+	return &BronzeDOKeyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeDOKeyClient) UpdateOne(_m *BronzeDOKey) *BronzeDOKeyUpdateOne {
+	mutation := newBronzeDOKeyMutation(c.config, OpUpdateOne, withBronzeDOKey(_m))
+	return &BronzeDOKeyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeDOKeyClient) UpdateOneID(id string) *BronzeDOKeyUpdateOne {
+	mutation := newBronzeDOKeyMutation(c.config, OpUpdateOne, withBronzeDOKeyID(id))
+	return &BronzeDOKeyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeDOKey.
+func (c *BronzeDOKeyClient) Delete() *BronzeDOKeyDelete {
+	mutation := newBronzeDOKeyMutation(c.config, OpDelete)
+	return &BronzeDOKeyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeDOKeyClient) DeleteOne(_m *BronzeDOKey) *BronzeDOKeyDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeDOKeyClient) DeleteOneID(id string) *BronzeDOKeyDeleteOne {
+	builder := c.Delete().Where(bronzedokey.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeDOKeyDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeDOKey.
+func (c *BronzeDOKeyClient) Query() *BronzeDOKeyQuery {
+	return &BronzeDOKeyQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeDOKey},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeDOKey entity by its id.
+func (c *BronzeDOKeyClient) Get(ctx context.Context, id string) (*BronzeDOKey, error) {
+	return c.Query().Where(bronzedokey.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeDOKeyClient) GetX(ctx context.Context, id string) *BronzeDOKey {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeDOKeyClient) Hooks() []Hook {
+	return c.hooks.BronzeDOKey
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeDOKeyClient) Interceptors() []Interceptor {
+	return c.inters.BronzeDOKey
+}
+
+func (c *BronzeDOKeyClient) mutate(ctx context.Context, m *BronzeDOKeyMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeDOKeyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeDOKeyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeDOKeyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeDOKeyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeDOKey mutation op: %q", m.Op())
+	}
+}
+
+// BronzeDOLoadBalancerClient is a client for the BronzeDOLoadBalancer schema.
+type BronzeDOLoadBalancerClient struct {
+	config
+}
+
+// NewBronzeDOLoadBalancerClient returns a client for the BronzeDOLoadBalancer from the given config.
+func NewBronzeDOLoadBalancerClient(c config) *BronzeDOLoadBalancerClient {
+	return &BronzeDOLoadBalancerClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzedoloadbalancer.Hooks(f(g(h())))`.
+func (c *BronzeDOLoadBalancerClient) Use(hooks ...Hook) {
+	c.hooks.BronzeDOLoadBalancer = append(c.hooks.BronzeDOLoadBalancer, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzedoloadbalancer.Intercept(f(g(h())))`.
+func (c *BronzeDOLoadBalancerClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeDOLoadBalancer = append(c.inters.BronzeDOLoadBalancer, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeDOLoadBalancer entity.
+func (c *BronzeDOLoadBalancerClient) Create() *BronzeDOLoadBalancerCreate {
+	mutation := newBronzeDOLoadBalancerMutation(c.config, OpCreate)
+	return &BronzeDOLoadBalancerCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeDOLoadBalancer entities.
+func (c *BronzeDOLoadBalancerClient) CreateBulk(builders ...*BronzeDOLoadBalancerCreate) *BronzeDOLoadBalancerCreateBulk {
+	return &BronzeDOLoadBalancerCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeDOLoadBalancerClient) MapCreateBulk(slice any, setFunc func(*BronzeDOLoadBalancerCreate, int)) *BronzeDOLoadBalancerCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeDOLoadBalancerCreateBulk{err: fmt.Errorf("calling to BronzeDOLoadBalancerClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeDOLoadBalancerCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeDOLoadBalancerCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeDOLoadBalancer.
+func (c *BronzeDOLoadBalancerClient) Update() *BronzeDOLoadBalancerUpdate {
+	mutation := newBronzeDOLoadBalancerMutation(c.config, OpUpdate)
+	return &BronzeDOLoadBalancerUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeDOLoadBalancerClient) UpdateOne(_m *BronzeDOLoadBalancer) *BronzeDOLoadBalancerUpdateOne {
+	mutation := newBronzeDOLoadBalancerMutation(c.config, OpUpdateOne, withBronzeDOLoadBalancer(_m))
+	return &BronzeDOLoadBalancerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeDOLoadBalancerClient) UpdateOneID(id string) *BronzeDOLoadBalancerUpdateOne {
+	mutation := newBronzeDOLoadBalancerMutation(c.config, OpUpdateOne, withBronzeDOLoadBalancerID(id))
+	return &BronzeDOLoadBalancerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeDOLoadBalancer.
+func (c *BronzeDOLoadBalancerClient) Delete() *BronzeDOLoadBalancerDelete {
+	mutation := newBronzeDOLoadBalancerMutation(c.config, OpDelete)
+	return &BronzeDOLoadBalancerDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeDOLoadBalancerClient) DeleteOne(_m *BronzeDOLoadBalancer) *BronzeDOLoadBalancerDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeDOLoadBalancerClient) DeleteOneID(id string) *BronzeDOLoadBalancerDeleteOne {
+	builder := c.Delete().Where(bronzedoloadbalancer.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeDOLoadBalancerDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeDOLoadBalancer.
+func (c *BronzeDOLoadBalancerClient) Query() *BronzeDOLoadBalancerQuery {
+	return &BronzeDOLoadBalancerQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeDOLoadBalancer},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeDOLoadBalancer entity by its id.
+func (c *BronzeDOLoadBalancerClient) Get(ctx context.Context, id string) (*BronzeDOLoadBalancer, error) {
+	return c.Query().Where(bronzedoloadbalancer.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeDOLoadBalancerClient) GetX(ctx context.Context, id string) *BronzeDOLoadBalancer {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeDOLoadBalancerClient) Hooks() []Hook {
+	return c.hooks.BronzeDOLoadBalancer
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeDOLoadBalancerClient) Interceptors() []Interceptor {
+	return c.inters.BronzeDOLoadBalancer
+}
+
+func (c *BronzeDOLoadBalancerClient) mutate(ctx context.Context, m *BronzeDOLoadBalancerMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeDOLoadBalancerCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeDOLoadBalancerUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeDOLoadBalancerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeDOLoadBalancerDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeDOLoadBalancer mutation op: %q", m.Op())
+	}
+}
+
+// BronzeDOProjectClient is a client for the BronzeDOProject schema.
+type BronzeDOProjectClient struct {
+	config
+}
+
+// NewBronzeDOProjectClient returns a client for the BronzeDOProject from the given config.
+func NewBronzeDOProjectClient(c config) *BronzeDOProjectClient {
+	return &BronzeDOProjectClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzedoproject.Hooks(f(g(h())))`.
+func (c *BronzeDOProjectClient) Use(hooks ...Hook) {
+	c.hooks.BronzeDOProject = append(c.hooks.BronzeDOProject, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzedoproject.Intercept(f(g(h())))`.
+func (c *BronzeDOProjectClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeDOProject = append(c.inters.BronzeDOProject, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeDOProject entity.
+func (c *BronzeDOProjectClient) Create() *BronzeDOProjectCreate {
+	mutation := newBronzeDOProjectMutation(c.config, OpCreate)
+	return &BronzeDOProjectCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeDOProject entities.
+func (c *BronzeDOProjectClient) CreateBulk(builders ...*BronzeDOProjectCreate) *BronzeDOProjectCreateBulk {
+	return &BronzeDOProjectCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeDOProjectClient) MapCreateBulk(slice any, setFunc func(*BronzeDOProjectCreate, int)) *BronzeDOProjectCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeDOProjectCreateBulk{err: fmt.Errorf("calling to BronzeDOProjectClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeDOProjectCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeDOProjectCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeDOProject.
+func (c *BronzeDOProjectClient) Update() *BronzeDOProjectUpdate {
+	mutation := newBronzeDOProjectMutation(c.config, OpUpdate)
+	return &BronzeDOProjectUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeDOProjectClient) UpdateOne(_m *BronzeDOProject) *BronzeDOProjectUpdateOne {
+	mutation := newBronzeDOProjectMutation(c.config, OpUpdateOne, withBronzeDOProject(_m))
+	return &BronzeDOProjectUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeDOProjectClient) UpdateOneID(id string) *BronzeDOProjectUpdateOne {
+	mutation := newBronzeDOProjectMutation(c.config, OpUpdateOne, withBronzeDOProjectID(id))
+	return &BronzeDOProjectUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeDOProject.
+func (c *BronzeDOProjectClient) Delete() *BronzeDOProjectDelete {
+	mutation := newBronzeDOProjectMutation(c.config, OpDelete)
+	return &BronzeDOProjectDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeDOProjectClient) DeleteOne(_m *BronzeDOProject) *BronzeDOProjectDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeDOProjectClient) DeleteOneID(id string) *BronzeDOProjectDeleteOne {
+	builder := c.Delete().Where(bronzedoproject.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeDOProjectDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeDOProject.
+func (c *BronzeDOProjectClient) Query() *BronzeDOProjectQuery {
+	return &BronzeDOProjectQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeDOProject},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeDOProject entity by its id.
+func (c *BronzeDOProjectClient) Get(ctx context.Context, id string) (*BronzeDOProject, error) {
+	return c.Query().Where(bronzedoproject.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeDOProjectClient) GetX(ctx context.Context, id string) *BronzeDOProject {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeDOProjectClient) Hooks() []Hook {
+	return c.hooks.BronzeDOProject
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeDOProjectClient) Interceptors() []Interceptor {
+	return c.inters.BronzeDOProject
+}
+
+func (c *BronzeDOProjectClient) mutate(ctx context.Context, m *BronzeDOProjectMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeDOProjectCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeDOProjectUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeDOProjectUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeDOProjectDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeDOProject mutation op: %q", m.Op())
+	}
+}
+
+// BronzeDOProjectResourceClient is a client for the BronzeDOProjectResource schema.
+type BronzeDOProjectResourceClient struct {
+	config
+}
+
+// NewBronzeDOProjectResourceClient returns a client for the BronzeDOProjectResource from the given config.
+func NewBronzeDOProjectResourceClient(c config) *BronzeDOProjectResourceClient {
+	return &BronzeDOProjectResourceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzedoprojectresource.Hooks(f(g(h())))`.
+func (c *BronzeDOProjectResourceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeDOProjectResource = append(c.hooks.BronzeDOProjectResource, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzedoprojectresource.Intercept(f(g(h())))`.
+func (c *BronzeDOProjectResourceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeDOProjectResource = append(c.inters.BronzeDOProjectResource, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeDOProjectResource entity.
+func (c *BronzeDOProjectResourceClient) Create() *BronzeDOProjectResourceCreate {
+	mutation := newBronzeDOProjectResourceMutation(c.config, OpCreate)
+	return &BronzeDOProjectResourceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeDOProjectResource entities.
+func (c *BronzeDOProjectResourceClient) CreateBulk(builders ...*BronzeDOProjectResourceCreate) *BronzeDOProjectResourceCreateBulk {
+	return &BronzeDOProjectResourceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeDOProjectResourceClient) MapCreateBulk(slice any, setFunc func(*BronzeDOProjectResourceCreate, int)) *BronzeDOProjectResourceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeDOProjectResourceCreateBulk{err: fmt.Errorf("calling to BronzeDOProjectResourceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeDOProjectResourceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeDOProjectResourceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeDOProjectResource.
+func (c *BronzeDOProjectResourceClient) Update() *BronzeDOProjectResourceUpdate {
+	mutation := newBronzeDOProjectResourceMutation(c.config, OpUpdate)
+	return &BronzeDOProjectResourceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeDOProjectResourceClient) UpdateOne(_m *BronzeDOProjectResource) *BronzeDOProjectResourceUpdateOne {
+	mutation := newBronzeDOProjectResourceMutation(c.config, OpUpdateOne, withBronzeDOProjectResource(_m))
+	return &BronzeDOProjectResourceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeDOProjectResourceClient) UpdateOneID(id string) *BronzeDOProjectResourceUpdateOne {
+	mutation := newBronzeDOProjectResourceMutation(c.config, OpUpdateOne, withBronzeDOProjectResourceID(id))
+	return &BronzeDOProjectResourceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeDOProjectResource.
+func (c *BronzeDOProjectResourceClient) Delete() *BronzeDOProjectResourceDelete {
+	mutation := newBronzeDOProjectResourceMutation(c.config, OpDelete)
+	return &BronzeDOProjectResourceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeDOProjectResourceClient) DeleteOne(_m *BronzeDOProjectResource) *BronzeDOProjectResourceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeDOProjectResourceClient) DeleteOneID(id string) *BronzeDOProjectResourceDeleteOne {
+	builder := c.Delete().Where(bronzedoprojectresource.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeDOProjectResourceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeDOProjectResource.
+func (c *BronzeDOProjectResourceClient) Query() *BronzeDOProjectResourceQuery {
+	return &BronzeDOProjectResourceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeDOProjectResource},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeDOProjectResource entity by its id.
+func (c *BronzeDOProjectResourceClient) Get(ctx context.Context, id string) (*BronzeDOProjectResource, error) {
+	return c.Query().Where(bronzedoprojectresource.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeDOProjectResourceClient) GetX(ctx context.Context, id string) *BronzeDOProjectResource {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeDOProjectResourceClient) Hooks() []Hook {
+	return c.hooks.BronzeDOProjectResource
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeDOProjectResourceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeDOProjectResource
+}
+
+func (c *BronzeDOProjectResourceClient) mutate(ctx context.Context, m *BronzeDOProjectResourceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeDOProjectResourceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeDOProjectResourceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeDOProjectResourceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeDOProjectResourceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeDOProjectResource mutation op: %q", m.Op())
+	}
+}
+
+// BronzeDOVolumeClient is a client for the BronzeDOVolume schema.
+type BronzeDOVolumeClient struct {
+	config
+}
+
+// NewBronzeDOVolumeClient returns a client for the BronzeDOVolume from the given config.
+func NewBronzeDOVolumeClient(c config) *BronzeDOVolumeClient {
+	return &BronzeDOVolumeClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzedovolume.Hooks(f(g(h())))`.
+func (c *BronzeDOVolumeClient) Use(hooks ...Hook) {
+	c.hooks.BronzeDOVolume = append(c.hooks.BronzeDOVolume, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzedovolume.Intercept(f(g(h())))`.
+func (c *BronzeDOVolumeClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeDOVolume = append(c.inters.BronzeDOVolume, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeDOVolume entity.
+func (c *BronzeDOVolumeClient) Create() *BronzeDOVolumeCreate {
+	mutation := newBronzeDOVolumeMutation(c.config, OpCreate)
+	return &BronzeDOVolumeCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeDOVolume entities.
+func (c *BronzeDOVolumeClient) CreateBulk(builders ...*BronzeDOVolumeCreate) *BronzeDOVolumeCreateBulk {
+	return &BronzeDOVolumeCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeDOVolumeClient) MapCreateBulk(slice any, setFunc func(*BronzeDOVolumeCreate, int)) *BronzeDOVolumeCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeDOVolumeCreateBulk{err: fmt.Errorf("calling to BronzeDOVolumeClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeDOVolumeCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeDOVolumeCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeDOVolume.
+func (c *BronzeDOVolumeClient) Update() *BronzeDOVolumeUpdate {
+	mutation := newBronzeDOVolumeMutation(c.config, OpUpdate)
+	return &BronzeDOVolumeUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeDOVolumeClient) UpdateOne(_m *BronzeDOVolume) *BronzeDOVolumeUpdateOne {
+	mutation := newBronzeDOVolumeMutation(c.config, OpUpdateOne, withBronzeDOVolume(_m))
+	return &BronzeDOVolumeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeDOVolumeClient) UpdateOneID(id string) *BronzeDOVolumeUpdateOne {
+	mutation := newBronzeDOVolumeMutation(c.config, OpUpdateOne, withBronzeDOVolumeID(id))
+	return &BronzeDOVolumeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeDOVolume.
+func (c *BronzeDOVolumeClient) Delete() *BronzeDOVolumeDelete {
+	mutation := newBronzeDOVolumeMutation(c.config, OpDelete)
+	return &BronzeDOVolumeDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeDOVolumeClient) DeleteOne(_m *BronzeDOVolume) *BronzeDOVolumeDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeDOVolumeClient) DeleteOneID(id string) *BronzeDOVolumeDeleteOne {
+	builder := c.Delete().Where(bronzedovolume.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeDOVolumeDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeDOVolume.
+func (c *BronzeDOVolumeClient) Query() *BronzeDOVolumeQuery {
+	return &BronzeDOVolumeQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeDOVolume},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeDOVolume entity by its id.
+func (c *BronzeDOVolumeClient) Get(ctx context.Context, id string) (*BronzeDOVolume, error) {
+	return c.Query().Where(bronzedovolume.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeDOVolumeClient) GetX(ctx context.Context, id string) *BronzeDOVolume {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeDOVolumeClient) Hooks() []Hook {
+	return c.hooks.BronzeDOVolume
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeDOVolumeClient) Interceptors() []Interceptor {
+	return c.inters.BronzeDOVolume
+}
+
+func (c *BronzeDOVolumeClient) mutate(ctx context.Context, m *BronzeDOVolumeMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeDOVolumeCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeDOVolumeUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeDOVolumeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeDOVolumeDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeDOVolume mutation op: %q", m.Op())
 	}
 }
 
@@ -14625,6 +16129,1336 @@ func (c *BronzeHistoryAWSEC2InstanceTagClient) mutate(ctx context.Context, m *Br
 		return (&BronzeHistoryAWSEC2InstanceTagDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown BronzeHistoryAWSEC2InstanceTag mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryDOAccountClient is a client for the BronzeHistoryDOAccount schema.
+type BronzeHistoryDOAccountClient struct {
+	config
+}
+
+// NewBronzeHistoryDOAccountClient returns a client for the BronzeHistoryDOAccount from the given config.
+func NewBronzeHistoryDOAccountClient(c config) *BronzeHistoryDOAccountClient {
+	return &BronzeHistoryDOAccountClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorydoaccount.Hooks(f(g(h())))`.
+func (c *BronzeHistoryDOAccountClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryDOAccount = append(c.hooks.BronzeHistoryDOAccount, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorydoaccount.Intercept(f(g(h())))`.
+func (c *BronzeHistoryDOAccountClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryDOAccount = append(c.inters.BronzeHistoryDOAccount, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryDOAccount entity.
+func (c *BronzeHistoryDOAccountClient) Create() *BronzeHistoryDOAccountCreate {
+	mutation := newBronzeHistoryDOAccountMutation(c.config, OpCreate)
+	return &BronzeHistoryDOAccountCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryDOAccount entities.
+func (c *BronzeHistoryDOAccountClient) CreateBulk(builders ...*BronzeHistoryDOAccountCreate) *BronzeHistoryDOAccountCreateBulk {
+	return &BronzeHistoryDOAccountCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryDOAccountClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryDOAccountCreate, int)) *BronzeHistoryDOAccountCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryDOAccountCreateBulk{err: fmt.Errorf("calling to BronzeHistoryDOAccountClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryDOAccountCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryDOAccountCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryDOAccount.
+func (c *BronzeHistoryDOAccountClient) Update() *BronzeHistoryDOAccountUpdate {
+	mutation := newBronzeHistoryDOAccountMutation(c.config, OpUpdate)
+	return &BronzeHistoryDOAccountUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryDOAccountClient) UpdateOne(_m *BronzeHistoryDOAccount) *BronzeHistoryDOAccountUpdateOne {
+	mutation := newBronzeHistoryDOAccountMutation(c.config, OpUpdateOne, withBronzeHistoryDOAccount(_m))
+	return &BronzeHistoryDOAccountUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryDOAccountClient) UpdateOneID(id int) *BronzeHistoryDOAccountUpdateOne {
+	mutation := newBronzeHistoryDOAccountMutation(c.config, OpUpdateOne, withBronzeHistoryDOAccountID(id))
+	return &BronzeHistoryDOAccountUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryDOAccount.
+func (c *BronzeHistoryDOAccountClient) Delete() *BronzeHistoryDOAccountDelete {
+	mutation := newBronzeHistoryDOAccountMutation(c.config, OpDelete)
+	return &BronzeHistoryDOAccountDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryDOAccountClient) DeleteOne(_m *BronzeHistoryDOAccount) *BronzeHistoryDOAccountDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryDOAccountClient) DeleteOneID(id int) *BronzeHistoryDOAccountDeleteOne {
+	builder := c.Delete().Where(bronzehistorydoaccount.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryDOAccountDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryDOAccount.
+func (c *BronzeHistoryDOAccountClient) Query() *BronzeHistoryDOAccountQuery {
+	return &BronzeHistoryDOAccountQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryDOAccount},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryDOAccount entity by its id.
+func (c *BronzeHistoryDOAccountClient) Get(ctx context.Context, id int) (*BronzeHistoryDOAccount, error) {
+	return c.Query().Where(bronzehistorydoaccount.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryDOAccountClient) GetX(ctx context.Context, id int) *BronzeHistoryDOAccount {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryDOAccountClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryDOAccount
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryDOAccountClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryDOAccount
+}
+
+func (c *BronzeHistoryDOAccountClient) mutate(ctx context.Context, m *BronzeHistoryDOAccountMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryDOAccountCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryDOAccountUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryDOAccountUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryDOAccountDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryDOAccount mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryDODomainClient is a client for the BronzeHistoryDODomain schema.
+type BronzeHistoryDODomainClient struct {
+	config
+}
+
+// NewBronzeHistoryDODomainClient returns a client for the BronzeHistoryDODomain from the given config.
+func NewBronzeHistoryDODomainClient(c config) *BronzeHistoryDODomainClient {
+	return &BronzeHistoryDODomainClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorydodomain.Hooks(f(g(h())))`.
+func (c *BronzeHistoryDODomainClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryDODomain = append(c.hooks.BronzeHistoryDODomain, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorydodomain.Intercept(f(g(h())))`.
+func (c *BronzeHistoryDODomainClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryDODomain = append(c.inters.BronzeHistoryDODomain, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryDODomain entity.
+func (c *BronzeHistoryDODomainClient) Create() *BronzeHistoryDODomainCreate {
+	mutation := newBronzeHistoryDODomainMutation(c.config, OpCreate)
+	return &BronzeHistoryDODomainCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryDODomain entities.
+func (c *BronzeHistoryDODomainClient) CreateBulk(builders ...*BronzeHistoryDODomainCreate) *BronzeHistoryDODomainCreateBulk {
+	return &BronzeHistoryDODomainCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryDODomainClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryDODomainCreate, int)) *BronzeHistoryDODomainCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryDODomainCreateBulk{err: fmt.Errorf("calling to BronzeHistoryDODomainClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryDODomainCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryDODomainCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryDODomain.
+func (c *BronzeHistoryDODomainClient) Update() *BronzeHistoryDODomainUpdate {
+	mutation := newBronzeHistoryDODomainMutation(c.config, OpUpdate)
+	return &BronzeHistoryDODomainUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryDODomainClient) UpdateOne(_m *BronzeHistoryDODomain) *BronzeHistoryDODomainUpdateOne {
+	mutation := newBronzeHistoryDODomainMutation(c.config, OpUpdateOne, withBronzeHistoryDODomain(_m))
+	return &BronzeHistoryDODomainUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryDODomainClient) UpdateOneID(id int) *BronzeHistoryDODomainUpdateOne {
+	mutation := newBronzeHistoryDODomainMutation(c.config, OpUpdateOne, withBronzeHistoryDODomainID(id))
+	return &BronzeHistoryDODomainUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryDODomain.
+func (c *BronzeHistoryDODomainClient) Delete() *BronzeHistoryDODomainDelete {
+	mutation := newBronzeHistoryDODomainMutation(c.config, OpDelete)
+	return &BronzeHistoryDODomainDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryDODomainClient) DeleteOne(_m *BronzeHistoryDODomain) *BronzeHistoryDODomainDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryDODomainClient) DeleteOneID(id int) *BronzeHistoryDODomainDeleteOne {
+	builder := c.Delete().Where(bronzehistorydodomain.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryDODomainDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryDODomain.
+func (c *BronzeHistoryDODomainClient) Query() *BronzeHistoryDODomainQuery {
+	return &BronzeHistoryDODomainQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryDODomain},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryDODomain entity by its id.
+func (c *BronzeHistoryDODomainClient) Get(ctx context.Context, id int) (*BronzeHistoryDODomain, error) {
+	return c.Query().Where(bronzehistorydodomain.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryDODomainClient) GetX(ctx context.Context, id int) *BronzeHistoryDODomain {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryDODomainClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryDODomain
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryDODomainClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryDODomain
+}
+
+func (c *BronzeHistoryDODomainClient) mutate(ctx context.Context, m *BronzeHistoryDODomainMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryDODomainCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryDODomainUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryDODomainUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryDODomainDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryDODomain mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryDODomainRecordClient is a client for the BronzeHistoryDODomainRecord schema.
+type BronzeHistoryDODomainRecordClient struct {
+	config
+}
+
+// NewBronzeHistoryDODomainRecordClient returns a client for the BronzeHistoryDODomainRecord from the given config.
+func NewBronzeHistoryDODomainRecordClient(c config) *BronzeHistoryDODomainRecordClient {
+	return &BronzeHistoryDODomainRecordClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorydodomainrecord.Hooks(f(g(h())))`.
+func (c *BronzeHistoryDODomainRecordClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryDODomainRecord = append(c.hooks.BronzeHistoryDODomainRecord, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorydodomainrecord.Intercept(f(g(h())))`.
+func (c *BronzeHistoryDODomainRecordClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryDODomainRecord = append(c.inters.BronzeHistoryDODomainRecord, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryDODomainRecord entity.
+func (c *BronzeHistoryDODomainRecordClient) Create() *BronzeHistoryDODomainRecordCreate {
+	mutation := newBronzeHistoryDODomainRecordMutation(c.config, OpCreate)
+	return &BronzeHistoryDODomainRecordCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryDODomainRecord entities.
+func (c *BronzeHistoryDODomainRecordClient) CreateBulk(builders ...*BronzeHistoryDODomainRecordCreate) *BronzeHistoryDODomainRecordCreateBulk {
+	return &BronzeHistoryDODomainRecordCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryDODomainRecordClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryDODomainRecordCreate, int)) *BronzeHistoryDODomainRecordCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryDODomainRecordCreateBulk{err: fmt.Errorf("calling to BronzeHistoryDODomainRecordClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryDODomainRecordCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryDODomainRecordCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryDODomainRecord.
+func (c *BronzeHistoryDODomainRecordClient) Update() *BronzeHistoryDODomainRecordUpdate {
+	mutation := newBronzeHistoryDODomainRecordMutation(c.config, OpUpdate)
+	return &BronzeHistoryDODomainRecordUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryDODomainRecordClient) UpdateOne(_m *BronzeHistoryDODomainRecord) *BronzeHistoryDODomainRecordUpdateOne {
+	mutation := newBronzeHistoryDODomainRecordMutation(c.config, OpUpdateOne, withBronzeHistoryDODomainRecord(_m))
+	return &BronzeHistoryDODomainRecordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryDODomainRecordClient) UpdateOneID(id int) *BronzeHistoryDODomainRecordUpdateOne {
+	mutation := newBronzeHistoryDODomainRecordMutation(c.config, OpUpdateOne, withBronzeHistoryDODomainRecordID(id))
+	return &BronzeHistoryDODomainRecordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryDODomainRecord.
+func (c *BronzeHistoryDODomainRecordClient) Delete() *BronzeHistoryDODomainRecordDelete {
+	mutation := newBronzeHistoryDODomainRecordMutation(c.config, OpDelete)
+	return &BronzeHistoryDODomainRecordDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryDODomainRecordClient) DeleteOne(_m *BronzeHistoryDODomainRecord) *BronzeHistoryDODomainRecordDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryDODomainRecordClient) DeleteOneID(id int) *BronzeHistoryDODomainRecordDeleteOne {
+	builder := c.Delete().Where(bronzehistorydodomainrecord.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryDODomainRecordDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryDODomainRecord.
+func (c *BronzeHistoryDODomainRecordClient) Query() *BronzeHistoryDODomainRecordQuery {
+	return &BronzeHistoryDODomainRecordQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryDODomainRecord},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryDODomainRecord entity by its id.
+func (c *BronzeHistoryDODomainRecordClient) Get(ctx context.Context, id int) (*BronzeHistoryDODomainRecord, error) {
+	return c.Query().Where(bronzehistorydodomainrecord.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryDODomainRecordClient) GetX(ctx context.Context, id int) *BronzeHistoryDODomainRecord {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryDODomainRecordClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryDODomainRecord
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryDODomainRecordClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryDODomainRecord
+}
+
+func (c *BronzeHistoryDODomainRecordClient) mutate(ctx context.Context, m *BronzeHistoryDODomainRecordMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryDODomainRecordCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryDODomainRecordUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryDODomainRecordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryDODomainRecordDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryDODomainRecord mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryDODropletClient is a client for the BronzeHistoryDODroplet schema.
+type BronzeHistoryDODropletClient struct {
+	config
+}
+
+// NewBronzeHistoryDODropletClient returns a client for the BronzeHistoryDODroplet from the given config.
+func NewBronzeHistoryDODropletClient(c config) *BronzeHistoryDODropletClient {
+	return &BronzeHistoryDODropletClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorydodroplet.Hooks(f(g(h())))`.
+func (c *BronzeHistoryDODropletClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryDODroplet = append(c.hooks.BronzeHistoryDODroplet, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorydodroplet.Intercept(f(g(h())))`.
+func (c *BronzeHistoryDODropletClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryDODroplet = append(c.inters.BronzeHistoryDODroplet, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryDODroplet entity.
+func (c *BronzeHistoryDODropletClient) Create() *BronzeHistoryDODropletCreate {
+	mutation := newBronzeHistoryDODropletMutation(c.config, OpCreate)
+	return &BronzeHistoryDODropletCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryDODroplet entities.
+func (c *BronzeHistoryDODropletClient) CreateBulk(builders ...*BronzeHistoryDODropletCreate) *BronzeHistoryDODropletCreateBulk {
+	return &BronzeHistoryDODropletCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryDODropletClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryDODropletCreate, int)) *BronzeHistoryDODropletCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryDODropletCreateBulk{err: fmt.Errorf("calling to BronzeHistoryDODropletClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryDODropletCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryDODropletCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryDODroplet.
+func (c *BronzeHistoryDODropletClient) Update() *BronzeHistoryDODropletUpdate {
+	mutation := newBronzeHistoryDODropletMutation(c.config, OpUpdate)
+	return &BronzeHistoryDODropletUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryDODropletClient) UpdateOne(_m *BronzeHistoryDODroplet) *BronzeHistoryDODropletUpdateOne {
+	mutation := newBronzeHistoryDODropletMutation(c.config, OpUpdateOne, withBronzeHistoryDODroplet(_m))
+	return &BronzeHistoryDODropletUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryDODropletClient) UpdateOneID(id int) *BronzeHistoryDODropletUpdateOne {
+	mutation := newBronzeHistoryDODropletMutation(c.config, OpUpdateOne, withBronzeHistoryDODropletID(id))
+	return &BronzeHistoryDODropletUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryDODroplet.
+func (c *BronzeHistoryDODropletClient) Delete() *BronzeHistoryDODropletDelete {
+	mutation := newBronzeHistoryDODropletMutation(c.config, OpDelete)
+	return &BronzeHistoryDODropletDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryDODropletClient) DeleteOne(_m *BronzeHistoryDODroplet) *BronzeHistoryDODropletDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryDODropletClient) DeleteOneID(id int) *BronzeHistoryDODropletDeleteOne {
+	builder := c.Delete().Where(bronzehistorydodroplet.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryDODropletDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryDODroplet.
+func (c *BronzeHistoryDODropletClient) Query() *BronzeHistoryDODropletQuery {
+	return &BronzeHistoryDODropletQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryDODroplet},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryDODroplet entity by its id.
+func (c *BronzeHistoryDODropletClient) Get(ctx context.Context, id int) (*BronzeHistoryDODroplet, error) {
+	return c.Query().Where(bronzehistorydodroplet.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryDODropletClient) GetX(ctx context.Context, id int) *BronzeHistoryDODroplet {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryDODropletClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryDODroplet
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryDODropletClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryDODroplet
+}
+
+func (c *BronzeHistoryDODropletClient) mutate(ctx context.Context, m *BronzeHistoryDODropletMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryDODropletCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryDODropletUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryDODropletUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryDODropletDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryDODroplet mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryDOFirewallClient is a client for the BronzeHistoryDOFirewall schema.
+type BronzeHistoryDOFirewallClient struct {
+	config
+}
+
+// NewBronzeHistoryDOFirewallClient returns a client for the BronzeHistoryDOFirewall from the given config.
+func NewBronzeHistoryDOFirewallClient(c config) *BronzeHistoryDOFirewallClient {
+	return &BronzeHistoryDOFirewallClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorydofirewall.Hooks(f(g(h())))`.
+func (c *BronzeHistoryDOFirewallClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryDOFirewall = append(c.hooks.BronzeHistoryDOFirewall, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorydofirewall.Intercept(f(g(h())))`.
+func (c *BronzeHistoryDOFirewallClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryDOFirewall = append(c.inters.BronzeHistoryDOFirewall, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryDOFirewall entity.
+func (c *BronzeHistoryDOFirewallClient) Create() *BronzeHistoryDOFirewallCreate {
+	mutation := newBronzeHistoryDOFirewallMutation(c.config, OpCreate)
+	return &BronzeHistoryDOFirewallCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryDOFirewall entities.
+func (c *BronzeHistoryDOFirewallClient) CreateBulk(builders ...*BronzeHistoryDOFirewallCreate) *BronzeHistoryDOFirewallCreateBulk {
+	return &BronzeHistoryDOFirewallCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryDOFirewallClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryDOFirewallCreate, int)) *BronzeHistoryDOFirewallCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryDOFirewallCreateBulk{err: fmt.Errorf("calling to BronzeHistoryDOFirewallClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryDOFirewallCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryDOFirewallCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryDOFirewall.
+func (c *BronzeHistoryDOFirewallClient) Update() *BronzeHistoryDOFirewallUpdate {
+	mutation := newBronzeHistoryDOFirewallMutation(c.config, OpUpdate)
+	return &BronzeHistoryDOFirewallUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryDOFirewallClient) UpdateOne(_m *BronzeHistoryDOFirewall) *BronzeHistoryDOFirewallUpdateOne {
+	mutation := newBronzeHistoryDOFirewallMutation(c.config, OpUpdateOne, withBronzeHistoryDOFirewall(_m))
+	return &BronzeHistoryDOFirewallUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryDOFirewallClient) UpdateOneID(id int) *BronzeHistoryDOFirewallUpdateOne {
+	mutation := newBronzeHistoryDOFirewallMutation(c.config, OpUpdateOne, withBronzeHistoryDOFirewallID(id))
+	return &BronzeHistoryDOFirewallUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryDOFirewall.
+func (c *BronzeHistoryDOFirewallClient) Delete() *BronzeHistoryDOFirewallDelete {
+	mutation := newBronzeHistoryDOFirewallMutation(c.config, OpDelete)
+	return &BronzeHistoryDOFirewallDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryDOFirewallClient) DeleteOne(_m *BronzeHistoryDOFirewall) *BronzeHistoryDOFirewallDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryDOFirewallClient) DeleteOneID(id int) *BronzeHistoryDOFirewallDeleteOne {
+	builder := c.Delete().Where(bronzehistorydofirewall.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryDOFirewallDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryDOFirewall.
+func (c *BronzeHistoryDOFirewallClient) Query() *BronzeHistoryDOFirewallQuery {
+	return &BronzeHistoryDOFirewallQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryDOFirewall},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryDOFirewall entity by its id.
+func (c *BronzeHistoryDOFirewallClient) Get(ctx context.Context, id int) (*BronzeHistoryDOFirewall, error) {
+	return c.Query().Where(bronzehistorydofirewall.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryDOFirewallClient) GetX(ctx context.Context, id int) *BronzeHistoryDOFirewall {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryDOFirewallClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryDOFirewall
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryDOFirewallClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryDOFirewall
+}
+
+func (c *BronzeHistoryDOFirewallClient) mutate(ctx context.Context, m *BronzeHistoryDOFirewallMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryDOFirewallCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryDOFirewallUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryDOFirewallUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryDOFirewallDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryDOFirewall mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryDOKeyClient is a client for the BronzeHistoryDOKey schema.
+type BronzeHistoryDOKeyClient struct {
+	config
+}
+
+// NewBronzeHistoryDOKeyClient returns a client for the BronzeHistoryDOKey from the given config.
+func NewBronzeHistoryDOKeyClient(c config) *BronzeHistoryDOKeyClient {
+	return &BronzeHistoryDOKeyClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorydokey.Hooks(f(g(h())))`.
+func (c *BronzeHistoryDOKeyClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryDOKey = append(c.hooks.BronzeHistoryDOKey, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorydokey.Intercept(f(g(h())))`.
+func (c *BronzeHistoryDOKeyClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryDOKey = append(c.inters.BronzeHistoryDOKey, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryDOKey entity.
+func (c *BronzeHistoryDOKeyClient) Create() *BronzeHistoryDOKeyCreate {
+	mutation := newBronzeHistoryDOKeyMutation(c.config, OpCreate)
+	return &BronzeHistoryDOKeyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryDOKey entities.
+func (c *BronzeHistoryDOKeyClient) CreateBulk(builders ...*BronzeHistoryDOKeyCreate) *BronzeHistoryDOKeyCreateBulk {
+	return &BronzeHistoryDOKeyCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryDOKeyClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryDOKeyCreate, int)) *BronzeHistoryDOKeyCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryDOKeyCreateBulk{err: fmt.Errorf("calling to BronzeHistoryDOKeyClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryDOKeyCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryDOKeyCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryDOKey.
+func (c *BronzeHistoryDOKeyClient) Update() *BronzeHistoryDOKeyUpdate {
+	mutation := newBronzeHistoryDOKeyMutation(c.config, OpUpdate)
+	return &BronzeHistoryDOKeyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryDOKeyClient) UpdateOne(_m *BronzeHistoryDOKey) *BronzeHistoryDOKeyUpdateOne {
+	mutation := newBronzeHistoryDOKeyMutation(c.config, OpUpdateOne, withBronzeHistoryDOKey(_m))
+	return &BronzeHistoryDOKeyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryDOKeyClient) UpdateOneID(id int) *BronzeHistoryDOKeyUpdateOne {
+	mutation := newBronzeHistoryDOKeyMutation(c.config, OpUpdateOne, withBronzeHistoryDOKeyID(id))
+	return &BronzeHistoryDOKeyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryDOKey.
+func (c *BronzeHistoryDOKeyClient) Delete() *BronzeHistoryDOKeyDelete {
+	mutation := newBronzeHistoryDOKeyMutation(c.config, OpDelete)
+	return &BronzeHistoryDOKeyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryDOKeyClient) DeleteOne(_m *BronzeHistoryDOKey) *BronzeHistoryDOKeyDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryDOKeyClient) DeleteOneID(id int) *BronzeHistoryDOKeyDeleteOne {
+	builder := c.Delete().Where(bronzehistorydokey.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryDOKeyDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryDOKey.
+func (c *BronzeHistoryDOKeyClient) Query() *BronzeHistoryDOKeyQuery {
+	return &BronzeHistoryDOKeyQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryDOKey},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryDOKey entity by its id.
+func (c *BronzeHistoryDOKeyClient) Get(ctx context.Context, id int) (*BronzeHistoryDOKey, error) {
+	return c.Query().Where(bronzehistorydokey.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryDOKeyClient) GetX(ctx context.Context, id int) *BronzeHistoryDOKey {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryDOKeyClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryDOKey
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryDOKeyClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryDOKey
+}
+
+func (c *BronzeHistoryDOKeyClient) mutate(ctx context.Context, m *BronzeHistoryDOKeyMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryDOKeyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryDOKeyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryDOKeyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryDOKeyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryDOKey mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryDOLoadBalancerClient is a client for the BronzeHistoryDOLoadBalancer schema.
+type BronzeHistoryDOLoadBalancerClient struct {
+	config
+}
+
+// NewBronzeHistoryDOLoadBalancerClient returns a client for the BronzeHistoryDOLoadBalancer from the given config.
+func NewBronzeHistoryDOLoadBalancerClient(c config) *BronzeHistoryDOLoadBalancerClient {
+	return &BronzeHistoryDOLoadBalancerClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorydoloadbalancer.Hooks(f(g(h())))`.
+func (c *BronzeHistoryDOLoadBalancerClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryDOLoadBalancer = append(c.hooks.BronzeHistoryDOLoadBalancer, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorydoloadbalancer.Intercept(f(g(h())))`.
+func (c *BronzeHistoryDOLoadBalancerClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryDOLoadBalancer = append(c.inters.BronzeHistoryDOLoadBalancer, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryDOLoadBalancer entity.
+func (c *BronzeHistoryDOLoadBalancerClient) Create() *BronzeHistoryDOLoadBalancerCreate {
+	mutation := newBronzeHistoryDOLoadBalancerMutation(c.config, OpCreate)
+	return &BronzeHistoryDOLoadBalancerCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryDOLoadBalancer entities.
+func (c *BronzeHistoryDOLoadBalancerClient) CreateBulk(builders ...*BronzeHistoryDOLoadBalancerCreate) *BronzeHistoryDOLoadBalancerCreateBulk {
+	return &BronzeHistoryDOLoadBalancerCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryDOLoadBalancerClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryDOLoadBalancerCreate, int)) *BronzeHistoryDOLoadBalancerCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryDOLoadBalancerCreateBulk{err: fmt.Errorf("calling to BronzeHistoryDOLoadBalancerClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryDOLoadBalancerCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryDOLoadBalancerCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryDOLoadBalancer.
+func (c *BronzeHistoryDOLoadBalancerClient) Update() *BronzeHistoryDOLoadBalancerUpdate {
+	mutation := newBronzeHistoryDOLoadBalancerMutation(c.config, OpUpdate)
+	return &BronzeHistoryDOLoadBalancerUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryDOLoadBalancerClient) UpdateOne(_m *BronzeHistoryDOLoadBalancer) *BronzeHistoryDOLoadBalancerUpdateOne {
+	mutation := newBronzeHistoryDOLoadBalancerMutation(c.config, OpUpdateOne, withBronzeHistoryDOLoadBalancer(_m))
+	return &BronzeHistoryDOLoadBalancerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryDOLoadBalancerClient) UpdateOneID(id int) *BronzeHistoryDOLoadBalancerUpdateOne {
+	mutation := newBronzeHistoryDOLoadBalancerMutation(c.config, OpUpdateOne, withBronzeHistoryDOLoadBalancerID(id))
+	return &BronzeHistoryDOLoadBalancerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryDOLoadBalancer.
+func (c *BronzeHistoryDOLoadBalancerClient) Delete() *BronzeHistoryDOLoadBalancerDelete {
+	mutation := newBronzeHistoryDOLoadBalancerMutation(c.config, OpDelete)
+	return &BronzeHistoryDOLoadBalancerDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryDOLoadBalancerClient) DeleteOne(_m *BronzeHistoryDOLoadBalancer) *BronzeHistoryDOLoadBalancerDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryDOLoadBalancerClient) DeleteOneID(id int) *BronzeHistoryDOLoadBalancerDeleteOne {
+	builder := c.Delete().Where(bronzehistorydoloadbalancer.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryDOLoadBalancerDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryDOLoadBalancer.
+func (c *BronzeHistoryDOLoadBalancerClient) Query() *BronzeHistoryDOLoadBalancerQuery {
+	return &BronzeHistoryDOLoadBalancerQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryDOLoadBalancer},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryDOLoadBalancer entity by its id.
+func (c *BronzeHistoryDOLoadBalancerClient) Get(ctx context.Context, id int) (*BronzeHistoryDOLoadBalancer, error) {
+	return c.Query().Where(bronzehistorydoloadbalancer.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryDOLoadBalancerClient) GetX(ctx context.Context, id int) *BronzeHistoryDOLoadBalancer {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryDOLoadBalancerClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryDOLoadBalancer
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryDOLoadBalancerClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryDOLoadBalancer
+}
+
+func (c *BronzeHistoryDOLoadBalancerClient) mutate(ctx context.Context, m *BronzeHistoryDOLoadBalancerMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryDOLoadBalancerCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryDOLoadBalancerUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryDOLoadBalancerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryDOLoadBalancerDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryDOLoadBalancer mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryDOProjectClient is a client for the BronzeHistoryDOProject schema.
+type BronzeHistoryDOProjectClient struct {
+	config
+}
+
+// NewBronzeHistoryDOProjectClient returns a client for the BronzeHistoryDOProject from the given config.
+func NewBronzeHistoryDOProjectClient(c config) *BronzeHistoryDOProjectClient {
+	return &BronzeHistoryDOProjectClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorydoproject.Hooks(f(g(h())))`.
+func (c *BronzeHistoryDOProjectClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryDOProject = append(c.hooks.BronzeHistoryDOProject, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorydoproject.Intercept(f(g(h())))`.
+func (c *BronzeHistoryDOProjectClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryDOProject = append(c.inters.BronzeHistoryDOProject, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryDOProject entity.
+func (c *BronzeHistoryDOProjectClient) Create() *BronzeHistoryDOProjectCreate {
+	mutation := newBronzeHistoryDOProjectMutation(c.config, OpCreate)
+	return &BronzeHistoryDOProjectCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryDOProject entities.
+func (c *BronzeHistoryDOProjectClient) CreateBulk(builders ...*BronzeHistoryDOProjectCreate) *BronzeHistoryDOProjectCreateBulk {
+	return &BronzeHistoryDOProjectCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryDOProjectClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryDOProjectCreate, int)) *BronzeHistoryDOProjectCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryDOProjectCreateBulk{err: fmt.Errorf("calling to BronzeHistoryDOProjectClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryDOProjectCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryDOProjectCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryDOProject.
+func (c *BronzeHistoryDOProjectClient) Update() *BronzeHistoryDOProjectUpdate {
+	mutation := newBronzeHistoryDOProjectMutation(c.config, OpUpdate)
+	return &BronzeHistoryDOProjectUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryDOProjectClient) UpdateOne(_m *BronzeHistoryDOProject) *BronzeHistoryDOProjectUpdateOne {
+	mutation := newBronzeHistoryDOProjectMutation(c.config, OpUpdateOne, withBronzeHistoryDOProject(_m))
+	return &BronzeHistoryDOProjectUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryDOProjectClient) UpdateOneID(id int) *BronzeHistoryDOProjectUpdateOne {
+	mutation := newBronzeHistoryDOProjectMutation(c.config, OpUpdateOne, withBronzeHistoryDOProjectID(id))
+	return &BronzeHistoryDOProjectUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryDOProject.
+func (c *BronzeHistoryDOProjectClient) Delete() *BronzeHistoryDOProjectDelete {
+	mutation := newBronzeHistoryDOProjectMutation(c.config, OpDelete)
+	return &BronzeHistoryDOProjectDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryDOProjectClient) DeleteOne(_m *BronzeHistoryDOProject) *BronzeHistoryDOProjectDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryDOProjectClient) DeleteOneID(id int) *BronzeHistoryDOProjectDeleteOne {
+	builder := c.Delete().Where(bronzehistorydoproject.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryDOProjectDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryDOProject.
+func (c *BronzeHistoryDOProjectClient) Query() *BronzeHistoryDOProjectQuery {
+	return &BronzeHistoryDOProjectQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryDOProject},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryDOProject entity by its id.
+func (c *BronzeHistoryDOProjectClient) Get(ctx context.Context, id int) (*BronzeHistoryDOProject, error) {
+	return c.Query().Where(bronzehistorydoproject.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryDOProjectClient) GetX(ctx context.Context, id int) *BronzeHistoryDOProject {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryDOProjectClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryDOProject
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryDOProjectClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryDOProject
+}
+
+func (c *BronzeHistoryDOProjectClient) mutate(ctx context.Context, m *BronzeHistoryDOProjectMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryDOProjectCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryDOProjectUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryDOProjectUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryDOProjectDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryDOProject mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryDOProjectResourceClient is a client for the BronzeHistoryDOProjectResource schema.
+type BronzeHistoryDOProjectResourceClient struct {
+	config
+}
+
+// NewBronzeHistoryDOProjectResourceClient returns a client for the BronzeHistoryDOProjectResource from the given config.
+func NewBronzeHistoryDOProjectResourceClient(c config) *BronzeHistoryDOProjectResourceClient {
+	return &BronzeHistoryDOProjectResourceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorydoprojectresource.Hooks(f(g(h())))`.
+func (c *BronzeHistoryDOProjectResourceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryDOProjectResource = append(c.hooks.BronzeHistoryDOProjectResource, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorydoprojectresource.Intercept(f(g(h())))`.
+func (c *BronzeHistoryDOProjectResourceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryDOProjectResource = append(c.inters.BronzeHistoryDOProjectResource, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryDOProjectResource entity.
+func (c *BronzeHistoryDOProjectResourceClient) Create() *BronzeHistoryDOProjectResourceCreate {
+	mutation := newBronzeHistoryDOProjectResourceMutation(c.config, OpCreate)
+	return &BronzeHistoryDOProjectResourceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryDOProjectResource entities.
+func (c *BronzeHistoryDOProjectResourceClient) CreateBulk(builders ...*BronzeHistoryDOProjectResourceCreate) *BronzeHistoryDOProjectResourceCreateBulk {
+	return &BronzeHistoryDOProjectResourceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryDOProjectResourceClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryDOProjectResourceCreate, int)) *BronzeHistoryDOProjectResourceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryDOProjectResourceCreateBulk{err: fmt.Errorf("calling to BronzeHistoryDOProjectResourceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryDOProjectResourceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryDOProjectResourceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryDOProjectResource.
+func (c *BronzeHistoryDOProjectResourceClient) Update() *BronzeHistoryDOProjectResourceUpdate {
+	mutation := newBronzeHistoryDOProjectResourceMutation(c.config, OpUpdate)
+	return &BronzeHistoryDOProjectResourceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryDOProjectResourceClient) UpdateOne(_m *BronzeHistoryDOProjectResource) *BronzeHistoryDOProjectResourceUpdateOne {
+	mutation := newBronzeHistoryDOProjectResourceMutation(c.config, OpUpdateOne, withBronzeHistoryDOProjectResource(_m))
+	return &BronzeHistoryDOProjectResourceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryDOProjectResourceClient) UpdateOneID(id int) *BronzeHistoryDOProjectResourceUpdateOne {
+	mutation := newBronzeHistoryDOProjectResourceMutation(c.config, OpUpdateOne, withBronzeHistoryDOProjectResourceID(id))
+	return &BronzeHistoryDOProjectResourceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryDOProjectResource.
+func (c *BronzeHistoryDOProjectResourceClient) Delete() *BronzeHistoryDOProjectResourceDelete {
+	mutation := newBronzeHistoryDOProjectResourceMutation(c.config, OpDelete)
+	return &BronzeHistoryDOProjectResourceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryDOProjectResourceClient) DeleteOne(_m *BronzeHistoryDOProjectResource) *BronzeHistoryDOProjectResourceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryDOProjectResourceClient) DeleteOneID(id int) *BronzeHistoryDOProjectResourceDeleteOne {
+	builder := c.Delete().Where(bronzehistorydoprojectresource.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryDOProjectResourceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryDOProjectResource.
+func (c *BronzeHistoryDOProjectResourceClient) Query() *BronzeHistoryDOProjectResourceQuery {
+	return &BronzeHistoryDOProjectResourceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryDOProjectResource},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryDOProjectResource entity by its id.
+func (c *BronzeHistoryDOProjectResourceClient) Get(ctx context.Context, id int) (*BronzeHistoryDOProjectResource, error) {
+	return c.Query().Where(bronzehistorydoprojectresource.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryDOProjectResourceClient) GetX(ctx context.Context, id int) *BronzeHistoryDOProjectResource {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryDOProjectResourceClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryDOProjectResource
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryDOProjectResourceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryDOProjectResource
+}
+
+func (c *BronzeHistoryDOProjectResourceClient) mutate(ctx context.Context, m *BronzeHistoryDOProjectResourceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryDOProjectResourceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryDOProjectResourceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryDOProjectResourceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryDOProjectResourceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryDOProjectResource mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryDOVolumeClient is a client for the BronzeHistoryDOVolume schema.
+type BronzeHistoryDOVolumeClient struct {
+	config
+}
+
+// NewBronzeHistoryDOVolumeClient returns a client for the BronzeHistoryDOVolume from the given config.
+func NewBronzeHistoryDOVolumeClient(c config) *BronzeHistoryDOVolumeClient {
+	return &BronzeHistoryDOVolumeClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorydovolume.Hooks(f(g(h())))`.
+func (c *BronzeHistoryDOVolumeClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryDOVolume = append(c.hooks.BronzeHistoryDOVolume, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorydovolume.Intercept(f(g(h())))`.
+func (c *BronzeHistoryDOVolumeClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryDOVolume = append(c.inters.BronzeHistoryDOVolume, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryDOVolume entity.
+func (c *BronzeHistoryDOVolumeClient) Create() *BronzeHistoryDOVolumeCreate {
+	mutation := newBronzeHistoryDOVolumeMutation(c.config, OpCreate)
+	return &BronzeHistoryDOVolumeCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryDOVolume entities.
+func (c *BronzeHistoryDOVolumeClient) CreateBulk(builders ...*BronzeHistoryDOVolumeCreate) *BronzeHistoryDOVolumeCreateBulk {
+	return &BronzeHistoryDOVolumeCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryDOVolumeClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryDOVolumeCreate, int)) *BronzeHistoryDOVolumeCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryDOVolumeCreateBulk{err: fmt.Errorf("calling to BronzeHistoryDOVolumeClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryDOVolumeCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryDOVolumeCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryDOVolume.
+func (c *BronzeHistoryDOVolumeClient) Update() *BronzeHistoryDOVolumeUpdate {
+	mutation := newBronzeHistoryDOVolumeMutation(c.config, OpUpdate)
+	return &BronzeHistoryDOVolumeUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryDOVolumeClient) UpdateOne(_m *BronzeHistoryDOVolume) *BronzeHistoryDOVolumeUpdateOne {
+	mutation := newBronzeHistoryDOVolumeMutation(c.config, OpUpdateOne, withBronzeHistoryDOVolume(_m))
+	return &BronzeHistoryDOVolumeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryDOVolumeClient) UpdateOneID(id int) *BronzeHistoryDOVolumeUpdateOne {
+	mutation := newBronzeHistoryDOVolumeMutation(c.config, OpUpdateOne, withBronzeHistoryDOVolumeID(id))
+	return &BronzeHistoryDOVolumeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryDOVolume.
+func (c *BronzeHistoryDOVolumeClient) Delete() *BronzeHistoryDOVolumeDelete {
+	mutation := newBronzeHistoryDOVolumeMutation(c.config, OpDelete)
+	return &BronzeHistoryDOVolumeDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryDOVolumeClient) DeleteOne(_m *BronzeHistoryDOVolume) *BronzeHistoryDOVolumeDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryDOVolumeClient) DeleteOneID(id int) *BronzeHistoryDOVolumeDeleteOne {
+	builder := c.Delete().Where(bronzehistorydovolume.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryDOVolumeDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryDOVolume.
+func (c *BronzeHistoryDOVolumeClient) Query() *BronzeHistoryDOVolumeQuery {
+	return &BronzeHistoryDOVolumeQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryDOVolume},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryDOVolume entity by its id.
+func (c *BronzeHistoryDOVolumeClient) Get(ctx context.Context, id int) (*BronzeHistoryDOVolume, error) {
+	return c.Query().Where(bronzehistorydovolume.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryDOVolumeClient) GetX(ctx context.Context, id int) *BronzeHistoryDOVolume {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryDOVolumeClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryDOVolume
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryDOVolumeClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryDOVolume
+}
+
+func (c *BronzeHistoryDOVolumeClient) mutate(ctx context.Context, m *BronzeHistoryDOVolumeMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryDOVolumeCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryDOVolumeUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryDOVolumeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryDOVolumeDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryDOVolume mutation op: %q", m.Op())
 	}
 }
 
@@ -27304,8 +30138,10 @@ func (c *BronzeS1ThreatClient) mutate(ctx context.Context, m *BronzeS1ThreatMuta
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		BronzeAWSEC2Instance, BronzeAWSEC2InstanceTag, BronzeDOVpc,
-		BronzeGCPComputeAddress, BronzeGCPComputeAddressLabel,
+		BronzeAWSEC2Instance, BronzeAWSEC2InstanceTag, BronzeDOAccount, BronzeDODomain,
+		BronzeDODomainRecord, BronzeDODroplet, BronzeDOFirewall, BronzeDOKey,
+		BronzeDOLoadBalancer, BronzeDOProject, BronzeDOProjectResource, BronzeDOVolume,
+		BronzeDOVpc, BronzeGCPComputeAddress, BronzeGCPComputeAddressLabel,
 		BronzeGCPComputeBackendService, BronzeGCPComputeBackendServiceBackend,
 		BronzeGCPComputeDisk, BronzeGCPComputeDiskLabel, BronzeGCPComputeDiskLicense,
 		BronzeGCPComputeFirewall, BronzeGCPComputeFirewallAllowed,
@@ -27342,7 +30178,10 @@ type (
 		BronzeGCPVPCAccessConnector, BronzeGCPVPNGateway, BronzeGCPVPNGatewayLabel,
 		BronzeGCPVPNTargetGateway, BronzeGCPVPNTargetGatewayLabel, BronzeGCPVPNTunnel,
 		BronzeGCPVPNTunnelLabel, BronzeHistoryAWSEC2Instance,
-		BronzeHistoryAWSEC2InstanceTag, BronzeHistoryDOVpc,
+		BronzeHistoryAWSEC2InstanceTag, BronzeHistoryDOAccount, BronzeHistoryDODomain,
+		BronzeHistoryDODomainRecord, BronzeHistoryDODroplet, BronzeHistoryDOFirewall,
+		BronzeHistoryDOKey, BronzeHistoryDOLoadBalancer, BronzeHistoryDOProject,
+		BronzeHistoryDOProjectResource, BronzeHistoryDOVolume, BronzeHistoryDOVpc,
 		BronzeHistoryGCPComputeAddress, BronzeHistoryGCPComputeAddressLabel,
 		BronzeHistoryGCPComputeBackendService,
 		BronzeHistoryGCPComputeBackendServiceBackend, BronzeHistoryGCPComputeDisk,
@@ -27398,8 +30237,10 @@ type (
 		BronzeS1App, BronzeS1Group, BronzeS1Site, BronzeS1Threat []ent.Hook
 	}
 	inters struct {
-		BronzeAWSEC2Instance, BronzeAWSEC2InstanceTag, BronzeDOVpc,
-		BronzeGCPComputeAddress, BronzeGCPComputeAddressLabel,
+		BronzeAWSEC2Instance, BronzeAWSEC2InstanceTag, BronzeDOAccount, BronzeDODomain,
+		BronzeDODomainRecord, BronzeDODroplet, BronzeDOFirewall, BronzeDOKey,
+		BronzeDOLoadBalancer, BronzeDOProject, BronzeDOProjectResource, BronzeDOVolume,
+		BronzeDOVpc, BronzeGCPComputeAddress, BronzeGCPComputeAddressLabel,
 		BronzeGCPComputeBackendService, BronzeGCPComputeBackendServiceBackend,
 		BronzeGCPComputeDisk, BronzeGCPComputeDiskLabel, BronzeGCPComputeDiskLicense,
 		BronzeGCPComputeFirewall, BronzeGCPComputeFirewallAllowed,
@@ -27436,7 +30277,10 @@ type (
 		BronzeGCPVPCAccessConnector, BronzeGCPVPNGateway, BronzeGCPVPNGatewayLabel,
 		BronzeGCPVPNTargetGateway, BronzeGCPVPNTargetGatewayLabel, BronzeGCPVPNTunnel,
 		BronzeGCPVPNTunnelLabel, BronzeHistoryAWSEC2Instance,
-		BronzeHistoryAWSEC2InstanceTag, BronzeHistoryDOVpc,
+		BronzeHistoryAWSEC2InstanceTag, BronzeHistoryDOAccount, BronzeHistoryDODomain,
+		BronzeHistoryDODomainRecord, BronzeHistoryDODroplet, BronzeHistoryDOFirewall,
+		BronzeHistoryDOKey, BronzeHistoryDOLoadBalancer, BronzeHistoryDOProject,
+		BronzeHistoryDOProjectResource, BronzeHistoryDOVolume, BronzeHistoryDOVpc,
 		BronzeHistoryGCPComputeAddress, BronzeHistoryGCPComputeAddressLabel,
 		BronzeHistoryGCPComputeBackendService,
 		BronzeHistoryGCPComputeBackendServiceBackend, BronzeHistoryGCPComputeDisk,

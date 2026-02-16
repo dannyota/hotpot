@@ -14,6 +14,16 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzeawsec2instance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzeawsec2instancetag"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoaccount"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodomain"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodomainrecord"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodroplet"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedofirewall"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoloadbalancer"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoproject"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoprojectresource"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedovolume"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedovpc"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeaddress"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeaddresslabel"
@@ -97,6 +107,16 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntunnellabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instancetag"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoaccount"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodomain"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodomainrecord"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodroplet"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydofirewall"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoloadbalancer"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoproject"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoprojectresource"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydovolume"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydovpc"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddress"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddresslabel"
@@ -254,6 +274,16 @@ func checkColumn(t, c string) error {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
 			bronzeawsec2instance.Table:                             bronzeawsec2instance.ValidColumn,
 			bronzeawsec2instancetag.Table:                          bronzeawsec2instancetag.ValidColumn,
+			bronzedoaccount.Table:                                  bronzedoaccount.ValidColumn,
+			bronzedodomain.Table:                                   bronzedodomain.ValidColumn,
+			bronzedodomainrecord.Table:                             bronzedodomainrecord.ValidColumn,
+			bronzedodroplet.Table:                                  bronzedodroplet.ValidColumn,
+			bronzedofirewall.Table:                                 bronzedofirewall.ValidColumn,
+			bronzedokey.Table:                                      bronzedokey.ValidColumn,
+			bronzedoloadbalancer.Table:                             bronzedoloadbalancer.ValidColumn,
+			bronzedoproject.Table:                                  bronzedoproject.ValidColumn,
+			bronzedoprojectresource.Table:                          bronzedoprojectresource.ValidColumn,
+			bronzedovolume.Table:                                   bronzedovolume.ValidColumn,
 			bronzedovpc.Table:                                      bronzedovpc.ValidColumn,
 			bronzegcpcomputeaddress.Table:                          bronzegcpcomputeaddress.ValidColumn,
 			bronzegcpcomputeaddresslabel.Table:                     bronzegcpcomputeaddresslabel.ValidColumn,
@@ -337,6 +367,16 @@ func checkColumn(t, c string) error {
 			bronzegcpvpntunnellabel.Table:                          bronzegcpvpntunnellabel.ValidColumn,
 			bronzehistoryawsec2instance.Table:                      bronzehistoryawsec2instance.ValidColumn,
 			bronzehistoryawsec2instancetag.Table:                   bronzehistoryawsec2instancetag.ValidColumn,
+			bronzehistorydoaccount.Table:                           bronzehistorydoaccount.ValidColumn,
+			bronzehistorydodomain.Table:                            bronzehistorydodomain.ValidColumn,
+			bronzehistorydodomainrecord.Table:                      bronzehistorydodomainrecord.ValidColumn,
+			bronzehistorydodroplet.Table:                           bronzehistorydodroplet.ValidColumn,
+			bronzehistorydofirewall.Table:                          bronzehistorydofirewall.ValidColumn,
+			bronzehistorydokey.Table:                               bronzehistorydokey.ValidColumn,
+			bronzehistorydoloadbalancer.Table:                      bronzehistorydoloadbalancer.ValidColumn,
+			bronzehistorydoproject.Table:                           bronzehistorydoproject.ValidColumn,
+			bronzehistorydoprojectresource.Table:                   bronzehistorydoprojectresource.ValidColumn,
+			bronzehistorydovolume.Table:                            bronzehistorydovolume.ValidColumn,
 			bronzehistorydovpc.Table:                               bronzehistorydovpc.ValidColumn,
 			bronzehistorygcpcomputeaddress.Table:                   bronzehistorygcpcomputeaddress.ValidColumn,
 			bronzehistorygcpcomputeaddresslabel.Table:              bronzehistorygcpcomputeaddresslabel.ValidColumn,

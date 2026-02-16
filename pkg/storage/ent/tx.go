@@ -16,6 +16,26 @@ type Tx struct {
 	BronzeAWSEC2Instance *BronzeAWSEC2InstanceClient
 	// BronzeAWSEC2InstanceTag is the client for interacting with the BronzeAWSEC2InstanceTag builders.
 	BronzeAWSEC2InstanceTag *BronzeAWSEC2InstanceTagClient
+	// BronzeDOAccount is the client for interacting with the BronzeDOAccount builders.
+	BronzeDOAccount *BronzeDOAccountClient
+	// BronzeDODomain is the client for interacting with the BronzeDODomain builders.
+	BronzeDODomain *BronzeDODomainClient
+	// BronzeDODomainRecord is the client for interacting with the BronzeDODomainRecord builders.
+	BronzeDODomainRecord *BronzeDODomainRecordClient
+	// BronzeDODroplet is the client for interacting with the BronzeDODroplet builders.
+	BronzeDODroplet *BronzeDODropletClient
+	// BronzeDOFirewall is the client for interacting with the BronzeDOFirewall builders.
+	BronzeDOFirewall *BronzeDOFirewallClient
+	// BronzeDOKey is the client for interacting with the BronzeDOKey builders.
+	BronzeDOKey *BronzeDOKeyClient
+	// BronzeDOLoadBalancer is the client for interacting with the BronzeDOLoadBalancer builders.
+	BronzeDOLoadBalancer *BronzeDOLoadBalancerClient
+	// BronzeDOProject is the client for interacting with the BronzeDOProject builders.
+	BronzeDOProject *BronzeDOProjectClient
+	// BronzeDOProjectResource is the client for interacting with the BronzeDOProjectResource builders.
+	BronzeDOProjectResource *BronzeDOProjectResourceClient
+	// BronzeDOVolume is the client for interacting with the BronzeDOVolume builders.
+	BronzeDOVolume *BronzeDOVolumeClient
 	// BronzeDOVpc is the client for interacting with the BronzeDOVpc builders.
 	BronzeDOVpc *BronzeDOVpcClient
 	// BronzeGCPComputeAddress is the client for interacting with the BronzeGCPComputeAddress builders.
@@ -182,6 +202,26 @@ type Tx struct {
 	BronzeHistoryAWSEC2Instance *BronzeHistoryAWSEC2InstanceClient
 	// BronzeHistoryAWSEC2InstanceTag is the client for interacting with the BronzeHistoryAWSEC2InstanceTag builders.
 	BronzeHistoryAWSEC2InstanceTag *BronzeHistoryAWSEC2InstanceTagClient
+	// BronzeHistoryDOAccount is the client for interacting with the BronzeHistoryDOAccount builders.
+	BronzeHistoryDOAccount *BronzeHistoryDOAccountClient
+	// BronzeHistoryDODomain is the client for interacting with the BronzeHistoryDODomain builders.
+	BronzeHistoryDODomain *BronzeHistoryDODomainClient
+	// BronzeHistoryDODomainRecord is the client for interacting with the BronzeHistoryDODomainRecord builders.
+	BronzeHistoryDODomainRecord *BronzeHistoryDODomainRecordClient
+	// BronzeHistoryDODroplet is the client for interacting with the BronzeHistoryDODroplet builders.
+	BronzeHistoryDODroplet *BronzeHistoryDODropletClient
+	// BronzeHistoryDOFirewall is the client for interacting with the BronzeHistoryDOFirewall builders.
+	BronzeHistoryDOFirewall *BronzeHistoryDOFirewallClient
+	// BronzeHistoryDOKey is the client for interacting with the BronzeHistoryDOKey builders.
+	BronzeHistoryDOKey *BronzeHistoryDOKeyClient
+	// BronzeHistoryDOLoadBalancer is the client for interacting with the BronzeHistoryDOLoadBalancer builders.
+	BronzeHistoryDOLoadBalancer *BronzeHistoryDOLoadBalancerClient
+	// BronzeHistoryDOProject is the client for interacting with the BronzeHistoryDOProject builders.
+	BronzeHistoryDOProject *BronzeHistoryDOProjectClient
+	// BronzeHistoryDOProjectResource is the client for interacting with the BronzeHistoryDOProjectResource builders.
+	BronzeHistoryDOProjectResource *BronzeHistoryDOProjectResourceClient
+	// BronzeHistoryDOVolume is the client for interacting with the BronzeHistoryDOVolume builders.
+	BronzeHistoryDOVolume *BronzeHistoryDOVolumeClient
 	// BronzeHistoryDOVpc is the client for interacting with the BronzeHistoryDOVpc builders.
 	BronzeHistoryDOVpc *BronzeHistoryDOVpcClient
 	// BronzeHistoryGCPComputeAddress is the client for interacting with the BronzeHistoryGCPComputeAddress builders.
@@ -505,6 +545,16 @@ func (tx *Tx) Client() *Client {
 func (tx *Tx) init() {
 	tx.BronzeAWSEC2Instance = NewBronzeAWSEC2InstanceClient(tx.config)
 	tx.BronzeAWSEC2InstanceTag = NewBronzeAWSEC2InstanceTagClient(tx.config)
+	tx.BronzeDOAccount = NewBronzeDOAccountClient(tx.config)
+	tx.BronzeDODomain = NewBronzeDODomainClient(tx.config)
+	tx.BronzeDODomainRecord = NewBronzeDODomainRecordClient(tx.config)
+	tx.BronzeDODroplet = NewBronzeDODropletClient(tx.config)
+	tx.BronzeDOFirewall = NewBronzeDOFirewallClient(tx.config)
+	tx.BronzeDOKey = NewBronzeDOKeyClient(tx.config)
+	tx.BronzeDOLoadBalancer = NewBronzeDOLoadBalancerClient(tx.config)
+	tx.BronzeDOProject = NewBronzeDOProjectClient(tx.config)
+	tx.BronzeDOProjectResource = NewBronzeDOProjectResourceClient(tx.config)
+	tx.BronzeDOVolume = NewBronzeDOVolumeClient(tx.config)
 	tx.BronzeDOVpc = NewBronzeDOVpcClient(tx.config)
 	tx.BronzeGCPComputeAddress = NewBronzeGCPComputeAddressClient(tx.config)
 	tx.BronzeGCPComputeAddressLabel = NewBronzeGCPComputeAddressLabelClient(tx.config)
@@ -588,6 +638,16 @@ func (tx *Tx) init() {
 	tx.BronzeGCPVPNTunnelLabel = NewBronzeGCPVPNTunnelLabelClient(tx.config)
 	tx.BronzeHistoryAWSEC2Instance = NewBronzeHistoryAWSEC2InstanceClient(tx.config)
 	tx.BronzeHistoryAWSEC2InstanceTag = NewBronzeHistoryAWSEC2InstanceTagClient(tx.config)
+	tx.BronzeHistoryDOAccount = NewBronzeHistoryDOAccountClient(tx.config)
+	tx.BronzeHistoryDODomain = NewBronzeHistoryDODomainClient(tx.config)
+	tx.BronzeHistoryDODomainRecord = NewBronzeHistoryDODomainRecordClient(tx.config)
+	tx.BronzeHistoryDODroplet = NewBronzeHistoryDODropletClient(tx.config)
+	tx.BronzeHistoryDOFirewall = NewBronzeHistoryDOFirewallClient(tx.config)
+	tx.BronzeHistoryDOKey = NewBronzeHistoryDOKeyClient(tx.config)
+	tx.BronzeHistoryDOLoadBalancer = NewBronzeHistoryDOLoadBalancerClient(tx.config)
+	tx.BronzeHistoryDOProject = NewBronzeHistoryDOProjectClient(tx.config)
+	tx.BronzeHistoryDOProjectResource = NewBronzeHistoryDOProjectResourceClient(tx.config)
+	tx.BronzeHistoryDOVolume = NewBronzeHistoryDOVolumeClient(tx.config)
 	tx.BronzeHistoryDOVpc = NewBronzeHistoryDOVpcClient(tx.config)
 	tx.BronzeHistoryGCPComputeAddress = NewBronzeHistoryGCPComputeAddressClient(tx.config)
 	tx.BronzeHistoryGCPComputeAddressLabel = NewBronzeHistoryGCPComputeAddressLabelClient(tx.config)

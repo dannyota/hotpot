@@ -42,6 +42,46 @@ type BronzeAWSEC2InstanceTag struct {
 	bronze_aws_ec2.BronzeAWSEC2InstanceTag
 }
 
+type BronzeDOAccount struct {
+	bronze_do.BronzeDOAccount
+}
+
+type BronzeDODomain struct {
+	bronze_do.BronzeDODomain
+}
+
+type BronzeDODomainRecord struct {
+	bronze_do.BronzeDODomainRecord
+}
+
+type BronzeDODroplet struct {
+	bronze_do.BronzeDODroplet
+}
+
+type BronzeDOFirewall struct {
+	bronze_do.BronzeDOFirewall
+}
+
+type BronzeDOKey struct {
+	bronze_do.BronzeDOKey
+}
+
+type BronzeDOLoadBalancer struct {
+	bronze_do.BronzeDOLoadBalancer
+}
+
+type BronzeDOProject struct {
+	bronze_do.BronzeDOProject
+}
+
+type BronzeDOProjectResource struct {
+	bronze_do.BronzeDOProjectResource
+}
+
+type BronzeDOVolume struct {
+	bronze_do.BronzeDOVolume
+}
+
 type BronzeDOVpc struct {
 	bronze_do.BronzeDOVpc
 }
@@ -400,6 +440,46 @@ type BronzeHistoryAWSEC2Instance struct {
 
 type BronzeHistoryAWSEC2InstanceTag struct {
 	bronzehistory_aws_ec2.BronzeHistoryAWSEC2InstanceTag
+}
+
+type BronzeHistoryDOAccount struct {
+	bronzehistory_do.BronzeHistoryDOAccount
+}
+
+type BronzeHistoryDODomain struct {
+	bronzehistory_do.BronzeHistoryDODomain
+}
+
+type BronzeHistoryDODomainRecord struct {
+	bronzehistory_do.BronzeHistoryDODomainRecord
+}
+
+type BronzeHistoryDODroplet struct {
+	bronzehistory_do.BronzeHistoryDODroplet
+}
+
+type BronzeHistoryDOFirewall struct {
+	bronzehistory_do.BronzeHistoryDOFirewall
+}
+
+type BronzeHistoryDOKey struct {
+	bronzehistory_do.BronzeHistoryDOKey
+}
+
+type BronzeHistoryDOLoadBalancer struct {
+	bronzehistory_do.BronzeHistoryDOLoadBalancer
+}
+
+type BronzeHistoryDOProject struct {
+	bronzehistory_do.BronzeHistoryDOProject
+}
+
+type BronzeHistoryDOProjectResource struct {
+	bronzehistory_do.BronzeHistoryDOProjectResource
+}
+
+type BronzeHistoryDOVolume struct {
+	bronzehistory_do.BronzeHistoryDOVolume
 }
 
 type BronzeHistoryDOVpc struct {

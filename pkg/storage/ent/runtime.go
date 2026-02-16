@@ -5,6 +5,16 @@ package ent
 import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzeawsec2instance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzeawsec2instancetag"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoaccount"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodomain"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodomainrecord"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodroplet"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedofirewall"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoloadbalancer"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoproject"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoprojectresource"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedovolume"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedovpc"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeaddress"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeaddresslabel"
@@ -83,6 +93,16 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntunnel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntunnellabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoaccount"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodomain"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodomainrecord"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodroplet"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydofirewall"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoloadbalancer"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoproject"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoprojectresource"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydovolume"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydovpc"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddress"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddresslabel"
@@ -187,6 +207,146 @@ func init() {
 	bronzeawsec2instancetagDescKey := bronzeawsec2instancetagFields[0].Descriptor()
 	// bronzeawsec2instancetag.KeyValidator is a validator for the "key" field. It is called by the builders before save.
 	bronzeawsec2instancetag.KeyValidator = bronzeawsec2instancetagDescKey.Validators[0].(func(string) error)
+	bronzedoaccountFields := schema.BronzeDOAccount{}.Fields()
+	_ = bronzedoaccountFields
+	// bronzedoaccountDescDropletLimit is the schema descriptor for droplet_limit field.
+	bronzedoaccountDescDropletLimit := bronzedoaccountFields[5].Descriptor()
+	// bronzedoaccount.DefaultDropletLimit holds the default value on creation for the droplet_limit field.
+	bronzedoaccount.DefaultDropletLimit = bronzedoaccountDescDropletLimit.Default.(int)
+	// bronzedoaccountDescFloatingIPLimit is the schema descriptor for floating_ip_limit field.
+	bronzedoaccountDescFloatingIPLimit := bronzedoaccountFields[6].Descriptor()
+	// bronzedoaccount.DefaultFloatingIPLimit holds the default value on creation for the floating_ip_limit field.
+	bronzedoaccount.DefaultFloatingIPLimit = bronzedoaccountDescFloatingIPLimit.Default.(int)
+	// bronzedoaccountDescReservedIPLimit is the schema descriptor for reserved_ip_limit field.
+	bronzedoaccountDescReservedIPLimit := bronzedoaccountFields[7].Descriptor()
+	// bronzedoaccount.DefaultReservedIPLimit holds the default value on creation for the reserved_ip_limit field.
+	bronzedoaccount.DefaultReservedIPLimit = bronzedoaccountDescReservedIPLimit.Default.(int)
+	// bronzedoaccountDescVolumeLimit is the schema descriptor for volume_limit field.
+	bronzedoaccountDescVolumeLimit := bronzedoaccountFields[8].Descriptor()
+	// bronzedoaccount.DefaultVolumeLimit holds the default value on creation for the volume_limit field.
+	bronzedoaccount.DefaultVolumeLimit = bronzedoaccountDescVolumeLimit.Default.(int)
+	// bronzedoaccountDescEmailVerified is the schema descriptor for email_verified field.
+	bronzedoaccountDescEmailVerified := bronzedoaccountFields[9].Descriptor()
+	// bronzedoaccount.DefaultEmailVerified holds the default value on creation for the email_verified field.
+	bronzedoaccount.DefaultEmailVerified = bronzedoaccountDescEmailVerified.Default.(bool)
+	bronzedodomainFields := schema.BronzeDODomain{}.Fields()
+	_ = bronzedodomainFields
+	// bronzedodomainDescTTL is the schema descriptor for ttl field.
+	bronzedodomainDescTTL := bronzedodomainFields[1].Descriptor()
+	// bronzedodomain.DefaultTTL holds the default value on creation for the ttl field.
+	bronzedodomain.DefaultTTL = bronzedodomainDescTTL.Default.(int)
+	bronzedodomainrecordFields := schema.BronzeDODomainRecord{}.Fields()
+	_ = bronzedodomainrecordFields
+	// bronzedodomainrecordDescDomainName is the schema descriptor for domain_name field.
+	bronzedodomainrecordDescDomainName := bronzedodomainrecordFields[1].Descriptor()
+	// bronzedodomainrecord.DomainNameValidator is a validator for the "domain_name" field. It is called by the builders before save.
+	bronzedodomainrecord.DomainNameValidator = bronzedodomainrecordDescDomainName.Validators[0].(func(string) error)
+	// bronzedodomainrecordDescPriority is the schema descriptor for priority field.
+	bronzedodomainrecordDescPriority := bronzedodomainrecordFields[6].Descriptor()
+	// bronzedodomainrecord.DefaultPriority holds the default value on creation for the priority field.
+	bronzedodomainrecord.DefaultPriority = bronzedodomainrecordDescPriority.Default.(int)
+	// bronzedodomainrecordDescPort is the schema descriptor for port field.
+	bronzedodomainrecordDescPort := bronzedodomainrecordFields[7].Descriptor()
+	// bronzedodomainrecord.DefaultPort holds the default value on creation for the port field.
+	bronzedodomainrecord.DefaultPort = bronzedodomainrecordDescPort.Default.(int)
+	// bronzedodomainrecordDescTTL is the schema descriptor for ttl field.
+	bronzedodomainrecordDescTTL := bronzedodomainrecordFields[8].Descriptor()
+	// bronzedodomainrecord.DefaultTTL holds the default value on creation for the ttl field.
+	bronzedodomainrecord.DefaultTTL = bronzedodomainrecordDescTTL.Default.(int)
+	// bronzedodomainrecordDescWeight is the schema descriptor for weight field.
+	bronzedodomainrecordDescWeight := bronzedodomainrecordFields[9].Descriptor()
+	// bronzedodomainrecord.DefaultWeight holds the default value on creation for the weight field.
+	bronzedodomainrecord.DefaultWeight = bronzedodomainrecordDescWeight.Default.(int)
+	// bronzedodomainrecordDescFlags is the schema descriptor for flags field.
+	bronzedodomainrecordDescFlags := bronzedodomainrecordFields[10].Descriptor()
+	// bronzedodomainrecord.DefaultFlags holds the default value on creation for the flags field.
+	bronzedodomainrecord.DefaultFlags = bronzedodomainrecordDescFlags.Default.(int)
+	bronzedodropletFields := schema.BronzeDODroplet{}.Fields()
+	_ = bronzedodropletFields
+	// bronzedodropletDescName is the schema descriptor for name field.
+	bronzedodropletDescName := bronzedodropletFields[1].Descriptor()
+	// bronzedodroplet.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzedodroplet.NameValidator = bronzedodropletDescName.Validators[0].(func(string) error)
+	// bronzedodropletDescMemory is the schema descriptor for memory field.
+	bronzedodropletDescMemory := bronzedodropletFields[2].Descriptor()
+	// bronzedodroplet.DefaultMemory holds the default value on creation for the memory field.
+	bronzedodroplet.DefaultMemory = bronzedodropletDescMemory.Default.(int)
+	// bronzedodropletDescVcpus is the schema descriptor for vcpus field.
+	bronzedodropletDescVcpus := bronzedodropletFields[3].Descriptor()
+	// bronzedodroplet.DefaultVcpus holds the default value on creation for the vcpus field.
+	bronzedodroplet.DefaultVcpus = bronzedodropletDescVcpus.Default.(int)
+	// bronzedodropletDescDisk is the schema descriptor for disk field.
+	bronzedodropletDescDisk := bronzedodropletFields[4].Descriptor()
+	// bronzedodroplet.DefaultDisk holds the default value on creation for the disk field.
+	bronzedodroplet.DefaultDisk = bronzedodropletDescDisk.Default.(int)
+	// bronzedodropletDescLocked is the schema descriptor for locked field.
+	bronzedodropletDescLocked := bronzedodropletFields[8].Descriptor()
+	// bronzedodroplet.DefaultLocked holds the default value on creation for the locked field.
+	bronzedodroplet.DefaultLocked = bronzedodropletDescLocked.Default.(bool)
+	bronzedofirewallFields := schema.BronzeDOFirewall{}.Fields()
+	_ = bronzedofirewallFields
+	// bronzedofirewallDescName is the schema descriptor for name field.
+	bronzedofirewallDescName := bronzedofirewallFields[1].Descriptor()
+	// bronzedofirewall.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzedofirewall.NameValidator = bronzedofirewallDescName.Validators[0].(func(string) error)
+	bronzedokeyFields := schema.BronzeDOKey{}.Fields()
+	_ = bronzedokeyFields
+	// bronzedokeyDescName is the schema descriptor for name field.
+	bronzedokeyDescName := bronzedokeyFields[1].Descriptor()
+	// bronzedokey.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzedokey.NameValidator = bronzedokeyDescName.Validators[0].(func(string) error)
+	bronzedoloadbalancerFields := schema.BronzeDOLoadBalancer{}.Fields()
+	_ = bronzedoloadbalancerFields
+	// bronzedoloadbalancerDescSizeUnit is the schema descriptor for size_unit field.
+	bronzedoloadbalancerDescSizeUnit := bronzedoloadbalancerFields[5].Descriptor()
+	// bronzedoloadbalancer.DefaultSizeUnit holds the default value on creation for the size_unit field.
+	bronzedoloadbalancer.DefaultSizeUnit = bronzedoloadbalancerDescSizeUnit.Default.(uint32)
+	// bronzedoloadbalancerDescRedirectHTTPToHTTPS is the schema descriptor for redirect_http_to_https field.
+	bronzedoloadbalancerDescRedirectHTTPToHTTPS := bronzedoloadbalancerFields[11].Descriptor()
+	// bronzedoloadbalancer.DefaultRedirectHTTPToHTTPS holds the default value on creation for the redirect_http_to_https field.
+	bronzedoloadbalancer.DefaultRedirectHTTPToHTTPS = bronzedoloadbalancerDescRedirectHTTPToHTTPS.Default.(bool)
+	// bronzedoloadbalancerDescEnableProxyProtocol is the schema descriptor for enable_proxy_protocol field.
+	bronzedoloadbalancerDescEnableProxyProtocol := bronzedoloadbalancerFields[12].Descriptor()
+	// bronzedoloadbalancer.DefaultEnableProxyProtocol holds the default value on creation for the enable_proxy_protocol field.
+	bronzedoloadbalancer.DefaultEnableProxyProtocol = bronzedoloadbalancerDescEnableProxyProtocol.Default.(bool)
+	// bronzedoloadbalancerDescEnableBackendKeepalive is the schema descriptor for enable_backend_keepalive field.
+	bronzedoloadbalancerDescEnableBackendKeepalive := bronzedoloadbalancerFields[13].Descriptor()
+	// bronzedoloadbalancer.DefaultEnableBackendKeepalive holds the default value on creation for the enable_backend_keepalive field.
+	bronzedoloadbalancer.DefaultEnableBackendKeepalive = bronzedoloadbalancerDescEnableBackendKeepalive.Default.(bool)
+	bronzedoprojectFields := schema.BronzeDOProject{}.Fields()
+	_ = bronzedoprojectFields
+	// bronzedoprojectDescOwnerID is the schema descriptor for owner_id field.
+	bronzedoprojectDescOwnerID := bronzedoprojectFields[2].Descriptor()
+	// bronzedoproject.DefaultOwnerID holds the default value on creation for the owner_id field.
+	bronzedoproject.DefaultOwnerID = bronzedoprojectDescOwnerID.Default.(uint64)
+	// bronzedoprojectDescName is the schema descriptor for name field.
+	bronzedoprojectDescName := bronzedoprojectFields[3].Descriptor()
+	// bronzedoproject.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzedoproject.NameValidator = bronzedoprojectDescName.Validators[0].(func(string) error)
+	// bronzedoprojectDescIsDefault is the schema descriptor for is_default field.
+	bronzedoprojectDescIsDefault := bronzedoprojectFields[7].Descriptor()
+	// bronzedoproject.DefaultIsDefault holds the default value on creation for the is_default field.
+	bronzedoproject.DefaultIsDefault = bronzedoprojectDescIsDefault.Default.(bool)
+	bronzedoprojectresourceFields := schema.BronzeDOProjectResource{}.Fields()
+	_ = bronzedoprojectresourceFields
+	// bronzedoprojectresourceDescProjectID is the schema descriptor for project_id field.
+	bronzedoprojectresourceDescProjectID := bronzedoprojectresourceFields[1].Descriptor()
+	// bronzedoprojectresource.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzedoprojectresource.ProjectIDValidator = bronzedoprojectresourceDescProjectID.Validators[0].(func(string) error)
+	// bronzedoprojectresourceDescUrn is the schema descriptor for urn field.
+	bronzedoprojectresourceDescUrn := bronzedoprojectresourceFields[2].Descriptor()
+	// bronzedoprojectresource.UrnValidator is a validator for the "urn" field. It is called by the builders before save.
+	bronzedoprojectresource.UrnValidator = bronzedoprojectresourceDescUrn.Validators[0].(func(string) error)
+	bronzedovolumeFields := schema.BronzeDOVolume{}.Fields()
+	_ = bronzedovolumeFields
+	// bronzedovolumeDescName is the schema descriptor for name field.
+	bronzedovolumeDescName := bronzedovolumeFields[1].Descriptor()
+	// bronzedovolume.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzedovolume.NameValidator = bronzedovolumeDescName.Validators[0].(func(string) error)
+	// bronzedovolumeDescSizeGigabytes is the schema descriptor for size_gigabytes field.
+	bronzedovolumeDescSizeGigabytes := bronzedovolumeFields[3].Descriptor()
+	// bronzedovolume.DefaultSizeGigabytes holds the default value on creation for the size_gigabytes field.
+	bronzedovolume.DefaultSizeGigabytes = bronzedovolumeDescSizeGigabytes.Default.(int64)
 	bronzedovpcFields := schema.BronzeDOVpc{}.Fields()
 	_ = bronzedovpcFields
 	// bronzedovpcDescName is the schema descriptor for name field.
@@ -1075,6 +1235,186 @@ func init() {
 	bronzehistoryawsec2instanceDescRegion := bronzehistoryawsec2instanceFields[16].Descriptor()
 	// bronzehistoryawsec2instance.RegionValidator is a validator for the "region" field. It is called by the builders before save.
 	bronzehistoryawsec2instance.RegionValidator = bronzehistoryawsec2instanceDescRegion.Validators[0].(func(string) error)
+	bronzehistorydoaccountFields := schema.BronzeHistoryDOAccount{}.Fields()
+	_ = bronzehistorydoaccountFields
+	// bronzehistorydoaccountDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorydoaccountDescResourceID := bronzehistorydoaccountFields[1].Descriptor()
+	// bronzehistorydoaccount.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorydoaccount.ResourceIDValidator = bronzehistorydoaccountDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorydoaccountDescDropletLimit is the schema descriptor for droplet_limit field.
+	bronzehistorydoaccountDescDropletLimit := bronzehistorydoaccountFields[6].Descriptor()
+	// bronzehistorydoaccount.DefaultDropletLimit holds the default value on creation for the droplet_limit field.
+	bronzehistorydoaccount.DefaultDropletLimit = bronzehistorydoaccountDescDropletLimit.Default.(int)
+	// bronzehistorydoaccountDescFloatingIPLimit is the schema descriptor for floating_ip_limit field.
+	bronzehistorydoaccountDescFloatingIPLimit := bronzehistorydoaccountFields[7].Descriptor()
+	// bronzehistorydoaccount.DefaultFloatingIPLimit holds the default value on creation for the floating_ip_limit field.
+	bronzehistorydoaccount.DefaultFloatingIPLimit = bronzehistorydoaccountDescFloatingIPLimit.Default.(int)
+	// bronzehistorydoaccountDescReservedIPLimit is the schema descriptor for reserved_ip_limit field.
+	bronzehistorydoaccountDescReservedIPLimit := bronzehistorydoaccountFields[8].Descriptor()
+	// bronzehistorydoaccount.DefaultReservedIPLimit holds the default value on creation for the reserved_ip_limit field.
+	bronzehistorydoaccount.DefaultReservedIPLimit = bronzehistorydoaccountDescReservedIPLimit.Default.(int)
+	// bronzehistorydoaccountDescVolumeLimit is the schema descriptor for volume_limit field.
+	bronzehistorydoaccountDescVolumeLimit := bronzehistorydoaccountFields[9].Descriptor()
+	// bronzehistorydoaccount.DefaultVolumeLimit holds the default value on creation for the volume_limit field.
+	bronzehistorydoaccount.DefaultVolumeLimit = bronzehistorydoaccountDescVolumeLimit.Default.(int)
+	// bronzehistorydoaccountDescEmailVerified is the schema descriptor for email_verified field.
+	bronzehistorydoaccountDescEmailVerified := bronzehistorydoaccountFields[10].Descriptor()
+	// bronzehistorydoaccount.DefaultEmailVerified holds the default value on creation for the email_verified field.
+	bronzehistorydoaccount.DefaultEmailVerified = bronzehistorydoaccountDescEmailVerified.Default.(bool)
+	bronzehistorydodomainFields := schema.BronzeHistoryDODomain{}.Fields()
+	_ = bronzehistorydodomainFields
+	// bronzehistorydodomainDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorydodomainDescResourceID := bronzehistorydodomainFields[1].Descriptor()
+	// bronzehistorydodomain.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorydodomain.ResourceIDValidator = bronzehistorydodomainDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorydodomainDescTTL is the schema descriptor for ttl field.
+	bronzehistorydodomainDescTTL := bronzehistorydodomainFields[2].Descriptor()
+	// bronzehistorydodomain.DefaultTTL holds the default value on creation for the ttl field.
+	bronzehistorydodomain.DefaultTTL = bronzehistorydodomainDescTTL.Default.(int)
+	bronzehistorydodomainrecordFields := schema.BronzeHistoryDODomainRecord{}.Fields()
+	_ = bronzehistorydodomainrecordFields
+	// bronzehistorydodomainrecordDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorydodomainrecordDescResourceID := bronzehistorydodomainrecordFields[1].Descriptor()
+	// bronzehistorydodomainrecord.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorydodomainrecord.ResourceIDValidator = bronzehistorydodomainrecordDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorydodomainrecordDescDomainName is the schema descriptor for domain_name field.
+	bronzehistorydodomainrecordDescDomainName := bronzehistorydodomainrecordFields[2].Descriptor()
+	// bronzehistorydodomainrecord.DomainNameValidator is a validator for the "domain_name" field. It is called by the builders before save.
+	bronzehistorydodomainrecord.DomainNameValidator = bronzehistorydodomainrecordDescDomainName.Validators[0].(func(string) error)
+	// bronzehistorydodomainrecordDescPriority is the schema descriptor for priority field.
+	bronzehistorydodomainrecordDescPriority := bronzehistorydodomainrecordFields[7].Descriptor()
+	// bronzehistorydodomainrecord.DefaultPriority holds the default value on creation for the priority field.
+	bronzehistorydodomainrecord.DefaultPriority = bronzehistorydodomainrecordDescPriority.Default.(int)
+	// bronzehistorydodomainrecordDescPort is the schema descriptor for port field.
+	bronzehistorydodomainrecordDescPort := bronzehistorydodomainrecordFields[8].Descriptor()
+	// bronzehistorydodomainrecord.DefaultPort holds the default value on creation for the port field.
+	bronzehistorydodomainrecord.DefaultPort = bronzehistorydodomainrecordDescPort.Default.(int)
+	// bronzehistorydodomainrecordDescTTL is the schema descriptor for ttl field.
+	bronzehistorydodomainrecordDescTTL := bronzehistorydodomainrecordFields[9].Descriptor()
+	// bronzehistorydodomainrecord.DefaultTTL holds the default value on creation for the ttl field.
+	bronzehistorydodomainrecord.DefaultTTL = bronzehistorydodomainrecordDescTTL.Default.(int)
+	// bronzehistorydodomainrecordDescWeight is the schema descriptor for weight field.
+	bronzehistorydodomainrecordDescWeight := bronzehistorydodomainrecordFields[10].Descriptor()
+	// bronzehistorydodomainrecord.DefaultWeight holds the default value on creation for the weight field.
+	bronzehistorydodomainrecord.DefaultWeight = bronzehistorydodomainrecordDescWeight.Default.(int)
+	// bronzehistorydodomainrecordDescFlags is the schema descriptor for flags field.
+	bronzehistorydodomainrecordDescFlags := bronzehistorydodomainrecordFields[11].Descriptor()
+	// bronzehistorydodomainrecord.DefaultFlags holds the default value on creation for the flags field.
+	bronzehistorydodomainrecord.DefaultFlags = bronzehistorydodomainrecordDescFlags.Default.(int)
+	bronzehistorydodropletFields := schema.BronzeHistoryDODroplet{}.Fields()
+	_ = bronzehistorydodropletFields
+	// bronzehistorydodropletDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorydodropletDescResourceID := bronzehistorydodropletFields[1].Descriptor()
+	// bronzehistorydodroplet.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorydodroplet.ResourceIDValidator = bronzehistorydodropletDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorydodropletDescName is the schema descriptor for name field.
+	bronzehistorydodropletDescName := bronzehistorydodropletFields[2].Descriptor()
+	// bronzehistorydodroplet.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorydodroplet.NameValidator = bronzehistorydodropletDescName.Validators[0].(func(string) error)
+	// bronzehistorydodropletDescMemory is the schema descriptor for memory field.
+	bronzehistorydodropletDescMemory := bronzehistorydodropletFields[3].Descriptor()
+	// bronzehistorydodroplet.DefaultMemory holds the default value on creation for the memory field.
+	bronzehistorydodroplet.DefaultMemory = bronzehistorydodropletDescMemory.Default.(int)
+	// bronzehistorydodropletDescVcpus is the schema descriptor for vcpus field.
+	bronzehistorydodropletDescVcpus := bronzehistorydodropletFields[4].Descriptor()
+	// bronzehistorydodroplet.DefaultVcpus holds the default value on creation for the vcpus field.
+	bronzehistorydodroplet.DefaultVcpus = bronzehistorydodropletDescVcpus.Default.(int)
+	// bronzehistorydodropletDescDisk is the schema descriptor for disk field.
+	bronzehistorydodropletDescDisk := bronzehistorydodropletFields[5].Descriptor()
+	// bronzehistorydodroplet.DefaultDisk holds the default value on creation for the disk field.
+	bronzehistorydodroplet.DefaultDisk = bronzehistorydodropletDescDisk.Default.(int)
+	// bronzehistorydodropletDescLocked is the schema descriptor for locked field.
+	bronzehistorydodropletDescLocked := bronzehistorydodropletFields[9].Descriptor()
+	// bronzehistorydodroplet.DefaultLocked holds the default value on creation for the locked field.
+	bronzehistorydodroplet.DefaultLocked = bronzehistorydodropletDescLocked.Default.(bool)
+	bronzehistorydofirewallFields := schema.BronzeHistoryDOFirewall{}.Fields()
+	_ = bronzehistorydofirewallFields
+	// bronzehistorydofirewallDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorydofirewallDescResourceID := bronzehistorydofirewallFields[1].Descriptor()
+	// bronzehistorydofirewall.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorydofirewall.ResourceIDValidator = bronzehistorydofirewallDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorydofirewallDescName is the schema descriptor for name field.
+	bronzehistorydofirewallDescName := bronzehistorydofirewallFields[2].Descriptor()
+	// bronzehistorydofirewall.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorydofirewall.NameValidator = bronzehistorydofirewallDescName.Validators[0].(func(string) error)
+	bronzehistorydokeyFields := schema.BronzeHistoryDOKey{}.Fields()
+	_ = bronzehistorydokeyFields
+	// bronzehistorydokeyDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorydokeyDescResourceID := bronzehistorydokeyFields[1].Descriptor()
+	// bronzehistorydokey.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorydokey.ResourceIDValidator = bronzehistorydokeyDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorydokeyDescName is the schema descriptor for name field.
+	bronzehistorydokeyDescName := bronzehistorydokeyFields[2].Descriptor()
+	// bronzehistorydokey.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorydokey.NameValidator = bronzehistorydokeyDescName.Validators[0].(func(string) error)
+	bronzehistorydoloadbalancerFields := schema.BronzeHistoryDOLoadBalancer{}.Fields()
+	_ = bronzehistorydoloadbalancerFields
+	// bronzehistorydoloadbalancerDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorydoloadbalancerDescResourceID := bronzehistorydoloadbalancerFields[1].Descriptor()
+	// bronzehistorydoloadbalancer.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorydoloadbalancer.ResourceIDValidator = bronzehistorydoloadbalancerDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorydoloadbalancerDescSizeUnit is the schema descriptor for size_unit field.
+	bronzehistorydoloadbalancerDescSizeUnit := bronzehistorydoloadbalancerFields[6].Descriptor()
+	// bronzehistorydoloadbalancer.DefaultSizeUnit holds the default value on creation for the size_unit field.
+	bronzehistorydoloadbalancer.DefaultSizeUnit = bronzehistorydoloadbalancerDescSizeUnit.Default.(uint32)
+	// bronzehistorydoloadbalancerDescRedirectHTTPToHTTPS is the schema descriptor for redirect_http_to_https field.
+	bronzehistorydoloadbalancerDescRedirectHTTPToHTTPS := bronzehistorydoloadbalancerFields[12].Descriptor()
+	// bronzehistorydoloadbalancer.DefaultRedirectHTTPToHTTPS holds the default value on creation for the redirect_http_to_https field.
+	bronzehistorydoloadbalancer.DefaultRedirectHTTPToHTTPS = bronzehistorydoloadbalancerDescRedirectHTTPToHTTPS.Default.(bool)
+	// bronzehistorydoloadbalancerDescEnableProxyProtocol is the schema descriptor for enable_proxy_protocol field.
+	bronzehistorydoloadbalancerDescEnableProxyProtocol := bronzehistorydoloadbalancerFields[13].Descriptor()
+	// bronzehistorydoloadbalancer.DefaultEnableProxyProtocol holds the default value on creation for the enable_proxy_protocol field.
+	bronzehistorydoloadbalancer.DefaultEnableProxyProtocol = bronzehistorydoloadbalancerDescEnableProxyProtocol.Default.(bool)
+	// bronzehistorydoloadbalancerDescEnableBackendKeepalive is the schema descriptor for enable_backend_keepalive field.
+	bronzehistorydoloadbalancerDescEnableBackendKeepalive := bronzehistorydoloadbalancerFields[14].Descriptor()
+	// bronzehistorydoloadbalancer.DefaultEnableBackendKeepalive holds the default value on creation for the enable_backend_keepalive field.
+	bronzehistorydoloadbalancer.DefaultEnableBackendKeepalive = bronzehistorydoloadbalancerDescEnableBackendKeepalive.Default.(bool)
+	bronzehistorydoprojectFields := schema.BronzeHistoryDOProject{}.Fields()
+	_ = bronzehistorydoprojectFields
+	// bronzehistorydoprojectDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorydoprojectDescResourceID := bronzehistorydoprojectFields[1].Descriptor()
+	// bronzehistorydoproject.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorydoproject.ResourceIDValidator = bronzehistorydoprojectDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorydoprojectDescOwnerID is the schema descriptor for owner_id field.
+	bronzehistorydoprojectDescOwnerID := bronzehistorydoprojectFields[3].Descriptor()
+	// bronzehistorydoproject.DefaultOwnerID holds the default value on creation for the owner_id field.
+	bronzehistorydoproject.DefaultOwnerID = bronzehistorydoprojectDescOwnerID.Default.(uint64)
+	// bronzehistorydoprojectDescName is the schema descriptor for name field.
+	bronzehistorydoprojectDescName := bronzehistorydoprojectFields[4].Descriptor()
+	// bronzehistorydoproject.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorydoproject.NameValidator = bronzehistorydoprojectDescName.Validators[0].(func(string) error)
+	// bronzehistorydoprojectDescIsDefault is the schema descriptor for is_default field.
+	bronzehistorydoprojectDescIsDefault := bronzehistorydoprojectFields[8].Descriptor()
+	// bronzehistorydoproject.DefaultIsDefault holds the default value on creation for the is_default field.
+	bronzehistorydoproject.DefaultIsDefault = bronzehistorydoprojectDescIsDefault.Default.(bool)
+	bronzehistorydoprojectresourceFields := schema.BronzeHistoryDOProjectResource{}.Fields()
+	_ = bronzehistorydoprojectresourceFields
+	// bronzehistorydoprojectresourceDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorydoprojectresourceDescResourceID := bronzehistorydoprojectresourceFields[1].Descriptor()
+	// bronzehistorydoprojectresource.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorydoprojectresource.ResourceIDValidator = bronzehistorydoprojectresourceDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorydoprojectresourceDescProjectID is the schema descriptor for project_id field.
+	bronzehistorydoprojectresourceDescProjectID := bronzehistorydoprojectresourceFields[2].Descriptor()
+	// bronzehistorydoprojectresource.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorydoprojectresource.ProjectIDValidator = bronzehistorydoprojectresourceDescProjectID.Validators[0].(func(string) error)
+	// bronzehistorydoprojectresourceDescUrn is the schema descriptor for urn field.
+	bronzehistorydoprojectresourceDescUrn := bronzehistorydoprojectresourceFields[3].Descriptor()
+	// bronzehistorydoprojectresource.UrnValidator is a validator for the "urn" field. It is called by the builders before save.
+	bronzehistorydoprojectresource.UrnValidator = bronzehistorydoprojectresourceDescUrn.Validators[0].(func(string) error)
+	bronzehistorydovolumeFields := schema.BronzeHistoryDOVolume{}.Fields()
+	_ = bronzehistorydovolumeFields
+	// bronzehistorydovolumeDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorydovolumeDescResourceID := bronzehistorydovolumeFields[1].Descriptor()
+	// bronzehistorydovolume.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorydovolume.ResourceIDValidator = bronzehistorydovolumeDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorydovolumeDescName is the schema descriptor for name field.
+	bronzehistorydovolumeDescName := bronzehistorydovolumeFields[2].Descriptor()
+	// bronzehistorydovolume.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorydovolume.NameValidator = bronzehistorydovolumeDescName.Validators[0].(func(string) error)
+	// bronzehistorydovolumeDescSizeGigabytes is the schema descriptor for size_gigabytes field.
+	bronzehistorydovolumeDescSizeGigabytes := bronzehistorydovolumeFields[4].Descriptor()
+	// bronzehistorydovolume.DefaultSizeGigabytes holds the default value on creation for the size_gigabytes field.
+	bronzehistorydovolume.DefaultSizeGigabytes = bronzehistorydovolumeDescSizeGigabytes.Default.(int64)
 	bronzehistorydovpcFields := schema.BronzeHistoryDOVpc{}.Fields()
 	_ = bronzehistorydovpcFields
 	// bronzehistorydovpcDescResourceID is the schema descriptor for resource_id field.
