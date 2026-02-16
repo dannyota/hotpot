@@ -30,13 +30,27 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodroplet"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedofirewall"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokey"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokubernetescluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokubernetesnodepool"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoloadbalancer"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoprojectresource"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedovolume"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedovpc"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpaccesscontextmanageraccesslevel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpaccesscontextmanageraccesspolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpaccesscontextmanagerserviceperimeter"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpalloydbcluster"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpappengineapplication"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpappengineservice"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpbigquerydataset"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpbigquerytable"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpbigtablecluster"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpbigtableinstance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpbinaryauthorizationattestor"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpbinaryauthorizationpolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcloudassetasset"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcloudassetiampolicysearch"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcloudassetresourcesearch"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcloudfunctionsfunction"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeaddress"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeaddresslabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputebackendservice"
@@ -93,39 +107,57 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputetargetsslproxy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputetargettcpproxy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeurlmap"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontaineranalysisnote"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontaineranalysisoccurrence"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontainercluster"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontainerclusteraddon"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontainerclustercondition"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontainerclusterlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontainerclusternodepool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpdataproccluster"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpdnsmanagedzone"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpdnsmanagedzonelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpdnspolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfilestoreinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfolder"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfolderiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfolderiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfolderlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpiamserviceaccount"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpiamserviceaccountkey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpiapiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpiapsettings"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpkmscryptokey"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpkmskeyring"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcploggingbucket"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcplogginglogexclusion"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcplogginglogmetric"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcploggingsink"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpmonitoringalertpolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpmonitoringuptimecheckconfig"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporganization"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgpolicyconstraint"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgpolicycustomconstraint"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgpolicypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectlabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcppubsubsubscription"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcppubsubtopic"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpredisinstance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcprunrevision"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcprunservice"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecretmanagersecret"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecretmanagersecretlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecuritycenterfinding"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecuritycenternotificationconfig"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecuritycentersource"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpserviceusageenabledservice"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpspannerdatabase"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpspannerinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsqlinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsqlinstancelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpstoragebucket"
@@ -154,13 +186,27 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodroplet"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydofirewall"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokey"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokubernetescluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokubernetesnodepool"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoloadbalancer"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoprojectresource"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydovolume"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydovpc"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpaccesscontextmanageraccesslevel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpaccesscontextmanageraccesspolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpaccesscontextmanagerserviceperimeter"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpalloydbcluster"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpappengineapplication"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpappengineservice"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpbigquerydataset"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpbigquerytable"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpbigtablecluster"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpbigtableinstance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpbinaryauthorizationattestor"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpbinaryauthorizationpolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcloudassetasset"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcloudassetiampolicysearch"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcloudassetresourcesearch"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcloudfunctionsfunction"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddress"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddresslabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputebackendservice"
@@ -217,39 +263,57 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputetargetsslproxy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputetargettcpproxy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeurlmap"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontaineranalysisnote"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontaineranalysisoccurrence"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontainercluster"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontainerclusteraddon"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontainerclustercondition"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontainerclusterlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontainerclusternodepool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpdataproccluster"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpdnsmanagedzone"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpdnsmanagedzonelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpdnspolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfilestoreinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfolder"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfolderiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfolderiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfolderlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpiamserviceaccount"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpiamserviceaccountkey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpiapiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpiapsettings"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpkmscryptokey"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpkmskeyring"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcploggingbucket"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcplogginglogexclusion"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcplogginglogmetric"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcploggingsink"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpmonitoringalertpolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpmonitoringuptimecheckconfig"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporganization"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgpolicyconstraint"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgpolicycustomconstraint"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgpolicypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectlabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcppubsubsubscription"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcppubsubtopic"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpredisinstance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcprunrevision"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcprunservice"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecretmanagersecret"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecretmanagersecretlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecuritycenterfinding"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecuritycenternotificationconfig"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecuritycentersource"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpserviceusageenabledservice"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpspannerdatabase"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpspannerinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsqlinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsqlinstancelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpstoragebucket"
@@ -316,10 +380,6 @@ type Client struct {
 	BronzeDOFirewall *BronzeDOFirewallClient
 	// BronzeDOKey is the client for interacting with the BronzeDOKey builders.
 	BronzeDOKey *BronzeDOKeyClient
-	// BronzeDOKubernetesCluster is the client for interacting with the BronzeDOKubernetesCluster builders.
-	BronzeDOKubernetesCluster *BronzeDOKubernetesClusterClient
-	// BronzeDOKubernetesNodePool is the client for interacting with the BronzeDOKubernetesNodePool builders.
-	BronzeDOKubernetesNodePool *BronzeDOKubernetesNodePoolClient
 	// BronzeDOLoadBalancer is the client for interacting with the BronzeDOLoadBalancer builders.
 	BronzeDOLoadBalancer *BronzeDOLoadBalancerClient
 	// BronzeDOProject is the client for interacting with the BronzeDOProject builders.
@@ -330,6 +390,38 @@ type Client struct {
 	BronzeDOVolume *BronzeDOVolumeClient
 	// BronzeDOVpc is the client for interacting with the BronzeDOVpc builders.
 	BronzeDOVpc *BronzeDOVpcClient
+	// BronzeGCPAccessContextManagerAccessLevel is the client for interacting with the BronzeGCPAccessContextManagerAccessLevel builders.
+	BronzeGCPAccessContextManagerAccessLevel *BronzeGCPAccessContextManagerAccessLevelClient
+	// BronzeGCPAccessContextManagerAccessPolicy is the client for interacting with the BronzeGCPAccessContextManagerAccessPolicy builders.
+	BronzeGCPAccessContextManagerAccessPolicy *BronzeGCPAccessContextManagerAccessPolicyClient
+	// BronzeGCPAccessContextManagerServicePerimeter is the client for interacting with the BronzeGCPAccessContextManagerServicePerimeter builders.
+	BronzeGCPAccessContextManagerServicePerimeter *BronzeGCPAccessContextManagerServicePerimeterClient
+	// BronzeGCPAlloyDBCluster is the client for interacting with the BronzeGCPAlloyDBCluster builders.
+	BronzeGCPAlloyDBCluster *BronzeGCPAlloyDBClusterClient
+	// BronzeGCPAppEngineApplication is the client for interacting with the BronzeGCPAppEngineApplication builders.
+	BronzeGCPAppEngineApplication *BronzeGCPAppEngineApplicationClient
+	// BronzeGCPAppEngineService is the client for interacting with the BronzeGCPAppEngineService builders.
+	BronzeGCPAppEngineService *BronzeGCPAppEngineServiceClient
+	// BronzeGCPBigQueryDataset is the client for interacting with the BronzeGCPBigQueryDataset builders.
+	BronzeGCPBigQueryDataset *BronzeGCPBigQueryDatasetClient
+	// BronzeGCPBigQueryTable is the client for interacting with the BronzeGCPBigQueryTable builders.
+	BronzeGCPBigQueryTable *BronzeGCPBigQueryTableClient
+	// BronzeGCPBigtableCluster is the client for interacting with the BronzeGCPBigtableCluster builders.
+	BronzeGCPBigtableCluster *BronzeGCPBigtableClusterClient
+	// BronzeGCPBigtableInstance is the client for interacting with the BronzeGCPBigtableInstance builders.
+	BronzeGCPBigtableInstance *BronzeGCPBigtableInstanceClient
+	// BronzeGCPBinaryAuthorizationAttestor is the client for interacting with the BronzeGCPBinaryAuthorizationAttestor builders.
+	BronzeGCPBinaryAuthorizationAttestor *BronzeGCPBinaryAuthorizationAttestorClient
+	// BronzeGCPBinaryAuthorizationPolicy is the client for interacting with the BronzeGCPBinaryAuthorizationPolicy builders.
+	BronzeGCPBinaryAuthorizationPolicy *BronzeGCPBinaryAuthorizationPolicyClient
+	// BronzeGCPCloudAssetAsset is the client for interacting with the BronzeGCPCloudAssetAsset builders.
+	BronzeGCPCloudAssetAsset *BronzeGCPCloudAssetAssetClient
+	// BronzeGCPCloudAssetIAMPolicySearch is the client for interacting with the BronzeGCPCloudAssetIAMPolicySearch builders.
+	BronzeGCPCloudAssetIAMPolicySearch *BronzeGCPCloudAssetIAMPolicySearchClient
+	// BronzeGCPCloudAssetResourceSearch is the client for interacting with the BronzeGCPCloudAssetResourceSearch builders.
+	BronzeGCPCloudAssetResourceSearch *BronzeGCPCloudAssetResourceSearchClient
+	// BronzeGCPCloudFunctionsFunction is the client for interacting with the BronzeGCPCloudFunctionsFunction builders.
+	BronzeGCPCloudFunctionsFunction *BronzeGCPCloudFunctionsFunctionClient
 	// BronzeGCPComputeAddress is the client for interacting with the BronzeGCPComputeAddress builders.
 	BronzeGCPComputeAddress *BronzeGCPComputeAddressClient
 	// BronzeGCPComputeAddressLabel is the client for interacting with the BronzeGCPComputeAddressLabel builders.
@@ -442,6 +534,10 @@ type Client struct {
 	BronzeGCPComputeTargetTcpProxy *BronzeGCPComputeTargetTcpProxyClient
 	// BronzeGCPComputeUrlMap is the client for interacting with the BronzeGCPComputeUrlMap builders.
 	BronzeGCPComputeUrlMap *BronzeGCPComputeUrlMapClient
+	// BronzeGCPContainerAnalysisNote is the client for interacting with the BronzeGCPContainerAnalysisNote builders.
+	BronzeGCPContainerAnalysisNote *BronzeGCPContainerAnalysisNoteClient
+	// BronzeGCPContainerAnalysisOccurrence is the client for interacting with the BronzeGCPContainerAnalysisOccurrence builders.
+	BronzeGCPContainerAnalysisOccurrence *BronzeGCPContainerAnalysisOccurrenceClient
 	// BronzeGCPContainerCluster is the client for interacting with the BronzeGCPContainerCluster builders.
 	BronzeGCPContainerCluster *BronzeGCPContainerClusterClient
 	// BronzeGCPContainerClusterAddon is the client for interacting with the BronzeGCPContainerClusterAddon builders.
@@ -458,6 +554,10 @@ type Client struct {
 	BronzeGCPDNSManagedZoneLabel *BronzeGCPDNSManagedZoneLabelClient
 	// BronzeGCPDNSPolicy is the client for interacting with the BronzeGCPDNSPolicy builders.
 	BronzeGCPDNSPolicy *BronzeGCPDNSPolicyClient
+	// BronzeGCPDataprocCluster is the client for interacting with the BronzeGCPDataprocCluster builders.
+	BronzeGCPDataprocCluster *BronzeGCPDataprocClusterClient
+	// BronzeGCPFilestoreInstance is the client for interacting with the BronzeGCPFilestoreInstance builders.
+	BronzeGCPFilestoreInstance *BronzeGCPFilestoreInstanceClient
 	// BronzeGCPFolder is the client for interacting with the BronzeGCPFolder builders.
 	BronzeGCPFolder *BronzeGCPFolderClient
 	// BronzeGCPFolderIamPolicy is the client for interacting with the BronzeGCPFolderIamPolicy builders.
@@ -470,6 +570,10 @@ type Client struct {
 	BronzeGCPIAMServiceAccount *BronzeGCPIAMServiceAccountClient
 	// BronzeGCPIAMServiceAccountKey is the client for interacting with the BronzeGCPIAMServiceAccountKey builders.
 	BronzeGCPIAMServiceAccountKey *BronzeGCPIAMServiceAccountKeyClient
+	// BronzeGCPIAPIAMPolicy is the client for interacting with the BronzeGCPIAPIAMPolicy builders.
+	BronzeGCPIAPIAMPolicy *BronzeGCPIAPIAMPolicyClient
+	// BronzeGCPIAPSettings is the client for interacting with the BronzeGCPIAPSettings builders.
+	BronzeGCPIAPSettings *BronzeGCPIAPSettingsClient
 	// BronzeGCPKMSCryptoKey is the client for interacting with the BronzeGCPKMSCryptoKey builders.
 	BronzeGCPKMSCryptoKey *BronzeGCPKMSCryptoKeyClient
 	// BronzeGCPKMSKeyRing is the client for interacting with the BronzeGCPKMSKeyRing builders.
@@ -482,12 +586,18 @@ type Client struct {
 	BronzeGCPLoggingLogMetric *BronzeGCPLoggingLogMetricClient
 	// BronzeGCPLoggingSink is the client for interacting with the BronzeGCPLoggingSink builders.
 	BronzeGCPLoggingSink *BronzeGCPLoggingSinkClient
+	// BronzeGCPMonitoringAlertPolicy is the client for interacting with the BronzeGCPMonitoringAlertPolicy builders.
+	BronzeGCPMonitoringAlertPolicy *BronzeGCPMonitoringAlertPolicyClient
+	// BronzeGCPMonitoringUptimeCheckConfig is the client for interacting with the BronzeGCPMonitoringUptimeCheckConfig builders.
+	BronzeGCPMonitoringUptimeCheckConfig *BronzeGCPMonitoringUptimeCheckConfigClient
 	// BronzeGCPOrgIamPolicy is the client for interacting with the BronzeGCPOrgIamPolicy builders.
 	BronzeGCPOrgIamPolicy *BronzeGCPOrgIamPolicyClient
 	// BronzeGCPOrgIamPolicyBinding is the client for interacting with the BronzeGCPOrgIamPolicyBinding builders.
 	BronzeGCPOrgIamPolicyBinding *BronzeGCPOrgIamPolicyBindingClient
 	// BronzeGCPOrgPolicyConstraint is the client for interacting with the BronzeGCPOrgPolicyConstraint builders.
 	BronzeGCPOrgPolicyConstraint *BronzeGCPOrgPolicyConstraintClient
+	// BronzeGCPOrgPolicyCustomConstraint is the client for interacting with the BronzeGCPOrgPolicyCustomConstraint builders.
+	BronzeGCPOrgPolicyCustomConstraint *BronzeGCPOrgPolicyCustomConstraintClient
 	// BronzeGCPOrgPolicyPolicy is the client for interacting with the BronzeGCPOrgPolicyPolicy builders.
 	BronzeGCPOrgPolicyPolicy *BronzeGCPOrgPolicyPolicyClient
 	// BronzeGCPOrganization is the client for interacting with the BronzeGCPOrganization builders.
@@ -500,6 +610,16 @@ type Client struct {
 	BronzeGCPProjectIamPolicyBinding *BronzeGCPProjectIamPolicyBindingClient
 	// BronzeGCPProjectLabel is the client for interacting with the BronzeGCPProjectLabel builders.
 	BronzeGCPProjectLabel *BronzeGCPProjectLabelClient
+	// BronzeGCPPubSubSubscription is the client for interacting with the BronzeGCPPubSubSubscription builders.
+	BronzeGCPPubSubSubscription *BronzeGCPPubSubSubscriptionClient
+	// BronzeGCPPubSubTopic is the client for interacting with the BronzeGCPPubSubTopic builders.
+	BronzeGCPPubSubTopic *BronzeGCPPubSubTopicClient
+	// BronzeGCPRedisInstance is the client for interacting with the BronzeGCPRedisInstance builders.
+	BronzeGCPRedisInstance *BronzeGCPRedisInstanceClient
+	// BronzeGCPRunRevision is the client for interacting with the BronzeGCPRunRevision builders.
+	BronzeGCPRunRevision *BronzeGCPRunRevisionClient
+	// BronzeGCPRunService is the client for interacting with the BronzeGCPRunService builders.
+	BronzeGCPRunService *BronzeGCPRunServiceClient
 	// BronzeGCPSQLInstance is the client for interacting with the BronzeGCPSQLInstance builders.
 	BronzeGCPSQLInstance *BronzeGCPSQLInstanceClient
 	// BronzeGCPSQLInstanceLabel is the client for interacting with the BronzeGCPSQLInstanceLabel builders.
@@ -510,8 +630,16 @@ type Client struct {
 	BronzeGCPSecretManagerSecretLabel *BronzeGCPSecretManagerSecretLabelClient
 	// BronzeGCPSecurityCenterFinding is the client for interacting with the BronzeGCPSecurityCenterFinding builders.
 	BronzeGCPSecurityCenterFinding *BronzeGCPSecurityCenterFindingClient
+	// BronzeGCPSecurityCenterNotificationConfig is the client for interacting with the BronzeGCPSecurityCenterNotificationConfig builders.
+	BronzeGCPSecurityCenterNotificationConfig *BronzeGCPSecurityCenterNotificationConfigClient
 	// BronzeGCPSecurityCenterSource is the client for interacting with the BronzeGCPSecurityCenterSource builders.
 	BronzeGCPSecurityCenterSource *BronzeGCPSecurityCenterSourceClient
+	// BronzeGCPServiceUsageEnabledService is the client for interacting with the BronzeGCPServiceUsageEnabledService builders.
+	BronzeGCPServiceUsageEnabledService *BronzeGCPServiceUsageEnabledServiceClient
+	// BronzeGCPSpannerDatabase is the client for interacting with the BronzeGCPSpannerDatabase builders.
+	BronzeGCPSpannerDatabase *BronzeGCPSpannerDatabaseClient
+	// BronzeGCPSpannerInstance is the client for interacting with the BronzeGCPSpannerInstance builders.
+	BronzeGCPSpannerInstance *BronzeGCPSpannerInstanceClient
 	// BronzeGCPStorageBucket is the client for interacting with the BronzeGCPStorageBucket builders.
 	BronzeGCPStorageBucket *BronzeGCPStorageBucketClient
 	// BronzeGCPStorageBucketIamPolicy is the client for interacting with the BronzeGCPStorageBucketIamPolicy builders.
@@ -564,10 +692,6 @@ type Client struct {
 	BronzeHistoryDOFirewall *BronzeHistoryDOFirewallClient
 	// BronzeHistoryDOKey is the client for interacting with the BronzeHistoryDOKey builders.
 	BronzeHistoryDOKey *BronzeHistoryDOKeyClient
-	// BronzeHistoryDOKubernetesCluster is the client for interacting with the BronzeHistoryDOKubernetesCluster builders.
-	BronzeHistoryDOKubernetesCluster *BronzeHistoryDOKubernetesClusterClient
-	// BronzeHistoryDOKubernetesNodePool is the client for interacting with the BronzeHistoryDOKubernetesNodePool builders.
-	BronzeHistoryDOKubernetesNodePool *BronzeHistoryDOKubernetesNodePoolClient
 	// BronzeHistoryDOLoadBalancer is the client for interacting with the BronzeHistoryDOLoadBalancer builders.
 	BronzeHistoryDOLoadBalancer *BronzeHistoryDOLoadBalancerClient
 	// BronzeHistoryDOProject is the client for interacting with the BronzeHistoryDOProject builders.
@@ -578,6 +702,38 @@ type Client struct {
 	BronzeHistoryDOVolume *BronzeHistoryDOVolumeClient
 	// BronzeHistoryDOVpc is the client for interacting with the BronzeHistoryDOVpc builders.
 	BronzeHistoryDOVpc *BronzeHistoryDOVpcClient
+	// BronzeHistoryGCPAccessContextManagerAccessLevel is the client for interacting with the BronzeHistoryGCPAccessContextManagerAccessLevel builders.
+	BronzeHistoryGCPAccessContextManagerAccessLevel *BronzeHistoryGCPAccessContextManagerAccessLevelClient
+	// BronzeHistoryGCPAccessContextManagerAccessPolicy is the client for interacting with the BronzeHistoryGCPAccessContextManagerAccessPolicy builders.
+	BronzeHistoryGCPAccessContextManagerAccessPolicy *BronzeHistoryGCPAccessContextManagerAccessPolicyClient
+	// BronzeHistoryGCPAccessContextManagerServicePerimeter is the client for interacting with the BronzeHistoryGCPAccessContextManagerServicePerimeter builders.
+	BronzeHistoryGCPAccessContextManagerServicePerimeter *BronzeHistoryGCPAccessContextManagerServicePerimeterClient
+	// BronzeHistoryGCPAlloyDBCluster is the client for interacting with the BronzeHistoryGCPAlloyDBCluster builders.
+	BronzeHistoryGCPAlloyDBCluster *BronzeHistoryGCPAlloyDBClusterClient
+	// BronzeHistoryGCPAppEngineApplication is the client for interacting with the BronzeHistoryGCPAppEngineApplication builders.
+	BronzeHistoryGCPAppEngineApplication *BronzeHistoryGCPAppEngineApplicationClient
+	// BronzeHistoryGCPAppEngineService is the client for interacting with the BronzeHistoryGCPAppEngineService builders.
+	BronzeHistoryGCPAppEngineService *BronzeHistoryGCPAppEngineServiceClient
+	// BronzeHistoryGCPBigQueryDataset is the client for interacting with the BronzeHistoryGCPBigQueryDataset builders.
+	BronzeHistoryGCPBigQueryDataset *BronzeHistoryGCPBigQueryDatasetClient
+	// BronzeHistoryGCPBigQueryTable is the client for interacting with the BronzeHistoryGCPBigQueryTable builders.
+	BronzeHistoryGCPBigQueryTable *BronzeHistoryGCPBigQueryTableClient
+	// BronzeHistoryGCPBigtableCluster is the client for interacting with the BronzeHistoryGCPBigtableCluster builders.
+	BronzeHistoryGCPBigtableCluster *BronzeHistoryGCPBigtableClusterClient
+	// BronzeHistoryGCPBigtableInstance is the client for interacting with the BronzeHistoryGCPBigtableInstance builders.
+	BronzeHistoryGCPBigtableInstance *BronzeHistoryGCPBigtableInstanceClient
+	// BronzeHistoryGCPBinaryAuthorizationAttestor is the client for interacting with the BronzeHistoryGCPBinaryAuthorizationAttestor builders.
+	BronzeHistoryGCPBinaryAuthorizationAttestor *BronzeHistoryGCPBinaryAuthorizationAttestorClient
+	// BronzeHistoryGCPBinaryAuthorizationPolicy is the client for interacting with the BronzeHistoryGCPBinaryAuthorizationPolicy builders.
+	BronzeHistoryGCPBinaryAuthorizationPolicy *BronzeHistoryGCPBinaryAuthorizationPolicyClient
+	// BronzeHistoryGCPCloudAssetAsset is the client for interacting with the BronzeHistoryGCPCloudAssetAsset builders.
+	BronzeHistoryGCPCloudAssetAsset *BronzeHistoryGCPCloudAssetAssetClient
+	// BronzeHistoryGCPCloudAssetIAMPolicySearch is the client for interacting with the BronzeHistoryGCPCloudAssetIAMPolicySearch builders.
+	BronzeHistoryGCPCloudAssetIAMPolicySearch *BronzeHistoryGCPCloudAssetIAMPolicySearchClient
+	// BronzeHistoryGCPCloudAssetResourceSearch is the client for interacting with the BronzeHistoryGCPCloudAssetResourceSearch builders.
+	BronzeHistoryGCPCloudAssetResourceSearch *BronzeHistoryGCPCloudAssetResourceSearchClient
+	// BronzeHistoryGCPCloudFunctionsFunction is the client for interacting with the BronzeHistoryGCPCloudFunctionsFunction builders.
+	BronzeHistoryGCPCloudFunctionsFunction *BronzeHistoryGCPCloudFunctionsFunctionClient
 	// BronzeHistoryGCPComputeAddress is the client for interacting with the BronzeHistoryGCPComputeAddress builders.
 	BronzeHistoryGCPComputeAddress *BronzeHistoryGCPComputeAddressClient
 	// BronzeHistoryGCPComputeAddressLabel is the client for interacting with the BronzeHistoryGCPComputeAddressLabel builders.
@@ -690,6 +846,10 @@ type Client struct {
 	BronzeHistoryGCPComputeTargetTcpProxy *BronzeHistoryGCPComputeTargetTcpProxyClient
 	// BronzeHistoryGCPComputeUrlMap is the client for interacting with the BronzeHistoryGCPComputeUrlMap builders.
 	BronzeHistoryGCPComputeUrlMap *BronzeHistoryGCPComputeUrlMapClient
+	// BronzeHistoryGCPContainerAnalysisNote is the client for interacting with the BronzeHistoryGCPContainerAnalysisNote builders.
+	BronzeHistoryGCPContainerAnalysisNote *BronzeHistoryGCPContainerAnalysisNoteClient
+	// BronzeHistoryGCPContainerAnalysisOccurrence is the client for interacting with the BronzeHistoryGCPContainerAnalysisOccurrence builders.
+	BronzeHistoryGCPContainerAnalysisOccurrence *BronzeHistoryGCPContainerAnalysisOccurrenceClient
 	// BronzeHistoryGCPContainerCluster is the client for interacting with the BronzeHistoryGCPContainerCluster builders.
 	BronzeHistoryGCPContainerCluster *BronzeHistoryGCPContainerClusterClient
 	// BronzeHistoryGCPContainerClusterAddon is the client for interacting with the BronzeHistoryGCPContainerClusterAddon builders.
@@ -706,6 +866,10 @@ type Client struct {
 	BronzeHistoryGCPDNSManagedZoneLabel *BronzeHistoryGCPDNSManagedZoneLabelClient
 	// BronzeHistoryGCPDNSPolicy is the client for interacting with the BronzeHistoryGCPDNSPolicy builders.
 	BronzeHistoryGCPDNSPolicy *BronzeHistoryGCPDNSPolicyClient
+	// BronzeHistoryGCPDataprocCluster is the client for interacting with the BronzeHistoryGCPDataprocCluster builders.
+	BronzeHistoryGCPDataprocCluster *BronzeHistoryGCPDataprocClusterClient
+	// BronzeHistoryGCPFilestoreInstance is the client for interacting with the BronzeHistoryGCPFilestoreInstance builders.
+	BronzeHistoryGCPFilestoreInstance *BronzeHistoryGCPFilestoreInstanceClient
 	// BronzeHistoryGCPFolder is the client for interacting with the BronzeHistoryGCPFolder builders.
 	BronzeHistoryGCPFolder *BronzeHistoryGCPFolderClient
 	// BronzeHistoryGCPFolderIamPolicy is the client for interacting with the BronzeHistoryGCPFolderIamPolicy builders.
@@ -718,6 +882,10 @@ type Client struct {
 	BronzeHistoryGCPIAMServiceAccount *BronzeHistoryGCPIAMServiceAccountClient
 	// BronzeHistoryGCPIAMServiceAccountKey is the client for interacting with the BronzeHistoryGCPIAMServiceAccountKey builders.
 	BronzeHistoryGCPIAMServiceAccountKey *BronzeHistoryGCPIAMServiceAccountKeyClient
+	// BronzeHistoryGCPIAPIAMPolicy is the client for interacting with the BronzeHistoryGCPIAPIAMPolicy builders.
+	BronzeHistoryGCPIAPIAMPolicy *BronzeHistoryGCPIAPIAMPolicyClient
+	// BronzeHistoryGCPIAPSettings is the client for interacting with the BronzeHistoryGCPIAPSettings builders.
+	BronzeHistoryGCPIAPSettings *BronzeHistoryGCPIAPSettingsClient
 	// BronzeHistoryGCPKMSCryptoKey is the client for interacting with the BronzeHistoryGCPKMSCryptoKey builders.
 	BronzeHistoryGCPKMSCryptoKey *BronzeHistoryGCPKMSCryptoKeyClient
 	// BronzeHistoryGCPKMSKeyRing is the client for interacting with the BronzeHistoryGCPKMSKeyRing builders.
@@ -730,12 +898,18 @@ type Client struct {
 	BronzeHistoryGCPLoggingLogMetric *BronzeHistoryGCPLoggingLogMetricClient
 	// BronzeHistoryGCPLoggingSink is the client for interacting with the BronzeHistoryGCPLoggingSink builders.
 	BronzeHistoryGCPLoggingSink *BronzeHistoryGCPLoggingSinkClient
+	// BronzeHistoryGCPMonitoringAlertPolicy is the client for interacting with the BronzeHistoryGCPMonitoringAlertPolicy builders.
+	BronzeHistoryGCPMonitoringAlertPolicy *BronzeHistoryGCPMonitoringAlertPolicyClient
+	// BronzeHistoryGCPMonitoringUptimeCheckConfig is the client for interacting with the BronzeHistoryGCPMonitoringUptimeCheckConfig builders.
+	BronzeHistoryGCPMonitoringUptimeCheckConfig *BronzeHistoryGCPMonitoringUptimeCheckConfigClient
 	// BronzeHistoryGCPOrgIamPolicy is the client for interacting with the BronzeHistoryGCPOrgIamPolicy builders.
 	BronzeHistoryGCPOrgIamPolicy *BronzeHistoryGCPOrgIamPolicyClient
 	// BronzeHistoryGCPOrgIamPolicyBinding is the client for interacting with the BronzeHistoryGCPOrgIamPolicyBinding builders.
 	BronzeHistoryGCPOrgIamPolicyBinding *BronzeHistoryGCPOrgIamPolicyBindingClient
 	// BronzeHistoryGCPOrgPolicyConstraint is the client for interacting with the BronzeHistoryGCPOrgPolicyConstraint builders.
 	BronzeHistoryGCPOrgPolicyConstraint *BronzeHistoryGCPOrgPolicyConstraintClient
+	// BronzeHistoryGCPOrgPolicyCustomConstraint is the client for interacting with the BronzeHistoryGCPOrgPolicyCustomConstraint builders.
+	BronzeHistoryGCPOrgPolicyCustomConstraint *BronzeHistoryGCPOrgPolicyCustomConstraintClient
 	// BronzeHistoryGCPOrgPolicyPolicy is the client for interacting with the BronzeHistoryGCPOrgPolicyPolicy builders.
 	BronzeHistoryGCPOrgPolicyPolicy *BronzeHistoryGCPOrgPolicyPolicyClient
 	// BronzeHistoryGCPOrganization is the client for interacting with the BronzeHistoryGCPOrganization builders.
@@ -748,6 +922,16 @@ type Client struct {
 	BronzeHistoryGCPProjectIamPolicyBinding *BronzeHistoryGCPProjectIamPolicyBindingClient
 	// BronzeHistoryGCPProjectLabel is the client for interacting with the BronzeHistoryGCPProjectLabel builders.
 	BronzeHistoryGCPProjectLabel *BronzeHistoryGCPProjectLabelClient
+	// BronzeHistoryGCPPubSubSubscription is the client for interacting with the BronzeHistoryGCPPubSubSubscription builders.
+	BronzeHistoryGCPPubSubSubscription *BronzeHistoryGCPPubSubSubscriptionClient
+	// BronzeHistoryGCPPubSubTopic is the client for interacting with the BronzeHistoryGCPPubSubTopic builders.
+	BronzeHistoryGCPPubSubTopic *BronzeHistoryGCPPubSubTopicClient
+	// BronzeHistoryGCPRedisInstance is the client for interacting with the BronzeHistoryGCPRedisInstance builders.
+	BronzeHistoryGCPRedisInstance *BronzeHistoryGCPRedisInstanceClient
+	// BronzeHistoryGCPRunRevision is the client for interacting with the BronzeHistoryGCPRunRevision builders.
+	BronzeHistoryGCPRunRevision *BronzeHistoryGCPRunRevisionClient
+	// BronzeHistoryGCPRunService is the client for interacting with the BronzeHistoryGCPRunService builders.
+	BronzeHistoryGCPRunService *BronzeHistoryGCPRunServiceClient
 	// BronzeHistoryGCPSQLInstance is the client for interacting with the BronzeHistoryGCPSQLInstance builders.
 	BronzeHistoryGCPSQLInstance *BronzeHistoryGCPSQLInstanceClient
 	// BronzeHistoryGCPSQLInstanceLabel is the client for interacting with the BronzeHistoryGCPSQLInstanceLabel builders.
@@ -758,8 +942,16 @@ type Client struct {
 	BronzeHistoryGCPSecretManagerSecretLabel *BronzeHistoryGCPSecretManagerSecretLabelClient
 	// BronzeHistoryGCPSecurityCenterFinding is the client for interacting with the BronzeHistoryGCPSecurityCenterFinding builders.
 	BronzeHistoryGCPSecurityCenterFinding *BronzeHistoryGCPSecurityCenterFindingClient
+	// BronzeHistoryGCPSecurityCenterNotificationConfig is the client for interacting with the BronzeHistoryGCPSecurityCenterNotificationConfig builders.
+	BronzeHistoryGCPSecurityCenterNotificationConfig *BronzeHistoryGCPSecurityCenterNotificationConfigClient
 	// BronzeHistoryGCPSecurityCenterSource is the client for interacting with the BronzeHistoryGCPSecurityCenterSource builders.
 	BronzeHistoryGCPSecurityCenterSource *BronzeHistoryGCPSecurityCenterSourceClient
+	// BronzeHistoryGCPServiceUsageEnabledService is the client for interacting with the BronzeHistoryGCPServiceUsageEnabledService builders.
+	BronzeHistoryGCPServiceUsageEnabledService *BronzeHistoryGCPServiceUsageEnabledServiceClient
+	// BronzeHistoryGCPSpannerDatabase is the client for interacting with the BronzeHistoryGCPSpannerDatabase builders.
+	BronzeHistoryGCPSpannerDatabase *BronzeHistoryGCPSpannerDatabaseClient
+	// BronzeHistoryGCPSpannerInstance is the client for interacting with the BronzeHistoryGCPSpannerInstance builders.
+	BronzeHistoryGCPSpannerInstance *BronzeHistoryGCPSpannerInstanceClient
 	// BronzeHistoryGCPStorageBucket is the client for interacting with the BronzeHistoryGCPStorageBucket builders.
 	BronzeHistoryGCPStorageBucket *BronzeHistoryGCPStorageBucketClient
 	// BronzeHistoryGCPStorageBucketIamPolicy is the client for interacting with the BronzeHistoryGCPStorageBucketIamPolicy builders.
@@ -836,13 +1028,27 @@ func (c *Client) init() {
 	c.BronzeDODroplet = NewBronzeDODropletClient(c.config)
 	c.BronzeDOFirewall = NewBronzeDOFirewallClient(c.config)
 	c.BronzeDOKey = NewBronzeDOKeyClient(c.config)
-	c.BronzeDOKubernetesCluster = NewBronzeDOKubernetesClusterClient(c.config)
-	c.BronzeDOKubernetesNodePool = NewBronzeDOKubernetesNodePoolClient(c.config)
 	c.BronzeDOLoadBalancer = NewBronzeDOLoadBalancerClient(c.config)
 	c.BronzeDOProject = NewBronzeDOProjectClient(c.config)
 	c.BronzeDOProjectResource = NewBronzeDOProjectResourceClient(c.config)
 	c.BronzeDOVolume = NewBronzeDOVolumeClient(c.config)
 	c.BronzeDOVpc = NewBronzeDOVpcClient(c.config)
+	c.BronzeGCPAccessContextManagerAccessLevel = NewBronzeGCPAccessContextManagerAccessLevelClient(c.config)
+	c.BronzeGCPAccessContextManagerAccessPolicy = NewBronzeGCPAccessContextManagerAccessPolicyClient(c.config)
+	c.BronzeGCPAccessContextManagerServicePerimeter = NewBronzeGCPAccessContextManagerServicePerimeterClient(c.config)
+	c.BronzeGCPAlloyDBCluster = NewBronzeGCPAlloyDBClusterClient(c.config)
+	c.BronzeGCPAppEngineApplication = NewBronzeGCPAppEngineApplicationClient(c.config)
+	c.BronzeGCPAppEngineService = NewBronzeGCPAppEngineServiceClient(c.config)
+	c.BronzeGCPBigQueryDataset = NewBronzeGCPBigQueryDatasetClient(c.config)
+	c.BronzeGCPBigQueryTable = NewBronzeGCPBigQueryTableClient(c.config)
+	c.BronzeGCPBigtableCluster = NewBronzeGCPBigtableClusterClient(c.config)
+	c.BronzeGCPBigtableInstance = NewBronzeGCPBigtableInstanceClient(c.config)
+	c.BronzeGCPBinaryAuthorizationAttestor = NewBronzeGCPBinaryAuthorizationAttestorClient(c.config)
+	c.BronzeGCPBinaryAuthorizationPolicy = NewBronzeGCPBinaryAuthorizationPolicyClient(c.config)
+	c.BronzeGCPCloudAssetAsset = NewBronzeGCPCloudAssetAssetClient(c.config)
+	c.BronzeGCPCloudAssetIAMPolicySearch = NewBronzeGCPCloudAssetIAMPolicySearchClient(c.config)
+	c.BronzeGCPCloudAssetResourceSearch = NewBronzeGCPCloudAssetResourceSearchClient(c.config)
+	c.BronzeGCPCloudFunctionsFunction = NewBronzeGCPCloudFunctionsFunctionClient(c.config)
 	c.BronzeGCPComputeAddress = NewBronzeGCPComputeAddressClient(c.config)
 	c.BronzeGCPComputeAddressLabel = NewBronzeGCPComputeAddressLabelClient(c.config)
 	c.BronzeGCPComputeBackendService = NewBronzeGCPComputeBackendServiceClient(c.config)
@@ -899,6 +1105,8 @@ func (c *Client) init() {
 	c.BronzeGCPComputeTargetSslProxy = NewBronzeGCPComputeTargetSslProxyClient(c.config)
 	c.BronzeGCPComputeTargetTcpProxy = NewBronzeGCPComputeTargetTcpProxyClient(c.config)
 	c.BronzeGCPComputeUrlMap = NewBronzeGCPComputeUrlMapClient(c.config)
+	c.BronzeGCPContainerAnalysisNote = NewBronzeGCPContainerAnalysisNoteClient(c.config)
+	c.BronzeGCPContainerAnalysisOccurrence = NewBronzeGCPContainerAnalysisOccurrenceClient(c.config)
 	c.BronzeGCPContainerCluster = NewBronzeGCPContainerClusterClient(c.config)
 	c.BronzeGCPContainerClusterAddon = NewBronzeGCPContainerClusterAddonClient(c.config)
 	c.BronzeGCPContainerClusterCondition = NewBronzeGCPContainerClusterConditionClient(c.config)
@@ -907,33 +1115,49 @@ func (c *Client) init() {
 	c.BronzeGCPDNSManagedZone = NewBronzeGCPDNSManagedZoneClient(c.config)
 	c.BronzeGCPDNSManagedZoneLabel = NewBronzeGCPDNSManagedZoneLabelClient(c.config)
 	c.BronzeGCPDNSPolicy = NewBronzeGCPDNSPolicyClient(c.config)
+	c.BronzeGCPDataprocCluster = NewBronzeGCPDataprocClusterClient(c.config)
+	c.BronzeGCPFilestoreInstance = NewBronzeGCPFilestoreInstanceClient(c.config)
 	c.BronzeGCPFolder = NewBronzeGCPFolderClient(c.config)
 	c.BronzeGCPFolderIamPolicy = NewBronzeGCPFolderIamPolicyClient(c.config)
 	c.BronzeGCPFolderIamPolicyBinding = NewBronzeGCPFolderIamPolicyBindingClient(c.config)
 	c.BronzeGCPFolderLabel = NewBronzeGCPFolderLabelClient(c.config)
 	c.BronzeGCPIAMServiceAccount = NewBronzeGCPIAMServiceAccountClient(c.config)
 	c.BronzeGCPIAMServiceAccountKey = NewBronzeGCPIAMServiceAccountKeyClient(c.config)
+	c.BronzeGCPIAPIAMPolicy = NewBronzeGCPIAPIAMPolicyClient(c.config)
+	c.BronzeGCPIAPSettings = NewBronzeGCPIAPSettingsClient(c.config)
 	c.BronzeGCPKMSCryptoKey = NewBronzeGCPKMSCryptoKeyClient(c.config)
 	c.BronzeGCPKMSKeyRing = NewBronzeGCPKMSKeyRingClient(c.config)
 	c.BronzeGCPLoggingBucket = NewBronzeGCPLoggingBucketClient(c.config)
 	c.BronzeGCPLoggingLogExclusion = NewBronzeGCPLoggingLogExclusionClient(c.config)
 	c.BronzeGCPLoggingLogMetric = NewBronzeGCPLoggingLogMetricClient(c.config)
 	c.BronzeGCPLoggingSink = NewBronzeGCPLoggingSinkClient(c.config)
+	c.BronzeGCPMonitoringAlertPolicy = NewBronzeGCPMonitoringAlertPolicyClient(c.config)
+	c.BronzeGCPMonitoringUptimeCheckConfig = NewBronzeGCPMonitoringUptimeCheckConfigClient(c.config)
 	c.BronzeGCPOrgIamPolicy = NewBronzeGCPOrgIamPolicyClient(c.config)
 	c.BronzeGCPOrgIamPolicyBinding = NewBronzeGCPOrgIamPolicyBindingClient(c.config)
 	c.BronzeGCPOrgPolicyConstraint = NewBronzeGCPOrgPolicyConstraintClient(c.config)
+	c.BronzeGCPOrgPolicyCustomConstraint = NewBronzeGCPOrgPolicyCustomConstraintClient(c.config)
 	c.BronzeGCPOrgPolicyPolicy = NewBronzeGCPOrgPolicyPolicyClient(c.config)
 	c.BronzeGCPOrganization = NewBronzeGCPOrganizationClient(c.config)
 	c.BronzeGCPProject = NewBronzeGCPProjectClient(c.config)
 	c.BronzeGCPProjectIamPolicy = NewBronzeGCPProjectIamPolicyClient(c.config)
 	c.BronzeGCPProjectIamPolicyBinding = NewBronzeGCPProjectIamPolicyBindingClient(c.config)
 	c.BronzeGCPProjectLabel = NewBronzeGCPProjectLabelClient(c.config)
+	c.BronzeGCPPubSubSubscription = NewBronzeGCPPubSubSubscriptionClient(c.config)
+	c.BronzeGCPPubSubTopic = NewBronzeGCPPubSubTopicClient(c.config)
+	c.BronzeGCPRedisInstance = NewBronzeGCPRedisInstanceClient(c.config)
+	c.BronzeGCPRunRevision = NewBronzeGCPRunRevisionClient(c.config)
+	c.BronzeGCPRunService = NewBronzeGCPRunServiceClient(c.config)
 	c.BronzeGCPSQLInstance = NewBronzeGCPSQLInstanceClient(c.config)
 	c.BronzeGCPSQLInstanceLabel = NewBronzeGCPSQLInstanceLabelClient(c.config)
 	c.BronzeGCPSecretManagerSecret = NewBronzeGCPSecretManagerSecretClient(c.config)
 	c.BronzeGCPSecretManagerSecretLabel = NewBronzeGCPSecretManagerSecretLabelClient(c.config)
 	c.BronzeGCPSecurityCenterFinding = NewBronzeGCPSecurityCenterFindingClient(c.config)
+	c.BronzeGCPSecurityCenterNotificationConfig = NewBronzeGCPSecurityCenterNotificationConfigClient(c.config)
 	c.BronzeGCPSecurityCenterSource = NewBronzeGCPSecurityCenterSourceClient(c.config)
+	c.BronzeGCPServiceUsageEnabledService = NewBronzeGCPServiceUsageEnabledServiceClient(c.config)
+	c.BronzeGCPSpannerDatabase = NewBronzeGCPSpannerDatabaseClient(c.config)
+	c.BronzeGCPSpannerInstance = NewBronzeGCPSpannerInstanceClient(c.config)
 	c.BronzeGCPStorageBucket = NewBronzeGCPStorageBucketClient(c.config)
 	c.BronzeGCPStorageBucketIamPolicy = NewBronzeGCPStorageBucketIamPolicyClient(c.config)
 	c.BronzeGCPStorageBucketIamPolicyBinding = NewBronzeGCPStorageBucketIamPolicyBindingClient(c.config)
@@ -960,13 +1184,27 @@ func (c *Client) init() {
 	c.BronzeHistoryDODroplet = NewBronzeHistoryDODropletClient(c.config)
 	c.BronzeHistoryDOFirewall = NewBronzeHistoryDOFirewallClient(c.config)
 	c.BronzeHistoryDOKey = NewBronzeHistoryDOKeyClient(c.config)
-	c.BronzeHistoryDOKubernetesCluster = NewBronzeHistoryDOKubernetesClusterClient(c.config)
-	c.BronzeHistoryDOKubernetesNodePool = NewBronzeHistoryDOKubernetesNodePoolClient(c.config)
 	c.BronzeHistoryDOLoadBalancer = NewBronzeHistoryDOLoadBalancerClient(c.config)
 	c.BronzeHistoryDOProject = NewBronzeHistoryDOProjectClient(c.config)
 	c.BronzeHistoryDOProjectResource = NewBronzeHistoryDOProjectResourceClient(c.config)
 	c.BronzeHistoryDOVolume = NewBronzeHistoryDOVolumeClient(c.config)
 	c.BronzeHistoryDOVpc = NewBronzeHistoryDOVpcClient(c.config)
+	c.BronzeHistoryGCPAccessContextManagerAccessLevel = NewBronzeHistoryGCPAccessContextManagerAccessLevelClient(c.config)
+	c.BronzeHistoryGCPAccessContextManagerAccessPolicy = NewBronzeHistoryGCPAccessContextManagerAccessPolicyClient(c.config)
+	c.BronzeHistoryGCPAccessContextManagerServicePerimeter = NewBronzeHistoryGCPAccessContextManagerServicePerimeterClient(c.config)
+	c.BronzeHistoryGCPAlloyDBCluster = NewBronzeHistoryGCPAlloyDBClusterClient(c.config)
+	c.BronzeHistoryGCPAppEngineApplication = NewBronzeHistoryGCPAppEngineApplicationClient(c.config)
+	c.BronzeHistoryGCPAppEngineService = NewBronzeHistoryGCPAppEngineServiceClient(c.config)
+	c.BronzeHistoryGCPBigQueryDataset = NewBronzeHistoryGCPBigQueryDatasetClient(c.config)
+	c.BronzeHistoryGCPBigQueryTable = NewBronzeHistoryGCPBigQueryTableClient(c.config)
+	c.BronzeHistoryGCPBigtableCluster = NewBronzeHistoryGCPBigtableClusterClient(c.config)
+	c.BronzeHistoryGCPBigtableInstance = NewBronzeHistoryGCPBigtableInstanceClient(c.config)
+	c.BronzeHistoryGCPBinaryAuthorizationAttestor = NewBronzeHistoryGCPBinaryAuthorizationAttestorClient(c.config)
+	c.BronzeHistoryGCPBinaryAuthorizationPolicy = NewBronzeHistoryGCPBinaryAuthorizationPolicyClient(c.config)
+	c.BronzeHistoryGCPCloudAssetAsset = NewBronzeHistoryGCPCloudAssetAssetClient(c.config)
+	c.BronzeHistoryGCPCloudAssetIAMPolicySearch = NewBronzeHistoryGCPCloudAssetIAMPolicySearchClient(c.config)
+	c.BronzeHistoryGCPCloudAssetResourceSearch = NewBronzeHistoryGCPCloudAssetResourceSearchClient(c.config)
+	c.BronzeHistoryGCPCloudFunctionsFunction = NewBronzeHistoryGCPCloudFunctionsFunctionClient(c.config)
 	c.BronzeHistoryGCPComputeAddress = NewBronzeHistoryGCPComputeAddressClient(c.config)
 	c.BronzeHistoryGCPComputeAddressLabel = NewBronzeHistoryGCPComputeAddressLabelClient(c.config)
 	c.BronzeHistoryGCPComputeBackendService = NewBronzeHistoryGCPComputeBackendServiceClient(c.config)
@@ -1023,6 +1261,8 @@ func (c *Client) init() {
 	c.BronzeHistoryGCPComputeTargetSslProxy = NewBronzeHistoryGCPComputeTargetSslProxyClient(c.config)
 	c.BronzeHistoryGCPComputeTargetTcpProxy = NewBronzeHistoryGCPComputeTargetTcpProxyClient(c.config)
 	c.BronzeHistoryGCPComputeUrlMap = NewBronzeHistoryGCPComputeUrlMapClient(c.config)
+	c.BronzeHistoryGCPContainerAnalysisNote = NewBronzeHistoryGCPContainerAnalysisNoteClient(c.config)
+	c.BronzeHistoryGCPContainerAnalysisOccurrence = NewBronzeHistoryGCPContainerAnalysisOccurrenceClient(c.config)
 	c.BronzeHistoryGCPContainerCluster = NewBronzeHistoryGCPContainerClusterClient(c.config)
 	c.BronzeHistoryGCPContainerClusterAddon = NewBronzeHistoryGCPContainerClusterAddonClient(c.config)
 	c.BronzeHistoryGCPContainerClusterCondition = NewBronzeHistoryGCPContainerClusterConditionClient(c.config)
@@ -1031,33 +1271,49 @@ func (c *Client) init() {
 	c.BronzeHistoryGCPDNSManagedZone = NewBronzeHistoryGCPDNSManagedZoneClient(c.config)
 	c.BronzeHistoryGCPDNSManagedZoneLabel = NewBronzeHistoryGCPDNSManagedZoneLabelClient(c.config)
 	c.BronzeHistoryGCPDNSPolicy = NewBronzeHistoryGCPDNSPolicyClient(c.config)
+	c.BronzeHistoryGCPDataprocCluster = NewBronzeHistoryGCPDataprocClusterClient(c.config)
+	c.BronzeHistoryGCPFilestoreInstance = NewBronzeHistoryGCPFilestoreInstanceClient(c.config)
 	c.BronzeHistoryGCPFolder = NewBronzeHistoryGCPFolderClient(c.config)
 	c.BronzeHistoryGCPFolderIamPolicy = NewBronzeHistoryGCPFolderIamPolicyClient(c.config)
 	c.BronzeHistoryGCPFolderIamPolicyBinding = NewBronzeHistoryGCPFolderIamPolicyBindingClient(c.config)
 	c.BronzeHistoryGCPFolderLabel = NewBronzeHistoryGCPFolderLabelClient(c.config)
 	c.BronzeHistoryGCPIAMServiceAccount = NewBronzeHistoryGCPIAMServiceAccountClient(c.config)
 	c.BronzeHistoryGCPIAMServiceAccountKey = NewBronzeHistoryGCPIAMServiceAccountKeyClient(c.config)
+	c.BronzeHistoryGCPIAPIAMPolicy = NewBronzeHistoryGCPIAPIAMPolicyClient(c.config)
+	c.BronzeHistoryGCPIAPSettings = NewBronzeHistoryGCPIAPSettingsClient(c.config)
 	c.BronzeHistoryGCPKMSCryptoKey = NewBronzeHistoryGCPKMSCryptoKeyClient(c.config)
 	c.BronzeHistoryGCPKMSKeyRing = NewBronzeHistoryGCPKMSKeyRingClient(c.config)
 	c.BronzeHistoryGCPLoggingBucket = NewBronzeHistoryGCPLoggingBucketClient(c.config)
 	c.BronzeHistoryGCPLoggingLogExclusion = NewBronzeHistoryGCPLoggingLogExclusionClient(c.config)
 	c.BronzeHistoryGCPLoggingLogMetric = NewBronzeHistoryGCPLoggingLogMetricClient(c.config)
 	c.BronzeHistoryGCPLoggingSink = NewBronzeHistoryGCPLoggingSinkClient(c.config)
+	c.BronzeHistoryGCPMonitoringAlertPolicy = NewBronzeHistoryGCPMonitoringAlertPolicyClient(c.config)
+	c.BronzeHistoryGCPMonitoringUptimeCheckConfig = NewBronzeHistoryGCPMonitoringUptimeCheckConfigClient(c.config)
 	c.BronzeHistoryGCPOrgIamPolicy = NewBronzeHistoryGCPOrgIamPolicyClient(c.config)
 	c.BronzeHistoryGCPOrgIamPolicyBinding = NewBronzeHistoryGCPOrgIamPolicyBindingClient(c.config)
 	c.BronzeHistoryGCPOrgPolicyConstraint = NewBronzeHistoryGCPOrgPolicyConstraintClient(c.config)
+	c.BronzeHistoryGCPOrgPolicyCustomConstraint = NewBronzeHistoryGCPOrgPolicyCustomConstraintClient(c.config)
 	c.BronzeHistoryGCPOrgPolicyPolicy = NewBronzeHistoryGCPOrgPolicyPolicyClient(c.config)
 	c.BronzeHistoryGCPOrganization = NewBronzeHistoryGCPOrganizationClient(c.config)
 	c.BronzeHistoryGCPProject = NewBronzeHistoryGCPProjectClient(c.config)
 	c.BronzeHistoryGCPProjectIamPolicy = NewBronzeHistoryGCPProjectIamPolicyClient(c.config)
 	c.BronzeHistoryGCPProjectIamPolicyBinding = NewBronzeHistoryGCPProjectIamPolicyBindingClient(c.config)
 	c.BronzeHistoryGCPProjectLabel = NewBronzeHistoryGCPProjectLabelClient(c.config)
+	c.BronzeHistoryGCPPubSubSubscription = NewBronzeHistoryGCPPubSubSubscriptionClient(c.config)
+	c.BronzeHistoryGCPPubSubTopic = NewBronzeHistoryGCPPubSubTopicClient(c.config)
+	c.BronzeHistoryGCPRedisInstance = NewBronzeHistoryGCPRedisInstanceClient(c.config)
+	c.BronzeHistoryGCPRunRevision = NewBronzeHistoryGCPRunRevisionClient(c.config)
+	c.BronzeHistoryGCPRunService = NewBronzeHistoryGCPRunServiceClient(c.config)
 	c.BronzeHistoryGCPSQLInstance = NewBronzeHistoryGCPSQLInstanceClient(c.config)
 	c.BronzeHistoryGCPSQLInstanceLabel = NewBronzeHistoryGCPSQLInstanceLabelClient(c.config)
 	c.BronzeHistoryGCPSecretManagerSecret = NewBronzeHistoryGCPSecretManagerSecretClient(c.config)
 	c.BronzeHistoryGCPSecretManagerSecretLabel = NewBronzeHistoryGCPSecretManagerSecretLabelClient(c.config)
 	c.BronzeHistoryGCPSecurityCenterFinding = NewBronzeHistoryGCPSecurityCenterFindingClient(c.config)
+	c.BronzeHistoryGCPSecurityCenterNotificationConfig = NewBronzeHistoryGCPSecurityCenterNotificationConfigClient(c.config)
 	c.BronzeHistoryGCPSecurityCenterSource = NewBronzeHistoryGCPSecurityCenterSourceClient(c.config)
+	c.BronzeHistoryGCPServiceUsageEnabledService = NewBronzeHistoryGCPServiceUsageEnabledServiceClient(c.config)
+	c.BronzeHistoryGCPSpannerDatabase = NewBronzeHistoryGCPSpannerDatabaseClient(c.config)
+	c.BronzeHistoryGCPSpannerInstance = NewBronzeHistoryGCPSpannerInstanceClient(c.config)
 	c.BronzeHistoryGCPStorageBucket = NewBronzeHistoryGCPStorageBucketClient(c.config)
 	c.BronzeHistoryGCPStorageBucketIamPolicy = NewBronzeHistoryGCPStorageBucketIamPolicyClient(c.config)
 	c.BronzeHistoryGCPStorageBucketIamPolicyBinding = NewBronzeHistoryGCPStorageBucketIamPolicyBindingClient(c.config)
@@ -1175,270 +1431,334 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:                                              ctx,
-		config:                                           cfg,
-		BronzeAWSEC2Instance:                             NewBronzeAWSEC2InstanceClient(cfg),
-		BronzeAWSEC2InstanceTag:                          NewBronzeAWSEC2InstanceTagClient(cfg),
-		BronzeDOAccount:                                  NewBronzeDOAccountClient(cfg),
-		BronzeDODatabase:                                 NewBronzeDODatabaseClient(cfg),
-		BronzeDODatabaseBackup:                           NewBronzeDODatabaseBackupClient(cfg),
-		BronzeDODatabaseConfig:                           NewBronzeDODatabaseConfigClient(cfg),
-		BronzeDODatabaseFirewallRule:                     NewBronzeDODatabaseFirewallRuleClient(cfg),
-		BronzeDODatabasePool:                             NewBronzeDODatabasePoolClient(cfg),
-		BronzeDODatabaseReplica:                          NewBronzeDODatabaseReplicaClient(cfg),
-		BronzeDODatabaseUser:                             NewBronzeDODatabaseUserClient(cfg),
-		BronzeDODomain:                                   NewBronzeDODomainClient(cfg),
-		BronzeDODomainRecord:                             NewBronzeDODomainRecordClient(cfg),
-		BronzeDODroplet:                                  NewBronzeDODropletClient(cfg),
-		BronzeDOFirewall:                                 NewBronzeDOFirewallClient(cfg),
-		BronzeDOKey:                                      NewBronzeDOKeyClient(cfg),
-		BronzeDOKubernetesCluster:                        NewBronzeDOKubernetesClusterClient(cfg),
-		BronzeDOKubernetesNodePool:                       NewBronzeDOKubernetesNodePoolClient(cfg),
-		BronzeDOLoadBalancer:                             NewBronzeDOLoadBalancerClient(cfg),
-		BronzeDOProject:                                  NewBronzeDOProjectClient(cfg),
-		BronzeDOProjectResource:                          NewBronzeDOProjectResourceClient(cfg),
-		BronzeDOVolume:                                   NewBronzeDOVolumeClient(cfg),
-		BronzeDOVpc:                                      NewBronzeDOVpcClient(cfg),
-		BronzeGCPComputeAddress:                          NewBronzeGCPComputeAddressClient(cfg),
-		BronzeGCPComputeAddressLabel:                     NewBronzeGCPComputeAddressLabelClient(cfg),
-		BronzeGCPComputeBackendService:                   NewBronzeGCPComputeBackendServiceClient(cfg),
-		BronzeGCPComputeBackendServiceBackend:            NewBronzeGCPComputeBackendServiceBackendClient(cfg),
-		BronzeGCPComputeDisk:                             NewBronzeGCPComputeDiskClient(cfg),
-		BronzeGCPComputeDiskLabel:                        NewBronzeGCPComputeDiskLabelClient(cfg),
-		BronzeGCPComputeDiskLicense:                      NewBronzeGCPComputeDiskLicenseClient(cfg),
-		BronzeGCPComputeFirewall:                         NewBronzeGCPComputeFirewallClient(cfg),
-		BronzeGCPComputeFirewallAllowed:                  NewBronzeGCPComputeFirewallAllowedClient(cfg),
-		BronzeGCPComputeFirewallDenied:                   NewBronzeGCPComputeFirewallDeniedClient(cfg),
-		BronzeGCPComputeForwardingRule:                   NewBronzeGCPComputeForwardingRuleClient(cfg),
-		BronzeGCPComputeForwardingRuleLabel:              NewBronzeGCPComputeForwardingRuleLabelClient(cfg),
-		BronzeGCPComputeGlobalAddress:                    NewBronzeGCPComputeGlobalAddressClient(cfg),
-		BronzeGCPComputeGlobalAddressLabel:               NewBronzeGCPComputeGlobalAddressLabelClient(cfg),
-		BronzeGCPComputeGlobalForwardingRule:             NewBronzeGCPComputeGlobalForwardingRuleClient(cfg),
-		BronzeGCPComputeGlobalForwardingRuleLabel:        NewBronzeGCPComputeGlobalForwardingRuleLabelClient(cfg),
-		BronzeGCPComputeHealthCheck:                      NewBronzeGCPComputeHealthCheckClient(cfg),
-		BronzeGCPComputeImage:                            NewBronzeGCPComputeImageClient(cfg),
-		BronzeGCPComputeImageLabel:                       NewBronzeGCPComputeImageLabelClient(cfg),
-		BronzeGCPComputeImageLicense:                     NewBronzeGCPComputeImageLicenseClient(cfg),
-		BronzeGCPComputeInstance:                         NewBronzeGCPComputeInstanceClient(cfg),
-		BronzeGCPComputeInstanceDisk:                     NewBronzeGCPComputeInstanceDiskClient(cfg),
-		BronzeGCPComputeInstanceDiskLicense:              NewBronzeGCPComputeInstanceDiskLicenseClient(cfg),
-		BronzeGCPComputeInstanceGroup:                    NewBronzeGCPComputeInstanceGroupClient(cfg),
-		BronzeGCPComputeInstanceGroupMember:              NewBronzeGCPComputeInstanceGroupMemberClient(cfg),
-		BronzeGCPComputeInstanceGroupNamedPort:           NewBronzeGCPComputeInstanceGroupNamedPortClient(cfg),
-		BronzeGCPComputeInstanceLabel:                    NewBronzeGCPComputeInstanceLabelClient(cfg),
-		BronzeGCPComputeInstanceMetadata:                 NewBronzeGCPComputeInstanceMetadataClient(cfg),
-		BronzeGCPComputeInstanceNIC:                      NewBronzeGCPComputeInstanceNICClient(cfg),
-		BronzeGCPComputeInstanceNICAccessConfig:          NewBronzeGCPComputeInstanceNICAccessConfigClient(cfg),
-		BronzeGCPComputeInstanceNICAliasRange:            NewBronzeGCPComputeInstanceNICAliasRangeClient(cfg),
-		BronzeGCPComputeInstanceServiceAccount:           NewBronzeGCPComputeInstanceServiceAccountClient(cfg),
-		BronzeGCPComputeInstanceTag:                      NewBronzeGCPComputeInstanceTagClient(cfg),
-		BronzeGCPComputeInterconnect:                     NewBronzeGCPComputeInterconnectClient(cfg),
-		BronzeGCPComputeNeg:                              NewBronzeGCPComputeNegClient(cfg),
-		BronzeGCPComputeNegEndpoint:                      NewBronzeGCPComputeNegEndpointClient(cfg),
-		BronzeGCPComputeNetwork:                          NewBronzeGCPComputeNetworkClient(cfg),
-		BronzeGCPComputeNetworkPeering:                   NewBronzeGCPComputeNetworkPeeringClient(cfg),
-		BronzeGCPComputePacketMirroring:                  NewBronzeGCPComputePacketMirroringClient(cfg),
-		BronzeGCPComputeProjectMetadata:                  NewBronzeGCPComputeProjectMetadataClient(cfg),
-		BronzeGCPComputeProjectMetadataItem:              NewBronzeGCPComputeProjectMetadataItemClient(cfg),
-		BronzeGCPComputeRouter:                           NewBronzeGCPComputeRouterClient(cfg),
-		BronzeGCPComputeSecurityPolicy:                   NewBronzeGCPComputeSecurityPolicyClient(cfg),
-		BronzeGCPComputeSnapshot:                         NewBronzeGCPComputeSnapshotClient(cfg),
-		BronzeGCPComputeSnapshotLabel:                    NewBronzeGCPComputeSnapshotLabelClient(cfg),
-		BronzeGCPComputeSnapshotLicense:                  NewBronzeGCPComputeSnapshotLicenseClient(cfg),
-		BronzeGCPComputeSslPolicy:                        NewBronzeGCPComputeSslPolicyClient(cfg),
-		BronzeGCPComputeSubnetwork:                       NewBronzeGCPComputeSubnetworkClient(cfg),
-		BronzeGCPComputeSubnetworkSecondaryRange:         NewBronzeGCPComputeSubnetworkSecondaryRangeClient(cfg),
-		BronzeGCPComputeTargetHttpProxy:                  NewBronzeGCPComputeTargetHttpProxyClient(cfg),
-		BronzeGCPComputeTargetHttpsProxy:                 NewBronzeGCPComputeTargetHttpsProxyClient(cfg),
-		BronzeGCPComputeTargetInstance:                   NewBronzeGCPComputeTargetInstanceClient(cfg),
-		BronzeGCPComputeTargetPool:                       NewBronzeGCPComputeTargetPoolClient(cfg),
-		BronzeGCPComputeTargetSslProxy:                   NewBronzeGCPComputeTargetSslProxyClient(cfg),
-		BronzeGCPComputeTargetTcpProxy:                   NewBronzeGCPComputeTargetTcpProxyClient(cfg),
-		BronzeGCPComputeUrlMap:                           NewBronzeGCPComputeUrlMapClient(cfg),
-		BronzeGCPContainerCluster:                        NewBronzeGCPContainerClusterClient(cfg),
-		BronzeGCPContainerClusterAddon:                   NewBronzeGCPContainerClusterAddonClient(cfg),
-		BronzeGCPContainerClusterCondition:               NewBronzeGCPContainerClusterConditionClient(cfg),
-		BronzeGCPContainerClusterLabel:                   NewBronzeGCPContainerClusterLabelClient(cfg),
-		BronzeGCPContainerClusterNodePool:                NewBronzeGCPContainerClusterNodePoolClient(cfg),
-		BronzeGCPDNSManagedZone:                          NewBronzeGCPDNSManagedZoneClient(cfg),
-		BronzeGCPDNSManagedZoneLabel:                     NewBronzeGCPDNSManagedZoneLabelClient(cfg),
-		BronzeGCPDNSPolicy:                               NewBronzeGCPDNSPolicyClient(cfg),
-		BronzeGCPFolder:                                  NewBronzeGCPFolderClient(cfg),
-		BronzeGCPFolderIamPolicy:                         NewBronzeGCPFolderIamPolicyClient(cfg),
-		BronzeGCPFolderIamPolicyBinding:                  NewBronzeGCPFolderIamPolicyBindingClient(cfg),
-		BronzeGCPFolderLabel:                             NewBronzeGCPFolderLabelClient(cfg),
-		BronzeGCPIAMServiceAccount:                       NewBronzeGCPIAMServiceAccountClient(cfg),
-		BronzeGCPIAMServiceAccountKey:                    NewBronzeGCPIAMServiceAccountKeyClient(cfg),
-		BronzeGCPKMSCryptoKey:                            NewBronzeGCPKMSCryptoKeyClient(cfg),
-		BronzeGCPKMSKeyRing:                              NewBronzeGCPKMSKeyRingClient(cfg),
-		BronzeGCPLoggingBucket:                           NewBronzeGCPLoggingBucketClient(cfg),
-		BronzeGCPLoggingLogExclusion:                     NewBronzeGCPLoggingLogExclusionClient(cfg),
-		BronzeGCPLoggingLogMetric:                        NewBronzeGCPLoggingLogMetricClient(cfg),
-		BronzeGCPLoggingSink:                             NewBronzeGCPLoggingSinkClient(cfg),
-		BronzeGCPOrgIamPolicy:                            NewBronzeGCPOrgIamPolicyClient(cfg),
-		BronzeGCPOrgIamPolicyBinding:                     NewBronzeGCPOrgIamPolicyBindingClient(cfg),
-		BronzeGCPOrgPolicyConstraint:                     NewBronzeGCPOrgPolicyConstraintClient(cfg),
-		BronzeGCPOrgPolicyPolicy:                         NewBronzeGCPOrgPolicyPolicyClient(cfg),
-		BronzeGCPOrganization:                            NewBronzeGCPOrganizationClient(cfg),
-		BronzeGCPProject:                                 NewBronzeGCPProjectClient(cfg),
-		BronzeGCPProjectIamPolicy:                        NewBronzeGCPProjectIamPolicyClient(cfg),
-		BronzeGCPProjectIamPolicyBinding:                 NewBronzeGCPProjectIamPolicyBindingClient(cfg),
-		BronzeGCPProjectLabel:                            NewBronzeGCPProjectLabelClient(cfg),
-		BronzeGCPSQLInstance:                             NewBronzeGCPSQLInstanceClient(cfg),
-		BronzeGCPSQLInstanceLabel:                        NewBronzeGCPSQLInstanceLabelClient(cfg),
-		BronzeGCPSecretManagerSecret:                     NewBronzeGCPSecretManagerSecretClient(cfg),
-		BronzeGCPSecretManagerSecretLabel:                NewBronzeGCPSecretManagerSecretLabelClient(cfg),
-		BronzeGCPSecurityCenterFinding:                   NewBronzeGCPSecurityCenterFindingClient(cfg),
-		BronzeGCPSecurityCenterSource:                    NewBronzeGCPSecurityCenterSourceClient(cfg),
-		BronzeGCPStorageBucket:                           NewBronzeGCPStorageBucketClient(cfg),
-		BronzeGCPStorageBucketIamPolicy:                  NewBronzeGCPStorageBucketIamPolicyClient(cfg),
-		BronzeGCPStorageBucketIamPolicyBinding:           NewBronzeGCPStorageBucketIamPolicyBindingClient(cfg),
-		BronzeGCPStorageBucketLabel:                      NewBronzeGCPStorageBucketLabelClient(cfg),
-		BronzeGCPVPCAccessConnector:                      NewBronzeGCPVPCAccessConnectorClient(cfg),
-		BronzeGCPVPNGateway:                              NewBronzeGCPVPNGatewayClient(cfg),
-		BronzeGCPVPNGatewayLabel:                         NewBronzeGCPVPNGatewayLabelClient(cfg),
-		BronzeGCPVPNTargetGateway:                        NewBronzeGCPVPNTargetGatewayClient(cfg),
-		BronzeGCPVPNTargetGatewayLabel:                   NewBronzeGCPVPNTargetGatewayLabelClient(cfg),
-		BronzeGCPVPNTunnel:                               NewBronzeGCPVPNTunnelClient(cfg),
-		BronzeGCPVPNTunnelLabel:                          NewBronzeGCPVPNTunnelLabelClient(cfg),
-		BronzeHistoryAWSEC2Instance:                      NewBronzeHistoryAWSEC2InstanceClient(cfg),
-		BronzeHistoryAWSEC2InstanceTag:                   NewBronzeHistoryAWSEC2InstanceTagClient(cfg),
-		BronzeHistoryDOAccount:                           NewBronzeHistoryDOAccountClient(cfg),
-		BronzeHistoryDODatabase:                          NewBronzeHistoryDODatabaseClient(cfg),
-		BronzeHistoryDODatabaseBackup:                    NewBronzeHistoryDODatabaseBackupClient(cfg),
-		BronzeHistoryDODatabaseConfig:                    NewBronzeHistoryDODatabaseConfigClient(cfg),
-		BronzeHistoryDODatabaseFirewallRule:              NewBronzeHistoryDODatabaseFirewallRuleClient(cfg),
-		BronzeHistoryDODatabasePool:                      NewBronzeHistoryDODatabasePoolClient(cfg),
-		BronzeHistoryDODatabaseReplica:                   NewBronzeHistoryDODatabaseReplicaClient(cfg),
-		BronzeHistoryDODatabaseUser:                      NewBronzeHistoryDODatabaseUserClient(cfg),
-		BronzeHistoryDODomain:                            NewBronzeHistoryDODomainClient(cfg),
-		BronzeHistoryDODomainRecord:                      NewBronzeHistoryDODomainRecordClient(cfg),
-		BronzeHistoryDODroplet:                           NewBronzeHistoryDODropletClient(cfg),
-		BronzeHistoryDOFirewall:                          NewBronzeHistoryDOFirewallClient(cfg),
-		BronzeHistoryDOKey:                               NewBronzeHistoryDOKeyClient(cfg),
-		BronzeHistoryDOKubernetesCluster:                 NewBronzeHistoryDOKubernetesClusterClient(cfg),
-		BronzeHistoryDOKubernetesNodePool:                NewBronzeHistoryDOKubernetesNodePoolClient(cfg),
-		BronzeHistoryDOLoadBalancer:                      NewBronzeHistoryDOLoadBalancerClient(cfg),
-		BronzeHistoryDOProject:                           NewBronzeHistoryDOProjectClient(cfg),
-		BronzeHistoryDOProjectResource:                   NewBronzeHistoryDOProjectResourceClient(cfg),
-		BronzeHistoryDOVolume:                            NewBronzeHistoryDOVolumeClient(cfg),
-		BronzeHistoryDOVpc:                               NewBronzeHistoryDOVpcClient(cfg),
-		BronzeHistoryGCPComputeAddress:                   NewBronzeHistoryGCPComputeAddressClient(cfg),
-		BronzeHistoryGCPComputeAddressLabel:              NewBronzeHistoryGCPComputeAddressLabelClient(cfg),
-		BronzeHistoryGCPComputeBackendService:            NewBronzeHistoryGCPComputeBackendServiceClient(cfg),
-		BronzeHistoryGCPComputeBackendServiceBackend:     NewBronzeHistoryGCPComputeBackendServiceBackendClient(cfg),
-		BronzeHistoryGCPComputeDisk:                      NewBronzeHistoryGCPComputeDiskClient(cfg),
-		BronzeHistoryGCPComputeDiskLabel:                 NewBronzeHistoryGCPComputeDiskLabelClient(cfg),
-		BronzeHistoryGCPComputeDiskLicense:               NewBronzeHistoryGCPComputeDiskLicenseClient(cfg),
-		BronzeHistoryGCPComputeFirewall:                  NewBronzeHistoryGCPComputeFirewallClient(cfg),
-		BronzeHistoryGCPComputeFirewallAllowed:           NewBronzeHistoryGCPComputeFirewallAllowedClient(cfg),
-		BronzeHistoryGCPComputeFirewallDenied:            NewBronzeHistoryGCPComputeFirewallDeniedClient(cfg),
-		BronzeHistoryGCPComputeForwardingRule:            NewBronzeHistoryGCPComputeForwardingRuleClient(cfg),
-		BronzeHistoryGCPComputeForwardingRuleLabel:       NewBronzeHistoryGCPComputeForwardingRuleLabelClient(cfg),
-		BronzeHistoryGCPComputeGlobalAddress:             NewBronzeHistoryGCPComputeGlobalAddressClient(cfg),
-		BronzeHistoryGCPComputeGlobalAddressLabel:        NewBronzeHistoryGCPComputeGlobalAddressLabelClient(cfg),
-		BronzeHistoryGCPComputeGlobalForwardingRule:      NewBronzeHistoryGCPComputeGlobalForwardingRuleClient(cfg),
-		BronzeHistoryGCPComputeGlobalForwardingRuleLabel: NewBronzeHistoryGCPComputeGlobalForwardingRuleLabelClient(cfg),
-		BronzeHistoryGCPComputeHealthCheck:               NewBronzeHistoryGCPComputeHealthCheckClient(cfg),
-		BronzeHistoryGCPComputeImage:                     NewBronzeHistoryGCPComputeImageClient(cfg),
-		BronzeHistoryGCPComputeImageLabel:                NewBronzeHistoryGCPComputeImageLabelClient(cfg),
-		BronzeHistoryGCPComputeImageLicense:              NewBronzeHistoryGCPComputeImageLicenseClient(cfg),
-		BronzeHistoryGCPComputeInstance:                  NewBronzeHistoryGCPComputeInstanceClient(cfg),
-		BronzeHistoryGCPComputeInstanceDisk:              NewBronzeHistoryGCPComputeInstanceDiskClient(cfg),
-		BronzeHistoryGCPComputeInstanceDiskLicense:       NewBronzeHistoryGCPComputeInstanceDiskLicenseClient(cfg),
-		BronzeHistoryGCPComputeInstanceGroup:             NewBronzeHistoryGCPComputeInstanceGroupClient(cfg),
-		BronzeHistoryGCPComputeInstanceGroupMember:       NewBronzeHistoryGCPComputeInstanceGroupMemberClient(cfg),
-		BronzeHistoryGCPComputeInstanceGroupNamedPort:    NewBronzeHistoryGCPComputeInstanceGroupNamedPortClient(cfg),
-		BronzeHistoryGCPComputeInstanceLabel:             NewBronzeHistoryGCPComputeInstanceLabelClient(cfg),
-		BronzeHistoryGCPComputeInstanceMetadata:          NewBronzeHistoryGCPComputeInstanceMetadataClient(cfg),
-		BronzeHistoryGCPComputeInstanceNIC:               NewBronzeHistoryGCPComputeInstanceNICClient(cfg),
-		BronzeHistoryGCPComputeInstanceNICAccessConfig:   NewBronzeHistoryGCPComputeInstanceNICAccessConfigClient(cfg),
-		BronzeHistoryGCPComputeInstanceNICAliasRange:     NewBronzeHistoryGCPComputeInstanceNICAliasRangeClient(cfg),
-		BronzeHistoryGCPComputeInstanceServiceAccount:    NewBronzeHistoryGCPComputeInstanceServiceAccountClient(cfg),
-		BronzeHistoryGCPComputeInstanceTag:               NewBronzeHistoryGCPComputeInstanceTagClient(cfg),
-		BronzeHistoryGCPComputeInterconnect:              NewBronzeHistoryGCPComputeInterconnectClient(cfg),
-		BronzeHistoryGCPComputeNeg:                       NewBronzeHistoryGCPComputeNegClient(cfg),
-		BronzeHistoryGCPComputeNegEndpoint:               NewBronzeHistoryGCPComputeNegEndpointClient(cfg),
-		BronzeHistoryGCPComputeNetwork:                   NewBronzeHistoryGCPComputeNetworkClient(cfg),
-		BronzeHistoryGCPComputeNetworkPeering:            NewBronzeHistoryGCPComputeNetworkPeeringClient(cfg),
-		BronzeHistoryGCPComputePacketMirroring:           NewBronzeHistoryGCPComputePacketMirroringClient(cfg),
-		BronzeHistoryGCPComputeProjectMetadata:           NewBronzeHistoryGCPComputeProjectMetadataClient(cfg),
-		BronzeHistoryGCPComputeProjectMetadataItem:       NewBronzeHistoryGCPComputeProjectMetadataItemClient(cfg),
-		BronzeHistoryGCPComputeRouter:                    NewBronzeHistoryGCPComputeRouterClient(cfg),
-		BronzeHistoryGCPComputeSecurityPolicy:            NewBronzeHistoryGCPComputeSecurityPolicyClient(cfg),
-		BronzeHistoryGCPComputeSnapshot:                  NewBronzeHistoryGCPComputeSnapshotClient(cfg),
-		BronzeHistoryGCPComputeSnapshotLabel:             NewBronzeHistoryGCPComputeSnapshotLabelClient(cfg),
-		BronzeHistoryGCPComputeSnapshotLicense:           NewBronzeHistoryGCPComputeSnapshotLicenseClient(cfg),
-		BronzeHistoryGCPComputeSslPolicy:                 NewBronzeHistoryGCPComputeSslPolicyClient(cfg),
-		BronzeHistoryGCPComputeSubnetwork:                NewBronzeHistoryGCPComputeSubnetworkClient(cfg),
-		BronzeHistoryGCPComputeSubnetworkSecondaryRange:  NewBronzeHistoryGCPComputeSubnetworkSecondaryRangeClient(cfg),
-		BronzeHistoryGCPComputeTargetHttpProxy:           NewBronzeHistoryGCPComputeTargetHttpProxyClient(cfg),
-		BronzeHistoryGCPComputeTargetHttpsProxy:          NewBronzeHistoryGCPComputeTargetHttpsProxyClient(cfg),
-		BronzeHistoryGCPComputeTargetInstance:            NewBronzeHistoryGCPComputeTargetInstanceClient(cfg),
-		BronzeHistoryGCPComputeTargetPool:                NewBronzeHistoryGCPComputeTargetPoolClient(cfg),
-		BronzeHistoryGCPComputeTargetSslProxy:            NewBronzeHistoryGCPComputeTargetSslProxyClient(cfg),
-		BronzeHistoryGCPComputeTargetTcpProxy:            NewBronzeHistoryGCPComputeTargetTcpProxyClient(cfg),
-		BronzeHistoryGCPComputeUrlMap:                    NewBronzeHistoryGCPComputeUrlMapClient(cfg),
-		BronzeHistoryGCPContainerCluster:                 NewBronzeHistoryGCPContainerClusterClient(cfg),
-		BronzeHistoryGCPContainerClusterAddon:            NewBronzeHistoryGCPContainerClusterAddonClient(cfg),
-		BronzeHistoryGCPContainerClusterCondition:        NewBronzeHistoryGCPContainerClusterConditionClient(cfg),
-		BronzeHistoryGCPContainerClusterLabel:            NewBronzeHistoryGCPContainerClusterLabelClient(cfg),
-		BronzeHistoryGCPContainerClusterNodePool:         NewBronzeHistoryGCPContainerClusterNodePoolClient(cfg),
-		BronzeHistoryGCPDNSManagedZone:                   NewBronzeHistoryGCPDNSManagedZoneClient(cfg),
-		BronzeHistoryGCPDNSManagedZoneLabel:              NewBronzeHistoryGCPDNSManagedZoneLabelClient(cfg),
-		BronzeHistoryGCPDNSPolicy:                        NewBronzeHistoryGCPDNSPolicyClient(cfg),
-		BronzeHistoryGCPFolder:                           NewBronzeHistoryGCPFolderClient(cfg),
-		BronzeHistoryGCPFolderIamPolicy:                  NewBronzeHistoryGCPFolderIamPolicyClient(cfg),
-		BronzeHistoryGCPFolderIamPolicyBinding:           NewBronzeHistoryGCPFolderIamPolicyBindingClient(cfg),
-		BronzeHistoryGCPFolderLabel:                      NewBronzeHistoryGCPFolderLabelClient(cfg),
-		BronzeHistoryGCPIAMServiceAccount:                NewBronzeHistoryGCPIAMServiceAccountClient(cfg),
-		BronzeHistoryGCPIAMServiceAccountKey:             NewBronzeHistoryGCPIAMServiceAccountKeyClient(cfg),
-		BronzeHistoryGCPKMSCryptoKey:                     NewBronzeHistoryGCPKMSCryptoKeyClient(cfg),
-		BronzeHistoryGCPKMSKeyRing:                       NewBronzeHistoryGCPKMSKeyRingClient(cfg),
-		BronzeHistoryGCPLoggingBucket:                    NewBronzeHistoryGCPLoggingBucketClient(cfg),
-		BronzeHistoryGCPLoggingLogExclusion:              NewBronzeHistoryGCPLoggingLogExclusionClient(cfg),
-		BronzeHistoryGCPLoggingLogMetric:                 NewBronzeHistoryGCPLoggingLogMetricClient(cfg),
-		BronzeHistoryGCPLoggingSink:                      NewBronzeHistoryGCPLoggingSinkClient(cfg),
-		BronzeHistoryGCPOrgIamPolicy:                     NewBronzeHistoryGCPOrgIamPolicyClient(cfg),
-		BronzeHistoryGCPOrgIamPolicyBinding:              NewBronzeHistoryGCPOrgIamPolicyBindingClient(cfg),
-		BronzeHistoryGCPOrgPolicyConstraint:              NewBronzeHistoryGCPOrgPolicyConstraintClient(cfg),
-		BronzeHistoryGCPOrgPolicyPolicy:                  NewBronzeHistoryGCPOrgPolicyPolicyClient(cfg),
-		BronzeHistoryGCPOrganization:                     NewBronzeHistoryGCPOrganizationClient(cfg),
-		BronzeHistoryGCPProject:                          NewBronzeHistoryGCPProjectClient(cfg),
-		BronzeHistoryGCPProjectIamPolicy:                 NewBronzeHistoryGCPProjectIamPolicyClient(cfg),
-		BronzeHistoryGCPProjectIamPolicyBinding:          NewBronzeHistoryGCPProjectIamPolicyBindingClient(cfg),
-		BronzeHistoryGCPProjectLabel:                     NewBronzeHistoryGCPProjectLabelClient(cfg),
-		BronzeHistoryGCPSQLInstance:                      NewBronzeHistoryGCPSQLInstanceClient(cfg),
-		BronzeHistoryGCPSQLInstanceLabel:                 NewBronzeHistoryGCPSQLInstanceLabelClient(cfg),
-		BronzeHistoryGCPSecretManagerSecret:              NewBronzeHistoryGCPSecretManagerSecretClient(cfg),
-		BronzeHistoryGCPSecretManagerSecretLabel:         NewBronzeHistoryGCPSecretManagerSecretLabelClient(cfg),
-		BronzeHistoryGCPSecurityCenterFinding:            NewBronzeHistoryGCPSecurityCenterFindingClient(cfg),
-		BronzeHistoryGCPSecurityCenterSource:             NewBronzeHistoryGCPSecurityCenterSourceClient(cfg),
-		BronzeHistoryGCPStorageBucket:                    NewBronzeHistoryGCPStorageBucketClient(cfg),
-		BronzeHistoryGCPStorageBucketIamPolicy:           NewBronzeHistoryGCPStorageBucketIamPolicyClient(cfg),
-		BronzeHistoryGCPStorageBucketIamPolicyBinding:    NewBronzeHistoryGCPStorageBucketIamPolicyBindingClient(cfg),
-		BronzeHistoryGCPStorageBucketLabel:               NewBronzeHistoryGCPStorageBucketLabelClient(cfg),
-		BronzeHistoryGCPVPCAccessConnector:               NewBronzeHistoryGCPVPCAccessConnectorClient(cfg),
-		BronzeHistoryGCPVPNGateway:                       NewBronzeHistoryGCPVPNGatewayClient(cfg),
-		BronzeHistoryGCPVPNGatewayLabel:                  NewBronzeHistoryGCPVPNGatewayLabelClient(cfg),
-		BronzeHistoryGCPVPNTargetGateway:                 NewBronzeHistoryGCPVPNTargetGatewayClient(cfg),
-		BronzeHistoryGCPVPNTargetGatewayLabel:            NewBronzeHistoryGCPVPNTargetGatewayLabelClient(cfg),
-		BronzeHistoryGCPVPNTunnel:                        NewBronzeHistoryGCPVPNTunnelClient(cfg),
-		BronzeHistoryGCPVPNTunnelLabel:                   NewBronzeHistoryGCPVPNTunnelLabelClient(cfg),
-		BronzeHistoryS1Account:                           NewBronzeHistoryS1AccountClient(cfg),
-		BronzeHistoryS1Agent:                             NewBronzeHistoryS1AgentClient(cfg),
-		BronzeHistoryS1AgentNIC:                          NewBronzeHistoryS1AgentNICClient(cfg),
-		BronzeHistoryS1App:                               NewBronzeHistoryS1AppClient(cfg),
-		BronzeHistoryS1Group:                             NewBronzeHistoryS1GroupClient(cfg),
-		BronzeHistoryS1Site:                              NewBronzeHistoryS1SiteClient(cfg),
-		BronzeHistoryS1Threat:                            NewBronzeHistoryS1ThreatClient(cfg),
-		BronzeS1Account:                                  NewBronzeS1AccountClient(cfg),
-		BronzeS1Agent:                                    NewBronzeS1AgentClient(cfg),
-		BronzeS1AgentNIC:                                 NewBronzeS1AgentNICClient(cfg),
-		BronzeS1App:                                      NewBronzeS1AppClient(cfg),
-		BronzeS1Group:                                    NewBronzeS1GroupClient(cfg),
-		BronzeS1Site:                                     NewBronzeS1SiteClient(cfg),
-		BronzeS1Threat:                                   NewBronzeS1ThreatClient(cfg),
+		ctx:                                      ctx,
+		config:                                   cfg,
+		BronzeAWSEC2Instance:                     NewBronzeAWSEC2InstanceClient(cfg),
+		BronzeAWSEC2InstanceTag:                  NewBronzeAWSEC2InstanceTagClient(cfg),
+		BronzeDOAccount:                          NewBronzeDOAccountClient(cfg),
+		BronzeDODatabase:                         NewBronzeDODatabaseClient(cfg),
+		BronzeDODatabaseBackup:                   NewBronzeDODatabaseBackupClient(cfg),
+		BronzeDODatabaseConfig:                   NewBronzeDODatabaseConfigClient(cfg),
+		BronzeDODatabaseFirewallRule:             NewBronzeDODatabaseFirewallRuleClient(cfg),
+		BronzeDODatabasePool:                     NewBronzeDODatabasePoolClient(cfg),
+		BronzeDODatabaseReplica:                  NewBronzeDODatabaseReplicaClient(cfg),
+		BronzeDODatabaseUser:                     NewBronzeDODatabaseUserClient(cfg),
+		BronzeDODomain:                           NewBronzeDODomainClient(cfg),
+		BronzeDODomainRecord:                     NewBronzeDODomainRecordClient(cfg),
+		BronzeDODroplet:                          NewBronzeDODropletClient(cfg),
+		BronzeDOFirewall:                         NewBronzeDOFirewallClient(cfg),
+		BronzeDOKey:                              NewBronzeDOKeyClient(cfg),
+		BronzeDOLoadBalancer:                     NewBronzeDOLoadBalancerClient(cfg),
+		BronzeDOProject:                          NewBronzeDOProjectClient(cfg),
+		BronzeDOProjectResource:                  NewBronzeDOProjectResourceClient(cfg),
+		BronzeDOVolume:                           NewBronzeDOVolumeClient(cfg),
+		BronzeDOVpc:                              NewBronzeDOVpcClient(cfg),
+		BronzeGCPAccessContextManagerAccessLevel: NewBronzeGCPAccessContextManagerAccessLevelClient(cfg),
+		BronzeGCPAccessContextManagerAccessPolicy:            NewBronzeGCPAccessContextManagerAccessPolicyClient(cfg),
+		BronzeGCPAccessContextManagerServicePerimeter:        NewBronzeGCPAccessContextManagerServicePerimeterClient(cfg),
+		BronzeGCPAlloyDBCluster:                              NewBronzeGCPAlloyDBClusterClient(cfg),
+		BronzeGCPAppEngineApplication:                        NewBronzeGCPAppEngineApplicationClient(cfg),
+		BronzeGCPAppEngineService:                            NewBronzeGCPAppEngineServiceClient(cfg),
+		BronzeGCPBigQueryDataset:                             NewBronzeGCPBigQueryDatasetClient(cfg),
+		BronzeGCPBigQueryTable:                               NewBronzeGCPBigQueryTableClient(cfg),
+		BronzeGCPBigtableCluster:                             NewBronzeGCPBigtableClusterClient(cfg),
+		BronzeGCPBigtableInstance:                            NewBronzeGCPBigtableInstanceClient(cfg),
+		BronzeGCPBinaryAuthorizationAttestor:                 NewBronzeGCPBinaryAuthorizationAttestorClient(cfg),
+		BronzeGCPBinaryAuthorizationPolicy:                   NewBronzeGCPBinaryAuthorizationPolicyClient(cfg),
+		BronzeGCPCloudAssetAsset:                             NewBronzeGCPCloudAssetAssetClient(cfg),
+		BronzeGCPCloudAssetIAMPolicySearch:                   NewBronzeGCPCloudAssetIAMPolicySearchClient(cfg),
+		BronzeGCPCloudAssetResourceSearch:                    NewBronzeGCPCloudAssetResourceSearchClient(cfg),
+		BronzeGCPCloudFunctionsFunction:                      NewBronzeGCPCloudFunctionsFunctionClient(cfg),
+		BronzeGCPComputeAddress:                              NewBronzeGCPComputeAddressClient(cfg),
+		BronzeGCPComputeAddressLabel:                         NewBronzeGCPComputeAddressLabelClient(cfg),
+		BronzeGCPComputeBackendService:                       NewBronzeGCPComputeBackendServiceClient(cfg),
+		BronzeGCPComputeBackendServiceBackend:                NewBronzeGCPComputeBackendServiceBackendClient(cfg),
+		BronzeGCPComputeDisk:                                 NewBronzeGCPComputeDiskClient(cfg),
+		BronzeGCPComputeDiskLabel:                            NewBronzeGCPComputeDiskLabelClient(cfg),
+		BronzeGCPComputeDiskLicense:                          NewBronzeGCPComputeDiskLicenseClient(cfg),
+		BronzeGCPComputeFirewall:                             NewBronzeGCPComputeFirewallClient(cfg),
+		BronzeGCPComputeFirewallAllowed:                      NewBronzeGCPComputeFirewallAllowedClient(cfg),
+		BronzeGCPComputeFirewallDenied:                       NewBronzeGCPComputeFirewallDeniedClient(cfg),
+		BronzeGCPComputeForwardingRule:                       NewBronzeGCPComputeForwardingRuleClient(cfg),
+		BronzeGCPComputeForwardingRuleLabel:                  NewBronzeGCPComputeForwardingRuleLabelClient(cfg),
+		BronzeGCPComputeGlobalAddress:                        NewBronzeGCPComputeGlobalAddressClient(cfg),
+		BronzeGCPComputeGlobalAddressLabel:                   NewBronzeGCPComputeGlobalAddressLabelClient(cfg),
+		BronzeGCPComputeGlobalForwardingRule:                 NewBronzeGCPComputeGlobalForwardingRuleClient(cfg),
+		BronzeGCPComputeGlobalForwardingRuleLabel:            NewBronzeGCPComputeGlobalForwardingRuleLabelClient(cfg),
+		BronzeGCPComputeHealthCheck:                          NewBronzeGCPComputeHealthCheckClient(cfg),
+		BronzeGCPComputeImage:                                NewBronzeGCPComputeImageClient(cfg),
+		BronzeGCPComputeImageLabel:                           NewBronzeGCPComputeImageLabelClient(cfg),
+		BronzeGCPComputeImageLicense:                         NewBronzeGCPComputeImageLicenseClient(cfg),
+		BronzeGCPComputeInstance:                             NewBronzeGCPComputeInstanceClient(cfg),
+		BronzeGCPComputeInstanceDisk:                         NewBronzeGCPComputeInstanceDiskClient(cfg),
+		BronzeGCPComputeInstanceDiskLicense:                  NewBronzeGCPComputeInstanceDiskLicenseClient(cfg),
+		BronzeGCPComputeInstanceGroup:                        NewBronzeGCPComputeInstanceGroupClient(cfg),
+		BronzeGCPComputeInstanceGroupMember:                  NewBronzeGCPComputeInstanceGroupMemberClient(cfg),
+		BronzeGCPComputeInstanceGroupNamedPort:               NewBronzeGCPComputeInstanceGroupNamedPortClient(cfg),
+		BronzeGCPComputeInstanceLabel:                        NewBronzeGCPComputeInstanceLabelClient(cfg),
+		BronzeGCPComputeInstanceMetadata:                     NewBronzeGCPComputeInstanceMetadataClient(cfg),
+		BronzeGCPComputeInstanceNIC:                          NewBronzeGCPComputeInstanceNICClient(cfg),
+		BronzeGCPComputeInstanceNICAccessConfig:              NewBronzeGCPComputeInstanceNICAccessConfigClient(cfg),
+		BronzeGCPComputeInstanceNICAliasRange:                NewBronzeGCPComputeInstanceNICAliasRangeClient(cfg),
+		BronzeGCPComputeInstanceServiceAccount:               NewBronzeGCPComputeInstanceServiceAccountClient(cfg),
+		BronzeGCPComputeInstanceTag:                          NewBronzeGCPComputeInstanceTagClient(cfg),
+		BronzeGCPComputeInterconnect:                         NewBronzeGCPComputeInterconnectClient(cfg),
+		BronzeGCPComputeNeg:                                  NewBronzeGCPComputeNegClient(cfg),
+		BronzeGCPComputeNegEndpoint:                          NewBronzeGCPComputeNegEndpointClient(cfg),
+		BronzeGCPComputeNetwork:                              NewBronzeGCPComputeNetworkClient(cfg),
+		BronzeGCPComputeNetworkPeering:                       NewBronzeGCPComputeNetworkPeeringClient(cfg),
+		BronzeGCPComputePacketMirroring:                      NewBronzeGCPComputePacketMirroringClient(cfg),
+		BronzeGCPComputeProjectMetadata:                      NewBronzeGCPComputeProjectMetadataClient(cfg),
+		BronzeGCPComputeProjectMetadataItem:                  NewBronzeGCPComputeProjectMetadataItemClient(cfg),
+		BronzeGCPComputeRouter:                               NewBronzeGCPComputeRouterClient(cfg),
+		BronzeGCPComputeSecurityPolicy:                       NewBronzeGCPComputeSecurityPolicyClient(cfg),
+		BronzeGCPComputeSnapshot:                             NewBronzeGCPComputeSnapshotClient(cfg),
+		BronzeGCPComputeSnapshotLabel:                        NewBronzeGCPComputeSnapshotLabelClient(cfg),
+		BronzeGCPComputeSnapshotLicense:                      NewBronzeGCPComputeSnapshotLicenseClient(cfg),
+		BronzeGCPComputeSslPolicy:                            NewBronzeGCPComputeSslPolicyClient(cfg),
+		BronzeGCPComputeSubnetwork:                           NewBronzeGCPComputeSubnetworkClient(cfg),
+		BronzeGCPComputeSubnetworkSecondaryRange:             NewBronzeGCPComputeSubnetworkSecondaryRangeClient(cfg),
+		BronzeGCPComputeTargetHttpProxy:                      NewBronzeGCPComputeTargetHttpProxyClient(cfg),
+		BronzeGCPComputeTargetHttpsProxy:                     NewBronzeGCPComputeTargetHttpsProxyClient(cfg),
+		BronzeGCPComputeTargetInstance:                       NewBronzeGCPComputeTargetInstanceClient(cfg),
+		BronzeGCPComputeTargetPool:                           NewBronzeGCPComputeTargetPoolClient(cfg),
+		BronzeGCPComputeTargetSslProxy:                       NewBronzeGCPComputeTargetSslProxyClient(cfg),
+		BronzeGCPComputeTargetTcpProxy:                       NewBronzeGCPComputeTargetTcpProxyClient(cfg),
+		BronzeGCPComputeUrlMap:                               NewBronzeGCPComputeUrlMapClient(cfg),
+		BronzeGCPContainerAnalysisNote:                       NewBronzeGCPContainerAnalysisNoteClient(cfg),
+		BronzeGCPContainerAnalysisOccurrence:                 NewBronzeGCPContainerAnalysisOccurrenceClient(cfg),
+		BronzeGCPContainerCluster:                            NewBronzeGCPContainerClusterClient(cfg),
+		BronzeGCPContainerClusterAddon:                       NewBronzeGCPContainerClusterAddonClient(cfg),
+		BronzeGCPContainerClusterCondition:                   NewBronzeGCPContainerClusterConditionClient(cfg),
+		BronzeGCPContainerClusterLabel:                       NewBronzeGCPContainerClusterLabelClient(cfg),
+		BronzeGCPContainerClusterNodePool:                    NewBronzeGCPContainerClusterNodePoolClient(cfg),
+		BronzeGCPDNSManagedZone:                              NewBronzeGCPDNSManagedZoneClient(cfg),
+		BronzeGCPDNSManagedZoneLabel:                         NewBronzeGCPDNSManagedZoneLabelClient(cfg),
+		BronzeGCPDNSPolicy:                                   NewBronzeGCPDNSPolicyClient(cfg),
+		BronzeGCPDataprocCluster:                             NewBronzeGCPDataprocClusterClient(cfg),
+		BronzeGCPFilestoreInstance:                           NewBronzeGCPFilestoreInstanceClient(cfg),
+		BronzeGCPFolder:                                      NewBronzeGCPFolderClient(cfg),
+		BronzeGCPFolderIamPolicy:                             NewBronzeGCPFolderIamPolicyClient(cfg),
+		BronzeGCPFolderIamPolicyBinding:                      NewBronzeGCPFolderIamPolicyBindingClient(cfg),
+		BronzeGCPFolderLabel:                                 NewBronzeGCPFolderLabelClient(cfg),
+		BronzeGCPIAMServiceAccount:                           NewBronzeGCPIAMServiceAccountClient(cfg),
+		BronzeGCPIAMServiceAccountKey:                        NewBronzeGCPIAMServiceAccountKeyClient(cfg),
+		BronzeGCPIAPIAMPolicy:                                NewBronzeGCPIAPIAMPolicyClient(cfg),
+		BronzeGCPIAPSettings:                                 NewBronzeGCPIAPSettingsClient(cfg),
+		BronzeGCPKMSCryptoKey:                                NewBronzeGCPKMSCryptoKeyClient(cfg),
+		BronzeGCPKMSKeyRing:                                  NewBronzeGCPKMSKeyRingClient(cfg),
+		BronzeGCPLoggingBucket:                               NewBronzeGCPLoggingBucketClient(cfg),
+		BronzeGCPLoggingLogExclusion:                         NewBronzeGCPLoggingLogExclusionClient(cfg),
+		BronzeGCPLoggingLogMetric:                            NewBronzeGCPLoggingLogMetricClient(cfg),
+		BronzeGCPLoggingSink:                                 NewBronzeGCPLoggingSinkClient(cfg),
+		BronzeGCPMonitoringAlertPolicy:                       NewBronzeGCPMonitoringAlertPolicyClient(cfg),
+		BronzeGCPMonitoringUptimeCheckConfig:                 NewBronzeGCPMonitoringUptimeCheckConfigClient(cfg),
+		BronzeGCPOrgIamPolicy:                                NewBronzeGCPOrgIamPolicyClient(cfg),
+		BronzeGCPOrgIamPolicyBinding:                         NewBronzeGCPOrgIamPolicyBindingClient(cfg),
+		BronzeGCPOrgPolicyConstraint:                         NewBronzeGCPOrgPolicyConstraintClient(cfg),
+		BronzeGCPOrgPolicyCustomConstraint:                   NewBronzeGCPOrgPolicyCustomConstraintClient(cfg),
+		BronzeGCPOrgPolicyPolicy:                             NewBronzeGCPOrgPolicyPolicyClient(cfg),
+		BronzeGCPOrganization:                                NewBronzeGCPOrganizationClient(cfg),
+		BronzeGCPProject:                                     NewBronzeGCPProjectClient(cfg),
+		BronzeGCPProjectIamPolicy:                            NewBronzeGCPProjectIamPolicyClient(cfg),
+		BronzeGCPProjectIamPolicyBinding:                     NewBronzeGCPProjectIamPolicyBindingClient(cfg),
+		BronzeGCPProjectLabel:                                NewBronzeGCPProjectLabelClient(cfg),
+		BronzeGCPPubSubSubscription:                          NewBronzeGCPPubSubSubscriptionClient(cfg),
+		BronzeGCPPubSubTopic:                                 NewBronzeGCPPubSubTopicClient(cfg),
+		BronzeGCPRedisInstance:                               NewBronzeGCPRedisInstanceClient(cfg),
+		BronzeGCPRunRevision:                                 NewBronzeGCPRunRevisionClient(cfg),
+		BronzeGCPRunService:                                  NewBronzeGCPRunServiceClient(cfg),
+		BronzeGCPSQLInstance:                                 NewBronzeGCPSQLInstanceClient(cfg),
+		BronzeGCPSQLInstanceLabel:                            NewBronzeGCPSQLInstanceLabelClient(cfg),
+		BronzeGCPSecretManagerSecret:                         NewBronzeGCPSecretManagerSecretClient(cfg),
+		BronzeGCPSecretManagerSecretLabel:                    NewBronzeGCPSecretManagerSecretLabelClient(cfg),
+		BronzeGCPSecurityCenterFinding:                       NewBronzeGCPSecurityCenterFindingClient(cfg),
+		BronzeGCPSecurityCenterNotificationConfig:            NewBronzeGCPSecurityCenterNotificationConfigClient(cfg),
+		BronzeGCPSecurityCenterSource:                        NewBronzeGCPSecurityCenterSourceClient(cfg),
+		BronzeGCPServiceUsageEnabledService:                  NewBronzeGCPServiceUsageEnabledServiceClient(cfg),
+		BronzeGCPSpannerDatabase:                             NewBronzeGCPSpannerDatabaseClient(cfg),
+		BronzeGCPSpannerInstance:                             NewBronzeGCPSpannerInstanceClient(cfg),
+		BronzeGCPStorageBucket:                               NewBronzeGCPStorageBucketClient(cfg),
+		BronzeGCPStorageBucketIamPolicy:                      NewBronzeGCPStorageBucketIamPolicyClient(cfg),
+		BronzeGCPStorageBucketIamPolicyBinding:               NewBronzeGCPStorageBucketIamPolicyBindingClient(cfg),
+		BronzeGCPStorageBucketLabel:                          NewBronzeGCPStorageBucketLabelClient(cfg),
+		BronzeGCPVPCAccessConnector:                          NewBronzeGCPVPCAccessConnectorClient(cfg),
+		BronzeGCPVPNGateway:                                  NewBronzeGCPVPNGatewayClient(cfg),
+		BronzeGCPVPNGatewayLabel:                             NewBronzeGCPVPNGatewayLabelClient(cfg),
+		BronzeGCPVPNTargetGateway:                            NewBronzeGCPVPNTargetGatewayClient(cfg),
+		BronzeGCPVPNTargetGatewayLabel:                       NewBronzeGCPVPNTargetGatewayLabelClient(cfg),
+		BronzeGCPVPNTunnel:                                   NewBronzeGCPVPNTunnelClient(cfg),
+		BronzeGCPVPNTunnelLabel:                              NewBronzeGCPVPNTunnelLabelClient(cfg),
+		BronzeHistoryAWSEC2Instance:                          NewBronzeHistoryAWSEC2InstanceClient(cfg),
+		BronzeHistoryAWSEC2InstanceTag:                       NewBronzeHistoryAWSEC2InstanceTagClient(cfg),
+		BronzeHistoryDOAccount:                               NewBronzeHistoryDOAccountClient(cfg),
+		BronzeHistoryDODatabase:                              NewBronzeHistoryDODatabaseClient(cfg),
+		BronzeHistoryDODatabaseBackup:                        NewBronzeHistoryDODatabaseBackupClient(cfg),
+		BronzeHistoryDODatabaseConfig:                        NewBronzeHistoryDODatabaseConfigClient(cfg),
+		BronzeHistoryDODatabaseFirewallRule:                  NewBronzeHistoryDODatabaseFirewallRuleClient(cfg),
+		BronzeHistoryDODatabasePool:                          NewBronzeHistoryDODatabasePoolClient(cfg),
+		BronzeHistoryDODatabaseReplica:                       NewBronzeHistoryDODatabaseReplicaClient(cfg),
+		BronzeHistoryDODatabaseUser:                          NewBronzeHistoryDODatabaseUserClient(cfg),
+		BronzeHistoryDODomain:                                NewBronzeHistoryDODomainClient(cfg),
+		BronzeHistoryDODomainRecord:                          NewBronzeHistoryDODomainRecordClient(cfg),
+		BronzeHistoryDODroplet:                               NewBronzeHistoryDODropletClient(cfg),
+		BronzeHistoryDOFirewall:                              NewBronzeHistoryDOFirewallClient(cfg),
+		BronzeHistoryDOKey:                                   NewBronzeHistoryDOKeyClient(cfg),
+		BronzeHistoryDOLoadBalancer:                          NewBronzeHistoryDOLoadBalancerClient(cfg),
+		BronzeHistoryDOProject:                               NewBronzeHistoryDOProjectClient(cfg),
+		BronzeHistoryDOProjectResource:                       NewBronzeHistoryDOProjectResourceClient(cfg),
+		BronzeHistoryDOVolume:                                NewBronzeHistoryDOVolumeClient(cfg),
+		BronzeHistoryDOVpc:                                   NewBronzeHistoryDOVpcClient(cfg),
+		BronzeHistoryGCPAccessContextManagerAccessLevel:      NewBronzeHistoryGCPAccessContextManagerAccessLevelClient(cfg),
+		BronzeHistoryGCPAccessContextManagerAccessPolicy:     NewBronzeHistoryGCPAccessContextManagerAccessPolicyClient(cfg),
+		BronzeHistoryGCPAccessContextManagerServicePerimeter: NewBronzeHistoryGCPAccessContextManagerServicePerimeterClient(cfg),
+		BronzeHistoryGCPAlloyDBCluster:                       NewBronzeHistoryGCPAlloyDBClusterClient(cfg),
+		BronzeHistoryGCPAppEngineApplication:                 NewBronzeHistoryGCPAppEngineApplicationClient(cfg),
+		BronzeHistoryGCPAppEngineService:                     NewBronzeHistoryGCPAppEngineServiceClient(cfg),
+		BronzeHistoryGCPBigQueryDataset:                      NewBronzeHistoryGCPBigQueryDatasetClient(cfg),
+		BronzeHistoryGCPBigQueryTable:                        NewBronzeHistoryGCPBigQueryTableClient(cfg),
+		BronzeHistoryGCPBigtableCluster:                      NewBronzeHistoryGCPBigtableClusterClient(cfg),
+		BronzeHistoryGCPBigtableInstance:                     NewBronzeHistoryGCPBigtableInstanceClient(cfg),
+		BronzeHistoryGCPBinaryAuthorizationAttestor:          NewBronzeHistoryGCPBinaryAuthorizationAttestorClient(cfg),
+		BronzeHistoryGCPBinaryAuthorizationPolicy:            NewBronzeHistoryGCPBinaryAuthorizationPolicyClient(cfg),
+		BronzeHistoryGCPCloudAssetAsset:                      NewBronzeHistoryGCPCloudAssetAssetClient(cfg),
+		BronzeHistoryGCPCloudAssetIAMPolicySearch:            NewBronzeHistoryGCPCloudAssetIAMPolicySearchClient(cfg),
+		BronzeHistoryGCPCloudAssetResourceSearch:             NewBronzeHistoryGCPCloudAssetResourceSearchClient(cfg),
+		BronzeHistoryGCPCloudFunctionsFunction:               NewBronzeHistoryGCPCloudFunctionsFunctionClient(cfg),
+		BronzeHistoryGCPComputeAddress:                       NewBronzeHistoryGCPComputeAddressClient(cfg),
+		BronzeHistoryGCPComputeAddressLabel:                  NewBronzeHistoryGCPComputeAddressLabelClient(cfg),
+		BronzeHistoryGCPComputeBackendService:                NewBronzeHistoryGCPComputeBackendServiceClient(cfg),
+		BronzeHistoryGCPComputeBackendServiceBackend:         NewBronzeHistoryGCPComputeBackendServiceBackendClient(cfg),
+		BronzeHistoryGCPComputeDisk:                          NewBronzeHistoryGCPComputeDiskClient(cfg),
+		BronzeHistoryGCPComputeDiskLabel:                     NewBronzeHistoryGCPComputeDiskLabelClient(cfg),
+		BronzeHistoryGCPComputeDiskLicense:                   NewBronzeHistoryGCPComputeDiskLicenseClient(cfg),
+		BronzeHistoryGCPComputeFirewall:                      NewBronzeHistoryGCPComputeFirewallClient(cfg),
+		BronzeHistoryGCPComputeFirewallAllowed:               NewBronzeHistoryGCPComputeFirewallAllowedClient(cfg),
+		BronzeHistoryGCPComputeFirewallDenied:                NewBronzeHistoryGCPComputeFirewallDeniedClient(cfg),
+		BronzeHistoryGCPComputeForwardingRule:                NewBronzeHistoryGCPComputeForwardingRuleClient(cfg),
+		BronzeHistoryGCPComputeForwardingRuleLabel:           NewBronzeHistoryGCPComputeForwardingRuleLabelClient(cfg),
+		BronzeHistoryGCPComputeGlobalAddress:                 NewBronzeHistoryGCPComputeGlobalAddressClient(cfg),
+		BronzeHistoryGCPComputeGlobalAddressLabel:            NewBronzeHistoryGCPComputeGlobalAddressLabelClient(cfg),
+		BronzeHistoryGCPComputeGlobalForwardingRule:          NewBronzeHistoryGCPComputeGlobalForwardingRuleClient(cfg),
+		BronzeHistoryGCPComputeGlobalForwardingRuleLabel:     NewBronzeHistoryGCPComputeGlobalForwardingRuleLabelClient(cfg),
+		BronzeHistoryGCPComputeHealthCheck:                   NewBronzeHistoryGCPComputeHealthCheckClient(cfg),
+		BronzeHistoryGCPComputeImage:                         NewBronzeHistoryGCPComputeImageClient(cfg),
+		BronzeHistoryGCPComputeImageLabel:                    NewBronzeHistoryGCPComputeImageLabelClient(cfg),
+		BronzeHistoryGCPComputeImageLicense:                  NewBronzeHistoryGCPComputeImageLicenseClient(cfg),
+		BronzeHistoryGCPComputeInstance:                      NewBronzeHistoryGCPComputeInstanceClient(cfg),
+		BronzeHistoryGCPComputeInstanceDisk:                  NewBronzeHistoryGCPComputeInstanceDiskClient(cfg),
+		BronzeHistoryGCPComputeInstanceDiskLicense:           NewBronzeHistoryGCPComputeInstanceDiskLicenseClient(cfg),
+		BronzeHistoryGCPComputeInstanceGroup:                 NewBronzeHistoryGCPComputeInstanceGroupClient(cfg),
+		BronzeHistoryGCPComputeInstanceGroupMember:           NewBronzeHistoryGCPComputeInstanceGroupMemberClient(cfg),
+		BronzeHistoryGCPComputeInstanceGroupNamedPort:        NewBronzeHistoryGCPComputeInstanceGroupNamedPortClient(cfg),
+		BronzeHistoryGCPComputeInstanceLabel:                 NewBronzeHistoryGCPComputeInstanceLabelClient(cfg),
+		BronzeHistoryGCPComputeInstanceMetadata:              NewBronzeHistoryGCPComputeInstanceMetadataClient(cfg),
+		BronzeHistoryGCPComputeInstanceNIC:                   NewBronzeHistoryGCPComputeInstanceNICClient(cfg),
+		BronzeHistoryGCPComputeInstanceNICAccessConfig:       NewBronzeHistoryGCPComputeInstanceNICAccessConfigClient(cfg),
+		BronzeHistoryGCPComputeInstanceNICAliasRange:         NewBronzeHistoryGCPComputeInstanceNICAliasRangeClient(cfg),
+		BronzeHistoryGCPComputeInstanceServiceAccount:        NewBronzeHistoryGCPComputeInstanceServiceAccountClient(cfg),
+		BronzeHistoryGCPComputeInstanceTag:                   NewBronzeHistoryGCPComputeInstanceTagClient(cfg),
+		BronzeHistoryGCPComputeInterconnect:                  NewBronzeHistoryGCPComputeInterconnectClient(cfg),
+		BronzeHistoryGCPComputeNeg:                           NewBronzeHistoryGCPComputeNegClient(cfg),
+		BronzeHistoryGCPComputeNegEndpoint:                   NewBronzeHistoryGCPComputeNegEndpointClient(cfg),
+		BronzeHistoryGCPComputeNetwork:                       NewBronzeHistoryGCPComputeNetworkClient(cfg),
+		BronzeHistoryGCPComputeNetworkPeering:                NewBronzeHistoryGCPComputeNetworkPeeringClient(cfg),
+		BronzeHistoryGCPComputePacketMirroring:               NewBronzeHistoryGCPComputePacketMirroringClient(cfg),
+		BronzeHistoryGCPComputeProjectMetadata:               NewBronzeHistoryGCPComputeProjectMetadataClient(cfg),
+		BronzeHistoryGCPComputeProjectMetadataItem:           NewBronzeHistoryGCPComputeProjectMetadataItemClient(cfg),
+		BronzeHistoryGCPComputeRouter:                        NewBronzeHistoryGCPComputeRouterClient(cfg),
+		BronzeHistoryGCPComputeSecurityPolicy:                NewBronzeHistoryGCPComputeSecurityPolicyClient(cfg),
+		BronzeHistoryGCPComputeSnapshot:                      NewBronzeHistoryGCPComputeSnapshotClient(cfg),
+		BronzeHistoryGCPComputeSnapshotLabel:                 NewBronzeHistoryGCPComputeSnapshotLabelClient(cfg),
+		BronzeHistoryGCPComputeSnapshotLicense:               NewBronzeHistoryGCPComputeSnapshotLicenseClient(cfg),
+		BronzeHistoryGCPComputeSslPolicy:                     NewBronzeHistoryGCPComputeSslPolicyClient(cfg),
+		BronzeHistoryGCPComputeSubnetwork:                    NewBronzeHistoryGCPComputeSubnetworkClient(cfg),
+		BronzeHistoryGCPComputeSubnetworkSecondaryRange:      NewBronzeHistoryGCPComputeSubnetworkSecondaryRangeClient(cfg),
+		BronzeHistoryGCPComputeTargetHttpProxy:               NewBronzeHistoryGCPComputeTargetHttpProxyClient(cfg),
+		BronzeHistoryGCPComputeTargetHttpsProxy:              NewBronzeHistoryGCPComputeTargetHttpsProxyClient(cfg),
+		BronzeHistoryGCPComputeTargetInstance:                NewBronzeHistoryGCPComputeTargetInstanceClient(cfg),
+		BronzeHistoryGCPComputeTargetPool:                    NewBronzeHistoryGCPComputeTargetPoolClient(cfg),
+		BronzeHistoryGCPComputeTargetSslProxy:                NewBronzeHistoryGCPComputeTargetSslProxyClient(cfg),
+		BronzeHistoryGCPComputeTargetTcpProxy:                NewBronzeHistoryGCPComputeTargetTcpProxyClient(cfg),
+		BronzeHistoryGCPComputeUrlMap:                        NewBronzeHistoryGCPComputeUrlMapClient(cfg),
+		BronzeHistoryGCPContainerAnalysisNote:                NewBronzeHistoryGCPContainerAnalysisNoteClient(cfg),
+		BronzeHistoryGCPContainerAnalysisOccurrence:          NewBronzeHistoryGCPContainerAnalysisOccurrenceClient(cfg),
+		BronzeHistoryGCPContainerCluster:                     NewBronzeHistoryGCPContainerClusterClient(cfg),
+		BronzeHistoryGCPContainerClusterAddon:                NewBronzeHistoryGCPContainerClusterAddonClient(cfg),
+		BronzeHistoryGCPContainerClusterCondition:            NewBronzeHistoryGCPContainerClusterConditionClient(cfg),
+		BronzeHistoryGCPContainerClusterLabel:                NewBronzeHistoryGCPContainerClusterLabelClient(cfg),
+		BronzeHistoryGCPContainerClusterNodePool:             NewBronzeHistoryGCPContainerClusterNodePoolClient(cfg),
+		BronzeHistoryGCPDNSManagedZone:                       NewBronzeHistoryGCPDNSManagedZoneClient(cfg),
+		BronzeHistoryGCPDNSManagedZoneLabel:                  NewBronzeHistoryGCPDNSManagedZoneLabelClient(cfg),
+		BronzeHistoryGCPDNSPolicy:                            NewBronzeHistoryGCPDNSPolicyClient(cfg),
+		BronzeHistoryGCPDataprocCluster:                      NewBronzeHistoryGCPDataprocClusterClient(cfg),
+		BronzeHistoryGCPFilestoreInstance:                    NewBronzeHistoryGCPFilestoreInstanceClient(cfg),
+		BronzeHistoryGCPFolder:                               NewBronzeHistoryGCPFolderClient(cfg),
+		BronzeHistoryGCPFolderIamPolicy:                      NewBronzeHistoryGCPFolderIamPolicyClient(cfg),
+		BronzeHistoryGCPFolderIamPolicyBinding:               NewBronzeHistoryGCPFolderIamPolicyBindingClient(cfg),
+		BronzeHistoryGCPFolderLabel:                          NewBronzeHistoryGCPFolderLabelClient(cfg),
+		BronzeHistoryGCPIAMServiceAccount:                    NewBronzeHistoryGCPIAMServiceAccountClient(cfg),
+		BronzeHistoryGCPIAMServiceAccountKey:                 NewBronzeHistoryGCPIAMServiceAccountKeyClient(cfg),
+		BronzeHistoryGCPIAPIAMPolicy:                         NewBronzeHistoryGCPIAPIAMPolicyClient(cfg),
+		BronzeHistoryGCPIAPSettings:                          NewBronzeHistoryGCPIAPSettingsClient(cfg),
+		BronzeHistoryGCPKMSCryptoKey:                         NewBronzeHistoryGCPKMSCryptoKeyClient(cfg),
+		BronzeHistoryGCPKMSKeyRing:                           NewBronzeHistoryGCPKMSKeyRingClient(cfg),
+		BronzeHistoryGCPLoggingBucket:                        NewBronzeHistoryGCPLoggingBucketClient(cfg),
+		BronzeHistoryGCPLoggingLogExclusion:                  NewBronzeHistoryGCPLoggingLogExclusionClient(cfg),
+		BronzeHistoryGCPLoggingLogMetric:                     NewBronzeHistoryGCPLoggingLogMetricClient(cfg),
+		BronzeHistoryGCPLoggingSink:                          NewBronzeHistoryGCPLoggingSinkClient(cfg),
+		BronzeHistoryGCPMonitoringAlertPolicy:                NewBronzeHistoryGCPMonitoringAlertPolicyClient(cfg),
+		BronzeHistoryGCPMonitoringUptimeCheckConfig:          NewBronzeHistoryGCPMonitoringUptimeCheckConfigClient(cfg),
+		BronzeHistoryGCPOrgIamPolicy:                         NewBronzeHistoryGCPOrgIamPolicyClient(cfg),
+		BronzeHistoryGCPOrgIamPolicyBinding:                  NewBronzeHistoryGCPOrgIamPolicyBindingClient(cfg),
+		BronzeHistoryGCPOrgPolicyConstraint:                  NewBronzeHistoryGCPOrgPolicyConstraintClient(cfg),
+		BronzeHistoryGCPOrgPolicyCustomConstraint:            NewBronzeHistoryGCPOrgPolicyCustomConstraintClient(cfg),
+		BronzeHistoryGCPOrgPolicyPolicy:                      NewBronzeHistoryGCPOrgPolicyPolicyClient(cfg),
+		BronzeHistoryGCPOrganization:                         NewBronzeHistoryGCPOrganizationClient(cfg),
+		BronzeHistoryGCPProject:                              NewBronzeHistoryGCPProjectClient(cfg),
+		BronzeHistoryGCPProjectIamPolicy:                     NewBronzeHistoryGCPProjectIamPolicyClient(cfg),
+		BronzeHistoryGCPProjectIamPolicyBinding:              NewBronzeHistoryGCPProjectIamPolicyBindingClient(cfg),
+		BronzeHistoryGCPProjectLabel:                         NewBronzeHistoryGCPProjectLabelClient(cfg),
+		BronzeHistoryGCPPubSubSubscription:                   NewBronzeHistoryGCPPubSubSubscriptionClient(cfg),
+		BronzeHistoryGCPPubSubTopic:                          NewBronzeHistoryGCPPubSubTopicClient(cfg),
+		BronzeHistoryGCPRedisInstance:                        NewBronzeHistoryGCPRedisInstanceClient(cfg),
+		BronzeHistoryGCPRunRevision:                          NewBronzeHistoryGCPRunRevisionClient(cfg),
+		BronzeHistoryGCPRunService:                           NewBronzeHistoryGCPRunServiceClient(cfg),
+		BronzeHistoryGCPSQLInstance:                          NewBronzeHistoryGCPSQLInstanceClient(cfg),
+		BronzeHistoryGCPSQLInstanceLabel:                     NewBronzeHistoryGCPSQLInstanceLabelClient(cfg),
+		BronzeHistoryGCPSecretManagerSecret:                  NewBronzeHistoryGCPSecretManagerSecretClient(cfg),
+		BronzeHistoryGCPSecretManagerSecretLabel:             NewBronzeHistoryGCPSecretManagerSecretLabelClient(cfg),
+		BronzeHistoryGCPSecurityCenterFinding:                NewBronzeHistoryGCPSecurityCenterFindingClient(cfg),
+		BronzeHistoryGCPSecurityCenterNotificationConfig:     NewBronzeHistoryGCPSecurityCenterNotificationConfigClient(cfg),
+		BronzeHistoryGCPSecurityCenterSource:                 NewBronzeHistoryGCPSecurityCenterSourceClient(cfg),
+		BronzeHistoryGCPServiceUsageEnabledService:           NewBronzeHistoryGCPServiceUsageEnabledServiceClient(cfg),
+		BronzeHistoryGCPSpannerDatabase:                      NewBronzeHistoryGCPSpannerDatabaseClient(cfg),
+		BronzeHistoryGCPSpannerInstance:                      NewBronzeHistoryGCPSpannerInstanceClient(cfg),
+		BronzeHistoryGCPStorageBucket:                        NewBronzeHistoryGCPStorageBucketClient(cfg),
+		BronzeHistoryGCPStorageBucketIamPolicy:               NewBronzeHistoryGCPStorageBucketIamPolicyClient(cfg),
+		BronzeHistoryGCPStorageBucketIamPolicyBinding:        NewBronzeHistoryGCPStorageBucketIamPolicyBindingClient(cfg),
+		BronzeHistoryGCPStorageBucketLabel:                   NewBronzeHistoryGCPStorageBucketLabelClient(cfg),
+		BronzeHistoryGCPVPCAccessConnector:                   NewBronzeHistoryGCPVPCAccessConnectorClient(cfg),
+		BronzeHistoryGCPVPNGateway:                           NewBronzeHistoryGCPVPNGatewayClient(cfg),
+		BronzeHistoryGCPVPNGatewayLabel:                      NewBronzeHistoryGCPVPNGatewayLabelClient(cfg),
+		BronzeHistoryGCPVPNTargetGateway:                     NewBronzeHistoryGCPVPNTargetGatewayClient(cfg),
+		BronzeHistoryGCPVPNTargetGatewayLabel:                NewBronzeHistoryGCPVPNTargetGatewayLabelClient(cfg),
+		BronzeHistoryGCPVPNTunnel:                            NewBronzeHistoryGCPVPNTunnelClient(cfg),
+		BronzeHistoryGCPVPNTunnelLabel:                       NewBronzeHistoryGCPVPNTunnelLabelClient(cfg),
+		BronzeHistoryS1Account:                               NewBronzeHistoryS1AccountClient(cfg),
+		BronzeHistoryS1Agent:                                 NewBronzeHistoryS1AgentClient(cfg),
+		BronzeHistoryS1AgentNIC:                              NewBronzeHistoryS1AgentNICClient(cfg),
+		BronzeHistoryS1App:                                   NewBronzeHistoryS1AppClient(cfg),
+		BronzeHistoryS1Group:                                 NewBronzeHistoryS1GroupClient(cfg),
+		BronzeHistoryS1Site:                                  NewBronzeHistoryS1SiteClient(cfg),
+		BronzeHistoryS1Threat:                                NewBronzeHistoryS1ThreatClient(cfg),
+		BronzeS1Account:                                      NewBronzeS1AccountClient(cfg),
+		BronzeS1Agent:                                        NewBronzeS1AgentClient(cfg),
+		BronzeS1AgentNIC:                                     NewBronzeS1AgentNICClient(cfg),
+		BronzeS1App:                                          NewBronzeS1AppClient(cfg),
+		BronzeS1Group:                                        NewBronzeS1GroupClient(cfg),
+		BronzeS1Site:                                         NewBronzeS1SiteClient(cfg),
+		BronzeS1Threat:                                       NewBronzeS1ThreatClient(cfg),
 	}, nil
 }
 
@@ -1456,270 +1776,334 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:                                              ctx,
-		config:                                           cfg,
-		BronzeAWSEC2Instance:                             NewBronzeAWSEC2InstanceClient(cfg),
-		BronzeAWSEC2InstanceTag:                          NewBronzeAWSEC2InstanceTagClient(cfg),
-		BronzeDOAccount:                                  NewBronzeDOAccountClient(cfg),
-		BronzeDODatabase:                                 NewBronzeDODatabaseClient(cfg),
-		BronzeDODatabaseBackup:                           NewBronzeDODatabaseBackupClient(cfg),
-		BronzeDODatabaseConfig:                           NewBronzeDODatabaseConfigClient(cfg),
-		BronzeDODatabaseFirewallRule:                     NewBronzeDODatabaseFirewallRuleClient(cfg),
-		BronzeDODatabasePool:                             NewBronzeDODatabasePoolClient(cfg),
-		BronzeDODatabaseReplica:                          NewBronzeDODatabaseReplicaClient(cfg),
-		BronzeDODatabaseUser:                             NewBronzeDODatabaseUserClient(cfg),
-		BronzeDODomain:                                   NewBronzeDODomainClient(cfg),
-		BronzeDODomainRecord:                             NewBronzeDODomainRecordClient(cfg),
-		BronzeDODroplet:                                  NewBronzeDODropletClient(cfg),
-		BronzeDOFirewall:                                 NewBronzeDOFirewallClient(cfg),
-		BronzeDOKey:                                      NewBronzeDOKeyClient(cfg),
-		BronzeDOKubernetesCluster:                        NewBronzeDOKubernetesClusterClient(cfg),
-		BronzeDOKubernetesNodePool:                       NewBronzeDOKubernetesNodePoolClient(cfg),
-		BronzeDOLoadBalancer:                             NewBronzeDOLoadBalancerClient(cfg),
-		BronzeDOProject:                                  NewBronzeDOProjectClient(cfg),
-		BronzeDOProjectResource:                          NewBronzeDOProjectResourceClient(cfg),
-		BronzeDOVolume:                                   NewBronzeDOVolumeClient(cfg),
-		BronzeDOVpc:                                      NewBronzeDOVpcClient(cfg),
-		BronzeGCPComputeAddress:                          NewBronzeGCPComputeAddressClient(cfg),
-		BronzeGCPComputeAddressLabel:                     NewBronzeGCPComputeAddressLabelClient(cfg),
-		BronzeGCPComputeBackendService:                   NewBronzeGCPComputeBackendServiceClient(cfg),
-		BronzeGCPComputeBackendServiceBackend:            NewBronzeGCPComputeBackendServiceBackendClient(cfg),
-		BronzeGCPComputeDisk:                             NewBronzeGCPComputeDiskClient(cfg),
-		BronzeGCPComputeDiskLabel:                        NewBronzeGCPComputeDiskLabelClient(cfg),
-		BronzeGCPComputeDiskLicense:                      NewBronzeGCPComputeDiskLicenseClient(cfg),
-		BronzeGCPComputeFirewall:                         NewBronzeGCPComputeFirewallClient(cfg),
-		BronzeGCPComputeFirewallAllowed:                  NewBronzeGCPComputeFirewallAllowedClient(cfg),
-		BronzeGCPComputeFirewallDenied:                   NewBronzeGCPComputeFirewallDeniedClient(cfg),
-		BronzeGCPComputeForwardingRule:                   NewBronzeGCPComputeForwardingRuleClient(cfg),
-		BronzeGCPComputeForwardingRuleLabel:              NewBronzeGCPComputeForwardingRuleLabelClient(cfg),
-		BronzeGCPComputeGlobalAddress:                    NewBronzeGCPComputeGlobalAddressClient(cfg),
-		BronzeGCPComputeGlobalAddressLabel:               NewBronzeGCPComputeGlobalAddressLabelClient(cfg),
-		BronzeGCPComputeGlobalForwardingRule:             NewBronzeGCPComputeGlobalForwardingRuleClient(cfg),
-		BronzeGCPComputeGlobalForwardingRuleLabel:        NewBronzeGCPComputeGlobalForwardingRuleLabelClient(cfg),
-		BronzeGCPComputeHealthCheck:                      NewBronzeGCPComputeHealthCheckClient(cfg),
-		BronzeGCPComputeImage:                            NewBronzeGCPComputeImageClient(cfg),
-		BronzeGCPComputeImageLabel:                       NewBronzeGCPComputeImageLabelClient(cfg),
-		BronzeGCPComputeImageLicense:                     NewBronzeGCPComputeImageLicenseClient(cfg),
-		BronzeGCPComputeInstance:                         NewBronzeGCPComputeInstanceClient(cfg),
-		BronzeGCPComputeInstanceDisk:                     NewBronzeGCPComputeInstanceDiskClient(cfg),
-		BronzeGCPComputeInstanceDiskLicense:              NewBronzeGCPComputeInstanceDiskLicenseClient(cfg),
-		BronzeGCPComputeInstanceGroup:                    NewBronzeGCPComputeInstanceGroupClient(cfg),
-		BronzeGCPComputeInstanceGroupMember:              NewBronzeGCPComputeInstanceGroupMemberClient(cfg),
-		BronzeGCPComputeInstanceGroupNamedPort:           NewBronzeGCPComputeInstanceGroupNamedPortClient(cfg),
-		BronzeGCPComputeInstanceLabel:                    NewBronzeGCPComputeInstanceLabelClient(cfg),
-		BronzeGCPComputeInstanceMetadata:                 NewBronzeGCPComputeInstanceMetadataClient(cfg),
-		BronzeGCPComputeInstanceNIC:                      NewBronzeGCPComputeInstanceNICClient(cfg),
-		BronzeGCPComputeInstanceNICAccessConfig:          NewBronzeGCPComputeInstanceNICAccessConfigClient(cfg),
-		BronzeGCPComputeInstanceNICAliasRange:            NewBronzeGCPComputeInstanceNICAliasRangeClient(cfg),
-		BronzeGCPComputeInstanceServiceAccount:           NewBronzeGCPComputeInstanceServiceAccountClient(cfg),
-		BronzeGCPComputeInstanceTag:                      NewBronzeGCPComputeInstanceTagClient(cfg),
-		BronzeGCPComputeInterconnect:                     NewBronzeGCPComputeInterconnectClient(cfg),
-		BronzeGCPComputeNeg:                              NewBronzeGCPComputeNegClient(cfg),
-		BronzeGCPComputeNegEndpoint:                      NewBronzeGCPComputeNegEndpointClient(cfg),
-		BronzeGCPComputeNetwork:                          NewBronzeGCPComputeNetworkClient(cfg),
-		BronzeGCPComputeNetworkPeering:                   NewBronzeGCPComputeNetworkPeeringClient(cfg),
-		BronzeGCPComputePacketMirroring:                  NewBronzeGCPComputePacketMirroringClient(cfg),
-		BronzeGCPComputeProjectMetadata:                  NewBronzeGCPComputeProjectMetadataClient(cfg),
-		BronzeGCPComputeProjectMetadataItem:              NewBronzeGCPComputeProjectMetadataItemClient(cfg),
-		BronzeGCPComputeRouter:                           NewBronzeGCPComputeRouterClient(cfg),
-		BronzeGCPComputeSecurityPolicy:                   NewBronzeGCPComputeSecurityPolicyClient(cfg),
-		BronzeGCPComputeSnapshot:                         NewBronzeGCPComputeSnapshotClient(cfg),
-		BronzeGCPComputeSnapshotLabel:                    NewBronzeGCPComputeSnapshotLabelClient(cfg),
-		BronzeGCPComputeSnapshotLicense:                  NewBronzeGCPComputeSnapshotLicenseClient(cfg),
-		BronzeGCPComputeSslPolicy:                        NewBronzeGCPComputeSslPolicyClient(cfg),
-		BronzeGCPComputeSubnetwork:                       NewBronzeGCPComputeSubnetworkClient(cfg),
-		BronzeGCPComputeSubnetworkSecondaryRange:         NewBronzeGCPComputeSubnetworkSecondaryRangeClient(cfg),
-		BronzeGCPComputeTargetHttpProxy:                  NewBronzeGCPComputeTargetHttpProxyClient(cfg),
-		BronzeGCPComputeTargetHttpsProxy:                 NewBronzeGCPComputeTargetHttpsProxyClient(cfg),
-		BronzeGCPComputeTargetInstance:                   NewBronzeGCPComputeTargetInstanceClient(cfg),
-		BronzeGCPComputeTargetPool:                       NewBronzeGCPComputeTargetPoolClient(cfg),
-		BronzeGCPComputeTargetSslProxy:                   NewBronzeGCPComputeTargetSslProxyClient(cfg),
-		BronzeGCPComputeTargetTcpProxy:                   NewBronzeGCPComputeTargetTcpProxyClient(cfg),
-		BronzeGCPComputeUrlMap:                           NewBronzeGCPComputeUrlMapClient(cfg),
-		BronzeGCPContainerCluster:                        NewBronzeGCPContainerClusterClient(cfg),
-		BronzeGCPContainerClusterAddon:                   NewBronzeGCPContainerClusterAddonClient(cfg),
-		BronzeGCPContainerClusterCondition:               NewBronzeGCPContainerClusterConditionClient(cfg),
-		BronzeGCPContainerClusterLabel:                   NewBronzeGCPContainerClusterLabelClient(cfg),
-		BronzeGCPContainerClusterNodePool:                NewBronzeGCPContainerClusterNodePoolClient(cfg),
-		BronzeGCPDNSManagedZone:                          NewBronzeGCPDNSManagedZoneClient(cfg),
-		BronzeGCPDNSManagedZoneLabel:                     NewBronzeGCPDNSManagedZoneLabelClient(cfg),
-		BronzeGCPDNSPolicy:                               NewBronzeGCPDNSPolicyClient(cfg),
-		BronzeGCPFolder:                                  NewBronzeGCPFolderClient(cfg),
-		BronzeGCPFolderIamPolicy:                         NewBronzeGCPFolderIamPolicyClient(cfg),
-		BronzeGCPFolderIamPolicyBinding:                  NewBronzeGCPFolderIamPolicyBindingClient(cfg),
-		BronzeGCPFolderLabel:                             NewBronzeGCPFolderLabelClient(cfg),
-		BronzeGCPIAMServiceAccount:                       NewBronzeGCPIAMServiceAccountClient(cfg),
-		BronzeGCPIAMServiceAccountKey:                    NewBronzeGCPIAMServiceAccountKeyClient(cfg),
-		BronzeGCPKMSCryptoKey:                            NewBronzeGCPKMSCryptoKeyClient(cfg),
-		BronzeGCPKMSKeyRing:                              NewBronzeGCPKMSKeyRingClient(cfg),
-		BronzeGCPLoggingBucket:                           NewBronzeGCPLoggingBucketClient(cfg),
-		BronzeGCPLoggingLogExclusion:                     NewBronzeGCPLoggingLogExclusionClient(cfg),
-		BronzeGCPLoggingLogMetric:                        NewBronzeGCPLoggingLogMetricClient(cfg),
-		BronzeGCPLoggingSink:                             NewBronzeGCPLoggingSinkClient(cfg),
-		BronzeGCPOrgIamPolicy:                            NewBronzeGCPOrgIamPolicyClient(cfg),
-		BronzeGCPOrgIamPolicyBinding:                     NewBronzeGCPOrgIamPolicyBindingClient(cfg),
-		BronzeGCPOrgPolicyConstraint:                     NewBronzeGCPOrgPolicyConstraintClient(cfg),
-		BronzeGCPOrgPolicyPolicy:                         NewBronzeGCPOrgPolicyPolicyClient(cfg),
-		BronzeGCPOrganization:                            NewBronzeGCPOrganizationClient(cfg),
-		BronzeGCPProject:                                 NewBronzeGCPProjectClient(cfg),
-		BronzeGCPProjectIamPolicy:                        NewBronzeGCPProjectIamPolicyClient(cfg),
-		BronzeGCPProjectIamPolicyBinding:                 NewBronzeGCPProjectIamPolicyBindingClient(cfg),
-		BronzeGCPProjectLabel:                            NewBronzeGCPProjectLabelClient(cfg),
-		BronzeGCPSQLInstance:                             NewBronzeGCPSQLInstanceClient(cfg),
-		BronzeGCPSQLInstanceLabel:                        NewBronzeGCPSQLInstanceLabelClient(cfg),
-		BronzeGCPSecretManagerSecret:                     NewBronzeGCPSecretManagerSecretClient(cfg),
-		BronzeGCPSecretManagerSecretLabel:                NewBronzeGCPSecretManagerSecretLabelClient(cfg),
-		BronzeGCPSecurityCenterFinding:                   NewBronzeGCPSecurityCenterFindingClient(cfg),
-		BronzeGCPSecurityCenterSource:                    NewBronzeGCPSecurityCenterSourceClient(cfg),
-		BronzeGCPStorageBucket:                           NewBronzeGCPStorageBucketClient(cfg),
-		BronzeGCPStorageBucketIamPolicy:                  NewBronzeGCPStorageBucketIamPolicyClient(cfg),
-		BronzeGCPStorageBucketIamPolicyBinding:           NewBronzeGCPStorageBucketIamPolicyBindingClient(cfg),
-		BronzeGCPStorageBucketLabel:                      NewBronzeGCPStorageBucketLabelClient(cfg),
-		BronzeGCPVPCAccessConnector:                      NewBronzeGCPVPCAccessConnectorClient(cfg),
-		BronzeGCPVPNGateway:                              NewBronzeGCPVPNGatewayClient(cfg),
-		BronzeGCPVPNGatewayLabel:                         NewBronzeGCPVPNGatewayLabelClient(cfg),
-		BronzeGCPVPNTargetGateway:                        NewBronzeGCPVPNTargetGatewayClient(cfg),
-		BronzeGCPVPNTargetGatewayLabel:                   NewBronzeGCPVPNTargetGatewayLabelClient(cfg),
-		BronzeGCPVPNTunnel:                               NewBronzeGCPVPNTunnelClient(cfg),
-		BronzeGCPVPNTunnelLabel:                          NewBronzeGCPVPNTunnelLabelClient(cfg),
-		BronzeHistoryAWSEC2Instance:                      NewBronzeHistoryAWSEC2InstanceClient(cfg),
-		BronzeHistoryAWSEC2InstanceTag:                   NewBronzeHistoryAWSEC2InstanceTagClient(cfg),
-		BronzeHistoryDOAccount:                           NewBronzeHistoryDOAccountClient(cfg),
-		BronzeHistoryDODatabase:                          NewBronzeHistoryDODatabaseClient(cfg),
-		BronzeHistoryDODatabaseBackup:                    NewBronzeHistoryDODatabaseBackupClient(cfg),
-		BronzeHistoryDODatabaseConfig:                    NewBronzeHistoryDODatabaseConfigClient(cfg),
-		BronzeHistoryDODatabaseFirewallRule:              NewBronzeHistoryDODatabaseFirewallRuleClient(cfg),
-		BronzeHistoryDODatabasePool:                      NewBronzeHistoryDODatabasePoolClient(cfg),
-		BronzeHistoryDODatabaseReplica:                   NewBronzeHistoryDODatabaseReplicaClient(cfg),
-		BronzeHistoryDODatabaseUser:                      NewBronzeHistoryDODatabaseUserClient(cfg),
-		BronzeHistoryDODomain:                            NewBronzeHistoryDODomainClient(cfg),
-		BronzeHistoryDODomainRecord:                      NewBronzeHistoryDODomainRecordClient(cfg),
-		BronzeHistoryDODroplet:                           NewBronzeHistoryDODropletClient(cfg),
-		BronzeHistoryDOFirewall:                          NewBronzeHistoryDOFirewallClient(cfg),
-		BronzeHistoryDOKey:                               NewBronzeHistoryDOKeyClient(cfg),
-		BronzeHistoryDOKubernetesCluster:                 NewBronzeHistoryDOKubernetesClusterClient(cfg),
-		BronzeHistoryDOKubernetesNodePool:                NewBronzeHistoryDOKubernetesNodePoolClient(cfg),
-		BronzeHistoryDOLoadBalancer:                      NewBronzeHistoryDOLoadBalancerClient(cfg),
-		BronzeHistoryDOProject:                           NewBronzeHistoryDOProjectClient(cfg),
-		BronzeHistoryDOProjectResource:                   NewBronzeHistoryDOProjectResourceClient(cfg),
-		BronzeHistoryDOVolume:                            NewBronzeHistoryDOVolumeClient(cfg),
-		BronzeHistoryDOVpc:                               NewBronzeHistoryDOVpcClient(cfg),
-		BronzeHistoryGCPComputeAddress:                   NewBronzeHistoryGCPComputeAddressClient(cfg),
-		BronzeHistoryGCPComputeAddressLabel:              NewBronzeHistoryGCPComputeAddressLabelClient(cfg),
-		BronzeHistoryGCPComputeBackendService:            NewBronzeHistoryGCPComputeBackendServiceClient(cfg),
-		BronzeHistoryGCPComputeBackendServiceBackend:     NewBronzeHistoryGCPComputeBackendServiceBackendClient(cfg),
-		BronzeHistoryGCPComputeDisk:                      NewBronzeHistoryGCPComputeDiskClient(cfg),
-		BronzeHistoryGCPComputeDiskLabel:                 NewBronzeHistoryGCPComputeDiskLabelClient(cfg),
-		BronzeHistoryGCPComputeDiskLicense:               NewBronzeHistoryGCPComputeDiskLicenseClient(cfg),
-		BronzeHistoryGCPComputeFirewall:                  NewBronzeHistoryGCPComputeFirewallClient(cfg),
-		BronzeHistoryGCPComputeFirewallAllowed:           NewBronzeHistoryGCPComputeFirewallAllowedClient(cfg),
-		BronzeHistoryGCPComputeFirewallDenied:            NewBronzeHistoryGCPComputeFirewallDeniedClient(cfg),
-		BronzeHistoryGCPComputeForwardingRule:            NewBronzeHistoryGCPComputeForwardingRuleClient(cfg),
-		BronzeHistoryGCPComputeForwardingRuleLabel:       NewBronzeHistoryGCPComputeForwardingRuleLabelClient(cfg),
-		BronzeHistoryGCPComputeGlobalAddress:             NewBronzeHistoryGCPComputeGlobalAddressClient(cfg),
-		BronzeHistoryGCPComputeGlobalAddressLabel:        NewBronzeHistoryGCPComputeGlobalAddressLabelClient(cfg),
-		BronzeHistoryGCPComputeGlobalForwardingRule:      NewBronzeHistoryGCPComputeGlobalForwardingRuleClient(cfg),
-		BronzeHistoryGCPComputeGlobalForwardingRuleLabel: NewBronzeHistoryGCPComputeGlobalForwardingRuleLabelClient(cfg),
-		BronzeHistoryGCPComputeHealthCheck:               NewBronzeHistoryGCPComputeHealthCheckClient(cfg),
-		BronzeHistoryGCPComputeImage:                     NewBronzeHistoryGCPComputeImageClient(cfg),
-		BronzeHistoryGCPComputeImageLabel:                NewBronzeHistoryGCPComputeImageLabelClient(cfg),
-		BronzeHistoryGCPComputeImageLicense:              NewBronzeHistoryGCPComputeImageLicenseClient(cfg),
-		BronzeHistoryGCPComputeInstance:                  NewBronzeHistoryGCPComputeInstanceClient(cfg),
-		BronzeHistoryGCPComputeInstanceDisk:              NewBronzeHistoryGCPComputeInstanceDiskClient(cfg),
-		BronzeHistoryGCPComputeInstanceDiskLicense:       NewBronzeHistoryGCPComputeInstanceDiskLicenseClient(cfg),
-		BronzeHistoryGCPComputeInstanceGroup:             NewBronzeHistoryGCPComputeInstanceGroupClient(cfg),
-		BronzeHistoryGCPComputeInstanceGroupMember:       NewBronzeHistoryGCPComputeInstanceGroupMemberClient(cfg),
-		BronzeHistoryGCPComputeInstanceGroupNamedPort:    NewBronzeHistoryGCPComputeInstanceGroupNamedPortClient(cfg),
-		BronzeHistoryGCPComputeInstanceLabel:             NewBronzeHistoryGCPComputeInstanceLabelClient(cfg),
-		BronzeHistoryGCPComputeInstanceMetadata:          NewBronzeHistoryGCPComputeInstanceMetadataClient(cfg),
-		BronzeHistoryGCPComputeInstanceNIC:               NewBronzeHistoryGCPComputeInstanceNICClient(cfg),
-		BronzeHistoryGCPComputeInstanceNICAccessConfig:   NewBronzeHistoryGCPComputeInstanceNICAccessConfigClient(cfg),
-		BronzeHistoryGCPComputeInstanceNICAliasRange:     NewBronzeHistoryGCPComputeInstanceNICAliasRangeClient(cfg),
-		BronzeHistoryGCPComputeInstanceServiceAccount:    NewBronzeHistoryGCPComputeInstanceServiceAccountClient(cfg),
-		BronzeHistoryGCPComputeInstanceTag:               NewBronzeHistoryGCPComputeInstanceTagClient(cfg),
-		BronzeHistoryGCPComputeInterconnect:              NewBronzeHistoryGCPComputeInterconnectClient(cfg),
-		BronzeHistoryGCPComputeNeg:                       NewBronzeHistoryGCPComputeNegClient(cfg),
-		BronzeHistoryGCPComputeNegEndpoint:               NewBronzeHistoryGCPComputeNegEndpointClient(cfg),
-		BronzeHistoryGCPComputeNetwork:                   NewBronzeHistoryGCPComputeNetworkClient(cfg),
-		BronzeHistoryGCPComputeNetworkPeering:            NewBronzeHistoryGCPComputeNetworkPeeringClient(cfg),
-		BronzeHistoryGCPComputePacketMirroring:           NewBronzeHistoryGCPComputePacketMirroringClient(cfg),
-		BronzeHistoryGCPComputeProjectMetadata:           NewBronzeHistoryGCPComputeProjectMetadataClient(cfg),
-		BronzeHistoryGCPComputeProjectMetadataItem:       NewBronzeHistoryGCPComputeProjectMetadataItemClient(cfg),
-		BronzeHistoryGCPComputeRouter:                    NewBronzeHistoryGCPComputeRouterClient(cfg),
-		BronzeHistoryGCPComputeSecurityPolicy:            NewBronzeHistoryGCPComputeSecurityPolicyClient(cfg),
-		BronzeHistoryGCPComputeSnapshot:                  NewBronzeHistoryGCPComputeSnapshotClient(cfg),
-		BronzeHistoryGCPComputeSnapshotLabel:             NewBronzeHistoryGCPComputeSnapshotLabelClient(cfg),
-		BronzeHistoryGCPComputeSnapshotLicense:           NewBronzeHistoryGCPComputeSnapshotLicenseClient(cfg),
-		BronzeHistoryGCPComputeSslPolicy:                 NewBronzeHistoryGCPComputeSslPolicyClient(cfg),
-		BronzeHistoryGCPComputeSubnetwork:                NewBronzeHistoryGCPComputeSubnetworkClient(cfg),
-		BronzeHistoryGCPComputeSubnetworkSecondaryRange:  NewBronzeHistoryGCPComputeSubnetworkSecondaryRangeClient(cfg),
-		BronzeHistoryGCPComputeTargetHttpProxy:           NewBronzeHistoryGCPComputeTargetHttpProxyClient(cfg),
-		BronzeHistoryGCPComputeTargetHttpsProxy:          NewBronzeHistoryGCPComputeTargetHttpsProxyClient(cfg),
-		BronzeHistoryGCPComputeTargetInstance:            NewBronzeHistoryGCPComputeTargetInstanceClient(cfg),
-		BronzeHistoryGCPComputeTargetPool:                NewBronzeHistoryGCPComputeTargetPoolClient(cfg),
-		BronzeHistoryGCPComputeTargetSslProxy:            NewBronzeHistoryGCPComputeTargetSslProxyClient(cfg),
-		BronzeHistoryGCPComputeTargetTcpProxy:            NewBronzeHistoryGCPComputeTargetTcpProxyClient(cfg),
-		BronzeHistoryGCPComputeUrlMap:                    NewBronzeHistoryGCPComputeUrlMapClient(cfg),
-		BronzeHistoryGCPContainerCluster:                 NewBronzeHistoryGCPContainerClusterClient(cfg),
-		BronzeHistoryGCPContainerClusterAddon:            NewBronzeHistoryGCPContainerClusterAddonClient(cfg),
-		BronzeHistoryGCPContainerClusterCondition:        NewBronzeHistoryGCPContainerClusterConditionClient(cfg),
-		BronzeHistoryGCPContainerClusterLabel:            NewBronzeHistoryGCPContainerClusterLabelClient(cfg),
-		BronzeHistoryGCPContainerClusterNodePool:         NewBronzeHistoryGCPContainerClusterNodePoolClient(cfg),
-		BronzeHistoryGCPDNSManagedZone:                   NewBronzeHistoryGCPDNSManagedZoneClient(cfg),
-		BronzeHistoryGCPDNSManagedZoneLabel:              NewBronzeHistoryGCPDNSManagedZoneLabelClient(cfg),
-		BronzeHistoryGCPDNSPolicy:                        NewBronzeHistoryGCPDNSPolicyClient(cfg),
-		BronzeHistoryGCPFolder:                           NewBronzeHistoryGCPFolderClient(cfg),
-		BronzeHistoryGCPFolderIamPolicy:                  NewBronzeHistoryGCPFolderIamPolicyClient(cfg),
-		BronzeHistoryGCPFolderIamPolicyBinding:           NewBronzeHistoryGCPFolderIamPolicyBindingClient(cfg),
-		BronzeHistoryGCPFolderLabel:                      NewBronzeHistoryGCPFolderLabelClient(cfg),
-		BronzeHistoryGCPIAMServiceAccount:                NewBronzeHistoryGCPIAMServiceAccountClient(cfg),
-		BronzeHistoryGCPIAMServiceAccountKey:             NewBronzeHistoryGCPIAMServiceAccountKeyClient(cfg),
-		BronzeHistoryGCPKMSCryptoKey:                     NewBronzeHistoryGCPKMSCryptoKeyClient(cfg),
-		BronzeHistoryGCPKMSKeyRing:                       NewBronzeHistoryGCPKMSKeyRingClient(cfg),
-		BronzeHistoryGCPLoggingBucket:                    NewBronzeHistoryGCPLoggingBucketClient(cfg),
-		BronzeHistoryGCPLoggingLogExclusion:              NewBronzeHistoryGCPLoggingLogExclusionClient(cfg),
-		BronzeHistoryGCPLoggingLogMetric:                 NewBronzeHistoryGCPLoggingLogMetricClient(cfg),
-		BronzeHistoryGCPLoggingSink:                      NewBronzeHistoryGCPLoggingSinkClient(cfg),
-		BronzeHistoryGCPOrgIamPolicy:                     NewBronzeHistoryGCPOrgIamPolicyClient(cfg),
-		BronzeHistoryGCPOrgIamPolicyBinding:              NewBronzeHistoryGCPOrgIamPolicyBindingClient(cfg),
-		BronzeHistoryGCPOrgPolicyConstraint:              NewBronzeHistoryGCPOrgPolicyConstraintClient(cfg),
-		BronzeHistoryGCPOrgPolicyPolicy:                  NewBronzeHistoryGCPOrgPolicyPolicyClient(cfg),
-		BronzeHistoryGCPOrganization:                     NewBronzeHistoryGCPOrganizationClient(cfg),
-		BronzeHistoryGCPProject:                          NewBronzeHistoryGCPProjectClient(cfg),
-		BronzeHistoryGCPProjectIamPolicy:                 NewBronzeHistoryGCPProjectIamPolicyClient(cfg),
-		BronzeHistoryGCPProjectIamPolicyBinding:          NewBronzeHistoryGCPProjectIamPolicyBindingClient(cfg),
-		BronzeHistoryGCPProjectLabel:                     NewBronzeHistoryGCPProjectLabelClient(cfg),
-		BronzeHistoryGCPSQLInstance:                      NewBronzeHistoryGCPSQLInstanceClient(cfg),
-		BronzeHistoryGCPSQLInstanceLabel:                 NewBronzeHistoryGCPSQLInstanceLabelClient(cfg),
-		BronzeHistoryGCPSecretManagerSecret:              NewBronzeHistoryGCPSecretManagerSecretClient(cfg),
-		BronzeHistoryGCPSecretManagerSecretLabel:         NewBronzeHistoryGCPSecretManagerSecretLabelClient(cfg),
-		BronzeHistoryGCPSecurityCenterFinding:            NewBronzeHistoryGCPSecurityCenterFindingClient(cfg),
-		BronzeHistoryGCPSecurityCenterSource:             NewBronzeHistoryGCPSecurityCenterSourceClient(cfg),
-		BronzeHistoryGCPStorageBucket:                    NewBronzeHistoryGCPStorageBucketClient(cfg),
-		BronzeHistoryGCPStorageBucketIamPolicy:           NewBronzeHistoryGCPStorageBucketIamPolicyClient(cfg),
-		BronzeHistoryGCPStorageBucketIamPolicyBinding:    NewBronzeHistoryGCPStorageBucketIamPolicyBindingClient(cfg),
-		BronzeHistoryGCPStorageBucketLabel:               NewBronzeHistoryGCPStorageBucketLabelClient(cfg),
-		BronzeHistoryGCPVPCAccessConnector:               NewBronzeHistoryGCPVPCAccessConnectorClient(cfg),
-		BronzeHistoryGCPVPNGateway:                       NewBronzeHistoryGCPVPNGatewayClient(cfg),
-		BronzeHistoryGCPVPNGatewayLabel:                  NewBronzeHistoryGCPVPNGatewayLabelClient(cfg),
-		BronzeHistoryGCPVPNTargetGateway:                 NewBronzeHistoryGCPVPNTargetGatewayClient(cfg),
-		BronzeHistoryGCPVPNTargetGatewayLabel:            NewBronzeHistoryGCPVPNTargetGatewayLabelClient(cfg),
-		BronzeHistoryGCPVPNTunnel:                        NewBronzeHistoryGCPVPNTunnelClient(cfg),
-		BronzeHistoryGCPVPNTunnelLabel:                   NewBronzeHistoryGCPVPNTunnelLabelClient(cfg),
-		BronzeHistoryS1Account:                           NewBronzeHistoryS1AccountClient(cfg),
-		BronzeHistoryS1Agent:                             NewBronzeHistoryS1AgentClient(cfg),
-		BronzeHistoryS1AgentNIC:                          NewBronzeHistoryS1AgentNICClient(cfg),
-		BronzeHistoryS1App:                               NewBronzeHistoryS1AppClient(cfg),
-		BronzeHistoryS1Group:                             NewBronzeHistoryS1GroupClient(cfg),
-		BronzeHistoryS1Site:                              NewBronzeHistoryS1SiteClient(cfg),
-		BronzeHistoryS1Threat:                            NewBronzeHistoryS1ThreatClient(cfg),
-		BronzeS1Account:                                  NewBronzeS1AccountClient(cfg),
-		BronzeS1Agent:                                    NewBronzeS1AgentClient(cfg),
-		BronzeS1AgentNIC:                                 NewBronzeS1AgentNICClient(cfg),
-		BronzeS1App:                                      NewBronzeS1AppClient(cfg),
-		BronzeS1Group:                                    NewBronzeS1GroupClient(cfg),
-		BronzeS1Site:                                     NewBronzeS1SiteClient(cfg),
-		BronzeS1Threat:                                   NewBronzeS1ThreatClient(cfg),
+		ctx:                                      ctx,
+		config:                                   cfg,
+		BronzeAWSEC2Instance:                     NewBronzeAWSEC2InstanceClient(cfg),
+		BronzeAWSEC2InstanceTag:                  NewBronzeAWSEC2InstanceTagClient(cfg),
+		BronzeDOAccount:                          NewBronzeDOAccountClient(cfg),
+		BronzeDODatabase:                         NewBronzeDODatabaseClient(cfg),
+		BronzeDODatabaseBackup:                   NewBronzeDODatabaseBackupClient(cfg),
+		BronzeDODatabaseConfig:                   NewBronzeDODatabaseConfigClient(cfg),
+		BronzeDODatabaseFirewallRule:             NewBronzeDODatabaseFirewallRuleClient(cfg),
+		BronzeDODatabasePool:                     NewBronzeDODatabasePoolClient(cfg),
+		BronzeDODatabaseReplica:                  NewBronzeDODatabaseReplicaClient(cfg),
+		BronzeDODatabaseUser:                     NewBronzeDODatabaseUserClient(cfg),
+		BronzeDODomain:                           NewBronzeDODomainClient(cfg),
+		BronzeDODomainRecord:                     NewBronzeDODomainRecordClient(cfg),
+		BronzeDODroplet:                          NewBronzeDODropletClient(cfg),
+		BronzeDOFirewall:                         NewBronzeDOFirewallClient(cfg),
+		BronzeDOKey:                              NewBronzeDOKeyClient(cfg),
+		BronzeDOLoadBalancer:                     NewBronzeDOLoadBalancerClient(cfg),
+		BronzeDOProject:                          NewBronzeDOProjectClient(cfg),
+		BronzeDOProjectResource:                  NewBronzeDOProjectResourceClient(cfg),
+		BronzeDOVolume:                           NewBronzeDOVolumeClient(cfg),
+		BronzeDOVpc:                              NewBronzeDOVpcClient(cfg),
+		BronzeGCPAccessContextManagerAccessLevel: NewBronzeGCPAccessContextManagerAccessLevelClient(cfg),
+		BronzeGCPAccessContextManagerAccessPolicy:            NewBronzeGCPAccessContextManagerAccessPolicyClient(cfg),
+		BronzeGCPAccessContextManagerServicePerimeter:        NewBronzeGCPAccessContextManagerServicePerimeterClient(cfg),
+		BronzeGCPAlloyDBCluster:                              NewBronzeGCPAlloyDBClusterClient(cfg),
+		BronzeGCPAppEngineApplication:                        NewBronzeGCPAppEngineApplicationClient(cfg),
+		BronzeGCPAppEngineService:                            NewBronzeGCPAppEngineServiceClient(cfg),
+		BronzeGCPBigQueryDataset:                             NewBronzeGCPBigQueryDatasetClient(cfg),
+		BronzeGCPBigQueryTable:                               NewBronzeGCPBigQueryTableClient(cfg),
+		BronzeGCPBigtableCluster:                             NewBronzeGCPBigtableClusterClient(cfg),
+		BronzeGCPBigtableInstance:                            NewBronzeGCPBigtableInstanceClient(cfg),
+		BronzeGCPBinaryAuthorizationAttestor:                 NewBronzeGCPBinaryAuthorizationAttestorClient(cfg),
+		BronzeGCPBinaryAuthorizationPolicy:                   NewBronzeGCPBinaryAuthorizationPolicyClient(cfg),
+		BronzeGCPCloudAssetAsset:                             NewBronzeGCPCloudAssetAssetClient(cfg),
+		BronzeGCPCloudAssetIAMPolicySearch:                   NewBronzeGCPCloudAssetIAMPolicySearchClient(cfg),
+		BronzeGCPCloudAssetResourceSearch:                    NewBronzeGCPCloudAssetResourceSearchClient(cfg),
+		BronzeGCPCloudFunctionsFunction:                      NewBronzeGCPCloudFunctionsFunctionClient(cfg),
+		BronzeGCPComputeAddress:                              NewBronzeGCPComputeAddressClient(cfg),
+		BronzeGCPComputeAddressLabel:                         NewBronzeGCPComputeAddressLabelClient(cfg),
+		BronzeGCPComputeBackendService:                       NewBronzeGCPComputeBackendServiceClient(cfg),
+		BronzeGCPComputeBackendServiceBackend:                NewBronzeGCPComputeBackendServiceBackendClient(cfg),
+		BronzeGCPComputeDisk:                                 NewBronzeGCPComputeDiskClient(cfg),
+		BronzeGCPComputeDiskLabel:                            NewBronzeGCPComputeDiskLabelClient(cfg),
+		BronzeGCPComputeDiskLicense:                          NewBronzeGCPComputeDiskLicenseClient(cfg),
+		BronzeGCPComputeFirewall:                             NewBronzeGCPComputeFirewallClient(cfg),
+		BronzeGCPComputeFirewallAllowed:                      NewBronzeGCPComputeFirewallAllowedClient(cfg),
+		BronzeGCPComputeFirewallDenied:                       NewBronzeGCPComputeFirewallDeniedClient(cfg),
+		BronzeGCPComputeForwardingRule:                       NewBronzeGCPComputeForwardingRuleClient(cfg),
+		BronzeGCPComputeForwardingRuleLabel:                  NewBronzeGCPComputeForwardingRuleLabelClient(cfg),
+		BronzeGCPComputeGlobalAddress:                        NewBronzeGCPComputeGlobalAddressClient(cfg),
+		BronzeGCPComputeGlobalAddressLabel:                   NewBronzeGCPComputeGlobalAddressLabelClient(cfg),
+		BronzeGCPComputeGlobalForwardingRule:                 NewBronzeGCPComputeGlobalForwardingRuleClient(cfg),
+		BronzeGCPComputeGlobalForwardingRuleLabel:            NewBronzeGCPComputeGlobalForwardingRuleLabelClient(cfg),
+		BronzeGCPComputeHealthCheck:                          NewBronzeGCPComputeHealthCheckClient(cfg),
+		BronzeGCPComputeImage:                                NewBronzeGCPComputeImageClient(cfg),
+		BronzeGCPComputeImageLabel:                           NewBronzeGCPComputeImageLabelClient(cfg),
+		BronzeGCPComputeImageLicense:                         NewBronzeGCPComputeImageLicenseClient(cfg),
+		BronzeGCPComputeInstance:                             NewBronzeGCPComputeInstanceClient(cfg),
+		BronzeGCPComputeInstanceDisk:                         NewBronzeGCPComputeInstanceDiskClient(cfg),
+		BronzeGCPComputeInstanceDiskLicense:                  NewBronzeGCPComputeInstanceDiskLicenseClient(cfg),
+		BronzeGCPComputeInstanceGroup:                        NewBronzeGCPComputeInstanceGroupClient(cfg),
+		BronzeGCPComputeInstanceGroupMember:                  NewBronzeGCPComputeInstanceGroupMemberClient(cfg),
+		BronzeGCPComputeInstanceGroupNamedPort:               NewBronzeGCPComputeInstanceGroupNamedPortClient(cfg),
+		BronzeGCPComputeInstanceLabel:                        NewBronzeGCPComputeInstanceLabelClient(cfg),
+		BronzeGCPComputeInstanceMetadata:                     NewBronzeGCPComputeInstanceMetadataClient(cfg),
+		BronzeGCPComputeInstanceNIC:                          NewBronzeGCPComputeInstanceNICClient(cfg),
+		BronzeGCPComputeInstanceNICAccessConfig:              NewBronzeGCPComputeInstanceNICAccessConfigClient(cfg),
+		BronzeGCPComputeInstanceNICAliasRange:                NewBronzeGCPComputeInstanceNICAliasRangeClient(cfg),
+		BronzeGCPComputeInstanceServiceAccount:               NewBronzeGCPComputeInstanceServiceAccountClient(cfg),
+		BronzeGCPComputeInstanceTag:                          NewBronzeGCPComputeInstanceTagClient(cfg),
+		BronzeGCPComputeInterconnect:                         NewBronzeGCPComputeInterconnectClient(cfg),
+		BronzeGCPComputeNeg:                                  NewBronzeGCPComputeNegClient(cfg),
+		BronzeGCPComputeNegEndpoint:                          NewBronzeGCPComputeNegEndpointClient(cfg),
+		BronzeGCPComputeNetwork:                              NewBronzeGCPComputeNetworkClient(cfg),
+		BronzeGCPComputeNetworkPeering:                       NewBronzeGCPComputeNetworkPeeringClient(cfg),
+		BronzeGCPComputePacketMirroring:                      NewBronzeGCPComputePacketMirroringClient(cfg),
+		BronzeGCPComputeProjectMetadata:                      NewBronzeGCPComputeProjectMetadataClient(cfg),
+		BronzeGCPComputeProjectMetadataItem:                  NewBronzeGCPComputeProjectMetadataItemClient(cfg),
+		BronzeGCPComputeRouter:                               NewBronzeGCPComputeRouterClient(cfg),
+		BronzeGCPComputeSecurityPolicy:                       NewBronzeGCPComputeSecurityPolicyClient(cfg),
+		BronzeGCPComputeSnapshot:                             NewBronzeGCPComputeSnapshotClient(cfg),
+		BronzeGCPComputeSnapshotLabel:                        NewBronzeGCPComputeSnapshotLabelClient(cfg),
+		BronzeGCPComputeSnapshotLicense:                      NewBronzeGCPComputeSnapshotLicenseClient(cfg),
+		BronzeGCPComputeSslPolicy:                            NewBronzeGCPComputeSslPolicyClient(cfg),
+		BronzeGCPComputeSubnetwork:                           NewBronzeGCPComputeSubnetworkClient(cfg),
+		BronzeGCPComputeSubnetworkSecondaryRange:             NewBronzeGCPComputeSubnetworkSecondaryRangeClient(cfg),
+		BronzeGCPComputeTargetHttpProxy:                      NewBronzeGCPComputeTargetHttpProxyClient(cfg),
+		BronzeGCPComputeTargetHttpsProxy:                     NewBronzeGCPComputeTargetHttpsProxyClient(cfg),
+		BronzeGCPComputeTargetInstance:                       NewBronzeGCPComputeTargetInstanceClient(cfg),
+		BronzeGCPComputeTargetPool:                           NewBronzeGCPComputeTargetPoolClient(cfg),
+		BronzeGCPComputeTargetSslProxy:                       NewBronzeGCPComputeTargetSslProxyClient(cfg),
+		BronzeGCPComputeTargetTcpProxy:                       NewBronzeGCPComputeTargetTcpProxyClient(cfg),
+		BronzeGCPComputeUrlMap:                               NewBronzeGCPComputeUrlMapClient(cfg),
+		BronzeGCPContainerAnalysisNote:                       NewBronzeGCPContainerAnalysisNoteClient(cfg),
+		BronzeGCPContainerAnalysisOccurrence:                 NewBronzeGCPContainerAnalysisOccurrenceClient(cfg),
+		BronzeGCPContainerCluster:                            NewBronzeGCPContainerClusterClient(cfg),
+		BronzeGCPContainerClusterAddon:                       NewBronzeGCPContainerClusterAddonClient(cfg),
+		BronzeGCPContainerClusterCondition:                   NewBronzeGCPContainerClusterConditionClient(cfg),
+		BronzeGCPContainerClusterLabel:                       NewBronzeGCPContainerClusterLabelClient(cfg),
+		BronzeGCPContainerClusterNodePool:                    NewBronzeGCPContainerClusterNodePoolClient(cfg),
+		BronzeGCPDNSManagedZone:                              NewBronzeGCPDNSManagedZoneClient(cfg),
+		BronzeGCPDNSManagedZoneLabel:                         NewBronzeGCPDNSManagedZoneLabelClient(cfg),
+		BronzeGCPDNSPolicy:                                   NewBronzeGCPDNSPolicyClient(cfg),
+		BronzeGCPDataprocCluster:                             NewBronzeGCPDataprocClusterClient(cfg),
+		BronzeGCPFilestoreInstance:                           NewBronzeGCPFilestoreInstanceClient(cfg),
+		BronzeGCPFolder:                                      NewBronzeGCPFolderClient(cfg),
+		BronzeGCPFolderIamPolicy:                             NewBronzeGCPFolderIamPolicyClient(cfg),
+		BronzeGCPFolderIamPolicyBinding:                      NewBronzeGCPFolderIamPolicyBindingClient(cfg),
+		BronzeGCPFolderLabel:                                 NewBronzeGCPFolderLabelClient(cfg),
+		BronzeGCPIAMServiceAccount:                           NewBronzeGCPIAMServiceAccountClient(cfg),
+		BronzeGCPIAMServiceAccountKey:                        NewBronzeGCPIAMServiceAccountKeyClient(cfg),
+		BronzeGCPIAPIAMPolicy:                                NewBronzeGCPIAPIAMPolicyClient(cfg),
+		BronzeGCPIAPSettings:                                 NewBronzeGCPIAPSettingsClient(cfg),
+		BronzeGCPKMSCryptoKey:                                NewBronzeGCPKMSCryptoKeyClient(cfg),
+		BronzeGCPKMSKeyRing:                                  NewBronzeGCPKMSKeyRingClient(cfg),
+		BronzeGCPLoggingBucket:                               NewBronzeGCPLoggingBucketClient(cfg),
+		BronzeGCPLoggingLogExclusion:                         NewBronzeGCPLoggingLogExclusionClient(cfg),
+		BronzeGCPLoggingLogMetric:                            NewBronzeGCPLoggingLogMetricClient(cfg),
+		BronzeGCPLoggingSink:                                 NewBronzeGCPLoggingSinkClient(cfg),
+		BronzeGCPMonitoringAlertPolicy:                       NewBronzeGCPMonitoringAlertPolicyClient(cfg),
+		BronzeGCPMonitoringUptimeCheckConfig:                 NewBronzeGCPMonitoringUptimeCheckConfigClient(cfg),
+		BronzeGCPOrgIamPolicy:                                NewBronzeGCPOrgIamPolicyClient(cfg),
+		BronzeGCPOrgIamPolicyBinding:                         NewBronzeGCPOrgIamPolicyBindingClient(cfg),
+		BronzeGCPOrgPolicyConstraint:                         NewBronzeGCPOrgPolicyConstraintClient(cfg),
+		BronzeGCPOrgPolicyCustomConstraint:                   NewBronzeGCPOrgPolicyCustomConstraintClient(cfg),
+		BronzeGCPOrgPolicyPolicy:                             NewBronzeGCPOrgPolicyPolicyClient(cfg),
+		BronzeGCPOrganization:                                NewBronzeGCPOrganizationClient(cfg),
+		BronzeGCPProject:                                     NewBronzeGCPProjectClient(cfg),
+		BronzeGCPProjectIamPolicy:                            NewBronzeGCPProjectIamPolicyClient(cfg),
+		BronzeGCPProjectIamPolicyBinding:                     NewBronzeGCPProjectIamPolicyBindingClient(cfg),
+		BronzeGCPProjectLabel:                                NewBronzeGCPProjectLabelClient(cfg),
+		BronzeGCPPubSubSubscription:                          NewBronzeGCPPubSubSubscriptionClient(cfg),
+		BronzeGCPPubSubTopic:                                 NewBronzeGCPPubSubTopicClient(cfg),
+		BronzeGCPRedisInstance:                               NewBronzeGCPRedisInstanceClient(cfg),
+		BronzeGCPRunRevision:                                 NewBronzeGCPRunRevisionClient(cfg),
+		BronzeGCPRunService:                                  NewBronzeGCPRunServiceClient(cfg),
+		BronzeGCPSQLInstance:                                 NewBronzeGCPSQLInstanceClient(cfg),
+		BronzeGCPSQLInstanceLabel:                            NewBronzeGCPSQLInstanceLabelClient(cfg),
+		BronzeGCPSecretManagerSecret:                         NewBronzeGCPSecretManagerSecretClient(cfg),
+		BronzeGCPSecretManagerSecretLabel:                    NewBronzeGCPSecretManagerSecretLabelClient(cfg),
+		BronzeGCPSecurityCenterFinding:                       NewBronzeGCPSecurityCenterFindingClient(cfg),
+		BronzeGCPSecurityCenterNotificationConfig:            NewBronzeGCPSecurityCenterNotificationConfigClient(cfg),
+		BronzeGCPSecurityCenterSource:                        NewBronzeGCPSecurityCenterSourceClient(cfg),
+		BronzeGCPServiceUsageEnabledService:                  NewBronzeGCPServiceUsageEnabledServiceClient(cfg),
+		BronzeGCPSpannerDatabase:                             NewBronzeGCPSpannerDatabaseClient(cfg),
+		BronzeGCPSpannerInstance:                             NewBronzeGCPSpannerInstanceClient(cfg),
+		BronzeGCPStorageBucket:                               NewBronzeGCPStorageBucketClient(cfg),
+		BronzeGCPStorageBucketIamPolicy:                      NewBronzeGCPStorageBucketIamPolicyClient(cfg),
+		BronzeGCPStorageBucketIamPolicyBinding:               NewBronzeGCPStorageBucketIamPolicyBindingClient(cfg),
+		BronzeGCPStorageBucketLabel:                          NewBronzeGCPStorageBucketLabelClient(cfg),
+		BronzeGCPVPCAccessConnector:                          NewBronzeGCPVPCAccessConnectorClient(cfg),
+		BronzeGCPVPNGateway:                                  NewBronzeGCPVPNGatewayClient(cfg),
+		BronzeGCPVPNGatewayLabel:                             NewBronzeGCPVPNGatewayLabelClient(cfg),
+		BronzeGCPVPNTargetGateway:                            NewBronzeGCPVPNTargetGatewayClient(cfg),
+		BronzeGCPVPNTargetGatewayLabel:                       NewBronzeGCPVPNTargetGatewayLabelClient(cfg),
+		BronzeGCPVPNTunnel:                                   NewBronzeGCPVPNTunnelClient(cfg),
+		BronzeGCPVPNTunnelLabel:                              NewBronzeGCPVPNTunnelLabelClient(cfg),
+		BronzeHistoryAWSEC2Instance:                          NewBronzeHistoryAWSEC2InstanceClient(cfg),
+		BronzeHistoryAWSEC2InstanceTag:                       NewBronzeHistoryAWSEC2InstanceTagClient(cfg),
+		BronzeHistoryDOAccount:                               NewBronzeHistoryDOAccountClient(cfg),
+		BronzeHistoryDODatabase:                              NewBronzeHistoryDODatabaseClient(cfg),
+		BronzeHistoryDODatabaseBackup:                        NewBronzeHistoryDODatabaseBackupClient(cfg),
+		BronzeHistoryDODatabaseConfig:                        NewBronzeHistoryDODatabaseConfigClient(cfg),
+		BronzeHistoryDODatabaseFirewallRule:                  NewBronzeHistoryDODatabaseFirewallRuleClient(cfg),
+		BronzeHistoryDODatabasePool:                          NewBronzeHistoryDODatabasePoolClient(cfg),
+		BronzeHistoryDODatabaseReplica:                       NewBronzeHistoryDODatabaseReplicaClient(cfg),
+		BronzeHistoryDODatabaseUser:                          NewBronzeHistoryDODatabaseUserClient(cfg),
+		BronzeHistoryDODomain:                                NewBronzeHistoryDODomainClient(cfg),
+		BronzeHistoryDODomainRecord:                          NewBronzeHistoryDODomainRecordClient(cfg),
+		BronzeHistoryDODroplet:                               NewBronzeHistoryDODropletClient(cfg),
+		BronzeHistoryDOFirewall:                              NewBronzeHistoryDOFirewallClient(cfg),
+		BronzeHistoryDOKey:                                   NewBronzeHistoryDOKeyClient(cfg),
+		BronzeHistoryDOLoadBalancer:                          NewBronzeHistoryDOLoadBalancerClient(cfg),
+		BronzeHistoryDOProject:                               NewBronzeHistoryDOProjectClient(cfg),
+		BronzeHistoryDOProjectResource:                       NewBronzeHistoryDOProjectResourceClient(cfg),
+		BronzeHistoryDOVolume:                                NewBronzeHistoryDOVolumeClient(cfg),
+		BronzeHistoryDOVpc:                                   NewBronzeHistoryDOVpcClient(cfg),
+		BronzeHistoryGCPAccessContextManagerAccessLevel:      NewBronzeHistoryGCPAccessContextManagerAccessLevelClient(cfg),
+		BronzeHistoryGCPAccessContextManagerAccessPolicy:     NewBronzeHistoryGCPAccessContextManagerAccessPolicyClient(cfg),
+		BronzeHistoryGCPAccessContextManagerServicePerimeter: NewBronzeHistoryGCPAccessContextManagerServicePerimeterClient(cfg),
+		BronzeHistoryGCPAlloyDBCluster:                       NewBronzeHistoryGCPAlloyDBClusterClient(cfg),
+		BronzeHistoryGCPAppEngineApplication:                 NewBronzeHistoryGCPAppEngineApplicationClient(cfg),
+		BronzeHistoryGCPAppEngineService:                     NewBronzeHistoryGCPAppEngineServiceClient(cfg),
+		BronzeHistoryGCPBigQueryDataset:                      NewBronzeHistoryGCPBigQueryDatasetClient(cfg),
+		BronzeHistoryGCPBigQueryTable:                        NewBronzeHistoryGCPBigQueryTableClient(cfg),
+		BronzeHistoryGCPBigtableCluster:                      NewBronzeHistoryGCPBigtableClusterClient(cfg),
+		BronzeHistoryGCPBigtableInstance:                     NewBronzeHistoryGCPBigtableInstanceClient(cfg),
+		BronzeHistoryGCPBinaryAuthorizationAttestor:          NewBronzeHistoryGCPBinaryAuthorizationAttestorClient(cfg),
+		BronzeHistoryGCPBinaryAuthorizationPolicy:            NewBronzeHistoryGCPBinaryAuthorizationPolicyClient(cfg),
+		BronzeHistoryGCPCloudAssetAsset:                      NewBronzeHistoryGCPCloudAssetAssetClient(cfg),
+		BronzeHistoryGCPCloudAssetIAMPolicySearch:            NewBronzeHistoryGCPCloudAssetIAMPolicySearchClient(cfg),
+		BronzeHistoryGCPCloudAssetResourceSearch:             NewBronzeHistoryGCPCloudAssetResourceSearchClient(cfg),
+		BronzeHistoryGCPCloudFunctionsFunction:               NewBronzeHistoryGCPCloudFunctionsFunctionClient(cfg),
+		BronzeHistoryGCPComputeAddress:                       NewBronzeHistoryGCPComputeAddressClient(cfg),
+		BronzeHistoryGCPComputeAddressLabel:                  NewBronzeHistoryGCPComputeAddressLabelClient(cfg),
+		BronzeHistoryGCPComputeBackendService:                NewBronzeHistoryGCPComputeBackendServiceClient(cfg),
+		BronzeHistoryGCPComputeBackendServiceBackend:         NewBronzeHistoryGCPComputeBackendServiceBackendClient(cfg),
+		BronzeHistoryGCPComputeDisk:                          NewBronzeHistoryGCPComputeDiskClient(cfg),
+		BronzeHistoryGCPComputeDiskLabel:                     NewBronzeHistoryGCPComputeDiskLabelClient(cfg),
+		BronzeHistoryGCPComputeDiskLicense:                   NewBronzeHistoryGCPComputeDiskLicenseClient(cfg),
+		BronzeHistoryGCPComputeFirewall:                      NewBronzeHistoryGCPComputeFirewallClient(cfg),
+		BronzeHistoryGCPComputeFirewallAllowed:               NewBronzeHistoryGCPComputeFirewallAllowedClient(cfg),
+		BronzeHistoryGCPComputeFirewallDenied:                NewBronzeHistoryGCPComputeFirewallDeniedClient(cfg),
+		BronzeHistoryGCPComputeForwardingRule:                NewBronzeHistoryGCPComputeForwardingRuleClient(cfg),
+		BronzeHistoryGCPComputeForwardingRuleLabel:           NewBronzeHistoryGCPComputeForwardingRuleLabelClient(cfg),
+		BronzeHistoryGCPComputeGlobalAddress:                 NewBronzeHistoryGCPComputeGlobalAddressClient(cfg),
+		BronzeHistoryGCPComputeGlobalAddressLabel:            NewBronzeHistoryGCPComputeGlobalAddressLabelClient(cfg),
+		BronzeHistoryGCPComputeGlobalForwardingRule:          NewBronzeHistoryGCPComputeGlobalForwardingRuleClient(cfg),
+		BronzeHistoryGCPComputeGlobalForwardingRuleLabel:     NewBronzeHistoryGCPComputeGlobalForwardingRuleLabelClient(cfg),
+		BronzeHistoryGCPComputeHealthCheck:                   NewBronzeHistoryGCPComputeHealthCheckClient(cfg),
+		BronzeHistoryGCPComputeImage:                         NewBronzeHistoryGCPComputeImageClient(cfg),
+		BronzeHistoryGCPComputeImageLabel:                    NewBronzeHistoryGCPComputeImageLabelClient(cfg),
+		BronzeHistoryGCPComputeImageLicense:                  NewBronzeHistoryGCPComputeImageLicenseClient(cfg),
+		BronzeHistoryGCPComputeInstance:                      NewBronzeHistoryGCPComputeInstanceClient(cfg),
+		BronzeHistoryGCPComputeInstanceDisk:                  NewBronzeHistoryGCPComputeInstanceDiskClient(cfg),
+		BronzeHistoryGCPComputeInstanceDiskLicense:           NewBronzeHistoryGCPComputeInstanceDiskLicenseClient(cfg),
+		BronzeHistoryGCPComputeInstanceGroup:                 NewBronzeHistoryGCPComputeInstanceGroupClient(cfg),
+		BronzeHistoryGCPComputeInstanceGroupMember:           NewBronzeHistoryGCPComputeInstanceGroupMemberClient(cfg),
+		BronzeHistoryGCPComputeInstanceGroupNamedPort:        NewBronzeHistoryGCPComputeInstanceGroupNamedPortClient(cfg),
+		BronzeHistoryGCPComputeInstanceLabel:                 NewBronzeHistoryGCPComputeInstanceLabelClient(cfg),
+		BronzeHistoryGCPComputeInstanceMetadata:              NewBronzeHistoryGCPComputeInstanceMetadataClient(cfg),
+		BronzeHistoryGCPComputeInstanceNIC:                   NewBronzeHistoryGCPComputeInstanceNICClient(cfg),
+		BronzeHistoryGCPComputeInstanceNICAccessConfig:       NewBronzeHistoryGCPComputeInstanceNICAccessConfigClient(cfg),
+		BronzeHistoryGCPComputeInstanceNICAliasRange:         NewBronzeHistoryGCPComputeInstanceNICAliasRangeClient(cfg),
+		BronzeHistoryGCPComputeInstanceServiceAccount:        NewBronzeHistoryGCPComputeInstanceServiceAccountClient(cfg),
+		BronzeHistoryGCPComputeInstanceTag:                   NewBronzeHistoryGCPComputeInstanceTagClient(cfg),
+		BronzeHistoryGCPComputeInterconnect:                  NewBronzeHistoryGCPComputeInterconnectClient(cfg),
+		BronzeHistoryGCPComputeNeg:                           NewBronzeHistoryGCPComputeNegClient(cfg),
+		BronzeHistoryGCPComputeNegEndpoint:                   NewBronzeHistoryGCPComputeNegEndpointClient(cfg),
+		BronzeHistoryGCPComputeNetwork:                       NewBronzeHistoryGCPComputeNetworkClient(cfg),
+		BronzeHistoryGCPComputeNetworkPeering:                NewBronzeHistoryGCPComputeNetworkPeeringClient(cfg),
+		BronzeHistoryGCPComputePacketMirroring:               NewBronzeHistoryGCPComputePacketMirroringClient(cfg),
+		BronzeHistoryGCPComputeProjectMetadata:               NewBronzeHistoryGCPComputeProjectMetadataClient(cfg),
+		BronzeHistoryGCPComputeProjectMetadataItem:           NewBronzeHistoryGCPComputeProjectMetadataItemClient(cfg),
+		BronzeHistoryGCPComputeRouter:                        NewBronzeHistoryGCPComputeRouterClient(cfg),
+		BronzeHistoryGCPComputeSecurityPolicy:                NewBronzeHistoryGCPComputeSecurityPolicyClient(cfg),
+		BronzeHistoryGCPComputeSnapshot:                      NewBronzeHistoryGCPComputeSnapshotClient(cfg),
+		BronzeHistoryGCPComputeSnapshotLabel:                 NewBronzeHistoryGCPComputeSnapshotLabelClient(cfg),
+		BronzeHistoryGCPComputeSnapshotLicense:               NewBronzeHistoryGCPComputeSnapshotLicenseClient(cfg),
+		BronzeHistoryGCPComputeSslPolicy:                     NewBronzeHistoryGCPComputeSslPolicyClient(cfg),
+		BronzeHistoryGCPComputeSubnetwork:                    NewBronzeHistoryGCPComputeSubnetworkClient(cfg),
+		BronzeHistoryGCPComputeSubnetworkSecondaryRange:      NewBronzeHistoryGCPComputeSubnetworkSecondaryRangeClient(cfg),
+		BronzeHistoryGCPComputeTargetHttpProxy:               NewBronzeHistoryGCPComputeTargetHttpProxyClient(cfg),
+		BronzeHistoryGCPComputeTargetHttpsProxy:              NewBronzeHistoryGCPComputeTargetHttpsProxyClient(cfg),
+		BronzeHistoryGCPComputeTargetInstance:                NewBronzeHistoryGCPComputeTargetInstanceClient(cfg),
+		BronzeHistoryGCPComputeTargetPool:                    NewBronzeHistoryGCPComputeTargetPoolClient(cfg),
+		BronzeHistoryGCPComputeTargetSslProxy:                NewBronzeHistoryGCPComputeTargetSslProxyClient(cfg),
+		BronzeHistoryGCPComputeTargetTcpProxy:                NewBronzeHistoryGCPComputeTargetTcpProxyClient(cfg),
+		BronzeHistoryGCPComputeUrlMap:                        NewBronzeHistoryGCPComputeUrlMapClient(cfg),
+		BronzeHistoryGCPContainerAnalysisNote:                NewBronzeHistoryGCPContainerAnalysisNoteClient(cfg),
+		BronzeHistoryGCPContainerAnalysisOccurrence:          NewBronzeHistoryGCPContainerAnalysisOccurrenceClient(cfg),
+		BronzeHistoryGCPContainerCluster:                     NewBronzeHistoryGCPContainerClusterClient(cfg),
+		BronzeHistoryGCPContainerClusterAddon:                NewBronzeHistoryGCPContainerClusterAddonClient(cfg),
+		BronzeHistoryGCPContainerClusterCondition:            NewBronzeHistoryGCPContainerClusterConditionClient(cfg),
+		BronzeHistoryGCPContainerClusterLabel:                NewBronzeHistoryGCPContainerClusterLabelClient(cfg),
+		BronzeHistoryGCPContainerClusterNodePool:             NewBronzeHistoryGCPContainerClusterNodePoolClient(cfg),
+		BronzeHistoryGCPDNSManagedZone:                       NewBronzeHistoryGCPDNSManagedZoneClient(cfg),
+		BronzeHistoryGCPDNSManagedZoneLabel:                  NewBronzeHistoryGCPDNSManagedZoneLabelClient(cfg),
+		BronzeHistoryGCPDNSPolicy:                            NewBronzeHistoryGCPDNSPolicyClient(cfg),
+		BronzeHistoryGCPDataprocCluster:                      NewBronzeHistoryGCPDataprocClusterClient(cfg),
+		BronzeHistoryGCPFilestoreInstance:                    NewBronzeHistoryGCPFilestoreInstanceClient(cfg),
+		BronzeHistoryGCPFolder:                               NewBronzeHistoryGCPFolderClient(cfg),
+		BronzeHistoryGCPFolderIamPolicy:                      NewBronzeHistoryGCPFolderIamPolicyClient(cfg),
+		BronzeHistoryGCPFolderIamPolicyBinding:               NewBronzeHistoryGCPFolderIamPolicyBindingClient(cfg),
+		BronzeHistoryGCPFolderLabel:                          NewBronzeHistoryGCPFolderLabelClient(cfg),
+		BronzeHistoryGCPIAMServiceAccount:                    NewBronzeHistoryGCPIAMServiceAccountClient(cfg),
+		BronzeHistoryGCPIAMServiceAccountKey:                 NewBronzeHistoryGCPIAMServiceAccountKeyClient(cfg),
+		BronzeHistoryGCPIAPIAMPolicy:                         NewBronzeHistoryGCPIAPIAMPolicyClient(cfg),
+		BronzeHistoryGCPIAPSettings:                          NewBronzeHistoryGCPIAPSettingsClient(cfg),
+		BronzeHistoryGCPKMSCryptoKey:                         NewBronzeHistoryGCPKMSCryptoKeyClient(cfg),
+		BronzeHistoryGCPKMSKeyRing:                           NewBronzeHistoryGCPKMSKeyRingClient(cfg),
+		BronzeHistoryGCPLoggingBucket:                        NewBronzeHistoryGCPLoggingBucketClient(cfg),
+		BronzeHistoryGCPLoggingLogExclusion:                  NewBronzeHistoryGCPLoggingLogExclusionClient(cfg),
+		BronzeHistoryGCPLoggingLogMetric:                     NewBronzeHistoryGCPLoggingLogMetricClient(cfg),
+		BronzeHistoryGCPLoggingSink:                          NewBronzeHistoryGCPLoggingSinkClient(cfg),
+		BronzeHistoryGCPMonitoringAlertPolicy:                NewBronzeHistoryGCPMonitoringAlertPolicyClient(cfg),
+		BronzeHistoryGCPMonitoringUptimeCheckConfig:          NewBronzeHistoryGCPMonitoringUptimeCheckConfigClient(cfg),
+		BronzeHistoryGCPOrgIamPolicy:                         NewBronzeHistoryGCPOrgIamPolicyClient(cfg),
+		BronzeHistoryGCPOrgIamPolicyBinding:                  NewBronzeHistoryGCPOrgIamPolicyBindingClient(cfg),
+		BronzeHistoryGCPOrgPolicyConstraint:                  NewBronzeHistoryGCPOrgPolicyConstraintClient(cfg),
+		BronzeHistoryGCPOrgPolicyCustomConstraint:            NewBronzeHistoryGCPOrgPolicyCustomConstraintClient(cfg),
+		BronzeHistoryGCPOrgPolicyPolicy:                      NewBronzeHistoryGCPOrgPolicyPolicyClient(cfg),
+		BronzeHistoryGCPOrganization:                         NewBronzeHistoryGCPOrganizationClient(cfg),
+		BronzeHistoryGCPProject:                              NewBronzeHistoryGCPProjectClient(cfg),
+		BronzeHistoryGCPProjectIamPolicy:                     NewBronzeHistoryGCPProjectIamPolicyClient(cfg),
+		BronzeHistoryGCPProjectIamPolicyBinding:              NewBronzeHistoryGCPProjectIamPolicyBindingClient(cfg),
+		BronzeHistoryGCPProjectLabel:                         NewBronzeHistoryGCPProjectLabelClient(cfg),
+		BronzeHistoryGCPPubSubSubscription:                   NewBronzeHistoryGCPPubSubSubscriptionClient(cfg),
+		BronzeHistoryGCPPubSubTopic:                          NewBronzeHistoryGCPPubSubTopicClient(cfg),
+		BronzeHistoryGCPRedisInstance:                        NewBronzeHistoryGCPRedisInstanceClient(cfg),
+		BronzeHistoryGCPRunRevision:                          NewBronzeHistoryGCPRunRevisionClient(cfg),
+		BronzeHistoryGCPRunService:                           NewBronzeHistoryGCPRunServiceClient(cfg),
+		BronzeHistoryGCPSQLInstance:                          NewBronzeHistoryGCPSQLInstanceClient(cfg),
+		BronzeHistoryGCPSQLInstanceLabel:                     NewBronzeHistoryGCPSQLInstanceLabelClient(cfg),
+		BronzeHistoryGCPSecretManagerSecret:                  NewBronzeHistoryGCPSecretManagerSecretClient(cfg),
+		BronzeHistoryGCPSecretManagerSecretLabel:             NewBronzeHistoryGCPSecretManagerSecretLabelClient(cfg),
+		BronzeHistoryGCPSecurityCenterFinding:                NewBronzeHistoryGCPSecurityCenterFindingClient(cfg),
+		BronzeHistoryGCPSecurityCenterNotificationConfig:     NewBronzeHistoryGCPSecurityCenterNotificationConfigClient(cfg),
+		BronzeHistoryGCPSecurityCenterSource:                 NewBronzeHistoryGCPSecurityCenterSourceClient(cfg),
+		BronzeHistoryGCPServiceUsageEnabledService:           NewBronzeHistoryGCPServiceUsageEnabledServiceClient(cfg),
+		BronzeHistoryGCPSpannerDatabase:                      NewBronzeHistoryGCPSpannerDatabaseClient(cfg),
+		BronzeHistoryGCPSpannerInstance:                      NewBronzeHistoryGCPSpannerInstanceClient(cfg),
+		BronzeHistoryGCPStorageBucket:                        NewBronzeHistoryGCPStorageBucketClient(cfg),
+		BronzeHistoryGCPStorageBucketIamPolicy:               NewBronzeHistoryGCPStorageBucketIamPolicyClient(cfg),
+		BronzeHistoryGCPStorageBucketIamPolicyBinding:        NewBronzeHistoryGCPStorageBucketIamPolicyBindingClient(cfg),
+		BronzeHistoryGCPStorageBucketLabel:                   NewBronzeHistoryGCPStorageBucketLabelClient(cfg),
+		BronzeHistoryGCPVPCAccessConnector:                   NewBronzeHistoryGCPVPCAccessConnectorClient(cfg),
+		BronzeHistoryGCPVPNGateway:                           NewBronzeHistoryGCPVPNGatewayClient(cfg),
+		BronzeHistoryGCPVPNGatewayLabel:                      NewBronzeHistoryGCPVPNGatewayLabelClient(cfg),
+		BronzeHistoryGCPVPNTargetGateway:                     NewBronzeHistoryGCPVPNTargetGatewayClient(cfg),
+		BronzeHistoryGCPVPNTargetGatewayLabel:                NewBronzeHistoryGCPVPNTargetGatewayLabelClient(cfg),
+		BronzeHistoryGCPVPNTunnel:                            NewBronzeHistoryGCPVPNTunnelClient(cfg),
+		BronzeHistoryGCPVPNTunnelLabel:                       NewBronzeHistoryGCPVPNTunnelLabelClient(cfg),
+		BronzeHistoryS1Account:                               NewBronzeHistoryS1AccountClient(cfg),
+		BronzeHistoryS1Agent:                                 NewBronzeHistoryS1AgentClient(cfg),
+		BronzeHistoryS1AgentNIC:                              NewBronzeHistoryS1AgentNICClient(cfg),
+		BronzeHistoryS1App:                                   NewBronzeHistoryS1AppClient(cfg),
+		BronzeHistoryS1Group:                                 NewBronzeHistoryS1GroupClient(cfg),
+		BronzeHistoryS1Site:                                  NewBronzeHistoryS1SiteClient(cfg),
+		BronzeHistoryS1Threat:                                NewBronzeHistoryS1ThreatClient(cfg),
+		BronzeS1Account:                                      NewBronzeS1AccountClient(cfg),
+		BronzeS1Agent:                                        NewBronzeS1AgentClient(cfg),
+		BronzeS1AgentNIC:                                     NewBronzeS1AgentNICClient(cfg),
+		BronzeS1App:                                          NewBronzeS1AppClient(cfg),
+		BronzeS1Group:                                        NewBronzeS1GroupClient(cfg),
+		BronzeS1Site:                                         NewBronzeS1SiteClient(cfg),
+		BronzeS1Threat:                                       NewBronzeS1ThreatClient(cfg),
 	}, nil
 }
 
@@ -1754,16 +2138,24 @@ func (c *Client) Use(hooks ...Hook) {
 		c.BronzeDODatabaseFirewallRule, c.BronzeDODatabasePool,
 		c.BronzeDODatabaseReplica, c.BronzeDODatabaseUser, c.BronzeDODomain,
 		c.BronzeDODomainRecord, c.BronzeDODroplet, c.BronzeDOFirewall, c.BronzeDOKey,
-		c.BronzeDOKubernetesCluster, c.BronzeDOKubernetesNodePool,
 		c.BronzeDOLoadBalancer, c.BronzeDOProject, c.BronzeDOProjectResource,
-		c.BronzeDOVolume, c.BronzeDOVpc, c.BronzeGCPComputeAddress,
-		c.BronzeGCPComputeAddressLabel, c.BronzeGCPComputeBackendService,
-		c.BronzeGCPComputeBackendServiceBackend, c.BronzeGCPComputeDisk,
-		c.BronzeGCPComputeDiskLabel, c.BronzeGCPComputeDiskLicense,
-		c.BronzeGCPComputeFirewall, c.BronzeGCPComputeFirewallAllowed,
-		c.BronzeGCPComputeFirewallDenied, c.BronzeGCPComputeForwardingRule,
-		c.BronzeGCPComputeForwardingRuleLabel, c.BronzeGCPComputeGlobalAddress,
-		c.BronzeGCPComputeGlobalAddressLabel, c.BronzeGCPComputeGlobalForwardingRule,
+		c.BronzeDOVolume, c.BronzeDOVpc, c.BronzeGCPAccessContextManagerAccessLevel,
+		c.BronzeGCPAccessContextManagerAccessPolicy,
+		c.BronzeGCPAccessContextManagerServicePerimeter, c.BronzeGCPAlloyDBCluster,
+		c.BronzeGCPAppEngineApplication, c.BronzeGCPAppEngineService,
+		c.BronzeGCPBigQueryDataset, c.BronzeGCPBigQueryTable,
+		c.BronzeGCPBigtableCluster, c.BronzeGCPBigtableInstance,
+		c.BronzeGCPBinaryAuthorizationAttestor, c.BronzeGCPBinaryAuthorizationPolicy,
+		c.BronzeGCPCloudAssetAsset, c.BronzeGCPCloudAssetIAMPolicySearch,
+		c.BronzeGCPCloudAssetResourceSearch, c.BronzeGCPCloudFunctionsFunction,
+		c.BronzeGCPComputeAddress, c.BronzeGCPComputeAddressLabel,
+		c.BronzeGCPComputeBackendService, c.BronzeGCPComputeBackendServiceBackend,
+		c.BronzeGCPComputeDisk, c.BronzeGCPComputeDiskLabel,
+		c.BronzeGCPComputeDiskLicense, c.BronzeGCPComputeFirewall,
+		c.BronzeGCPComputeFirewallAllowed, c.BronzeGCPComputeFirewallDenied,
+		c.BronzeGCPComputeForwardingRule, c.BronzeGCPComputeForwardingRuleLabel,
+		c.BronzeGCPComputeGlobalAddress, c.BronzeGCPComputeGlobalAddressLabel,
+		c.BronzeGCPComputeGlobalForwardingRule,
 		c.BronzeGCPComputeGlobalForwardingRuleLabel, c.BronzeGCPComputeHealthCheck,
 		c.BronzeGCPComputeImage, c.BronzeGCPComputeImageLabel,
 		c.BronzeGCPComputeImageLicense, c.BronzeGCPComputeInstance,
@@ -1785,22 +2177,31 @@ func (c *Client) Use(hooks ...Hook) {
 		c.BronzeGCPComputeTargetHttpProxy, c.BronzeGCPComputeTargetHttpsProxy,
 		c.BronzeGCPComputeTargetInstance, c.BronzeGCPComputeTargetPool,
 		c.BronzeGCPComputeTargetSslProxy, c.BronzeGCPComputeTargetTcpProxy,
-		c.BronzeGCPComputeUrlMap, c.BronzeGCPContainerCluster,
+		c.BronzeGCPComputeUrlMap, c.BronzeGCPContainerAnalysisNote,
+		c.BronzeGCPContainerAnalysisOccurrence, c.BronzeGCPContainerCluster,
 		c.BronzeGCPContainerClusterAddon, c.BronzeGCPContainerClusterCondition,
 		c.BronzeGCPContainerClusterLabel, c.BronzeGCPContainerClusterNodePool,
 		c.BronzeGCPDNSManagedZone, c.BronzeGCPDNSManagedZoneLabel,
-		c.BronzeGCPDNSPolicy, c.BronzeGCPFolder, c.BronzeGCPFolderIamPolicy,
+		c.BronzeGCPDNSPolicy, c.BronzeGCPDataprocCluster, c.BronzeGCPFilestoreInstance,
+		c.BronzeGCPFolder, c.BronzeGCPFolderIamPolicy,
 		c.BronzeGCPFolderIamPolicyBinding, c.BronzeGCPFolderLabel,
 		c.BronzeGCPIAMServiceAccount, c.BronzeGCPIAMServiceAccountKey,
-		c.BronzeGCPKMSCryptoKey, c.BronzeGCPKMSKeyRing, c.BronzeGCPLoggingBucket,
+		c.BronzeGCPIAPIAMPolicy, c.BronzeGCPIAPSettings, c.BronzeGCPKMSCryptoKey,
+		c.BronzeGCPKMSKeyRing, c.BronzeGCPLoggingBucket,
 		c.BronzeGCPLoggingLogExclusion, c.BronzeGCPLoggingLogMetric,
-		c.BronzeGCPLoggingSink, c.BronzeGCPOrgIamPolicy,
+		c.BronzeGCPLoggingSink, c.BronzeGCPMonitoringAlertPolicy,
+		c.BronzeGCPMonitoringUptimeCheckConfig, c.BronzeGCPOrgIamPolicy,
 		c.BronzeGCPOrgIamPolicyBinding, c.BronzeGCPOrgPolicyConstraint,
-		c.BronzeGCPOrgPolicyPolicy, c.BronzeGCPOrganization, c.BronzeGCPProject,
-		c.BronzeGCPProjectIamPolicy, c.BronzeGCPProjectIamPolicyBinding,
-		c.BronzeGCPProjectLabel, c.BronzeGCPSQLInstance, c.BronzeGCPSQLInstanceLabel,
+		c.BronzeGCPOrgPolicyCustomConstraint, c.BronzeGCPOrgPolicyPolicy,
+		c.BronzeGCPOrganization, c.BronzeGCPProject, c.BronzeGCPProjectIamPolicy,
+		c.BronzeGCPProjectIamPolicyBinding, c.BronzeGCPProjectLabel,
+		c.BronzeGCPPubSubSubscription, c.BronzeGCPPubSubTopic,
+		c.BronzeGCPRedisInstance, c.BronzeGCPRunRevision, c.BronzeGCPRunService,
+		c.BronzeGCPSQLInstance, c.BronzeGCPSQLInstanceLabel,
 		c.BronzeGCPSecretManagerSecret, c.BronzeGCPSecretManagerSecretLabel,
-		c.BronzeGCPSecurityCenterFinding, c.BronzeGCPSecurityCenterSource,
+		c.BronzeGCPSecurityCenterFinding, c.BronzeGCPSecurityCenterNotificationConfig,
+		c.BronzeGCPSecurityCenterSource, c.BronzeGCPServiceUsageEnabledService,
+		c.BronzeGCPSpannerDatabase, c.BronzeGCPSpannerInstance,
 		c.BronzeGCPStorageBucket, c.BronzeGCPStorageBucketIamPolicy,
 		c.BronzeGCPStorageBucketIamPolicyBinding, c.BronzeGCPStorageBucketLabel,
 		c.BronzeGCPVPCAccessConnector, c.BronzeGCPVPNGateway,
@@ -1813,11 +2214,21 @@ func (c *Client) Use(hooks ...Hook) {
 		c.BronzeHistoryDODatabasePool, c.BronzeHistoryDODatabaseReplica,
 		c.BronzeHistoryDODatabaseUser, c.BronzeHistoryDODomain,
 		c.BronzeHistoryDODomainRecord, c.BronzeHistoryDODroplet,
-		c.BronzeHistoryDOFirewall, c.BronzeHistoryDOKey,
-		c.BronzeHistoryDOKubernetesCluster, c.BronzeHistoryDOKubernetesNodePool,
-		c.BronzeHistoryDOLoadBalancer, c.BronzeHistoryDOProject,
-		c.BronzeHistoryDOProjectResource, c.BronzeHistoryDOVolume,
-		c.BronzeHistoryDOVpc, c.BronzeHistoryGCPComputeAddress,
+		c.BronzeHistoryDOFirewall, c.BronzeHistoryDOKey, c.BronzeHistoryDOLoadBalancer,
+		c.BronzeHistoryDOProject, c.BronzeHistoryDOProjectResource,
+		c.BronzeHistoryDOVolume, c.BronzeHistoryDOVpc,
+		c.BronzeHistoryGCPAccessContextManagerAccessLevel,
+		c.BronzeHistoryGCPAccessContextManagerAccessPolicy,
+		c.BronzeHistoryGCPAccessContextManagerServicePerimeter,
+		c.BronzeHistoryGCPAlloyDBCluster, c.BronzeHistoryGCPAppEngineApplication,
+		c.BronzeHistoryGCPAppEngineService, c.BronzeHistoryGCPBigQueryDataset,
+		c.BronzeHistoryGCPBigQueryTable, c.BronzeHistoryGCPBigtableCluster,
+		c.BronzeHistoryGCPBigtableInstance,
+		c.BronzeHistoryGCPBinaryAuthorizationAttestor,
+		c.BronzeHistoryGCPBinaryAuthorizationPolicy, c.BronzeHistoryGCPCloudAssetAsset,
+		c.BronzeHistoryGCPCloudAssetIAMPolicySearch,
+		c.BronzeHistoryGCPCloudAssetResourceSearch,
+		c.BronzeHistoryGCPCloudFunctionsFunction, c.BronzeHistoryGCPComputeAddress,
 		c.BronzeHistoryGCPComputeAddressLabel, c.BronzeHistoryGCPComputeBackendService,
 		c.BronzeHistoryGCPComputeBackendServiceBackend, c.BronzeHistoryGCPComputeDisk,
 		c.BronzeHistoryGCPComputeDiskLabel, c.BronzeHistoryGCPComputeDiskLicense,
@@ -1858,27 +2269,39 @@ func (c *Client) Use(hooks ...Hook) {
 		c.BronzeHistoryGCPComputeTargetInstance, c.BronzeHistoryGCPComputeTargetPool,
 		c.BronzeHistoryGCPComputeTargetSslProxy,
 		c.BronzeHistoryGCPComputeTargetTcpProxy, c.BronzeHistoryGCPComputeUrlMap,
+		c.BronzeHistoryGCPContainerAnalysisNote,
+		c.BronzeHistoryGCPContainerAnalysisOccurrence,
 		c.BronzeHistoryGCPContainerCluster, c.BronzeHistoryGCPContainerClusterAddon,
 		c.BronzeHistoryGCPContainerClusterCondition,
 		c.BronzeHistoryGCPContainerClusterLabel,
 		c.BronzeHistoryGCPContainerClusterNodePool, c.BronzeHistoryGCPDNSManagedZone,
 		c.BronzeHistoryGCPDNSManagedZoneLabel, c.BronzeHistoryGCPDNSPolicy,
+		c.BronzeHistoryGCPDataprocCluster, c.BronzeHistoryGCPFilestoreInstance,
 		c.BronzeHistoryGCPFolder, c.BronzeHistoryGCPFolderIamPolicy,
 		c.BronzeHistoryGCPFolderIamPolicyBinding, c.BronzeHistoryGCPFolderLabel,
 		c.BronzeHistoryGCPIAMServiceAccount, c.BronzeHistoryGCPIAMServiceAccountKey,
+		c.BronzeHistoryGCPIAPIAMPolicy, c.BronzeHistoryGCPIAPSettings,
 		c.BronzeHistoryGCPKMSCryptoKey, c.BronzeHistoryGCPKMSKeyRing,
 		c.BronzeHistoryGCPLoggingBucket, c.BronzeHistoryGCPLoggingLogExclusion,
 		c.BronzeHistoryGCPLoggingLogMetric, c.BronzeHistoryGCPLoggingSink,
-		c.BronzeHistoryGCPOrgIamPolicy, c.BronzeHistoryGCPOrgIamPolicyBinding,
-		c.BronzeHistoryGCPOrgPolicyConstraint, c.BronzeHistoryGCPOrgPolicyPolicy,
+		c.BronzeHistoryGCPMonitoringAlertPolicy,
+		c.BronzeHistoryGCPMonitoringUptimeCheckConfig, c.BronzeHistoryGCPOrgIamPolicy,
+		c.BronzeHistoryGCPOrgIamPolicyBinding, c.BronzeHistoryGCPOrgPolicyConstraint,
+		c.BronzeHistoryGCPOrgPolicyCustomConstraint, c.BronzeHistoryGCPOrgPolicyPolicy,
 		c.BronzeHistoryGCPOrganization, c.BronzeHistoryGCPProject,
 		c.BronzeHistoryGCPProjectIamPolicy, c.BronzeHistoryGCPProjectIamPolicyBinding,
-		c.BronzeHistoryGCPProjectLabel, c.BronzeHistoryGCPSQLInstance,
-		c.BronzeHistoryGCPSQLInstanceLabel, c.BronzeHistoryGCPSecretManagerSecret,
+		c.BronzeHistoryGCPProjectLabel, c.BronzeHistoryGCPPubSubSubscription,
+		c.BronzeHistoryGCPPubSubTopic, c.BronzeHistoryGCPRedisInstance,
+		c.BronzeHistoryGCPRunRevision, c.BronzeHistoryGCPRunService,
+		c.BronzeHistoryGCPSQLInstance, c.BronzeHistoryGCPSQLInstanceLabel,
+		c.BronzeHistoryGCPSecretManagerSecret,
 		c.BronzeHistoryGCPSecretManagerSecretLabel,
 		c.BronzeHistoryGCPSecurityCenterFinding,
-		c.BronzeHistoryGCPSecurityCenterSource, c.BronzeHistoryGCPStorageBucket,
-		c.BronzeHistoryGCPStorageBucketIamPolicy,
+		c.BronzeHistoryGCPSecurityCenterNotificationConfig,
+		c.BronzeHistoryGCPSecurityCenterSource,
+		c.BronzeHistoryGCPServiceUsageEnabledService,
+		c.BronzeHistoryGCPSpannerDatabase, c.BronzeHistoryGCPSpannerInstance,
+		c.BronzeHistoryGCPStorageBucket, c.BronzeHistoryGCPStorageBucketIamPolicy,
 		c.BronzeHistoryGCPStorageBucketIamPolicyBinding,
 		c.BronzeHistoryGCPStorageBucketLabel, c.BronzeHistoryGCPVPCAccessConnector,
 		c.BronzeHistoryGCPVPNGateway, c.BronzeHistoryGCPVPNGatewayLabel,
@@ -1903,16 +2326,24 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.BronzeDODatabaseFirewallRule, c.BronzeDODatabasePool,
 		c.BronzeDODatabaseReplica, c.BronzeDODatabaseUser, c.BronzeDODomain,
 		c.BronzeDODomainRecord, c.BronzeDODroplet, c.BronzeDOFirewall, c.BronzeDOKey,
-		c.BronzeDOKubernetesCluster, c.BronzeDOKubernetesNodePool,
 		c.BronzeDOLoadBalancer, c.BronzeDOProject, c.BronzeDOProjectResource,
-		c.BronzeDOVolume, c.BronzeDOVpc, c.BronzeGCPComputeAddress,
-		c.BronzeGCPComputeAddressLabel, c.BronzeGCPComputeBackendService,
-		c.BronzeGCPComputeBackendServiceBackend, c.BronzeGCPComputeDisk,
-		c.BronzeGCPComputeDiskLabel, c.BronzeGCPComputeDiskLicense,
-		c.BronzeGCPComputeFirewall, c.BronzeGCPComputeFirewallAllowed,
-		c.BronzeGCPComputeFirewallDenied, c.BronzeGCPComputeForwardingRule,
-		c.BronzeGCPComputeForwardingRuleLabel, c.BronzeGCPComputeGlobalAddress,
-		c.BronzeGCPComputeGlobalAddressLabel, c.BronzeGCPComputeGlobalForwardingRule,
+		c.BronzeDOVolume, c.BronzeDOVpc, c.BronzeGCPAccessContextManagerAccessLevel,
+		c.BronzeGCPAccessContextManagerAccessPolicy,
+		c.BronzeGCPAccessContextManagerServicePerimeter, c.BronzeGCPAlloyDBCluster,
+		c.BronzeGCPAppEngineApplication, c.BronzeGCPAppEngineService,
+		c.BronzeGCPBigQueryDataset, c.BronzeGCPBigQueryTable,
+		c.BronzeGCPBigtableCluster, c.BronzeGCPBigtableInstance,
+		c.BronzeGCPBinaryAuthorizationAttestor, c.BronzeGCPBinaryAuthorizationPolicy,
+		c.BronzeGCPCloudAssetAsset, c.BronzeGCPCloudAssetIAMPolicySearch,
+		c.BronzeGCPCloudAssetResourceSearch, c.BronzeGCPCloudFunctionsFunction,
+		c.BronzeGCPComputeAddress, c.BronzeGCPComputeAddressLabel,
+		c.BronzeGCPComputeBackendService, c.BronzeGCPComputeBackendServiceBackend,
+		c.BronzeGCPComputeDisk, c.BronzeGCPComputeDiskLabel,
+		c.BronzeGCPComputeDiskLicense, c.BronzeGCPComputeFirewall,
+		c.BronzeGCPComputeFirewallAllowed, c.BronzeGCPComputeFirewallDenied,
+		c.BronzeGCPComputeForwardingRule, c.BronzeGCPComputeForwardingRuleLabel,
+		c.BronzeGCPComputeGlobalAddress, c.BronzeGCPComputeGlobalAddressLabel,
+		c.BronzeGCPComputeGlobalForwardingRule,
 		c.BronzeGCPComputeGlobalForwardingRuleLabel, c.BronzeGCPComputeHealthCheck,
 		c.BronzeGCPComputeImage, c.BronzeGCPComputeImageLabel,
 		c.BronzeGCPComputeImageLicense, c.BronzeGCPComputeInstance,
@@ -1934,22 +2365,31 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.BronzeGCPComputeTargetHttpProxy, c.BronzeGCPComputeTargetHttpsProxy,
 		c.BronzeGCPComputeTargetInstance, c.BronzeGCPComputeTargetPool,
 		c.BronzeGCPComputeTargetSslProxy, c.BronzeGCPComputeTargetTcpProxy,
-		c.BronzeGCPComputeUrlMap, c.BronzeGCPContainerCluster,
+		c.BronzeGCPComputeUrlMap, c.BronzeGCPContainerAnalysisNote,
+		c.BronzeGCPContainerAnalysisOccurrence, c.BronzeGCPContainerCluster,
 		c.BronzeGCPContainerClusterAddon, c.BronzeGCPContainerClusterCondition,
 		c.BronzeGCPContainerClusterLabel, c.BronzeGCPContainerClusterNodePool,
 		c.BronzeGCPDNSManagedZone, c.BronzeGCPDNSManagedZoneLabel,
-		c.BronzeGCPDNSPolicy, c.BronzeGCPFolder, c.BronzeGCPFolderIamPolicy,
+		c.BronzeGCPDNSPolicy, c.BronzeGCPDataprocCluster, c.BronzeGCPFilestoreInstance,
+		c.BronzeGCPFolder, c.BronzeGCPFolderIamPolicy,
 		c.BronzeGCPFolderIamPolicyBinding, c.BronzeGCPFolderLabel,
 		c.BronzeGCPIAMServiceAccount, c.BronzeGCPIAMServiceAccountKey,
-		c.BronzeGCPKMSCryptoKey, c.BronzeGCPKMSKeyRing, c.BronzeGCPLoggingBucket,
+		c.BronzeGCPIAPIAMPolicy, c.BronzeGCPIAPSettings, c.BronzeGCPKMSCryptoKey,
+		c.BronzeGCPKMSKeyRing, c.BronzeGCPLoggingBucket,
 		c.BronzeGCPLoggingLogExclusion, c.BronzeGCPLoggingLogMetric,
-		c.BronzeGCPLoggingSink, c.BronzeGCPOrgIamPolicy,
+		c.BronzeGCPLoggingSink, c.BronzeGCPMonitoringAlertPolicy,
+		c.BronzeGCPMonitoringUptimeCheckConfig, c.BronzeGCPOrgIamPolicy,
 		c.BronzeGCPOrgIamPolicyBinding, c.BronzeGCPOrgPolicyConstraint,
-		c.BronzeGCPOrgPolicyPolicy, c.BronzeGCPOrganization, c.BronzeGCPProject,
-		c.BronzeGCPProjectIamPolicy, c.BronzeGCPProjectIamPolicyBinding,
-		c.BronzeGCPProjectLabel, c.BronzeGCPSQLInstance, c.BronzeGCPSQLInstanceLabel,
+		c.BronzeGCPOrgPolicyCustomConstraint, c.BronzeGCPOrgPolicyPolicy,
+		c.BronzeGCPOrganization, c.BronzeGCPProject, c.BronzeGCPProjectIamPolicy,
+		c.BronzeGCPProjectIamPolicyBinding, c.BronzeGCPProjectLabel,
+		c.BronzeGCPPubSubSubscription, c.BronzeGCPPubSubTopic,
+		c.BronzeGCPRedisInstance, c.BronzeGCPRunRevision, c.BronzeGCPRunService,
+		c.BronzeGCPSQLInstance, c.BronzeGCPSQLInstanceLabel,
 		c.BronzeGCPSecretManagerSecret, c.BronzeGCPSecretManagerSecretLabel,
-		c.BronzeGCPSecurityCenterFinding, c.BronzeGCPSecurityCenterSource,
+		c.BronzeGCPSecurityCenterFinding, c.BronzeGCPSecurityCenterNotificationConfig,
+		c.BronzeGCPSecurityCenterSource, c.BronzeGCPServiceUsageEnabledService,
+		c.BronzeGCPSpannerDatabase, c.BronzeGCPSpannerInstance,
 		c.BronzeGCPStorageBucket, c.BronzeGCPStorageBucketIamPolicy,
 		c.BronzeGCPStorageBucketIamPolicyBinding, c.BronzeGCPStorageBucketLabel,
 		c.BronzeGCPVPCAccessConnector, c.BronzeGCPVPNGateway,
@@ -1962,11 +2402,21 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.BronzeHistoryDODatabasePool, c.BronzeHistoryDODatabaseReplica,
 		c.BronzeHistoryDODatabaseUser, c.BronzeHistoryDODomain,
 		c.BronzeHistoryDODomainRecord, c.BronzeHistoryDODroplet,
-		c.BronzeHistoryDOFirewall, c.BronzeHistoryDOKey,
-		c.BronzeHistoryDOKubernetesCluster, c.BronzeHistoryDOKubernetesNodePool,
-		c.BronzeHistoryDOLoadBalancer, c.BronzeHistoryDOProject,
-		c.BronzeHistoryDOProjectResource, c.BronzeHistoryDOVolume,
-		c.BronzeHistoryDOVpc, c.BronzeHistoryGCPComputeAddress,
+		c.BronzeHistoryDOFirewall, c.BronzeHistoryDOKey, c.BronzeHistoryDOLoadBalancer,
+		c.BronzeHistoryDOProject, c.BronzeHistoryDOProjectResource,
+		c.BronzeHistoryDOVolume, c.BronzeHistoryDOVpc,
+		c.BronzeHistoryGCPAccessContextManagerAccessLevel,
+		c.BronzeHistoryGCPAccessContextManagerAccessPolicy,
+		c.BronzeHistoryGCPAccessContextManagerServicePerimeter,
+		c.BronzeHistoryGCPAlloyDBCluster, c.BronzeHistoryGCPAppEngineApplication,
+		c.BronzeHistoryGCPAppEngineService, c.BronzeHistoryGCPBigQueryDataset,
+		c.BronzeHistoryGCPBigQueryTable, c.BronzeHistoryGCPBigtableCluster,
+		c.BronzeHistoryGCPBigtableInstance,
+		c.BronzeHistoryGCPBinaryAuthorizationAttestor,
+		c.BronzeHistoryGCPBinaryAuthorizationPolicy, c.BronzeHistoryGCPCloudAssetAsset,
+		c.BronzeHistoryGCPCloudAssetIAMPolicySearch,
+		c.BronzeHistoryGCPCloudAssetResourceSearch,
+		c.BronzeHistoryGCPCloudFunctionsFunction, c.BronzeHistoryGCPComputeAddress,
 		c.BronzeHistoryGCPComputeAddressLabel, c.BronzeHistoryGCPComputeBackendService,
 		c.BronzeHistoryGCPComputeBackendServiceBackend, c.BronzeHistoryGCPComputeDisk,
 		c.BronzeHistoryGCPComputeDiskLabel, c.BronzeHistoryGCPComputeDiskLicense,
@@ -2007,27 +2457,39 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.BronzeHistoryGCPComputeTargetInstance, c.BronzeHistoryGCPComputeTargetPool,
 		c.BronzeHistoryGCPComputeTargetSslProxy,
 		c.BronzeHistoryGCPComputeTargetTcpProxy, c.BronzeHistoryGCPComputeUrlMap,
+		c.BronzeHistoryGCPContainerAnalysisNote,
+		c.BronzeHistoryGCPContainerAnalysisOccurrence,
 		c.BronzeHistoryGCPContainerCluster, c.BronzeHistoryGCPContainerClusterAddon,
 		c.BronzeHistoryGCPContainerClusterCondition,
 		c.BronzeHistoryGCPContainerClusterLabel,
 		c.BronzeHistoryGCPContainerClusterNodePool, c.BronzeHistoryGCPDNSManagedZone,
 		c.BronzeHistoryGCPDNSManagedZoneLabel, c.BronzeHistoryGCPDNSPolicy,
+		c.BronzeHistoryGCPDataprocCluster, c.BronzeHistoryGCPFilestoreInstance,
 		c.BronzeHistoryGCPFolder, c.BronzeHistoryGCPFolderIamPolicy,
 		c.BronzeHistoryGCPFolderIamPolicyBinding, c.BronzeHistoryGCPFolderLabel,
 		c.BronzeHistoryGCPIAMServiceAccount, c.BronzeHistoryGCPIAMServiceAccountKey,
+		c.BronzeHistoryGCPIAPIAMPolicy, c.BronzeHistoryGCPIAPSettings,
 		c.BronzeHistoryGCPKMSCryptoKey, c.BronzeHistoryGCPKMSKeyRing,
 		c.BronzeHistoryGCPLoggingBucket, c.BronzeHistoryGCPLoggingLogExclusion,
 		c.BronzeHistoryGCPLoggingLogMetric, c.BronzeHistoryGCPLoggingSink,
-		c.BronzeHistoryGCPOrgIamPolicy, c.BronzeHistoryGCPOrgIamPolicyBinding,
-		c.BronzeHistoryGCPOrgPolicyConstraint, c.BronzeHistoryGCPOrgPolicyPolicy,
+		c.BronzeHistoryGCPMonitoringAlertPolicy,
+		c.BronzeHistoryGCPMonitoringUptimeCheckConfig, c.BronzeHistoryGCPOrgIamPolicy,
+		c.BronzeHistoryGCPOrgIamPolicyBinding, c.BronzeHistoryGCPOrgPolicyConstraint,
+		c.BronzeHistoryGCPOrgPolicyCustomConstraint, c.BronzeHistoryGCPOrgPolicyPolicy,
 		c.BronzeHistoryGCPOrganization, c.BronzeHistoryGCPProject,
 		c.BronzeHistoryGCPProjectIamPolicy, c.BronzeHistoryGCPProjectIamPolicyBinding,
-		c.BronzeHistoryGCPProjectLabel, c.BronzeHistoryGCPSQLInstance,
-		c.BronzeHistoryGCPSQLInstanceLabel, c.BronzeHistoryGCPSecretManagerSecret,
+		c.BronzeHistoryGCPProjectLabel, c.BronzeHistoryGCPPubSubSubscription,
+		c.BronzeHistoryGCPPubSubTopic, c.BronzeHistoryGCPRedisInstance,
+		c.BronzeHistoryGCPRunRevision, c.BronzeHistoryGCPRunService,
+		c.BronzeHistoryGCPSQLInstance, c.BronzeHistoryGCPSQLInstanceLabel,
+		c.BronzeHistoryGCPSecretManagerSecret,
 		c.BronzeHistoryGCPSecretManagerSecretLabel,
 		c.BronzeHistoryGCPSecurityCenterFinding,
-		c.BronzeHistoryGCPSecurityCenterSource, c.BronzeHistoryGCPStorageBucket,
-		c.BronzeHistoryGCPStorageBucketIamPolicy,
+		c.BronzeHistoryGCPSecurityCenterNotificationConfig,
+		c.BronzeHistoryGCPSecurityCenterSource,
+		c.BronzeHistoryGCPServiceUsageEnabledService,
+		c.BronzeHistoryGCPSpannerDatabase, c.BronzeHistoryGCPSpannerInstance,
+		c.BronzeHistoryGCPStorageBucket, c.BronzeHistoryGCPStorageBucketIamPolicy,
 		c.BronzeHistoryGCPStorageBucketIamPolicyBinding,
 		c.BronzeHistoryGCPStorageBucketLabel, c.BronzeHistoryGCPVPCAccessConnector,
 		c.BronzeHistoryGCPVPNGateway, c.BronzeHistoryGCPVPNGatewayLabel,
@@ -2076,10 +2538,6 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeDOFirewall.mutate(ctx, m)
 	case *BronzeDOKeyMutation:
 		return c.BronzeDOKey.mutate(ctx, m)
-	case *BronzeDOKubernetesClusterMutation:
-		return c.BronzeDOKubernetesCluster.mutate(ctx, m)
-	case *BronzeDOKubernetesNodePoolMutation:
-		return c.BronzeDOKubernetesNodePool.mutate(ctx, m)
 	case *BronzeDOLoadBalancerMutation:
 		return c.BronzeDOLoadBalancer.mutate(ctx, m)
 	case *BronzeDOProjectMutation:
@@ -2090,6 +2548,38 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeDOVolume.mutate(ctx, m)
 	case *BronzeDOVpcMutation:
 		return c.BronzeDOVpc.mutate(ctx, m)
+	case *BronzeGCPAccessContextManagerAccessLevelMutation:
+		return c.BronzeGCPAccessContextManagerAccessLevel.mutate(ctx, m)
+	case *BronzeGCPAccessContextManagerAccessPolicyMutation:
+		return c.BronzeGCPAccessContextManagerAccessPolicy.mutate(ctx, m)
+	case *BronzeGCPAccessContextManagerServicePerimeterMutation:
+		return c.BronzeGCPAccessContextManagerServicePerimeter.mutate(ctx, m)
+	case *BronzeGCPAlloyDBClusterMutation:
+		return c.BronzeGCPAlloyDBCluster.mutate(ctx, m)
+	case *BronzeGCPAppEngineApplicationMutation:
+		return c.BronzeGCPAppEngineApplication.mutate(ctx, m)
+	case *BronzeGCPAppEngineServiceMutation:
+		return c.BronzeGCPAppEngineService.mutate(ctx, m)
+	case *BronzeGCPBigQueryDatasetMutation:
+		return c.BronzeGCPBigQueryDataset.mutate(ctx, m)
+	case *BronzeGCPBigQueryTableMutation:
+		return c.BronzeGCPBigQueryTable.mutate(ctx, m)
+	case *BronzeGCPBigtableClusterMutation:
+		return c.BronzeGCPBigtableCluster.mutate(ctx, m)
+	case *BronzeGCPBigtableInstanceMutation:
+		return c.BronzeGCPBigtableInstance.mutate(ctx, m)
+	case *BronzeGCPBinaryAuthorizationAttestorMutation:
+		return c.BronzeGCPBinaryAuthorizationAttestor.mutate(ctx, m)
+	case *BronzeGCPBinaryAuthorizationPolicyMutation:
+		return c.BronzeGCPBinaryAuthorizationPolicy.mutate(ctx, m)
+	case *BronzeGCPCloudAssetAssetMutation:
+		return c.BronzeGCPCloudAssetAsset.mutate(ctx, m)
+	case *BronzeGCPCloudAssetIAMPolicySearchMutation:
+		return c.BronzeGCPCloudAssetIAMPolicySearch.mutate(ctx, m)
+	case *BronzeGCPCloudAssetResourceSearchMutation:
+		return c.BronzeGCPCloudAssetResourceSearch.mutate(ctx, m)
+	case *BronzeGCPCloudFunctionsFunctionMutation:
+		return c.BronzeGCPCloudFunctionsFunction.mutate(ctx, m)
 	case *BronzeGCPComputeAddressMutation:
 		return c.BronzeGCPComputeAddress.mutate(ctx, m)
 	case *BronzeGCPComputeAddressLabelMutation:
@@ -2202,6 +2692,10 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeGCPComputeTargetTcpProxy.mutate(ctx, m)
 	case *BronzeGCPComputeUrlMapMutation:
 		return c.BronzeGCPComputeUrlMap.mutate(ctx, m)
+	case *BronzeGCPContainerAnalysisNoteMutation:
+		return c.BronzeGCPContainerAnalysisNote.mutate(ctx, m)
+	case *BronzeGCPContainerAnalysisOccurrenceMutation:
+		return c.BronzeGCPContainerAnalysisOccurrence.mutate(ctx, m)
 	case *BronzeGCPContainerClusterMutation:
 		return c.BronzeGCPContainerCluster.mutate(ctx, m)
 	case *BronzeGCPContainerClusterAddonMutation:
@@ -2218,6 +2712,10 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeGCPDNSManagedZoneLabel.mutate(ctx, m)
 	case *BronzeGCPDNSPolicyMutation:
 		return c.BronzeGCPDNSPolicy.mutate(ctx, m)
+	case *BronzeGCPDataprocClusterMutation:
+		return c.BronzeGCPDataprocCluster.mutate(ctx, m)
+	case *BronzeGCPFilestoreInstanceMutation:
+		return c.BronzeGCPFilestoreInstance.mutate(ctx, m)
 	case *BronzeGCPFolderMutation:
 		return c.BronzeGCPFolder.mutate(ctx, m)
 	case *BronzeGCPFolderIamPolicyMutation:
@@ -2230,6 +2728,10 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeGCPIAMServiceAccount.mutate(ctx, m)
 	case *BronzeGCPIAMServiceAccountKeyMutation:
 		return c.BronzeGCPIAMServiceAccountKey.mutate(ctx, m)
+	case *BronzeGCPIAPIAMPolicyMutation:
+		return c.BronzeGCPIAPIAMPolicy.mutate(ctx, m)
+	case *BronzeGCPIAPSettingsMutation:
+		return c.BronzeGCPIAPSettings.mutate(ctx, m)
 	case *BronzeGCPKMSCryptoKeyMutation:
 		return c.BronzeGCPKMSCryptoKey.mutate(ctx, m)
 	case *BronzeGCPKMSKeyRingMutation:
@@ -2242,12 +2744,18 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeGCPLoggingLogMetric.mutate(ctx, m)
 	case *BronzeGCPLoggingSinkMutation:
 		return c.BronzeGCPLoggingSink.mutate(ctx, m)
+	case *BronzeGCPMonitoringAlertPolicyMutation:
+		return c.BronzeGCPMonitoringAlertPolicy.mutate(ctx, m)
+	case *BronzeGCPMonitoringUptimeCheckConfigMutation:
+		return c.BronzeGCPMonitoringUptimeCheckConfig.mutate(ctx, m)
 	case *BronzeGCPOrgIamPolicyMutation:
 		return c.BronzeGCPOrgIamPolicy.mutate(ctx, m)
 	case *BronzeGCPOrgIamPolicyBindingMutation:
 		return c.BronzeGCPOrgIamPolicyBinding.mutate(ctx, m)
 	case *BronzeGCPOrgPolicyConstraintMutation:
 		return c.BronzeGCPOrgPolicyConstraint.mutate(ctx, m)
+	case *BronzeGCPOrgPolicyCustomConstraintMutation:
+		return c.BronzeGCPOrgPolicyCustomConstraint.mutate(ctx, m)
 	case *BronzeGCPOrgPolicyPolicyMutation:
 		return c.BronzeGCPOrgPolicyPolicy.mutate(ctx, m)
 	case *BronzeGCPOrganizationMutation:
@@ -2260,6 +2768,16 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeGCPProjectIamPolicyBinding.mutate(ctx, m)
 	case *BronzeGCPProjectLabelMutation:
 		return c.BronzeGCPProjectLabel.mutate(ctx, m)
+	case *BronzeGCPPubSubSubscriptionMutation:
+		return c.BronzeGCPPubSubSubscription.mutate(ctx, m)
+	case *BronzeGCPPubSubTopicMutation:
+		return c.BronzeGCPPubSubTopic.mutate(ctx, m)
+	case *BronzeGCPRedisInstanceMutation:
+		return c.BronzeGCPRedisInstance.mutate(ctx, m)
+	case *BronzeGCPRunRevisionMutation:
+		return c.BronzeGCPRunRevision.mutate(ctx, m)
+	case *BronzeGCPRunServiceMutation:
+		return c.BronzeGCPRunService.mutate(ctx, m)
 	case *BronzeGCPSQLInstanceMutation:
 		return c.BronzeGCPSQLInstance.mutate(ctx, m)
 	case *BronzeGCPSQLInstanceLabelMutation:
@@ -2270,8 +2788,16 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeGCPSecretManagerSecretLabel.mutate(ctx, m)
 	case *BronzeGCPSecurityCenterFindingMutation:
 		return c.BronzeGCPSecurityCenterFinding.mutate(ctx, m)
+	case *BronzeGCPSecurityCenterNotificationConfigMutation:
+		return c.BronzeGCPSecurityCenterNotificationConfig.mutate(ctx, m)
 	case *BronzeGCPSecurityCenterSourceMutation:
 		return c.BronzeGCPSecurityCenterSource.mutate(ctx, m)
+	case *BronzeGCPServiceUsageEnabledServiceMutation:
+		return c.BronzeGCPServiceUsageEnabledService.mutate(ctx, m)
+	case *BronzeGCPSpannerDatabaseMutation:
+		return c.BronzeGCPSpannerDatabase.mutate(ctx, m)
+	case *BronzeGCPSpannerInstanceMutation:
+		return c.BronzeGCPSpannerInstance.mutate(ctx, m)
 	case *BronzeGCPStorageBucketMutation:
 		return c.BronzeGCPStorageBucket.mutate(ctx, m)
 	case *BronzeGCPStorageBucketIamPolicyMutation:
@@ -2324,10 +2850,6 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeHistoryDOFirewall.mutate(ctx, m)
 	case *BronzeHistoryDOKeyMutation:
 		return c.BronzeHistoryDOKey.mutate(ctx, m)
-	case *BronzeHistoryDOKubernetesClusterMutation:
-		return c.BronzeHistoryDOKubernetesCluster.mutate(ctx, m)
-	case *BronzeHistoryDOKubernetesNodePoolMutation:
-		return c.BronzeHistoryDOKubernetesNodePool.mutate(ctx, m)
 	case *BronzeHistoryDOLoadBalancerMutation:
 		return c.BronzeHistoryDOLoadBalancer.mutate(ctx, m)
 	case *BronzeHistoryDOProjectMutation:
@@ -2338,6 +2860,38 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeHistoryDOVolume.mutate(ctx, m)
 	case *BronzeHistoryDOVpcMutation:
 		return c.BronzeHistoryDOVpc.mutate(ctx, m)
+	case *BronzeHistoryGCPAccessContextManagerAccessLevelMutation:
+		return c.BronzeHistoryGCPAccessContextManagerAccessLevel.mutate(ctx, m)
+	case *BronzeHistoryGCPAccessContextManagerAccessPolicyMutation:
+		return c.BronzeHistoryGCPAccessContextManagerAccessPolicy.mutate(ctx, m)
+	case *BronzeHistoryGCPAccessContextManagerServicePerimeterMutation:
+		return c.BronzeHistoryGCPAccessContextManagerServicePerimeter.mutate(ctx, m)
+	case *BronzeHistoryGCPAlloyDBClusterMutation:
+		return c.BronzeHistoryGCPAlloyDBCluster.mutate(ctx, m)
+	case *BronzeHistoryGCPAppEngineApplicationMutation:
+		return c.BronzeHistoryGCPAppEngineApplication.mutate(ctx, m)
+	case *BronzeHistoryGCPAppEngineServiceMutation:
+		return c.BronzeHistoryGCPAppEngineService.mutate(ctx, m)
+	case *BronzeHistoryGCPBigQueryDatasetMutation:
+		return c.BronzeHistoryGCPBigQueryDataset.mutate(ctx, m)
+	case *BronzeHistoryGCPBigQueryTableMutation:
+		return c.BronzeHistoryGCPBigQueryTable.mutate(ctx, m)
+	case *BronzeHistoryGCPBigtableClusterMutation:
+		return c.BronzeHistoryGCPBigtableCluster.mutate(ctx, m)
+	case *BronzeHistoryGCPBigtableInstanceMutation:
+		return c.BronzeHistoryGCPBigtableInstance.mutate(ctx, m)
+	case *BronzeHistoryGCPBinaryAuthorizationAttestorMutation:
+		return c.BronzeHistoryGCPBinaryAuthorizationAttestor.mutate(ctx, m)
+	case *BronzeHistoryGCPBinaryAuthorizationPolicyMutation:
+		return c.BronzeHistoryGCPBinaryAuthorizationPolicy.mutate(ctx, m)
+	case *BronzeHistoryGCPCloudAssetAssetMutation:
+		return c.BronzeHistoryGCPCloudAssetAsset.mutate(ctx, m)
+	case *BronzeHistoryGCPCloudAssetIAMPolicySearchMutation:
+		return c.BronzeHistoryGCPCloudAssetIAMPolicySearch.mutate(ctx, m)
+	case *BronzeHistoryGCPCloudAssetResourceSearchMutation:
+		return c.BronzeHistoryGCPCloudAssetResourceSearch.mutate(ctx, m)
+	case *BronzeHistoryGCPCloudFunctionsFunctionMutation:
+		return c.BronzeHistoryGCPCloudFunctionsFunction.mutate(ctx, m)
 	case *BronzeHistoryGCPComputeAddressMutation:
 		return c.BronzeHistoryGCPComputeAddress.mutate(ctx, m)
 	case *BronzeHistoryGCPComputeAddressLabelMutation:
@@ -2450,6 +3004,10 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeHistoryGCPComputeTargetTcpProxy.mutate(ctx, m)
 	case *BronzeHistoryGCPComputeUrlMapMutation:
 		return c.BronzeHistoryGCPComputeUrlMap.mutate(ctx, m)
+	case *BronzeHistoryGCPContainerAnalysisNoteMutation:
+		return c.BronzeHistoryGCPContainerAnalysisNote.mutate(ctx, m)
+	case *BronzeHistoryGCPContainerAnalysisOccurrenceMutation:
+		return c.BronzeHistoryGCPContainerAnalysisOccurrence.mutate(ctx, m)
 	case *BronzeHistoryGCPContainerClusterMutation:
 		return c.BronzeHistoryGCPContainerCluster.mutate(ctx, m)
 	case *BronzeHistoryGCPContainerClusterAddonMutation:
@@ -2466,6 +3024,10 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeHistoryGCPDNSManagedZoneLabel.mutate(ctx, m)
 	case *BronzeHistoryGCPDNSPolicyMutation:
 		return c.BronzeHistoryGCPDNSPolicy.mutate(ctx, m)
+	case *BronzeHistoryGCPDataprocClusterMutation:
+		return c.BronzeHistoryGCPDataprocCluster.mutate(ctx, m)
+	case *BronzeHistoryGCPFilestoreInstanceMutation:
+		return c.BronzeHistoryGCPFilestoreInstance.mutate(ctx, m)
 	case *BronzeHistoryGCPFolderMutation:
 		return c.BronzeHistoryGCPFolder.mutate(ctx, m)
 	case *BronzeHistoryGCPFolderIamPolicyMutation:
@@ -2478,6 +3040,10 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeHistoryGCPIAMServiceAccount.mutate(ctx, m)
 	case *BronzeHistoryGCPIAMServiceAccountKeyMutation:
 		return c.BronzeHistoryGCPIAMServiceAccountKey.mutate(ctx, m)
+	case *BronzeHistoryGCPIAPIAMPolicyMutation:
+		return c.BronzeHistoryGCPIAPIAMPolicy.mutate(ctx, m)
+	case *BronzeHistoryGCPIAPSettingsMutation:
+		return c.BronzeHistoryGCPIAPSettings.mutate(ctx, m)
 	case *BronzeHistoryGCPKMSCryptoKeyMutation:
 		return c.BronzeHistoryGCPKMSCryptoKey.mutate(ctx, m)
 	case *BronzeHistoryGCPKMSKeyRingMutation:
@@ -2490,12 +3056,18 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeHistoryGCPLoggingLogMetric.mutate(ctx, m)
 	case *BronzeHistoryGCPLoggingSinkMutation:
 		return c.BronzeHistoryGCPLoggingSink.mutate(ctx, m)
+	case *BronzeHistoryGCPMonitoringAlertPolicyMutation:
+		return c.BronzeHistoryGCPMonitoringAlertPolicy.mutate(ctx, m)
+	case *BronzeHistoryGCPMonitoringUptimeCheckConfigMutation:
+		return c.BronzeHistoryGCPMonitoringUptimeCheckConfig.mutate(ctx, m)
 	case *BronzeHistoryGCPOrgIamPolicyMutation:
 		return c.BronzeHistoryGCPOrgIamPolicy.mutate(ctx, m)
 	case *BronzeHistoryGCPOrgIamPolicyBindingMutation:
 		return c.BronzeHistoryGCPOrgIamPolicyBinding.mutate(ctx, m)
 	case *BronzeHistoryGCPOrgPolicyConstraintMutation:
 		return c.BronzeHistoryGCPOrgPolicyConstraint.mutate(ctx, m)
+	case *BronzeHistoryGCPOrgPolicyCustomConstraintMutation:
+		return c.BronzeHistoryGCPOrgPolicyCustomConstraint.mutate(ctx, m)
 	case *BronzeHistoryGCPOrgPolicyPolicyMutation:
 		return c.BronzeHistoryGCPOrgPolicyPolicy.mutate(ctx, m)
 	case *BronzeHistoryGCPOrganizationMutation:
@@ -2508,6 +3080,16 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeHistoryGCPProjectIamPolicyBinding.mutate(ctx, m)
 	case *BronzeHistoryGCPProjectLabelMutation:
 		return c.BronzeHistoryGCPProjectLabel.mutate(ctx, m)
+	case *BronzeHistoryGCPPubSubSubscriptionMutation:
+		return c.BronzeHistoryGCPPubSubSubscription.mutate(ctx, m)
+	case *BronzeHistoryGCPPubSubTopicMutation:
+		return c.BronzeHistoryGCPPubSubTopic.mutate(ctx, m)
+	case *BronzeHistoryGCPRedisInstanceMutation:
+		return c.BronzeHistoryGCPRedisInstance.mutate(ctx, m)
+	case *BronzeHistoryGCPRunRevisionMutation:
+		return c.BronzeHistoryGCPRunRevision.mutate(ctx, m)
+	case *BronzeHistoryGCPRunServiceMutation:
+		return c.BronzeHistoryGCPRunService.mutate(ctx, m)
 	case *BronzeHistoryGCPSQLInstanceMutation:
 		return c.BronzeHistoryGCPSQLInstance.mutate(ctx, m)
 	case *BronzeHistoryGCPSQLInstanceLabelMutation:
@@ -2518,8 +3100,16 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeHistoryGCPSecretManagerSecretLabel.mutate(ctx, m)
 	case *BronzeHistoryGCPSecurityCenterFindingMutation:
 		return c.BronzeHistoryGCPSecurityCenterFinding.mutate(ctx, m)
+	case *BronzeHistoryGCPSecurityCenterNotificationConfigMutation:
+		return c.BronzeHistoryGCPSecurityCenterNotificationConfig.mutate(ctx, m)
 	case *BronzeHistoryGCPSecurityCenterSourceMutation:
 		return c.BronzeHistoryGCPSecurityCenterSource.mutate(ctx, m)
+	case *BronzeHistoryGCPServiceUsageEnabledServiceMutation:
+		return c.BronzeHistoryGCPServiceUsageEnabledService.mutate(ctx, m)
+	case *BronzeHistoryGCPSpannerDatabaseMutation:
+		return c.BronzeHistoryGCPSpannerDatabase.mutate(ctx, m)
+	case *BronzeHistoryGCPSpannerInstanceMutation:
+		return c.BronzeHistoryGCPSpannerInstance.mutate(ctx, m)
 	case *BronzeHistoryGCPStorageBucketMutation:
 		return c.BronzeHistoryGCPStorageBucket.mutate(ctx, m)
 	case *BronzeHistoryGCPStorageBucketIamPolicyMutation:
@@ -4608,272 +5198,6 @@ func (c *BronzeDOKeyClient) mutate(ctx context.Context, m *BronzeDOKeyMutation) 
 	}
 }
 
-// BronzeDOKubernetesClusterClient is a client for the BronzeDOKubernetesCluster schema.
-type BronzeDOKubernetesClusterClient struct {
-	config
-}
-
-// NewBronzeDOKubernetesClusterClient returns a client for the BronzeDOKubernetesCluster from the given config.
-func NewBronzeDOKubernetesClusterClient(c config) *BronzeDOKubernetesClusterClient {
-	return &BronzeDOKubernetesClusterClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `bronzedokubernetescluster.Hooks(f(g(h())))`.
-func (c *BronzeDOKubernetesClusterClient) Use(hooks ...Hook) {
-	c.hooks.BronzeDOKubernetesCluster = append(c.hooks.BronzeDOKubernetesCluster, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `bronzedokubernetescluster.Intercept(f(g(h())))`.
-func (c *BronzeDOKubernetesClusterClient) Intercept(interceptors ...Interceptor) {
-	c.inters.BronzeDOKubernetesCluster = append(c.inters.BronzeDOKubernetesCluster, interceptors...)
-}
-
-// Create returns a builder for creating a BronzeDOKubernetesCluster entity.
-func (c *BronzeDOKubernetesClusterClient) Create() *BronzeDOKubernetesClusterCreate {
-	mutation := newBronzeDOKubernetesClusterMutation(c.config, OpCreate)
-	return &BronzeDOKubernetesClusterCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of BronzeDOKubernetesCluster entities.
-func (c *BronzeDOKubernetesClusterClient) CreateBulk(builders ...*BronzeDOKubernetesClusterCreate) *BronzeDOKubernetesClusterCreateBulk {
-	return &BronzeDOKubernetesClusterCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *BronzeDOKubernetesClusterClient) MapCreateBulk(slice any, setFunc func(*BronzeDOKubernetesClusterCreate, int)) *BronzeDOKubernetesClusterCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &BronzeDOKubernetesClusterCreateBulk{err: fmt.Errorf("calling to BronzeDOKubernetesClusterClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*BronzeDOKubernetesClusterCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &BronzeDOKubernetesClusterCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for BronzeDOKubernetesCluster.
-func (c *BronzeDOKubernetesClusterClient) Update() *BronzeDOKubernetesClusterUpdate {
-	mutation := newBronzeDOKubernetesClusterMutation(c.config, OpUpdate)
-	return &BronzeDOKubernetesClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *BronzeDOKubernetesClusterClient) UpdateOne(_m *BronzeDOKubernetesCluster) *BronzeDOKubernetesClusterUpdateOne {
-	mutation := newBronzeDOKubernetesClusterMutation(c.config, OpUpdateOne, withBronzeDOKubernetesCluster(_m))
-	return &BronzeDOKubernetesClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *BronzeDOKubernetesClusterClient) UpdateOneID(id string) *BronzeDOKubernetesClusterUpdateOne {
-	mutation := newBronzeDOKubernetesClusterMutation(c.config, OpUpdateOne, withBronzeDOKubernetesClusterID(id))
-	return &BronzeDOKubernetesClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for BronzeDOKubernetesCluster.
-func (c *BronzeDOKubernetesClusterClient) Delete() *BronzeDOKubernetesClusterDelete {
-	mutation := newBronzeDOKubernetesClusterMutation(c.config, OpDelete)
-	return &BronzeDOKubernetesClusterDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *BronzeDOKubernetesClusterClient) DeleteOne(_m *BronzeDOKubernetesCluster) *BronzeDOKubernetesClusterDeleteOne {
-	return c.DeleteOneID(_m.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeDOKubernetesClusterClient) DeleteOneID(id string) *BronzeDOKubernetesClusterDeleteOne {
-	builder := c.Delete().Where(bronzedokubernetescluster.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &BronzeDOKubernetesClusterDeleteOne{builder}
-}
-
-// Query returns a query builder for BronzeDOKubernetesCluster.
-func (c *BronzeDOKubernetesClusterClient) Query() *BronzeDOKubernetesClusterQuery {
-	return &BronzeDOKubernetesClusterQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeBronzeDOKubernetesCluster},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a BronzeDOKubernetesCluster entity by its id.
-func (c *BronzeDOKubernetesClusterClient) Get(ctx context.Context, id string) (*BronzeDOKubernetesCluster, error) {
-	return c.Query().Where(bronzedokubernetescluster.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *BronzeDOKubernetesClusterClient) GetX(ctx context.Context, id string) *BronzeDOKubernetesCluster {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *BronzeDOKubernetesClusterClient) Hooks() []Hook {
-	return c.hooks.BronzeDOKubernetesCluster
-}
-
-// Interceptors returns the client interceptors.
-func (c *BronzeDOKubernetesClusterClient) Interceptors() []Interceptor {
-	return c.inters.BronzeDOKubernetesCluster
-}
-
-func (c *BronzeDOKubernetesClusterClient) mutate(ctx context.Context, m *BronzeDOKubernetesClusterMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&BronzeDOKubernetesClusterCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&BronzeDOKubernetesClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&BronzeDOKubernetesClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&BronzeDOKubernetesClusterDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown BronzeDOKubernetesCluster mutation op: %q", m.Op())
-	}
-}
-
-// BronzeDOKubernetesNodePoolClient is a client for the BronzeDOKubernetesNodePool schema.
-type BronzeDOKubernetesNodePoolClient struct {
-	config
-}
-
-// NewBronzeDOKubernetesNodePoolClient returns a client for the BronzeDOKubernetesNodePool from the given config.
-func NewBronzeDOKubernetesNodePoolClient(c config) *BronzeDOKubernetesNodePoolClient {
-	return &BronzeDOKubernetesNodePoolClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `bronzedokubernetesnodepool.Hooks(f(g(h())))`.
-func (c *BronzeDOKubernetesNodePoolClient) Use(hooks ...Hook) {
-	c.hooks.BronzeDOKubernetesNodePool = append(c.hooks.BronzeDOKubernetesNodePool, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `bronzedokubernetesnodepool.Intercept(f(g(h())))`.
-func (c *BronzeDOKubernetesNodePoolClient) Intercept(interceptors ...Interceptor) {
-	c.inters.BronzeDOKubernetesNodePool = append(c.inters.BronzeDOKubernetesNodePool, interceptors...)
-}
-
-// Create returns a builder for creating a BronzeDOKubernetesNodePool entity.
-func (c *BronzeDOKubernetesNodePoolClient) Create() *BronzeDOKubernetesNodePoolCreate {
-	mutation := newBronzeDOKubernetesNodePoolMutation(c.config, OpCreate)
-	return &BronzeDOKubernetesNodePoolCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of BronzeDOKubernetesNodePool entities.
-func (c *BronzeDOKubernetesNodePoolClient) CreateBulk(builders ...*BronzeDOKubernetesNodePoolCreate) *BronzeDOKubernetesNodePoolCreateBulk {
-	return &BronzeDOKubernetesNodePoolCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *BronzeDOKubernetesNodePoolClient) MapCreateBulk(slice any, setFunc func(*BronzeDOKubernetesNodePoolCreate, int)) *BronzeDOKubernetesNodePoolCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &BronzeDOKubernetesNodePoolCreateBulk{err: fmt.Errorf("calling to BronzeDOKubernetesNodePoolClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*BronzeDOKubernetesNodePoolCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &BronzeDOKubernetesNodePoolCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for BronzeDOKubernetesNodePool.
-func (c *BronzeDOKubernetesNodePoolClient) Update() *BronzeDOKubernetesNodePoolUpdate {
-	mutation := newBronzeDOKubernetesNodePoolMutation(c.config, OpUpdate)
-	return &BronzeDOKubernetesNodePoolUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *BronzeDOKubernetesNodePoolClient) UpdateOne(_m *BronzeDOKubernetesNodePool) *BronzeDOKubernetesNodePoolUpdateOne {
-	mutation := newBronzeDOKubernetesNodePoolMutation(c.config, OpUpdateOne, withBronzeDOKubernetesNodePool(_m))
-	return &BronzeDOKubernetesNodePoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *BronzeDOKubernetesNodePoolClient) UpdateOneID(id string) *BronzeDOKubernetesNodePoolUpdateOne {
-	mutation := newBronzeDOKubernetesNodePoolMutation(c.config, OpUpdateOne, withBronzeDOKubernetesNodePoolID(id))
-	return &BronzeDOKubernetesNodePoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for BronzeDOKubernetesNodePool.
-func (c *BronzeDOKubernetesNodePoolClient) Delete() *BronzeDOKubernetesNodePoolDelete {
-	mutation := newBronzeDOKubernetesNodePoolMutation(c.config, OpDelete)
-	return &BronzeDOKubernetesNodePoolDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *BronzeDOKubernetesNodePoolClient) DeleteOne(_m *BronzeDOKubernetesNodePool) *BronzeDOKubernetesNodePoolDeleteOne {
-	return c.DeleteOneID(_m.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeDOKubernetesNodePoolClient) DeleteOneID(id string) *BronzeDOKubernetesNodePoolDeleteOne {
-	builder := c.Delete().Where(bronzedokubernetesnodepool.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &BronzeDOKubernetesNodePoolDeleteOne{builder}
-}
-
-// Query returns a query builder for BronzeDOKubernetesNodePool.
-func (c *BronzeDOKubernetesNodePoolClient) Query() *BronzeDOKubernetesNodePoolQuery {
-	return &BronzeDOKubernetesNodePoolQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeBronzeDOKubernetesNodePool},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a BronzeDOKubernetesNodePool entity by its id.
-func (c *BronzeDOKubernetesNodePoolClient) Get(ctx context.Context, id string) (*BronzeDOKubernetesNodePool, error) {
-	return c.Query().Where(bronzedokubernetesnodepool.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *BronzeDOKubernetesNodePoolClient) GetX(ctx context.Context, id string) *BronzeDOKubernetesNodePool {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *BronzeDOKubernetesNodePoolClient) Hooks() []Hook {
-	return c.hooks.BronzeDOKubernetesNodePool
-}
-
-// Interceptors returns the client interceptors.
-func (c *BronzeDOKubernetesNodePoolClient) Interceptors() []Interceptor {
-	return c.inters.BronzeDOKubernetesNodePool
-}
-
-func (c *BronzeDOKubernetesNodePoolClient) mutate(ctx context.Context, m *BronzeDOKubernetesNodePoolMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&BronzeDOKubernetesNodePoolCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&BronzeDOKubernetesNodePoolUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&BronzeDOKubernetesNodePoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&BronzeDOKubernetesNodePoolDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown BronzeDOKubernetesNodePool mutation op: %q", m.Op())
-	}
-}
-
 // BronzeDOLoadBalancerClient is a client for the BronzeDOLoadBalancer schema.
 type BronzeDOLoadBalancerClient struct {
 	config
@@ -5536,6 +5860,2286 @@ func (c *BronzeDOVpcClient) mutate(ctx context.Context, m *BronzeDOVpcMutation) 
 		return (&BronzeDOVpcDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown BronzeDOVpc mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPAccessContextManagerAccessLevelClient is a client for the BronzeGCPAccessContextManagerAccessLevel schema.
+type BronzeGCPAccessContextManagerAccessLevelClient struct {
+	config
+}
+
+// NewBronzeGCPAccessContextManagerAccessLevelClient returns a client for the BronzeGCPAccessContextManagerAccessLevel from the given config.
+func NewBronzeGCPAccessContextManagerAccessLevelClient(c config) *BronzeGCPAccessContextManagerAccessLevelClient {
+	return &BronzeGCPAccessContextManagerAccessLevelClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpaccesscontextmanageraccesslevel.Hooks(f(g(h())))`.
+func (c *BronzeGCPAccessContextManagerAccessLevelClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPAccessContextManagerAccessLevel = append(c.hooks.BronzeGCPAccessContextManagerAccessLevel, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpaccesscontextmanageraccesslevel.Intercept(f(g(h())))`.
+func (c *BronzeGCPAccessContextManagerAccessLevelClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPAccessContextManagerAccessLevel = append(c.inters.BronzeGCPAccessContextManagerAccessLevel, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPAccessContextManagerAccessLevel entity.
+func (c *BronzeGCPAccessContextManagerAccessLevelClient) Create() *BronzeGCPAccessContextManagerAccessLevelCreate {
+	mutation := newBronzeGCPAccessContextManagerAccessLevelMutation(c.config, OpCreate)
+	return &BronzeGCPAccessContextManagerAccessLevelCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPAccessContextManagerAccessLevel entities.
+func (c *BronzeGCPAccessContextManagerAccessLevelClient) CreateBulk(builders ...*BronzeGCPAccessContextManagerAccessLevelCreate) *BronzeGCPAccessContextManagerAccessLevelCreateBulk {
+	return &BronzeGCPAccessContextManagerAccessLevelCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPAccessContextManagerAccessLevelClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPAccessContextManagerAccessLevelCreate, int)) *BronzeGCPAccessContextManagerAccessLevelCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPAccessContextManagerAccessLevelCreateBulk{err: fmt.Errorf("calling to BronzeGCPAccessContextManagerAccessLevelClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPAccessContextManagerAccessLevelCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPAccessContextManagerAccessLevelCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPAccessContextManagerAccessLevel.
+func (c *BronzeGCPAccessContextManagerAccessLevelClient) Update() *BronzeGCPAccessContextManagerAccessLevelUpdate {
+	mutation := newBronzeGCPAccessContextManagerAccessLevelMutation(c.config, OpUpdate)
+	return &BronzeGCPAccessContextManagerAccessLevelUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPAccessContextManagerAccessLevelClient) UpdateOne(_m *BronzeGCPAccessContextManagerAccessLevel) *BronzeGCPAccessContextManagerAccessLevelUpdateOne {
+	mutation := newBronzeGCPAccessContextManagerAccessLevelMutation(c.config, OpUpdateOne, withBronzeGCPAccessContextManagerAccessLevel(_m))
+	return &BronzeGCPAccessContextManagerAccessLevelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPAccessContextManagerAccessLevelClient) UpdateOneID(id string) *BronzeGCPAccessContextManagerAccessLevelUpdateOne {
+	mutation := newBronzeGCPAccessContextManagerAccessLevelMutation(c.config, OpUpdateOne, withBronzeGCPAccessContextManagerAccessLevelID(id))
+	return &BronzeGCPAccessContextManagerAccessLevelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPAccessContextManagerAccessLevel.
+func (c *BronzeGCPAccessContextManagerAccessLevelClient) Delete() *BronzeGCPAccessContextManagerAccessLevelDelete {
+	mutation := newBronzeGCPAccessContextManagerAccessLevelMutation(c.config, OpDelete)
+	return &BronzeGCPAccessContextManagerAccessLevelDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPAccessContextManagerAccessLevelClient) DeleteOne(_m *BronzeGCPAccessContextManagerAccessLevel) *BronzeGCPAccessContextManagerAccessLevelDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPAccessContextManagerAccessLevelClient) DeleteOneID(id string) *BronzeGCPAccessContextManagerAccessLevelDeleteOne {
+	builder := c.Delete().Where(bronzegcpaccesscontextmanageraccesslevel.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPAccessContextManagerAccessLevelDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPAccessContextManagerAccessLevel.
+func (c *BronzeGCPAccessContextManagerAccessLevelClient) Query() *BronzeGCPAccessContextManagerAccessLevelQuery {
+	return &BronzeGCPAccessContextManagerAccessLevelQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPAccessContextManagerAccessLevel},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPAccessContextManagerAccessLevel entity by its id.
+func (c *BronzeGCPAccessContextManagerAccessLevelClient) Get(ctx context.Context, id string) (*BronzeGCPAccessContextManagerAccessLevel, error) {
+	return c.Query().Where(bronzegcpaccesscontextmanageraccesslevel.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPAccessContextManagerAccessLevelClient) GetX(ctx context.Context, id string) *BronzeGCPAccessContextManagerAccessLevel {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryAccessPolicy queries the access_policy edge of a BronzeGCPAccessContextManagerAccessLevel.
+func (c *BronzeGCPAccessContextManagerAccessLevelClient) QueryAccessPolicy(_m *BronzeGCPAccessContextManagerAccessLevel) *BronzeGCPAccessContextManagerAccessPolicyQuery {
+	query := (&BronzeGCPAccessContextManagerAccessPolicyClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegcpaccesscontextmanageraccesslevel.Table, bronzegcpaccesscontextmanageraccesslevel.FieldID, id),
+			sqlgraph.To(bronzegcpaccesscontextmanageraccesspolicy.Table, bronzegcpaccesscontextmanageraccesspolicy.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, bronzegcpaccesscontextmanageraccesslevel.AccessPolicyTable, bronzegcpaccesscontextmanageraccesslevel.AccessPolicyColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGCPAccessContextManagerAccessPolicy
+		step.Edge.Schema = schemaConfig.BronzeGCPAccessContextManagerAccessLevel
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPAccessContextManagerAccessLevelClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPAccessContextManagerAccessLevel
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPAccessContextManagerAccessLevelClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPAccessContextManagerAccessLevel
+}
+
+func (c *BronzeGCPAccessContextManagerAccessLevelClient) mutate(ctx context.Context, m *BronzeGCPAccessContextManagerAccessLevelMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPAccessContextManagerAccessLevelCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPAccessContextManagerAccessLevelUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPAccessContextManagerAccessLevelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPAccessContextManagerAccessLevelDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPAccessContextManagerAccessLevel mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPAccessContextManagerAccessPolicyClient is a client for the BronzeGCPAccessContextManagerAccessPolicy schema.
+type BronzeGCPAccessContextManagerAccessPolicyClient struct {
+	config
+}
+
+// NewBronzeGCPAccessContextManagerAccessPolicyClient returns a client for the BronzeGCPAccessContextManagerAccessPolicy from the given config.
+func NewBronzeGCPAccessContextManagerAccessPolicyClient(c config) *BronzeGCPAccessContextManagerAccessPolicyClient {
+	return &BronzeGCPAccessContextManagerAccessPolicyClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpaccesscontextmanageraccesspolicy.Hooks(f(g(h())))`.
+func (c *BronzeGCPAccessContextManagerAccessPolicyClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPAccessContextManagerAccessPolicy = append(c.hooks.BronzeGCPAccessContextManagerAccessPolicy, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpaccesscontextmanageraccesspolicy.Intercept(f(g(h())))`.
+func (c *BronzeGCPAccessContextManagerAccessPolicyClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPAccessContextManagerAccessPolicy = append(c.inters.BronzeGCPAccessContextManagerAccessPolicy, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPAccessContextManagerAccessPolicy entity.
+func (c *BronzeGCPAccessContextManagerAccessPolicyClient) Create() *BronzeGCPAccessContextManagerAccessPolicyCreate {
+	mutation := newBronzeGCPAccessContextManagerAccessPolicyMutation(c.config, OpCreate)
+	return &BronzeGCPAccessContextManagerAccessPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPAccessContextManagerAccessPolicy entities.
+func (c *BronzeGCPAccessContextManagerAccessPolicyClient) CreateBulk(builders ...*BronzeGCPAccessContextManagerAccessPolicyCreate) *BronzeGCPAccessContextManagerAccessPolicyCreateBulk {
+	return &BronzeGCPAccessContextManagerAccessPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPAccessContextManagerAccessPolicyClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPAccessContextManagerAccessPolicyCreate, int)) *BronzeGCPAccessContextManagerAccessPolicyCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPAccessContextManagerAccessPolicyCreateBulk{err: fmt.Errorf("calling to BronzeGCPAccessContextManagerAccessPolicyClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPAccessContextManagerAccessPolicyCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPAccessContextManagerAccessPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPAccessContextManagerAccessPolicy.
+func (c *BronzeGCPAccessContextManagerAccessPolicyClient) Update() *BronzeGCPAccessContextManagerAccessPolicyUpdate {
+	mutation := newBronzeGCPAccessContextManagerAccessPolicyMutation(c.config, OpUpdate)
+	return &BronzeGCPAccessContextManagerAccessPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPAccessContextManagerAccessPolicyClient) UpdateOne(_m *BronzeGCPAccessContextManagerAccessPolicy) *BronzeGCPAccessContextManagerAccessPolicyUpdateOne {
+	mutation := newBronzeGCPAccessContextManagerAccessPolicyMutation(c.config, OpUpdateOne, withBronzeGCPAccessContextManagerAccessPolicy(_m))
+	return &BronzeGCPAccessContextManagerAccessPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPAccessContextManagerAccessPolicyClient) UpdateOneID(id string) *BronzeGCPAccessContextManagerAccessPolicyUpdateOne {
+	mutation := newBronzeGCPAccessContextManagerAccessPolicyMutation(c.config, OpUpdateOne, withBronzeGCPAccessContextManagerAccessPolicyID(id))
+	return &BronzeGCPAccessContextManagerAccessPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPAccessContextManagerAccessPolicy.
+func (c *BronzeGCPAccessContextManagerAccessPolicyClient) Delete() *BronzeGCPAccessContextManagerAccessPolicyDelete {
+	mutation := newBronzeGCPAccessContextManagerAccessPolicyMutation(c.config, OpDelete)
+	return &BronzeGCPAccessContextManagerAccessPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPAccessContextManagerAccessPolicyClient) DeleteOne(_m *BronzeGCPAccessContextManagerAccessPolicy) *BronzeGCPAccessContextManagerAccessPolicyDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPAccessContextManagerAccessPolicyClient) DeleteOneID(id string) *BronzeGCPAccessContextManagerAccessPolicyDeleteOne {
+	builder := c.Delete().Where(bronzegcpaccesscontextmanageraccesspolicy.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPAccessContextManagerAccessPolicyDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPAccessContextManagerAccessPolicy.
+func (c *BronzeGCPAccessContextManagerAccessPolicyClient) Query() *BronzeGCPAccessContextManagerAccessPolicyQuery {
+	return &BronzeGCPAccessContextManagerAccessPolicyQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPAccessContextManagerAccessPolicy},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPAccessContextManagerAccessPolicy entity by its id.
+func (c *BronzeGCPAccessContextManagerAccessPolicyClient) Get(ctx context.Context, id string) (*BronzeGCPAccessContextManagerAccessPolicy, error) {
+	return c.Query().Where(bronzegcpaccesscontextmanageraccesspolicy.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPAccessContextManagerAccessPolicyClient) GetX(ctx context.Context, id string) *BronzeGCPAccessContextManagerAccessPolicy {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryAccessLevels queries the access_levels edge of a BronzeGCPAccessContextManagerAccessPolicy.
+func (c *BronzeGCPAccessContextManagerAccessPolicyClient) QueryAccessLevels(_m *BronzeGCPAccessContextManagerAccessPolicy) *BronzeGCPAccessContextManagerAccessLevelQuery {
+	query := (&BronzeGCPAccessContextManagerAccessLevelClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegcpaccesscontextmanageraccesspolicy.Table, bronzegcpaccesscontextmanageraccesspolicy.FieldID, id),
+			sqlgraph.To(bronzegcpaccesscontextmanageraccesslevel.Table, bronzegcpaccesscontextmanageraccesslevel.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, bronzegcpaccesscontextmanageraccesspolicy.AccessLevelsTable, bronzegcpaccesscontextmanageraccesspolicy.AccessLevelsColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGCPAccessContextManagerAccessLevel
+		step.Edge.Schema = schemaConfig.BronzeGCPAccessContextManagerAccessLevel
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryServicePerimeters queries the service_perimeters edge of a BronzeGCPAccessContextManagerAccessPolicy.
+func (c *BronzeGCPAccessContextManagerAccessPolicyClient) QueryServicePerimeters(_m *BronzeGCPAccessContextManagerAccessPolicy) *BronzeGCPAccessContextManagerServicePerimeterQuery {
+	query := (&BronzeGCPAccessContextManagerServicePerimeterClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegcpaccesscontextmanageraccesspolicy.Table, bronzegcpaccesscontextmanageraccesspolicy.FieldID, id),
+			sqlgraph.To(bronzegcpaccesscontextmanagerserviceperimeter.Table, bronzegcpaccesscontextmanagerserviceperimeter.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, bronzegcpaccesscontextmanageraccesspolicy.ServicePerimetersTable, bronzegcpaccesscontextmanageraccesspolicy.ServicePerimetersColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGCPAccessContextManagerServicePerimeter
+		step.Edge.Schema = schemaConfig.BronzeGCPAccessContextManagerServicePerimeter
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPAccessContextManagerAccessPolicyClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPAccessContextManagerAccessPolicy
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPAccessContextManagerAccessPolicyClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPAccessContextManagerAccessPolicy
+}
+
+func (c *BronzeGCPAccessContextManagerAccessPolicyClient) mutate(ctx context.Context, m *BronzeGCPAccessContextManagerAccessPolicyMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPAccessContextManagerAccessPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPAccessContextManagerAccessPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPAccessContextManagerAccessPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPAccessContextManagerAccessPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPAccessContextManagerAccessPolicy mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPAccessContextManagerServicePerimeterClient is a client for the BronzeGCPAccessContextManagerServicePerimeter schema.
+type BronzeGCPAccessContextManagerServicePerimeterClient struct {
+	config
+}
+
+// NewBronzeGCPAccessContextManagerServicePerimeterClient returns a client for the BronzeGCPAccessContextManagerServicePerimeter from the given config.
+func NewBronzeGCPAccessContextManagerServicePerimeterClient(c config) *BronzeGCPAccessContextManagerServicePerimeterClient {
+	return &BronzeGCPAccessContextManagerServicePerimeterClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpaccesscontextmanagerserviceperimeter.Hooks(f(g(h())))`.
+func (c *BronzeGCPAccessContextManagerServicePerimeterClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPAccessContextManagerServicePerimeter = append(c.hooks.BronzeGCPAccessContextManagerServicePerimeter, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpaccesscontextmanagerserviceperimeter.Intercept(f(g(h())))`.
+func (c *BronzeGCPAccessContextManagerServicePerimeterClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPAccessContextManagerServicePerimeter = append(c.inters.BronzeGCPAccessContextManagerServicePerimeter, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPAccessContextManagerServicePerimeter entity.
+func (c *BronzeGCPAccessContextManagerServicePerimeterClient) Create() *BronzeGCPAccessContextManagerServicePerimeterCreate {
+	mutation := newBronzeGCPAccessContextManagerServicePerimeterMutation(c.config, OpCreate)
+	return &BronzeGCPAccessContextManagerServicePerimeterCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPAccessContextManagerServicePerimeter entities.
+func (c *BronzeGCPAccessContextManagerServicePerimeterClient) CreateBulk(builders ...*BronzeGCPAccessContextManagerServicePerimeterCreate) *BronzeGCPAccessContextManagerServicePerimeterCreateBulk {
+	return &BronzeGCPAccessContextManagerServicePerimeterCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPAccessContextManagerServicePerimeterClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPAccessContextManagerServicePerimeterCreate, int)) *BronzeGCPAccessContextManagerServicePerimeterCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPAccessContextManagerServicePerimeterCreateBulk{err: fmt.Errorf("calling to BronzeGCPAccessContextManagerServicePerimeterClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPAccessContextManagerServicePerimeterCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPAccessContextManagerServicePerimeterCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPAccessContextManagerServicePerimeter.
+func (c *BronzeGCPAccessContextManagerServicePerimeterClient) Update() *BronzeGCPAccessContextManagerServicePerimeterUpdate {
+	mutation := newBronzeGCPAccessContextManagerServicePerimeterMutation(c.config, OpUpdate)
+	return &BronzeGCPAccessContextManagerServicePerimeterUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPAccessContextManagerServicePerimeterClient) UpdateOne(_m *BronzeGCPAccessContextManagerServicePerimeter) *BronzeGCPAccessContextManagerServicePerimeterUpdateOne {
+	mutation := newBronzeGCPAccessContextManagerServicePerimeterMutation(c.config, OpUpdateOne, withBronzeGCPAccessContextManagerServicePerimeter(_m))
+	return &BronzeGCPAccessContextManagerServicePerimeterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPAccessContextManagerServicePerimeterClient) UpdateOneID(id string) *BronzeGCPAccessContextManagerServicePerimeterUpdateOne {
+	mutation := newBronzeGCPAccessContextManagerServicePerimeterMutation(c.config, OpUpdateOne, withBronzeGCPAccessContextManagerServicePerimeterID(id))
+	return &BronzeGCPAccessContextManagerServicePerimeterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPAccessContextManagerServicePerimeter.
+func (c *BronzeGCPAccessContextManagerServicePerimeterClient) Delete() *BronzeGCPAccessContextManagerServicePerimeterDelete {
+	mutation := newBronzeGCPAccessContextManagerServicePerimeterMutation(c.config, OpDelete)
+	return &BronzeGCPAccessContextManagerServicePerimeterDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPAccessContextManagerServicePerimeterClient) DeleteOne(_m *BronzeGCPAccessContextManagerServicePerimeter) *BronzeGCPAccessContextManagerServicePerimeterDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPAccessContextManagerServicePerimeterClient) DeleteOneID(id string) *BronzeGCPAccessContextManagerServicePerimeterDeleteOne {
+	builder := c.Delete().Where(bronzegcpaccesscontextmanagerserviceperimeter.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPAccessContextManagerServicePerimeterDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPAccessContextManagerServicePerimeter.
+func (c *BronzeGCPAccessContextManagerServicePerimeterClient) Query() *BronzeGCPAccessContextManagerServicePerimeterQuery {
+	return &BronzeGCPAccessContextManagerServicePerimeterQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPAccessContextManagerServicePerimeter},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPAccessContextManagerServicePerimeter entity by its id.
+func (c *BronzeGCPAccessContextManagerServicePerimeterClient) Get(ctx context.Context, id string) (*BronzeGCPAccessContextManagerServicePerimeter, error) {
+	return c.Query().Where(bronzegcpaccesscontextmanagerserviceperimeter.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPAccessContextManagerServicePerimeterClient) GetX(ctx context.Context, id string) *BronzeGCPAccessContextManagerServicePerimeter {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryAccessPolicy queries the access_policy edge of a BronzeGCPAccessContextManagerServicePerimeter.
+func (c *BronzeGCPAccessContextManagerServicePerimeterClient) QueryAccessPolicy(_m *BronzeGCPAccessContextManagerServicePerimeter) *BronzeGCPAccessContextManagerAccessPolicyQuery {
+	query := (&BronzeGCPAccessContextManagerAccessPolicyClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegcpaccesscontextmanagerserviceperimeter.Table, bronzegcpaccesscontextmanagerserviceperimeter.FieldID, id),
+			sqlgraph.To(bronzegcpaccesscontextmanageraccesspolicy.Table, bronzegcpaccesscontextmanageraccesspolicy.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, bronzegcpaccesscontextmanagerserviceperimeter.AccessPolicyTable, bronzegcpaccesscontextmanagerserviceperimeter.AccessPolicyColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGCPAccessContextManagerAccessPolicy
+		step.Edge.Schema = schemaConfig.BronzeGCPAccessContextManagerServicePerimeter
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPAccessContextManagerServicePerimeterClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPAccessContextManagerServicePerimeter
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPAccessContextManagerServicePerimeterClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPAccessContextManagerServicePerimeter
+}
+
+func (c *BronzeGCPAccessContextManagerServicePerimeterClient) mutate(ctx context.Context, m *BronzeGCPAccessContextManagerServicePerimeterMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPAccessContextManagerServicePerimeterCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPAccessContextManagerServicePerimeterUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPAccessContextManagerServicePerimeterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPAccessContextManagerServicePerimeterDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPAccessContextManagerServicePerimeter mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPAlloyDBClusterClient is a client for the BronzeGCPAlloyDBCluster schema.
+type BronzeGCPAlloyDBClusterClient struct {
+	config
+}
+
+// NewBronzeGCPAlloyDBClusterClient returns a client for the BronzeGCPAlloyDBCluster from the given config.
+func NewBronzeGCPAlloyDBClusterClient(c config) *BronzeGCPAlloyDBClusterClient {
+	return &BronzeGCPAlloyDBClusterClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpalloydbcluster.Hooks(f(g(h())))`.
+func (c *BronzeGCPAlloyDBClusterClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPAlloyDBCluster = append(c.hooks.BronzeGCPAlloyDBCluster, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpalloydbcluster.Intercept(f(g(h())))`.
+func (c *BronzeGCPAlloyDBClusterClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPAlloyDBCluster = append(c.inters.BronzeGCPAlloyDBCluster, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPAlloyDBCluster entity.
+func (c *BronzeGCPAlloyDBClusterClient) Create() *BronzeGCPAlloyDBClusterCreate {
+	mutation := newBronzeGCPAlloyDBClusterMutation(c.config, OpCreate)
+	return &BronzeGCPAlloyDBClusterCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPAlloyDBCluster entities.
+func (c *BronzeGCPAlloyDBClusterClient) CreateBulk(builders ...*BronzeGCPAlloyDBClusterCreate) *BronzeGCPAlloyDBClusterCreateBulk {
+	return &BronzeGCPAlloyDBClusterCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPAlloyDBClusterClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPAlloyDBClusterCreate, int)) *BronzeGCPAlloyDBClusterCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPAlloyDBClusterCreateBulk{err: fmt.Errorf("calling to BronzeGCPAlloyDBClusterClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPAlloyDBClusterCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPAlloyDBClusterCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPAlloyDBCluster.
+func (c *BronzeGCPAlloyDBClusterClient) Update() *BronzeGCPAlloyDBClusterUpdate {
+	mutation := newBronzeGCPAlloyDBClusterMutation(c.config, OpUpdate)
+	return &BronzeGCPAlloyDBClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPAlloyDBClusterClient) UpdateOne(_m *BronzeGCPAlloyDBCluster) *BronzeGCPAlloyDBClusterUpdateOne {
+	mutation := newBronzeGCPAlloyDBClusterMutation(c.config, OpUpdateOne, withBronzeGCPAlloyDBCluster(_m))
+	return &BronzeGCPAlloyDBClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPAlloyDBClusterClient) UpdateOneID(id string) *BronzeGCPAlloyDBClusterUpdateOne {
+	mutation := newBronzeGCPAlloyDBClusterMutation(c.config, OpUpdateOne, withBronzeGCPAlloyDBClusterID(id))
+	return &BronzeGCPAlloyDBClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPAlloyDBCluster.
+func (c *BronzeGCPAlloyDBClusterClient) Delete() *BronzeGCPAlloyDBClusterDelete {
+	mutation := newBronzeGCPAlloyDBClusterMutation(c.config, OpDelete)
+	return &BronzeGCPAlloyDBClusterDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPAlloyDBClusterClient) DeleteOne(_m *BronzeGCPAlloyDBCluster) *BronzeGCPAlloyDBClusterDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPAlloyDBClusterClient) DeleteOneID(id string) *BronzeGCPAlloyDBClusterDeleteOne {
+	builder := c.Delete().Where(bronzegcpalloydbcluster.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPAlloyDBClusterDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPAlloyDBCluster.
+func (c *BronzeGCPAlloyDBClusterClient) Query() *BronzeGCPAlloyDBClusterQuery {
+	return &BronzeGCPAlloyDBClusterQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPAlloyDBCluster},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPAlloyDBCluster entity by its id.
+func (c *BronzeGCPAlloyDBClusterClient) Get(ctx context.Context, id string) (*BronzeGCPAlloyDBCluster, error) {
+	return c.Query().Where(bronzegcpalloydbcluster.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPAlloyDBClusterClient) GetX(ctx context.Context, id string) *BronzeGCPAlloyDBCluster {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPAlloyDBClusterClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPAlloyDBCluster
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPAlloyDBClusterClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPAlloyDBCluster
+}
+
+func (c *BronzeGCPAlloyDBClusterClient) mutate(ctx context.Context, m *BronzeGCPAlloyDBClusterMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPAlloyDBClusterCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPAlloyDBClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPAlloyDBClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPAlloyDBClusterDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPAlloyDBCluster mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPAppEngineApplicationClient is a client for the BronzeGCPAppEngineApplication schema.
+type BronzeGCPAppEngineApplicationClient struct {
+	config
+}
+
+// NewBronzeGCPAppEngineApplicationClient returns a client for the BronzeGCPAppEngineApplication from the given config.
+func NewBronzeGCPAppEngineApplicationClient(c config) *BronzeGCPAppEngineApplicationClient {
+	return &BronzeGCPAppEngineApplicationClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpappengineapplication.Hooks(f(g(h())))`.
+func (c *BronzeGCPAppEngineApplicationClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPAppEngineApplication = append(c.hooks.BronzeGCPAppEngineApplication, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpappengineapplication.Intercept(f(g(h())))`.
+func (c *BronzeGCPAppEngineApplicationClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPAppEngineApplication = append(c.inters.BronzeGCPAppEngineApplication, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPAppEngineApplication entity.
+func (c *BronzeGCPAppEngineApplicationClient) Create() *BronzeGCPAppEngineApplicationCreate {
+	mutation := newBronzeGCPAppEngineApplicationMutation(c.config, OpCreate)
+	return &BronzeGCPAppEngineApplicationCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPAppEngineApplication entities.
+func (c *BronzeGCPAppEngineApplicationClient) CreateBulk(builders ...*BronzeGCPAppEngineApplicationCreate) *BronzeGCPAppEngineApplicationCreateBulk {
+	return &BronzeGCPAppEngineApplicationCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPAppEngineApplicationClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPAppEngineApplicationCreate, int)) *BronzeGCPAppEngineApplicationCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPAppEngineApplicationCreateBulk{err: fmt.Errorf("calling to BronzeGCPAppEngineApplicationClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPAppEngineApplicationCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPAppEngineApplicationCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPAppEngineApplication.
+func (c *BronzeGCPAppEngineApplicationClient) Update() *BronzeGCPAppEngineApplicationUpdate {
+	mutation := newBronzeGCPAppEngineApplicationMutation(c.config, OpUpdate)
+	return &BronzeGCPAppEngineApplicationUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPAppEngineApplicationClient) UpdateOne(_m *BronzeGCPAppEngineApplication) *BronzeGCPAppEngineApplicationUpdateOne {
+	mutation := newBronzeGCPAppEngineApplicationMutation(c.config, OpUpdateOne, withBronzeGCPAppEngineApplication(_m))
+	return &BronzeGCPAppEngineApplicationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPAppEngineApplicationClient) UpdateOneID(id string) *BronzeGCPAppEngineApplicationUpdateOne {
+	mutation := newBronzeGCPAppEngineApplicationMutation(c.config, OpUpdateOne, withBronzeGCPAppEngineApplicationID(id))
+	return &BronzeGCPAppEngineApplicationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPAppEngineApplication.
+func (c *BronzeGCPAppEngineApplicationClient) Delete() *BronzeGCPAppEngineApplicationDelete {
+	mutation := newBronzeGCPAppEngineApplicationMutation(c.config, OpDelete)
+	return &BronzeGCPAppEngineApplicationDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPAppEngineApplicationClient) DeleteOne(_m *BronzeGCPAppEngineApplication) *BronzeGCPAppEngineApplicationDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPAppEngineApplicationClient) DeleteOneID(id string) *BronzeGCPAppEngineApplicationDeleteOne {
+	builder := c.Delete().Where(bronzegcpappengineapplication.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPAppEngineApplicationDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPAppEngineApplication.
+func (c *BronzeGCPAppEngineApplicationClient) Query() *BronzeGCPAppEngineApplicationQuery {
+	return &BronzeGCPAppEngineApplicationQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPAppEngineApplication},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPAppEngineApplication entity by its id.
+func (c *BronzeGCPAppEngineApplicationClient) Get(ctx context.Context, id string) (*BronzeGCPAppEngineApplication, error) {
+	return c.Query().Where(bronzegcpappengineapplication.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPAppEngineApplicationClient) GetX(ctx context.Context, id string) *BronzeGCPAppEngineApplication {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryServices queries the services edge of a BronzeGCPAppEngineApplication.
+func (c *BronzeGCPAppEngineApplicationClient) QueryServices(_m *BronzeGCPAppEngineApplication) *BronzeGCPAppEngineServiceQuery {
+	query := (&BronzeGCPAppEngineServiceClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegcpappengineapplication.Table, bronzegcpappengineapplication.FieldID, id),
+			sqlgraph.To(bronzegcpappengineservice.Table, bronzegcpappengineservice.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, bronzegcpappengineapplication.ServicesTable, bronzegcpappengineapplication.ServicesColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGCPAppEngineService
+		step.Edge.Schema = schemaConfig.BronzeGCPAppEngineService
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPAppEngineApplicationClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPAppEngineApplication
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPAppEngineApplicationClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPAppEngineApplication
+}
+
+func (c *BronzeGCPAppEngineApplicationClient) mutate(ctx context.Context, m *BronzeGCPAppEngineApplicationMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPAppEngineApplicationCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPAppEngineApplicationUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPAppEngineApplicationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPAppEngineApplicationDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPAppEngineApplication mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPAppEngineServiceClient is a client for the BronzeGCPAppEngineService schema.
+type BronzeGCPAppEngineServiceClient struct {
+	config
+}
+
+// NewBronzeGCPAppEngineServiceClient returns a client for the BronzeGCPAppEngineService from the given config.
+func NewBronzeGCPAppEngineServiceClient(c config) *BronzeGCPAppEngineServiceClient {
+	return &BronzeGCPAppEngineServiceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpappengineservice.Hooks(f(g(h())))`.
+func (c *BronzeGCPAppEngineServiceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPAppEngineService = append(c.hooks.BronzeGCPAppEngineService, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpappengineservice.Intercept(f(g(h())))`.
+func (c *BronzeGCPAppEngineServiceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPAppEngineService = append(c.inters.BronzeGCPAppEngineService, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPAppEngineService entity.
+func (c *BronzeGCPAppEngineServiceClient) Create() *BronzeGCPAppEngineServiceCreate {
+	mutation := newBronzeGCPAppEngineServiceMutation(c.config, OpCreate)
+	return &BronzeGCPAppEngineServiceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPAppEngineService entities.
+func (c *BronzeGCPAppEngineServiceClient) CreateBulk(builders ...*BronzeGCPAppEngineServiceCreate) *BronzeGCPAppEngineServiceCreateBulk {
+	return &BronzeGCPAppEngineServiceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPAppEngineServiceClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPAppEngineServiceCreate, int)) *BronzeGCPAppEngineServiceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPAppEngineServiceCreateBulk{err: fmt.Errorf("calling to BronzeGCPAppEngineServiceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPAppEngineServiceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPAppEngineServiceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPAppEngineService.
+func (c *BronzeGCPAppEngineServiceClient) Update() *BronzeGCPAppEngineServiceUpdate {
+	mutation := newBronzeGCPAppEngineServiceMutation(c.config, OpUpdate)
+	return &BronzeGCPAppEngineServiceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPAppEngineServiceClient) UpdateOne(_m *BronzeGCPAppEngineService) *BronzeGCPAppEngineServiceUpdateOne {
+	mutation := newBronzeGCPAppEngineServiceMutation(c.config, OpUpdateOne, withBronzeGCPAppEngineService(_m))
+	return &BronzeGCPAppEngineServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPAppEngineServiceClient) UpdateOneID(id string) *BronzeGCPAppEngineServiceUpdateOne {
+	mutation := newBronzeGCPAppEngineServiceMutation(c.config, OpUpdateOne, withBronzeGCPAppEngineServiceID(id))
+	return &BronzeGCPAppEngineServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPAppEngineService.
+func (c *BronzeGCPAppEngineServiceClient) Delete() *BronzeGCPAppEngineServiceDelete {
+	mutation := newBronzeGCPAppEngineServiceMutation(c.config, OpDelete)
+	return &BronzeGCPAppEngineServiceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPAppEngineServiceClient) DeleteOne(_m *BronzeGCPAppEngineService) *BronzeGCPAppEngineServiceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPAppEngineServiceClient) DeleteOneID(id string) *BronzeGCPAppEngineServiceDeleteOne {
+	builder := c.Delete().Where(bronzegcpappengineservice.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPAppEngineServiceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPAppEngineService.
+func (c *BronzeGCPAppEngineServiceClient) Query() *BronzeGCPAppEngineServiceQuery {
+	return &BronzeGCPAppEngineServiceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPAppEngineService},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPAppEngineService entity by its id.
+func (c *BronzeGCPAppEngineServiceClient) Get(ctx context.Context, id string) (*BronzeGCPAppEngineService, error) {
+	return c.Query().Where(bronzegcpappengineservice.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPAppEngineServiceClient) GetX(ctx context.Context, id string) *BronzeGCPAppEngineService {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryApplication queries the application edge of a BronzeGCPAppEngineService.
+func (c *BronzeGCPAppEngineServiceClient) QueryApplication(_m *BronzeGCPAppEngineService) *BronzeGCPAppEngineApplicationQuery {
+	query := (&BronzeGCPAppEngineApplicationClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegcpappengineservice.Table, bronzegcpappengineservice.FieldID, id),
+			sqlgraph.To(bronzegcpappengineapplication.Table, bronzegcpappengineapplication.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, bronzegcpappengineservice.ApplicationTable, bronzegcpappengineservice.ApplicationColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGCPAppEngineApplication
+		step.Edge.Schema = schemaConfig.BronzeGCPAppEngineService
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPAppEngineServiceClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPAppEngineService
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPAppEngineServiceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPAppEngineService
+}
+
+func (c *BronzeGCPAppEngineServiceClient) mutate(ctx context.Context, m *BronzeGCPAppEngineServiceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPAppEngineServiceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPAppEngineServiceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPAppEngineServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPAppEngineServiceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPAppEngineService mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPBigQueryDatasetClient is a client for the BronzeGCPBigQueryDataset schema.
+type BronzeGCPBigQueryDatasetClient struct {
+	config
+}
+
+// NewBronzeGCPBigQueryDatasetClient returns a client for the BronzeGCPBigQueryDataset from the given config.
+func NewBronzeGCPBigQueryDatasetClient(c config) *BronzeGCPBigQueryDatasetClient {
+	return &BronzeGCPBigQueryDatasetClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpbigquerydataset.Hooks(f(g(h())))`.
+func (c *BronzeGCPBigQueryDatasetClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPBigQueryDataset = append(c.hooks.BronzeGCPBigQueryDataset, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpbigquerydataset.Intercept(f(g(h())))`.
+func (c *BronzeGCPBigQueryDatasetClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPBigQueryDataset = append(c.inters.BronzeGCPBigQueryDataset, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPBigQueryDataset entity.
+func (c *BronzeGCPBigQueryDatasetClient) Create() *BronzeGCPBigQueryDatasetCreate {
+	mutation := newBronzeGCPBigQueryDatasetMutation(c.config, OpCreate)
+	return &BronzeGCPBigQueryDatasetCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPBigQueryDataset entities.
+func (c *BronzeGCPBigQueryDatasetClient) CreateBulk(builders ...*BronzeGCPBigQueryDatasetCreate) *BronzeGCPBigQueryDatasetCreateBulk {
+	return &BronzeGCPBigQueryDatasetCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPBigQueryDatasetClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPBigQueryDatasetCreate, int)) *BronzeGCPBigQueryDatasetCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPBigQueryDatasetCreateBulk{err: fmt.Errorf("calling to BronzeGCPBigQueryDatasetClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPBigQueryDatasetCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPBigQueryDatasetCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPBigQueryDataset.
+func (c *BronzeGCPBigQueryDatasetClient) Update() *BronzeGCPBigQueryDatasetUpdate {
+	mutation := newBronzeGCPBigQueryDatasetMutation(c.config, OpUpdate)
+	return &BronzeGCPBigQueryDatasetUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPBigQueryDatasetClient) UpdateOne(_m *BronzeGCPBigQueryDataset) *BronzeGCPBigQueryDatasetUpdateOne {
+	mutation := newBronzeGCPBigQueryDatasetMutation(c.config, OpUpdateOne, withBronzeGCPBigQueryDataset(_m))
+	return &BronzeGCPBigQueryDatasetUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPBigQueryDatasetClient) UpdateOneID(id string) *BronzeGCPBigQueryDatasetUpdateOne {
+	mutation := newBronzeGCPBigQueryDatasetMutation(c.config, OpUpdateOne, withBronzeGCPBigQueryDatasetID(id))
+	return &BronzeGCPBigQueryDatasetUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPBigQueryDataset.
+func (c *BronzeGCPBigQueryDatasetClient) Delete() *BronzeGCPBigQueryDatasetDelete {
+	mutation := newBronzeGCPBigQueryDatasetMutation(c.config, OpDelete)
+	return &BronzeGCPBigQueryDatasetDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPBigQueryDatasetClient) DeleteOne(_m *BronzeGCPBigQueryDataset) *BronzeGCPBigQueryDatasetDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPBigQueryDatasetClient) DeleteOneID(id string) *BronzeGCPBigQueryDatasetDeleteOne {
+	builder := c.Delete().Where(bronzegcpbigquerydataset.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPBigQueryDatasetDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPBigQueryDataset.
+func (c *BronzeGCPBigQueryDatasetClient) Query() *BronzeGCPBigQueryDatasetQuery {
+	return &BronzeGCPBigQueryDatasetQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPBigQueryDataset},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPBigQueryDataset entity by its id.
+func (c *BronzeGCPBigQueryDatasetClient) Get(ctx context.Context, id string) (*BronzeGCPBigQueryDataset, error) {
+	return c.Query().Where(bronzegcpbigquerydataset.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPBigQueryDatasetClient) GetX(ctx context.Context, id string) *BronzeGCPBigQueryDataset {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPBigQueryDatasetClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPBigQueryDataset
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPBigQueryDatasetClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPBigQueryDataset
+}
+
+func (c *BronzeGCPBigQueryDatasetClient) mutate(ctx context.Context, m *BronzeGCPBigQueryDatasetMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPBigQueryDatasetCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPBigQueryDatasetUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPBigQueryDatasetUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPBigQueryDatasetDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPBigQueryDataset mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPBigQueryTableClient is a client for the BronzeGCPBigQueryTable schema.
+type BronzeGCPBigQueryTableClient struct {
+	config
+}
+
+// NewBronzeGCPBigQueryTableClient returns a client for the BronzeGCPBigQueryTable from the given config.
+func NewBronzeGCPBigQueryTableClient(c config) *BronzeGCPBigQueryTableClient {
+	return &BronzeGCPBigQueryTableClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpbigquerytable.Hooks(f(g(h())))`.
+func (c *BronzeGCPBigQueryTableClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPBigQueryTable = append(c.hooks.BronzeGCPBigQueryTable, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpbigquerytable.Intercept(f(g(h())))`.
+func (c *BronzeGCPBigQueryTableClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPBigQueryTable = append(c.inters.BronzeGCPBigQueryTable, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPBigQueryTable entity.
+func (c *BronzeGCPBigQueryTableClient) Create() *BronzeGCPBigQueryTableCreate {
+	mutation := newBronzeGCPBigQueryTableMutation(c.config, OpCreate)
+	return &BronzeGCPBigQueryTableCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPBigQueryTable entities.
+func (c *BronzeGCPBigQueryTableClient) CreateBulk(builders ...*BronzeGCPBigQueryTableCreate) *BronzeGCPBigQueryTableCreateBulk {
+	return &BronzeGCPBigQueryTableCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPBigQueryTableClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPBigQueryTableCreate, int)) *BronzeGCPBigQueryTableCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPBigQueryTableCreateBulk{err: fmt.Errorf("calling to BronzeGCPBigQueryTableClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPBigQueryTableCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPBigQueryTableCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPBigQueryTable.
+func (c *BronzeGCPBigQueryTableClient) Update() *BronzeGCPBigQueryTableUpdate {
+	mutation := newBronzeGCPBigQueryTableMutation(c.config, OpUpdate)
+	return &BronzeGCPBigQueryTableUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPBigQueryTableClient) UpdateOne(_m *BronzeGCPBigQueryTable) *BronzeGCPBigQueryTableUpdateOne {
+	mutation := newBronzeGCPBigQueryTableMutation(c.config, OpUpdateOne, withBronzeGCPBigQueryTable(_m))
+	return &BronzeGCPBigQueryTableUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPBigQueryTableClient) UpdateOneID(id string) *BronzeGCPBigQueryTableUpdateOne {
+	mutation := newBronzeGCPBigQueryTableMutation(c.config, OpUpdateOne, withBronzeGCPBigQueryTableID(id))
+	return &BronzeGCPBigQueryTableUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPBigQueryTable.
+func (c *BronzeGCPBigQueryTableClient) Delete() *BronzeGCPBigQueryTableDelete {
+	mutation := newBronzeGCPBigQueryTableMutation(c.config, OpDelete)
+	return &BronzeGCPBigQueryTableDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPBigQueryTableClient) DeleteOne(_m *BronzeGCPBigQueryTable) *BronzeGCPBigQueryTableDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPBigQueryTableClient) DeleteOneID(id string) *BronzeGCPBigQueryTableDeleteOne {
+	builder := c.Delete().Where(bronzegcpbigquerytable.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPBigQueryTableDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPBigQueryTable.
+func (c *BronzeGCPBigQueryTableClient) Query() *BronzeGCPBigQueryTableQuery {
+	return &BronzeGCPBigQueryTableQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPBigQueryTable},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPBigQueryTable entity by its id.
+func (c *BronzeGCPBigQueryTableClient) Get(ctx context.Context, id string) (*BronzeGCPBigQueryTable, error) {
+	return c.Query().Where(bronzegcpbigquerytable.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPBigQueryTableClient) GetX(ctx context.Context, id string) *BronzeGCPBigQueryTable {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPBigQueryTableClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPBigQueryTable
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPBigQueryTableClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPBigQueryTable
+}
+
+func (c *BronzeGCPBigQueryTableClient) mutate(ctx context.Context, m *BronzeGCPBigQueryTableMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPBigQueryTableCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPBigQueryTableUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPBigQueryTableUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPBigQueryTableDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPBigQueryTable mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPBigtableClusterClient is a client for the BronzeGCPBigtableCluster schema.
+type BronzeGCPBigtableClusterClient struct {
+	config
+}
+
+// NewBronzeGCPBigtableClusterClient returns a client for the BronzeGCPBigtableCluster from the given config.
+func NewBronzeGCPBigtableClusterClient(c config) *BronzeGCPBigtableClusterClient {
+	return &BronzeGCPBigtableClusterClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpbigtablecluster.Hooks(f(g(h())))`.
+func (c *BronzeGCPBigtableClusterClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPBigtableCluster = append(c.hooks.BronzeGCPBigtableCluster, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpbigtablecluster.Intercept(f(g(h())))`.
+func (c *BronzeGCPBigtableClusterClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPBigtableCluster = append(c.inters.BronzeGCPBigtableCluster, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPBigtableCluster entity.
+func (c *BronzeGCPBigtableClusterClient) Create() *BronzeGCPBigtableClusterCreate {
+	mutation := newBronzeGCPBigtableClusterMutation(c.config, OpCreate)
+	return &BronzeGCPBigtableClusterCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPBigtableCluster entities.
+func (c *BronzeGCPBigtableClusterClient) CreateBulk(builders ...*BronzeGCPBigtableClusterCreate) *BronzeGCPBigtableClusterCreateBulk {
+	return &BronzeGCPBigtableClusterCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPBigtableClusterClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPBigtableClusterCreate, int)) *BronzeGCPBigtableClusterCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPBigtableClusterCreateBulk{err: fmt.Errorf("calling to BronzeGCPBigtableClusterClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPBigtableClusterCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPBigtableClusterCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPBigtableCluster.
+func (c *BronzeGCPBigtableClusterClient) Update() *BronzeGCPBigtableClusterUpdate {
+	mutation := newBronzeGCPBigtableClusterMutation(c.config, OpUpdate)
+	return &BronzeGCPBigtableClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPBigtableClusterClient) UpdateOne(_m *BronzeGCPBigtableCluster) *BronzeGCPBigtableClusterUpdateOne {
+	mutation := newBronzeGCPBigtableClusterMutation(c.config, OpUpdateOne, withBronzeGCPBigtableCluster(_m))
+	return &BronzeGCPBigtableClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPBigtableClusterClient) UpdateOneID(id string) *BronzeGCPBigtableClusterUpdateOne {
+	mutation := newBronzeGCPBigtableClusterMutation(c.config, OpUpdateOne, withBronzeGCPBigtableClusterID(id))
+	return &BronzeGCPBigtableClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPBigtableCluster.
+func (c *BronzeGCPBigtableClusterClient) Delete() *BronzeGCPBigtableClusterDelete {
+	mutation := newBronzeGCPBigtableClusterMutation(c.config, OpDelete)
+	return &BronzeGCPBigtableClusterDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPBigtableClusterClient) DeleteOne(_m *BronzeGCPBigtableCluster) *BronzeGCPBigtableClusterDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPBigtableClusterClient) DeleteOneID(id string) *BronzeGCPBigtableClusterDeleteOne {
+	builder := c.Delete().Where(bronzegcpbigtablecluster.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPBigtableClusterDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPBigtableCluster.
+func (c *BronzeGCPBigtableClusterClient) Query() *BronzeGCPBigtableClusterQuery {
+	return &BronzeGCPBigtableClusterQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPBigtableCluster},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPBigtableCluster entity by its id.
+func (c *BronzeGCPBigtableClusterClient) Get(ctx context.Context, id string) (*BronzeGCPBigtableCluster, error) {
+	return c.Query().Where(bronzegcpbigtablecluster.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPBigtableClusterClient) GetX(ctx context.Context, id string) *BronzeGCPBigtableCluster {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryInstance queries the instance edge of a BronzeGCPBigtableCluster.
+func (c *BronzeGCPBigtableClusterClient) QueryInstance(_m *BronzeGCPBigtableCluster) *BronzeGCPBigtableInstanceQuery {
+	query := (&BronzeGCPBigtableInstanceClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegcpbigtablecluster.Table, bronzegcpbigtablecluster.FieldID, id),
+			sqlgraph.To(bronzegcpbigtableinstance.Table, bronzegcpbigtableinstance.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, bronzegcpbigtablecluster.InstanceTable, bronzegcpbigtablecluster.InstanceColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGCPBigtableInstance
+		step.Edge.Schema = schemaConfig.BronzeGCPBigtableCluster
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPBigtableClusterClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPBigtableCluster
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPBigtableClusterClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPBigtableCluster
+}
+
+func (c *BronzeGCPBigtableClusterClient) mutate(ctx context.Context, m *BronzeGCPBigtableClusterMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPBigtableClusterCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPBigtableClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPBigtableClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPBigtableClusterDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPBigtableCluster mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPBigtableInstanceClient is a client for the BronzeGCPBigtableInstance schema.
+type BronzeGCPBigtableInstanceClient struct {
+	config
+}
+
+// NewBronzeGCPBigtableInstanceClient returns a client for the BronzeGCPBigtableInstance from the given config.
+func NewBronzeGCPBigtableInstanceClient(c config) *BronzeGCPBigtableInstanceClient {
+	return &BronzeGCPBigtableInstanceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpbigtableinstance.Hooks(f(g(h())))`.
+func (c *BronzeGCPBigtableInstanceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPBigtableInstance = append(c.hooks.BronzeGCPBigtableInstance, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpbigtableinstance.Intercept(f(g(h())))`.
+func (c *BronzeGCPBigtableInstanceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPBigtableInstance = append(c.inters.BronzeGCPBigtableInstance, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPBigtableInstance entity.
+func (c *BronzeGCPBigtableInstanceClient) Create() *BronzeGCPBigtableInstanceCreate {
+	mutation := newBronzeGCPBigtableInstanceMutation(c.config, OpCreate)
+	return &BronzeGCPBigtableInstanceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPBigtableInstance entities.
+func (c *BronzeGCPBigtableInstanceClient) CreateBulk(builders ...*BronzeGCPBigtableInstanceCreate) *BronzeGCPBigtableInstanceCreateBulk {
+	return &BronzeGCPBigtableInstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPBigtableInstanceClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPBigtableInstanceCreate, int)) *BronzeGCPBigtableInstanceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPBigtableInstanceCreateBulk{err: fmt.Errorf("calling to BronzeGCPBigtableInstanceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPBigtableInstanceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPBigtableInstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPBigtableInstance.
+func (c *BronzeGCPBigtableInstanceClient) Update() *BronzeGCPBigtableInstanceUpdate {
+	mutation := newBronzeGCPBigtableInstanceMutation(c.config, OpUpdate)
+	return &BronzeGCPBigtableInstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPBigtableInstanceClient) UpdateOne(_m *BronzeGCPBigtableInstance) *BronzeGCPBigtableInstanceUpdateOne {
+	mutation := newBronzeGCPBigtableInstanceMutation(c.config, OpUpdateOne, withBronzeGCPBigtableInstance(_m))
+	return &BronzeGCPBigtableInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPBigtableInstanceClient) UpdateOneID(id string) *BronzeGCPBigtableInstanceUpdateOne {
+	mutation := newBronzeGCPBigtableInstanceMutation(c.config, OpUpdateOne, withBronzeGCPBigtableInstanceID(id))
+	return &BronzeGCPBigtableInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPBigtableInstance.
+func (c *BronzeGCPBigtableInstanceClient) Delete() *BronzeGCPBigtableInstanceDelete {
+	mutation := newBronzeGCPBigtableInstanceMutation(c.config, OpDelete)
+	return &BronzeGCPBigtableInstanceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPBigtableInstanceClient) DeleteOne(_m *BronzeGCPBigtableInstance) *BronzeGCPBigtableInstanceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPBigtableInstanceClient) DeleteOneID(id string) *BronzeGCPBigtableInstanceDeleteOne {
+	builder := c.Delete().Where(bronzegcpbigtableinstance.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPBigtableInstanceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPBigtableInstance.
+func (c *BronzeGCPBigtableInstanceClient) Query() *BronzeGCPBigtableInstanceQuery {
+	return &BronzeGCPBigtableInstanceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPBigtableInstance},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPBigtableInstance entity by its id.
+func (c *BronzeGCPBigtableInstanceClient) Get(ctx context.Context, id string) (*BronzeGCPBigtableInstance, error) {
+	return c.Query().Where(bronzegcpbigtableinstance.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPBigtableInstanceClient) GetX(ctx context.Context, id string) *BronzeGCPBigtableInstance {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryClusters queries the clusters edge of a BronzeGCPBigtableInstance.
+func (c *BronzeGCPBigtableInstanceClient) QueryClusters(_m *BronzeGCPBigtableInstance) *BronzeGCPBigtableClusterQuery {
+	query := (&BronzeGCPBigtableClusterClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegcpbigtableinstance.Table, bronzegcpbigtableinstance.FieldID, id),
+			sqlgraph.To(bronzegcpbigtablecluster.Table, bronzegcpbigtablecluster.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, bronzegcpbigtableinstance.ClustersTable, bronzegcpbigtableinstance.ClustersColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGCPBigtableCluster
+		step.Edge.Schema = schemaConfig.BronzeGCPBigtableCluster
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPBigtableInstanceClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPBigtableInstance
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPBigtableInstanceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPBigtableInstance
+}
+
+func (c *BronzeGCPBigtableInstanceClient) mutate(ctx context.Context, m *BronzeGCPBigtableInstanceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPBigtableInstanceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPBigtableInstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPBigtableInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPBigtableInstanceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPBigtableInstance mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPBinaryAuthorizationAttestorClient is a client for the BronzeGCPBinaryAuthorizationAttestor schema.
+type BronzeGCPBinaryAuthorizationAttestorClient struct {
+	config
+}
+
+// NewBronzeGCPBinaryAuthorizationAttestorClient returns a client for the BronzeGCPBinaryAuthorizationAttestor from the given config.
+func NewBronzeGCPBinaryAuthorizationAttestorClient(c config) *BronzeGCPBinaryAuthorizationAttestorClient {
+	return &BronzeGCPBinaryAuthorizationAttestorClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpbinaryauthorizationattestor.Hooks(f(g(h())))`.
+func (c *BronzeGCPBinaryAuthorizationAttestorClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPBinaryAuthorizationAttestor = append(c.hooks.BronzeGCPBinaryAuthorizationAttestor, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpbinaryauthorizationattestor.Intercept(f(g(h())))`.
+func (c *BronzeGCPBinaryAuthorizationAttestorClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPBinaryAuthorizationAttestor = append(c.inters.BronzeGCPBinaryAuthorizationAttestor, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPBinaryAuthorizationAttestor entity.
+func (c *BronzeGCPBinaryAuthorizationAttestorClient) Create() *BronzeGCPBinaryAuthorizationAttestorCreate {
+	mutation := newBronzeGCPBinaryAuthorizationAttestorMutation(c.config, OpCreate)
+	return &BronzeGCPBinaryAuthorizationAttestorCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPBinaryAuthorizationAttestor entities.
+func (c *BronzeGCPBinaryAuthorizationAttestorClient) CreateBulk(builders ...*BronzeGCPBinaryAuthorizationAttestorCreate) *BronzeGCPBinaryAuthorizationAttestorCreateBulk {
+	return &BronzeGCPBinaryAuthorizationAttestorCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPBinaryAuthorizationAttestorClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPBinaryAuthorizationAttestorCreate, int)) *BronzeGCPBinaryAuthorizationAttestorCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPBinaryAuthorizationAttestorCreateBulk{err: fmt.Errorf("calling to BronzeGCPBinaryAuthorizationAttestorClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPBinaryAuthorizationAttestorCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPBinaryAuthorizationAttestorCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPBinaryAuthorizationAttestor.
+func (c *BronzeGCPBinaryAuthorizationAttestorClient) Update() *BronzeGCPBinaryAuthorizationAttestorUpdate {
+	mutation := newBronzeGCPBinaryAuthorizationAttestorMutation(c.config, OpUpdate)
+	return &BronzeGCPBinaryAuthorizationAttestorUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPBinaryAuthorizationAttestorClient) UpdateOne(_m *BronzeGCPBinaryAuthorizationAttestor) *BronzeGCPBinaryAuthorizationAttestorUpdateOne {
+	mutation := newBronzeGCPBinaryAuthorizationAttestorMutation(c.config, OpUpdateOne, withBronzeGCPBinaryAuthorizationAttestor(_m))
+	return &BronzeGCPBinaryAuthorizationAttestorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPBinaryAuthorizationAttestorClient) UpdateOneID(id string) *BronzeGCPBinaryAuthorizationAttestorUpdateOne {
+	mutation := newBronzeGCPBinaryAuthorizationAttestorMutation(c.config, OpUpdateOne, withBronzeGCPBinaryAuthorizationAttestorID(id))
+	return &BronzeGCPBinaryAuthorizationAttestorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPBinaryAuthorizationAttestor.
+func (c *BronzeGCPBinaryAuthorizationAttestorClient) Delete() *BronzeGCPBinaryAuthorizationAttestorDelete {
+	mutation := newBronzeGCPBinaryAuthorizationAttestorMutation(c.config, OpDelete)
+	return &BronzeGCPBinaryAuthorizationAttestorDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPBinaryAuthorizationAttestorClient) DeleteOne(_m *BronzeGCPBinaryAuthorizationAttestor) *BronzeGCPBinaryAuthorizationAttestorDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPBinaryAuthorizationAttestorClient) DeleteOneID(id string) *BronzeGCPBinaryAuthorizationAttestorDeleteOne {
+	builder := c.Delete().Where(bronzegcpbinaryauthorizationattestor.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPBinaryAuthorizationAttestorDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPBinaryAuthorizationAttestor.
+func (c *BronzeGCPBinaryAuthorizationAttestorClient) Query() *BronzeGCPBinaryAuthorizationAttestorQuery {
+	return &BronzeGCPBinaryAuthorizationAttestorQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPBinaryAuthorizationAttestor},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPBinaryAuthorizationAttestor entity by its id.
+func (c *BronzeGCPBinaryAuthorizationAttestorClient) Get(ctx context.Context, id string) (*BronzeGCPBinaryAuthorizationAttestor, error) {
+	return c.Query().Where(bronzegcpbinaryauthorizationattestor.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPBinaryAuthorizationAttestorClient) GetX(ctx context.Context, id string) *BronzeGCPBinaryAuthorizationAttestor {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPBinaryAuthorizationAttestorClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPBinaryAuthorizationAttestor
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPBinaryAuthorizationAttestorClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPBinaryAuthorizationAttestor
+}
+
+func (c *BronzeGCPBinaryAuthorizationAttestorClient) mutate(ctx context.Context, m *BronzeGCPBinaryAuthorizationAttestorMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPBinaryAuthorizationAttestorCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPBinaryAuthorizationAttestorUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPBinaryAuthorizationAttestorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPBinaryAuthorizationAttestorDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPBinaryAuthorizationAttestor mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPBinaryAuthorizationPolicyClient is a client for the BronzeGCPBinaryAuthorizationPolicy schema.
+type BronzeGCPBinaryAuthorizationPolicyClient struct {
+	config
+}
+
+// NewBronzeGCPBinaryAuthorizationPolicyClient returns a client for the BronzeGCPBinaryAuthorizationPolicy from the given config.
+func NewBronzeGCPBinaryAuthorizationPolicyClient(c config) *BronzeGCPBinaryAuthorizationPolicyClient {
+	return &BronzeGCPBinaryAuthorizationPolicyClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpbinaryauthorizationpolicy.Hooks(f(g(h())))`.
+func (c *BronzeGCPBinaryAuthorizationPolicyClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPBinaryAuthorizationPolicy = append(c.hooks.BronzeGCPBinaryAuthorizationPolicy, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpbinaryauthorizationpolicy.Intercept(f(g(h())))`.
+func (c *BronzeGCPBinaryAuthorizationPolicyClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPBinaryAuthorizationPolicy = append(c.inters.BronzeGCPBinaryAuthorizationPolicy, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPBinaryAuthorizationPolicy entity.
+func (c *BronzeGCPBinaryAuthorizationPolicyClient) Create() *BronzeGCPBinaryAuthorizationPolicyCreate {
+	mutation := newBronzeGCPBinaryAuthorizationPolicyMutation(c.config, OpCreate)
+	return &BronzeGCPBinaryAuthorizationPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPBinaryAuthorizationPolicy entities.
+func (c *BronzeGCPBinaryAuthorizationPolicyClient) CreateBulk(builders ...*BronzeGCPBinaryAuthorizationPolicyCreate) *BronzeGCPBinaryAuthorizationPolicyCreateBulk {
+	return &BronzeGCPBinaryAuthorizationPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPBinaryAuthorizationPolicyClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPBinaryAuthorizationPolicyCreate, int)) *BronzeGCPBinaryAuthorizationPolicyCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPBinaryAuthorizationPolicyCreateBulk{err: fmt.Errorf("calling to BronzeGCPBinaryAuthorizationPolicyClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPBinaryAuthorizationPolicyCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPBinaryAuthorizationPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPBinaryAuthorizationPolicy.
+func (c *BronzeGCPBinaryAuthorizationPolicyClient) Update() *BronzeGCPBinaryAuthorizationPolicyUpdate {
+	mutation := newBronzeGCPBinaryAuthorizationPolicyMutation(c.config, OpUpdate)
+	return &BronzeGCPBinaryAuthorizationPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPBinaryAuthorizationPolicyClient) UpdateOne(_m *BronzeGCPBinaryAuthorizationPolicy) *BronzeGCPBinaryAuthorizationPolicyUpdateOne {
+	mutation := newBronzeGCPBinaryAuthorizationPolicyMutation(c.config, OpUpdateOne, withBronzeGCPBinaryAuthorizationPolicy(_m))
+	return &BronzeGCPBinaryAuthorizationPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPBinaryAuthorizationPolicyClient) UpdateOneID(id string) *BronzeGCPBinaryAuthorizationPolicyUpdateOne {
+	mutation := newBronzeGCPBinaryAuthorizationPolicyMutation(c.config, OpUpdateOne, withBronzeGCPBinaryAuthorizationPolicyID(id))
+	return &BronzeGCPBinaryAuthorizationPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPBinaryAuthorizationPolicy.
+func (c *BronzeGCPBinaryAuthorizationPolicyClient) Delete() *BronzeGCPBinaryAuthorizationPolicyDelete {
+	mutation := newBronzeGCPBinaryAuthorizationPolicyMutation(c.config, OpDelete)
+	return &BronzeGCPBinaryAuthorizationPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPBinaryAuthorizationPolicyClient) DeleteOne(_m *BronzeGCPBinaryAuthorizationPolicy) *BronzeGCPBinaryAuthorizationPolicyDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPBinaryAuthorizationPolicyClient) DeleteOneID(id string) *BronzeGCPBinaryAuthorizationPolicyDeleteOne {
+	builder := c.Delete().Where(bronzegcpbinaryauthorizationpolicy.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPBinaryAuthorizationPolicyDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPBinaryAuthorizationPolicy.
+func (c *BronzeGCPBinaryAuthorizationPolicyClient) Query() *BronzeGCPBinaryAuthorizationPolicyQuery {
+	return &BronzeGCPBinaryAuthorizationPolicyQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPBinaryAuthorizationPolicy},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPBinaryAuthorizationPolicy entity by its id.
+func (c *BronzeGCPBinaryAuthorizationPolicyClient) Get(ctx context.Context, id string) (*BronzeGCPBinaryAuthorizationPolicy, error) {
+	return c.Query().Where(bronzegcpbinaryauthorizationpolicy.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPBinaryAuthorizationPolicyClient) GetX(ctx context.Context, id string) *BronzeGCPBinaryAuthorizationPolicy {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPBinaryAuthorizationPolicyClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPBinaryAuthorizationPolicy
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPBinaryAuthorizationPolicyClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPBinaryAuthorizationPolicy
+}
+
+func (c *BronzeGCPBinaryAuthorizationPolicyClient) mutate(ctx context.Context, m *BronzeGCPBinaryAuthorizationPolicyMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPBinaryAuthorizationPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPBinaryAuthorizationPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPBinaryAuthorizationPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPBinaryAuthorizationPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPBinaryAuthorizationPolicy mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPCloudAssetAssetClient is a client for the BronzeGCPCloudAssetAsset schema.
+type BronzeGCPCloudAssetAssetClient struct {
+	config
+}
+
+// NewBronzeGCPCloudAssetAssetClient returns a client for the BronzeGCPCloudAssetAsset from the given config.
+func NewBronzeGCPCloudAssetAssetClient(c config) *BronzeGCPCloudAssetAssetClient {
+	return &BronzeGCPCloudAssetAssetClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpcloudassetasset.Hooks(f(g(h())))`.
+func (c *BronzeGCPCloudAssetAssetClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPCloudAssetAsset = append(c.hooks.BronzeGCPCloudAssetAsset, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpcloudassetasset.Intercept(f(g(h())))`.
+func (c *BronzeGCPCloudAssetAssetClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPCloudAssetAsset = append(c.inters.BronzeGCPCloudAssetAsset, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPCloudAssetAsset entity.
+func (c *BronzeGCPCloudAssetAssetClient) Create() *BronzeGCPCloudAssetAssetCreate {
+	mutation := newBronzeGCPCloudAssetAssetMutation(c.config, OpCreate)
+	return &BronzeGCPCloudAssetAssetCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPCloudAssetAsset entities.
+func (c *BronzeGCPCloudAssetAssetClient) CreateBulk(builders ...*BronzeGCPCloudAssetAssetCreate) *BronzeGCPCloudAssetAssetCreateBulk {
+	return &BronzeGCPCloudAssetAssetCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPCloudAssetAssetClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPCloudAssetAssetCreate, int)) *BronzeGCPCloudAssetAssetCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPCloudAssetAssetCreateBulk{err: fmt.Errorf("calling to BronzeGCPCloudAssetAssetClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPCloudAssetAssetCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPCloudAssetAssetCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPCloudAssetAsset.
+func (c *BronzeGCPCloudAssetAssetClient) Update() *BronzeGCPCloudAssetAssetUpdate {
+	mutation := newBronzeGCPCloudAssetAssetMutation(c.config, OpUpdate)
+	return &BronzeGCPCloudAssetAssetUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPCloudAssetAssetClient) UpdateOne(_m *BronzeGCPCloudAssetAsset) *BronzeGCPCloudAssetAssetUpdateOne {
+	mutation := newBronzeGCPCloudAssetAssetMutation(c.config, OpUpdateOne, withBronzeGCPCloudAssetAsset(_m))
+	return &BronzeGCPCloudAssetAssetUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPCloudAssetAssetClient) UpdateOneID(id string) *BronzeGCPCloudAssetAssetUpdateOne {
+	mutation := newBronzeGCPCloudAssetAssetMutation(c.config, OpUpdateOne, withBronzeGCPCloudAssetAssetID(id))
+	return &BronzeGCPCloudAssetAssetUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPCloudAssetAsset.
+func (c *BronzeGCPCloudAssetAssetClient) Delete() *BronzeGCPCloudAssetAssetDelete {
+	mutation := newBronzeGCPCloudAssetAssetMutation(c.config, OpDelete)
+	return &BronzeGCPCloudAssetAssetDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPCloudAssetAssetClient) DeleteOne(_m *BronzeGCPCloudAssetAsset) *BronzeGCPCloudAssetAssetDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPCloudAssetAssetClient) DeleteOneID(id string) *BronzeGCPCloudAssetAssetDeleteOne {
+	builder := c.Delete().Where(bronzegcpcloudassetasset.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPCloudAssetAssetDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPCloudAssetAsset.
+func (c *BronzeGCPCloudAssetAssetClient) Query() *BronzeGCPCloudAssetAssetQuery {
+	return &BronzeGCPCloudAssetAssetQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPCloudAssetAsset},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPCloudAssetAsset entity by its id.
+func (c *BronzeGCPCloudAssetAssetClient) Get(ctx context.Context, id string) (*BronzeGCPCloudAssetAsset, error) {
+	return c.Query().Where(bronzegcpcloudassetasset.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPCloudAssetAssetClient) GetX(ctx context.Context, id string) *BronzeGCPCloudAssetAsset {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPCloudAssetAssetClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPCloudAssetAsset
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPCloudAssetAssetClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPCloudAssetAsset
+}
+
+func (c *BronzeGCPCloudAssetAssetClient) mutate(ctx context.Context, m *BronzeGCPCloudAssetAssetMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPCloudAssetAssetCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPCloudAssetAssetUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPCloudAssetAssetUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPCloudAssetAssetDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPCloudAssetAsset mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPCloudAssetIAMPolicySearchClient is a client for the BronzeGCPCloudAssetIAMPolicySearch schema.
+type BronzeGCPCloudAssetIAMPolicySearchClient struct {
+	config
+}
+
+// NewBronzeGCPCloudAssetIAMPolicySearchClient returns a client for the BronzeGCPCloudAssetIAMPolicySearch from the given config.
+func NewBronzeGCPCloudAssetIAMPolicySearchClient(c config) *BronzeGCPCloudAssetIAMPolicySearchClient {
+	return &BronzeGCPCloudAssetIAMPolicySearchClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpcloudassetiampolicysearch.Hooks(f(g(h())))`.
+func (c *BronzeGCPCloudAssetIAMPolicySearchClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPCloudAssetIAMPolicySearch = append(c.hooks.BronzeGCPCloudAssetIAMPolicySearch, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpcloudassetiampolicysearch.Intercept(f(g(h())))`.
+func (c *BronzeGCPCloudAssetIAMPolicySearchClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPCloudAssetIAMPolicySearch = append(c.inters.BronzeGCPCloudAssetIAMPolicySearch, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPCloudAssetIAMPolicySearch entity.
+func (c *BronzeGCPCloudAssetIAMPolicySearchClient) Create() *BronzeGCPCloudAssetIAMPolicySearchCreate {
+	mutation := newBronzeGCPCloudAssetIAMPolicySearchMutation(c.config, OpCreate)
+	return &BronzeGCPCloudAssetIAMPolicySearchCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPCloudAssetIAMPolicySearch entities.
+func (c *BronzeGCPCloudAssetIAMPolicySearchClient) CreateBulk(builders ...*BronzeGCPCloudAssetIAMPolicySearchCreate) *BronzeGCPCloudAssetIAMPolicySearchCreateBulk {
+	return &BronzeGCPCloudAssetIAMPolicySearchCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPCloudAssetIAMPolicySearchClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPCloudAssetIAMPolicySearchCreate, int)) *BronzeGCPCloudAssetIAMPolicySearchCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPCloudAssetIAMPolicySearchCreateBulk{err: fmt.Errorf("calling to BronzeGCPCloudAssetIAMPolicySearchClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPCloudAssetIAMPolicySearchCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPCloudAssetIAMPolicySearchCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPCloudAssetIAMPolicySearch.
+func (c *BronzeGCPCloudAssetIAMPolicySearchClient) Update() *BronzeGCPCloudAssetIAMPolicySearchUpdate {
+	mutation := newBronzeGCPCloudAssetIAMPolicySearchMutation(c.config, OpUpdate)
+	return &BronzeGCPCloudAssetIAMPolicySearchUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPCloudAssetIAMPolicySearchClient) UpdateOne(_m *BronzeGCPCloudAssetIAMPolicySearch) *BronzeGCPCloudAssetIAMPolicySearchUpdateOne {
+	mutation := newBronzeGCPCloudAssetIAMPolicySearchMutation(c.config, OpUpdateOne, withBronzeGCPCloudAssetIAMPolicySearch(_m))
+	return &BronzeGCPCloudAssetIAMPolicySearchUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPCloudAssetIAMPolicySearchClient) UpdateOneID(id string) *BronzeGCPCloudAssetIAMPolicySearchUpdateOne {
+	mutation := newBronzeGCPCloudAssetIAMPolicySearchMutation(c.config, OpUpdateOne, withBronzeGCPCloudAssetIAMPolicySearchID(id))
+	return &BronzeGCPCloudAssetIAMPolicySearchUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPCloudAssetIAMPolicySearch.
+func (c *BronzeGCPCloudAssetIAMPolicySearchClient) Delete() *BronzeGCPCloudAssetIAMPolicySearchDelete {
+	mutation := newBronzeGCPCloudAssetIAMPolicySearchMutation(c.config, OpDelete)
+	return &BronzeGCPCloudAssetIAMPolicySearchDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPCloudAssetIAMPolicySearchClient) DeleteOne(_m *BronzeGCPCloudAssetIAMPolicySearch) *BronzeGCPCloudAssetIAMPolicySearchDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPCloudAssetIAMPolicySearchClient) DeleteOneID(id string) *BronzeGCPCloudAssetIAMPolicySearchDeleteOne {
+	builder := c.Delete().Where(bronzegcpcloudassetiampolicysearch.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPCloudAssetIAMPolicySearchDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPCloudAssetIAMPolicySearch.
+func (c *BronzeGCPCloudAssetIAMPolicySearchClient) Query() *BronzeGCPCloudAssetIAMPolicySearchQuery {
+	return &BronzeGCPCloudAssetIAMPolicySearchQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPCloudAssetIAMPolicySearch},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPCloudAssetIAMPolicySearch entity by its id.
+func (c *BronzeGCPCloudAssetIAMPolicySearchClient) Get(ctx context.Context, id string) (*BronzeGCPCloudAssetIAMPolicySearch, error) {
+	return c.Query().Where(bronzegcpcloudassetiampolicysearch.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPCloudAssetIAMPolicySearchClient) GetX(ctx context.Context, id string) *BronzeGCPCloudAssetIAMPolicySearch {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPCloudAssetIAMPolicySearchClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPCloudAssetIAMPolicySearch
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPCloudAssetIAMPolicySearchClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPCloudAssetIAMPolicySearch
+}
+
+func (c *BronzeGCPCloudAssetIAMPolicySearchClient) mutate(ctx context.Context, m *BronzeGCPCloudAssetIAMPolicySearchMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPCloudAssetIAMPolicySearchCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPCloudAssetIAMPolicySearchUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPCloudAssetIAMPolicySearchUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPCloudAssetIAMPolicySearchDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPCloudAssetIAMPolicySearch mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPCloudAssetResourceSearchClient is a client for the BronzeGCPCloudAssetResourceSearch schema.
+type BronzeGCPCloudAssetResourceSearchClient struct {
+	config
+}
+
+// NewBronzeGCPCloudAssetResourceSearchClient returns a client for the BronzeGCPCloudAssetResourceSearch from the given config.
+func NewBronzeGCPCloudAssetResourceSearchClient(c config) *BronzeGCPCloudAssetResourceSearchClient {
+	return &BronzeGCPCloudAssetResourceSearchClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpcloudassetresourcesearch.Hooks(f(g(h())))`.
+func (c *BronzeGCPCloudAssetResourceSearchClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPCloudAssetResourceSearch = append(c.hooks.BronzeGCPCloudAssetResourceSearch, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpcloudassetresourcesearch.Intercept(f(g(h())))`.
+func (c *BronzeGCPCloudAssetResourceSearchClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPCloudAssetResourceSearch = append(c.inters.BronzeGCPCloudAssetResourceSearch, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPCloudAssetResourceSearch entity.
+func (c *BronzeGCPCloudAssetResourceSearchClient) Create() *BronzeGCPCloudAssetResourceSearchCreate {
+	mutation := newBronzeGCPCloudAssetResourceSearchMutation(c.config, OpCreate)
+	return &BronzeGCPCloudAssetResourceSearchCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPCloudAssetResourceSearch entities.
+func (c *BronzeGCPCloudAssetResourceSearchClient) CreateBulk(builders ...*BronzeGCPCloudAssetResourceSearchCreate) *BronzeGCPCloudAssetResourceSearchCreateBulk {
+	return &BronzeGCPCloudAssetResourceSearchCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPCloudAssetResourceSearchClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPCloudAssetResourceSearchCreate, int)) *BronzeGCPCloudAssetResourceSearchCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPCloudAssetResourceSearchCreateBulk{err: fmt.Errorf("calling to BronzeGCPCloudAssetResourceSearchClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPCloudAssetResourceSearchCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPCloudAssetResourceSearchCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPCloudAssetResourceSearch.
+func (c *BronzeGCPCloudAssetResourceSearchClient) Update() *BronzeGCPCloudAssetResourceSearchUpdate {
+	mutation := newBronzeGCPCloudAssetResourceSearchMutation(c.config, OpUpdate)
+	return &BronzeGCPCloudAssetResourceSearchUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPCloudAssetResourceSearchClient) UpdateOne(_m *BronzeGCPCloudAssetResourceSearch) *BronzeGCPCloudAssetResourceSearchUpdateOne {
+	mutation := newBronzeGCPCloudAssetResourceSearchMutation(c.config, OpUpdateOne, withBronzeGCPCloudAssetResourceSearch(_m))
+	return &BronzeGCPCloudAssetResourceSearchUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPCloudAssetResourceSearchClient) UpdateOneID(id string) *BronzeGCPCloudAssetResourceSearchUpdateOne {
+	mutation := newBronzeGCPCloudAssetResourceSearchMutation(c.config, OpUpdateOne, withBronzeGCPCloudAssetResourceSearchID(id))
+	return &BronzeGCPCloudAssetResourceSearchUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPCloudAssetResourceSearch.
+func (c *BronzeGCPCloudAssetResourceSearchClient) Delete() *BronzeGCPCloudAssetResourceSearchDelete {
+	mutation := newBronzeGCPCloudAssetResourceSearchMutation(c.config, OpDelete)
+	return &BronzeGCPCloudAssetResourceSearchDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPCloudAssetResourceSearchClient) DeleteOne(_m *BronzeGCPCloudAssetResourceSearch) *BronzeGCPCloudAssetResourceSearchDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPCloudAssetResourceSearchClient) DeleteOneID(id string) *BronzeGCPCloudAssetResourceSearchDeleteOne {
+	builder := c.Delete().Where(bronzegcpcloudassetresourcesearch.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPCloudAssetResourceSearchDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPCloudAssetResourceSearch.
+func (c *BronzeGCPCloudAssetResourceSearchClient) Query() *BronzeGCPCloudAssetResourceSearchQuery {
+	return &BronzeGCPCloudAssetResourceSearchQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPCloudAssetResourceSearch},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPCloudAssetResourceSearch entity by its id.
+func (c *BronzeGCPCloudAssetResourceSearchClient) Get(ctx context.Context, id string) (*BronzeGCPCloudAssetResourceSearch, error) {
+	return c.Query().Where(bronzegcpcloudassetresourcesearch.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPCloudAssetResourceSearchClient) GetX(ctx context.Context, id string) *BronzeGCPCloudAssetResourceSearch {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPCloudAssetResourceSearchClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPCloudAssetResourceSearch
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPCloudAssetResourceSearchClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPCloudAssetResourceSearch
+}
+
+func (c *BronzeGCPCloudAssetResourceSearchClient) mutate(ctx context.Context, m *BronzeGCPCloudAssetResourceSearchMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPCloudAssetResourceSearchCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPCloudAssetResourceSearchUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPCloudAssetResourceSearchUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPCloudAssetResourceSearchDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPCloudAssetResourceSearch mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPCloudFunctionsFunctionClient is a client for the BronzeGCPCloudFunctionsFunction schema.
+type BronzeGCPCloudFunctionsFunctionClient struct {
+	config
+}
+
+// NewBronzeGCPCloudFunctionsFunctionClient returns a client for the BronzeGCPCloudFunctionsFunction from the given config.
+func NewBronzeGCPCloudFunctionsFunctionClient(c config) *BronzeGCPCloudFunctionsFunctionClient {
+	return &BronzeGCPCloudFunctionsFunctionClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpcloudfunctionsfunction.Hooks(f(g(h())))`.
+func (c *BronzeGCPCloudFunctionsFunctionClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPCloudFunctionsFunction = append(c.hooks.BronzeGCPCloudFunctionsFunction, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpcloudfunctionsfunction.Intercept(f(g(h())))`.
+func (c *BronzeGCPCloudFunctionsFunctionClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPCloudFunctionsFunction = append(c.inters.BronzeGCPCloudFunctionsFunction, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPCloudFunctionsFunction entity.
+func (c *BronzeGCPCloudFunctionsFunctionClient) Create() *BronzeGCPCloudFunctionsFunctionCreate {
+	mutation := newBronzeGCPCloudFunctionsFunctionMutation(c.config, OpCreate)
+	return &BronzeGCPCloudFunctionsFunctionCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPCloudFunctionsFunction entities.
+func (c *BronzeGCPCloudFunctionsFunctionClient) CreateBulk(builders ...*BronzeGCPCloudFunctionsFunctionCreate) *BronzeGCPCloudFunctionsFunctionCreateBulk {
+	return &BronzeGCPCloudFunctionsFunctionCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPCloudFunctionsFunctionClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPCloudFunctionsFunctionCreate, int)) *BronzeGCPCloudFunctionsFunctionCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPCloudFunctionsFunctionCreateBulk{err: fmt.Errorf("calling to BronzeGCPCloudFunctionsFunctionClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPCloudFunctionsFunctionCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPCloudFunctionsFunctionCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPCloudFunctionsFunction.
+func (c *BronzeGCPCloudFunctionsFunctionClient) Update() *BronzeGCPCloudFunctionsFunctionUpdate {
+	mutation := newBronzeGCPCloudFunctionsFunctionMutation(c.config, OpUpdate)
+	return &BronzeGCPCloudFunctionsFunctionUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPCloudFunctionsFunctionClient) UpdateOne(_m *BronzeGCPCloudFunctionsFunction) *BronzeGCPCloudFunctionsFunctionUpdateOne {
+	mutation := newBronzeGCPCloudFunctionsFunctionMutation(c.config, OpUpdateOne, withBronzeGCPCloudFunctionsFunction(_m))
+	return &BronzeGCPCloudFunctionsFunctionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPCloudFunctionsFunctionClient) UpdateOneID(id string) *BronzeGCPCloudFunctionsFunctionUpdateOne {
+	mutation := newBronzeGCPCloudFunctionsFunctionMutation(c.config, OpUpdateOne, withBronzeGCPCloudFunctionsFunctionID(id))
+	return &BronzeGCPCloudFunctionsFunctionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPCloudFunctionsFunction.
+func (c *BronzeGCPCloudFunctionsFunctionClient) Delete() *BronzeGCPCloudFunctionsFunctionDelete {
+	mutation := newBronzeGCPCloudFunctionsFunctionMutation(c.config, OpDelete)
+	return &BronzeGCPCloudFunctionsFunctionDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPCloudFunctionsFunctionClient) DeleteOne(_m *BronzeGCPCloudFunctionsFunction) *BronzeGCPCloudFunctionsFunctionDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPCloudFunctionsFunctionClient) DeleteOneID(id string) *BronzeGCPCloudFunctionsFunctionDeleteOne {
+	builder := c.Delete().Where(bronzegcpcloudfunctionsfunction.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPCloudFunctionsFunctionDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPCloudFunctionsFunction.
+func (c *BronzeGCPCloudFunctionsFunctionClient) Query() *BronzeGCPCloudFunctionsFunctionQuery {
+	return &BronzeGCPCloudFunctionsFunctionQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPCloudFunctionsFunction},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPCloudFunctionsFunction entity by its id.
+func (c *BronzeGCPCloudFunctionsFunctionClient) Get(ctx context.Context, id string) (*BronzeGCPCloudFunctionsFunction, error) {
+	return c.Query().Where(bronzegcpcloudfunctionsfunction.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPCloudFunctionsFunctionClient) GetX(ctx context.Context, id string) *BronzeGCPCloudFunctionsFunction {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPCloudFunctionsFunctionClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPCloudFunctionsFunction
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPCloudFunctionsFunctionClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPCloudFunctionsFunction
+}
+
+func (c *BronzeGCPCloudFunctionsFunctionClient) mutate(ctx context.Context, m *BronzeGCPCloudFunctionsFunctionMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPCloudFunctionsFunctionCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPCloudFunctionsFunctionUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPCloudFunctionsFunctionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPCloudFunctionsFunctionDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPCloudFunctionsFunction mutation op: %q", m.Op())
 	}
 }
 
@@ -14013,6 +16617,272 @@ func (c *BronzeGCPComputeUrlMapClient) mutate(ctx context.Context, m *BronzeGCPC
 	}
 }
 
+// BronzeGCPContainerAnalysisNoteClient is a client for the BronzeGCPContainerAnalysisNote schema.
+type BronzeGCPContainerAnalysisNoteClient struct {
+	config
+}
+
+// NewBronzeGCPContainerAnalysisNoteClient returns a client for the BronzeGCPContainerAnalysisNote from the given config.
+func NewBronzeGCPContainerAnalysisNoteClient(c config) *BronzeGCPContainerAnalysisNoteClient {
+	return &BronzeGCPContainerAnalysisNoteClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpcontaineranalysisnote.Hooks(f(g(h())))`.
+func (c *BronzeGCPContainerAnalysisNoteClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPContainerAnalysisNote = append(c.hooks.BronzeGCPContainerAnalysisNote, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpcontaineranalysisnote.Intercept(f(g(h())))`.
+func (c *BronzeGCPContainerAnalysisNoteClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPContainerAnalysisNote = append(c.inters.BronzeGCPContainerAnalysisNote, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPContainerAnalysisNote entity.
+func (c *BronzeGCPContainerAnalysisNoteClient) Create() *BronzeGCPContainerAnalysisNoteCreate {
+	mutation := newBronzeGCPContainerAnalysisNoteMutation(c.config, OpCreate)
+	return &BronzeGCPContainerAnalysisNoteCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPContainerAnalysisNote entities.
+func (c *BronzeGCPContainerAnalysisNoteClient) CreateBulk(builders ...*BronzeGCPContainerAnalysisNoteCreate) *BronzeGCPContainerAnalysisNoteCreateBulk {
+	return &BronzeGCPContainerAnalysisNoteCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPContainerAnalysisNoteClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPContainerAnalysisNoteCreate, int)) *BronzeGCPContainerAnalysisNoteCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPContainerAnalysisNoteCreateBulk{err: fmt.Errorf("calling to BronzeGCPContainerAnalysisNoteClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPContainerAnalysisNoteCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPContainerAnalysisNoteCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPContainerAnalysisNote.
+func (c *BronzeGCPContainerAnalysisNoteClient) Update() *BronzeGCPContainerAnalysisNoteUpdate {
+	mutation := newBronzeGCPContainerAnalysisNoteMutation(c.config, OpUpdate)
+	return &BronzeGCPContainerAnalysisNoteUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPContainerAnalysisNoteClient) UpdateOne(_m *BronzeGCPContainerAnalysisNote) *BronzeGCPContainerAnalysisNoteUpdateOne {
+	mutation := newBronzeGCPContainerAnalysisNoteMutation(c.config, OpUpdateOne, withBronzeGCPContainerAnalysisNote(_m))
+	return &BronzeGCPContainerAnalysisNoteUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPContainerAnalysisNoteClient) UpdateOneID(id string) *BronzeGCPContainerAnalysisNoteUpdateOne {
+	mutation := newBronzeGCPContainerAnalysisNoteMutation(c.config, OpUpdateOne, withBronzeGCPContainerAnalysisNoteID(id))
+	return &BronzeGCPContainerAnalysisNoteUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPContainerAnalysisNote.
+func (c *BronzeGCPContainerAnalysisNoteClient) Delete() *BronzeGCPContainerAnalysisNoteDelete {
+	mutation := newBronzeGCPContainerAnalysisNoteMutation(c.config, OpDelete)
+	return &BronzeGCPContainerAnalysisNoteDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPContainerAnalysisNoteClient) DeleteOne(_m *BronzeGCPContainerAnalysisNote) *BronzeGCPContainerAnalysisNoteDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPContainerAnalysisNoteClient) DeleteOneID(id string) *BronzeGCPContainerAnalysisNoteDeleteOne {
+	builder := c.Delete().Where(bronzegcpcontaineranalysisnote.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPContainerAnalysisNoteDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPContainerAnalysisNote.
+func (c *BronzeGCPContainerAnalysisNoteClient) Query() *BronzeGCPContainerAnalysisNoteQuery {
+	return &BronzeGCPContainerAnalysisNoteQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPContainerAnalysisNote},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPContainerAnalysisNote entity by its id.
+func (c *BronzeGCPContainerAnalysisNoteClient) Get(ctx context.Context, id string) (*BronzeGCPContainerAnalysisNote, error) {
+	return c.Query().Where(bronzegcpcontaineranalysisnote.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPContainerAnalysisNoteClient) GetX(ctx context.Context, id string) *BronzeGCPContainerAnalysisNote {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPContainerAnalysisNoteClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPContainerAnalysisNote
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPContainerAnalysisNoteClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPContainerAnalysisNote
+}
+
+func (c *BronzeGCPContainerAnalysisNoteClient) mutate(ctx context.Context, m *BronzeGCPContainerAnalysisNoteMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPContainerAnalysisNoteCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPContainerAnalysisNoteUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPContainerAnalysisNoteUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPContainerAnalysisNoteDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPContainerAnalysisNote mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPContainerAnalysisOccurrenceClient is a client for the BronzeGCPContainerAnalysisOccurrence schema.
+type BronzeGCPContainerAnalysisOccurrenceClient struct {
+	config
+}
+
+// NewBronzeGCPContainerAnalysisOccurrenceClient returns a client for the BronzeGCPContainerAnalysisOccurrence from the given config.
+func NewBronzeGCPContainerAnalysisOccurrenceClient(c config) *BronzeGCPContainerAnalysisOccurrenceClient {
+	return &BronzeGCPContainerAnalysisOccurrenceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpcontaineranalysisoccurrence.Hooks(f(g(h())))`.
+func (c *BronzeGCPContainerAnalysisOccurrenceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPContainerAnalysisOccurrence = append(c.hooks.BronzeGCPContainerAnalysisOccurrence, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpcontaineranalysisoccurrence.Intercept(f(g(h())))`.
+func (c *BronzeGCPContainerAnalysisOccurrenceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPContainerAnalysisOccurrence = append(c.inters.BronzeGCPContainerAnalysisOccurrence, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPContainerAnalysisOccurrence entity.
+func (c *BronzeGCPContainerAnalysisOccurrenceClient) Create() *BronzeGCPContainerAnalysisOccurrenceCreate {
+	mutation := newBronzeGCPContainerAnalysisOccurrenceMutation(c.config, OpCreate)
+	return &BronzeGCPContainerAnalysisOccurrenceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPContainerAnalysisOccurrence entities.
+func (c *BronzeGCPContainerAnalysisOccurrenceClient) CreateBulk(builders ...*BronzeGCPContainerAnalysisOccurrenceCreate) *BronzeGCPContainerAnalysisOccurrenceCreateBulk {
+	return &BronzeGCPContainerAnalysisOccurrenceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPContainerAnalysisOccurrenceClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPContainerAnalysisOccurrenceCreate, int)) *BronzeGCPContainerAnalysisOccurrenceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPContainerAnalysisOccurrenceCreateBulk{err: fmt.Errorf("calling to BronzeGCPContainerAnalysisOccurrenceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPContainerAnalysisOccurrenceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPContainerAnalysisOccurrenceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPContainerAnalysisOccurrence.
+func (c *BronzeGCPContainerAnalysisOccurrenceClient) Update() *BronzeGCPContainerAnalysisOccurrenceUpdate {
+	mutation := newBronzeGCPContainerAnalysisOccurrenceMutation(c.config, OpUpdate)
+	return &BronzeGCPContainerAnalysisOccurrenceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPContainerAnalysisOccurrenceClient) UpdateOne(_m *BronzeGCPContainerAnalysisOccurrence) *BronzeGCPContainerAnalysisOccurrenceUpdateOne {
+	mutation := newBronzeGCPContainerAnalysisOccurrenceMutation(c.config, OpUpdateOne, withBronzeGCPContainerAnalysisOccurrence(_m))
+	return &BronzeGCPContainerAnalysisOccurrenceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPContainerAnalysisOccurrenceClient) UpdateOneID(id string) *BronzeGCPContainerAnalysisOccurrenceUpdateOne {
+	mutation := newBronzeGCPContainerAnalysisOccurrenceMutation(c.config, OpUpdateOne, withBronzeGCPContainerAnalysisOccurrenceID(id))
+	return &BronzeGCPContainerAnalysisOccurrenceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPContainerAnalysisOccurrence.
+func (c *BronzeGCPContainerAnalysisOccurrenceClient) Delete() *BronzeGCPContainerAnalysisOccurrenceDelete {
+	mutation := newBronzeGCPContainerAnalysisOccurrenceMutation(c.config, OpDelete)
+	return &BronzeGCPContainerAnalysisOccurrenceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPContainerAnalysisOccurrenceClient) DeleteOne(_m *BronzeGCPContainerAnalysisOccurrence) *BronzeGCPContainerAnalysisOccurrenceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPContainerAnalysisOccurrenceClient) DeleteOneID(id string) *BronzeGCPContainerAnalysisOccurrenceDeleteOne {
+	builder := c.Delete().Where(bronzegcpcontaineranalysisoccurrence.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPContainerAnalysisOccurrenceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPContainerAnalysisOccurrence.
+func (c *BronzeGCPContainerAnalysisOccurrenceClient) Query() *BronzeGCPContainerAnalysisOccurrenceQuery {
+	return &BronzeGCPContainerAnalysisOccurrenceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPContainerAnalysisOccurrence},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPContainerAnalysisOccurrence entity by its id.
+func (c *BronzeGCPContainerAnalysisOccurrenceClient) Get(ctx context.Context, id string) (*BronzeGCPContainerAnalysisOccurrence, error) {
+	return c.Query().Where(bronzegcpcontaineranalysisoccurrence.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPContainerAnalysisOccurrenceClient) GetX(ctx context.Context, id string) *BronzeGCPContainerAnalysisOccurrence {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPContainerAnalysisOccurrenceClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPContainerAnalysisOccurrence
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPContainerAnalysisOccurrenceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPContainerAnalysisOccurrence
+}
+
+func (c *BronzeGCPContainerAnalysisOccurrenceClient) mutate(ctx context.Context, m *BronzeGCPContainerAnalysisOccurrenceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPContainerAnalysisOccurrenceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPContainerAnalysisOccurrenceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPContainerAnalysisOccurrenceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPContainerAnalysisOccurrenceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPContainerAnalysisOccurrence mutation op: %q", m.Op())
+	}
+}
+
 // BronzeGCPContainerClusterClient is a client for the BronzeGCPContainerCluster schema.
 type BronzeGCPContainerClusterClient struct {
 	config
@@ -15267,6 +18137,272 @@ func (c *BronzeGCPDNSPolicyClient) mutate(ctx context.Context, m *BronzeGCPDNSPo
 	}
 }
 
+// BronzeGCPDataprocClusterClient is a client for the BronzeGCPDataprocCluster schema.
+type BronzeGCPDataprocClusterClient struct {
+	config
+}
+
+// NewBronzeGCPDataprocClusterClient returns a client for the BronzeGCPDataprocCluster from the given config.
+func NewBronzeGCPDataprocClusterClient(c config) *BronzeGCPDataprocClusterClient {
+	return &BronzeGCPDataprocClusterClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpdataproccluster.Hooks(f(g(h())))`.
+func (c *BronzeGCPDataprocClusterClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPDataprocCluster = append(c.hooks.BronzeGCPDataprocCluster, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpdataproccluster.Intercept(f(g(h())))`.
+func (c *BronzeGCPDataprocClusterClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPDataprocCluster = append(c.inters.BronzeGCPDataprocCluster, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPDataprocCluster entity.
+func (c *BronzeGCPDataprocClusterClient) Create() *BronzeGCPDataprocClusterCreate {
+	mutation := newBronzeGCPDataprocClusterMutation(c.config, OpCreate)
+	return &BronzeGCPDataprocClusterCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPDataprocCluster entities.
+func (c *BronzeGCPDataprocClusterClient) CreateBulk(builders ...*BronzeGCPDataprocClusterCreate) *BronzeGCPDataprocClusterCreateBulk {
+	return &BronzeGCPDataprocClusterCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPDataprocClusterClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPDataprocClusterCreate, int)) *BronzeGCPDataprocClusterCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPDataprocClusterCreateBulk{err: fmt.Errorf("calling to BronzeGCPDataprocClusterClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPDataprocClusterCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPDataprocClusterCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPDataprocCluster.
+func (c *BronzeGCPDataprocClusterClient) Update() *BronzeGCPDataprocClusterUpdate {
+	mutation := newBronzeGCPDataprocClusterMutation(c.config, OpUpdate)
+	return &BronzeGCPDataprocClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPDataprocClusterClient) UpdateOne(_m *BronzeGCPDataprocCluster) *BronzeGCPDataprocClusterUpdateOne {
+	mutation := newBronzeGCPDataprocClusterMutation(c.config, OpUpdateOne, withBronzeGCPDataprocCluster(_m))
+	return &BronzeGCPDataprocClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPDataprocClusterClient) UpdateOneID(id string) *BronzeGCPDataprocClusterUpdateOne {
+	mutation := newBronzeGCPDataprocClusterMutation(c.config, OpUpdateOne, withBronzeGCPDataprocClusterID(id))
+	return &BronzeGCPDataprocClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPDataprocCluster.
+func (c *BronzeGCPDataprocClusterClient) Delete() *BronzeGCPDataprocClusterDelete {
+	mutation := newBronzeGCPDataprocClusterMutation(c.config, OpDelete)
+	return &BronzeGCPDataprocClusterDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPDataprocClusterClient) DeleteOne(_m *BronzeGCPDataprocCluster) *BronzeGCPDataprocClusterDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPDataprocClusterClient) DeleteOneID(id string) *BronzeGCPDataprocClusterDeleteOne {
+	builder := c.Delete().Where(bronzegcpdataproccluster.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPDataprocClusterDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPDataprocCluster.
+func (c *BronzeGCPDataprocClusterClient) Query() *BronzeGCPDataprocClusterQuery {
+	return &BronzeGCPDataprocClusterQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPDataprocCluster},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPDataprocCluster entity by its id.
+func (c *BronzeGCPDataprocClusterClient) Get(ctx context.Context, id string) (*BronzeGCPDataprocCluster, error) {
+	return c.Query().Where(bronzegcpdataproccluster.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPDataprocClusterClient) GetX(ctx context.Context, id string) *BronzeGCPDataprocCluster {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPDataprocClusterClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPDataprocCluster
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPDataprocClusterClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPDataprocCluster
+}
+
+func (c *BronzeGCPDataprocClusterClient) mutate(ctx context.Context, m *BronzeGCPDataprocClusterMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPDataprocClusterCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPDataprocClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPDataprocClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPDataprocClusterDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPDataprocCluster mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPFilestoreInstanceClient is a client for the BronzeGCPFilestoreInstance schema.
+type BronzeGCPFilestoreInstanceClient struct {
+	config
+}
+
+// NewBronzeGCPFilestoreInstanceClient returns a client for the BronzeGCPFilestoreInstance from the given config.
+func NewBronzeGCPFilestoreInstanceClient(c config) *BronzeGCPFilestoreInstanceClient {
+	return &BronzeGCPFilestoreInstanceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpfilestoreinstance.Hooks(f(g(h())))`.
+func (c *BronzeGCPFilestoreInstanceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPFilestoreInstance = append(c.hooks.BronzeGCPFilestoreInstance, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpfilestoreinstance.Intercept(f(g(h())))`.
+func (c *BronzeGCPFilestoreInstanceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPFilestoreInstance = append(c.inters.BronzeGCPFilestoreInstance, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPFilestoreInstance entity.
+func (c *BronzeGCPFilestoreInstanceClient) Create() *BronzeGCPFilestoreInstanceCreate {
+	mutation := newBronzeGCPFilestoreInstanceMutation(c.config, OpCreate)
+	return &BronzeGCPFilestoreInstanceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPFilestoreInstance entities.
+func (c *BronzeGCPFilestoreInstanceClient) CreateBulk(builders ...*BronzeGCPFilestoreInstanceCreate) *BronzeGCPFilestoreInstanceCreateBulk {
+	return &BronzeGCPFilestoreInstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPFilestoreInstanceClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPFilestoreInstanceCreate, int)) *BronzeGCPFilestoreInstanceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPFilestoreInstanceCreateBulk{err: fmt.Errorf("calling to BronzeGCPFilestoreInstanceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPFilestoreInstanceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPFilestoreInstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPFilestoreInstance.
+func (c *BronzeGCPFilestoreInstanceClient) Update() *BronzeGCPFilestoreInstanceUpdate {
+	mutation := newBronzeGCPFilestoreInstanceMutation(c.config, OpUpdate)
+	return &BronzeGCPFilestoreInstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPFilestoreInstanceClient) UpdateOne(_m *BronzeGCPFilestoreInstance) *BronzeGCPFilestoreInstanceUpdateOne {
+	mutation := newBronzeGCPFilestoreInstanceMutation(c.config, OpUpdateOne, withBronzeGCPFilestoreInstance(_m))
+	return &BronzeGCPFilestoreInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPFilestoreInstanceClient) UpdateOneID(id string) *BronzeGCPFilestoreInstanceUpdateOne {
+	mutation := newBronzeGCPFilestoreInstanceMutation(c.config, OpUpdateOne, withBronzeGCPFilestoreInstanceID(id))
+	return &BronzeGCPFilestoreInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPFilestoreInstance.
+func (c *BronzeGCPFilestoreInstanceClient) Delete() *BronzeGCPFilestoreInstanceDelete {
+	mutation := newBronzeGCPFilestoreInstanceMutation(c.config, OpDelete)
+	return &BronzeGCPFilestoreInstanceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPFilestoreInstanceClient) DeleteOne(_m *BronzeGCPFilestoreInstance) *BronzeGCPFilestoreInstanceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPFilestoreInstanceClient) DeleteOneID(id string) *BronzeGCPFilestoreInstanceDeleteOne {
+	builder := c.Delete().Where(bronzegcpfilestoreinstance.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPFilestoreInstanceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPFilestoreInstance.
+func (c *BronzeGCPFilestoreInstanceClient) Query() *BronzeGCPFilestoreInstanceQuery {
+	return &BronzeGCPFilestoreInstanceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPFilestoreInstance},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPFilestoreInstance entity by its id.
+func (c *BronzeGCPFilestoreInstanceClient) Get(ctx context.Context, id string) (*BronzeGCPFilestoreInstance, error) {
+	return c.Query().Where(bronzegcpfilestoreinstance.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPFilestoreInstanceClient) GetX(ctx context.Context, id string) *BronzeGCPFilestoreInstance {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPFilestoreInstanceClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPFilestoreInstance
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPFilestoreInstanceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPFilestoreInstance
+}
+
+func (c *BronzeGCPFilestoreInstanceClient) mutate(ctx context.Context, m *BronzeGCPFilestoreInstanceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPFilestoreInstanceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPFilestoreInstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPFilestoreInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPFilestoreInstanceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPFilestoreInstance mutation op: %q", m.Op())
+	}
+}
+
 // BronzeGCPFolderClient is a client for the BronzeGCPFolder schema.
 type BronzeGCPFolderClient struct {
 	config
@@ -16141,6 +19277,272 @@ func (c *BronzeGCPIAMServiceAccountKeyClient) mutate(ctx context.Context, m *Bro
 	}
 }
 
+// BronzeGCPIAPIAMPolicyClient is a client for the BronzeGCPIAPIAMPolicy schema.
+type BronzeGCPIAPIAMPolicyClient struct {
+	config
+}
+
+// NewBronzeGCPIAPIAMPolicyClient returns a client for the BronzeGCPIAPIAMPolicy from the given config.
+func NewBronzeGCPIAPIAMPolicyClient(c config) *BronzeGCPIAPIAMPolicyClient {
+	return &BronzeGCPIAPIAMPolicyClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpiapiampolicy.Hooks(f(g(h())))`.
+func (c *BronzeGCPIAPIAMPolicyClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPIAPIAMPolicy = append(c.hooks.BronzeGCPIAPIAMPolicy, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpiapiampolicy.Intercept(f(g(h())))`.
+func (c *BronzeGCPIAPIAMPolicyClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPIAPIAMPolicy = append(c.inters.BronzeGCPIAPIAMPolicy, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPIAPIAMPolicy entity.
+func (c *BronzeGCPIAPIAMPolicyClient) Create() *BronzeGCPIAPIAMPolicyCreate {
+	mutation := newBronzeGCPIAPIAMPolicyMutation(c.config, OpCreate)
+	return &BronzeGCPIAPIAMPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPIAPIAMPolicy entities.
+func (c *BronzeGCPIAPIAMPolicyClient) CreateBulk(builders ...*BronzeGCPIAPIAMPolicyCreate) *BronzeGCPIAPIAMPolicyCreateBulk {
+	return &BronzeGCPIAPIAMPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPIAPIAMPolicyClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPIAPIAMPolicyCreate, int)) *BronzeGCPIAPIAMPolicyCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPIAPIAMPolicyCreateBulk{err: fmt.Errorf("calling to BronzeGCPIAPIAMPolicyClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPIAPIAMPolicyCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPIAPIAMPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPIAPIAMPolicy.
+func (c *BronzeGCPIAPIAMPolicyClient) Update() *BronzeGCPIAPIAMPolicyUpdate {
+	mutation := newBronzeGCPIAPIAMPolicyMutation(c.config, OpUpdate)
+	return &BronzeGCPIAPIAMPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPIAPIAMPolicyClient) UpdateOne(_m *BronzeGCPIAPIAMPolicy) *BronzeGCPIAPIAMPolicyUpdateOne {
+	mutation := newBronzeGCPIAPIAMPolicyMutation(c.config, OpUpdateOne, withBronzeGCPIAPIAMPolicy(_m))
+	return &BronzeGCPIAPIAMPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPIAPIAMPolicyClient) UpdateOneID(id string) *BronzeGCPIAPIAMPolicyUpdateOne {
+	mutation := newBronzeGCPIAPIAMPolicyMutation(c.config, OpUpdateOne, withBronzeGCPIAPIAMPolicyID(id))
+	return &BronzeGCPIAPIAMPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPIAPIAMPolicy.
+func (c *BronzeGCPIAPIAMPolicyClient) Delete() *BronzeGCPIAPIAMPolicyDelete {
+	mutation := newBronzeGCPIAPIAMPolicyMutation(c.config, OpDelete)
+	return &BronzeGCPIAPIAMPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPIAPIAMPolicyClient) DeleteOne(_m *BronzeGCPIAPIAMPolicy) *BronzeGCPIAPIAMPolicyDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPIAPIAMPolicyClient) DeleteOneID(id string) *BronzeGCPIAPIAMPolicyDeleteOne {
+	builder := c.Delete().Where(bronzegcpiapiampolicy.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPIAPIAMPolicyDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPIAPIAMPolicy.
+func (c *BronzeGCPIAPIAMPolicyClient) Query() *BronzeGCPIAPIAMPolicyQuery {
+	return &BronzeGCPIAPIAMPolicyQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPIAPIAMPolicy},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPIAPIAMPolicy entity by its id.
+func (c *BronzeGCPIAPIAMPolicyClient) Get(ctx context.Context, id string) (*BronzeGCPIAPIAMPolicy, error) {
+	return c.Query().Where(bronzegcpiapiampolicy.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPIAPIAMPolicyClient) GetX(ctx context.Context, id string) *BronzeGCPIAPIAMPolicy {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPIAPIAMPolicyClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPIAPIAMPolicy
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPIAPIAMPolicyClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPIAPIAMPolicy
+}
+
+func (c *BronzeGCPIAPIAMPolicyClient) mutate(ctx context.Context, m *BronzeGCPIAPIAMPolicyMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPIAPIAMPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPIAPIAMPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPIAPIAMPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPIAPIAMPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPIAPIAMPolicy mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPIAPSettingsClient is a client for the BronzeGCPIAPSettings schema.
+type BronzeGCPIAPSettingsClient struct {
+	config
+}
+
+// NewBronzeGCPIAPSettingsClient returns a client for the BronzeGCPIAPSettings from the given config.
+func NewBronzeGCPIAPSettingsClient(c config) *BronzeGCPIAPSettingsClient {
+	return &BronzeGCPIAPSettingsClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpiapsettings.Hooks(f(g(h())))`.
+func (c *BronzeGCPIAPSettingsClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPIAPSettings = append(c.hooks.BronzeGCPIAPSettings, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpiapsettings.Intercept(f(g(h())))`.
+func (c *BronzeGCPIAPSettingsClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPIAPSettings = append(c.inters.BronzeGCPIAPSettings, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPIAPSettings entity.
+func (c *BronzeGCPIAPSettingsClient) Create() *BronzeGCPIAPSettingsCreate {
+	mutation := newBronzeGCPIAPSettingsMutation(c.config, OpCreate)
+	return &BronzeGCPIAPSettingsCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPIAPSettings entities.
+func (c *BronzeGCPIAPSettingsClient) CreateBulk(builders ...*BronzeGCPIAPSettingsCreate) *BronzeGCPIAPSettingsCreateBulk {
+	return &BronzeGCPIAPSettingsCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPIAPSettingsClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPIAPSettingsCreate, int)) *BronzeGCPIAPSettingsCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPIAPSettingsCreateBulk{err: fmt.Errorf("calling to BronzeGCPIAPSettingsClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPIAPSettingsCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPIAPSettingsCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPIAPSettings.
+func (c *BronzeGCPIAPSettingsClient) Update() *BronzeGCPIAPSettingsUpdate {
+	mutation := newBronzeGCPIAPSettingsMutation(c.config, OpUpdate)
+	return &BronzeGCPIAPSettingsUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPIAPSettingsClient) UpdateOne(_m *BronzeGCPIAPSettings) *BronzeGCPIAPSettingsUpdateOne {
+	mutation := newBronzeGCPIAPSettingsMutation(c.config, OpUpdateOne, withBronzeGCPIAPSettings(_m))
+	return &BronzeGCPIAPSettingsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPIAPSettingsClient) UpdateOneID(id string) *BronzeGCPIAPSettingsUpdateOne {
+	mutation := newBronzeGCPIAPSettingsMutation(c.config, OpUpdateOne, withBronzeGCPIAPSettingsID(id))
+	return &BronzeGCPIAPSettingsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPIAPSettings.
+func (c *BronzeGCPIAPSettingsClient) Delete() *BronzeGCPIAPSettingsDelete {
+	mutation := newBronzeGCPIAPSettingsMutation(c.config, OpDelete)
+	return &BronzeGCPIAPSettingsDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPIAPSettingsClient) DeleteOne(_m *BronzeGCPIAPSettings) *BronzeGCPIAPSettingsDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPIAPSettingsClient) DeleteOneID(id string) *BronzeGCPIAPSettingsDeleteOne {
+	builder := c.Delete().Where(bronzegcpiapsettings.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPIAPSettingsDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPIAPSettings.
+func (c *BronzeGCPIAPSettingsClient) Query() *BronzeGCPIAPSettingsQuery {
+	return &BronzeGCPIAPSettingsQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPIAPSettings},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPIAPSettings entity by its id.
+func (c *BronzeGCPIAPSettingsClient) Get(ctx context.Context, id string) (*BronzeGCPIAPSettings, error) {
+	return c.Query().Where(bronzegcpiapsettings.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPIAPSettingsClient) GetX(ctx context.Context, id string) *BronzeGCPIAPSettings {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPIAPSettingsClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPIAPSettings
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPIAPSettingsClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPIAPSettings
+}
+
+func (c *BronzeGCPIAPSettingsClient) mutate(ctx context.Context, m *BronzeGCPIAPSettingsMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPIAPSettingsCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPIAPSettingsUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPIAPSettingsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPIAPSettingsDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPIAPSettings mutation op: %q", m.Op())
+	}
+}
+
 // BronzeGCPKMSCryptoKeyClient is a client for the BronzeGCPKMSCryptoKey schema.
 type BronzeGCPKMSCryptoKeyClient struct {
 	config
@@ -16939,6 +20341,272 @@ func (c *BronzeGCPLoggingSinkClient) mutate(ctx context.Context, m *BronzeGCPLog
 	}
 }
 
+// BronzeGCPMonitoringAlertPolicyClient is a client for the BronzeGCPMonitoringAlertPolicy schema.
+type BronzeGCPMonitoringAlertPolicyClient struct {
+	config
+}
+
+// NewBronzeGCPMonitoringAlertPolicyClient returns a client for the BronzeGCPMonitoringAlertPolicy from the given config.
+func NewBronzeGCPMonitoringAlertPolicyClient(c config) *BronzeGCPMonitoringAlertPolicyClient {
+	return &BronzeGCPMonitoringAlertPolicyClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpmonitoringalertpolicy.Hooks(f(g(h())))`.
+func (c *BronzeGCPMonitoringAlertPolicyClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPMonitoringAlertPolicy = append(c.hooks.BronzeGCPMonitoringAlertPolicy, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpmonitoringalertpolicy.Intercept(f(g(h())))`.
+func (c *BronzeGCPMonitoringAlertPolicyClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPMonitoringAlertPolicy = append(c.inters.BronzeGCPMonitoringAlertPolicy, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPMonitoringAlertPolicy entity.
+func (c *BronzeGCPMonitoringAlertPolicyClient) Create() *BronzeGCPMonitoringAlertPolicyCreate {
+	mutation := newBronzeGCPMonitoringAlertPolicyMutation(c.config, OpCreate)
+	return &BronzeGCPMonitoringAlertPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPMonitoringAlertPolicy entities.
+func (c *BronzeGCPMonitoringAlertPolicyClient) CreateBulk(builders ...*BronzeGCPMonitoringAlertPolicyCreate) *BronzeGCPMonitoringAlertPolicyCreateBulk {
+	return &BronzeGCPMonitoringAlertPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPMonitoringAlertPolicyClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPMonitoringAlertPolicyCreate, int)) *BronzeGCPMonitoringAlertPolicyCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPMonitoringAlertPolicyCreateBulk{err: fmt.Errorf("calling to BronzeGCPMonitoringAlertPolicyClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPMonitoringAlertPolicyCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPMonitoringAlertPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPMonitoringAlertPolicy.
+func (c *BronzeGCPMonitoringAlertPolicyClient) Update() *BronzeGCPMonitoringAlertPolicyUpdate {
+	mutation := newBronzeGCPMonitoringAlertPolicyMutation(c.config, OpUpdate)
+	return &BronzeGCPMonitoringAlertPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPMonitoringAlertPolicyClient) UpdateOne(_m *BronzeGCPMonitoringAlertPolicy) *BronzeGCPMonitoringAlertPolicyUpdateOne {
+	mutation := newBronzeGCPMonitoringAlertPolicyMutation(c.config, OpUpdateOne, withBronzeGCPMonitoringAlertPolicy(_m))
+	return &BronzeGCPMonitoringAlertPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPMonitoringAlertPolicyClient) UpdateOneID(id string) *BronzeGCPMonitoringAlertPolicyUpdateOne {
+	mutation := newBronzeGCPMonitoringAlertPolicyMutation(c.config, OpUpdateOne, withBronzeGCPMonitoringAlertPolicyID(id))
+	return &BronzeGCPMonitoringAlertPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPMonitoringAlertPolicy.
+func (c *BronzeGCPMonitoringAlertPolicyClient) Delete() *BronzeGCPMonitoringAlertPolicyDelete {
+	mutation := newBronzeGCPMonitoringAlertPolicyMutation(c.config, OpDelete)
+	return &BronzeGCPMonitoringAlertPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPMonitoringAlertPolicyClient) DeleteOne(_m *BronzeGCPMonitoringAlertPolicy) *BronzeGCPMonitoringAlertPolicyDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPMonitoringAlertPolicyClient) DeleteOneID(id string) *BronzeGCPMonitoringAlertPolicyDeleteOne {
+	builder := c.Delete().Where(bronzegcpmonitoringalertpolicy.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPMonitoringAlertPolicyDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPMonitoringAlertPolicy.
+func (c *BronzeGCPMonitoringAlertPolicyClient) Query() *BronzeGCPMonitoringAlertPolicyQuery {
+	return &BronzeGCPMonitoringAlertPolicyQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPMonitoringAlertPolicy},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPMonitoringAlertPolicy entity by its id.
+func (c *BronzeGCPMonitoringAlertPolicyClient) Get(ctx context.Context, id string) (*BronzeGCPMonitoringAlertPolicy, error) {
+	return c.Query().Where(bronzegcpmonitoringalertpolicy.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPMonitoringAlertPolicyClient) GetX(ctx context.Context, id string) *BronzeGCPMonitoringAlertPolicy {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPMonitoringAlertPolicyClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPMonitoringAlertPolicy
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPMonitoringAlertPolicyClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPMonitoringAlertPolicy
+}
+
+func (c *BronzeGCPMonitoringAlertPolicyClient) mutate(ctx context.Context, m *BronzeGCPMonitoringAlertPolicyMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPMonitoringAlertPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPMonitoringAlertPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPMonitoringAlertPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPMonitoringAlertPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPMonitoringAlertPolicy mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPMonitoringUptimeCheckConfigClient is a client for the BronzeGCPMonitoringUptimeCheckConfig schema.
+type BronzeGCPMonitoringUptimeCheckConfigClient struct {
+	config
+}
+
+// NewBronzeGCPMonitoringUptimeCheckConfigClient returns a client for the BronzeGCPMonitoringUptimeCheckConfig from the given config.
+func NewBronzeGCPMonitoringUptimeCheckConfigClient(c config) *BronzeGCPMonitoringUptimeCheckConfigClient {
+	return &BronzeGCPMonitoringUptimeCheckConfigClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpmonitoringuptimecheckconfig.Hooks(f(g(h())))`.
+func (c *BronzeGCPMonitoringUptimeCheckConfigClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPMonitoringUptimeCheckConfig = append(c.hooks.BronzeGCPMonitoringUptimeCheckConfig, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpmonitoringuptimecheckconfig.Intercept(f(g(h())))`.
+func (c *BronzeGCPMonitoringUptimeCheckConfigClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPMonitoringUptimeCheckConfig = append(c.inters.BronzeGCPMonitoringUptimeCheckConfig, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPMonitoringUptimeCheckConfig entity.
+func (c *BronzeGCPMonitoringUptimeCheckConfigClient) Create() *BronzeGCPMonitoringUptimeCheckConfigCreate {
+	mutation := newBronzeGCPMonitoringUptimeCheckConfigMutation(c.config, OpCreate)
+	return &BronzeGCPMonitoringUptimeCheckConfigCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPMonitoringUptimeCheckConfig entities.
+func (c *BronzeGCPMonitoringUptimeCheckConfigClient) CreateBulk(builders ...*BronzeGCPMonitoringUptimeCheckConfigCreate) *BronzeGCPMonitoringUptimeCheckConfigCreateBulk {
+	return &BronzeGCPMonitoringUptimeCheckConfigCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPMonitoringUptimeCheckConfigClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPMonitoringUptimeCheckConfigCreate, int)) *BronzeGCPMonitoringUptimeCheckConfigCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPMonitoringUptimeCheckConfigCreateBulk{err: fmt.Errorf("calling to BronzeGCPMonitoringUptimeCheckConfigClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPMonitoringUptimeCheckConfigCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPMonitoringUptimeCheckConfigCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPMonitoringUptimeCheckConfig.
+func (c *BronzeGCPMonitoringUptimeCheckConfigClient) Update() *BronzeGCPMonitoringUptimeCheckConfigUpdate {
+	mutation := newBronzeGCPMonitoringUptimeCheckConfigMutation(c.config, OpUpdate)
+	return &BronzeGCPMonitoringUptimeCheckConfigUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPMonitoringUptimeCheckConfigClient) UpdateOne(_m *BronzeGCPMonitoringUptimeCheckConfig) *BronzeGCPMonitoringUptimeCheckConfigUpdateOne {
+	mutation := newBronzeGCPMonitoringUptimeCheckConfigMutation(c.config, OpUpdateOne, withBronzeGCPMonitoringUptimeCheckConfig(_m))
+	return &BronzeGCPMonitoringUptimeCheckConfigUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPMonitoringUptimeCheckConfigClient) UpdateOneID(id string) *BronzeGCPMonitoringUptimeCheckConfigUpdateOne {
+	mutation := newBronzeGCPMonitoringUptimeCheckConfigMutation(c.config, OpUpdateOne, withBronzeGCPMonitoringUptimeCheckConfigID(id))
+	return &BronzeGCPMonitoringUptimeCheckConfigUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPMonitoringUptimeCheckConfig.
+func (c *BronzeGCPMonitoringUptimeCheckConfigClient) Delete() *BronzeGCPMonitoringUptimeCheckConfigDelete {
+	mutation := newBronzeGCPMonitoringUptimeCheckConfigMutation(c.config, OpDelete)
+	return &BronzeGCPMonitoringUptimeCheckConfigDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPMonitoringUptimeCheckConfigClient) DeleteOne(_m *BronzeGCPMonitoringUptimeCheckConfig) *BronzeGCPMonitoringUptimeCheckConfigDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPMonitoringUptimeCheckConfigClient) DeleteOneID(id string) *BronzeGCPMonitoringUptimeCheckConfigDeleteOne {
+	builder := c.Delete().Where(bronzegcpmonitoringuptimecheckconfig.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPMonitoringUptimeCheckConfigDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPMonitoringUptimeCheckConfig.
+func (c *BronzeGCPMonitoringUptimeCheckConfigClient) Query() *BronzeGCPMonitoringUptimeCheckConfigQuery {
+	return &BronzeGCPMonitoringUptimeCheckConfigQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPMonitoringUptimeCheckConfig},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPMonitoringUptimeCheckConfig entity by its id.
+func (c *BronzeGCPMonitoringUptimeCheckConfigClient) Get(ctx context.Context, id string) (*BronzeGCPMonitoringUptimeCheckConfig, error) {
+	return c.Query().Where(bronzegcpmonitoringuptimecheckconfig.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPMonitoringUptimeCheckConfigClient) GetX(ctx context.Context, id string) *BronzeGCPMonitoringUptimeCheckConfig {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPMonitoringUptimeCheckConfigClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPMonitoringUptimeCheckConfig
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPMonitoringUptimeCheckConfigClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPMonitoringUptimeCheckConfig
+}
+
+func (c *BronzeGCPMonitoringUptimeCheckConfigClient) mutate(ctx context.Context, m *BronzeGCPMonitoringUptimeCheckConfigMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPMonitoringUptimeCheckConfigCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPMonitoringUptimeCheckConfigUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPMonitoringUptimeCheckConfigUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPMonitoringUptimeCheckConfigDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPMonitoringUptimeCheckConfig mutation op: %q", m.Op())
+	}
+}
+
 // BronzeGCPOrgIamPolicyClient is a client for the BronzeGCPOrgIamPolicy schema.
 type BronzeGCPOrgIamPolicyClient struct {
 	config
@@ -17373,6 +21041,139 @@ func (c *BronzeGCPOrgPolicyConstraintClient) mutate(ctx context.Context, m *Bron
 		return (&BronzeGCPOrgPolicyConstraintDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown BronzeGCPOrgPolicyConstraint mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPOrgPolicyCustomConstraintClient is a client for the BronzeGCPOrgPolicyCustomConstraint schema.
+type BronzeGCPOrgPolicyCustomConstraintClient struct {
+	config
+}
+
+// NewBronzeGCPOrgPolicyCustomConstraintClient returns a client for the BronzeGCPOrgPolicyCustomConstraint from the given config.
+func NewBronzeGCPOrgPolicyCustomConstraintClient(c config) *BronzeGCPOrgPolicyCustomConstraintClient {
+	return &BronzeGCPOrgPolicyCustomConstraintClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcporgpolicycustomconstraint.Hooks(f(g(h())))`.
+func (c *BronzeGCPOrgPolicyCustomConstraintClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPOrgPolicyCustomConstraint = append(c.hooks.BronzeGCPOrgPolicyCustomConstraint, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcporgpolicycustomconstraint.Intercept(f(g(h())))`.
+func (c *BronzeGCPOrgPolicyCustomConstraintClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPOrgPolicyCustomConstraint = append(c.inters.BronzeGCPOrgPolicyCustomConstraint, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPOrgPolicyCustomConstraint entity.
+func (c *BronzeGCPOrgPolicyCustomConstraintClient) Create() *BronzeGCPOrgPolicyCustomConstraintCreate {
+	mutation := newBronzeGCPOrgPolicyCustomConstraintMutation(c.config, OpCreate)
+	return &BronzeGCPOrgPolicyCustomConstraintCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPOrgPolicyCustomConstraint entities.
+func (c *BronzeGCPOrgPolicyCustomConstraintClient) CreateBulk(builders ...*BronzeGCPOrgPolicyCustomConstraintCreate) *BronzeGCPOrgPolicyCustomConstraintCreateBulk {
+	return &BronzeGCPOrgPolicyCustomConstraintCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPOrgPolicyCustomConstraintClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPOrgPolicyCustomConstraintCreate, int)) *BronzeGCPOrgPolicyCustomConstraintCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPOrgPolicyCustomConstraintCreateBulk{err: fmt.Errorf("calling to BronzeGCPOrgPolicyCustomConstraintClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPOrgPolicyCustomConstraintCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPOrgPolicyCustomConstraintCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPOrgPolicyCustomConstraint.
+func (c *BronzeGCPOrgPolicyCustomConstraintClient) Update() *BronzeGCPOrgPolicyCustomConstraintUpdate {
+	mutation := newBronzeGCPOrgPolicyCustomConstraintMutation(c.config, OpUpdate)
+	return &BronzeGCPOrgPolicyCustomConstraintUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPOrgPolicyCustomConstraintClient) UpdateOne(_m *BronzeGCPOrgPolicyCustomConstraint) *BronzeGCPOrgPolicyCustomConstraintUpdateOne {
+	mutation := newBronzeGCPOrgPolicyCustomConstraintMutation(c.config, OpUpdateOne, withBronzeGCPOrgPolicyCustomConstraint(_m))
+	return &BronzeGCPOrgPolicyCustomConstraintUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPOrgPolicyCustomConstraintClient) UpdateOneID(id string) *BronzeGCPOrgPolicyCustomConstraintUpdateOne {
+	mutation := newBronzeGCPOrgPolicyCustomConstraintMutation(c.config, OpUpdateOne, withBronzeGCPOrgPolicyCustomConstraintID(id))
+	return &BronzeGCPOrgPolicyCustomConstraintUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPOrgPolicyCustomConstraint.
+func (c *BronzeGCPOrgPolicyCustomConstraintClient) Delete() *BronzeGCPOrgPolicyCustomConstraintDelete {
+	mutation := newBronzeGCPOrgPolicyCustomConstraintMutation(c.config, OpDelete)
+	return &BronzeGCPOrgPolicyCustomConstraintDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPOrgPolicyCustomConstraintClient) DeleteOne(_m *BronzeGCPOrgPolicyCustomConstraint) *BronzeGCPOrgPolicyCustomConstraintDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPOrgPolicyCustomConstraintClient) DeleteOneID(id string) *BronzeGCPOrgPolicyCustomConstraintDeleteOne {
+	builder := c.Delete().Where(bronzegcporgpolicycustomconstraint.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPOrgPolicyCustomConstraintDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPOrgPolicyCustomConstraint.
+func (c *BronzeGCPOrgPolicyCustomConstraintClient) Query() *BronzeGCPOrgPolicyCustomConstraintQuery {
+	return &BronzeGCPOrgPolicyCustomConstraintQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPOrgPolicyCustomConstraint},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPOrgPolicyCustomConstraint entity by its id.
+func (c *BronzeGCPOrgPolicyCustomConstraintClient) Get(ctx context.Context, id string) (*BronzeGCPOrgPolicyCustomConstraint, error) {
+	return c.Query().Where(bronzegcporgpolicycustomconstraint.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPOrgPolicyCustomConstraintClient) GetX(ctx context.Context, id string) *BronzeGCPOrgPolicyCustomConstraint {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPOrgPolicyCustomConstraintClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPOrgPolicyCustomConstraint
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPOrgPolicyCustomConstraintClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPOrgPolicyCustomConstraint
+}
+
+func (c *BronzeGCPOrgPolicyCustomConstraintClient) mutate(ctx context.Context, m *BronzeGCPOrgPolicyCustomConstraintMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPOrgPolicyCustomConstraintCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPOrgPolicyCustomConstraintUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPOrgPolicyCustomConstraintUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPOrgPolicyCustomConstraintDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPOrgPolicyCustomConstraint mutation op: %q", m.Op())
 	}
 }
 
@@ -18250,6 +22051,709 @@ func (c *BronzeGCPProjectLabelClient) mutate(ctx context.Context, m *BronzeGCPPr
 	}
 }
 
+// BronzeGCPPubSubSubscriptionClient is a client for the BronzeGCPPubSubSubscription schema.
+type BronzeGCPPubSubSubscriptionClient struct {
+	config
+}
+
+// NewBronzeGCPPubSubSubscriptionClient returns a client for the BronzeGCPPubSubSubscription from the given config.
+func NewBronzeGCPPubSubSubscriptionClient(c config) *BronzeGCPPubSubSubscriptionClient {
+	return &BronzeGCPPubSubSubscriptionClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcppubsubsubscription.Hooks(f(g(h())))`.
+func (c *BronzeGCPPubSubSubscriptionClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPPubSubSubscription = append(c.hooks.BronzeGCPPubSubSubscription, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcppubsubsubscription.Intercept(f(g(h())))`.
+func (c *BronzeGCPPubSubSubscriptionClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPPubSubSubscription = append(c.inters.BronzeGCPPubSubSubscription, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPPubSubSubscription entity.
+func (c *BronzeGCPPubSubSubscriptionClient) Create() *BronzeGCPPubSubSubscriptionCreate {
+	mutation := newBronzeGCPPubSubSubscriptionMutation(c.config, OpCreate)
+	return &BronzeGCPPubSubSubscriptionCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPPubSubSubscription entities.
+func (c *BronzeGCPPubSubSubscriptionClient) CreateBulk(builders ...*BronzeGCPPubSubSubscriptionCreate) *BronzeGCPPubSubSubscriptionCreateBulk {
+	return &BronzeGCPPubSubSubscriptionCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPPubSubSubscriptionClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPPubSubSubscriptionCreate, int)) *BronzeGCPPubSubSubscriptionCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPPubSubSubscriptionCreateBulk{err: fmt.Errorf("calling to BronzeGCPPubSubSubscriptionClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPPubSubSubscriptionCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPPubSubSubscriptionCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPPubSubSubscription.
+func (c *BronzeGCPPubSubSubscriptionClient) Update() *BronzeGCPPubSubSubscriptionUpdate {
+	mutation := newBronzeGCPPubSubSubscriptionMutation(c.config, OpUpdate)
+	return &BronzeGCPPubSubSubscriptionUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPPubSubSubscriptionClient) UpdateOne(_m *BronzeGCPPubSubSubscription) *BronzeGCPPubSubSubscriptionUpdateOne {
+	mutation := newBronzeGCPPubSubSubscriptionMutation(c.config, OpUpdateOne, withBronzeGCPPubSubSubscription(_m))
+	return &BronzeGCPPubSubSubscriptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPPubSubSubscriptionClient) UpdateOneID(id string) *BronzeGCPPubSubSubscriptionUpdateOne {
+	mutation := newBronzeGCPPubSubSubscriptionMutation(c.config, OpUpdateOne, withBronzeGCPPubSubSubscriptionID(id))
+	return &BronzeGCPPubSubSubscriptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPPubSubSubscription.
+func (c *BronzeGCPPubSubSubscriptionClient) Delete() *BronzeGCPPubSubSubscriptionDelete {
+	mutation := newBronzeGCPPubSubSubscriptionMutation(c.config, OpDelete)
+	return &BronzeGCPPubSubSubscriptionDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPPubSubSubscriptionClient) DeleteOne(_m *BronzeGCPPubSubSubscription) *BronzeGCPPubSubSubscriptionDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPPubSubSubscriptionClient) DeleteOneID(id string) *BronzeGCPPubSubSubscriptionDeleteOne {
+	builder := c.Delete().Where(bronzegcppubsubsubscription.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPPubSubSubscriptionDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPPubSubSubscription.
+func (c *BronzeGCPPubSubSubscriptionClient) Query() *BronzeGCPPubSubSubscriptionQuery {
+	return &BronzeGCPPubSubSubscriptionQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPPubSubSubscription},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPPubSubSubscription entity by its id.
+func (c *BronzeGCPPubSubSubscriptionClient) Get(ctx context.Context, id string) (*BronzeGCPPubSubSubscription, error) {
+	return c.Query().Where(bronzegcppubsubsubscription.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPPubSubSubscriptionClient) GetX(ctx context.Context, id string) *BronzeGCPPubSubSubscription {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPPubSubSubscriptionClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPPubSubSubscription
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPPubSubSubscriptionClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPPubSubSubscription
+}
+
+func (c *BronzeGCPPubSubSubscriptionClient) mutate(ctx context.Context, m *BronzeGCPPubSubSubscriptionMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPPubSubSubscriptionCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPPubSubSubscriptionUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPPubSubSubscriptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPPubSubSubscriptionDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPPubSubSubscription mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPPubSubTopicClient is a client for the BronzeGCPPubSubTopic schema.
+type BronzeGCPPubSubTopicClient struct {
+	config
+}
+
+// NewBronzeGCPPubSubTopicClient returns a client for the BronzeGCPPubSubTopic from the given config.
+func NewBronzeGCPPubSubTopicClient(c config) *BronzeGCPPubSubTopicClient {
+	return &BronzeGCPPubSubTopicClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcppubsubtopic.Hooks(f(g(h())))`.
+func (c *BronzeGCPPubSubTopicClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPPubSubTopic = append(c.hooks.BronzeGCPPubSubTopic, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcppubsubtopic.Intercept(f(g(h())))`.
+func (c *BronzeGCPPubSubTopicClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPPubSubTopic = append(c.inters.BronzeGCPPubSubTopic, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPPubSubTopic entity.
+func (c *BronzeGCPPubSubTopicClient) Create() *BronzeGCPPubSubTopicCreate {
+	mutation := newBronzeGCPPubSubTopicMutation(c.config, OpCreate)
+	return &BronzeGCPPubSubTopicCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPPubSubTopic entities.
+func (c *BronzeGCPPubSubTopicClient) CreateBulk(builders ...*BronzeGCPPubSubTopicCreate) *BronzeGCPPubSubTopicCreateBulk {
+	return &BronzeGCPPubSubTopicCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPPubSubTopicClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPPubSubTopicCreate, int)) *BronzeGCPPubSubTopicCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPPubSubTopicCreateBulk{err: fmt.Errorf("calling to BronzeGCPPubSubTopicClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPPubSubTopicCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPPubSubTopicCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPPubSubTopic.
+func (c *BronzeGCPPubSubTopicClient) Update() *BronzeGCPPubSubTopicUpdate {
+	mutation := newBronzeGCPPubSubTopicMutation(c.config, OpUpdate)
+	return &BronzeGCPPubSubTopicUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPPubSubTopicClient) UpdateOne(_m *BronzeGCPPubSubTopic) *BronzeGCPPubSubTopicUpdateOne {
+	mutation := newBronzeGCPPubSubTopicMutation(c.config, OpUpdateOne, withBronzeGCPPubSubTopic(_m))
+	return &BronzeGCPPubSubTopicUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPPubSubTopicClient) UpdateOneID(id string) *BronzeGCPPubSubTopicUpdateOne {
+	mutation := newBronzeGCPPubSubTopicMutation(c.config, OpUpdateOne, withBronzeGCPPubSubTopicID(id))
+	return &BronzeGCPPubSubTopicUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPPubSubTopic.
+func (c *BronzeGCPPubSubTopicClient) Delete() *BronzeGCPPubSubTopicDelete {
+	mutation := newBronzeGCPPubSubTopicMutation(c.config, OpDelete)
+	return &BronzeGCPPubSubTopicDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPPubSubTopicClient) DeleteOne(_m *BronzeGCPPubSubTopic) *BronzeGCPPubSubTopicDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPPubSubTopicClient) DeleteOneID(id string) *BronzeGCPPubSubTopicDeleteOne {
+	builder := c.Delete().Where(bronzegcppubsubtopic.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPPubSubTopicDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPPubSubTopic.
+func (c *BronzeGCPPubSubTopicClient) Query() *BronzeGCPPubSubTopicQuery {
+	return &BronzeGCPPubSubTopicQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPPubSubTopic},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPPubSubTopic entity by its id.
+func (c *BronzeGCPPubSubTopicClient) Get(ctx context.Context, id string) (*BronzeGCPPubSubTopic, error) {
+	return c.Query().Where(bronzegcppubsubtopic.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPPubSubTopicClient) GetX(ctx context.Context, id string) *BronzeGCPPubSubTopic {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPPubSubTopicClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPPubSubTopic
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPPubSubTopicClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPPubSubTopic
+}
+
+func (c *BronzeGCPPubSubTopicClient) mutate(ctx context.Context, m *BronzeGCPPubSubTopicMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPPubSubTopicCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPPubSubTopicUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPPubSubTopicUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPPubSubTopicDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPPubSubTopic mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPRedisInstanceClient is a client for the BronzeGCPRedisInstance schema.
+type BronzeGCPRedisInstanceClient struct {
+	config
+}
+
+// NewBronzeGCPRedisInstanceClient returns a client for the BronzeGCPRedisInstance from the given config.
+func NewBronzeGCPRedisInstanceClient(c config) *BronzeGCPRedisInstanceClient {
+	return &BronzeGCPRedisInstanceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpredisinstance.Hooks(f(g(h())))`.
+func (c *BronzeGCPRedisInstanceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPRedisInstance = append(c.hooks.BronzeGCPRedisInstance, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpredisinstance.Intercept(f(g(h())))`.
+func (c *BronzeGCPRedisInstanceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPRedisInstance = append(c.inters.BronzeGCPRedisInstance, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPRedisInstance entity.
+func (c *BronzeGCPRedisInstanceClient) Create() *BronzeGCPRedisInstanceCreate {
+	mutation := newBronzeGCPRedisInstanceMutation(c.config, OpCreate)
+	return &BronzeGCPRedisInstanceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPRedisInstance entities.
+func (c *BronzeGCPRedisInstanceClient) CreateBulk(builders ...*BronzeGCPRedisInstanceCreate) *BronzeGCPRedisInstanceCreateBulk {
+	return &BronzeGCPRedisInstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPRedisInstanceClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPRedisInstanceCreate, int)) *BronzeGCPRedisInstanceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPRedisInstanceCreateBulk{err: fmt.Errorf("calling to BronzeGCPRedisInstanceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPRedisInstanceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPRedisInstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPRedisInstance.
+func (c *BronzeGCPRedisInstanceClient) Update() *BronzeGCPRedisInstanceUpdate {
+	mutation := newBronzeGCPRedisInstanceMutation(c.config, OpUpdate)
+	return &BronzeGCPRedisInstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPRedisInstanceClient) UpdateOne(_m *BronzeGCPRedisInstance) *BronzeGCPRedisInstanceUpdateOne {
+	mutation := newBronzeGCPRedisInstanceMutation(c.config, OpUpdateOne, withBronzeGCPRedisInstance(_m))
+	return &BronzeGCPRedisInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPRedisInstanceClient) UpdateOneID(id string) *BronzeGCPRedisInstanceUpdateOne {
+	mutation := newBronzeGCPRedisInstanceMutation(c.config, OpUpdateOne, withBronzeGCPRedisInstanceID(id))
+	return &BronzeGCPRedisInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPRedisInstance.
+func (c *BronzeGCPRedisInstanceClient) Delete() *BronzeGCPRedisInstanceDelete {
+	mutation := newBronzeGCPRedisInstanceMutation(c.config, OpDelete)
+	return &BronzeGCPRedisInstanceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPRedisInstanceClient) DeleteOne(_m *BronzeGCPRedisInstance) *BronzeGCPRedisInstanceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPRedisInstanceClient) DeleteOneID(id string) *BronzeGCPRedisInstanceDeleteOne {
+	builder := c.Delete().Where(bronzegcpredisinstance.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPRedisInstanceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPRedisInstance.
+func (c *BronzeGCPRedisInstanceClient) Query() *BronzeGCPRedisInstanceQuery {
+	return &BronzeGCPRedisInstanceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPRedisInstance},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPRedisInstance entity by its id.
+func (c *BronzeGCPRedisInstanceClient) Get(ctx context.Context, id string) (*BronzeGCPRedisInstance, error) {
+	return c.Query().Where(bronzegcpredisinstance.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPRedisInstanceClient) GetX(ctx context.Context, id string) *BronzeGCPRedisInstance {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPRedisInstanceClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPRedisInstance
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPRedisInstanceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPRedisInstance
+}
+
+func (c *BronzeGCPRedisInstanceClient) mutate(ctx context.Context, m *BronzeGCPRedisInstanceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPRedisInstanceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPRedisInstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPRedisInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPRedisInstanceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPRedisInstance mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPRunRevisionClient is a client for the BronzeGCPRunRevision schema.
+type BronzeGCPRunRevisionClient struct {
+	config
+}
+
+// NewBronzeGCPRunRevisionClient returns a client for the BronzeGCPRunRevision from the given config.
+func NewBronzeGCPRunRevisionClient(c config) *BronzeGCPRunRevisionClient {
+	return &BronzeGCPRunRevisionClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcprunrevision.Hooks(f(g(h())))`.
+func (c *BronzeGCPRunRevisionClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPRunRevision = append(c.hooks.BronzeGCPRunRevision, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcprunrevision.Intercept(f(g(h())))`.
+func (c *BronzeGCPRunRevisionClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPRunRevision = append(c.inters.BronzeGCPRunRevision, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPRunRevision entity.
+func (c *BronzeGCPRunRevisionClient) Create() *BronzeGCPRunRevisionCreate {
+	mutation := newBronzeGCPRunRevisionMutation(c.config, OpCreate)
+	return &BronzeGCPRunRevisionCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPRunRevision entities.
+func (c *BronzeGCPRunRevisionClient) CreateBulk(builders ...*BronzeGCPRunRevisionCreate) *BronzeGCPRunRevisionCreateBulk {
+	return &BronzeGCPRunRevisionCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPRunRevisionClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPRunRevisionCreate, int)) *BronzeGCPRunRevisionCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPRunRevisionCreateBulk{err: fmt.Errorf("calling to BronzeGCPRunRevisionClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPRunRevisionCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPRunRevisionCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPRunRevision.
+func (c *BronzeGCPRunRevisionClient) Update() *BronzeGCPRunRevisionUpdate {
+	mutation := newBronzeGCPRunRevisionMutation(c.config, OpUpdate)
+	return &BronzeGCPRunRevisionUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPRunRevisionClient) UpdateOne(_m *BronzeGCPRunRevision) *BronzeGCPRunRevisionUpdateOne {
+	mutation := newBronzeGCPRunRevisionMutation(c.config, OpUpdateOne, withBronzeGCPRunRevision(_m))
+	return &BronzeGCPRunRevisionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPRunRevisionClient) UpdateOneID(id string) *BronzeGCPRunRevisionUpdateOne {
+	mutation := newBronzeGCPRunRevisionMutation(c.config, OpUpdateOne, withBronzeGCPRunRevisionID(id))
+	return &BronzeGCPRunRevisionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPRunRevision.
+func (c *BronzeGCPRunRevisionClient) Delete() *BronzeGCPRunRevisionDelete {
+	mutation := newBronzeGCPRunRevisionMutation(c.config, OpDelete)
+	return &BronzeGCPRunRevisionDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPRunRevisionClient) DeleteOne(_m *BronzeGCPRunRevision) *BronzeGCPRunRevisionDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPRunRevisionClient) DeleteOneID(id string) *BronzeGCPRunRevisionDeleteOne {
+	builder := c.Delete().Where(bronzegcprunrevision.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPRunRevisionDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPRunRevision.
+func (c *BronzeGCPRunRevisionClient) Query() *BronzeGCPRunRevisionQuery {
+	return &BronzeGCPRunRevisionQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPRunRevision},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPRunRevision entity by its id.
+func (c *BronzeGCPRunRevisionClient) Get(ctx context.Context, id string) (*BronzeGCPRunRevision, error) {
+	return c.Query().Where(bronzegcprunrevision.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPRunRevisionClient) GetX(ctx context.Context, id string) *BronzeGCPRunRevision {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryService queries the service edge of a BronzeGCPRunRevision.
+func (c *BronzeGCPRunRevisionClient) QueryService(_m *BronzeGCPRunRevision) *BronzeGCPRunServiceQuery {
+	query := (&BronzeGCPRunServiceClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegcprunrevision.Table, bronzegcprunrevision.FieldID, id),
+			sqlgraph.To(bronzegcprunservice.Table, bronzegcprunservice.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, bronzegcprunrevision.ServiceTable, bronzegcprunrevision.ServiceColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGCPRunService
+		step.Edge.Schema = schemaConfig.BronzeGCPRunRevision
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPRunRevisionClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPRunRevision
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPRunRevisionClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPRunRevision
+}
+
+func (c *BronzeGCPRunRevisionClient) mutate(ctx context.Context, m *BronzeGCPRunRevisionMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPRunRevisionCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPRunRevisionUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPRunRevisionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPRunRevisionDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPRunRevision mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPRunServiceClient is a client for the BronzeGCPRunService schema.
+type BronzeGCPRunServiceClient struct {
+	config
+}
+
+// NewBronzeGCPRunServiceClient returns a client for the BronzeGCPRunService from the given config.
+func NewBronzeGCPRunServiceClient(c config) *BronzeGCPRunServiceClient {
+	return &BronzeGCPRunServiceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcprunservice.Hooks(f(g(h())))`.
+func (c *BronzeGCPRunServiceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPRunService = append(c.hooks.BronzeGCPRunService, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcprunservice.Intercept(f(g(h())))`.
+func (c *BronzeGCPRunServiceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPRunService = append(c.inters.BronzeGCPRunService, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPRunService entity.
+func (c *BronzeGCPRunServiceClient) Create() *BronzeGCPRunServiceCreate {
+	mutation := newBronzeGCPRunServiceMutation(c.config, OpCreate)
+	return &BronzeGCPRunServiceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPRunService entities.
+func (c *BronzeGCPRunServiceClient) CreateBulk(builders ...*BronzeGCPRunServiceCreate) *BronzeGCPRunServiceCreateBulk {
+	return &BronzeGCPRunServiceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPRunServiceClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPRunServiceCreate, int)) *BronzeGCPRunServiceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPRunServiceCreateBulk{err: fmt.Errorf("calling to BronzeGCPRunServiceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPRunServiceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPRunServiceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPRunService.
+func (c *BronzeGCPRunServiceClient) Update() *BronzeGCPRunServiceUpdate {
+	mutation := newBronzeGCPRunServiceMutation(c.config, OpUpdate)
+	return &BronzeGCPRunServiceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPRunServiceClient) UpdateOne(_m *BronzeGCPRunService) *BronzeGCPRunServiceUpdateOne {
+	mutation := newBronzeGCPRunServiceMutation(c.config, OpUpdateOne, withBronzeGCPRunService(_m))
+	return &BronzeGCPRunServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPRunServiceClient) UpdateOneID(id string) *BronzeGCPRunServiceUpdateOne {
+	mutation := newBronzeGCPRunServiceMutation(c.config, OpUpdateOne, withBronzeGCPRunServiceID(id))
+	return &BronzeGCPRunServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPRunService.
+func (c *BronzeGCPRunServiceClient) Delete() *BronzeGCPRunServiceDelete {
+	mutation := newBronzeGCPRunServiceMutation(c.config, OpDelete)
+	return &BronzeGCPRunServiceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPRunServiceClient) DeleteOne(_m *BronzeGCPRunService) *BronzeGCPRunServiceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPRunServiceClient) DeleteOneID(id string) *BronzeGCPRunServiceDeleteOne {
+	builder := c.Delete().Where(bronzegcprunservice.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPRunServiceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPRunService.
+func (c *BronzeGCPRunServiceClient) Query() *BronzeGCPRunServiceQuery {
+	return &BronzeGCPRunServiceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPRunService},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPRunService entity by its id.
+func (c *BronzeGCPRunServiceClient) Get(ctx context.Context, id string) (*BronzeGCPRunService, error) {
+	return c.Query().Where(bronzegcprunservice.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPRunServiceClient) GetX(ctx context.Context, id string) *BronzeGCPRunService {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryRevisions queries the revisions edge of a BronzeGCPRunService.
+func (c *BronzeGCPRunServiceClient) QueryRevisions(_m *BronzeGCPRunService) *BronzeGCPRunRevisionQuery {
+	query := (&BronzeGCPRunRevisionClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegcprunservice.Table, bronzegcprunservice.FieldID, id),
+			sqlgraph.To(bronzegcprunrevision.Table, bronzegcprunrevision.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, bronzegcprunservice.RevisionsTable, bronzegcprunservice.RevisionsColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGCPRunRevision
+		step.Edge.Schema = schemaConfig.BronzeGCPRunRevision
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPRunServiceClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPRunService
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPRunServiceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPRunService
+}
+
+func (c *BronzeGCPRunServiceClient) mutate(ctx context.Context, m *BronzeGCPRunServiceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPRunServiceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPRunServiceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPRunServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPRunServiceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPRunService mutation op: %q", m.Op())
+	}
+}
+
 // BronzeGCPSQLInstanceClient is a client for the BronzeGCPSQLInstance schema.
 type BronzeGCPSQLInstanceClient struct {
 	config
@@ -18991,6 +23495,139 @@ func (c *BronzeGCPSecurityCenterFindingClient) mutate(ctx context.Context, m *Br
 	}
 }
 
+// BronzeGCPSecurityCenterNotificationConfigClient is a client for the BronzeGCPSecurityCenterNotificationConfig schema.
+type BronzeGCPSecurityCenterNotificationConfigClient struct {
+	config
+}
+
+// NewBronzeGCPSecurityCenterNotificationConfigClient returns a client for the BronzeGCPSecurityCenterNotificationConfig from the given config.
+func NewBronzeGCPSecurityCenterNotificationConfigClient(c config) *BronzeGCPSecurityCenterNotificationConfigClient {
+	return &BronzeGCPSecurityCenterNotificationConfigClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpsecuritycenternotificationconfig.Hooks(f(g(h())))`.
+func (c *BronzeGCPSecurityCenterNotificationConfigClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPSecurityCenterNotificationConfig = append(c.hooks.BronzeGCPSecurityCenterNotificationConfig, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpsecuritycenternotificationconfig.Intercept(f(g(h())))`.
+func (c *BronzeGCPSecurityCenterNotificationConfigClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPSecurityCenterNotificationConfig = append(c.inters.BronzeGCPSecurityCenterNotificationConfig, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPSecurityCenterNotificationConfig entity.
+func (c *BronzeGCPSecurityCenterNotificationConfigClient) Create() *BronzeGCPSecurityCenterNotificationConfigCreate {
+	mutation := newBronzeGCPSecurityCenterNotificationConfigMutation(c.config, OpCreate)
+	return &BronzeGCPSecurityCenterNotificationConfigCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPSecurityCenterNotificationConfig entities.
+func (c *BronzeGCPSecurityCenterNotificationConfigClient) CreateBulk(builders ...*BronzeGCPSecurityCenterNotificationConfigCreate) *BronzeGCPSecurityCenterNotificationConfigCreateBulk {
+	return &BronzeGCPSecurityCenterNotificationConfigCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPSecurityCenterNotificationConfigClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPSecurityCenterNotificationConfigCreate, int)) *BronzeGCPSecurityCenterNotificationConfigCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPSecurityCenterNotificationConfigCreateBulk{err: fmt.Errorf("calling to BronzeGCPSecurityCenterNotificationConfigClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPSecurityCenterNotificationConfigCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPSecurityCenterNotificationConfigCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPSecurityCenterNotificationConfig.
+func (c *BronzeGCPSecurityCenterNotificationConfigClient) Update() *BronzeGCPSecurityCenterNotificationConfigUpdate {
+	mutation := newBronzeGCPSecurityCenterNotificationConfigMutation(c.config, OpUpdate)
+	return &BronzeGCPSecurityCenterNotificationConfigUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPSecurityCenterNotificationConfigClient) UpdateOne(_m *BronzeGCPSecurityCenterNotificationConfig) *BronzeGCPSecurityCenterNotificationConfigUpdateOne {
+	mutation := newBronzeGCPSecurityCenterNotificationConfigMutation(c.config, OpUpdateOne, withBronzeGCPSecurityCenterNotificationConfig(_m))
+	return &BronzeGCPSecurityCenterNotificationConfigUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPSecurityCenterNotificationConfigClient) UpdateOneID(id string) *BronzeGCPSecurityCenterNotificationConfigUpdateOne {
+	mutation := newBronzeGCPSecurityCenterNotificationConfigMutation(c.config, OpUpdateOne, withBronzeGCPSecurityCenterNotificationConfigID(id))
+	return &BronzeGCPSecurityCenterNotificationConfigUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPSecurityCenterNotificationConfig.
+func (c *BronzeGCPSecurityCenterNotificationConfigClient) Delete() *BronzeGCPSecurityCenterNotificationConfigDelete {
+	mutation := newBronzeGCPSecurityCenterNotificationConfigMutation(c.config, OpDelete)
+	return &BronzeGCPSecurityCenterNotificationConfigDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPSecurityCenterNotificationConfigClient) DeleteOne(_m *BronzeGCPSecurityCenterNotificationConfig) *BronzeGCPSecurityCenterNotificationConfigDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPSecurityCenterNotificationConfigClient) DeleteOneID(id string) *BronzeGCPSecurityCenterNotificationConfigDeleteOne {
+	builder := c.Delete().Where(bronzegcpsecuritycenternotificationconfig.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPSecurityCenterNotificationConfigDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPSecurityCenterNotificationConfig.
+func (c *BronzeGCPSecurityCenterNotificationConfigClient) Query() *BronzeGCPSecurityCenterNotificationConfigQuery {
+	return &BronzeGCPSecurityCenterNotificationConfigQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPSecurityCenterNotificationConfig},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPSecurityCenterNotificationConfig entity by its id.
+func (c *BronzeGCPSecurityCenterNotificationConfigClient) Get(ctx context.Context, id string) (*BronzeGCPSecurityCenterNotificationConfig, error) {
+	return c.Query().Where(bronzegcpsecuritycenternotificationconfig.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPSecurityCenterNotificationConfigClient) GetX(ctx context.Context, id string) *BronzeGCPSecurityCenterNotificationConfig {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPSecurityCenterNotificationConfigClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPSecurityCenterNotificationConfig
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPSecurityCenterNotificationConfigClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPSecurityCenterNotificationConfig
+}
+
+func (c *BronzeGCPSecurityCenterNotificationConfigClient) mutate(ctx context.Context, m *BronzeGCPSecurityCenterNotificationConfigMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPSecurityCenterNotificationConfigCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPSecurityCenterNotificationConfigUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPSecurityCenterNotificationConfigUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPSecurityCenterNotificationConfigDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPSecurityCenterNotificationConfig mutation op: %q", m.Op())
+	}
+}
+
 // BronzeGCPSecurityCenterSourceClient is a client for the BronzeGCPSecurityCenterSource schema.
 type BronzeGCPSecurityCenterSourceClient struct {
 	config
@@ -19121,6 +23758,443 @@ func (c *BronzeGCPSecurityCenterSourceClient) mutate(ctx context.Context, m *Bro
 		return (&BronzeGCPSecurityCenterSourceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown BronzeGCPSecurityCenterSource mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPServiceUsageEnabledServiceClient is a client for the BronzeGCPServiceUsageEnabledService schema.
+type BronzeGCPServiceUsageEnabledServiceClient struct {
+	config
+}
+
+// NewBronzeGCPServiceUsageEnabledServiceClient returns a client for the BronzeGCPServiceUsageEnabledService from the given config.
+func NewBronzeGCPServiceUsageEnabledServiceClient(c config) *BronzeGCPServiceUsageEnabledServiceClient {
+	return &BronzeGCPServiceUsageEnabledServiceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpserviceusageenabledservice.Hooks(f(g(h())))`.
+func (c *BronzeGCPServiceUsageEnabledServiceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPServiceUsageEnabledService = append(c.hooks.BronzeGCPServiceUsageEnabledService, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpserviceusageenabledservice.Intercept(f(g(h())))`.
+func (c *BronzeGCPServiceUsageEnabledServiceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPServiceUsageEnabledService = append(c.inters.BronzeGCPServiceUsageEnabledService, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPServiceUsageEnabledService entity.
+func (c *BronzeGCPServiceUsageEnabledServiceClient) Create() *BronzeGCPServiceUsageEnabledServiceCreate {
+	mutation := newBronzeGCPServiceUsageEnabledServiceMutation(c.config, OpCreate)
+	return &BronzeGCPServiceUsageEnabledServiceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPServiceUsageEnabledService entities.
+func (c *BronzeGCPServiceUsageEnabledServiceClient) CreateBulk(builders ...*BronzeGCPServiceUsageEnabledServiceCreate) *BronzeGCPServiceUsageEnabledServiceCreateBulk {
+	return &BronzeGCPServiceUsageEnabledServiceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPServiceUsageEnabledServiceClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPServiceUsageEnabledServiceCreate, int)) *BronzeGCPServiceUsageEnabledServiceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPServiceUsageEnabledServiceCreateBulk{err: fmt.Errorf("calling to BronzeGCPServiceUsageEnabledServiceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPServiceUsageEnabledServiceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPServiceUsageEnabledServiceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPServiceUsageEnabledService.
+func (c *BronzeGCPServiceUsageEnabledServiceClient) Update() *BronzeGCPServiceUsageEnabledServiceUpdate {
+	mutation := newBronzeGCPServiceUsageEnabledServiceMutation(c.config, OpUpdate)
+	return &BronzeGCPServiceUsageEnabledServiceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPServiceUsageEnabledServiceClient) UpdateOne(_m *BronzeGCPServiceUsageEnabledService) *BronzeGCPServiceUsageEnabledServiceUpdateOne {
+	mutation := newBronzeGCPServiceUsageEnabledServiceMutation(c.config, OpUpdateOne, withBronzeGCPServiceUsageEnabledService(_m))
+	return &BronzeGCPServiceUsageEnabledServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPServiceUsageEnabledServiceClient) UpdateOneID(id string) *BronzeGCPServiceUsageEnabledServiceUpdateOne {
+	mutation := newBronzeGCPServiceUsageEnabledServiceMutation(c.config, OpUpdateOne, withBronzeGCPServiceUsageEnabledServiceID(id))
+	return &BronzeGCPServiceUsageEnabledServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPServiceUsageEnabledService.
+func (c *BronzeGCPServiceUsageEnabledServiceClient) Delete() *BronzeGCPServiceUsageEnabledServiceDelete {
+	mutation := newBronzeGCPServiceUsageEnabledServiceMutation(c.config, OpDelete)
+	return &BronzeGCPServiceUsageEnabledServiceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPServiceUsageEnabledServiceClient) DeleteOne(_m *BronzeGCPServiceUsageEnabledService) *BronzeGCPServiceUsageEnabledServiceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPServiceUsageEnabledServiceClient) DeleteOneID(id string) *BronzeGCPServiceUsageEnabledServiceDeleteOne {
+	builder := c.Delete().Where(bronzegcpserviceusageenabledservice.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPServiceUsageEnabledServiceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPServiceUsageEnabledService.
+func (c *BronzeGCPServiceUsageEnabledServiceClient) Query() *BronzeGCPServiceUsageEnabledServiceQuery {
+	return &BronzeGCPServiceUsageEnabledServiceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPServiceUsageEnabledService},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPServiceUsageEnabledService entity by its id.
+func (c *BronzeGCPServiceUsageEnabledServiceClient) Get(ctx context.Context, id string) (*BronzeGCPServiceUsageEnabledService, error) {
+	return c.Query().Where(bronzegcpserviceusageenabledservice.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPServiceUsageEnabledServiceClient) GetX(ctx context.Context, id string) *BronzeGCPServiceUsageEnabledService {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPServiceUsageEnabledServiceClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPServiceUsageEnabledService
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPServiceUsageEnabledServiceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPServiceUsageEnabledService
+}
+
+func (c *BronzeGCPServiceUsageEnabledServiceClient) mutate(ctx context.Context, m *BronzeGCPServiceUsageEnabledServiceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPServiceUsageEnabledServiceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPServiceUsageEnabledServiceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPServiceUsageEnabledServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPServiceUsageEnabledServiceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPServiceUsageEnabledService mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPSpannerDatabaseClient is a client for the BronzeGCPSpannerDatabase schema.
+type BronzeGCPSpannerDatabaseClient struct {
+	config
+}
+
+// NewBronzeGCPSpannerDatabaseClient returns a client for the BronzeGCPSpannerDatabase from the given config.
+func NewBronzeGCPSpannerDatabaseClient(c config) *BronzeGCPSpannerDatabaseClient {
+	return &BronzeGCPSpannerDatabaseClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpspannerdatabase.Hooks(f(g(h())))`.
+func (c *BronzeGCPSpannerDatabaseClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPSpannerDatabase = append(c.hooks.BronzeGCPSpannerDatabase, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpspannerdatabase.Intercept(f(g(h())))`.
+func (c *BronzeGCPSpannerDatabaseClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPSpannerDatabase = append(c.inters.BronzeGCPSpannerDatabase, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPSpannerDatabase entity.
+func (c *BronzeGCPSpannerDatabaseClient) Create() *BronzeGCPSpannerDatabaseCreate {
+	mutation := newBronzeGCPSpannerDatabaseMutation(c.config, OpCreate)
+	return &BronzeGCPSpannerDatabaseCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPSpannerDatabase entities.
+func (c *BronzeGCPSpannerDatabaseClient) CreateBulk(builders ...*BronzeGCPSpannerDatabaseCreate) *BronzeGCPSpannerDatabaseCreateBulk {
+	return &BronzeGCPSpannerDatabaseCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPSpannerDatabaseClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPSpannerDatabaseCreate, int)) *BronzeGCPSpannerDatabaseCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPSpannerDatabaseCreateBulk{err: fmt.Errorf("calling to BronzeGCPSpannerDatabaseClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPSpannerDatabaseCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPSpannerDatabaseCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPSpannerDatabase.
+func (c *BronzeGCPSpannerDatabaseClient) Update() *BronzeGCPSpannerDatabaseUpdate {
+	mutation := newBronzeGCPSpannerDatabaseMutation(c.config, OpUpdate)
+	return &BronzeGCPSpannerDatabaseUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPSpannerDatabaseClient) UpdateOne(_m *BronzeGCPSpannerDatabase) *BronzeGCPSpannerDatabaseUpdateOne {
+	mutation := newBronzeGCPSpannerDatabaseMutation(c.config, OpUpdateOne, withBronzeGCPSpannerDatabase(_m))
+	return &BronzeGCPSpannerDatabaseUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPSpannerDatabaseClient) UpdateOneID(id string) *BronzeGCPSpannerDatabaseUpdateOne {
+	mutation := newBronzeGCPSpannerDatabaseMutation(c.config, OpUpdateOne, withBronzeGCPSpannerDatabaseID(id))
+	return &BronzeGCPSpannerDatabaseUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPSpannerDatabase.
+func (c *BronzeGCPSpannerDatabaseClient) Delete() *BronzeGCPSpannerDatabaseDelete {
+	mutation := newBronzeGCPSpannerDatabaseMutation(c.config, OpDelete)
+	return &BronzeGCPSpannerDatabaseDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPSpannerDatabaseClient) DeleteOne(_m *BronzeGCPSpannerDatabase) *BronzeGCPSpannerDatabaseDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPSpannerDatabaseClient) DeleteOneID(id string) *BronzeGCPSpannerDatabaseDeleteOne {
+	builder := c.Delete().Where(bronzegcpspannerdatabase.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPSpannerDatabaseDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPSpannerDatabase.
+func (c *BronzeGCPSpannerDatabaseClient) Query() *BronzeGCPSpannerDatabaseQuery {
+	return &BronzeGCPSpannerDatabaseQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPSpannerDatabase},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPSpannerDatabase entity by its id.
+func (c *BronzeGCPSpannerDatabaseClient) Get(ctx context.Context, id string) (*BronzeGCPSpannerDatabase, error) {
+	return c.Query().Where(bronzegcpspannerdatabase.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPSpannerDatabaseClient) GetX(ctx context.Context, id string) *BronzeGCPSpannerDatabase {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryInstance queries the instance edge of a BronzeGCPSpannerDatabase.
+func (c *BronzeGCPSpannerDatabaseClient) QueryInstance(_m *BronzeGCPSpannerDatabase) *BronzeGCPSpannerInstanceQuery {
+	query := (&BronzeGCPSpannerInstanceClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegcpspannerdatabase.Table, bronzegcpspannerdatabase.FieldID, id),
+			sqlgraph.To(bronzegcpspannerinstance.Table, bronzegcpspannerinstance.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, bronzegcpspannerdatabase.InstanceTable, bronzegcpspannerdatabase.InstanceColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGCPSpannerInstance
+		step.Edge.Schema = schemaConfig.BronzeGCPSpannerDatabase
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPSpannerDatabaseClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPSpannerDatabase
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPSpannerDatabaseClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPSpannerDatabase
+}
+
+func (c *BronzeGCPSpannerDatabaseClient) mutate(ctx context.Context, m *BronzeGCPSpannerDatabaseMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPSpannerDatabaseCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPSpannerDatabaseUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPSpannerDatabaseUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPSpannerDatabaseDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPSpannerDatabase mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPSpannerInstanceClient is a client for the BronzeGCPSpannerInstance schema.
+type BronzeGCPSpannerInstanceClient struct {
+	config
+}
+
+// NewBronzeGCPSpannerInstanceClient returns a client for the BronzeGCPSpannerInstance from the given config.
+func NewBronzeGCPSpannerInstanceClient(c config) *BronzeGCPSpannerInstanceClient {
+	return &BronzeGCPSpannerInstanceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpspannerinstance.Hooks(f(g(h())))`.
+func (c *BronzeGCPSpannerInstanceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPSpannerInstance = append(c.hooks.BronzeGCPSpannerInstance, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpspannerinstance.Intercept(f(g(h())))`.
+func (c *BronzeGCPSpannerInstanceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPSpannerInstance = append(c.inters.BronzeGCPSpannerInstance, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPSpannerInstance entity.
+func (c *BronzeGCPSpannerInstanceClient) Create() *BronzeGCPSpannerInstanceCreate {
+	mutation := newBronzeGCPSpannerInstanceMutation(c.config, OpCreate)
+	return &BronzeGCPSpannerInstanceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPSpannerInstance entities.
+func (c *BronzeGCPSpannerInstanceClient) CreateBulk(builders ...*BronzeGCPSpannerInstanceCreate) *BronzeGCPSpannerInstanceCreateBulk {
+	return &BronzeGCPSpannerInstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPSpannerInstanceClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPSpannerInstanceCreate, int)) *BronzeGCPSpannerInstanceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPSpannerInstanceCreateBulk{err: fmt.Errorf("calling to BronzeGCPSpannerInstanceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPSpannerInstanceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPSpannerInstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPSpannerInstance.
+func (c *BronzeGCPSpannerInstanceClient) Update() *BronzeGCPSpannerInstanceUpdate {
+	mutation := newBronzeGCPSpannerInstanceMutation(c.config, OpUpdate)
+	return &BronzeGCPSpannerInstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPSpannerInstanceClient) UpdateOne(_m *BronzeGCPSpannerInstance) *BronzeGCPSpannerInstanceUpdateOne {
+	mutation := newBronzeGCPSpannerInstanceMutation(c.config, OpUpdateOne, withBronzeGCPSpannerInstance(_m))
+	return &BronzeGCPSpannerInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPSpannerInstanceClient) UpdateOneID(id string) *BronzeGCPSpannerInstanceUpdateOne {
+	mutation := newBronzeGCPSpannerInstanceMutation(c.config, OpUpdateOne, withBronzeGCPSpannerInstanceID(id))
+	return &BronzeGCPSpannerInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPSpannerInstance.
+func (c *BronzeGCPSpannerInstanceClient) Delete() *BronzeGCPSpannerInstanceDelete {
+	mutation := newBronzeGCPSpannerInstanceMutation(c.config, OpDelete)
+	return &BronzeGCPSpannerInstanceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPSpannerInstanceClient) DeleteOne(_m *BronzeGCPSpannerInstance) *BronzeGCPSpannerInstanceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPSpannerInstanceClient) DeleteOneID(id string) *BronzeGCPSpannerInstanceDeleteOne {
+	builder := c.Delete().Where(bronzegcpspannerinstance.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPSpannerInstanceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPSpannerInstance.
+func (c *BronzeGCPSpannerInstanceClient) Query() *BronzeGCPSpannerInstanceQuery {
+	return &BronzeGCPSpannerInstanceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPSpannerInstance},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPSpannerInstance entity by its id.
+func (c *BronzeGCPSpannerInstanceClient) Get(ctx context.Context, id string) (*BronzeGCPSpannerInstance, error) {
+	return c.Query().Where(bronzegcpspannerinstance.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPSpannerInstanceClient) GetX(ctx context.Context, id string) *BronzeGCPSpannerInstance {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryDatabases queries the databases edge of a BronzeGCPSpannerInstance.
+func (c *BronzeGCPSpannerInstanceClient) QueryDatabases(_m *BronzeGCPSpannerInstance) *BronzeGCPSpannerDatabaseQuery {
+	query := (&BronzeGCPSpannerDatabaseClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegcpspannerinstance.Table, bronzegcpspannerinstance.FieldID, id),
+			sqlgraph.To(bronzegcpspannerdatabase.Table, bronzegcpspannerdatabase.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, bronzegcpspannerinstance.DatabasesTable, bronzegcpspannerinstance.DatabasesColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGCPSpannerDatabase
+		step.Edge.Schema = schemaConfig.BronzeGCPSpannerDatabase
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPSpannerInstanceClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPSpannerInstance
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPSpannerInstanceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPSpannerInstance
+}
+
+func (c *BronzeGCPSpannerInstanceClient) mutate(ctx context.Context, m *BronzeGCPSpannerInstanceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPSpannerInstanceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPSpannerInstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPSpannerInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPSpannerInstanceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPSpannerInstance mutation op: %q", m.Op())
 	}
 }
 
@@ -22772,272 +27846,6 @@ func (c *BronzeHistoryDOKeyClient) mutate(ctx context.Context, m *BronzeHistoryD
 	}
 }
 
-// BronzeHistoryDOKubernetesClusterClient is a client for the BronzeHistoryDOKubernetesCluster schema.
-type BronzeHistoryDOKubernetesClusterClient struct {
-	config
-}
-
-// NewBronzeHistoryDOKubernetesClusterClient returns a client for the BronzeHistoryDOKubernetesCluster from the given config.
-func NewBronzeHistoryDOKubernetesClusterClient(c config) *BronzeHistoryDOKubernetesClusterClient {
-	return &BronzeHistoryDOKubernetesClusterClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `bronzehistorydokubernetescluster.Hooks(f(g(h())))`.
-func (c *BronzeHistoryDOKubernetesClusterClient) Use(hooks ...Hook) {
-	c.hooks.BronzeHistoryDOKubernetesCluster = append(c.hooks.BronzeHistoryDOKubernetesCluster, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `bronzehistorydokubernetescluster.Intercept(f(g(h())))`.
-func (c *BronzeHistoryDOKubernetesClusterClient) Intercept(interceptors ...Interceptor) {
-	c.inters.BronzeHistoryDOKubernetesCluster = append(c.inters.BronzeHistoryDOKubernetesCluster, interceptors...)
-}
-
-// Create returns a builder for creating a BronzeHistoryDOKubernetesCluster entity.
-func (c *BronzeHistoryDOKubernetesClusterClient) Create() *BronzeHistoryDOKubernetesClusterCreate {
-	mutation := newBronzeHistoryDOKubernetesClusterMutation(c.config, OpCreate)
-	return &BronzeHistoryDOKubernetesClusterCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of BronzeHistoryDOKubernetesCluster entities.
-func (c *BronzeHistoryDOKubernetesClusterClient) CreateBulk(builders ...*BronzeHistoryDOKubernetesClusterCreate) *BronzeHistoryDOKubernetesClusterCreateBulk {
-	return &BronzeHistoryDOKubernetesClusterCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *BronzeHistoryDOKubernetesClusterClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryDOKubernetesClusterCreate, int)) *BronzeHistoryDOKubernetesClusterCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &BronzeHistoryDOKubernetesClusterCreateBulk{err: fmt.Errorf("calling to BronzeHistoryDOKubernetesClusterClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*BronzeHistoryDOKubernetesClusterCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &BronzeHistoryDOKubernetesClusterCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for BronzeHistoryDOKubernetesCluster.
-func (c *BronzeHistoryDOKubernetesClusterClient) Update() *BronzeHistoryDOKubernetesClusterUpdate {
-	mutation := newBronzeHistoryDOKubernetesClusterMutation(c.config, OpUpdate)
-	return &BronzeHistoryDOKubernetesClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *BronzeHistoryDOKubernetesClusterClient) UpdateOne(_m *BronzeHistoryDOKubernetesCluster) *BronzeHistoryDOKubernetesClusterUpdateOne {
-	mutation := newBronzeHistoryDOKubernetesClusterMutation(c.config, OpUpdateOne, withBronzeHistoryDOKubernetesCluster(_m))
-	return &BronzeHistoryDOKubernetesClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDOKubernetesClusterClient) UpdateOneID(id int) *BronzeHistoryDOKubernetesClusterUpdateOne {
-	mutation := newBronzeHistoryDOKubernetesClusterMutation(c.config, OpUpdateOne, withBronzeHistoryDOKubernetesClusterID(id))
-	return &BronzeHistoryDOKubernetesClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for BronzeHistoryDOKubernetesCluster.
-func (c *BronzeHistoryDOKubernetesClusterClient) Delete() *BronzeHistoryDOKubernetesClusterDelete {
-	mutation := newBronzeHistoryDOKubernetesClusterMutation(c.config, OpDelete)
-	return &BronzeHistoryDOKubernetesClusterDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *BronzeHistoryDOKubernetesClusterClient) DeleteOne(_m *BronzeHistoryDOKubernetesCluster) *BronzeHistoryDOKubernetesClusterDeleteOne {
-	return c.DeleteOneID(_m.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDOKubernetesClusterClient) DeleteOneID(id int) *BronzeHistoryDOKubernetesClusterDeleteOne {
-	builder := c.Delete().Where(bronzehistorydokubernetescluster.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &BronzeHistoryDOKubernetesClusterDeleteOne{builder}
-}
-
-// Query returns a query builder for BronzeHistoryDOKubernetesCluster.
-func (c *BronzeHistoryDOKubernetesClusterClient) Query() *BronzeHistoryDOKubernetesClusterQuery {
-	return &BronzeHistoryDOKubernetesClusterQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeBronzeHistoryDOKubernetesCluster},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a BronzeHistoryDOKubernetesCluster entity by its id.
-func (c *BronzeHistoryDOKubernetesClusterClient) Get(ctx context.Context, id int) (*BronzeHistoryDOKubernetesCluster, error) {
-	return c.Query().Where(bronzehistorydokubernetescluster.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDOKubernetesClusterClient) GetX(ctx context.Context, id int) *BronzeHistoryDOKubernetesCluster {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *BronzeHistoryDOKubernetesClusterClient) Hooks() []Hook {
-	return c.hooks.BronzeHistoryDOKubernetesCluster
-}
-
-// Interceptors returns the client interceptors.
-func (c *BronzeHistoryDOKubernetesClusterClient) Interceptors() []Interceptor {
-	return c.inters.BronzeHistoryDOKubernetesCluster
-}
-
-func (c *BronzeHistoryDOKubernetesClusterClient) mutate(ctx context.Context, m *BronzeHistoryDOKubernetesClusterMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&BronzeHistoryDOKubernetesClusterCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&BronzeHistoryDOKubernetesClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&BronzeHistoryDOKubernetesClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&BronzeHistoryDOKubernetesClusterDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown BronzeHistoryDOKubernetesCluster mutation op: %q", m.Op())
-	}
-}
-
-// BronzeHistoryDOKubernetesNodePoolClient is a client for the BronzeHistoryDOKubernetesNodePool schema.
-type BronzeHistoryDOKubernetesNodePoolClient struct {
-	config
-}
-
-// NewBronzeHistoryDOKubernetesNodePoolClient returns a client for the BronzeHistoryDOKubernetesNodePool from the given config.
-func NewBronzeHistoryDOKubernetesNodePoolClient(c config) *BronzeHistoryDOKubernetesNodePoolClient {
-	return &BronzeHistoryDOKubernetesNodePoolClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `bronzehistorydokubernetesnodepool.Hooks(f(g(h())))`.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) Use(hooks ...Hook) {
-	c.hooks.BronzeHistoryDOKubernetesNodePool = append(c.hooks.BronzeHistoryDOKubernetesNodePool, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `bronzehistorydokubernetesnodepool.Intercept(f(g(h())))`.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) Intercept(interceptors ...Interceptor) {
-	c.inters.BronzeHistoryDOKubernetesNodePool = append(c.inters.BronzeHistoryDOKubernetesNodePool, interceptors...)
-}
-
-// Create returns a builder for creating a BronzeHistoryDOKubernetesNodePool entity.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) Create() *BronzeHistoryDOKubernetesNodePoolCreate {
-	mutation := newBronzeHistoryDOKubernetesNodePoolMutation(c.config, OpCreate)
-	return &BronzeHistoryDOKubernetesNodePoolCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of BronzeHistoryDOKubernetesNodePool entities.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) CreateBulk(builders ...*BronzeHistoryDOKubernetesNodePoolCreate) *BronzeHistoryDOKubernetesNodePoolCreateBulk {
-	return &BronzeHistoryDOKubernetesNodePoolCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryDOKubernetesNodePoolCreate, int)) *BronzeHistoryDOKubernetesNodePoolCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &BronzeHistoryDOKubernetesNodePoolCreateBulk{err: fmt.Errorf("calling to BronzeHistoryDOKubernetesNodePoolClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*BronzeHistoryDOKubernetesNodePoolCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &BronzeHistoryDOKubernetesNodePoolCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for BronzeHistoryDOKubernetesNodePool.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) Update() *BronzeHistoryDOKubernetesNodePoolUpdate {
-	mutation := newBronzeHistoryDOKubernetesNodePoolMutation(c.config, OpUpdate)
-	return &BronzeHistoryDOKubernetesNodePoolUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) UpdateOne(_m *BronzeHistoryDOKubernetesNodePool) *BronzeHistoryDOKubernetesNodePoolUpdateOne {
-	mutation := newBronzeHistoryDOKubernetesNodePoolMutation(c.config, OpUpdateOne, withBronzeHistoryDOKubernetesNodePool(_m))
-	return &BronzeHistoryDOKubernetesNodePoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) UpdateOneID(id int) *BronzeHistoryDOKubernetesNodePoolUpdateOne {
-	mutation := newBronzeHistoryDOKubernetesNodePoolMutation(c.config, OpUpdateOne, withBronzeHistoryDOKubernetesNodePoolID(id))
-	return &BronzeHistoryDOKubernetesNodePoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for BronzeHistoryDOKubernetesNodePool.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) Delete() *BronzeHistoryDOKubernetesNodePoolDelete {
-	mutation := newBronzeHistoryDOKubernetesNodePoolMutation(c.config, OpDelete)
-	return &BronzeHistoryDOKubernetesNodePoolDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) DeleteOne(_m *BronzeHistoryDOKubernetesNodePool) *BronzeHistoryDOKubernetesNodePoolDeleteOne {
-	return c.DeleteOneID(_m.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) DeleteOneID(id int) *BronzeHistoryDOKubernetesNodePoolDeleteOne {
-	builder := c.Delete().Where(bronzehistorydokubernetesnodepool.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &BronzeHistoryDOKubernetesNodePoolDeleteOne{builder}
-}
-
-// Query returns a query builder for BronzeHistoryDOKubernetesNodePool.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) Query() *BronzeHistoryDOKubernetesNodePoolQuery {
-	return &BronzeHistoryDOKubernetesNodePoolQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeBronzeHistoryDOKubernetesNodePool},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a BronzeHistoryDOKubernetesNodePool entity by its id.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) Get(ctx context.Context, id int) (*BronzeHistoryDOKubernetesNodePool, error) {
-	return c.Query().Where(bronzehistorydokubernetesnodepool.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) GetX(ctx context.Context, id int) *BronzeHistoryDOKubernetesNodePool {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) Hooks() []Hook {
-	return c.hooks.BronzeHistoryDOKubernetesNodePool
-}
-
-// Interceptors returns the client interceptors.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) Interceptors() []Interceptor {
-	return c.inters.BronzeHistoryDOKubernetesNodePool
-}
-
-func (c *BronzeHistoryDOKubernetesNodePoolClient) mutate(ctx context.Context, m *BronzeHistoryDOKubernetesNodePoolMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&BronzeHistoryDOKubernetesNodePoolCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&BronzeHistoryDOKubernetesNodePoolUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&BronzeHistoryDOKubernetesNodePoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&BronzeHistoryDOKubernetesNodePoolDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown BronzeHistoryDOKubernetesNodePool mutation op: %q", m.Op())
-	}
-}
-
 // BronzeHistoryDOLoadBalancerClient is a client for the BronzeHistoryDOLoadBalancer schema.
 type BronzeHistoryDOLoadBalancerClient struct {
 	config
@@ -23700,6 +28508,2134 @@ func (c *BronzeHistoryDOVpcClient) mutate(ctx context.Context, m *BronzeHistoryD
 		return (&BronzeHistoryDOVpcDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown BronzeHistoryDOVpc mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPAccessContextManagerAccessLevelClient is a client for the BronzeHistoryGCPAccessContextManagerAccessLevel schema.
+type BronzeHistoryGCPAccessContextManagerAccessLevelClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPAccessContextManagerAccessLevelClient returns a client for the BronzeHistoryGCPAccessContextManagerAccessLevel from the given config.
+func NewBronzeHistoryGCPAccessContextManagerAccessLevelClient(c config) *BronzeHistoryGCPAccessContextManagerAccessLevelClient {
+	return &BronzeHistoryGCPAccessContextManagerAccessLevelClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpaccesscontextmanageraccesslevel.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPAccessContextManagerAccessLevel = append(c.hooks.BronzeHistoryGCPAccessContextManagerAccessLevel, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpaccesscontextmanageraccesslevel.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPAccessContextManagerAccessLevel = append(c.inters.BronzeHistoryGCPAccessContextManagerAccessLevel, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPAccessContextManagerAccessLevel entity.
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) Create() *BronzeHistoryGCPAccessContextManagerAccessLevelCreate {
+	mutation := newBronzeHistoryGCPAccessContextManagerAccessLevelMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPAccessContextManagerAccessLevelCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPAccessContextManagerAccessLevel entities.
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) CreateBulk(builders ...*BronzeHistoryGCPAccessContextManagerAccessLevelCreate) *BronzeHistoryGCPAccessContextManagerAccessLevelCreateBulk {
+	return &BronzeHistoryGCPAccessContextManagerAccessLevelCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPAccessContextManagerAccessLevelCreate, int)) *BronzeHistoryGCPAccessContextManagerAccessLevelCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPAccessContextManagerAccessLevelCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPAccessContextManagerAccessLevelClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPAccessContextManagerAccessLevelCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPAccessContextManagerAccessLevelCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPAccessContextManagerAccessLevel.
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) Update() *BronzeHistoryGCPAccessContextManagerAccessLevelUpdate {
+	mutation := newBronzeHistoryGCPAccessContextManagerAccessLevelMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPAccessContextManagerAccessLevelUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) UpdateOne(_m *BronzeHistoryGCPAccessContextManagerAccessLevel) *BronzeHistoryGCPAccessContextManagerAccessLevelUpdateOne {
+	mutation := newBronzeHistoryGCPAccessContextManagerAccessLevelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPAccessContextManagerAccessLevel(_m))
+	return &BronzeHistoryGCPAccessContextManagerAccessLevelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) UpdateOneID(id int) *BronzeHistoryGCPAccessContextManagerAccessLevelUpdateOne {
+	mutation := newBronzeHistoryGCPAccessContextManagerAccessLevelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPAccessContextManagerAccessLevelID(id))
+	return &BronzeHistoryGCPAccessContextManagerAccessLevelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPAccessContextManagerAccessLevel.
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) Delete() *BronzeHistoryGCPAccessContextManagerAccessLevelDelete {
+	mutation := newBronzeHistoryGCPAccessContextManagerAccessLevelMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPAccessContextManagerAccessLevelDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) DeleteOne(_m *BronzeHistoryGCPAccessContextManagerAccessLevel) *BronzeHistoryGCPAccessContextManagerAccessLevelDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) DeleteOneID(id int) *BronzeHistoryGCPAccessContextManagerAccessLevelDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpaccesscontextmanageraccesslevel.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPAccessContextManagerAccessLevelDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPAccessContextManagerAccessLevel.
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) Query() *BronzeHistoryGCPAccessContextManagerAccessLevelQuery {
+	return &BronzeHistoryGCPAccessContextManagerAccessLevelQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPAccessContextManagerAccessLevel},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPAccessContextManagerAccessLevel entity by its id.
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPAccessContextManagerAccessLevel, error) {
+	return c.Query().Where(bronzehistorygcpaccesscontextmanageraccesslevel.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPAccessContextManagerAccessLevel {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPAccessContextManagerAccessLevel
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPAccessContextManagerAccessLevel
+}
+
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) mutate(ctx context.Context, m *BronzeHistoryGCPAccessContextManagerAccessLevelMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPAccessContextManagerAccessLevelCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPAccessContextManagerAccessLevelUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPAccessContextManagerAccessLevelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPAccessContextManagerAccessLevelDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPAccessContextManagerAccessLevel mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPAccessContextManagerAccessPolicyClient is a client for the BronzeHistoryGCPAccessContextManagerAccessPolicy schema.
+type BronzeHistoryGCPAccessContextManagerAccessPolicyClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPAccessContextManagerAccessPolicyClient returns a client for the BronzeHistoryGCPAccessContextManagerAccessPolicy from the given config.
+func NewBronzeHistoryGCPAccessContextManagerAccessPolicyClient(c config) *BronzeHistoryGCPAccessContextManagerAccessPolicyClient {
+	return &BronzeHistoryGCPAccessContextManagerAccessPolicyClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpaccesscontextmanageraccesspolicy.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPAccessContextManagerAccessPolicy = append(c.hooks.BronzeHistoryGCPAccessContextManagerAccessPolicy, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpaccesscontextmanageraccesspolicy.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPAccessContextManagerAccessPolicy = append(c.inters.BronzeHistoryGCPAccessContextManagerAccessPolicy, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPAccessContextManagerAccessPolicy entity.
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) Create() *BronzeHistoryGCPAccessContextManagerAccessPolicyCreate {
+	mutation := newBronzeHistoryGCPAccessContextManagerAccessPolicyMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPAccessContextManagerAccessPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPAccessContextManagerAccessPolicy entities.
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) CreateBulk(builders ...*BronzeHistoryGCPAccessContextManagerAccessPolicyCreate) *BronzeHistoryGCPAccessContextManagerAccessPolicyCreateBulk {
+	return &BronzeHistoryGCPAccessContextManagerAccessPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPAccessContextManagerAccessPolicyCreate, int)) *BronzeHistoryGCPAccessContextManagerAccessPolicyCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPAccessContextManagerAccessPolicyCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPAccessContextManagerAccessPolicyClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPAccessContextManagerAccessPolicyCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPAccessContextManagerAccessPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPAccessContextManagerAccessPolicy.
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) Update() *BronzeHistoryGCPAccessContextManagerAccessPolicyUpdate {
+	mutation := newBronzeHistoryGCPAccessContextManagerAccessPolicyMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPAccessContextManagerAccessPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) UpdateOne(_m *BronzeHistoryGCPAccessContextManagerAccessPolicy) *BronzeHistoryGCPAccessContextManagerAccessPolicyUpdateOne {
+	mutation := newBronzeHistoryGCPAccessContextManagerAccessPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPAccessContextManagerAccessPolicy(_m))
+	return &BronzeHistoryGCPAccessContextManagerAccessPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) UpdateOneID(id int) *BronzeHistoryGCPAccessContextManagerAccessPolicyUpdateOne {
+	mutation := newBronzeHistoryGCPAccessContextManagerAccessPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPAccessContextManagerAccessPolicyID(id))
+	return &BronzeHistoryGCPAccessContextManagerAccessPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPAccessContextManagerAccessPolicy.
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) Delete() *BronzeHistoryGCPAccessContextManagerAccessPolicyDelete {
+	mutation := newBronzeHistoryGCPAccessContextManagerAccessPolicyMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPAccessContextManagerAccessPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) DeleteOne(_m *BronzeHistoryGCPAccessContextManagerAccessPolicy) *BronzeHistoryGCPAccessContextManagerAccessPolicyDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) DeleteOneID(id int) *BronzeHistoryGCPAccessContextManagerAccessPolicyDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpaccesscontextmanageraccesspolicy.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPAccessContextManagerAccessPolicyDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPAccessContextManagerAccessPolicy.
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) Query() *BronzeHistoryGCPAccessContextManagerAccessPolicyQuery {
+	return &BronzeHistoryGCPAccessContextManagerAccessPolicyQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPAccessContextManagerAccessPolicy},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPAccessContextManagerAccessPolicy entity by its id.
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPAccessContextManagerAccessPolicy, error) {
+	return c.Query().Where(bronzehistorygcpaccesscontextmanageraccesspolicy.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPAccessContextManagerAccessPolicy {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPAccessContextManagerAccessPolicy
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPAccessContextManagerAccessPolicy
+}
+
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) mutate(ctx context.Context, m *BronzeHistoryGCPAccessContextManagerAccessPolicyMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPAccessContextManagerAccessPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPAccessContextManagerAccessPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPAccessContextManagerAccessPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPAccessContextManagerAccessPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPAccessContextManagerAccessPolicy mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPAccessContextManagerServicePerimeterClient is a client for the BronzeHistoryGCPAccessContextManagerServicePerimeter schema.
+type BronzeHistoryGCPAccessContextManagerServicePerimeterClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPAccessContextManagerServicePerimeterClient returns a client for the BronzeHistoryGCPAccessContextManagerServicePerimeter from the given config.
+func NewBronzeHistoryGCPAccessContextManagerServicePerimeterClient(c config) *BronzeHistoryGCPAccessContextManagerServicePerimeterClient {
+	return &BronzeHistoryGCPAccessContextManagerServicePerimeterClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpaccesscontextmanagerserviceperimeter.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPAccessContextManagerServicePerimeter = append(c.hooks.BronzeHistoryGCPAccessContextManagerServicePerimeter, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpaccesscontextmanagerserviceperimeter.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPAccessContextManagerServicePerimeter = append(c.inters.BronzeHistoryGCPAccessContextManagerServicePerimeter, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPAccessContextManagerServicePerimeter entity.
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) Create() *BronzeHistoryGCPAccessContextManagerServicePerimeterCreate {
+	mutation := newBronzeHistoryGCPAccessContextManagerServicePerimeterMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPAccessContextManagerServicePerimeterCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPAccessContextManagerServicePerimeter entities.
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) CreateBulk(builders ...*BronzeHistoryGCPAccessContextManagerServicePerimeterCreate) *BronzeHistoryGCPAccessContextManagerServicePerimeterCreateBulk {
+	return &BronzeHistoryGCPAccessContextManagerServicePerimeterCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPAccessContextManagerServicePerimeterCreate, int)) *BronzeHistoryGCPAccessContextManagerServicePerimeterCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPAccessContextManagerServicePerimeterCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPAccessContextManagerServicePerimeterClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPAccessContextManagerServicePerimeterCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPAccessContextManagerServicePerimeterCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPAccessContextManagerServicePerimeter.
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) Update() *BronzeHistoryGCPAccessContextManagerServicePerimeterUpdate {
+	mutation := newBronzeHistoryGCPAccessContextManagerServicePerimeterMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPAccessContextManagerServicePerimeterUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) UpdateOne(_m *BronzeHistoryGCPAccessContextManagerServicePerimeter) *BronzeHistoryGCPAccessContextManagerServicePerimeterUpdateOne {
+	mutation := newBronzeHistoryGCPAccessContextManagerServicePerimeterMutation(c.config, OpUpdateOne, withBronzeHistoryGCPAccessContextManagerServicePerimeter(_m))
+	return &BronzeHistoryGCPAccessContextManagerServicePerimeterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) UpdateOneID(id int) *BronzeHistoryGCPAccessContextManagerServicePerimeterUpdateOne {
+	mutation := newBronzeHistoryGCPAccessContextManagerServicePerimeterMutation(c.config, OpUpdateOne, withBronzeHistoryGCPAccessContextManagerServicePerimeterID(id))
+	return &BronzeHistoryGCPAccessContextManagerServicePerimeterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPAccessContextManagerServicePerimeter.
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) Delete() *BronzeHistoryGCPAccessContextManagerServicePerimeterDelete {
+	mutation := newBronzeHistoryGCPAccessContextManagerServicePerimeterMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPAccessContextManagerServicePerimeterDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) DeleteOne(_m *BronzeHistoryGCPAccessContextManagerServicePerimeter) *BronzeHistoryGCPAccessContextManagerServicePerimeterDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) DeleteOneID(id int) *BronzeHistoryGCPAccessContextManagerServicePerimeterDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpaccesscontextmanagerserviceperimeter.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPAccessContextManagerServicePerimeterDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPAccessContextManagerServicePerimeter.
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) Query() *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery {
+	return &BronzeHistoryGCPAccessContextManagerServicePerimeterQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPAccessContextManagerServicePerimeter},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPAccessContextManagerServicePerimeter entity by its id.
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPAccessContextManagerServicePerimeter, error) {
+	return c.Query().Where(bronzehistorygcpaccesscontextmanagerserviceperimeter.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPAccessContextManagerServicePerimeter {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPAccessContextManagerServicePerimeter
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPAccessContextManagerServicePerimeter
+}
+
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) mutate(ctx context.Context, m *BronzeHistoryGCPAccessContextManagerServicePerimeterMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPAccessContextManagerServicePerimeterCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPAccessContextManagerServicePerimeterUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPAccessContextManagerServicePerimeterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPAccessContextManagerServicePerimeterDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPAccessContextManagerServicePerimeter mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPAlloyDBClusterClient is a client for the BronzeHistoryGCPAlloyDBCluster schema.
+type BronzeHistoryGCPAlloyDBClusterClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPAlloyDBClusterClient returns a client for the BronzeHistoryGCPAlloyDBCluster from the given config.
+func NewBronzeHistoryGCPAlloyDBClusterClient(c config) *BronzeHistoryGCPAlloyDBClusterClient {
+	return &BronzeHistoryGCPAlloyDBClusterClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpalloydbcluster.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPAlloyDBClusterClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPAlloyDBCluster = append(c.hooks.BronzeHistoryGCPAlloyDBCluster, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpalloydbcluster.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPAlloyDBClusterClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPAlloyDBCluster = append(c.inters.BronzeHistoryGCPAlloyDBCluster, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPAlloyDBCluster entity.
+func (c *BronzeHistoryGCPAlloyDBClusterClient) Create() *BronzeHistoryGCPAlloyDBClusterCreate {
+	mutation := newBronzeHistoryGCPAlloyDBClusterMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPAlloyDBClusterCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPAlloyDBCluster entities.
+func (c *BronzeHistoryGCPAlloyDBClusterClient) CreateBulk(builders ...*BronzeHistoryGCPAlloyDBClusterCreate) *BronzeHistoryGCPAlloyDBClusterCreateBulk {
+	return &BronzeHistoryGCPAlloyDBClusterCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPAlloyDBClusterClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPAlloyDBClusterCreate, int)) *BronzeHistoryGCPAlloyDBClusterCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPAlloyDBClusterCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPAlloyDBClusterClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPAlloyDBClusterCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPAlloyDBClusterCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPAlloyDBCluster.
+func (c *BronzeHistoryGCPAlloyDBClusterClient) Update() *BronzeHistoryGCPAlloyDBClusterUpdate {
+	mutation := newBronzeHistoryGCPAlloyDBClusterMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPAlloyDBClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPAlloyDBClusterClient) UpdateOne(_m *BronzeHistoryGCPAlloyDBCluster) *BronzeHistoryGCPAlloyDBClusterUpdateOne {
+	mutation := newBronzeHistoryGCPAlloyDBClusterMutation(c.config, OpUpdateOne, withBronzeHistoryGCPAlloyDBCluster(_m))
+	return &BronzeHistoryGCPAlloyDBClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPAlloyDBClusterClient) UpdateOneID(id int) *BronzeHistoryGCPAlloyDBClusterUpdateOne {
+	mutation := newBronzeHistoryGCPAlloyDBClusterMutation(c.config, OpUpdateOne, withBronzeHistoryGCPAlloyDBClusterID(id))
+	return &BronzeHistoryGCPAlloyDBClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPAlloyDBCluster.
+func (c *BronzeHistoryGCPAlloyDBClusterClient) Delete() *BronzeHistoryGCPAlloyDBClusterDelete {
+	mutation := newBronzeHistoryGCPAlloyDBClusterMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPAlloyDBClusterDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPAlloyDBClusterClient) DeleteOne(_m *BronzeHistoryGCPAlloyDBCluster) *BronzeHistoryGCPAlloyDBClusterDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPAlloyDBClusterClient) DeleteOneID(id int) *BronzeHistoryGCPAlloyDBClusterDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpalloydbcluster.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPAlloyDBClusterDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPAlloyDBCluster.
+func (c *BronzeHistoryGCPAlloyDBClusterClient) Query() *BronzeHistoryGCPAlloyDBClusterQuery {
+	return &BronzeHistoryGCPAlloyDBClusterQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPAlloyDBCluster},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPAlloyDBCluster entity by its id.
+func (c *BronzeHistoryGCPAlloyDBClusterClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPAlloyDBCluster, error) {
+	return c.Query().Where(bronzehistorygcpalloydbcluster.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPAlloyDBClusterClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPAlloyDBCluster {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPAlloyDBClusterClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPAlloyDBCluster
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPAlloyDBClusterClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPAlloyDBCluster
+}
+
+func (c *BronzeHistoryGCPAlloyDBClusterClient) mutate(ctx context.Context, m *BronzeHistoryGCPAlloyDBClusterMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPAlloyDBClusterCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPAlloyDBClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPAlloyDBClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPAlloyDBClusterDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPAlloyDBCluster mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPAppEngineApplicationClient is a client for the BronzeHistoryGCPAppEngineApplication schema.
+type BronzeHistoryGCPAppEngineApplicationClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPAppEngineApplicationClient returns a client for the BronzeHistoryGCPAppEngineApplication from the given config.
+func NewBronzeHistoryGCPAppEngineApplicationClient(c config) *BronzeHistoryGCPAppEngineApplicationClient {
+	return &BronzeHistoryGCPAppEngineApplicationClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpappengineapplication.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPAppEngineApplicationClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPAppEngineApplication = append(c.hooks.BronzeHistoryGCPAppEngineApplication, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpappengineapplication.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPAppEngineApplicationClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPAppEngineApplication = append(c.inters.BronzeHistoryGCPAppEngineApplication, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPAppEngineApplication entity.
+func (c *BronzeHistoryGCPAppEngineApplicationClient) Create() *BronzeHistoryGCPAppEngineApplicationCreate {
+	mutation := newBronzeHistoryGCPAppEngineApplicationMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPAppEngineApplicationCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPAppEngineApplication entities.
+func (c *BronzeHistoryGCPAppEngineApplicationClient) CreateBulk(builders ...*BronzeHistoryGCPAppEngineApplicationCreate) *BronzeHistoryGCPAppEngineApplicationCreateBulk {
+	return &BronzeHistoryGCPAppEngineApplicationCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPAppEngineApplicationClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPAppEngineApplicationCreate, int)) *BronzeHistoryGCPAppEngineApplicationCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPAppEngineApplicationCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPAppEngineApplicationClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPAppEngineApplicationCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPAppEngineApplicationCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPAppEngineApplication.
+func (c *BronzeHistoryGCPAppEngineApplicationClient) Update() *BronzeHistoryGCPAppEngineApplicationUpdate {
+	mutation := newBronzeHistoryGCPAppEngineApplicationMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPAppEngineApplicationUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPAppEngineApplicationClient) UpdateOne(_m *BronzeHistoryGCPAppEngineApplication) *BronzeHistoryGCPAppEngineApplicationUpdateOne {
+	mutation := newBronzeHistoryGCPAppEngineApplicationMutation(c.config, OpUpdateOne, withBronzeHistoryGCPAppEngineApplication(_m))
+	return &BronzeHistoryGCPAppEngineApplicationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPAppEngineApplicationClient) UpdateOneID(id int) *BronzeHistoryGCPAppEngineApplicationUpdateOne {
+	mutation := newBronzeHistoryGCPAppEngineApplicationMutation(c.config, OpUpdateOne, withBronzeHistoryGCPAppEngineApplicationID(id))
+	return &BronzeHistoryGCPAppEngineApplicationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPAppEngineApplication.
+func (c *BronzeHistoryGCPAppEngineApplicationClient) Delete() *BronzeHistoryGCPAppEngineApplicationDelete {
+	mutation := newBronzeHistoryGCPAppEngineApplicationMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPAppEngineApplicationDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPAppEngineApplicationClient) DeleteOne(_m *BronzeHistoryGCPAppEngineApplication) *BronzeHistoryGCPAppEngineApplicationDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPAppEngineApplicationClient) DeleteOneID(id int) *BronzeHistoryGCPAppEngineApplicationDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpappengineapplication.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPAppEngineApplicationDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPAppEngineApplication.
+func (c *BronzeHistoryGCPAppEngineApplicationClient) Query() *BronzeHistoryGCPAppEngineApplicationQuery {
+	return &BronzeHistoryGCPAppEngineApplicationQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPAppEngineApplication},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPAppEngineApplication entity by its id.
+func (c *BronzeHistoryGCPAppEngineApplicationClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPAppEngineApplication, error) {
+	return c.Query().Where(bronzehistorygcpappengineapplication.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPAppEngineApplicationClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPAppEngineApplication {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPAppEngineApplicationClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPAppEngineApplication
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPAppEngineApplicationClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPAppEngineApplication
+}
+
+func (c *BronzeHistoryGCPAppEngineApplicationClient) mutate(ctx context.Context, m *BronzeHistoryGCPAppEngineApplicationMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPAppEngineApplicationCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPAppEngineApplicationUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPAppEngineApplicationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPAppEngineApplicationDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPAppEngineApplication mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPAppEngineServiceClient is a client for the BronzeHistoryGCPAppEngineService schema.
+type BronzeHistoryGCPAppEngineServiceClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPAppEngineServiceClient returns a client for the BronzeHistoryGCPAppEngineService from the given config.
+func NewBronzeHistoryGCPAppEngineServiceClient(c config) *BronzeHistoryGCPAppEngineServiceClient {
+	return &BronzeHistoryGCPAppEngineServiceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpappengineservice.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPAppEngineServiceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPAppEngineService = append(c.hooks.BronzeHistoryGCPAppEngineService, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpappengineservice.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPAppEngineServiceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPAppEngineService = append(c.inters.BronzeHistoryGCPAppEngineService, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPAppEngineService entity.
+func (c *BronzeHistoryGCPAppEngineServiceClient) Create() *BronzeHistoryGCPAppEngineServiceCreate {
+	mutation := newBronzeHistoryGCPAppEngineServiceMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPAppEngineServiceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPAppEngineService entities.
+func (c *BronzeHistoryGCPAppEngineServiceClient) CreateBulk(builders ...*BronzeHistoryGCPAppEngineServiceCreate) *BronzeHistoryGCPAppEngineServiceCreateBulk {
+	return &BronzeHistoryGCPAppEngineServiceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPAppEngineServiceClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPAppEngineServiceCreate, int)) *BronzeHistoryGCPAppEngineServiceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPAppEngineServiceCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPAppEngineServiceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPAppEngineServiceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPAppEngineServiceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPAppEngineService.
+func (c *BronzeHistoryGCPAppEngineServiceClient) Update() *BronzeHistoryGCPAppEngineServiceUpdate {
+	mutation := newBronzeHistoryGCPAppEngineServiceMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPAppEngineServiceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPAppEngineServiceClient) UpdateOne(_m *BronzeHistoryGCPAppEngineService) *BronzeHistoryGCPAppEngineServiceUpdateOne {
+	mutation := newBronzeHistoryGCPAppEngineServiceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPAppEngineService(_m))
+	return &BronzeHistoryGCPAppEngineServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPAppEngineServiceClient) UpdateOneID(id int) *BronzeHistoryGCPAppEngineServiceUpdateOne {
+	mutation := newBronzeHistoryGCPAppEngineServiceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPAppEngineServiceID(id))
+	return &BronzeHistoryGCPAppEngineServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPAppEngineService.
+func (c *BronzeHistoryGCPAppEngineServiceClient) Delete() *BronzeHistoryGCPAppEngineServiceDelete {
+	mutation := newBronzeHistoryGCPAppEngineServiceMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPAppEngineServiceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPAppEngineServiceClient) DeleteOne(_m *BronzeHistoryGCPAppEngineService) *BronzeHistoryGCPAppEngineServiceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPAppEngineServiceClient) DeleteOneID(id int) *BronzeHistoryGCPAppEngineServiceDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpappengineservice.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPAppEngineServiceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPAppEngineService.
+func (c *BronzeHistoryGCPAppEngineServiceClient) Query() *BronzeHistoryGCPAppEngineServiceQuery {
+	return &BronzeHistoryGCPAppEngineServiceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPAppEngineService},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPAppEngineService entity by its id.
+func (c *BronzeHistoryGCPAppEngineServiceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPAppEngineService, error) {
+	return c.Query().Where(bronzehistorygcpappengineservice.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPAppEngineServiceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPAppEngineService {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPAppEngineServiceClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPAppEngineService
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPAppEngineServiceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPAppEngineService
+}
+
+func (c *BronzeHistoryGCPAppEngineServiceClient) mutate(ctx context.Context, m *BronzeHistoryGCPAppEngineServiceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPAppEngineServiceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPAppEngineServiceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPAppEngineServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPAppEngineServiceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPAppEngineService mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPBigQueryDatasetClient is a client for the BronzeHistoryGCPBigQueryDataset schema.
+type BronzeHistoryGCPBigQueryDatasetClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPBigQueryDatasetClient returns a client for the BronzeHistoryGCPBigQueryDataset from the given config.
+func NewBronzeHistoryGCPBigQueryDatasetClient(c config) *BronzeHistoryGCPBigQueryDatasetClient {
+	return &BronzeHistoryGCPBigQueryDatasetClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpbigquerydataset.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPBigQueryDatasetClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPBigQueryDataset = append(c.hooks.BronzeHistoryGCPBigQueryDataset, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpbigquerydataset.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPBigQueryDatasetClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPBigQueryDataset = append(c.inters.BronzeHistoryGCPBigQueryDataset, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPBigQueryDataset entity.
+func (c *BronzeHistoryGCPBigQueryDatasetClient) Create() *BronzeHistoryGCPBigQueryDatasetCreate {
+	mutation := newBronzeHistoryGCPBigQueryDatasetMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPBigQueryDatasetCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPBigQueryDataset entities.
+func (c *BronzeHistoryGCPBigQueryDatasetClient) CreateBulk(builders ...*BronzeHistoryGCPBigQueryDatasetCreate) *BronzeHistoryGCPBigQueryDatasetCreateBulk {
+	return &BronzeHistoryGCPBigQueryDatasetCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPBigQueryDatasetClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPBigQueryDatasetCreate, int)) *BronzeHistoryGCPBigQueryDatasetCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPBigQueryDatasetCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPBigQueryDatasetClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPBigQueryDatasetCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPBigQueryDatasetCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPBigQueryDataset.
+func (c *BronzeHistoryGCPBigQueryDatasetClient) Update() *BronzeHistoryGCPBigQueryDatasetUpdate {
+	mutation := newBronzeHistoryGCPBigQueryDatasetMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPBigQueryDatasetUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPBigQueryDatasetClient) UpdateOne(_m *BronzeHistoryGCPBigQueryDataset) *BronzeHistoryGCPBigQueryDatasetUpdateOne {
+	mutation := newBronzeHistoryGCPBigQueryDatasetMutation(c.config, OpUpdateOne, withBronzeHistoryGCPBigQueryDataset(_m))
+	return &BronzeHistoryGCPBigQueryDatasetUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPBigQueryDatasetClient) UpdateOneID(id int) *BronzeHistoryGCPBigQueryDatasetUpdateOne {
+	mutation := newBronzeHistoryGCPBigQueryDatasetMutation(c.config, OpUpdateOne, withBronzeHistoryGCPBigQueryDatasetID(id))
+	return &BronzeHistoryGCPBigQueryDatasetUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPBigQueryDataset.
+func (c *BronzeHistoryGCPBigQueryDatasetClient) Delete() *BronzeHistoryGCPBigQueryDatasetDelete {
+	mutation := newBronzeHistoryGCPBigQueryDatasetMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPBigQueryDatasetDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPBigQueryDatasetClient) DeleteOne(_m *BronzeHistoryGCPBigQueryDataset) *BronzeHistoryGCPBigQueryDatasetDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPBigQueryDatasetClient) DeleteOneID(id int) *BronzeHistoryGCPBigQueryDatasetDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpbigquerydataset.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPBigQueryDatasetDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPBigQueryDataset.
+func (c *BronzeHistoryGCPBigQueryDatasetClient) Query() *BronzeHistoryGCPBigQueryDatasetQuery {
+	return &BronzeHistoryGCPBigQueryDatasetQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPBigQueryDataset},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPBigQueryDataset entity by its id.
+func (c *BronzeHistoryGCPBigQueryDatasetClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPBigQueryDataset, error) {
+	return c.Query().Where(bronzehistorygcpbigquerydataset.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPBigQueryDatasetClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPBigQueryDataset {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPBigQueryDatasetClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPBigQueryDataset
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPBigQueryDatasetClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPBigQueryDataset
+}
+
+func (c *BronzeHistoryGCPBigQueryDatasetClient) mutate(ctx context.Context, m *BronzeHistoryGCPBigQueryDatasetMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPBigQueryDatasetCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPBigQueryDatasetUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPBigQueryDatasetUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPBigQueryDatasetDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPBigQueryDataset mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPBigQueryTableClient is a client for the BronzeHistoryGCPBigQueryTable schema.
+type BronzeHistoryGCPBigQueryTableClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPBigQueryTableClient returns a client for the BronzeHistoryGCPBigQueryTable from the given config.
+func NewBronzeHistoryGCPBigQueryTableClient(c config) *BronzeHistoryGCPBigQueryTableClient {
+	return &BronzeHistoryGCPBigQueryTableClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpbigquerytable.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPBigQueryTableClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPBigQueryTable = append(c.hooks.BronzeHistoryGCPBigQueryTable, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpbigquerytable.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPBigQueryTableClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPBigQueryTable = append(c.inters.BronzeHistoryGCPBigQueryTable, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPBigQueryTable entity.
+func (c *BronzeHistoryGCPBigQueryTableClient) Create() *BronzeHistoryGCPBigQueryTableCreate {
+	mutation := newBronzeHistoryGCPBigQueryTableMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPBigQueryTableCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPBigQueryTable entities.
+func (c *BronzeHistoryGCPBigQueryTableClient) CreateBulk(builders ...*BronzeHistoryGCPBigQueryTableCreate) *BronzeHistoryGCPBigQueryTableCreateBulk {
+	return &BronzeHistoryGCPBigQueryTableCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPBigQueryTableClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPBigQueryTableCreate, int)) *BronzeHistoryGCPBigQueryTableCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPBigQueryTableCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPBigQueryTableClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPBigQueryTableCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPBigQueryTableCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPBigQueryTable.
+func (c *BronzeHistoryGCPBigQueryTableClient) Update() *BronzeHistoryGCPBigQueryTableUpdate {
+	mutation := newBronzeHistoryGCPBigQueryTableMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPBigQueryTableUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPBigQueryTableClient) UpdateOne(_m *BronzeHistoryGCPBigQueryTable) *BronzeHistoryGCPBigQueryTableUpdateOne {
+	mutation := newBronzeHistoryGCPBigQueryTableMutation(c.config, OpUpdateOne, withBronzeHistoryGCPBigQueryTable(_m))
+	return &BronzeHistoryGCPBigQueryTableUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPBigQueryTableClient) UpdateOneID(id int) *BronzeHistoryGCPBigQueryTableUpdateOne {
+	mutation := newBronzeHistoryGCPBigQueryTableMutation(c.config, OpUpdateOne, withBronzeHistoryGCPBigQueryTableID(id))
+	return &BronzeHistoryGCPBigQueryTableUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPBigQueryTable.
+func (c *BronzeHistoryGCPBigQueryTableClient) Delete() *BronzeHistoryGCPBigQueryTableDelete {
+	mutation := newBronzeHistoryGCPBigQueryTableMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPBigQueryTableDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPBigQueryTableClient) DeleteOne(_m *BronzeHistoryGCPBigQueryTable) *BronzeHistoryGCPBigQueryTableDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPBigQueryTableClient) DeleteOneID(id int) *BronzeHistoryGCPBigQueryTableDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpbigquerytable.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPBigQueryTableDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPBigQueryTable.
+func (c *BronzeHistoryGCPBigQueryTableClient) Query() *BronzeHistoryGCPBigQueryTableQuery {
+	return &BronzeHistoryGCPBigQueryTableQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPBigQueryTable},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPBigQueryTable entity by its id.
+func (c *BronzeHistoryGCPBigQueryTableClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPBigQueryTable, error) {
+	return c.Query().Where(bronzehistorygcpbigquerytable.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPBigQueryTableClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPBigQueryTable {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPBigQueryTableClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPBigQueryTable
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPBigQueryTableClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPBigQueryTable
+}
+
+func (c *BronzeHistoryGCPBigQueryTableClient) mutate(ctx context.Context, m *BronzeHistoryGCPBigQueryTableMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPBigQueryTableCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPBigQueryTableUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPBigQueryTableUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPBigQueryTableDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPBigQueryTable mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPBigtableClusterClient is a client for the BronzeHistoryGCPBigtableCluster schema.
+type BronzeHistoryGCPBigtableClusterClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPBigtableClusterClient returns a client for the BronzeHistoryGCPBigtableCluster from the given config.
+func NewBronzeHistoryGCPBigtableClusterClient(c config) *BronzeHistoryGCPBigtableClusterClient {
+	return &BronzeHistoryGCPBigtableClusterClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpbigtablecluster.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPBigtableClusterClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPBigtableCluster = append(c.hooks.BronzeHistoryGCPBigtableCluster, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpbigtablecluster.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPBigtableClusterClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPBigtableCluster = append(c.inters.BronzeHistoryGCPBigtableCluster, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPBigtableCluster entity.
+func (c *BronzeHistoryGCPBigtableClusterClient) Create() *BronzeHistoryGCPBigtableClusterCreate {
+	mutation := newBronzeHistoryGCPBigtableClusterMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPBigtableClusterCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPBigtableCluster entities.
+func (c *BronzeHistoryGCPBigtableClusterClient) CreateBulk(builders ...*BronzeHistoryGCPBigtableClusterCreate) *BronzeHistoryGCPBigtableClusterCreateBulk {
+	return &BronzeHistoryGCPBigtableClusterCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPBigtableClusterClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPBigtableClusterCreate, int)) *BronzeHistoryGCPBigtableClusterCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPBigtableClusterCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPBigtableClusterClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPBigtableClusterCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPBigtableClusterCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPBigtableCluster.
+func (c *BronzeHistoryGCPBigtableClusterClient) Update() *BronzeHistoryGCPBigtableClusterUpdate {
+	mutation := newBronzeHistoryGCPBigtableClusterMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPBigtableClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPBigtableClusterClient) UpdateOne(_m *BronzeHistoryGCPBigtableCluster) *BronzeHistoryGCPBigtableClusterUpdateOne {
+	mutation := newBronzeHistoryGCPBigtableClusterMutation(c.config, OpUpdateOne, withBronzeHistoryGCPBigtableCluster(_m))
+	return &BronzeHistoryGCPBigtableClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPBigtableClusterClient) UpdateOneID(id int) *BronzeHistoryGCPBigtableClusterUpdateOne {
+	mutation := newBronzeHistoryGCPBigtableClusterMutation(c.config, OpUpdateOne, withBronzeHistoryGCPBigtableClusterID(id))
+	return &BronzeHistoryGCPBigtableClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPBigtableCluster.
+func (c *BronzeHistoryGCPBigtableClusterClient) Delete() *BronzeHistoryGCPBigtableClusterDelete {
+	mutation := newBronzeHistoryGCPBigtableClusterMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPBigtableClusterDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPBigtableClusterClient) DeleteOne(_m *BronzeHistoryGCPBigtableCluster) *BronzeHistoryGCPBigtableClusterDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPBigtableClusterClient) DeleteOneID(id int) *BronzeHistoryGCPBigtableClusterDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpbigtablecluster.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPBigtableClusterDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPBigtableCluster.
+func (c *BronzeHistoryGCPBigtableClusterClient) Query() *BronzeHistoryGCPBigtableClusterQuery {
+	return &BronzeHistoryGCPBigtableClusterQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPBigtableCluster},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPBigtableCluster entity by its id.
+func (c *BronzeHistoryGCPBigtableClusterClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPBigtableCluster, error) {
+	return c.Query().Where(bronzehistorygcpbigtablecluster.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPBigtableClusterClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPBigtableCluster {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPBigtableClusterClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPBigtableCluster
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPBigtableClusterClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPBigtableCluster
+}
+
+func (c *BronzeHistoryGCPBigtableClusterClient) mutate(ctx context.Context, m *BronzeHistoryGCPBigtableClusterMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPBigtableClusterCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPBigtableClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPBigtableClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPBigtableClusterDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPBigtableCluster mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPBigtableInstanceClient is a client for the BronzeHistoryGCPBigtableInstance schema.
+type BronzeHistoryGCPBigtableInstanceClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPBigtableInstanceClient returns a client for the BronzeHistoryGCPBigtableInstance from the given config.
+func NewBronzeHistoryGCPBigtableInstanceClient(c config) *BronzeHistoryGCPBigtableInstanceClient {
+	return &BronzeHistoryGCPBigtableInstanceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpbigtableinstance.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPBigtableInstanceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPBigtableInstance = append(c.hooks.BronzeHistoryGCPBigtableInstance, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpbigtableinstance.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPBigtableInstanceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPBigtableInstance = append(c.inters.BronzeHistoryGCPBigtableInstance, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPBigtableInstance entity.
+func (c *BronzeHistoryGCPBigtableInstanceClient) Create() *BronzeHistoryGCPBigtableInstanceCreate {
+	mutation := newBronzeHistoryGCPBigtableInstanceMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPBigtableInstanceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPBigtableInstance entities.
+func (c *BronzeHistoryGCPBigtableInstanceClient) CreateBulk(builders ...*BronzeHistoryGCPBigtableInstanceCreate) *BronzeHistoryGCPBigtableInstanceCreateBulk {
+	return &BronzeHistoryGCPBigtableInstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPBigtableInstanceClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPBigtableInstanceCreate, int)) *BronzeHistoryGCPBigtableInstanceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPBigtableInstanceCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPBigtableInstanceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPBigtableInstanceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPBigtableInstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPBigtableInstance.
+func (c *BronzeHistoryGCPBigtableInstanceClient) Update() *BronzeHistoryGCPBigtableInstanceUpdate {
+	mutation := newBronzeHistoryGCPBigtableInstanceMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPBigtableInstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPBigtableInstanceClient) UpdateOne(_m *BronzeHistoryGCPBigtableInstance) *BronzeHistoryGCPBigtableInstanceUpdateOne {
+	mutation := newBronzeHistoryGCPBigtableInstanceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPBigtableInstance(_m))
+	return &BronzeHistoryGCPBigtableInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPBigtableInstanceClient) UpdateOneID(id int) *BronzeHistoryGCPBigtableInstanceUpdateOne {
+	mutation := newBronzeHistoryGCPBigtableInstanceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPBigtableInstanceID(id))
+	return &BronzeHistoryGCPBigtableInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPBigtableInstance.
+func (c *BronzeHistoryGCPBigtableInstanceClient) Delete() *BronzeHistoryGCPBigtableInstanceDelete {
+	mutation := newBronzeHistoryGCPBigtableInstanceMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPBigtableInstanceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPBigtableInstanceClient) DeleteOne(_m *BronzeHistoryGCPBigtableInstance) *BronzeHistoryGCPBigtableInstanceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPBigtableInstanceClient) DeleteOneID(id int) *BronzeHistoryGCPBigtableInstanceDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpbigtableinstance.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPBigtableInstanceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPBigtableInstance.
+func (c *BronzeHistoryGCPBigtableInstanceClient) Query() *BronzeHistoryGCPBigtableInstanceQuery {
+	return &BronzeHistoryGCPBigtableInstanceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPBigtableInstance},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPBigtableInstance entity by its id.
+func (c *BronzeHistoryGCPBigtableInstanceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPBigtableInstance, error) {
+	return c.Query().Where(bronzehistorygcpbigtableinstance.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPBigtableInstanceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPBigtableInstance {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPBigtableInstanceClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPBigtableInstance
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPBigtableInstanceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPBigtableInstance
+}
+
+func (c *BronzeHistoryGCPBigtableInstanceClient) mutate(ctx context.Context, m *BronzeHistoryGCPBigtableInstanceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPBigtableInstanceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPBigtableInstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPBigtableInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPBigtableInstanceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPBigtableInstance mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPBinaryAuthorizationAttestorClient is a client for the BronzeHistoryGCPBinaryAuthorizationAttestor schema.
+type BronzeHistoryGCPBinaryAuthorizationAttestorClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPBinaryAuthorizationAttestorClient returns a client for the BronzeHistoryGCPBinaryAuthorizationAttestor from the given config.
+func NewBronzeHistoryGCPBinaryAuthorizationAttestorClient(c config) *BronzeHistoryGCPBinaryAuthorizationAttestorClient {
+	return &BronzeHistoryGCPBinaryAuthorizationAttestorClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpbinaryauthorizationattestor.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPBinaryAuthorizationAttestor = append(c.hooks.BronzeHistoryGCPBinaryAuthorizationAttestor, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpbinaryauthorizationattestor.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPBinaryAuthorizationAttestor = append(c.inters.BronzeHistoryGCPBinaryAuthorizationAttestor, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPBinaryAuthorizationAttestor entity.
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) Create() *BronzeHistoryGCPBinaryAuthorizationAttestorCreate {
+	mutation := newBronzeHistoryGCPBinaryAuthorizationAttestorMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPBinaryAuthorizationAttestorCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPBinaryAuthorizationAttestor entities.
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) CreateBulk(builders ...*BronzeHistoryGCPBinaryAuthorizationAttestorCreate) *BronzeHistoryGCPBinaryAuthorizationAttestorCreateBulk {
+	return &BronzeHistoryGCPBinaryAuthorizationAttestorCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPBinaryAuthorizationAttestorCreate, int)) *BronzeHistoryGCPBinaryAuthorizationAttestorCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPBinaryAuthorizationAttestorCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPBinaryAuthorizationAttestorClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPBinaryAuthorizationAttestorCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPBinaryAuthorizationAttestorCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPBinaryAuthorizationAttestor.
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) Update() *BronzeHistoryGCPBinaryAuthorizationAttestorUpdate {
+	mutation := newBronzeHistoryGCPBinaryAuthorizationAttestorMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPBinaryAuthorizationAttestorUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) UpdateOne(_m *BronzeHistoryGCPBinaryAuthorizationAttestor) *BronzeHistoryGCPBinaryAuthorizationAttestorUpdateOne {
+	mutation := newBronzeHistoryGCPBinaryAuthorizationAttestorMutation(c.config, OpUpdateOne, withBronzeHistoryGCPBinaryAuthorizationAttestor(_m))
+	return &BronzeHistoryGCPBinaryAuthorizationAttestorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) UpdateOneID(id int) *BronzeHistoryGCPBinaryAuthorizationAttestorUpdateOne {
+	mutation := newBronzeHistoryGCPBinaryAuthorizationAttestorMutation(c.config, OpUpdateOne, withBronzeHistoryGCPBinaryAuthorizationAttestorID(id))
+	return &BronzeHistoryGCPBinaryAuthorizationAttestorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPBinaryAuthorizationAttestor.
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) Delete() *BronzeHistoryGCPBinaryAuthorizationAttestorDelete {
+	mutation := newBronzeHistoryGCPBinaryAuthorizationAttestorMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPBinaryAuthorizationAttestorDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) DeleteOne(_m *BronzeHistoryGCPBinaryAuthorizationAttestor) *BronzeHistoryGCPBinaryAuthorizationAttestorDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) DeleteOneID(id int) *BronzeHistoryGCPBinaryAuthorizationAttestorDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpbinaryauthorizationattestor.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPBinaryAuthorizationAttestorDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPBinaryAuthorizationAttestor.
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) Query() *BronzeHistoryGCPBinaryAuthorizationAttestorQuery {
+	return &BronzeHistoryGCPBinaryAuthorizationAttestorQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPBinaryAuthorizationAttestor},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPBinaryAuthorizationAttestor entity by its id.
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPBinaryAuthorizationAttestor, error) {
+	return c.Query().Where(bronzehistorygcpbinaryauthorizationattestor.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPBinaryAuthorizationAttestor {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPBinaryAuthorizationAttestor
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPBinaryAuthorizationAttestor
+}
+
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) mutate(ctx context.Context, m *BronzeHistoryGCPBinaryAuthorizationAttestorMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPBinaryAuthorizationAttestorCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPBinaryAuthorizationAttestorUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPBinaryAuthorizationAttestorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPBinaryAuthorizationAttestorDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPBinaryAuthorizationAttestor mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPBinaryAuthorizationPolicyClient is a client for the BronzeHistoryGCPBinaryAuthorizationPolicy schema.
+type BronzeHistoryGCPBinaryAuthorizationPolicyClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPBinaryAuthorizationPolicyClient returns a client for the BronzeHistoryGCPBinaryAuthorizationPolicy from the given config.
+func NewBronzeHistoryGCPBinaryAuthorizationPolicyClient(c config) *BronzeHistoryGCPBinaryAuthorizationPolicyClient {
+	return &BronzeHistoryGCPBinaryAuthorizationPolicyClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpbinaryauthorizationpolicy.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPBinaryAuthorizationPolicy = append(c.hooks.BronzeHistoryGCPBinaryAuthorizationPolicy, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpbinaryauthorizationpolicy.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPBinaryAuthorizationPolicy = append(c.inters.BronzeHistoryGCPBinaryAuthorizationPolicy, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPBinaryAuthorizationPolicy entity.
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) Create() *BronzeHistoryGCPBinaryAuthorizationPolicyCreate {
+	mutation := newBronzeHistoryGCPBinaryAuthorizationPolicyMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPBinaryAuthorizationPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPBinaryAuthorizationPolicy entities.
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) CreateBulk(builders ...*BronzeHistoryGCPBinaryAuthorizationPolicyCreate) *BronzeHistoryGCPBinaryAuthorizationPolicyCreateBulk {
+	return &BronzeHistoryGCPBinaryAuthorizationPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPBinaryAuthorizationPolicyCreate, int)) *BronzeHistoryGCPBinaryAuthorizationPolicyCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPBinaryAuthorizationPolicyCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPBinaryAuthorizationPolicyClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPBinaryAuthorizationPolicyCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPBinaryAuthorizationPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPBinaryAuthorizationPolicy.
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) Update() *BronzeHistoryGCPBinaryAuthorizationPolicyUpdate {
+	mutation := newBronzeHistoryGCPBinaryAuthorizationPolicyMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPBinaryAuthorizationPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) UpdateOne(_m *BronzeHistoryGCPBinaryAuthorizationPolicy) *BronzeHistoryGCPBinaryAuthorizationPolicyUpdateOne {
+	mutation := newBronzeHistoryGCPBinaryAuthorizationPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPBinaryAuthorizationPolicy(_m))
+	return &BronzeHistoryGCPBinaryAuthorizationPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) UpdateOneID(id int) *BronzeHistoryGCPBinaryAuthorizationPolicyUpdateOne {
+	mutation := newBronzeHistoryGCPBinaryAuthorizationPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPBinaryAuthorizationPolicyID(id))
+	return &BronzeHistoryGCPBinaryAuthorizationPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPBinaryAuthorizationPolicy.
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) Delete() *BronzeHistoryGCPBinaryAuthorizationPolicyDelete {
+	mutation := newBronzeHistoryGCPBinaryAuthorizationPolicyMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPBinaryAuthorizationPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) DeleteOne(_m *BronzeHistoryGCPBinaryAuthorizationPolicy) *BronzeHistoryGCPBinaryAuthorizationPolicyDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) DeleteOneID(id int) *BronzeHistoryGCPBinaryAuthorizationPolicyDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpbinaryauthorizationpolicy.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPBinaryAuthorizationPolicyDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPBinaryAuthorizationPolicy.
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) Query() *BronzeHistoryGCPBinaryAuthorizationPolicyQuery {
+	return &BronzeHistoryGCPBinaryAuthorizationPolicyQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPBinaryAuthorizationPolicy},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPBinaryAuthorizationPolicy entity by its id.
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPBinaryAuthorizationPolicy, error) {
+	return c.Query().Where(bronzehistorygcpbinaryauthorizationpolicy.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPBinaryAuthorizationPolicy {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPBinaryAuthorizationPolicy
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPBinaryAuthorizationPolicy
+}
+
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) mutate(ctx context.Context, m *BronzeHistoryGCPBinaryAuthorizationPolicyMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPBinaryAuthorizationPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPBinaryAuthorizationPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPBinaryAuthorizationPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPBinaryAuthorizationPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPBinaryAuthorizationPolicy mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPCloudAssetAssetClient is a client for the BronzeHistoryGCPCloudAssetAsset schema.
+type BronzeHistoryGCPCloudAssetAssetClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPCloudAssetAssetClient returns a client for the BronzeHistoryGCPCloudAssetAsset from the given config.
+func NewBronzeHistoryGCPCloudAssetAssetClient(c config) *BronzeHistoryGCPCloudAssetAssetClient {
+	return &BronzeHistoryGCPCloudAssetAssetClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpcloudassetasset.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPCloudAssetAssetClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPCloudAssetAsset = append(c.hooks.BronzeHistoryGCPCloudAssetAsset, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpcloudassetasset.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPCloudAssetAssetClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPCloudAssetAsset = append(c.inters.BronzeHistoryGCPCloudAssetAsset, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPCloudAssetAsset entity.
+func (c *BronzeHistoryGCPCloudAssetAssetClient) Create() *BronzeHistoryGCPCloudAssetAssetCreate {
+	mutation := newBronzeHistoryGCPCloudAssetAssetMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPCloudAssetAssetCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPCloudAssetAsset entities.
+func (c *BronzeHistoryGCPCloudAssetAssetClient) CreateBulk(builders ...*BronzeHistoryGCPCloudAssetAssetCreate) *BronzeHistoryGCPCloudAssetAssetCreateBulk {
+	return &BronzeHistoryGCPCloudAssetAssetCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPCloudAssetAssetClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPCloudAssetAssetCreate, int)) *BronzeHistoryGCPCloudAssetAssetCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPCloudAssetAssetCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPCloudAssetAssetClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPCloudAssetAssetCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPCloudAssetAssetCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPCloudAssetAsset.
+func (c *BronzeHistoryGCPCloudAssetAssetClient) Update() *BronzeHistoryGCPCloudAssetAssetUpdate {
+	mutation := newBronzeHistoryGCPCloudAssetAssetMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPCloudAssetAssetUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPCloudAssetAssetClient) UpdateOne(_m *BronzeHistoryGCPCloudAssetAsset) *BronzeHistoryGCPCloudAssetAssetUpdateOne {
+	mutation := newBronzeHistoryGCPCloudAssetAssetMutation(c.config, OpUpdateOne, withBronzeHistoryGCPCloudAssetAsset(_m))
+	return &BronzeHistoryGCPCloudAssetAssetUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPCloudAssetAssetClient) UpdateOneID(id int) *BronzeHistoryGCPCloudAssetAssetUpdateOne {
+	mutation := newBronzeHistoryGCPCloudAssetAssetMutation(c.config, OpUpdateOne, withBronzeHistoryGCPCloudAssetAssetID(id))
+	return &BronzeHistoryGCPCloudAssetAssetUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPCloudAssetAsset.
+func (c *BronzeHistoryGCPCloudAssetAssetClient) Delete() *BronzeHistoryGCPCloudAssetAssetDelete {
+	mutation := newBronzeHistoryGCPCloudAssetAssetMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPCloudAssetAssetDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPCloudAssetAssetClient) DeleteOne(_m *BronzeHistoryGCPCloudAssetAsset) *BronzeHistoryGCPCloudAssetAssetDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPCloudAssetAssetClient) DeleteOneID(id int) *BronzeHistoryGCPCloudAssetAssetDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpcloudassetasset.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPCloudAssetAssetDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPCloudAssetAsset.
+func (c *BronzeHistoryGCPCloudAssetAssetClient) Query() *BronzeHistoryGCPCloudAssetAssetQuery {
+	return &BronzeHistoryGCPCloudAssetAssetQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPCloudAssetAsset},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPCloudAssetAsset entity by its id.
+func (c *BronzeHistoryGCPCloudAssetAssetClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPCloudAssetAsset, error) {
+	return c.Query().Where(bronzehistorygcpcloudassetasset.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPCloudAssetAssetClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPCloudAssetAsset {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPCloudAssetAssetClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPCloudAssetAsset
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPCloudAssetAssetClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPCloudAssetAsset
+}
+
+func (c *BronzeHistoryGCPCloudAssetAssetClient) mutate(ctx context.Context, m *BronzeHistoryGCPCloudAssetAssetMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPCloudAssetAssetCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPCloudAssetAssetUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPCloudAssetAssetUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPCloudAssetAssetDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPCloudAssetAsset mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPCloudAssetIAMPolicySearchClient is a client for the BronzeHistoryGCPCloudAssetIAMPolicySearch schema.
+type BronzeHistoryGCPCloudAssetIAMPolicySearchClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPCloudAssetIAMPolicySearchClient returns a client for the BronzeHistoryGCPCloudAssetIAMPolicySearch from the given config.
+func NewBronzeHistoryGCPCloudAssetIAMPolicySearchClient(c config) *BronzeHistoryGCPCloudAssetIAMPolicySearchClient {
+	return &BronzeHistoryGCPCloudAssetIAMPolicySearchClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpcloudassetiampolicysearch.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPCloudAssetIAMPolicySearch = append(c.hooks.BronzeHistoryGCPCloudAssetIAMPolicySearch, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpcloudassetiampolicysearch.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPCloudAssetIAMPolicySearch = append(c.inters.BronzeHistoryGCPCloudAssetIAMPolicySearch, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPCloudAssetIAMPolicySearch entity.
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) Create() *BronzeHistoryGCPCloudAssetIAMPolicySearchCreate {
+	mutation := newBronzeHistoryGCPCloudAssetIAMPolicySearchMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPCloudAssetIAMPolicySearchCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPCloudAssetIAMPolicySearch entities.
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) CreateBulk(builders ...*BronzeHistoryGCPCloudAssetIAMPolicySearchCreate) *BronzeHistoryGCPCloudAssetIAMPolicySearchCreateBulk {
+	return &BronzeHistoryGCPCloudAssetIAMPolicySearchCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPCloudAssetIAMPolicySearchCreate, int)) *BronzeHistoryGCPCloudAssetIAMPolicySearchCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPCloudAssetIAMPolicySearchCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPCloudAssetIAMPolicySearchClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPCloudAssetIAMPolicySearchCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPCloudAssetIAMPolicySearchCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPCloudAssetIAMPolicySearch.
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) Update() *BronzeHistoryGCPCloudAssetIAMPolicySearchUpdate {
+	mutation := newBronzeHistoryGCPCloudAssetIAMPolicySearchMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPCloudAssetIAMPolicySearchUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) UpdateOne(_m *BronzeHistoryGCPCloudAssetIAMPolicySearch) *BronzeHistoryGCPCloudAssetIAMPolicySearchUpdateOne {
+	mutation := newBronzeHistoryGCPCloudAssetIAMPolicySearchMutation(c.config, OpUpdateOne, withBronzeHistoryGCPCloudAssetIAMPolicySearch(_m))
+	return &BronzeHistoryGCPCloudAssetIAMPolicySearchUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) UpdateOneID(id int) *BronzeHistoryGCPCloudAssetIAMPolicySearchUpdateOne {
+	mutation := newBronzeHistoryGCPCloudAssetIAMPolicySearchMutation(c.config, OpUpdateOne, withBronzeHistoryGCPCloudAssetIAMPolicySearchID(id))
+	return &BronzeHistoryGCPCloudAssetIAMPolicySearchUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPCloudAssetIAMPolicySearch.
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) Delete() *BronzeHistoryGCPCloudAssetIAMPolicySearchDelete {
+	mutation := newBronzeHistoryGCPCloudAssetIAMPolicySearchMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPCloudAssetIAMPolicySearchDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) DeleteOne(_m *BronzeHistoryGCPCloudAssetIAMPolicySearch) *BronzeHistoryGCPCloudAssetIAMPolicySearchDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) DeleteOneID(id int) *BronzeHistoryGCPCloudAssetIAMPolicySearchDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpcloudassetiampolicysearch.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPCloudAssetIAMPolicySearchDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPCloudAssetIAMPolicySearch.
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) Query() *BronzeHistoryGCPCloudAssetIAMPolicySearchQuery {
+	return &BronzeHistoryGCPCloudAssetIAMPolicySearchQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPCloudAssetIAMPolicySearch},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPCloudAssetIAMPolicySearch entity by its id.
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPCloudAssetIAMPolicySearch, error) {
+	return c.Query().Where(bronzehistorygcpcloudassetiampolicysearch.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPCloudAssetIAMPolicySearch {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPCloudAssetIAMPolicySearch
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPCloudAssetIAMPolicySearch
+}
+
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) mutate(ctx context.Context, m *BronzeHistoryGCPCloudAssetIAMPolicySearchMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPCloudAssetIAMPolicySearchCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPCloudAssetIAMPolicySearchUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPCloudAssetIAMPolicySearchUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPCloudAssetIAMPolicySearchDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPCloudAssetIAMPolicySearch mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPCloudAssetResourceSearchClient is a client for the BronzeHistoryGCPCloudAssetResourceSearch schema.
+type BronzeHistoryGCPCloudAssetResourceSearchClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPCloudAssetResourceSearchClient returns a client for the BronzeHistoryGCPCloudAssetResourceSearch from the given config.
+func NewBronzeHistoryGCPCloudAssetResourceSearchClient(c config) *BronzeHistoryGCPCloudAssetResourceSearchClient {
+	return &BronzeHistoryGCPCloudAssetResourceSearchClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpcloudassetresourcesearch.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPCloudAssetResourceSearch = append(c.hooks.BronzeHistoryGCPCloudAssetResourceSearch, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpcloudassetresourcesearch.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPCloudAssetResourceSearch = append(c.inters.BronzeHistoryGCPCloudAssetResourceSearch, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPCloudAssetResourceSearch entity.
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) Create() *BronzeHistoryGCPCloudAssetResourceSearchCreate {
+	mutation := newBronzeHistoryGCPCloudAssetResourceSearchMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPCloudAssetResourceSearchCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPCloudAssetResourceSearch entities.
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) CreateBulk(builders ...*BronzeHistoryGCPCloudAssetResourceSearchCreate) *BronzeHistoryGCPCloudAssetResourceSearchCreateBulk {
+	return &BronzeHistoryGCPCloudAssetResourceSearchCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPCloudAssetResourceSearchCreate, int)) *BronzeHistoryGCPCloudAssetResourceSearchCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPCloudAssetResourceSearchCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPCloudAssetResourceSearchClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPCloudAssetResourceSearchCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPCloudAssetResourceSearchCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPCloudAssetResourceSearch.
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) Update() *BronzeHistoryGCPCloudAssetResourceSearchUpdate {
+	mutation := newBronzeHistoryGCPCloudAssetResourceSearchMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPCloudAssetResourceSearchUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) UpdateOne(_m *BronzeHistoryGCPCloudAssetResourceSearch) *BronzeHistoryGCPCloudAssetResourceSearchUpdateOne {
+	mutation := newBronzeHistoryGCPCloudAssetResourceSearchMutation(c.config, OpUpdateOne, withBronzeHistoryGCPCloudAssetResourceSearch(_m))
+	return &BronzeHistoryGCPCloudAssetResourceSearchUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) UpdateOneID(id int) *BronzeHistoryGCPCloudAssetResourceSearchUpdateOne {
+	mutation := newBronzeHistoryGCPCloudAssetResourceSearchMutation(c.config, OpUpdateOne, withBronzeHistoryGCPCloudAssetResourceSearchID(id))
+	return &BronzeHistoryGCPCloudAssetResourceSearchUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPCloudAssetResourceSearch.
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) Delete() *BronzeHistoryGCPCloudAssetResourceSearchDelete {
+	mutation := newBronzeHistoryGCPCloudAssetResourceSearchMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPCloudAssetResourceSearchDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) DeleteOne(_m *BronzeHistoryGCPCloudAssetResourceSearch) *BronzeHistoryGCPCloudAssetResourceSearchDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) DeleteOneID(id int) *BronzeHistoryGCPCloudAssetResourceSearchDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpcloudassetresourcesearch.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPCloudAssetResourceSearchDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPCloudAssetResourceSearch.
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) Query() *BronzeHistoryGCPCloudAssetResourceSearchQuery {
+	return &BronzeHistoryGCPCloudAssetResourceSearchQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPCloudAssetResourceSearch},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPCloudAssetResourceSearch entity by its id.
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPCloudAssetResourceSearch, error) {
+	return c.Query().Where(bronzehistorygcpcloudassetresourcesearch.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPCloudAssetResourceSearch {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPCloudAssetResourceSearch
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPCloudAssetResourceSearch
+}
+
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) mutate(ctx context.Context, m *BronzeHistoryGCPCloudAssetResourceSearchMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPCloudAssetResourceSearchCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPCloudAssetResourceSearchUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPCloudAssetResourceSearchUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPCloudAssetResourceSearchDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPCloudAssetResourceSearch mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPCloudFunctionsFunctionClient is a client for the BronzeHistoryGCPCloudFunctionsFunction schema.
+type BronzeHistoryGCPCloudFunctionsFunctionClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPCloudFunctionsFunctionClient returns a client for the BronzeHistoryGCPCloudFunctionsFunction from the given config.
+func NewBronzeHistoryGCPCloudFunctionsFunctionClient(c config) *BronzeHistoryGCPCloudFunctionsFunctionClient {
+	return &BronzeHistoryGCPCloudFunctionsFunctionClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpcloudfunctionsfunction.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPCloudFunctionsFunction = append(c.hooks.BronzeHistoryGCPCloudFunctionsFunction, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpcloudfunctionsfunction.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPCloudFunctionsFunction = append(c.inters.BronzeHistoryGCPCloudFunctionsFunction, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPCloudFunctionsFunction entity.
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) Create() *BronzeHistoryGCPCloudFunctionsFunctionCreate {
+	mutation := newBronzeHistoryGCPCloudFunctionsFunctionMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPCloudFunctionsFunctionCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPCloudFunctionsFunction entities.
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) CreateBulk(builders ...*BronzeHistoryGCPCloudFunctionsFunctionCreate) *BronzeHistoryGCPCloudFunctionsFunctionCreateBulk {
+	return &BronzeHistoryGCPCloudFunctionsFunctionCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPCloudFunctionsFunctionCreate, int)) *BronzeHistoryGCPCloudFunctionsFunctionCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPCloudFunctionsFunctionCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPCloudFunctionsFunctionClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPCloudFunctionsFunctionCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPCloudFunctionsFunctionCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPCloudFunctionsFunction.
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) Update() *BronzeHistoryGCPCloudFunctionsFunctionUpdate {
+	mutation := newBronzeHistoryGCPCloudFunctionsFunctionMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPCloudFunctionsFunctionUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) UpdateOne(_m *BronzeHistoryGCPCloudFunctionsFunction) *BronzeHistoryGCPCloudFunctionsFunctionUpdateOne {
+	mutation := newBronzeHistoryGCPCloudFunctionsFunctionMutation(c.config, OpUpdateOne, withBronzeHistoryGCPCloudFunctionsFunction(_m))
+	return &BronzeHistoryGCPCloudFunctionsFunctionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) UpdateOneID(id int) *BronzeHistoryGCPCloudFunctionsFunctionUpdateOne {
+	mutation := newBronzeHistoryGCPCloudFunctionsFunctionMutation(c.config, OpUpdateOne, withBronzeHistoryGCPCloudFunctionsFunctionID(id))
+	return &BronzeHistoryGCPCloudFunctionsFunctionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPCloudFunctionsFunction.
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) Delete() *BronzeHistoryGCPCloudFunctionsFunctionDelete {
+	mutation := newBronzeHistoryGCPCloudFunctionsFunctionMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPCloudFunctionsFunctionDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) DeleteOne(_m *BronzeHistoryGCPCloudFunctionsFunction) *BronzeHistoryGCPCloudFunctionsFunctionDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) DeleteOneID(id int) *BronzeHistoryGCPCloudFunctionsFunctionDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpcloudfunctionsfunction.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPCloudFunctionsFunctionDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPCloudFunctionsFunction.
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) Query() *BronzeHistoryGCPCloudFunctionsFunctionQuery {
+	return &BronzeHistoryGCPCloudFunctionsFunctionQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPCloudFunctionsFunction},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPCloudFunctionsFunction entity by its id.
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPCloudFunctionsFunction, error) {
+	return c.Query().Where(bronzehistorygcpcloudfunctionsfunction.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPCloudFunctionsFunction {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPCloudFunctionsFunction
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPCloudFunctionsFunction
+}
+
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) mutate(ctx context.Context, m *BronzeHistoryGCPCloudFunctionsFunctionMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPCloudFunctionsFunctionCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPCloudFunctionsFunctionUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPCloudFunctionsFunctionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPCloudFunctionsFunctionDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPCloudFunctionsFunction mutation op: %q", m.Op())
 	}
 }
 
@@ -31151,6 +38087,272 @@ func (c *BronzeHistoryGCPComputeUrlMapClient) mutate(ctx context.Context, m *Bro
 	}
 }
 
+// BronzeHistoryGCPContainerAnalysisNoteClient is a client for the BronzeHistoryGCPContainerAnalysisNote schema.
+type BronzeHistoryGCPContainerAnalysisNoteClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPContainerAnalysisNoteClient returns a client for the BronzeHistoryGCPContainerAnalysisNote from the given config.
+func NewBronzeHistoryGCPContainerAnalysisNoteClient(c config) *BronzeHistoryGCPContainerAnalysisNoteClient {
+	return &BronzeHistoryGCPContainerAnalysisNoteClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpcontaineranalysisnote.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPContainerAnalysisNote = append(c.hooks.BronzeHistoryGCPContainerAnalysisNote, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpcontaineranalysisnote.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPContainerAnalysisNote = append(c.inters.BronzeHistoryGCPContainerAnalysisNote, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPContainerAnalysisNote entity.
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) Create() *BronzeHistoryGCPContainerAnalysisNoteCreate {
+	mutation := newBronzeHistoryGCPContainerAnalysisNoteMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPContainerAnalysisNoteCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPContainerAnalysisNote entities.
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) CreateBulk(builders ...*BronzeHistoryGCPContainerAnalysisNoteCreate) *BronzeHistoryGCPContainerAnalysisNoteCreateBulk {
+	return &BronzeHistoryGCPContainerAnalysisNoteCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPContainerAnalysisNoteCreate, int)) *BronzeHistoryGCPContainerAnalysisNoteCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPContainerAnalysisNoteCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPContainerAnalysisNoteClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPContainerAnalysisNoteCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPContainerAnalysisNoteCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPContainerAnalysisNote.
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) Update() *BronzeHistoryGCPContainerAnalysisNoteUpdate {
+	mutation := newBronzeHistoryGCPContainerAnalysisNoteMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPContainerAnalysisNoteUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) UpdateOne(_m *BronzeHistoryGCPContainerAnalysisNote) *BronzeHistoryGCPContainerAnalysisNoteUpdateOne {
+	mutation := newBronzeHistoryGCPContainerAnalysisNoteMutation(c.config, OpUpdateOne, withBronzeHistoryGCPContainerAnalysisNote(_m))
+	return &BronzeHistoryGCPContainerAnalysisNoteUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) UpdateOneID(id int) *BronzeHistoryGCPContainerAnalysisNoteUpdateOne {
+	mutation := newBronzeHistoryGCPContainerAnalysisNoteMutation(c.config, OpUpdateOne, withBronzeHistoryGCPContainerAnalysisNoteID(id))
+	return &BronzeHistoryGCPContainerAnalysisNoteUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPContainerAnalysisNote.
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) Delete() *BronzeHistoryGCPContainerAnalysisNoteDelete {
+	mutation := newBronzeHistoryGCPContainerAnalysisNoteMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPContainerAnalysisNoteDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) DeleteOne(_m *BronzeHistoryGCPContainerAnalysisNote) *BronzeHistoryGCPContainerAnalysisNoteDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) DeleteOneID(id int) *BronzeHistoryGCPContainerAnalysisNoteDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpcontaineranalysisnote.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPContainerAnalysisNoteDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPContainerAnalysisNote.
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) Query() *BronzeHistoryGCPContainerAnalysisNoteQuery {
+	return &BronzeHistoryGCPContainerAnalysisNoteQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPContainerAnalysisNote},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPContainerAnalysisNote entity by its id.
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPContainerAnalysisNote, error) {
+	return c.Query().Where(bronzehistorygcpcontaineranalysisnote.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPContainerAnalysisNote {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPContainerAnalysisNote
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPContainerAnalysisNote
+}
+
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) mutate(ctx context.Context, m *BronzeHistoryGCPContainerAnalysisNoteMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPContainerAnalysisNoteCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPContainerAnalysisNoteUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPContainerAnalysisNoteUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPContainerAnalysisNoteDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPContainerAnalysisNote mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPContainerAnalysisOccurrenceClient is a client for the BronzeHistoryGCPContainerAnalysisOccurrence schema.
+type BronzeHistoryGCPContainerAnalysisOccurrenceClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPContainerAnalysisOccurrenceClient returns a client for the BronzeHistoryGCPContainerAnalysisOccurrence from the given config.
+func NewBronzeHistoryGCPContainerAnalysisOccurrenceClient(c config) *BronzeHistoryGCPContainerAnalysisOccurrenceClient {
+	return &BronzeHistoryGCPContainerAnalysisOccurrenceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpcontaineranalysisoccurrence.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPContainerAnalysisOccurrence = append(c.hooks.BronzeHistoryGCPContainerAnalysisOccurrence, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpcontaineranalysisoccurrence.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPContainerAnalysisOccurrence = append(c.inters.BronzeHistoryGCPContainerAnalysisOccurrence, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPContainerAnalysisOccurrence entity.
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) Create() *BronzeHistoryGCPContainerAnalysisOccurrenceCreate {
+	mutation := newBronzeHistoryGCPContainerAnalysisOccurrenceMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPContainerAnalysisOccurrenceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPContainerAnalysisOccurrence entities.
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) CreateBulk(builders ...*BronzeHistoryGCPContainerAnalysisOccurrenceCreate) *BronzeHistoryGCPContainerAnalysisOccurrenceCreateBulk {
+	return &BronzeHistoryGCPContainerAnalysisOccurrenceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPContainerAnalysisOccurrenceCreate, int)) *BronzeHistoryGCPContainerAnalysisOccurrenceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPContainerAnalysisOccurrenceCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPContainerAnalysisOccurrenceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPContainerAnalysisOccurrenceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPContainerAnalysisOccurrenceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPContainerAnalysisOccurrence.
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) Update() *BronzeHistoryGCPContainerAnalysisOccurrenceUpdate {
+	mutation := newBronzeHistoryGCPContainerAnalysisOccurrenceMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPContainerAnalysisOccurrenceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) UpdateOne(_m *BronzeHistoryGCPContainerAnalysisOccurrence) *BronzeHistoryGCPContainerAnalysisOccurrenceUpdateOne {
+	mutation := newBronzeHistoryGCPContainerAnalysisOccurrenceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPContainerAnalysisOccurrence(_m))
+	return &BronzeHistoryGCPContainerAnalysisOccurrenceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) UpdateOneID(id int) *BronzeHistoryGCPContainerAnalysisOccurrenceUpdateOne {
+	mutation := newBronzeHistoryGCPContainerAnalysisOccurrenceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPContainerAnalysisOccurrenceID(id))
+	return &BronzeHistoryGCPContainerAnalysisOccurrenceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPContainerAnalysisOccurrence.
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) Delete() *BronzeHistoryGCPContainerAnalysisOccurrenceDelete {
+	mutation := newBronzeHistoryGCPContainerAnalysisOccurrenceMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPContainerAnalysisOccurrenceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) DeleteOne(_m *BronzeHistoryGCPContainerAnalysisOccurrence) *BronzeHistoryGCPContainerAnalysisOccurrenceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) DeleteOneID(id int) *BronzeHistoryGCPContainerAnalysisOccurrenceDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpcontaineranalysisoccurrence.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPContainerAnalysisOccurrenceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPContainerAnalysisOccurrence.
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) Query() *BronzeHistoryGCPContainerAnalysisOccurrenceQuery {
+	return &BronzeHistoryGCPContainerAnalysisOccurrenceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPContainerAnalysisOccurrence},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPContainerAnalysisOccurrence entity by its id.
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPContainerAnalysisOccurrence, error) {
+	return c.Query().Where(bronzehistorygcpcontaineranalysisoccurrence.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPContainerAnalysisOccurrence {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPContainerAnalysisOccurrence
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPContainerAnalysisOccurrence
+}
+
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) mutate(ctx context.Context, m *BronzeHistoryGCPContainerAnalysisOccurrenceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPContainerAnalysisOccurrenceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPContainerAnalysisOccurrenceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPContainerAnalysisOccurrenceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPContainerAnalysisOccurrenceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPContainerAnalysisOccurrence mutation op: %q", m.Op())
+	}
+}
+
 // BronzeHistoryGCPContainerClusterClient is a client for the BronzeHistoryGCPContainerCluster schema.
 type BronzeHistoryGCPContainerClusterClient struct {
 	config
@@ -32215,6 +39417,272 @@ func (c *BronzeHistoryGCPDNSPolicyClient) mutate(ctx context.Context, m *BronzeH
 	}
 }
 
+// BronzeHistoryGCPDataprocClusterClient is a client for the BronzeHistoryGCPDataprocCluster schema.
+type BronzeHistoryGCPDataprocClusterClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPDataprocClusterClient returns a client for the BronzeHistoryGCPDataprocCluster from the given config.
+func NewBronzeHistoryGCPDataprocClusterClient(c config) *BronzeHistoryGCPDataprocClusterClient {
+	return &BronzeHistoryGCPDataprocClusterClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpdataproccluster.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPDataprocClusterClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPDataprocCluster = append(c.hooks.BronzeHistoryGCPDataprocCluster, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpdataproccluster.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPDataprocClusterClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPDataprocCluster = append(c.inters.BronzeHistoryGCPDataprocCluster, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPDataprocCluster entity.
+func (c *BronzeHistoryGCPDataprocClusterClient) Create() *BronzeHistoryGCPDataprocClusterCreate {
+	mutation := newBronzeHistoryGCPDataprocClusterMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPDataprocClusterCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPDataprocCluster entities.
+func (c *BronzeHistoryGCPDataprocClusterClient) CreateBulk(builders ...*BronzeHistoryGCPDataprocClusterCreate) *BronzeHistoryGCPDataprocClusterCreateBulk {
+	return &BronzeHistoryGCPDataprocClusterCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPDataprocClusterClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPDataprocClusterCreate, int)) *BronzeHistoryGCPDataprocClusterCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPDataprocClusterCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPDataprocClusterClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPDataprocClusterCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPDataprocClusterCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPDataprocCluster.
+func (c *BronzeHistoryGCPDataprocClusterClient) Update() *BronzeHistoryGCPDataprocClusterUpdate {
+	mutation := newBronzeHistoryGCPDataprocClusterMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPDataprocClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPDataprocClusterClient) UpdateOne(_m *BronzeHistoryGCPDataprocCluster) *BronzeHistoryGCPDataprocClusterUpdateOne {
+	mutation := newBronzeHistoryGCPDataprocClusterMutation(c.config, OpUpdateOne, withBronzeHistoryGCPDataprocCluster(_m))
+	return &BronzeHistoryGCPDataprocClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPDataprocClusterClient) UpdateOneID(id int) *BronzeHistoryGCPDataprocClusterUpdateOne {
+	mutation := newBronzeHistoryGCPDataprocClusterMutation(c.config, OpUpdateOne, withBronzeHistoryGCPDataprocClusterID(id))
+	return &BronzeHistoryGCPDataprocClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPDataprocCluster.
+func (c *BronzeHistoryGCPDataprocClusterClient) Delete() *BronzeHistoryGCPDataprocClusterDelete {
+	mutation := newBronzeHistoryGCPDataprocClusterMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPDataprocClusterDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPDataprocClusterClient) DeleteOne(_m *BronzeHistoryGCPDataprocCluster) *BronzeHistoryGCPDataprocClusterDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPDataprocClusterClient) DeleteOneID(id int) *BronzeHistoryGCPDataprocClusterDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpdataproccluster.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPDataprocClusterDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPDataprocCluster.
+func (c *BronzeHistoryGCPDataprocClusterClient) Query() *BronzeHistoryGCPDataprocClusterQuery {
+	return &BronzeHistoryGCPDataprocClusterQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPDataprocCluster},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPDataprocCluster entity by its id.
+func (c *BronzeHistoryGCPDataprocClusterClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPDataprocCluster, error) {
+	return c.Query().Where(bronzehistorygcpdataproccluster.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPDataprocClusterClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPDataprocCluster {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPDataprocClusterClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPDataprocCluster
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPDataprocClusterClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPDataprocCluster
+}
+
+func (c *BronzeHistoryGCPDataprocClusterClient) mutate(ctx context.Context, m *BronzeHistoryGCPDataprocClusterMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPDataprocClusterCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPDataprocClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPDataprocClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPDataprocClusterDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPDataprocCluster mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPFilestoreInstanceClient is a client for the BronzeHistoryGCPFilestoreInstance schema.
+type BronzeHistoryGCPFilestoreInstanceClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPFilestoreInstanceClient returns a client for the BronzeHistoryGCPFilestoreInstance from the given config.
+func NewBronzeHistoryGCPFilestoreInstanceClient(c config) *BronzeHistoryGCPFilestoreInstanceClient {
+	return &BronzeHistoryGCPFilestoreInstanceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpfilestoreinstance.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPFilestoreInstanceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPFilestoreInstance = append(c.hooks.BronzeHistoryGCPFilestoreInstance, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpfilestoreinstance.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPFilestoreInstanceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPFilestoreInstance = append(c.inters.BronzeHistoryGCPFilestoreInstance, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPFilestoreInstance entity.
+func (c *BronzeHistoryGCPFilestoreInstanceClient) Create() *BronzeHistoryGCPFilestoreInstanceCreate {
+	mutation := newBronzeHistoryGCPFilestoreInstanceMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPFilestoreInstanceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPFilestoreInstance entities.
+func (c *BronzeHistoryGCPFilestoreInstanceClient) CreateBulk(builders ...*BronzeHistoryGCPFilestoreInstanceCreate) *BronzeHistoryGCPFilestoreInstanceCreateBulk {
+	return &BronzeHistoryGCPFilestoreInstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPFilestoreInstanceClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPFilestoreInstanceCreate, int)) *BronzeHistoryGCPFilestoreInstanceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPFilestoreInstanceCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPFilestoreInstanceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPFilestoreInstanceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPFilestoreInstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPFilestoreInstance.
+func (c *BronzeHistoryGCPFilestoreInstanceClient) Update() *BronzeHistoryGCPFilestoreInstanceUpdate {
+	mutation := newBronzeHistoryGCPFilestoreInstanceMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPFilestoreInstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPFilestoreInstanceClient) UpdateOne(_m *BronzeHistoryGCPFilestoreInstance) *BronzeHistoryGCPFilestoreInstanceUpdateOne {
+	mutation := newBronzeHistoryGCPFilestoreInstanceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPFilestoreInstance(_m))
+	return &BronzeHistoryGCPFilestoreInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPFilestoreInstanceClient) UpdateOneID(id int) *BronzeHistoryGCPFilestoreInstanceUpdateOne {
+	mutation := newBronzeHistoryGCPFilestoreInstanceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPFilestoreInstanceID(id))
+	return &BronzeHistoryGCPFilestoreInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPFilestoreInstance.
+func (c *BronzeHistoryGCPFilestoreInstanceClient) Delete() *BronzeHistoryGCPFilestoreInstanceDelete {
+	mutation := newBronzeHistoryGCPFilestoreInstanceMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPFilestoreInstanceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPFilestoreInstanceClient) DeleteOne(_m *BronzeHistoryGCPFilestoreInstance) *BronzeHistoryGCPFilestoreInstanceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPFilestoreInstanceClient) DeleteOneID(id int) *BronzeHistoryGCPFilestoreInstanceDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpfilestoreinstance.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPFilestoreInstanceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPFilestoreInstance.
+func (c *BronzeHistoryGCPFilestoreInstanceClient) Query() *BronzeHistoryGCPFilestoreInstanceQuery {
+	return &BronzeHistoryGCPFilestoreInstanceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPFilestoreInstance},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPFilestoreInstance entity by its id.
+func (c *BronzeHistoryGCPFilestoreInstanceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPFilestoreInstance, error) {
+	return c.Query().Where(bronzehistorygcpfilestoreinstance.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPFilestoreInstanceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPFilestoreInstance {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPFilestoreInstanceClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPFilestoreInstance
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPFilestoreInstanceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPFilestoreInstance
+}
+
+func (c *BronzeHistoryGCPFilestoreInstanceClient) mutate(ctx context.Context, m *BronzeHistoryGCPFilestoreInstanceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPFilestoreInstanceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPFilestoreInstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPFilestoreInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPFilestoreInstanceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPFilestoreInstance mutation op: %q", m.Op())
+	}
+}
+
 // BronzeHistoryGCPFolderClient is a client for the BronzeHistoryGCPFolder schema.
 type BronzeHistoryGCPFolderClient struct {
 	config
@@ -33010,6 +40478,272 @@ func (c *BronzeHistoryGCPIAMServiceAccountKeyClient) mutate(ctx context.Context,
 		return (&BronzeHistoryGCPIAMServiceAccountKeyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPIAMServiceAccountKey mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPIAPIAMPolicyClient is a client for the BronzeHistoryGCPIAPIAMPolicy schema.
+type BronzeHistoryGCPIAPIAMPolicyClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPIAPIAMPolicyClient returns a client for the BronzeHistoryGCPIAPIAMPolicy from the given config.
+func NewBronzeHistoryGCPIAPIAMPolicyClient(c config) *BronzeHistoryGCPIAPIAMPolicyClient {
+	return &BronzeHistoryGCPIAPIAMPolicyClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpiapiampolicy.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPIAPIAMPolicy = append(c.hooks.BronzeHistoryGCPIAPIAMPolicy, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpiapiampolicy.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPIAPIAMPolicy = append(c.inters.BronzeHistoryGCPIAPIAMPolicy, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPIAPIAMPolicy entity.
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) Create() *BronzeHistoryGCPIAPIAMPolicyCreate {
+	mutation := newBronzeHistoryGCPIAPIAMPolicyMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPIAPIAMPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPIAPIAMPolicy entities.
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) CreateBulk(builders ...*BronzeHistoryGCPIAPIAMPolicyCreate) *BronzeHistoryGCPIAPIAMPolicyCreateBulk {
+	return &BronzeHistoryGCPIAPIAMPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPIAPIAMPolicyCreate, int)) *BronzeHistoryGCPIAPIAMPolicyCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPIAPIAMPolicyCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPIAPIAMPolicyClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPIAPIAMPolicyCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPIAPIAMPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPIAPIAMPolicy.
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) Update() *BronzeHistoryGCPIAPIAMPolicyUpdate {
+	mutation := newBronzeHistoryGCPIAPIAMPolicyMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPIAPIAMPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) UpdateOne(_m *BronzeHistoryGCPIAPIAMPolicy) *BronzeHistoryGCPIAPIAMPolicyUpdateOne {
+	mutation := newBronzeHistoryGCPIAPIAMPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPIAPIAMPolicy(_m))
+	return &BronzeHistoryGCPIAPIAMPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) UpdateOneID(id int) *BronzeHistoryGCPIAPIAMPolicyUpdateOne {
+	mutation := newBronzeHistoryGCPIAPIAMPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPIAPIAMPolicyID(id))
+	return &BronzeHistoryGCPIAPIAMPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPIAPIAMPolicy.
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) Delete() *BronzeHistoryGCPIAPIAMPolicyDelete {
+	mutation := newBronzeHistoryGCPIAPIAMPolicyMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPIAPIAMPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) DeleteOne(_m *BronzeHistoryGCPIAPIAMPolicy) *BronzeHistoryGCPIAPIAMPolicyDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) DeleteOneID(id int) *BronzeHistoryGCPIAPIAMPolicyDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpiapiampolicy.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPIAPIAMPolicyDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPIAPIAMPolicy.
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) Query() *BronzeHistoryGCPIAPIAMPolicyQuery {
+	return &BronzeHistoryGCPIAPIAMPolicyQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPIAPIAMPolicy},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPIAPIAMPolicy entity by its id.
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPIAPIAMPolicy, error) {
+	return c.Query().Where(bronzehistorygcpiapiampolicy.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPIAPIAMPolicy {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPIAPIAMPolicy
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPIAPIAMPolicy
+}
+
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) mutate(ctx context.Context, m *BronzeHistoryGCPIAPIAMPolicyMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPIAPIAMPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPIAPIAMPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPIAPIAMPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPIAPIAMPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPIAPIAMPolicy mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPIAPSettingsClient is a client for the BronzeHistoryGCPIAPSettings schema.
+type BronzeHistoryGCPIAPSettingsClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPIAPSettingsClient returns a client for the BronzeHistoryGCPIAPSettings from the given config.
+func NewBronzeHistoryGCPIAPSettingsClient(c config) *BronzeHistoryGCPIAPSettingsClient {
+	return &BronzeHistoryGCPIAPSettingsClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpiapsettings.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPIAPSettingsClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPIAPSettings = append(c.hooks.BronzeHistoryGCPIAPSettings, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpiapsettings.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPIAPSettingsClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPIAPSettings = append(c.inters.BronzeHistoryGCPIAPSettings, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPIAPSettings entity.
+func (c *BronzeHistoryGCPIAPSettingsClient) Create() *BronzeHistoryGCPIAPSettingsCreate {
+	mutation := newBronzeHistoryGCPIAPSettingsMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPIAPSettingsCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPIAPSettings entities.
+func (c *BronzeHistoryGCPIAPSettingsClient) CreateBulk(builders ...*BronzeHistoryGCPIAPSettingsCreate) *BronzeHistoryGCPIAPSettingsCreateBulk {
+	return &BronzeHistoryGCPIAPSettingsCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPIAPSettingsClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPIAPSettingsCreate, int)) *BronzeHistoryGCPIAPSettingsCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPIAPSettingsCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPIAPSettingsClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPIAPSettingsCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPIAPSettingsCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPIAPSettings.
+func (c *BronzeHistoryGCPIAPSettingsClient) Update() *BronzeHistoryGCPIAPSettingsUpdate {
+	mutation := newBronzeHistoryGCPIAPSettingsMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPIAPSettingsUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPIAPSettingsClient) UpdateOne(_m *BronzeHistoryGCPIAPSettings) *BronzeHistoryGCPIAPSettingsUpdateOne {
+	mutation := newBronzeHistoryGCPIAPSettingsMutation(c.config, OpUpdateOne, withBronzeHistoryGCPIAPSettings(_m))
+	return &BronzeHistoryGCPIAPSettingsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPIAPSettingsClient) UpdateOneID(id int) *BronzeHistoryGCPIAPSettingsUpdateOne {
+	mutation := newBronzeHistoryGCPIAPSettingsMutation(c.config, OpUpdateOne, withBronzeHistoryGCPIAPSettingsID(id))
+	return &BronzeHistoryGCPIAPSettingsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPIAPSettings.
+func (c *BronzeHistoryGCPIAPSettingsClient) Delete() *BronzeHistoryGCPIAPSettingsDelete {
+	mutation := newBronzeHistoryGCPIAPSettingsMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPIAPSettingsDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPIAPSettingsClient) DeleteOne(_m *BronzeHistoryGCPIAPSettings) *BronzeHistoryGCPIAPSettingsDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPIAPSettingsClient) DeleteOneID(id int) *BronzeHistoryGCPIAPSettingsDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpiapsettings.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPIAPSettingsDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPIAPSettings.
+func (c *BronzeHistoryGCPIAPSettingsClient) Query() *BronzeHistoryGCPIAPSettingsQuery {
+	return &BronzeHistoryGCPIAPSettingsQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPIAPSettings},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPIAPSettings entity by its id.
+func (c *BronzeHistoryGCPIAPSettingsClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPIAPSettings, error) {
+	return c.Query().Where(bronzehistorygcpiapsettings.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPIAPSettingsClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPIAPSettings {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPIAPSettingsClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPIAPSettings
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPIAPSettingsClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPIAPSettings
+}
+
+func (c *BronzeHistoryGCPIAPSettingsClient) mutate(ctx context.Context, m *BronzeHistoryGCPIAPSettingsMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPIAPSettingsCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPIAPSettingsUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPIAPSettingsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPIAPSettingsDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPIAPSettings mutation op: %q", m.Op())
 	}
 }
 
@@ -33811,6 +41545,272 @@ func (c *BronzeHistoryGCPLoggingSinkClient) mutate(ctx context.Context, m *Bronz
 	}
 }
 
+// BronzeHistoryGCPMonitoringAlertPolicyClient is a client for the BronzeHistoryGCPMonitoringAlertPolicy schema.
+type BronzeHistoryGCPMonitoringAlertPolicyClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPMonitoringAlertPolicyClient returns a client for the BronzeHistoryGCPMonitoringAlertPolicy from the given config.
+func NewBronzeHistoryGCPMonitoringAlertPolicyClient(c config) *BronzeHistoryGCPMonitoringAlertPolicyClient {
+	return &BronzeHistoryGCPMonitoringAlertPolicyClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpmonitoringalertpolicy.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPMonitoringAlertPolicy = append(c.hooks.BronzeHistoryGCPMonitoringAlertPolicy, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpmonitoringalertpolicy.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPMonitoringAlertPolicy = append(c.inters.BronzeHistoryGCPMonitoringAlertPolicy, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPMonitoringAlertPolicy entity.
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) Create() *BronzeHistoryGCPMonitoringAlertPolicyCreate {
+	mutation := newBronzeHistoryGCPMonitoringAlertPolicyMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPMonitoringAlertPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPMonitoringAlertPolicy entities.
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) CreateBulk(builders ...*BronzeHistoryGCPMonitoringAlertPolicyCreate) *BronzeHistoryGCPMonitoringAlertPolicyCreateBulk {
+	return &BronzeHistoryGCPMonitoringAlertPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPMonitoringAlertPolicyCreate, int)) *BronzeHistoryGCPMonitoringAlertPolicyCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPMonitoringAlertPolicyCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPMonitoringAlertPolicyClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPMonitoringAlertPolicyCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPMonitoringAlertPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPMonitoringAlertPolicy.
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) Update() *BronzeHistoryGCPMonitoringAlertPolicyUpdate {
+	mutation := newBronzeHistoryGCPMonitoringAlertPolicyMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPMonitoringAlertPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) UpdateOne(_m *BronzeHistoryGCPMonitoringAlertPolicy) *BronzeHistoryGCPMonitoringAlertPolicyUpdateOne {
+	mutation := newBronzeHistoryGCPMonitoringAlertPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPMonitoringAlertPolicy(_m))
+	return &BronzeHistoryGCPMonitoringAlertPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) UpdateOneID(id int) *BronzeHistoryGCPMonitoringAlertPolicyUpdateOne {
+	mutation := newBronzeHistoryGCPMonitoringAlertPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPMonitoringAlertPolicyID(id))
+	return &BronzeHistoryGCPMonitoringAlertPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPMonitoringAlertPolicy.
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) Delete() *BronzeHistoryGCPMonitoringAlertPolicyDelete {
+	mutation := newBronzeHistoryGCPMonitoringAlertPolicyMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPMonitoringAlertPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) DeleteOne(_m *BronzeHistoryGCPMonitoringAlertPolicy) *BronzeHistoryGCPMonitoringAlertPolicyDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) DeleteOneID(id int) *BronzeHistoryGCPMonitoringAlertPolicyDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpmonitoringalertpolicy.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPMonitoringAlertPolicyDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPMonitoringAlertPolicy.
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) Query() *BronzeHistoryGCPMonitoringAlertPolicyQuery {
+	return &BronzeHistoryGCPMonitoringAlertPolicyQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPMonitoringAlertPolicy},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPMonitoringAlertPolicy entity by its id.
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPMonitoringAlertPolicy, error) {
+	return c.Query().Where(bronzehistorygcpmonitoringalertpolicy.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPMonitoringAlertPolicy {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPMonitoringAlertPolicy
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPMonitoringAlertPolicy
+}
+
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) mutate(ctx context.Context, m *BronzeHistoryGCPMonitoringAlertPolicyMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPMonitoringAlertPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPMonitoringAlertPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPMonitoringAlertPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPMonitoringAlertPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPMonitoringAlertPolicy mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPMonitoringUptimeCheckConfigClient is a client for the BronzeHistoryGCPMonitoringUptimeCheckConfig schema.
+type BronzeHistoryGCPMonitoringUptimeCheckConfigClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPMonitoringUptimeCheckConfigClient returns a client for the BronzeHistoryGCPMonitoringUptimeCheckConfig from the given config.
+func NewBronzeHistoryGCPMonitoringUptimeCheckConfigClient(c config) *BronzeHistoryGCPMonitoringUptimeCheckConfigClient {
+	return &BronzeHistoryGCPMonitoringUptimeCheckConfigClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpmonitoringuptimecheckconfig.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPMonitoringUptimeCheckConfig = append(c.hooks.BronzeHistoryGCPMonitoringUptimeCheckConfig, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpmonitoringuptimecheckconfig.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPMonitoringUptimeCheckConfig = append(c.inters.BronzeHistoryGCPMonitoringUptimeCheckConfig, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPMonitoringUptimeCheckConfig entity.
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) Create() *BronzeHistoryGCPMonitoringUptimeCheckConfigCreate {
+	mutation := newBronzeHistoryGCPMonitoringUptimeCheckConfigMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPMonitoringUptimeCheckConfigCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPMonitoringUptimeCheckConfig entities.
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) CreateBulk(builders ...*BronzeHistoryGCPMonitoringUptimeCheckConfigCreate) *BronzeHistoryGCPMonitoringUptimeCheckConfigCreateBulk {
+	return &BronzeHistoryGCPMonitoringUptimeCheckConfigCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPMonitoringUptimeCheckConfigCreate, int)) *BronzeHistoryGCPMonitoringUptimeCheckConfigCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPMonitoringUptimeCheckConfigCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPMonitoringUptimeCheckConfigClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPMonitoringUptimeCheckConfigCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPMonitoringUptimeCheckConfigCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPMonitoringUptimeCheckConfig.
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) Update() *BronzeHistoryGCPMonitoringUptimeCheckConfigUpdate {
+	mutation := newBronzeHistoryGCPMonitoringUptimeCheckConfigMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPMonitoringUptimeCheckConfigUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) UpdateOne(_m *BronzeHistoryGCPMonitoringUptimeCheckConfig) *BronzeHistoryGCPMonitoringUptimeCheckConfigUpdateOne {
+	mutation := newBronzeHistoryGCPMonitoringUptimeCheckConfigMutation(c.config, OpUpdateOne, withBronzeHistoryGCPMonitoringUptimeCheckConfig(_m))
+	return &BronzeHistoryGCPMonitoringUptimeCheckConfigUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) UpdateOneID(id int) *BronzeHistoryGCPMonitoringUptimeCheckConfigUpdateOne {
+	mutation := newBronzeHistoryGCPMonitoringUptimeCheckConfigMutation(c.config, OpUpdateOne, withBronzeHistoryGCPMonitoringUptimeCheckConfigID(id))
+	return &BronzeHistoryGCPMonitoringUptimeCheckConfigUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPMonitoringUptimeCheckConfig.
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) Delete() *BronzeHistoryGCPMonitoringUptimeCheckConfigDelete {
+	mutation := newBronzeHistoryGCPMonitoringUptimeCheckConfigMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPMonitoringUptimeCheckConfigDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) DeleteOne(_m *BronzeHistoryGCPMonitoringUptimeCheckConfig) *BronzeHistoryGCPMonitoringUptimeCheckConfigDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) DeleteOneID(id int) *BronzeHistoryGCPMonitoringUptimeCheckConfigDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpmonitoringuptimecheckconfig.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPMonitoringUptimeCheckConfigDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPMonitoringUptimeCheckConfig.
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) Query() *BronzeHistoryGCPMonitoringUptimeCheckConfigQuery {
+	return &BronzeHistoryGCPMonitoringUptimeCheckConfigQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPMonitoringUptimeCheckConfig},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPMonitoringUptimeCheckConfig entity by its id.
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPMonitoringUptimeCheckConfig, error) {
+	return c.Query().Where(bronzehistorygcpmonitoringuptimecheckconfig.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPMonitoringUptimeCheckConfig {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPMonitoringUptimeCheckConfig
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPMonitoringUptimeCheckConfig
+}
+
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) mutate(ctx context.Context, m *BronzeHistoryGCPMonitoringUptimeCheckConfigMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPMonitoringUptimeCheckConfigCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPMonitoringUptimeCheckConfigUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPMonitoringUptimeCheckConfigUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPMonitoringUptimeCheckConfigDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPMonitoringUptimeCheckConfig mutation op: %q", m.Op())
+	}
+}
+
 // BronzeHistoryGCPOrgIamPolicyClient is a client for the BronzeHistoryGCPOrgIamPolicy schema.
 type BronzeHistoryGCPOrgIamPolicyClient struct {
 	config
@@ -34207,6 +42207,139 @@ func (c *BronzeHistoryGCPOrgPolicyConstraintClient) mutate(ctx context.Context, 
 		return (&BronzeHistoryGCPOrgPolicyConstraintDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPOrgPolicyConstraint mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPOrgPolicyCustomConstraintClient is a client for the BronzeHistoryGCPOrgPolicyCustomConstraint schema.
+type BronzeHistoryGCPOrgPolicyCustomConstraintClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPOrgPolicyCustomConstraintClient returns a client for the BronzeHistoryGCPOrgPolicyCustomConstraint from the given config.
+func NewBronzeHistoryGCPOrgPolicyCustomConstraintClient(c config) *BronzeHistoryGCPOrgPolicyCustomConstraintClient {
+	return &BronzeHistoryGCPOrgPolicyCustomConstraintClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcporgpolicycustomconstraint.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPOrgPolicyCustomConstraint = append(c.hooks.BronzeHistoryGCPOrgPolicyCustomConstraint, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcporgpolicycustomconstraint.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPOrgPolicyCustomConstraint = append(c.inters.BronzeHistoryGCPOrgPolicyCustomConstraint, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPOrgPolicyCustomConstraint entity.
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) Create() *BronzeHistoryGCPOrgPolicyCustomConstraintCreate {
+	mutation := newBronzeHistoryGCPOrgPolicyCustomConstraintMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPOrgPolicyCustomConstraintCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPOrgPolicyCustomConstraint entities.
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) CreateBulk(builders ...*BronzeHistoryGCPOrgPolicyCustomConstraintCreate) *BronzeHistoryGCPOrgPolicyCustomConstraintCreateBulk {
+	return &BronzeHistoryGCPOrgPolicyCustomConstraintCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPOrgPolicyCustomConstraintCreate, int)) *BronzeHistoryGCPOrgPolicyCustomConstraintCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPOrgPolicyCustomConstraintCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPOrgPolicyCustomConstraintClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPOrgPolicyCustomConstraintCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPOrgPolicyCustomConstraintCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPOrgPolicyCustomConstraint.
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) Update() *BronzeHistoryGCPOrgPolicyCustomConstraintUpdate {
+	mutation := newBronzeHistoryGCPOrgPolicyCustomConstraintMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPOrgPolicyCustomConstraintUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) UpdateOne(_m *BronzeHistoryGCPOrgPolicyCustomConstraint) *BronzeHistoryGCPOrgPolicyCustomConstraintUpdateOne {
+	mutation := newBronzeHistoryGCPOrgPolicyCustomConstraintMutation(c.config, OpUpdateOne, withBronzeHistoryGCPOrgPolicyCustomConstraint(_m))
+	return &BronzeHistoryGCPOrgPolicyCustomConstraintUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) UpdateOneID(id int) *BronzeHistoryGCPOrgPolicyCustomConstraintUpdateOne {
+	mutation := newBronzeHistoryGCPOrgPolicyCustomConstraintMutation(c.config, OpUpdateOne, withBronzeHistoryGCPOrgPolicyCustomConstraintID(id))
+	return &BronzeHistoryGCPOrgPolicyCustomConstraintUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPOrgPolicyCustomConstraint.
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) Delete() *BronzeHistoryGCPOrgPolicyCustomConstraintDelete {
+	mutation := newBronzeHistoryGCPOrgPolicyCustomConstraintMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPOrgPolicyCustomConstraintDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) DeleteOne(_m *BronzeHistoryGCPOrgPolicyCustomConstraint) *BronzeHistoryGCPOrgPolicyCustomConstraintDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) DeleteOneID(id int) *BronzeHistoryGCPOrgPolicyCustomConstraintDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcporgpolicycustomconstraint.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPOrgPolicyCustomConstraintDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPOrgPolicyCustomConstraint.
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) Query() *BronzeHistoryGCPOrgPolicyCustomConstraintQuery {
+	return &BronzeHistoryGCPOrgPolicyCustomConstraintQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPOrgPolicyCustomConstraint},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPOrgPolicyCustomConstraint entity by its id.
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPOrgPolicyCustomConstraint, error) {
+	return c.Query().Where(bronzehistorygcporgpolicycustomconstraint.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPOrgPolicyCustomConstraint {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPOrgPolicyCustomConstraint
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPOrgPolicyCustomConstraint
+}
+
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) mutate(ctx context.Context, m *BronzeHistoryGCPOrgPolicyCustomConstraintMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPOrgPolicyCustomConstraintCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPOrgPolicyCustomConstraintUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPOrgPolicyCustomConstraintUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPOrgPolicyCustomConstraintDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPOrgPolicyCustomConstraint mutation op: %q", m.Op())
 	}
 }
 
@@ -35008,6 +43141,671 @@ func (c *BronzeHistoryGCPProjectLabelClient) mutate(ctx context.Context, m *Bron
 	}
 }
 
+// BronzeHistoryGCPPubSubSubscriptionClient is a client for the BronzeHistoryGCPPubSubSubscription schema.
+type BronzeHistoryGCPPubSubSubscriptionClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPPubSubSubscriptionClient returns a client for the BronzeHistoryGCPPubSubSubscription from the given config.
+func NewBronzeHistoryGCPPubSubSubscriptionClient(c config) *BronzeHistoryGCPPubSubSubscriptionClient {
+	return &BronzeHistoryGCPPubSubSubscriptionClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcppubsubsubscription.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPPubSubSubscription = append(c.hooks.BronzeHistoryGCPPubSubSubscription, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcppubsubsubscription.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPPubSubSubscription = append(c.inters.BronzeHistoryGCPPubSubSubscription, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPPubSubSubscription entity.
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) Create() *BronzeHistoryGCPPubSubSubscriptionCreate {
+	mutation := newBronzeHistoryGCPPubSubSubscriptionMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPPubSubSubscriptionCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPPubSubSubscription entities.
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) CreateBulk(builders ...*BronzeHistoryGCPPubSubSubscriptionCreate) *BronzeHistoryGCPPubSubSubscriptionCreateBulk {
+	return &BronzeHistoryGCPPubSubSubscriptionCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPPubSubSubscriptionCreate, int)) *BronzeHistoryGCPPubSubSubscriptionCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPPubSubSubscriptionCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPPubSubSubscriptionClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPPubSubSubscriptionCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPPubSubSubscriptionCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPPubSubSubscription.
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) Update() *BronzeHistoryGCPPubSubSubscriptionUpdate {
+	mutation := newBronzeHistoryGCPPubSubSubscriptionMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPPubSubSubscriptionUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) UpdateOne(_m *BronzeHistoryGCPPubSubSubscription) *BronzeHistoryGCPPubSubSubscriptionUpdateOne {
+	mutation := newBronzeHistoryGCPPubSubSubscriptionMutation(c.config, OpUpdateOne, withBronzeHistoryGCPPubSubSubscription(_m))
+	return &BronzeHistoryGCPPubSubSubscriptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) UpdateOneID(id int) *BronzeHistoryGCPPubSubSubscriptionUpdateOne {
+	mutation := newBronzeHistoryGCPPubSubSubscriptionMutation(c.config, OpUpdateOne, withBronzeHistoryGCPPubSubSubscriptionID(id))
+	return &BronzeHistoryGCPPubSubSubscriptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPPubSubSubscription.
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) Delete() *BronzeHistoryGCPPubSubSubscriptionDelete {
+	mutation := newBronzeHistoryGCPPubSubSubscriptionMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPPubSubSubscriptionDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) DeleteOne(_m *BronzeHistoryGCPPubSubSubscription) *BronzeHistoryGCPPubSubSubscriptionDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) DeleteOneID(id int) *BronzeHistoryGCPPubSubSubscriptionDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcppubsubsubscription.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPPubSubSubscriptionDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPPubSubSubscription.
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) Query() *BronzeHistoryGCPPubSubSubscriptionQuery {
+	return &BronzeHistoryGCPPubSubSubscriptionQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPPubSubSubscription},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPPubSubSubscription entity by its id.
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPPubSubSubscription, error) {
+	return c.Query().Where(bronzehistorygcppubsubsubscription.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPPubSubSubscription {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPPubSubSubscription
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPPubSubSubscription
+}
+
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) mutate(ctx context.Context, m *BronzeHistoryGCPPubSubSubscriptionMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPPubSubSubscriptionCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPPubSubSubscriptionUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPPubSubSubscriptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPPubSubSubscriptionDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPPubSubSubscription mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPPubSubTopicClient is a client for the BronzeHistoryGCPPubSubTopic schema.
+type BronzeHistoryGCPPubSubTopicClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPPubSubTopicClient returns a client for the BronzeHistoryGCPPubSubTopic from the given config.
+func NewBronzeHistoryGCPPubSubTopicClient(c config) *BronzeHistoryGCPPubSubTopicClient {
+	return &BronzeHistoryGCPPubSubTopicClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcppubsubtopic.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPPubSubTopicClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPPubSubTopic = append(c.hooks.BronzeHistoryGCPPubSubTopic, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcppubsubtopic.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPPubSubTopicClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPPubSubTopic = append(c.inters.BronzeHistoryGCPPubSubTopic, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPPubSubTopic entity.
+func (c *BronzeHistoryGCPPubSubTopicClient) Create() *BronzeHistoryGCPPubSubTopicCreate {
+	mutation := newBronzeHistoryGCPPubSubTopicMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPPubSubTopicCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPPubSubTopic entities.
+func (c *BronzeHistoryGCPPubSubTopicClient) CreateBulk(builders ...*BronzeHistoryGCPPubSubTopicCreate) *BronzeHistoryGCPPubSubTopicCreateBulk {
+	return &BronzeHistoryGCPPubSubTopicCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPPubSubTopicClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPPubSubTopicCreate, int)) *BronzeHistoryGCPPubSubTopicCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPPubSubTopicCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPPubSubTopicClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPPubSubTopicCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPPubSubTopicCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPPubSubTopic.
+func (c *BronzeHistoryGCPPubSubTopicClient) Update() *BronzeHistoryGCPPubSubTopicUpdate {
+	mutation := newBronzeHistoryGCPPubSubTopicMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPPubSubTopicUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPPubSubTopicClient) UpdateOne(_m *BronzeHistoryGCPPubSubTopic) *BronzeHistoryGCPPubSubTopicUpdateOne {
+	mutation := newBronzeHistoryGCPPubSubTopicMutation(c.config, OpUpdateOne, withBronzeHistoryGCPPubSubTopic(_m))
+	return &BronzeHistoryGCPPubSubTopicUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPPubSubTopicClient) UpdateOneID(id int) *BronzeHistoryGCPPubSubTopicUpdateOne {
+	mutation := newBronzeHistoryGCPPubSubTopicMutation(c.config, OpUpdateOne, withBronzeHistoryGCPPubSubTopicID(id))
+	return &BronzeHistoryGCPPubSubTopicUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPPubSubTopic.
+func (c *BronzeHistoryGCPPubSubTopicClient) Delete() *BronzeHistoryGCPPubSubTopicDelete {
+	mutation := newBronzeHistoryGCPPubSubTopicMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPPubSubTopicDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPPubSubTopicClient) DeleteOne(_m *BronzeHistoryGCPPubSubTopic) *BronzeHistoryGCPPubSubTopicDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPPubSubTopicClient) DeleteOneID(id int) *BronzeHistoryGCPPubSubTopicDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcppubsubtopic.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPPubSubTopicDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPPubSubTopic.
+func (c *BronzeHistoryGCPPubSubTopicClient) Query() *BronzeHistoryGCPPubSubTopicQuery {
+	return &BronzeHistoryGCPPubSubTopicQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPPubSubTopic},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPPubSubTopic entity by its id.
+func (c *BronzeHistoryGCPPubSubTopicClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPPubSubTopic, error) {
+	return c.Query().Where(bronzehistorygcppubsubtopic.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPPubSubTopicClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPPubSubTopic {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPPubSubTopicClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPPubSubTopic
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPPubSubTopicClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPPubSubTopic
+}
+
+func (c *BronzeHistoryGCPPubSubTopicClient) mutate(ctx context.Context, m *BronzeHistoryGCPPubSubTopicMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPPubSubTopicCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPPubSubTopicUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPPubSubTopicUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPPubSubTopicDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPPubSubTopic mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPRedisInstanceClient is a client for the BronzeHistoryGCPRedisInstance schema.
+type BronzeHistoryGCPRedisInstanceClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPRedisInstanceClient returns a client for the BronzeHistoryGCPRedisInstance from the given config.
+func NewBronzeHistoryGCPRedisInstanceClient(c config) *BronzeHistoryGCPRedisInstanceClient {
+	return &BronzeHistoryGCPRedisInstanceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpredisinstance.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPRedisInstanceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPRedisInstance = append(c.hooks.BronzeHistoryGCPRedisInstance, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpredisinstance.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPRedisInstanceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPRedisInstance = append(c.inters.BronzeHistoryGCPRedisInstance, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPRedisInstance entity.
+func (c *BronzeHistoryGCPRedisInstanceClient) Create() *BronzeHistoryGCPRedisInstanceCreate {
+	mutation := newBronzeHistoryGCPRedisInstanceMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPRedisInstanceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPRedisInstance entities.
+func (c *BronzeHistoryGCPRedisInstanceClient) CreateBulk(builders ...*BronzeHistoryGCPRedisInstanceCreate) *BronzeHistoryGCPRedisInstanceCreateBulk {
+	return &BronzeHistoryGCPRedisInstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPRedisInstanceClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPRedisInstanceCreate, int)) *BronzeHistoryGCPRedisInstanceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPRedisInstanceCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPRedisInstanceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPRedisInstanceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPRedisInstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPRedisInstance.
+func (c *BronzeHistoryGCPRedisInstanceClient) Update() *BronzeHistoryGCPRedisInstanceUpdate {
+	mutation := newBronzeHistoryGCPRedisInstanceMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPRedisInstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPRedisInstanceClient) UpdateOne(_m *BronzeHistoryGCPRedisInstance) *BronzeHistoryGCPRedisInstanceUpdateOne {
+	mutation := newBronzeHistoryGCPRedisInstanceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPRedisInstance(_m))
+	return &BronzeHistoryGCPRedisInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPRedisInstanceClient) UpdateOneID(id int) *BronzeHistoryGCPRedisInstanceUpdateOne {
+	mutation := newBronzeHistoryGCPRedisInstanceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPRedisInstanceID(id))
+	return &BronzeHistoryGCPRedisInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPRedisInstance.
+func (c *BronzeHistoryGCPRedisInstanceClient) Delete() *BronzeHistoryGCPRedisInstanceDelete {
+	mutation := newBronzeHistoryGCPRedisInstanceMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPRedisInstanceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPRedisInstanceClient) DeleteOne(_m *BronzeHistoryGCPRedisInstance) *BronzeHistoryGCPRedisInstanceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPRedisInstanceClient) DeleteOneID(id int) *BronzeHistoryGCPRedisInstanceDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpredisinstance.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPRedisInstanceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPRedisInstance.
+func (c *BronzeHistoryGCPRedisInstanceClient) Query() *BronzeHistoryGCPRedisInstanceQuery {
+	return &BronzeHistoryGCPRedisInstanceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPRedisInstance},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPRedisInstance entity by its id.
+func (c *BronzeHistoryGCPRedisInstanceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPRedisInstance, error) {
+	return c.Query().Where(bronzehistorygcpredisinstance.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPRedisInstanceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPRedisInstance {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPRedisInstanceClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPRedisInstance
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPRedisInstanceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPRedisInstance
+}
+
+func (c *BronzeHistoryGCPRedisInstanceClient) mutate(ctx context.Context, m *BronzeHistoryGCPRedisInstanceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPRedisInstanceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPRedisInstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPRedisInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPRedisInstanceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPRedisInstance mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPRunRevisionClient is a client for the BronzeHistoryGCPRunRevision schema.
+type BronzeHistoryGCPRunRevisionClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPRunRevisionClient returns a client for the BronzeHistoryGCPRunRevision from the given config.
+func NewBronzeHistoryGCPRunRevisionClient(c config) *BronzeHistoryGCPRunRevisionClient {
+	return &BronzeHistoryGCPRunRevisionClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcprunrevision.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPRunRevisionClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPRunRevision = append(c.hooks.BronzeHistoryGCPRunRevision, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcprunrevision.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPRunRevisionClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPRunRevision = append(c.inters.BronzeHistoryGCPRunRevision, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPRunRevision entity.
+func (c *BronzeHistoryGCPRunRevisionClient) Create() *BronzeHistoryGCPRunRevisionCreate {
+	mutation := newBronzeHistoryGCPRunRevisionMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPRunRevisionCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPRunRevision entities.
+func (c *BronzeHistoryGCPRunRevisionClient) CreateBulk(builders ...*BronzeHistoryGCPRunRevisionCreate) *BronzeHistoryGCPRunRevisionCreateBulk {
+	return &BronzeHistoryGCPRunRevisionCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPRunRevisionClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPRunRevisionCreate, int)) *BronzeHistoryGCPRunRevisionCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPRunRevisionCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPRunRevisionClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPRunRevisionCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPRunRevisionCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPRunRevision.
+func (c *BronzeHistoryGCPRunRevisionClient) Update() *BronzeHistoryGCPRunRevisionUpdate {
+	mutation := newBronzeHistoryGCPRunRevisionMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPRunRevisionUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPRunRevisionClient) UpdateOne(_m *BronzeHistoryGCPRunRevision) *BronzeHistoryGCPRunRevisionUpdateOne {
+	mutation := newBronzeHistoryGCPRunRevisionMutation(c.config, OpUpdateOne, withBronzeHistoryGCPRunRevision(_m))
+	return &BronzeHistoryGCPRunRevisionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPRunRevisionClient) UpdateOneID(id int) *BronzeHistoryGCPRunRevisionUpdateOne {
+	mutation := newBronzeHistoryGCPRunRevisionMutation(c.config, OpUpdateOne, withBronzeHistoryGCPRunRevisionID(id))
+	return &BronzeHistoryGCPRunRevisionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPRunRevision.
+func (c *BronzeHistoryGCPRunRevisionClient) Delete() *BronzeHistoryGCPRunRevisionDelete {
+	mutation := newBronzeHistoryGCPRunRevisionMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPRunRevisionDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPRunRevisionClient) DeleteOne(_m *BronzeHistoryGCPRunRevision) *BronzeHistoryGCPRunRevisionDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPRunRevisionClient) DeleteOneID(id int) *BronzeHistoryGCPRunRevisionDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcprunrevision.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPRunRevisionDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPRunRevision.
+func (c *BronzeHistoryGCPRunRevisionClient) Query() *BronzeHistoryGCPRunRevisionQuery {
+	return &BronzeHistoryGCPRunRevisionQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPRunRevision},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPRunRevision entity by its id.
+func (c *BronzeHistoryGCPRunRevisionClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPRunRevision, error) {
+	return c.Query().Where(bronzehistorygcprunrevision.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPRunRevisionClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPRunRevision {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPRunRevisionClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPRunRevision
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPRunRevisionClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPRunRevision
+}
+
+func (c *BronzeHistoryGCPRunRevisionClient) mutate(ctx context.Context, m *BronzeHistoryGCPRunRevisionMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPRunRevisionCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPRunRevisionUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPRunRevisionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPRunRevisionDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPRunRevision mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPRunServiceClient is a client for the BronzeHistoryGCPRunService schema.
+type BronzeHistoryGCPRunServiceClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPRunServiceClient returns a client for the BronzeHistoryGCPRunService from the given config.
+func NewBronzeHistoryGCPRunServiceClient(c config) *BronzeHistoryGCPRunServiceClient {
+	return &BronzeHistoryGCPRunServiceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcprunservice.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPRunServiceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPRunService = append(c.hooks.BronzeHistoryGCPRunService, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcprunservice.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPRunServiceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPRunService = append(c.inters.BronzeHistoryGCPRunService, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPRunService entity.
+func (c *BronzeHistoryGCPRunServiceClient) Create() *BronzeHistoryGCPRunServiceCreate {
+	mutation := newBronzeHistoryGCPRunServiceMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPRunServiceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPRunService entities.
+func (c *BronzeHistoryGCPRunServiceClient) CreateBulk(builders ...*BronzeHistoryGCPRunServiceCreate) *BronzeHistoryGCPRunServiceCreateBulk {
+	return &BronzeHistoryGCPRunServiceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPRunServiceClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPRunServiceCreate, int)) *BronzeHistoryGCPRunServiceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPRunServiceCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPRunServiceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPRunServiceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPRunServiceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPRunService.
+func (c *BronzeHistoryGCPRunServiceClient) Update() *BronzeHistoryGCPRunServiceUpdate {
+	mutation := newBronzeHistoryGCPRunServiceMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPRunServiceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPRunServiceClient) UpdateOne(_m *BronzeHistoryGCPRunService) *BronzeHistoryGCPRunServiceUpdateOne {
+	mutation := newBronzeHistoryGCPRunServiceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPRunService(_m))
+	return &BronzeHistoryGCPRunServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPRunServiceClient) UpdateOneID(id int) *BronzeHistoryGCPRunServiceUpdateOne {
+	mutation := newBronzeHistoryGCPRunServiceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPRunServiceID(id))
+	return &BronzeHistoryGCPRunServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPRunService.
+func (c *BronzeHistoryGCPRunServiceClient) Delete() *BronzeHistoryGCPRunServiceDelete {
+	mutation := newBronzeHistoryGCPRunServiceMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPRunServiceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPRunServiceClient) DeleteOne(_m *BronzeHistoryGCPRunService) *BronzeHistoryGCPRunServiceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPRunServiceClient) DeleteOneID(id int) *BronzeHistoryGCPRunServiceDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcprunservice.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPRunServiceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPRunService.
+func (c *BronzeHistoryGCPRunServiceClient) Query() *BronzeHistoryGCPRunServiceQuery {
+	return &BronzeHistoryGCPRunServiceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPRunService},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPRunService entity by its id.
+func (c *BronzeHistoryGCPRunServiceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPRunService, error) {
+	return c.Query().Where(bronzehistorygcprunservice.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPRunServiceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPRunService {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPRunServiceClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPRunService
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPRunServiceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPRunService
+}
+
+func (c *BronzeHistoryGCPRunServiceClient) mutate(ctx context.Context, m *BronzeHistoryGCPRunServiceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPRunServiceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPRunServiceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPRunServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPRunServiceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPRunService mutation op: %q", m.Op())
+	}
+}
+
 // BronzeHistoryGCPSQLInstanceClient is a client for the BronzeHistoryGCPSQLInstance schema.
 type BronzeHistoryGCPSQLInstanceClient struct {
 	config
@@ -35673,6 +44471,139 @@ func (c *BronzeHistoryGCPSecurityCenterFindingClient) mutate(ctx context.Context
 	}
 }
 
+// BronzeHistoryGCPSecurityCenterNotificationConfigClient is a client for the BronzeHistoryGCPSecurityCenterNotificationConfig schema.
+type BronzeHistoryGCPSecurityCenterNotificationConfigClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPSecurityCenterNotificationConfigClient returns a client for the BronzeHistoryGCPSecurityCenterNotificationConfig from the given config.
+func NewBronzeHistoryGCPSecurityCenterNotificationConfigClient(c config) *BronzeHistoryGCPSecurityCenterNotificationConfigClient {
+	return &BronzeHistoryGCPSecurityCenterNotificationConfigClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpsecuritycenternotificationconfig.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPSecurityCenterNotificationConfig = append(c.hooks.BronzeHistoryGCPSecurityCenterNotificationConfig, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpsecuritycenternotificationconfig.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPSecurityCenterNotificationConfig = append(c.inters.BronzeHistoryGCPSecurityCenterNotificationConfig, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPSecurityCenterNotificationConfig entity.
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) Create() *BronzeHistoryGCPSecurityCenterNotificationConfigCreate {
+	mutation := newBronzeHistoryGCPSecurityCenterNotificationConfigMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPSecurityCenterNotificationConfigCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPSecurityCenterNotificationConfig entities.
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) CreateBulk(builders ...*BronzeHistoryGCPSecurityCenterNotificationConfigCreate) *BronzeHistoryGCPSecurityCenterNotificationConfigCreateBulk {
+	return &BronzeHistoryGCPSecurityCenterNotificationConfigCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPSecurityCenterNotificationConfigCreate, int)) *BronzeHistoryGCPSecurityCenterNotificationConfigCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPSecurityCenterNotificationConfigCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPSecurityCenterNotificationConfigClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPSecurityCenterNotificationConfigCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPSecurityCenterNotificationConfigCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPSecurityCenterNotificationConfig.
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) Update() *BronzeHistoryGCPSecurityCenterNotificationConfigUpdate {
+	mutation := newBronzeHistoryGCPSecurityCenterNotificationConfigMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPSecurityCenterNotificationConfigUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) UpdateOne(_m *BronzeHistoryGCPSecurityCenterNotificationConfig) *BronzeHistoryGCPSecurityCenterNotificationConfigUpdateOne {
+	mutation := newBronzeHistoryGCPSecurityCenterNotificationConfigMutation(c.config, OpUpdateOne, withBronzeHistoryGCPSecurityCenterNotificationConfig(_m))
+	return &BronzeHistoryGCPSecurityCenterNotificationConfigUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) UpdateOneID(id int) *BronzeHistoryGCPSecurityCenterNotificationConfigUpdateOne {
+	mutation := newBronzeHistoryGCPSecurityCenterNotificationConfigMutation(c.config, OpUpdateOne, withBronzeHistoryGCPSecurityCenterNotificationConfigID(id))
+	return &BronzeHistoryGCPSecurityCenterNotificationConfigUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPSecurityCenterNotificationConfig.
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) Delete() *BronzeHistoryGCPSecurityCenterNotificationConfigDelete {
+	mutation := newBronzeHistoryGCPSecurityCenterNotificationConfigMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPSecurityCenterNotificationConfigDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) DeleteOne(_m *BronzeHistoryGCPSecurityCenterNotificationConfig) *BronzeHistoryGCPSecurityCenterNotificationConfigDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) DeleteOneID(id int) *BronzeHistoryGCPSecurityCenterNotificationConfigDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpsecuritycenternotificationconfig.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPSecurityCenterNotificationConfigDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPSecurityCenterNotificationConfig.
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) Query() *BronzeHistoryGCPSecurityCenterNotificationConfigQuery {
+	return &BronzeHistoryGCPSecurityCenterNotificationConfigQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPSecurityCenterNotificationConfig},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPSecurityCenterNotificationConfig entity by its id.
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPSecurityCenterNotificationConfig, error) {
+	return c.Query().Where(bronzehistorygcpsecuritycenternotificationconfig.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPSecurityCenterNotificationConfig {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPSecurityCenterNotificationConfig
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPSecurityCenterNotificationConfig
+}
+
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) mutate(ctx context.Context, m *BronzeHistoryGCPSecurityCenterNotificationConfigMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPSecurityCenterNotificationConfigCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPSecurityCenterNotificationConfigUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPSecurityCenterNotificationConfigUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPSecurityCenterNotificationConfigDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPSecurityCenterNotificationConfig mutation op: %q", m.Op())
+	}
+}
+
 // BronzeHistoryGCPSecurityCenterSourceClient is a client for the BronzeHistoryGCPSecurityCenterSource schema.
 type BronzeHistoryGCPSecurityCenterSourceClient struct {
 	config
@@ -35803,6 +44734,405 @@ func (c *BronzeHistoryGCPSecurityCenterSourceClient) mutate(ctx context.Context,
 		return (&BronzeHistoryGCPSecurityCenterSourceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPSecurityCenterSource mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPServiceUsageEnabledServiceClient is a client for the BronzeHistoryGCPServiceUsageEnabledService schema.
+type BronzeHistoryGCPServiceUsageEnabledServiceClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPServiceUsageEnabledServiceClient returns a client for the BronzeHistoryGCPServiceUsageEnabledService from the given config.
+func NewBronzeHistoryGCPServiceUsageEnabledServiceClient(c config) *BronzeHistoryGCPServiceUsageEnabledServiceClient {
+	return &BronzeHistoryGCPServiceUsageEnabledServiceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpserviceusageenabledservice.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPServiceUsageEnabledService = append(c.hooks.BronzeHistoryGCPServiceUsageEnabledService, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpserviceusageenabledservice.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPServiceUsageEnabledService = append(c.inters.BronzeHistoryGCPServiceUsageEnabledService, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPServiceUsageEnabledService entity.
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) Create() *BronzeHistoryGCPServiceUsageEnabledServiceCreate {
+	mutation := newBronzeHistoryGCPServiceUsageEnabledServiceMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPServiceUsageEnabledServiceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPServiceUsageEnabledService entities.
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) CreateBulk(builders ...*BronzeHistoryGCPServiceUsageEnabledServiceCreate) *BronzeHistoryGCPServiceUsageEnabledServiceCreateBulk {
+	return &BronzeHistoryGCPServiceUsageEnabledServiceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPServiceUsageEnabledServiceCreate, int)) *BronzeHistoryGCPServiceUsageEnabledServiceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPServiceUsageEnabledServiceCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPServiceUsageEnabledServiceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPServiceUsageEnabledServiceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPServiceUsageEnabledServiceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPServiceUsageEnabledService.
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) Update() *BronzeHistoryGCPServiceUsageEnabledServiceUpdate {
+	mutation := newBronzeHistoryGCPServiceUsageEnabledServiceMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPServiceUsageEnabledServiceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) UpdateOne(_m *BronzeHistoryGCPServiceUsageEnabledService) *BronzeHistoryGCPServiceUsageEnabledServiceUpdateOne {
+	mutation := newBronzeHistoryGCPServiceUsageEnabledServiceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPServiceUsageEnabledService(_m))
+	return &BronzeHistoryGCPServiceUsageEnabledServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) UpdateOneID(id int) *BronzeHistoryGCPServiceUsageEnabledServiceUpdateOne {
+	mutation := newBronzeHistoryGCPServiceUsageEnabledServiceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPServiceUsageEnabledServiceID(id))
+	return &BronzeHistoryGCPServiceUsageEnabledServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPServiceUsageEnabledService.
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) Delete() *BronzeHistoryGCPServiceUsageEnabledServiceDelete {
+	mutation := newBronzeHistoryGCPServiceUsageEnabledServiceMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPServiceUsageEnabledServiceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) DeleteOne(_m *BronzeHistoryGCPServiceUsageEnabledService) *BronzeHistoryGCPServiceUsageEnabledServiceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) DeleteOneID(id int) *BronzeHistoryGCPServiceUsageEnabledServiceDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpserviceusageenabledservice.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPServiceUsageEnabledServiceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPServiceUsageEnabledService.
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) Query() *BronzeHistoryGCPServiceUsageEnabledServiceQuery {
+	return &BronzeHistoryGCPServiceUsageEnabledServiceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPServiceUsageEnabledService},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPServiceUsageEnabledService entity by its id.
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPServiceUsageEnabledService, error) {
+	return c.Query().Where(bronzehistorygcpserviceusageenabledservice.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPServiceUsageEnabledService {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPServiceUsageEnabledService
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPServiceUsageEnabledService
+}
+
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) mutate(ctx context.Context, m *BronzeHistoryGCPServiceUsageEnabledServiceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPServiceUsageEnabledServiceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPServiceUsageEnabledServiceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPServiceUsageEnabledServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPServiceUsageEnabledServiceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPServiceUsageEnabledService mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPSpannerDatabaseClient is a client for the BronzeHistoryGCPSpannerDatabase schema.
+type BronzeHistoryGCPSpannerDatabaseClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPSpannerDatabaseClient returns a client for the BronzeHistoryGCPSpannerDatabase from the given config.
+func NewBronzeHistoryGCPSpannerDatabaseClient(c config) *BronzeHistoryGCPSpannerDatabaseClient {
+	return &BronzeHistoryGCPSpannerDatabaseClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpspannerdatabase.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPSpannerDatabaseClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPSpannerDatabase = append(c.hooks.BronzeHistoryGCPSpannerDatabase, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpspannerdatabase.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPSpannerDatabaseClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPSpannerDatabase = append(c.inters.BronzeHistoryGCPSpannerDatabase, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPSpannerDatabase entity.
+func (c *BronzeHistoryGCPSpannerDatabaseClient) Create() *BronzeHistoryGCPSpannerDatabaseCreate {
+	mutation := newBronzeHistoryGCPSpannerDatabaseMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPSpannerDatabaseCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPSpannerDatabase entities.
+func (c *BronzeHistoryGCPSpannerDatabaseClient) CreateBulk(builders ...*BronzeHistoryGCPSpannerDatabaseCreate) *BronzeHistoryGCPSpannerDatabaseCreateBulk {
+	return &BronzeHistoryGCPSpannerDatabaseCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPSpannerDatabaseClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPSpannerDatabaseCreate, int)) *BronzeHistoryGCPSpannerDatabaseCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPSpannerDatabaseCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPSpannerDatabaseClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPSpannerDatabaseCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPSpannerDatabaseCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPSpannerDatabase.
+func (c *BronzeHistoryGCPSpannerDatabaseClient) Update() *BronzeHistoryGCPSpannerDatabaseUpdate {
+	mutation := newBronzeHistoryGCPSpannerDatabaseMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPSpannerDatabaseUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPSpannerDatabaseClient) UpdateOne(_m *BronzeHistoryGCPSpannerDatabase) *BronzeHistoryGCPSpannerDatabaseUpdateOne {
+	mutation := newBronzeHistoryGCPSpannerDatabaseMutation(c.config, OpUpdateOne, withBronzeHistoryGCPSpannerDatabase(_m))
+	return &BronzeHistoryGCPSpannerDatabaseUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPSpannerDatabaseClient) UpdateOneID(id int) *BronzeHistoryGCPSpannerDatabaseUpdateOne {
+	mutation := newBronzeHistoryGCPSpannerDatabaseMutation(c.config, OpUpdateOne, withBronzeHistoryGCPSpannerDatabaseID(id))
+	return &BronzeHistoryGCPSpannerDatabaseUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPSpannerDatabase.
+func (c *BronzeHistoryGCPSpannerDatabaseClient) Delete() *BronzeHistoryGCPSpannerDatabaseDelete {
+	mutation := newBronzeHistoryGCPSpannerDatabaseMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPSpannerDatabaseDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPSpannerDatabaseClient) DeleteOne(_m *BronzeHistoryGCPSpannerDatabase) *BronzeHistoryGCPSpannerDatabaseDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPSpannerDatabaseClient) DeleteOneID(id int) *BronzeHistoryGCPSpannerDatabaseDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpspannerdatabase.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPSpannerDatabaseDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPSpannerDatabase.
+func (c *BronzeHistoryGCPSpannerDatabaseClient) Query() *BronzeHistoryGCPSpannerDatabaseQuery {
+	return &BronzeHistoryGCPSpannerDatabaseQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPSpannerDatabase},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPSpannerDatabase entity by its id.
+func (c *BronzeHistoryGCPSpannerDatabaseClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPSpannerDatabase, error) {
+	return c.Query().Where(bronzehistorygcpspannerdatabase.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPSpannerDatabaseClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPSpannerDatabase {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPSpannerDatabaseClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPSpannerDatabase
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPSpannerDatabaseClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPSpannerDatabase
+}
+
+func (c *BronzeHistoryGCPSpannerDatabaseClient) mutate(ctx context.Context, m *BronzeHistoryGCPSpannerDatabaseMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPSpannerDatabaseCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPSpannerDatabaseUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPSpannerDatabaseUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPSpannerDatabaseDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPSpannerDatabase mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPSpannerInstanceClient is a client for the BronzeHistoryGCPSpannerInstance schema.
+type BronzeHistoryGCPSpannerInstanceClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPSpannerInstanceClient returns a client for the BronzeHistoryGCPSpannerInstance from the given config.
+func NewBronzeHistoryGCPSpannerInstanceClient(c config) *BronzeHistoryGCPSpannerInstanceClient {
+	return &BronzeHistoryGCPSpannerInstanceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpspannerinstance.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPSpannerInstanceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPSpannerInstance = append(c.hooks.BronzeHistoryGCPSpannerInstance, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpspannerinstance.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPSpannerInstanceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPSpannerInstance = append(c.inters.BronzeHistoryGCPSpannerInstance, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPSpannerInstance entity.
+func (c *BronzeHistoryGCPSpannerInstanceClient) Create() *BronzeHistoryGCPSpannerInstanceCreate {
+	mutation := newBronzeHistoryGCPSpannerInstanceMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPSpannerInstanceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPSpannerInstance entities.
+func (c *BronzeHistoryGCPSpannerInstanceClient) CreateBulk(builders ...*BronzeHistoryGCPSpannerInstanceCreate) *BronzeHistoryGCPSpannerInstanceCreateBulk {
+	return &BronzeHistoryGCPSpannerInstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPSpannerInstanceClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPSpannerInstanceCreate, int)) *BronzeHistoryGCPSpannerInstanceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPSpannerInstanceCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPSpannerInstanceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPSpannerInstanceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPSpannerInstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPSpannerInstance.
+func (c *BronzeHistoryGCPSpannerInstanceClient) Update() *BronzeHistoryGCPSpannerInstanceUpdate {
+	mutation := newBronzeHistoryGCPSpannerInstanceMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPSpannerInstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPSpannerInstanceClient) UpdateOne(_m *BronzeHistoryGCPSpannerInstance) *BronzeHistoryGCPSpannerInstanceUpdateOne {
+	mutation := newBronzeHistoryGCPSpannerInstanceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPSpannerInstance(_m))
+	return &BronzeHistoryGCPSpannerInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPSpannerInstanceClient) UpdateOneID(id int) *BronzeHistoryGCPSpannerInstanceUpdateOne {
+	mutation := newBronzeHistoryGCPSpannerInstanceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPSpannerInstanceID(id))
+	return &BronzeHistoryGCPSpannerInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPSpannerInstance.
+func (c *BronzeHistoryGCPSpannerInstanceClient) Delete() *BronzeHistoryGCPSpannerInstanceDelete {
+	mutation := newBronzeHistoryGCPSpannerInstanceMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPSpannerInstanceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPSpannerInstanceClient) DeleteOne(_m *BronzeHistoryGCPSpannerInstance) *BronzeHistoryGCPSpannerInstanceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPSpannerInstanceClient) DeleteOneID(id int) *BronzeHistoryGCPSpannerInstanceDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpspannerinstance.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPSpannerInstanceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPSpannerInstance.
+func (c *BronzeHistoryGCPSpannerInstanceClient) Query() *BronzeHistoryGCPSpannerInstanceQuery {
+	return &BronzeHistoryGCPSpannerInstanceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPSpannerInstance},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPSpannerInstance entity by its id.
+func (c *BronzeHistoryGCPSpannerInstanceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPSpannerInstance, error) {
+	return c.Query().Where(bronzehistorygcpspannerinstance.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPSpannerInstanceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPSpannerInstance {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPSpannerInstanceClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPSpannerInstance
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPSpannerInstanceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPSpannerInstance
+}
+
+func (c *BronzeHistoryGCPSpannerInstanceClient) mutate(ctx context.Context, m *BronzeHistoryGCPSpannerInstanceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPSpannerInstanceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPSpannerInstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPSpannerInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPSpannerInstanceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPSpannerInstance mutation op: %q", m.Op())
 	}
 }
 
@@ -39176,9 +48506,17 @@ type (
 		BronzeDODatabase, BronzeDODatabaseBackup, BronzeDODatabaseConfig,
 		BronzeDODatabaseFirewallRule, BronzeDODatabasePool, BronzeDODatabaseReplica,
 		BronzeDODatabaseUser, BronzeDODomain, BronzeDODomainRecord, BronzeDODroplet,
-		BronzeDOFirewall, BronzeDOKey, BronzeDOKubernetesCluster,
-		BronzeDOKubernetesNodePool, BronzeDOLoadBalancer, BronzeDOProject,
-		BronzeDOProjectResource, BronzeDOVolume, BronzeDOVpc, BronzeGCPComputeAddress,
+		BronzeDOFirewall, BronzeDOKey, BronzeDOLoadBalancer, BronzeDOProject,
+		BronzeDOProjectResource, BronzeDOVolume, BronzeDOVpc,
+		BronzeGCPAccessContextManagerAccessLevel,
+		BronzeGCPAccessContextManagerAccessPolicy,
+		BronzeGCPAccessContextManagerServicePerimeter, BronzeGCPAlloyDBCluster,
+		BronzeGCPAppEngineApplication, BronzeGCPAppEngineService,
+		BronzeGCPBigQueryDataset, BronzeGCPBigQueryTable, BronzeGCPBigtableCluster,
+		BronzeGCPBigtableInstance, BronzeGCPBinaryAuthorizationAttestor,
+		BronzeGCPBinaryAuthorizationPolicy, BronzeGCPCloudAssetAsset,
+		BronzeGCPCloudAssetIAMPolicySearch, BronzeGCPCloudAssetResourceSearch,
+		BronzeGCPCloudFunctionsFunction, BronzeGCPComputeAddress,
 		BronzeGCPComputeAddressLabel, BronzeGCPComputeBackendService,
 		BronzeGCPComputeBackendServiceBackend, BronzeGCPComputeDisk,
 		BronzeGCPComputeDiskLabel, BronzeGCPComputeDiskLicense,
@@ -39206,36 +48544,52 @@ type (
 		BronzeGCPComputeTargetHttpsProxy, BronzeGCPComputeTargetInstance,
 		BronzeGCPComputeTargetPool, BronzeGCPComputeTargetSslProxy,
 		BronzeGCPComputeTargetTcpProxy, BronzeGCPComputeUrlMap,
+		BronzeGCPContainerAnalysisNote, BronzeGCPContainerAnalysisOccurrence,
 		BronzeGCPContainerCluster, BronzeGCPContainerClusterAddon,
 		BronzeGCPContainerClusterCondition, BronzeGCPContainerClusterLabel,
 		BronzeGCPContainerClusterNodePool, BronzeGCPDNSManagedZone,
-		BronzeGCPDNSManagedZoneLabel, BronzeGCPDNSPolicy, BronzeGCPFolder,
-		BronzeGCPFolderIamPolicy, BronzeGCPFolderIamPolicyBinding,
-		BronzeGCPFolderLabel, BronzeGCPIAMServiceAccount,
-		BronzeGCPIAMServiceAccountKey, BronzeGCPKMSCryptoKey, BronzeGCPKMSKeyRing,
-		BronzeGCPLoggingBucket, BronzeGCPLoggingLogExclusion,
-		BronzeGCPLoggingLogMetric, BronzeGCPLoggingSink, BronzeGCPOrgIamPolicy,
-		BronzeGCPOrgIamPolicyBinding, BronzeGCPOrgPolicyConstraint,
+		BronzeGCPDNSManagedZoneLabel, BronzeGCPDNSPolicy, BronzeGCPDataprocCluster,
+		BronzeGCPFilestoreInstance, BronzeGCPFolder, BronzeGCPFolderIamPolicy,
+		BronzeGCPFolderIamPolicyBinding, BronzeGCPFolderLabel,
+		BronzeGCPIAMServiceAccount, BronzeGCPIAMServiceAccountKey,
+		BronzeGCPIAPIAMPolicy, BronzeGCPIAPSettings, BronzeGCPKMSCryptoKey,
+		BronzeGCPKMSKeyRing, BronzeGCPLoggingBucket, BronzeGCPLoggingLogExclusion,
+		BronzeGCPLoggingLogMetric, BronzeGCPLoggingSink,
+		BronzeGCPMonitoringAlertPolicy, BronzeGCPMonitoringUptimeCheckConfig,
+		BronzeGCPOrgIamPolicy, BronzeGCPOrgIamPolicyBinding,
+		BronzeGCPOrgPolicyConstraint, BronzeGCPOrgPolicyCustomConstraint,
 		BronzeGCPOrgPolicyPolicy, BronzeGCPOrganization, BronzeGCPProject,
 		BronzeGCPProjectIamPolicy, BronzeGCPProjectIamPolicyBinding,
-		BronzeGCPProjectLabel, BronzeGCPSQLInstance, BronzeGCPSQLInstanceLabel,
-		BronzeGCPSecretManagerSecret, BronzeGCPSecretManagerSecretLabel,
-		BronzeGCPSecurityCenterFinding, BronzeGCPSecurityCenterSource,
-		BronzeGCPStorageBucket, BronzeGCPStorageBucketIamPolicy,
-		BronzeGCPStorageBucketIamPolicyBinding, BronzeGCPStorageBucketLabel,
-		BronzeGCPVPCAccessConnector, BronzeGCPVPNGateway, BronzeGCPVPNGatewayLabel,
-		BronzeGCPVPNTargetGateway, BronzeGCPVPNTargetGatewayLabel, BronzeGCPVPNTunnel,
-		BronzeGCPVPNTunnelLabel, BronzeHistoryAWSEC2Instance,
-		BronzeHistoryAWSEC2InstanceTag, BronzeHistoryDOAccount,
-		BronzeHistoryDODatabase, BronzeHistoryDODatabaseBackup,
+		BronzeGCPProjectLabel, BronzeGCPPubSubSubscription, BronzeGCPPubSubTopic,
+		BronzeGCPRedisInstance, BronzeGCPRunRevision, BronzeGCPRunService,
+		BronzeGCPSQLInstance, BronzeGCPSQLInstanceLabel, BronzeGCPSecretManagerSecret,
+		BronzeGCPSecretManagerSecretLabel, BronzeGCPSecurityCenterFinding,
+		BronzeGCPSecurityCenterNotificationConfig, BronzeGCPSecurityCenterSource,
+		BronzeGCPServiceUsageEnabledService, BronzeGCPSpannerDatabase,
+		BronzeGCPSpannerInstance, BronzeGCPStorageBucket,
+		BronzeGCPStorageBucketIamPolicy, BronzeGCPStorageBucketIamPolicyBinding,
+		BronzeGCPStorageBucketLabel, BronzeGCPVPCAccessConnector, BronzeGCPVPNGateway,
+		BronzeGCPVPNGatewayLabel, BronzeGCPVPNTargetGateway,
+		BronzeGCPVPNTargetGatewayLabel, BronzeGCPVPNTunnel, BronzeGCPVPNTunnelLabel,
+		BronzeHistoryAWSEC2Instance, BronzeHistoryAWSEC2InstanceTag,
+		BronzeHistoryDOAccount, BronzeHistoryDODatabase, BronzeHistoryDODatabaseBackup,
 		BronzeHistoryDODatabaseConfig, BronzeHistoryDODatabaseFirewallRule,
 		BronzeHistoryDODatabasePool, BronzeHistoryDODatabaseReplica,
 		BronzeHistoryDODatabaseUser, BronzeHistoryDODomain,
 		BronzeHistoryDODomainRecord, BronzeHistoryDODroplet, BronzeHistoryDOFirewall,
-		BronzeHistoryDOKey, BronzeHistoryDOKubernetesCluster,
-		BronzeHistoryDOKubernetesNodePool, BronzeHistoryDOLoadBalancer,
-		BronzeHistoryDOProject, BronzeHistoryDOProjectResource, BronzeHistoryDOVolume,
-		BronzeHistoryDOVpc, BronzeHistoryGCPComputeAddress,
+		BronzeHistoryDOKey, BronzeHistoryDOLoadBalancer, BronzeHistoryDOProject,
+		BronzeHistoryDOProjectResource, BronzeHistoryDOVolume, BronzeHistoryDOVpc,
+		BronzeHistoryGCPAccessContextManagerAccessLevel,
+		BronzeHistoryGCPAccessContextManagerAccessPolicy,
+		BronzeHistoryGCPAccessContextManagerServicePerimeter,
+		BronzeHistoryGCPAlloyDBCluster, BronzeHistoryGCPAppEngineApplication,
+		BronzeHistoryGCPAppEngineService, BronzeHistoryGCPBigQueryDataset,
+		BronzeHistoryGCPBigQueryTable, BronzeHistoryGCPBigtableCluster,
+		BronzeHistoryGCPBigtableInstance, BronzeHistoryGCPBinaryAuthorizationAttestor,
+		BronzeHistoryGCPBinaryAuthorizationPolicy, BronzeHistoryGCPCloudAssetAsset,
+		BronzeHistoryGCPCloudAssetIAMPolicySearch,
+		BronzeHistoryGCPCloudAssetResourceSearch,
+		BronzeHistoryGCPCloudFunctionsFunction, BronzeHistoryGCPComputeAddress,
 		BronzeHistoryGCPComputeAddressLabel, BronzeHistoryGCPComputeBackendService,
 		BronzeHistoryGCPComputeBackendServiceBackend, BronzeHistoryGCPComputeDisk,
 		BronzeHistoryGCPComputeDiskLabel, BronzeHistoryGCPComputeDiskLicense,
@@ -39271,26 +48625,38 @@ type (
 		BronzeHistoryGCPComputeTargetHttpsProxy, BronzeHistoryGCPComputeTargetInstance,
 		BronzeHistoryGCPComputeTargetPool, BronzeHistoryGCPComputeTargetSslProxy,
 		BronzeHistoryGCPComputeTargetTcpProxy, BronzeHistoryGCPComputeUrlMap,
-		BronzeHistoryGCPContainerCluster, BronzeHistoryGCPContainerClusterAddon,
+		BronzeHistoryGCPContainerAnalysisNote,
+		BronzeHistoryGCPContainerAnalysisOccurrence, BronzeHistoryGCPContainerCluster,
+		BronzeHistoryGCPContainerClusterAddon,
 		BronzeHistoryGCPContainerClusterCondition,
 		BronzeHistoryGCPContainerClusterLabel,
 		BronzeHistoryGCPContainerClusterNodePool, BronzeHistoryGCPDNSManagedZone,
 		BronzeHistoryGCPDNSManagedZoneLabel, BronzeHistoryGCPDNSPolicy,
+		BronzeHistoryGCPDataprocCluster, BronzeHistoryGCPFilestoreInstance,
 		BronzeHistoryGCPFolder, BronzeHistoryGCPFolderIamPolicy,
 		BronzeHistoryGCPFolderIamPolicyBinding, BronzeHistoryGCPFolderLabel,
 		BronzeHistoryGCPIAMServiceAccount, BronzeHistoryGCPIAMServiceAccountKey,
+		BronzeHistoryGCPIAPIAMPolicy, BronzeHistoryGCPIAPSettings,
 		BronzeHistoryGCPKMSCryptoKey, BronzeHistoryGCPKMSKeyRing,
 		BronzeHistoryGCPLoggingBucket, BronzeHistoryGCPLoggingLogExclusion,
 		BronzeHistoryGCPLoggingLogMetric, BronzeHistoryGCPLoggingSink,
-		BronzeHistoryGCPOrgIamPolicy, BronzeHistoryGCPOrgIamPolicyBinding,
-		BronzeHistoryGCPOrgPolicyConstraint, BronzeHistoryGCPOrgPolicyPolicy,
+		BronzeHistoryGCPMonitoringAlertPolicy,
+		BronzeHistoryGCPMonitoringUptimeCheckConfig, BronzeHistoryGCPOrgIamPolicy,
+		BronzeHistoryGCPOrgIamPolicyBinding, BronzeHistoryGCPOrgPolicyConstraint,
+		BronzeHistoryGCPOrgPolicyCustomConstraint, BronzeHistoryGCPOrgPolicyPolicy,
 		BronzeHistoryGCPOrganization, BronzeHistoryGCPProject,
 		BronzeHistoryGCPProjectIamPolicy, BronzeHistoryGCPProjectIamPolicyBinding,
-		BronzeHistoryGCPProjectLabel, BronzeHistoryGCPSQLInstance,
-		BronzeHistoryGCPSQLInstanceLabel, BronzeHistoryGCPSecretManagerSecret,
-		BronzeHistoryGCPSecretManagerSecretLabel,
-		BronzeHistoryGCPSecurityCenterFinding, BronzeHistoryGCPSecurityCenterSource,
-		BronzeHistoryGCPStorageBucket, BronzeHistoryGCPStorageBucketIamPolicy,
+		BronzeHistoryGCPProjectLabel, BronzeHistoryGCPPubSubSubscription,
+		BronzeHistoryGCPPubSubTopic, BronzeHistoryGCPRedisInstance,
+		BronzeHistoryGCPRunRevision, BronzeHistoryGCPRunService,
+		BronzeHistoryGCPSQLInstance, BronzeHistoryGCPSQLInstanceLabel,
+		BronzeHistoryGCPSecretManagerSecret, BronzeHistoryGCPSecretManagerSecretLabel,
+		BronzeHistoryGCPSecurityCenterFinding,
+		BronzeHistoryGCPSecurityCenterNotificationConfig,
+		BronzeHistoryGCPSecurityCenterSource,
+		BronzeHistoryGCPServiceUsageEnabledService, BronzeHistoryGCPSpannerDatabase,
+		BronzeHistoryGCPSpannerInstance, BronzeHistoryGCPStorageBucket,
+		BronzeHistoryGCPStorageBucketIamPolicy,
 		BronzeHistoryGCPStorageBucketIamPolicyBinding,
 		BronzeHistoryGCPStorageBucketLabel, BronzeHistoryGCPVPCAccessConnector,
 		BronzeHistoryGCPVPNGateway, BronzeHistoryGCPVPNGatewayLabel,
@@ -39306,9 +48672,17 @@ type (
 		BronzeDODatabase, BronzeDODatabaseBackup, BronzeDODatabaseConfig,
 		BronzeDODatabaseFirewallRule, BronzeDODatabasePool, BronzeDODatabaseReplica,
 		BronzeDODatabaseUser, BronzeDODomain, BronzeDODomainRecord, BronzeDODroplet,
-		BronzeDOFirewall, BronzeDOKey, BronzeDOKubernetesCluster,
-		BronzeDOKubernetesNodePool, BronzeDOLoadBalancer, BronzeDOProject,
-		BronzeDOProjectResource, BronzeDOVolume, BronzeDOVpc, BronzeGCPComputeAddress,
+		BronzeDOFirewall, BronzeDOKey, BronzeDOLoadBalancer, BronzeDOProject,
+		BronzeDOProjectResource, BronzeDOVolume, BronzeDOVpc,
+		BronzeGCPAccessContextManagerAccessLevel,
+		BronzeGCPAccessContextManagerAccessPolicy,
+		BronzeGCPAccessContextManagerServicePerimeter, BronzeGCPAlloyDBCluster,
+		BronzeGCPAppEngineApplication, BronzeGCPAppEngineService,
+		BronzeGCPBigQueryDataset, BronzeGCPBigQueryTable, BronzeGCPBigtableCluster,
+		BronzeGCPBigtableInstance, BronzeGCPBinaryAuthorizationAttestor,
+		BronzeGCPBinaryAuthorizationPolicy, BronzeGCPCloudAssetAsset,
+		BronzeGCPCloudAssetIAMPolicySearch, BronzeGCPCloudAssetResourceSearch,
+		BronzeGCPCloudFunctionsFunction, BronzeGCPComputeAddress,
 		BronzeGCPComputeAddressLabel, BronzeGCPComputeBackendService,
 		BronzeGCPComputeBackendServiceBackend, BronzeGCPComputeDisk,
 		BronzeGCPComputeDiskLabel, BronzeGCPComputeDiskLicense,
@@ -39336,36 +48710,52 @@ type (
 		BronzeGCPComputeTargetHttpsProxy, BronzeGCPComputeTargetInstance,
 		BronzeGCPComputeTargetPool, BronzeGCPComputeTargetSslProxy,
 		BronzeGCPComputeTargetTcpProxy, BronzeGCPComputeUrlMap,
+		BronzeGCPContainerAnalysisNote, BronzeGCPContainerAnalysisOccurrence,
 		BronzeGCPContainerCluster, BronzeGCPContainerClusterAddon,
 		BronzeGCPContainerClusterCondition, BronzeGCPContainerClusterLabel,
 		BronzeGCPContainerClusterNodePool, BronzeGCPDNSManagedZone,
-		BronzeGCPDNSManagedZoneLabel, BronzeGCPDNSPolicy, BronzeGCPFolder,
-		BronzeGCPFolderIamPolicy, BronzeGCPFolderIamPolicyBinding,
-		BronzeGCPFolderLabel, BronzeGCPIAMServiceAccount,
-		BronzeGCPIAMServiceAccountKey, BronzeGCPKMSCryptoKey, BronzeGCPKMSKeyRing,
-		BronzeGCPLoggingBucket, BronzeGCPLoggingLogExclusion,
-		BronzeGCPLoggingLogMetric, BronzeGCPLoggingSink, BronzeGCPOrgIamPolicy,
-		BronzeGCPOrgIamPolicyBinding, BronzeGCPOrgPolicyConstraint,
+		BronzeGCPDNSManagedZoneLabel, BronzeGCPDNSPolicy, BronzeGCPDataprocCluster,
+		BronzeGCPFilestoreInstance, BronzeGCPFolder, BronzeGCPFolderIamPolicy,
+		BronzeGCPFolderIamPolicyBinding, BronzeGCPFolderLabel,
+		BronzeGCPIAMServiceAccount, BronzeGCPIAMServiceAccountKey,
+		BronzeGCPIAPIAMPolicy, BronzeGCPIAPSettings, BronzeGCPKMSCryptoKey,
+		BronzeGCPKMSKeyRing, BronzeGCPLoggingBucket, BronzeGCPLoggingLogExclusion,
+		BronzeGCPLoggingLogMetric, BronzeGCPLoggingSink,
+		BronzeGCPMonitoringAlertPolicy, BronzeGCPMonitoringUptimeCheckConfig,
+		BronzeGCPOrgIamPolicy, BronzeGCPOrgIamPolicyBinding,
+		BronzeGCPOrgPolicyConstraint, BronzeGCPOrgPolicyCustomConstraint,
 		BronzeGCPOrgPolicyPolicy, BronzeGCPOrganization, BronzeGCPProject,
 		BronzeGCPProjectIamPolicy, BronzeGCPProjectIamPolicyBinding,
-		BronzeGCPProjectLabel, BronzeGCPSQLInstance, BronzeGCPSQLInstanceLabel,
-		BronzeGCPSecretManagerSecret, BronzeGCPSecretManagerSecretLabel,
-		BronzeGCPSecurityCenterFinding, BronzeGCPSecurityCenterSource,
-		BronzeGCPStorageBucket, BronzeGCPStorageBucketIamPolicy,
-		BronzeGCPStorageBucketIamPolicyBinding, BronzeGCPStorageBucketLabel,
-		BronzeGCPVPCAccessConnector, BronzeGCPVPNGateway, BronzeGCPVPNGatewayLabel,
-		BronzeGCPVPNTargetGateway, BronzeGCPVPNTargetGatewayLabel, BronzeGCPVPNTunnel,
-		BronzeGCPVPNTunnelLabel, BronzeHistoryAWSEC2Instance,
-		BronzeHistoryAWSEC2InstanceTag, BronzeHistoryDOAccount,
-		BronzeHistoryDODatabase, BronzeHistoryDODatabaseBackup,
+		BronzeGCPProjectLabel, BronzeGCPPubSubSubscription, BronzeGCPPubSubTopic,
+		BronzeGCPRedisInstance, BronzeGCPRunRevision, BronzeGCPRunService,
+		BronzeGCPSQLInstance, BronzeGCPSQLInstanceLabel, BronzeGCPSecretManagerSecret,
+		BronzeGCPSecretManagerSecretLabel, BronzeGCPSecurityCenterFinding,
+		BronzeGCPSecurityCenterNotificationConfig, BronzeGCPSecurityCenterSource,
+		BronzeGCPServiceUsageEnabledService, BronzeGCPSpannerDatabase,
+		BronzeGCPSpannerInstance, BronzeGCPStorageBucket,
+		BronzeGCPStorageBucketIamPolicy, BronzeGCPStorageBucketIamPolicyBinding,
+		BronzeGCPStorageBucketLabel, BronzeGCPVPCAccessConnector, BronzeGCPVPNGateway,
+		BronzeGCPVPNGatewayLabel, BronzeGCPVPNTargetGateway,
+		BronzeGCPVPNTargetGatewayLabel, BronzeGCPVPNTunnel, BronzeGCPVPNTunnelLabel,
+		BronzeHistoryAWSEC2Instance, BronzeHistoryAWSEC2InstanceTag,
+		BronzeHistoryDOAccount, BronzeHistoryDODatabase, BronzeHistoryDODatabaseBackup,
 		BronzeHistoryDODatabaseConfig, BronzeHistoryDODatabaseFirewallRule,
 		BronzeHistoryDODatabasePool, BronzeHistoryDODatabaseReplica,
 		BronzeHistoryDODatabaseUser, BronzeHistoryDODomain,
 		BronzeHistoryDODomainRecord, BronzeHistoryDODroplet, BronzeHistoryDOFirewall,
-		BronzeHistoryDOKey, BronzeHistoryDOKubernetesCluster,
-		BronzeHistoryDOKubernetesNodePool, BronzeHistoryDOLoadBalancer,
-		BronzeHistoryDOProject, BronzeHistoryDOProjectResource, BronzeHistoryDOVolume,
-		BronzeHistoryDOVpc, BronzeHistoryGCPComputeAddress,
+		BronzeHistoryDOKey, BronzeHistoryDOLoadBalancer, BronzeHistoryDOProject,
+		BronzeHistoryDOProjectResource, BronzeHistoryDOVolume, BronzeHistoryDOVpc,
+		BronzeHistoryGCPAccessContextManagerAccessLevel,
+		BronzeHistoryGCPAccessContextManagerAccessPolicy,
+		BronzeHistoryGCPAccessContextManagerServicePerimeter,
+		BronzeHistoryGCPAlloyDBCluster, BronzeHistoryGCPAppEngineApplication,
+		BronzeHistoryGCPAppEngineService, BronzeHistoryGCPBigQueryDataset,
+		BronzeHistoryGCPBigQueryTable, BronzeHistoryGCPBigtableCluster,
+		BronzeHistoryGCPBigtableInstance, BronzeHistoryGCPBinaryAuthorizationAttestor,
+		BronzeHistoryGCPBinaryAuthorizationPolicy, BronzeHistoryGCPCloudAssetAsset,
+		BronzeHistoryGCPCloudAssetIAMPolicySearch,
+		BronzeHistoryGCPCloudAssetResourceSearch,
+		BronzeHistoryGCPCloudFunctionsFunction, BronzeHistoryGCPComputeAddress,
 		BronzeHistoryGCPComputeAddressLabel, BronzeHistoryGCPComputeBackendService,
 		BronzeHistoryGCPComputeBackendServiceBackend, BronzeHistoryGCPComputeDisk,
 		BronzeHistoryGCPComputeDiskLabel, BronzeHistoryGCPComputeDiskLicense,
@@ -39401,26 +48791,38 @@ type (
 		BronzeHistoryGCPComputeTargetHttpsProxy, BronzeHistoryGCPComputeTargetInstance,
 		BronzeHistoryGCPComputeTargetPool, BronzeHistoryGCPComputeTargetSslProxy,
 		BronzeHistoryGCPComputeTargetTcpProxy, BronzeHistoryGCPComputeUrlMap,
-		BronzeHistoryGCPContainerCluster, BronzeHistoryGCPContainerClusterAddon,
+		BronzeHistoryGCPContainerAnalysisNote,
+		BronzeHistoryGCPContainerAnalysisOccurrence, BronzeHistoryGCPContainerCluster,
+		BronzeHistoryGCPContainerClusterAddon,
 		BronzeHistoryGCPContainerClusterCondition,
 		BronzeHistoryGCPContainerClusterLabel,
 		BronzeHistoryGCPContainerClusterNodePool, BronzeHistoryGCPDNSManagedZone,
 		BronzeHistoryGCPDNSManagedZoneLabel, BronzeHistoryGCPDNSPolicy,
+		BronzeHistoryGCPDataprocCluster, BronzeHistoryGCPFilestoreInstance,
 		BronzeHistoryGCPFolder, BronzeHistoryGCPFolderIamPolicy,
 		BronzeHistoryGCPFolderIamPolicyBinding, BronzeHistoryGCPFolderLabel,
 		BronzeHistoryGCPIAMServiceAccount, BronzeHistoryGCPIAMServiceAccountKey,
+		BronzeHistoryGCPIAPIAMPolicy, BronzeHistoryGCPIAPSettings,
 		BronzeHistoryGCPKMSCryptoKey, BronzeHistoryGCPKMSKeyRing,
 		BronzeHistoryGCPLoggingBucket, BronzeHistoryGCPLoggingLogExclusion,
 		BronzeHistoryGCPLoggingLogMetric, BronzeHistoryGCPLoggingSink,
-		BronzeHistoryGCPOrgIamPolicy, BronzeHistoryGCPOrgIamPolicyBinding,
-		BronzeHistoryGCPOrgPolicyConstraint, BronzeHistoryGCPOrgPolicyPolicy,
+		BronzeHistoryGCPMonitoringAlertPolicy,
+		BronzeHistoryGCPMonitoringUptimeCheckConfig, BronzeHistoryGCPOrgIamPolicy,
+		BronzeHistoryGCPOrgIamPolicyBinding, BronzeHistoryGCPOrgPolicyConstraint,
+		BronzeHistoryGCPOrgPolicyCustomConstraint, BronzeHistoryGCPOrgPolicyPolicy,
 		BronzeHistoryGCPOrganization, BronzeHistoryGCPProject,
 		BronzeHistoryGCPProjectIamPolicy, BronzeHistoryGCPProjectIamPolicyBinding,
-		BronzeHistoryGCPProjectLabel, BronzeHistoryGCPSQLInstance,
-		BronzeHistoryGCPSQLInstanceLabel, BronzeHistoryGCPSecretManagerSecret,
-		BronzeHistoryGCPSecretManagerSecretLabel,
-		BronzeHistoryGCPSecurityCenterFinding, BronzeHistoryGCPSecurityCenterSource,
-		BronzeHistoryGCPStorageBucket, BronzeHistoryGCPStorageBucketIamPolicy,
+		BronzeHistoryGCPProjectLabel, BronzeHistoryGCPPubSubSubscription,
+		BronzeHistoryGCPPubSubTopic, BronzeHistoryGCPRedisInstance,
+		BronzeHistoryGCPRunRevision, BronzeHistoryGCPRunService,
+		BronzeHistoryGCPSQLInstance, BronzeHistoryGCPSQLInstanceLabel,
+		BronzeHistoryGCPSecretManagerSecret, BronzeHistoryGCPSecretManagerSecretLabel,
+		BronzeHistoryGCPSecurityCenterFinding,
+		BronzeHistoryGCPSecurityCenterNotificationConfig,
+		BronzeHistoryGCPSecurityCenterSource,
+		BronzeHistoryGCPServiceUsageEnabledService, BronzeHistoryGCPSpannerDatabase,
+		BronzeHistoryGCPSpannerInstance, BronzeHistoryGCPStorageBucket,
+		BronzeHistoryGCPStorageBucketIamPolicy,
 		BronzeHistoryGCPStorageBucketIamPolicyBinding,
 		BronzeHistoryGCPStorageBucketLabel, BronzeHistoryGCPVPCAccessConnector,
 		BronzeHistoryGCPVPNGateway, BronzeHistoryGCPVPNGatewayLabel,

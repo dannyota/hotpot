@@ -27,13 +27,27 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodroplet"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedofirewall"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokey"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokubernetescluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokubernetesnodepool"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoloadbalancer"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoprojectresource"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedovolume"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedovpc"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpaccesscontextmanageraccesslevel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpaccesscontextmanageraccesspolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpaccesscontextmanagerserviceperimeter"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpalloydbcluster"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpappengineapplication"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpappengineservice"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpbigquerydataset"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpbigquerytable"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpbigtablecluster"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpbigtableinstance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpbinaryauthorizationattestor"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpbinaryauthorizationpolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcloudassetasset"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcloudassetiampolicysearch"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcloudassetresourcesearch"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcloudfunctionsfunction"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeaddress"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeaddresslabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputebackendservice"
@@ -90,39 +104,57 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputetargetsslproxy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputetargettcpproxy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeurlmap"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontaineranalysisnote"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontaineranalysisoccurrence"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontainercluster"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontainerclusteraddon"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontainerclustercondition"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontainerclusterlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontainerclusternodepool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpdataproccluster"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpdnsmanagedzone"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpdnsmanagedzonelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpdnspolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfilestoreinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfolder"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfolderiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfolderiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfolderlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpiamserviceaccount"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpiamserviceaccountkey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpiapiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpiapsettings"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpkmscryptokey"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpkmskeyring"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcploggingbucket"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcplogginglogexclusion"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcplogginglogmetric"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcploggingsink"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpmonitoringalertpolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpmonitoringuptimecheckconfig"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporganization"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgpolicyconstraint"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgpolicycustomconstraint"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgpolicypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectlabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcppubsubsubscription"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcppubsubtopic"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpredisinstance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcprunrevision"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcprunservice"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecretmanagersecret"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecretmanagersecretlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecuritycenterfinding"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecuritycenternotificationconfig"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecuritycentersource"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpserviceusageenabledservice"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpspannerdatabase"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpspannerinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsqlinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsqlinstancelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpstoragebucket"
@@ -151,13 +183,27 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodroplet"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydofirewall"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokey"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokubernetescluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokubernetesnodepool"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoloadbalancer"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoprojectresource"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydovolume"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydovpc"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpaccesscontextmanageraccesslevel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpaccesscontextmanageraccesspolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpaccesscontextmanagerserviceperimeter"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpalloydbcluster"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpappengineapplication"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpappengineservice"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpbigquerydataset"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpbigquerytable"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpbigtablecluster"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpbigtableinstance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpbinaryauthorizationattestor"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpbinaryauthorizationpolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcloudassetasset"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcloudassetiampolicysearch"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcloudassetresourcesearch"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcloudfunctionsfunction"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddress"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddresslabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputebackendservice"
@@ -214,39 +260,57 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputetargetsslproxy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputetargettcpproxy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeurlmap"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontaineranalysisnote"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontaineranalysisoccurrence"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontainercluster"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontainerclusteraddon"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontainerclustercondition"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontainerclusterlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontainerclusternodepool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpdataproccluster"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpdnsmanagedzone"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpdnsmanagedzonelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpdnspolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfilestoreinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfolder"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfolderiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfolderiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfolderlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpiamserviceaccount"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpiamserviceaccountkey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpiapiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpiapsettings"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpkmscryptokey"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpkmskeyring"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcploggingbucket"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcplogginglogexclusion"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcplogginglogmetric"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcploggingsink"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpmonitoringalertpolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpmonitoringuptimecheckconfig"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporganization"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgpolicyconstraint"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgpolicycustomconstraint"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgpolicypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectlabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcppubsubsubscription"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcppubsubtopic"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpredisinstance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcprunrevision"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcprunservice"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecretmanagersecret"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecretmanagersecretlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecuritycenterfinding"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecuritycenternotificationconfig"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecuritycentersource"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpserviceusageenabledservice"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpspannerdatabase"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpspannerinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsqlinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsqlinstancelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpstoragebucket"
@@ -334,268 +398,332 @@ var (
 func checkColumn(t, c string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			bronzeawsec2instance.Table:                             bronzeawsec2instance.ValidColumn,
-			bronzeawsec2instancetag.Table:                          bronzeawsec2instancetag.ValidColumn,
-			bronzedoaccount.Table:                                  bronzedoaccount.ValidColumn,
-			bronzedodatabase.Table:                                 bronzedodatabase.ValidColumn,
-			bronzedodatabasebackup.Table:                           bronzedodatabasebackup.ValidColumn,
-			bronzedodatabaseconfig.Table:                           bronzedodatabaseconfig.ValidColumn,
-			bronzedodatabasefirewallrule.Table:                     bronzedodatabasefirewallrule.ValidColumn,
-			bronzedodatabasepool.Table:                             bronzedodatabasepool.ValidColumn,
-			bronzedodatabasereplica.Table:                          bronzedodatabasereplica.ValidColumn,
-			bronzedodatabaseuser.Table:                             bronzedodatabaseuser.ValidColumn,
-			bronzedodomain.Table:                                   bronzedodomain.ValidColumn,
-			bronzedodomainrecord.Table:                             bronzedodomainrecord.ValidColumn,
-			bronzedodroplet.Table:                                  bronzedodroplet.ValidColumn,
-			bronzedofirewall.Table:                                 bronzedofirewall.ValidColumn,
-			bronzedokey.Table:                                      bronzedokey.ValidColumn,
-			bronzedokubernetescluster.Table:                        bronzedokubernetescluster.ValidColumn,
-			bronzedokubernetesnodepool.Table:                       bronzedokubernetesnodepool.ValidColumn,
-			bronzedoloadbalancer.Table:                             bronzedoloadbalancer.ValidColumn,
-			bronzedoproject.Table:                                  bronzedoproject.ValidColumn,
-			bronzedoprojectresource.Table:                          bronzedoprojectresource.ValidColumn,
-			bronzedovolume.Table:                                   bronzedovolume.ValidColumn,
-			bronzedovpc.Table:                                      bronzedovpc.ValidColumn,
-			bronzegcpcomputeaddress.Table:                          bronzegcpcomputeaddress.ValidColumn,
-			bronzegcpcomputeaddresslabel.Table:                     bronzegcpcomputeaddresslabel.ValidColumn,
-			bronzegcpcomputebackendservice.Table:                   bronzegcpcomputebackendservice.ValidColumn,
-			bronzegcpcomputebackendservicebackend.Table:            bronzegcpcomputebackendservicebackend.ValidColumn,
-			bronzegcpcomputedisk.Table:                             bronzegcpcomputedisk.ValidColumn,
-			bronzegcpcomputedisklabel.Table:                        bronzegcpcomputedisklabel.ValidColumn,
-			bronzegcpcomputedisklicense.Table:                      bronzegcpcomputedisklicense.ValidColumn,
-			bronzegcpcomputefirewall.Table:                         bronzegcpcomputefirewall.ValidColumn,
-			bronzegcpcomputefirewallallowed.Table:                  bronzegcpcomputefirewallallowed.ValidColumn,
-			bronzegcpcomputefirewalldenied.Table:                   bronzegcpcomputefirewalldenied.ValidColumn,
-			bronzegcpcomputeforwardingrule.Table:                   bronzegcpcomputeforwardingrule.ValidColumn,
-			bronzegcpcomputeforwardingrulelabel.Table:              bronzegcpcomputeforwardingrulelabel.ValidColumn,
-			bronzegcpcomputeglobaladdress.Table:                    bronzegcpcomputeglobaladdress.ValidColumn,
-			bronzegcpcomputeglobaladdresslabel.Table:               bronzegcpcomputeglobaladdresslabel.ValidColumn,
-			bronzegcpcomputeglobalforwardingrule.Table:             bronzegcpcomputeglobalforwardingrule.ValidColumn,
-			bronzegcpcomputeglobalforwardingrulelabel.Table:        bronzegcpcomputeglobalforwardingrulelabel.ValidColumn,
-			bronzegcpcomputehealthcheck.Table:                      bronzegcpcomputehealthcheck.ValidColumn,
-			bronzegcpcomputeimage.Table:                            bronzegcpcomputeimage.ValidColumn,
-			bronzegcpcomputeimagelabel.Table:                       bronzegcpcomputeimagelabel.ValidColumn,
-			bronzegcpcomputeimagelicense.Table:                     bronzegcpcomputeimagelicense.ValidColumn,
-			bronzegcpcomputeinstance.Table:                         bronzegcpcomputeinstance.ValidColumn,
-			bronzegcpcomputeinstancedisk.Table:                     bronzegcpcomputeinstancedisk.ValidColumn,
-			bronzegcpcomputeinstancedisklicense.Table:              bronzegcpcomputeinstancedisklicense.ValidColumn,
-			bronzegcpcomputeinstancegroup.Table:                    bronzegcpcomputeinstancegroup.ValidColumn,
-			bronzegcpcomputeinstancegroupmember.Table:              bronzegcpcomputeinstancegroupmember.ValidColumn,
-			bronzegcpcomputeinstancegroupnamedport.Table:           bronzegcpcomputeinstancegroupnamedport.ValidColumn,
-			bronzegcpcomputeinstancelabel.Table:                    bronzegcpcomputeinstancelabel.ValidColumn,
-			bronzegcpcomputeinstancemetadata.Table:                 bronzegcpcomputeinstancemetadata.ValidColumn,
-			bronzegcpcomputeinstancenic.Table:                      bronzegcpcomputeinstancenic.ValidColumn,
-			bronzegcpcomputeinstancenicaccessconfig.Table:          bronzegcpcomputeinstancenicaccessconfig.ValidColumn,
-			bronzegcpcomputeinstancenicaliasrange.Table:            bronzegcpcomputeinstancenicaliasrange.ValidColumn,
-			bronzegcpcomputeinstanceserviceaccount.Table:           bronzegcpcomputeinstanceserviceaccount.ValidColumn,
-			bronzegcpcomputeinstancetag.Table:                      bronzegcpcomputeinstancetag.ValidColumn,
-			bronzegcpcomputeinterconnect.Table:                     bronzegcpcomputeinterconnect.ValidColumn,
-			bronzegcpcomputeneg.Table:                              bronzegcpcomputeneg.ValidColumn,
-			bronzegcpcomputenegendpoint.Table:                      bronzegcpcomputenegendpoint.ValidColumn,
-			bronzegcpcomputenetwork.Table:                          bronzegcpcomputenetwork.ValidColumn,
-			bronzegcpcomputenetworkpeering.Table:                   bronzegcpcomputenetworkpeering.ValidColumn,
-			bronzegcpcomputepacketmirroring.Table:                  bronzegcpcomputepacketmirroring.ValidColumn,
-			bronzegcpcomputeprojectmetadata.Table:                  bronzegcpcomputeprojectmetadata.ValidColumn,
-			bronzegcpcomputeprojectmetadataitem.Table:              bronzegcpcomputeprojectmetadataitem.ValidColumn,
-			bronzegcpcomputerouter.Table:                           bronzegcpcomputerouter.ValidColumn,
-			bronzegcpcomputesecuritypolicy.Table:                   bronzegcpcomputesecuritypolicy.ValidColumn,
-			bronzegcpcomputesnapshot.Table:                         bronzegcpcomputesnapshot.ValidColumn,
-			bronzegcpcomputesnapshotlabel.Table:                    bronzegcpcomputesnapshotlabel.ValidColumn,
-			bronzegcpcomputesnapshotlicense.Table:                  bronzegcpcomputesnapshotlicense.ValidColumn,
-			bronzegcpcomputesslpolicy.Table:                        bronzegcpcomputesslpolicy.ValidColumn,
-			bronzegcpcomputesubnetwork.Table:                       bronzegcpcomputesubnetwork.ValidColumn,
-			bronzegcpcomputesubnetworksecondaryrange.Table:         bronzegcpcomputesubnetworksecondaryrange.ValidColumn,
-			bronzegcpcomputetargethttpproxy.Table:                  bronzegcpcomputetargethttpproxy.ValidColumn,
-			bronzegcpcomputetargethttpsproxy.Table:                 bronzegcpcomputetargethttpsproxy.ValidColumn,
-			bronzegcpcomputetargetinstance.Table:                   bronzegcpcomputetargetinstance.ValidColumn,
-			bronzegcpcomputetargetpool.Table:                       bronzegcpcomputetargetpool.ValidColumn,
-			bronzegcpcomputetargetsslproxy.Table:                   bronzegcpcomputetargetsslproxy.ValidColumn,
-			bronzegcpcomputetargettcpproxy.Table:                   bronzegcpcomputetargettcpproxy.ValidColumn,
-			bronzegcpcomputeurlmap.Table:                           bronzegcpcomputeurlmap.ValidColumn,
-			bronzegcpcontainercluster.Table:                        bronzegcpcontainercluster.ValidColumn,
-			bronzegcpcontainerclusteraddon.Table:                   bronzegcpcontainerclusteraddon.ValidColumn,
-			bronzegcpcontainerclustercondition.Table:               bronzegcpcontainerclustercondition.ValidColumn,
-			bronzegcpcontainerclusterlabel.Table:                   bronzegcpcontainerclusterlabel.ValidColumn,
-			bronzegcpcontainerclusternodepool.Table:                bronzegcpcontainerclusternodepool.ValidColumn,
-			bronzegcpdnsmanagedzone.Table:                          bronzegcpdnsmanagedzone.ValidColumn,
-			bronzegcpdnsmanagedzonelabel.Table:                     bronzegcpdnsmanagedzonelabel.ValidColumn,
-			bronzegcpdnspolicy.Table:                               bronzegcpdnspolicy.ValidColumn,
-			bronzegcpfolder.Table:                                  bronzegcpfolder.ValidColumn,
-			bronzegcpfolderiampolicy.Table:                         bronzegcpfolderiampolicy.ValidColumn,
-			bronzegcpfolderiampolicybinding.Table:                  bronzegcpfolderiampolicybinding.ValidColumn,
-			bronzegcpfolderlabel.Table:                             bronzegcpfolderlabel.ValidColumn,
-			bronzegcpiamserviceaccount.Table:                       bronzegcpiamserviceaccount.ValidColumn,
-			bronzegcpiamserviceaccountkey.Table:                    bronzegcpiamserviceaccountkey.ValidColumn,
-			bronzegcpkmscryptokey.Table:                            bronzegcpkmscryptokey.ValidColumn,
-			bronzegcpkmskeyring.Table:                              bronzegcpkmskeyring.ValidColumn,
-			bronzegcploggingbucket.Table:                           bronzegcploggingbucket.ValidColumn,
-			bronzegcplogginglogexclusion.Table:                     bronzegcplogginglogexclusion.ValidColumn,
-			bronzegcplogginglogmetric.Table:                        bronzegcplogginglogmetric.ValidColumn,
-			bronzegcploggingsink.Table:                             bronzegcploggingsink.ValidColumn,
-			bronzegcporgiampolicy.Table:                            bronzegcporgiampolicy.ValidColumn,
-			bronzegcporgiampolicybinding.Table:                     bronzegcporgiampolicybinding.ValidColumn,
-			bronzegcporgpolicyconstraint.Table:                     bronzegcporgpolicyconstraint.ValidColumn,
-			bronzegcporgpolicypolicy.Table:                         bronzegcporgpolicypolicy.ValidColumn,
-			bronzegcporganization.Table:                            bronzegcporganization.ValidColumn,
-			bronzegcpproject.Table:                                 bronzegcpproject.ValidColumn,
-			bronzegcpprojectiampolicy.Table:                        bronzegcpprojectiampolicy.ValidColumn,
-			bronzegcpprojectiampolicybinding.Table:                 bronzegcpprojectiampolicybinding.ValidColumn,
-			bronzegcpprojectlabel.Table:                            bronzegcpprojectlabel.ValidColumn,
-			bronzegcpsqlinstance.Table:                             bronzegcpsqlinstance.ValidColumn,
-			bronzegcpsqlinstancelabel.Table:                        bronzegcpsqlinstancelabel.ValidColumn,
-			bronzegcpsecretmanagersecret.Table:                     bronzegcpsecretmanagersecret.ValidColumn,
-			bronzegcpsecretmanagersecretlabel.Table:                bronzegcpsecretmanagersecretlabel.ValidColumn,
-			bronzegcpsecuritycenterfinding.Table:                   bronzegcpsecuritycenterfinding.ValidColumn,
-			bronzegcpsecuritycentersource.Table:                    bronzegcpsecuritycentersource.ValidColumn,
-			bronzegcpstoragebucket.Table:                           bronzegcpstoragebucket.ValidColumn,
-			bronzegcpstoragebucketiampolicy.Table:                  bronzegcpstoragebucketiampolicy.ValidColumn,
-			bronzegcpstoragebucketiampolicybinding.Table:           bronzegcpstoragebucketiampolicybinding.ValidColumn,
-			bronzegcpstoragebucketlabel.Table:                      bronzegcpstoragebucketlabel.ValidColumn,
-			bronzegcpvpcaccessconnector.Table:                      bronzegcpvpcaccessconnector.ValidColumn,
-			bronzegcpvpngateway.Table:                              bronzegcpvpngateway.ValidColumn,
-			bronzegcpvpngatewaylabel.Table:                         bronzegcpvpngatewaylabel.ValidColumn,
-			bronzegcpvpntargetgateway.Table:                        bronzegcpvpntargetgateway.ValidColumn,
-			bronzegcpvpntargetgatewaylabel.Table:                   bronzegcpvpntargetgatewaylabel.ValidColumn,
-			bronzegcpvpntunnel.Table:                               bronzegcpvpntunnel.ValidColumn,
-			bronzegcpvpntunnellabel.Table:                          bronzegcpvpntunnellabel.ValidColumn,
-			bronzehistoryawsec2instance.Table:                      bronzehistoryawsec2instance.ValidColumn,
-			bronzehistoryawsec2instancetag.Table:                   bronzehistoryawsec2instancetag.ValidColumn,
-			bronzehistorydoaccount.Table:                           bronzehistorydoaccount.ValidColumn,
-			bronzehistorydodatabase.Table:                          bronzehistorydodatabase.ValidColumn,
-			bronzehistorydodatabasebackup.Table:                    bronzehistorydodatabasebackup.ValidColumn,
-			bronzehistorydodatabaseconfig.Table:                    bronzehistorydodatabaseconfig.ValidColumn,
-			bronzehistorydodatabasefirewallrule.Table:              bronzehistorydodatabasefirewallrule.ValidColumn,
-			bronzehistorydodatabasepool.Table:                      bronzehistorydodatabasepool.ValidColumn,
-			bronzehistorydodatabasereplica.Table:                   bronzehistorydodatabasereplica.ValidColumn,
-			bronzehistorydodatabaseuser.Table:                      bronzehistorydodatabaseuser.ValidColumn,
-			bronzehistorydodomain.Table:                            bronzehistorydodomain.ValidColumn,
-			bronzehistorydodomainrecord.Table:                      bronzehistorydodomainrecord.ValidColumn,
-			bronzehistorydodroplet.Table:                           bronzehistorydodroplet.ValidColumn,
-			bronzehistorydofirewall.Table:                          bronzehistorydofirewall.ValidColumn,
-			bronzehistorydokey.Table:                               bronzehistorydokey.ValidColumn,
-			bronzehistorydokubernetescluster.Table:                 bronzehistorydokubernetescluster.ValidColumn,
-			bronzehistorydokubernetesnodepool.Table:                bronzehistorydokubernetesnodepool.ValidColumn,
-			bronzehistorydoloadbalancer.Table:                      bronzehistorydoloadbalancer.ValidColumn,
-			bronzehistorydoproject.Table:                           bronzehistorydoproject.ValidColumn,
-			bronzehistorydoprojectresource.Table:                   bronzehistorydoprojectresource.ValidColumn,
-			bronzehistorydovolume.Table:                            bronzehistorydovolume.ValidColumn,
-			bronzehistorydovpc.Table:                               bronzehistorydovpc.ValidColumn,
-			bronzehistorygcpcomputeaddress.Table:                   bronzehistorygcpcomputeaddress.ValidColumn,
-			bronzehistorygcpcomputeaddresslabel.Table:              bronzehistorygcpcomputeaddresslabel.ValidColumn,
-			bronzehistorygcpcomputebackendservice.Table:            bronzehistorygcpcomputebackendservice.ValidColumn,
-			bronzehistorygcpcomputebackendservicebackend.Table:     bronzehistorygcpcomputebackendservicebackend.ValidColumn,
-			bronzehistorygcpcomputedisk.Table:                      bronzehistorygcpcomputedisk.ValidColumn,
-			bronzehistorygcpcomputedisklabel.Table:                 bronzehistorygcpcomputedisklabel.ValidColumn,
-			bronzehistorygcpcomputedisklicense.Table:               bronzehistorygcpcomputedisklicense.ValidColumn,
-			bronzehistorygcpcomputefirewall.Table:                  bronzehistorygcpcomputefirewall.ValidColumn,
-			bronzehistorygcpcomputefirewallallowed.Table:           bronzehistorygcpcomputefirewallallowed.ValidColumn,
-			bronzehistorygcpcomputefirewalldenied.Table:            bronzehistorygcpcomputefirewalldenied.ValidColumn,
-			bronzehistorygcpcomputeforwardingrule.Table:            bronzehistorygcpcomputeforwardingrule.ValidColumn,
-			bronzehistorygcpcomputeforwardingrulelabel.Table:       bronzehistorygcpcomputeforwardingrulelabel.ValidColumn,
-			bronzehistorygcpcomputeglobaladdress.Table:             bronzehistorygcpcomputeglobaladdress.ValidColumn,
-			bronzehistorygcpcomputeglobaladdresslabel.Table:        bronzehistorygcpcomputeglobaladdresslabel.ValidColumn,
-			bronzehistorygcpcomputeglobalforwardingrule.Table:      bronzehistorygcpcomputeglobalforwardingrule.ValidColumn,
-			bronzehistorygcpcomputeglobalforwardingrulelabel.Table: bronzehistorygcpcomputeglobalforwardingrulelabel.ValidColumn,
-			bronzehistorygcpcomputehealthcheck.Table:               bronzehistorygcpcomputehealthcheck.ValidColumn,
-			bronzehistorygcpcomputeimage.Table:                     bronzehistorygcpcomputeimage.ValidColumn,
-			bronzehistorygcpcomputeimagelabel.Table:                bronzehistorygcpcomputeimagelabel.ValidColumn,
-			bronzehistorygcpcomputeimagelicense.Table:              bronzehistorygcpcomputeimagelicense.ValidColumn,
-			bronzehistorygcpcomputeinstance.Table:                  bronzehistorygcpcomputeinstance.ValidColumn,
-			bronzehistorygcpcomputeinstancedisk.Table:              bronzehistorygcpcomputeinstancedisk.ValidColumn,
-			bronzehistorygcpcomputeinstancedisklicense.Table:       bronzehistorygcpcomputeinstancedisklicense.ValidColumn,
-			bronzehistorygcpcomputeinstancegroup.Table:             bronzehistorygcpcomputeinstancegroup.ValidColumn,
-			bronzehistorygcpcomputeinstancegroupmember.Table:       bronzehistorygcpcomputeinstancegroupmember.ValidColumn,
-			bronzehistorygcpcomputeinstancegroupnamedport.Table:    bronzehistorygcpcomputeinstancegroupnamedport.ValidColumn,
-			bronzehistorygcpcomputeinstancelabel.Table:             bronzehistorygcpcomputeinstancelabel.ValidColumn,
-			bronzehistorygcpcomputeinstancemetadata.Table:          bronzehistorygcpcomputeinstancemetadata.ValidColumn,
-			bronzehistorygcpcomputeinstancenic.Table:               bronzehistorygcpcomputeinstancenic.ValidColumn,
-			bronzehistorygcpcomputeinstancenicaccessconfig.Table:   bronzehistorygcpcomputeinstancenicaccessconfig.ValidColumn,
-			bronzehistorygcpcomputeinstancenicaliasrange.Table:     bronzehistorygcpcomputeinstancenicaliasrange.ValidColumn,
-			bronzehistorygcpcomputeinstanceserviceaccount.Table:    bronzehistorygcpcomputeinstanceserviceaccount.ValidColumn,
-			bronzehistorygcpcomputeinstancetag.Table:               bronzehistorygcpcomputeinstancetag.ValidColumn,
-			bronzehistorygcpcomputeinterconnect.Table:              bronzehistorygcpcomputeinterconnect.ValidColumn,
-			bronzehistorygcpcomputeneg.Table:                       bronzehistorygcpcomputeneg.ValidColumn,
-			bronzehistorygcpcomputenegendpoint.Table:               bronzehistorygcpcomputenegendpoint.ValidColumn,
-			bronzehistorygcpcomputenetwork.Table:                   bronzehistorygcpcomputenetwork.ValidColumn,
-			bronzehistorygcpcomputenetworkpeering.Table:            bronzehistorygcpcomputenetworkpeering.ValidColumn,
-			bronzehistorygcpcomputepacketmirroring.Table:           bronzehistorygcpcomputepacketmirroring.ValidColumn,
-			bronzehistorygcpcomputeprojectmetadata.Table:           bronzehistorygcpcomputeprojectmetadata.ValidColumn,
-			bronzehistorygcpcomputeprojectmetadataitem.Table:       bronzehistorygcpcomputeprojectmetadataitem.ValidColumn,
-			bronzehistorygcpcomputerouter.Table:                    bronzehistorygcpcomputerouter.ValidColumn,
-			bronzehistorygcpcomputesecuritypolicy.Table:            bronzehistorygcpcomputesecuritypolicy.ValidColumn,
-			bronzehistorygcpcomputesnapshot.Table:                  bronzehistorygcpcomputesnapshot.ValidColumn,
-			bronzehistorygcpcomputesnapshotlabel.Table:             bronzehistorygcpcomputesnapshotlabel.ValidColumn,
-			bronzehistorygcpcomputesnapshotlicense.Table:           bronzehistorygcpcomputesnapshotlicense.ValidColumn,
-			bronzehistorygcpcomputesslpolicy.Table:                 bronzehistorygcpcomputesslpolicy.ValidColumn,
-			bronzehistorygcpcomputesubnetwork.Table:                bronzehistorygcpcomputesubnetwork.ValidColumn,
-			bronzehistorygcpcomputesubnetworksecondaryrange.Table:  bronzehistorygcpcomputesubnetworksecondaryrange.ValidColumn,
-			bronzehistorygcpcomputetargethttpproxy.Table:           bronzehistorygcpcomputetargethttpproxy.ValidColumn,
-			bronzehistorygcpcomputetargethttpsproxy.Table:          bronzehistorygcpcomputetargethttpsproxy.ValidColumn,
-			bronzehistorygcpcomputetargetinstance.Table:            bronzehistorygcpcomputetargetinstance.ValidColumn,
-			bronzehistorygcpcomputetargetpool.Table:                bronzehistorygcpcomputetargetpool.ValidColumn,
-			bronzehistorygcpcomputetargetsslproxy.Table:            bronzehistorygcpcomputetargetsslproxy.ValidColumn,
-			bronzehistorygcpcomputetargettcpproxy.Table:            bronzehistorygcpcomputetargettcpproxy.ValidColumn,
-			bronzehistorygcpcomputeurlmap.Table:                    bronzehistorygcpcomputeurlmap.ValidColumn,
-			bronzehistorygcpcontainercluster.Table:                 bronzehistorygcpcontainercluster.ValidColumn,
-			bronzehistorygcpcontainerclusteraddon.Table:            bronzehistorygcpcontainerclusteraddon.ValidColumn,
-			bronzehistorygcpcontainerclustercondition.Table:        bronzehistorygcpcontainerclustercondition.ValidColumn,
-			bronzehistorygcpcontainerclusterlabel.Table:            bronzehistorygcpcontainerclusterlabel.ValidColumn,
-			bronzehistorygcpcontainerclusternodepool.Table:         bronzehistorygcpcontainerclusternodepool.ValidColumn,
-			bronzehistorygcpdnsmanagedzone.Table:                   bronzehistorygcpdnsmanagedzone.ValidColumn,
-			bronzehistorygcpdnsmanagedzonelabel.Table:              bronzehistorygcpdnsmanagedzonelabel.ValidColumn,
-			bronzehistorygcpdnspolicy.Table:                        bronzehistorygcpdnspolicy.ValidColumn,
-			bronzehistorygcpfolder.Table:                           bronzehistorygcpfolder.ValidColumn,
-			bronzehistorygcpfolderiampolicy.Table:                  bronzehistorygcpfolderiampolicy.ValidColumn,
-			bronzehistorygcpfolderiampolicybinding.Table:           bronzehistorygcpfolderiampolicybinding.ValidColumn,
-			bronzehistorygcpfolderlabel.Table:                      bronzehistorygcpfolderlabel.ValidColumn,
-			bronzehistorygcpiamserviceaccount.Table:                bronzehistorygcpiamserviceaccount.ValidColumn,
-			bronzehistorygcpiamserviceaccountkey.Table:             bronzehistorygcpiamserviceaccountkey.ValidColumn,
-			bronzehistorygcpkmscryptokey.Table:                     bronzehistorygcpkmscryptokey.ValidColumn,
-			bronzehistorygcpkmskeyring.Table:                       bronzehistorygcpkmskeyring.ValidColumn,
-			bronzehistorygcploggingbucket.Table:                    bronzehistorygcploggingbucket.ValidColumn,
-			bronzehistorygcplogginglogexclusion.Table:              bronzehistorygcplogginglogexclusion.ValidColumn,
-			bronzehistorygcplogginglogmetric.Table:                 bronzehistorygcplogginglogmetric.ValidColumn,
-			bronzehistorygcploggingsink.Table:                      bronzehistorygcploggingsink.ValidColumn,
-			bronzehistorygcporgiampolicy.Table:                     bronzehistorygcporgiampolicy.ValidColumn,
-			bronzehistorygcporgiampolicybinding.Table:              bronzehistorygcporgiampolicybinding.ValidColumn,
-			bronzehistorygcporgpolicyconstraint.Table:              bronzehistorygcporgpolicyconstraint.ValidColumn,
-			bronzehistorygcporgpolicypolicy.Table:                  bronzehistorygcporgpolicypolicy.ValidColumn,
-			bronzehistorygcporganization.Table:                     bronzehistorygcporganization.ValidColumn,
-			bronzehistorygcpproject.Table:                          bronzehistorygcpproject.ValidColumn,
-			bronzehistorygcpprojectiampolicy.Table:                 bronzehistorygcpprojectiampolicy.ValidColumn,
-			bronzehistorygcpprojectiampolicybinding.Table:          bronzehistorygcpprojectiampolicybinding.ValidColumn,
-			bronzehistorygcpprojectlabel.Table:                     bronzehistorygcpprojectlabel.ValidColumn,
-			bronzehistorygcpsqlinstance.Table:                      bronzehistorygcpsqlinstance.ValidColumn,
-			bronzehistorygcpsqlinstancelabel.Table:                 bronzehistorygcpsqlinstancelabel.ValidColumn,
-			bronzehistorygcpsecretmanagersecret.Table:              bronzehistorygcpsecretmanagersecret.ValidColumn,
-			bronzehistorygcpsecretmanagersecretlabel.Table:         bronzehistorygcpsecretmanagersecretlabel.ValidColumn,
-			bronzehistorygcpsecuritycenterfinding.Table:            bronzehistorygcpsecuritycenterfinding.ValidColumn,
-			bronzehistorygcpsecuritycentersource.Table:             bronzehistorygcpsecuritycentersource.ValidColumn,
-			bronzehistorygcpstoragebucket.Table:                    bronzehistorygcpstoragebucket.ValidColumn,
-			bronzehistorygcpstoragebucketiampolicy.Table:           bronzehistorygcpstoragebucketiampolicy.ValidColumn,
-			bronzehistorygcpstoragebucketiampolicybinding.Table:    bronzehistorygcpstoragebucketiampolicybinding.ValidColumn,
-			bronzehistorygcpstoragebucketlabel.Table:               bronzehistorygcpstoragebucketlabel.ValidColumn,
-			bronzehistorygcpvpcaccessconnector.Table:               bronzehistorygcpvpcaccessconnector.ValidColumn,
-			bronzehistorygcpvpngateway.Table:                       bronzehistorygcpvpngateway.ValidColumn,
-			bronzehistorygcpvpngatewaylabel.Table:                  bronzehistorygcpvpngatewaylabel.ValidColumn,
-			bronzehistorygcpvpntargetgateway.Table:                 bronzehistorygcpvpntargetgateway.ValidColumn,
-			bronzehistorygcpvpntargetgatewaylabel.Table:            bronzehistorygcpvpntargetgatewaylabel.ValidColumn,
-			bronzehistorygcpvpntunnel.Table:                        bronzehistorygcpvpntunnel.ValidColumn,
-			bronzehistorygcpvpntunnellabel.Table:                   bronzehistorygcpvpntunnellabel.ValidColumn,
-			bronzehistorys1account.Table:                           bronzehistorys1account.ValidColumn,
-			bronzehistorys1agent.Table:                             bronzehistorys1agent.ValidColumn,
-			bronzehistorys1agentnic.Table:                          bronzehistorys1agentnic.ValidColumn,
-			bronzehistorys1app.Table:                               bronzehistorys1app.ValidColumn,
-			bronzehistorys1group.Table:                             bronzehistorys1group.ValidColumn,
-			bronzehistorys1site.Table:                              bronzehistorys1site.ValidColumn,
-			bronzehistorys1threat.Table:                            bronzehistorys1threat.ValidColumn,
-			bronzes1account.Table:                                  bronzes1account.ValidColumn,
-			bronzes1agent.Table:                                    bronzes1agent.ValidColumn,
-			bronzes1agentnic.Table:                                 bronzes1agentnic.ValidColumn,
-			bronzes1app.Table:                                      bronzes1app.ValidColumn,
-			bronzes1group.Table:                                    bronzes1group.ValidColumn,
-			bronzes1site.Table:                                     bronzes1site.ValidColumn,
-			bronzes1threat.Table:                                   bronzes1threat.ValidColumn,
+			bronzeawsec2instance.Table:                                 bronzeawsec2instance.ValidColumn,
+			bronzeawsec2instancetag.Table:                              bronzeawsec2instancetag.ValidColumn,
+			bronzedoaccount.Table:                                      bronzedoaccount.ValidColumn,
+			bronzedodatabase.Table:                                     bronzedodatabase.ValidColumn,
+			bronzedodatabasebackup.Table:                               bronzedodatabasebackup.ValidColumn,
+			bronzedodatabaseconfig.Table:                               bronzedodatabaseconfig.ValidColumn,
+			bronzedodatabasefirewallrule.Table:                         bronzedodatabasefirewallrule.ValidColumn,
+			bronzedodatabasepool.Table:                                 bronzedodatabasepool.ValidColumn,
+			bronzedodatabasereplica.Table:                              bronzedodatabasereplica.ValidColumn,
+			bronzedodatabaseuser.Table:                                 bronzedodatabaseuser.ValidColumn,
+			bronzedodomain.Table:                                       bronzedodomain.ValidColumn,
+			bronzedodomainrecord.Table:                                 bronzedodomainrecord.ValidColumn,
+			bronzedodroplet.Table:                                      bronzedodroplet.ValidColumn,
+			bronzedofirewall.Table:                                     bronzedofirewall.ValidColumn,
+			bronzedokey.Table:                                          bronzedokey.ValidColumn,
+			bronzedoloadbalancer.Table:                                 bronzedoloadbalancer.ValidColumn,
+			bronzedoproject.Table:                                      bronzedoproject.ValidColumn,
+			bronzedoprojectresource.Table:                              bronzedoprojectresource.ValidColumn,
+			bronzedovolume.Table:                                       bronzedovolume.ValidColumn,
+			bronzedovpc.Table:                                          bronzedovpc.ValidColumn,
+			bronzegcpaccesscontextmanageraccesslevel.Table:             bronzegcpaccesscontextmanageraccesslevel.ValidColumn,
+			bronzegcpaccesscontextmanageraccesspolicy.Table:            bronzegcpaccesscontextmanageraccesspolicy.ValidColumn,
+			bronzegcpaccesscontextmanagerserviceperimeter.Table:        bronzegcpaccesscontextmanagerserviceperimeter.ValidColumn,
+			bronzegcpalloydbcluster.Table:                              bronzegcpalloydbcluster.ValidColumn,
+			bronzegcpappengineapplication.Table:                        bronzegcpappengineapplication.ValidColumn,
+			bronzegcpappengineservice.Table:                            bronzegcpappengineservice.ValidColumn,
+			bronzegcpbigquerydataset.Table:                             bronzegcpbigquerydataset.ValidColumn,
+			bronzegcpbigquerytable.Table:                               bronzegcpbigquerytable.ValidColumn,
+			bronzegcpbigtablecluster.Table:                             bronzegcpbigtablecluster.ValidColumn,
+			bronzegcpbigtableinstance.Table:                            bronzegcpbigtableinstance.ValidColumn,
+			bronzegcpbinaryauthorizationattestor.Table:                 bronzegcpbinaryauthorizationattestor.ValidColumn,
+			bronzegcpbinaryauthorizationpolicy.Table:                   bronzegcpbinaryauthorizationpolicy.ValidColumn,
+			bronzegcpcloudassetasset.Table:                             bronzegcpcloudassetasset.ValidColumn,
+			bronzegcpcloudassetiampolicysearch.Table:                   bronzegcpcloudassetiampolicysearch.ValidColumn,
+			bronzegcpcloudassetresourcesearch.Table:                    bronzegcpcloudassetresourcesearch.ValidColumn,
+			bronzegcpcloudfunctionsfunction.Table:                      bronzegcpcloudfunctionsfunction.ValidColumn,
+			bronzegcpcomputeaddress.Table:                              bronzegcpcomputeaddress.ValidColumn,
+			bronzegcpcomputeaddresslabel.Table:                         bronzegcpcomputeaddresslabel.ValidColumn,
+			bronzegcpcomputebackendservice.Table:                       bronzegcpcomputebackendservice.ValidColumn,
+			bronzegcpcomputebackendservicebackend.Table:                bronzegcpcomputebackendservicebackend.ValidColumn,
+			bronzegcpcomputedisk.Table:                                 bronzegcpcomputedisk.ValidColumn,
+			bronzegcpcomputedisklabel.Table:                            bronzegcpcomputedisklabel.ValidColumn,
+			bronzegcpcomputedisklicense.Table:                          bronzegcpcomputedisklicense.ValidColumn,
+			bronzegcpcomputefirewall.Table:                             bronzegcpcomputefirewall.ValidColumn,
+			bronzegcpcomputefirewallallowed.Table:                      bronzegcpcomputefirewallallowed.ValidColumn,
+			bronzegcpcomputefirewalldenied.Table:                       bronzegcpcomputefirewalldenied.ValidColumn,
+			bronzegcpcomputeforwardingrule.Table:                       bronzegcpcomputeforwardingrule.ValidColumn,
+			bronzegcpcomputeforwardingrulelabel.Table:                  bronzegcpcomputeforwardingrulelabel.ValidColumn,
+			bronzegcpcomputeglobaladdress.Table:                        bronzegcpcomputeglobaladdress.ValidColumn,
+			bronzegcpcomputeglobaladdresslabel.Table:                   bronzegcpcomputeglobaladdresslabel.ValidColumn,
+			bronzegcpcomputeglobalforwardingrule.Table:                 bronzegcpcomputeglobalforwardingrule.ValidColumn,
+			bronzegcpcomputeglobalforwardingrulelabel.Table:            bronzegcpcomputeglobalforwardingrulelabel.ValidColumn,
+			bronzegcpcomputehealthcheck.Table:                          bronzegcpcomputehealthcheck.ValidColumn,
+			bronzegcpcomputeimage.Table:                                bronzegcpcomputeimage.ValidColumn,
+			bronzegcpcomputeimagelabel.Table:                           bronzegcpcomputeimagelabel.ValidColumn,
+			bronzegcpcomputeimagelicense.Table:                         bronzegcpcomputeimagelicense.ValidColumn,
+			bronzegcpcomputeinstance.Table:                             bronzegcpcomputeinstance.ValidColumn,
+			bronzegcpcomputeinstancedisk.Table:                         bronzegcpcomputeinstancedisk.ValidColumn,
+			bronzegcpcomputeinstancedisklicense.Table:                  bronzegcpcomputeinstancedisklicense.ValidColumn,
+			bronzegcpcomputeinstancegroup.Table:                        bronzegcpcomputeinstancegroup.ValidColumn,
+			bronzegcpcomputeinstancegroupmember.Table:                  bronzegcpcomputeinstancegroupmember.ValidColumn,
+			bronzegcpcomputeinstancegroupnamedport.Table:               bronzegcpcomputeinstancegroupnamedport.ValidColumn,
+			bronzegcpcomputeinstancelabel.Table:                        bronzegcpcomputeinstancelabel.ValidColumn,
+			bronzegcpcomputeinstancemetadata.Table:                     bronzegcpcomputeinstancemetadata.ValidColumn,
+			bronzegcpcomputeinstancenic.Table:                          bronzegcpcomputeinstancenic.ValidColumn,
+			bronzegcpcomputeinstancenicaccessconfig.Table:              bronzegcpcomputeinstancenicaccessconfig.ValidColumn,
+			bronzegcpcomputeinstancenicaliasrange.Table:                bronzegcpcomputeinstancenicaliasrange.ValidColumn,
+			bronzegcpcomputeinstanceserviceaccount.Table:               bronzegcpcomputeinstanceserviceaccount.ValidColumn,
+			bronzegcpcomputeinstancetag.Table:                          bronzegcpcomputeinstancetag.ValidColumn,
+			bronzegcpcomputeinterconnect.Table:                         bronzegcpcomputeinterconnect.ValidColumn,
+			bronzegcpcomputeneg.Table:                                  bronzegcpcomputeneg.ValidColumn,
+			bronzegcpcomputenegendpoint.Table:                          bronzegcpcomputenegendpoint.ValidColumn,
+			bronzegcpcomputenetwork.Table:                              bronzegcpcomputenetwork.ValidColumn,
+			bronzegcpcomputenetworkpeering.Table:                       bronzegcpcomputenetworkpeering.ValidColumn,
+			bronzegcpcomputepacketmirroring.Table:                      bronzegcpcomputepacketmirroring.ValidColumn,
+			bronzegcpcomputeprojectmetadata.Table:                      bronzegcpcomputeprojectmetadata.ValidColumn,
+			bronzegcpcomputeprojectmetadataitem.Table:                  bronzegcpcomputeprojectmetadataitem.ValidColumn,
+			bronzegcpcomputerouter.Table:                               bronzegcpcomputerouter.ValidColumn,
+			bronzegcpcomputesecuritypolicy.Table:                       bronzegcpcomputesecuritypolicy.ValidColumn,
+			bronzegcpcomputesnapshot.Table:                             bronzegcpcomputesnapshot.ValidColumn,
+			bronzegcpcomputesnapshotlabel.Table:                        bronzegcpcomputesnapshotlabel.ValidColumn,
+			bronzegcpcomputesnapshotlicense.Table:                      bronzegcpcomputesnapshotlicense.ValidColumn,
+			bronzegcpcomputesslpolicy.Table:                            bronzegcpcomputesslpolicy.ValidColumn,
+			bronzegcpcomputesubnetwork.Table:                           bronzegcpcomputesubnetwork.ValidColumn,
+			bronzegcpcomputesubnetworksecondaryrange.Table:             bronzegcpcomputesubnetworksecondaryrange.ValidColumn,
+			bronzegcpcomputetargethttpproxy.Table:                      bronzegcpcomputetargethttpproxy.ValidColumn,
+			bronzegcpcomputetargethttpsproxy.Table:                     bronzegcpcomputetargethttpsproxy.ValidColumn,
+			bronzegcpcomputetargetinstance.Table:                       bronzegcpcomputetargetinstance.ValidColumn,
+			bronzegcpcomputetargetpool.Table:                           bronzegcpcomputetargetpool.ValidColumn,
+			bronzegcpcomputetargetsslproxy.Table:                       bronzegcpcomputetargetsslproxy.ValidColumn,
+			bronzegcpcomputetargettcpproxy.Table:                       bronzegcpcomputetargettcpproxy.ValidColumn,
+			bronzegcpcomputeurlmap.Table:                               bronzegcpcomputeurlmap.ValidColumn,
+			bronzegcpcontaineranalysisnote.Table:                       bronzegcpcontaineranalysisnote.ValidColumn,
+			bronzegcpcontaineranalysisoccurrence.Table:                 bronzegcpcontaineranalysisoccurrence.ValidColumn,
+			bronzegcpcontainercluster.Table:                            bronzegcpcontainercluster.ValidColumn,
+			bronzegcpcontainerclusteraddon.Table:                       bronzegcpcontainerclusteraddon.ValidColumn,
+			bronzegcpcontainerclustercondition.Table:                   bronzegcpcontainerclustercondition.ValidColumn,
+			bronzegcpcontainerclusterlabel.Table:                       bronzegcpcontainerclusterlabel.ValidColumn,
+			bronzegcpcontainerclusternodepool.Table:                    bronzegcpcontainerclusternodepool.ValidColumn,
+			bronzegcpdnsmanagedzone.Table:                              bronzegcpdnsmanagedzone.ValidColumn,
+			bronzegcpdnsmanagedzonelabel.Table:                         bronzegcpdnsmanagedzonelabel.ValidColumn,
+			bronzegcpdnspolicy.Table:                                   bronzegcpdnspolicy.ValidColumn,
+			bronzegcpdataproccluster.Table:                             bronzegcpdataproccluster.ValidColumn,
+			bronzegcpfilestoreinstance.Table:                           bronzegcpfilestoreinstance.ValidColumn,
+			bronzegcpfolder.Table:                                      bronzegcpfolder.ValidColumn,
+			bronzegcpfolderiampolicy.Table:                             bronzegcpfolderiampolicy.ValidColumn,
+			bronzegcpfolderiampolicybinding.Table:                      bronzegcpfolderiampolicybinding.ValidColumn,
+			bronzegcpfolderlabel.Table:                                 bronzegcpfolderlabel.ValidColumn,
+			bronzegcpiamserviceaccount.Table:                           bronzegcpiamserviceaccount.ValidColumn,
+			bronzegcpiamserviceaccountkey.Table:                        bronzegcpiamserviceaccountkey.ValidColumn,
+			bronzegcpiapiampolicy.Table:                                bronzegcpiapiampolicy.ValidColumn,
+			bronzegcpiapsettings.Table:                                 bronzegcpiapsettings.ValidColumn,
+			bronzegcpkmscryptokey.Table:                                bronzegcpkmscryptokey.ValidColumn,
+			bronzegcpkmskeyring.Table:                                  bronzegcpkmskeyring.ValidColumn,
+			bronzegcploggingbucket.Table:                               bronzegcploggingbucket.ValidColumn,
+			bronzegcplogginglogexclusion.Table:                         bronzegcplogginglogexclusion.ValidColumn,
+			bronzegcplogginglogmetric.Table:                            bronzegcplogginglogmetric.ValidColumn,
+			bronzegcploggingsink.Table:                                 bronzegcploggingsink.ValidColumn,
+			bronzegcpmonitoringalertpolicy.Table:                       bronzegcpmonitoringalertpolicy.ValidColumn,
+			bronzegcpmonitoringuptimecheckconfig.Table:                 bronzegcpmonitoringuptimecheckconfig.ValidColumn,
+			bronzegcporgiampolicy.Table:                                bronzegcporgiampolicy.ValidColumn,
+			bronzegcporgiampolicybinding.Table:                         bronzegcporgiampolicybinding.ValidColumn,
+			bronzegcporgpolicyconstraint.Table:                         bronzegcporgpolicyconstraint.ValidColumn,
+			bronzegcporgpolicycustomconstraint.Table:                   bronzegcporgpolicycustomconstraint.ValidColumn,
+			bronzegcporgpolicypolicy.Table:                             bronzegcporgpolicypolicy.ValidColumn,
+			bronzegcporganization.Table:                                bronzegcporganization.ValidColumn,
+			bronzegcpproject.Table:                                     bronzegcpproject.ValidColumn,
+			bronzegcpprojectiampolicy.Table:                            bronzegcpprojectiampolicy.ValidColumn,
+			bronzegcpprojectiampolicybinding.Table:                     bronzegcpprojectiampolicybinding.ValidColumn,
+			bronzegcpprojectlabel.Table:                                bronzegcpprojectlabel.ValidColumn,
+			bronzegcppubsubsubscription.Table:                          bronzegcppubsubsubscription.ValidColumn,
+			bronzegcppubsubtopic.Table:                                 bronzegcppubsubtopic.ValidColumn,
+			bronzegcpredisinstance.Table:                               bronzegcpredisinstance.ValidColumn,
+			bronzegcprunrevision.Table:                                 bronzegcprunrevision.ValidColumn,
+			bronzegcprunservice.Table:                                  bronzegcprunservice.ValidColumn,
+			bronzegcpsqlinstance.Table:                                 bronzegcpsqlinstance.ValidColumn,
+			bronzegcpsqlinstancelabel.Table:                            bronzegcpsqlinstancelabel.ValidColumn,
+			bronzegcpsecretmanagersecret.Table:                         bronzegcpsecretmanagersecret.ValidColumn,
+			bronzegcpsecretmanagersecretlabel.Table:                    bronzegcpsecretmanagersecretlabel.ValidColumn,
+			bronzegcpsecuritycenterfinding.Table:                       bronzegcpsecuritycenterfinding.ValidColumn,
+			bronzegcpsecuritycenternotificationconfig.Table:            bronzegcpsecuritycenternotificationconfig.ValidColumn,
+			bronzegcpsecuritycentersource.Table:                        bronzegcpsecuritycentersource.ValidColumn,
+			bronzegcpserviceusageenabledservice.Table:                  bronzegcpserviceusageenabledservice.ValidColumn,
+			bronzegcpspannerdatabase.Table:                             bronzegcpspannerdatabase.ValidColumn,
+			bronzegcpspannerinstance.Table:                             bronzegcpspannerinstance.ValidColumn,
+			bronzegcpstoragebucket.Table:                               bronzegcpstoragebucket.ValidColumn,
+			bronzegcpstoragebucketiampolicy.Table:                      bronzegcpstoragebucketiampolicy.ValidColumn,
+			bronzegcpstoragebucketiampolicybinding.Table:               bronzegcpstoragebucketiampolicybinding.ValidColumn,
+			bronzegcpstoragebucketlabel.Table:                          bronzegcpstoragebucketlabel.ValidColumn,
+			bronzegcpvpcaccessconnector.Table:                          bronzegcpvpcaccessconnector.ValidColumn,
+			bronzegcpvpngateway.Table:                                  bronzegcpvpngateway.ValidColumn,
+			bronzegcpvpngatewaylabel.Table:                             bronzegcpvpngatewaylabel.ValidColumn,
+			bronzegcpvpntargetgateway.Table:                            bronzegcpvpntargetgateway.ValidColumn,
+			bronzegcpvpntargetgatewaylabel.Table:                       bronzegcpvpntargetgatewaylabel.ValidColumn,
+			bronzegcpvpntunnel.Table:                                   bronzegcpvpntunnel.ValidColumn,
+			bronzegcpvpntunnellabel.Table:                              bronzegcpvpntunnellabel.ValidColumn,
+			bronzehistoryawsec2instance.Table:                          bronzehistoryawsec2instance.ValidColumn,
+			bronzehistoryawsec2instancetag.Table:                       bronzehistoryawsec2instancetag.ValidColumn,
+			bronzehistorydoaccount.Table:                               bronzehistorydoaccount.ValidColumn,
+			bronzehistorydodatabase.Table:                              bronzehistorydodatabase.ValidColumn,
+			bronzehistorydodatabasebackup.Table:                        bronzehistorydodatabasebackup.ValidColumn,
+			bronzehistorydodatabaseconfig.Table:                        bronzehistorydodatabaseconfig.ValidColumn,
+			bronzehistorydodatabasefirewallrule.Table:                  bronzehistorydodatabasefirewallrule.ValidColumn,
+			bronzehistorydodatabasepool.Table:                          bronzehistorydodatabasepool.ValidColumn,
+			bronzehistorydodatabasereplica.Table:                       bronzehistorydodatabasereplica.ValidColumn,
+			bronzehistorydodatabaseuser.Table:                          bronzehistorydodatabaseuser.ValidColumn,
+			bronzehistorydodomain.Table:                                bronzehistorydodomain.ValidColumn,
+			bronzehistorydodomainrecord.Table:                          bronzehistorydodomainrecord.ValidColumn,
+			bronzehistorydodroplet.Table:                               bronzehistorydodroplet.ValidColumn,
+			bronzehistorydofirewall.Table:                              bronzehistorydofirewall.ValidColumn,
+			bronzehistorydokey.Table:                                   bronzehistorydokey.ValidColumn,
+			bronzehistorydoloadbalancer.Table:                          bronzehistorydoloadbalancer.ValidColumn,
+			bronzehistorydoproject.Table:                               bronzehistorydoproject.ValidColumn,
+			bronzehistorydoprojectresource.Table:                       bronzehistorydoprojectresource.ValidColumn,
+			bronzehistorydovolume.Table:                                bronzehistorydovolume.ValidColumn,
+			bronzehistorydovpc.Table:                                   bronzehistorydovpc.ValidColumn,
+			bronzehistorygcpaccesscontextmanageraccesslevel.Table:      bronzehistorygcpaccesscontextmanageraccesslevel.ValidColumn,
+			bronzehistorygcpaccesscontextmanageraccesspolicy.Table:     bronzehistorygcpaccesscontextmanageraccesspolicy.ValidColumn,
+			bronzehistorygcpaccesscontextmanagerserviceperimeter.Table: bronzehistorygcpaccesscontextmanagerserviceperimeter.ValidColumn,
+			bronzehistorygcpalloydbcluster.Table:                       bronzehistorygcpalloydbcluster.ValidColumn,
+			bronzehistorygcpappengineapplication.Table:                 bronzehistorygcpappengineapplication.ValidColumn,
+			bronzehistorygcpappengineservice.Table:                     bronzehistorygcpappengineservice.ValidColumn,
+			bronzehistorygcpbigquerydataset.Table:                      bronzehistorygcpbigquerydataset.ValidColumn,
+			bronzehistorygcpbigquerytable.Table:                        bronzehistorygcpbigquerytable.ValidColumn,
+			bronzehistorygcpbigtablecluster.Table:                      bronzehistorygcpbigtablecluster.ValidColumn,
+			bronzehistorygcpbigtableinstance.Table:                     bronzehistorygcpbigtableinstance.ValidColumn,
+			bronzehistorygcpbinaryauthorizationattestor.Table:          bronzehistorygcpbinaryauthorizationattestor.ValidColumn,
+			bronzehistorygcpbinaryauthorizationpolicy.Table:            bronzehistorygcpbinaryauthorizationpolicy.ValidColumn,
+			bronzehistorygcpcloudassetasset.Table:                      bronzehistorygcpcloudassetasset.ValidColumn,
+			bronzehistorygcpcloudassetiampolicysearch.Table:            bronzehistorygcpcloudassetiampolicysearch.ValidColumn,
+			bronzehistorygcpcloudassetresourcesearch.Table:             bronzehistorygcpcloudassetresourcesearch.ValidColumn,
+			bronzehistorygcpcloudfunctionsfunction.Table:               bronzehistorygcpcloudfunctionsfunction.ValidColumn,
+			bronzehistorygcpcomputeaddress.Table:                       bronzehistorygcpcomputeaddress.ValidColumn,
+			bronzehistorygcpcomputeaddresslabel.Table:                  bronzehistorygcpcomputeaddresslabel.ValidColumn,
+			bronzehistorygcpcomputebackendservice.Table:                bronzehistorygcpcomputebackendservice.ValidColumn,
+			bronzehistorygcpcomputebackendservicebackend.Table:         bronzehistorygcpcomputebackendservicebackend.ValidColumn,
+			bronzehistorygcpcomputedisk.Table:                          bronzehistorygcpcomputedisk.ValidColumn,
+			bronzehistorygcpcomputedisklabel.Table:                     bronzehistorygcpcomputedisklabel.ValidColumn,
+			bronzehistorygcpcomputedisklicense.Table:                   bronzehistorygcpcomputedisklicense.ValidColumn,
+			bronzehistorygcpcomputefirewall.Table:                      bronzehistorygcpcomputefirewall.ValidColumn,
+			bronzehistorygcpcomputefirewallallowed.Table:               bronzehistorygcpcomputefirewallallowed.ValidColumn,
+			bronzehistorygcpcomputefirewalldenied.Table:                bronzehistorygcpcomputefirewalldenied.ValidColumn,
+			bronzehistorygcpcomputeforwardingrule.Table:                bronzehistorygcpcomputeforwardingrule.ValidColumn,
+			bronzehistorygcpcomputeforwardingrulelabel.Table:           bronzehistorygcpcomputeforwardingrulelabel.ValidColumn,
+			bronzehistorygcpcomputeglobaladdress.Table:                 bronzehistorygcpcomputeglobaladdress.ValidColumn,
+			bronzehistorygcpcomputeglobaladdresslabel.Table:            bronzehistorygcpcomputeglobaladdresslabel.ValidColumn,
+			bronzehistorygcpcomputeglobalforwardingrule.Table:          bronzehistorygcpcomputeglobalforwardingrule.ValidColumn,
+			bronzehistorygcpcomputeglobalforwardingrulelabel.Table:     bronzehistorygcpcomputeglobalforwardingrulelabel.ValidColumn,
+			bronzehistorygcpcomputehealthcheck.Table:                   bronzehistorygcpcomputehealthcheck.ValidColumn,
+			bronzehistorygcpcomputeimage.Table:                         bronzehistorygcpcomputeimage.ValidColumn,
+			bronzehistorygcpcomputeimagelabel.Table:                    bronzehistorygcpcomputeimagelabel.ValidColumn,
+			bronzehistorygcpcomputeimagelicense.Table:                  bronzehistorygcpcomputeimagelicense.ValidColumn,
+			bronzehistorygcpcomputeinstance.Table:                      bronzehistorygcpcomputeinstance.ValidColumn,
+			bronzehistorygcpcomputeinstancedisk.Table:                  bronzehistorygcpcomputeinstancedisk.ValidColumn,
+			bronzehistorygcpcomputeinstancedisklicense.Table:           bronzehistorygcpcomputeinstancedisklicense.ValidColumn,
+			bronzehistorygcpcomputeinstancegroup.Table:                 bronzehistorygcpcomputeinstancegroup.ValidColumn,
+			bronzehistorygcpcomputeinstancegroupmember.Table:           bronzehistorygcpcomputeinstancegroupmember.ValidColumn,
+			bronzehistorygcpcomputeinstancegroupnamedport.Table:        bronzehistorygcpcomputeinstancegroupnamedport.ValidColumn,
+			bronzehistorygcpcomputeinstancelabel.Table:                 bronzehistorygcpcomputeinstancelabel.ValidColumn,
+			bronzehistorygcpcomputeinstancemetadata.Table:              bronzehistorygcpcomputeinstancemetadata.ValidColumn,
+			bronzehistorygcpcomputeinstancenic.Table:                   bronzehistorygcpcomputeinstancenic.ValidColumn,
+			bronzehistorygcpcomputeinstancenicaccessconfig.Table:       bronzehistorygcpcomputeinstancenicaccessconfig.ValidColumn,
+			bronzehistorygcpcomputeinstancenicaliasrange.Table:         bronzehistorygcpcomputeinstancenicaliasrange.ValidColumn,
+			bronzehistorygcpcomputeinstanceserviceaccount.Table:        bronzehistorygcpcomputeinstanceserviceaccount.ValidColumn,
+			bronzehistorygcpcomputeinstancetag.Table:                   bronzehistorygcpcomputeinstancetag.ValidColumn,
+			bronzehistorygcpcomputeinterconnect.Table:                  bronzehistorygcpcomputeinterconnect.ValidColumn,
+			bronzehistorygcpcomputeneg.Table:                           bronzehistorygcpcomputeneg.ValidColumn,
+			bronzehistorygcpcomputenegendpoint.Table:                   bronzehistorygcpcomputenegendpoint.ValidColumn,
+			bronzehistorygcpcomputenetwork.Table:                       bronzehistorygcpcomputenetwork.ValidColumn,
+			bronzehistorygcpcomputenetworkpeering.Table:                bronzehistorygcpcomputenetworkpeering.ValidColumn,
+			bronzehistorygcpcomputepacketmirroring.Table:               bronzehistorygcpcomputepacketmirroring.ValidColumn,
+			bronzehistorygcpcomputeprojectmetadata.Table:               bronzehistorygcpcomputeprojectmetadata.ValidColumn,
+			bronzehistorygcpcomputeprojectmetadataitem.Table:           bronzehistorygcpcomputeprojectmetadataitem.ValidColumn,
+			bronzehistorygcpcomputerouter.Table:                        bronzehistorygcpcomputerouter.ValidColumn,
+			bronzehistorygcpcomputesecuritypolicy.Table:                bronzehistorygcpcomputesecuritypolicy.ValidColumn,
+			bronzehistorygcpcomputesnapshot.Table:                      bronzehistorygcpcomputesnapshot.ValidColumn,
+			bronzehistorygcpcomputesnapshotlabel.Table:                 bronzehistorygcpcomputesnapshotlabel.ValidColumn,
+			bronzehistorygcpcomputesnapshotlicense.Table:               bronzehistorygcpcomputesnapshotlicense.ValidColumn,
+			bronzehistorygcpcomputesslpolicy.Table:                     bronzehistorygcpcomputesslpolicy.ValidColumn,
+			bronzehistorygcpcomputesubnetwork.Table:                    bronzehistorygcpcomputesubnetwork.ValidColumn,
+			bronzehistorygcpcomputesubnetworksecondaryrange.Table:      bronzehistorygcpcomputesubnetworksecondaryrange.ValidColumn,
+			bronzehistorygcpcomputetargethttpproxy.Table:               bronzehistorygcpcomputetargethttpproxy.ValidColumn,
+			bronzehistorygcpcomputetargethttpsproxy.Table:              bronzehistorygcpcomputetargethttpsproxy.ValidColumn,
+			bronzehistorygcpcomputetargetinstance.Table:                bronzehistorygcpcomputetargetinstance.ValidColumn,
+			bronzehistorygcpcomputetargetpool.Table:                    bronzehistorygcpcomputetargetpool.ValidColumn,
+			bronzehistorygcpcomputetargetsslproxy.Table:                bronzehistorygcpcomputetargetsslproxy.ValidColumn,
+			bronzehistorygcpcomputetargettcpproxy.Table:                bronzehistorygcpcomputetargettcpproxy.ValidColumn,
+			bronzehistorygcpcomputeurlmap.Table:                        bronzehistorygcpcomputeurlmap.ValidColumn,
+			bronzehistorygcpcontaineranalysisnote.Table:                bronzehistorygcpcontaineranalysisnote.ValidColumn,
+			bronzehistorygcpcontaineranalysisoccurrence.Table:          bronzehistorygcpcontaineranalysisoccurrence.ValidColumn,
+			bronzehistorygcpcontainercluster.Table:                     bronzehistorygcpcontainercluster.ValidColumn,
+			bronzehistorygcpcontainerclusteraddon.Table:                bronzehistorygcpcontainerclusteraddon.ValidColumn,
+			bronzehistorygcpcontainerclustercondition.Table:            bronzehistorygcpcontainerclustercondition.ValidColumn,
+			bronzehistorygcpcontainerclusterlabel.Table:                bronzehistorygcpcontainerclusterlabel.ValidColumn,
+			bronzehistorygcpcontainerclusternodepool.Table:             bronzehistorygcpcontainerclusternodepool.ValidColumn,
+			bronzehistorygcpdnsmanagedzone.Table:                       bronzehistorygcpdnsmanagedzone.ValidColumn,
+			bronzehistorygcpdnsmanagedzonelabel.Table:                  bronzehistorygcpdnsmanagedzonelabel.ValidColumn,
+			bronzehistorygcpdnspolicy.Table:                            bronzehistorygcpdnspolicy.ValidColumn,
+			bronzehistorygcpdataproccluster.Table:                      bronzehistorygcpdataproccluster.ValidColumn,
+			bronzehistorygcpfilestoreinstance.Table:                    bronzehistorygcpfilestoreinstance.ValidColumn,
+			bronzehistorygcpfolder.Table:                               bronzehistorygcpfolder.ValidColumn,
+			bronzehistorygcpfolderiampolicy.Table:                      bronzehistorygcpfolderiampolicy.ValidColumn,
+			bronzehistorygcpfolderiampolicybinding.Table:               bronzehistorygcpfolderiampolicybinding.ValidColumn,
+			bronzehistorygcpfolderlabel.Table:                          bronzehistorygcpfolderlabel.ValidColumn,
+			bronzehistorygcpiamserviceaccount.Table:                    bronzehistorygcpiamserviceaccount.ValidColumn,
+			bronzehistorygcpiamserviceaccountkey.Table:                 bronzehistorygcpiamserviceaccountkey.ValidColumn,
+			bronzehistorygcpiapiampolicy.Table:                         bronzehistorygcpiapiampolicy.ValidColumn,
+			bronzehistorygcpiapsettings.Table:                          bronzehistorygcpiapsettings.ValidColumn,
+			bronzehistorygcpkmscryptokey.Table:                         bronzehistorygcpkmscryptokey.ValidColumn,
+			bronzehistorygcpkmskeyring.Table:                           bronzehistorygcpkmskeyring.ValidColumn,
+			bronzehistorygcploggingbucket.Table:                        bronzehistorygcploggingbucket.ValidColumn,
+			bronzehistorygcplogginglogexclusion.Table:                  bronzehistorygcplogginglogexclusion.ValidColumn,
+			bronzehistorygcplogginglogmetric.Table:                     bronzehistorygcplogginglogmetric.ValidColumn,
+			bronzehistorygcploggingsink.Table:                          bronzehistorygcploggingsink.ValidColumn,
+			bronzehistorygcpmonitoringalertpolicy.Table:                bronzehistorygcpmonitoringalertpolicy.ValidColumn,
+			bronzehistorygcpmonitoringuptimecheckconfig.Table:          bronzehistorygcpmonitoringuptimecheckconfig.ValidColumn,
+			bronzehistorygcporgiampolicy.Table:                         bronzehistorygcporgiampolicy.ValidColumn,
+			bronzehistorygcporgiampolicybinding.Table:                  bronzehistorygcporgiampolicybinding.ValidColumn,
+			bronzehistorygcporgpolicyconstraint.Table:                  bronzehistorygcporgpolicyconstraint.ValidColumn,
+			bronzehistorygcporgpolicycustomconstraint.Table:            bronzehistorygcporgpolicycustomconstraint.ValidColumn,
+			bronzehistorygcporgpolicypolicy.Table:                      bronzehistorygcporgpolicypolicy.ValidColumn,
+			bronzehistorygcporganization.Table:                         bronzehistorygcporganization.ValidColumn,
+			bronzehistorygcpproject.Table:                              bronzehistorygcpproject.ValidColumn,
+			bronzehistorygcpprojectiampolicy.Table:                     bronzehistorygcpprojectiampolicy.ValidColumn,
+			bronzehistorygcpprojectiampolicybinding.Table:              bronzehistorygcpprojectiampolicybinding.ValidColumn,
+			bronzehistorygcpprojectlabel.Table:                         bronzehistorygcpprojectlabel.ValidColumn,
+			bronzehistorygcppubsubsubscription.Table:                   bronzehistorygcppubsubsubscription.ValidColumn,
+			bronzehistorygcppubsubtopic.Table:                          bronzehistorygcppubsubtopic.ValidColumn,
+			bronzehistorygcpredisinstance.Table:                        bronzehistorygcpredisinstance.ValidColumn,
+			bronzehistorygcprunrevision.Table:                          bronzehistorygcprunrevision.ValidColumn,
+			bronzehistorygcprunservice.Table:                           bronzehistorygcprunservice.ValidColumn,
+			bronzehistorygcpsqlinstance.Table:                          bronzehistorygcpsqlinstance.ValidColumn,
+			bronzehistorygcpsqlinstancelabel.Table:                     bronzehistorygcpsqlinstancelabel.ValidColumn,
+			bronzehistorygcpsecretmanagersecret.Table:                  bronzehistorygcpsecretmanagersecret.ValidColumn,
+			bronzehistorygcpsecretmanagersecretlabel.Table:             bronzehistorygcpsecretmanagersecretlabel.ValidColumn,
+			bronzehistorygcpsecuritycenterfinding.Table:                bronzehistorygcpsecuritycenterfinding.ValidColumn,
+			bronzehistorygcpsecuritycenternotificationconfig.Table:     bronzehistorygcpsecuritycenternotificationconfig.ValidColumn,
+			bronzehistorygcpsecuritycentersource.Table:                 bronzehistorygcpsecuritycentersource.ValidColumn,
+			bronzehistorygcpserviceusageenabledservice.Table:           bronzehistorygcpserviceusageenabledservice.ValidColumn,
+			bronzehistorygcpspannerdatabase.Table:                      bronzehistorygcpspannerdatabase.ValidColumn,
+			bronzehistorygcpspannerinstance.Table:                      bronzehistorygcpspannerinstance.ValidColumn,
+			bronzehistorygcpstoragebucket.Table:                        bronzehistorygcpstoragebucket.ValidColumn,
+			bronzehistorygcpstoragebucketiampolicy.Table:               bronzehistorygcpstoragebucketiampolicy.ValidColumn,
+			bronzehistorygcpstoragebucketiampolicybinding.Table:        bronzehistorygcpstoragebucketiampolicybinding.ValidColumn,
+			bronzehistorygcpstoragebucketlabel.Table:                   bronzehistorygcpstoragebucketlabel.ValidColumn,
+			bronzehistorygcpvpcaccessconnector.Table:                   bronzehistorygcpvpcaccessconnector.ValidColumn,
+			bronzehistorygcpvpngateway.Table:                           bronzehistorygcpvpngateway.ValidColumn,
+			bronzehistorygcpvpngatewaylabel.Table:                      bronzehistorygcpvpngatewaylabel.ValidColumn,
+			bronzehistorygcpvpntargetgateway.Table:                     bronzehistorygcpvpntargetgateway.ValidColumn,
+			bronzehistorygcpvpntargetgatewaylabel.Table:                bronzehistorygcpvpntargetgatewaylabel.ValidColumn,
+			bronzehistorygcpvpntunnel.Table:                            bronzehistorygcpvpntunnel.ValidColumn,
+			bronzehistorygcpvpntunnellabel.Table:                       bronzehistorygcpvpntunnellabel.ValidColumn,
+			bronzehistorys1account.Table:                               bronzehistorys1account.ValidColumn,
+			bronzehistorys1agent.Table:                                 bronzehistorys1agent.ValidColumn,
+			bronzehistorys1agentnic.Table:                              bronzehistorys1agentnic.ValidColumn,
+			bronzehistorys1app.Table:                                   bronzehistorys1app.ValidColumn,
+			bronzehistorys1group.Table:                                 bronzehistorys1group.ValidColumn,
+			bronzehistorys1site.Table:                                  bronzehistorys1site.ValidColumn,
+			bronzehistorys1threat.Table:                                bronzehistorys1threat.ValidColumn,
+			bronzes1account.Table:                                      bronzes1account.ValidColumn,
+			bronzes1agent.Table:                                        bronzes1agent.ValidColumn,
+			bronzes1agentnic.Table:                                     bronzes1agentnic.ValidColumn,
+			bronzes1app.Table:                                          bronzes1app.ValidColumn,
+			bronzes1group.Table:                                        bronzes1group.ValidColumn,
+			bronzes1site.Table:                                         bronzes1site.ValidColumn,
+			bronzes1threat.Table:                                       bronzes1threat.ValidColumn,
 		})
 	})
 	return columnCheck(t, c)

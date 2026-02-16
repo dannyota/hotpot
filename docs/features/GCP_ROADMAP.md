@@ -4,6 +4,43 @@ Prioritized implementation strategy for remaining GCP resources (57 of 117).
 
 See [GCP.md](./GCP.md) for current coverage details.
 
+## Current Batch: Phases 2+3+4 (34 resources, 20 services)
+
+Executing Phases 2, 3, and 4 in parallel. Each service is assigned to an independent agent for maximum throughput.
+
+### Execution Steps
+
+1. **Schemas** — 20 agents create bronze + bronze history ent schemas in parallel
+2. **Generate** — Single `go generate` after all schemas land
+3. **Service layer** — 20 agents create service files (client, converter, diff, history, service, activities, workflows, register) in parallel
+4. **Wire up** — Add new Go module dependencies, update parent register/workflows, build and fix
+5. **Docs** — Update GCP.md counts and roadmap status
+
+### Agent Assignments
+
+| # | Service | Resources | Phase |
+|---|---------|:---------:|:-----:|
+| 1 | SCC Notification Configs | 1 | 2 |
+| 2 | OrgPolicy Custom Constraints | 1 | 2 |
+| 3 | Access Context Manager | 3 | 2 |
+| 4 | Cloud Asset | 3 | 2 |
+| 5 | Binary Authorization | 2 | 2 |
+| 6 | Container Analysis | 2 | 2 |
+| 7 | Identity-Aware Proxy | 2 | 2 |
+| 8 | Cloud Run | 2 | 3 |
+| 9 | Cloud Functions | 1 | 3 |
+| 10 | Pub/Sub | 2 | 3 |
+| 11 | Monitoring | 2 | 3 |
+| 12 | App Engine | 2 | 3 |
+| 13 | Service Usage | 1 | 3 |
+| 14 | BigQuery | 2 | 4 |
+| 15 | Spanner | 2 | 4 |
+| 16 | Bigtable | 2 | 4 |
+| 17 | Dataproc | 1 | 4 |
+| 18 | Memorystore Redis | 1 | 4 |
+| 19 | Filestore | 1 | 4 |
+| 20 | AlloyDB | 1 | 4 |
+
 ## Strategy
 
 Prioritization criteria:

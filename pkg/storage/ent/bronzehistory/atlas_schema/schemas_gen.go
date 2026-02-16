@@ -6,16 +6,34 @@ import (
 	"entgo.io/ent/schema"
 	bronzehistory_aws_ec2 "github.com/dannyota/hotpot/pkg/schema/bronzehistory/aws/ec2"
 	bronzehistory_do "github.com/dannyota/hotpot/pkg/schema/bronzehistory/do"
+	bronzehistory_gcp_accesscontextmanager "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/accesscontextmanager"
+	bronzehistory_gcp_alloydb "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/alloydb"
+	bronzehistory_gcp_appengine "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/appengine"
+	bronzehistory_gcp_bigquery "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/bigquery"
+	bronzehistory_gcp_bigtable "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/bigtable"
+	bronzehistory_gcp_binaryauthorization "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/binaryauthorization"
+	bronzehistory_gcp_cloudasset "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/cloudasset"
+	bronzehistory_gcp_cloudfunctions "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/cloudfunctions"
 	bronzehistory_gcp_compute "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/compute"
 	bronzehistory_gcp_container "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/container"
+	bronzehistory_gcp_containeranalysis "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/containeranalysis"
+	bronzehistory_gcp_dataproc "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/dataproc"
 	bronzehistory_gcp_dns "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/dns"
+	bronzehistory_gcp_filestore "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/filestore"
 	bronzehistory_gcp_iam "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/iam"
+	bronzehistory_gcp_iap "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/iap"
 	bronzehistory_gcp_kms "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/kms"
 	bronzehistory_gcp_logging "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/logging"
+	bronzehistory_gcp_monitoring "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/monitoring"
 	bronzehistory_gcp_orgpolicy "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/orgpolicy"
+	bronzehistory_gcp_pubsub "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/pubsub"
+	bronzehistory_gcp_redis "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/redis"
 	bronzehistory_gcp_resourcemanager "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/resourcemanager"
+	bronzehistory_gcp_run "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/run"
 	bronzehistory_gcp_secretmanager "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/secretmanager"
 	bronzehistory_gcp_securitycenter "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/securitycenter"
+	bronzehistory_gcp_serviceusage "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/serviceusage"
+	bronzehistory_gcp_spanner "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/spanner"
 	bronzehistory_gcp_sql "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/sql"
 	bronzehistory_gcp_storage "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/storage"
 	bronzehistory_gcp_vpcaccess "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/vpcaccess"
@@ -365,6 +383,262 @@ type BronzeHistoryDOVpc struct {
 
 func (BronzeHistoryDOVpc) Annotations() []schema.Annotation {
 	anns := bronzehistory_do.BronzeHistoryDOVpc{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPAccessContextManagerAccessLevel struct {
+	bronzehistory_gcp_accesscontextmanager.BronzeHistoryGCPAccessContextManagerAccessLevel
+}
+
+func (BronzeHistoryGCPAccessContextManagerAccessLevel) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_accesscontextmanager.BronzeHistoryGCPAccessContextManagerAccessLevel{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPAccessContextManagerAccessPolicy struct {
+	bronzehistory_gcp_accesscontextmanager.BronzeHistoryGCPAccessContextManagerAccessPolicy
+}
+
+func (BronzeHistoryGCPAccessContextManagerAccessPolicy) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_accesscontextmanager.BronzeHistoryGCPAccessContextManagerAccessPolicy{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPAccessContextManagerServicePerimeter struct {
+	bronzehistory_gcp_accesscontextmanager.BronzeHistoryGCPAccessContextManagerServicePerimeter
+}
+
+func (BronzeHistoryGCPAccessContextManagerServicePerimeter) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_accesscontextmanager.BronzeHistoryGCPAccessContextManagerServicePerimeter{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPAlloyDBCluster struct {
+	bronzehistory_gcp_alloydb.BronzeHistoryGCPAlloyDBCluster
+}
+
+func (BronzeHistoryGCPAlloyDBCluster) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_alloydb.BronzeHistoryGCPAlloyDBCluster{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPAppEngineApplication struct {
+	bronzehistory_gcp_appengine.BronzeHistoryGCPAppEngineApplication
+}
+
+func (BronzeHistoryGCPAppEngineApplication) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_appengine.BronzeHistoryGCPAppEngineApplication{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPAppEngineService struct {
+	bronzehistory_gcp_appengine.BronzeHistoryGCPAppEngineService
+}
+
+func (BronzeHistoryGCPAppEngineService) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_appengine.BronzeHistoryGCPAppEngineService{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPBigQueryDataset struct {
+	bronzehistory_gcp_bigquery.BronzeHistoryGCPBigQueryDataset
+}
+
+func (BronzeHistoryGCPBigQueryDataset) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_bigquery.BronzeHistoryGCPBigQueryDataset{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPBigQueryTable struct {
+	bronzehistory_gcp_bigquery.BronzeHistoryGCPBigQueryTable
+}
+
+func (BronzeHistoryGCPBigQueryTable) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_bigquery.BronzeHistoryGCPBigQueryTable{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPBigtableCluster struct {
+	bronzehistory_gcp_bigtable.BronzeHistoryGCPBigtableCluster
+}
+
+func (BronzeHistoryGCPBigtableCluster) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_bigtable.BronzeHistoryGCPBigtableCluster{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPBigtableInstance struct {
+	bronzehistory_gcp_bigtable.BronzeHistoryGCPBigtableInstance
+}
+
+func (BronzeHistoryGCPBigtableInstance) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_bigtable.BronzeHistoryGCPBigtableInstance{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPBinaryAuthorizationAttestor struct {
+	bronzehistory_gcp_binaryauthorization.BronzeHistoryGCPBinaryAuthorizationAttestor
+}
+
+func (BronzeHistoryGCPBinaryAuthorizationAttestor) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_binaryauthorization.BronzeHistoryGCPBinaryAuthorizationAttestor{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPBinaryAuthorizationPolicy struct {
+	bronzehistory_gcp_binaryauthorization.BronzeHistoryGCPBinaryAuthorizationPolicy
+}
+
+func (BronzeHistoryGCPBinaryAuthorizationPolicy) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_binaryauthorization.BronzeHistoryGCPBinaryAuthorizationPolicy{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPCloudAssetAsset struct {
+	bronzehistory_gcp_cloudasset.BronzeHistoryGCPCloudAssetAsset
+}
+
+func (BronzeHistoryGCPCloudAssetAsset) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_cloudasset.BronzeHistoryGCPCloudAssetAsset{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPCloudAssetIAMPolicySearch struct {
+	bronzehistory_gcp_cloudasset.BronzeHistoryGCPCloudAssetIAMPolicySearch
+}
+
+func (BronzeHistoryGCPCloudAssetIAMPolicySearch) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_cloudasset.BronzeHistoryGCPCloudAssetIAMPolicySearch{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPCloudAssetResourceSearch struct {
+	bronzehistory_gcp_cloudasset.BronzeHistoryGCPCloudAssetResourceSearch
+}
+
+func (BronzeHistoryGCPCloudAssetResourceSearch) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_cloudasset.BronzeHistoryGCPCloudAssetResourceSearch{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPCloudFunctionsFunction struct {
+	bronzehistory_gcp_cloudfunctions.BronzeHistoryGCPCloudFunctionsFunction
+}
+
+func (BronzeHistoryGCPCloudFunctionsFunction) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_cloudfunctions.BronzeHistoryGCPCloudFunctionsFunction{}.Annotations()
 	for i, a := range anns {
 		if v, ok := a.(entsql.Annotation); ok {
 			v.Schema = "bronze_history"
@@ -1351,6 +1625,54 @@ func (BronzeHistoryGCPContainerClusterNodePool) Annotations() []schema.Annotatio
 	return append(anns, entsql.Annotation{Schema: "bronze_history"})
 }
 
+type BronzeHistoryGCPContainerAnalysisNote struct {
+	bronzehistory_gcp_containeranalysis.BronzeHistoryGCPContainerAnalysisNote
+}
+
+func (BronzeHistoryGCPContainerAnalysisNote) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_containeranalysis.BronzeHistoryGCPContainerAnalysisNote{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPContainerAnalysisOccurrence struct {
+	bronzehistory_gcp_containeranalysis.BronzeHistoryGCPContainerAnalysisOccurrence
+}
+
+func (BronzeHistoryGCPContainerAnalysisOccurrence) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_containeranalysis.BronzeHistoryGCPContainerAnalysisOccurrence{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPDataprocCluster struct {
+	bronzehistory_gcp_dataproc.BronzeHistoryGCPDataprocCluster
+}
+
+func (BronzeHistoryGCPDataprocCluster) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_dataproc.BronzeHistoryGCPDataprocCluster{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
 type BronzeHistoryGCPDNSPolicy struct {
 	bronzehistory_gcp_dns.BronzeHistoryGCPDNSPolicy
 }
@@ -1399,6 +1721,22 @@ func (BronzeHistoryGCPDNSManagedZoneLabel) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze_history"})
 }
 
+type BronzeHistoryGCPFilestoreInstance struct {
+	bronzehistory_gcp_filestore.BronzeHistoryGCPFilestoreInstance
+}
+
+func (BronzeHistoryGCPFilestoreInstance) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_filestore.BronzeHistoryGCPFilestoreInstance{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
 type BronzeHistoryGCPIAMServiceAccount struct {
 	bronzehistory_gcp_iam.BronzeHistoryGCPIAMServiceAccount
 }
@@ -1421,6 +1759,38 @@ type BronzeHistoryGCPIAMServiceAccountKey struct {
 
 func (BronzeHistoryGCPIAMServiceAccountKey) Annotations() []schema.Annotation {
 	anns := bronzehistory_gcp_iam.BronzeHistoryGCPIAMServiceAccountKey{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPIAPIAMPolicy struct {
+	bronzehistory_gcp_iap.BronzeHistoryGCPIAPIAMPolicy
+}
+
+func (BronzeHistoryGCPIAPIAMPolicy) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_iap.BronzeHistoryGCPIAPIAMPolicy{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPIAPSettings struct {
+	bronzehistory_gcp_iap.BronzeHistoryGCPIAPSettings
+}
+
+func (BronzeHistoryGCPIAPSettings) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_iap.BronzeHistoryGCPIAPSettings{}.Annotations()
 	for i, a := range anns {
 		if v, ok := a.(entsql.Annotation); ok {
 			v.Schema = "bronze_history"
@@ -1527,6 +1897,38 @@ func (BronzeHistoryGCPLoggingSink) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze_history"})
 }
 
+type BronzeHistoryGCPMonitoringAlertPolicy struct {
+	bronzehistory_gcp_monitoring.BronzeHistoryGCPMonitoringAlertPolicy
+}
+
+func (BronzeHistoryGCPMonitoringAlertPolicy) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_monitoring.BronzeHistoryGCPMonitoringAlertPolicy{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPMonitoringUptimeCheckConfig struct {
+	bronzehistory_gcp_monitoring.BronzeHistoryGCPMonitoringUptimeCheckConfig
+}
+
+func (BronzeHistoryGCPMonitoringUptimeCheckConfig) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_monitoring.BronzeHistoryGCPMonitoringUptimeCheckConfig{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
 type BronzeHistoryGCPOrgPolicyConstraint struct {
 	bronzehistory_gcp_orgpolicy.BronzeHistoryGCPOrgPolicyConstraint
 }
@@ -1543,12 +1945,76 @@ func (BronzeHistoryGCPOrgPolicyConstraint) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze_history"})
 }
 
+type BronzeHistoryGCPOrgPolicyCustomConstraint struct {
+	bronzehistory_gcp_orgpolicy.BronzeHistoryGCPOrgPolicyCustomConstraint
+}
+
+func (BronzeHistoryGCPOrgPolicyCustomConstraint) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_orgpolicy.BronzeHistoryGCPOrgPolicyCustomConstraint{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
 type BronzeHistoryGCPOrgPolicyPolicy struct {
 	bronzehistory_gcp_orgpolicy.BronzeHistoryGCPOrgPolicyPolicy
 }
 
 func (BronzeHistoryGCPOrgPolicyPolicy) Annotations() []schema.Annotation {
 	anns := bronzehistory_gcp_orgpolicy.BronzeHistoryGCPOrgPolicyPolicy{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPPubSubSubscription struct {
+	bronzehistory_gcp_pubsub.BronzeHistoryGCPPubSubSubscription
+}
+
+func (BronzeHistoryGCPPubSubSubscription) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_pubsub.BronzeHistoryGCPPubSubSubscription{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPPubSubTopic struct {
+	bronzehistory_gcp_pubsub.BronzeHistoryGCPPubSubTopic
+}
+
+func (BronzeHistoryGCPPubSubTopic) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_pubsub.BronzeHistoryGCPPubSubTopic{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPRedisInstance struct {
+	bronzehistory_gcp_redis.BronzeHistoryGCPRedisInstance
+}
+
+func (BronzeHistoryGCPRedisInstance) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_redis.BronzeHistoryGCPRedisInstance{}.Annotations()
 	for i, a := range anns {
 		if v, ok := a.(entsql.Annotation); ok {
 			v.Schema = "bronze_history"
@@ -1735,6 +2201,38 @@ func (BronzeHistoryGCPProjectIamPolicyBinding) Annotations() []schema.Annotation
 	return append(anns, entsql.Annotation{Schema: "bronze_history"})
 }
 
+type BronzeHistoryGCPRunRevision struct {
+	bronzehistory_gcp_run.BronzeHistoryGCPRunRevision
+}
+
+func (BronzeHistoryGCPRunRevision) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_run.BronzeHistoryGCPRunRevision{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPRunService struct {
+	bronzehistory_gcp_run.BronzeHistoryGCPRunService
+}
+
+func (BronzeHistoryGCPRunService) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_run.BronzeHistoryGCPRunService{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
 type BronzeHistoryGCPSecretManagerSecret struct {
 	bronzehistory_gcp_secretmanager.BronzeHistoryGCPSecretManagerSecret
 }
@@ -1783,12 +2281,76 @@ func (BronzeHistoryGCPSecurityCenterFinding) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze_history"})
 }
 
+type BronzeHistoryGCPSecurityCenterNotificationConfig struct {
+	bronzehistory_gcp_securitycenter.BronzeHistoryGCPSecurityCenterNotificationConfig
+}
+
+func (BronzeHistoryGCPSecurityCenterNotificationConfig) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_securitycenter.BronzeHistoryGCPSecurityCenterNotificationConfig{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
 type BronzeHistoryGCPSecurityCenterSource struct {
 	bronzehistory_gcp_securitycenter.BronzeHistoryGCPSecurityCenterSource
 }
 
 func (BronzeHistoryGCPSecurityCenterSource) Annotations() []schema.Annotation {
 	anns := bronzehistory_gcp_securitycenter.BronzeHistoryGCPSecurityCenterSource{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPServiceUsageEnabledService struct {
+	bronzehistory_gcp_serviceusage.BronzeHistoryGCPServiceUsageEnabledService
+}
+
+func (BronzeHistoryGCPServiceUsageEnabledService) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_serviceusage.BronzeHistoryGCPServiceUsageEnabledService{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPSpannerDatabase struct {
+	bronzehistory_gcp_spanner.BronzeHistoryGCPSpannerDatabase
+}
+
+func (BronzeHistoryGCPSpannerDatabase) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_spanner.BronzeHistoryGCPSpannerDatabase{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPSpannerInstance struct {
+	bronzehistory_gcp_spanner.BronzeHistoryGCPSpannerInstance
+}
+
+func (BronzeHistoryGCPSpannerInstance) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_spanner.BronzeHistoryGCPSpannerInstance{}.Annotations()
 	for i, a := range anns {
 		if v, ok := a.(entsql.Annotation); ok {
 			v.Schema = "bronze_history"

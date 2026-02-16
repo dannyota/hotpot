@@ -858,6 +858,650 @@ var (
 			},
 		},
 	}
+	// GcpAccesscontextmanagerAccessLevelsColumns holds the columns for the "gcp_accesscontextmanager_access_levels" table.
+	GcpAccesscontextmanagerAccessLevelsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "title", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "basic_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "custom_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "access_policy_name", Type: field.TypeString},
+		{Name: "organization_id", Type: field.TypeString},
+		{Name: "bronze_gcp_access_context_manager_access_policy_access_levels", Type: field.TypeString},
+	}
+	// GcpAccesscontextmanagerAccessLevelsTable holds the schema information for the "gcp_accesscontextmanager_access_levels" table.
+	GcpAccesscontextmanagerAccessLevelsTable = &schema.Table{
+		Name:       "gcp_accesscontextmanager_access_levels",
+		Columns:    GcpAccesscontextmanagerAccessLevelsColumns,
+		PrimaryKey: []*schema.Column{GcpAccesscontextmanagerAccessLevelsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "gcp_accesscontextmanager_access_levels_gcp_accesscontextmanager_access_policies_access_levels",
+				Columns:    []*schema.Column{GcpAccesscontextmanagerAccessLevelsColumns[9]},
+				RefColumns: []*schema.Column{GcpAccesscontextmanagerAccessPoliciesColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpaccesscontextmanageraccesslevel_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAccesscontextmanagerAccessLevelsColumns[1]},
+			},
+			{
+				Name:    "bronzegcpaccesscontextmanageraccesslevel_organization_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAccesscontextmanagerAccessLevelsColumns[8]},
+			},
+			{
+				Name:    "bronzegcpaccesscontextmanageraccesslevel_access_policy_name",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAccesscontextmanagerAccessLevelsColumns[7]},
+			},
+		},
+	}
+	// GcpAccesscontextmanagerAccessPoliciesColumns holds the columns for the "gcp_accesscontextmanager_access_policies" table.
+	GcpAccesscontextmanagerAccessPoliciesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "parent", Type: field.TypeString},
+		{Name: "title", Type: field.TypeString, Nullable: true},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "scopes_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "organization_id", Type: field.TypeString},
+	}
+	// GcpAccesscontextmanagerAccessPoliciesTable holds the schema information for the "gcp_accesscontextmanager_access_policies" table.
+	GcpAccesscontextmanagerAccessPoliciesTable = &schema.Table{
+		Name:       "gcp_accesscontextmanager_access_policies",
+		Columns:    GcpAccesscontextmanagerAccessPoliciesColumns,
+		PrimaryKey: []*schema.Column{GcpAccesscontextmanagerAccessPoliciesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpaccesscontextmanageraccesspolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAccesscontextmanagerAccessPoliciesColumns[1]},
+			},
+			{
+				Name:    "bronzegcpaccesscontextmanageraccesspolicy_organization_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAccesscontextmanagerAccessPoliciesColumns[7]},
+			},
+		},
+	}
+	// GcpAccesscontextmanagerServicePerimetersColumns holds the columns for the "gcp_accesscontextmanager_service_perimeters" table.
+	GcpAccesscontextmanagerServicePerimetersColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "title", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "perimeter_type", Type: field.TypeInt, Default: 0},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "use_explicit_dry_run_spec", Type: field.TypeBool, Default: false},
+		{Name: "status_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "spec_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "access_policy_name", Type: field.TypeString},
+		{Name: "organization_id", Type: field.TypeString},
+		{Name: "bronze_gcp_access_context_manager_access_policy_service_perimeters", Type: field.TypeString},
+	}
+	// GcpAccesscontextmanagerServicePerimetersTable holds the schema information for the "gcp_accesscontextmanager_service_perimeters" table.
+	GcpAccesscontextmanagerServicePerimetersTable = &schema.Table{
+		Name:       "gcp_accesscontextmanager_service_perimeters",
+		Columns:    GcpAccesscontextmanagerServicePerimetersColumns,
+		PrimaryKey: []*schema.Column{GcpAccesscontextmanagerServicePerimetersColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "gcp_accesscontextmanager_service_perimeters_gcp_accesscontextmanager_access_policies_service_perimeters",
+				Columns:    []*schema.Column{GcpAccesscontextmanagerServicePerimetersColumns[12]},
+				RefColumns: []*schema.Column{GcpAccesscontextmanagerAccessPoliciesColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpaccesscontextmanagerserviceperimeter_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAccesscontextmanagerServicePerimetersColumns[1]},
+			},
+			{
+				Name:    "bronzegcpaccesscontextmanagerserviceperimeter_organization_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAccesscontextmanagerServicePerimetersColumns[11]},
+			},
+			{
+				Name:    "bronzegcpaccesscontextmanagerserviceperimeter_access_policy_name",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAccesscontextmanagerServicePerimetersColumns[10]},
+			},
+			{
+				Name:    "bronzegcpaccesscontextmanagerserviceperimeter_perimeter_type",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAccesscontextmanagerServicePerimetersColumns[5]},
+			},
+		},
+	}
+	// GcpAlloydbClustersColumns holds the columns for the "gcp_alloydb_clusters" table.
+	GcpAlloydbClustersColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "uid", Type: field.TypeString, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "delete_time", Type: field.TypeString, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "state", Type: field.TypeInt, Nullable: true},
+		{Name: "cluster_type", Type: field.TypeInt, Nullable: true},
+		{Name: "database_version", Type: field.TypeInt, Nullable: true},
+		{Name: "network_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "network", Type: field.TypeString, Nullable: true},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "annotations_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "reconciling", Type: field.TypeBool, Nullable: true},
+		{Name: "initial_user_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "automated_backup_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "ssl_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "encryption_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "encryption_info_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "continuous_backup_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "continuous_backup_info_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "secondary_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "primary_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "satisfies_pzs", Type: field.TypeBool, Nullable: true},
+		{Name: "psc_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "maintenance_update_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "maintenance_schedule_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "subscription_type", Type: field.TypeInt, Nullable: true},
+		{Name: "trial_metadata_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "tags_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+		{Name: "location", Type: field.TypeString},
+	}
+	// GcpAlloydbClustersTable holds the schema information for the "gcp_alloydb_clusters" table.
+	GcpAlloydbClustersTable = &schema.Table{
+		Name:       "gcp_alloydb_clusters",
+		Columns:    GcpAlloydbClustersColumns,
+		PrimaryKey: []*schema.Column{GcpAlloydbClustersColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpalloydbcluster_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAlloydbClustersColumns[34]},
+			},
+			{
+				Name:    "bronzegcpalloydbcluster_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAlloydbClustersColumns[1]},
+			},
+		},
+	}
+	// GcpAppengineApplicationsColumns holds the columns for the "gcp_appengine_applications" table.
+	GcpAppengineApplicationsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "auth_domain", Type: field.TypeString, Nullable: true},
+		{Name: "location_id", Type: field.TypeString, Nullable: true},
+		{Name: "code_bucket", Type: field.TypeString, Nullable: true},
+		{Name: "default_cookie_expiration", Type: field.TypeString, Nullable: true},
+		{Name: "serving_status", Type: field.TypeInt32, Nullable: true},
+		{Name: "default_hostname", Type: field.TypeString, Nullable: true},
+		{Name: "default_bucket", Type: field.TypeString, Nullable: true},
+		{Name: "gcr_domain", Type: field.TypeString, Nullable: true},
+		{Name: "database_type", Type: field.TypeInt32, Nullable: true},
+		{Name: "feature_settings_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "iap_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "dispatch_rules_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpAppengineApplicationsTable holds the schema information for the "gcp_appengine_applications" table.
+	GcpAppengineApplicationsTable = &schema.Table{
+		Name:       "gcp_appengine_applications",
+		Columns:    GcpAppengineApplicationsColumns,
+		PrimaryKey: []*schema.Column{GcpAppengineApplicationsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpappengineapplication_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAppengineApplicationsColumns[16]},
+			},
+			{
+				Name:    "bronzegcpappengineapplication_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAppengineApplicationsColumns[1]},
+			},
+		},
+	}
+	// GcpAppengineServicesColumns holds the columns for the "gcp_appengine_services" table.
+	GcpAppengineServicesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "split_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "network_settings_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+		{Name: "bronze_gcp_app_engine_application_services", Type: field.TypeString},
+	}
+	// GcpAppengineServicesTable holds the schema information for the "gcp_appengine_services" table.
+	GcpAppengineServicesTable = &schema.Table{
+		Name:       "gcp_appengine_services",
+		Columns:    GcpAppengineServicesColumns,
+		PrimaryKey: []*schema.Column{GcpAppengineServicesColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "gcp_appengine_services_gcp_appengine_applications_services",
+				Columns:    []*schema.Column{GcpAppengineServicesColumns[8]},
+				RefColumns: []*schema.Column{GcpAppengineApplicationsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpappengineservice_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAppengineServicesColumns[7]},
+			},
+			{
+				Name:    "bronzegcpappengineservice_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAppengineServicesColumns[1]},
+			},
+		},
+	}
+	// GcpBigqueryDatasetsColumns holds the columns for the "gcp_bigquery_datasets" table.
+	GcpBigqueryDatasetsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "friendly_name", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "location", Type: field.TypeString, Nullable: true},
+		{Name: "default_table_expiration_ms", Type: field.TypeInt64, Nullable: true},
+		{Name: "default_partition_expiration_ms", Type: field.TypeInt64, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "access_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "creation_time", Type: field.TypeString, Nullable: true},
+		{Name: "last_modified_time", Type: field.TypeString, Nullable: true},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "default_collation", Type: field.TypeString, Nullable: true},
+		{Name: "max_time_travel_hours", Type: field.TypeInt, Nullable: true},
+		{Name: "default_encryption_configuration_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpBigqueryDatasetsTable holds the schema information for the "gcp_bigquery_datasets" table.
+	GcpBigqueryDatasetsTable = &schema.Table{
+		Name:       "gcp_bigquery_datasets",
+		Columns:    GcpBigqueryDatasetsColumns,
+		PrimaryKey: []*schema.Column{GcpBigqueryDatasetsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpbigquerydataset_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigqueryDatasetsColumns[16]},
+			},
+			{
+				Name:    "bronzegcpbigquerydataset_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigqueryDatasetsColumns[1]},
+			},
+		},
+	}
+	// GcpBigqueryTablesColumns holds the columns for the "gcp_bigquery_tables" table.
+	GcpBigqueryTablesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "dataset_id", Type: field.TypeString},
+		{Name: "friendly_name", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "schema_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "num_bytes", Type: field.TypeInt64, Nullable: true},
+		{Name: "num_long_term_bytes", Type: field.TypeInt64, Nullable: true},
+		{Name: "num_rows", Type: field.TypeUint64, Nullable: true},
+		{Name: "creation_time", Type: field.TypeString, Nullable: true},
+		{Name: "expiration_time", Type: field.TypeString, Nullable: true},
+		{Name: "last_modified_time", Type: field.TypeString, Nullable: true},
+		{Name: "table_type", Type: field.TypeString, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "encryption_configuration_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "time_partitioning_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "range_partitioning_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "clustering_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "require_partition_filter", Type: field.TypeBool, Default: false},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpBigqueryTablesTable holds the schema information for the "gcp_bigquery_tables" table.
+	GcpBigqueryTablesTable = &schema.Table{
+		Name:       "gcp_bigquery_tables",
+		Columns:    GcpBigqueryTablesColumns,
+		PrimaryKey: []*schema.Column{GcpBigqueryTablesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpbigquerytable_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigqueryTablesColumns[21]},
+			},
+			{
+				Name:    "bronzegcpbigquerytable_dataset_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigqueryTablesColumns[3]},
+			},
+			{
+				Name:    "bronzegcpbigquerytable_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigqueryTablesColumns[1]},
+			},
+		},
+	}
+	// GcpBigtableClustersColumns holds the columns for the "gcp_bigtable_clusters" table.
+	GcpBigtableClustersColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "location", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeInt32, Nullable: true},
+		{Name: "serve_nodes", Type: field.TypeInt32, Nullable: true},
+		{Name: "default_storage_type", Type: field.TypeInt32, Nullable: true},
+		{Name: "encryption_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "cluster_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "instance_name", Type: field.TypeString},
+		{Name: "project_id", Type: field.TypeString},
+		{Name: "bronze_gcp_bigtable_instance_clusters", Type: field.TypeString},
+	}
+	// GcpBigtableClustersTable holds the schema information for the "gcp_bigtable_clusters" table.
+	GcpBigtableClustersTable = &schema.Table{
+		Name:       "gcp_bigtable_clusters",
+		Columns:    GcpBigtableClustersColumns,
+		PrimaryKey: []*schema.Column{GcpBigtableClustersColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "gcp_bigtable_clusters_gcp_bigtable_instances_clusters",
+				Columns:    []*schema.Column{GcpBigtableClustersColumns[11]},
+				RefColumns: []*schema.Column{GcpBigtableInstancesColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpbigtablecluster_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigtableClustersColumns[10]},
+			},
+			{
+				Name:    "bronzegcpbigtablecluster_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigtableClustersColumns[1]},
+			},
+			{
+				Name:    "bronzegcpbigtablecluster_instance_name",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigtableClustersColumns[9]},
+			},
+		},
+	}
+	// GcpBigtableInstancesColumns holds the columns for the "gcp_bigtable_instances" table.
+	GcpBigtableInstancesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeInt32, Nullable: true},
+		{Name: "instance_type", Type: field.TypeInt32, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "satisfies_pzs", Type: field.TypeBool, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpBigtableInstancesTable holds the schema information for the "gcp_bigtable_instances" table.
+	GcpBigtableInstancesTable = &schema.Table{
+		Name:       "gcp_bigtable_instances",
+		Columns:    GcpBigtableInstancesColumns,
+		PrimaryKey: []*schema.Column{GcpBigtableInstancesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpbigtableinstance_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigtableInstancesColumns[9]},
+			},
+			{
+				Name:    "bronzegcpbigtableinstance_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigtableInstancesColumns[1]},
+			},
+		},
+	}
+	// GcpBinaryauthorizationAttestorsColumns holds the columns for the "gcp_binaryauthorization_attestors" table.
+	GcpBinaryauthorizationAttestorsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "user_owned_grafeas_note_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpBinaryauthorizationAttestorsTable holds the schema information for the "gcp_binaryauthorization_attestors" table.
+	GcpBinaryauthorizationAttestorsTable = &schema.Table{
+		Name:       "gcp_binaryauthorization_attestors",
+		Columns:    GcpBinaryauthorizationAttestorsColumns,
+		PrimaryKey: []*schema.Column{GcpBinaryauthorizationAttestorsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpbinaryauthorizationattestor_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBinaryauthorizationAttestorsColumns[7]},
+			},
+			{
+				Name:    "bronzegcpbinaryauthorizationattestor_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBinaryauthorizationAttestorsColumns[1]},
+			},
+		},
+	}
+	// GcpBinaryauthorizationPoliciesColumns holds the columns for the "gcp_binaryauthorization_policies" table.
+	GcpBinaryauthorizationPoliciesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "global_policy_evaluation_mode", Type: field.TypeInt, Default: 0},
+		{Name: "default_admission_rule_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "cluster_admission_rules_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "kube_namespace_admission_rules_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "istio_service_identity_admission_rules_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpBinaryauthorizationPoliciesTable holds the schema information for the "gcp_binaryauthorization_policies" table.
+	GcpBinaryauthorizationPoliciesTable = &schema.Table{
+		Name:       "gcp_binaryauthorization_policies",
+		Columns:    GcpBinaryauthorizationPoliciesColumns,
+		PrimaryKey: []*schema.Column{GcpBinaryauthorizationPoliciesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpbinaryauthorizationpolicy_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBinaryauthorizationPoliciesColumns[11]},
+			},
+			{
+				Name:    "bronzegcpbinaryauthorizationpolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBinaryauthorizationPoliciesColumns[1]},
+			},
+		},
+	}
+	// GcpCloudassetAssetsColumns holds the columns for the "gcp_cloudasset_assets" table.
+	GcpCloudassetAssetsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "asset_type", Type: field.TypeString},
+		{Name: "organization_id", Type: field.TypeString},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "resource_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "iam_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "org_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "access_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "os_inventory_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// GcpCloudassetAssetsTable holds the schema information for the "gcp_cloudasset_assets" table.
+	GcpCloudassetAssetsTable = &schema.Table{
+		Name:       "gcp_cloudasset_assets",
+		Columns:    GcpCloudassetAssetsColumns,
+		PrimaryKey: []*schema.Column{GcpCloudassetAssetsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpcloudassetasset_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetAssetsColumns[1]},
+			},
+			{
+				Name:    "bronzegcpcloudassetasset_organization_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetAssetsColumns[4]},
+			},
+			{
+				Name:    "bronzegcpcloudassetasset_asset_type",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetAssetsColumns[3]},
+			},
+		},
+	}
+	// GcpCloudassetIamPolicySearchesColumns holds the columns for the "gcp_cloudasset_iam_policy_searches" table.
+	GcpCloudassetIamPolicySearchesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "asset_type", Type: field.TypeString, Nullable: true},
+		{Name: "project", Type: field.TypeString, Nullable: true},
+		{Name: "organization", Type: field.TypeString, Nullable: true},
+		{Name: "organization_id", Type: field.TypeString},
+		{Name: "folders_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "explanation_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// GcpCloudassetIamPolicySearchesTable holds the schema information for the "gcp_cloudasset_iam_policy_searches" table.
+	GcpCloudassetIamPolicySearchesTable = &schema.Table{
+		Name:       "gcp_cloudasset_iam_policy_searches",
+		Columns:    GcpCloudassetIamPolicySearchesColumns,
+		PrimaryKey: []*schema.Column{GcpCloudassetIamPolicySearchesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpcloudassetiampolicysearch_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetIamPolicySearchesColumns[1]},
+			},
+			{
+				Name:    "bronzegcpcloudassetiampolicysearch_organization_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetIamPolicySearchesColumns[6]},
+			},
+			{
+				Name:    "bronzegcpcloudassetiampolicysearch_asset_type",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetIamPolicySearchesColumns[3]},
+			},
+		},
+	}
+	// GcpCloudassetResourceSearchesColumns holds the columns for the "gcp_cloudasset_resource_searches" table.
+	GcpCloudassetResourceSearchesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "asset_type", Type: field.TypeString},
+		{Name: "project", Type: field.TypeString, Nullable: true},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "location", Type: field.TypeString, Nullable: true},
+		{Name: "organization_id", Type: field.TypeString},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "network_tags_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "additional_attributes_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// GcpCloudassetResourceSearchesTable holds the schema information for the "gcp_cloudasset_resource_searches" table.
+	GcpCloudassetResourceSearchesTable = &schema.Table{
+		Name:       "gcp_cloudasset_resource_searches",
+		Columns:    GcpCloudassetResourceSearchesColumns,
+		PrimaryKey: []*schema.Column{GcpCloudassetResourceSearchesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpcloudassetresourcesearch_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetResourceSearchesColumns[1]},
+			},
+			{
+				Name:    "bronzegcpcloudassetresourcesearch_organization_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetResourceSearchesColumns[8]},
+			},
+			{
+				Name:    "bronzegcpcloudassetresourcesearch_asset_type",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetResourceSearchesColumns[3]},
+			},
+			{
+				Name:    "bronzegcpcloudassetresourcesearch_project",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetResourceSearchesColumns[4]},
+			},
+			{
+				Name:    "bronzegcpcloudassetresourcesearch_location",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetResourceSearchesColumns[7]},
+			},
+		},
+	}
+	// GcpCloudfunctionsFunctionsColumns holds the columns for the "gcp_cloudfunctions_functions" table.
+	GcpCloudfunctionsFunctionsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "environment", Type: field.TypeInt, Default: 0},
+		{Name: "state", Type: field.TypeInt, Default: 0},
+		{Name: "build_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "service_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "event_trigger_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "state_messages_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "kms_key_name", Type: field.TypeString, Nullable: true},
+		{Name: "url", Type: field.TypeString, Nullable: true},
+		{Name: "satisfies_pzs", Type: field.TypeBool, Default: false},
+		{Name: "project_id", Type: field.TypeString},
+		{Name: "location", Type: field.TypeString, Nullable: true},
+	}
+	// GcpCloudfunctionsFunctionsTable holds the schema information for the "gcp_cloudfunctions_functions" table.
+	GcpCloudfunctionsFunctionsTable = &schema.Table{
+		Name:       "gcp_cloudfunctions_functions",
+		Columns:    GcpCloudfunctionsFunctionsColumns,
+		PrimaryKey: []*schema.Column{GcpCloudfunctionsFunctionsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpcloudfunctionsfunction_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudfunctionsFunctionsColumns[17]},
+			},
+			{
+				Name:    "bronzegcpcloudfunctionsfunction_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudfunctionsFunctionsColumns[1]},
+			},
+		},
+	}
 	// GcpComputeAddressesColumns holds the columns for the "gcp_compute_addresses" table.
 	GcpComputeAddressesColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -2721,6 +3365,114 @@ var (
 			},
 		},
 	}
+	// GcpContaineranalysisNotesColumns holds the columns for the "gcp_containeranalysis_notes" table.
+	GcpContaineranalysisNotesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "short_description", Type: field.TypeString, Nullable: true},
+		{Name: "long_description", Type: field.TypeString, Nullable: true},
+		{Name: "kind", Type: field.TypeInt, Nullable: true},
+		{Name: "expiration_time", Type: field.TypeString, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "related_url_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "related_note_names", Type: field.TypeJSON, Nullable: true},
+		{Name: "vulnerability_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "build_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "image_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "package_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "deployment_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "discovery_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "attestation_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "upgrade_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "compliance_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "dsse_attestation_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "vulnerability_assessment_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "sbom_reference_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpContaineranalysisNotesTable holds the schema information for the "gcp_containeranalysis_notes" table.
+	GcpContaineranalysisNotesTable = &schema.Table{
+		Name:       "gcp_containeranalysis_notes",
+		Columns:    GcpContaineranalysisNotesColumns,
+		PrimaryKey: []*schema.Column{GcpContaineranalysisNotesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpcontaineranalysisnote_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpContaineranalysisNotesColumns[1]},
+			},
+			{
+				Name:    "bronzegcpcontaineranalysisnote_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpContaineranalysisNotesColumns[23]},
+			},
+			{
+				Name:    "bronzegcpcontaineranalysisnote_kind",
+				Unique:  false,
+				Columns: []*schema.Column{GcpContaineranalysisNotesColumns[5]},
+			},
+		},
+	}
+	// GcpContaineranalysisOccurrencesColumns holds the columns for the "gcp_containeranalysis_occurrences" table.
+	GcpContaineranalysisOccurrencesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "resource_uri", Type: field.TypeString, Nullable: true},
+		{Name: "note_name", Type: field.TypeString, Nullable: true},
+		{Name: "kind", Type: field.TypeInt, Nullable: true},
+		{Name: "remediation", Type: field.TypeString, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "vulnerability_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "build_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "image_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "package_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "deployment_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "discovery_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "attestation_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "upgrade_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "compliance_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "dsse_attestation_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "sbom_reference_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "envelope_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpContaineranalysisOccurrencesTable holds the schema information for the "gcp_containeranalysis_occurrences" table.
+	GcpContaineranalysisOccurrencesTable = &schema.Table{
+		Name:       "gcp_containeranalysis_occurrences",
+		Columns:    GcpContaineranalysisOccurrencesColumns,
+		PrimaryKey: []*schema.Column{GcpContaineranalysisOccurrencesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpcontaineranalysisoccurrence_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpContaineranalysisOccurrencesColumns[1]},
+			},
+			{
+				Name:    "bronzegcpcontaineranalysisoccurrence_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpContaineranalysisOccurrencesColumns[21]},
+			},
+			{
+				Name:    "bronzegcpcontaineranalysisoccurrence_kind",
+				Unique:  false,
+				Columns: []*schema.Column{GcpContaineranalysisOccurrencesColumns[5]},
+			},
+			{
+				Name:    "bronzegcpcontaineranalysisoccurrence_note_name",
+				Unique:  false,
+				Columns: []*schema.Column{GcpContaineranalysisOccurrencesColumns[4]},
+			},
+			{
+				Name:    "bronzegcpcontaineranalysisoccurrence_resource_uri",
+				Unique:  false,
+				Columns: []*schema.Column{GcpContaineranalysisOccurrencesColumns[3]},
+			},
+		},
+	}
 	// GcpContainerClustersColumns holds the columns for the "gcp_container_clusters" table.
 	GcpContainerClustersColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -2982,6 +3734,86 @@ var (
 			},
 		},
 	}
+	// GcpDataprocClustersColumns holds the columns for the "gcp_dataproc_clusters" table.
+	GcpDataprocClustersColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "cluster_name", Type: field.TypeString},
+		{Name: "cluster_uuid", Type: field.TypeString, Nullable: true},
+		{Name: "config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "status_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "status_history_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "metrics_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+		{Name: "location", Type: field.TypeString},
+	}
+	// GcpDataprocClustersTable holds the schema information for the "gcp_dataproc_clusters" table.
+	GcpDataprocClustersTable = &schema.Table{
+		Name:       "gcp_dataproc_clusters",
+		Columns:    GcpDataprocClustersColumns,
+		PrimaryKey: []*schema.Column{GcpDataprocClustersColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpdataproccluster_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpDataprocClustersColumns[10]},
+			},
+			{
+				Name:    "bronzegcpdataproccluster_location",
+				Unique:  false,
+				Columns: []*schema.Column{GcpDataprocClustersColumns[11]},
+			},
+			{
+				Name:    "bronzegcpdataproccluster_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpDataprocClustersColumns[1]},
+			},
+		},
+	}
+	// GcpFilestoreInstancesColumns holds the columns for the "gcp_filestore_instances" table.
+	GcpFilestoreInstancesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeInt, Default: 0},
+		{Name: "status_message", Type: field.TypeString, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "tier", Type: field.TypeInt, Default: 0},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "file_shares_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "networks_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "satisfies_pzs", Type: field.TypeBool, Default: false},
+		{Name: "satisfies_pzi", Type: field.TypeBool, Default: false},
+		{Name: "kms_key_name", Type: field.TypeString, Nullable: true},
+		{Name: "suspension_reasons_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "max_capacity_gb", Type: field.TypeInt64, Nullable: true},
+		{Name: "protocol", Type: field.TypeInt, Default: 0},
+		{Name: "project_id", Type: field.TypeString},
+		{Name: "location", Type: field.TypeString, Nullable: true},
+	}
+	// GcpFilestoreInstancesTable holds the schema information for the "gcp_filestore_instances" table.
+	GcpFilestoreInstancesTable = &schema.Table{
+		Name:       "gcp_filestore_instances",
+		Columns:    GcpFilestoreInstancesColumns,
+		PrimaryKey: []*schema.Column{GcpFilestoreInstancesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpfilestoreinstance_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFilestoreInstancesColumns[19]},
+			},
+			{
+				Name:    "bronzegcpfilestoreinstance_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFilestoreInstancesColumns[1]},
+			},
+		},
+	}
 	// GcpFoldersColumns holds the columns for the "gcp_folders" table.
 	GcpFoldersColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -3156,6 +3988,64 @@ var (
 				Name:    "bronzegcpiamserviceaccountkey_collected_at",
 				Unique:  false,
 				Columns: []*schema.Column{GcpIamServiceAccountKeysColumns[1]},
+			},
+		},
+	}
+	// GcpIapIamPoliciesColumns holds the columns for the "gcp_iap_iam_policies" table.
+	GcpIapIamPoliciesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "version", Type: field.TypeInt, Nullable: true},
+		{Name: "bindings_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "audit_configs_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpIapIamPoliciesTable holds the schema information for the "gcp_iap_iam_policies" table.
+	GcpIapIamPoliciesTable = &schema.Table{
+		Name:       "gcp_iap_iam_policies",
+		Columns:    GcpIapIamPoliciesColumns,
+		PrimaryKey: []*schema.Column{GcpIapIamPoliciesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpiapiampolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpIapIamPoliciesColumns[1]},
+			},
+			{
+				Name:    "bronzegcpiapiampolicy_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpIapIamPoliciesColumns[8]},
+			},
+		},
+	}
+	// GcpIapSettingsColumns holds the columns for the "gcp_iap_settings" table.
+	GcpIapSettingsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "access_settings_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "application_settings_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpIapSettingsTable holds the schema information for the "gcp_iap_settings" table.
+	GcpIapSettingsTable = &schema.Table{
+		Name:       "gcp_iap_settings",
+		Columns:    GcpIapSettingsColumns,
+		PrimaryKey: []*schema.Column{GcpIapSettingsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpiapsettings_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpIapSettingsColumns[1]},
+			},
+			{
+				Name:    "bronzegcpiapsettings_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpIapSettingsColumns[6]},
 			},
 		},
 	}
@@ -3360,6 +4250,82 @@ var (
 			},
 		},
 	}
+	// GcpMonitoringAlertPoliciesColumns holds the columns for the "gcp_monitoring_alert_policies" table.
+	GcpMonitoringAlertPoliciesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "documentation_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "user_labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "conditions_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "combiner", Type: field.TypeInt, Default: 0},
+		{Name: "enabled", Type: field.TypeBool, Default: false},
+		{Name: "notification_channels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "creation_record_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "mutation_record_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "alert_strategy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "severity", Type: field.TypeInt, Default: 0},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpMonitoringAlertPoliciesTable holds the schema information for the "gcp_monitoring_alert_policies" table.
+	GcpMonitoringAlertPoliciesTable = &schema.Table{
+		Name:       "gcp_monitoring_alert_policies",
+		Columns:    GcpMonitoringAlertPoliciesColumns,
+		PrimaryKey: []*schema.Column{GcpMonitoringAlertPoliciesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpmonitoringalertpolicy_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpMonitoringAlertPoliciesColumns[15]},
+			},
+			{
+				Name:    "bronzegcpmonitoringalertpolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpMonitoringAlertPoliciesColumns[1]},
+			},
+		},
+	}
+	// GcpMonitoringUptimeCheckConfigsColumns holds the columns for the "gcp_monitoring_uptime_check_configs" table.
+	GcpMonitoringUptimeCheckConfigsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "monitored_resource_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "resource_group_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "http_check_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "tcp_check_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "period", Type: field.TypeString, Nullable: true},
+		{Name: "timeout", Type: field.TypeString, Nullable: true},
+		{Name: "content_matchers_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "checker_type", Type: field.TypeInt, Default: 0},
+		{Name: "selected_regions_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "is_internal", Type: field.TypeBool, Default: false},
+		{Name: "internal_checkers_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "user_labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpMonitoringUptimeCheckConfigsTable holds the schema information for the "gcp_monitoring_uptime_check_configs" table.
+	GcpMonitoringUptimeCheckConfigsTable = &schema.Table{
+		Name:       "gcp_monitoring_uptime_check_configs",
+		Columns:    GcpMonitoringUptimeCheckConfigsColumns,
+		PrimaryKey: []*schema.Column{GcpMonitoringUptimeCheckConfigsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpmonitoringuptimecheckconfig_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpMonitoringUptimeCheckConfigsColumns[17]},
+			},
+			{
+				Name:    "bronzegcpmonitoringuptimecheckconfig_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpMonitoringUptimeCheckConfigsColumns[1]},
+			},
+		},
+	}
 	// GcpOrgIamPoliciesColumns holds the columns for the "gcp_org_iam_policies" table.
 	GcpOrgIamPoliciesColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -3433,6 +4399,38 @@ var (
 				Name:    "bronzegcporgpolicyconstraint_organization_id",
 				Unique:  false,
 				Columns: []*schema.Column{GcpOrgpolicyConstraintsColumns[10]},
+			},
+		},
+	}
+	// GcpOrgpolicyCustomConstraintsColumns holds the columns for the "gcp_orgpolicy_custom_constraints" table.
+	GcpOrgpolicyCustomConstraintsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "resource_types", Type: field.TypeJSON, Nullable: true},
+		{Name: "method_types", Type: field.TypeJSON, Nullable: true},
+		{Name: "condition", Type: field.TypeString, Nullable: true},
+		{Name: "action_type", Type: field.TypeInt, Default: 0},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true},
+		{Name: "organization_id", Type: field.TypeString},
+	}
+	// GcpOrgpolicyCustomConstraintsTable holds the schema information for the "gcp_orgpolicy_custom_constraints" table.
+	GcpOrgpolicyCustomConstraintsTable = &schema.Table{
+		Name:       "gcp_orgpolicy_custom_constraints",
+		Columns:    GcpOrgpolicyCustomConstraintsColumns,
+		PrimaryKey: []*schema.Column{GcpOrgpolicyCustomConstraintsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcporgpolicycustomconstraint_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgpolicyCustomConstraintsColumns[1]},
+			},
+			{
+				Name:    "bronzegcporgpolicycustomconstraint_organization_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgpolicyCustomConstraintsColumns[10]},
 			},
 		},
 	}
@@ -3601,6 +4599,264 @@ var (
 				Columns:    []*schema.Column{GcpProjectLabelsColumns[3]},
 				RefColumns: []*schema.Column{GcpProjectsColumns[0]},
 				OnDelete:   schema.NoAction,
+			},
+		},
+	}
+	// GcpPubsubSubscriptionsColumns holds the columns for the "gcp_pubsub_subscriptions" table.
+	GcpPubsubSubscriptionsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "topic", Type: field.TypeString, Nullable: true},
+		{Name: "push_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "bigquery_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "cloud_storage_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "ack_deadline_seconds", Type: field.TypeInt, Nullable: true},
+		{Name: "retain_acked_messages", Type: field.TypeBool, Default: false},
+		{Name: "message_retention_duration", Type: field.TypeString, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "enable_message_ordering", Type: field.TypeBool, Default: false},
+		{Name: "expiration_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "filter", Type: field.TypeString, Nullable: true},
+		{Name: "dead_letter_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "retry_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "detached", Type: field.TypeBool, Default: false},
+		{Name: "enable_exactly_once_delivery", Type: field.TypeBool, Default: false},
+		{Name: "state", Type: field.TypeInt, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpPubsubSubscriptionsTable holds the schema information for the "gcp_pubsub_subscriptions" table.
+	GcpPubsubSubscriptionsTable = &schema.Table{
+		Name:       "gcp_pubsub_subscriptions",
+		Columns:    GcpPubsubSubscriptionsColumns,
+		PrimaryKey: []*schema.Column{GcpPubsubSubscriptionsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcppubsubsubscription_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpPubsubSubscriptionsColumns[20]},
+			},
+			{
+				Name:    "bronzegcppubsubsubscription_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpPubsubSubscriptionsColumns[1]},
+			},
+		},
+	}
+	// GcpPubsubTopicsColumns holds the columns for the "gcp_pubsub_topics" table.
+	GcpPubsubTopicsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "message_storage_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "kms_key_name", Type: field.TypeString, Nullable: true},
+		{Name: "schema_settings_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "message_retention_duration", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeInt, Nullable: true},
+		{Name: "ingestion_data_source_settings_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpPubsubTopicsTable holds the schema information for the "gcp_pubsub_topics" table.
+	GcpPubsubTopicsTable = &schema.Table{
+		Name:       "gcp_pubsub_topics",
+		Columns:    GcpPubsubTopicsColumns,
+		PrimaryKey: []*schema.Column{GcpPubsubTopicsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcppubsubtopic_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpPubsubTopicsColumns[11]},
+			},
+			{
+				Name:    "bronzegcppubsubtopic_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpPubsubTopicsColumns[1]},
+			},
+		},
+	}
+	// GcpRedisInstancesColumns holds the columns for the "gcp_redis_instances" table.
+	GcpRedisInstancesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "location_id", Type: field.TypeString, Nullable: true},
+		{Name: "alternative_location_id", Type: field.TypeString, Nullable: true},
+		{Name: "redis_version", Type: field.TypeString, Nullable: true},
+		{Name: "reserved_ip_range", Type: field.TypeString, Nullable: true},
+		{Name: "secondary_ip_range", Type: field.TypeString, Nullable: true},
+		{Name: "host", Type: field.TypeString, Nullable: true},
+		{Name: "port", Type: field.TypeInt32, Nullable: true},
+		{Name: "current_location_id", Type: field.TypeString, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeInt32, Nullable: true},
+		{Name: "status_message", Type: field.TypeString, Nullable: true},
+		{Name: "redis_configs_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "tier", Type: field.TypeInt32, Nullable: true},
+		{Name: "memory_size_gb", Type: field.TypeInt32, Nullable: true},
+		{Name: "authorized_network", Type: field.TypeString, Nullable: true},
+		{Name: "persistence_iam_identity", Type: field.TypeString, Nullable: true},
+		{Name: "connect_mode", Type: field.TypeInt32, Nullable: true},
+		{Name: "auth_enabled", Type: field.TypeBool, Default: false},
+		{Name: "server_ca_certs_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "transit_encryption_mode", Type: field.TypeInt32, Nullable: true},
+		{Name: "maintenance_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "maintenance_schedule_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "replica_count", Type: field.TypeInt32, Nullable: true},
+		{Name: "nodes_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "read_endpoint", Type: field.TypeString, Nullable: true},
+		{Name: "read_endpoint_port", Type: field.TypeInt32, Nullable: true},
+		{Name: "read_replicas_mode", Type: field.TypeInt32, Nullable: true},
+		{Name: "customer_managed_key", Type: field.TypeString, Nullable: true},
+		{Name: "persistence_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "suspension_reasons_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "maintenance_version", Type: field.TypeString, Nullable: true},
+		{Name: "available_maintenance_versions_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpRedisInstancesTable holds the schema information for the "gcp_redis_instances" table.
+	GcpRedisInstancesTable = &schema.Table{
+		Name:       "gcp_redis_instances",
+		Columns:    GcpRedisInstancesColumns,
+		PrimaryKey: []*schema.Column{GcpRedisInstancesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpredisinstance_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRedisInstancesColumns[38]},
+			},
+			{
+				Name:    "bronzegcpredisinstance_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRedisInstancesColumns[1]},
+			},
+		},
+	}
+	// GcpRunRevisionsColumns holds the columns for the "gcp_run_revisions" table.
+	GcpRunRevisionsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "uid", Type: field.TypeString, Nullable: true},
+		{Name: "generation", Type: field.TypeInt64, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "annotations_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "delete_time", Type: field.TypeString, Nullable: true},
+		{Name: "launch_stage", Type: field.TypeInt, Nullable: true},
+		{Name: "service_name", Type: field.TypeString, Nullable: true},
+		{Name: "scaling_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "containers_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "volumes_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "execution_environment", Type: field.TypeInt, Nullable: true},
+		{Name: "encryption_key", Type: field.TypeString, Nullable: true},
+		{Name: "max_instance_request_concurrency", Type: field.TypeInt, Nullable: true},
+		{Name: "timeout", Type: field.TypeString, Nullable: true},
+		{Name: "service_account", Type: field.TypeString, Nullable: true},
+		{Name: "reconciling", Type: field.TypeBool, Default: false},
+		{Name: "conditions_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "observed_generation", Type: field.TypeInt64, Nullable: true},
+		{Name: "log_uri", Type: field.TypeString, Nullable: true},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+		{Name: "location", Type: field.TypeString},
+		{Name: "bronze_gcp_run_service_revisions", Type: field.TypeString},
+	}
+	// GcpRunRevisionsTable holds the schema information for the "gcp_run_revisions" table.
+	GcpRunRevisionsTable = &schema.Table{
+		Name:       "gcp_run_revisions",
+		Columns:    GcpRunRevisionsColumns,
+		PrimaryKey: []*schema.Column{GcpRunRevisionsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "gcp_run_revisions_gcp_run_services_revisions",
+				Columns:    []*schema.Column{GcpRunRevisionsColumns[28]},
+				RefColumns: []*schema.Column{GcpRunServicesColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcprunrevision_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRunRevisionsColumns[26]},
+			},
+			{
+				Name:    "bronzegcprunrevision_location",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRunRevisionsColumns[27]},
+			},
+			{
+				Name:    "bronzegcprunrevision_service_name",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRunRevisionsColumns[12]},
+			},
+			{
+				Name:    "bronzegcprunrevision_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRunRevisionsColumns[1]},
+			},
+		},
+	}
+	// GcpRunServicesColumns holds the columns for the "gcp_run_services" table.
+	GcpRunServicesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "uid", Type: field.TypeString, Nullable: true},
+		{Name: "generation", Type: field.TypeInt64, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "annotations_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "delete_time", Type: field.TypeString, Nullable: true},
+		{Name: "creator", Type: field.TypeString, Nullable: true},
+		{Name: "last_modifier", Type: field.TypeString, Nullable: true},
+		{Name: "ingress", Type: field.TypeInt, Nullable: true},
+		{Name: "launch_stage", Type: field.TypeInt, Nullable: true},
+		{Name: "template_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "traffic_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "uri", Type: field.TypeString, Nullable: true},
+		{Name: "observed_generation", Type: field.TypeInt64, Nullable: true},
+		{Name: "terminal_condition_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "conditions_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "latest_ready_revision", Type: field.TypeString, Nullable: true},
+		{Name: "latest_created_revision", Type: field.TypeString, Nullable: true},
+		{Name: "traffic_statuses_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "reconciling", Type: field.TypeBool, Default: false},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+		{Name: "location", Type: field.TypeString},
+	}
+	// GcpRunServicesTable holds the schema information for the "gcp_run_services" table.
+	GcpRunServicesTable = &schema.Table{
+		Name:       "gcp_run_services",
+		Columns:    GcpRunServicesColumns,
+		PrimaryKey: []*schema.Column{GcpRunServicesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcprunservice_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRunServicesColumns[27]},
+			},
+			{
+				Name:    "bronzegcprunservice_location",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRunServicesColumns[28]},
+			},
+			{
+				Name:    "bronzegcprunservice_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRunServicesColumns[1]},
 			},
 		},
 	}
@@ -3784,6 +5040,36 @@ var (
 			},
 		},
 	}
+	// GcpSecuritycenterNotificationConfigsColumns holds the columns for the "gcp_securitycenter_notification_configs" table.
+	GcpSecuritycenterNotificationConfigsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "pubsub_topic", Type: field.TypeString, Nullable: true},
+		{Name: "streaming_config_json", Type: field.TypeString, Nullable: true},
+		{Name: "service_account", Type: field.TypeString, Nullable: true},
+		{Name: "organization_id", Type: field.TypeString},
+	}
+	// GcpSecuritycenterNotificationConfigsTable holds the schema information for the "gcp_securitycenter_notification_configs" table.
+	GcpSecuritycenterNotificationConfigsTable = &schema.Table{
+		Name:       "gcp_securitycenter_notification_configs",
+		Columns:    GcpSecuritycenterNotificationConfigsColumns,
+		PrimaryKey: []*schema.Column{GcpSecuritycenterNotificationConfigsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpsecuritycenternotificationconfig_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSecuritycenterNotificationConfigsColumns[1]},
+			},
+			{
+				Name:    "bronzegcpsecuritycenternotificationconfig_organization_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSecuritycenterNotificationConfigsColumns[8]},
+			},
+		},
+	}
 	// GcpSecuritycenterSourcesColumns holds the columns for the "gcp_securitycenter_sources" table.
 	GcpSecuritycenterSourcesColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -3809,6 +5095,119 @@ var (
 				Name:    "bronzegcpsecuritycentersource_organization_id",
 				Unique:  false,
 				Columns: []*schema.Column{GcpSecuritycenterSourcesColumns[6]},
+			},
+		},
+	}
+	// GcpServiceusageEnabledServicesColumns holds the columns for the "gcp_serviceusage_enabled_services" table.
+	GcpServiceusageEnabledServicesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "parent", Type: field.TypeString},
+		{Name: "config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "state", Type: field.TypeInt, Default: 0},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpServiceusageEnabledServicesTable holds the schema information for the "gcp_serviceusage_enabled_services" table.
+	GcpServiceusageEnabledServicesTable = &schema.Table{
+		Name:       "gcp_serviceusage_enabled_services",
+		Columns:    GcpServiceusageEnabledServicesColumns,
+		PrimaryKey: []*schema.Column{GcpServiceusageEnabledServicesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpserviceusageenabledservice_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpServiceusageEnabledServicesColumns[7]},
+			},
+			{
+				Name:    "bronzegcpserviceusageenabledservice_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpServiceusageEnabledServicesColumns[1]},
+			},
+		},
+	}
+	// GcpSpannerDatabasesColumns holds the columns for the "gcp_spanner_databases" table.
+	GcpSpannerDatabasesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "state", Type: field.TypeInt, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "restore_info_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "encryption_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "encryption_info_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "version_retention_period", Type: field.TypeString, Nullable: true},
+		{Name: "earliest_version_time", Type: field.TypeString, Nullable: true},
+		{Name: "default_leader", Type: field.TypeString, Nullable: true},
+		{Name: "database_dialect", Type: field.TypeInt, Nullable: true},
+		{Name: "enable_drop_protection", Type: field.TypeBool, Default: false},
+		{Name: "reconciling", Type: field.TypeBool, Default: false},
+		{Name: "instance_name", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+		{Name: "bronze_gcp_spanner_instance_databases", Type: field.TypeString, Nullable: true},
+	}
+	// GcpSpannerDatabasesTable holds the schema information for the "gcp_spanner_databases" table.
+	GcpSpannerDatabasesTable = &schema.Table{
+		Name:       "gcp_spanner_databases",
+		Columns:    GcpSpannerDatabasesColumns,
+		PrimaryKey: []*schema.Column{GcpSpannerDatabasesColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "gcp_spanner_databases_gcp_spanner_instances_databases",
+				Columns:    []*schema.Column{GcpSpannerDatabasesColumns[17]},
+				RefColumns: []*schema.Column{GcpSpannerInstancesColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpspannerdatabase_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSpannerDatabasesColumns[16]},
+			},
+			{
+				Name:    "bronzegcpspannerdatabase_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSpannerDatabasesColumns[1]},
+			},
+		},
+	}
+	// GcpSpannerInstancesColumns holds the columns for the "gcp_spanner_instances" table.
+	GcpSpannerInstancesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "config", Type: field.TypeString, Nullable: true},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "node_count", Type: field.TypeInt32, Nullable: true},
+		{Name: "processing_units", Type: field.TypeInt32, Nullable: true},
+		{Name: "state", Type: field.TypeInt, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "endpoint_uris_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "edition", Type: field.TypeInt, Nullable: true},
+		{Name: "default_backup_schedule_type", Type: field.TypeInt, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpSpannerInstancesTable holds the schema information for the "gcp_spanner_instances" table.
+	GcpSpannerInstancesTable = &schema.Table{
+		Name:       "gcp_spanner_instances",
+		Columns:    GcpSpannerInstancesColumns,
+		PrimaryKey: []*schema.Column{GcpSpannerInstancesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpspannerinstance_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSpannerInstancesColumns[15]},
+			},
+			{
+				Name:    "bronzegcpspannerinstance_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSpannerInstancesColumns[1]},
 			},
 		},
 	}
@@ -5292,6 +6691,759 @@ var (
 				Name:    "bronzehistorydovpc_region",
 				Unique:  false,
 				Columns: []*schema.Column{DoVpcsHistoryColumns[9]},
+			},
+		},
+	}
+	// GcpAccesscontextmanagerAccessLevelsHistoryColumns holds the columns for the "gcp_accesscontextmanager_access_levels_history" table.
+	GcpAccesscontextmanagerAccessLevelsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "title", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "basic_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "custom_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "access_policy_name", Type: field.TypeString},
+		{Name: "organization_id", Type: field.TypeString},
+	}
+	// GcpAccesscontextmanagerAccessLevelsHistoryTable holds the schema information for the "gcp_accesscontextmanager_access_levels_history" table.
+	GcpAccesscontextmanagerAccessLevelsHistoryTable = &schema.Table{
+		Name:       "gcp_accesscontextmanager_access_levels_history",
+		Columns:    GcpAccesscontextmanagerAccessLevelsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpAccesscontextmanagerAccessLevelsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpaccesscontextmanageraccesslevel_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAccesscontextmanagerAccessLevelsHistoryColumns[6], GcpAccesscontextmanagerAccessLevelsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpaccesscontextmanageraccesslevel_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAccesscontextmanagerAccessLevelsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpaccesscontextmanageraccesslevel_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAccesscontextmanagerAccessLevelsHistoryColumns[3]},
+			},
+		},
+	}
+	// GcpAccesscontextmanagerAccessPoliciesHistoryColumns holds the columns for the "gcp_accesscontextmanager_access_policies_history" table.
+	GcpAccesscontextmanagerAccessPoliciesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "parent", Type: field.TypeString},
+		{Name: "title", Type: field.TypeString, Nullable: true},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "scopes_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "organization_id", Type: field.TypeString},
+	}
+	// GcpAccesscontextmanagerAccessPoliciesHistoryTable holds the schema information for the "gcp_accesscontextmanager_access_policies_history" table.
+	GcpAccesscontextmanagerAccessPoliciesHistoryTable = &schema.Table{
+		Name:       "gcp_accesscontextmanager_access_policies_history",
+		Columns:    GcpAccesscontextmanagerAccessPoliciesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpAccesscontextmanagerAccessPoliciesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpaccesscontextmanageraccesspolicy_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAccesscontextmanagerAccessPoliciesHistoryColumns[6], GcpAccesscontextmanagerAccessPoliciesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpaccesscontextmanageraccesspolicy_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAccesscontextmanagerAccessPoliciesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpaccesscontextmanageraccesspolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAccesscontextmanagerAccessPoliciesHistoryColumns[3]},
+			},
+		},
+	}
+	// GcpAccesscontextmanagerServicePerimetersHistoryColumns holds the columns for the "gcp_accesscontextmanager_service_perimeters_history" table.
+	GcpAccesscontextmanagerServicePerimetersHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "title", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "perimeter_type", Type: field.TypeInt, Default: 0},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "use_explicit_dry_run_spec", Type: field.TypeBool, Default: false},
+		{Name: "status_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "spec_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "access_policy_name", Type: field.TypeString},
+		{Name: "organization_id", Type: field.TypeString},
+	}
+	// GcpAccesscontextmanagerServicePerimetersHistoryTable holds the schema information for the "gcp_accesscontextmanager_service_perimeters_history" table.
+	GcpAccesscontextmanagerServicePerimetersHistoryTable = &schema.Table{
+		Name:       "gcp_accesscontextmanager_service_perimeters_history",
+		Columns:    GcpAccesscontextmanagerServicePerimetersHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpAccesscontextmanagerServicePerimetersHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpaccesscontextmanagerserviceperimeter_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAccesscontextmanagerServicePerimetersHistoryColumns[6], GcpAccesscontextmanagerServicePerimetersHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpaccesscontextmanagerserviceperimeter_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAccesscontextmanagerServicePerimetersHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpaccesscontextmanagerserviceperimeter_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAccesscontextmanagerServicePerimetersHistoryColumns[3]},
+			},
+		},
+	}
+	// GcpAlloydbClustersHistoryColumns holds the columns for the "gcp_alloydb_clusters_history" table.
+	GcpAlloydbClustersHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "uid", Type: field.TypeString, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "delete_time", Type: field.TypeString, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "state", Type: field.TypeInt, Nullable: true},
+		{Name: "cluster_type", Type: field.TypeInt, Nullable: true},
+		{Name: "database_version", Type: field.TypeInt, Nullable: true},
+		{Name: "network_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "network", Type: field.TypeString, Nullable: true},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "annotations_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "reconciling", Type: field.TypeBool, Nullable: true},
+		{Name: "initial_user_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "automated_backup_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "ssl_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "encryption_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "encryption_info_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "continuous_backup_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "continuous_backup_info_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "secondary_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "primary_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "satisfies_pzs", Type: field.TypeBool, Nullable: true},
+		{Name: "psc_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "maintenance_update_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "maintenance_schedule_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "subscription_type", Type: field.TypeInt, Nullable: true},
+		{Name: "trial_metadata_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "tags_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+		{Name: "location", Type: field.TypeString},
+	}
+	// GcpAlloydbClustersHistoryTable holds the schema information for the "gcp_alloydb_clusters_history" table.
+	GcpAlloydbClustersHistoryTable = &schema.Table{
+		Name:       "gcp_alloydb_clusters_history",
+		Columns:    GcpAlloydbClustersHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpAlloydbClustersHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpalloydbcluster_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAlloydbClustersHistoryColumns[6], GcpAlloydbClustersHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpalloydbcluster_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAlloydbClustersHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpalloydbcluster_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAlloydbClustersHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpalloydbcluster_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAlloydbClustersHistoryColumns[38]},
+			},
+		},
+	}
+	// GcpAppengineApplicationsHistoryColumns holds the columns for the "gcp_appengine_applications_history" table.
+	GcpAppengineApplicationsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "auth_domain", Type: field.TypeString, Nullable: true},
+		{Name: "location_id", Type: field.TypeString, Nullable: true},
+		{Name: "code_bucket", Type: field.TypeString, Nullable: true},
+		{Name: "default_cookie_expiration", Type: field.TypeString, Nullable: true},
+		{Name: "serving_status", Type: field.TypeInt32, Nullable: true},
+		{Name: "default_hostname", Type: field.TypeString, Nullable: true},
+		{Name: "default_bucket", Type: field.TypeString, Nullable: true},
+		{Name: "gcr_domain", Type: field.TypeString, Nullable: true},
+		{Name: "database_type", Type: field.TypeInt32, Nullable: true},
+		{Name: "feature_settings_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "iap_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "dispatch_rules_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpAppengineApplicationsHistoryTable holds the schema information for the "gcp_appengine_applications_history" table.
+	GcpAppengineApplicationsHistoryTable = &schema.Table{
+		Name:       "gcp_appengine_applications_history",
+		Columns:    GcpAppengineApplicationsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpAppengineApplicationsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpappengineapplication_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAppengineApplicationsHistoryColumns[6], GcpAppengineApplicationsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpappengineapplication_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAppengineApplicationsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpappengineapplication_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAppengineApplicationsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpappengineapplication_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAppengineApplicationsHistoryColumns[20]},
+			},
+		},
+	}
+	// GcpAppengineServicesHistoryColumns holds the columns for the "gcp_appengine_services_history" table.
+	GcpAppengineServicesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "application_history_id", Type: field.TypeUint},
+		{Name: "name", Type: field.TypeString},
+		{Name: "split_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "network_settings_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpAppengineServicesHistoryTable holds the schema information for the "gcp_appengine_services_history" table.
+	GcpAppengineServicesHistoryTable = &schema.Table{
+		Name:       "gcp_appengine_services_history",
+		Columns:    GcpAppengineServicesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpAppengineServicesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpappengineservice_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAppengineServicesHistoryColumns[6], GcpAppengineServicesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpappengineservice_application_history_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAppengineServicesHistoryColumns[7]},
+			},
+			{
+				Name:    "bronzehistorygcpappengineservice_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAppengineServicesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpappengineservice_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAppengineServicesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpappengineservice_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpAppengineServicesHistoryColumns[12]},
+			},
+		},
+	}
+	// GcpBigqueryDatasetsHistoryColumns holds the columns for the "gcp_bigquery_datasets_history" table.
+	GcpBigqueryDatasetsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "friendly_name", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "location", Type: field.TypeString, Nullable: true},
+		{Name: "default_table_expiration_ms", Type: field.TypeInt64, Nullable: true},
+		{Name: "default_partition_expiration_ms", Type: field.TypeInt64, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "access_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "creation_time", Type: field.TypeString, Nullable: true},
+		{Name: "last_modified_time", Type: field.TypeString, Nullable: true},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "default_collation", Type: field.TypeString, Nullable: true},
+		{Name: "max_time_travel_hours", Type: field.TypeInt, Nullable: true},
+		{Name: "default_encryption_configuration_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpBigqueryDatasetsHistoryTable holds the schema information for the "gcp_bigquery_datasets_history" table.
+	GcpBigqueryDatasetsHistoryTable = &schema.Table{
+		Name:       "gcp_bigquery_datasets_history",
+		Columns:    GcpBigqueryDatasetsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpBigqueryDatasetsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpbigquerydataset_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigqueryDatasetsHistoryColumns[6], GcpBigqueryDatasetsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpbigquerydataset_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigqueryDatasetsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpbigquerydataset_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigqueryDatasetsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpbigquerydataset_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigqueryDatasetsHistoryColumns[20]},
+			},
+		},
+	}
+	// GcpBigqueryTablesHistoryColumns holds the columns for the "gcp_bigquery_tables_history" table.
+	GcpBigqueryTablesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "dataset_id", Type: field.TypeString},
+		{Name: "friendly_name", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "schema_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "num_bytes", Type: field.TypeInt64, Nullable: true},
+		{Name: "num_long_term_bytes", Type: field.TypeInt64, Nullable: true},
+		{Name: "num_rows", Type: field.TypeUint64, Nullable: true},
+		{Name: "creation_time", Type: field.TypeString, Nullable: true},
+		{Name: "expiration_time", Type: field.TypeString, Nullable: true},
+		{Name: "last_modified_time", Type: field.TypeString, Nullable: true},
+		{Name: "table_type", Type: field.TypeString, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "encryption_configuration_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "time_partitioning_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "range_partitioning_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "clustering_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "require_partition_filter", Type: field.TypeBool, Default: false},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpBigqueryTablesHistoryTable holds the schema information for the "gcp_bigquery_tables_history" table.
+	GcpBigqueryTablesHistoryTable = &schema.Table{
+		Name:       "gcp_bigquery_tables_history",
+		Columns:    GcpBigqueryTablesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpBigqueryTablesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpbigquerytable_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigqueryTablesHistoryColumns[6], GcpBigqueryTablesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpbigquerytable_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigqueryTablesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpbigquerytable_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigqueryTablesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpbigquerytable_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigqueryTablesHistoryColumns[25]},
+			},
+		},
+	}
+	// GcpBigtableClustersHistoryColumns holds the columns for the "gcp_bigtable_clusters_history" table.
+	GcpBigtableClustersHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "location", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeInt32, Nullable: true},
+		{Name: "serve_nodes", Type: field.TypeInt32, Nullable: true},
+		{Name: "default_storage_type", Type: field.TypeInt32, Nullable: true},
+		{Name: "encryption_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "cluster_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "instance_name", Type: field.TypeString},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpBigtableClustersHistoryTable holds the schema information for the "gcp_bigtable_clusters_history" table.
+	GcpBigtableClustersHistoryTable = &schema.Table{
+		Name:       "gcp_bigtable_clusters_history",
+		Columns:    GcpBigtableClustersHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpBigtableClustersHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpbigtablecluster_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigtableClustersHistoryColumns[6], GcpBigtableClustersHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpbigtablecluster_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigtableClustersHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpbigtablecluster_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigtableClustersHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpbigtablecluster_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigtableClustersHistoryColumns[14]},
+			},
+			{
+				Name:    "bronzehistorygcpbigtablecluster_instance_name",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigtableClustersHistoryColumns[13]},
+			},
+		},
+	}
+	// GcpBigtableInstancesHistoryColumns holds the columns for the "gcp_bigtable_instances_history" table.
+	GcpBigtableInstancesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeInt32, Nullable: true},
+		{Name: "instance_type", Type: field.TypeInt32, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "satisfies_pzs", Type: field.TypeBool, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpBigtableInstancesHistoryTable holds the schema information for the "gcp_bigtable_instances_history" table.
+	GcpBigtableInstancesHistoryTable = &schema.Table{
+		Name:       "gcp_bigtable_instances_history",
+		Columns:    GcpBigtableInstancesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpBigtableInstancesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpbigtableinstance_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigtableInstancesHistoryColumns[6], GcpBigtableInstancesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpbigtableinstance_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigtableInstancesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpbigtableinstance_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigtableInstancesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpbigtableinstance_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBigtableInstancesHistoryColumns[13]},
+			},
+		},
+	}
+	// GcpBinaryauthorizationAttestorsHistoryColumns holds the columns for the "gcp_binaryauthorization_attestors_history" table.
+	GcpBinaryauthorizationAttestorsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "user_owned_grafeas_note_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpBinaryauthorizationAttestorsHistoryTable holds the schema information for the "gcp_binaryauthorization_attestors_history" table.
+	GcpBinaryauthorizationAttestorsHistoryTable = &schema.Table{
+		Name:       "gcp_binaryauthorization_attestors_history",
+		Columns:    GcpBinaryauthorizationAttestorsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpBinaryauthorizationAttestorsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpbinaryauthorizationattestor_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBinaryauthorizationAttestorsHistoryColumns[6], GcpBinaryauthorizationAttestorsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpbinaryauthorizationattestor_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBinaryauthorizationAttestorsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpbinaryauthorizationattestor_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBinaryauthorizationAttestorsHistoryColumns[3]},
+			},
+		},
+	}
+	// GcpBinaryauthorizationPoliciesHistoryColumns holds the columns for the "gcp_binaryauthorization_policies_history" table.
+	GcpBinaryauthorizationPoliciesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "global_policy_evaluation_mode", Type: field.TypeInt, Default: 0},
+		{Name: "default_admission_rule_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "cluster_admission_rules_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "kube_namespace_admission_rules_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "istio_service_identity_admission_rules_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpBinaryauthorizationPoliciesHistoryTable holds the schema information for the "gcp_binaryauthorization_policies_history" table.
+	GcpBinaryauthorizationPoliciesHistoryTable = &schema.Table{
+		Name:       "gcp_binaryauthorization_policies_history",
+		Columns:    GcpBinaryauthorizationPoliciesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpBinaryauthorizationPoliciesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpbinaryauthorizationpolicy_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBinaryauthorizationPoliciesHistoryColumns[6], GcpBinaryauthorizationPoliciesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpbinaryauthorizationpolicy_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBinaryauthorizationPoliciesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpbinaryauthorizationpolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpBinaryauthorizationPoliciesHistoryColumns[3]},
+			},
+		},
+	}
+	// GcpCloudassetAssetsHistoryColumns holds the columns for the "gcp_cloudasset_assets_history" table.
+	GcpCloudassetAssetsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "asset_type", Type: field.TypeString},
+		{Name: "organization_id", Type: field.TypeString},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "resource_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "iam_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "org_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "access_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "os_inventory_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// GcpCloudassetAssetsHistoryTable holds the schema information for the "gcp_cloudasset_assets_history" table.
+	GcpCloudassetAssetsHistoryTable = &schema.Table{
+		Name:       "gcp_cloudasset_assets_history",
+		Columns:    GcpCloudassetAssetsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpCloudassetAssetsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpcloudassetasset_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetAssetsHistoryColumns[6], GcpCloudassetAssetsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpcloudassetasset_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetAssetsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpcloudassetasset_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetAssetsHistoryColumns[3]},
+			},
+		},
+	}
+	// GcpCloudassetIamPolicySearchesHistoryColumns holds the columns for the "gcp_cloudasset_iam_policy_searches_history" table.
+	GcpCloudassetIamPolicySearchesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "asset_type", Type: field.TypeString, Nullable: true},
+		{Name: "project", Type: field.TypeString, Nullable: true},
+		{Name: "organization", Type: field.TypeString, Nullable: true},
+		{Name: "organization_id", Type: field.TypeString},
+		{Name: "folders_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "explanation_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// GcpCloudassetIamPolicySearchesHistoryTable holds the schema information for the "gcp_cloudasset_iam_policy_searches_history" table.
+	GcpCloudassetIamPolicySearchesHistoryTable = &schema.Table{
+		Name:       "gcp_cloudasset_iam_policy_searches_history",
+		Columns:    GcpCloudassetIamPolicySearchesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpCloudassetIamPolicySearchesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpcloudassetiampolicysearch_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetIamPolicySearchesHistoryColumns[6], GcpCloudassetIamPolicySearchesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpcloudassetiampolicysearch_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetIamPolicySearchesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpcloudassetiampolicysearch_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetIamPolicySearchesHistoryColumns[3]},
+			},
+		},
+	}
+	// GcpCloudassetResourceSearchesHistoryColumns holds the columns for the "gcp_cloudasset_resource_searches_history" table.
+	GcpCloudassetResourceSearchesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "asset_type", Type: field.TypeString},
+		{Name: "project", Type: field.TypeString, Nullable: true},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "location", Type: field.TypeString, Nullable: true},
+		{Name: "organization_id", Type: field.TypeString},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "network_tags_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "additional_attributes_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// GcpCloudassetResourceSearchesHistoryTable holds the schema information for the "gcp_cloudasset_resource_searches_history" table.
+	GcpCloudassetResourceSearchesHistoryTable = &schema.Table{
+		Name:       "gcp_cloudasset_resource_searches_history",
+		Columns:    GcpCloudassetResourceSearchesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpCloudassetResourceSearchesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpcloudassetresourcesearch_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetResourceSearchesHistoryColumns[6], GcpCloudassetResourceSearchesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpcloudassetresourcesearch_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetResourceSearchesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpcloudassetresourcesearch_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudassetResourceSearchesHistoryColumns[3]},
+			},
+		},
+	}
+	// GcpCloudfunctionsFunctionsHistoryColumns holds the columns for the "gcp_cloudfunctions_functions_history" table.
+	GcpCloudfunctionsFunctionsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "environment", Type: field.TypeInt, Default: 0},
+		{Name: "state", Type: field.TypeInt, Default: 0},
+		{Name: "build_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "service_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "event_trigger_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "state_messages_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "kms_key_name", Type: field.TypeString, Nullable: true},
+		{Name: "url", Type: field.TypeString, Nullable: true},
+		{Name: "satisfies_pzs", Type: field.TypeBool, Default: false},
+		{Name: "project_id", Type: field.TypeString},
+		{Name: "location", Type: field.TypeString, Nullable: true},
+	}
+	// GcpCloudfunctionsFunctionsHistoryTable holds the schema information for the "gcp_cloudfunctions_functions_history" table.
+	GcpCloudfunctionsFunctionsHistoryTable = &schema.Table{
+		Name:       "gcp_cloudfunctions_functions_history",
+		Columns:    GcpCloudfunctionsFunctionsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpCloudfunctionsFunctionsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpcloudfunctionsfunction_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudfunctionsFunctionsHistoryColumns[6], GcpCloudfunctionsFunctionsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpcloudfunctionsfunction_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudfunctionsFunctionsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpcloudfunctionsfunction_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudfunctionsFunctionsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpcloudfunctionsfunction_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpCloudfunctionsFunctionsHistoryColumns[21]},
 			},
 		},
 	}
@@ -7833,6 +9985,127 @@ var (
 			},
 		},
 	}
+	// GcpContaineranalysisNotesHistoryColumns holds the columns for the "gcp_containeranalysis_notes_history" table.
+	GcpContaineranalysisNotesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "short_description", Type: field.TypeString, Nullable: true},
+		{Name: "long_description", Type: field.TypeString, Nullable: true},
+		{Name: "kind", Type: field.TypeInt, Nullable: true},
+		{Name: "expiration_time", Type: field.TypeString, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "related_url_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "related_note_names", Type: field.TypeJSON, Nullable: true},
+		{Name: "vulnerability_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "build_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "image_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "package_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "deployment_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "discovery_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "attestation_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "upgrade_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "compliance_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "dsse_attestation_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "vulnerability_assessment_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "sbom_reference_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpContaineranalysisNotesHistoryTable holds the schema information for the "gcp_containeranalysis_notes_history" table.
+	GcpContaineranalysisNotesHistoryTable = &schema.Table{
+		Name:       "gcp_containeranalysis_notes_history",
+		Columns:    GcpContaineranalysisNotesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpContaineranalysisNotesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpcontaineranalysisnote_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpContaineranalysisNotesHistoryColumns[6], GcpContaineranalysisNotesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpcontaineranalysisnote_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpContaineranalysisNotesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpcontaineranalysisnote_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpContaineranalysisNotesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpcontaineranalysisnote_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpContaineranalysisNotesHistoryColumns[27]},
+			},
+		},
+	}
+	// GcpContaineranalysisOccurrencesHistoryColumns holds the columns for the "gcp_containeranalysis_occurrences_history" table.
+	GcpContaineranalysisOccurrencesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "resource_uri", Type: field.TypeString, Nullable: true},
+		{Name: "note_name", Type: field.TypeString, Nullable: true},
+		{Name: "kind", Type: field.TypeInt, Nullable: true},
+		{Name: "remediation", Type: field.TypeString, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "vulnerability_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "build_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "image_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "package_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "deployment_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "discovery_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "attestation_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "upgrade_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "compliance_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "dsse_attestation_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "sbom_reference_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "envelope_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpContaineranalysisOccurrencesHistoryTable holds the schema information for the "gcp_containeranalysis_occurrences_history" table.
+	GcpContaineranalysisOccurrencesHistoryTable = &schema.Table{
+		Name:       "gcp_containeranalysis_occurrences_history",
+		Columns:    GcpContaineranalysisOccurrencesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpContaineranalysisOccurrencesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpcontaineranalysisoccurrence_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpContaineranalysisOccurrencesHistoryColumns[6], GcpContaineranalysisOccurrencesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpcontaineranalysisoccurrence_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpContaineranalysisOccurrencesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpcontaineranalysisoccurrence_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpContaineranalysisOccurrencesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpcontaineranalysisoccurrence_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpContaineranalysisOccurrencesHistoryColumns[25]},
+			},
+			{
+				Name:    "bronzehistorygcpcontaineranalysisoccurrence_note_name",
+				Unique:  false,
+				Columns: []*schema.Column{GcpContaineranalysisOccurrencesHistoryColumns[8]},
+			},
+		},
+	}
 	// GcpContainerClustersHistoryColumns holds the columns for the "gcp_container_clusters_history" table.
 	GcpContainerClustersHistoryColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -8191,6 +10464,109 @@ var (
 			},
 		},
 	}
+	// GcpDataprocClustersHistoryColumns holds the columns for the "gcp_dataproc_clusters_history" table.
+	GcpDataprocClustersHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "cluster_name", Type: field.TypeString},
+		{Name: "cluster_uuid", Type: field.TypeString, Nullable: true},
+		{Name: "config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "status_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "status_history_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "metrics_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+		{Name: "location", Type: field.TypeString},
+	}
+	// GcpDataprocClustersHistoryTable holds the schema information for the "gcp_dataproc_clusters_history" table.
+	GcpDataprocClustersHistoryTable = &schema.Table{
+		Name:       "gcp_dataproc_clusters_history",
+		Columns:    GcpDataprocClustersHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpDataprocClustersHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpdataproccluster_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpDataprocClustersHistoryColumns[6], GcpDataprocClustersHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpdataproccluster_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpDataprocClustersHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpdataproccluster_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpDataprocClustersHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpdataproccluster_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpDataprocClustersHistoryColumns[14]},
+			},
+		},
+	}
+	// GcpFilestoreInstancesHistoryColumns holds the columns for the "gcp_filestore_instances_history" table.
+	GcpFilestoreInstancesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeInt, Default: 0},
+		{Name: "status_message", Type: field.TypeString, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "tier", Type: field.TypeInt, Default: 0},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "file_shares_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "networks_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "satisfies_pzs", Type: field.TypeBool, Default: false},
+		{Name: "satisfies_pzi", Type: field.TypeBool, Default: false},
+		{Name: "kms_key_name", Type: field.TypeString, Nullable: true},
+		{Name: "suspension_reasons_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "max_capacity_gb", Type: field.TypeInt64, Nullable: true},
+		{Name: "protocol", Type: field.TypeInt, Default: 0},
+		{Name: "project_id", Type: field.TypeString},
+		{Name: "location", Type: field.TypeString, Nullable: true},
+	}
+	// GcpFilestoreInstancesHistoryTable holds the schema information for the "gcp_filestore_instances_history" table.
+	GcpFilestoreInstancesHistoryTable = &schema.Table{
+		Name:       "gcp_filestore_instances_history",
+		Columns:    GcpFilestoreInstancesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpFilestoreInstancesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpfilestoreinstance_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFilestoreInstancesHistoryColumns[6], GcpFilestoreInstancesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpfilestoreinstance_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFilestoreInstancesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpfilestoreinstance_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFilestoreInstancesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpfilestoreinstance_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFilestoreInstancesHistoryColumns[23]},
+			},
+		},
+	}
 	// GcpFoldersHistoryColumns holds the columns for the "gcp_folders_history" table.
 	GcpFoldersHistoryColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -8425,6 +10801,82 @@ var (
 				Name:    "bronzehistorygcpiamserviceaccountkey_project_id",
 				Unique:  false,
 				Columns: []*schema.Column{GcpIamServiceAccountKeysHistoryColumns[15]},
+			},
+		},
+	}
+	// GcpIapIamPoliciesHistoryColumns holds the columns for the "gcp_iap_iam_policies_history" table.
+	GcpIapIamPoliciesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "version", Type: field.TypeInt, Nullable: true},
+		{Name: "bindings_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "audit_configs_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpIapIamPoliciesHistoryTable holds the schema information for the "gcp_iap_iam_policies_history" table.
+	GcpIapIamPoliciesHistoryTable = &schema.Table{
+		Name:       "gcp_iap_iam_policies_history",
+		Columns:    GcpIapIamPoliciesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpIapIamPoliciesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpiapiampolicy_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpIapIamPoliciesHistoryColumns[6], GcpIapIamPoliciesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpiapiampolicy_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpIapIamPoliciesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpiapiampolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpIapIamPoliciesHistoryColumns[3]},
+			},
+		},
+	}
+	// GcpIapSettingsHistoryColumns holds the columns for the "gcp_iap_settings_history" table.
+	GcpIapSettingsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "access_settings_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "application_settings_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpIapSettingsHistoryTable holds the schema information for the "gcp_iap_settings_history" table.
+	GcpIapSettingsHistoryTable = &schema.Table{
+		Name:       "gcp_iap_settings_history",
+		Columns:    GcpIapSettingsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpIapSettingsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpiapsettings_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpIapSettingsHistoryColumns[6], GcpIapSettingsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpiapsettings_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpIapSettingsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpiapsettings_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpIapSettingsHistoryColumns[3]},
 			},
 		},
 	}
@@ -8713,6 +11165,110 @@ var (
 			},
 		},
 	}
+	// GcpMonitoringAlertPoliciesHistoryColumns holds the columns for the "gcp_monitoring_alert_policies_history" table.
+	GcpMonitoringAlertPoliciesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "documentation_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "user_labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "conditions_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "combiner", Type: field.TypeInt, Default: 0},
+		{Name: "enabled", Type: field.TypeBool, Default: false},
+		{Name: "notification_channels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "creation_record_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "mutation_record_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "alert_strategy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "severity", Type: field.TypeInt, Default: 0},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpMonitoringAlertPoliciesHistoryTable holds the schema information for the "gcp_monitoring_alert_policies_history" table.
+	GcpMonitoringAlertPoliciesHistoryTable = &schema.Table{
+		Name:       "gcp_monitoring_alert_policies_history",
+		Columns:    GcpMonitoringAlertPoliciesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpMonitoringAlertPoliciesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpmonitoringalertpolicy_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpMonitoringAlertPoliciesHistoryColumns[6], GcpMonitoringAlertPoliciesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpmonitoringalertpolicy_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpMonitoringAlertPoliciesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpmonitoringalertpolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpMonitoringAlertPoliciesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpmonitoringalertpolicy_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpMonitoringAlertPoliciesHistoryColumns[19]},
+			},
+		},
+	}
+	// GcpMonitoringUptimeCheckConfigsHistoryColumns holds the columns for the "gcp_monitoring_uptime_check_configs_history" table.
+	GcpMonitoringUptimeCheckConfigsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "monitored_resource_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "resource_group_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "http_check_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "tcp_check_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "period", Type: field.TypeString, Nullable: true},
+		{Name: "timeout", Type: field.TypeString, Nullable: true},
+		{Name: "content_matchers_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "checker_type", Type: field.TypeInt, Default: 0},
+		{Name: "selected_regions_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "is_internal", Type: field.TypeBool, Default: false},
+		{Name: "internal_checkers_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "user_labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpMonitoringUptimeCheckConfigsHistoryTable holds the schema information for the "gcp_monitoring_uptime_check_configs_history" table.
+	GcpMonitoringUptimeCheckConfigsHistoryTable = &schema.Table{
+		Name:       "gcp_monitoring_uptime_check_configs_history",
+		Columns:    GcpMonitoringUptimeCheckConfigsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpMonitoringUptimeCheckConfigsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpmonitoringuptimecheckconfig_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpMonitoringUptimeCheckConfigsHistoryColumns[6], GcpMonitoringUptimeCheckConfigsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpmonitoringuptimecheckconfig_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpMonitoringUptimeCheckConfigsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpmonitoringuptimecheckconfig_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpMonitoringUptimeCheckConfigsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpmonitoringuptimecheckconfig_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpMonitoringUptimeCheckConfigsHistoryColumns[21]},
+			},
+		},
+	}
 	// GcpOrgIamPoliciesHistoryColumns holds the columns for the "gcp_org_iam_policies_history" table.
 	GcpOrgIamPoliciesHistoryColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -8821,6 +11377,47 @@ var (
 				Name:    "bronzehistorygcporgpolicyconstraint_collected_at",
 				Unique:  false,
 				Columns: []*schema.Column{GcpOrgpolicyConstraintsHistoryColumns[3]},
+			},
+		},
+	}
+	// GcpOrgpolicyCustomConstraintsHistoryColumns holds the columns for the "gcp_orgpolicy_custom_constraints_history" table.
+	GcpOrgpolicyCustomConstraintsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "resource_types", Type: field.TypeJSON, Nullable: true},
+		{Name: "method_types", Type: field.TypeJSON, Nullable: true},
+		{Name: "condition", Type: field.TypeString, Nullable: true},
+		{Name: "action_type", Type: field.TypeInt, Default: 0},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true},
+		{Name: "organization_id", Type: field.TypeString},
+	}
+	// GcpOrgpolicyCustomConstraintsHistoryTable holds the schema information for the "gcp_orgpolicy_custom_constraints_history" table.
+	GcpOrgpolicyCustomConstraintsHistoryTable = &schema.Table{
+		Name:       "gcp_orgpolicy_custom_constraints_history",
+		Columns:    GcpOrgpolicyCustomConstraintsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpOrgpolicyCustomConstraintsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcporgpolicycustomconstraint_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgpolicyCustomConstraintsHistoryColumns[6], GcpOrgpolicyCustomConstraintsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcporgpolicycustomconstraint_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgpolicyCustomConstraintsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcporgpolicycustomconstraint_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgpolicyCustomConstraintsHistoryColumns[3]},
 			},
 		},
 	}
@@ -9047,6 +11644,310 @@ var (
 			},
 		},
 	}
+	// GcpPubsubSubscriptionsHistoryColumns holds the columns for the "gcp_pubsub_subscriptions_history" table.
+	GcpPubsubSubscriptionsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "topic", Type: field.TypeString, Nullable: true},
+		{Name: "push_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "bigquery_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "cloud_storage_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "ack_deadline_seconds", Type: field.TypeInt, Nullable: true},
+		{Name: "retain_acked_messages", Type: field.TypeBool, Default: false},
+		{Name: "message_retention_duration", Type: field.TypeString, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "enable_message_ordering", Type: field.TypeBool, Default: false},
+		{Name: "expiration_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "filter", Type: field.TypeString, Nullable: true},
+		{Name: "dead_letter_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "retry_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "detached", Type: field.TypeBool, Default: false},
+		{Name: "enable_exactly_once_delivery", Type: field.TypeBool, Default: false},
+		{Name: "state", Type: field.TypeInt, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpPubsubSubscriptionsHistoryTable holds the schema information for the "gcp_pubsub_subscriptions_history" table.
+	GcpPubsubSubscriptionsHistoryTable = &schema.Table{
+		Name:       "gcp_pubsub_subscriptions_history",
+		Columns:    GcpPubsubSubscriptionsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpPubsubSubscriptionsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcppubsubsubscription_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpPubsubSubscriptionsHistoryColumns[6], GcpPubsubSubscriptionsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcppubsubsubscription_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpPubsubSubscriptionsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcppubsubsubscription_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpPubsubSubscriptionsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcppubsubsubscription_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpPubsubSubscriptionsHistoryColumns[24]},
+			},
+		},
+	}
+	// GcpPubsubTopicsHistoryColumns holds the columns for the "gcp_pubsub_topics_history" table.
+	GcpPubsubTopicsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "message_storage_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "kms_key_name", Type: field.TypeString, Nullable: true},
+		{Name: "schema_settings_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "message_retention_duration", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeInt, Nullable: true},
+		{Name: "ingestion_data_source_settings_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpPubsubTopicsHistoryTable holds the schema information for the "gcp_pubsub_topics_history" table.
+	GcpPubsubTopicsHistoryTable = &schema.Table{
+		Name:       "gcp_pubsub_topics_history",
+		Columns:    GcpPubsubTopicsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpPubsubTopicsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcppubsubtopic_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpPubsubTopicsHistoryColumns[6], GcpPubsubTopicsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcppubsubtopic_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpPubsubTopicsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcppubsubtopic_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpPubsubTopicsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcppubsubtopic_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpPubsubTopicsHistoryColumns[15]},
+			},
+		},
+	}
+	// GcpRedisInstancesHistoryColumns holds the columns for the "gcp_redis_instances_history" table.
+	GcpRedisInstancesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "location_id", Type: field.TypeString, Nullable: true},
+		{Name: "alternative_location_id", Type: field.TypeString, Nullable: true},
+		{Name: "redis_version", Type: field.TypeString, Nullable: true},
+		{Name: "reserved_ip_range", Type: field.TypeString, Nullable: true},
+		{Name: "secondary_ip_range", Type: field.TypeString, Nullable: true},
+		{Name: "host", Type: field.TypeString, Nullable: true},
+		{Name: "port", Type: field.TypeInt32, Nullable: true},
+		{Name: "current_location_id", Type: field.TypeString, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeInt32, Nullable: true},
+		{Name: "status_message", Type: field.TypeString, Nullable: true},
+		{Name: "redis_configs_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "tier", Type: field.TypeInt32, Nullable: true},
+		{Name: "memory_size_gb", Type: field.TypeInt32, Nullable: true},
+		{Name: "authorized_network", Type: field.TypeString, Nullable: true},
+		{Name: "persistence_iam_identity", Type: field.TypeString, Nullable: true},
+		{Name: "connect_mode", Type: field.TypeInt32, Nullable: true},
+		{Name: "auth_enabled", Type: field.TypeBool, Default: false},
+		{Name: "server_ca_certs_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "transit_encryption_mode", Type: field.TypeInt32, Nullable: true},
+		{Name: "maintenance_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "maintenance_schedule_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "replica_count", Type: field.TypeInt32, Nullable: true},
+		{Name: "nodes_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "read_endpoint", Type: field.TypeString, Nullable: true},
+		{Name: "read_endpoint_port", Type: field.TypeInt32, Nullable: true},
+		{Name: "read_replicas_mode", Type: field.TypeInt32, Nullable: true},
+		{Name: "customer_managed_key", Type: field.TypeString, Nullable: true},
+		{Name: "persistence_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "suspension_reasons_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "maintenance_version", Type: field.TypeString, Nullable: true},
+		{Name: "available_maintenance_versions_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpRedisInstancesHistoryTable holds the schema information for the "gcp_redis_instances_history" table.
+	GcpRedisInstancesHistoryTable = &schema.Table{
+		Name:       "gcp_redis_instances_history",
+		Columns:    GcpRedisInstancesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpRedisInstancesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpredisinstance_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRedisInstancesHistoryColumns[6], GcpRedisInstancesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpredisinstance_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRedisInstancesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpredisinstance_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRedisInstancesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpredisinstance_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRedisInstancesHistoryColumns[42]},
+			},
+		},
+	}
+	// GcpRunRevisionsHistoryColumns holds the columns for the "gcp_run_revisions_history" table.
+	GcpRunRevisionsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "uid", Type: field.TypeString, Nullable: true},
+		{Name: "generation", Type: field.TypeInt64, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "annotations_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "delete_time", Type: field.TypeString, Nullable: true},
+		{Name: "launch_stage", Type: field.TypeInt, Nullable: true},
+		{Name: "service_name", Type: field.TypeString, Nullable: true},
+		{Name: "scaling_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "containers_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "volumes_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "execution_environment", Type: field.TypeInt, Nullable: true},
+		{Name: "encryption_key", Type: field.TypeString, Nullable: true},
+		{Name: "max_instance_request_concurrency", Type: field.TypeInt, Nullable: true},
+		{Name: "timeout", Type: field.TypeString, Nullable: true},
+		{Name: "service_account", Type: field.TypeString, Nullable: true},
+		{Name: "reconciling", Type: field.TypeBool, Default: false},
+		{Name: "conditions_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "observed_generation", Type: field.TypeInt64, Nullable: true},
+		{Name: "log_uri", Type: field.TypeString, Nullable: true},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+		{Name: "location", Type: field.TypeString},
+	}
+	// GcpRunRevisionsHistoryTable holds the schema information for the "gcp_run_revisions_history" table.
+	GcpRunRevisionsHistoryTable = &schema.Table{
+		Name:       "gcp_run_revisions_history",
+		Columns:    GcpRunRevisionsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpRunRevisionsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcprunrevision_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRunRevisionsHistoryColumns[6], GcpRunRevisionsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcprunrevision_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRunRevisionsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcprunrevision_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRunRevisionsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcprunrevision_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRunRevisionsHistoryColumns[30]},
+			},
+		},
+	}
+	// GcpRunServicesHistoryColumns holds the columns for the "gcp_run_services_history" table.
+	GcpRunServicesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "uid", Type: field.TypeString, Nullable: true},
+		{Name: "generation", Type: field.TypeInt64, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "annotations_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "delete_time", Type: field.TypeString, Nullable: true},
+		{Name: "creator", Type: field.TypeString, Nullable: true},
+		{Name: "last_modifier", Type: field.TypeString, Nullable: true},
+		{Name: "ingress", Type: field.TypeInt, Nullable: true},
+		{Name: "launch_stage", Type: field.TypeInt, Nullable: true},
+		{Name: "template_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "traffic_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "uri", Type: field.TypeString, Nullable: true},
+		{Name: "observed_generation", Type: field.TypeInt64, Nullable: true},
+		{Name: "terminal_condition_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "conditions_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "latest_ready_revision", Type: field.TypeString, Nullable: true},
+		{Name: "latest_created_revision", Type: field.TypeString, Nullable: true},
+		{Name: "traffic_statuses_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "reconciling", Type: field.TypeBool, Default: false},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+		{Name: "location", Type: field.TypeString},
+	}
+	// GcpRunServicesHistoryTable holds the schema information for the "gcp_run_services_history" table.
+	GcpRunServicesHistoryTable = &schema.Table{
+		Name:       "gcp_run_services_history",
+		Columns:    GcpRunServicesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpRunServicesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcprunservice_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRunServicesHistoryColumns[6], GcpRunServicesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcprunservice_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRunServicesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcprunservice_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRunServicesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcprunservice_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpRunServicesHistoryColumns[31]},
+			},
+		},
+	}
 	// GcpSQLInstancesHistoryColumns holds the columns for the "gcp_sql_instances_history" table.
 	GcpSQLInstancesHistoryColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -9268,6 +12169,45 @@ var (
 			},
 		},
 	}
+	// GcpSecuritycenterNotificationConfigsHistoryColumns holds the columns for the "gcp_securitycenter_notification_configs_history" table.
+	GcpSecuritycenterNotificationConfigsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "pubsub_topic", Type: field.TypeString, Nullable: true},
+		{Name: "streaming_config_json", Type: field.TypeString, Nullable: true},
+		{Name: "service_account", Type: field.TypeString, Nullable: true},
+		{Name: "organization_id", Type: field.TypeString},
+	}
+	// GcpSecuritycenterNotificationConfigsHistoryTable holds the schema information for the "gcp_securitycenter_notification_configs_history" table.
+	GcpSecuritycenterNotificationConfigsHistoryTable = &schema.Table{
+		Name:       "gcp_securitycenter_notification_configs_history",
+		Columns:    GcpSecuritycenterNotificationConfigsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpSecuritycenterNotificationConfigsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpsecuritycenternotificationconfig_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSecuritycenterNotificationConfigsHistoryColumns[6], GcpSecuritycenterNotificationConfigsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpsecuritycenternotificationconfig_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSecuritycenterNotificationConfigsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpsecuritycenternotificationconfig_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSecuritycenterNotificationConfigsHistoryColumns[3]},
+			},
+		},
+	}
 	// GcpSecuritycenterSourcesHistoryColumns holds the columns for the "gcp_securitycenter_sources_history" table.
 	GcpSecuritycenterSourcesHistoryColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -9302,6 +12242,152 @@ var (
 				Name:    "bronzehistorygcpsecuritycentersource_collected_at",
 				Unique:  false,
 				Columns: []*schema.Column{GcpSecuritycenterSourcesHistoryColumns[3]},
+			},
+		},
+	}
+	// GcpServiceusageEnabledServicesHistoryColumns holds the columns for the "gcp_serviceusage_enabled_services_history" table.
+	GcpServiceusageEnabledServicesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "parent", Type: field.TypeString},
+		{Name: "config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "state", Type: field.TypeInt, Default: 0},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpServiceusageEnabledServicesHistoryTable holds the schema information for the "gcp_serviceusage_enabled_services_history" table.
+	GcpServiceusageEnabledServicesHistoryTable = &schema.Table{
+		Name:       "gcp_serviceusage_enabled_services_history",
+		Columns:    GcpServiceusageEnabledServicesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpServiceusageEnabledServicesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpserviceusageenabledservice_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpServiceusageEnabledServicesHistoryColumns[6], GcpServiceusageEnabledServicesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpserviceusageenabledservice_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpServiceusageEnabledServicesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpserviceusageenabledservice_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpServiceusageEnabledServicesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpserviceusageenabledservice_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpServiceusageEnabledServicesHistoryColumns[11]},
+			},
+		},
+	}
+	// GcpSpannerDatabasesHistoryColumns holds the columns for the "gcp_spanner_databases_history" table.
+	GcpSpannerDatabasesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "state", Type: field.TypeInt, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "restore_info_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "encryption_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "encryption_info_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "version_retention_period", Type: field.TypeString, Nullable: true},
+		{Name: "earliest_version_time", Type: field.TypeString, Nullable: true},
+		{Name: "default_leader", Type: field.TypeString, Nullable: true},
+		{Name: "database_dialect", Type: field.TypeInt, Nullable: true},
+		{Name: "enable_drop_protection", Type: field.TypeBool, Default: false},
+		{Name: "reconciling", Type: field.TypeBool, Default: false},
+		{Name: "instance_name", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpSpannerDatabasesHistoryTable holds the schema information for the "gcp_spanner_databases_history" table.
+	GcpSpannerDatabasesHistoryTable = &schema.Table{
+		Name:       "gcp_spanner_databases_history",
+		Columns:    GcpSpannerDatabasesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpSpannerDatabasesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpspannerdatabase_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSpannerDatabasesHistoryColumns[6], GcpSpannerDatabasesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpspannerdatabase_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSpannerDatabasesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpspannerdatabase_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSpannerDatabasesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpspannerdatabase_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSpannerDatabasesHistoryColumns[20]},
+			},
+		},
+	}
+	// GcpSpannerInstancesHistoryColumns holds the columns for the "gcp_spanner_instances_history" table.
+	GcpSpannerInstancesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "config", Type: field.TypeString, Nullable: true},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "node_count", Type: field.TypeInt32, Nullable: true},
+		{Name: "processing_units", Type: field.TypeInt32, Nullable: true},
+		{Name: "state", Type: field.TypeInt, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "endpoint_uris_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "edition", Type: field.TypeInt, Nullable: true},
+		{Name: "default_backup_schedule_type", Type: field.TypeInt, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpSpannerInstancesHistoryTable holds the schema information for the "gcp_spanner_instances_history" table.
+	GcpSpannerInstancesHistoryTable = &schema.Table{
+		Name:       "gcp_spanner_instances_history",
+		Columns:    GcpSpannerInstancesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpSpannerInstancesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpspannerinstance_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSpannerInstancesHistoryColumns[6], GcpSpannerInstancesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpspannerinstance_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSpannerInstancesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpspannerinstance_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSpannerInstancesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpspannerinstance_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSpannerInstancesHistoryColumns[19]},
 			},
 		},
 	}
@@ -10622,6 +13708,22 @@ var (
 		DoProjectResourcesTable,
 		DoVolumesTable,
 		DoVpcsTable,
+		GcpAccesscontextmanagerAccessLevelsTable,
+		GcpAccesscontextmanagerAccessPoliciesTable,
+		GcpAccesscontextmanagerServicePerimetersTable,
+		GcpAlloydbClustersTable,
+		GcpAppengineApplicationsTable,
+		GcpAppengineServicesTable,
+		GcpBigqueryDatasetsTable,
+		GcpBigqueryTablesTable,
+		GcpBigtableClustersTable,
+		GcpBigtableInstancesTable,
+		GcpBinaryauthorizationAttestorsTable,
+		GcpBinaryauthorizationPoliciesTable,
+		GcpCloudassetAssetsTable,
+		GcpCloudassetIamPolicySearchesTable,
+		GcpCloudassetResourceSearchesTable,
+		GcpCloudfunctionsFunctionsTable,
 		GcpComputeAddressesTable,
 		GcpComputeAddressLabelsTable,
 		GcpComputeBackendServicesTable,
@@ -10678,6 +13780,8 @@ var (
 		GcpComputeTargetSslProxiesTable,
 		GcpComputeTargetTCPProxiesTable,
 		GcpComputeURLMapsTable,
+		GcpContaineranalysisNotesTable,
+		GcpContaineranalysisOccurrencesTable,
 		GcpContainerClustersTable,
 		GcpContainerClusterAddonsTable,
 		GcpContainerClusterConditionsTable,
@@ -10686,33 +13790,49 @@ var (
 		GcpDNSManagedZonesTable,
 		GcpDNSManagedZoneLabelsTable,
 		GcpDNSPoliciesTable,
+		GcpDataprocClustersTable,
+		GcpFilestoreInstancesTable,
 		GcpFoldersTable,
 		GcpFolderIamPoliciesTable,
 		GcpFolderIamPolicyBindingsTable,
 		GcpFolderLabelsTable,
 		GcpIamServiceAccountsTable,
 		GcpIamServiceAccountKeysTable,
+		GcpIapIamPoliciesTable,
+		GcpIapSettingsTable,
 		GcpKmsCryptoKeysTable,
 		GcpKmsKeyRingsTable,
 		GcpLoggingBucketsTable,
 		GcpLoggingLogExclusionsTable,
 		GcpLoggingLogMetricsTable,
 		GcpLoggingSinksTable,
+		GcpMonitoringAlertPoliciesTable,
+		GcpMonitoringUptimeCheckConfigsTable,
 		GcpOrgIamPoliciesTable,
 		GcpOrgIamPolicyBindingsTable,
 		GcpOrgpolicyConstraintsTable,
+		GcpOrgpolicyCustomConstraintsTable,
 		GcpOrgpolicyPoliciesTable,
 		GcpOrganizationsTable,
 		GcpProjectsTable,
 		GcpProjectIamPoliciesTable,
 		GcpProjectIamPolicyBindingsTable,
 		GcpProjectLabelsTable,
+		GcpPubsubSubscriptionsTable,
+		GcpPubsubTopicsTable,
+		GcpRedisInstancesTable,
+		GcpRunRevisionsTable,
+		GcpRunServicesTable,
 		GcpSQLInstancesTable,
 		GcpSQLInstanceLabelsTable,
 		GcpSecretmanagerSecretsTable,
 		GcpSecretmanagerSecretLabelsTable,
 		GcpSecuritycenterFindingsTable,
+		GcpSecuritycenterNotificationConfigsTable,
 		GcpSecuritycenterSourcesTable,
+		GcpServiceusageEnabledServicesTable,
+		GcpSpannerDatabasesTable,
+		GcpSpannerInstancesTable,
 		GcpStorageBucketsTable,
 		GcpStorageBucketIamPoliciesTable,
 		GcpStorageBucketIamPolicyBindingsTable,
@@ -10746,6 +13866,22 @@ var (
 		DoProjectResourcesHistoryTable,
 		DoVolumesHistoryTable,
 		DoVpcsHistoryTable,
+		GcpAccesscontextmanagerAccessLevelsHistoryTable,
+		GcpAccesscontextmanagerAccessPoliciesHistoryTable,
+		GcpAccesscontextmanagerServicePerimetersHistoryTable,
+		GcpAlloydbClustersHistoryTable,
+		GcpAppengineApplicationsHistoryTable,
+		GcpAppengineServicesHistoryTable,
+		GcpBigqueryDatasetsHistoryTable,
+		GcpBigqueryTablesHistoryTable,
+		GcpBigtableClustersHistoryTable,
+		GcpBigtableInstancesHistoryTable,
+		GcpBinaryauthorizationAttestorsHistoryTable,
+		GcpBinaryauthorizationPoliciesHistoryTable,
+		GcpCloudassetAssetsHistoryTable,
+		GcpCloudassetIamPolicySearchesHistoryTable,
+		GcpCloudassetResourceSearchesHistoryTable,
+		GcpCloudfunctionsFunctionsHistoryTable,
 		GcpComputeAddressesHistoryTable,
 		GcpComputeAddressLabelsHistoryTable,
 		GcpComputeBackendServicesHistoryTable,
@@ -10802,6 +13938,8 @@ var (
 		GcpComputeTargetSslProxiesHistoryTable,
 		GcpComputeTargetTCPProxiesHistoryTable,
 		GcpComputeURLMapsHistoryTable,
+		GcpContaineranalysisNotesHistoryTable,
+		GcpContaineranalysisOccurrencesHistoryTable,
 		GcpContainerClustersHistoryTable,
 		GcpContainerClusterAddonsHistoryTable,
 		GcpContainerClusterConditionsHistoryTable,
@@ -10810,33 +13948,49 @@ var (
 		GcpDNSManagedZonesHistoryTable,
 		GcpDNSManagedZoneLabelsHistoryTable,
 		GcpDNSPoliciesHistoryTable,
+		GcpDataprocClustersHistoryTable,
+		GcpFilestoreInstancesHistoryTable,
 		GcpFoldersHistoryTable,
 		GcpFolderIamPoliciesHistoryTable,
 		GcpFolderIamPolicyBindingsHistoryTable,
 		GcpFolderLabelsHistoryTable,
 		GcpIamServiceAccountsHistoryTable,
 		GcpIamServiceAccountKeysHistoryTable,
+		GcpIapIamPoliciesHistoryTable,
+		GcpIapSettingsHistoryTable,
 		GcpKmsCryptoKeysHistoryTable,
 		GcpKmsKeyRingsHistoryTable,
 		GcpLoggingBucketsHistoryTable,
 		GcpLoggingLogExclusionsHistoryTable,
 		GcpLoggingLogMetricsHistoryTable,
 		GcpLoggingSinksHistoryTable,
+		GcpMonitoringAlertPoliciesHistoryTable,
+		GcpMonitoringUptimeCheckConfigsHistoryTable,
 		GcpOrgIamPoliciesHistoryTable,
 		GcpOrgIamPolicyBindingsHistoryTable,
 		GcpOrgpolicyConstraintsHistoryTable,
+		GcpOrgpolicyCustomConstraintsHistoryTable,
 		GcpOrgpolicyPoliciesHistoryTable,
 		GcpOrganizationsHistoryTable,
 		GcpProjectsHistoryTable,
 		GcpProjectIamPoliciesHistoryTable,
 		GcpProjectIamPolicyBindingsHistoryTable,
 		GcpProjectLabelsHistoryTable,
+		GcpPubsubSubscriptionsHistoryTable,
+		GcpPubsubTopicsHistoryTable,
+		GcpRedisInstancesHistoryTable,
+		GcpRunRevisionsHistoryTable,
+		GcpRunServicesHistoryTable,
 		GcpSQLInstancesHistoryTable,
 		GcpSQLInstanceLabelsHistoryTable,
 		GcpSecretmanagerSecretsHistoryTable,
 		GcpSecretmanagerSecretLabelsHistoryTable,
 		GcpSecuritycenterFindingsHistoryTable,
+		GcpSecuritycenterNotificationConfigsHistoryTable,
 		GcpSecuritycenterSourcesHistoryTable,
+		GcpServiceusageEnabledServicesHistoryTable,
+		GcpSpannerDatabasesHistoryTable,
+		GcpSpannerInstancesHistoryTable,
 		GcpStorageBucketsHistoryTable,
 		GcpStorageBucketIamPoliciesHistoryTable,
 		GcpStorageBucketIamPolicyBindingsHistoryTable,
@@ -10932,6 +14086,58 @@ func init() {
 	}
 	DoVpcsTable.Annotation = &entsql.Annotation{
 		Table: "do_vpcs",
+	}
+	GcpAccesscontextmanagerAccessLevelsTable.ForeignKeys[0].RefTable = GcpAccesscontextmanagerAccessPoliciesTable
+	GcpAccesscontextmanagerAccessLevelsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_accesscontextmanager_access_levels",
+	}
+	GcpAccesscontextmanagerAccessPoliciesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_accesscontextmanager_access_policies",
+	}
+	GcpAccesscontextmanagerServicePerimetersTable.ForeignKeys[0].RefTable = GcpAccesscontextmanagerAccessPoliciesTable
+	GcpAccesscontextmanagerServicePerimetersTable.Annotation = &entsql.Annotation{
+		Table: "gcp_accesscontextmanager_service_perimeters",
+	}
+	GcpAlloydbClustersTable.Annotation = &entsql.Annotation{
+		Table: "gcp_alloydb_clusters",
+	}
+	GcpAppengineApplicationsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_appengine_applications",
+	}
+	GcpAppengineServicesTable.ForeignKeys[0].RefTable = GcpAppengineApplicationsTable
+	GcpAppengineServicesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_appengine_services",
+	}
+	GcpBigqueryDatasetsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_bigquery_datasets",
+	}
+	GcpBigqueryTablesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_bigquery_tables",
+	}
+	GcpBigtableClustersTable.ForeignKeys[0].RefTable = GcpBigtableInstancesTable
+	GcpBigtableClustersTable.Annotation = &entsql.Annotation{
+		Table: "gcp_bigtable_clusters",
+	}
+	GcpBigtableInstancesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_bigtable_instances",
+	}
+	GcpBinaryauthorizationAttestorsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_binaryauthorization_attestors",
+	}
+	GcpBinaryauthorizationPoliciesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_binaryauthorization_policies",
+	}
+	GcpCloudassetAssetsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_cloudasset_assets",
+	}
+	GcpCloudassetIamPolicySearchesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_cloudasset_iam_policy_searches",
+	}
+	GcpCloudassetResourceSearchesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_cloudasset_resource_searches",
+	}
+	GcpCloudfunctionsFunctionsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_cloudfunctions_functions",
 	}
 	GcpComputeAddressesTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_addresses",
@@ -11128,6 +14334,12 @@ func init() {
 	GcpComputeURLMapsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_url_maps",
 	}
+	GcpContaineranalysisNotesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_containeranalysis_notes",
+	}
+	GcpContaineranalysisOccurrencesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_containeranalysis_occurrences",
+	}
 	GcpContainerClustersTable.Annotation = &entsql.Annotation{
 		Table: "gcp_container_clusters",
 	}
@@ -11157,6 +14369,12 @@ func init() {
 	GcpDNSPoliciesTable.Annotation = &entsql.Annotation{
 		Table: "gcp_dns_policies",
 	}
+	GcpDataprocClustersTable.Annotation = &entsql.Annotation{
+		Table: "gcp_dataproc_clusters",
+	}
+	GcpFilestoreInstancesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_filestore_instances",
+	}
 	GcpFoldersTable.Annotation = &entsql.Annotation{
 		Table: "gcp_folders",
 	}
@@ -11177,6 +14395,12 @@ func init() {
 	GcpIamServiceAccountKeysTable.Annotation = &entsql.Annotation{
 		Table: "gcp_iam_service_account_keys",
 	}
+	GcpIapIamPoliciesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_iap_iam_policies",
+	}
+	GcpIapSettingsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_iap_settings",
+	}
 	GcpKmsCryptoKeysTable.Annotation = &entsql.Annotation{
 		Table: "gcp_kms_crypto_keys",
 	}
@@ -11195,6 +14419,12 @@ func init() {
 	GcpLoggingSinksTable.Annotation = &entsql.Annotation{
 		Table: "gcp_logging_sinks",
 	}
+	GcpMonitoringAlertPoliciesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_monitoring_alert_policies",
+	}
+	GcpMonitoringUptimeCheckConfigsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_monitoring_uptime_check_configs",
+	}
 	GcpOrgIamPoliciesTable.Annotation = &entsql.Annotation{
 		Table: "gcp_org_iam_policies",
 	}
@@ -11204,6 +14434,9 @@ func init() {
 	}
 	GcpOrgpolicyConstraintsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_orgpolicy_constraints",
+	}
+	GcpOrgpolicyCustomConstraintsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_orgpolicy_custom_constraints",
 	}
 	GcpOrgpolicyPoliciesTable.Annotation = &entsql.Annotation{
 		Table: "gcp_orgpolicy_policies",
@@ -11225,6 +14458,22 @@ func init() {
 	GcpProjectLabelsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_project_labels",
 	}
+	GcpPubsubSubscriptionsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_pubsub_subscriptions",
+	}
+	GcpPubsubTopicsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_pubsub_topics",
+	}
+	GcpRedisInstancesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_redis_instances",
+	}
+	GcpRunRevisionsTable.ForeignKeys[0].RefTable = GcpRunServicesTable
+	GcpRunRevisionsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_run_revisions",
+	}
+	GcpRunServicesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_run_services",
+	}
 	GcpSQLInstancesTable.Annotation = &entsql.Annotation{
 		Table: "gcp_sql_instances",
 	}
@@ -11242,8 +14491,21 @@ func init() {
 	GcpSecuritycenterFindingsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_securitycenter_findings",
 	}
+	GcpSecuritycenterNotificationConfigsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_securitycenter_notification_configs",
+	}
 	GcpSecuritycenterSourcesTable.Annotation = &entsql.Annotation{
 		Table: "gcp_securitycenter_sources",
+	}
+	GcpServiceusageEnabledServicesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_serviceusage_enabled_services",
+	}
+	GcpSpannerDatabasesTable.ForeignKeys[0].RefTable = GcpSpannerInstancesTable
+	GcpSpannerDatabasesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_spanner_databases",
+	}
+	GcpSpannerInstancesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_spanner_instances",
 	}
 	GcpStorageBucketsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_storage_buckets",
@@ -11348,6 +14610,54 @@ func init() {
 	}
 	DoVpcsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "do_vpcs_history",
+	}
+	GcpAccesscontextmanagerAccessLevelsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_accesscontextmanager_access_levels_history",
+	}
+	GcpAccesscontextmanagerAccessPoliciesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_accesscontextmanager_access_policies_history",
+	}
+	GcpAccesscontextmanagerServicePerimetersHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_accesscontextmanager_service_perimeters_history",
+	}
+	GcpAlloydbClustersHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_alloydb_clusters_history",
+	}
+	GcpAppengineApplicationsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_appengine_applications_history",
+	}
+	GcpAppengineServicesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_appengine_services_history",
+	}
+	GcpBigqueryDatasetsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_bigquery_datasets_history",
+	}
+	GcpBigqueryTablesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_bigquery_tables_history",
+	}
+	GcpBigtableClustersHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_bigtable_clusters_history",
+	}
+	GcpBigtableInstancesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_bigtable_instances_history",
+	}
+	GcpBinaryauthorizationAttestorsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_binaryauthorization_attestors_history",
+	}
+	GcpBinaryauthorizationPoliciesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_binaryauthorization_policies_history",
+	}
+	GcpCloudassetAssetsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_cloudasset_assets_history",
+	}
+	GcpCloudassetIamPolicySearchesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_cloudasset_iam_policy_searches_history",
+	}
+	GcpCloudassetResourceSearchesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_cloudasset_resource_searches_history",
+	}
+	GcpCloudfunctionsFunctionsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_cloudfunctions_functions_history",
 	}
 	GcpComputeAddressesHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_addresses_history",
@@ -11517,6 +14827,12 @@ func init() {
 	GcpComputeURLMapsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_url_maps_history",
 	}
+	GcpContaineranalysisNotesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_containeranalysis_notes_history",
+	}
+	GcpContaineranalysisOccurrencesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_containeranalysis_occurrences_history",
+	}
 	GcpContainerClustersHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_container_clusters_history",
 	}
@@ -11541,6 +14857,12 @@ func init() {
 	GcpDNSPoliciesHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_dns_policies_history",
 	}
+	GcpDataprocClustersHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_dataproc_clusters_history",
+	}
+	GcpFilestoreInstancesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_filestore_instances_history",
+	}
 	GcpFoldersHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_folders_history",
 	}
@@ -11558,6 +14880,12 @@ func init() {
 	}
 	GcpIamServiceAccountKeysHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_iam_service_account_keys_history",
+	}
+	GcpIapIamPoliciesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_iap_iam_policies_history",
+	}
+	GcpIapSettingsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_iap_settings_history",
 	}
 	GcpKmsCryptoKeysHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_kms_crypto_keys_history",
@@ -11577,6 +14905,12 @@ func init() {
 	GcpLoggingSinksHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_logging_sinks_history",
 	}
+	GcpMonitoringAlertPoliciesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_monitoring_alert_policies_history",
+	}
+	GcpMonitoringUptimeCheckConfigsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_monitoring_uptime_check_configs_history",
+	}
 	GcpOrgIamPoliciesHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_org_iam_policies_history",
 	}
@@ -11585,6 +14919,9 @@ func init() {
 	}
 	GcpOrgpolicyConstraintsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_orgpolicy_constraints_history",
+	}
+	GcpOrgpolicyCustomConstraintsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_orgpolicy_custom_constraints_history",
 	}
 	GcpOrgpolicyPoliciesHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_orgpolicy_policies_history",
@@ -11604,6 +14941,21 @@ func init() {
 	GcpProjectLabelsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_project_labels_history",
 	}
+	GcpPubsubSubscriptionsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_pubsub_subscriptions_history",
+	}
+	GcpPubsubTopicsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_pubsub_topics_history",
+	}
+	GcpRedisInstancesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_redis_instances_history",
+	}
+	GcpRunRevisionsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_run_revisions_history",
+	}
+	GcpRunServicesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_run_services_history",
+	}
 	GcpSQLInstancesHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_sql_instances_history",
 	}
@@ -11619,8 +14971,20 @@ func init() {
 	GcpSecuritycenterFindingsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_securitycenter_findings_history",
 	}
+	GcpSecuritycenterNotificationConfigsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_securitycenter_notification_configs_history",
+	}
 	GcpSecuritycenterSourcesHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_securitycenter_sources_history",
+	}
+	GcpServiceusageEnabledServicesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_serviceusage_enabled_services_history",
+	}
+	GcpSpannerDatabasesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_spanner_databases_history",
+	}
+	GcpSpannerInstancesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_spanner_instances_history",
 	}
 	GcpStorageBucketsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_storage_buckets_history",
