@@ -12,6 +12,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/droplet"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/firewall"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/key"
+	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/kubernetes"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/loadbalancer"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/project"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/volume"
@@ -33,6 +34,8 @@ type DOInventoryWorkflowResult struct {
 	DropletCount              int
 	FirewallCount             int
 	KeyCount                  int
+	KubernetesClusterCount    int
+	KubernetesNodePoolCount   int
 	LoadBalancerCount         int
 	ProjectCount              int
 	ResourceCount             int
@@ -65,6 +68,7 @@ func DOInventoryWorkflow(ctx workflow.Context) (*DOInventoryWorkflowResult, erro
 	dropletFuture := workflow.ExecuteChildWorkflow(ctx, droplet.DODropletWorkflow)
 	firewallFuture := workflow.ExecuteChildWorkflow(ctx, firewall.DOFirewallWorkflow)
 	keyFuture := workflow.ExecuteChildWorkflow(ctx, key.DOKeyWorkflow)
+	kubernetesFuture := workflow.ExecuteChildWorkflow(ctx, kubernetes.DOKubernetesWorkflow)
 	lbFuture := workflow.ExecuteChildWorkflow(ctx, loadbalancer.DOLoadBalancerWorkflow)
 	projectFuture := workflow.ExecuteChildWorkflow(ctx, project.DOProjectWorkflow)
 	volumeFuture := workflow.ExecuteChildWorkflow(ctx, volume.DOVolumeWorkflow)
@@ -120,6 +124,14 @@ func DOInventoryWorkflow(ctx workflow.Context) (*DOInventoryWorkflowResult, erro
 		result.KeyCount = keyResult.KeyCount
 	}
 
+	var kubernetesResult kubernetes.DOKubernetesWorkflowResult
+	if err := kubernetesFuture.Get(ctx, &kubernetesResult); err != nil {
+		logger.Error("Failed to execute DOKubernetesWorkflow", "error", err)
+	} else {
+		result.KubernetesClusterCount = kubernetesResult.ClusterCount
+		result.KubernetesNodePoolCount = kubernetesResult.NodePoolCount
+	}
+
 	var lbResult loadbalancer.DOLoadBalancerWorkflowResult
 	if err := lbFuture.Get(ctx, &lbResult); err != nil {
 		logger.Error("Failed to execute DOLoadBalancerWorkflow", "error", err)
@@ -163,6 +175,8 @@ func DOInventoryWorkflow(ctx workflow.Context) (*DOInventoryWorkflowResult, erro
 		"droplets", result.DropletCount,
 		"firewalls", result.FirewallCount,
 		"keys", result.KeyCount,
+		"kubernetesClusters", result.KubernetesClusterCount,
+		"kubernetesNodePools", result.KubernetesNodePoolCount,
 		"loadBalancers", result.LoadBalancerCount,
 		"projects", result.ProjectCount,
 		"projectResources", result.ResourceCount,

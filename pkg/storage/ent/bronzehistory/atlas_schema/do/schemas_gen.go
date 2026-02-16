@@ -215,6 +215,38 @@ func (BronzeHistoryDOKey) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze_history"})
 }
 
+type BronzeHistoryDOKubernetesCluster struct {
+	bronzehistory_do.BronzeHistoryDOKubernetesCluster
+}
+
+func (BronzeHistoryDOKubernetesCluster) Annotations() []schema.Annotation {
+	anns := bronzehistory_do.BronzeHistoryDOKubernetesCluster{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryDOKubernetesNodePool struct {
+	bronzehistory_do.BronzeHistoryDOKubernetesNodePool
+}
+
+func (BronzeHistoryDOKubernetesNodePool) Annotations() []schema.Annotation {
+	anns := bronzehistory_do.BronzeHistoryDOKubernetesNodePool{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
 type BronzeHistoryDOLoadBalancer struct {
 	bronzehistory_do.BronzeHistoryDOLoadBalancer
 }

@@ -189,6 +189,30 @@ func (f BronzeDOKeyFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value,
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeDOKeyMutation", m)
 }
 
+// The BronzeDOKubernetesClusterFunc type is an adapter to allow the use of ordinary
+// function as BronzeDOKubernetesCluster mutator.
+type BronzeDOKubernetesClusterFunc func(context.Context, *ent.BronzeDOKubernetesClusterMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeDOKubernetesClusterFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeDOKubernetesClusterMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeDOKubernetesClusterMutation", m)
+}
+
+// The BronzeDOKubernetesNodePoolFunc type is an adapter to allow the use of ordinary
+// function as BronzeDOKubernetesNodePool mutator.
+type BronzeDOKubernetesNodePoolFunc func(context.Context, *ent.BronzeDOKubernetesNodePoolMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeDOKubernetesNodePoolFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeDOKubernetesNodePoolMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeDOKubernetesNodePoolMutation", m)
+}
+
 // The BronzeDOLoadBalancerFunc type is an adapter to allow the use of ordinary
 // function as BronzeDOLoadBalancer mutator.
 type BronzeDOLoadBalancerFunc func(context.Context, *ent.BronzeDOLoadBalancerMutation) (ent.Value, error)
@@ -1603,6 +1627,30 @@ func (f BronzeHistoryDOKeyFunc) Mutate(ctx context.Context, m ent.Mutation) (ent
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryDOKeyMutation", m)
+}
+
+// The BronzeHistoryDOKubernetesClusterFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryDOKubernetesCluster mutator.
+type BronzeHistoryDOKubernetesClusterFunc func(context.Context, *ent.BronzeHistoryDOKubernetesClusterMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryDOKubernetesClusterFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryDOKubernetesClusterMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryDOKubernetesClusterMutation", m)
+}
+
+// The BronzeHistoryDOKubernetesNodePoolFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryDOKubernetesNodePool mutator.
+type BronzeHistoryDOKubernetesNodePoolFunc func(context.Context, *ent.BronzeHistoryDOKubernetesNodePoolMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryDOKubernetesNodePoolFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryDOKubernetesNodePoolMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryDOKubernetesNodePoolMutation", m)
 }
 
 // The BronzeHistoryDOLoadBalancerFunc type is an adapter to allow the use of ordinary

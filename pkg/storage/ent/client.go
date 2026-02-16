@@ -30,6 +30,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodroplet"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedofirewall"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokubernetescluster"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokubernetesnodepool"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoloadbalancer"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoprojectresource"
@@ -148,6 +150,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodroplet"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydofirewall"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokubernetescluster"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokubernetesnodepool"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoloadbalancer"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoprojectresource"
@@ -304,6 +308,10 @@ type Client struct {
 	BronzeDOFirewall *BronzeDOFirewallClient
 	// BronzeDOKey is the client for interacting with the BronzeDOKey builders.
 	BronzeDOKey *BronzeDOKeyClient
+	// BronzeDOKubernetesCluster is the client for interacting with the BronzeDOKubernetesCluster builders.
+	BronzeDOKubernetesCluster *BronzeDOKubernetesClusterClient
+	// BronzeDOKubernetesNodePool is the client for interacting with the BronzeDOKubernetesNodePool builders.
+	BronzeDOKubernetesNodePool *BronzeDOKubernetesNodePoolClient
 	// BronzeDOLoadBalancer is the client for interacting with the BronzeDOLoadBalancer builders.
 	BronzeDOLoadBalancer *BronzeDOLoadBalancerClient
 	// BronzeDOProject is the client for interacting with the BronzeDOProject builders.
@@ -540,6 +548,10 @@ type Client struct {
 	BronzeHistoryDOFirewall *BronzeHistoryDOFirewallClient
 	// BronzeHistoryDOKey is the client for interacting with the BronzeHistoryDOKey builders.
 	BronzeHistoryDOKey *BronzeHistoryDOKeyClient
+	// BronzeHistoryDOKubernetesCluster is the client for interacting with the BronzeHistoryDOKubernetesCluster builders.
+	BronzeHistoryDOKubernetesCluster *BronzeHistoryDOKubernetesClusterClient
+	// BronzeHistoryDOKubernetesNodePool is the client for interacting with the BronzeHistoryDOKubernetesNodePool builders.
+	BronzeHistoryDOKubernetesNodePool *BronzeHistoryDOKubernetesNodePoolClient
 	// BronzeHistoryDOLoadBalancer is the client for interacting with the BronzeHistoryDOLoadBalancer builders.
 	BronzeHistoryDOLoadBalancer *BronzeHistoryDOLoadBalancerClient
 	// BronzeHistoryDOProject is the client for interacting with the BronzeHistoryDOProject builders.
@@ -800,6 +812,8 @@ func (c *Client) init() {
 	c.BronzeDODroplet = NewBronzeDODropletClient(c.config)
 	c.BronzeDOFirewall = NewBronzeDOFirewallClient(c.config)
 	c.BronzeDOKey = NewBronzeDOKeyClient(c.config)
+	c.BronzeDOKubernetesCluster = NewBronzeDOKubernetesClusterClient(c.config)
+	c.BronzeDOKubernetesNodePool = NewBronzeDOKubernetesNodePoolClient(c.config)
 	c.BronzeDOLoadBalancer = NewBronzeDOLoadBalancerClient(c.config)
 	c.BronzeDOProject = NewBronzeDOProjectClient(c.config)
 	c.BronzeDOProjectResource = NewBronzeDOProjectResourceClient(c.config)
@@ -918,6 +932,8 @@ func (c *Client) init() {
 	c.BronzeHistoryDODroplet = NewBronzeHistoryDODropletClient(c.config)
 	c.BronzeHistoryDOFirewall = NewBronzeHistoryDOFirewallClient(c.config)
 	c.BronzeHistoryDOKey = NewBronzeHistoryDOKeyClient(c.config)
+	c.BronzeHistoryDOKubernetesCluster = NewBronzeHistoryDOKubernetesClusterClient(c.config)
+	c.BronzeHistoryDOKubernetesNodePool = NewBronzeHistoryDOKubernetesNodePoolClient(c.config)
 	c.BronzeHistoryDOLoadBalancer = NewBronzeHistoryDOLoadBalancerClient(c.config)
 	c.BronzeHistoryDOProject = NewBronzeHistoryDOProjectClient(c.config)
 	c.BronzeHistoryDOProjectResource = NewBronzeHistoryDOProjectResourceClient(c.config)
@@ -1144,6 +1160,8 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		BronzeDODroplet:                                  NewBronzeDODropletClient(cfg),
 		BronzeDOFirewall:                                 NewBronzeDOFirewallClient(cfg),
 		BronzeDOKey:                                      NewBronzeDOKeyClient(cfg),
+		BronzeDOKubernetesCluster:                        NewBronzeDOKubernetesClusterClient(cfg),
+		BronzeDOKubernetesNodePool:                       NewBronzeDOKubernetesNodePoolClient(cfg),
 		BronzeDOLoadBalancer:                             NewBronzeDOLoadBalancerClient(cfg),
 		BronzeDOProject:                                  NewBronzeDOProjectClient(cfg),
 		BronzeDOProjectResource:                          NewBronzeDOProjectResourceClient(cfg),
@@ -1262,6 +1280,8 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		BronzeHistoryDODroplet:                           NewBronzeHistoryDODropletClient(cfg),
 		BronzeHistoryDOFirewall:                          NewBronzeHistoryDOFirewallClient(cfg),
 		BronzeHistoryDOKey:                               NewBronzeHistoryDOKeyClient(cfg),
+		BronzeHistoryDOKubernetesCluster:                 NewBronzeHistoryDOKubernetesClusterClient(cfg),
+		BronzeHistoryDOKubernetesNodePool:                NewBronzeHistoryDOKubernetesNodePoolClient(cfg),
 		BronzeHistoryDOLoadBalancer:                      NewBronzeHistoryDOLoadBalancerClient(cfg),
 		BronzeHistoryDOProject:                           NewBronzeHistoryDOProjectClient(cfg),
 		BronzeHistoryDOProjectResource:                   NewBronzeHistoryDOProjectResourceClient(cfg),
@@ -1413,6 +1433,8 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		BronzeDODroplet:                                  NewBronzeDODropletClient(cfg),
 		BronzeDOFirewall:                                 NewBronzeDOFirewallClient(cfg),
 		BronzeDOKey:                                      NewBronzeDOKeyClient(cfg),
+		BronzeDOKubernetesCluster:                        NewBronzeDOKubernetesClusterClient(cfg),
+		BronzeDOKubernetesNodePool:                       NewBronzeDOKubernetesNodePoolClient(cfg),
 		BronzeDOLoadBalancer:                             NewBronzeDOLoadBalancerClient(cfg),
 		BronzeDOProject:                                  NewBronzeDOProjectClient(cfg),
 		BronzeDOProjectResource:                          NewBronzeDOProjectResourceClient(cfg),
@@ -1531,6 +1553,8 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		BronzeHistoryDODroplet:                           NewBronzeHistoryDODropletClient(cfg),
 		BronzeHistoryDOFirewall:                          NewBronzeHistoryDOFirewallClient(cfg),
 		BronzeHistoryDOKey:                               NewBronzeHistoryDOKeyClient(cfg),
+		BronzeHistoryDOKubernetesCluster:                 NewBronzeHistoryDOKubernetesClusterClient(cfg),
+		BronzeHistoryDOKubernetesNodePool:                NewBronzeHistoryDOKubernetesNodePoolClient(cfg),
 		BronzeHistoryDOLoadBalancer:                      NewBronzeHistoryDOLoadBalancerClient(cfg),
 		BronzeHistoryDOProject:                           NewBronzeHistoryDOProjectClient(cfg),
 		BronzeHistoryDOProjectResource:                   NewBronzeHistoryDOProjectResourceClient(cfg),
@@ -1682,6 +1706,7 @@ func (c *Client) Use(hooks ...Hook) {
 		c.BronzeDODatabaseFirewallRule, c.BronzeDODatabasePool,
 		c.BronzeDODatabaseReplica, c.BronzeDODatabaseUser, c.BronzeDODomain,
 		c.BronzeDODomainRecord, c.BronzeDODroplet, c.BronzeDOFirewall, c.BronzeDOKey,
+		c.BronzeDOKubernetesCluster, c.BronzeDOKubernetesNodePool,
 		c.BronzeDOLoadBalancer, c.BronzeDOProject, c.BronzeDOProjectResource,
 		c.BronzeDOVolume, c.BronzeDOVpc, c.BronzeGCPComputeAddress,
 		c.BronzeGCPComputeAddressLabel, c.BronzeGCPComputeBackendService,
@@ -1738,11 +1763,12 @@ func (c *Client) Use(hooks ...Hook) {
 		c.BronzeHistoryDODatabasePool, c.BronzeHistoryDODatabaseReplica,
 		c.BronzeHistoryDODatabaseUser, c.BronzeHistoryDODomain,
 		c.BronzeHistoryDODomainRecord, c.BronzeHistoryDODroplet,
-		c.BronzeHistoryDOFirewall, c.BronzeHistoryDOKey, c.BronzeHistoryDOLoadBalancer,
-		c.BronzeHistoryDOProject, c.BronzeHistoryDOProjectResource,
-		c.BronzeHistoryDOVolume, c.BronzeHistoryDOVpc,
-		c.BronzeHistoryGCPComputeAddress, c.BronzeHistoryGCPComputeAddressLabel,
-		c.BronzeHistoryGCPComputeBackendService,
+		c.BronzeHistoryDOFirewall, c.BronzeHistoryDOKey,
+		c.BronzeHistoryDOKubernetesCluster, c.BronzeHistoryDOKubernetesNodePool,
+		c.BronzeHistoryDOLoadBalancer, c.BronzeHistoryDOProject,
+		c.BronzeHistoryDOProjectResource, c.BronzeHistoryDOVolume,
+		c.BronzeHistoryDOVpc, c.BronzeHistoryGCPComputeAddress,
+		c.BronzeHistoryGCPComputeAddressLabel, c.BronzeHistoryGCPComputeBackendService,
 		c.BronzeHistoryGCPComputeBackendServiceBackend, c.BronzeHistoryGCPComputeDisk,
 		c.BronzeHistoryGCPComputeDiskLabel, c.BronzeHistoryGCPComputeDiskLicense,
 		c.BronzeHistoryGCPComputeFirewall, c.BronzeHistoryGCPComputeFirewallAllowed,
@@ -1824,6 +1850,7 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.BronzeDODatabaseFirewallRule, c.BronzeDODatabasePool,
 		c.BronzeDODatabaseReplica, c.BronzeDODatabaseUser, c.BronzeDODomain,
 		c.BronzeDODomainRecord, c.BronzeDODroplet, c.BronzeDOFirewall, c.BronzeDOKey,
+		c.BronzeDOKubernetesCluster, c.BronzeDOKubernetesNodePool,
 		c.BronzeDOLoadBalancer, c.BronzeDOProject, c.BronzeDOProjectResource,
 		c.BronzeDOVolume, c.BronzeDOVpc, c.BronzeGCPComputeAddress,
 		c.BronzeGCPComputeAddressLabel, c.BronzeGCPComputeBackendService,
@@ -1880,11 +1907,12 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.BronzeHistoryDODatabasePool, c.BronzeHistoryDODatabaseReplica,
 		c.BronzeHistoryDODatabaseUser, c.BronzeHistoryDODomain,
 		c.BronzeHistoryDODomainRecord, c.BronzeHistoryDODroplet,
-		c.BronzeHistoryDOFirewall, c.BronzeHistoryDOKey, c.BronzeHistoryDOLoadBalancer,
-		c.BronzeHistoryDOProject, c.BronzeHistoryDOProjectResource,
-		c.BronzeHistoryDOVolume, c.BronzeHistoryDOVpc,
-		c.BronzeHistoryGCPComputeAddress, c.BronzeHistoryGCPComputeAddressLabel,
-		c.BronzeHistoryGCPComputeBackendService,
+		c.BronzeHistoryDOFirewall, c.BronzeHistoryDOKey,
+		c.BronzeHistoryDOKubernetesCluster, c.BronzeHistoryDOKubernetesNodePool,
+		c.BronzeHistoryDOLoadBalancer, c.BronzeHistoryDOProject,
+		c.BronzeHistoryDOProjectResource, c.BronzeHistoryDOVolume,
+		c.BronzeHistoryDOVpc, c.BronzeHistoryGCPComputeAddress,
+		c.BronzeHistoryGCPComputeAddressLabel, c.BronzeHistoryGCPComputeBackendService,
 		c.BronzeHistoryGCPComputeBackendServiceBackend, c.BronzeHistoryGCPComputeDisk,
 		c.BronzeHistoryGCPComputeDiskLabel, c.BronzeHistoryGCPComputeDiskLicense,
 		c.BronzeHistoryGCPComputeFirewall, c.BronzeHistoryGCPComputeFirewallAllowed,
@@ -1990,6 +2018,10 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeDOFirewall.mutate(ctx, m)
 	case *BronzeDOKeyMutation:
 		return c.BronzeDOKey.mutate(ctx, m)
+	case *BronzeDOKubernetesClusterMutation:
+		return c.BronzeDOKubernetesCluster.mutate(ctx, m)
+	case *BronzeDOKubernetesNodePoolMutation:
+		return c.BronzeDOKubernetesNodePool.mutate(ctx, m)
 	case *BronzeDOLoadBalancerMutation:
 		return c.BronzeDOLoadBalancer.mutate(ctx, m)
 	case *BronzeDOProjectMutation:
@@ -2226,6 +2258,10 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeHistoryDOFirewall.mutate(ctx, m)
 	case *BronzeHistoryDOKeyMutation:
 		return c.BronzeHistoryDOKey.mutate(ctx, m)
+	case *BronzeHistoryDOKubernetesClusterMutation:
+		return c.BronzeHistoryDOKubernetesCluster.mutate(ctx, m)
+	case *BronzeHistoryDOKubernetesNodePoolMutation:
+		return c.BronzeHistoryDOKubernetesNodePool.mutate(ctx, m)
 	case *BronzeHistoryDOLoadBalancerMutation:
 		return c.BronzeHistoryDOLoadBalancer.mutate(ctx, m)
 	case *BronzeHistoryDOProjectMutation:
@@ -4495,6 +4531,272 @@ func (c *BronzeDOKeyClient) mutate(ctx context.Context, m *BronzeDOKeyMutation) 
 		return (&BronzeDOKeyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown BronzeDOKey mutation op: %q", m.Op())
+	}
+}
+
+// BronzeDOKubernetesClusterClient is a client for the BronzeDOKubernetesCluster schema.
+type BronzeDOKubernetesClusterClient struct {
+	config
+}
+
+// NewBronzeDOKubernetesClusterClient returns a client for the BronzeDOKubernetesCluster from the given config.
+func NewBronzeDOKubernetesClusterClient(c config) *BronzeDOKubernetesClusterClient {
+	return &BronzeDOKubernetesClusterClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzedokubernetescluster.Hooks(f(g(h())))`.
+func (c *BronzeDOKubernetesClusterClient) Use(hooks ...Hook) {
+	c.hooks.BronzeDOKubernetesCluster = append(c.hooks.BronzeDOKubernetesCluster, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzedokubernetescluster.Intercept(f(g(h())))`.
+func (c *BronzeDOKubernetesClusterClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeDOKubernetesCluster = append(c.inters.BronzeDOKubernetesCluster, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeDOKubernetesCluster entity.
+func (c *BronzeDOKubernetesClusterClient) Create() *BronzeDOKubernetesClusterCreate {
+	mutation := newBronzeDOKubernetesClusterMutation(c.config, OpCreate)
+	return &BronzeDOKubernetesClusterCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeDOKubernetesCluster entities.
+func (c *BronzeDOKubernetesClusterClient) CreateBulk(builders ...*BronzeDOKubernetesClusterCreate) *BronzeDOKubernetesClusterCreateBulk {
+	return &BronzeDOKubernetesClusterCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeDOKubernetesClusterClient) MapCreateBulk(slice any, setFunc func(*BronzeDOKubernetesClusterCreate, int)) *BronzeDOKubernetesClusterCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeDOKubernetesClusterCreateBulk{err: fmt.Errorf("calling to BronzeDOKubernetesClusterClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeDOKubernetesClusterCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeDOKubernetesClusterCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeDOKubernetesCluster.
+func (c *BronzeDOKubernetesClusterClient) Update() *BronzeDOKubernetesClusterUpdate {
+	mutation := newBronzeDOKubernetesClusterMutation(c.config, OpUpdate)
+	return &BronzeDOKubernetesClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeDOKubernetesClusterClient) UpdateOne(_m *BronzeDOKubernetesCluster) *BronzeDOKubernetesClusterUpdateOne {
+	mutation := newBronzeDOKubernetesClusterMutation(c.config, OpUpdateOne, withBronzeDOKubernetesCluster(_m))
+	return &BronzeDOKubernetesClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeDOKubernetesClusterClient) UpdateOneID(id string) *BronzeDOKubernetesClusterUpdateOne {
+	mutation := newBronzeDOKubernetesClusterMutation(c.config, OpUpdateOne, withBronzeDOKubernetesClusterID(id))
+	return &BronzeDOKubernetesClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeDOKubernetesCluster.
+func (c *BronzeDOKubernetesClusterClient) Delete() *BronzeDOKubernetesClusterDelete {
+	mutation := newBronzeDOKubernetesClusterMutation(c.config, OpDelete)
+	return &BronzeDOKubernetesClusterDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeDOKubernetesClusterClient) DeleteOne(_m *BronzeDOKubernetesCluster) *BronzeDOKubernetesClusterDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeDOKubernetesClusterClient) DeleteOneID(id string) *BronzeDOKubernetesClusterDeleteOne {
+	builder := c.Delete().Where(bronzedokubernetescluster.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeDOKubernetesClusterDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeDOKubernetesCluster.
+func (c *BronzeDOKubernetesClusterClient) Query() *BronzeDOKubernetesClusterQuery {
+	return &BronzeDOKubernetesClusterQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeDOKubernetesCluster},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeDOKubernetesCluster entity by its id.
+func (c *BronzeDOKubernetesClusterClient) Get(ctx context.Context, id string) (*BronzeDOKubernetesCluster, error) {
+	return c.Query().Where(bronzedokubernetescluster.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeDOKubernetesClusterClient) GetX(ctx context.Context, id string) *BronzeDOKubernetesCluster {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeDOKubernetesClusterClient) Hooks() []Hook {
+	return c.hooks.BronzeDOKubernetesCluster
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeDOKubernetesClusterClient) Interceptors() []Interceptor {
+	return c.inters.BronzeDOKubernetesCluster
+}
+
+func (c *BronzeDOKubernetesClusterClient) mutate(ctx context.Context, m *BronzeDOKubernetesClusterMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeDOKubernetesClusterCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeDOKubernetesClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeDOKubernetesClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeDOKubernetesClusterDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeDOKubernetesCluster mutation op: %q", m.Op())
+	}
+}
+
+// BronzeDOKubernetesNodePoolClient is a client for the BronzeDOKubernetesNodePool schema.
+type BronzeDOKubernetesNodePoolClient struct {
+	config
+}
+
+// NewBronzeDOKubernetesNodePoolClient returns a client for the BronzeDOKubernetesNodePool from the given config.
+func NewBronzeDOKubernetesNodePoolClient(c config) *BronzeDOKubernetesNodePoolClient {
+	return &BronzeDOKubernetesNodePoolClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzedokubernetesnodepool.Hooks(f(g(h())))`.
+func (c *BronzeDOKubernetesNodePoolClient) Use(hooks ...Hook) {
+	c.hooks.BronzeDOKubernetesNodePool = append(c.hooks.BronzeDOKubernetesNodePool, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzedokubernetesnodepool.Intercept(f(g(h())))`.
+func (c *BronzeDOKubernetesNodePoolClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeDOKubernetesNodePool = append(c.inters.BronzeDOKubernetesNodePool, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeDOKubernetesNodePool entity.
+func (c *BronzeDOKubernetesNodePoolClient) Create() *BronzeDOKubernetesNodePoolCreate {
+	mutation := newBronzeDOKubernetesNodePoolMutation(c.config, OpCreate)
+	return &BronzeDOKubernetesNodePoolCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeDOKubernetesNodePool entities.
+func (c *BronzeDOKubernetesNodePoolClient) CreateBulk(builders ...*BronzeDOKubernetesNodePoolCreate) *BronzeDOKubernetesNodePoolCreateBulk {
+	return &BronzeDOKubernetesNodePoolCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeDOKubernetesNodePoolClient) MapCreateBulk(slice any, setFunc func(*BronzeDOKubernetesNodePoolCreate, int)) *BronzeDOKubernetesNodePoolCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeDOKubernetesNodePoolCreateBulk{err: fmt.Errorf("calling to BronzeDOKubernetesNodePoolClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeDOKubernetesNodePoolCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeDOKubernetesNodePoolCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeDOKubernetesNodePool.
+func (c *BronzeDOKubernetesNodePoolClient) Update() *BronzeDOKubernetesNodePoolUpdate {
+	mutation := newBronzeDOKubernetesNodePoolMutation(c.config, OpUpdate)
+	return &BronzeDOKubernetesNodePoolUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeDOKubernetesNodePoolClient) UpdateOne(_m *BronzeDOKubernetesNodePool) *BronzeDOKubernetesNodePoolUpdateOne {
+	mutation := newBronzeDOKubernetesNodePoolMutation(c.config, OpUpdateOne, withBronzeDOKubernetesNodePool(_m))
+	return &BronzeDOKubernetesNodePoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeDOKubernetesNodePoolClient) UpdateOneID(id string) *BronzeDOKubernetesNodePoolUpdateOne {
+	mutation := newBronzeDOKubernetesNodePoolMutation(c.config, OpUpdateOne, withBronzeDOKubernetesNodePoolID(id))
+	return &BronzeDOKubernetesNodePoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeDOKubernetesNodePool.
+func (c *BronzeDOKubernetesNodePoolClient) Delete() *BronzeDOKubernetesNodePoolDelete {
+	mutation := newBronzeDOKubernetesNodePoolMutation(c.config, OpDelete)
+	return &BronzeDOKubernetesNodePoolDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeDOKubernetesNodePoolClient) DeleteOne(_m *BronzeDOKubernetesNodePool) *BronzeDOKubernetesNodePoolDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeDOKubernetesNodePoolClient) DeleteOneID(id string) *BronzeDOKubernetesNodePoolDeleteOne {
+	builder := c.Delete().Where(bronzedokubernetesnodepool.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeDOKubernetesNodePoolDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeDOKubernetesNodePool.
+func (c *BronzeDOKubernetesNodePoolClient) Query() *BronzeDOKubernetesNodePoolQuery {
+	return &BronzeDOKubernetesNodePoolQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeDOKubernetesNodePool},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeDOKubernetesNodePool entity by its id.
+func (c *BronzeDOKubernetesNodePoolClient) Get(ctx context.Context, id string) (*BronzeDOKubernetesNodePool, error) {
+	return c.Query().Where(bronzedokubernetesnodepool.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeDOKubernetesNodePoolClient) GetX(ctx context.Context, id string) *BronzeDOKubernetesNodePool {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeDOKubernetesNodePoolClient) Hooks() []Hook {
+	return c.hooks.BronzeDOKubernetesNodePool
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeDOKubernetesNodePoolClient) Interceptors() []Interceptor {
+	return c.inters.BronzeDOKubernetesNodePool
+}
+
+func (c *BronzeDOKubernetesNodePoolClient) mutate(ctx context.Context, m *BronzeDOKubernetesNodePoolMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeDOKubernetesNodePoolCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeDOKubernetesNodePoolUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeDOKubernetesNodePoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeDOKubernetesNodePoolDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeDOKubernetesNodePool mutation op: %q", m.Op())
 	}
 }
 
@@ -21864,6 +22166,272 @@ func (c *BronzeHistoryDOKeyClient) mutate(ctx context.Context, m *BronzeHistoryD
 	}
 }
 
+// BronzeHistoryDOKubernetesClusterClient is a client for the BronzeHistoryDOKubernetesCluster schema.
+type BronzeHistoryDOKubernetesClusterClient struct {
+	config
+}
+
+// NewBronzeHistoryDOKubernetesClusterClient returns a client for the BronzeHistoryDOKubernetesCluster from the given config.
+func NewBronzeHistoryDOKubernetesClusterClient(c config) *BronzeHistoryDOKubernetesClusterClient {
+	return &BronzeHistoryDOKubernetesClusterClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorydokubernetescluster.Hooks(f(g(h())))`.
+func (c *BronzeHistoryDOKubernetesClusterClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryDOKubernetesCluster = append(c.hooks.BronzeHistoryDOKubernetesCluster, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorydokubernetescluster.Intercept(f(g(h())))`.
+func (c *BronzeHistoryDOKubernetesClusterClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryDOKubernetesCluster = append(c.inters.BronzeHistoryDOKubernetesCluster, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryDOKubernetesCluster entity.
+func (c *BronzeHistoryDOKubernetesClusterClient) Create() *BronzeHistoryDOKubernetesClusterCreate {
+	mutation := newBronzeHistoryDOKubernetesClusterMutation(c.config, OpCreate)
+	return &BronzeHistoryDOKubernetesClusterCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryDOKubernetesCluster entities.
+func (c *BronzeHistoryDOKubernetesClusterClient) CreateBulk(builders ...*BronzeHistoryDOKubernetesClusterCreate) *BronzeHistoryDOKubernetesClusterCreateBulk {
+	return &BronzeHistoryDOKubernetesClusterCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryDOKubernetesClusterClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryDOKubernetesClusterCreate, int)) *BronzeHistoryDOKubernetesClusterCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryDOKubernetesClusterCreateBulk{err: fmt.Errorf("calling to BronzeHistoryDOKubernetesClusterClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryDOKubernetesClusterCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryDOKubernetesClusterCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryDOKubernetesCluster.
+func (c *BronzeHistoryDOKubernetesClusterClient) Update() *BronzeHistoryDOKubernetesClusterUpdate {
+	mutation := newBronzeHistoryDOKubernetesClusterMutation(c.config, OpUpdate)
+	return &BronzeHistoryDOKubernetesClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryDOKubernetesClusterClient) UpdateOne(_m *BronzeHistoryDOKubernetesCluster) *BronzeHistoryDOKubernetesClusterUpdateOne {
+	mutation := newBronzeHistoryDOKubernetesClusterMutation(c.config, OpUpdateOne, withBronzeHistoryDOKubernetesCluster(_m))
+	return &BronzeHistoryDOKubernetesClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryDOKubernetesClusterClient) UpdateOneID(id int) *BronzeHistoryDOKubernetesClusterUpdateOne {
+	mutation := newBronzeHistoryDOKubernetesClusterMutation(c.config, OpUpdateOne, withBronzeHistoryDOKubernetesClusterID(id))
+	return &BronzeHistoryDOKubernetesClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryDOKubernetesCluster.
+func (c *BronzeHistoryDOKubernetesClusterClient) Delete() *BronzeHistoryDOKubernetesClusterDelete {
+	mutation := newBronzeHistoryDOKubernetesClusterMutation(c.config, OpDelete)
+	return &BronzeHistoryDOKubernetesClusterDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryDOKubernetesClusterClient) DeleteOne(_m *BronzeHistoryDOKubernetesCluster) *BronzeHistoryDOKubernetesClusterDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryDOKubernetesClusterClient) DeleteOneID(id int) *BronzeHistoryDOKubernetesClusterDeleteOne {
+	builder := c.Delete().Where(bronzehistorydokubernetescluster.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryDOKubernetesClusterDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryDOKubernetesCluster.
+func (c *BronzeHistoryDOKubernetesClusterClient) Query() *BronzeHistoryDOKubernetesClusterQuery {
+	return &BronzeHistoryDOKubernetesClusterQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryDOKubernetesCluster},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryDOKubernetesCluster entity by its id.
+func (c *BronzeHistoryDOKubernetesClusterClient) Get(ctx context.Context, id int) (*BronzeHistoryDOKubernetesCluster, error) {
+	return c.Query().Where(bronzehistorydokubernetescluster.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryDOKubernetesClusterClient) GetX(ctx context.Context, id int) *BronzeHistoryDOKubernetesCluster {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryDOKubernetesClusterClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryDOKubernetesCluster
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryDOKubernetesClusterClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryDOKubernetesCluster
+}
+
+func (c *BronzeHistoryDOKubernetesClusterClient) mutate(ctx context.Context, m *BronzeHistoryDOKubernetesClusterMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryDOKubernetesClusterCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryDOKubernetesClusterUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryDOKubernetesClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryDOKubernetesClusterDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryDOKubernetesCluster mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryDOKubernetesNodePoolClient is a client for the BronzeHistoryDOKubernetesNodePool schema.
+type BronzeHistoryDOKubernetesNodePoolClient struct {
+	config
+}
+
+// NewBronzeHistoryDOKubernetesNodePoolClient returns a client for the BronzeHistoryDOKubernetesNodePool from the given config.
+func NewBronzeHistoryDOKubernetesNodePoolClient(c config) *BronzeHistoryDOKubernetesNodePoolClient {
+	return &BronzeHistoryDOKubernetesNodePoolClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorydokubernetesnodepool.Hooks(f(g(h())))`.
+func (c *BronzeHistoryDOKubernetesNodePoolClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryDOKubernetesNodePool = append(c.hooks.BronzeHistoryDOKubernetesNodePool, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorydokubernetesnodepool.Intercept(f(g(h())))`.
+func (c *BronzeHistoryDOKubernetesNodePoolClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryDOKubernetesNodePool = append(c.inters.BronzeHistoryDOKubernetesNodePool, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryDOKubernetesNodePool entity.
+func (c *BronzeHistoryDOKubernetesNodePoolClient) Create() *BronzeHistoryDOKubernetesNodePoolCreate {
+	mutation := newBronzeHistoryDOKubernetesNodePoolMutation(c.config, OpCreate)
+	return &BronzeHistoryDOKubernetesNodePoolCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryDOKubernetesNodePool entities.
+func (c *BronzeHistoryDOKubernetesNodePoolClient) CreateBulk(builders ...*BronzeHistoryDOKubernetesNodePoolCreate) *BronzeHistoryDOKubernetesNodePoolCreateBulk {
+	return &BronzeHistoryDOKubernetesNodePoolCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryDOKubernetesNodePoolClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryDOKubernetesNodePoolCreate, int)) *BronzeHistoryDOKubernetesNodePoolCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryDOKubernetesNodePoolCreateBulk{err: fmt.Errorf("calling to BronzeHistoryDOKubernetesNodePoolClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryDOKubernetesNodePoolCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryDOKubernetesNodePoolCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryDOKubernetesNodePool.
+func (c *BronzeHistoryDOKubernetesNodePoolClient) Update() *BronzeHistoryDOKubernetesNodePoolUpdate {
+	mutation := newBronzeHistoryDOKubernetesNodePoolMutation(c.config, OpUpdate)
+	return &BronzeHistoryDOKubernetesNodePoolUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryDOKubernetesNodePoolClient) UpdateOne(_m *BronzeHistoryDOKubernetesNodePool) *BronzeHistoryDOKubernetesNodePoolUpdateOne {
+	mutation := newBronzeHistoryDOKubernetesNodePoolMutation(c.config, OpUpdateOne, withBronzeHistoryDOKubernetesNodePool(_m))
+	return &BronzeHistoryDOKubernetesNodePoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryDOKubernetesNodePoolClient) UpdateOneID(id int) *BronzeHistoryDOKubernetesNodePoolUpdateOne {
+	mutation := newBronzeHistoryDOKubernetesNodePoolMutation(c.config, OpUpdateOne, withBronzeHistoryDOKubernetesNodePoolID(id))
+	return &BronzeHistoryDOKubernetesNodePoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryDOKubernetesNodePool.
+func (c *BronzeHistoryDOKubernetesNodePoolClient) Delete() *BronzeHistoryDOKubernetesNodePoolDelete {
+	mutation := newBronzeHistoryDOKubernetesNodePoolMutation(c.config, OpDelete)
+	return &BronzeHistoryDOKubernetesNodePoolDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryDOKubernetesNodePoolClient) DeleteOne(_m *BronzeHistoryDOKubernetesNodePool) *BronzeHistoryDOKubernetesNodePoolDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryDOKubernetesNodePoolClient) DeleteOneID(id int) *BronzeHistoryDOKubernetesNodePoolDeleteOne {
+	builder := c.Delete().Where(bronzehistorydokubernetesnodepool.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryDOKubernetesNodePoolDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryDOKubernetesNodePool.
+func (c *BronzeHistoryDOKubernetesNodePoolClient) Query() *BronzeHistoryDOKubernetesNodePoolQuery {
+	return &BronzeHistoryDOKubernetesNodePoolQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryDOKubernetesNodePool},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryDOKubernetesNodePool entity by its id.
+func (c *BronzeHistoryDOKubernetesNodePoolClient) Get(ctx context.Context, id int) (*BronzeHistoryDOKubernetesNodePool, error) {
+	return c.Query().Where(bronzehistorydokubernetesnodepool.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryDOKubernetesNodePoolClient) GetX(ctx context.Context, id int) *BronzeHistoryDOKubernetesNodePool {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryDOKubernetesNodePoolClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryDOKubernetesNodePool
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryDOKubernetesNodePoolClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryDOKubernetesNodePool
+}
+
+func (c *BronzeHistoryDOKubernetesNodePoolClient) mutate(ctx context.Context, m *BronzeHistoryDOKubernetesNodePoolMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryDOKubernetesNodePoolCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryDOKubernetesNodePoolUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryDOKubernetesNodePoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryDOKubernetesNodePoolDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryDOKubernetesNodePool mutation op: %q", m.Op())
+	}
+}
+
 // BronzeHistoryDOLoadBalancerClient is a client for the BronzeHistoryDOLoadBalancer schema.
 type BronzeHistoryDOLoadBalancerClient struct {
 	config
@@ -37470,7 +38038,8 @@ type (
 		BronzeDODatabase, BronzeDODatabaseBackup, BronzeDODatabaseConfig,
 		BronzeDODatabaseFirewallRule, BronzeDODatabasePool, BronzeDODatabaseReplica,
 		BronzeDODatabaseUser, BronzeDODomain, BronzeDODomainRecord, BronzeDODroplet,
-		BronzeDOFirewall, BronzeDOKey, BronzeDOLoadBalancer, BronzeDOProject,
+		BronzeDOFirewall, BronzeDOKey, BronzeDOKubernetesCluster,
+		BronzeDOKubernetesNodePool, BronzeDOLoadBalancer, BronzeDOProject,
 		BronzeDOProjectResource, BronzeDOVolume, BronzeDOVpc, BronzeGCPComputeAddress,
 		BronzeGCPComputeAddressLabel, BronzeGCPComputeBackendService,
 		BronzeGCPComputeBackendServiceBackend, BronzeGCPComputeDisk,
@@ -37523,10 +38092,11 @@ type (
 		BronzeHistoryDODatabasePool, BronzeHistoryDODatabaseReplica,
 		BronzeHistoryDODatabaseUser, BronzeHistoryDODomain,
 		BronzeHistoryDODomainRecord, BronzeHistoryDODroplet, BronzeHistoryDOFirewall,
-		BronzeHistoryDOKey, BronzeHistoryDOLoadBalancer, BronzeHistoryDOProject,
-		BronzeHistoryDOProjectResource, BronzeHistoryDOVolume, BronzeHistoryDOVpc,
-		BronzeHistoryGCPComputeAddress, BronzeHistoryGCPComputeAddressLabel,
-		BronzeHistoryGCPComputeBackendService,
+		BronzeHistoryDOKey, BronzeHistoryDOKubernetesCluster,
+		BronzeHistoryDOKubernetesNodePool, BronzeHistoryDOLoadBalancer,
+		BronzeHistoryDOProject, BronzeHistoryDOProjectResource, BronzeHistoryDOVolume,
+		BronzeHistoryDOVpc, BronzeHistoryGCPComputeAddress,
+		BronzeHistoryGCPComputeAddressLabel, BronzeHistoryGCPComputeBackendService,
 		BronzeHistoryGCPComputeBackendServiceBackend, BronzeHistoryGCPComputeDisk,
 		BronzeHistoryGCPComputeDiskLabel, BronzeHistoryGCPComputeDiskLicense,
 		BronzeHistoryGCPComputeFirewall, BronzeHistoryGCPComputeFirewallAllowed,
@@ -37594,7 +38164,8 @@ type (
 		BronzeDODatabase, BronzeDODatabaseBackup, BronzeDODatabaseConfig,
 		BronzeDODatabaseFirewallRule, BronzeDODatabasePool, BronzeDODatabaseReplica,
 		BronzeDODatabaseUser, BronzeDODomain, BronzeDODomainRecord, BronzeDODroplet,
-		BronzeDOFirewall, BronzeDOKey, BronzeDOLoadBalancer, BronzeDOProject,
+		BronzeDOFirewall, BronzeDOKey, BronzeDOKubernetesCluster,
+		BronzeDOKubernetesNodePool, BronzeDOLoadBalancer, BronzeDOProject,
 		BronzeDOProjectResource, BronzeDOVolume, BronzeDOVpc, BronzeGCPComputeAddress,
 		BronzeGCPComputeAddressLabel, BronzeGCPComputeBackendService,
 		BronzeGCPComputeBackendServiceBackend, BronzeGCPComputeDisk,
@@ -37647,10 +38218,11 @@ type (
 		BronzeHistoryDODatabasePool, BronzeHistoryDODatabaseReplica,
 		BronzeHistoryDODatabaseUser, BronzeHistoryDODomain,
 		BronzeHistoryDODomainRecord, BronzeHistoryDODroplet, BronzeHistoryDOFirewall,
-		BronzeHistoryDOKey, BronzeHistoryDOLoadBalancer, BronzeHistoryDOProject,
-		BronzeHistoryDOProjectResource, BronzeHistoryDOVolume, BronzeHistoryDOVpc,
-		BronzeHistoryGCPComputeAddress, BronzeHistoryGCPComputeAddressLabel,
-		BronzeHistoryGCPComputeBackendService,
+		BronzeHistoryDOKey, BronzeHistoryDOKubernetesCluster,
+		BronzeHistoryDOKubernetesNodePool, BronzeHistoryDOLoadBalancer,
+		BronzeHistoryDOProject, BronzeHistoryDOProjectResource, BronzeHistoryDOVolume,
+		BronzeHistoryDOVpc, BronzeHistoryGCPComputeAddress,
+		BronzeHistoryGCPComputeAddressLabel, BronzeHistoryGCPComputeBackendService,
 		BronzeHistoryGCPComputeBackendServiceBackend, BronzeHistoryGCPComputeDisk,
 		BronzeHistoryGCPComputeDiskLabel, BronzeHistoryGCPComputeDiskLicense,
 		BronzeHistoryGCPComputeFirewall, BronzeHistoryGCPComputeFirewallAllowed,

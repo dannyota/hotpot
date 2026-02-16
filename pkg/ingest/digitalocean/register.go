@@ -11,6 +11,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/droplet"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/firewall"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/key"
+	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/kubernetes"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/loadbalancer"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/project"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/volume"
@@ -34,6 +35,7 @@ func Register(w worker.Worker, configService *config.Service, entClient *ent.Cli
 	droplet.Register(w, configService, entClient, limiter)
 	firewall.Register(w, configService, entClient, limiter)
 	key.Register(w, configService, entClient, limiter)
+	kubernetes.Register(w, configService, entClient, limiter)
 	loadbalancer.Register(w, configService, entClient, limiter)
 	project.Register(w, configService, entClient, limiter)
 	volume.Register(w, configService, entClient, limiter)

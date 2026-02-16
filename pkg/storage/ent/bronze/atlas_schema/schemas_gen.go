@@ -261,6 +261,38 @@ func (BronzeDOKey) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze"})
 }
 
+type BronzeDOKubernetesCluster struct {
+	bronze_do.BronzeDOKubernetesCluster
+}
+
+func (BronzeDOKubernetesCluster) Annotations() []schema.Annotation {
+	anns := bronze_do.BronzeDOKubernetesCluster{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeDOKubernetesNodePool struct {
+	bronze_do.BronzeDOKubernetesNodePool
+}
+
+func (BronzeDOKubernetesNodePool) Annotations() []schema.Annotation {
+	anns := bronze_do.BronzeDOKubernetesNodePool{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
 type BronzeDOLoadBalancer struct {
 	bronze_do.BronzeDOLoadBalancer
 }

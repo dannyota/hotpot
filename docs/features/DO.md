@@ -33,9 +33,9 @@ DigitalOcean API resource ingestion coverage in the bronze layer.
 
 | Resource | Endpoint | Status |
 |----------|----------|:------:|
-| Clusters | `/kubernetes/clusters` | |
-| Node Pools | `/kubernetes/clusters/{id}/node_pools` | |
-| Cluster Credentials | `/kubernetes/clusters/{id}/credentials` | |
+| Clusters | `/kubernetes/clusters` | ✅ |
+| Node Pools | `/kubernetes/clusters/{id}/node_pools` | ✅ |
+| Cluster Credentials | `/kubernetes/clusters/{id}/credentials` | ⚠️ |
 | Cluster Upgrades | `/kubernetes/clusters/{id}/upgrades` | |
 | Cluster Lint Results | `/kubernetes/clusters/{id}/clusterlint` | |
 | Options | `/kubernetes/options` | |
@@ -259,6 +259,10 @@ configuration control blast radius.
 | Node Pools | `/kubernetes/clusters/{id}/node_pools` | Cluster | Size, count, taints, labels |
 | Cluster Credentials | `/kubernetes/clusters/{id}/credentials` | Cluster | Certificate expiry, token rotation |
 
+Credentials skipped: `GetCredentials` *generates* new credentials (takes
+`ExpirySeconds`), making it unsafe for read-only ingestion. Key security signals
+(version, HA, auto-upgrade, control plane firewall) are on the cluster object.
+
 Deferred: Upgrades (point-in-time), Lint Results (on-demand), Options (static).
 
 ### Phase 3 — Networking gaps (access control)
@@ -348,13 +352,13 @@ resources. Revisit if compliance requirements change.
 
 ## 📊 Summary
 
-**Total: 18/113 (16%)**
+**Total: 20/113 (18%)**
 
 | API | Implemented | Total |
 |-----|:-----------:|:-----:|
 | Account & Billing | 1 | 5 |
 | Droplets | 1 | 10 |
-| Kubernetes | 0 | 6 |
+| Kubernetes | 2 | 6 |
 | App Platform | 0 | 7 |
 | Functions | 0 | 2 |
 | Databases | 7 | 17 |

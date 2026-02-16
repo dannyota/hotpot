@@ -18,6 +18,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodroplet"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedofirewall"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokubernetescluster"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokubernetesnodepool"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoloadbalancer"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoprojectresource"
@@ -131,6 +133,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodroplet"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydofirewall"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokubernetescluster"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokubernetesnodepool"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoloadbalancer"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoprojectresource"
@@ -418,6 +422,50 @@ func init() {
 	bronzedokeyDescName := bronzedokeyFields[1].Descriptor()
 	// bronzedokey.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	bronzedokey.NameValidator = bronzedokeyDescName.Validators[0].(func(string) error)
+	bronzedokubernetesclusterFields := schema.BronzeDOKubernetesCluster{}.Fields()
+	_ = bronzedokubernetesclusterFields
+	// bronzedokubernetesclusterDescHa is the schema descriptor for ha field.
+	bronzedokubernetesclusterDescHa := bronzedokubernetesclusterFields[9].Descriptor()
+	// bronzedokubernetescluster.DefaultHa holds the default value on creation for the ha field.
+	bronzedokubernetescluster.DefaultHa = bronzedokubernetesclusterDescHa.Default.(bool)
+	// bronzedokubernetesclusterDescAutoUpgrade is the schema descriptor for auto_upgrade field.
+	bronzedokubernetesclusterDescAutoUpgrade := bronzedokubernetesclusterFields[10].Descriptor()
+	// bronzedokubernetescluster.DefaultAutoUpgrade holds the default value on creation for the auto_upgrade field.
+	bronzedokubernetescluster.DefaultAutoUpgrade = bronzedokubernetesclusterDescAutoUpgrade.Default.(bool)
+	// bronzedokubernetesclusterDescSurgeUpgrade is the schema descriptor for surge_upgrade field.
+	bronzedokubernetesclusterDescSurgeUpgrade := bronzedokubernetesclusterFields[11].Descriptor()
+	// bronzedokubernetescluster.DefaultSurgeUpgrade holds the default value on creation for the surge_upgrade field.
+	bronzedokubernetescluster.DefaultSurgeUpgrade = bronzedokubernetesclusterDescSurgeUpgrade.Default.(bool)
+	// bronzedokubernetesclusterDescRegistryEnabled is the schema descriptor for registry_enabled field.
+	bronzedokubernetesclusterDescRegistryEnabled := bronzedokubernetesclusterFields[12].Descriptor()
+	// bronzedokubernetescluster.DefaultRegistryEnabled holds the default value on creation for the registry_enabled field.
+	bronzedokubernetescluster.DefaultRegistryEnabled = bronzedokubernetesclusterDescRegistryEnabled.Default.(bool)
+	bronzedokubernetesnodepoolFields := schema.BronzeDOKubernetesNodePool{}.Fields()
+	_ = bronzedokubernetesnodepoolFields
+	// bronzedokubernetesnodepoolDescClusterID is the schema descriptor for cluster_id field.
+	bronzedokubernetesnodepoolDescClusterID := bronzedokubernetesnodepoolFields[1].Descriptor()
+	// bronzedokubernetesnodepool.ClusterIDValidator is a validator for the "cluster_id" field. It is called by the builders before save.
+	bronzedokubernetesnodepool.ClusterIDValidator = bronzedokubernetesnodepoolDescClusterID.Validators[0].(func(string) error)
+	// bronzedokubernetesnodepoolDescNodePoolID is the schema descriptor for node_pool_id field.
+	bronzedokubernetesnodepoolDescNodePoolID := bronzedokubernetesnodepoolFields[2].Descriptor()
+	// bronzedokubernetesnodepool.NodePoolIDValidator is a validator for the "node_pool_id" field. It is called by the builders before save.
+	bronzedokubernetesnodepool.NodePoolIDValidator = bronzedokubernetesnodepoolDescNodePoolID.Validators[0].(func(string) error)
+	// bronzedokubernetesnodepoolDescCount is the schema descriptor for count field.
+	bronzedokubernetesnodepoolDescCount := bronzedokubernetesnodepoolFields[5].Descriptor()
+	// bronzedokubernetesnodepool.DefaultCount holds the default value on creation for the count field.
+	bronzedokubernetesnodepool.DefaultCount = bronzedokubernetesnodepoolDescCount.Default.(int)
+	// bronzedokubernetesnodepoolDescAutoScale is the schema descriptor for auto_scale field.
+	bronzedokubernetesnodepoolDescAutoScale := bronzedokubernetesnodepoolFields[6].Descriptor()
+	// bronzedokubernetesnodepool.DefaultAutoScale holds the default value on creation for the auto_scale field.
+	bronzedokubernetesnodepool.DefaultAutoScale = bronzedokubernetesnodepoolDescAutoScale.Default.(bool)
+	// bronzedokubernetesnodepoolDescMinNodes is the schema descriptor for min_nodes field.
+	bronzedokubernetesnodepoolDescMinNodes := bronzedokubernetesnodepoolFields[7].Descriptor()
+	// bronzedokubernetesnodepool.DefaultMinNodes holds the default value on creation for the min_nodes field.
+	bronzedokubernetesnodepool.DefaultMinNodes = bronzedokubernetesnodepoolDescMinNodes.Default.(int)
+	// bronzedokubernetesnodepoolDescMaxNodes is the schema descriptor for max_nodes field.
+	bronzedokubernetesnodepoolDescMaxNodes := bronzedokubernetesnodepoolFields[8].Descriptor()
+	// bronzedokubernetesnodepool.DefaultMaxNodes holds the default value on creation for the max_nodes field.
+	bronzedokubernetesnodepool.DefaultMaxNodes = bronzedokubernetesnodepoolDescMaxNodes.Default.(int)
 	bronzedoloadbalancerFields := schema.BronzeDOLoadBalancer{}.Fields()
 	_ = bronzedoloadbalancerFields
 	// bronzedoloadbalancerDescSizeUnit is the schema descriptor for size_unit field.
@@ -1732,6 +1780,58 @@ func init() {
 	bronzehistorydokeyDescName := bronzehistorydokeyFields[2].Descriptor()
 	// bronzehistorydokey.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	bronzehistorydokey.NameValidator = bronzehistorydokeyDescName.Validators[0].(func(string) error)
+	bronzehistorydokubernetesclusterFields := schema.BronzeHistoryDOKubernetesCluster{}.Fields()
+	_ = bronzehistorydokubernetesclusterFields
+	// bronzehistorydokubernetesclusterDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorydokubernetesclusterDescResourceID := bronzehistorydokubernetesclusterFields[1].Descriptor()
+	// bronzehistorydokubernetescluster.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorydokubernetescluster.ResourceIDValidator = bronzehistorydokubernetesclusterDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorydokubernetesclusterDescHa is the schema descriptor for ha field.
+	bronzehistorydokubernetesclusterDescHa := bronzehistorydokubernetesclusterFields[10].Descriptor()
+	// bronzehistorydokubernetescluster.DefaultHa holds the default value on creation for the ha field.
+	bronzehistorydokubernetescluster.DefaultHa = bronzehistorydokubernetesclusterDescHa.Default.(bool)
+	// bronzehistorydokubernetesclusterDescAutoUpgrade is the schema descriptor for auto_upgrade field.
+	bronzehistorydokubernetesclusterDescAutoUpgrade := bronzehistorydokubernetesclusterFields[11].Descriptor()
+	// bronzehistorydokubernetescluster.DefaultAutoUpgrade holds the default value on creation for the auto_upgrade field.
+	bronzehistorydokubernetescluster.DefaultAutoUpgrade = bronzehistorydokubernetesclusterDescAutoUpgrade.Default.(bool)
+	// bronzehistorydokubernetesclusterDescSurgeUpgrade is the schema descriptor for surge_upgrade field.
+	bronzehistorydokubernetesclusterDescSurgeUpgrade := bronzehistorydokubernetesclusterFields[12].Descriptor()
+	// bronzehistorydokubernetescluster.DefaultSurgeUpgrade holds the default value on creation for the surge_upgrade field.
+	bronzehistorydokubernetescluster.DefaultSurgeUpgrade = bronzehistorydokubernetesclusterDescSurgeUpgrade.Default.(bool)
+	// bronzehistorydokubernetesclusterDescRegistryEnabled is the schema descriptor for registry_enabled field.
+	bronzehistorydokubernetesclusterDescRegistryEnabled := bronzehistorydokubernetesclusterFields[13].Descriptor()
+	// bronzehistorydokubernetescluster.DefaultRegistryEnabled holds the default value on creation for the registry_enabled field.
+	bronzehistorydokubernetescluster.DefaultRegistryEnabled = bronzehistorydokubernetesclusterDescRegistryEnabled.Default.(bool)
+	bronzehistorydokubernetesnodepoolFields := schema.BronzeHistoryDOKubernetesNodePool{}.Fields()
+	_ = bronzehistorydokubernetesnodepoolFields
+	// bronzehistorydokubernetesnodepoolDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorydokubernetesnodepoolDescResourceID := bronzehistorydokubernetesnodepoolFields[1].Descriptor()
+	// bronzehistorydokubernetesnodepool.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorydokubernetesnodepool.ResourceIDValidator = bronzehistorydokubernetesnodepoolDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorydokubernetesnodepoolDescClusterID is the schema descriptor for cluster_id field.
+	bronzehistorydokubernetesnodepoolDescClusterID := bronzehistorydokubernetesnodepoolFields[2].Descriptor()
+	// bronzehistorydokubernetesnodepool.ClusterIDValidator is a validator for the "cluster_id" field. It is called by the builders before save.
+	bronzehistorydokubernetesnodepool.ClusterIDValidator = bronzehistorydokubernetesnodepoolDescClusterID.Validators[0].(func(string) error)
+	// bronzehistorydokubernetesnodepoolDescNodePoolID is the schema descriptor for node_pool_id field.
+	bronzehistorydokubernetesnodepoolDescNodePoolID := bronzehistorydokubernetesnodepoolFields[3].Descriptor()
+	// bronzehistorydokubernetesnodepool.NodePoolIDValidator is a validator for the "node_pool_id" field. It is called by the builders before save.
+	bronzehistorydokubernetesnodepool.NodePoolIDValidator = bronzehistorydokubernetesnodepoolDescNodePoolID.Validators[0].(func(string) error)
+	// bronzehistorydokubernetesnodepoolDescCount is the schema descriptor for count field.
+	bronzehistorydokubernetesnodepoolDescCount := bronzehistorydokubernetesnodepoolFields[6].Descriptor()
+	// bronzehistorydokubernetesnodepool.DefaultCount holds the default value on creation for the count field.
+	bronzehistorydokubernetesnodepool.DefaultCount = bronzehistorydokubernetesnodepoolDescCount.Default.(int)
+	// bronzehistorydokubernetesnodepoolDescAutoScale is the schema descriptor for auto_scale field.
+	bronzehistorydokubernetesnodepoolDescAutoScale := bronzehistorydokubernetesnodepoolFields[7].Descriptor()
+	// bronzehistorydokubernetesnodepool.DefaultAutoScale holds the default value on creation for the auto_scale field.
+	bronzehistorydokubernetesnodepool.DefaultAutoScale = bronzehistorydokubernetesnodepoolDescAutoScale.Default.(bool)
+	// bronzehistorydokubernetesnodepoolDescMinNodes is the schema descriptor for min_nodes field.
+	bronzehistorydokubernetesnodepoolDescMinNodes := bronzehistorydokubernetesnodepoolFields[8].Descriptor()
+	// bronzehistorydokubernetesnodepool.DefaultMinNodes holds the default value on creation for the min_nodes field.
+	bronzehistorydokubernetesnodepool.DefaultMinNodes = bronzehistorydokubernetesnodepoolDescMinNodes.Default.(int)
+	// bronzehistorydokubernetesnodepoolDescMaxNodes is the schema descriptor for max_nodes field.
+	bronzehistorydokubernetesnodepoolDescMaxNodes := bronzehistorydokubernetesnodepoolFields[9].Descriptor()
+	// bronzehistorydokubernetesnodepool.DefaultMaxNodes holds the default value on creation for the max_nodes field.
+	bronzehistorydokubernetesnodepool.DefaultMaxNodes = bronzehistorydokubernetesnodepoolDescMaxNodes.Default.(int)
 	bronzehistorydoloadbalancerFields := schema.BronzeHistoryDOLoadBalancer{}.Fields()
 	_ = bronzehistorydoloadbalancerFields
 	// bronzehistorydoloadbalancerDescResourceID is the schema descriptor for resource_id field.

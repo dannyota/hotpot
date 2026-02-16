@@ -94,6 +94,14 @@ type BronzeDOKey struct {
 	bronze_do.BronzeDOKey
 }
 
+type BronzeDOKubernetesCluster struct {
+	bronze_do.BronzeDOKubernetesCluster
+}
+
+type BronzeDOKubernetesNodePool struct {
+	bronze_do.BronzeDOKubernetesNodePool
+}
+
 type BronzeDOLoadBalancer struct {
 	bronze_do.BronzeDOLoadBalancer
 }
@@ -592,6 +600,14 @@ type BronzeHistoryDOFirewall struct {
 
 type BronzeHistoryDOKey struct {
 	bronzehistory_do.BronzeHistoryDOKey
+}
+
+type BronzeHistoryDOKubernetesCluster struct {
+	bronzehistory_do.BronzeHistoryDOKubernetesCluster
+}
+
+type BronzeHistoryDOKubernetesNodePool struct {
+	bronzehistory_do.BronzeHistoryDOKubernetesNodePool
 }
 
 type BronzeHistoryDOLoadBalancer struct {

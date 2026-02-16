@@ -42,6 +42,10 @@ type Tx struct {
 	BronzeDOFirewall *BronzeDOFirewallClient
 	// BronzeDOKey is the client for interacting with the BronzeDOKey builders.
 	BronzeDOKey *BronzeDOKeyClient
+	// BronzeDOKubernetesCluster is the client for interacting with the BronzeDOKubernetesCluster builders.
+	BronzeDOKubernetesCluster *BronzeDOKubernetesClusterClient
+	// BronzeDOKubernetesNodePool is the client for interacting with the BronzeDOKubernetesNodePool builders.
+	BronzeDOKubernetesNodePool *BronzeDOKubernetesNodePoolClient
 	// BronzeDOLoadBalancer is the client for interacting with the BronzeDOLoadBalancer builders.
 	BronzeDOLoadBalancer *BronzeDOLoadBalancerClient
 	// BronzeDOProject is the client for interacting with the BronzeDOProject builders.
@@ -278,6 +282,10 @@ type Tx struct {
 	BronzeHistoryDOFirewall *BronzeHistoryDOFirewallClient
 	// BronzeHistoryDOKey is the client for interacting with the BronzeHistoryDOKey builders.
 	BronzeHistoryDOKey *BronzeHistoryDOKeyClient
+	// BronzeHistoryDOKubernetesCluster is the client for interacting with the BronzeHistoryDOKubernetesCluster builders.
+	BronzeHistoryDOKubernetesCluster *BronzeHistoryDOKubernetesClusterClient
+	// BronzeHistoryDOKubernetesNodePool is the client for interacting with the BronzeHistoryDOKubernetesNodePool builders.
+	BronzeHistoryDOKubernetesNodePool *BronzeHistoryDOKubernetesNodePoolClient
 	// BronzeHistoryDOLoadBalancer is the client for interacting with the BronzeHistoryDOLoadBalancer builders.
 	BronzeHistoryDOLoadBalancer *BronzeHistoryDOLoadBalancerClient
 	// BronzeHistoryDOProject is the client for interacting with the BronzeHistoryDOProject builders.
@@ -658,6 +666,8 @@ func (tx *Tx) init() {
 	tx.BronzeDODroplet = NewBronzeDODropletClient(tx.config)
 	tx.BronzeDOFirewall = NewBronzeDOFirewallClient(tx.config)
 	tx.BronzeDOKey = NewBronzeDOKeyClient(tx.config)
+	tx.BronzeDOKubernetesCluster = NewBronzeDOKubernetesClusterClient(tx.config)
+	tx.BronzeDOKubernetesNodePool = NewBronzeDOKubernetesNodePoolClient(tx.config)
 	tx.BronzeDOLoadBalancer = NewBronzeDOLoadBalancerClient(tx.config)
 	tx.BronzeDOProject = NewBronzeDOProjectClient(tx.config)
 	tx.BronzeDOProjectResource = NewBronzeDOProjectResourceClient(tx.config)
@@ -776,6 +786,8 @@ func (tx *Tx) init() {
 	tx.BronzeHistoryDODroplet = NewBronzeHistoryDODropletClient(tx.config)
 	tx.BronzeHistoryDOFirewall = NewBronzeHistoryDOFirewallClient(tx.config)
 	tx.BronzeHistoryDOKey = NewBronzeHistoryDOKeyClient(tx.config)
+	tx.BronzeHistoryDOKubernetesCluster = NewBronzeHistoryDOKubernetesClusterClient(tx.config)
+	tx.BronzeHistoryDOKubernetesNodePool = NewBronzeHistoryDOKubernetesNodePoolClient(tx.config)
 	tx.BronzeHistoryDOLoadBalancer = NewBronzeHistoryDOLoadBalancerClient(tx.config)
 	tx.BronzeHistoryDOProject = NewBronzeHistoryDOProjectClient(tx.config)
 	tx.BronzeHistoryDOProjectResource = NewBronzeHistoryDOProjectResourceClient(tx.config)

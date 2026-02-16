@@ -544,6 +544,111 @@ var (
 			},
 		},
 	}
+	// DoKubernetesClustersColumns holds the columns for the "do_kubernetes_clusters" table.
+	DoKubernetesClustersColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString, Nullable: true},
+		{Name: "region_slug", Type: field.TypeString, Nullable: true},
+		{Name: "version_slug", Type: field.TypeString, Nullable: true},
+		{Name: "cluster_subnet", Type: field.TypeString, Nullable: true},
+		{Name: "service_subnet", Type: field.TypeString, Nullable: true},
+		{Name: "ipv4", Type: field.TypeString, Nullable: true},
+		{Name: "endpoint", Type: field.TypeString, Nullable: true},
+		{Name: "vpc_uuid", Type: field.TypeString, Nullable: true},
+		{Name: "ha", Type: field.TypeBool, Default: false},
+		{Name: "auto_upgrade", Type: field.TypeBool, Default: false},
+		{Name: "surge_upgrade", Type: field.TypeBool, Default: false},
+		{Name: "registry_enabled", Type: field.TypeBool, Default: false},
+		{Name: "status_state", Type: field.TypeString, Nullable: true},
+		{Name: "status_message", Type: field.TypeString, Nullable: true},
+		{Name: "tags_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "maintenance_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "control_plane_firewall_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "autoscaler_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "api_created_at", Type: field.TypeTime, Nullable: true},
+		{Name: "api_updated_at", Type: field.TypeTime, Nullable: true},
+	}
+	// DoKubernetesClustersTable holds the schema information for the "do_kubernetes_clusters" table.
+	DoKubernetesClustersTable = &schema.Table{
+		Name:       "do_kubernetes_clusters",
+		Columns:    DoKubernetesClustersColumns,
+		PrimaryKey: []*schema.Column{DoKubernetesClustersColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzedokubernetescluster_version_slug",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesClustersColumns[5]},
+			},
+			{
+				Name:    "bronzedokubernetescluster_region_slug",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesClustersColumns[4]},
+			},
+			{
+				Name:    "bronzedokubernetescluster_status_state",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesClustersColumns[15]},
+			},
+			{
+				Name:    "bronzedokubernetescluster_vpc_uuid",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesClustersColumns[10]},
+			},
+			{
+				Name:    "bronzedokubernetescluster_ha",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesClustersColumns[11]},
+			},
+			{
+				Name:    "bronzedokubernetescluster_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesClustersColumns[1]},
+			},
+		},
+	}
+	// DoKubernetesNodePoolsColumns holds the columns for the "do_kubernetes_node_pools" table.
+	DoKubernetesNodePoolsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "cluster_id", Type: field.TypeString},
+		{Name: "node_pool_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString, Nullable: true},
+		{Name: "size", Type: field.TypeString, Nullable: true},
+		{Name: "count", Type: field.TypeInt, Default: 0},
+		{Name: "auto_scale", Type: field.TypeBool, Default: false},
+		{Name: "min_nodes", Type: field.TypeInt, Default: 0},
+		{Name: "max_nodes", Type: field.TypeInt, Default: 0},
+		{Name: "tags_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "taints_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "nodes_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// DoKubernetesNodePoolsTable holds the schema information for the "do_kubernetes_node_pools" table.
+	DoKubernetesNodePoolsTable = &schema.Table{
+		Name:       "do_kubernetes_node_pools",
+		Columns:    DoKubernetesNodePoolsColumns,
+		PrimaryKey: []*schema.Column{DoKubernetesNodePoolsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzedokubernetesnodepool_cluster_id",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesNodePoolsColumns[3]},
+			},
+			{
+				Name:    "bronzedokubernetesnodepool_size",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesNodePoolsColumns[6]},
+			},
+			{
+				Name:    "bronzedokubernetesnodepool_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesNodePoolsColumns[1]},
+			},
+		},
+	}
 	// DoLoadBalancersColumns holds the columns for the "do_load_balancers" table.
 	DoLoadBalancersColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -4634,6 +4739,139 @@ var (
 				Name:    "bronzehistorydokey_fingerprint",
 				Unique:  false,
 				Columns: []*schema.Column{DoKeysHistoryColumns[8]},
+			},
+		},
+	}
+	// DoKubernetesClustersHistoryColumns holds the columns for the "do_kubernetes_clusters_history" table.
+	DoKubernetesClustersHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString, Nullable: true},
+		{Name: "region_slug", Type: field.TypeString, Nullable: true},
+		{Name: "version_slug", Type: field.TypeString, Nullable: true},
+		{Name: "cluster_subnet", Type: field.TypeString, Nullable: true},
+		{Name: "service_subnet", Type: field.TypeString, Nullable: true},
+		{Name: "ipv4", Type: field.TypeString, Nullable: true},
+		{Name: "endpoint", Type: field.TypeString, Nullable: true},
+		{Name: "vpc_uuid", Type: field.TypeString, Nullable: true},
+		{Name: "ha", Type: field.TypeBool, Default: false},
+		{Name: "auto_upgrade", Type: field.TypeBool, Default: false},
+		{Name: "surge_upgrade", Type: field.TypeBool, Default: false},
+		{Name: "registry_enabled", Type: field.TypeBool, Default: false},
+		{Name: "status_state", Type: field.TypeString, Nullable: true},
+		{Name: "status_message", Type: field.TypeString, Nullable: true},
+		{Name: "tags_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "maintenance_policy_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "control_plane_firewall_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "autoscaler_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "api_created_at", Type: field.TypeTime, Nullable: true},
+		{Name: "api_updated_at", Type: field.TypeTime, Nullable: true},
+	}
+	// DoKubernetesClustersHistoryTable holds the schema information for the "do_kubernetes_clusters_history" table.
+	DoKubernetesClustersHistoryTable = &schema.Table{
+		Name:       "do_kubernetes_clusters_history",
+		Columns:    DoKubernetesClustersHistoryColumns,
+		PrimaryKey: []*schema.Column{DoKubernetesClustersHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorydokubernetescluster_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[6], DoKubernetesClustersHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorydokubernetescluster_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorydokubernetescluster_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorydokubernetescluster_version_slug",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[9]},
+			},
+			{
+				Name:    "bronzehistorydokubernetescluster_region_slug",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[8]},
+			},
+			{
+				Name:    "bronzehistorydokubernetescluster_status_state",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[19]},
+			},
+			{
+				Name:    "bronzehistorydokubernetescluster_vpc_uuid",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[14]},
+			},
+			{
+				Name:    "bronzehistorydokubernetescluster_ha",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[15]},
+			},
+		},
+	}
+	// DoKubernetesNodePoolsHistoryColumns holds the columns for the "do_kubernetes_node_pools_history" table.
+	DoKubernetesNodePoolsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "cluster_id", Type: field.TypeString},
+		{Name: "node_pool_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString, Nullable: true},
+		{Name: "size", Type: field.TypeString, Nullable: true},
+		{Name: "count", Type: field.TypeInt, Default: 0},
+		{Name: "auto_scale", Type: field.TypeBool, Default: false},
+		{Name: "min_nodes", Type: field.TypeInt, Default: 0},
+		{Name: "max_nodes", Type: field.TypeInt, Default: 0},
+		{Name: "tags_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "taints_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "nodes_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// DoKubernetesNodePoolsHistoryTable holds the schema information for the "do_kubernetes_node_pools_history" table.
+	DoKubernetesNodePoolsHistoryTable = &schema.Table{
+		Name:       "do_kubernetes_node_pools_history",
+		Columns:    DoKubernetesNodePoolsHistoryColumns,
+		PrimaryKey: []*schema.Column{DoKubernetesNodePoolsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorydokubernetesnodepool_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesNodePoolsHistoryColumns[6], DoKubernetesNodePoolsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorydokubernetesnodepool_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesNodePoolsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorydokubernetesnodepool_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesNodePoolsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorydokubernetesnodepool_cluster_id",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesNodePoolsHistoryColumns[7]},
+			},
+			{
+				Name:    "bronzehistorydokubernetesnodepool_size",
+				Unique:  false,
+				Columns: []*schema.Column{DoKubernetesNodePoolsHistoryColumns[10]},
 			},
 		},
 	}
@@ -10064,6 +10302,8 @@ var (
 		DoDropletsTable,
 		DoFirewallsTable,
 		DoKeysTable,
+		DoKubernetesClustersTable,
+		DoKubernetesNodePoolsTable,
 		DoLoadBalancersTable,
 		DoProjectsTable,
 		DoProjectResourcesTable,
@@ -10182,6 +10422,8 @@ var (
 		DoDropletsHistoryTable,
 		DoFirewallsHistoryTable,
 		DoKeysHistoryTable,
+		DoKubernetesClustersHistoryTable,
+		DoKubernetesNodePoolsHistoryTable,
 		DoLoadBalancersHistoryTable,
 		DoProjectsHistoryTable,
 		DoProjectResourcesHistoryTable,
@@ -10348,6 +10590,12 @@ func init() {
 	}
 	DoKeysTable.Annotation = &entsql.Annotation{
 		Table: "do_keys",
+	}
+	DoKubernetesClustersTable.Annotation = &entsql.Annotation{
+		Table: "do_kubernetes_clusters",
+	}
+	DoKubernetesNodePoolsTable.Annotation = &entsql.Annotation{
+		Table: "do_kubernetes_node_pools",
 	}
 	DoLoadBalancersTable.Annotation = &entsql.Annotation{
 		Table: "do_load_balancers",
@@ -10746,6 +10994,12 @@ func init() {
 	}
 	DoKeysHistoryTable.Annotation = &entsql.Annotation{
 		Table: "do_keys_history",
+	}
+	DoKubernetesClustersHistoryTable.Annotation = &entsql.Annotation{
+		Table: "do_kubernetes_clusters_history",
+	}
+	DoKubernetesNodePoolsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "do_kubernetes_node_pools_history",
 	}
 	DoLoadBalancersHistoryTable.Annotation = &entsql.Annotation{
 		Table: "do_load_balancers_history",

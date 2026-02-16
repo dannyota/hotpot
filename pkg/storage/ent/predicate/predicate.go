@@ -51,6 +51,12 @@ type BronzeDOFirewall func(*sql.Selector)
 // BronzeDOKey is the predicate function for bronzedokey builders.
 type BronzeDOKey func(*sql.Selector)
 
+// BronzeDOKubernetesCluster is the predicate function for bronzedokubernetescluster builders.
+type BronzeDOKubernetesCluster func(*sql.Selector)
+
+// BronzeDOKubernetesNodePool is the predicate function for bronzedokubernetesnodepool builders.
+type BronzeDOKubernetesNodePool func(*sql.Selector)
+
 // BronzeDOLoadBalancer is the predicate function for bronzedoloadbalancer builders.
 type BronzeDOLoadBalancer func(*sql.Selector)
 
@@ -404,6 +410,12 @@ type BronzeHistoryDOFirewall func(*sql.Selector)
 
 // BronzeHistoryDOKey is the predicate function for bronzehistorydokey builders.
 type BronzeHistoryDOKey func(*sql.Selector)
+
+// BronzeHistoryDOKubernetesCluster is the predicate function for bronzehistorydokubernetescluster builders.
+type BronzeHistoryDOKubernetesCluster func(*sql.Selector)
+
+// BronzeHistoryDOKubernetesNodePool is the predicate function for bronzehistorydokubernetesnodepool builders.
+type BronzeHistoryDOKubernetesNodePool func(*sql.Selector)
 
 // BronzeHistoryDOLoadBalancer is the predicate function for bronzehistorydoloadbalancer builders.
 type BronzeHistoryDOLoadBalancer func(*sql.Selector)
