@@ -12,6 +12,7 @@ import (
 	bronzehistory_gcp_logging "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/logging"
 	bronzehistory_gcp_resourcemanager "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/resourcemanager"
 	bronzehistory_gcp_secretmanager "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/secretmanager"
+	bronzehistory_gcp_securitycenter "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/securitycenter"
 	bronzehistory_gcp_sql "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/sql"
 	bronzehistory_gcp_storage "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/storage"
 	bronzehistory_gcp_vpcaccess "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/vpcaccess"
@@ -1368,6 +1369,38 @@ type BronzeHistoryGCPSecretManagerSecretLabel struct {
 
 func (BronzeHistoryGCPSecretManagerSecretLabel) Annotations() []schema.Annotation {
 	anns := bronzehistory_gcp_secretmanager.BronzeHistoryGCPSecretManagerSecretLabel{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPSecurityCenterFinding struct {
+	bronzehistory_gcp_securitycenter.BronzeHistoryGCPSecurityCenterFinding
+}
+
+func (BronzeHistoryGCPSecurityCenterFinding) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_securitycenter.BronzeHistoryGCPSecurityCenterFinding{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPSecurityCenterSource struct {
+	bronzehistory_gcp_securitycenter.BronzeHistoryGCPSecurityCenterSource
+}
+
+func (BronzeHistoryGCPSecurityCenterSource) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_securitycenter.BronzeHistoryGCPSecurityCenterSource{}.Annotations()
 	for i, a := range anns {
 		if v, ok := a.(entsql.Annotation); ok {
 			v.Schema = "bronze_history"

@@ -1317,6 +1317,30 @@ func (f BronzeGCPSecretManagerSecretLabelFunc) Mutate(ctx context.Context, m ent
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGCPSecretManagerSecretLabelMutation", m)
 }
 
+// The BronzeGCPSecurityCenterFindingFunc type is an adapter to allow the use of ordinary
+// function as BronzeGCPSecurityCenterFinding mutator.
+type BronzeGCPSecurityCenterFindingFunc func(context.Context, *ent.BronzeGCPSecurityCenterFindingMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGCPSecurityCenterFindingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGCPSecurityCenterFindingMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGCPSecurityCenterFindingMutation", m)
+}
+
+// The BronzeGCPSecurityCenterSourceFunc type is an adapter to allow the use of ordinary
+// function as BronzeGCPSecurityCenterSource mutator.
+type BronzeGCPSecurityCenterSourceFunc func(context.Context, *ent.BronzeGCPSecurityCenterSourceMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGCPSecurityCenterSourceFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGCPSecurityCenterSourceMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGCPSecurityCenterSourceMutation", m)
+}
+
 // The BronzeGCPStorageBucketFunc type is an adapter to allow the use of ordinary
 // function as BronzeGCPStorageBucket mutator.
 type BronzeGCPStorageBucketFunc func(context.Context, *ent.BronzeGCPStorageBucketMutation) (ent.Value, error)
@@ -2755,6 +2779,30 @@ func (f BronzeHistoryGCPSecretManagerSecretLabelFunc) Mutate(ctx context.Context
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGCPSecretManagerSecretLabelMutation", m)
+}
+
+// The BronzeHistoryGCPSecurityCenterFindingFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGCPSecurityCenterFinding mutator.
+type BronzeHistoryGCPSecurityCenterFindingFunc func(context.Context, *ent.BronzeHistoryGCPSecurityCenterFindingMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGCPSecurityCenterFindingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGCPSecurityCenterFindingMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGCPSecurityCenterFindingMutation", m)
+}
+
+// The BronzeHistoryGCPSecurityCenterSourceFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGCPSecurityCenterSource mutator.
+type BronzeHistoryGCPSecurityCenterSourceFunc func(context.Context, *ent.BronzeHistoryGCPSecurityCenterSourceMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGCPSecurityCenterSourceFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGCPSecurityCenterSourceMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGCPSecurityCenterSourceMutation", m)
 }
 
 // The BronzeHistoryGCPStorageBucketFunc type is an adapter to allow the use of ordinary

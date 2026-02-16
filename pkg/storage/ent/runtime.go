@@ -106,6 +106,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecretmanagersecret"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecretmanagersecretlabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecuritycenterfinding"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecuritycentersource"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsqlinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsqlinstancelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpstoragebucket"
@@ -212,6 +214,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecretmanagersecret"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecretmanagersecretlabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecuritycenterfinding"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecuritycentersource"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsqlinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsqlinstancelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpstoragebucket"
@@ -1462,6 +1466,22 @@ func init() {
 	bronzegcpsecretmanagersecretlabelDescKey := bronzegcpsecretmanagersecretlabelFields[0].Descriptor()
 	// bronzegcpsecretmanagersecretlabel.KeyValidator is a validator for the "key" field. It is called by the builders before save.
 	bronzegcpsecretmanagersecretlabel.KeyValidator = bronzegcpsecretmanagersecretlabelDescKey.Validators[0].(func(string) error)
+	bronzegcpsecuritycenterfindingFields := schema.BronzeGCPSecurityCenterFinding{}.Fields()
+	_ = bronzegcpsecuritycenterfindingFields
+	// bronzegcpsecuritycenterfindingDescParent is the schema descriptor for parent field.
+	bronzegcpsecuritycenterfindingDescParent := bronzegcpsecuritycenterfindingFields[1].Descriptor()
+	// bronzegcpsecuritycenterfinding.ParentValidator is a validator for the "parent" field. It is called by the builders before save.
+	bronzegcpsecuritycenterfinding.ParentValidator = bronzegcpsecuritycenterfindingDescParent.Validators[0].(func(string) error)
+	// bronzegcpsecuritycenterfindingDescOrganizationID is the schema descriptor for organization_id field.
+	bronzegcpsecuritycenterfindingDescOrganizationID := bronzegcpsecuritycenterfindingFields[10].Descriptor()
+	// bronzegcpsecuritycenterfinding.OrganizationIDValidator is a validator for the "organization_id" field. It is called by the builders before save.
+	bronzegcpsecuritycenterfinding.OrganizationIDValidator = bronzegcpsecuritycenterfindingDescOrganizationID.Validators[0].(func(string) error)
+	bronzegcpsecuritycentersourceFields := schema.BronzeGCPSecurityCenterSource{}.Fields()
+	_ = bronzegcpsecuritycentersourceFields
+	// bronzegcpsecuritycentersourceDescOrganizationID is the schema descriptor for organization_id field.
+	bronzegcpsecuritycentersourceDescOrganizationID := bronzegcpsecuritycentersourceFields[4].Descriptor()
+	// bronzegcpsecuritycentersource.OrganizationIDValidator is a validator for the "organization_id" field. It is called by the builders before save.
+	bronzegcpsecuritycentersource.OrganizationIDValidator = bronzegcpsecuritycentersourceDescOrganizationID.Validators[0].(func(string) error)
 	bronzegcpstoragebucketFields := schema.BronzeGCPStorageBucket{}.Fields()
 	_ = bronzegcpstoragebucketFields
 	// bronzegcpstoragebucketDescName is the schema descriptor for name field.
@@ -2982,6 +3002,30 @@ func init() {
 	bronzehistorygcpsecretmanagersecretlabelDescKey := bronzehistorygcpsecretmanagersecretlabelFields[4].Descriptor()
 	// bronzehistorygcpsecretmanagersecretlabel.KeyValidator is a validator for the "key" field. It is called by the builders before save.
 	bronzehistorygcpsecretmanagersecretlabel.KeyValidator = bronzehistorygcpsecretmanagersecretlabelDescKey.Validators[0].(func(string) error)
+	bronzehistorygcpsecuritycenterfindingFields := schema.BronzeHistoryGCPSecurityCenterFinding{}.Fields()
+	_ = bronzehistorygcpsecuritycenterfindingFields
+	// bronzehistorygcpsecuritycenterfindingDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcpsecuritycenterfindingDescResourceID := bronzehistorygcpsecuritycenterfindingFields[1].Descriptor()
+	// bronzehistorygcpsecuritycenterfinding.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcpsecuritycenterfinding.ResourceIDValidator = bronzehistorygcpsecuritycenterfindingDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcpsecuritycenterfindingDescParent is the schema descriptor for parent field.
+	bronzehistorygcpsecuritycenterfindingDescParent := bronzehistorygcpsecuritycenterfindingFields[2].Descriptor()
+	// bronzehistorygcpsecuritycenterfinding.ParentValidator is a validator for the "parent" field. It is called by the builders before save.
+	bronzehistorygcpsecuritycenterfinding.ParentValidator = bronzehistorygcpsecuritycenterfindingDescParent.Validators[0].(func(string) error)
+	// bronzehistorygcpsecuritycenterfindingDescOrganizationID is the schema descriptor for organization_id field.
+	bronzehistorygcpsecuritycenterfindingDescOrganizationID := bronzehistorygcpsecuritycenterfindingFields[11].Descriptor()
+	// bronzehistorygcpsecuritycenterfinding.OrganizationIDValidator is a validator for the "organization_id" field. It is called by the builders before save.
+	bronzehistorygcpsecuritycenterfinding.OrganizationIDValidator = bronzehistorygcpsecuritycenterfindingDescOrganizationID.Validators[0].(func(string) error)
+	bronzehistorygcpsecuritycentersourceFields := schema.BronzeHistoryGCPSecurityCenterSource{}.Fields()
+	_ = bronzehistorygcpsecuritycentersourceFields
+	// bronzehistorygcpsecuritycentersourceDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcpsecuritycentersourceDescResourceID := bronzehistorygcpsecuritycentersourceFields[1].Descriptor()
+	// bronzehistorygcpsecuritycentersource.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcpsecuritycentersource.ResourceIDValidator = bronzehistorygcpsecuritycentersourceDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcpsecuritycentersourceDescOrganizationID is the schema descriptor for organization_id field.
+	bronzehistorygcpsecuritycentersourceDescOrganizationID := bronzehistorygcpsecuritycentersourceFields[5].Descriptor()
+	// bronzehistorygcpsecuritycentersource.OrganizationIDValidator is a validator for the "organization_id" field. It is called by the builders before save.
+	bronzehistorygcpsecuritycentersource.OrganizationIDValidator = bronzehistorygcpsecuritycentersourceDescOrganizationID.Validators[0].(func(string) error)
 	bronzehistorygcpstoragebucketFields := schema.BronzeHistoryGCPStorageBucket{}.Fields()
 	_ = bronzehistorygcpstoragebucketFields
 	// bronzehistorygcpstoragebucketDescResourceID is the schema descriptor for resource_id field.

@@ -230,6 +230,10 @@ type Tx struct {
 	BronzeGCPSecretManagerSecret *BronzeGCPSecretManagerSecretClient
 	// BronzeGCPSecretManagerSecretLabel is the client for interacting with the BronzeGCPSecretManagerSecretLabel builders.
 	BronzeGCPSecretManagerSecretLabel *BronzeGCPSecretManagerSecretLabelClient
+	// BronzeGCPSecurityCenterFinding is the client for interacting with the BronzeGCPSecurityCenterFinding builders.
+	BronzeGCPSecurityCenterFinding *BronzeGCPSecurityCenterFindingClient
+	// BronzeGCPSecurityCenterSource is the client for interacting with the BronzeGCPSecurityCenterSource builders.
+	BronzeGCPSecurityCenterSource *BronzeGCPSecurityCenterSourceClient
 	// BronzeGCPStorageBucket is the client for interacting with the BronzeGCPStorageBucket builders.
 	BronzeGCPStorageBucket *BronzeGCPStorageBucketClient
 	// BronzeGCPStorageBucketIamPolicy is the client for interacting with the BronzeGCPStorageBucketIamPolicy builders.
@@ -470,6 +474,10 @@ type Tx struct {
 	BronzeHistoryGCPSecretManagerSecret *BronzeHistoryGCPSecretManagerSecretClient
 	// BronzeHistoryGCPSecretManagerSecretLabel is the client for interacting with the BronzeHistoryGCPSecretManagerSecretLabel builders.
 	BronzeHistoryGCPSecretManagerSecretLabel *BronzeHistoryGCPSecretManagerSecretLabelClient
+	// BronzeHistoryGCPSecurityCenterFinding is the client for interacting with the BronzeHistoryGCPSecurityCenterFinding builders.
+	BronzeHistoryGCPSecurityCenterFinding *BronzeHistoryGCPSecurityCenterFindingClient
+	// BronzeHistoryGCPSecurityCenterSource is the client for interacting with the BronzeHistoryGCPSecurityCenterSource builders.
+	BronzeHistoryGCPSecurityCenterSource *BronzeHistoryGCPSecurityCenterSourceClient
 	// BronzeHistoryGCPStorageBucket is the client for interacting with the BronzeHistoryGCPStorageBucket builders.
 	BronzeHistoryGCPStorageBucket *BronzeHistoryGCPStorageBucketClient
 	// BronzeHistoryGCPStorageBucketIamPolicy is the client for interacting with the BronzeHistoryGCPStorageBucketIamPolicy builders.
@@ -760,6 +768,8 @@ func (tx *Tx) init() {
 	tx.BronzeGCPSQLInstanceLabel = NewBronzeGCPSQLInstanceLabelClient(tx.config)
 	tx.BronzeGCPSecretManagerSecret = NewBronzeGCPSecretManagerSecretClient(tx.config)
 	tx.BronzeGCPSecretManagerSecretLabel = NewBronzeGCPSecretManagerSecretLabelClient(tx.config)
+	tx.BronzeGCPSecurityCenterFinding = NewBronzeGCPSecurityCenterFindingClient(tx.config)
+	tx.BronzeGCPSecurityCenterSource = NewBronzeGCPSecurityCenterSourceClient(tx.config)
 	tx.BronzeGCPStorageBucket = NewBronzeGCPStorageBucketClient(tx.config)
 	tx.BronzeGCPStorageBucketIamPolicy = NewBronzeGCPStorageBucketIamPolicyClient(tx.config)
 	tx.BronzeGCPStorageBucketIamPolicyBinding = NewBronzeGCPStorageBucketIamPolicyBindingClient(tx.config)
@@ -880,6 +890,8 @@ func (tx *Tx) init() {
 	tx.BronzeHistoryGCPSQLInstanceLabel = NewBronzeHistoryGCPSQLInstanceLabelClient(tx.config)
 	tx.BronzeHistoryGCPSecretManagerSecret = NewBronzeHistoryGCPSecretManagerSecretClient(tx.config)
 	tx.BronzeHistoryGCPSecretManagerSecretLabel = NewBronzeHistoryGCPSecretManagerSecretLabelClient(tx.config)
+	tx.BronzeHistoryGCPSecurityCenterFinding = NewBronzeHistoryGCPSecurityCenterFindingClient(tx.config)
+	tx.BronzeHistoryGCPSecurityCenterSource = NewBronzeHistoryGCPSecurityCenterSourceClient(tx.config)
 	tx.BronzeHistoryGCPStorageBucket = NewBronzeHistoryGCPStorageBucketClient(tx.config)
 	tx.BronzeHistoryGCPStorageBucketIamPolicy = NewBronzeHistoryGCPStorageBucketIamPolicyClient(tx.config)
 	tx.BronzeHistoryGCPStorageBucketIamPolicyBinding = NewBronzeHistoryGCPStorageBucketIamPolicyBindingClient(tx.config)

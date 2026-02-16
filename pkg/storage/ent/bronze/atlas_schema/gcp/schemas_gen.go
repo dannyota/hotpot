@@ -12,6 +12,7 @@ import (
 	bronze_gcp_logging "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/logging"
 	bronze_gcp_resourcemanager "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/resourcemanager"
 	bronze_gcp_secretmanager "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/secretmanager"
+	bronze_gcp_securitycenter "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/securitycenter"
 	bronze_gcp_sql "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/sql"
 	bronze_gcp_storage "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/storage"
 	bronze_gcp_vpcaccess "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/vpcaccess"
@@ -1368,6 +1369,38 @@ type BronzeGCPSecretManagerSecretLabel struct {
 
 func (BronzeGCPSecretManagerSecretLabel) Annotations() []schema.Annotation {
 	anns := bronze_gcp_secretmanager.BronzeGCPSecretManagerSecretLabel{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeGCPSecurityCenterFinding struct {
+	bronze_gcp_securitycenter.BronzeGCPSecurityCenterFinding
+}
+
+func (BronzeGCPSecurityCenterFinding) Annotations() []schema.Annotation {
+	anns := bronze_gcp_securitycenter.BronzeGCPSecurityCenterFinding{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeGCPSecurityCenterSource struct {
+	bronze_gcp_securitycenter.BronzeGCPSecurityCenterSource
+}
+
+func (BronzeGCPSecurityCenterSource) Annotations() []schema.Annotation {
+	anns := bronze_gcp_securitycenter.BronzeGCPSecurityCenterSource{}.Annotations()
 	for i, a := range anns {
 		if v, ok := a.(entsql.Annotation); ok {
 			v.Schema = "bronze"

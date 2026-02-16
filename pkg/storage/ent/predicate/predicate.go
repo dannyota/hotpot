@@ -333,6 +333,12 @@ type BronzeGCPSecretManagerSecret func(*sql.Selector)
 // BronzeGCPSecretManagerSecretLabel is the predicate function for bronzegcpsecretmanagersecretlabel builders.
 type BronzeGCPSecretManagerSecretLabel func(*sql.Selector)
 
+// BronzeGCPSecurityCenterFinding is the predicate function for bronzegcpsecuritycenterfinding builders.
+type BronzeGCPSecurityCenterFinding func(*sql.Selector)
+
+// BronzeGCPSecurityCenterSource is the predicate function for bronzegcpsecuritycentersource builders.
+type BronzeGCPSecurityCenterSource func(*sql.Selector)
+
 // BronzeGCPStorageBucket is the predicate function for bronzegcpstoragebucket builders.
 type BronzeGCPStorageBucket func(*sql.Selector)
 
@@ -692,6 +698,12 @@ type BronzeHistoryGCPSecretManagerSecret func(*sql.Selector)
 
 // BronzeHistoryGCPSecretManagerSecretLabel is the predicate function for bronzehistorygcpsecretmanagersecretlabel builders.
 type BronzeHistoryGCPSecretManagerSecretLabel func(*sql.Selector)
+
+// BronzeHistoryGCPSecurityCenterFinding is the predicate function for bronzehistorygcpsecuritycenterfinding builders.
+type BronzeHistoryGCPSecurityCenterFinding func(*sql.Selector)
+
+// BronzeHistoryGCPSecurityCenterSource is the predicate function for bronzehistorygcpsecuritycentersource builders.
+type BronzeHistoryGCPSecurityCenterSource func(*sql.Selector)
 
 // BronzeHistoryGCPStorageBucket is the predicate function for bronzehistorygcpstoragebucket builders.
 type BronzeHistoryGCPStorageBucket func(*sql.Selector)

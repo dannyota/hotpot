@@ -116,6 +116,8 @@ type SchemaConfig struct {
 	BronzeGCPSQLInstanceLabel                        string // BronzeGCPSQLInstanceLabel table.
 	BronzeGCPSecretManagerSecret                     string // BronzeGCPSecretManagerSecret table.
 	BronzeGCPSecretManagerSecretLabel                string // BronzeGCPSecretManagerSecretLabel table.
+	BronzeGCPSecurityCenterFinding                   string // BronzeGCPSecurityCenterFinding table.
+	BronzeGCPSecurityCenterSource                    string // BronzeGCPSecurityCenterSource table.
 	BronzeGCPStorageBucket                           string // BronzeGCPStorageBucket table.
 	BronzeGCPStorageBucketIamPolicy                  string // BronzeGCPStorageBucketIamPolicy table.
 	BronzeGCPStorageBucketIamPolicyBinding           string // BronzeGCPStorageBucketIamPolicyBinding table.
@@ -236,6 +238,8 @@ type SchemaConfig struct {
 	BronzeHistoryGCPSQLInstanceLabel                 string // BronzeHistoryGCPSQLInstanceLabel table.
 	BronzeHistoryGCPSecretManagerSecret              string // BronzeHistoryGCPSecretManagerSecret table.
 	BronzeHistoryGCPSecretManagerSecretLabel         string // BronzeHistoryGCPSecretManagerSecretLabel table.
+	BronzeHistoryGCPSecurityCenterFinding            string // BronzeHistoryGCPSecurityCenterFinding table.
+	BronzeHistoryGCPSecurityCenterSource             string // BronzeHistoryGCPSecurityCenterSource table.
 	BronzeHistoryGCPStorageBucket                    string // BronzeHistoryGCPStorageBucket table.
 	BronzeHistoryGCPStorageBucketIamPolicy           string // BronzeHistoryGCPStorageBucketIamPolicy table.
 	BronzeHistoryGCPStorageBucketIamPolicyBinding    string // BronzeHistoryGCPStorageBucketIamPolicyBinding table.

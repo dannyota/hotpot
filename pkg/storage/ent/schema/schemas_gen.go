@@ -12,6 +12,7 @@ import (
 	bronze_gcp_logging "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/logging"
 	bronze_gcp_resourcemanager "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/resourcemanager"
 	bronze_gcp_secretmanager "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/secretmanager"
+	bronze_gcp_securitycenter "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/securitycenter"
 	bronze_gcp_sql "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/sql"
 	bronze_gcp_storage "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/storage"
 	bronze_gcp_vpcaccess "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/vpcaccess"
@@ -27,6 +28,7 @@ import (
 	bronzehistory_gcp_logging "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/logging"
 	bronzehistory_gcp_resourcemanager "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/resourcemanager"
 	bronzehistory_gcp_secretmanager "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/secretmanager"
+	bronzehistory_gcp_securitycenter "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/securitycenter"
 	bronzehistory_gcp_sql "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/sql"
 	bronzehistory_gcp_storage "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/storage"
 	bronzehistory_gcp_vpcaccess "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/vpcaccess"
@@ -460,6 +462,14 @@ type BronzeGCPSecretManagerSecret struct {
 
 type BronzeGCPSecretManagerSecretLabel struct {
 	bronze_gcp_secretmanager.BronzeGCPSecretManagerSecretLabel
+}
+
+type BronzeGCPSecurityCenterFinding struct {
+	bronze_gcp_securitycenter.BronzeGCPSecurityCenterFinding
+}
+
+type BronzeGCPSecurityCenterSource struct {
+	bronze_gcp_securitycenter.BronzeGCPSecurityCenterSource
 }
 
 type BronzeGCPSQLInstance struct {
@@ -968,6 +978,14 @@ type BronzeHistoryGCPSecretManagerSecret struct {
 
 type BronzeHistoryGCPSecretManagerSecretLabel struct {
 	bronzehistory_gcp_secretmanager.BronzeHistoryGCPSecretManagerSecretLabel
+}
+
+type BronzeHistoryGCPSecurityCenterFinding struct {
+	bronzehistory_gcp_securitycenter.BronzeHistoryGCPSecurityCenterFinding
+}
+
+type BronzeHistoryGCPSecurityCenterSource struct {
+	bronzehistory_gcp_securitycenter.BronzeHistoryGCPSecurityCenterSource
 }
 
 type BronzeHistoryGCPSQLInstance struct {

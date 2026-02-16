@@ -186,8 +186,8 @@ GCP resource ingestion coverage in the bronze layer.
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Sources | `SecurityCenterClient` | `ListSources()` | |
-| Findings | `SecurityCenterClient` | `ListFindings()` | |
+| Sources | `SecurityCenterClient` | `ListSources()` | ✅ |
+| Findings | `SecurityCenterClient` | `ListFindings()` | ✅ |
 | Notification Configs | `SecurityCenterClient` | `ListNotificationConfigs()` | |
 
 ## 🏛️ Organization Policy API (`orgpolicy.googleapis.com`)
@@ -356,7 +356,7 @@ GCP resource ingestion coverage in the bronze layer.
 
 ## 📊 Summary
 
-**Total: 56/117 (48%)**
+**Total: 58/117 (50%)**
 
 See [GCP_ROADMAP.md](./GCP_ROADMAP.md) for implementation strategy.
 
@@ -381,7 +381,7 @@ See [GCP_ROADMAP.md](./GCP_ROADMAP.md) for implementation strategy.
 | Service Usage | 0 | 1 |
 | Secret Manager | 1 | 1 |
 | App Engine Admin | 0 | 2 |
-| Security Command Center | 0 | 3 |
+| Security Command Center | 2 | 3 |
 | Organization Policy | 0 | 3 |
 | Access Context Manager | 0 | 3 |
 | Cloud Asset | 0 | 3 |

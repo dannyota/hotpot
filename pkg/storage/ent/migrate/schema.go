@@ -3666,6 +3666,92 @@ var (
 			},
 		},
 	}
+	// GcpSecuritycenterFindingsColumns holds the columns for the "gcp_securitycenter_findings" table.
+	GcpSecuritycenterFindingsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "parent", Type: field.TypeString},
+		{Name: "resource_name", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeString, Nullable: true},
+		{Name: "category", Type: field.TypeString, Nullable: true},
+		{Name: "external_uri", Type: field.TypeString, Nullable: true},
+		{Name: "severity", Type: field.TypeString, Nullable: true},
+		{Name: "finding_class", Type: field.TypeString, Nullable: true},
+		{Name: "canonical_name", Type: field.TypeString, Nullable: true},
+		{Name: "mute", Type: field.TypeString, Nullable: true},
+		{Name: "organization_id", Type: field.TypeString},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "event_time", Type: field.TypeString, Nullable: true},
+		{Name: "source_properties", Type: field.TypeJSON, Nullable: true},
+		{Name: "security_marks", Type: field.TypeJSON, Nullable: true},
+		{Name: "indicator", Type: field.TypeJSON, Nullable: true},
+		{Name: "vulnerability", Type: field.TypeJSON, Nullable: true},
+		{Name: "connections", Type: field.TypeJSON, Nullable: true},
+		{Name: "compliances", Type: field.TypeJSON, Nullable: true},
+		{Name: "contacts", Type: field.TypeJSON, Nullable: true},
+	}
+	// GcpSecuritycenterFindingsTable holds the schema information for the "gcp_securitycenter_findings" table.
+	GcpSecuritycenterFindingsTable = &schema.Table{
+		Name:       "gcp_securitycenter_findings",
+		Columns:    GcpSecuritycenterFindingsColumns,
+		PrimaryKey: []*schema.Column{GcpSecuritycenterFindingsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpsecuritycenterfinding_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSecuritycenterFindingsColumns[1]},
+			},
+			{
+				Name:    "bronzegcpsecuritycenterfinding_organization_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSecuritycenterFindingsColumns[12]},
+			},
+			{
+				Name:    "bronzegcpsecuritycenterfinding_state",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSecuritycenterFindingsColumns[5]},
+			},
+			{
+				Name:    "bronzegcpsecuritycenterfinding_severity",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSecuritycenterFindingsColumns[8]},
+			},
+			{
+				Name:    "bronzegcpsecuritycenterfinding_category",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSecuritycenterFindingsColumns[6]},
+			},
+		},
+	}
+	// GcpSecuritycenterSourcesColumns holds the columns for the "gcp_securitycenter_sources" table.
+	GcpSecuritycenterSourcesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "canonical_name", Type: field.TypeString, Nullable: true},
+		{Name: "organization_id", Type: field.TypeString},
+	}
+	// GcpSecuritycenterSourcesTable holds the schema information for the "gcp_securitycenter_sources" table.
+	GcpSecuritycenterSourcesTable = &schema.Table{
+		Name:       "gcp_securitycenter_sources",
+		Columns:    GcpSecuritycenterSourcesColumns,
+		PrimaryKey: []*schema.Column{GcpSecuritycenterSourcesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpsecuritycentersource_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSecuritycenterSourcesColumns[1]},
+			},
+			{
+				Name:    "bronzegcpsecuritycentersource_organization_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSecuritycenterSourcesColumns[6]},
+			},
+		},
+	}
 	// GcpStorageBucketsColumns holds the columns for the "gcp_storage_buckets" table.
 	GcpStorageBucketsColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -8992,6 +9078,95 @@ var (
 			},
 		},
 	}
+	// GcpSecuritycenterFindingsHistoryColumns holds the columns for the "gcp_securitycenter_findings_history" table.
+	GcpSecuritycenterFindingsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "parent", Type: field.TypeString},
+		{Name: "resource_name", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeString, Nullable: true},
+		{Name: "category", Type: field.TypeString, Nullable: true},
+		{Name: "external_uri", Type: field.TypeString, Nullable: true},
+		{Name: "severity", Type: field.TypeString, Nullable: true},
+		{Name: "finding_class", Type: field.TypeString, Nullable: true},
+		{Name: "canonical_name", Type: field.TypeString, Nullable: true},
+		{Name: "mute", Type: field.TypeString, Nullable: true},
+		{Name: "organization_id", Type: field.TypeString},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "event_time", Type: field.TypeString, Nullable: true},
+		{Name: "source_properties", Type: field.TypeJSON, Nullable: true},
+		{Name: "security_marks", Type: field.TypeJSON, Nullable: true},
+		{Name: "indicator", Type: field.TypeJSON, Nullable: true},
+		{Name: "vulnerability", Type: field.TypeJSON, Nullable: true},
+		{Name: "connections", Type: field.TypeJSON, Nullable: true},
+		{Name: "compliances", Type: field.TypeJSON, Nullable: true},
+		{Name: "contacts", Type: field.TypeJSON, Nullable: true},
+	}
+	// GcpSecuritycenterFindingsHistoryTable holds the schema information for the "gcp_securitycenter_findings_history" table.
+	GcpSecuritycenterFindingsHistoryTable = &schema.Table{
+		Name:       "gcp_securitycenter_findings_history",
+		Columns:    GcpSecuritycenterFindingsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpSecuritycenterFindingsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpsecuritycenterfinding_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSecuritycenterFindingsHistoryColumns[6], GcpSecuritycenterFindingsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpsecuritycenterfinding_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSecuritycenterFindingsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpsecuritycenterfinding_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSecuritycenterFindingsHistoryColumns[3]},
+			},
+		},
+	}
+	// GcpSecuritycenterSourcesHistoryColumns holds the columns for the "gcp_securitycenter_sources_history" table.
+	GcpSecuritycenterSourcesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "canonical_name", Type: field.TypeString, Nullable: true},
+		{Name: "organization_id", Type: field.TypeString},
+	}
+	// GcpSecuritycenterSourcesHistoryTable holds the schema information for the "gcp_securitycenter_sources_history" table.
+	GcpSecuritycenterSourcesHistoryTable = &schema.Table{
+		Name:       "gcp_securitycenter_sources_history",
+		Columns:    GcpSecuritycenterSourcesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpSecuritycenterSourcesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpsecuritycentersource_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSecuritycenterSourcesHistoryColumns[6], GcpSecuritycenterSourcesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpsecuritycentersource_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSecuritycenterSourcesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpsecuritycentersource_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpSecuritycenterSourcesHistoryColumns[3]},
+			},
+		},
+	}
 	// GcpStorageBucketsHistoryColumns holds the columns for the "gcp_storage_buckets_history" table.
 	GcpStorageBucketsHistoryColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -10396,6 +10571,8 @@ var (
 		GcpSQLInstanceLabelsTable,
 		GcpSecretmanagerSecretsTable,
 		GcpSecretmanagerSecretLabelsTable,
+		GcpSecuritycenterFindingsTable,
+		GcpSecuritycenterSourcesTable,
 		GcpStorageBucketsTable,
 		GcpStorageBucketIamPoliciesTable,
 		GcpStorageBucketIamPolicyBindingsTable,
@@ -10516,6 +10693,8 @@ var (
 		GcpSQLInstanceLabelsHistoryTable,
 		GcpSecretmanagerSecretsHistoryTable,
 		GcpSecretmanagerSecretLabelsHistoryTable,
+		GcpSecuritycenterFindingsHistoryTable,
+		GcpSecuritycenterSourcesHistoryTable,
 		GcpStorageBucketsHistoryTable,
 		GcpStorageBucketIamPoliciesHistoryTable,
 		GcpStorageBucketIamPolicyBindingsHistoryTable,
@@ -10912,6 +11091,12 @@ func init() {
 	GcpSecretmanagerSecretLabelsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_secretmanager_secret_labels",
 	}
+	GcpSecuritycenterFindingsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_securitycenter_findings",
+	}
+	GcpSecuritycenterSourcesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_securitycenter_sources",
+	}
 	GcpStorageBucketsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_storage_buckets",
 	}
@@ -11276,6 +11461,12 @@ func init() {
 	}
 	GcpSecretmanagerSecretLabelsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_secretmanager_secret_labels_history",
+	}
+	GcpSecuritycenterFindingsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_securitycenter_findings_history",
+	}
+	GcpSecuritycenterSourcesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_securitycenter_sources_history",
 	}
 	GcpStorageBucketsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_storage_buckets_history",

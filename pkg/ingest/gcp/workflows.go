@@ -13,6 +13,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/kms"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/logging"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/secretmanager"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/securitycenter"
 	gcpsql "github.com/dannyota/hotpot/pkg/ingest/gcp/sql"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/storage"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/vpcaccess"
@@ -45,6 +46,8 @@ type GCPInventoryWorkflowResult struct {
 	TotalInterconnects      int
 	TotalPacketMirrorings   int
 	TotalProjectMetadata    int
+	TotalSources            int
+	TotalFindings           int
 }
 
 // ProjectResult contains the ingestion result for a single project.
@@ -295,6 +298,19 @@ func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParam
 		result.ProjectResults = append(result.ProjectResults, projectResult)
 	}
 
+	// Org-level workflows (run once, not per-project)
+
+	// Execute GCPSecurityCenterWorkflow (org-scoped, queries orgs from DB)
+	var sccResult securitycenter.GCPSecurityCenterWorkflowResult
+	err := workflow.ExecuteChildWorkflow(ctx, securitycenter.GCPSecurityCenterWorkflow,
+		securitycenter.GCPSecurityCenterWorkflowParams{}).Get(ctx, &sccResult)
+	if err != nil {
+		logger.Error("Failed to execute GCPSecurityCenterWorkflow", "error", err)
+	} else {
+		result.TotalSources = sccResult.SourceCount
+		result.TotalFindings = sccResult.FindingCount
+	}
+
 	logger.Info("Completed GCPInventoryWorkflow",
 		"projectCount", len(params.ProjectIDs),
 		"totalInstances", result.TotalInstances,
@@ -316,6 +332,8 @@ func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParam
 		"totalInterconnects", result.TotalInterconnects,
 		"totalPacketMirrorings", result.TotalPacketMirrorings,
 		"totalProjectMetadata", result.TotalProjectMetadata,
+		"totalSources", result.TotalSources,
+		"totalFindings", result.TotalFindings,
 	)
 
 	return result, nil

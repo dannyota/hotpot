@@ -12,6 +12,7 @@ require (
 	cloud.google.com/go/logging v1.13.2
 	cloud.google.com/go/resourcemanager v1.10.7
 	cloud.google.com/go/secretmanager v1.16.0
+	cloud.google.com/go/securitycenter v1.38.1
 	cloud.google.com/go/vpcaccess v1.8.7
 	entgo.io/ent v0.14.5
 	github.com/alicebob/miniredis/v2 v2.36.1
@@ -30,6 +31,7 @@ require (
 	golang.org/x/time v0.14.0
 	google.golang.org/api v0.266.0
 	google.golang.org/grpc v1.79.1
+	google.golang.org/protobuf v1.36.11
 	gopkg.in/yaml.v3 v3.0.1
 )
 
@@ -102,5 +104,4 @@ require (
 	google.golang.org/genproto v0.0.0-20260209200024-4cfbd4190f57 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20260209200024-4cfbd4190f57 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260209200024-4cfbd4190f57 // indirect
-	google.golang.org/protobuf v1.36.11 // indirect
 )

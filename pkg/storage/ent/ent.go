@@ -119,6 +119,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecretmanagersecret"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecretmanagersecretlabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecuritycenterfinding"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecuritycentersource"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsqlinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsqlinstancelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpstoragebucket"
@@ -239,6 +241,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecretmanagersecret"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecretmanagersecretlabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecuritycenterfinding"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecuritycentersource"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsqlinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsqlinstancelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpstoragebucket"
@@ -435,6 +439,8 @@ func checkColumn(t, c string) error {
 			bronzegcpsqlinstancelabel.Table:                        bronzegcpsqlinstancelabel.ValidColumn,
 			bronzegcpsecretmanagersecret.Table:                     bronzegcpsecretmanagersecret.ValidColumn,
 			bronzegcpsecretmanagersecretlabel.Table:                bronzegcpsecretmanagersecretlabel.ValidColumn,
+			bronzegcpsecuritycenterfinding.Table:                   bronzegcpsecuritycenterfinding.ValidColumn,
+			bronzegcpsecuritycentersource.Table:                    bronzegcpsecuritycentersource.ValidColumn,
 			bronzegcpstoragebucket.Table:                           bronzegcpstoragebucket.ValidColumn,
 			bronzegcpstoragebucketiampolicy.Table:                  bronzegcpstoragebucketiampolicy.ValidColumn,
 			bronzegcpstoragebucketiampolicybinding.Table:           bronzegcpstoragebucketiampolicybinding.ValidColumn,
@@ -555,6 +561,8 @@ func checkColumn(t, c string) error {
 			bronzehistorygcpsqlinstancelabel.Table:                 bronzehistorygcpsqlinstancelabel.ValidColumn,
 			bronzehistorygcpsecretmanagersecret.Table:              bronzehistorygcpsecretmanagersecret.ValidColumn,
 			bronzehistorygcpsecretmanagersecretlabel.Table:         bronzehistorygcpsecretmanagersecretlabel.ValidColumn,
+			bronzehistorygcpsecuritycenterfinding.Table:            bronzehistorygcpsecuritycenterfinding.ValidColumn,
+			bronzehistorygcpsecuritycentersource.Table:             bronzehistorygcpsecuritycentersource.ValidColumn,
 			bronzehistorygcpstoragebucket.Table:                    bronzehistorygcpstoragebucket.ValidColumn,
 			bronzehistorygcpstoragebucketiampolicy.Table:           bronzehistorygcpstoragebucketiampolicy.ValidColumn,
 			bronzehistorygcpstoragebucketiampolicybinding.Table:    bronzehistorygcpstoragebucketiampolicybinding.ValidColumn,

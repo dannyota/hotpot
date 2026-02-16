@@ -2,8 +2,6 @@ ariga.io/atlas v1.1.0 h1:Dk9Xemh6pr5RogNCsFylf/9ozhSPWDqzHb8EkR2rA78=
 ariga.io/atlas v1.1.0/go.mod h1:esBbk3F+pi/mM2PvbCymDm+kWhaOk4PaaiegQdNELk8=
 cloud.google.com/go v0.123.0 h1:2NAUJwPR47q+E35uaJeYoNhuNEM9kM8SjgRgdeOJUSE=
 cloud.google.com/go v0.123.0/go.mod h1:xBoMV08QcqUGuPW65Qfm1o9Y4zKZBpGS+7bImXLTAZU=
-cloud.google.com/go/auth v0.18.1 h1:IwTEx92GFUo2pJ6Qea0EU3zYvKnTAeRCODxfA/G5UWs=
-cloud.google.com/go/auth v0.18.1/go.mod h1:GfTYoS9G3CWpRA3Va9doKN9mjPGRS+v41jmZAhBzbrA=
 cloud.google.com/go/auth v0.18.2 h1:+Nbt5Ev0xEqxlNjd6c+yYUeosQ5TtEUaNcN/3FozlaM=
 cloud.google.com/go/auth v0.18.2/go.mod h1:xD+oY7gcahcu7G2SG2DsBerfFxgPAJz17zz2joOFF3M=
 cloud.google.com/go/auth/oauth2adapt v0.2.8 h1:keo8NaayQZ6wimpNSmW5OPc283g65QNIiLpZnkHRbnc=
@@ -26,6 +24,8 @@ cloud.google.com/go/resourcemanager v1.10.7 h1:oPZKIdjyVTuag+D4HF7HO0mnSqcqgjcuA
 cloud.google.com/go/resourcemanager v1.10.7/go.mod h1:rScGkr6j2eFwxAjctvOP/8sqnEpDbQ9r5CKwKfomqjs=
 cloud.google.com/go/secretmanager v1.16.0 h1:19QT7ZsLJ8FSP1k+4esQvuCD7npMJml6hYzilxVyT+k=
 cloud.google.com/go/secretmanager v1.16.0/go.mod h1://C/e4I8D26SDTz1f3TQcddhcmiC3rMEl0S1Cakvs3Q=
+cloud.google.com/go/securitycenter v1.38.1 h1:D9zpeguY4frQU35GBw8+M6Gw79CiuTF9iVs4sFm3FDY=
+cloud.google.com/go/securitycenter v1.38.1/go.mod h1:Ge2D/SlG2lP1FrQD7wXHy8qyeloRenvKXeB4e7zO6z0=
 cloud.google.com/go/vpcaccess v1.8.7 h1:K6siDR1T4HgSTv6sy6CAwupY7UGza6TQ1O8jtvEYoX4=
 cloud.google.com/go/vpcaccess v1.8.7/go.mod h1:9RYw5bVvk4Z51Rc8vwXT63yjEiMD/l7XyEaDyrNHgmk=
 entgo.io/ent v0.14.5 h1:Rj2WOYJtCkWyFo6a+5wB3EfBRP0rnx1fMk6gGA0UUe4=
@@ -206,8 +206,6 @@ go.opentelemetry.io/otel/sdk/metric v1.40.0 h1:mtmdVqgQkeRxHgRv4qhyJduP3fYJRMX4A
 go.opentelemetry.io/otel/sdk/metric v1.40.0/go.mod h1:4Z2bGMf0KSK3uRjlczMOeMhKU2rhUqdWNoKcYrtcBPg=
 go.opentelemetry.io/otel/trace v1.40.0 h1:WA4etStDttCSYuhwvEa8OP8I5EWu24lkOzp+ZYblVjw=
 go.opentelemetry.io/otel/trace v1.40.0/go.mod h1:zeAhriXecNGP/s2SEG3+Y8X9ujcJOTqQ5RgdEJcawiA=
-go.temporal.io/api v1.62.1 h1:7UHMNOIqfYBVTaW0JIh/wDpw2jORkB6zUKsxGtvjSZU=
-go.temporal.io/api v1.62.1/go.mod h1:iaxoP/9OXMJcQkETTECfwYq4cw/bj4nwov8b3ZLVnXM=
 go.temporal.io/api v1.62.2 h1:jFhIzlqNyJsJZTiCRQmTIMv6OTQ5BZ57z8gbgLGMaoo=
 go.temporal.io/api v1.62.2/go.mod h1:iaxoP/9OXMJcQkETTECfwYq4cw/bj4nwov8b3ZLVnXM=
 go.temporal.io/sdk v1.40.0 h1:n9JN3ezVpWBxLzz5xViCo0sKxp7kVVhr1Su0bcMRNNs=
@@ -273,8 +271,6 @@ google.golang.org/genproto/googleapis/api v0.0.0-20260209200024-4cfbd4190f57 h1:
 google.golang.org/genproto/googleapis/api v0.0.0-20260209200024-4cfbd4190f57/go.mod h1:kSJwQxqmFXeo79zOmbrALdflXQeAYcUbgS7PbpMknCY=
 google.golang.org/genproto/googleapis/rpc v0.0.0-20260209200024-4cfbd4190f57 h1:mWPCjDEyshlQYzBpMNHaEof6UX1PmHcaUODUywQ0uac=
 google.golang.org/genproto/googleapis/rpc v0.0.0-20260209200024-4cfbd4190f57/go.mod h1:j9x/tPzZkyxcgEFkiKEEGxfvyumM01BEtsW8xzOahRQ=
-google.golang.org/grpc v1.79.0 h1:6/+EFlxsMyoSbHbBoEDx94n/Ycx/bi0IhJ5Qh7b7LaA=
-google.golang.org/grpc v1.79.0/go.mod h1:KmT0Kjez+0dde/v2j9vzwoAScgEPx/Bw1CYChhHLrHQ=
 google.golang.org/grpc v1.79.1 h1:zGhSi45ODB9/p3VAawt9a+O/MULLl9dpizzNNpq7flY=
 google.golang.org/grpc v1.79.1/go.mod h1:KmT0Kjez+0dde/v2j9vzwoAScgEPx/Bw1CYChhHLrHQ=
 google.golang.org/protobuf v1.36.11 h1:fV6ZwhNocDyBLK0dj+fg8ektcVegBBuEolpbTQyBNVE=

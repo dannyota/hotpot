@@ -13,6 +13,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/logging"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/resourcemanager"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/secretmanager"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/securitycenter"
 	gcpsql "github.com/dannyota/hotpot/pkg/ingest/gcp/sql"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/storage"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/vpcaccess"
@@ -62,6 +63,9 @@ func Register(w worker.Worker, configService *config.Service, entClient *ent.Cli
 
 	// Register Cloud SQL (instances)
 	gcpsql.Register(w, configService, entClient, limiter)
+
+	// Register Security Command Center (sources, findings)
+	securitycenter.Register(w, configService, entClient, limiter)
 
 	// Register GCP inventory workflow
 	w.RegisterWorkflow(GCPInventoryWorkflow)
