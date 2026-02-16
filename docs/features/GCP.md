@@ -86,8 +86,8 @@ GCP resource ingestion coverage in the bronze layer.
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Key Rings | `KeyManagementClient` | `ListKeyRings()` | |
-| Crypto Keys | `KeyManagementClient` | `ListCryptoKeys()` | |
+| Key Rings | `KeyManagementClient` | `ListKeyRings()` | ✅ |
+| Crypto Keys | `KeyManagementClient` | `ListCryptoKeys()` | ✅ |
 
 ## 🗝️ API Keys API (`apikeys.googleapis.com`)
 
@@ -111,9 +111,9 @@ GCP resource ingestion coverage in the bronze layer.
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Log Sinks | `ConfigClient` | `ListSinks()` | |
+| Log Sinks | `ConfigClient` | `ListSinks()` | ✅ |
 | Log Metrics | `MetricsClient` | `ListLogMetrics()` | |
-| Log Buckets | `ConfigClient` | `ListBuckets()` | |
+| Log Buckets | `ConfigClient` | `ListBuckets()` | ✅ |
 | Log Exclusions | `ConfigClient` | `ListExclusions()` | |
 
 ## 📊 Monitoring API (`monitoring.googleapis.com`)
@@ -127,7 +127,7 @@ GCP resource ingestion coverage in the bronze layer.
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Managed Zones | `ManagedZonesClient` | `List()` | |
+| Managed Zones | `ManagedZonesClient` | `List()` | ✅ |
 | DNS Policies | `PoliciesClient` | `List()` | |
 
 ## ✋ Access Approval API (`accessapproval.googleapis.com`)
@@ -141,14 +141,14 @@ GCP resource ingestion coverage in the bronze layer.
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Buckets | `StorageClient` | `ListBuckets()` | |
+| Buckets | `StorageClient` | `ListBuckets()` | ✅ |
 | Bucket IAM Policies | `StorageClient` | `GetIamPolicy()` | |
 
 ## 🗄️ Cloud SQL Admin API (`sqladmin.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| SQL Instances | `SqlInstancesClient` | `List()` | |
+| SQL Instances | `SqlInstancesClient` | `List()` | ✅ |
 
 ## 📈 BigQuery API (`bigquery.googleapis.com`)
 
@@ -173,7 +173,7 @@ GCP resource ingestion coverage in the bronze layer.
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Secrets | `SecretManagerClient` | `ListSecrets()` | |
+| Secrets | `SecretManagerClient` | `ListSecrets()` | ✅ |
 
 ## 🚀 App Engine Admin API (`appengine.googleapis.com`)
 
@@ -356,7 +356,7 @@ GCP resource ingestion coverage in the bronze layer.
 
 ## 📊 Summary
 
-**Total: 32/117 (27%)**
+**Total: 40/117 (34%)**
 
 | API | Implemented | Total |
 |-----|:-----------:|:-----:|
@@ -364,20 +364,20 @@ GCP resource ingestion coverage in the bronze layer.
 | Container | 2 | 2 |
 | Resource Manager | 1 | 6 |
 | IAM | 2 | 2 |
-| Cloud KMS | 0 | 2 |
+| Cloud KMS | 2 | 2 |
 | API Keys | 0 | 1 |
 | Essential Contacts | 0 | 1 |
 | Cloud Functions | 0 | 1 |
-| Logging | 0 | 4 |
+| Logging | 2 | 4 |
 | Monitoring | 0 | 2 |
-| DNS | 0 | 2 |
+| DNS | 1 | 2 |
 | Access Approval | 0 | 2 |
-| Cloud Storage | 0 | 2 |
-| Cloud SQL Admin | 0 | 1 |
+| Cloud Storage | 1 | 2 |
+| Cloud SQL Admin | 1 | 1 |
 | BigQuery | 0 | 2 |
 | Dataproc | 0 | 1 |
 | Service Usage | 0 | 1 |
-| Secret Manager | 0 | 1 |
+| Secret Manager | 1 | 1 |
 | App Engine Admin | 0 | 2 |
 | Security Command Center | 0 | 3 |
 | Organization Policy | 0 | 3 |

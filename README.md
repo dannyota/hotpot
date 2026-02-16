@@ -21,7 +21,7 @@ Just ask:
 
 ## 🚀 Features
 
-- **Multi-cloud ingestion** — GCP (Compute, IAM, Resource Manager, VPC Access), with AWS and VNG Cloud planned
+- **Multi-cloud ingestion** — GCP (Compute, Container, IAM, Resource Manager, VPC Access, Storage, KMS, Logging, DNS, Secret Manager, Cloud SQL), with AWS and VNG Cloud planned
 - **Asset inventory** — Track VMs, disks, networks, projects with change history (SCD Type 4)
 - **Durable workflows** — Temporal-based pipelines with automatic retries and rate limiting
 - **AI-powered queries** — Natural language to SQL via WrenAI + Ollama
