@@ -1209,6 +1209,30 @@ func (f BronzeGCPOrgIamPolicyBindingFunc) Mutate(ctx context.Context, m ent.Muta
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGCPOrgIamPolicyBindingMutation", m)
 }
 
+// The BronzeGCPOrgPolicyConstraintFunc type is an adapter to allow the use of ordinary
+// function as BronzeGCPOrgPolicyConstraint mutator.
+type BronzeGCPOrgPolicyConstraintFunc func(context.Context, *ent.BronzeGCPOrgPolicyConstraintMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGCPOrgPolicyConstraintFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGCPOrgPolicyConstraintMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGCPOrgPolicyConstraintMutation", m)
+}
+
+// The BronzeGCPOrgPolicyPolicyFunc type is an adapter to allow the use of ordinary
+// function as BronzeGCPOrgPolicyPolicy mutator.
+type BronzeGCPOrgPolicyPolicyFunc func(context.Context, *ent.BronzeGCPOrgPolicyPolicyMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGCPOrgPolicyPolicyFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGCPOrgPolicyPolicyMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGCPOrgPolicyPolicyMutation", m)
+}
+
 // The BronzeGCPOrganizationFunc type is an adapter to allow the use of ordinary
 // function as BronzeGCPOrganization mutator.
 type BronzeGCPOrganizationFunc func(context.Context, *ent.BronzeGCPOrganizationMutation) (ent.Value, error)
@@ -2671,6 +2695,30 @@ func (f BronzeHistoryGCPOrgIamPolicyBindingFunc) Mutate(ctx context.Context, m e
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGCPOrgIamPolicyBindingMutation", m)
+}
+
+// The BronzeHistoryGCPOrgPolicyConstraintFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGCPOrgPolicyConstraint mutator.
+type BronzeHistoryGCPOrgPolicyConstraintFunc func(context.Context, *ent.BronzeHistoryGCPOrgPolicyConstraintMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGCPOrgPolicyConstraintFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGCPOrgPolicyConstraintMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGCPOrgPolicyConstraintMutation", m)
+}
+
+// The BronzeHistoryGCPOrgPolicyPolicyFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGCPOrgPolicyPolicy mutator.
+type BronzeHistoryGCPOrgPolicyPolicyFunc func(context.Context, *ent.BronzeHistoryGCPOrgPolicyPolicyMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGCPOrgPolicyPolicyFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGCPOrgPolicyPolicyMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGCPOrgPolicyPolicyMutation", m)
 }
 
 // The BronzeHistoryGCPOrganizationFunc type is an adapter to allow the use of ordinary

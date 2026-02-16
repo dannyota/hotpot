@@ -3404,6 +3404,66 @@ var (
 			},
 		},
 	}
+	// GcpOrgpolicyConstraintsColumns holds the columns for the "gcp_orgpolicy_constraints" table.
+	GcpOrgpolicyConstraintsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "constraint_default", Type: field.TypeInt, Default: 0},
+		{Name: "supports_dry_run", Type: field.TypeBool, Default: false},
+		{Name: "supports_simulation", Type: field.TypeBool, Default: false},
+		{Name: "list_constraint", Type: field.TypeJSON, Nullable: true},
+		{Name: "boolean_constraint", Type: field.TypeJSON, Nullable: true},
+		{Name: "organization_id", Type: field.TypeString},
+	}
+	// GcpOrgpolicyConstraintsTable holds the schema information for the "gcp_orgpolicy_constraints" table.
+	GcpOrgpolicyConstraintsTable = &schema.Table{
+		Name:       "gcp_orgpolicy_constraints",
+		Columns:    GcpOrgpolicyConstraintsColumns,
+		PrimaryKey: []*schema.Column{GcpOrgpolicyConstraintsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcporgpolicyconstraint_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgpolicyConstraintsColumns[1]},
+			},
+			{
+				Name:    "bronzegcporgpolicyconstraint_organization_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgpolicyConstraintsColumns[10]},
+			},
+		},
+	}
+	// GcpOrgpolicyPoliciesColumns holds the columns for the "gcp_orgpolicy_policies" table.
+	GcpOrgpolicyPoliciesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "spec", Type: field.TypeJSON, Nullable: true},
+		{Name: "dry_run_spec", Type: field.TypeJSON, Nullable: true},
+		{Name: "organization_id", Type: field.TypeString},
+	}
+	// GcpOrgpolicyPoliciesTable holds the schema information for the "gcp_orgpolicy_policies" table.
+	GcpOrgpolicyPoliciesTable = &schema.Table{
+		Name:       "gcp_orgpolicy_policies",
+		Columns:    GcpOrgpolicyPoliciesColumns,
+		PrimaryKey: []*schema.Column{GcpOrgpolicyPoliciesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcporgpolicypolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgpolicyPoliciesColumns[1]},
+			},
+			{
+				Name:    "bronzegcporgpolicypolicy_organization_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgpolicyPoliciesColumns[6]},
+			},
+		},
+	}
 	// GcpOrganizationsColumns holds the columns for the "gcp_organizations" table.
 	GcpOrganizationsColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -8723,6 +8783,84 @@ var (
 			},
 		},
 	}
+	// GcpOrgpolicyConstraintsHistoryColumns holds the columns for the "gcp_orgpolicy_constraints_history" table.
+	GcpOrgpolicyConstraintsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "constraint_default", Type: field.TypeInt, Default: 0},
+		{Name: "supports_dry_run", Type: field.TypeBool, Default: false},
+		{Name: "supports_simulation", Type: field.TypeBool, Default: false},
+		{Name: "list_constraint", Type: field.TypeJSON, Nullable: true},
+		{Name: "boolean_constraint", Type: field.TypeJSON, Nullable: true},
+		{Name: "organization_id", Type: field.TypeString},
+	}
+	// GcpOrgpolicyConstraintsHistoryTable holds the schema information for the "gcp_orgpolicy_constraints_history" table.
+	GcpOrgpolicyConstraintsHistoryTable = &schema.Table{
+		Name:       "gcp_orgpolicy_constraints_history",
+		Columns:    GcpOrgpolicyConstraintsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpOrgpolicyConstraintsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcporgpolicyconstraint_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgpolicyConstraintsHistoryColumns[6], GcpOrgpolicyConstraintsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcporgpolicyconstraint_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgpolicyConstraintsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcporgpolicyconstraint_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgpolicyConstraintsHistoryColumns[3]},
+			},
+		},
+	}
+	// GcpOrgpolicyPoliciesHistoryColumns holds the columns for the "gcp_orgpolicy_policies_history" table.
+	GcpOrgpolicyPoliciesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "spec", Type: field.TypeJSON, Nullable: true},
+		{Name: "dry_run_spec", Type: field.TypeJSON, Nullable: true},
+		{Name: "organization_id", Type: field.TypeString},
+	}
+	// GcpOrgpolicyPoliciesHistoryTable holds the schema information for the "gcp_orgpolicy_policies_history" table.
+	GcpOrgpolicyPoliciesHistoryTable = &schema.Table{
+		Name:       "gcp_orgpolicy_policies_history",
+		Columns:    GcpOrgpolicyPoliciesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpOrgpolicyPoliciesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcporgpolicypolicy_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgpolicyPoliciesHistoryColumns[6], GcpOrgpolicyPoliciesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcporgpolicypolicy_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgpolicyPoliciesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcporgpolicypolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgpolicyPoliciesHistoryColumns[3]},
+			},
+		},
+	}
 	// GcpOrganizationsHistoryColumns holds the columns for the "gcp_organizations_history" table.
 	GcpOrganizationsHistoryColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -10562,6 +10700,8 @@ var (
 		GcpLoggingSinksTable,
 		GcpOrgIamPoliciesTable,
 		GcpOrgIamPolicyBindingsTable,
+		GcpOrgpolicyConstraintsTable,
+		GcpOrgpolicyPoliciesTable,
 		GcpOrganizationsTable,
 		GcpProjectsTable,
 		GcpProjectIamPoliciesTable,
@@ -10684,6 +10824,8 @@ var (
 		GcpLoggingSinksHistoryTable,
 		GcpOrgIamPoliciesHistoryTable,
 		GcpOrgIamPolicyBindingsHistoryTable,
+		GcpOrgpolicyConstraintsHistoryTable,
+		GcpOrgpolicyPoliciesHistoryTable,
 		GcpOrganizationsHistoryTable,
 		GcpProjectsHistoryTable,
 		GcpProjectIamPoliciesHistoryTable,
@@ -11060,6 +11202,12 @@ func init() {
 	GcpOrgIamPolicyBindingsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_org_iam_policy_bindings",
 	}
+	GcpOrgpolicyConstraintsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_orgpolicy_constraints",
+	}
+	GcpOrgpolicyPoliciesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_orgpolicy_policies",
+	}
 	GcpOrganizationsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_organizations",
 	}
@@ -11434,6 +11582,12 @@ func init() {
 	}
 	GcpOrgIamPolicyBindingsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_org_iam_policy_bindings_history",
+	}
+	GcpOrgpolicyConstraintsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_orgpolicy_constraints_history",
+	}
+	GcpOrgpolicyPoliciesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_orgpolicy_policies_history",
 	}
 	GcpOrganizationsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_organizations_history",

@@ -116,6 +116,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporganization"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgiampolicybinding"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgpolicyconstraint"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgpolicypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectiampolicybinding"
@@ -238,6 +240,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporganization"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgiampolicybinding"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgpolicyconstraint"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgpolicypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectiampolicybinding"
@@ -482,6 +486,10 @@ type Client struct {
 	BronzeGCPOrgIamPolicy *BronzeGCPOrgIamPolicyClient
 	// BronzeGCPOrgIamPolicyBinding is the client for interacting with the BronzeGCPOrgIamPolicyBinding builders.
 	BronzeGCPOrgIamPolicyBinding *BronzeGCPOrgIamPolicyBindingClient
+	// BronzeGCPOrgPolicyConstraint is the client for interacting with the BronzeGCPOrgPolicyConstraint builders.
+	BronzeGCPOrgPolicyConstraint *BronzeGCPOrgPolicyConstraintClient
+	// BronzeGCPOrgPolicyPolicy is the client for interacting with the BronzeGCPOrgPolicyPolicy builders.
+	BronzeGCPOrgPolicyPolicy *BronzeGCPOrgPolicyPolicyClient
 	// BronzeGCPOrganization is the client for interacting with the BronzeGCPOrganization builders.
 	BronzeGCPOrganization *BronzeGCPOrganizationClient
 	// BronzeGCPProject is the client for interacting with the BronzeGCPProject builders.
@@ -726,6 +734,10 @@ type Client struct {
 	BronzeHistoryGCPOrgIamPolicy *BronzeHistoryGCPOrgIamPolicyClient
 	// BronzeHistoryGCPOrgIamPolicyBinding is the client for interacting with the BronzeHistoryGCPOrgIamPolicyBinding builders.
 	BronzeHistoryGCPOrgIamPolicyBinding *BronzeHistoryGCPOrgIamPolicyBindingClient
+	// BronzeHistoryGCPOrgPolicyConstraint is the client for interacting with the BronzeHistoryGCPOrgPolicyConstraint builders.
+	BronzeHistoryGCPOrgPolicyConstraint *BronzeHistoryGCPOrgPolicyConstraintClient
+	// BronzeHistoryGCPOrgPolicyPolicy is the client for interacting with the BronzeHistoryGCPOrgPolicyPolicy builders.
+	BronzeHistoryGCPOrgPolicyPolicy *BronzeHistoryGCPOrgPolicyPolicyClient
 	// BronzeHistoryGCPOrganization is the client for interacting with the BronzeHistoryGCPOrganization builders.
 	BronzeHistoryGCPOrganization *BronzeHistoryGCPOrganizationClient
 	// BronzeHistoryGCPProject is the client for interacting with the BronzeHistoryGCPProject builders.
@@ -909,6 +921,8 @@ func (c *Client) init() {
 	c.BronzeGCPLoggingSink = NewBronzeGCPLoggingSinkClient(c.config)
 	c.BronzeGCPOrgIamPolicy = NewBronzeGCPOrgIamPolicyClient(c.config)
 	c.BronzeGCPOrgIamPolicyBinding = NewBronzeGCPOrgIamPolicyBindingClient(c.config)
+	c.BronzeGCPOrgPolicyConstraint = NewBronzeGCPOrgPolicyConstraintClient(c.config)
+	c.BronzeGCPOrgPolicyPolicy = NewBronzeGCPOrgPolicyPolicyClient(c.config)
 	c.BronzeGCPOrganization = NewBronzeGCPOrganizationClient(c.config)
 	c.BronzeGCPProject = NewBronzeGCPProjectClient(c.config)
 	c.BronzeGCPProjectIamPolicy = NewBronzeGCPProjectIamPolicyClient(c.config)
@@ -1031,6 +1045,8 @@ func (c *Client) init() {
 	c.BronzeHistoryGCPLoggingSink = NewBronzeHistoryGCPLoggingSinkClient(c.config)
 	c.BronzeHistoryGCPOrgIamPolicy = NewBronzeHistoryGCPOrgIamPolicyClient(c.config)
 	c.BronzeHistoryGCPOrgIamPolicyBinding = NewBronzeHistoryGCPOrgIamPolicyBindingClient(c.config)
+	c.BronzeHistoryGCPOrgPolicyConstraint = NewBronzeHistoryGCPOrgPolicyConstraintClient(c.config)
+	c.BronzeHistoryGCPOrgPolicyPolicy = NewBronzeHistoryGCPOrgPolicyPolicyClient(c.config)
 	c.BronzeHistoryGCPOrganization = NewBronzeHistoryGCPOrganizationClient(c.config)
 	c.BronzeHistoryGCPProject = NewBronzeHistoryGCPProjectClient(c.config)
 	c.BronzeHistoryGCPProjectIamPolicy = NewBronzeHistoryGCPProjectIamPolicyClient(c.config)
@@ -1261,6 +1277,8 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		BronzeGCPLoggingSink:                             NewBronzeGCPLoggingSinkClient(cfg),
 		BronzeGCPOrgIamPolicy:                            NewBronzeGCPOrgIamPolicyClient(cfg),
 		BronzeGCPOrgIamPolicyBinding:                     NewBronzeGCPOrgIamPolicyBindingClient(cfg),
+		BronzeGCPOrgPolicyConstraint:                     NewBronzeGCPOrgPolicyConstraintClient(cfg),
+		BronzeGCPOrgPolicyPolicy:                         NewBronzeGCPOrgPolicyPolicyClient(cfg),
 		BronzeGCPOrganization:                            NewBronzeGCPOrganizationClient(cfg),
 		BronzeGCPProject:                                 NewBronzeGCPProjectClient(cfg),
 		BronzeGCPProjectIamPolicy:                        NewBronzeGCPProjectIamPolicyClient(cfg),
@@ -1383,6 +1401,8 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		BronzeHistoryGCPLoggingSink:                      NewBronzeHistoryGCPLoggingSinkClient(cfg),
 		BronzeHistoryGCPOrgIamPolicy:                     NewBronzeHistoryGCPOrgIamPolicyClient(cfg),
 		BronzeHistoryGCPOrgIamPolicyBinding:              NewBronzeHistoryGCPOrgIamPolicyBindingClient(cfg),
+		BronzeHistoryGCPOrgPolicyConstraint:              NewBronzeHistoryGCPOrgPolicyConstraintClient(cfg),
+		BronzeHistoryGCPOrgPolicyPolicy:                  NewBronzeHistoryGCPOrgPolicyPolicyClient(cfg),
 		BronzeHistoryGCPOrganization:                     NewBronzeHistoryGCPOrganizationClient(cfg),
 		BronzeHistoryGCPProject:                          NewBronzeHistoryGCPProjectClient(cfg),
 		BronzeHistoryGCPProjectIamPolicy:                 NewBronzeHistoryGCPProjectIamPolicyClient(cfg),
@@ -1538,6 +1558,8 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		BronzeGCPLoggingSink:                             NewBronzeGCPLoggingSinkClient(cfg),
 		BronzeGCPOrgIamPolicy:                            NewBronzeGCPOrgIamPolicyClient(cfg),
 		BronzeGCPOrgIamPolicyBinding:                     NewBronzeGCPOrgIamPolicyBindingClient(cfg),
+		BronzeGCPOrgPolicyConstraint:                     NewBronzeGCPOrgPolicyConstraintClient(cfg),
+		BronzeGCPOrgPolicyPolicy:                         NewBronzeGCPOrgPolicyPolicyClient(cfg),
 		BronzeGCPOrganization:                            NewBronzeGCPOrganizationClient(cfg),
 		BronzeGCPProject:                                 NewBronzeGCPProjectClient(cfg),
 		BronzeGCPProjectIamPolicy:                        NewBronzeGCPProjectIamPolicyClient(cfg),
@@ -1660,6 +1682,8 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		BronzeHistoryGCPLoggingSink:                      NewBronzeHistoryGCPLoggingSinkClient(cfg),
 		BronzeHistoryGCPOrgIamPolicy:                     NewBronzeHistoryGCPOrgIamPolicyClient(cfg),
 		BronzeHistoryGCPOrgIamPolicyBinding:              NewBronzeHistoryGCPOrgIamPolicyBindingClient(cfg),
+		BronzeHistoryGCPOrgPolicyConstraint:              NewBronzeHistoryGCPOrgPolicyConstraintClient(cfg),
+		BronzeHistoryGCPOrgPolicyPolicy:                  NewBronzeHistoryGCPOrgPolicyPolicyClient(cfg),
 		BronzeHistoryGCPOrganization:                     NewBronzeHistoryGCPOrganizationClient(cfg),
 		BronzeHistoryGCPProject:                          NewBronzeHistoryGCPProjectClient(cfg),
 		BronzeHistoryGCPProjectIamPolicy:                 NewBronzeHistoryGCPProjectIamPolicyClient(cfg),
@@ -1771,7 +1795,8 @@ func (c *Client) Use(hooks ...Hook) {
 		c.BronzeGCPKMSCryptoKey, c.BronzeGCPKMSKeyRing, c.BronzeGCPLoggingBucket,
 		c.BronzeGCPLoggingLogExclusion, c.BronzeGCPLoggingLogMetric,
 		c.BronzeGCPLoggingSink, c.BronzeGCPOrgIamPolicy,
-		c.BronzeGCPOrgIamPolicyBinding, c.BronzeGCPOrganization, c.BronzeGCPProject,
+		c.BronzeGCPOrgIamPolicyBinding, c.BronzeGCPOrgPolicyConstraint,
+		c.BronzeGCPOrgPolicyPolicy, c.BronzeGCPOrganization, c.BronzeGCPProject,
 		c.BronzeGCPProjectIamPolicy, c.BronzeGCPProjectIamPolicyBinding,
 		c.BronzeGCPProjectLabel, c.BronzeGCPSQLInstance, c.BronzeGCPSQLInstanceLabel,
 		c.BronzeGCPSecretManagerSecret, c.BronzeGCPSecretManagerSecretLabel,
@@ -1845,6 +1870,7 @@ func (c *Client) Use(hooks ...Hook) {
 		c.BronzeHistoryGCPLoggingBucket, c.BronzeHistoryGCPLoggingLogExclusion,
 		c.BronzeHistoryGCPLoggingLogMetric, c.BronzeHistoryGCPLoggingSink,
 		c.BronzeHistoryGCPOrgIamPolicy, c.BronzeHistoryGCPOrgIamPolicyBinding,
+		c.BronzeHistoryGCPOrgPolicyConstraint, c.BronzeHistoryGCPOrgPolicyPolicy,
 		c.BronzeHistoryGCPOrganization, c.BronzeHistoryGCPProject,
 		c.BronzeHistoryGCPProjectIamPolicy, c.BronzeHistoryGCPProjectIamPolicyBinding,
 		c.BronzeHistoryGCPProjectLabel, c.BronzeHistoryGCPSQLInstance,
@@ -1918,7 +1944,8 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.BronzeGCPKMSCryptoKey, c.BronzeGCPKMSKeyRing, c.BronzeGCPLoggingBucket,
 		c.BronzeGCPLoggingLogExclusion, c.BronzeGCPLoggingLogMetric,
 		c.BronzeGCPLoggingSink, c.BronzeGCPOrgIamPolicy,
-		c.BronzeGCPOrgIamPolicyBinding, c.BronzeGCPOrganization, c.BronzeGCPProject,
+		c.BronzeGCPOrgIamPolicyBinding, c.BronzeGCPOrgPolicyConstraint,
+		c.BronzeGCPOrgPolicyPolicy, c.BronzeGCPOrganization, c.BronzeGCPProject,
 		c.BronzeGCPProjectIamPolicy, c.BronzeGCPProjectIamPolicyBinding,
 		c.BronzeGCPProjectLabel, c.BronzeGCPSQLInstance, c.BronzeGCPSQLInstanceLabel,
 		c.BronzeGCPSecretManagerSecret, c.BronzeGCPSecretManagerSecretLabel,
@@ -1992,6 +2019,7 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.BronzeHistoryGCPLoggingBucket, c.BronzeHistoryGCPLoggingLogExclusion,
 		c.BronzeHistoryGCPLoggingLogMetric, c.BronzeHistoryGCPLoggingSink,
 		c.BronzeHistoryGCPOrgIamPolicy, c.BronzeHistoryGCPOrgIamPolicyBinding,
+		c.BronzeHistoryGCPOrgPolicyConstraint, c.BronzeHistoryGCPOrgPolicyPolicy,
 		c.BronzeHistoryGCPOrganization, c.BronzeHistoryGCPProject,
 		c.BronzeHistoryGCPProjectIamPolicy, c.BronzeHistoryGCPProjectIamPolicyBinding,
 		c.BronzeHistoryGCPProjectLabel, c.BronzeHistoryGCPSQLInstance,
@@ -2218,6 +2246,10 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeGCPOrgIamPolicy.mutate(ctx, m)
 	case *BronzeGCPOrgIamPolicyBindingMutation:
 		return c.BronzeGCPOrgIamPolicyBinding.mutate(ctx, m)
+	case *BronzeGCPOrgPolicyConstraintMutation:
+		return c.BronzeGCPOrgPolicyConstraint.mutate(ctx, m)
+	case *BronzeGCPOrgPolicyPolicyMutation:
+		return c.BronzeGCPOrgPolicyPolicy.mutate(ctx, m)
 	case *BronzeGCPOrganizationMutation:
 		return c.BronzeGCPOrganization.mutate(ctx, m)
 	case *BronzeGCPProjectMutation:
@@ -2462,6 +2494,10 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeHistoryGCPOrgIamPolicy.mutate(ctx, m)
 	case *BronzeHistoryGCPOrgIamPolicyBindingMutation:
 		return c.BronzeHistoryGCPOrgIamPolicyBinding.mutate(ctx, m)
+	case *BronzeHistoryGCPOrgPolicyConstraintMutation:
+		return c.BronzeHistoryGCPOrgPolicyConstraint.mutate(ctx, m)
+	case *BronzeHistoryGCPOrgPolicyPolicyMutation:
+		return c.BronzeHistoryGCPOrgPolicyPolicy.mutate(ctx, m)
 	case *BronzeHistoryGCPOrganizationMutation:
 		return c.BronzeHistoryGCPOrganization.mutate(ctx, m)
 	case *BronzeHistoryGCPProjectMutation:
@@ -17204,6 +17240,272 @@ func (c *BronzeGCPOrgIamPolicyBindingClient) mutate(ctx context.Context, m *Bron
 		return (&BronzeGCPOrgIamPolicyBindingDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown BronzeGCPOrgIamPolicyBinding mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPOrgPolicyConstraintClient is a client for the BronzeGCPOrgPolicyConstraint schema.
+type BronzeGCPOrgPolicyConstraintClient struct {
+	config
+}
+
+// NewBronzeGCPOrgPolicyConstraintClient returns a client for the BronzeGCPOrgPolicyConstraint from the given config.
+func NewBronzeGCPOrgPolicyConstraintClient(c config) *BronzeGCPOrgPolicyConstraintClient {
+	return &BronzeGCPOrgPolicyConstraintClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcporgpolicyconstraint.Hooks(f(g(h())))`.
+func (c *BronzeGCPOrgPolicyConstraintClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPOrgPolicyConstraint = append(c.hooks.BronzeGCPOrgPolicyConstraint, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcporgpolicyconstraint.Intercept(f(g(h())))`.
+func (c *BronzeGCPOrgPolicyConstraintClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPOrgPolicyConstraint = append(c.inters.BronzeGCPOrgPolicyConstraint, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPOrgPolicyConstraint entity.
+func (c *BronzeGCPOrgPolicyConstraintClient) Create() *BronzeGCPOrgPolicyConstraintCreate {
+	mutation := newBronzeGCPOrgPolicyConstraintMutation(c.config, OpCreate)
+	return &BronzeGCPOrgPolicyConstraintCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPOrgPolicyConstraint entities.
+func (c *BronzeGCPOrgPolicyConstraintClient) CreateBulk(builders ...*BronzeGCPOrgPolicyConstraintCreate) *BronzeGCPOrgPolicyConstraintCreateBulk {
+	return &BronzeGCPOrgPolicyConstraintCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPOrgPolicyConstraintClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPOrgPolicyConstraintCreate, int)) *BronzeGCPOrgPolicyConstraintCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPOrgPolicyConstraintCreateBulk{err: fmt.Errorf("calling to BronzeGCPOrgPolicyConstraintClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPOrgPolicyConstraintCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPOrgPolicyConstraintCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPOrgPolicyConstraint.
+func (c *BronzeGCPOrgPolicyConstraintClient) Update() *BronzeGCPOrgPolicyConstraintUpdate {
+	mutation := newBronzeGCPOrgPolicyConstraintMutation(c.config, OpUpdate)
+	return &BronzeGCPOrgPolicyConstraintUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPOrgPolicyConstraintClient) UpdateOne(_m *BronzeGCPOrgPolicyConstraint) *BronzeGCPOrgPolicyConstraintUpdateOne {
+	mutation := newBronzeGCPOrgPolicyConstraintMutation(c.config, OpUpdateOne, withBronzeGCPOrgPolicyConstraint(_m))
+	return &BronzeGCPOrgPolicyConstraintUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPOrgPolicyConstraintClient) UpdateOneID(id string) *BronzeGCPOrgPolicyConstraintUpdateOne {
+	mutation := newBronzeGCPOrgPolicyConstraintMutation(c.config, OpUpdateOne, withBronzeGCPOrgPolicyConstraintID(id))
+	return &BronzeGCPOrgPolicyConstraintUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPOrgPolicyConstraint.
+func (c *BronzeGCPOrgPolicyConstraintClient) Delete() *BronzeGCPOrgPolicyConstraintDelete {
+	mutation := newBronzeGCPOrgPolicyConstraintMutation(c.config, OpDelete)
+	return &BronzeGCPOrgPolicyConstraintDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPOrgPolicyConstraintClient) DeleteOne(_m *BronzeGCPOrgPolicyConstraint) *BronzeGCPOrgPolicyConstraintDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPOrgPolicyConstraintClient) DeleteOneID(id string) *BronzeGCPOrgPolicyConstraintDeleteOne {
+	builder := c.Delete().Where(bronzegcporgpolicyconstraint.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPOrgPolicyConstraintDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPOrgPolicyConstraint.
+func (c *BronzeGCPOrgPolicyConstraintClient) Query() *BronzeGCPOrgPolicyConstraintQuery {
+	return &BronzeGCPOrgPolicyConstraintQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPOrgPolicyConstraint},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPOrgPolicyConstraint entity by its id.
+func (c *BronzeGCPOrgPolicyConstraintClient) Get(ctx context.Context, id string) (*BronzeGCPOrgPolicyConstraint, error) {
+	return c.Query().Where(bronzegcporgpolicyconstraint.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPOrgPolicyConstraintClient) GetX(ctx context.Context, id string) *BronzeGCPOrgPolicyConstraint {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPOrgPolicyConstraintClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPOrgPolicyConstraint
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPOrgPolicyConstraintClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPOrgPolicyConstraint
+}
+
+func (c *BronzeGCPOrgPolicyConstraintClient) mutate(ctx context.Context, m *BronzeGCPOrgPolicyConstraintMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPOrgPolicyConstraintCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPOrgPolicyConstraintUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPOrgPolicyConstraintUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPOrgPolicyConstraintDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPOrgPolicyConstraint mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPOrgPolicyPolicyClient is a client for the BronzeGCPOrgPolicyPolicy schema.
+type BronzeGCPOrgPolicyPolicyClient struct {
+	config
+}
+
+// NewBronzeGCPOrgPolicyPolicyClient returns a client for the BronzeGCPOrgPolicyPolicy from the given config.
+func NewBronzeGCPOrgPolicyPolicyClient(c config) *BronzeGCPOrgPolicyPolicyClient {
+	return &BronzeGCPOrgPolicyPolicyClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcporgpolicypolicy.Hooks(f(g(h())))`.
+func (c *BronzeGCPOrgPolicyPolicyClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPOrgPolicyPolicy = append(c.hooks.BronzeGCPOrgPolicyPolicy, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcporgpolicypolicy.Intercept(f(g(h())))`.
+func (c *BronzeGCPOrgPolicyPolicyClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPOrgPolicyPolicy = append(c.inters.BronzeGCPOrgPolicyPolicy, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPOrgPolicyPolicy entity.
+func (c *BronzeGCPOrgPolicyPolicyClient) Create() *BronzeGCPOrgPolicyPolicyCreate {
+	mutation := newBronzeGCPOrgPolicyPolicyMutation(c.config, OpCreate)
+	return &BronzeGCPOrgPolicyPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPOrgPolicyPolicy entities.
+func (c *BronzeGCPOrgPolicyPolicyClient) CreateBulk(builders ...*BronzeGCPOrgPolicyPolicyCreate) *BronzeGCPOrgPolicyPolicyCreateBulk {
+	return &BronzeGCPOrgPolicyPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPOrgPolicyPolicyClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPOrgPolicyPolicyCreate, int)) *BronzeGCPOrgPolicyPolicyCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPOrgPolicyPolicyCreateBulk{err: fmt.Errorf("calling to BronzeGCPOrgPolicyPolicyClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPOrgPolicyPolicyCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPOrgPolicyPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPOrgPolicyPolicy.
+func (c *BronzeGCPOrgPolicyPolicyClient) Update() *BronzeGCPOrgPolicyPolicyUpdate {
+	mutation := newBronzeGCPOrgPolicyPolicyMutation(c.config, OpUpdate)
+	return &BronzeGCPOrgPolicyPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPOrgPolicyPolicyClient) UpdateOne(_m *BronzeGCPOrgPolicyPolicy) *BronzeGCPOrgPolicyPolicyUpdateOne {
+	mutation := newBronzeGCPOrgPolicyPolicyMutation(c.config, OpUpdateOne, withBronzeGCPOrgPolicyPolicy(_m))
+	return &BronzeGCPOrgPolicyPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPOrgPolicyPolicyClient) UpdateOneID(id string) *BronzeGCPOrgPolicyPolicyUpdateOne {
+	mutation := newBronzeGCPOrgPolicyPolicyMutation(c.config, OpUpdateOne, withBronzeGCPOrgPolicyPolicyID(id))
+	return &BronzeGCPOrgPolicyPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPOrgPolicyPolicy.
+func (c *BronzeGCPOrgPolicyPolicyClient) Delete() *BronzeGCPOrgPolicyPolicyDelete {
+	mutation := newBronzeGCPOrgPolicyPolicyMutation(c.config, OpDelete)
+	return &BronzeGCPOrgPolicyPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPOrgPolicyPolicyClient) DeleteOne(_m *BronzeGCPOrgPolicyPolicy) *BronzeGCPOrgPolicyPolicyDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPOrgPolicyPolicyClient) DeleteOneID(id string) *BronzeGCPOrgPolicyPolicyDeleteOne {
+	builder := c.Delete().Where(bronzegcporgpolicypolicy.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPOrgPolicyPolicyDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPOrgPolicyPolicy.
+func (c *BronzeGCPOrgPolicyPolicyClient) Query() *BronzeGCPOrgPolicyPolicyQuery {
+	return &BronzeGCPOrgPolicyPolicyQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPOrgPolicyPolicy},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPOrgPolicyPolicy entity by its id.
+func (c *BronzeGCPOrgPolicyPolicyClient) Get(ctx context.Context, id string) (*BronzeGCPOrgPolicyPolicy, error) {
+	return c.Query().Where(bronzegcporgpolicypolicy.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPOrgPolicyPolicyClient) GetX(ctx context.Context, id string) *BronzeGCPOrgPolicyPolicy {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPOrgPolicyPolicyClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPOrgPolicyPolicy
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPOrgPolicyPolicyClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPOrgPolicyPolicy
+}
+
+func (c *BronzeGCPOrgPolicyPolicyClient) mutate(ctx context.Context, m *BronzeGCPOrgPolicyPolicyMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPOrgPolicyPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPOrgPolicyPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPOrgPolicyPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPOrgPolicyPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPOrgPolicyPolicy mutation op: %q", m.Op())
 	}
 }
 
@@ -33775,6 +34077,272 @@ func (c *BronzeHistoryGCPOrgIamPolicyBindingClient) mutate(ctx context.Context, 
 	}
 }
 
+// BronzeHistoryGCPOrgPolicyConstraintClient is a client for the BronzeHistoryGCPOrgPolicyConstraint schema.
+type BronzeHistoryGCPOrgPolicyConstraintClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPOrgPolicyConstraintClient returns a client for the BronzeHistoryGCPOrgPolicyConstraint from the given config.
+func NewBronzeHistoryGCPOrgPolicyConstraintClient(c config) *BronzeHistoryGCPOrgPolicyConstraintClient {
+	return &BronzeHistoryGCPOrgPolicyConstraintClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcporgpolicyconstraint.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPOrgPolicyConstraint = append(c.hooks.BronzeHistoryGCPOrgPolicyConstraint, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcporgpolicyconstraint.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPOrgPolicyConstraint = append(c.inters.BronzeHistoryGCPOrgPolicyConstraint, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPOrgPolicyConstraint entity.
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) Create() *BronzeHistoryGCPOrgPolicyConstraintCreate {
+	mutation := newBronzeHistoryGCPOrgPolicyConstraintMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPOrgPolicyConstraintCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPOrgPolicyConstraint entities.
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) CreateBulk(builders ...*BronzeHistoryGCPOrgPolicyConstraintCreate) *BronzeHistoryGCPOrgPolicyConstraintCreateBulk {
+	return &BronzeHistoryGCPOrgPolicyConstraintCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPOrgPolicyConstraintCreate, int)) *BronzeHistoryGCPOrgPolicyConstraintCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPOrgPolicyConstraintCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPOrgPolicyConstraintClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPOrgPolicyConstraintCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPOrgPolicyConstraintCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPOrgPolicyConstraint.
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) Update() *BronzeHistoryGCPOrgPolicyConstraintUpdate {
+	mutation := newBronzeHistoryGCPOrgPolicyConstraintMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPOrgPolicyConstraintUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) UpdateOne(_m *BronzeHistoryGCPOrgPolicyConstraint) *BronzeHistoryGCPOrgPolicyConstraintUpdateOne {
+	mutation := newBronzeHistoryGCPOrgPolicyConstraintMutation(c.config, OpUpdateOne, withBronzeHistoryGCPOrgPolicyConstraint(_m))
+	return &BronzeHistoryGCPOrgPolicyConstraintUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) UpdateOneID(id int) *BronzeHistoryGCPOrgPolicyConstraintUpdateOne {
+	mutation := newBronzeHistoryGCPOrgPolicyConstraintMutation(c.config, OpUpdateOne, withBronzeHistoryGCPOrgPolicyConstraintID(id))
+	return &BronzeHistoryGCPOrgPolicyConstraintUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPOrgPolicyConstraint.
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) Delete() *BronzeHistoryGCPOrgPolicyConstraintDelete {
+	mutation := newBronzeHistoryGCPOrgPolicyConstraintMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPOrgPolicyConstraintDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) DeleteOne(_m *BronzeHistoryGCPOrgPolicyConstraint) *BronzeHistoryGCPOrgPolicyConstraintDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) DeleteOneID(id int) *BronzeHistoryGCPOrgPolicyConstraintDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcporgpolicyconstraint.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPOrgPolicyConstraintDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPOrgPolicyConstraint.
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) Query() *BronzeHistoryGCPOrgPolicyConstraintQuery {
+	return &BronzeHistoryGCPOrgPolicyConstraintQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPOrgPolicyConstraint},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPOrgPolicyConstraint entity by its id.
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPOrgPolicyConstraint, error) {
+	return c.Query().Where(bronzehistorygcporgpolicyconstraint.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPOrgPolicyConstraint {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPOrgPolicyConstraint
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPOrgPolicyConstraint
+}
+
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) mutate(ctx context.Context, m *BronzeHistoryGCPOrgPolicyConstraintMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPOrgPolicyConstraintCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPOrgPolicyConstraintUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPOrgPolicyConstraintUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPOrgPolicyConstraintDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPOrgPolicyConstraint mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPOrgPolicyPolicyClient is a client for the BronzeHistoryGCPOrgPolicyPolicy schema.
+type BronzeHistoryGCPOrgPolicyPolicyClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPOrgPolicyPolicyClient returns a client for the BronzeHistoryGCPOrgPolicyPolicy from the given config.
+func NewBronzeHistoryGCPOrgPolicyPolicyClient(c config) *BronzeHistoryGCPOrgPolicyPolicyClient {
+	return &BronzeHistoryGCPOrgPolicyPolicyClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcporgpolicypolicy.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPOrgPolicyPolicy = append(c.hooks.BronzeHistoryGCPOrgPolicyPolicy, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcporgpolicypolicy.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPOrgPolicyPolicy = append(c.inters.BronzeHistoryGCPOrgPolicyPolicy, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPOrgPolicyPolicy entity.
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) Create() *BronzeHistoryGCPOrgPolicyPolicyCreate {
+	mutation := newBronzeHistoryGCPOrgPolicyPolicyMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPOrgPolicyPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPOrgPolicyPolicy entities.
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) CreateBulk(builders ...*BronzeHistoryGCPOrgPolicyPolicyCreate) *BronzeHistoryGCPOrgPolicyPolicyCreateBulk {
+	return &BronzeHistoryGCPOrgPolicyPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPOrgPolicyPolicyCreate, int)) *BronzeHistoryGCPOrgPolicyPolicyCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPOrgPolicyPolicyCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPOrgPolicyPolicyClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPOrgPolicyPolicyCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPOrgPolicyPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPOrgPolicyPolicy.
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) Update() *BronzeHistoryGCPOrgPolicyPolicyUpdate {
+	mutation := newBronzeHistoryGCPOrgPolicyPolicyMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPOrgPolicyPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) UpdateOne(_m *BronzeHistoryGCPOrgPolicyPolicy) *BronzeHistoryGCPOrgPolicyPolicyUpdateOne {
+	mutation := newBronzeHistoryGCPOrgPolicyPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPOrgPolicyPolicy(_m))
+	return &BronzeHistoryGCPOrgPolicyPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) UpdateOneID(id int) *BronzeHistoryGCPOrgPolicyPolicyUpdateOne {
+	mutation := newBronzeHistoryGCPOrgPolicyPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPOrgPolicyPolicyID(id))
+	return &BronzeHistoryGCPOrgPolicyPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPOrgPolicyPolicy.
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) Delete() *BronzeHistoryGCPOrgPolicyPolicyDelete {
+	mutation := newBronzeHistoryGCPOrgPolicyPolicyMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPOrgPolicyPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) DeleteOne(_m *BronzeHistoryGCPOrgPolicyPolicy) *BronzeHistoryGCPOrgPolicyPolicyDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) DeleteOneID(id int) *BronzeHistoryGCPOrgPolicyPolicyDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcporgpolicypolicy.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPOrgPolicyPolicyDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPOrgPolicyPolicy.
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) Query() *BronzeHistoryGCPOrgPolicyPolicyQuery {
+	return &BronzeHistoryGCPOrgPolicyPolicyQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPOrgPolicyPolicy},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPOrgPolicyPolicy entity by its id.
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPOrgPolicyPolicy, error) {
+	return c.Query().Where(bronzehistorygcporgpolicypolicy.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPOrgPolicyPolicy {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPOrgPolicyPolicy
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPOrgPolicyPolicy
+}
+
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) mutate(ctx context.Context, m *BronzeHistoryGCPOrgPolicyPolicyMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPOrgPolicyPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPOrgPolicyPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPOrgPolicyPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPOrgPolicyPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPOrgPolicyPolicy mutation op: %q", m.Op())
+	}
+}
+
 // BronzeHistoryGCPOrganizationClient is a client for the BronzeHistoryGCPOrganization schema.
 type BronzeHistoryGCPOrganizationClient struct {
 	config
@@ -38647,7 +39215,8 @@ type (
 		BronzeGCPIAMServiceAccountKey, BronzeGCPKMSCryptoKey, BronzeGCPKMSKeyRing,
 		BronzeGCPLoggingBucket, BronzeGCPLoggingLogExclusion,
 		BronzeGCPLoggingLogMetric, BronzeGCPLoggingSink, BronzeGCPOrgIamPolicy,
-		BronzeGCPOrgIamPolicyBinding, BronzeGCPOrganization, BronzeGCPProject,
+		BronzeGCPOrgIamPolicyBinding, BronzeGCPOrgPolicyConstraint,
+		BronzeGCPOrgPolicyPolicy, BronzeGCPOrganization, BronzeGCPProject,
 		BronzeGCPProjectIamPolicy, BronzeGCPProjectIamPolicyBinding,
 		BronzeGCPProjectLabel, BronzeGCPSQLInstance, BronzeGCPSQLInstanceLabel,
 		BronzeGCPSecretManagerSecret, BronzeGCPSecretManagerSecretLabel,
@@ -38714,6 +39283,7 @@ type (
 		BronzeHistoryGCPLoggingBucket, BronzeHistoryGCPLoggingLogExclusion,
 		BronzeHistoryGCPLoggingLogMetric, BronzeHistoryGCPLoggingSink,
 		BronzeHistoryGCPOrgIamPolicy, BronzeHistoryGCPOrgIamPolicyBinding,
+		BronzeHistoryGCPOrgPolicyConstraint, BronzeHistoryGCPOrgPolicyPolicy,
 		BronzeHistoryGCPOrganization, BronzeHistoryGCPProject,
 		BronzeHistoryGCPProjectIamPolicy, BronzeHistoryGCPProjectIamPolicyBinding,
 		BronzeHistoryGCPProjectLabel, BronzeHistoryGCPSQLInstance,
@@ -38775,7 +39345,8 @@ type (
 		BronzeGCPIAMServiceAccountKey, BronzeGCPKMSCryptoKey, BronzeGCPKMSKeyRing,
 		BronzeGCPLoggingBucket, BronzeGCPLoggingLogExclusion,
 		BronzeGCPLoggingLogMetric, BronzeGCPLoggingSink, BronzeGCPOrgIamPolicy,
-		BronzeGCPOrgIamPolicyBinding, BronzeGCPOrganization, BronzeGCPProject,
+		BronzeGCPOrgIamPolicyBinding, BronzeGCPOrgPolicyConstraint,
+		BronzeGCPOrgPolicyPolicy, BronzeGCPOrganization, BronzeGCPProject,
 		BronzeGCPProjectIamPolicy, BronzeGCPProjectIamPolicyBinding,
 		BronzeGCPProjectLabel, BronzeGCPSQLInstance, BronzeGCPSQLInstanceLabel,
 		BronzeGCPSecretManagerSecret, BronzeGCPSecretManagerSecretLabel,
@@ -38842,6 +39413,7 @@ type (
 		BronzeHistoryGCPLoggingBucket, BronzeHistoryGCPLoggingLogExclusion,
 		BronzeHistoryGCPLoggingLogMetric, BronzeHistoryGCPLoggingSink,
 		BronzeHistoryGCPOrgIamPolicy, BronzeHistoryGCPOrgIamPolicyBinding,
+		BronzeHistoryGCPOrgPolicyConstraint, BronzeHistoryGCPOrgPolicyPolicy,
 		BronzeHistoryGCPOrganization, BronzeHistoryGCPProject,
 		BronzeHistoryGCPProjectIamPolicy, BronzeHistoryGCPProjectIamPolicyBinding,
 		BronzeHistoryGCPProjectLabel, BronzeHistoryGCPSQLInstance,

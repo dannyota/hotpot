@@ -306,6 +306,12 @@ type BronzeGCPOrgIamPolicy func(*sql.Selector)
 // BronzeGCPOrgIamPolicyBinding is the predicate function for bronzegcporgiampolicybinding builders.
 type BronzeGCPOrgIamPolicyBinding func(*sql.Selector)
 
+// BronzeGCPOrgPolicyConstraint is the predicate function for bronzegcporgpolicyconstraint builders.
+type BronzeGCPOrgPolicyConstraint func(*sql.Selector)
+
+// BronzeGCPOrgPolicyPolicy is the predicate function for bronzegcporgpolicypolicy builders.
+type BronzeGCPOrgPolicyPolicy func(*sql.Selector)
+
 // BronzeGCPOrganization is the predicate function for bronzegcporganization builders.
 type BronzeGCPOrganization func(*sql.Selector)
 
@@ -671,6 +677,12 @@ type BronzeHistoryGCPOrgIamPolicy func(*sql.Selector)
 
 // BronzeHistoryGCPOrgIamPolicyBinding is the predicate function for bronzehistorygcporgiampolicybinding builders.
 type BronzeHistoryGCPOrgIamPolicyBinding func(*sql.Selector)
+
+// BronzeHistoryGCPOrgPolicyConstraint is the predicate function for bronzehistorygcporgpolicyconstraint builders.
+type BronzeHistoryGCPOrgPolicyConstraint func(*sql.Selector)
+
+// BronzeHistoryGCPOrgPolicyPolicy is the predicate function for bronzehistorygcporgpolicypolicy builders.
+type BronzeHistoryGCPOrgPolicyPolicy func(*sql.Selector)
 
 // BronzeHistoryGCPOrganization is the predicate function for bronzehistorygcporganization builders.
 type BronzeHistoryGCPOrganization func(*sql.Selector)

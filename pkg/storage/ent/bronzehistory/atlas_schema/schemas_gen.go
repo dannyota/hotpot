@@ -12,6 +12,7 @@ import (
 	bronzehistory_gcp_iam "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/iam"
 	bronzehistory_gcp_kms "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/kms"
 	bronzehistory_gcp_logging "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/logging"
+	bronzehistory_gcp_orgpolicy "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/orgpolicy"
 	bronzehistory_gcp_resourcemanager "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/resourcemanager"
 	bronzehistory_gcp_secretmanager "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/secretmanager"
 	bronzehistory_gcp_securitycenter "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/securitycenter"
@@ -1516,6 +1517,38 @@ type BronzeHistoryGCPLoggingSink struct {
 
 func (BronzeHistoryGCPLoggingSink) Annotations() []schema.Annotation {
 	anns := bronzehistory_gcp_logging.BronzeHistoryGCPLoggingSink{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPOrgPolicyConstraint struct {
+	bronzehistory_gcp_orgpolicy.BronzeHistoryGCPOrgPolicyConstraint
+}
+
+func (BronzeHistoryGCPOrgPolicyConstraint) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_orgpolicy.BronzeHistoryGCPOrgPolicyConstraint{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGCPOrgPolicyPolicy struct {
+	bronzehistory_gcp_orgpolicy.BronzeHistoryGCPOrgPolicyPolicy
+}
+
+func (BronzeHistoryGCPOrgPolicyPolicy) Annotations() []schema.Annotation {
+	anns := bronzehistory_gcp_orgpolicy.BronzeHistoryGCPOrgPolicyPolicy{}.Annotations()
 	for i, a := range anns {
 		if v, ok := a.(entsql.Annotation); ok {
 			v.Schema = "bronze_history"

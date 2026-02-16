@@ -12,6 +12,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/iam"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/kms"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/logging"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/orgpolicy"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/secretmanager"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/securitycenter"
 	gcpsql "github.com/dannyota/hotpot/pkg/ingest/gcp/sql"
@@ -48,6 +49,8 @@ type GCPInventoryWorkflowResult struct {
 	TotalProjectMetadata    int
 	TotalSources            int
 	TotalFindings           int
+	TotalConstraints        int
+	TotalOrgPolicies        int
 }
 
 // ProjectResult contains the ingestion result for a single project.
@@ -311,6 +314,17 @@ func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParam
 		result.TotalFindings = sccResult.FindingCount
 	}
 
+	// Execute GCPOrgPolicyWorkflow (org-scoped, queries orgs from DB)
+	var orgPolicyResult orgpolicy.GCPOrgPolicyWorkflowResult
+	err = workflow.ExecuteChildWorkflow(ctx, orgpolicy.GCPOrgPolicyWorkflow,
+		orgpolicy.GCPOrgPolicyWorkflowParams{}).Get(ctx, &orgPolicyResult)
+	if err != nil {
+		logger.Error("Failed to execute GCPOrgPolicyWorkflow", "error", err)
+	} else {
+		result.TotalConstraints = orgPolicyResult.ConstraintCount
+		result.TotalOrgPolicies = orgPolicyResult.PolicyCount
+	}
+
 	logger.Info("Completed GCPInventoryWorkflow",
 		"projectCount", len(params.ProjectIDs),
 		"totalInstances", result.TotalInstances,
@@ -334,6 +348,8 @@ func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParam
 		"totalProjectMetadata", result.TotalProjectMetadata,
 		"totalSources", result.TotalSources,
 		"totalFindings", result.TotalFindings,
+		"totalConstraints", result.TotalConstraints,
+		"totalOrgPolicies", result.TotalOrgPolicies,
 	)
 
 	return result, nil

@@ -107,6 +107,8 @@ type SchemaConfig struct {
 	BronzeGCPLoggingSink                             string // BronzeGCPLoggingSink table.
 	BronzeGCPOrgIamPolicy                            string // BronzeGCPOrgIamPolicy table.
 	BronzeGCPOrgIamPolicyBinding                     string // BronzeGCPOrgIamPolicyBinding table.
+	BronzeGCPOrgPolicyConstraint                     string // BronzeGCPOrgPolicyConstraint table.
+	BronzeGCPOrgPolicyPolicy                         string // BronzeGCPOrgPolicyPolicy table.
 	BronzeGCPOrganization                            string // BronzeGCPOrganization table.
 	BronzeGCPProject                                 string // BronzeGCPProject table.
 	BronzeGCPProjectIamPolicy                        string // BronzeGCPProjectIamPolicy table.
@@ -229,6 +231,8 @@ type SchemaConfig struct {
 	BronzeHistoryGCPLoggingSink                      string // BronzeHistoryGCPLoggingSink table.
 	BronzeHistoryGCPOrgIamPolicy                     string // BronzeHistoryGCPOrgIamPolicy table.
 	BronzeHistoryGCPOrgIamPolicyBinding              string // BronzeHistoryGCPOrgIamPolicyBinding table.
+	BronzeHistoryGCPOrgPolicyConstraint              string // BronzeHistoryGCPOrgPolicyConstraint table.
+	BronzeHistoryGCPOrgPolicyPolicy                  string // BronzeHistoryGCPOrgPolicyPolicy table.
 	BronzeHistoryGCPOrganization                     string // BronzeHistoryGCPOrganization table.
 	BronzeHistoryGCPProject                          string // BronzeHistoryGCPProject table.
 	BronzeHistoryGCPProjectIamPolicy                 string // BronzeHistoryGCPProjectIamPolicy table.

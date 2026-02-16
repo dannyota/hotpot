@@ -113,6 +113,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporganization"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgiampolicybinding"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgpolicyconstraint"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgpolicypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectiampolicybinding"
@@ -235,6 +237,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporganization"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgiampolicybinding"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgpolicyconstraint"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgpolicypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectiampolicybinding"
@@ -430,6 +434,8 @@ func checkColumn(t, c string) error {
 			bronzegcploggingsink.Table:                             bronzegcploggingsink.ValidColumn,
 			bronzegcporgiampolicy.Table:                            bronzegcporgiampolicy.ValidColumn,
 			bronzegcporgiampolicybinding.Table:                     bronzegcporgiampolicybinding.ValidColumn,
+			bronzegcporgpolicyconstraint.Table:                     bronzegcporgpolicyconstraint.ValidColumn,
+			bronzegcporgpolicypolicy.Table:                         bronzegcporgpolicypolicy.ValidColumn,
 			bronzegcporganization.Table:                            bronzegcporganization.ValidColumn,
 			bronzegcpproject.Table:                                 bronzegcpproject.ValidColumn,
 			bronzegcpprojectiampolicy.Table:                        bronzegcpprojectiampolicy.ValidColumn,
@@ -552,6 +558,8 @@ func checkColumn(t, c string) error {
 			bronzehistorygcploggingsink.Table:                      bronzehistorygcploggingsink.ValidColumn,
 			bronzehistorygcporgiampolicy.Table:                     bronzehistorygcporgiampolicy.ValidColumn,
 			bronzehistorygcporgiampolicybinding.Table:              bronzehistorygcporgiampolicybinding.ValidColumn,
+			bronzehistorygcporgpolicyconstraint.Table:              bronzehistorygcporgpolicyconstraint.ValidColumn,
+			bronzehistorygcporgpolicypolicy.Table:                  bronzehistorygcporgpolicypolicy.ValidColumn,
 			bronzehistorygcporganization.Table:                     bronzehistorygcporganization.ValidColumn,
 			bronzehistorygcpproject.Table:                          bronzehistorygcpproject.ValidColumn,
 			bronzehistorygcpprojectiampolicy.Table:                 bronzehistorygcpprojectiampolicy.ValidColumn,

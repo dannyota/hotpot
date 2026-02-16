@@ -10,6 +10,7 @@ import (
 	bronze_gcp_iam "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/iam"
 	bronze_gcp_kms "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/kms"
 	bronze_gcp_logging "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/logging"
+	bronze_gcp_orgpolicy "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/orgpolicy"
 	bronze_gcp_resourcemanager "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/resourcemanager"
 	bronze_gcp_secretmanager "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/secretmanager"
 	bronze_gcp_securitycenter "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/securitycenter"
@@ -26,6 +27,7 @@ import (
 	bronzehistory_gcp_iam "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/iam"
 	bronzehistory_gcp_kms "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/kms"
 	bronzehistory_gcp_logging "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/logging"
+	bronzehistory_gcp_orgpolicy "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/orgpolicy"
 	bronzehistory_gcp_resourcemanager "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/resourcemanager"
 	bronzehistory_gcp_secretmanager "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/secretmanager"
 	bronzehistory_gcp_securitycenter "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/securitycenter"
@@ -410,6 +412,14 @@ type BronzeGCPLoggingLogMetric struct {
 
 type BronzeGCPLoggingSink struct {
 	bronze_gcp_logging.BronzeGCPLoggingSink
+}
+
+type BronzeGCPOrgPolicyConstraint struct {
+	bronze_gcp_orgpolicy.BronzeGCPOrgPolicyConstraint
+}
+
+type BronzeGCPOrgPolicyPolicy struct {
+	bronze_gcp_orgpolicy.BronzeGCPOrgPolicyPolicy
 }
 
 type BronzeGCPFolder struct {
@@ -926,6 +936,14 @@ type BronzeHistoryGCPLoggingLogMetric struct {
 
 type BronzeHistoryGCPLoggingSink struct {
 	bronzehistory_gcp_logging.BronzeHistoryGCPLoggingSink
+}
+
+type BronzeHistoryGCPOrgPolicyConstraint struct {
+	bronzehistory_gcp_orgpolicy.BronzeHistoryGCPOrgPolicyConstraint
+}
+
+type BronzeHistoryGCPOrgPolicyPolicy struct {
+	bronzehistory_gcp_orgpolicy.BronzeHistoryGCPOrgPolicyPolicy
 }
 
 type BronzeHistoryGCPFolder struct {

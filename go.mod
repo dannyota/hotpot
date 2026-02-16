@@ -10,6 +10,7 @@ require (
 	cloud.google.com/go/iam v1.5.3
 	cloud.google.com/go/kms v1.25.0
 	cloud.google.com/go/logging v1.13.2
+	cloud.google.com/go/orgpolicy v1.15.1
 	cloud.google.com/go/resourcemanager v1.10.7
 	cloud.google.com/go/secretmanager v1.16.0
 	cloud.google.com/go/securitycenter v1.38.1

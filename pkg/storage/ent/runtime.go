@@ -100,6 +100,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporganization"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgiampolicybinding"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgpolicyconstraint"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgpolicypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectiampolicybinding"
@@ -209,6 +211,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporganization"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgiampolicybinding"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgpolicyconstraint"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgpolicypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectiampolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectiampolicybinding"
@@ -1400,6 +1404,30 @@ func init() {
 	bronzegcporgiampolicybindingDescRole := bronzegcporgiampolicybindingFields[0].Descriptor()
 	// bronzegcporgiampolicybinding.RoleValidator is a validator for the "role" field. It is called by the builders before save.
 	bronzegcporgiampolicybinding.RoleValidator = bronzegcporgiampolicybindingDescRole.Validators[0].(func(string) error)
+	bronzegcporgpolicyconstraintFields := schema.BronzeGCPOrgPolicyConstraint{}.Fields()
+	_ = bronzegcporgpolicyconstraintFields
+	// bronzegcporgpolicyconstraintDescConstraintDefault is the schema descriptor for constraint_default field.
+	bronzegcporgpolicyconstraintDescConstraintDefault := bronzegcporgpolicyconstraintFields[3].Descriptor()
+	// bronzegcporgpolicyconstraint.DefaultConstraintDefault holds the default value on creation for the constraint_default field.
+	bronzegcporgpolicyconstraint.DefaultConstraintDefault = bronzegcporgpolicyconstraintDescConstraintDefault.Default.(int)
+	// bronzegcporgpolicyconstraintDescSupportsDryRun is the schema descriptor for supports_dry_run field.
+	bronzegcporgpolicyconstraintDescSupportsDryRun := bronzegcporgpolicyconstraintFields[4].Descriptor()
+	// bronzegcporgpolicyconstraint.DefaultSupportsDryRun holds the default value on creation for the supports_dry_run field.
+	bronzegcporgpolicyconstraint.DefaultSupportsDryRun = bronzegcporgpolicyconstraintDescSupportsDryRun.Default.(bool)
+	// bronzegcporgpolicyconstraintDescSupportsSimulation is the schema descriptor for supports_simulation field.
+	bronzegcporgpolicyconstraintDescSupportsSimulation := bronzegcporgpolicyconstraintFields[5].Descriptor()
+	// bronzegcporgpolicyconstraint.DefaultSupportsSimulation holds the default value on creation for the supports_simulation field.
+	bronzegcporgpolicyconstraint.DefaultSupportsSimulation = bronzegcporgpolicyconstraintDescSupportsSimulation.Default.(bool)
+	// bronzegcporgpolicyconstraintDescOrganizationID is the schema descriptor for organization_id field.
+	bronzegcporgpolicyconstraintDescOrganizationID := bronzegcporgpolicyconstraintFields[8].Descriptor()
+	// bronzegcporgpolicyconstraint.OrganizationIDValidator is a validator for the "organization_id" field. It is called by the builders before save.
+	bronzegcporgpolicyconstraint.OrganizationIDValidator = bronzegcporgpolicyconstraintDescOrganizationID.Validators[0].(func(string) error)
+	bronzegcporgpolicypolicyFields := schema.BronzeGCPOrgPolicyPolicy{}.Fields()
+	_ = bronzegcporgpolicypolicyFields
+	// bronzegcporgpolicypolicyDescOrganizationID is the schema descriptor for organization_id field.
+	bronzegcporgpolicypolicyDescOrganizationID := bronzegcporgpolicypolicyFields[4].Descriptor()
+	// bronzegcporgpolicypolicy.OrganizationIDValidator is a validator for the "organization_id" field. It is called by the builders before save.
+	bronzegcporgpolicypolicy.OrganizationIDValidator = bronzegcporgpolicypolicyDescOrganizationID.Validators[0].(func(string) error)
 	bronzegcporganizationFields := schema.BronzeGCPOrganization{}.Fields()
 	_ = bronzegcporganizationFields
 	// bronzegcporganizationDescName is the schema descriptor for name field.
@@ -2922,6 +2950,38 @@ func init() {
 	bronzehistorygcporgiampolicybindingDescRole := bronzehistorygcporgiampolicybindingFields[4].Descriptor()
 	// bronzehistorygcporgiampolicybinding.RoleValidator is a validator for the "role" field. It is called by the builders before save.
 	bronzehistorygcporgiampolicybinding.RoleValidator = bronzehistorygcporgiampolicybindingDescRole.Validators[0].(func(string) error)
+	bronzehistorygcporgpolicyconstraintFields := schema.BronzeHistoryGCPOrgPolicyConstraint{}.Fields()
+	_ = bronzehistorygcporgpolicyconstraintFields
+	// bronzehistorygcporgpolicyconstraintDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcporgpolicyconstraintDescResourceID := bronzehistorygcporgpolicyconstraintFields[1].Descriptor()
+	// bronzehistorygcporgpolicyconstraint.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcporgpolicyconstraint.ResourceIDValidator = bronzehistorygcporgpolicyconstraintDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcporgpolicyconstraintDescConstraintDefault is the schema descriptor for constraint_default field.
+	bronzehistorygcporgpolicyconstraintDescConstraintDefault := bronzehistorygcporgpolicyconstraintFields[4].Descriptor()
+	// bronzehistorygcporgpolicyconstraint.DefaultConstraintDefault holds the default value on creation for the constraint_default field.
+	bronzehistorygcporgpolicyconstraint.DefaultConstraintDefault = bronzehistorygcporgpolicyconstraintDescConstraintDefault.Default.(int)
+	// bronzehistorygcporgpolicyconstraintDescSupportsDryRun is the schema descriptor for supports_dry_run field.
+	bronzehistorygcporgpolicyconstraintDescSupportsDryRun := bronzehistorygcporgpolicyconstraintFields[5].Descriptor()
+	// bronzehistorygcporgpolicyconstraint.DefaultSupportsDryRun holds the default value on creation for the supports_dry_run field.
+	bronzehistorygcporgpolicyconstraint.DefaultSupportsDryRun = bronzehistorygcporgpolicyconstraintDescSupportsDryRun.Default.(bool)
+	// bronzehistorygcporgpolicyconstraintDescSupportsSimulation is the schema descriptor for supports_simulation field.
+	bronzehistorygcporgpolicyconstraintDescSupportsSimulation := bronzehistorygcporgpolicyconstraintFields[6].Descriptor()
+	// bronzehistorygcporgpolicyconstraint.DefaultSupportsSimulation holds the default value on creation for the supports_simulation field.
+	bronzehistorygcporgpolicyconstraint.DefaultSupportsSimulation = bronzehistorygcporgpolicyconstraintDescSupportsSimulation.Default.(bool)
+	// bronzehistorygcporgpolicyconstraintDescOrganizationID is the schema descriptor for organization_id field.
+	bronzehistorygcporgpolicyconstraintDescOrganizationID := bronzehistorygcporgpolicyconstraintFields[9].Descriptor()
+	// bronzehistorygcporgpolicyconstraint.OrganizationIDValidator is a validator for the "organization_id" field. It is called by the builders before save.
+	bronzehistorygcporgpolicyconstraint.OrganizationIDValidator = bronzehistorygcporgpolicyconstraintDescOrganizationID.Validators[0].(func(string) error)
+	bronzehistorygcporgpolicypolicyFields := schema.BronzeHistoryGCPOrgPolicyPolicy{}.Fields()
+	_ = bronzehistorygcporgpolicypolicyFields
+	// bronzehistorygcporgpolicypolicyDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcporgpolicypolicyDescResourceID := bronzehistorygcporgpolicypolicyFields[1].Descriptor()
+	// bronzehistorygcporgpolicypolicy.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcporgpolicypolicy.ResourceIDValidator = bronzehistorygcporgpolicypolicyDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcporgpolicypolicyDescOrganizationID is the schema descriptor for organization_id field.
+	bronzehistorygcporgpolicypolicyDescOrganizationID := bronzehistorygcporgpolicypolicyFields[5].Descriptor()
+	// bronzehistorygcporgpolicypolicy.OrganizationIDValidator is a validator for the "organization_id" field. It is called by the builders before save.
+	bronzehistorygcporgpolicypolicy.OrganizationIDValidator = bronzehistorygcporgpolicypolicyDescOrganizationID.Validators[0].(func(string) error)
 	bronzehistorygcporganizationFields := schema.BronzeHistoryGCPOrganization{}.Fields()
 	_ = bronzehistorygcporganizationFields
 	// bronzehistorygcporganizationDescResourceID is the schema descriptor for resource_id field.

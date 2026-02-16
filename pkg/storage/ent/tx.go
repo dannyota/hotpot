@@ -212,6 +212,10 @@ type Tx struct {
 	BronzeGCPOrgIamPolicy *BronzeGCPOrgIamPolicyClient
 	// BronzeGCPOrgIamPolicyBinding is the client for interacting with the BronzeGCPOrgIamPolicyBinding builders.
 	BronzeGCPOrgIamPolicyBinding *BronzeGCPOrgIamPolicyBindingClient
+	// BronzeGCPOrgPolicyConstraint is the client for interacting with the BronzeGCPOrgPolicyConstraint builders.
+	BronzeGCPOrgPolicyConstraint *BronzeGCPOrgPolicyConstraintClient
+	// BronzeGCPOrgPolicyPolicy is the client for interacting with the BronzeGCPOrgPolicyPolicy builders.
+	BronzeGCPOrgPolicyPolicy *BronzeGCPOrgPolicyPolicyClient
 	// BronzeGCPOrganization is the client for interacting with the BronzeGCPOrganization builders.
 	BronzeGCPOrganization *BronzeGCPOrganizationClient
 	// BronzeGCPProject is the client for interacting with the BronzeGCPProject builders.
@@ -456,6 +460,10 @@ type Tx struct {
 	BronzeHistoryGCPOrgIamPolicy *BronzeHistoryGCPOrgIamPolicyClient
 	// BronzeHistoryGCPOrgIamPolicyBinding is the client for interacting with the BronzeHistoryGCPOrgIamPolicyBinding builders.
 	BronzeHistoryGCPOrgIamPolicyBinding *BronzeHistoryGCPOrgIamPolicyBindingClient
+	// BronzeHistoryGCPOrgPolicyConstraint is the client for interacting with the BronzeHistoryGCPOrgPolicyConstraint builders.
+	BronzeHistoryGCPOrgPolicyConstraint *BronzeHistoryGCPOrgPolicyConstraintClient
+	// BronzeHistoryGCPOrgPolicyPolicy is the client for interacting with the BronzeHistoryGCPOrgPolicyPolicy builders.
+	BronzeHistoryGCPOrgPolicyPolicy *BronzeHistoryGCPOrgPolicyPolicyClient
 	// BronzeHistoryGCPOrganization is the client for interacting with the BronzeHistoryGCPOrganization builders.
 	BronzeHistoryGCPOrganization *BronzeHistoryGCPOrganizationClient
 	// BronzeHistoryGCPProject is the client for interacting with the BronzeHistoryGCPProject builders.
@@ -759,6 +767,8 @@ func (tx *Tx) init() {
 	tx.BronzeGCPLoggingSink = NewBronzeGCPLoggingSinkClient(tx.config)
 	tx.BronzeGCPOrgIamPolicy = NewBronzeGCPOrgIamPolicyClient(tx.config)
 	tx.BronzeGCPOrgIamPolicyBinding = NewBronzeGCPOrgIamPolicyBindingClient(tx.config)
+	tx.BronzeGCPOrgPolicyConstraint = NewBronzeGCPOrgPolicyConstraintClient(tx.config)
+	tx.BronzeGCPOrgPolicyPolicy = NewBronzeGCPOrgPolicyPolicyClient(tx.config)
 	tx.BronzeGCPOrganization = NewBronzeGCPOrganizationClient(tx.config)
 	tx.BronzeGCPProject = NewBronzeGCPProjectClient(tx.config)
 	tx.BronzeGCPProjectIamPolicy = NewBronzeGCPProjectIamPolicyClient(tx.config)
@@ -881,6 +891,8 @@ func (tx *Tx) init() {
 	tx.BronzeHistoryGCPLoggingSink = NewBronzeHistoryGCPLoggingSinkClient(tx.config)
 	tx.BronzeHistoryGCPOrgIamPolicy = NewBronzeHistoryGCPOrgIamPolicyClient(tx.config)
 	tx.BronzeHistoryGCPOrgIamPolicyBinding = NewBronzeHistoryGCPOrgIamPolicyBindingClient(tx.config)
+	tx.BronzeHistoryGCPOrgPolicyConstraint = NewBronzeHistoryGCPOrgPolicyConstraintClient(tx.config)
+	tx.BronzeHistoryGCPOrgPolicyPolicy = NewBronzeHistoryGCPOrgPolicyPolicyClient(tx.config)
 	tx.BronzeHistoryGCPOrganization = NewBronzeHistoryGCPOrganizationClient(tx.config)
 	tx.BronzeHistoryGCPProject = NewBronzeHistoryGCPProjectClient(tx.config)
 	tx.BronzeHistoryGCPProjectIamPolicy = NewBronzeHistoryGCPProjectIamPolicyClient(tx.config)

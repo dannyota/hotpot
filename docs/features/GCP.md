@@ -194,8 +194,8 @@ GCP resource ingestion coverage in the bronze layer.
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Constraints | `OrgPolicyClient` | `ListConstraints()` | |
-| Org Policies | `OrgPolicyClient` | `ListPolicies()` | |
+| Constraints | `OrgPolicyClient` | `ListConstraints()` | ✅ |
+| Org Policies | `OrgPolicyClient` | `ListPolicies()` | ✅ |
 | Custom Constraints | `OrgPolicyClient` | `ListCustomConstraints()` | |
 
 ## 🚧 Access Context Manager API (`accesscontextmanager.googleapis.com`)
@@ -356,7 +356,7 @@ GCP resource ingestion coverage in the bronze layer.
 
 ## 📊 Summary
 
-**Total: 58/117 (50%)**
+**Total: 60/117 (51%)**
 
 See [GCP_ROADMAP.md](./GCP_ROADMAP.md) for implementation strategy.
 
@@ -382,7 +382,7 @@ See [GCP_ROADMAP.md](./GCP_ROADMAP.md) for implementation strategy.
 | Secret Manager | 1 | 1 |
 | App Engine Admin | 0 | 2 |
 | Security Command Center | 2 | 3 |
-| Organization Policy | 0 | 3 |
+| Organization Policy | 2 | 3 |
 | Access Context Manager | 0 | 3 |
 | Cloud Asset | 0 | 3 |
 | Sensitive Data Protection | 0 | 5 |
