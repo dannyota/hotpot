@@ -132,14 +132,38 @@ type Tx struct {
 	BronzeGCPContainerClusterLabel *BronzeGCPContainerClusterLabelClient
 	// BronzeGCPContainerClusterNodePool is the client for interacting with the BronzeGCPContainerClusterNodePool builders.
 	BronzeGCPContainerClusterNodePool *BronzeGCPContainerClusterNodePoolClient
+	// BronzeGCPDNSManagedZone is the client for interacting with the BronzeGCPDNSManagedZone builders.
+	BronzeGCPDNSManagedZone *BronzeGCPDNSManagedZoneClient
+	// BronzeGCPDNSManagedZoneLabel is the client for interacting with the BronzeGCPDNSManagedZoneLabel builders.
+	BronzeGCPDNSManagedZoneLabel *BronzeGCPDNSManagedZoneLabelClient
 	// BronzeGCPIAMServiceAccount is the client for interacting with the BronzeGCPIAMServiceAccount builders.
 	BronzeGCPIAMServiceAccount *BronzeGCPIAMServiceAccountClient
 	// BronzeGCPIAMServiceAccountKey is the client for interacting with the BronzeGCPIAMServiceAccountKey builders.
 	BronzeGCPIAMServiceAccountKey *BronzeGCPIAMServiceAccountKeyClient
+	// BronzeGCPKMSCryptoKey is the client for interacting with the BronzeGCPKMSCryptoKey builders.
+	BronzeGCPKMSCryptoKey *BronzeGCPKMSCryptoKeyClient
+	// BronzeGCPKMSKeyRing is the client for interacting with the BronzeGCPKMSKeyRing builders.
+	BronzeGCPKMSKeyRing *BronzeGCPKMSKeyRingClient
+	// BronzeGCPLoggingBucket is the client for interacting with the BronzeGCPLoggingBucket builders.
+	BronzeGCPLoggingBucket *BronzeGCPLoggingBucketClient
+	// BronzeGCPLoggingSink is the client for interacting with the BronzeGCPLoggingSink builders.
+	BronzeGCPLoggingSink *BronzeGCPLoggingSinkClient
 	// BronzeGCPProject is the client for interacting with the BronzeGCPProject builders.
 	BronzeGCPProject *BronzeGCPProjectClient
 	// BronzeGCPProjectLabel is the client for interacting with the BronzeGCPProjectLabel builders.
 	BronzeGCPProjectLabel *BronzeGCPProjectLabelClient
+	// BronzeGCPSQLInstance is the client for interacting with the BronzeGCPSQLInstance builders.
+	BronzeGCPSQLInstance *BronzeGCPSQLInstanceClient
+	// BronzeGCPSQLInstanceLabel is the client for interacting with the BronzeGCPSQLInstanceLabel builders.
+	BronzeGCPSQLInstanceLabel *BronzeGCPSQLInstanceLabelClient
+	// BronzeGCPSecretManagerSecret is the client for interacting with the BronzeGCPSecretManagerSecret builders.
+	BronzeGCPSecretManagerSecret *BronzeGCPSecretManagerSecretClient
+	// BronzeGCPSecretManagerSecretLabel is the client for interacting with the BronzeGCPSecretManagerSecretLabel builders.
+	BronzeGCPSecretManagerSecretLabel *BronzeGCPSecretManagerSecretLabelClient
+	// BronzeGCPStorageBucket is the client for interacting with the BronzeGCPStorageBucket builders.
+	BronzeGCPStorageBucket *BronzeGCPStorageBucketClient
+	// BronzeGCPStorageBucketLabel is the client for interacting with the BronzeGCPStorageBucketLabel builders.
+	BronzeGCPStorageBucketLabel *BronzeGCPStorageBucketLabelClient
 	// BronzeGCPVPCAccessConnector is the client for interacting with the BronzeGCPVPCAccessConnector builders.
 	BronzeGCPVPCAccessConnector *BronzeGCPVPCAccessConnectorClient
 	// BronzeGCPVPNGateway is the client for interacting with the BronzeGCPVPNGateway builders.
@@ -274,14 +298,38 @@ type Tx struct {
 	BronzeHistoryGCPContainerClusterLabel *BronzeHistoryGCPContainerClusterLabelClient
 	// BronzeHistoryGCPContainerClusterNodePool is the client for interacting with the BronzeHistoryGCPContainerClusterNodePool builders.
 	BronzeHistoryGCPContainerClusterNodePool *BronzeHistoryGCPContainerClusterNodePoolClient
+	// BronzeHistoryGCPDNSManagedZone is the client for interacting with the BronzeHistoryGCPDNSManagedZone builders.
+	BronzeHistoryGCPDNSManagedZone *BronzeHistoryGCPDNSManagedZoneClient
+	// BronzeHistoryGCPDNSManagedZoneLabel is the client for interacting with the BronzeHistoryGCPDNSManagedZoneLabel builders.
+	BronzeHistoryGCPDNSManagedZoneLabel *BronzeHistoryGCPDNSManagedZoneLabelClient
 	// BronzeHistoryGCPIAMServiceAccount is the client for interacting with the BronzeHistoryGCPIAMServiceAccount builders.
 	BronzeHistoryGCPIAMServiceAccount *BronzeHistoryGCPIAMServiceAccountClient
 	// BronzeHistoryGCPIAMServiceAccountKey is the client for interacting with the BronzeHistoryGCPIAMServiceAccountKey builders.
 	BronzeHistoryGCPIAMServiceAccountKey *BronzeHistoryGCPIAMServiceAccountKeyClient
+	// BronzeHistoryGCPKMSCryptoKey is the client for interacting with the BronzeHistoryGCPKMSCryptoKey builders.
+	BronzeHistoryGCPKMSCryptoKey *BronzeHistoryGCPKMSCryptoKeyClient
+	// BronzeHistoryGCPKMSKeyRing is the client for interacting with the BronzeHistoryGCPKMSKeyRing builders.
+	BronzeHistoryGCPKMSKeyRing *BronzeHistoryGCPKMSKeyRingClient
+	// BronzeHistoryGCPLoggingBucket is the client for interacting with the BronzeHistoryGCPLoggingBucket builders.
+	BronzeHistoryGCPLoggingBucket *BronzeHistoryGCPLoggingBucketClient
+	// BronzeHistoryGCPLoggingSink is the client for interacting with the BronzeHistoryGCPLoggingSink builders.
+	BronzeHistoryGCPLoggingSink *BronzeHistoryGCPLoggingSinkClient
 	// BronzeHistoryGCPProject is the client for interacting with the BronzeHistoryGCPProject builders.
 	BronzeHistoryGCPProject *BronzeHistoryGCPProjectClient
 	// BronzeHistoryGCPProjectLabel is the client for interacting with the BronzeHistoryGCPProjectLabel builders.
 	BronzeHistoryGCPProjectLabel *BronzeHistoryGCPProjectLabelClient
+	// BronzeHistoryGCPSQLInstance is the client for interacting with the BronzeHistoryGCPSQLInstance builders.
+	BronzeHistoryGCPSQLInstance *BronzeHistoryGCPSQLInstanceClient
+	// BronzeHistoryGCPSQLInstanceLabel is the client for interacting with the BronzeHistoryGCPSQLInstanceLabel builders.
+	BronzeHistoryGCPSQLInstanceLabel *BronzeHistoryGCPSQLInstanceLabelClient
+	// BronzeHistoryGCPSecretManagerSecret is the client for interacting with the BronzeHistoryGCPSecretManagerSecret builders.
+	BronzeHistoryGCPSecretManagerSecret *BronzeHistoryGCPSecretManagerSecretClient
+	// BronzeHistoryGCPSecretManagerSecretLabel is the client for interacting with the BronzeHistoryGCPSecretManagerSecretLabel builders.
+	BronzeHistoryGCPSecretManagerSecretLabel *BronzeHistoryGCPSecretManagerSecretLabelClient
+	// BronzeHistoryGCPStorageBucket is the client for interacting with the BronzeHistoryGCPStorageBucket builders.
+	BronzeHistoryGCPStorageBucket *BronzeHistoryGCPStorageBucketClient
+	// BronzeHistoryGCPStorageBucketLabel is the client for interacting with the BronzeHistoryGCPStorageBucketLabel builders.
+	BronzeHistoryGCPStorageBucketLabel *BronzeHistoryGCPStorageBucketLabelClient
 	// BronzeHistoryGCPVPCAccessConnector is the client for interacting with the BronzeHistoryGCPVPCAccessConnector builders.
 	BronzeHistoryGCPVPCAccessConnector *BronzeHistoryGCPVPCAccessConnectorClient
 	// BronzeHistoryGCPVPNGateway is the client for interacting with the BronzeHistoryGCPVPNGateway builders.
@@ -515,10 +563,22 @@ func (tx *Tx) init() {
 	tx.BronzeGCPContainerClusterCondition = NewBronzeGCPContainerClusterConditionClient(tx.config)
 	tx.BronzeGCPContainerClusterLabel = NewBronzeGCPContainerClusterLabelClient(tx.config)
 	tx.BronzeGCPContainerClusterNodePool = NewBronzeGCPContainerClusterNodePoolClient(tx.config)
+	tx.BronzeGCPDNSManagedZone = NewBronzeGCPDNSManagedZoneClient(tx.config)
+	tx.BronzeGCPDNSManagedZoneLabel = NewBronzeGCPDNSManagedZoneLabelClient(tx.config)
 	tx.BronzeGCPIAMServiceAccount = NewBronzeGCPIAMServiceAccountClient(tx.config)
 	tx.BronzeGCPIAMServiceAccountKey = NewBronzeGCPIAMServiceAccountKeyClient(tx.config)
+	tx.BronzeGCPKMSCryptoKey = NewBronzeGCPKMSCryptoKeyClient(tx.config)
+	tx.BronzeGCPKMSKeyRing = NewBronzeGCPKMSKeyRingClient(tx.config)
+	tx.BronzeGCPLoggingBucket = NewBronzeGCPLoggingBucketClient(tx.config)
+	tx.BronzeGCPLoggingSink = NewBronzeGCPLoggingSinkClient(tx.config)
 	tx.BronzeGCPProject = NewBronzeGCPProjectClient(tx.config)
 	tx.BronzeGCPProjectLabel = NewBronzeGCPProjectLabelClient(tx.config)
+	tx.BronzeGCPSQLInstance = NewBronzeGCPSQLInstanceClient(tx.config)
+	tx.BronzeGCPSQLInstanceLabel = NewBronzeGCPSQLInstanceLabelClient(tx.config)
+	tx.BronzeGCPSecretManagerSecret = NewBronzeGCPSecretManagerSecretClient(tx.config)
+	tx.BronzeGCPSecretManagerSecretLabel = NewBronzeGCPSecretManagerSecretLabelClient(tx.config)
+	tx.BronzeGCPStorageBucket = NewBronzeGCPStorageBucketClient(tx.config)
+	tx.BronzeGCPStorageBucketLabel = NewBronzeGCPStorageBucketLabelClient(tx.config)
 	tx.BronzeGCPVPCAccessConnector = NewBronzeGCPVPCAccessConnectorClient(tx.config)
 	tx.BronzeGCPVPNGateway = NewBronzeGCPVPNGatewayClient(tx.config)
 	tx.BronzeGCPVPNGatewayLabel = NewBronzeGCPVPNGatewayLabelClient(tx.config)
@@ -586,10 +646,22 @@ func (tx *Tx) init() {
 	tx.BronzeHistoryGCPContainerClusterCondition = NewBronzeHistoryGCPContainerClusterConditionClient(tx.config)
 	tx.BronzeHistoryGCPContainerClusterLabel = NewBronzeHistoryGCPContainerClusterLabelClient(tx.config)
 	tx.BronzeHistoryGCPContainerClusterNodePool = NewBronzeHistoryGCPContainerClusterNodePoolClient(tx.config)
+	tx.BronzeHistoryGCPDNSManagedZone = NewBronzeHistoryGCPDNSManagedZoneClient(tx.config)
+	tx.BronzeHistoryGCPDNSManagedZoneLabel = NewBronzeHistoryGCPDNSManagedZoneLabelClient(tx.config)
 	tx.BronzeHistoryGCPIAMServiceAccount = NewBronzeHistoryGCPIAMServiceAccountClient(tx.config)
 	tx.BronzeHistoryGCPIAMServiceAccountKey = NewBronzeHistoryGCPIAMServiceAccountKeyClient(tx.config)
+	tx.BronzeHistoryGCPKMSCryptoKey = NewBronzeHistoryGCPKMSCryptoKeyClient(tx.config)
+	tx.BronzeHistoryGCPKMSKeyRing = NewBronzeHistoryGCPKMSKeyRingClient(tx.config)
+	tx.BronzeHistoryGCPLoggingBucket = NewBronzeHistoryGCPLoggingBucketClient(tx.config)
+	tx.BronzeHistoryGCPLoggingSink = NewBronzeHistoryGCPLoggingSinkClient(tx.config)
 	tx.BronzeHistoryGCPProject = NewBronzeHistoryGCPProjectClient(tx.config)
 	tx.BronzeHistoryGCPProjectLabel = NewBronzeHistoryGCPProjectLabelClient(tx.config)
+	tx.BronzeHistoryGCPSQLInstance = NewBronzeHistoryGCPSQLInstanceClient(tx.config)
+	tx.BronzeHistoryGCPSQLInstanceLabel = NewBronzeHistoryGCPSQLInstanceLabelClient(tx.config)
+	tx.BronzeHistoryGCPSecretManagerSecret = NewBronzeHistoryGCPSecretManagerSecretClient(tx.config)
+	tx.BronzeHistoryGCPSecretManagerSecretLabel = NewBronzeHistoryGCPSecretManagerSecretLabelClient(tx.config)
+	tx.BronzeHistoryGCPStorageBucket = NewBronzeHistoryGCPStorageBucketClient(tx.config)
+	tx.BronzeHistoryGCPStorageBucketLabel = NewBronzeHistoryGCPStorageBucketLabelClient(tx.config)
 	tx.BronzeHistoryGCPVPCAccessConnector = NewBronzeHistoryGCPVPCAccessConnectorClient(tx.config)
 	tx.BronzeHistoryGCPVPNGateway = NewBronzeHistoryGCPVPNGatewayClient(tx.config)
 	tx.BronzeHistoryGCPVPNGatewayLabel = NewBronzeHistoryGCPVPNGatewayLabelClient(tx.config)

@@ -67,10 +67,22 @@ type SchemaConfig struct {
 	BronzeGCPContainerClusterCondition               string // BronzeGCPContainerClusterCondition table.
 	BronzeGCPContainerClusterLabel                   string // BronzeGCPContainerClusterLabel table.
 	BronzeGCPContainerClusterNodePool                string // BronzeGCPContainerClusterNodePool table.
+	BronzeGCPDNSManagedZone                          string // BronzeGCPDNSManagedZone table.
+	BronzeGCPDNSManagedZoneLabel                     string // BronzeGCPDNSManagedZoneLabel table.
 	BronzeGCPIAMServiceAccount                       string // BronzeGCPIAMServiceAccount table.
 	BronzeGCPIAMServiceAccountKey                    string // BronzeGCPIAMServiceAccountKey table.
+	BronzeGCPKMSCryptoKey                            string // BronzeGCPKMSCryptoKey table.
+	BronzeGCPKMSKeyRing                              string // BronzeGCPKMSKeyRing table.
+	BronzeGCPLoggingBucket                           string // BronzeGCPLoggingBucket table.
+	BronzeGCPLoggingSink                             string // BronzeGCPLoggingSink table.
 	BronzeGCPProject                                 string // BronzeGCPProject table.
 	BronzeGCPProjectLabel                            string // BronzeGCPProjectLabel table.
+	BronzeGCPSQLInstance                             string // BronzeGCPSQLInstance table.
+	BronzeGCPSQLInstanceLabel                        string // BronzeGCPSQLInstanceLabel table.
+	BronzeGCPSecretManagerSecret                     string // BronzeGCPSecretManagerSecret table.
+	BronzeGCPSecretManagerSecretLabel                string // BronzeGCPSecretManagerSecretLabel table.
+	BronzeGCPStorageBucket                           string // BronzeGCPStorageBucket table.
+	BronzeGCPStorageBucketLabel                      string // BronzeGCPStorageBucketLabel table.
 	BronzeGCPVPCAccessConnector                      string // BronzeGCPVPCAccessConnector table.
 	BronzeGCPVPNGateway                              string // BronzeGCPVPNGateway table.
 	BronzeGCPVPNGatewayLabel                         string // BronzeGCPVPNGatewayLabel table.
@@ -138,10 +150,22 @@ type SchemaConfig struct {
 	BronzeHistoryGCPContainerClusterCondition        string // BronzeHistoryGCPContainerClusterCondition table.
 	BronzeHistoryGCPContainerClusterLabel            string // BronzeHistoryGCPContainerClusterLabel table.
 	BronzeHistoryGCPContainerClusterNodePool         string // BronzeHistoryGCPContainerClusterNodePool table.
+	BronzeHistoryGCPDNSManagedZone                   string // BronzeHistoryGCPDNSManagedZone table.
+	BronzeHistoryGCPDNSManagedZoneLabel              string // BronzeHistoryGCPDNSManagedZoneLabel table.
 	BronzeHistoryGCPIAMServiceAccount                string // BronzeHistoryGCPIAMServiceAccount table.
 	BronzeHistoryGCPIAMServiceAccountKey             string // BronzeHistoryGCPIAMServiceAccountKey table.
+	BronzeHistoryGCPKMSCryptoKey                     string // BronzeHistoryGCPKMSCryptoKey table.
+	BronzeHistoryGCPKMSKeyRing                       string // BronzeHistoryGCPKMSKeyRing table.
+	BronzeHistoryGCPLoggingBucket                    string // BronzeHistoryGCPLoggingBucket table.
+	BronzeHistoryGCPLoggingSink                      string // BronzeHistoryGCPLoggingSink table.
 	BronzeHistoryGCPProject                          string // BronzeHistoryGCPProject table.
 	BronzeHistoryGCPProjectLabel                     string // BronzeHistoryGCPProjectLabel table.
+	BronzeHistoryGCPSQLInstance                      string // BronzeHistoryGCPSQLInstance table.
+	BronzeHistoryGCPSQLInstanceLabel                 string // BronzeHistoryGCPSQLInstanceLabel table.
+	BronzeHistoryGCPSecretManagerSecret              string // BronzeHistoryGCPSecretManagerSecret table.
+	BronzeHistoryGCPSecretManagerSecretLabel         string // BronzeHistoryGCPSecretManagerSecretLabel table.
+	BronzeHistoryGCPStorageBucket                    string // BronzeHistoryGCPStorageBucket table.
+	BronzeHistoryGCPStorageBucketLabel               string // BronzeHistoryGCPStorageBucketLabel table.
 	BronzeHistoryGCPVPCAccessConnector               string // BronzeHistoryGCPVPCAccessConnector table.
 	BronzeHistoryGCPVPNGateway                       string // BronzeHistoryGCPVPNGateway table.
 	BronzeHistoryGCPVPNGatewayLabel                  string // BronzeHistoryGCPVPNGatewayLabel table.

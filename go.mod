@@ -8,7 +8,10 @@ require (
 	cloud.google.com/go/compute v1.54.0
 	cloud.google.com/go/container v1.46.0
 	cloud.google.com/go/iam v1.5.3
+	cloud.google.com/go/kms v1.25.0
+	cloud.google.com/go/logging v1.13.2
 	cloud.google.com/go/resourcemanager v1.10.7
+	cloud.google.com/go/secretmanager v1.16.0
 	cloud.google.com/go/vpcaccess v1.8.7
 	entgo.io/ent v0.14.5
 	github.com/alicebob/miniredis/v2 v2.36.1

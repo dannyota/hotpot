@@ -6,8 +6,14 @@ import (
 	bronze_do "github.com/dannyota/hotpot/pkg/schema/bronze/do"
 	bronze_gcp_compute "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/compute"
 	bronze_gcp_container "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/container"
+	bronze_gcp_dns "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/dns"
 	bronze_gcp_iam "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/iam"
+	bronze_gcp_kms "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/kms"
+	bronze_gcp_logging "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/logging"
 	bronze_gcp_resourcemanager "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/resourcemanager"
+	bronze_gcp_secretmanager "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/secretmanager"
+	bronze_gcp_sql "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/sql"
+	bronze_gcp_storage "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/storage"
 	bronze_gcp_vpcaccess "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/vpcaccess"
 	bronze_gcp_vpn "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/vpn"
 	bronze_s1 "github.com/dannyota/hotpot/pkg/schema/bronze/s1"
@@ -15,8 +21,14 @@ import (
 	bronzehistory_do "github.com/dannyota/hotpot/pkg/schema/bronzehistory/do"
 	bronzehistory_gcp_compute "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/compute"
 	bronzehistory_gcp_container "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/container"
+	bronzehistory_gcp_dns "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/dns"
 	bronzehistory_gcp_iam "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/iam"
+	bronzehistory_gcp_kms "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/kms"
+	bronzehistory_gcp_logging "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/logging"
 	bronzehistory_gcp_resourcemanager "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/resourcemanager"
+	bronzehistory_gcp_secretmanager "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/secretmanager"
+	bronzehistory_gcp_sql "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/sql"
+	bronzehistory_gcp_storage "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/storage"
 	bronzehistory_gcp_vpcaccess "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/vpcaccess"
 	bronzehistory_gcp_vpn "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/vpn"
 	bronzehistory_s1 "github.com/dannyota/hotpot/pkg/schema/bronzehistory/s1"
@@ -262,6 +274,14 @@ type BronzeGCPContainerClusterNodePool struct {
 	bronze_gcp_container.BronzeGCPContainerClusterNodePool
 }
 
+type BronzeGCPDNSManagedZone struct {
+	bronze_gcp_dns.BronzeGCPDNSManagedZone
+}
+
+type BronzeGCPDNSManagedZoneLabel struct {
+	bronze_gcp_dns.BronzeGCPDNSManagedZoneLabel
+}
+
 type BronzeGCPIAMServiceAccount struct {
 	bronze_gcp_iam.BronzeGCPIAMServiceAccount
 }
@@ -270,12 +290,52 @@ type BronzeGCPIAMServiceAccountKey struct {
 	bronze_gcp_iam.BronzeGCPIAMServiceAccountKey
 }
 
+type BronzeGCPKMSCryptoKey struct {
+	bronze_gcp_kms.BronzeGCPKMSCryptoKey
+}
+
+type BronzeGCPKMSKeyRing struct {
+	bronze_gcp_kms.BronzeGCPKMSKeyRing
+}
+
+type BronzeGCPLoggingBucket struct {
+	bronze_gcp_logging.BronzeGCPLoggingBucket
+}
+
+type BronzeGCPLoggingSink struct {
+	bronze_gcp_logging.BronzeGCPLoggingSink
+}
+
 type BronzeGCPProject struct {
 	bronze_gcp_resourcemanager.BronzeGCPProject
 }
 
 type BronzeGCPProjectLabel struct {
 	bronze_gcp_resourcemanager.BronzeGCPProjectLabel
+}
+
+type BronzeGCPSecretManagerSecret struct {
+	bronze_gcp_secretmanager.BronzeGCPSecretManagerSecret
+}
+
+type BronzeGCPSecretManagerSecretLabel struct {
+	bronze_gcp_secretmanager.BronzeGCPSecretManagerSecretLabel
+}
+
+type BronzeGCPSQLInstance struct {
+	bronze_gcp_sql.BronzeGCPSQLInstance
+}
+
+type BronzeGCPSQLInstanceLabel struct {
+	bronze_gcp_sql.BronzeGCPSQLInstanceLabel
+}
+
+type BronzeGCPStorageBucket struct {
+	bronze_gcp_storage.BronzeGCPStorageBucket
+}
+
+type BronzeGCPStorageBucketLabel struct {
+	bronze_gcp_storage.BronzeGCPStorageBucketLabel
 }
 
 type BronzeGCPVPCAccessConnector struct {
@@ -574,6 +634,14 @@ type BronzeHistoryGCPContainerClusterNodePool struct {
 	bronzehistory_gcp_container.BronzeHistoryGCPContainerClusterNodePool
 }
 
+type BronzeHistoryGCPDNSManagedZone struct {
+	bronzehistory_gcp_dns.BronzeHistoryGCPDNSManagedZone
+}
+
+type BronzeHistoryGCPDNSManagedZoneLabel struct {
+	bronzehistory_gcp_dns.BronzeHistoryGCPDNSManagedZoneLabel
+}
+
 type BronzeHistoryGCPIAMServiceAccount struct {
 	bronzehistory_gcp_iam.BronzeHistoryGCPIAMServiceAccount
 }
@@ -582,12 +650,52 @@ type BronzeHistoryGCPIAMServiceAccountKey struct {
 	bronzehistory_gcp_iam.BronzeHistoryGCPIAMServiceAccountKey
 }
 
+type BronzeHistoryGCPKMSCryptoKey struct {
+	bronzehistory_gcp_kms.BronzeHistoryGCPKMSCryptoKey
+}
+
+type BronzeHistoryGCPKMSKeyRing struct {
+	bronzehistory_gcp_kms.BronzeHistoryGCPKMSKeyRing
+}
+
+type BronzeHistoryGCPLoggingBucket struct {
+	bronzehistory_gcp_logging.BronzeHistoryGCPLoggingBucket
+}
+
+type BronzeHistoryGCPLoggingSink struct {
+	bronzehistory_gcp_logging.BronzeHistoryGCPLoggingSink
+}
+
 type BronzeHistoryGCPProject struct {
 	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPProject
 }
 
 type BronzeHistoryGCPProjectLabel struct {
 	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPProjectLabel
+}
+
+type BronzeHistoryGCPSecretManagerSecret struct {
+	bronzehistory_gcp_secretmanager.BronzeHistoryGCPSecretManagerSecret
+}
+
+type BronzeHistoryGCPSecretManagerSecretLabel struct {
+	bronzehistory_gcp_secretmanager.BronzeHistoryGCPSecretManagerSecretLabel
+}
+
+type BronzeHistoryGCPSQLInstance struct {
+	bronzehistory_gcp_sql.BronzeHistoryGCPSQLInstance
+}
+
+type BronzeHistoryGCPSQLInstanceLabel struct {
+	bronzehistory_gcp_sql.BronzeHistoryGCPSQLInstanceLabel
+}
+
+type BronzeHistoryGCPStorageBucket struct {
+	bronzehistory_gcp_storage.BronzeHistoryGCPStorageBucket
+}
+
+type BronzeHistoryGCPStorageBucketLabel struct {
+	bronzehistory_gcp_storage.BronzeHistoryGCPStorageBucketLabel
 }
 
 type BronzeHistoryGCPVPCAccessConnector struct {

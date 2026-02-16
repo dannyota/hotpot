@@ -186,17 +186,53 @@ type BronzeGCPContainerClusterLabel func(*sql.Selector)
 // BronzeGCPContainerClusterNodePool is the predicate function for bronzegcpcontainerclusternodepool builders.
 type BronzeGCPContainerClusterNodePool func(*sql.Selector)
 
+// BronzeGCPDNSManagedZone is the predicate function for bronzegcpdnsmanagedzone builders.
+type BronzeGCPDNSManagedZone func(*sql.Selector)
+
+// BronzeGCPDNSManagedZoneLabel is the predicate function for bronzegcpdnsmanagedzonelabel builders.
+type BronzeGCPDNSManagedZoneLabel func(*sql.Selector)
+
 // BronzeGCPIAMServiceAccount is the predicate function for bronzegcpiamserviceaccount builders.
 type BronzeGCPIAMServiceAccount func(*sql.Selector)
 
 // BronzeGCPIAMServiceAccountKey is the predicate function for bronzegcpiamserviceaccountkey builders.
 type BronzeGCPIAMServiceAccountKey func(*sql.Selector)
 
+// BronzeGCPKMSCryptoKey is the predicate function for bronzegcpkmscryptokey builders.
+type BronzeGCPKMSCryptoKey func(*sql.Selector)
+
+// BronzeGCPKMSKeyRing is the predicate function for bronzegcpkmskeyring builders.
+type BronzeGCPKMSKeyRing func(*sql.Selector)
+
+// BronzeGCPLoggingBucket is the predicate function for bronzegcploggingbucket builders.
+type BronzeGCPLoggingBucket func(*sql.Selector)
+
+// BronzeGCPLoggingSink is the predicate function for bronzegcploggingsink builders.
+type BronzeGCPLoggingSink func(*sql.Selector)
+
 // BronzeGCPProject is the predicate function for bronzegcpproject builders.
 type BronzeGCPProject func(*sql.Selector)
 
 // BronzeGCPProjectLabel is the predicate function for bronzegcpprojectlabel builders.
 type BronzeGCPProjectLabel func(*sql.Selector)
+
+// BronzeGCPSQLInstance is the predicate function for bronzegcpsqlinstance builders.
+type BronzeGCPSQLInstance func(*sql.Selector)
+
+// BronzeGCPSQLInstanceLabel is the predicate function for bronzegcpsqlinstancelabel builders.
+type BronzeGCPSQLInstanceLabel func(*sql.Selector)
+
+// BronzeGCPSecretManagerSecret is the predicate function for bronzegcpsecretmanagersecret builders.
+type BronzeGCPSecretManagerSecret func(*sql.Selector)
+
+// BronzeGCPSecretManagerSecretLabel is the predicate function for bronzegcpsecretmanagersecretlabel builders.
+type BronzeGCPSecretManagerSecretLabel func(*sql.Selector)
+
+// BronzeGCPStorageBucket is the predicate function for bronzegcpstoragebucket builders.
+type BronzeGCPStorageBucket func(*sql.Selector)
+
+// BronzeGCPStorageBucketLabel is the predicate function for bronzegcpstoragebucketlabel builders.
+type BronzeGCPStorageBucketLabel func(*sql.Selector)
 
 // BronzeGCPVPCAccessConnector is the predicate function for bronzegcpvpcaccessconnector builders.
 type BronzeGCPVPCAccessConnector func(*sql.Selector)
@@ -399,17 +435,53 @@ type BronzeHistoryGCPContainerClusterLabel func(*sql.Selector)
 // BronzeHistoryGCPContainerClusterNodePool is the predicate function for bronzehistorygcpcontainerclusternodepool builders.
 type BronzeHistoryGCPContainerClusterNodePool func(*sql.Selector)
 
+// BronzeHistoryGCPDNSManagedZone is the predicate function for bronzehistorygcpdnsmanagedzone builders.
+type BronzeHistoryGCPDNSManagedZone func(*sql.Selector)
+
+// BronzeHistoryGCPDNSManagedZoneLabel is the predicate function for bronzehistorygcpdnsmanagedzonelabel builders.
+type BronzeHistoryGCPDNSManagedZoneLabel func(*sql.Selector)
+
 // BronzeHistoryGCPIAMServiceAccount is the predicate function for bronzehistorygcpiamserviceaccount builders.
 type BronzeHistoryGCPIAMServiceAccount func(*sql.Selector)
 
 // BronzeHistoryGCPIAMServiceAccountKey is the predicate function for bronzehistorygcpiamserviceaccountkey builders.
 type BronzeHistoryGCPIAMServiceAccountKey func(*sql.Selector)
 
+// BronzeHistoryGCPKMSCryptoKey is the predicate function for bronzehistorygcpkmscryptokey builders.
+type BronzeHistoryGCPKMSCryptoKey func(*sql.Selector)
+
+// BronzeHistoryGCPKMSKeyRing is the predicate function for bronzehistorygcpkmskeyring builders.
+type BronzeHistoryGCPKMSKeyRing func(*sql.Selector)
+
+// BronzeHistoryGCPLoggingBucket is the predicate function for bronzehistorygcploggingbucket builders.
+type BronzeHistoryGCPLoggingBucket func(*sql.Selector)
+
+// BronzeHistoryGCPLoggingSink is the predicate function for bronzehistorygcploggingsink builders.
+type BronzeHistoryGCPLoggingSink func(*sql.Selector)
+
 // BronzeHistoryGCPProject is the predicate function for bronzehistorygcpproject builders.
 type BronzeHistoryGCPProject func(*sql.Selector)
 
 // BronzeHistoryGCPProjectLabel is the predicate function for bronzehistorygcpprojectlabel builders.
 type BronzeHistoryGCPProjectLabel func(*sql.Selector)
+
+// BronzeHistoryGCPSQLInstance is the predicate function for bronzehistorygcpsqlinstance builders.
+type BronzeHistoryGCPSQLInstance func(*sql.Selector)
+
+// BronzeHistoryGCPSQLInstanceLabel is the predicate function for bronzehistorygcpsqlinstancelabel builders.
+type BronzeHistoryGCPSQLInstanceLabel func(*sql.Selector)
+
+// BronzeHistoryGCPSecretManagerSecret is the predicate function for bronzehistorygcpsecretmanagersecret builders.
+type BronzeHistoryGCPSecretManagerSecret func(*sql.Selector)
+
+// BronzeHistoryGCPSecretManagerSecretLabel is the predicate function for bronzehistorygcpsecretmanagersecretlabel builders.
+type BronzeHistoryGCPSecretManagerSecretLabel func(*sql.Selector)
+
+// BronzeHistoryGCPStorageBucket is the predicate function for bronzehistorygcpstoragebucket builders.
+type BronzeHistoryGCPStorageBucket func(*sql.Selector)
+
+// BronzeHistoryGCPStorageBucketLabel is the predicate function for bronzehistorygcpstoragebucketlabel builders.
+type BronzeHistoryGCPStorageBucketLabel func(*sql.Selector)
 
 // BronzeHistoryGCPVPCAccessConnector is the predicate function for bronzehistorygcpvpcaccessconnector builders.
 type BronzeHistoryGCPVPCAccessConnector func(*sql.Selector)

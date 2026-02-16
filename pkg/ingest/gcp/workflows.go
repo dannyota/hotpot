@@ -8,7 +8,13 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/container"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/dns"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/iam"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/kms"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/logging"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/secretmanager"
+	gcpsql "github.com/dannyota/hotpot/pkg/ingest/gcp/sql"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/storage"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/vpcaccess"
 )
 
@@ -24,6 +30,14 @@ type GCPInventoryWorkflowResult struct {
 	TotalClusters        int
 	TotalServiceAccounts int
 	TotalConnectors      int
+	TotalBuckets         int
+	TotalKeyRings        int
+	TotalCryptoKeys      int
+	TotalSinks           int
+	TotalLogBuckets      int
+	TotalManagedZones    int
+	TotalSecrets         int
+	TotalSQLInstances    int
 }
 
 // ProjectResult contains the ingestion result for a single project.
@@ -33,6 +47,14 @@ type ProjectResult struct {
 	ClusterCount        int
 	ServiceAccountCount int
 	ConnectorCount      int
+	BucketCount         int
+	KeyRingCount        int
+	CryptoKeyCount      int
+	SinkCount           int
+	LogBucketCount      int
+	ManagedZoneCount    int
+	SecretCount         int
+	SQLInstanceCount    int
 	Error               string
 }
 
@@ -130,6 +152,118 @@ func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParam
 			result.TotalConnectors += vpcAccessResult.ConnectorCount
 		}
 
+		// Execute GCPStorageWorkflow for this project
+		var storageResult storage.GCPStorageWorkflowResult
+		err = workflow.ExecuteChildWorkflow(ctx, storage.GCPStorageWorkflow, storage.GCPStorageWorkflowParams{
+			ProjectID: projectID,
+		}).Get(ctx, &storageResult)
+
+		if err != nil {
+			logger.Error("Failed to execute GCPStorageWorkflow", "projectID", projectID, "error", err)
+			if projectResult.Error == "" {
+				projectResult.Error = err.Error()
+			} else {
+				projectResult.Error += "; " + err.Error()
+			}
+		} else {
+			projectResult.BucketCount = storageResult.BucketCount
+			result.TotalBuckets += storageResult.BucketCount
+		}
+
+		// Execute GCPKMSWorkflow for this project
+		var kmsResult kms.GCPKMSWorkflowResult
+		err = workflow.ExecuteChildWorkflow(ctx, kms.GCPKMSWorkflow, kms.GCPKMSWorkflowParams{
+			ProjectID: projectID,
+		}).Get(ctx, &kmsResult)
+
+		if err != nil {
+			logger.Error("Failed to execute GCPKMSWorkflow", "projectID", projectID, "error", err)
+			if projectResult.Error == "" {
+				projectResult.Error = err.Error()
+			} else {
+				projectResult.Error += "; " + err.Error()
+			}
+		} else {
+			projectResult.KeyRingCount = kmsResult.KeyRingCount
+			projectResult.CryptoKeyCount = kmsResult.CryptoKeyCount
+			result.TotalKeyRings += kmsResult.KeyRingCount
+			result.TotalCryptoKeys += kmsResult.CryptoKeyCount
+		}
+
+		// Execute GCPLoggingWorkflow for this project
+		var loggingResult logging.GCPLoggingWorkflowResult
+		err = workflow.ExecuteChildWorkflow(ctx, logging.GCPLoggingWorkflow, logging.GCPLoggingWorkflowParams{
+			ProjectID: projectID,
+		}).Get(ctx, &loggingResult)
+
+		if err != nil {
+			logger.Error("Failed to execute GCPLoggingWorkflow", "projectID", projectID, "error", err)
+			if projectResult.Error == "" {
+				projectResult.Error = err.Error()
+			} else {
+				projectResult.Error += "; " + err.Error()
+			}
+		} else {
+			projectResult.SinkCount = loggingResult.SinkCount
+			projectResult.LogBucketCount = loggingResult.BucketCount
+			result.TotalSinks += loggingResult.SinkCount
+			result.TotalLogBuckets += loggingResult.BucketCount
+		}
+
+		// Execute GCPDNSWorkflow for this project
+		var dnsResult dns.GCPDNSWorkflowResult
+		err = workflow.ExecuteChildWorkflow(ctx, dns.GCPDNSWorkflow, dns.GCPDNSWorkflowParams{
+			ProjectID: projectID,
+		}).Get(ctx, &dnsResult)
+
+		if err != nil {
+			logger.Error("Failed to execute GCPDNSWorkflow", "projectID", projectID, "error", err)
+			if projectResult.Error == "" {
+				projectResult.Error = err.Error()
+			} else {
+				projectResult.Error += "; " + err.Error()
+			}
+		} else {
+			projectResult.ManagedZoneCount = dnsResult.ManagedZoneCount
+			result.TotalManagedZones += dnsResult.ManagedZoneCount
+		}
+
+		// Execute GCPSecretManagerWorkflow for this project
+		var secretManagerResult secretmanager.GCPSecretManagerWorkflowResult
+		err = workflow.ExecuteChildWorkflow(ctx, secretmanager.GCPSecretManagerWorkflow, secretmanager.GCPSecretManagerWorkflowParams{
+			ProjectID: projectID,
+		}).Get(ctx, &secretManagerResult)
+
+		if err != nil {
+			logger.Error("Failed to execute GCPSecretManagerWorkflow", "projectID", projectID, "error", err)
+			if projectResult.Error == "" {
+				projectResult.Error = err.Error()
+			} else {
+				projectResult.Error += "; " + err.Error()
+			}
+		} else {
+			projectResult.SecretCount = secretManagerResult.SecretCount
+			result.TotalSecrets += secretManagerResult.SecretCount
+		}
+
+		// Execute GCPSQLWorkflow for this project
+		var sqlResult gcpsql.GCPSQLWorkflowResult
+		err = workflow.ExecuteChildWorkflow(ctx, gcpsql.GCPSQLWorkflow, gcpsql.GCPSQLWorkflowParams{
+			ProjectID: projectID,
+		}).Get(ctx, &sqlResult)
+
+		if err != nil {
+			logger.Error("Failed to execute GCPSQLWorkflow", "projectID", projectID, "error", err)
+			if projectResult.Error == "" {
+				projectResult.Error = err.Error()
+			} else {
+				projectResult.Error += "; " + err.Error()
+			}
+		} else {
+			projectResult.SQLInstanceCount = sqlResult.InstanceCount
+			result.TotalSQLInstances += sqlResult.InstanceCount
+		}
+
 		result.ProjectResults = append(result.ProjectResults, projectResult)
 	}
 
@@ -139,6 +273,14 @@ func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParam
 		"totalClusters", result.TotalClusters,
 		"totalServiceAccounts", result.TotalServiceAccounts,
 		"totalConnectors", result.TotalConnectors,
+		"totalBuckets", result.TotalBuckets,
+		"totalKeyRings", result.TotalKeyRings,
+		"totalCryptoKeys", result.TotalCryptoKeys,
+		"totalSinks", result.TotalSinks,
+		"totalLogBuckets", result.TotalLogBuckets,
+		"totalManagedZones", result.TotalManagedZones,
+		"totalSecrets", result.TotalSecrets,
+		"totalSQLInstances", result.TotalSQLInstances,
 	)
 
 	return result, nil

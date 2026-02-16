@@ -6,8 +6,14 @@ import (
 	"entgo.io/ent/schema"
 	bronze_gcp_compute "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/compute"
 	bronze_gcp_container "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/container"
+	bronze_gcp_dns "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/dns"
 	bronze_gcp_iam "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/iam"
+	bronze_gcp_kms "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/kms"
+	bronze_gcp_logging "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/logging"
 	bronze_gcp_resourcemanager "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/resourcemanager"
+	bronze_gcp_secretmanager "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/secretmanager"
+	bronze_gcp_sql "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/sql"
+	bronze_gcp_storage "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/storage"
 	bronze_gcp_vpcaccess "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/vpcaccess"
 	bronze_gcp_vpn "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/vpn"
 )
@@ -924,6 +930,38 @@ func (BronzeGCPContainerClusterNodePool) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze"})
 }
 
+type BronzeGCPDNSManagedZone struct {
+	bronze_gcp_dns.BronzeGCPDNSManagedZone
+}
+
+func (BronzeGCPDNSManagedZone) Annotations() []schema.Annotation {
+	anns := bronze_gcp_dns.BronzeGCPDNSManagedZone{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeGCPDNSManagedZoneLabel struct {
+	bronze_gcp_dns.BronzeGCPDNSManagedZoneLabel
+}
+
+func (BronzeGCPDNSManagedZoneLabel) Annotations() []schema.Annotation {
+	anns := bronze_gcp_dns.BronzeGCPDNSManagedZoneLabel{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
 type BronzeGCPIAMServiceAccount struct {
 	bronze_gcp_iam.BronzeGCPIAMServiceAccount
 }
@@ -956,6 +994,70 @@ func (BronzeGCPIAMServiceAccountKey) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze"})
 }
 
+type BronzeGCPKMSCryptoKey struct {
+	bronze_gcp_kms.BronzeGCPKMSCryptoKey
+}
+
+func (BronzeGCPKMSCryptoKey) Annotations() []schema.Annotation {
+	anns := bronze_gcp_kms.BronzeGCPKMSCryptoKey{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeGCPKMSKeyRing struct {
+	bronze_gcp_kms.BronzeGCPKMSKeyRing
+}
+
+func (BronzeGCPKMSKeyRing) Annotations() []schema.Annotation {
+	anns := bronze_gcp_kms.BronzeGCPKMSKeyRing{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeGCPLoggingBucket struct {
+	bronze_gcp_logging.BronzeGCPLoggingBucket
+}
+
+func (BronzeGCPLoggingBucket) Annotations() []schema.Annotation {
+	anns := bronze_gcp_logging.BronzeGCPLoggingBucket{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeGCPLoggingSink struct {
+	bronze_gcp_logging.BronzeGCPLoggingSink
+}
+
+func (BronzeGCPLoggingSink) Annotations() []schema.Annotation {
+	anns := bronze_gcp_logging.BronzeGCPLoggingSink{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
 type BronzeGCPProject struct {
 	bronze_gcp_resourcemanager.BronzeGCPProject
 }
@@ -978,6 +1080,102 @@ type BronzeGCPProjectLabel struct {
 
 func (BronzeGCPProjectLabel) Annotations() []schema.Annotation {
 	anns := bronze_gcp_resourcemanager.BronzeGCPProjectLabel{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeGCPSecretManagerSecret struct {
+	bronze_gcp_secretmanager.BronzeGCPSecretManagerSecret
+}
+
+func (BronzeGCPSecretManagerSecret) Annotations() []schema.Annotation {
+	anns := bronze_gcp_secretmanager.BronzeGCPSecretManagerSecret{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeGCPSecretManagerSecretLabel struct {
+	bronze_gcp_secretmanager.BronzeGCPSecretManagerSecretLabel
+}
+
+func (BronzeGCPSecretManagerSecretLabel) Annotations() []schema.Annotation {
+	anns := bronze_gcp_secretmanager.BronzeGCPSecretManagerSecretLabel{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeGCPSQLInstance struct {
+	bronze_gcp_sql.BronzeGCPSQLInstance
+}
+
+func (BronzeGCPSQLInstance) Annotations() []schema.Annotation {
+	anns := bronze_gcp_sql.BronzeGCPSQLInstance{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeGCPSQLInstanceLabel struct {
+	bronze_gcp_sql.BronzeGCPSQLInstanceLabel
+}
+
+func (BronzeGCPSQLInstanceLabel) Annotations() []schema.Annotation {
+	anns := bronze_gcp_sql.BronzeGCPSQLInstanceLabel{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeGCPStorageBucket struct {
+	bronze_gcp_storage.BronzeGCPStorageBucket
+}
+
+func (BronzeGCPStorageBucket) Annotations() []schema.Annotation {
+	anns := bronze_gcp_storage.BronzeGCPStorageBucket{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeGCPStorageBucketLabel struct {
+	bronze_gcp_storage.BronzeGCPStorageBucketLabel
+}
+
+func (BronzeGCPStorageBucketLabel) Annotations() []schema.Annotation {
+	anns := bronze_gcp_storage.BronzeGCPStorageBucketLabel{}.Annotations()
 	for i, a := range anns {
 		if v, ok := a.(entsql.Annotation); ok {
 			v.Schema = "bronze"
