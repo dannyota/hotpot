@@ -12,6 +12,8 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzeawsec2instance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzeawsec2instancetag"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedovpc"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeaddress"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeaddresslabel"
@@ -75,6 +77,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntargetgatewaylabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntunnel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntunnellabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instancetag"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydovpc"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddress"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddresslabel"
@@ -212,6 +216,8 @@ var (
 func checkColumn(t, c string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
+			bronzeawsec2instance.Table:                             bronzeawsec2instance.ValidColumn,
+			bronzeawsec2instancetag.Table:                          bronzeawsec2instancetag.ValidColumn,
 			bronzedovpc.Table:                                      bronzedovpc.ValidColumn,
 			bronzegcpcomputeaddress.Table:                          bronzegcpcomputeaddress.ValidColumn,
 			bronzegcpcomputeaddresslabel.Table:                     bronzegcpcomputeaddresslabel.ValidColumn,
@@ -275,6 +281,8 @@ func checkColumn(t, c string) error {
 			bronzegcpvpntargetgatewaylabel.Table:                   bronzegcpvpntargetgatewaylabel.ValidColumn,
 			bronzegcpvpntunnel.Table:                               bronzegcpvpntunnel.ValidColumn,
 			bronzegcpvpntunnellabel.Table:                          bronzegcpvpntunnellabel.ValidColumn,
+			bronzehistoryawsec2instance.Table:                      bronzehistoryawsec2instance.ValidColumn,
+			bronzehistoryawsec2instancetag.Table:                   bronzehistoryawsec2instancetag.ValidColumn,
 			bronzehistorydovpc.Table:                               bronzehistorydovpc.ValidColumn,
 			bronzehistorygcpcomputeaddress.Table:                   bronzehistorygcpcomputeaddress.ValidColumn,
 			bronzehistorygcpcomputeaddresslabel.Table:              bronzehistorygcpcomputeaddresslabel.ValidColumn,

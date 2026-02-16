@@ -4,6 +4,7 @@ package schema
 import (
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
+	bronzehistory_aws_ec2 "github.com/dannyota/hotpot/pkg/schema/bronzehistory/aws/ec2"
 	bronzehistory_do "github.com/dannyota/hotpot/pkg/schema/bronzehistory/do"
 	bronzehistory_gcp_compute "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/compute"
 	bronzehistory_gcp_container "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/container"
@@ -13,6 +14,38 @@ import (
 	bronzehistory_gcp_vpn "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/vpn"
 	bronzehistory_s1 "github.com/dannyota/hotpot/pkg/schema/bronzehistory/s1"
 )
+
+type BronzeHistoryAWSEC2Instance struct {
+	bronzehistory_aws_ec2.BronzeHistoryAWSEC2Instance
+}
+
+func (BronzeHistoryAWSEC2Instance) Annotations() []schema.Annotation {
+	anns := bronzehistory_aws_ec2.BronzeHistoryAWSEC2Instance{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryAWSEC2InstanceTag struct {
+	bronzehistory_aws_ec2.BronzeHistoryAWSEC2InstanceTag
+}
+
+func (BronzeHistoryAWSEC2InstanceTag) Annotations() []schema.Annotation {
+	anns := bronzehistory_aws_ec2.BronzeHistoryAWSEC2InstanceTag{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
 
 type BronzeHistoryDOVpc struct {
 	bronzehistory_do.BronzeHistoryDOVpc

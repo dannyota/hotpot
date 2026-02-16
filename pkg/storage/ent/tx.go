@@ -12,6 +12,10 @@ import (
 // Tx is a transactional client that is created by calling Client.Tx().
 type Tx struct {
 	config
+	// BronzeAWSEC2Instance is the client for interacting with the BronzeAWSEC2Instance builders.
+	BronzeAWSEC2Instance *BronzeAWSEC2InstanceClient
+	// BronzeAWSEC2InstanceTag is the client for interacting with the BronzeAWSEC2InstanceTag builders.
+	BronzeAWSEC2InstanceTag *BronzeAWSEC2InstanceTagClient
 	// BronzeDOVpc is the client for interacting with the BronzeDOVpc builders.
 	BronzeDOVpc *BronzeDOVpcClient
 	// BronzeGCPComputeAddress is the client for interacting with the BronzeGCPComputeAddress builders.
@@ -138,6 +142,10 @@ type Tx struct {
 	BronzeGCPVPNTunnel *BronzeGCPVPNTunnelClient
 	// BronzeGCPVPNTunnelLabel is the client for interacting with the BronzeGCPVPNTunnelLabel builders.
 	BronzeGCPVPNTunnelLabel *BronzeGCPVPNTunnelLabelClient
+	// BronzeHistoryAWSEC2Instance is the client for interacting with the BronzeHistoryAWSEC2Instance builders.
+	BronzeHistoryAWSEC2Instance *BronzeHistoryAWSEC2InstanceClient
+	// BronzeHistoryAWSEC2InstanceTag is the client for interacting with the BronzeHistoryAWSEC2InstanceTag builders.
+	BronzeHistoryAWSEC2InstanceTag *BronzeHistoryAWSEC2InstanceTagClient
 	// BronzeHistoryDOVpc is the client for interacting with the BronzeHistoryDOVpc builders.
 	BronzeHistoryDOVpc *BronzeHistoryDOVpcClient
 	// BronzeHistoryGCPComputeAddress is the client for interacting with the BronzeHistoryGCPComputeAddress builders.
@@ -423,6 +431,8 @@ func (tx *Tx) Client() *Client {
 }
 
 func (tx *Tx) init() {
+	tx.BronzeAWSEC2Instance = NewBronzeAWSEC2InstanceClient(tx.config)
+	tx.BronzeAWSEC2InstanceTag = NewBronzeAWSEC2InstanceTagClient(tx.config)
 	tx.BronzeDOVpc = NewBronzeDOVpcClient(tx.config)
 	tx.BronzeGCPComputeAddress = NewBronzeGCPComputeAddressClient(tx.config)
 	tx.BronzeGCPComputeAddressLabel = NewBronzeGCPComputeAddressLabelClient(tx.config)
@@ -486,6 +496,8 @@ func (tx *Tx) init() {
 	tx.BronzeGCPVPNTargetGatewayLabel = NewBronzeGCPVPNTargetGatewayLabelClient(tx.config)
 	tx.BronzeGCPVPNTunnel = NewBronzeGCPVPNTunnelClient(tx.config)
 	tx.BronzeGCPVPNTunnelLabel = NewBronzeGCPVPNTunnelLabelClient(tx.config)
+	tx.BronzeHistoryAWSEC2Instance = NewBronzeHistoryAWSEC2InstanceClient(tx.config)
+	tx.BronzeHistoryAWSEC2InstanceTag = NewBronzeHistoryAWSEC2InstanceTagClient(tx.config)
 	tx.BronzeHistoryDOVpc = NewBronzeHistoryDOVpcClient(tx.config)
 	tx.BronzeHistoryGCPComputeAddress = NewBronzeHistoryGCPComputeAddressClient(tx.config)
 	tx.BronzeHistoryGCPComputeAddressLabel = NewBronzeHistoryGCPComputeAddressLabelClient(tx.config)
@@ -572,7 +584,7 @@ func (tx *Tx) init() {
 // of them in order to commit or rollback the transaction.
 //
 // If a closed transaction is embedded in one of the generated entities, and the entity
-// applies a query, for example: BronzeDOVpc.QueryXXX(), the query will be executed
+// applies a query, for example: BronzeAWSEC2Instance.QueryXXX(), the query will be executed
 // through the driver which created this transaction.
 //
 // Note that txDriver is not goroutine safe.

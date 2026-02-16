@@ -4,6 +4,8 @@ package ent
 // DefaultSchemaConfig returns the schema config mapping each type to its PG schema.
 func DefaultSchemaConfig() SchemaConfig {
 	return SchemaConfig{
+		BronzeAWSEC2Instance:                             "bronze",
+		BronzeAWSEC2InstanceTag:                          "bronze",
 		BronzeDOVpc:                                      "bronze",
 		BronzeGCPComputeAddress:                          "bronze",
 		BronzeGCPComputeAddressLabel:                     "bronze",
@@ -74,6 +76,8 @@ func DefaultSchemaConfig() SchemaConfig {
 		BronzeS1Group:                                    "bronze",
 		BronzeS1Site:                                     "bronze",
 		BronzeS1Threat:                                   "bronze",
+		BronzeHistoryAWSEC2Instance:                      "bronze_history",
+		BronzeHistoryAWSEC2InstanceTag:                   "bronze_history",
 		BronzeHistoryDOVpc:                               "bronze_history",
 		BronzeHistoryGCPComputeAddress:                   "bronze_history",
 		BronzeHistoryGCPComputeAddressLabel:              "bronze_history",

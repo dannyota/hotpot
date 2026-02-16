@@ -9,6 +9,30 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
+// The BronzeAWSEC2InstanceFunc type is an adapter to allow the use of ordinary
+// function as BronzeAWSEC2Instance mutator.
+type BronzeAWSEC2InstanceFunc func(context.Context, *ent.BronzeAWSEC2InstanceMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeAWSEC2InstanceFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeAWSEC2InstanceMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeAWSEC2InstanceMutation", m)
+}
+
+// The BronzeAWSEC2InstanceTagFunc type is an adapter to allow the use of ordinary
+// function as BronzeAWSEC2InstanceTag mutator.
+type BronzeAWSEC2InstanceTagFunc func(context.Context, *ent.BronzeAWSEC2InstanceTagMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeAWSEC2InstanceTagFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeAWSEC2InstanceTagMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeAWSEC2InstanceTagMutation", m)
+}
+
 // The BronzeDOVpcFunc type is an adapter to allow the use of ordinary
 // function as BronzeDOVpc mutator.
 type BronzeDOVpcFunc func(context.Context, *ent.BronzeDOVpcMutation) (ent.Value, error)
@@ -763,6 +787,30 @@ func (f BronzeGCPVPNTunnelLabelFunc) Mutate(ctx context.Context, m ent.Mutation)
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGCPVPNTunnelLabelMutation", m)
+}
+
+// The BronzeHistoryAWSEC2InstanceFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryAWSEC2Instance mutator.
+type BronzeHistoryAWSEC2InstanceFunc func(context.Context, *ent.BronzeHistoryAWSEC2InstanceMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryAWSEC2InstanceFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryAWSEC2InstanceMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryAWSEC2InstanceMutation", m)
+}
+
+// The BronzeHistoryAWSEC2InstanceTagFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryAWSEC2InstanceTag mutator.
+type BronzeHistoryAWSEC2InstanceTagFunc func(context.Context, *ent.BronzeHistoryAWSEC2InstanceTagMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryAWSEC2InstanceTagFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryAWSEC2InstanceTagMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryAWSEC2InstanceTagMutation", m)
 }
 
 // The BronzeHistoryDOVpcFunc type is an adapter to allow the use of ordinary

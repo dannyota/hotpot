@@ -15,6 +15,8 @@ import (
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzeawsec2instance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzeawsec2instancetag"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedovpc"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeaddress"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeaddresslabel"
@@ -78,6 +80,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntargetgatewaylabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntunnel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntunnellabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instancetag"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydovpc"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddress"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddresslabel"
@@ -164,6 +168,10 @@ type Client struct {
 	config
 	// Schema is the client for creating, migrating and dropping schema.
 	Schema *migrate.Schema
+	// BronzeAWSEC2Instance is the client for interacting with the BronzeAWSEC2Instance builders.
+	BronzeAWSEC2Instance *BronzeAWSEC2InstanceClient
+	// BronzeAWSEC2InstanceTag is the client for interacting with the BronzeAWSEC2InstanceTag builders.
+	BronzeAWSEC2InstanceTag *BronzeAWSEC2InstanceTagClient
 	// BronzeDOVpc is the client for interacting with the BronzeDOVpc builders.
 	BronzeDOVpc *BronzeDOVpcClient
 	// BronzeGCPComputeAddress is the client for interacting with the BronzeGCPComputeAddress builders.
@@ -290,6 +298,10 @@ type Client struct {
 	BronzeGCPVPNTunnel *BronzeGCPVPNTunnelClient
 	// BronzeGCPVPNTunnelLabel is the client for interacting with the BronzeGCPVPNTunnelLabel builders.
 	BronzeGCPVPNTunnelLabel *BronzeGCPVPNTunnelLabelClient
+	// BronzeHistoryAWSEC2Instance is the client for interacting with the BronzeHistoryAWSEC2Instance builders.
+	BronzeHistoryAWSEC2Instance *BronzeHistoryAWSEC2InstanceClient
+	// BronzeHistoryAWSEC2InstanceTag is the client for interacting with the BronzeHistoryAWSEC2InstanceTag builders.
+	BronzeHistoryAWSEC2InstanceTag *BronzeHistoryAWSEC2InstanceTagClient
 	// BronzeHistoryDOVpc is the client for interacting with the BronzeHistoryDOVpc builders.
 	BronzeHistoryDOVpc *BronzeHistoryDOVpcClient
 	// BronzeHistoryGCPComputeAddress is the client for interacting with the BronzeHistoryGCPComputeAddress builders.
@@ -455,6 +467,8 @@ func NewClient(opts ...Option) *Client {
 
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
+	c.BronzeAWSEC2Instance = NewBronzeAWSEC2InstanceClient(c.config)
+	c.BronzeAWSEC2InstanceTag = NewBronzeAWSEC2InstanceTagClient(c.config)
 	c.BronzeDOVpc = NewBronzeDOVpcClient(c.config)
 	c.BronzeGCPComputeAddress = NewBronzeGCPComputeAddressClient(c.config)
 	c.BronzeGCPComputeAddressLabel = NewBronzeGCPComputeAddressLabelClient(c.config)
@@ -518,6 +532,8 @@ func (c *Client) init() {
 	c.BronzeGCPVPNTargetGatewayLabel = NewBronzeGCPVPNTargetGatewayLabelClient(c.config)
 	c.BronzeGCPVPNTunnel = NewBronzeGCPVPNTunnelClient(c.config)
 	c.BronzeGCPVPNTunnelLabel = NewBronzeGCPVPNTunnelLabelClient(c.config)
+	c.BronzeHistoryAWSEC2Instance = NewBronzeHistoryAWSEC2InstanceClient(c.config)
+	c.BronzeHistoryAWSEC2InstanceTag = NewBronzeHistoryAWSEC2InstanceTagClient(c.config)
 	c.BronzeHistoryDOVpc = NewBronzeHistoryDOVpcClient(c.config)
 	c.BronzeHistoryGCPComputeAddress = NewBronzeHistoryGCPComputeAddressClient(c.config)
 	c.BronzeHistoryGCPComputeAddressLabel = NewBronzeHistoryGCPComputeAddressLabelClient(c.config)
@@ -689,6 +705,8 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	return &Tx{
 		ctx:                                              ctx,
 		config:                                           cfg,
+		BronzeAWSEC2Instance:                             NewBronzeAWSEC2InstanceClient(cfg),
+		BronzeAWSEC2InstanceTag:                          NewBronzeAWSEC2InstanceTagClient(cfg),
 		BronzeDOVpc:                                      NewBronzeDOVpcClient(cfg),
 		BronzeGCPComputeAddress:                          NewBronzeGCPComputeAddressClient(cfg),
 		BronzeGCPComputeAddressLabel:                     NewBronzeGCPComputeAddressLabelClient(cfg),
@@ -752,6 +770,8 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		BronzeGCPVPNTargetGatewayLabel:                   NewBronzeGCPVPNTargetGatewayLabelClient(cfg),
 		BronzeGCPVPNTunnel:                               NewBronzeGCPVPNTunnelClient(cfg),
 		BronzeGCPVPNTunnelLabel:                          NewBronzeGCPVPNTunnelLabelClient(cfg),
+		BronzeHistoryAWSEC2Instance:                      NewBronzeHistoryAWSEC2InstanceClient(cfg),
+		BronzeHistoryAWSEC2InstanceTag:                   NewBronzeHistoryAWSEC2InstanceTagClient(cfg),
 		BronzeHistoryDOVpc:                               NewBronzeHistoryDOVpcClient(cfg),
 		BronzeHistoryGCPComputeAddress:                   NewBronzeHistoryGCPComputeAddressClient(cfg),
 		BronzeHistoryGCPComputeAddressLabel:              NewBronzeHistoryGCPComputeAddressLabelClient(cfg),
@@ -848,6 +868,8 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	return &Tx{
 		ctx:                                              ctx,
 		config:                                           cfg,
+		BronzeAWSEC2Instance:                             NewBronzeAWSEC2InstanceClient(cfg),
+		BronzeAWSEC2InstanceTag:                          NewBronzeAWSEC2InstanceTagClient(cfg),
 		BronzeDOVpc:                                      NewBronzeDOVpcClient(cfg),
 		BronzeGCPComputeAddress:                          NewBronzeGCPComputeAddressClient(cfg),
 		BronzeGCPComputeAddressLabel:                     NewBronzeGCPComputeAddressLabelClient(cfg),
@@ -911,6 +933,8 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		BronzeGCPVPNTargetGatewayLabel:                   NewBronzeGCPVPNTargetGatewayLabelClient(cfg),
 		BronzeGCPVPNTunnel:                               NewBronzeGCPVPNTunnelClient(cfg),
 		BronzeGCPVPNTunnelLabel:                          NewBronzeGCPVPNTunnelLabelClient(cfg),
+		BronzeHistoryAWSEC2Instance:                      NewBronzeHistoryAWSEC2InstanceClient(cfg),
+		BronzeHistoryAWSEC2InstanceTag:                   NewBronzeHistoryAWSEC2InstanceTagClient(cfg),
 		BronzeHistoryDOVpc:                               NewBronzeHistoryDOVpcClient(cfg),
 		BronzeHistoryGCPComputeAddress:                   NewBronzeHistoryGCPComputeAddressClient(cfg),
 		BronzeHistoryGCPComputeAddressLabel:              NewBronzeHistoryGCPComputeAddressLabelClient(cfg),
@@ -994,7 +1018,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 // Debug returns a new debug-client. It's used to get verbose logging on specific operations.
 //
 //	client.Debug().
-//		BronzeDOVpc.
+//		BronzeAWSEC2Instance.
 //		Query().
 //		Count(ctx)
 func (c *Client) Debug() *Client {
@@ -1017,7 +1041,8 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.BronzeDOVpc, c.BronzeGCPComputeAddress, c.BronzeGCPComputeAddressLabel,
+		c.BronzeAWSEC2Instance, c.BronzeAWSEC2InstanceTag, c.BronzeDOVpc,
+		c.BronzeGCPComputeAddress, c.BronzeGCPComputeAddressLabel,
 		c.BronzeGCPComputeBackendService, c.BronzeGCPComputeBackendServiceBackend,
 		c.BronzeGCPComputeDisk, c.BronzeGCPComputeDiskLabel,
 		c.BronzeGCPComputeDiskLicense, c.BronzeGCPComputeForwardingRule,
@@ -1048,7 +1073,8 @@ func (c *Client) Use(hooks ...Hook) {
 		c.BronzeGCPVPCAccessConnector, c.BronzeGCPVPNGateway,
 		c.BronzeGCPVPNGatewayLabel, c.BronzeGCPVPNTargetGateway,
 		c.BronzeGCPVPNTargetGatewayLabel, c.BronzeGCPVPNTunnel,
-		c.BronzeGCPVPNTunnelLabel, c.BronzeHistoryDOVpc,
+		c.BronzeGCPVPNTunnelLabel, c.BronzeHistoryAWSEC2Instance,
+		c.BronzeHistoryAWSEC2InstanceTag, c.BronzeHistoryDOVpc,
 		c.BronzeHistoryGCPComputeAddress, c.BronzeHistoryGCPComputeAddressLabel,
 		c.BronzeHistoryGCPComputeBackendService,
 		c.BronzeHistoryGCPComputeBackendServiceBackend, c.BronzeHistoryGCPComputeDisk,
@@ -1106,7 +1132,8 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.BronzeDOVpc, c.BronzeGCPComputeAddress, c.BronzeGCPComputeAddressLabel,
+		c.BronzeAWSEC2Instance, c.BronzeAWSEC2InstanceTag, c.BronzeDOVpc,
+		c.BronzeGCPComputeAddress, c.BronzeGCPComputeAddressLabel,
 		c.BronzeGCPComputeBackendService, c.BronzeGCPComputeBackendServiceBackend,
 		c.BronzeGCPComputeDisk, c.BronzeGCPComputeDiskLabel,
 		c.BronzeGCPComputeDiskLicense, c.BronzeGCPComputeForwardingRule,
@@ -1137,7 +1164,8 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.BronzeGCPVPCAccessConnector, c.BronzeGCPVPNGateway,
 		c.BronzeGCPVPNGatewayLabel, c.BronzeGCPVPNTargetGateway,
 		c.BronzeGCPVPNTargetGatewayLabel, c.BronzeGCPVPNTunnel,
-		c.BronzeGCPVPNTunnelLabel, c.BronzeHistoryDOVpc,
+		c.BronzeGCPVPNTunnelLabel, c.BronzeHistoryAWSEC2Instance,
+		c.BronzeHistoryAWSEC2InstanceTag, c.BronzeHistoryDOVpc,
 		c.BronzeHistoryGCPComputeAddress, c.BronzeHistoryGCPComputeAddressLabel,
 		c.BronzeHistoryGCPComputeBackendService,
 		c.BronzeHistoryGCPComputeBackendServiceBackend, c.BronzeHistoryGCPComputeDisk,
@@ -1194,6 +1222,10 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 // Mutate implements the ent.Mutator interface.
 func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
+	case *BronzeAWSEC2InstanceMutation:
+		return c.BronzeAWSEC2Instance.mutate(ctx, m)
+	case *BronzeAWSEC2InstanceTagMutation:
+		return c.BronzeAWSEC2InstanceTag.mutate(ctx, m)
 	case *BronzeDOVpcMutation:
 		return c.BronzeDOVpc.mutate(ctx, m)
 	case *BronzeGCPComputeAddressMutation:
@@ -1320,6 +1352,10 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeGCPVPNTunnel.mutate(ctx, m)
 	case *BronzeGCPVPNTunnelLabelMutation:
 		return c.BronzeGCPVPNTunnelLabel.mutate(ctx, m)
+	case *BronzeHistoryAWSEC2InstanceMutation:
+		return c.BronzeHistoryAWSEC2Instance.mutate(ctx, m)
+	case *BronzeHistoryAWSEC2InstanceTagMutation:
+		return c.BronzeHistoryAWSEC2InstanceTag.mutate(ctx, m)
 	case *BronzeHistoryDOVpcMutation:
 		return c.BronzeHistoryDOVpc.mutate(ctx, m)
 	case *BronzeHistoryGCPComputeAddressMutation:
@@ -1476,6 +1512,310 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeS1Threat.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
+	}
+}
+
+// BronzeAWSEC2InstanceClient is a client for the BronzeAWSEC2Instance schema.
+type BronzeAWSEC2InstanceClient struct {
+	config
+}
+
+// NewBronzeAWSEC2InstanceClient returns a client for the BronzeAWSEC2Instance from the given config.
+func NewBronzeAWSEC2InstanceClient(c config) *BronzeAWSEC2InstanceClient {
+	return &BronzeAWSEC2InstanceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzeawsec2instance.Hooks(f(g(h())))`.
+func (c *BronzeAWSEC2InstanceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeAWSEC2Instance = append(c.hooks.BronzeAWSEC2Instance, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzeawsec2instance.Intercept(f(g(h())))`.
+func (c *BronzeAWSEC2InstanceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeAWSEC2Instance = append(c.inters.BronzeAWSEC2Instance, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeAWSEC2Instance entity.
+func (c *BronzeAWSEC2InstanceClient) Create() *BronzeAWSEC2InstanceCreate {
+	mutation := newBronzeAWSEC2InstanceMutation(c.config, OpCreate)
+	return &BronzeAWSEC2InstanceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeAWSEC2Instance entities.
+func (c *BronzeAWSEC2InstanceClient) CreateBulk(builders ...*BronzeAWSEC2InstanceCreate) *BronzeAWSEC2InstanceCreateBulk {
+	return &BronzeAWSEC2InstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeAWSEC2InstanceClient) MapCreateBulk(slice any, setFunc func(*BronzeAWSEC2InstanceCreate, int)) *BronzeAWSEC2InstanceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeAWSEC2InstanceCreateBulk{err: fmt.Errorf("calling to BronzeAWSEC2InstanceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeAWSEC2InstanceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeAWSEC2InstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeAWSEC2Instance.
+func (c *BronzeAWSEC2InstanceClient) Update() *BronzeAWSEC2InstanceUpdate {
+	mutation := newBronzeAWSEC2InstanceMutation(c.config, OpUpdate)
+	return &BronzeAWSEC2InstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeAWSEC2InstanceClient) UpdateOne(_m *BronzeAWSEC2Instance) *BronzeAWSEC2InstanceUpdateOne {
+	mutation := newBronzeAWSEC2InstanceMutation(c.config, OpUpdateOne, withBronzeAWSEC2Instance(_m))
+	return &BronzeAWSEC2InstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeAWSEC2InstanceClient) UpdateOneID(id string) *BronzeAWSEC2InstanceUpdateOne {
+	mutation := newBronzeAWSEC2InstanceMutation(c.config, OpUpdateOne, withBronzeAWSEC2InstanceID(id))
+	return &BronzeAWSEC2InstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeAWSEC2Instance.
+func (c *BronzeAWSEC2InstanceClient) Delete() *BronzeAWSEC2InstanceDelete {
+	mutation := newBronzeAWSEC2InstanceMutation(c.config, OpDelete)
+	return &BronzeAWSEC2InstanceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeAWSEC2InstanceClient) DeleteOne(_m *BronzeAWSEC2Instance) *BronzeAWSEC2InstanceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeAWSEC2InstanceClient) DeleteOneID(id string) *BronzeAWSEC2InstanceDeleteOne {
+	builder := c.Delete().Where(bronzeawsec2instance.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeAWSEC2InstanceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeAWSEC2Instance.
+func (c *BronzeAWSEC2InstanceClient) Query() *BronzeAWSEC2InstanceQuery {
+	return &BronzeAWSEC2InstanceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeAWSEC2Instance},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeAWSEC2Instance entity by its id.
+func (c *BronzeAWSEC2InstanceClient) Get(ctx context.Context, id string) (*BronzeAWSEC2Instance, error) {
+	return c.Query().Where(bronzeawsec2instance.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeAWSEC2InstanceClient) GetX(ctx context.Context, id string) *BronzeAWSEC2Instance {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryTags queries the tags edge of a BronzeAWSEC2Instance.
+func (c *BronzeAWSEC2InstanceClient) QueryTags(_m *BronzeAWSEC2Instance) *BronzeAWSEC2InstanceTagQuery {
+	query := (&BronzeAWSEC2InstanceTagClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzeawsec2instance.Table, bronzeawsec2instance.FieldID, id),
+			sqlgraph.To(bronzeawsec2instancetag.Table, bronzeawsec2instancetag.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, bronzeawsec2instance.TagsTable, bronzeawsec2instance.TagsColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeAWSEC2InstanceTag
+		step.Edge.Schema = schemaConfig.BronzeAWSEC2InstanceTag
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeAWSEC2InstanceClient) Hooks() []Hook {
+	return c.hooks.BronzeAWSEC2Instance
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeAWSEC2InstanceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeAWSEC2Instance
+}
+
+func (c *BronzeAWSEC2InstanceClient) mutate(ctx context.Context, m *BronzeAWSEC2InstanceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeAWSEC2InstanceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeAWSEC2InstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeAWSEC2InstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeAWSEC2InstanceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeAWSEC2Instance mutation op: %q", m.Op())
+	}
+}
+
+// BronzeAWSEC2InstanceTagClient is a client for the BronzeAWSEC2InstanceTag schema.
+type BronzeAWSEC2InstanceTagClient struct {
+	config
+}
+
+// NewBronzeAWSEC2InstanceTagClient returns a client for the BronzeAWSEC2InstanceTag from the given config.
+func NewBronzeAWSEC2InstanceTagClient(c config) *BronzeAWSEC2InstanceTagClient {
+	return &BronzeAWSEC2InstanceTagClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzeawsec2instancetag.Hooks(f(g(h())))`.
+func (c *BronzeAWSEC2InstanceTagClient) Use(hooks ...Hook) {
+	c.hooks.BronzeAWSEC2InstanceTag = append(c.hooks.BronzeAWSEC2InstanceTag, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzeawsec2instancetag.Intercept(f(g(h())))`.
+func (c *BronzeAWSEC2InstanceTagClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeAWSEC2InstanceTag = append(c.inters.BronzeAWSEC2InstanceTag, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeAWSEC2InstanceTag entity.
+func (c *BronzeAWSEC2InstanceTagClient) Create() *BronzeAWSEC2InstanceTagCreate {
+	mutation := newBronzeAWSEC2InstanceTagMutation(c.config, OpCreate)
+	return &BronzeAWSEC2InstanceTagCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeAWSEC2InstanceTag entities.
+func (c *BronzeAWSEC2InstanceTagClient) CreateBulk(builders ...*BronzeAWSEC2InstanceTagCreate) *BronzeAWSEC2InstanceTagCreateBulk {
+	return &BronzeAWSEC2InstanceTagCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeAWSEC2InstanceTagClient) MapCreateBulk(slice any, setFunc func(*BronzeAWSEC2InstanceTagCreate, int)) *BronzeAWSEC2InstanceTagCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeAWSEC2InstanceTagCreateBulk{err: fmt.Errorf("calling to BronzeAWSEC2InstanceTagClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeAWSEC2InstanceTagCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeAWSEC2InstanceTagCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeAWSEC2InstanceTag.
+func (c *BronzeAWSEC2InstanceTagClient) Update() *BronzeAWSEC2InstanceTagUpdate {
+	mutation := newBronzeAWSEC2InstanceTagMutation(c.config, OpUpdate)
+	return &BronzeAWSEC2InstanceTagUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeAWSEC2InstanceTagClient) UpdateOne(_m *BronzeAWSEC2InstanceTag) *BronzeAWSEC2InstanceTagUpdateOne {
+	mutation := newBronzeAWSEC2InstanceTagMutation(c.config, OpUpdateOne, withBronzeAWSEC2InstanceTag(_m))
+	return &BronzeAWSEC2InstanceTagUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeAWSEC2InstanceTagClient) UpdateOneID(id int) *BronzeAWSEC2InstanceTagUpdateOne {
+	mutation := newBronzeAWSEC2InstanceTagMutation(c.config, OpUpdateOne, withBronzeAWSEC2InstanceTagID(id))
+	return &BronzeAWSEC2InstanceTagUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeAWSEC2InstanceTag.
+func (c *BronzeAWSEC2InstanceTagClient) Delete() *BronzeAWSEC2InstanceTagDelete {
+	mutation := newBronzeAWSEC2InstanceTagMutation(c.config, OpDelete)
+	return &BronzeAWSEC2InstanceTagDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeAWSEC2InstanceTagClient) DeleteOne(_m *BronzeAWSEC2InstanceTag) *BronzeAWSEC2InstanceTagDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeAWSEC2InstanceTagClient) DeleteOneID(id int) *BronzeAWSEC2InstanceTagDeleteOne {
+	builder := c.Delete().Where(bronzeawsec2instancetag.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeAWSEC2InstanceTagDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeAWSEC2InstanceTag.
+func (c *BronzeAWSEC2InstanceTagClient) Query() *BronzeAWSEC2InstanceTagQuery {
+	return &BronzeAWSEC2InstanceTagQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeAWSEC2InstanceTag},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeAWSEC2InstanceTag entity by its id.
+func (c *BronzeAWSEC2InstanceTagClient) Get(ctx context.Context, id int) (*BronzeAWSEC2InstanceTag, error) {
+	return c.Query().Where(bronzeawsec2instancetag.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeAWSEC2InstanceTagClient) GetX(ctx context.Context, id int) *BronzeAWSEC2InstanceTag {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryInstance queries the instance edge of a BronzeAWSEC2InstanceTag.
+func (c *BronzeAWSEC2InstanceTagClient) QueryInstance(_m *BronzeAWSEC2InstanceTag) *BronzeAWSEC2InstanceQuery {
+	query := (&BronzeAWSEC2InstanceClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzeawsec2instancetag.Table, bronzeawsec2instancetag.FieldID, id),
+			sqlgraph.To(bronzeawsec2instance.Table, bronzeawsec2instance.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, bronzeawsec2instancetag.InstanceTable, bronzeawsec2instancetag.InstanceColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeAWSEC2Instance
+		step.Edge.Schema = schemaConfig.BronzeAWSEC2InstanceTag
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeAWSEC2InstanceTagClient) Hooks() []Hook {
+	return c.hooks.BronzeAWSEC2InstanceTag
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeAWSEC2InstanceTagClient) Interceptors() []Interceptor {
+	return c.inters.BronzeAWSEC2InstanceTag
+}
+
+func (c *BronzeAWSEC2InstanceTagClient) mutate(ctx context.Context, m *BronzeAWSEC2InstanceTagMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeAWSEC2InstanceTagCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeAWSEC2InstanceTagUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeAWSEC2InstanceTagUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeAWSEC2InstanceTagDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeAWSEC2InstanceTag mutation op: %q", m.Op())
 	}
 }
 
@@ -11071,6 +11411,272 @@ func (c *BronzeGCPVPNTunnelLabelClient) mutate(ctx context.Context, m *BronzeGCP
 		return (&BronzeGCPVPNTunnelLabelDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown BronzeGCPVPNTunnelLabel mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryAWSEC2InstanceClient is a client for the BronzeHistoryAWSEC2Instance schema.
+type BronzeHistoryAWSEC2InstanceClient struct {
+	config
+}
+
+// NewBronzeHistoryAWSEC2InstanceClient returns a client for the BronzeHistoryAWSEC2Instance from the given config.
+func NewBronzeHistoryAWSEC2InstanceClient(c config) *BronzeHistoryAWSEC2InstanceClient {
+	return &BronzeHistoryAWSEC2InstanceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistoryawsec2instance.Hooks(f(g(h())))`.
+func (c *BronzeHistoryAWSEC2InstanceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryAWSEC2Instance = append(c.hooks.BronzeHistoryAWSEC2Instance, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistoryawsec2instance.Intercept(f(g(h())))`.
+func (c *BronzeHistoryAWSEC2InstanceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryAWSEC2Instance = append(c.inters.BronzeHistoryAWSEC2Instance, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryAWSEC2Instance entity.
+func (c *BronzeHistoryAWSEC2InstanceClient) Create() *BronzeHistoryAWSEC2InstanceCreate {
+	mutation := newBronzeHistoryAWSEC2InstanceMutation(c.config, OpCreate)
+	return &BronzeHistoryAWSEC2InstanceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryAWSEC2Instance entities.
+func (c *BronzeHistoryAWSEC2InstanceClient) CreateBulk(builders ...*BronzeHistoryAWSEC2InstanceCreate) *BronzeHistoryAWSEC2InstanceCreateBulk {
+	return &BronzeHistoryAWSEC2InstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryAWSEC2InstanceClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryAWSEC2InstanceCreate, int)) *BronzeHistoryAWSEC2InstanceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryAWSEC2InstanceCreateBulk{err: fmt.Errorf("calling to BronzeHistoryAWSEC2InstanceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryAWSEC2InstanceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryAWSEC2InstanceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryAWSEC2Instance.
+func (c *BronzeHistoryAWSEC2InstanceClient) Update() *BronzeHistoryAWSEC2InstanceUpdate {
+	mutation := newBronzeHistoryAWSEC2InstanceMutation(c.config, OpUpdate)
+	return &BronzeHistoryAWSEC2InstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryAWSEC2InstanceClient) UpdateOne(_m *BronzeHistoryAWSEC2Instance) *BronzeHistoryAWSEC2InstanceUpdateOne {
+	mutation := newBronzeHistoryAWSEC2InstanceMutation(c.config, OpUpdateOne, withBronzeHistoryAWSEC2Instance(_m))
+	return &BronzeHistoryAWSEC2InstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryAWSEC2InstanceClient) UpdateOneID(id int) *BronzeHistoryAWSEC2InstanceUpdateOne {
+	mutation := newBronzeHistoryAWSEC2InstanceMutation(c.config, OpUpdateOne, withBronzeHistoryAWSEC2InstanceID(id))
+	return &BronzeHistoryAWSEC2InstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryAWSEC2Instance.
+func (c *BronzeHistoryAWSEC2InstanceClient) Delete() *BronzeHistoryAWSEC2InstanceDelete {
+	mutation := newBronzeHistoryAWSEC2InstanceMutation(c.config, OpDelete)
+	return &BronzeHistoryAWSEC2InstanceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryAWSEC2InstanceClient) DeleteOne(_m *BronzeHistoryAWSEC2Instance) *BronzeHistoryAWSEC2InstanceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryAWSEC2InstanceClient) DeleteOneID(id int) *BronzeHistoryAWSEC2InstanceDeleteOne {
+	builder := c.Delete().Where(bronzehistoryawsec2instance.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryAWSEC2InstanceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryAWSEC2Instance.
+func (c *BronzeHistoryAWSEC2InstanceClient) Query() *BronzeHistoryAWSEC2InstanceQuery {
+	return &BronzeHistoryAWSEC2InstanceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryAWSEC2Instance},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryAWSEC2Instance entity by its id.
+func (c *BronzeHistoryAWSEC2InstanceClient) Get(ctx context.Context, id int) (*BronzeHistoryAWSEC2Instance, error) {
+	return c.Query().Where(bronzehistoryawsec2instance.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryAWSEC2InstanceClient) GetX(ctx context.Context, id int) *BronzeHistoryAWSEC2Instance {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryAWSEC2InstanceClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryAWSEC2Instance
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryAWSEC2InstanceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryAWSEC2Instance
+}
+
+func (c *BronzeHistoryAWSEC2InstanceClient) mutate(ctx context.Context, m *BronzeHistoryAWSEC2InstanceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryAWSEC2InstanceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryAWSEC2InstanceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryAWSEC2InstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryAWSEC2InstanceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryAWSEC2Instance mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryAWSEC2InstanceTagClient is a client for the BronzeHistoryAWSEC2InstanceTag schema.
+type BronzeHistoryAWSEC2InstanceTagClient struct {
+	config
+}
+
+// NewBronzeHistoryAWSEC2InstanceTagClient returns a client for the BronzeHistoryAWSEC2InstanceTag from the given config.
+func NewBronzeHistoryAWSEC2InstanceTagClient(c config) *BronzeHistoryAWSEC2InstanceTagClient {
+	return &BronzeHistoryAWSEC2InstanceTagClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistoryawsec2instancetag.Hooks(f(g(h())))`.
+func (c *BronzeHistoryAWSEC2InstanceTagClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryAWSEC2InstanceTag = append(c.hooks.BronzeHistoryAWSEC2InstanceTag, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistoryawsec2instancetag.Intercept(f(g(h())))`.
+func (c *BronzeHistoryAWSEC2InstanceTagClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryAWSEC2InstanceTag = append(c.inters.BronzeHistoryAWSEC2InstanceTag, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryAWSEC2InstanceTag entity.
+func (c *BronzeHistoryAWSEC2InstanceTagClient) Create() *BronzeHistoryAWSEC2InstanceTagCreate {
+	mutation := newBronzeHistoryAWSEC2InstanceTagMutation(c.config, OpCreate)
+	return &BronzeHistoryAWSEC2InstanceTagCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryAWSEC2InstanceTag entities.
+func (c *BronzeHistoryAWSEC2InstanceTagClient) CreateBulk(builders ...*BronzeHistoryAWSEC2InstanceTagCreate) *BronzeHistoryAWSEC2InstanceTagCreateBulk {
+	return &BronzeHistoryAWSEC2InstanceTagCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryAWSEC2InstanceTagClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryAWSEC2InstanceTagCreate, int)) *BronzeHistoryAWSEC2InstanceTagCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryAWSEC2InstanceTagCreateBulk{err: fmt.Errorf("calling to BronzeHistoryAWSEC2InstanceTagClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryAWSEC2InstanceTagCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryAWSEC2InstanceTagCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryAWSEC2InstanceTag.
+func (c *BronzeHistoryAWSEC2InstanceTagClient) Update() *BronzeHistoryAWSEC2InstanceTagUpdate {
+	mutation := newBronzeHistoryAWSEC2InstanceTagMutation(c.config, OpUpdate)
+	return &BronzeHistoryAWSEC2InstanceTagUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryAWSEC2InstanceTagClient) UpdateOne(_m *BronzeHistoryAWSEC2InstanceTag) *BronzeHistoryAWSEC2InstanceTagUpdateOne {
+	mutation := newBronzeHistoryAWSEC2InstanceTagMutation(c.config, OpUpdateOne, withBronzeHistoryAWSEC2InstanceTag(_m))
+	return &BronzeHistoryAWSEC2InstanceTagUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryAWSEC2InstanceTagClient) UpdateOneID(id int) *BronzeHistoryAWSEC2InstanceTagUpdateOne {
+	mutation := newBronzeHistoryAWSEC2InstanceTagMutation(c.config, OpUpdateOne, withBronzeHistoryAWSEC2InstanceTagID(id))
+	return &BronzeHistoryAWSEC2InstanceTagUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryAWSEC2InstanceTag.
+func (c *BronzeHistoryAWSEC2InstanceTagClient) Delete() *BronzeHistoryAWSEC2InstanceTagDelete {
+	mutation := newBronzeHistoryAWSEC2InstanceTagMutation(c.config, OpDelete)
+	return &BronzeHistoryAWSEC2InstanceTagDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryAWSEC2InstanceTagClient) DeleteOne(_m *BronzeHistoryAWSEC2InstanceTag) *BronzeHistoryAWSEC2InstanceTagDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryAWSEC2InstanceTagClient) DeleteOneID(id int) *BronzeHistoryAWSEC2InstanceTagDeleteOne {
+	builder := c.Delete().Where(bronzehistoryawsec2instancetag.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryAWSEC2InstanceTagDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryAWSEC2InstanceTag.
+func (c *BronzeHistoryAWSEC2InstanceTagClient) Query() *BronzeHistoryAWSEC2InstanceTagQuery {
+	return &BronzeHistoryAWSEC2InstanceTagQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryAWSEC2InstanceTag},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryAWSEC2InstanceTag entity by its id.
+func (c *BronzeHistoryAWSEC2InstanceTagClient) Get(ctx context.Context, id int) (*BronzeHistoryAWSEC2InstanceTag, error) {
+	return c.Query().Where(bronzehistoryawsec2instancetag.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryAWSEC2InstanceTagClient) GetX(ctx context.Context, id int) *BronzeHistoryAWSEC2InstanceTag {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryAWSEC2InstanceTagClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryAWSEC2InstanceTag
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryAWSEC2InstanceTagClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryAWSEC2InstanceTag
+}
+
+func (c *BronzeHistoryAWSEC2InstanceTagClient) mutate(ctx context.Context, m *BronzeHistoryAWSEC2InstanceTagMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryAWSEC2InstanceTagCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryAWSEC2InstanceTagUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryAWSEC2InstanceTagUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryAWSEC2InstanceTagDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryAWSEC2InstanceTag mutation op: %q", m.Op())
 	}
 }
 
@@ -21356,7 +21962,8 @@ func (c *BronzeS1ThreatClient) mutate(ctx context.Context, m *BronzeS1ThreatMuta
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		BronzeDOVpc, BronzeGCPComputeAddress, BronzeGCPComputeAddressLabel,
+		BronzeAWSEC2Instance, BronzeAWSEC2InstanceTag, BronzeDOVpc,
+		BronzeGCPComputeAddress, BronzeGCPComputeAddressLabel,
 		BronzeGCPComputeBackendService, BronzeGCPComputeBackendServiceBackend,
 		BronzeGCPComputeDisk, BronzeGCPComputeDiskLabel, BronzeGCPComputeDiskLicense,
 		BronzeGCPComputeForwardingRule, BronzeGCPComputeForwardingRuleLabel,
@@ -21385,6 +21992,7 @@ type (
 		BronzeGCPProjectLabel, BronzeGCPVPCAccessConnector, BronzeGCPVPNGateway,
 		BronzeGCPVPNGatewayLabel, BronzeGCPVPNTargetGateway,
 		BronzeGCPVPNTargetGatewayLabel, BronzeGCPVPNTunnel, BronzeGCPVPNTunnelLabel,
+		BronzeHistoryAWSEC2Instance, BronzeHistoryAWSEC2InstanceTag,
 		BronzeHistoryDOVpc, BronzeHistoryGCPComputeAddress,
 		BronzeHistoryGCPComputeAddressLabel, BronzeHistoryGCPComputeBackendService,
 		BronzeHistoryGCPComputeBackendServiceBackend, BronzeHistoryGCPComputeDisk,
@@ -21432,7 +22040,8 @@ type (
 		BronzeS1App, BronzeS1Group, BronzeS1Site, BronzeS1Threat []ent.Hook
 	}
 	inters struct {
-		BronzeDOVpc, BronzeGCPComputeAddress, BronzeGCPComputeAddressLabel,
+		BronzeAWSEC2Instance, BronzeAWSEC2InstanceTag, BronzeDOVpc,
+		BronzeGCPComputeAddress, BronzeGCPComputeAddressLabel,
 		BronzeGCPComputeBackendService, BronzeGCPComputeBackendServiceBackend,
 		BronzeGCPComputeDisk, BronzeGCPComputeDiskLabel, BronzeGCPComputeDiskLicense,
 		BronzeGCPComputeForwardingRule, BronzeGCPComputeForwardingRuleLabel,
@@ -21461,6 +22070,7 @@ type (
 		BronzeGCPProjectLabel, BronzeGCPVPCAccessConnector, BronzeGCPVPNGateway,
 		BronzeGCPVPNGatewayLabel, BronzeGCPVPNTargetGateway,
 		BronzeGCPVPNTargetGatewayLabel, BronzeGCPVPNTunnel, BronzeGCPVPNTunnelLabel,
+		BronzeHistoryAWSEC2Instance, BronzeHistoryAWSEC2InstanceTag,
 		BronzeHistoryDOVpc, BronzeHistoryGCPComputeAddress,
 		BronzeHistoryGCPComputeAddressLabel, BronzeHistoryGCPComputeBackendService,
 		BronzeHistoryGCPComputeBackendServiceBackend, BronzeHistoryGCPComputeDisk,

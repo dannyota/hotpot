@@ -2,6 +2,7 @@
 package schema
 
 import (
+	bronze_aws_ec2 "github.com/dannyota/hotpot/pkg/schema/bronze/aws/ec2"
 	bronze_do "github.com/dannyota/hotpot/pkg/schema/bronze/do"
 	bronze_gcp_compute "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/compute"
 	bronze_gcp_container "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/container"
@@ -10,6 +11,7 @@ import (
 	bronze_gcp_vpcaccess "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/vpcaccess"
 	bronze_gcp_vpn "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/vpn"
 	bronze_s1 "github.com/dannyota/hotpot/pkg/schema/bronze/s1"
+	bronzehistory_aws_ec2 "github.com/dannyota/hotpot/pkg/schema/bronzehistory/aws/ec2"
 	bronzehistory_do "github.com/dannyota/hotpot/pkg/schema/bronzehistory/do"
 	bronzehistory_gcp_compute "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/compute"
 	bronzehistory_gcp_container "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/container"
@@ -19,6 +21,14 @@ import (
 	bronzehistory_gcp_vpn "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/vpn"
 	bronzehistory_s1 "github.com/dannyota/hotpot/pkg/schema/bronzehistory/s1"
 )
+
+type BronzeAWSEC2Instance struct {
+	bronze_aws_ec2.BronzeAWSEC2Instance
+}
+
+type BronzeAWSEC2InstanceTag struct {
+	bronze_aws_ec2.BronzeAWSEC2InstanceTag
+}
 
 type BronzeDOVpc struct {
 	bronze_do.BronzeDOVpc
@@ -298,6 +308,14 @@ type BronzeS1Site struct {
 
 type BronzeS1Threat struct {
 	bronze_s1.BronzeS1Threat
+}
+
+type BronzeHistoryAWSEC2Instance struct {
+	bronzehistory_aws_ec2.BronzeHistoryAWSEC2Instance
+}
+
+type BronzeHistoryAWSEC2InstanceTag struct {
+	bronzehistory_aws_ec2.BronzeHistoryAWSEC2InstanceTag
 }
 
 type BronzeHistoryDOVpc struct {

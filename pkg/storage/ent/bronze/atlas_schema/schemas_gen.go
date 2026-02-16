@@ -4,6 +4,7 @@ package schema
 import (
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
+	bronze_aws_ec2 "github.com/dannyota/hotpot/pkg/schema/bronze/aws/ec2"
 	bronze_do "github.com/dannyota/hotpot/pkg/schema/bronze/do"
 	bronze_gcp_compute "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/compute"
 	bronze_gcp_container "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/container"
@@ -13,6 +14,38 @@ import (
 	bronze_gcp_vpn "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/vpn"
 	bronze_s1 "github.com/dannyota/hotpot/pkg/schema/bronze/s1"
 )
+
+type BronzeAWSEC2Instance struct {
+	bronze_aws_ec2.BronzeAWSEC2Instance
+}
+
+func (BronzeAWSEC2Instance) Annotations() []schema.Annotation {
+	anns := bronze_aws_ec2.BronzeAWSEC2Instance{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeAWSEC2InstanceTag struct {
+	bronze_aws_ec2.BronzeAWSEC2InstanceTag
+}
+
+func (BronzeAWSEC2InstanceTag) Annotations() []schema.Annotation {
+	anns := bronze_aws_ec2.BronzeAWSEC2InstanceTag{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
 
 type BronzeDOVpc struct {
 	bronze_do.BronzeDOVpc

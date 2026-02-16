@@ -3,11 +3,34 @@ package config
 // Config holds all application configuration values.
 type Config struct {
 	GCP      GCPConfig      `yaml:"gcp"`
+	AWS      AWSConfig      `yaml:"aws"`
 	S1       S1Config       `yaml:"s1"`
 	DO       DOConfig       `yaml:"do"`
 	Database DatabaseConfig `yaml:"database"`
 	Temporal TemporalConfig `yaml:"temporal"`
 	Redis    RedisConfig    `yaml:"redis"`
+}
+
+// AWSConfig holds AWS-specific configuration.
+type AWSConfig struct {
+	// Enabled controls whether AWS ingestion runs and tables are created.
+	Enabled bool `yaml:"enabled"`
+
+	// AccessKeyID is the AWS access key ID for static credentials.
+	// Falls back to default credential chain if empty.
+	AccessKeyID string `yaml:"access_key_id,omitempty"`
+
+	// SecretAccessKey is the AWS secret access key for static credentials.
+	// Falls back to default credential chain if empty.
+	SecretAccessKey string `yaml:"secret_access_key,omitempty"`
+
+	// Regions is an optional filter for which AWS regions to scan.
+	// If empty, all enabled regions are discovered via DescribeRegions.
+	Regions []string `yaml:"regions,omitempty"`
+
+	// RateLimitPerMinute is the max API requests per minute across all AWS clients.
+	// Default: 600 (see Service.AWSRateLimitPerMinute()).
+	RateLimitPerMinute int `yaml:"rate_limit_per_minute,omitempty"`
 }
 
 // GCPConfig holds GCP-specific configuration.

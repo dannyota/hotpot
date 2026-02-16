@@ -7,6 +7,8 @@ import "context"
 // SchemaConfig represents alternative schema names for all tables
 // that can be passed at runtime.
 type SchemaConfig struct {
+	BronzeAWSEC2Instance                             string // BronzeAWSEC2Instance table.
+	BronzeAWSEC2InstanceTag                          string // BronzeAWSEC2InstanceTag table.
 	BronzeDOVpc                                      string // BronzeDOVpc table.
 	BronzeGCPComputeAddress                          string // BronzeGCPComputeAddress table.
 	BronzeGCPComputeAddressLabel                     string // BronzeGCPComputeAddressLabel table.
@@ -70,6 +72,8 @@ type SchemaConfig struct {
 	BronzeGCPVPNTargetGatewayLabel                   string // BronzeGCPVPNTargetGatewayLabel table.
 	BronzeGCPVPNTunnel                               string // BronzeGCPVPNTunnel table.
 	BronzeGCPVPNTunnelLabel                          string // BronzeGCPVPNTunnelLabel table.
+	BronzeHistoryAWSEC2Instance                      string // BronzeHistoryAWSEC2Instance table.
+	BronzeHistoryAWSEC2InstanceTag                   string // BronzeHistoryAWSEC2InstanceTag table.
 	BronzeHistoryDOVpc                               string // BronzeHistoryDOVpc table.
 	BronzeHistoryGCPComputeAddress                   string // BronzeHistoryGCPComputeAddress table.
 	BronzeHistoryGCPComputeAddressLabel              string // BronzeHistoryGCPComputeAddressLabel table.

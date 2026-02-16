@@ -161,6 +161,9 @@ func (s *Service) EnabledProviders() []string {
 	if s.config.DO.Enabled {
 		providers = append(providers, "do")
 	}
+	if s.config.AWS.Enabled {
+		providers = append(providers, "aws")
+	}
 	return providers
 }
 
@@ -280,6 +283,59 @@ func (s *Service) DOEnabled() bool {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 	return s.config != nil && s.config.DO.Enabled
+}
+
+// AWSEnabled returns true if AWS ingestion is enabled in config.
+func (s *Service) AWSEnabled() bool {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.config != nil && s.config.AWS.Enabled
+}
+
+// AWSAccessKeyID returns the AWS access key ID.
+// Returns empty string if not configured (caller should fall back to default credential chain).
+func (s *Service) AWSAccessKeyID() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.AWS.AccessKeyID
+}
+
+// AWSSecretAccessKey returns the AWS secret access key.
+// Returns empty string if not configured (caller should fall back to default credential chain).
+func (s *Service) AWSSecretAccessKey() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.AWS.SecretAccessKey
+}
+
+// AWSRegions returns the optional region filter for AWS.
+// Returns nil if not configured (caller should discover all enabled regions).
+func (s *Service) AWSRegions() []string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || len(s.config.AWS.Regions) == 0 {
+		return nil
+	}
+	result := make([]string, len(s.config.AWS.Regions))
+	copy(result, s.config.AWS.Regions)
+	return result
+}
+
+// AWSRateLimitPerMinute returns the max API requests per minute for AWS.
+// Defaults to 600 if not configured.
+func (s *Service) AWSRateLimitPerMinute() int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || s.config.AWS.RateLimitPerMinute <= 0 {
+		return 600
+	}
+	return s.config.AWS.RateLimitPerMinute
 }
 
 // RedisConfig returns the Redis configuration.

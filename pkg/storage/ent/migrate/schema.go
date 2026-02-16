@@ -9,6 +9,76 @@ import (
 )
 
 var (
+	// AWSEc2InstancesColumns holds the columns for the "aws_ec2_instances" table.
+	AWSEc2InstancesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString, Nullable: true},
+		{Name: "instance_type", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeString, Nullable: true},
+		{Name: "vpc_id", Type: field.TypeString, Nullable: true},
+		{Name: "subnet_id", Type: field.TypeString, Nullable: true},
+		{Name: "private_ip_address", Type: field.TypeString, Nullable: true},
+		{Name: "public_ip_address", Type: field.TypeString, Nullable: true},
+		{Name: "ami_id", Type: field.TypeString, Nullable: true},
+		{Name: "key_name", Type: field.TypeString, Nullable: true},
+		{Name: "launch_time", Type: field.TypeTime, Nullable: true},
+		{Name: "platform", Type: field.TypeString, Nullable: true},
+		{Name: "architecture", Type: field.TypeString, Nullable: true},
+		{Name: "security_groups_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "account_id", Type: field.TypeString},
+		{Name: "region", Type: field.TypeString},
+	}
+	// AWSEc2InstancesTable holds the schema information for the "aws_ec2_instances" table.
+	AWSEc2InstancesTable = &schema.Table{
+		Name:       "aws_ec2_instances",
+		Columns:    AWSEc2InstancesColumns,
+		PrimaryKey: []*schema.Column{AWSEc2InstancesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzeawsec2instance_state",
+				Unique:  false,
+				Columns: []*schema.Column{AWSEc2InstancesColumns[5]},
+			},
+			{
+				Name:    "bronzeawsec2instance_account_id",
+				Unique:  false,
+				Columns: []*schema.Column{AWSEc2InstancesColumns[16]},
+			},
+			{
+				Name:    "bronzeawsec2instance_region",
+				Unique:  false,
+				Columns: []*schema.Column{AWSEc2InstancesColumns[17]},
+			},
+			{
+				Name:    "bronzeawsec2instance_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{AWSEc2InstancesColumns[1]},
+			},
+		},
+	}
+	// AWSEc2InstanceTagsColumns holds the columns for the "aws_ec2_instance_tags" table.
+	AWSEc2InstanceTagsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "key", Type: field.TypeString},
+		{Name: "value", Type: field.TypeString, Nullable: true},
+		{Name: "bronze_awsec2instance_tags", Type: field.TypeString},
+	}
+	// AWSEc2InstanceTagsTable holds the schema information for the "aws_ec2_instance_tags" table.
+	AWSEc2InstanceTagsTable = &schema.Table{
+		Name:       "aws_ec2_instance_tags",
+		Columns:    AWSEc2InstanceTagsColumns,
+		PrimaryKey: []*schema.Column{AWSEc2InstanceTagsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "aws_ec2_instance_tags_aws_ec2_instances_tags",
+				Columns:    []*schema.Column{AWSEc2InstanceTagsColumns[3]},
+				RefColumns: []*schema.Column{AWSEc2InstancesColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+	}
 	// DoVpcsColumns holds the columns for the "do_vpcs" table.
 	DoVpcsColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -2109,6 +2179,97 @@ var (
 				Columns:    []*schema.Column{GcpComputeVpnTunnelLabelsColumns[3]},
 				RefColumns: []*schema.Column{GcpComputeVpnTunnelsColumns[0]},
 				OnDelete:   schema.NoAction,
+			},
+		},
+	}
+	// AWSEc2InstancesHistoryColumns holds the columns for the "aws_ec2_instances_history" table.
+	AWSEc2InstancesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString, Nullable: true},
+		{Name: "instance_type", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeString, Nullable: true},
+		{Name: "vpc_id", Type: field.TypeString, Nullable: true},
+		{Name: "subnet_id", Type: field.TypeString, Nullable: true},
+		{Name: "private_ip_address", Type: field.TypeString, Nullable: true},
+		{Name: "public_ip_address", Type: field.TypeString, Nullable: true},
+		{Name: "ami_id", Type: field.TypeString, Nullable: true},
+		{Name: "key_name", Type: field.TypeString, Nullable: true},
+		{Name: "launch_time", Type: field.TypeTime, Nullable: true},
+		{Name: "platform", Type: field.TypeString, Nullable: true},
+		{Name: "architecture", Type: field.TypeString, Nullable: true},
+		{Name: "security_groups_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "account_id", Type: field.TypeString},
+		{Name: "region", Type: field.TypeString},
+	}
+	// AWSEc2InstancesHistoryTable holds the schema information for the "aws_ec2_instances_history" table.
+	AWSEc2InstancesHistoryTable = &schema.Table{
+		Name:       "aws_ec2_instances_history",
+		Columns:    AWSEc2InstancesHistoryColumns,
+		PrimaryKey: []*schema.Column{AWSEc2InstancesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistoryawsec2instance_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{AWSEc2InstancesHistoryColumns[6], AWSEc2InstancesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistoryawsec2instance_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{AWSEc2InstancesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistoryawsec2instance_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{AWSEc2InstancesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistoryawsec2instance_account_id",
+				Unique:  false,
+				Columns: []*schema.Column{AWSEc2InstancesHistoryColumns[20]},
+			},
+			{
+				Name:    "bronzehistoryawsec2instance_region",
+				Unique:  false,
+				Columns: []*schema.Column{AWSEc2InstancesHistoryColumns[21]},
+			},
+		},
+	}
+	// AWSEc2InstanceTagsHistoryColumns holds the columns for the "aws_ec2_instance_tags_history" table.
+	AWSEc2InstanceTagsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "instance_history_id", Type: field.TypeUint},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "key", Type: field.TypeString, Nullable: true},
+		{Name: "value", Type: field.TypeString, Nullable: true},
+	}
+	// AWSEc2InstanceTagsHistoryTable holds the schema information for the "aws_ec2_instance_tags_history" table.
+	AWSEc2InstanceTagsHistoryTable = &schema.Table{
+		Name:       "aws_ec2_instance_tags_history",
+		Columns:    AWSEc2InstanceTagsHistoryColumns,
+		PrimaryKey: []*schema.Column{AWSEc2InstanceTagsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistoryawsec2instancetag_instance_history_id",
+				Unique:  false,
+				Columns: []*schema.Column{AWSEc2InstanceTagsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistoryawsec2instancetag_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{AWSEc2InstanceTagsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistoryawsec2instancetag_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{AWSEc2InstanceTagsHistoryColumns[4]},
 			},
 		},
 	}
@@ -5761,6 +5922,8 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
+		AWSEc2InstancesTable,
+		AWSEc2InstanceTagsTable,
 		DoVpcsTable,
 		GcpComputeAddressesTable,
 		GcpComputeAddressLabelsTable,
@@ -5824,6 +5987,8 @@ var (
 		GcpComputeTargetVpnGatewayLabelsTable,
 		GcpComputeVpnTunnelsTable,
 		GcpComputeVpnTunnelLabelsTable,
+		AWSEc2InstancesHistoryTable,
+		AWSEc2InstanceTagsHistoryTable,
 		DoVpcsHistoryTable,
 		GcpComputeAddressesHistoryTable,
 		GcpComputeAddressLabelsHistoryTable,
@@ -5905,6 +6070,13 @@ var (
 )
 
 func init() {
+	AWSEc2InstancesTable.Annotation = &entsql.Annotation{
+		Table: "aws_ec2_instances",
+	}
+	AWSEc2InstanceTagsTable.ForeignKeys[0].RefTable = AWSEc2InstancesTable
+	AWSEc2InstanceTagsTable.Annotation = &entsql.Annotation{
+		Table: "aws_ec2_instance_tags",
+	}
 	DoVpcsTable.Annotation = &entsql.Annotation{
 		Table: "do_vpcs",
 	}
@@ -6125,6 +6297,12 @@ func init() {
 	GcpComputeVpnTunnelLabelsTable.ForeignKeys[0].RefTable = GcpComputeVpnTunnelsTable
 	GcpComputeVpnTunnelLabelsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_vpn_tunnel_labels",
+	}
+	AWSEc2InstancesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "aws_ec2_instances_history",
+	}
+	AWSEc2InstanceTagsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "aws_ec2_instance_tags_history",
 	}
 	DoVpcsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "do_vpcs_history",

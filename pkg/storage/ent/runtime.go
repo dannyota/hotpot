@@ -3,6 +3,8 @@
 package ent
 
 import (
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzeawsec2instance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzeawsec2instancetag"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedovpc"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeaddress"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeaddresslabel"
@@ -62,6 +64,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntargetgatewaylabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntunnel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntunnellabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydovpc"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddress"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeaddresslabel"
@@ -132,6 +135,22 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	bronzeawsec2instanceFields := schema.BronzeAWSEC2Instance{}.Fields()
+	_ = bronzeawsec2instanceFields
+	// bronzeawsec2instanceDescAccountID is the schema descriptor for account_id field.
+	bronzeawsec2instanceDescAccountID := bronzeawsec2instanceFields[14].Descriptor()
+	// bronzeawsec2instance.AccountIDValidator is a validator for the "account_id" field. It is called by the builders before save.
+	bronzeawsec2instance.AccountIDValidator = bronzeawsec2instanceDescAccountID.Validators[0].(func(string) error)
+	// bronzeawsec2instanceDescRegion is the schema descriptor for region field.
+	bronzeawsec2instanceDescRegion := bronzeawsec2instanceFields[15].Descriptor()
+	// bronzeawsec2instance.RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	bronzeawsec2instance.RegionValidator = bronzeawsec2instanceDescRegion.Validators[0].(func(string) error)
+	bronzeawsec2instancetagFields := schema.BronzeAWSEC2InstanceTag{}.Fields()
+	_ = bronzeawsec2instancetagFields
+	// bronzeawsec2instancetagDescKey is the schema descriptor for key field.
+	bronzeawsec2instancetagDescKey := bronzeawsec2instancetagFields[0].Descriptor()
+	// bronzeawsec2instancetag.KeyValidator is a validator for the "key" field. It is called by the builders before save.
+	bronzeawsec2instancetag.KeyValidator = bronzeawsec2instancetagDescKey.Validators[0].(func(string) error)
 	bronzedovpcFields := schema.BronzeDOVpc{}.Fields()
 	_ = bronzedovpcFields
 	// bronzedovpcDescName is the schema descriptor for name field.
@@ -802,6 +821,20 @@ func init() {
 	bronzegcpvpntunnellabelDescKey := bronzegcpvpntunnellabelFields[0].Descriptor()
 	// bronzegcpvpntunnellabel.KeyValidator is a validator for the "key" field. It is called by the builders before save.
 	bronzegcpvpntunnellabel.KeyValidator = bronzegcpvpntunnellabelDescKey.Validators[0].(func(string) error)
+	bronzehistoryawsec2instanceFields := schema.BronzeHistoryAWSEC2Instance{}.Fields()
+	_ = bronzehistoryawsec2instanceFields
+	// bronzehistoryawsec2instanceDescResourceID is the schema descriptor for resource_id field.
+	bronzehistoryawsec2instanceDescResourceID := bronzehistoryawsec2instanceFields[1].Descriptor()
+	// bronzehistoryawsec2instance.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistoryawsec2instance.ResourceIDValidator = bronzehistoryawsec2instanceDescResourceID.Validators[0].(func(string) error)
+	// bronzehistoryawsec2instanceDescAccountID is the schema descriptor for account_id field.
+	bronzehistoryawsec2instanceDescAccountID := bronzehistoryawsec2instanceFields[15].Descriptor()
+	// bronzehistoryawsec2instance.AccountIDValidator is a validator for the "account_id" field. It is called by the builders before save.
+	bronzehistoryawsec2instance.AccountIDValidator = bronzehistoryawsec2instanceDescAccountID.Validators[0].(func(string) error)
+	// bronzehistoryawsec2instanceDescRegion is the schema descriptor for region field.
+	bronzehistoryawsec2instanceDescRegion := bronzehistoryawsec2instanceFields[16].Descriptor()
+	// bronzehistoryawsec2instance.RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	bronzehistoryawsec2instance.RegionValidator = bronzehistoryawsec2instanceDescRegion.Validators[0].(func(string) error)
 	bronzehistorydovpcFields := schema.BronzeHistoryDOVpc{}.Fields()
 	_ = bronzehistorydovpcFields
 	// bronzehistorydovpcDescResourceID is the schema descriptor for resource_id field.

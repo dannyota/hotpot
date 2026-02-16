@@ -6,6 +6,12 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
+// BronzeAWSEC2Instance is the predicate function for bronzeawsec2instance builders.
+type BronzeAWSEC2Instance func(*sql.Selector)
+
+// BronzeAWSEC2InstanceTag is the predicate function for bronzeawsec2instancetag builders.
+type BronzeAWSEC2InstanceTag func(*sql.Selector)
+
 // BronzeDOVpc is the predicate function for bronzedovpc builders.
 type BronzeDOVpc func(*sql.Selector)
 
@@ -194,6 +200,12 @@ type BronzeGCPVPNTunnel func(*sql.Selector)
 
 // BronzeGCPVPNTunnelLabel is the predicate function for bronzegcpvpntunnellabel builders.
 type BronzeGCPVPNTunnelLabel func(*sql.Selector)
+
+// BronzeHistoryAWSEC2Instance is the predicate function for bronzehistoryawsec2instance builders.
+type BronzeHistoryAWSEC2Instance func(*sql.Selector)
+
+// BronzeHistoryAWSEC2InstanceTag is the predicate function for bronzehistoryawsec2instancetag builders.
+type BronzeHistoryAWSEC2InstanceTag func(*sql.Selector)
 
 // BronzeHistoryDOVpc is the predicate function for bronzehistorydovpc builders.
 type BronzeHistoryDOVpc func(*sql.Selector)
