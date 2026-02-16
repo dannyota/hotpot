@@ -1,20 +1,20 @@
 # GCP Roadmap
 
-Prioritized implementation strategy for remaining GCP resources (57 of 117).
+Prioritized implementation strategy for remaining GCP resources (23 of 117).
 
 See [GCP.md](./GCP.md) for current coverage details.
 
-## Current Batch: Phases 2+3+4 (34 resources, 20 services)
+## Completed Batch: Phases 2+3+4 ✅ (34 resources, 20 services)
 
-Executing Phases 2, 3, and 4 in parallel. Each service is assigned to an independent agent for maximum throughput.
+All 34 resources across 20 services implemented in parallel. Full build passes.
 
 ### Execution Steps
 
-1. **Schemas** — 20 agents create bronze + bronze history ent schemas in parallel
-2. **Generate** — Single `go generate` after all schemas land
-3. **Service layer** — 20 agents create service files (client, converter, diff, history, service, activities, workflows, register) in parallel
-4. **Wire up** — Add new Go module dependencies, update parent register/workflows, build and fix
-5. **Docs** — Update GCP.md counts and roadmap status
+1. **Schemas** — 20 agents create bronze + bronze history ent schemas in parallel ✅
+2. **Generate** — Single `go generate` after all schemas land ✅
+3. **Service layer** — 20 agents create service files (client, converter, diff, history, service, activities, workflows, register) in parallel ✅
+4. **Wire up** — Add new Go module dependencies, update parent register/workflows, build and fix ✅
+5. **Docs** — Update GCP.md counts and roadmap status ✅
 
 ### Agent Assignments
 
@@ -75,73 +75,73 @@ Complete the org hierarchy and finish partially-done services. Resource Manager 
 **Depends on:** nothing
 **Unlocks:** Phase 2 (org-level security services)
 
-## Phase 2: Security & Governance
+## Phase 2: Security & Governance ✅
 
 Core security services — the product's primary value. SCC findings, org policies, VPC Service Controls, container supply chain, and asset inventory.
 
-| Service | Resource | Priority | Notes |
-|---------|----------|:--------:|-------|
+| Service | Resource | Priority | Status |
+|---------|----------|:--------:|:------:|
 | **Security Command Center** | Sources | P0 | ✅ |
 | | Findings | P0 | ✅ |
-| | Notification Configs | P1 | Alert routing |
+| | Notification Configs | P1 | ✅ |
 | **Organization Policy** | Constraints | P0 | ✅ |
 | | Org Policies | P0 | ✅ |
-| | Custom Constraints | P1 | Customer-defined rules |
-| **Access Context Manager** | Access Policies | P0 | VPC Service Controls root |
-| | Access Levels | P0 | Zero-trust conditions |
-| | Service Perimeters | P0 | Data exfiltration boundaries |
-| **Cloud Asset** | Assets | P1 | Cross-resource inventory |
-| | IAM Policy Search | P1 | Who has access to what |
-| | Resource Search | P2 | Resource discovery |
-| **Binary Authorization** | Policy | P1 | Container deploy policy |
-| | Attestors | P1 | Trusted signers |
-| **Container Analysis** | Notes | P1 | Vulnerability sources |
-| | Occurrences | P1 | Actual vulns in images |
-| **Identity-Aware Proxy** | IAP Settings | P2 | App-level access control |
-| | IAP IAM Policies | P2 | Who can access what app |
+| | Custom Constraints | P1 | ✅ |
+| **Access Context Manager** | Access Policies | P0 | ✅ |
+| | Access Levels | P0 | ✅ |
+| | Service Perimeters | P0 | ✅ |
+| **Cloud Asset** | Assets | P1 | ✅ |
+| | IAM Policy Search | P1 | ✅ |
+| | Resource Search | P2 | ✅ |
+| **Binary Authorization** | Policy | P1 | ✅ |
+| | Attestors | P1 | ✅ |
+| **Container Analysis** | Notes | P1 | ✅ |
+| | Occurrences | P1 | ✅ |
+| **Identity-Aware Proxy** | IAP Settings | P2 | ✅ |
+| | IAP IAM Policies | P2 | ✅ |
 
-**Resources:** 4/18
+**Resources:** 18/18
 **Depends on:** Phase 1 (org hierarchy for org-level services)
 **Unlocks:** Compliance rules in gold layer
 
-## Phase 3: Application Platform
+## Phase 3: Application Platform ✅
 
 Widely-used runtime services. Cloud Run and Functions are commonly audited serverless targets. Monitoring config detects missing alerting.
 
-| Service | Resource | Priority | Notes |
-|---------|----------|:--------:|-------|
-| **Cloud Run** | Services | P0 | Top serverless platform |
-| | Revisions | P1 | Service versions |
-| **Cloud Functions** | Functions | P0 | Serverless compute |
-| **Pub/Sub** | Topics | P1 | Messaging backbone |
-| | Subscriptions | P1 | Message consumers |
-| **Monitoring** | Alert Policies | P0 | Detect missing alerts |
-| | Uptime Check Configs | P1 | Availability monitoring |
-| **App Engine** | Applications | P2 | Legacy app platform |
-| | Services | P2 | App Engine services |
-| **Service Usage** | Enabled Services | P2 | API surface area |
+| Service | Resource | Priority | Status |
+|---------|----------|:--------:|:------:|
+| **Cloud Run** | Services | P0 | ✅ |
+| | Revisions | P1 | ✅ |
+| **Cloud Functions** | Functions | P0 | ✅ |
+| **Pub/Sub** | Topics | P1 | ✅ |
+| | Subscriptions | P1 | ✅ |
+| **Monitoring** | Alert Policies | P0 | ✅ |
+| | Uptime Check Configs | P1 | ✅ |
+| **App Engine** | Applications | P2 | ✅ |
+| | Services | P2 | ✅ |
+| **Service Usage** | Enabled Services | P2 | ✅ |
 
-**Resources:** 10
+**Resources:** 10/10
 **Depends on:** nothing (can parallelize with Phase 2)
 
-## Phase 4: Data Services
+## Phase 4: Data Services ✅
 
 Data stores hold sensitive information. BigQuery is highest priority — widely used, often misconfigured.
 
-| Service | Resource | Priority | Notes |
-|---------|----------|:--------:|-------|
-| **BigQuery** | Datasets | P0 | Most common data warehouse |
-| | Tables | P1 | Table-level access |
-| **Spanner** | Instances | P1 | Global databases |
-| | Databases | P1 | Database configs |
-| **Bigtable** | Instances | P2 | Wide-column store |
-| | Clusters | P2 | Bigtable infra |
-| **Dataproc** | Clusters | P2 | Managed Spark/Hadoop |
-| **Memorystore Redis** | Instances | P2 | In-memory cache |
-| **Filestore** | Instances | P2 | Managed NFS |
-| **AlloyDB** | Clusters | P2 | PostgreSQL-compatible |
+| Service | Resource | Priority | Status |
+|---------|----------|:--------:|:------:|
+| **BigQuery** | Datasets | P0 | ✅ |
+| | Tables | P1 | ✅ |
+| **Spanner** | Instances | P1 | ✅ |
+| | Databases | P1 | ✅ |
+| **Bigtable** | Instances | P2 | ✅ |
+| | Clusters | P2 | ✅ |
+| **Dataproc** | Clusters | P2 | ✅ |
+| **Memorystore Redis** | Instances | P2 | ✅ |
+| **Filestore** | Instances | P2 | ✅ |
+| **AlloyDB** | Clusters | P2 | ✅ |
 
-**Resources:** 10
+**Resources:** 10/10
 **Depends on:** nothing (can parallelize with Phase 2-3)
 
 ## Phase 5: Compliance & Operations
@@ -198,9 +198,9 @@ Phase 4 ────────────────→┘
 
 | Phase | Focus | Resources | Key Services |
 |-------|-------|:---------:|-------------|
-| 1 | Foundation | 12 | Resource Manager, finish partial |
-| 2 | Security | 18 | SCC, OrgPolicy, ACM, CloudAsset |
-| 3 | Platform | 10 | Cloud Run, Functions, Pub/Sub |
-| 4 | Data | 10 | BigQuery, Spanner, Bigtable |
+| 1 | Foundation | 12 ✅ | Resource Manager, finish partial |
+| 2 | Security | 18 ✅ | SCC, OrgPolicy, ACM, CloudAsset |
+| 3 | Platform | 10 ✅ | Cloud Run, Functions, Pub/Sub |
+| 4 | Data | 10 ✅ | BigQuery, Spanner, Bigtable |
 | 5 | Compliance | 27 | DLP, CertAuth, Backup, Billing |
 | **Total** | | **77** | |

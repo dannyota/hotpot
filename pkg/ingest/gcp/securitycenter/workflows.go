@@ -7,6 +7,7 @@ import (
 	"go.temporal.io/sdk/workflow"
 
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/securitycenter/finding"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/securitycenter/notificationconfig"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/securitycenter/source"
 )
 
@@ -16,8 +17,9 @@ type GCPSecurityCenterWorkflowParams struct {
 
 // GCPSecurityCenterWorkflowResult contains the result of the SCC workflow.
 type GCPSecurityCenterWorkflowResult struct {
-	SourceCount  int
-	FindingCount int
+	SourceCount             int
+	FindingCount            int
+	NotificationConfigCount int
 }
 
 // GCPSecurityCenterWorkflow ingests all Security Command Center resources.
@@ -59,9 +61,20 @@ func GCPSecurityCenterWorkflow(ctx workflow.Context, params GCPSecurityCenterWor
 	}
 	result.FindingCount = findingResult.FindingCount
 
+	// Phase 3: Ingest notification configs (independent of sources/findings)
+	var notificationConfigResult notificationconfig.GCPSecurityCenterNotificationConfigWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, notificationconfig.GCPSecurityCenterNotificationConfigWorkflow,
+		notificationconfig.GCPSecurityCenterNotificationConfigWorkflowParams{}).Get(ctx, &notificationConfigResult)
+	if err != nil {
+		logger.Error("Failed to ingest SCC notification configs", "error", err)
+		return nil, err
+	}
+	result.NotificationConfigCount = notificationConfigResult.NotificationConfigCount
+
 	logger.Info("Completed GCPSecurityCenterWorkflow",
 		"sourceCount", result.SourceCount,
 		"findingCount", result.FindingCount,
+		"notificationConfigCount", result.NotificationConfigCount,
 	)
 
 	return result, nil

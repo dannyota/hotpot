@@ -6,6 +6,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/securitycenter/finding"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/securitycenter/notificationconfig"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/securitycenter/source"
 	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
@@ -14,6 +15,7 @@ import (
 func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
 	source.Register(w, configService, entClient, limiter)
 	finding.Register(w, configService, entClient, limiter)
+	notificationconfig.Register(w, configService, entClient, limiter)
 
 	w.RegisterWorkflow(GCPSecurityCenterWorkflow)
 }

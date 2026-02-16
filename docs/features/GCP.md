@@ -105,7 +105,7 @@ GCP resource ingestion coverage in the bronze layer.
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Cloud Functions | `CloudFunctionsClient` | `ListFunctions()` | |
+| Cloud Functions | `CloudFunctionsClient` | `ListFunctions()` | ✅ |
 
 ## 📝 Logging API (`logging.googleapis.com`)
 
@@ -120,8 +120,8 @@ GCP resource ingestion coverage in the bronze layer.
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Alert Policies | `AlertPolicyClient` | `ListAlertPolicies()` | |
-| Uptime Check Configs | `UptimeCheckClient` | `ListUptimeCheckConfigs()` | |
+| Alert Policies | `AlertPolicyClient` | `ListAlertPolicies()` | ✅ |
+| Uptime Check Configs | `UptimeCheckClient` | `ListUptimeCheckConfigs()` | ✅ |
 
 ## 🌐 DNS API (`dns.googleapis.com`)
 
@@ -154,20 +154,20 @@ GCP resource ingestion coverage in the bronze layer.
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Datasets | `BigQueryClient` | `ListDatasets()` | |
-| Tables | `BigQueryClient` | `ListTables()` | |
+| Datasets | `BigQueryClient` | `ListDatasets()` | ✅ |
+| Tables | `BigQueryClient` | `ListTables()` | ✅ |
 
 ## ⚙️ Dataproc API (`dataproc.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Clusters | `ClusterControllerClient` | `ListClusters()` | |
+| Clusters | `ClusterControllerClient` | `ListClusters()` | ✅ |
 
 ## 📋 Service Usage API (`serviceusage.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Enabled Services | `ServiceUsageClient` | `ListServices()` | |
+| Enabled Services | `ServiceUsageClient` | `ListServices()` | ✅ |
 
 ## 🤫 Secret Manager API (`secretmanager.googleapis.com`)
 
@@ -179,8 +179,8 @@ GCP resource ingestion coverage in the bronze layer.
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Applications | `ApplicationsClient` | `GetApplication()` | |
-| Services | `ServicesClient` | `ListServices()` | |
+| Applications | `ApplicationsClient` | `GetApplication()` | ✅ |
+| Services | `ServicesClient` | `ListServices()` | ✅ |
 
 ## 🛡️ Security Command Center API (`securitycenter.googleapis.com`)
 
@@ -188,7 +188,7 @@ GCP resource ingestion coverage in the bronze layer.
 |----------|-----------|--------|:------:|
 | Sources | `SecurityCenterClient` | `ListSources()` | ✅ |
 | Findings | `SecurityCenterClient` | `ListFindings()` | ✅ |
-| Notification Configs | `SecurityCenterClient` | `ListNotificationConfigs()` | |
+| Notification Configs | `SecurityCenterClient` | `ListNotificationConfigs()` | ✅ |
 
 ## 🏛️ Organization Policy API (`orgpolicy.googleapis.com`)
 
@@ -196,23 +196,23 @@ GCP resource ingestion coverage in the bronze layer.
 |----------|-----------|--------|:------:|
 | Constraints | `OrgPolicyClient` | `ListConstraints()` | ✅ |
 | Org Policies | `OrgPolicyClient` | `ListPolicies()` | ✅ |
-| Custom Constraints | `OrgPolicyClient` | `ListCustomConstraints()` | |
+| Custom Constraints | `OrgPolicyClient` | `ListCustomConstraints()` | ✅ |
 
 ## 🚧 Access Context Manager API (`accesscontextmanager.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Access Policies | `AccessContextManagerClient` | `ListAccessPolicies()` | |
-| Access Levels | `AccessContextManagerClient` | `ListAccessLevels()` | |
-| Service Perimeters | `AccessContextManagerClient` | `ListServicePerimeters()` | |
+| Access Policies | `AccessContextManagerClient` | `ListAccessPolicies()` | ✅ |
+| Access Levels | `AccessContextManagerClient` | `ListAccessLevels()` | ✅ |
+| Service Perimeters | `AccessContextManagerClient` | `ListServicePerimeters()` | ✅ |
 
 ## 🏷️ Cloud Asset API (`cloudasset.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Assets | `AssetServiceClient` | `ListAssets()` | |
-| IAM Policy Search | `AssetServiceClient` | `SearchAllIamPolicies()` | |
-| Resource Search | `AssetServiceClient` | `SearchAllResources()` | |
+| Assets | `AssetServiceClient` | `ListAssets()` | ✅ |
+| IAM Policy Search | `AssetServiceClient` | `SearchAllIamPolicies()` | ✅ |
+| Resource Search | `AssetServiceClient` | `SearchAllResources()` | ✅ |
 
 ## 🔏 Sensitive Data Protection API (`dlp.googleapis.com`)
 
@@ -228,15 +228,15 @@ GCP resource ingestion coverage in the bronze layer.
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Policy | `BinauthzManagementClient` | `GetPolicy()` | |
-| Attestors | `BinauthzManagementClient` | `ListAttestors()` | |
+| Policy | `BinauthzManagementClient` | `GetPolicy()` | ✅ |
+| Attestors | `BinauthzManagementClient` | `ListAttestors()` | ✅ |
 
 ## 🔍 Container Analysis API (`containeranalysis.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Notes | `GrafeasClient` | `ListNotes()` | |
-| Occurrences | `GrafeasClient` | `ListOccurrences()` | |
+| Notes | `GrafeasClient` | `ListNotes()` | ✅ |
+| Occurrences | `GrafeasClient` | `ListOccurrences()` | ✅ |
 
 ## 📜 Certificate Authority Service API (`privateca.googleapis.com`)
 
@@ -278,8 +278,8 @@ GCP resource ingestion coverage in the bronze layer.
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| IAP Settings | `IdentityAwareProxyAdminClient` | `GetIapSettings()` | |
-| IAP IAM Policies | `IdentityAwareProxyAdminClient` | `GetIamPolicy()` | |
+| IAP Settings | `IdentityAwareProxyAdminClient` | `GetIapSettings()` | ✅ |
+| IAP IAM Policies | `IdentityAwareProxyAdminClient` | `GetIamPolicy()` | ✅ |
 
 ## 💡 Recommender API (`recommender.googleapis.com`)
 
@@ -306,47 +306,47 @@ GCP resource ingestion coverage in the bronze layer.
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Services | `ServicesClient` | `ListServices()` | |
-| Revisions | `RevisionsClient` | `ListRevisions()` | |
+| Services | `ServicesClient` | `ListServices()` | ✅ |
+| Revisions | `RevisionsClient` | `ListRevisions()` | ✅ |
 
 ## 📬 Pub/Sub API (`pubsub.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Topics | `PublisherClient` | `ListTopics()` | |
-| Subscriptions | `SubscriberClient` | `ListSubscriptions()` | |
+| Topics | `PublisherClient` | `ListTopics()` | ✅ |
+| Subscriptions | `SubscriberClient` | `ListSubscriptions()` | ✅ |
 
 ## 🗃️ Spanner API (`spanner.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Instances | `InstanceAdminClient` | `ListInstances()` | |
-| Databases | `DatabaseAdminClient` | `ListDatabases()` | |
+| Instances | `InstanceAdminClient` | `ListInstances()` | ✅ |
+| Databases | `DatabaseAdminClient` | `ListDatabases()` | ✅ |
 
 ## 📚 Bigtable Admin API (`bigtableadmin.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Instances | `BigtableInstanceAdminClient` | `ListInstances()` | |
-| Clusters | `BigtableInstanceAdminClient` | `ListClusters()` | |
+| Instances | `BigtableInstanceAdminClient` | `ListInstances()` | ✅ |
+| Clusters | `BigtableInstanceAdminClient` | `ListClusters()` | ✅ |
 
 ## 🧠 Memorystore for Redis API (`redis.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Instances | `CloudRedisClient` | `ListInstances()` | |
+| Instances | `CloudRedisClient` | `ListInstances()` | ✅ |
 
 ## 📁 Filestore API (`file.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Instances | `CloudFilestoreManagerClient` | `ListInstances()` | |
+| Instances | `CloudFilestoreManagerClient` | `ListInstances()` | ✅ |
 
 ## 🔗 AlloyDB API (`alloydb.googleapis.com`)
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Clusters | `AlloyDBAdminClient` | `ListClusters()` | |
+| Clusters | `AlloyDBAdminClient` | `ListClusters()` | ✅ |
 
 ## 🔌 VPC Access API (`vpcaccess.googleapis.com`)
 
@@ -356,7 +356,7 @@ GCP resource ingestion coverage in the bronze layer.
 
 ## 📊 Summary
 
-**Total: 60/117 (51%)**
+**Total: 94/117 (80%)**
 
 See [GCP_ROADMAP.md](./GCP_ROADMAP.md) for implementation strategy.
 
@@ -369,41 +369,41 @@ See [GCP_ROADMAP.md](./GCP_ROADMAP.md) for implementation strategy.
 | Cloud KMS | 2 | 2 |
 | API Keys | 0 | 1 |
 | Essential Contacts | 0 | 1 |
-| Cloud Functions | 0 | 1 |
+| Cloud Functions | 1 | 1 |
 | Logging | 4 | 4 |
-| Monitoring | 0 | 2 |
+| Monitoring | 2 | 2 |
 | DNS | 2 | 2 |
 | Access Approval | 0 | 2 |
 | Cloud Storage | 2 | 2 |
 | Cloud SQL Admin | 1 | 1 |
-| BigQuery | 0 | 2 |
-| Dataproc | 0 | 1 |
-| Service Usage | 0 | 1 |
+| BigQuery | 2 | 2 |
+| Dataproc | 1 | 1 |
+| Service Usage | 1 | 1 |
 | Secret Manager | 1 | 1 |
-| App Engine Admin | 0 | 2 |
-| Security Command Center | 2 | 3 |
-| Organization Policy | 2 | 3 |
-| Access Context Manager | 0 | 3 |
-| Cloud Asset | 0 | 3 |
+| App Engine Admin | 2 | 2 |
+| Security Command Center | 3 | 3 |
+| Organization Policy | 3 | 3 |
+| Access Context Manager | 3 | 3 |
+| Cloud Asset | 3 | 3 |
 | Sensitive Data Protection | 0 | 5 |
-| Binary Authorization | 0 | 2 |
-| Container Analysis | 0 | 2 |
+| Binary Authorization | 2 | 2 |
+| Container Analysis | 2 | 2 |
 | Certificate Authority | 0 | 3 |
 | Assured Workloads | 0 | 2 |
 | Cloud IDS | 0 | 1 |
 | Backup and DR | 0 | 3 |
 | Web Security Scanner | 0 | 2 |
-| Identity-Aware Proxy | 0 | 2 |
+| Identity-Aware Proxy | 2 | 2 |
 | Recommender | 0 | 2 |
 | Cloud Billing | 0 | 3 |
 | Network Management | 0 | 1 |
-| Cloud Run | 0 | 2 |
-| Pub/Sub | 0 | 2 |
-| Spanner | 0 | 2 |
-| Bigtable Admin | 0 | 2 |
-| Memorystore Redis | 0 | 1 |
-| Filestore | 0 | 1 |
-| AlloyDB | 0 | 1 |
+| Cloud Run | 2 | 2 |
+| Pub/Sub | 2 | 2 |
+| Spanner | 2 | 2 |
+| Bigtable Admin | 2 | 2 |
+| Memorystore Redis | 1 | 1 |
+| Filestore | 1 | 1 |
+| AlloyDB | 1 | 1 |
 | VPC Access | 1 | 1 |
 
 See [EXTERNAL_RESOURCES.md](../reference/EXTERNAL_RESOURCES.md) for compliance benchmarks, open source tools, and cloud provider documentation.

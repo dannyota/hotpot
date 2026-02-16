@@ -7,6 +7,7 @@ import (
 	"go.temporal.io/sdk/workflow"
 
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/orgpolicy/constraint"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/orgpolicy/customconstraint"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/orgpolicy/policy"
 )
 
@@ -16,8 +17,9 @@ type GCPOrgPolicyWorkflowParams struct {
 
 // GCPOrgPolicyWorkflowResult contains the result of the org policy workflow.
 type GCPOrgPolicyWorkflowResult struct {
-	ConstraintCount int
-	PolicyCount     int
+	ConstraintCount       int
+	CustomConstraintCount int
+	PolicyCount           int
 }
 
 // GCPOrgPolicyWorkflow ingests all Organization Policy resources.
@@ -49,7 +51,17 @@ func GCPOrgPolicyWorkflow(ctx workflow.Context, params GCPOrgPolicyWorkflowParam
 	}
 	result.ConstraintCount = constraintResult.ConstraintCount
 
-	// Phase 2: Ingest policies
+	// Phase 2: Ingest custom constraints
+	var customConstraintResult customconstraint.GCPOrgPolicyCustomConstraintWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, customconstraint.GCPOrgPolicyCustomConstraintWorkflow,
+		customconstraint.GCPOrgPolicyCustomConstraintWorkflowParams{}).Get(ctx, &customConstraintResult)
+	if err != nil {
+		logger.Error("Failed to ingest org policy custom constraints", "error", err)
+		return nil, err
+	}
+	result.CustomConstraintCount = customConstraintResult.CustomConstraintCount
+
+	// Phase 3: Ingest policies
 	var policyResult policy.GCPOrgPolicyPolicyWorkflowResult
 	err = workflow.ExecuteChildWorkflow(childCtx, policy.GCPOrgPolicyPolicyWorkflow,
 		policy.GCPOrgPolicyPolicyWorkflowParams{}).Get(ctx, &policyResult)
@@ -61,6 +73,7 @@ func GCPOrgPolicyWorkflow(ctx workflow.Context, params GCPOrgPolicyWorkflowParam
 
 	logger.Info("Completed GCPOrgPolicyWorkflow",
 		"constraintCount", result.ConstraintCount,
+		"customConstraintCount", result.CustomConstraintCount,
 		"policyCount", result.PolicyCount,
 	)
 
