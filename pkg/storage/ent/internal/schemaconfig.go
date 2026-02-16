@@ -22,6 +22,8 @@ type SchemaConfig struct {
 	BronzeDODroplet                                      string // BronzeDODroplet table.
 	BronzeDOFirewall                                     string // BronzeDOFirewall table.
 	BronzeDOKey                                          string // BronzeDOKey table.
+	BronzeDOKubernetesCluster                            string // BronzeDOKubernetesCluster table.
+	BronzeDOKubernetesNodePool                           string // BronzeDOKubernetesNodePool table.
 	BronzeDOLoadBalancer                                 string // BronzeDOLoadBalancer table.
 	BronzeDOProject                                      string // BronzeDOProject table.
 	BronzeDOProjectResource                              string // BronzeDOProjectResource table.
@@ -178,6 +180,8 @@ type SchemaConfig struct {
 	BronzeHistoryDODroplet                               string // BronzeHistoryDODroplet table.
 	BronzeHistoryDOFirewall                              string // BronzeHistoryDOFirewall table.
 	BronzeHistoryDOKey                                   string // BronzeHistoryDOKey table.
+	BronzeHistoryDOKubernetesCluster                     string // BronzeHistoryDOKubernetesCluster table.
+	BronzeHistoryDOKubernetesNodePool                    string // BronzeHistoryDOKubernetesNodePool table.
 	BronzeHistoryDOLoadBalancer                          string // BronzeHistoryDOLoadBalancer table.
 	BronzeHistoryDOProject                               string // BronzeHistoryDOProject table.
 	BronzeHistoryDOProjectResource                       string // BronzeHistoryDOProjectResource table.

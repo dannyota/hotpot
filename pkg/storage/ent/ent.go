@@ -27,6 +27,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodroplet"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedofirewall"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokubernetescluster"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokubernetesnodepool"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoloadbalancer"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoprojectresource"
@@ -183,6 +185,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodroplet"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydofirewall"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokubernetescluster"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokubernetesnodepool"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoloadbalancer"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoproject"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoprojectresource"
@@ -413,6 +417,8 @@ func checkColumn(t, c string) error {
 			bronzedodroplet.Table:                                      bronzedodroplet.ValidColumn,
 			bronzedofirewall.Table:                                     bronzedofirewall.ValidColumn,
 			bronzedokey.Table:                                          bronzedokey.ValidColumn,
+			bronzedokubernetescluster.Table:                            bronzedokubernetescluster.ValidColumn,
+			bronzedokubernetesnodepool.Table:                           bronzedokubernetesnodepool.ValidColumn,
 			bronzedoloadbalancer.Table:                                 bronzedoloadbalancer.ValidColumn,
 			bronzedoproject.Table:                                      bronzedoproject.ValidColumn,
 			bronzedoprojectresource.Table:                              bronzedoprojectresource.ValidColumn,
@@ -569,6 +575,8 @@ func checkColumn(t, c string) error {
 			bronzehistorydodroplet.Table:                               bronzehistorydodroplet.ValidColumn,
 			bronzehistorydofirewall.Table:                              bronzehistorydofirewall.ValidColumn,
 			bronzehistorydokey.Table:                                   bronzehistorydokey.ValidColumn,
+			bronzehistorydokubernetescluster.Table:                     bronzehistorydokubernetescluster.ValidColumn,
+			bronzehistorydokubernetesnodepool.Table:                    bronzehistorydokubernetesnodepool.ValidColumn,
 			bronzehistorydoloadbalancer.Table:                          bronzehistorydoloadbalancer.ValidColumn,
 			bronzehistorydoproject.Table:                               bronzehistorydoproject.ValidColumn,
 			bronzehistorydoprojectresource.Table:                       bronzehistorydoprojectresource.ValidColumn,
