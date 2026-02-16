@@ -23,14 +23,14 @@ GCP resource ingestion coverage in the bronze layer.
 |----------|-----------|--------|:------:|
 | Networks | `NetworksClient` | `List()` | ✅ |
 | Subnetworks | `SubnetworksClient` | `AggregatedList()` | ✅ |
-| Firewall Rules | `FirewallsClient` | `List()` | |
-| Routers | `RoutersClient` | `AggregatedList()` | |
+| Firewall Rules | `FirewallsClient` | `List()` | ✅ |
+| Routers | `RoutersClient` | `AggregatedList()` | ✅ |
 | Interconnects | `InterconnectsClient` | `List()` | |
 | Packet Mirrorings | `PacketMirroringsClient` | `AggregatedList()` | |
 | Addresses (Regional) | `AddressesClient` | `AggregatedList()` | ✅ |
 | Addresses (Global) | `GlobalAddressesClient` | `List()` | ✅ |
-| SSL Policies | `SslPoliciesClient` | `List()` | |
-| Security Policies | `SecurityPoliciesClient` | `List()` | |
+| SSL Policies | `SslPoliciesClient` | `List()` | ✅ |
+| Security Policies | `SecurityPoliciesClient` | `List()` | ✅ |
 | Project Metadata | `ProjectsClient` | `Get()` | |
 
 ### Load Balancing
@@ -356,11 +356,11 @@ GCP resource ingestion coverage in the bronze layer.
 
 ## 📊 Summary
 
-**Total: 28/117 (24%)**
+**Total: 32/117 (27%)**
 
 | API | Implemented | Total |
 |-----|:-----------:|:-----:|
-| Compute Engine | 23 | 32 |
+| Compute Engine | 27 | 32 |
 | Container | 2 | 2 |
 | Resource Manager | 1 | 6 |
 | IAM | 2 | 2 |

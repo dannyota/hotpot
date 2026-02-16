@@ -32,6 +32,12 @@ type Tx struct {
 	BronzeGCPComputeDiskLabel *BronzeGCPComputeDiskLabelClient
 	// BronzeGCPComputeDiskLicense is the client for interacting with the BronzeGCPComputeDiskLicense builders.
 	BronzeGCPComputeDiskLicense *BronzeGCPComputeDiskLicenseClient
+	// BronzeGCPComputeFirewall is the client for interacting with the BronzeGCPComputeFirewall builders.
+	BronzeGCPComputeFirewall *BronzeGCPComputeFirewallClient
+	// BronzeGCPComputeFirewallAllowed is the client for interacting with the BronzeGCPComputeFirewallAllowed builders.
+	BronzeGCPComputeFirewallAllowed *BronzeGCPComputeFirewallAllowedClient
+	// BronzeGCPComputeFirewallDenied is the client for interacting with the BronzeGCPComputeFirewallDenied builders.
+	BronzeGCPComputeFirewallDenied *BronzeGCPComputeFirewallDeniedClient
 	// BronzeGCPComputeForwardingRule is the client for interacting with the BronzeGCPComputeForwardingRule builders.
 	BronzeGCPComputeForwardingRule *BronzeGCPComputeForwardingRuleClient
 	// BronzeGCPComputeForwardingRuleLabel is the client for interacting with the BronzeGCPComputeForwardingRuleLabel builders.
@@ -86,12 +92,18 @@ type Tx struct {
 	BronzeGCPComputeNetwork *BronzeGCPComputeNetworkClient
 	// BronzeGCPComputeNetworkPeering is the client for interacting with the BronzeGCPComputeNetworkPeering builders.
 	BronzeGCPComputeNetworkPeering *BronzeGCPComputeNetworkPeeringClient
+	// BronzeGCPComputeRouter is the client for interacting with the BronzeGCPComputeRouter builders.
+	BronzeGCPComputeRouter *BronzeGCPComputeRouterClient
+	// BronzeGCPComputeSecurityPolicy is the client for interacting with the BronzeGCPComputeSecurityPolicy builders.
+	BronzeGCPComputeSecurityPolicy *BronzeGCPComputeSecurityPolicyClient
 	// BronzeGCPComputeSnapshot is the client for interacting with the BronzeGCPComputeSnapshot builders.
 	BronzeGCPComputeSnapshot *BronzeGCPComputeSnapshotClient
 	// BronzeGCPComputeSnapshotLabel is the client for interacting with the BronzeGCPComputeSnapshotLabel builders.
 	BronzeGCPComputeSnapshotLabel *BronzeGCPComputeSnapshotLabelClient
 	// BronzeGCPComputeSnapshotLicense is the client for interacting with the BronzeGCPComputeSnapshotLicense builders.
 	BronzeGCPComputeSnapshotLicense *BronzeGCPComputeSnapshotLicenseClient
+	// BronzeGCPComputeSslPolicy is the client for interacting with the BronzeGCPComputeSslPolicy builders.
+	BronzeGCPComputeSslPolicy *BronzeGCPComputeSslPolicyClient
 	// BronzeGCPComputeSubnetwork is the client for interacting with the BronzeGCPComputeSubnetwork builders.
 	BronzeGCPComputeSubnetwork *BronzeGCPComputeSubnetworkClient
 	// BronzeGCPComputeSubnetworkSecondaryRange is the client for interacting with the BronzeGCPComputeSubnetworkSecondaryRange builders.
@@ -162,6 +174,12 @@ type Tx struct {
 	BronzeHistoryGCPComputeDiskLabel *BronzeHistoryGCPComputeDiskLabelClient
 	// BronzeHistoryGCPComputeDiskLicense is the client for interacting with the BronzeHistoryGCPComputeDiskLicense builders.
 	BronzeHistoryGCPComputeDiskLicense *BronzeHistoryGCPComputeDiskLicenseClient
+	// BronzeHistoryGCPComputeFirewall is the client for interacting with the BronzeHistoryGCPComputeFirewall builders.
+	BronzeHistoryGCPComputeFirewall *BronzeHistoryGCPComputeFirewallClient
+	// BronzeHistoryGCPComputeFirewallAllowed is the client for interacting with the BronzeHistoryGCPComputeFirewallAllowed builders.
+	BronzeHistoryGCPComputeFirewallAllowed *BronzeHistoryGCPComputeFirewallAllowedClient
+	// BronzeHistoryGCPComputeFirewallDenied is the client for interacting with the BronzeHistoryGCPComputeFirewallDenied builders.
+	BronzeHistoryGCPComputeFirewallDenied *BronzeHistoryGCPComputeFirewallDeniedClient
 	// BronzeHistoryGCPComputeForwardingRule is the client for interacting with the BronzeHistoryGCPComputeForwardingRule builders.
 	BronzeHistoryGCPComputeForwardingRule *BronzeHistoryGCPComputeForwardingRuleClient
 	// BronzeHistoryGCPComputeForwardingRuleLabel is the client for interacting with the BronzeHistoryGCPComputeForwardingRuleLabel builders.
@@ -216,12 +234,18 @@ type Tx struct {
 	BronzeHistoryGCPComputeNetwork *BronzeHistoryGCPComputeNetworkClient
 	// BronzeHistoryGCPComputeNetworkPeering is the client for interacting with the BronzeHistoryGCPComputeNetworkPeering builders.
 	BronzeHistoryGCPComputeNetworkPeering *BronzeHistoryGCPComputeNetworkPeeringClient
+	// BronzeHistoryGCPComputeRouter is the client for interacting with the BronzeHistoryGCPComputeRouter builders.
+	BronzeHistoryGCPComputeRouter *BronzeHistoryGCPComputeRouterClient
+	// BronzeHistoryGCPComputeSecurityPolicy is the client for interacting with the BronzeHistoryGCPComputeSecurityPolicy builders.
+	BronzeHistoryGCPComputeSecurityPolicy *BronzeHistoryGCPComputeSecurityPolicyClient
 	// BronzeHistoryGCPComputeSnapshot is the client for interacting with the BronzeHistoryGCPComputeSnapshot builders.
 	BronzeHistoryGCPComputeSnapshot *BronzeHistoryGCPComputeSnapshotClient
 	// BronzeHistoryGCPComputeSnapshotLabel is the client for interacting with the BronzeHistoryGCPComputeSnapshotLabel builders.
 	BronzeHistoryGCPComputeSnapshotLabel *BronzeHistoryGCPComputeSnapshotLabelClient
 	// BronzeHistoryGCPComputeSnapshotLicense is the client for interacting with the BronzeHistoryGCPComputeSnapshotLicense builders.
 	BronzeHistoryGCPComputeSnapshotLicense *BronzeHistoryGCPComputeSnapshotLicenseClient
+	// BronzeHistoryGCPComputeSslPolicy is the client for interacting with the BronzeHistoryGCPComputeSslPolicy builders.
+	BronzeHistoryGCPComputeSslPolicy *BronzeHistoryGCPComputeSslPolicyClient
 	// BronzeHistoryGCPComputeSubnetwork is the client for interacting with the BronzeHistoryGCPComputeSubnetwork builders.
 	BronzeHistoryGCPComputeSubnetwork *BronzeHistoryGCPComputeSubnetworkClient
 	// BronzeHistoryGCPComputeSubnetworkSecondaryRange is the client for interacting with the BronzeHistoryGCPComputeSubnetworkSecondaryRange builders.
@@ -441,6 +465,9 @@ func (tx *Tx) init() {
 	tx.BronzeGCPComputeDisk = NewBronzeGCPComputeDiskClient(tx.config)
 	tx.BronzeGCPComputeDiskLabel = NewBronzeGCPComputeDiskLabelClient(tx.config)
 	tx.BronzeGCPComputeDiskLicense = NewBronzeGCPComputeDiskLicenseClient(tx.config)
+	tx.BronzeGCPComputeFirewall = NewBronzeGCPComputeFirewallClient(tx.config)
+	tx.BronzeGCPComputeFirewallAllowed = NewBronzeGCPComputeFirewallAllowedClient(tx.config)
+	tx.BronzeGCPComputeFirewallDenied = NewBronzeGCPComputeFirewallDeniedClient(tx.config)
 	tx.BronzeGCPComputeForwardingRule = NewBronzeGCPComputeForwardingRuleClient(tx.config)
 	tx.BronzeGCPComputeForwardingRuleLabel = NewBronzeGCPComputeForwardingRuleLabelClient(tx.config)
 	tx.BronzeGCPComputeGlobalAddress = NewBronzeGCPComputeGlobalAddressClient(tx.config)
@@ -468,9 +495,12 @@ func (tx *Tx) init() {
 	tx.BronzeGCPComputeNegEndpoint = NewBronzeGCPComputeNegEndpointClient(tx.config)
 	tx.BronzeGCPComputeNetwork = NewBronzeGCPComputeNetworkClient(tx.config)
 	tx.BronzeGCPComputeNetworkPeering = NewBronzeGCPComputeNetworkPeeringClient(tx.config)
+	tx.BronzeGCPComputeRouter = NewBronzeGCPComputeRouterClient(tx.config)
+	tx.BronzeGCPComputeSecurityPolicy = NewBronzeGCPComputeSecurityPolicyClient(tx.config)
 	tx.BronzeGCPComputeSnapshot = NewBronzeGCPComputeSnapshotClient(tx.config)
 	tx.BronzeGCPComputeSnapshotLabel = NewBronzeGCPComputeSnapshotLabelClient(tx.config)
 	tx.BronzeGCPComputeSnapshotLicense = NewBronzeGCPComputeSnapshotLicenseClient(tx.config)
+	tx.BronzeGCPComputeSslPolicy = NewBronzeGCPComputeSslPolicyClient(tx.config)
 	tx.BronzeGCPComputeSubnetwork = NewBronzeGCPComputeSubnetworkClient(tx.config)
 	tx.BronzeGCPComputeSubnetworkSecondaryRange = NewBronzeGCPComputeSubnetworkSecondaryRangeClient(tx.config)
 	tx.BronzeGCPComputeTargetHttpProxy = NewBronzeGCPComputeTargetHttpProxyClient(tx.config)
@@ -506,6 +536,9 @@ func (tx *Tx) init() {
 	tx.BronzeHistoryGCPComputeDisk = NewBronzeHistoryGCPComputeDiskClient(tx.config)
 	tx.BronzeHistoryGCPComputeDiskLabel = NewBronzeHistoryGCPComputeDiskLabelClient(tx.config)
 	tx.BronzeHistoryGCPComputeDiskLicense = NewBronzeHistoryGCPComputeDiskLicenseClient(tx.config)
+	tx.BronzeHistoryGCPComputeFirewall = NewBronzeHistoryGCPComputeFirewallClient(tx.config)
+	tx.BronzeHistoryGCPComputeFirewallAllowed = NewBronzeHistoryGCPComputeFirewallAllowedClient(tx.config)
+	tx.BronzeHistoryGCPComputeFirewallDenied = NewBronzeHistoryGCPComputeFirewallDeniedClient(tx.config)
 	tx.BronzeHistoryGCPComputeForwardingRule = NewBronzeHistoryGCPComputeForwardingRuleClient(tx.config)
 	tx.BronzeHistoryGCPComputeForwardingRuleLabel = NewBronzeHistoryGCPComputeForwardingRuleLabelClient(tx.config)
 	tx.BronzeHistoryGCPComputeGlobalAddress = NewBronzeHistoryGCPComputeGlobalAddressClient(tx.config)
@@ -533,9 +566,12 @@ func (tx *Tx) init() {
 	tx.BronzeHistoryGCPComputeNegEndpoint = NewBronzeHistoryGCPComputeNegEndpointClient(tx.config)
 	tx.BronzeHistoryGCPComputeNetwork = NewBronzeHistoryGCPComputeNetworkClient(tx.config)
 	tx.BronzeHistoryGCPComputeNetworkPeering = NewBronzeHistoryGCPComputeNetworkPeeringClient(tx.config)
+	tx.BronzeHistoryGCPComputeRouter = NewBronzeHistoryGCPComputeRouterClient(tx.config)
+	tx.BronzeHistoryGCPComputeSecurityPolicy = NewBronzeHistoryGCPComputeSecurityPolicyClient(tx.config)
 	tx.BronzeHistoryGCPComputeSnapshot = NewBronzeHistoryGCPComputeSnapshotClient(tx.config)
 	tx.BronzeHistoryGCPComputeSnapshotLabel = NewBronzeHistoryGCPComputeSnapshotLabelClient(tx.config)
 	tx.BronzeHistoryGCPComputeSnapshotLicense = NewBronzeHistoryGCPComputeSnapshotLicenseClient(tx.config)
+	tx.BronzeHistoryGCPComputeSslPolicy = NewBronzeHistoryGCPComputeSslPolicyClient(tx.config)
 	tx.BronzeHistoryGCPComputeSubnetwork = NewBronzeHistoryGCPComputeSubnetworkClient(tx.config)
 	tx.BronzeHistoryGCPComputeSubnetworkSecondaryRange = NewBronzeHistoryGCPComputeSubnetworkSecondaryRangeClient(tx.config)
 	tx.BronzeHistoryGCPComputeTargetHttpProxy = NewBronzeHistoryGCPComputeTargetHttpProxyClient(tx.config)

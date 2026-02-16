@@ -17,6 +17,9 @@ type SchemaConfig struct {
 	BronzeGCPComputeDisk                             string // BronzeGCPComputeDisk table.
 	BronzeGCPComputeDiskLabel                        string // BronzeGCPComputeDiskLabel table.
 	BronzeGCPComputeDiskLicense                      string // BronzeGCPComputeDiskLicense table.
+	BronzeGCPComputeFirewall                         string // BronzeGCPComputeFirewall table.
+	BronzeGCPComputeFirewallAllowed                  string // BronzeGCPComputeFirewallAllowed table.
+	BronzeGCPComputeFirewallDenied                   string // BronzeGCPComputeFirewallDenied table.
 	BronzeGCPComputeForwardingRule                   string // BronzeGCPComputeForwardingRule table.
 	BronzeGCPComputeForwardingRuleLabel              string // BronzeGCPComputeForwardingRuleLabel table.
 	BronzeGCPComputeGlobalAddress                    string // BronzeGCPComputeGlobalAddress table.
@@ -44,9 +47,12 @@ type SchemaConfig struct {
 	BronzeGCPComputeNegEndpoint                      string // BronzeGCPComputeNegEndpoint table.
 	BronzeGCPComputeNetwork                          string // BronzeGCPComputeNetwork table.
 	BronzeGCPComputeNetworkPeering                   string // BronzeGCPComputeNetworkPeering table.
+	BronzeGCPComputeRouter                           string // BronzeGCPComputeRouter table.
+	BronzeGCPComputeSecurityPolicy                   string // BronzeGCPComputeSecurityPolicy table.
 	BronzeGCPComputeSnapshot                         string // BronzeGCPComputeSnapshot table.
 	BronzeGCPComputeSnapshotLabel                    string // BronzeGCPComputeSnapshotLabel table.
 	BronzeGCPComputeSnapshotLicense                  string // BronzeGCPComputeSnapshotLicense table.
+	BronzeGCPComputeSslPolicy                        string // BronzeGCPComputeSslPolicy table.
 	BronzeGCPComputeSubnetwork                       string // BronzeGCPComputeSubnetwork table.
 	BronzeGCPComputeSubnetworkSecondaryRange         string // BronzeGCPComputeSubnetworkSecondaryRange table.
 	BronzeGCPComputeTargetHttpProxy                  string // BronzeGCPComputeTargetHttpProxy table.
@@ -82,6 +88,9 @@ type SchemaConfig struct {
 	BronzeHistoryGCPComputeDisk                      string // BronzeHistoryGCPComputeDisk table.
 	BronzeHistoryGCPComputeDiskLabel                 string // BronzeHistoryGCPComputeDiskLabel table.
 	BronzeHistoryGCPComputeDiskLicense               string // BronzeHistoryGCPComputeDiskLicense table.
+	BronzeHistoryGCPComputeFirewall                  string // BronzeHistoryGCPComputeFirewall table.
+	BronzeHistoryGCPComputeFirewallAllowed           string // BronzeHistoryGCPComputeFirewallAllowed table.
+	BronzeHistoryGCPComputeFirewallDenied            string // BronzeHistoryGCPComputeFirewallDenied table.
 	BronzeHistoryGCPComputeForwardingRule            string // BronzeHistoryGCPComputeForwardingRule table.
 	BronzeHistoryGCPComputeForwardingRuleLabel       string // BronzeHistoryGCPComputeForwardingRuleLabel table.
 	BronzeHistoryGCPComputeGlobalAddress             string // BronzeHistoryGCPComputeGlobalAddress table.
@@ -109,9 +118,12 @@ type SchemaConfig struct {
 	BronzeHistoryGCPComputeNegEndpoint               string // BronzeHistoryGCPComputeNegEndpoint table.
 	BronzeHistoryGCPComputeNetwork                   string // BronzeHistoryGCPComputeNetwork table.
 	BronzeHistoryGCPComputeNetworkPeering            string // BronzeHistoryGCPComputeNetworkPeering table.
+	BronzeHistoryGCPComputeRouter                    string // BronzeHistoryGCPComputeRouter table.
+	BronzeHistoryGCPComputeSecurityPolicy            string // BronzeHistoryGCPComputeSecurityPolicy table.
 	BronzeHistoryGCPComputeSnapshot                  string // BronzeHistoryGCPComputeSnapshot table.
 	BronzeHistoryGCPComputeSnapshotLabel             string // BronzeHistoryGCPComputeSnapshotLabel table.
 	BronzeHistoryGCPComputeSnapshotLicense           string // BronzeHistoryGCPComputeSnapshotLicense table.
+	BronzeHistoryGCPComputeSslPolicy                 string // BronzeHistoryGCPComputeSslPolicy table.
 	BronzeHistoryGCPComputeSubnetwork                string // BronzeHistoryGCPComputeSubnetwork table.
 	BronzeHistoryGCPComputeSubnetworkSecondaryRange  string // BronzeHistoryGCPComputeSubnetworkSecondaryRange table.
 	BronzeHistoryGCPComputeTargetHttpProxy           string // BronzeHistoryGCPComputeTargetHttpProxy table.

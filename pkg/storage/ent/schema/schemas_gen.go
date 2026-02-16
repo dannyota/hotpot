@@ -70,6 +70,18 @@ type BronzeGCPComputeDiskLicense struct {
 	bronze_gcp_compute.BronzeGCPComputeDiskLicense
 }
 
+type BronzeGCPComputeFirewall struct {
+	bronze_gcp_compute.BronzeGCPComputeFirewall
+}
+
+type BronzeGCPComputeFirewallAllowed struct {
+	bronze_gcp_compute.BronzeGCPComputeFirewallAllowed
+}
+
+type BronzeGCPComputeFirewallDenied struct {
+	bronze_gcp_compute.BronzeGCPComputeFirewallDenied
+}
+
 type BronzeGCPComputeForwardingRule struct {
 	bronze_gcp_compute.BronzeGCPComputeForwardingRule
 }
@@ -170,6 +182,14 @@ type BronzeGCPComputeNetworkPeering struct {
 	bronze_gcp_compute.BronzeGCPComputeNetworkPeering
 }
 
+type BronzeGCPComputeRouter struct {
+	bronze_gcp_compute.BronzeGCPComputeRouter
+}
+
+type BronzeGCPComputeSecurityPolicy struct {
+	bronze_gcp_compute.BronzeGCPComputeSecurityPolicy
+}
+
 type BronzeGCPComputeSnapshot struct {
 	bronze_gcp_compute.BronzeGCPComputeSnapshot
 }
@@ -180,6 +200,10 @@ type BronzeGCPComputeSnapshotLabel struct {
 
 type BronzeGCPComputeSnapshotLicense struct {
 	bronze_gcp_compute.BronzeGCPComputeSnapshotLicense
+}
+
+type BronzeGCPComputeSslPolicy struct {
+	bronze_gcp_compute.BronzeGCPComputeSslPolicy
 }
 
 type BronzeGCPComputeSubnetwork struct {
@@ -358,6 +382,18 @@ type BronzeHistoryGCPComputeDiskLicense struct {
 	bronzehistory_gcp_compute.BronzeHistoryGCPComputeDiskLicense
 }
 
+type BronzeHistoryGCPComputeFirewall struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeFirewall
+}
+
+type BronzeHistoryGCPComputeFirewallAllowed struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeFirewallAllowed
+}
+
+type BronzeHistoryGCPComputeFirewallDenied struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeFirewallDenied
+}
+
 type BronzeHistoryGCPComputeForwardingRule struct {
 	bronzehistory_gcp_compute.BronzeHistoryGCPComputeForwardingRule
 }
@@ -458,6 +494,14 @@ type BronzeHistoryGCPComputeNetworkPeering struct {
 	bronzehistory_gcp_compute.BronzeHistoryGCPComputeNetworkPeering
 }
 
+type BronzeHistoryGCPComputeRouter struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeRouter
+}
+
+type BronzeHistoryGCPComputeSecurityPolicy struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeSecurityPolicy
+}
+
 type BronzeHistoryGCPComputeSnapshot struct {
 	bronzehistory_gcp_compute.BronzeHistoryGCPComputeSnapshot
 }
@@ -468,6 +512,10 @@ type BronzeHistoryGCPComputeSnapshotLabel struct {
 
 type BronzeHistoryGCPComputeSnapshotLicense struct {
 	bronzehistory_gcp_compute.BronzeHistoryGCPComputeSnapshotLicense
+}
+
+type BronzeHistoryGCPComputeSslPolicy struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeSslPolicy
 }
 
 type BronzeHistoryGCPComputeSubnetwork struct {

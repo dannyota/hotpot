@@ -22,6 +22,9 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputedisk"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputedisklabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputedisklicense"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputefirewall"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputefirewallallowed"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputefirewalldenied"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeforwardingrule"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeforwardingrulelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeglobaladdress"
@@ -49,9 +52,12 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputenegendpoint"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputenetwork"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputenetworkpeering"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputerouter"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesecuritypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesnapshot"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesnapshotlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesnapshotlicense"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesslpolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesubnetwork"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesubnetworksecondaryrange"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputetargethttpproxy"
@@ -87,6 +93,9 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputedisk"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputedisklabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputedisklicense"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputefirewall"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputefirewallallowed"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputefirewalldenied"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeforwardingrule"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeforwardingrulelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeglobaladdress"
@@ -114,9 +123,12 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenegendpoint"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenetwork"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenetworkpeering"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputerouter"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesecuritypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesnapshot"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesnapshotlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesnapshotlicense"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesslpolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesubnetwork"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesubnetworksecondaryrange"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputetargethttpproxy"
@@ -226,6 +238,9 @@ func checkColumn(t, c string) error {
 			bronzegcpcomputedisk.Table:                             bronzegcpcomputedisk.ValidColumn,
 			bronzegcpcomputedisklabel.Table:                        bronzegcpcomputedisklabel.ValidColumn,
 			bronzegcpcomputedisklicense.Table:                      bronzegcpcomputedisklicense.ValidColumn,
+			bronzegcpcomputefirewall.Table:                         bronzegcpcomputefirewall.ValidColumn,
+			bronzegcpcomputefirewallallowed.Table:                  bronzegcpcomputefirewallallowed.ValidColumn,
+			bronzegcpcomputefirewalldenied.Table:                   bronzegcpcomputefirewalldenied.ValidColumn,
 			bronzegcpcomputeforwardingrule.Table:                   bronzegcpcomputeforwardingrule.ValidColumn,
 			bronzegcpcomputeforwardingrulelabel.Table:              bronzegcpcomputeforwardingrulelabel.ValidColumn,
 			bronzegcpcomputeglobaladdress.Table:                    bronzegcpcomputeglobaladdress.ValidColumn,
@@ -253,9 +268,12 @@ func checkColumn(t, c string) error {
 			bronzegcpcomputenegendpoint.Table:                      bronzegcpcomputenegendpoint.ValidColumn,
 			bronzegcpcomputenetwork.Table:                          bronzegcpcomputenetwork.ValidColumn,
 			bronzegcpcomputenetworkpeering.Table:                   bronzegcpcomputenetworkpeering.ValidColumn,
+			bronzegcpcomputerouter.Table:                           bronzegcpcomputerouter.ValidColumn,
+			bronzegcpcomputesecuritypolicy.Table:                   bronzegcpcomputesecuritypolicy.ValidColumn,
 			bronzegcpcomputesnapshot.Table:                         bronzegcpcomputesnapshot.ValidColumn,
 			bronzegcpcomputesnapshotlabel.Table:                    bronzegcpcomputesnapshotlabel.ValidColumn,
 			bronzegcpcomputesnapshotlicense.Table:                  bronzegcpcomputesnapshotlicense.ValidColumn,
+			bronzegcpcomputesslpolicy.Table:                        bronzegcpcomputesslpolicy.ValidColumn,
 			bronzegcpcomputesubnetwork.Table:                       bronzegcpcomputesubnetwork.ValidColumn,
 			bronzegcpcomputesubnetworksecondaryrange.Table:         bronzegcpcomputesubnetworksecondaryrange.ValidColumn,
 			bronzegcpcomputetargethttpproxy.Table:                  bronzegcpcomputetargethttpproxy.ValidColumn,
@@ -291,6 +309,9 @@ func checkColumn(t, c string) error {
 			bronzehistorygcpcomputedisk.Table:                      bronzehistorygcpcomputedisk.ValidColumn,
 			bronzehistorygcpcomputedisklabel.Table:                 bronzehistorygcpcomputedisklabel.ValidColumn,
 			bronzehistorygcpcomputedisklicense.Table:               bronzehistorygcpcomputedisklicense.ValidColumn,
+			bronzehistorygcpcomputefirewall.Table:                  bronzehistorygcpcomputefirewall.ValidColumn,
+			bronzehistorygcpcomputefirewallallowed.Table:           bronzehistorygcpcomputefirewallallowed.ValidColumn,
+			bronzehistorygcpcomputefirewalldenied.Table:            bronzehistorygcpcomputefirewalldenied.ValidColumn,
 			bronzehistorygcpcomputeforwardingrule.Table:            bronzehistorygcpcomputeforwardingrule.ValidColumn,
 			bronzehistorygcpcomputeforwardingrulelabel.Table:       bronzehistorygcpcomputeforwardingrulelabel.ValidColumn,
 			bronzehistorygcpcomputeglobaladdress.Table:             bronzehistorygcpcomputeglobaladdress.ValidColumn,
@@ -318,9 +339,12 @@ func checkColumn(t, c string) error {
 			bronzehistorygcpcomputenegendpoint.Table:               bronzehistorygcpcomputenegendpoint.ValidColumn,
 			bronzehistorygcpcomputenetwork.Table:                   bronzehistorygcpcomputenetwork.ValidColumn,
 			bronzehistorygcpcomputenetworkpeering.Table:            bronzehistorygcpcomputenetworkpeering.ValidColumn,
+			bronzehistorygcpcomputerouter.Table:                    bronzehistorygcpcomputerouter.ValidColumn,
+			bronzehistorygcpcomputesecuritypolicy.Table:            bronzehistorygcpcomputesecuritypolicy.ValidColumn,
 			bronzehistorygcpcomputesnapshot.Table:                  bronzehistorygcpcomputesnapshot.ValidColumn,
 			bronzehistorygcpcomputesnapshotlabel.Table:             bronzehistorygcpcomputesnapshotlabel.ValidColumn,
 			bronzehistorygcpcomputesnapshotlicense.Table:           bronzehistorygcpcomputesnapshotlicense.ValidColumn,
+			bronzehistorygcpcomputesslpolicy.Table:                 bronzehistorygcpcomputesslpolicy.ValidColumn,
 			bronzehistorygcpcomputesubnetwork.Table:                bronzehistorygcpcomputesubnetwork.ValidColumn,
 			bronzehistorygcpcomputesubnetworksecondaryrange.Table:  bronzehistorygcpcomputesubnetworksecondaryrange.ValidColumn,
 			bronzehistorygcpcomputetargethttpproxy.Table:           bronzehistorygcpcomputetargethttpproxy.ValidColumn,

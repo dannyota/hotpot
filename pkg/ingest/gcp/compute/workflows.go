@@ -9,6 +9,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/address"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/backendservice"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/disk"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/firewall"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/forwardingrule"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/globaladdress"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/globalforwardingrule"
@@ -19,7 +20,10 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/neg"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/negendpoint"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/network"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/router"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/securitypolicy"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/snapshot"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/sslpolicy"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/subnetwork"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/targethttpproxy"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/targethttpsproxy"
@@ -66,6 +70,10 @@ type GCPComputeWorkflowResult struct {
 	NegCount                  int
 	NegEndpointCount          int
 	BackendServiceCount       int
+	FirewallCount             int
+	SslPolicyCount            int
+	RouterCount               int
+	SecurityPolicyCount       int
 }
 
 // GCPComputeWorkflow ingests all GCP Compute Engine resources for a single project.
@@ -330,6 +338,46 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 	}
 	result.BackendServiceCount = backendServiceResult.BackendServiceCount
 
+	// Execute firewall workflow
+	var firewallResult firewall.GCPComputeFirewallWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, firewall.GCPComputeFirewallWorkflow,
+		firewall.GCPComputeFirewallWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &firewallResult)
+	if err != nil {
+		logger.Error("Failed to ingest firewalls", "error", err)
+		return nil, err
+	}
+	result.FirewallCount = firewallResult.FirewallCount
+
+	// Execute SSL policy workflow
+	var sslPolicyResult sslpolicy.GCPComputeSslPolicyWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, sslpolicy.GCPComputeSslPolicyWorkflow,
+		sslpolicy.GCPComputeSslPolicyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &sslPolicyResult)
+	if err != nil {
+		logger.Error("Failed to ingest SSL policies", "error", err)
+		return nil, err
+	}
+	result.SslPolicyCount = sslPolicyResult.SslPolicyCount
+
+	// Execute router workflow
+	var routerResult router.GCPComputeRouterWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, router.GCPComputeRouterWorkflow,
+		router.GCPComputeRouterWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &routerResult)
+	if err != nil {
+		logger.Error("Failed to ingest routers", "error", err)
+		return nil, err
+	}
+	result.RouterCount = routerResult.RouterCount
+
+	// Execute security policy workflow
+	var securityPolicyResult securitypolicy.GCPComputeSecurityPolicyWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, securitypolicy.GCPComputeSecurityPolicyWorkflow,
+		securitypolicy.GCPComputeSecurityPolicyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &securityPolicyResult)
+	if err != nil {
+		logger.Error("Failed to ingest security policies", "error", err)
+		return nil, err
+	}
+	result.SecurityPolicyCount = securityPolicyResult.SecurityPolicyCount
+
 	// Execute NEG endpoint workflow (must run after NEG workflow since it queries NEGs from database)
 	var negEndpointResult negendpoint.GCPComputeNegEndpointWorkflowResult
 	err = workflow.ExecuteChildWorkflow(childCtx, negendpoint.GCPComputeNegEndpointWorkflow,
@@ -367,6 +415,10 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		"negCount", result.NegCount,
 		"negEndpointCount", result.NegEndpointCount,
 		"backendServiceCount", result.BackendServiceCount,
+		"firewallCount", result.FirewallCount,
+		"sslPolicyCount", result.SslPolicyCount,
+		"routerCount", result.RouterCount,
+		"securityPolicyCount", result.SecurityPolicyCount,
 	)
 
 	return result, nil

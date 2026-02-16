@@ -207,6 +207,54 @@ func (BronzeGCPComputeDiskLicense) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze"})
 }
 
+type BronzeGCPComputeFirewall struct {
+	bronze_gcp_compute.BronzeGCPComputeFirewall
+}
+
+func (BronzeGCPComputeFirewall) Annotations() []schema.Annotation {
+	anns := bronze_gcp_compute.BronzeGCPComputeFirewall{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeGCPComputeFirewallAllowed struct {
+	bronze_gcp_compute.BronzeGCPComputeFirewallAllowed
+}
+
+func (BronzeGCPComputeFirewallAllowed) Annotations() []schema.Annotation {
+	anns := bronze_gcp_compute.BronzeGCPComputeFirewallAllowed{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeGCPComputeFirewallDenied struct {
+	bronze_gcp_compute.BronzeGCPComputeFirewallDenied
+}
+
+func (BronzeGCPComputeFirewallDenied) Annotations() []schema.Annotation {
+	anns := bronze_gcp_compute.BronzeGCPComputeFirewallDenied{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
 type BronzeGCPComputeForwardingRule struct {
 	bronze_gcp_compute.BronzeGCPComputeForwardingRule
 }
@@ -607,6 +655,38 @@ func (BronzeGCPComputeNetworkPeering) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze"})
 }
 
+type BronzeGCPComputeRouter struct {
+	bronze_gcp_compute.BronzeGCPComputeRouter
+}
+
+func (BronzeGCPComputeRouter) Annotations() []schema.Annotation {
+	anns := bronze_gcp_compute.BronzeGCPComputeRouter{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeGCPComputeSecurityPolicy struct {
+	bronze_gcp_compute.BronzeGCPComputeSecurityPolicy
+}
+
+func (BronzeGCPComputeSecurityPolicy) Annotations() []schema.Annotation {
+	anns := bronze_gcp_compute.BronzeGCPComputeSecurityPolicy{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
 type BronzeGCPComputeSnapshot struct {
 	bronze_gcp_compute.BronzeGCPComputeSnapshot
 }
@@ -645,6 +725,22 @@ type BronzeGCPComputeSnapshotLicense struct {
 
 func (BronzeGCPComputeSnapshotLicense) Annotations() []schema.Annotation {
 	anns := bronze_gcp_compute.BronzeGCPComputeSnapshotLicense{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeGCPComputeSslPolicy struct {
+	bronze_gcp_compute.BronzeGCPComputeSslPolicy
+}
+
+func (BronzeGCPComputeSslPolicy) Annotations() []schema.Annotation {
+	anns := bronze_gcp_compute.BronzeGCPComputeSslPolicy{}.Annotations()
 	for i, a := range anns {
 		if v, ok := a.(entsql.Annotation); ok {
 			v.Schema = "bronze"

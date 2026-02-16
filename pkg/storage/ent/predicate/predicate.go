@@ -36,6 +36,15 @@ type BronzeGCPComputeDiskLabel func(*sql.Selector)
 // BronzeGCPComputeDiskLicense is the predicate function for bronzegcpcomputedisklicense builders.
 type BronzeGCPComputeDiskLicense func(*sql.Selector)
 
+// BronzeGCPComputeFirewall is the predicate function for bronzegcpcomputefirewall builders.
+type BronzeGCPComputeFirewall func(*sql.Selector)
+
+// BronzeGCPComputeFirewallAllowed is the predicate function for bronzegcpcomputefirewallallowed builders.
+type BronzeGCPComputeFirewallAllowed func(*sql.Selector)
+
+// BronzeGCPComputeFirewallDenied is the predicate function for bronzegcpcomputefirewalldenied builders.
+type BronzeGCPComputeFirewallDenied func(*sql.Selector)
+
 // BronzeGCPComputeForwardingRule is the predicate function for bronzegcpcomputeforwardingrule builders.
 type BronzeGCPComputeForwardingRule func(*sql.Selector)
 
@@ -117,6 +126,12 @@ type BronzeGCPComputeNetwork func(*sql.Selector)
 // BronzeGCPComputeNetworkPeering is the predicate function for bronzegcpcomputenetworkpeering builders.
 type BronzeGCPComputeNetworkPeering func(*sql.Selector)
 
+// BronzeGCPComputeRouter is the predicate function for bronzegcpcomputerouter builders.
+type BronzeGCPComputeRouter func(*sql.Selector)
+
+// BronzeGCPComputeSecurityPolicy is the predicate function for bronzegcpcomputesecuritypolicy builders.
+type BronzeGCPComputeSecurityPolicy func(*sql.Selector)
+
 // BronzeGCPComputeSnapshot is the predicate function for bronzegcpcomputesnapshot builders.
 type BronzeGCPComputeSnapshot func(*sql.Selector)
 
@@ -125,6 +140,9 @@ type BronzeGCPComputeSnapshotLabel func(*sql.Selector)
 
 // BronzeGCPComputeSnapshotLicense is the predicate function for bronzegcpcomputesnapshotlicense builders.
 type BronzeGCPComputeSnapshotLicense func(*sql.Selector)
+
+// BronzeGCPComputeSslPolicy is the predicate function for bronzegcpcomputesslpolicy builders.
+type BronzeGCPComputeSslPolicy func(*sql.Selector)
 
 // BronzeGCPComputeSubnetwork is the predicate function for bronzegcpcomputesubnetwork builders.
 type BronzeGCPComputeSubnetwork func(*sql.Selector)
@@ -231,6 +249,15 @@ type BronzeHistoryGCPComputeDiskLabel func(*sql.Selector)
 // BronzeHistoryGCPComputeDiskLicense is the predicate function for bronzehistorygcpcomputedisklicense builders.
 type BronzeHistoryGCPComputeDiskLicense func(*sql.Selector)
 
+// BronzeHistoryGCPComputeFirewall is the predicate function for bronzehistorygcpcomputefirewall builders.
+type BronzeHistoryGCPComputeFirewall func(*sql.Selector)
+
+// BronzeHistoryGCPComputeFirewallAllowed is the predicate function for bronzehistorygcpcomputefirewallallowed builders.
+type BronzeHistoryGCPComputeFirewallAllowed func(*sql.Selector)
+
+// BronzeHistoryGCPComputeFirewallDenied is the predicate function for bronzehistorygcpcomputefirewalldenied builders.
+type BronzeHistoryGCPComputeFirewallDenied func(*sql.Selector)
+
 // BronzeHistoryGCPComputeForwardingRule is the predicate function for bronzehistorygcpcomputeforwardingrule builders.
 type BronzeHistoryGCPComputeForwardingRule func(*sql.Selector)
 
@@ -312,6 +339,12 @@ type BronzeHistoryGCPComputeNetwork func(*sql.Selector)
 // BronzeHistoryGCPComputeNetworkPeering is the predicate function for bronzehistorygcpcomputenetworkpeering builders.
 type BronzeHistoryGCPComputeNetworkPeering func(*sql.Selector)
 
+// BronzeHistoryGCPComputeRouter is the predicate function for bronzehistorygcpcomputerouter builders.
+type BronzeHistoryGCPComputeRouter func(*sql.Selector)
+
+// BronzeHistoryGCPComputeSecurityPolicy is the predicate function for bronzehistorygcpcomputesecuritypolicy builders.
+type BronzeHistoryGCPComputeSecurityPolicy func(*sql.Selector)
+
 // BronzeHistoryGCPComputeSnapshot is the predicate function for bronzehistorygcpcomputesnapshot builders.
 type BronzeHistoryGCPComputeSnapshot func(*sql.Selector)
 
@@ -320,6 +353,9 @@ type BronzeHistoryGCPComputeSnapshotLabel func(*sql.Selector)
 
 // BronzeHistoryGCPComputeSnapshotLicense is the predicate function for bronzehistorygcpcomputesnapshotlicense builders.
 type BronzeHistoryGCPComputeSnapshotLicense func(*sql.Selector)
+
+// BronzeHistoryGCPComputeSslPolicy is the predicate function for bronzehistorygcpcomputesslpolicy builders.
+type BronzeHistoryGCPComputeSslPolicy func(*sql.Selector)
 
 // BronzeHistoryGCPComputeSubnetwork is the predicate function for bronzehistorygcpcomputesubnetwork builders.
 type BronzeHistoryGCPComputeSubnetwork func(*sql.Selector)

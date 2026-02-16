@@ -25,6 +25,9 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputedisk"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputedisklabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputedisklicense"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputefirewall"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputefirewallallowed"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputefirewalldenied"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeforwardingrule"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeforwardingrulelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeglobaladdress"
@@ -52,9 +55,12 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputenegendpoint"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputenetwork"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputenetworkpeering"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputerouter"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesecuritypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesnapshot"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesnapshotlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesnapshotlicense"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesslpolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesubnetwork"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesubnetworksecondaryrange"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputetargethttpproxy"
@@ -90,6 +96,9 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputedisk"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputedisklabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputedisklicense"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputefirewall"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputefirewallallowed"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputefirewalldenied"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeforwardingrule"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeforwardingrulelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeglobaladdress"
@@ -117,9 +126,12 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenegendpoint"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenetwork"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenetworkpeering"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputerouter"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesecuritypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesnapshot"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesnapshotlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesnapshotlicense"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesslpolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesubnetwork"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesubnetworksecondaryrange"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputetargethttpproxy"
@@ -188,6 +200,12 @@ type Client struct {
 	BronzeGCPComputeDiskLabel *BronzeGCPComputeDiskLabelClient
 	// BronzeGCPComputeDiskLicense is the client for interacting with the BronzeGCPComputeDiskLicense builders.
 	BronzeGCPComputeDiskLicense *BronzeGCPComputeDiskLicenseClient
+	// BronzeGCPComputeFirewall is the client for interacting with the BronzeGCPComputeFirewall builders.
+	BronzeGCPComputeFirewall *BronzeGCPComputeFirewallClient
+	// BronzeGCPComputeFirewallAllowed is the client for interacting with the BronzeGCPComputeFirewallAllowed builders.
+	BronzeGCPComputeFirewallAllowed *BronzeGCPComputeFirewallAllowedClient
+	// BronzeGCPComputeFirewallDenied is the client for interacting with the BronzeGCPComputeFirewallDenied builders.
+	BronzeGCPComputeFirewallDenied *BronzeGCPComputeFirewallDeniedClient
 	// BronzeGCPComputeForwardingRule is the client for interacting with the BronzeGCPComputeForwardingRule builders.
 	BronzeGCPComputeForwardingRule *BronzeGCPComputeForwardingRuleClient
 	// BronzeGCPComputeForwardingRuleLabel is the client for interacting with the BronzeGCPComputeForwardingRuleLabel builders.
@@ -242,12 +260,18 @@ type Client struct {
 	BronzeGCPComputeNetwork *BronzeGCPComputeNetworkClient
 	// BronzeGCPComputeNetworkPeering is the client for interacting with the BronzeGCPComputeNetworkPeering builders.
 	BronzeGCPComputeNetworkPeering *BronzeGCPComputeNetworkPeeringClient
+	// BronzeGCPComputeRouter is the client for interacting with the BronzeGCPComputeRouter builders.
+	BronzeGCPComputeRouter *BronzeGCPComputeRouterClient
+	// BronzeGCPComputeSecurityPolicy is the client for interacting with the BronzeGCPComputeSecurityPolicy builders.
+	BronzeGCPComputeSecurityPolicy *BronzeGCPComputeSecurityPolicyClient
 	// BronzeGCPComputeSnapshot is the client for interacting with the BronzeGCPComputeSnapshot builders.
 	BronzeGCPComputeSnapshot *BronzeGCPComputeSnapshotClient
 	// BronzeGCPComputeSnapshotLabel is the client for interacting with the BronzeGCPComputeSnapshotLabel builders.
 	BronzeGCPComputeSnapshotLabel *BronzeGCPComputeSnapshotLabelClient
 	// BronzeGCPComputeSnapshotLicense is the client for interacting with the BronzeGCPComputeSnapshotLicense builders.
 	BronzeGCPComputeSnapshotLicense *BronzeGCPComputeSnapshotLicenseClient
+	// BronzeGCPComputeSslPolicy is the client for interacting with the BronzeGCPComputeSslPolicy builders.
+	BronzeGCPComputeSslPolicy *BronzeGCPComputeSslPolicyClient
 	// BronzeGCPComputeSubnetwork is the client for interacting with the BronzeGCPComputeSubnetwork builders.
 	BronzeGCPComputeSubnetwork *BronzeGCPComputeSubnetworkClient
 	// BronzeGCPComputeSubnetworkSecondaryRange is the client for interacting with the BronzeGCPComputeSubnetworkSecondaryRange builders.
@@ -318,6 +342,12 @@ type Client struct {
 	BronzeHistoryGCPComputeDiskLabel *BronzeHistoryGCPComputeDiskLabelClient
 	// BronzeHistoryGCPComputeDiskLicense is the client for interacting with the BronzeHistoryGCPComputeDiskLicense builders.
 	BronzeHistoryGCPComputeDiskLicense *BronzeHistoryGCPComputeDiskLicenseClient
+	// BronzeHistoryGCPComputeFirewall is the client for interacting with the BronzeHistoryGCPComputeFirewall builders.
+	BronzeHistoryGCPComputeFirewall *BronzeHistoryGCPComputeFirewallClient
+	// BronzeHistoryGCPComputeFirewallAllowed is the client for interacting with the BronzeHistoryGCPComputeFirewallAllowed builders.
+	BronzeHistoryGCPComputeFirewallAllowed *BronzeHistoryGCPComputeFirewallAllowedClient
+	// BronzeHistoryGCPComputeFirewallDenied is the client for interacting with the BronzeHistoryGCPComputeFirewallDenied builders.
+	BronzeHistoryGCPComputeFirewallDenied *BronzeHistoryGCPComputeFirewallDeniedClient
 	// BronzeHistoryGCPComputeForwardingRule is the client for interacting with the BronzeHistoryGCPComputeForwardingRule builders.
 	BronzeHistoryGCPComputeForwardingRule *BronzeHistoryGCPComputeForwardingRuleClient
 	// BronzeHistoryGCPComputeForwardingRuleLabel is the client for interacting with the BronzeHistoryGCPComputeForwardingRuleLabel builders.
@@ -372,12 +402,18 @@ type Client struct {
 	BronzeHistoryGCPComputeNetwork *BronzeHistoryGCPComputeNetworkClient
 	// BronzeHistoryGCPComputeNetworkPeering is the client for interacting with the BronzeHistoryGCPComputeNetworkPeering builders.
 	BronzeHistoryGCPComputeNetworkPeering *BronzeHistoryGCPComputeNetworkPeeringClient
+	// BronzeHistoryGCPComputeRouter is the client for interacting with the BronzeHistoryGCPComputeRouter builders.
+	BronzeHistoryGCPComputeRouter *BronzeHistoryGCPComputeRouterClient
+	// BronzeHistoryGCPComputeSecurityPolicy is the client for interacting with the BronzeHistoryGCPComputeSecurityPolicy builders.
+	BronzeHistoryGCPComputeSecurityPolicy *BronzeHistoryGCPComputeSecurityPolicyClient
 	// BronzeHistoryGCPComputeSnapshot is the client for interacting with the BronzeHistoryGCPComputeSnapshot builders.
 	BronzeHistoryGCPComputeSnapshot *BronzeHistoryGCPComputeSnapshotClient
 	// BronzeHistoryGCPComputeSnapshotLabel is the client for interacting with the BronzeHistoryGCPComputeSnapshotLabel builders.
 	BronzeHistoryGCPComputeSnapshotLabel *BronzeHistoryGCPComputeSnapshotLabelClient
 	// BronzeHistoryGCPComputeSnapshotLicense is the client for interacting with the BronzeHistoryGCPComputeSnapshotLicense builders.
 	BronzeHistoryGCPComputeSnapshotLicense *BronzeHistoryGCPComputeSnapshotLicenseClient
+	// BronzeHistoryGCPComputeSslPolicy is the client for interacting with the BronzeHistoryGCPComputeSslPolicy builders.
+	BronzeHistoryGCPComputeSslPolicy *BronzeHistoryGCPComputeSslPolicyClient
 	// BronzeHistoryGCPComputeSubnetwork is the client for interacting with the BronzeHistoryGCPComputeSubnetwork builders.
 	BronzeHistoryGCPComputeSubnetwork *BronzeHistoryGCPComputeSubnetworkClient
 	// BronzeHistoryGCPComputeSubnetworkSecondaryRange is the client for interacting with the BronzeHistoryGCPComputeSubnetworkSecondaryRange builders.
@@ -477,6 +513,9 @@ func (c *Client) init() {
 	c.BronzeGCPComputeDisk = NewBronzeGCPComputeDiskClient(c.config)
 	c.BronzeGCPComputeDiskLabel = NewBronzeGCPComputeDiskLabelClient(c.config)
 	c.BronzeGCPComputeDiskLicense = NewBronzeGCPComputeDiskLicenseClient(c.config)
+	c.BronzeGCPComputeFirewall = NewBronzeGCPComputeFirewallClient(c.config)
+	c.BronzeGCPComputeFirewallAllowed = NewBronzeGCPComputeFirewallAllowedClient(c.config)
+	c.BronzeGCPComputeFirewallDenied = NewBronzeGCPComputeFirewallDeniedClient(c.config)
 	c.BronzeGCPComputeForwardingRule = NewBronzeGCPComputeForwardingRuleClient(c.config)
 	c.BronzeGCPComputeForwardingRuleLabel = NewBronzeGCPComputeForwardingRuleLabelClient(c.config)
 	c.BronzeGCPComputeGlobalAddress = NewBronzeGCPComputeGlobalAddressClient(c.config)
@@ -504,9 +543,12 @@ func (c *Client) init() {
 	c.BronzeGCPComputeNegEndpoint = NewBronzeGCPComputeNegEndpointClient(c.config)
 	c.BronzeGCPComputeNetwork = NewBronzeGCPComputeNetworkClient(c.config)
 	c.BronzeGCPComputeNetworkPeering = NewBronzeGCPComputeNetworkPeeringClient(c.config)
+	c.BronzeGCPComputeRouter = NewBronzeGCPComputeRouterClient(c.config)
+	c.BronzeGCPComputeSecurityPolicy = NewBronzeGCPComputeSecurityPolicyClient(c.config)
 	c.BronzeGCPComputeSnapshot = NewBronzeGCPComputeSnapshotClient(c.config)
 	c.BronzeGCPComputeSnapshotLabel = NewBronzeGCPComputeSnapshotLabelClient(c.config)
 	c.BronzeGCPComputeSnapshotLicense = NewBronzeGCPComputeSnapshotLicenseClient(c.config)
+	c.BronzeGCPComputeSslPolicy = NewBronzeGCPComputeSslPolicyClient(c.config)
 	c.BronzeGCPComputeSubnetwork = NewBronzeGCPComputeSubnetworkClient(c.config)
 	c.BronzeGCPComputeSubnetworkSecondaryRange = NewBronzeGCPComputeSubnetworkSecondaryRangeClient(c.config)
 	c.BronzeGCPComputeTargetHttpProxy = NewBronzeGCPComputeTargetHttpProxyClient(c.config)
@@ -542,6 +584,9 @@ func (c *Client) init() {
 	c.BronzeHistoryGCPComputeDisk = NewBronzeHistoryGCPComputeDiskClient(c.config)
 	c.BronzeHistoryGCPComputeDiskLabel = NewBronzeHistoryGCPComputeDiskLabelClient(c.config)
 	c.BronzeHistoryGCPComputeDiskLicense = NewBronzeHistoryGCPComputeDiskLicenseClient(c.config)
+	c.BronzeHistoryGCPComputeFirewall = NewBronzeHistoryGCPComputeFirewallClient(c.config)
+	c.BronzeHistoryGCPComputeFirewallAllowed = NewBronzeHistoryGCPComputeFirewallAllowedClient(c.config)
+	c.BronzeHistoryGCPComputeFirewallDenied = NewBronzeHistoryGCPComputeFirewallDeniedClient(c.config)
 	c.BronzeHistoryGCPComputeForwardingRule = NewBronzeHistoryGCPComputeForwardingRuleClient(c.config)
 	c.BronzeHistoryGCPComputeForwardingRuleLabel = NewBronzeHistoryGCPComputeForwardingRuleLabelClient(c.config)
 	c.BronzeHistoryGCPComputeGlobalAddress = NewBronzeHistoryGCPComputeGlobalAddressClient(c.config)
@@ -569,9 +614,12 @@ func (c *Client) init() {
 	c.BronzeHistoryGCPComputeNegEndpoint = NewBronzeHistoryGCPComputeNegEndpointClient(c.config)
 	c.BronzeHistoryGCPComputeNetwork = NewBronzeHistoryGCPComputeNetworkClient(c.config)
 	c.BronzeHistoryGCPComputeNetworkPeering = NewBronzeHistoryGCPComputeNetworkPeeringClient(c.config)
+	c.BronzeHistoryGCPComputeRouter = NewBronzeHistoryGCPComputeRouterClient(c.config)
+	c.BronzeHistoryGCPComputeSecurityPolicy = NewBronzeHistoryGCPComputeSecurityPolicyClient(c.config)
 	c.BronzeHistoryGCPComputeSnapshot = NewBronzeHistoryGCPComputeSnapshotClient(c.config)
 	c.BronzeHistoryGCPComputeSnapshotLabel = NewBronzeHistoryGCPComputeSnapshotLabelClient(c.config)
 	c.BronzeHistoryGCPComputeSnapshotLicense = NewBronzeHistoryGCPComputeSnapshotLicenseClient(c.config)
+	c.BronzeHistoryGCPComputeSslPolicy = NewBronzeHistoryGCPComputeSslPolicyClient(c.config)
 	c.BronzeHistoryGCPComputeSubnetwork = NewBronzeHistoryGCPComputeSubnetworkClient(c.config)
 	c.BronzeHistoryGCPComputeSubnetworkSecondaryRange = NewBronzeHistoryGCPComputeSubnetworkSecondaryRangeClient(c.config)
 	c.BronzeHistoryGCPComputeTargetHttpProxy = NewBronzeHistoryGCPComputeTargetHttpProxyClient(c.config)
@@ -715,6 +763,9 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		BronzeGCPComputeDisk:                             NewBronzeGCPComputeDiskClient(cfg),
 		BronzeGCPComputeDiskLabel:                        NewBronzeGCPComputeDiskLabelClient(cfg),
 		BronzeGCPComputeDiskLicense:                      NewBronzeGCPComputeDiskLicenseClient(cfg),
+		BronzeGCPComputeFirewall:                         NewBronzeGCPComputeFirewallClient(cfg),
+		BronzeGCPComputeFirewallAllowed:                  NewBronzeGCPComputeFirewallAllowedClient(cfg),
+		BronzeGCPComputeFirewallDenied:                   NewBronzeGCPComputeFirewallDeniedClient(cfg),
 		BronzeGCPComputeForwardingRule:                   NewBronzeGCPComputeForwardingRuleClient(cfg),
 		BronzeGCPComputeForwardingRuleLabel:              NewBronzeGCPComputeForwardingRuleLabelClient(cfg),
 		BronzeGCPComputeGlobalAddress:                    NewBronzeGCPComputeGlobalAddressClient(cfg),
@@ -742,9 +793,12 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		BronzeGCPComputeNegEndpoint:                      NewBronzeGCPComputeNegEndpointClient(cfg),
 		BronzeGCPComputeNetwork:                          NewBronzeGCPComputeNetworkClient(cfg),
 		BronzeGCPComputeNetworkPeering:                   NewBronzeGCPComputeNetworkPeeringClient(cfg),
+		BronzeGCPComputeRouter:                           NewBronzeGCPComputeRouterClient(cfg),
+		BronzeGCPComputeSecurityPolicy:                   NewBronzeGCPComputeSecurityPolicyClient(cfg),
 		BronzeGCPComputeSnapshot:                         NewBronzeGCPComputeSnapshotClient(cfg),
 		BronzeGCPComputeSnapshotLabel:                    NewBronzeGCPComputeSnapshotLabelClient(cfg),
 		BronzeGCPComputeSnapshotLicense:                  NewBronzeGCPComputeSnapshotLicenseClient(cfg),
+		BronzeGCPComputeSslPolicy:                        NewBronzeGCPComputeSslPolicyClient(cfg),
 		BronzeGCPComputeSubnetwork:                       NewBronzeGCPComputeSubnetworkClient(cfg),
 		BronzeGCPComputeSubnetworkSecondaryRange:         NewBronzeGCPComputeSubnetworkSecondaryRangeClient(cfg),
 		BronzeGCPComputeTargetHttpProxy:                  NewBronzeGCPComputeTargetHttpProxyClient(cfg),
@@ -780,6 +834,9 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		BronzeHistoryGCPComputeDisk:                      NewBronzeHistoryGCPComputeDiskClient(cfg),
 		BronzeHistoryGCPComputeDiskLabel:                 NewBronzeHistoryGCPComputeDiskLabelClient(cfg),
 		BronzeHistoryGCPComputeDiskLicense:               NewBronzeHistoryGCPComputeDiskLicenseClient(cfg),
+		BronzeHistoryGCPComputeFirewall:                  NewBronzeHistoryGCPComputeFirewallClient(cfg),
+		BronzeHistoryGCPComputeFirewallAllowed:           NewBronzeHistoryGCPComputeFirewallAllowedClient(cfg),
+		BronzeHistoryGCPComputeFirewallDenied:            NewBronzeHistoryGCPComputeFirewallDeniedClient(cfg),
 		BronzeHistoryGCPComputeForwardingRule:            NewBronzeHistoryGCPComputeForwardingRuleClient(cfg),
 		BronzeHistoryGCPComputeForwardingRuleLabel:       NewBronzeHistoryGCPComputeForwardingRuleLabelClient(cfg),
 		BronzeHistoryGCPComputeGlobalAddress:             NewBronzeHistoryGCPComputeGlobalAddressClient(cfg),
@@ -807,9 +864,12 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		BronzeHistoryGCPComputeNegEndpoint:               NewBronzeHistoryGCPComputeNegEndpointClient(cfg),
 		BronzeHistoryGCPComputeNetwork:                   NewBronzeHistoryGCPComputeNetworkClient(cfg),
 		BronzeHistoryGCPComputeNetworkPeering:            NewBronzeHistoryGCPComputeNetworkPeeringClient(cfg),
+		BronzeHistoryGCPComputeRouter:                    NewBronzeHistoryGCPComputeRouterClient(cfg),
+		BronzeHistoryGCPComputeSecurityPolicy:            NewBronzeHistoryGCPComputeSecurityPolicyClient(cfg),
 		BronzeHistoryGCPComputeSnapshot:                  NewBronzeHistoryGCPComputeSnapshotClient(cfg),
 		BronzeHistoryGCPComputeSnapshotLabel:             NewBronzeHistoryGCPComputeSnapshotLabelClient(cfg),
 		BronzeHistoryGCPComputeSnapshotLicense:           NewBronzeHistoryGCPComputeSnapshotLicenseClient(cfg),
+		BronzeHistoryGCPComputeSslPolicy:                 NewBronzeHistoryGCPComputeSslPolicyClient(cfg),
 		BronzeHistoryGCPComputeSubnetwork:                NewBronzeHistoryGCPComputeSubnetworkClient(cfg),
 		BronzeHistoryGCPComputeSubnetworkSecondaryRange:  NewBronzeHistoryGCPComputeSubnetworkSecondaryRangeClient(cfg),
 		BronzeHistoryGCPComputeTargetHttpProxy:           NewBronzeHistoryGCPComputeTargetHttpProxyClient(cfg),
@@ -878,6 +938,9 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		BronzeGCPComputeDisk:                             NewBronzeGCPComputeDiskClient(cfg),
 		BronzeGCPComputeDiskLabel:                        NewBronzeGCPComputeDiskLabelClient(cfg),
 		BronzeGCPComputeDiskLicense:                      NewBronzeGCPComputeDiskLicenseClient(cfg),
+		BronzeGCPComputeFirewall:                         NewBronzeGCPComputeFirewallClient(cfg),
+		BronzeGCPComputeFirewallAllowed:                  NewBronzeGCPComputeFirewallAllowedClient(cfg),
+		BronzeGCPComputeFirewallDenied:                   NewBronzeGCPComputeFirewallDeniedClient(cfg),
 		BronzeGCPComputeForwardingRule:                   NewBronzeGCPComputeForwardingRuleClient(cfg),
 		BronzeGCPComputeForwardingRuleLabel:              NewBronzeGCPComputeForwardingRuleLabelClient(cfg),
 		BronzeGCPComputeGlobalAddress:                    NewBronzeGCPComputeGlobalAddressClient(cfg),
@@ -905,9 +968,12 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		BronzeGCPComputeNegEndpoint:                      NewBronzeGCPComputeNegEndpointClient(cfg),
 		BronzeGCPComputeNetwork:                          NewBronzeGCPComputeNetworkClient(cfg),
 		BronzeGCPComputeNetworkPeering:                   NewBronzeGCPComputeNetworkPeeringClient(cfg),
+		BronzeGCPComputeRouter:                           NewBronzeGCPComputeRouterClient(cfg),
+		BronzeGCPComputeSecurityPolicy:                   NewBronzeGCPComputeSecurityPolicyClient(cfg),
 		BronzeGCPComputeSnapshot:                         NewBronzeGCPComputeSnapshotClient(cfg),
 		BronzeGCPComputeSnapshotLabel:                    NewBronzeGCPComputeSnapshotLabelClient(cfg),
 		BronzeGCPComputeSnapshotLicense:                  NewBronzeGCPComputeSnapshotLicenseClient(cfg),
+		BronzeGCPComputeSslPolicy:                        NewBronzeGCPComputeSslPolicyClient(cfg),
 		BronzeGCPComputeSubnetwork:                       NewBronzeGCPComputeSubnetworkClient(cfg),
 		BronzeGCPComputeSubnetworkSecondaryRange:         NewBronzeGCPComputeSubnetworkSecondaryRangeClient(cfg),
 		BronzeGCPComputeTargetHttpProxy:                  NewBronzeGCPComputeTargetHttpProxyClient(cfg),
@@ -943,6 +1009,9 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		BronzeHistoryGCPComputeDisk:                      NewBronzeHistoryGCPComputeDiskClient(cfg),
 		BronzeHistoryGCPComputeDiskLabel:                 NewBronzeHistoryGCPComputeDiskLabelClient(cfg),
 		BronzeHistoryGCPComputeDiskLicense:               NewBronzeHistoryGCPComputeDiskLicenseClient(cfg),
+		BronzeHistoryGCPComputeFirewall:                  NewBronzeHistoryGCPComputeFirewallClient(cfg),
+		BronzeHistoryGCPComputeFirewallAllowed:           NewBronzeHistoryGCPComputeFirewallAllowedClient(cfg),
+		BronzeHistoryGCPComputeFirewallDenied:            NewBronzeHistoryGCPComputeFirewallDeniedClient(cfg),
 		BronzeHistoryGCPComputeForwardingRule:            NewBronzeHistoryGCPComputeForwardingRuleClient(cfg),
 		BronzeHistoryGCPComputeForwardingRuleLabel:       NewBronzeHistoryGCPComputeForwardingRuleLabelClient(cfg),
 		BronzeHistoryGCPComputeGlobalAddress:             NewBronzeHistoryGCPComputeGlobalAddressClient(cfg),
@@ -970,9 +1039,12 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		BronzeHistoryGCPComputeNegEndpoint:               NewBronzeHistoryGCPComputeNegEndpointClient(cfg),
 		BronzeHistoryGCPComputeNetwork:                   NewBronzeHistoryGCPComputeNetworkClient(cfg),
 		BronzeHistoryGCPComputeNetworkPeering:            NewBronzeHistoryGCPComputeNetworkPeeringClient(cfg),
+		BronzeHistoryGCPComputeRouter:                    NewBronzeHistoryGCPComputeRouterClient(cfg),
+		BronzeHistoryGCPComputeSecurityPolicy:            NewBronzeHistoryGCPComputeSecurityPolicyClient(cfg),
 		BronzeHistoryGCPComputeSnapshot:                  NewBronzeHistoryGCPComputeSnapshotClient(cfg),
 		BronzeHistoryGCPComputeSnapshotLabel:             NewBronzeHistoryGCPComputeSnapshotLabelClient(cfg),
 		BronzeHistoryGCPComputeSnapshotLicense:           NewBronzeHistoryGCPComputeSnapshotLicenseClient(cfg),
+		BronzeHistoryGCPComputeSslPolicy:                 NewBronzeHistoryGCPComputeSslPolicyClient(cfg),
 		BronzeHistoryGCPComputeSubnetwork:                NewBronzeHistoryGCPComputeSubnetworkClient(cfg),
 		BronzeHistoryGCPComputeSubnetworkSecondaryRange:  NewBronzeHistoryGCPComputeSubnetworkSecondaryRangeClient(cfg),
 		BronzeHistoryGCPComputeTargetHttpProxy:           NewBronzeHistoryGCPComputeTargetHttpProxyClient(cfg),
@@ -1045,9 +1117,11 @@ func (c *Client) Use(hooks ...Hook) {
 		c.BronzeGCPComputeAddress, c.BronzeGCPComputeAddressLabel,
 		c.BronzeGCPComputeBackendService, c.BronzeGCPComputeBackendServiceBackend,
 		c.BronzeGCPComputeDisk, c.BronzeGCPComputeDiskLabel,
-		c.BronzeGCPComputeDiskLicense, c.BronzeGCPComputeForwardingRule,
-		c.BronzeGCPComputeForwardingRuleLabel, c.BronzeGCPComputeGlobalAddress,
-		c.BronzeGCPComputeGlobalAddressLabel, c.BronzeGCPComputeGlobalForwardingRule,
+		c.BronzeGCPComputeDiskLicense, c.BronzeGCPComputeFirewall,
+		c.BronzeGCPComputeFirewallAllowed, c.BronzeGCPComputeFirewallDenied,
+		c.BronzeGCPComputeForwardingRule, c.BronzeGCPComputeForwardingRuleLabel,
+		c.BronzeGCPComputeGlobalAddress, c.BronzeGCPComputeGlobalAddressLabel,
+		c.BronzeGCPComputeGlobalForwardingRule,
 		c.BronzeGCPComputeGlobalForwardingRuleLabel, c.BronzeGCPComputeHealthCheck,
 		c.BronzeGCPComputeImage, c.BronzeGCPComputeImageLabel,
 		c.BronzeGCPComputeImageLicense, c.BronzeGCPComputeInstance,
@@ -1060,18 +1134,19 @@ func (c *Client) Use(hooks ...Hook) {
 		c.BronzeGCPComputeInstanceServiceAccount, c.BronzeGCPComputeInstanceTag,
 		c.BronzeGCPComputeNeg, c.BronzeGCPComputeNegEndpoint,
 		c.BronzeGCPComputeNetwork, c.BronzeGCPComputeNetworkPeering,
+		c.BronzeGCPComputeRouter, c.BronzeGCPComputeSecurityPolicy,
 		c.BronzeGCPComputeSnapshot, c.BronzeGCPComputeSnapshotLabel,
-		c.BronzeGCPComputeSnapshotLicense, c.BronzeGCPComputeSubnetwork,
-		c.BronzeGCPComputeSubnetworkSecondaryRange, c.BronzeGCPComputeTargetHttpProxy,
-		c.BronzeGCPComputeTargetHttpsProxy, c.BronzeGCPComputeTargetInstance,
-		c.BronzeGCPComputeTargetPool, c.BronzeGCPComputeTargetSslProxy,
-		c.BronzeGCPComputeTargetTcpProxy, c.BronzeGCPComputeUrlMap,
-		c.BronzeGCPContainerCluster, c.BronzeGCPContainerClusterAddon,
-		c.BronzeGCPContainerClusterCondition, c.BronzeGCPContainerClusterLabel,
-		c.BronzeGCPContainerClusterNodePool, c.BronzeGCPIAMServiceAccount,
-		c.BronzeGCPIAMServiceAccountKey, c.BronzeGCPProject, c.BronzeGCPProjectLabel,
-		c.BronzeGCPVPCAccessConnector, c.BronzeGCPVPNGateway,
-		c.BronzeGCPVPNGatewayLabel, c.BronzeGCPVPNTargetGateway,
+		c.BronzeGCPComputeSnapshotLicense, c.BronzeGCPComputeSslPolicy,
+		c.BronzeGCPComputeSubnetwork, c.BronzeGCPComputeSubnetworkSecondaryRange,
+		c.BronzeGCPComputeTargetHttpProxy, c.BronzeGCPComputeTargetHttpsProxy,
+		c.BronzeGCPComputeTargetInstance, c.BronzeGCPComputeTargetPool,
+		c.BronzeGCPComputeTargetSslProxy, c.BronzeGCPComputeTargetTcpProxy,
+		c.BronzeGCPComputeUrlMap, c.BronzeGCPContainerCluster,
+		c.BronzeGCPContainerClusterAddon, c.BronzeGCPContainerClusterCondition,
+		c.BronzeGCPContainerClusterLabel, c.BronzeGCPContainerClusterNodePool,
+		c.BronzeGCPIAMServiceAccount, c.BronzeGCPIAMServiceAccountKey,
+		c.BronzeGCPProject, c.BronzeGCPProjectLabel, c.BronzeGCPVPCAccessConnector,
+		c.BronzeGCPVPNGateway, c.BronzeGCPVPNGatewayLabel, c.BronzeGCPVPNTargetGateway,
 		c.BronzeGCPVPNTargetGatewayLabel, c.BronzeGCPVPNTunnel,
 		c.BronzeGCPVPNTunnelLabel, c.BronzeHistoryAWSEC2Instance,
 		c.BronzeHistoryAWSEC2InstanceTag, c.BronzeHistoryDOVpc,
@@ -1079,6 +1154,8 @@ func (c *Client) Use(hooks ...Hook) {
 		c.BronzeHistoryGCPComputeBackendService,
 		c.BronzeHistoryGCPComputeBackendServiceBackend, c.BronzeHistoryGCPComputeDisk,
 		c.BronzeHistoryGCPComputeDiskLabel, c.BronzeHistoryGCPComputeDiskLicense,
+		c.BronzeHistoryGCPComputeFirewall, c.BronzeHistoryGCPComputeFirewallAllowed,
+		c.BronzeHistoryGCPComputeFirewallDenied,
 		c.BronzeHistoryGCPComputeForwardingRule,
 		c.BronzeHistoryGCPComputeForwardingRuleLabel,
 		c.BronzeHistoryGCPComputeGlobalAddress,
@@ -1100,9 +1177,11 @@ func (c *Client) Use(hooks ...Hook) {
 		c.BronzeHistoryGCPComputeInstanceServiceAccount,
 		c.BronzeHistoryGCPComputeInstanceTag, c.BronzeHistoryGCPComputeNeg,
 		c.BronzeHistoryGCPComputeNegEndpoint, c.BronzeHistoryGCPComputeNetwork,
-		c.BronzeHistoryGCPComputeNetworkPeering, c.BronzeHistoryGCPComputeSnapshot,
+		c.BronzeHistoryGCPComputeNetworkPeering, c.BronzeHistoryGCPComputeRouter,
+		c.BronzeHistoryGCPComputeSecurityPolicy, c.BronzeHistoryGCPComputeSnapshot,
 		c.BronzeHistoryGCPComputeSnapshotLabel,
-		c.BronzeHistoryGCPComputeSnapshotLicense, c.BronzeHistoryGCPComputeSubnetwork,
+		c.BronzeHistoryGCPComputeSnapshotLicense, c.BronzeHistoryGCPComputeSslPolicy,
+		c.BronzeHistoryGCPComputeSubnetwork,
 		c.BronzeHistoryGCPComputeSubnetworkSecondaryRange,
 		c.BronzeHistoryGCPComputeTargetHttpProxy,
 		c.BronzeHistoryGCPComputeTargetHttpsProxy,
@@ -1136,9 +1215,11 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.BronzeGCPComputeAddress, c.BronzeGCPComputeAddressLabel,
 		c.BronzeGCPComputeBackendService, c.BronzeGCPComputeBackendServiceBackend,
 		c.BronzeGCPComputeDisk, c.BronzeGCPComputeDiskLabel,
-		c.BronzeGCPComputeDiskLicense, c.BronzeGCPComputeForwardingRule,
-		c.BronzeGCPComputeForwardingRuleLabel, c.BronzeGCPComputeGlobalAddress,
-		c.BronzeGCPComputeGlobalAddressLabel, c.BronzeGCPComputeGlobalForwardingRule,
+		c.BronzeGCPComputeDiskLicense, c.BronzeGCPComputeFirewall,
+		c.BronzeGCPComputeFirewallAllowed, c.BronzeGCPComputeFirewallDenied,
+		c.BronzeGCPComputeForwardingRule, c.BronzeGCPComputeForwardingRuleLabel,
+		c.BronzeGCPComputeGlobalAddress, c.BronzeGCPComputeGlobalAddressLabel,
+		c.BronzeGCPComputeGlobalForwardingRule,
 		c.BronzeGCPComputeGlobalForwardingRuleLabel, c.BronzeGCPComputeHealthCheck,
 		c.BronzeGCPComputeImage, c.BronzeGCPComputeImageLabel,
 		c.BronzeGCPComputeImageLicense, c.BronzeGCPComputeInstance,
@@ -1151,18 +1232,19 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.BronzeGCPComputeInstanceServiceAccount, c.BronzeGCPComputeInstanceTag,
 		c.BronzeGCPComputeNeg, c.BronzeGCPComputeNegEndpoint,
 		c.BronzeGCPComputeNetwork, c.BronzeGCPComputeNetworkPeering,
+		c.BronzeGCPComputeRouter, c.BronzeGCPComputeSecurityPolicy,
 		c.BronzeGCPComputeSnapshot, c.BronzeGCPComputeSnapshotLabel,
-		c.BronzeGCPComputeSnapshotLicense, c.BronzeGCPComputeSubnetwork,
-		c.BronzeGCPComputeSubnetworkSecondaryRange, c.BronzeGCPComputeTargetHttpProxy,
-		c.BronzeGCPComputeTargetHttpsProxy, c.BronzeGCPComputeTargetInstance,
-		c.BronzeGCPComputeTargetPool, c.BronzeGCPComputeTargetSslProxy,
-		c.BronzeGCPComputeTargetTcpProxy, c.BronzeGCPComputeUrlMap,
-		c.BronzeGCPContainerCluster, c.BronzeGCPContainerClusterAddon,
-		c.BronzeGCPContainerClusterCondition, c.BronzeGCPContainerClusterLabel,
-		c.BronzeGCPContainerClusterNodePool, c.BronzeGCPIAMServiceAccount,
-		c.BronzeGCPIAMServiceAccountKey, c.BronzeGCPProject, c.BronzeGCPProjectLabel,
-		c.BronzeGCPVPCAccessConnector, c.BronzeGCPVPNGateway,
-		c.BronzeGCPVPNGatewayLabel, c.BronzeGCPVPNTargetGateway,
+		c.BronzeGCPComputeSnapshotLicense, c.BronzeGCPComputeSslPolicy,
+		c.BronzeGCPComputeSubnetwork, c.BronzeGCPComputeSubnetworkSecondaryRange,
+		c.BronzeGCPComputeTargetHttpProxy, c.BronzeGCPComputeTargetHttpsProxy,
+		c.BronzeGCPComputeTargetInstance, c.BronzeGCPComputeTargetPool,
+		c.BronzeGCPComputeTargetSslProxy, c.BronzeGCPComputeTargetTcpProxy,
+		c.BronzeGCPComputeUrlMap, c.BronzeGCPContainerCluster,
+		c.BronzeGCPContainerClusterAddon, c.BronzeGCPContainerClusterCondition,
+		c.BronzeGCPContainerClusterLabel, c.BronzeGCPContainerClusterNodePool,
+		c.BronzeGCPIAMServiceAccount, c.BronzeGCPIAMServiceAccountKey,
+		c.BronzeGCPProject, c.BronzeGCPProjectLabel, c.BronzeGCPVPCAccessConnector,
+		c.BronzeGCPVPNGateway, c.BronzeGCPVPNGatewayLabel, c.BronzeGCPVPNTargetGateway,
 		c.BronzeGCPVPNTargetGatewayLabel, c.BronzeGCPVPNTunnel,
 		c.BronzeGCPVPNTunnelLabel, c.BronzeHistoryAWSEC2Instance,
 		c.BronzeHistoryAWSEC2InstanceTag, c.BronzeHistoryDOVpc,
@@ -1170,6 +1252,8 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.BronzeHistoryGCPComputeBackendService,
 		c.BronzeHistoryGCPComputeBackendServiceBackend, c.BronzeHistoryGCPComputeDisk,
 		c.BronzeHistoryGCPComputeDiskLabel, c.BronzeHistoryGCPComputeDiskLicense,
+		c.BronzeHistoryGCPComputeFirewall, c.BronzeHistoryGCPComputeFirewallAllowed,
+		c.BronzeHistoryGCPComputeFirewallDenied,
 		c.BronzeHistoryGCPComputeForwardingRule,
 		c.BronzeHistoryGCPComputeForwardingRuleLabel,
 		c.BronzeHistoryGCPComputeGlobalAddress,
@@ -1191,9 +1275,11 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.BronzeHistoryGCPComputeInstanceServiceAccount,
 		c.BronzeHistoryGCPComputeInstanceTag, c.BronzeHistoryGCPComputeNeg,
 		c.BronzeHistoryGCPComputeNegEndpoint, c.BronzeHistoryGCPComputeNetwork,
-		c.BronzeHistoryGCPComputeNetworkPeering, c.BronzeHistoryGCPComputeSnapshot,
+		c.BronzeHistoryGCPComputeNetworkPeering, c.BronzeHistoryGCPComputeRouter,
+		c.BronzeHistoryGCPComputeSecurityPolicy, c.BronzeHistoryGCPComputeSnapshot,
 		c.BronzeHistoryGCPComputeSnapshotLabel,
-		c.BronzeHistoryGCPComputeSnapshotLicense, c.BronzeHistoryGCPComputeSubnetwork,
+		c.BronzeHistoryGCPComputeSnapshotLicense, c.BronzeHistoryGCPComputeSslPolicy,
+		c.BronzeHistoryGCPComputeSubnetwork,
 		c.BronzeHistoryGCPComputeSubnetworkSecondaryRange,
 		c.BronzeHistoryGCPComputeTargetHttpProxy,
 		c.BronzeHistoryGCPComputeTargetHttpsProxy,
@@ -1242,6 +1328,12 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeGCPComputeDiskLabel.mutate(ctx, m)
 	case *BronzeGCPComputeDiskLicenseMutation:
 		return c.BronzeGCPComputeDiskLicense.mutate(ctx, m)
+	case *BronzeGCPComputeFirewallMutation:
+		return c.BronzeGCPComputeFirewall.mutate(ctx, m)
+	case *BronzeGCPComputeFirewallAllowedMutation:
+		return c.BronzeGCPComputeFirewallAllowed.mutate(ctx, m)
+	case *BronzeGCPComputeFirewallDeniedMutation:
+		return c.BronzeGCPComputeFirewallDenied.mutate(ctx, m)
 	case *BronzeGCPComputeForwardingRuleMutation:
 		return c.BronzeGCPComputeForwardingRule.mutate(ctx, m)
 	case *BronzeGCPComputeForwardingRuleLabelMutation:
@@ -1296,12 +1388,18 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeGCPComputeNetwork.mutate(ctx, m)
 	case *BronzeGCPComputeNetworkPeeringMutation:
 		return c.BronzeGCPComputeNetworkPeering.mutate(ctx, m)
+	case *BronzeGCPComputeRouterMutation:
+		return c.BronzeGCPComputeRouter.mutate(ctx, m)
+	case *BronzeGCPComputeSecurityPolicyMutation:
+		return c.BronzeGCPComputeSecurityPolicy.mutate(ctx, m)
 	case *BronzeGCPComputeSnapshotMutation:
 		return c.BronzeGCPComputeSnapshot.mutate(ctx, m)
 	case *BronzeGCPComputeSnapshotLabelMutation:
 		return c.BronzeGCPComputeSnapshotLabel.mutate(ctx, m)
 	case *BronzeGCPComputeSnapshotLicenseMutation:
 		return c.BronzeGCPComputeSnapshotLicense.mutate(ctx, m)
+	case *BronzeGCPComputeSslPolicyMutation:
+		return c.BronzeGCPComputeSslPolicy.mutate(ctx, m)
 	case *BronzeGCPComputeSubnetworkMutation:
 		return c.BronzeGCPComputeSubnetwork.mutate(ctx, m)
 	case *BronzeGCPComputeSubnetworkSecondaryRangeMutation:
@@ -1372,6 +1470,12 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeHistoryGCPComputeDiskLabel.mutate(ctx, m)
 	case *BronzeHistoryGCPComputeDiskLicenseMutation:
 		return c.BronzeHistoryGCPComputeDiskLicense.mutate(ctx, m)
+	case *BronzeHistoryGCPComputeFirewallMutation:
+		return c.BronzeHistoryGCPComputeFirewall.mutate(ctx, m)
+	case *BronzeHistoryGCPComputeFirewallAllowedMutation:
+		return c.BronzeHistoryGCPComputeFirewallAllowed.mutate(ctx, m)
+	case *BronzeHistoryGCPComputeFirewallDeniedMutation:
+		return c.BronzeHistoryGCPComputeFirewallDenied.mutate(ctx, m)
 	case *BronzeHistoryGCPComputeForwardingRuleMutation:
 		return c.BronzeHistoryGCPComputeForwardingRule.mutate(ctx, m)
 	case *BronzeHistoryGCPComputeForwardingRuleLabelMutation:
@@ -1426,12 +1530,18 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeHistoryGCPComputeNetwork.mutate(ctx, m)
 	case *BronzeHistoryGCPComputeNetworkPeeringMutation:
 		return c.BronzeHistoryGCPComputeNetworkPeering.mutate(ctx, m)
+	case *BronzeHistoryGCPComputeRouterMutation:
+		return c.BronzeHistoryGCPComputeRouter.mutate(ctx, m)
+	case *BronzeHistoryGCPComputeSecurityPolicyMutation:
+		return c.BronzeHistoryGCPComputeSecurityPolicy.mutate(ctx, m)
 	case *BronzeHistoryGCPComputeSnapshotMutation:
 		return c.BronzeHistoryGCPComputeSnapshot.mutate(ctx, m)
 	case *BronzeHistoryGCPComputeSnapshotLabelMutation:
 		return c.BronzeHistoryGCPComputeSnapshotLabel.mutate(ctx, m)
 	case *BronzeHistoryGCPComputeSnapshotLicenseMutation:
 		return c.BronzeHistoryGCPComputeSnapshotLicense.mutate(ctx, m)
+	case *BronzeHistoryGCPComputeSslPolicyMutation:
+		return c.BronzeHistoryGCPComputeSslPolicy.mutate(ctx, m)
 	case *BronzeHistoryGCPComputeSubnetworkMutation:
 		return c.BronzeHistoryGCPComputeSubnetwork.mutate(ctx, m)
 	case *BronzeHistoryGCPComputeSubnetworkSecondaryRangeMutation:
@@ -3032,6 +3142,481 @@ func (c *BronzeGCPComputeDiskLicenseClient) mutate(ctx context.Context, m *Bronz
 		return (&BronzeGCPComputeDiskLicenseDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown BronzeGCPComputeDiskLicense mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPComputeFirewallClient is a client for the BronzeGCPComputeFirewall schema.
+type BronzeGCPComputeFirewallClient struct {
+	config
+}
+
+// NewBronzeGCPComputeFirewallClient returns a client for the BronzeGCPComputeFirewall from the given config.
+func NewBronzeGCPComputeFirewallClient(c config) *BronzeGCPComputeFirewallClient {
+	return &BronzeGCPComputeFirewallClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpcomputefirewall.Hooks(f(g(h())))`.
+func (c *BronzeGCPComputeFirewallClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPComputeFirewall = append(c.hooks.BronzeGCPComputeFirewall, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpcomputefirewall.Intercept(f(g(h())))`.
+func (c *BronzeGCPComputeFirewallClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPComputeFirewall = append(c.inters.BronzeGCPComputeFirewall, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPComputeFirewall entity.
+func (c *BronzeGCPComputeFirewallClient) Create() *BronzeGCPComputeFirewallCreate {
+	mutation := newBronzeGCPComputeFirewallMutation(c.config, OpCreate)
+	return &BronzeGCPComputeFirewallCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPComputeFirewall entities.
+func (c *BronzeGCPComputeFirewallClient) CreateBulk(builders ...*BronzeGCPComputeFirewallCreate) *BronzeGCPComputeFirewallCreateBulk {
+	return &BronzeGCPComputeFirewallCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPComputeFirewallClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPComputeFirewallCreate, int)) *BronzeGCPComputeFirewallCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPComputeFirewallCreateBulk{err: fmt.Errorf("calling to BronzeGCPComputeFirewallClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPComputeFirewallCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPComputeFirewallCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPComputeFirewall.
+func (c *BronzeGCPComputeFirewallClient) Update() *BronzeGCPComputeFirewallUpdate {
+	mutation := newBronzeGCPComputeFirewallMutation(c.config, OpUpdate)
+	return &BronzeGCPComputeFirewallUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPComputeFirewallClient) UpdateOne(_m *BronzeGCPComputeFirewall) *BronzeGCPComputeFirewallUpdateOne {
+	mutation := newBronzeGCPComputeFirewallMutation(c.config, OpUpdateOne, withBronzeGCPComputeFirewall(_m))
+	return &BronzeGCPComputeFirewallUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPComputeFirewallClient) UpdateOneID(id string) *BronzeGCPComputeFirewallUpdateOne {
+	mutation := newBronzeGCPComputeFirewallMutation(c.config, OpUpdateOne, withBronzeGCPComputeFirewallID(id))
+	return &BronzeGCPComputeFirewallUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPComputeFirewall.
+func (c *BronzeGCPComputeFirewallClient) Delete() *BronzeGCPComputeFirewallDelete {
+	mutation := newBronzeGCPComputeFirewallMutation(c.config, OpDelete)
+	return &BronzeGCPComputeFirewallDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPComputeFirewallClient) DeleteOne(_m *BronzeGCPComputeFirewall) *BronzeGCPComputeFirewallDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPComputeFirewallClient) DeleteOneID(id string) *BronzeGCPComputeFirewallDeleteOne {
+	builder := c.Delete().Where(bronzegcpcomputefirewall.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPComputeFirewallDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPComputeFirewall.
+func (c *BronzeGCPComputeFirewallClient) Query() *BronzeGCPComputeFirewallQuery {
+	return &BronzeGCPComputeFirewallQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPComputeFirewall},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPComputeFirewall entity by its id.
+func (c *BronzeGCPComputeFirewallClient) Get(ctx context.Context, id string) (*BronzeGCPComputeFirewall, error) {
+	return c.Query().Where(bronzegcpcomputefirewall.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPComputeFirewallClient) GetX(ctx context.Context, id string) *BronzeGCPComputeFirewall {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryAllowed queries the allowed edge of a BronzeGCPComputeFirewall.
+func (c *BronzeGCPComputeFirewallClient) QueryAllowed(_m *BronzeGCPComputeFirewall) *BronzeGCPComputeFirewallAllowedQuery {
+	query := (&BronzeGCPComputeFirewallAllowedClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegcpcomputefirewall.Table, bronzegcpcomputefirewall.FieldID, id),
+			sqlgraph.To(bronzegcpcomputefirewallallowed.Table, bronzegcpcomputefirewallallowed.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, bronzegcpcomputefirewall.AllowedTable, bronzegcpcomputefirewall.AllowedColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGCPComputeFirewallAllowed
+		step.Edge.Schema = schemaConfig.BronzeGCPComputeFirewallAllowed
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryDenied queries the denied edge of a BronzeGCPComputeFirewall.
+func (c *BronzeGCPComputeFirewallClient) QueryDenied(_m *BronzeGCPComputeFirewall) *BronzeGCPComputeFirewallDeniedQuery {
+	query := (&BronzeGCPComputeFirewallDeniedClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegcpcomputefirewall.Table, bronzegcpcomputefirewall.FieldID, id),
+			sqlgraph.To(bronzegcpcomputefirewalldenied.Table, bronzegcpcomputefirewalldenied.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, bronzegcpcomputefirewall.DeniedTable, bronzegcpcomputefirewall.DeniedColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGCPComputeFirewallDenied
+		step.Edge.Schema = schemaConfig.BronzeGCPComputeFirewallDenied
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPComputeFirewallClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPComputeFirewall
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPComputeFirewallClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPComputeFirewall
+}
+
+func (c *BronzeGCPComputeFirewallClient) mutate(ctx context.Context, m *BronzeGCPComputeFirewallMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPComputeFirewallCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPComputeFirewallUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPComputeFirewallUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPComputeFirewallDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPComputeFirewall mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPComputeFirewallAllowedClient is a client for the BronzeGCPComputeFirewallAllowed schema.
+type BronzeGCPComputeFirewallAllowedClient struct {
+	config
+}
+
+// NewBronzeGCPComputeFirewallAllowedClient returns a client for the BronzeGCPComputeFirewallAllowed from the given config.
+func NewBronzeGCPComputeFirewallAllowedClient(c config) *BronzeGCPComputeFirewallAllowedClient {
+	return &BronzeGCPComputeFirewallAllowedClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpcomputefirewallallowed.Hooks(f(g(h())))`.
+func (c *BronzeGCPComputeFirewallAllowedClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPComputeFirewallAllowed = append(c.hooks.BronzeGCPComputeFirewallAllowed, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpcomputefirewallallowed.Intercept(f(g(h())))`.
+func (c *BronzeGCPComputeFirewallAllowedClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPComputeFirewallAllowed = append(c.inters.BronzeGCPComputeFirewallAllowed, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPComputeFirewallAllowed entity.
+func (c *BronzeGCPComputeFirewallAllowedClient) Create() *BronzeGCPComputeFirewallAllowedCreate {
+	mutation := newBronzeGCPComputeFirewallAllowedMutation(c.config, OpCreate)
+	return &BronzeGCPComputeFirewallAllowedCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPComputeFirewallAllowed entities.
+func (c *BronzeGCPComputeFirewallAllowedClient) CreateBulk(builders ...*BronzeGCPComputeFirewallAllowedCreate) *BronzeGCPComputeFirewallAllowedCreateBulk {
+	return &BronzeGCPComputeFirewallAllowedCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPComputeFirewallAllowedClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPComputeFirewallAllowedCreate, int)) *BronzeGCPComputeFirewallAllowedCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPComputeFirewallAllowedCreateBulk{err: fmt.Errorf("calling to BronzeGCPComputeFirewallAllowedClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPComputeFirewallAllowedCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPComputeFirewallAllowedCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPComputeFirewallAllowed.
+func (c *BronzeGCPComputeFirewallAllowedClient) Update() *BronzeGCPComputeFirewallAllowedUpdate {
+	mutation := newBronzeGCPComputeFirewallAllowedMutation(c.config, OpUpdate)
+	return &BronzeGCPComputeFirewallAllowedUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPComputeFirewallAllowedClient) UpdateOne(_m *BronzeGCPComputeFirewallAllowed) *BronzeGCPComputeFirewallAllowedUpdateOne {
+	mutation := newBronzeGCPComputeFirewallAllowedMutation(c.config, OpUpdateOne, withBronzeGCPComputeFirewallAllowed(_m))
+	return &BronzeGCPComputeFirewallAllowedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPComputeFirewallAllowedClient) UpdateOneID(id int) *BronzeGCPComputeFirewallAllowedUpdateOne {
+	mutation := newBronzeGCPComputeFirewallAllowedMutation(c.config, OpUpdateOne, withBronzeGCPComputeFirewallAllowedID(id))
+	return &BronzeGCPComputeFirewallAllowedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPComputeFirewallAllowed.
+func (c *BronzeGCPComputeFirewallAllowedClient) Delete() *BronzeGCPComputeFirewallAllowedDelete {
+	mutation := newBronzeGCPComputeFirewallAllowedMutation(c.config, OpDelete)
+	return &BronzeGCPComputeFirewallAllowedDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPComputeFirewallAllowedClient) DeleteOne(_m *BronzeGCPComputeFirewallAllowed) *BronzeGCPComputeFirewallAllowedDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPComputeFirewallAllowedClient) DeleteOneID(id int) *BronzeGCPComputeFirewallAllowedDeleteOne {
+	builder := c.Delete().Where(bronzegcpcomputefirewallallowed.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPComputeFirewallAllowedDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPComputeFirewallAllowed.
+func (c *BronzeGCPComputeFirewallAllowedClient) Query() *BronzeGCPComputeFirewallAllowedQuery {
+	return &BronzeGCPComputeFirewallAllowedQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPComputeFirewallAllowed},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPComputeFirewallAllowed entity by its id.
+func (c *BronzeGCPComputeFirewallAllowedClient) Get(ctx context.Context, id int) (*BronzeGCPComputeFirewallAllowed, error) {
+	return c.Query().Where(bronzegcpcomputefirewallallowed.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPComputeFirewallAllowedClient) GetX(ctx context.Context, id int) *BronzeGCPComputeFirewallAllowed {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryFirewallRef queries the firewall_ref edge of a BronzeGCPComputeFirewallAllowed.
+func (c *BronzeGCPComputeFirewallAllowedClient) QueryFirewallRef(_m *BronzeGCPComputeFirewallAllowed) *BronzeGCPComputeFirewallQuery {
+	query := (&BronzeGCPComputeFirewallClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegcpcomputefirewallallowed.Table, bronzegcpcomputefirewallallowed.FieldID, id),
+			sqlgraph.To(bronzegcpcomputefirewall.Table, bronzegcpcomputefirewall.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, bronzegcpcomputefirewallallowed.FirewallRefTable, bronzegcpcomputefirewallallowed.FirewallRefColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGCPComputeFirewall
+		step.Edge.Schema = schemaConfig.BronzeGCPComputeFirewallAllowed
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPComputeFirewallAllowedClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPComputeFirewallAllowed
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPComputeFirewallAllowedClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPComputeFirewallAllowed
+}
+
+func (c *BronzeGCPComputeFirewallAllowedClient) mutate(ctx context.Context, m *BronzeGCPComputeFirewallAllowedMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPComputeFirewallAllowedCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPComputeFirewallAllowedUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPComputeFirewallAllowedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPComputeFirewallAllowedDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPComputeFirewallAllowed mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPComputeFirewallDeniedClient is a client for the BronzeGCPComputeFirewallDenied schema.
+type BronzeGCPComputeFirewallDeniedClient struct {
+	config
+}
+
+// NewBronzeGCPComputeFirewallDeniedClient returns a client for the BronzeGCPComputeFirewallDenied from the given config.
+func NewBronzeGCPComputeFirewallDeniedClient(c config) *BronzeGCPComputeFirewallDeniedClient {
+	return &BronzeGCPComputeFirewallDeniedClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpcomputefirewalldenied.Hooks(f(g(h())))`.
+func (c *BronzeGCPComputeFirewallDeniedClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPComputeFirewallDenied = append(c.hooks.BronzeGCPComputeFirewallDenied, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpcomputefirewalldenied.Intercept(f(g(h())))`.
+func (c *BronzeGCPComputeFirewallDeniedClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPComputeFirewallDenied = append(c.inters.BronzeGCPComputeFirewallDenied, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPComputeFirewallDenied entity.
+func (c *BronzeGCPComputeFirewallDeniedClient) Create() *BronzeGCPComputeFirewallDeniedCreate {
+	mutation := newBronzeGCPComputeFirewallDeniedMutation(c.config, OpCreate)
+	return &BronzeGCPComputeFirewallDeniedCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPComputeFirewallDenied entities.
+func (c *BronzeGCPComputeFirewallDeniedClient) CreateBulk(builders ...*BronzeGCPComputeFirewallDeniedCreate) *BronzeGCPComputeFirewallDeniedCreateBulk {
+	return &BronzeGCPComputeFirewallDeniedCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPComputeFirewallDeniedClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPComputeFirewallDeniedCreate, int)) *BronzeGCPComputeFirewallDeniedCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPComputeFirewallDeniedCreateBulk{err: fmt.Errorf("calling to BronzeGCPComputeFirewallDeniedClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPComputeFirewallDeniedCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPComputeFirewallDeniedCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPComputeFirewallDenied.
+func (c *BronzeGCPComputeFirewallDeniedClient) Update() *BronzeGCPComputeFirewallDeniedUpdate {
+	mutation := newBronzeGCPComputeFirewallDeniedMutation(c.config, OpUpdate)
+	return &BronzeGCPComputeFirewallDeniedUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPComputeFirewallDeniedClient) UpdateOne(_m *BronzeGCPComputeFirewallDenied) *BronzeGCPComputeFirewallDeniedUpdateOne {
+	mutation := newBronzeGCPComputeFirewallDeniedMutation(c.config, OpUpdateOne, withBronzeGCPComputeFirewallDenied(_m))
+	return &BronzeGCPComputeFirewallDeniedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPComputeFirewallDeniedClient) UpdateOneID(id int) *BronzeGCPComputeFirewallDeniedUpdateOne {
+	mutation := newBronzeGCPComputeFirewallDeniedMutation(c.config, OpUpdateOne, withBronzeGCPComputeFirewallDeniedID(id))
+	return &BronzeGCPComputeFirewallDeniedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPComputeFirewallDenied.
+func (c *BronzeGCPComputeFirewallDeniedClient) Delete() *BronzeGCPComputeFirewallDeniedDelete {
+	mutation := newBronzeGCPComputeFirewallDeniedMutation(c.config, OpDelete)
+	return &BronzeGCPComputeFirewallDeniedDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPComputeFirewallDeniedClient) DeleteOne(_m *BronzeGCPComputeFirewallDenied) *BronzeGCPComputeFirewallDeniedDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPComputeFirewallDeniedClient) DeleteOneID(id int) *BronzeGCPComputeFirewallDeniedDeleteOne {
+	builder := c.Delete().Where(bronzegcpcomputefirewalldenied.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPComputeFirewallDeniedDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPComputeFirewallDenied.
+func (c *BronzeGCPComputeFirewallDeniedClient) Query() *BronzeGCPComputeFirewallDeniedQuery {
+	return &BronzeGCPComputeFirewallDeniedQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPComputeFirewallDenied},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPComputeFirewallDenied entity by its id.
+func (c *BronzeGCPComputeFirewallDeniedClient) Get(ctx context.Context, id int) (*BronzeGCPComputeFirewallDenied, error) {
+	return c.Query().Where(bronzegcpcomputefirewalldenied.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPComputeFirewallDeniedClient) GetX(ctx context.Context, id int) *BronzeGCPComputeFirewallDenied {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryFirewallRef queries the firewall_ref edge of a BronzeGCPComputeFirewallDenied.
+func (c *BronzeGCPComputeFirewallDeniedClient) QueryFirewallRef(_m *BronzeGCPComputeFirewallDenied) *BronzeGCPComputeFirewallQuery {
+	query := (&BronzeGCPComputeFirewallClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegcpcomputefirewalldenied.Table, bronzegcpcomputefirewalldenied.FieldID, id),
+			sqlgraph.To(bronzegcpcomputefirewall.Table, bronzegcpcomputefirewall.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, bronzegcpcomputefirewalldenied.FirewallRefTable, bronzegcpcomputefirewalldenied.FirewallRefColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGCPComputeFirewall
+		step.Edge.Schema = schemaConfig.BronzeGCPComputeFirewallDenied
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPComputeFirewallDeniedClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPComputeFirewallDenied
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPComputeFirewallDeniedClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPComputeFirewallDenied
+}
+
+func (c *BronzeGCPComputeFirewallDeniedClient) mutate(ctx context.Context, m *BronzeGCPComputeFirewallDeniedMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPComputeFirewallDeniedCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPComputeFirewallDeniedUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPComputeFirewallDeniedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPComputeFirewallDeniedDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPComputeFirewallDenied mutation op: %q", m.Op())
 	}
 }
 
@@ -7272,6 +7857,272 @@ func (c *BronzeGCPComputeNetworkPeeringClient) mutate(ctx context.Context, m *Br
 	}
 }
 
+// BronzeGCPComputeRouterClient is a client for the BronzeGCPComputeRouter schema.
+type BronzeGCPComputeRouterClient struct {
+	config
+}
+
+// NewBronzeGCPComputeRouterClient returns a client for the BronzeGCPComputeRouter from the given config.
+func NewBronzeGCPComputeRouterClient(c config) *BronzeGCPComputeRouterClient {
+	return &BronzeGCPComputeRouterClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpcomputerouter.Hooks(f(g(h())))`.
+func (c *BronzeGCPComputeRouterClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPComputeRouter = append(c.hooks.BronzeGCPComputeRouter, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpcomputerouter.Intercept(f(g(h())))`.
+func (c *BronzeGCPComputeRouterClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPComputeRouter = append(c.inters.BronzeGCPComputeRouter, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPComputeRouter entity.
+func (c *BronzeGCPComputeRouterClient) Create() *BronzeGCPComputeRouterCreate {
+	mutation := newBronzeGCPComputeRouterMutation(c.config, OpCreate)
+	return &BronzeGCPComputeRouterCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPComputeRouter entities.
+func (c *BronzeGCPComputeRouterClient) CreateBulk(builders ...*BronzeGCPComputeRouterCreate) *BronzeGCPComputeRouterCreateBulk {
+	return &BronzeGCPComputeRouterCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPComputeRouterClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPComputeRouterCreate, int)) *BronzeGCPComputeRouterCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPComputeRouterCreateBulk{err: fmt.Errorf("calling to BronzeGCPComputeRouterClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPComputeRouterCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPComputeRouterCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPComputeRouter.
+func (c *BronzeGCPComputeRouterClient) Update() *BronzeGCPComputeRouterUpdate {
+	mutation := newBronzeGCPComputeRouterMutation(c.config, OpUpdate)
+	return &BronzeGCPComputeRouterUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPComputeRouterClient) UpdateOne(_m *BronzeGCPComputeRouter) *BronzeGCPComputeRouterUpdateOne {
+	mutation := newBronzeGCPComputeRouterMutation(c.config, OpUpdateOne, withBronzeGCPComputeRouter(_m))
+	return &BronzeGCPComputeRouterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPComputeRouterClient) UpdateOneID(id string) *BronzeGCPComputeRouterUpdateOne {
+	mutation := newBronzeGCPComputeRouterMutation(c.config, OpUpdateOne, withBronzeGCPComputeRouterID(id))
+	return &BronzeGCPComputeRouterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPComputeRouter.
+func (c *BronzeGCPComputeRouterClient) Delete() *BronzeGCPComputeRouterDelete {
+	mutation := newBronzeGCPComputeRouterMutation(c.config, OpDelete)
+	return &BronzeGCPComputeRouterDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPComputeRouterClient) DeleteOne(_m *BronzeGCPComputeRouter) *BronzeGCPComputeRouterDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPComputeRouterClient) DeleteOneID(id string) *BronzeGCPComputeRouterDeleteOne {
+	builder := c.Delete().Where(bronzegcpcomputerouter.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPComputeRouterDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPComputeRouter.
+func (c *BronzeGCPComputeRouterClient) Query() *BronzeGCPComputeRouterQuery {
+	return &BronzeGCPComputeRouterQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPComputeRouter},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPComputeRouter entity by its id.
+func (c *BronzeGCPComputeRouterClient) Get(ctx context.Context, id string) (*BronzeGCPComputeRouter, error) {
+	return c.Query().Where(bronzegcpcomputerouter.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPComputeRouterClient) GetX(ctx context.Context, id string) *BronzeGCPComputeRouter {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPComputeRouterClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPComputeRouter
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPComputeRouterClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPComputeRouter
+}
+
+func (c *BronzeGCPComputeRouterClient) mutate(ctx context.Context, m *BronzeGCPComputeRouterMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPComputeRouterCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPComputeRouterUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPComputeRouterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPComputeRouterDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPComputeRouter mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPComputeSecurityPolicyClient is a client for the BronzeGCPComputeSecurityPolicy schema.
+type BronzeGCPComputeSecurityPolicyClient struct {
+	config
+}
+
+// NewBronzeGCPComputeSecurityPolicyClient returns a client for the BronzeGCPComputeSecurityPolicy from the given config.
+func NewBronzeGCPComputeSecurityPolicyClient(c config) *BronzeGCPComputeSecurityPolicyClient {
+	return &BronzeGCPComputeSecurityPolicyClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpcomputesecuritypolicy.Hooks(f(g(h())))`.
+func (c *BronzeGCPComputeSecurityPolicyClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPComputeSecurityPolicy = append(c.hooks.BronzeGCPComputeSecurityPolicy, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpcomputesecuritypolicy.Intercept(f(g(h())))`.
+func (c *BronzeGCPComputeSecurityPolicyClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPComputeSecurityPolicy = append(c.inters.BronzeGCPComputeSecurityPolicy, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPComputeSecurityPolicy entity.
+func (c *BronzeGCPComputeSecurityPolicyClient) Create() *BronzeGCPComputeSecurityPolicyCreate {
+	mutation := newBronzeGCPComputeSecurityPolicyMutation(c.config, OpCreate)
+	return &BronzeGCPComputeSecurityPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPComputeSecurityPolicy entities.
+func (c *BronzeGCPComputeSecurityPolicyClient) CreateBulk(builders ...*BronzeGCPComputeSecurityPolicyCreate) *BronzeGCPComputeSecurityPolicyCreateBulk {
+	return &BronzeGCPComputeSecurityPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPComputeSecurityPolicyClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPComputeSecurityPolicyCreate, int)) *BronzeGCPComputeSecurityPolicyCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPComputeSecurityPolicyCreateBulk{err: fmt.Errorf("calling to BronzeGCPComputeSecurityPolicyClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPComputeSecurityPolicyCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPComputeSecurityPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPComputeSecurityPolicy.
+func (c *BronzeGCPComputeSecurityPolicyClient) Update() *BronzeGCPComputeSecurityPolicyUpdate {
+	mutation := newBronzeGCPComputeSecurityPolicyMutation(c.config, OpUpdate)
+	return &BronzeGCPComputeSecurityPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPComputeSecurityPolicyClient) UpdateOne(_m *BronzeGCPComputeSecurityPolicy) *BronzeGCPComputeSecurityPolicyUpdateOne {
+	mutation := newBronzeGCPComputeSecurityPolicyMutation(c.config, OpUpdateOne, withBronzeGCPComputeSecurityPolicy(_m))
+	return &BronzeGCPComputeSecurityPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPComputeSecurityPolicyClient) UpdateOneID(id string) *BronzeGCPComputeSecurityPolicyUpdateOne {
+	mutation := newBronzeGCPComputeSecurityPolicyMutation(c.config, OpUpdateOne, withBronzeGCPComputeSecurityPolicyID(id))
+	return &BronzeGCPComputeSecurityPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPComputeSecurityPolicy.
+func (c *BronzeGCPComputeSecurityPolicyClient) Delete() *BronzeGCPComputeSecurityPolicyDelete {
+	mutation := newBronzeGCPComputeSecurityPolicyMutation(c.config, OpDelete)
+	return &BronzeGCPComputeSecurityPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPComputeSecurityPolicyClient) DeleteOne(_m *BronzeGCPComputeSecurityPolicy) *BronzeGCPComputeSecurityPolicyDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPComputeSecurityPolicyClient) DeleteOneID(id string) *BronzeGCPComputeSecurityPolicyDeleteOne {
+	builder := c.Delete().Where(bronzegcpcomputesecuritypolicy.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPComputeSecurityPolicyDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPComputeSecurityPolicy.
+func (c *BronzeGCPComputeSecurityPolicyClient) Query() *BronzeGCPComputeSecurityPolicyQuery {
+	return &BronzeGCPComputeSecurityPolicyQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPComputeSecurityPolicy},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPComputeSecurityPolicy entity by its id.
+func (c *BronzeGCPComputeSecurityPolicyClient) Get(ctx context.Context, id string) (*BronzeGCPComputeSecurityPolicy, error) {
+	return c.Query().Where(bronzegcpcomputesecuritypolicy.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPComputeSecurityPolicyClient) GetX(ctx context.Context, id string) *BronzeGCPComputeSecurityPolicy {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPComputeSecurityPolicyClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPComputeSecurityPolicy
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPComputeSecurityPolicyClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPComputeSecurityPolicy
+}
+
+func (c *BronzeGCPComputeSecurityPolicyClient) mutate(ctx context.Context, m *BronzeGCPComputeSecurityPolicyMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPComputeSecurityPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPComputeSecurityPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPComputeSecurityPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPComputeSecurityPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPComputeSecurityPolicy mutation op: %q", m.Op())
+	}
+}
+
 // BronzeGCPComputeSnapshotClient is a client for the BronzeGCPComputeSnapshot schema.
 type BronzeGCPComputeSnapshotClient struct {
 	config
@@ -7744,6 +8595,139 @@ func (c *BronzeGCPComputeSnapshotLicenseClient) mutate(ctx context.Context, m *B
 		return (&BronzeGCPComputeSnapshotLicenseDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown BronzeGCPComputeSnapshotLicense mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGCPComputeSslPolicyClient is a client for the BronzeGCPComputeSslPolicy schema.
+type BronzeGCPComputeSslPolicyClient struct {
+	config
+}
+
+// NewBronzeGCPComputeSslPolicyClient returns a client for the BronzeGCPComputeSslPolicy from the given config.
+func NewBronzeGCPComputeSslPolicyClient(c config) *BronzeGCPComputeSslPolicyClient {
+	return &BronzeGCPComputeSslPolicyClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegcpcomputesslpolicy.Hooks(f(g(h())))`.
+func (c *BronzeGCPComputeSslPolicyClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGCPComputeSslPolicy = append(c.hooks.BronzeGCPComputeSslPolicy, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegcpcomputesslpolicy.Intercept(f(g(h())))`.
+func (c *BronzeGCPComputeSslPolicyClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGCPComputeSslPolicy = append(c.inters.BronzeGCPComputeSslPolicy, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGCPComputeSslPolicy entity.
+func (c *BronzeGCPComputeSslPolicyClient) Create() *BronzeGCPComputeSslPolicyCreate {
+	mutation := newBronzeGCPComputeSslPolicyMutation(c.config, OpCreate)
+	return &BronzeGCPComputeSslPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGCPComputeSslPolicy entities.
+func (c *BronzeGCPComputeSslPolicyClient) CreateBulk(builders ...*BronzeGCPComputeSslPolicyCreate) *BronzeGCPComputeSslPolicyCreateBulk {
+	return &BronzeGCPComputeSslPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGCPComputeSslPolicyClient) MapCreateBulk(slice any, setFunc func(*BronzeGCPComputeSslPolicyCreate, int)) *BronzeGCPComputeSslPolicyCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGCPComputeSslPolicyCreateBulk{err: fmt.Errorf("calling to BronzeGCPComputeSslPolicyClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGCPComputeSslPolicyCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGCPComputeSslPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGCPComputeSslPolicy.
+func (c *BronzeGCPComputeSslPolicyClient) Update() *BronzeGCPComputeSslPolicyUpdate {
+	mutation := newBronzeGCPComputeSslPolicyMutation(c.config, OpUpdate)
+	return &BronzeGCPComputeSslPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGCPComputeSslPolicyClient) UpdateOne(_m *BronzeGCPComputeSslPolicy) *BronzeGCPComputeSslPolicyUpdateOne {
+	mutation := newBronzeGCPComputeSslPolicyMutation(c.config, OpUpdateOne, withBronzeGCPComputeSslPolicy(_m))
+	return &BronzeGCPComputeSslPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGCPComputeSslPolicyClient) UpdateOneID(id string) *BronzeGCPComputeSslPolicyUpdateOne {
+	mutation := newBronzeGCPComputeSslPolicyMutation(c.config, OpUpdateOne, withBronzeGCPComputeSslPolicyID(id))
+	return &BronzeGCPComputeSslPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGCPComputeSslPolicy.
+func (c *BronzeGCPComputeSslPolicyClient) Delete() *BronzeGCPComputeSslPolicyDelete {
+	mutation := newBronzeGCPComputeSslPolicyMutation(c.config, OpDelete)
+	return &BronzeGCPComputeSslPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGCPComputeSslPolicyClient) DeleteOne(_m *BronzeGCPComputeSslPolicy) *BronzeGCPComputeSslPolicyDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGCPComputeSslPolicyClient) DeleteOneID(id string) *BronzeGCPComputeSslPolicyDeleteOne {
+	builder := c.Delete().Where(bronzegcpcomputesslpolicy.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGCPComputeSslPolicyDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGCPComputeSslPolicy.
+func (c *BronzeGCPComputeSslPolicyClient) Query() *BronzeGCPComputeSslPolicyQuery {
+	return &BronzeGCPComputeSslPolicyQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGCPComputeSslPolicy},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGCPComputeSslPolicy entity by its id.
+func (c *BronzeGCPComputeSslPolicyClient) Get(ctx context.Context, id string) (*BronzeGCPComputeSslPolicy, error) {
+	return c.Query().Where(bronzegcpcomputesslpolicy.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGCPComputeSslPolicyClient) GetX(ctx context.Context, id string) *BronzeGCPComputeSslPolicy {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGCPComputeSslPolicyClient) Hooks() []Hook {
+	return c.hooks.BronzeGCPComputeSslPolicy
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGCPComputeSslPolicyClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGCPComputeSslPolicy
+}
+
+func (c *BronzeGCPComputeSslPolicyClient) mutate(ctx context.Context, m *BronzeGCPComputeSslPolicyMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGCPComputeSslPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGCPComputeSslPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGCPComputeSslPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGCPComputeSslPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGCPComputeSslPolicy mutation op: %q", m.Op())
 	}
 }
 
@@ -12744,6 +13728,405 @@ func (c *BronzeHistoryGCPComputeDiskLicenseClient) mutate(ctx context.Context, m
 	}
 }
 
+// BronzeHistoryGCPComputeFirewallClient is a client for the BronzeHistoryGCPComputeFirewall schema.
+type BronzeHistoryGCPComputeFirewallClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPComputeFirewallClient returns a client for the BronzeHistoryGCPComputeFirewall from the given config.
+func NewBronzeHistoryGCPComputeFirewallClient(c config) *BronzeHistoryGCPComputeFirewallClient {
+	return &BronzeHistoryGCPComputeFirewallClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpcomputefirewall.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPComputeFirewallClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPComputeFirewall = append(c.hooks.BronzeHistoryGCPComputeFirewall, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpcomputefirewall.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPComputeFirewallClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPComputeFirewall = append(c.inters.BronzeHistoryGCPComputeFirewall, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPComputeFirewall entity.
+func (c *BronzeHistoryGCPComputeFirewallClient) Create() *BronzeHistoryGCPComputeFirewallCreate {
+	mutation := newBronzeHistoryGCPComputeFirewallMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPComputeFirewallCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPComputeFirewall entities.
+func (c *BronzeHistoryGCPComputeFirewallClient) CreateBulk(builders ...*BronzeHistoryGCPComputeFirewallCreate) *BronzeHistoryGCPComputeFirewallCreateBulk {
+	return &BronzeHistoryGCPComputeFirewallCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPComputeFirewallClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPComputeFirewallCreate, int)) *BronzeHistoryGCPComputeFirewallCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPComputeFirewallCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPComputeFirewallClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPComputeFirewallCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPComputeFirewallCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPComputeFirewall.
+func (c *BronzeHistoryGCPComputeFirewallClient) Update() *BronzeHistoryGCPComputeFirewallUpdate {
+	mutation := newBronzeHistoryGCPComputeFirewallMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPComputeFirewallUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPComputeFirewallClient) UpdateOne(_m *BronzeHistoryGCPComputeFirewall) *BronzeHistoryGCPComputeFirewallUpdateOne {
+	mutation := newBronzeHistoryGCPComputeFirewallMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeFirewall(_m))
+	return &BronzeHistoryGCPComputeFirewallUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPComputeFirewallClient) UpdateOneID(id int) *BronzeHistoryGCPComputeFirewallUpdateOne {
+	mutation := newBronzeHistoryGCPComputeFirewallMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeFirewallID(id))
+	return &BronzeHistoryGCPComputeFirewallUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPComputeFirewall.
+func (c *BronzeHistoryGCPComputeFirewallClient) Delete() *BronzeHistoryGCPComputeFirewallDelete {
+	mutation := newBronzeHistoryGCPComputeFirewallMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPComputeFirewallDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPComputeFirewallClient) DeleteOne(_m *BronzeHistoryGCPComputeFirewall) *BronzeHistoryGCPComputeFirewallDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPComputeFirewallClient) DeleteOneID(id int) *BronzeHistoryGCPComputeFirewallDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpcomputefirewall.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPComputeFirewallDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPComputeFirewall.
+func (c *BronzeHistoryGCPComputeFirewallClient) Query() *BronzeHistoryGCPComputeFirewallQuery {
+	return &BronzeHistoryGCPComputeFirewallQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPComputeFirewall},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPComputeFirewall entity by its id.
+func (c *BronzeHistoryGCPComputeFirewallClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeFirewall, error) {
+	return c.Query().Where(bronzehistorygcpcomputefirewall.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPComputeFirewallClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeFirewall {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPComputeFirewallClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPComputeFirewall
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPComputeFirewallClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPComputeFirewall
+}
+
+func (c *BronzeHistoryGCPComputeFirewallClient) mutate(ctx context.Context, m *BronzeHistoryGCPComputeFirewallMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPComputeFirewallCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPComputeFirewallUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPComputeFirewallUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPComputeFirewallDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPComputeFirewall mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPComputeFirewallAllowedClient is a client for the BronzeHistoryGCPComputeFirewallAllowed schema.
+type BronzeHistoryGCPComputeFirewallAllowedClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPComputeFirewallAllowedClient returns a client for the BronzeHistoryGCPComputeFirewallAllowed from the given config.
+func NewBronzeHistoryGCPComputeFirewallAllowedClient(c config) *BronzeHistoryGCPComputeFirewallAllowedClient {
+	return &BronzeHistoryGCPComputeFirewallAllowedClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpcomputefirewallallowed.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPComputeFirewallAllowed = append(c.hooks.BronzeHistoryGCPComputeFirewallAllowed, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpcomputefirewallallowed.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPComputeFirewallAllowed = append(c.inters.BronzeHistoryGCPComputeFirewallAllowed, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPComputeFirewallAllowed entity.
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) Create() *BronzeHistoryGCPComputeFirewallAllowedCreate {
+	mutation := newBronzeHistoryGCPComputeFirewallAllowedMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPComputeFirewallAllowedCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPComputeFirewallAllowed entities.
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) CreateBulk(builders ...*BronzeHistoryGCPComputeFirewallAllowedCreate) *BronzeHistoryGCPComputeFirewallAllowedCreateBulk {
+	return &BronzeHistoryGCPComputeFirewallAllowedCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPComputeFirewallAllowedCreate, int)) *BronzeHistoryGCPComputeFirewallAllowedCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPComputeFirewallAllowedCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPComputeFirewallAllowedClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPComputeFirewallAllowedCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPComputeFirewallAllowedCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPComputeFirewallAllowed.
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) Update() *BronzeHistoryGCPComputeFirewallAllowedUpdate {
+	mutation := newBronzeHistoryGCPComputeFirewallAllowedMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPComputeFirewallAllowedUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) UpdateOne(_m *BronzeHistoryGCPComputeFirewallAllowed) *BronzeHistoryGCPComputeFirewallAllowedUpdateOne {
+	mutation := newBronzeHistoryGCPComputeFirewallAllowedMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeFirewallAllowed(_m))
+	return &BronzeHistoryGCPComputeFirewallAllowedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) UpdateOneID(id int) *BronzeHistoryGCPComputeFirewallAllowedUpdateOne {
+	mutation := newBronzeHistoryGCPComputeFirewallAllowedMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeFirewallAllowedID(id))
+	return &BronzeHistoryGCPComputeFirewallAllowedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPComputeFirewallAllowed.
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) Delete() *BronzeHistoryGCPComputeFirewallAllowedDelete {
+	mutation := newBronzeHistoryGCPComputeFirewallAllowedMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPComputeFirewallAllowedDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) DeleteOne(_m *BronzeHistoryGCPComputeFirewallAllowed) *BronzeHistoryGCPComputeFirewallAllowedDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) DeleteOneID(id int) *BronzeHistoryGCPComputeFirewallAllowedDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpcomputefirewallallowed.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPComputeFirewallAllowedDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPComputeFirewallAllowed.
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) Query() *BronzeHistoryGCPComputeFirewallAllowedQuery {
+	return &BronzeHistoryGCPComputeFirewallAllowedQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPComputeFirewallAllowed},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPComputeFirewallAllowed entity by its id.
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeFirewallAllowed, error) {
+	return c.Query().Where(bronzehistorygcpcomputefirewallallowed.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeFirewallAllowed {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPComputeFirewallAllowed
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPComputeFirewallAllowed
+}
+
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) mutate(ctx context.Context, m *BronzeHistoryGCPComputeFirewallAllowedMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPComputeFirewallAllowedCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPComputeFirewallAllowedUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPComputeFirewallAllowedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPComputeFirewallAllowedDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPComputeFirewallAllowed mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPComputeFirewallDeniedClient is a client for the BronzeHistoryGCPComputeFirewallDenied schema.
+type BronzeHistoryGCPComputeFirewallDeniedClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPComputeFirewallDeniedClient returns a client for the BronzeHistoryGCPComputeFirewallDenied from the given config.
+func NewBronzeHistoryGCPComputeFirewallDeniedClient(c config) *BronzeHistoryGCPComputeFirewallDeniedClient {
+	return &BronzeHistoryGCPComputeFirewallDeniedClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpcomputefirewalldenied.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPComputeFirewallDenied = append(c.hooks.BronzeHistoryGCPComputeFirewallDenied, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpcomputefirewalldenied.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPComputeFirewallDenied = append(c.inters.BronzeHistoryGCPComputeFirewallDenied, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPComputeFirewallDenied entity.
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) Create() *BronzeHistoryGCPComputeFirewallDeniedCreate {
+	mutation := newBronzeHistoryGCPComputeFirewallDeniedMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPComputeFirewallDeniedCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPComputeFirewallDenied entities.
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) CreateBulk(builders ...*BronzeHistoryGCPComputeFirewallDeniedCreate) *BronzeHistoryGCPComputeFirewallDeniedCreateBulk {
+	return &BronzeHistoryGCPComputeFirewallDeniedCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPComputeFirewallDeniedCreate, int)) *BronzeHistoryGCPComputeFirewallDeniedCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPComputeFirewallDeniedCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPComputeFirewallDeniedClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPComputeFirewallDeniedCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPComputeFirewallDeniedCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPComputeFirewallDenied.
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) Update() *BronzeHistoryGCPComputeFirewallDeniedUpdate {
+	mutation := newBronzeHistoryGCPComputeFirewallDeniedMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPComputeFirewallDeniedUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) UpdateOne(_m *BronzeHistoryGCPComputeFirewallDenied) *BronzeHistoryGCPComputeFirewallDeniedUpdateOne {
+	mutation := newBronzeHistoryGCPComputeFirewallDeniedMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeFirewallDenied(_m))
+	return &BronzeHistoryGCPComputeFirewallDeniedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) UpdateOneID(id int) *BronzeHistoryGCPComputeFirewallDeniedUpdateOne {
+	mutation := newBronzeHistoryGCPComputeFirewallDeniedMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeFirewallDeniedID(id))
+	return &BronzeHistoryGCPComputeFirewallDeniedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPComputeFirewallDenied.
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) Delete() *BronzeHistoryGCPComputeFirewallDeniedDelete {
+	mutation := newBronzeHistoryGCPComputeFirewallDeniedMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPComputeFirewallDeniedDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) DeleteOne(_m *BronzeHistoryGCPComputeFirewallDenied) *BronzeHistoryGCPComputeFirewallDeniedDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) DeleteOneID(id int) *BronzeHistoryGCPComputeFirewallDeniedDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpcomputefirewalldenied.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPComputeFirewallDeniedDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPComputeFirewallDenied.
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) Query() *BronzeHistoryGCPComputeFirewallDeniedQuery {
+	return &BronzeHistoryGCPComputeFirewallDeniedQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPComputeFirewallDenied},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPComputeFirewallDenied entity by its id.
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeFirewallDenied, error) {
+	return c.Query().Where(bronzehistorygcpcomputefirewalldenied.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeFirewallDenied {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPComputeFirewallDenied
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPComputeFirewallDenied
+}
+
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) mutate(ctx context.Context, m *BronzeHistoryGCPComputeFirewallDeniedMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPComputeFirewallDeniedCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPComputeFirewallDeniedUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPComputeFirewallDeniedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPComputeFirewallDeniedDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPComputeFirewallDenied mutation op: %q", m.Op())
+	}
+}
+
 // BronzeHistoryGCPComputeForwardingRuleClient is a client for the BronzeHistoryGCPComputeForwardingRule schema.
 type BronzeHistoryGCPComputeForwardingRuleClient struct {
 	config
@@ -16335,6 +17718,272 @@ func (c *BronzeHistoryGCPComputeNetworkPeeringClient) mutate(ctx context.Context
 	}
 }
 
+// BronzeHistoryGCPComputeRouterClient is a client for the BronzeHistoryGCPComputeRouter schema.
+type BronzeHistoryGCPComputeRouterClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPComputeRouterClient returns a client for the BronzeHistoryGCPComputeRouter from the given config.
+func NewBronzeHistoryGCPComputeRouterClient(c config) *BronzeHistoryGCPComputeRouterClient {
+	return &BronzeHistoryGCPComputeRouterClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpcomputerouter.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPComputeRouterClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPComputeRouter = append(c.hooks.BronzeHistoryGCPComputeRouter, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpcomputerouter.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPComputeRouterClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPComputeRouter = append(c.inters.BronzeHistoryGCPComputeRouter, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPComputeRouter entity.
+func (c *BronzeHistoryGCPComputeRouterClient) Create() *BronzeHistoryGCPComputeRouterCreate {
+	mutation := newBronzeHistoryGCPComputeRouterMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPComputeRouterCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPComputeRouter entities.
+func (c *BronzeHistoryGCPComputeRouterClient) CreateBulk(builders ...*BronzeHistoryGCPComputeRouterCreate) *BronzeHistoryGCPComputeRouterCreateBulk {
+	return &BronzeHistoryGCPComputeRouterCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPComputeRouterClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPComputeRouterCreate, int)) *BronzeHistoryGCPComputeRouterCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPComputeRouterCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPComputeRouterClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPComputeRouterCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPComputeRouterCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPComputeRouter.
+func (c *BronzeHistoryGCPComputeRouterClient) Update() *BronzeHistoryGCPComputeRouterUpdate {
+	mutation := newBronzeHistoryGCPComputeRouterMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPComputeRouterUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPComputeRouterClient) UpdateOne(_m *BronzeHistoryGCPComputeRouter) *BronzeHistoryGCPComputeRouterUpdateOne {
+	mutation := newBronzeHistoryGCPComputeRouterMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeRouter(_m))
+	return &BronzeHistoryGCPComputeRouterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPComputeRouterClient) UpdateOneID(id int) *BronzeHistoryGCPComputeRouterUpdateOne {
+	mutation := newBronzeHistoryGCPComputeRouterMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeRouterID(id))
+	return &BronzeHistoryGCPComputeRouterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPComputeRouter.
+func (c *BronzeHistoryGCPComputeRouterClient) Delete() *BronzeHistoryGCPComputeRouterDelete {
+	mutation := newBronzeHistoryGCPComputeRouterMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPComputeRouterDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPComputeRouterClient) DeleteOne(_m *BronzeHistoryGCPComputeRouter) *BronzeHistoryGCPComputeRouterDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPComputeRouterClient) DeleteOneID(id int) *BronzeHistoryGCPComputeRouterDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpcomputerouter.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPComputeRouterDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPComputeRouter.
+func (c *BronzeHistoryGCPComputeRouterClient) Query() *BronzeHistoryGCPComputeRouterQuery {
+	return &BronzeHistoryGCPComputeRouterQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPComputeRouter},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPComputeRouter entity by its id.
+func (c *BronzeHistoryGCPComputeRouterClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeRouter, error) {
+	return c.Query().Where(bronzehistorygcpcomputerouter.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPComputeRouterClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeRouter {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPComputeRouterClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPComputeRouter
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPComputeRouterClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPComputeRouter
+}
+
+func (c *BronzeHistoryGCPComputeRouterClient) mutate(ctx context.Context, m *BronzeHistoryGCPComputeRouterMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPComputeRouterCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPComputeRouterUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPComputeRouterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPComputeRouterDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPComputeRouter mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPComputeSecurityPolicyClient is a client for the BronzeHistoryGCPComputeSecurityPolicy schema.
+type BronzeHistoryGCPComputeSecurityPolicyClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPComputeSecurityPolicyClient returns a client for the BronzeHistoryGCPComputeSecurityPolicy from the given config.
+func NewBronzeHistoryGCPComputeSecurityPolicyClient(c config) *BronzeHistoryGCPComputeSecurityPolicyClient {
+	return &BronzeHistoryGCPComputeSecurityPolicyClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpcomputesecuritypolicy.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPComputeSecurityPolicy = append(c.hooks.BronzeHistoryGCPComputeSecurityPolicy, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpcomputesecuritypolicy.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPComputeSecurityPolicy = append(c.inters.BronzeHistoryGCPComputeSecurityPolicy, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPComputeSecurityPolicy entity.
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) Create() *BronzeHistoryGCPComputeSecurityPolicyCreate {
+	mutation := newBronzeHistoryGCPComputeSecurityPolicyMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPComputeSecurityPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPComputeSecurityPolicy entities.
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) CreateBulk(builders ...*BronzeHistoryGCPComputeSecurityPolicyCreate) *BronzeHistoryGCPComputeSecurityPolicyCreateBulk {
+	return &BronzeHistoryGCPComputeSecurityPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPComputeSecurityPolicyCreate, int)) *BronzeHistoryGCPComputeSecurityPolicyCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPComputeSecurityPolicyCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPComputeSecurityPolicyClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPComputeSecurityPolicyCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPComputeSecurityPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPComputeSecurityPolicy.
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) Update() *BronzeHistoryGCPComputeSecurityPolicyUpdate {
+	mutation := newBronzeHistoryGCPComputeSecurityPolicyMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPComputeSecurityPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) UpdateOne(_m *BronzeHistoryGCPComputeSecurityPolicy) *BronzeHistoryGCPComputeSecurityPolicyUpdateOne {
+	mutation := newBronzeHistoryGCPComputeSecurityPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeSecurityPolicy(_m))
+	return &BronzeHistoryGCPComputeSecurityPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) UpdateOneID(id int) *BronzeHistoryGCPComputeSecurityPolicyUpdateOne {
+	mutation := newBronzeHistoryGCPComputeSecurityPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeSecurityPolicyID(id))
+	return &BronzeHistoryGCPComputeSecurityPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPComputeSecurityPolicy.
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) Delete() *BronzeHistoryGCPComputeSecurityPolicyDelete {
+	mutation := newBronzeHistoryGCPComputeSecurityPolicyMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPComputeSecurityPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) DeleteOne(_m *BronzeHistoryGCPComputeSecurityPolicy) *BronzeHistoryGCPComputeSecurityPolicyDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) DeleteOneID(id int) *BronzeHistoryGCPComputeSecurityPolicyDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpcomputesecuritypolicy.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPComputeSecurityPolicyDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPComputeSecurityPolicy.
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) Query() *BronzeHistoryGCPComputeSecurityPolicyQuery {
+	return &BronzeHistoryGCPComputeSecurityPolicyQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPComputeSecurityPolicy},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPComputeSecurityPolicy entity by its id.
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeSecurityPolicy, error) {
+	return c.Query().Where(bronzehistorygcpcomputesecuritypolicy.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeSecurityPolicy {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPComputeSecurityPolicy
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPComputeSecurityPolicy
+}
+
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) mutate(ctx context.Context, m *BronzeHistoryGCPComputeSecurityPolicyMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPComputeSecurityPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPComputeSecurityPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPComputeSecurityPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPComputeSecurityPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPComputeSecurityPolicy mutation op: %q", m.Op())
+	}
+}
+
 // BronzeHistoryGCPComputeSnapshotClient is a client for the BronzeHistoryGCPComputeSnapshot schema.
 type BronzeHistoryGCPComputeSnapshotClient struct {
 	config
@@ -16731,6 +18380,139 @@ func (c *BronzeHistoryGCPComputeSnapshotLicenseClient) mutate(ctx context.Contex
 		return (&BronzeHistoryGCPComputeSnapshotLicenseDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPComputeSnapshotLicense mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGCPComputeSslPolicyClient is a client for the BronzeHistoryGCPComputeSslPolicy schema.
+type BronzeHistoryGCPComputeSslPolicyClient struct {
+	config
+}
+
+// NewBronzeHistoryGCPComputeSslPolicyClient returns a client for the BronzeHistoryGCPComputeSslPolicy from the given config.
+func NewBronzeHistoryGCPComputeSslPolicyClient(c config) *BronzeHistoryGCPComputeSslPolicyClient {
+	return &BronzeHistoryGCPComputeSslPolicyClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygcpcomputesslpolicy.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGCPComputeSslPolicyClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGCPComputeSslPolicy = append(c.hooks.BronzeHistoryGCPComputeSslPolicy, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygcpcomputesslpolicy.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGCPComputeSslPolicyClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGCPComputeSslPolicy = append(c.inters.BronzeHistoryGCPComputeSslPolicy, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGCPComputeSslPolicy entity.
+func (c *BronzeHistoryGCPComputeSslPolicyClient) Create() *BronzeHistoryGCPComputeSslPolicyCreate {
+	mutation := newBronzeHistoryGCPComputeSslPolicyMutation(c.config, OpCreate)
+	return &BronzeHistoryGCPComputeSslPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGCPComputeSslPolicy entities.
+func (c *BronzeHistoryGCPComputeSslPolicyClient) CreateBulk(builders ...*BronzeHistoryGCPComputeSslPolicyCreate) *BronzeHistoryGCPComputeSslPolicyCreateBulk {
+	return &BronzeHistoryGCPComputeSslPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGCPComputeSslPolicyClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGCPComputeSslPolicyCreate, int)) *BronzeHistoryGCPComputeSslPolicyCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGCPComputeSslPolicyCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGCPComputeSslPolicyClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGCPComputeSslPolicyCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGCPComputeSslPolicyCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGCPComputeSslPolicy.
+func (c *BronzeHistoryGCPComputeSslPolicyClient) Update() *BronzeHistoryGCPComputeSslPolicyUpdate {
+	mutation := newBronzeHistoryGCPComputeSslPolicyMutation(c.config, OpUpdate)
+	return &BronzeHistoryGCPComputeSslPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGCPComputeSslPolicyClient) UpdateOne(_m *BronzeHistoryGCPComputeSslPolicy) *BronzeHistoryGCPComputeSslPolicyUpdateOne {
+	mutation := newBronzeHistoryGCPComputeSslPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeSslPolicy(_m))
+	return &BronzeHistoryGCPComputeSslPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGCPComputeSslPolicyClient) UpdateOneID(id int) *BronzeHistoryGCPComputeSslPolicyUpdateOne {
+	mutation := newBronzeHistoryGCPComputeSslPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeSslPolicyID(id))
+	return &BronzeHistoryGCPComputeSslPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGCPComputeSslPolicy.
+func (c *BronzeHistoryGCPComputeSslPolicyClient) Delete() *BronzeHistoryGCPComputeSslPolicyDelete {
+	mutation := newBronzeHistoryGCPComputeSslPolicyMutation(c.config, OpDelete)
+	return &BronzeHistoryGCPComputeSslPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGCPComputeSslPolicyClient) DeleteOne(_m *BronzeHistoryGCPComputeSslPolicy) *BronzeHistoryGCPComputeSslPolicyDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGCPComputeSslPolicyClient) DeleteOneID(id int) *BronzeHistoryGCPComputeSslPolicyDeleteOne {
+	builder := c.Delete().Where(bronzehistorygcpcomputesslpolicy.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGCPComputeSslPolicyDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGCPComputeSslPolicy.
+func (c *BronzeHistoryGCPComputeSslPolicyClient) Query() *BronzeHistoryGCPComputeSslPolicyQuery {
+	return &BronzeHistoryGCPComputeSslPolicyQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGCPComputeSslPolicy},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGCPComputeSslPolicy entity by its id.
+func (c *BronzeHistoryGCPComputeSslPolicyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeSslPolicy, error) {
+	return c.Query().Where(bronzehistorygcpcomputesslpolicy.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGCPComputeSslPolicyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeSslPolicy {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGCPComputeSslPolicyClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGCPComputeSslPolicy
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGCPComputeSslPolicyClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGCPComputeSslPolicy
+}
+
+func (c *BronzeHistoryGCPComputeSslPolicyClient) mutate(ctx context.Context, m *BronzeHistoryGCPComputeSslPolicyMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGCPComputeSslPolicyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGCPComputeSslPolicyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGCPComputeSslPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGCPComputeSslPolicyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGCPComputeSslPolicy mutation op: %q", m.Op())
 	}
 }
 
@@ -21966,9 +23748,10 @@ type (
 		BronzeGCPComputeAddress, BronzeGCPComputeAddressLabel,
 		BronzeGCPComputeBackendService, BronzeGCPComputeBackendServiceBackend,
 		BronzeGCPComputeDisk, BronzeGCPComputeDiskLabel, BronzeGCPComputeDiskLicense,
-		BronzeGCPComputeForwardingRule, BronzeGCPComputeForwardingRuleLabel,
-		BronzeGCPComputeGlobalAddress, BronzeGCPComputeGlobalAddressLabel,
-		BronzeGCPComputeGlobalForwardingRule,
+		BronzeGCPComputeFirewall, BronzeGCPComputeFirewallAllowed,
+		BronzeGCPComputeFirewallDenied, BronzeGCPComputeForwardingRule,
+		BronzeGCPComputeForwardingRuleLabel, BronzeGCPComputeGlobalAddress,
+		BronzeGCPComputeGlobalAddressLabel, BronzeGCPComputeGlobalForwardingRule,
 		BronzeGCPComputeGlobalForwardingRuleLabel, BronzeGCPComputeHealthCheck,
 		BronzeGCPComputeImage, BronzeGCPComputeImageLabel,
 		BronzeGCPComputeImageLicense, BronzeGCPComputeInstance,
@@ -21979,25 +23762,28 @@ type (
 		BronzeGCPComputeInstanceNICAccessConfig, BronzeGCPComputeInstanceNICAliasRange,
 		BronzeGCPComputeInstanceServiceAccount, BronzeGCPComputeInstanceTag,
 		BronzeGCPComputeNeg, BronzeGCPComputeNegEndpoint, BronzeGCPComputeNetwork,
-		BronzeGCPComputeNetworkPeering, BronzeGCPComputeSnapshot,
+		BronzeGCPComputeNetworkPeering, BronzeGCPComputeRouter,
+		BronzeGCPComputeSecurityPolicy, BronzeGCPComputeSnapshot,
 		BronzeGCPComputeSnapshotLabel, BronzeGCPComputeSnapshotLicense,
-		BronzeGCPComputeSubnetwork, BronzeGCPComputeSubnetworkSecondaryRange,
-		BronzeGCPComputeTargetHttpProxy, BronzeGCPComputeTargetHttpsProxy,
-		BronzeGCPComputeTargetInstance, BronzeGCPComputeTargetPool,
-		BronzeGCPComputeTargetSslProxy, BronzeGCPComputeTargetTcpProxy,
-		BronzeGCPComputeUrlMap, BronzeGCPContainerCluster,
-		BronzeGCPContainerClusterAddon, BronzeGCPContainerClusterCondition,
-		BronzeGCPContainerClusterLabel, BronzeGCPContainerClusterNodePool,
-		BronzeGCPIAMServiceAccount, BronzeGCPIAMServiceAccountKey, BronzeGCPProject,
-		BronzeGCPProjectLabel, BronzeGCPVPCAccessConnector, BronzeGCPVPNGateway,
-		BronzeGCPVPNGatewayLabel, BronzeGCPVPNTargetGateway,
-		BronzeGCPVPNTargetGatewayLabel, BronzeGCPVPNTunnel, BronzeGCPVPNTunnelLabel,
-		BronzeHistoryAWSEC2Instance, BronzeHistoryAWSEC2InstanceTag,
-		BronzeHistoryDOVpc, BronzeHistoryGCPComputeAddress,
-		BronzeHistoryGCPComputeAddressLabel, BronzeHistoryGCPComputeBackendService,
+		BronzeGCPComputeSslPolicy, BronzeGCPComputeSubnetwork,
+		BronzeGCPComputeSubnetworkSecondaryRange, BronzeGCPComputeTargetHttpProxy,
+		BronzeGCPComputeTargetHttpsProxy, BronzeGCPComputeTargetInstance,
+		BronzeGCPComputeTargetPool, BronzeGCPComputeTargetSslProxy,
+		BronzeGCPComputeTargetTcpProxy, BronzeGCPComputeUrlMap,
+		BronzeGCPContainerCluster, BronzeGCPContainerClusterAddon,
+		BronzeGCPContainerClusterCondition, BronzeGCPContainerClusterLabel,
+		BronzeGCPContainerClusterNodePool, BronzeGCPIAMServiceAccount,
+		BronzeGCPIAMServiceAccountKey, BronzeGCPProject, BronzeGCPProjectLabel,
+		BronzeGCPVPCAccessConnector, BronzeGCPVPNGateway, BronzeGCPVPNGatewayLabel,
+		BronzeGCPVPNTargetGateway, BronzeGCPVPNTargetGatewayLabel, BronzeGCPVPNTunnel,
+		BronzeGCPVPNTunnelLabel, BronzeHistoryAWSEC2Instance,
+		BronzeHistoryAWSEC2InstanceTag, BronzeHistoryDOVpc,
+		BronzeHistoryGCPComputeAddress, BronzeHistoryGCPComputeAddressLabel,
+		BronzeHistoryGCPComputeBackendService,
 		BronzeHistoryGCPComputeBackendServiceBackend, BronzeHistoryGCPComputeDisk,
 		BronzeHistoryGCPComputeDiskLabel, BronzeHistoryGCPComputeDiskLicense,
-		BronzeHistoryGCPComputeForwardingRule,
+		BronzeHistoryGCPComputeFirewall, BronzeHistoryGCPComputeFirewallAllowed,
+		BronzeHistoryGCPComputeFirewallDenied, BronzeHistoryGCPComputeForwardingRule,
 		BronzeHistoryGCPComputeForwardingRuleLabel,
 		BronzeHistoryGCPComputeGlobalAddress,
 		BronzeHistoryGCPComputeGlobalAddressLabel,
@@ -22017,9 +23803,10 @@ type (
 		BronzeHistoryGCPComputeInstanceServiceAccount,
 		BronzeHistoryGCPComputeInstanceTag, BronzeHistoryGCPComputeNeg,
 		BronzeHistoryGCPComputeNegEndpoint, BronzeHistoryGCPComputeNetwork,
-		BronzeHistoryGCPComputeNetworkPeering, BronzeHistoryGCPComputeSnapshot,
+		BronzeHistoryGCPComputeNetworkPeering, BronzeHistoryGCPComputeRouter,
+		BronzeHistoryGCPComputeSecurityPolicy, BronzeHistoryGCPComputeSnapshot,
 		BronzeHistoryGCPComputeSnapshotLabel, BronzeHistoryGCPComputeSnapshotLicense,
-		BronzeHistoryGCPComputeSubnetwork,
+		BronzeHistoryGCPComputeSslPolicy, BronzeHistoryGCPComputeSubnetwork,
 		BronzeHistoryGCPComputeSubnetworkSecondaryRange,
 		BronzeHistoryGCPComputeTargetHttpProxy,
 		BronzeHistoryGCPComputeTargetHttpsProxy, BronzeHistoryGCPComputeTargetInstance,
@@ -22044,9 +23831,10 @@ type (
 		BronzeGCPComputeAddress, BronzeGCPComputeAddressLabel,
 		BronzeGCPComputeBackendService, BronzeGCPComputeBackendServiceBackend,
 		BronzeGCPComputeDisk, BronzeGCPComputeDiskLabel, BronzeGCPComputeDiskLicense,
-		BronzeGCPComputeForwardingRule, BronzeGCPComputeForwardingRuleLabel,
-		BronzeGCPComputeGlobalAddress, BronzeGCPComputeGlobalAddressLabel,
-		BronzeGCPComputeGlobalForwardingRule,
+		BronzeGCPComputeFirewall, BronzeGCPComputeFirewallAllowed,
+		BronzeGCPComputeFirewallDenied, BronzeGCPComputeForwardingRule,
+		BronzeGCPComputeForwardingRuleLabel, BronzeGCPComputeGlobalAddress,
+		BronzeGCPComputeGlobalAddressLabel, BronzeGCPComputeGlobalForwardingRule,
 		BronzeGCPComputeGlobalForwardingRuleLabel, BronzeGCPComputeHealthCheck,
 		BronzeGCPComputeImage, BronzeGCPComputeImageLabel,
 		BronzeGCPComputeImageLicense, BronzeGCPComputeInstance,
@@ -22057,25 +23845,28 @@ type (
 		BronzeGCPComputeInstanceNICAccessConfig, BronzeGCPComputeInstanceNICAliasRange,
 		BronzeGCPComputeInstanceServiceAccount, BronzeGCPComputeInstanceTag,
 		BronzeGCPComputeNeg, BronzeGCPComputeNegEndpoint, BronzeGCPComputeNetwork,
-		BronzeGCPComputeNetworkPeering, BronzeGCPComputeSnapshot,
+		BronzeGCPComputeNetworkPeering, BronzeGCPComputeRouter,
+		BronzeGCPComputeSecurityPolicy, BronzeGCPComputeSnapshot,
 		BronzeGCPComputeSnapshotLabel, BronzeGCPComputeSnapshotLicense,
-		BronzeGCPComputeSubnetwork, BronzeGCPComputeSubnetworkSecondaryRange,
-		BronzeGCPComputeTargetHttpProxy, BronzeGCPComputeTargetHttpsProxy,
-		BronzeGCPComputeTargetInstance, BronzeGCPComputeTargetPool,
-		BronzeGCPComputeTargetSslProxy, BronzeGCPComputeTargetTcpProxy,
-		BronzeGCPComputeUrlMap, BronzeGCPContainerCluster,
-		BronzeGCPContainerClusterAddon, BronzeGCPContainerClusterCondition,
-		BronzeGCPContainerClusterLabel, BronzeGCPContainerClusterNodePool,
-		BronzeGCPIAMServiceAccount, BronzeGCPIAMServiceAccountKey, BronzeGCPProject,
-		BronzeGCPProjectLabel, BronzeGCPVPCAccessConnector, BronzeGCPVPNGateway,
-		BronzeGCPVPNGatewayLabel, BronzeGCPVPNTargetGateway,
-		BronzeGCPVPNTargetGatewayLabel, BronzeGCPVPNTunnel, BronzeGCPVPNTunnelLabel,
-		BronzeHistoryAWSEC2Instance, BronzeHistoryAWSEC2InstanceTag,
-		BronzeHistoryDOVpc, BronzeHistoryGCPComputeAddress,
-		BronzeHistoryGCPComputeAddressLabel, BronzeHistoryGCPComputeBackendService,
+		BronzeGCPComputeSslPolicy, BronzeGCPComputeSubnetwork,
+		BronzeGCPComputeSubnetworkSecondaryRange, BronzeGCPComputeTargetHttpProxy,
+		BronzeGCPComputeTargetHttpsProxy, BronzeGCPComputeTargetInstance,
+		BronzeGCPComputeTargetPool, BronzeGCPComputeTargetSslProxy,
+		BronzeGCPComputeTargetTcpProxy, BronzeGCPComputeUrlMap,
+		BronzeGCPContainerCluster, BronzeGCPContainerClusterAddon,
+		BronzeGCPContainerClusterCondition, BronzeGCPContainerClusterLabel,
+		BronzeGCPContainerClusterNodePool, BronzeGCPIAMServiceAccount,
+		BronzeGCPIAMServiceAccountKey, BronzeGCPProject, BronzeGCPProjectLabel,
+		BronzeGCPVPCAccessConnector, BronzeGCPVPNGateway, BronzeGCPVPNGatewayLabel,
+		BronzeGCPVPNTargetGateway, BronzeGCPVPNTargetGatewayLabel, BronzeGCPVPNTunnel,
+		BronzeGCPVPNTunnelLabel, BronzeHistoryAWSEC2Instance,
+		BronzeHistoryAWSEC2InstanceTag, BronzeHistoryDOVpc,
+		BronzeHistoryGCPComputeAddress, BronzeHistoryGCPComputeAddressLabel,
+		BronzeHistoryGCPComputeBackendService,
 		BronzeHistoryGCPComputeBackendServiceBackend, BronzeHistoryGCPComputeDisk,
 		BronzeHistoryGCPComputeDiskLabel, BronzeHistoryGCPComputeDiskLicense,
-		BronzeHistoryGCPComputeForwardingRule,
+		BronzeHistoryGCPComputeFirewall, BronzeHistoryGCPComputeFirewallAllowed,
+		BronzeHistoryGCPComputeFirewallDenied, BronzeHistoryGCPComputeForwardingRule,
 		BronzeHistoryGCPComputeForwardingRuleLabel,
 		BronzeHistoryGCPComputeGlobalAddress,
 		BronzeHistoryGCPComputeGlobalAddressLabel,
@@ -22095,9 +23886,10 @@ type (
 		BronzeHistoryGCPComputeInstanceServiceAccount,
 		BronzeHistoryGCPComputeInstanceTag, BronzeHistoryGCPComputeNeg,
 		BronzeHistoryGCPComputeNegEndpoint, BronzeHistoryGCPComputeNetwork,
-		BronzeHistoryGCPComputeNetworkPeering, BronzeHistoryGCPComputeSnapshot,
+		BronzeHistoryGCPComputeNetworkPeering, BronzeHistoryGCPComputeRouter,
+		BronzeHistoryGCPComputeSecurityPolicy, BronzeHistoryGCPComputeSnapshot,
 		BronzeHistoryGCPComputeSnapshotLabel, BronzeHistoryGCPComputeSnapshotLicense,
-		BronzeHistoryGCPComputeSubnetwork,
+		BronzeHistoryGCPComputeSslPolicy, BronzeHistoryGCPComputeSubnetwork,
 		BronzeHistoryGCPComputeSubnetworkSecondaryRange,
 		BronzeHistoryGCPComputeTargetHttpProxy,
 		BronzeHistoryGCPComputeTargetHttpsProxy, BronzeHistoryGCPComputeTargetInstance,

@@ -129,6 +129,42 @@ func (f BronzeGCPComputeDiskLicenseFunc) Mutate(ctx context.Context, m ent.Mutat
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGCPComputeDiskLicenseMutation", m)
 }
 
+// The BronzeGCPComputeFirewallFunc type is an adapter to allow the use of ordinary
+// function as BronzeGCPComputeFirewall mutator.
+type BronzeGCPComputeFirewallFunc func(context.Context, *ent.BronzeGCPComputeFirewallMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGCPComputeFirewallFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGCPComputeFirewallMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGCPComputeFirewallMutation", m)
+}
+
+// The BronzeGCPComputeFirewallAllowedFunc type is an adapter to allow the use of ordinary
+// function as BronzeGCPComputeFirewallAllowed mutator.
+type BronzeGCPComputeFirewallAllowedFunc func(context.Context, *ent.BronzeGCPComputeFirewallAllowedMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGCPComputeFirewallAllowedFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGCPComputeFirewallAllowedMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGCPComputeFirewallAllowedMutation", m)
+}
+
+// The BronzeGCPComputeFirewallDeniedFunc type is an adapter to allow the use of ordinary
+// function as BronzeGCPComputeFirewallDenied mutator.
+type BronzeGCPComputeFirewallDeniedFunc func(context.Context, *ent.BronzeGCPComputeFirewallDeniedMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGCPComputeFirewallDeniedFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGCPComputeFirewallDeniedMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGCPComputeFirewallDeniedMutation", m)
+}
+
 // The BronzeGCPComputeForwardingRuleFunc type is an adapter to allow the use of ordinary
 // function as BronzeGCPComputeForwardingRule mutator.
 type BronzeGCPComputeForwardingRuleFunc func(context.Context, *ent.BronzeGCPComputeForwardingRuleMutation) (ent.Value, error)
@@ -453,6 +489,30 @@ func (f BronzeGCPComputeNetworkPeeringFunc) Mutate(ctx context.Context, m ent.Mu
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGCPComputeNetworkPeeringMutation", m)
 }
 
+// The BronzeGCPComputeRouterFunc type is an adapter to allow the use of ordinary
+// function as BronzeGCPComputeRouter mutator.
+type BronzeGCPComputeRouterFunc func(context.Context, *ent.BronzeGCPComputeRouterMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGCPComputeRouterFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGCPComputeRouterMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGCPComputeRouterMutation", m)
+}
+
+// The BronzeGCPComputeSecurityPolicyFunc type is an adapter to allow the use of ordinary
+// function as BronzeGCPComputeSecurityPolicy mutator.
+type BronzeGCPComputeSecurityPolicyFunc func(context.Context, *ent.BronzeGCPComputeSecurityPolicyMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGCPComputeSecurityPolicyFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGCPComputeSecurityPolicyMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGCPComputeSecurityPolicyMutation", m)
+}
+
 // The BronzeGCPComputeSnapshotFunc type is an adapter to allow the use of ordinary
 // function as BronzeGCPComputeSnapshot mutator.
 type BronzeGCPComputeSnapshotFunc func(context.Context, *ent.BronzeGCPComputeSnapshotMutation) (ent.Value, error)
@@ -487,6 +547,18 @@ func (f BronzeGCPComputeSnapshotLicenseFunc) Mutate(ctx context.Context, m ent.M
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGCPComputeSnapshotLicenseMutation", m)
+}
+
+// The BronzeGCPComputeSslPolicyFunc type is an adapter to allow the use of ordinary
+// function as BronzeGCPComputeSslPolicy mutator.
+type BronzeGCPComputeSslPolicyFunc func(context.Context, *ent.BronzeGCPComputeSslPolicyMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGCPComputeSslPolicyFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGCPComputeSslPolicyMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGCPComputeSslPolicyMutation", m)
 }
 
 // The BronzeGCPComputeSubnetworkFunc type is an adapter to allow the use of ordinary
@@ -909,6 +981,42 @@ func (f BronzeHistoryGCPComputeDiskLicenseFunc) Mutate(ctx context.Context, m en
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGCPComputeDiskLicenseMutation", m)
 }
 
+// The BronzeHistoryGCPComputeFirewallFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGCPComputeFirewall mutator.
+type BronzeHistoryGCPComputeFirewallFunc func(context.Context, *ent.BronzeHistoryGCPComputeFirewallMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGCPComputeFirewallFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGCPComputeFirewallMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGCPComputeFirewallMutation", m)
+}
+
+// The BronzeHistoryGCPComputeFirewallAllowedFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGCPComputeFirewallAllowed mutator.
+type BronzeHistoryGCPComputeFirewallAllowedFunc func(context.Context, *ent.BronzeHistoryGCPComputeFirewallAllowedMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGCPComputeFirewallAllowedFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGCPComputeFirewallAllowedMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGCPComputeFirewallAllowedMutation", m)
+}
+
+// The BronzeHistoryGCPComputeFirewallDeniedFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGCPComputeFirewallDenied mutator.
+type BronzeHistoryGCPComputeFirewallDeniedFunc func(context.Context, *ent.BronzeHistoryGCPComputeFirewallDeniedMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGCPComputeFirewallDeniedFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGCPComputeFirewallDeniedMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGCPComputeFirewallDeniedMutation", m)
+}
+
 // The BronzeHistoryGCPComputeForwardingRuleFunc type is an adapter to allow the use of ordinary
 // function as BronzeHistoryGCPComputeForwardingRule mutator.
 type BronzeHistoryGCPComputeForwardingRuleFunc func(context.Context, *ent.BronzeHistoryGCPComputeForwardingRuleMutation) (ent.Value, error)
@@ -1233,6 +1341,30 @@ func (f BronzeHistoryGCPComputeNetworkPeeringFunc) Mutate(ctx context.Context, m
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGCPComputeNetworkPeeringMutation", m)
 }
 
+// The BronzeHistoryGCPComputeRouterFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGCPComputeRouter mutator.
+type BronzeHistoryGCPComputeRouterFunc func(context.Context, *ent.BronzeHistoryGCPComputeRouterMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGCPComputeRouterFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGCPComputeRouterMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGCPComputeRouterMutation", m)
+}
+
+// The BronzeHistoryGCPComputeSecurityPolicyFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGCPComputeSecurityPolicy mutator.
+type BronzeHistoryGCPComputeSecurityPolicyFunc func(context.Context, *ent.BronzeHistoryGCPComputeSecurityPolicyMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGCPComputeSecurityPolicyFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGCPComputeSecurityPolicyMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGCPComputeSecurityPolicyMutation", m)
+}
+
 // The BronzeHistoryGCPComputeSnapshotFunc type is an adapter to allow the use of ordinary
 // function as BronzeHistoryGCPComputeSnapshot mutator.
 type BronzeHistoryGCPComputeSnapshotFunc func(context.Context, *ent.BronzeHistoryGCPComputeSnapshotMutation) (ent.Value, error)
@@ -1267,6 +1399,18 @@ func (f BronzeHistoryGCPComputeSnapshotLicenseFunc) Mutate(ctx context.Context, 
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGCPComputeSnapshotLicenseMutation", m)
+}
+
+// The BronzeHistoryGCPComputeSslPolicyFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGCPComputeSslPolicy mutator.
+type BronzeHistoryGCPComputeSslPolicyFunc func(context.Context, *ent.BronzeHistoryGCPComputeSslPolicyMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGCPComputeSslPolicyFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGCPComputeSslPolicyMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGCPComputeSslPolicyMutation", m)
 }
 
 // The BronzeHistoryGCPComputeSubnetworkFunc type is an adapter to allow the use of ordinary

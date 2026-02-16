@@ -13,6 +13,9 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputedisk"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputedisklabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputedisklicense"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputefirewall"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputefirewallallowed"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputefirewalldenied"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeforwardingrule"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeforwardingrulelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeglobaladdress"
@@ -37,9 +40,12 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputenegendpoint"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputenetwork"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputenetworkpeering"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputerouter"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesecuritypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesnapshot"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesnapshotlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesnapshotlicense"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesslpolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesubnetwork"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesubnetworksecondaryrange"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputetargethttpproxy"
@@ -73,6 +79,9 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputedisk"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputedisklabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputedisklicense"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputefirewall"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputefirewallallowed"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputefirewalldenied"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeforwardingrule"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeforwardingrulelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeglobaladdress"
@@ -92,9 +101,12 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenegendpoint"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenetwork"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenetworkpeering"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputerouter"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesecuritypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesnapshot"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesnapshotlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesnapshotlicense"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesslpolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesubnetwork"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesubnetworksecondaryrange"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputetargethttpproxy"
@@ -231,6 +243,36 @@ func init() {
 	bronzegcpcomputedisklicenseDescLicense := bronzegcpcomputedisklicenseFields[0].Descriptor()
 	// bronzegcpcomputedisklicense.LicenseValidator is a validator for the "license" field. It is called by the builders before save.
 	bronzegcpcomputedisklicense.LicenseValidator = bronzegcpcomputedisklicenseDescLicense.Validators[0].(func(string) error)
+	bronzegcpcomputefirewallFields := schema.BronzeGCPComputeFirewall{}.Fields()
+	_ = bronzegcpcomputefirewallFields
+	// bronzegcpcomputefirewallDescName is the schema descriptor for name field.
+	bronzegcpcomputefirewallDescName := bronzegcpcomputefirewallFields[1].Descriptor()
+	// bronzegcpcomputefirewall.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegcpcomputefirewall.NameValidator = bronzegcpcomputefirewallDescName.Validators[0].(func(string) error)
+	// bronzegcpcomputefirewallDescPriority is the schema descriptor for priority field.
+	bronzegcpcomputefirewallDescPriority := bronzegcpcomputefirewallFields[6].Descriptor()
+	// bronzegcpcomputefirewall.DefaultPriority holds the default value on creation for the priority field.
+	bronzegcpcomputefirewall.DefaultPriority = bronzegcpcomputefirewallDescPriority.Default.(int32)
+	// bronzegcpcomputefirewallDescDisabled is the schema descriptor for disabled field.
+	bronzegcpcomputefirewallDescDisabled := bronzegcpcomputefirewallFields[8].Descriptor()
+	// bronzegcpcomputefirewall.DefaultDisabled holds the default value on creation for the disabled field.
+	bronzegcpcomputefirewall.DefaultDisabled = bronzegcpcomputefirewallDescDisabled.Default.(bool)
+	// bronzegcpcomputefirewallDescProjectID is the schema descriptor for project_id field.
+	bronzegcpcomputefirewallDescProjectID := bronzegcpcomputefirewallFields[16].Descriptor()
+	// bronzegcpcomputefirewall.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegcpcomputefirewall.ProjectIDValidator = bronzegcpcomputefirewallDescProjectID.Validators[0].(func(string) error)
+	bronzegcpcomputefirewallallowedFields := schema.BronzeGCPComputeFirewallAllowed{}.Fields()
+	_ = bronzegcpcomputefirewallallowedFields
+	// bronzegcpcomputefirewallallowedDescIPProtocol is the schema descriptor for ip_protocol field.
+	bronzegcpcomputefirewallallowedDescIPProtocol := bronzegcpcomputefirewallallowedFields[0].Descriptor()
+	// bronzegcpcomputefirewallallowed.IPProtocolValidator is a validator for the "ip_protocol" field. It is called by the builders before save.
+	bronzegcpcomputefirewallallowed.IPProtocolValidator = bronzegcpcomputefirewallallowedDescIPProtocol.Validators[0].(func(string) error)
+	bronzegcpcomputefirewalldeniedFields := schema.BronzeGCPComputeFirewallDenied{}.Fields()
+	_ = bronzegcpcomputefirewalldeniedFields
+	// bronzegcpcomputefirewalldeniedDescIPProtocol is the schema descriptor for ip_protocol field.
+	bronzegcpcomputefirewalldeniedDescIPProtocol := bronzegcpcomputefirewalldeniedFields[0].Descriptor()
+	// bronzegcpcomputefirewalldenied.IPProtocolValidator is a validator for the "ip_protocol" field. It is called by the builders before save.
+	bronzegcpcomputefirewalldenied.IPProtocolValidator = bronzegcpcomputefirewalldeniedDescIPProtocol.Validators[0].(func(string) error)
 	bronzegcpcomputeforwardingruleFields := schema.BronzeGCPComputeForwardingRule{}.Fields()
 	_ = bronzegcpcomputeforwardingruleFields
 	// bronzegcpcomputeforwardingruleDescName is the schema descriptor for name field.
@@ -523,6 +565,38 @@ func init() {
 	bronzegcpcomputenetworkpeeringDescAutoCreateRoutes := bronzegcpcomputenetworkpeeringFields[11].Descriptor()
 	// bronzegcpcomputenetworkpeering.DefaultAutoCreateRoutes holds the default value on creation for the auto_create_routes field.
 	bronzegcpcomputenetworkpeering.DefaultAutoCreateRoutes = bronzegcpcomputenetworkpeeringDescAutoCreateRoutes.Default.(bool)
+	bronzegcpcomputerouterFields := schema.BronzeGCPComputeRouter{}.Fields()
+	_ = bronzegcpcomputerouterFields
+	// bronzegcpcomputerouterDescName is the schema descriptor for name field.
+	bronzegcpcomputerouterDescName := bronzegcpcomputerouterFields[1].Descriptor()
+	// bronzegcpcomputerouter.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegcpcomputerouter.NameValidator = bronzegcpcomputerouterDescName.Validators[0].(func(string) error)
+	// bronzegcpcomputerouterDescBgpAsn is the schema descriptor for bgp_asn field.
+	bronzegcpcomputerouterDescBgpAsn := bronzegcpcomputerouterFields[7].Descriptor()
+	// bronzegcpcomputerouter.DefaultBgpAsn holds the default value on creation for the bgp_asn field.
+	bronzegcpcomputerouter.DefaultBgpAsn = bronzegcpcomputerouterDescBgpAsn.Default.(int)
+	// bronzegcpcomputerouterDescBgpKeepaliveInterval is the schema descriptor for bgp_keepalive_interval field.
+	bronzegcpcomputerouterDescBgpKeepaliveInterval := bronzegcpcomputerouterFields[11].Descriptor()
+	// bronzegcpcomputerouter.DefaultBgpKeepaliveInterval holds the default value on creation for the bgp_keepalive_interval field.
+	bronzegcpcomputerouter.DefaultBgpKeepaliveInterval = bronzegcpcomputerouterDescBgpKeepaliveInterval.Default.(int)
+	// bronzegcpcomputerouterDescEncryptedInterconnectRouter is the schema descriptor for encrypted_interconnect_router field.
+	bronzegcpcomputerouterDescEncryptedInterconnectRouter := bronzegcpcomputerouterFields[15].Descriptor()
+	// bronzegcpcomputerouter.DefaultEncryptedInterconnectRouter holds the default value on creation for the encrypted_interconnect_router field.
+	bronzegcpcomputerouter.DefaultEncryptedInterconnectRouter = bronzegcpcomputerouterDescEncryptedInterconnectRouter.Default.(bool)
+	// bronzegcpcomputerouterDescProjectID is the schema descriptor for project_id field.
+	bronzegcpcomputerouterDescProjectID := bronzegcpcomputerouterFields[16].Descriptor()
+	// bronzegcpcomputerouter.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegcpcomputerouter.ProjectIDValidator = bronzegcpcomputerouterDescProjectID.Validators[0].(func(string) error)
+	bronzegcpcomputesecuritypolicyFields := schema.BronzeGCPComputeSecurityPolicy{}.Fields()
+	_ = bronzegcpcomputesecuritypolicyFields
+	// bronzegcpcomputesecuritypolicyDescName is the schema descriptor for name field.
+	bronzegcpcomputesecuritypolicyDescName := bronzegcpcomputesecuritypolicyFields[1].Descriptor()
+	// bronzegcpcomputesecuritypolicy.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegcpcomputesecuritypolicy.NameValidator = bronzegcpcomputesecuritypolicyDescName.Validators[0].(func(string) error)
+	// bronzegcpcomputesecuritypolicyDescProjectID is the schema descriptor for project_id field.
+	bronzegcpcomputesecuritypolicyDescProjectID := bronzegcpcomputesecuritypolicyFields[14].Descriptor()
+	// bronzegcpcomputesecuritypolicy.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegcpcomputesecuritypolicy.ProjectIDValidator = bronzegcpcomputesecuritypolicyDescProjectID.Validators[0].(func(string) error)
 	bronzegcpcomputesnapshotFields := schema.BronzeGCPComputeSnapshot{}.Fields()
 	_ = bronzegcpcomputesnapshotFields
 	// bronzegcpcomputesnapshotDescName is the schema descriptor for name field.
@@ -561,6 +635,16 @@ func init() {
 	bronzegcpcomputesnapshotlicenseDescLicense := bronzegcpcomputesnapshotlicenseFields[0].Descriptor()
 	// bronzegcpcomputesnapshotlicense.LicenseValidator is a validator for the "license" field. It is called by the builders before save.
 	bronzegcpcomputesnapshotlicense.LicenseValidator = bronzegcpcomputesnapshotlicenseDescLicense.Validators[0].(func(string) error)
+	bronzegcpcomputesslpolicyFields := schema.BronzeGCPComputeSslPolicy{}.Fields()
+	_ = bronzegcpcomputesslpolicyFields
+	// bronzegcpcomputesslpolicyDescName is the schema descriptor for name field.
+	bronzegcpcomputesslpolicyDescName := bronzegcpcomputesslpolicyFields[1].Descriptor()
+	// bronzegcpcomputesslpolicy.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegcpcomputesslpolicy.NameValidator = bronzegcpcomputesslpolicyDescName.Validators[0].(func(string) error)
+	// bronzegcpcomputesslpolicyDescProjectID is the schema descriptor for project_id field.
+	bronzegcpcomputesslpolicyDescProjectID := bronzegcpcomputesslpolicyFields[11].Descriptor()
+	// bronzegcpcomputesslpolicy.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegcpcomputesslpolicy.ProjectIDValidator = bronzegcpcomputesslpolicyDescProjectID.Validators[0].(func(string) error)
 	bronzegcpcomputesubnetworkFields := schema.BronzeGCPComputeSubnetwork{}.Fields()
 	_ = bronzegcpcomputesubnetworkFields
 	// bronzegcpcomputesubnetworkDescName is the schema descriptor for name field.
@@ -931,6 +1015,40 @@ func init() {
 	bronzehistorygcpcomputedisklicenseDescLicense := bronzehistorygcpcomputedisklicenseFields[4].Descriptor()
 	// bronzehistorygcpcomputedisklicense.LicenseValidator is a validator for the "license" field. It is called by the builders before save.
 	bronzehistorygcpcomputedisklicense.LicenseValidator = bronzehistorygcpcomputedisklicenseDescLicense.Validators[0].(func(string) error)
+	bronzehistorygcpcomputefirewallFields := schema.BronzeHistoryGCPComputeFirewall{}.Fields()
+	_ = bronzehistorygcpcomputefirewallFields
+	// bronzehistorygcpcomputefirewallDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcpcomputefirewallDescResourceID := bronzehistorygcpcomputefirewallFields[1].Descriptor()
+	// bronzehistorygcpcomputefirewall.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcpcomputefirewall.ResourceIDValidator = bronzehistorygcpcomputefirewallDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcpcomputefirewallDescName is the schema descriptor for name field.
+	bronzehistorygcpcomputefirewallDescName := bronzehistorygcpcomputefirewallFields[2].Descriptor()
+	// bronzehistorygcpcomputefirewall.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygcpcomputefirewall.NameValidator = bronzehistorygcpcomputefirewallDescName.Validators[0].(func(string) error)
+	// bronzehistorygcpcomputefirewallDescPriority is the schema descriptor for priority field.
+	bronzehistorygcpcomputefirewallDescPriority := bronzehistorygcpcomputefirewallFields[7].Descriptor()
+	// bronzehistorygcpcomputefirewall.DefaultPriority holds the default value on creation for the priority field.
+	bronzehistorygcpcomputefirewall.DefaultPriority = bronzehistorygcpcomputefirewallDescPriority.Default.(int32)
+	// bronzehistorygcpcomputefirewallDescDisabled is the schema descriptor for disabled field.
+	bronzehistorygcpcomputefirewallDescDisabled := bronzehistorygcpcomputefirewallFields[9].Descriptor()
+	// bronzehistorygcpcomputefirewall.DefaultDisabled holds the default value on creation for the disabled field.
+	bronzehistorygcpcomputefirewall.DefaultDisabled = bronzehistorygcpcomputefirewallDescDisabled.Default.(bool)
+	// bronzehistorygcpcomputefirewallDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygcpcomputefirewallDescProjectID := bronzehistorygcpcomputefirewallFields[17].Descriptor()
+	// bronzehistorygcpcomputefirewall.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygcpcomputefirewall.ProjectIDValidator = bronzehistorygcpcomputefirewallDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygcpcomputefirewallallowedFields := schema.BronzeHistoryGCPComputeFirewallAllowed{}.Fields()
+	_ = bronzehistorygcpcomputefirewallallowedFields
+	// bronzehistorygcpcomputefirewallallowedDescIPProtocol is the schema descriptor for ip_protocol field.
+	bronzehistorygcpcomputefirewallallowedDescIPProtocol := bronzehistorygcpcomputefirewallallowedFields[4].Descriptor()
+	// bronzehistorygcpcomputefirewallallowed.IPProtocolValidator is a validator for the "ip_protocol" field. It is called by the builders before save.
+	bronzehistorygcpcomputefirewallallowed.IPProtocolValidator = bronzehistorygcpcomputefirewallallowedDescIPProtocol.Validators[0].(func(string) error)
+	bronzehistorygcpcomputefirewalldeniedFields := schema.BronzeHistoryGCPComputeFirewallDenied{}.Fields()
+	_ = bronzehistorygcpcomputefirewalldeniedFields
+	// bronzehistorygcpcomputefirewalldeniedDescIPProtocol is the schema descriptor for ip_protocol field.
+	bronzehistorygcpcomputefirewalldeniedDescIPProtocol := bronzehistorygcpcomputefirewalldeniedFields[4].Descriptor()
+	// bronzehistorygcpcomputefirewalldenied.IPProtocolValidator is a validator for the "ip_protocol" field. It is called by the builders before save.
+	bronzehistorygcpcomputefirewalldenied.IPProtocolValidator = bronzehistorygcpcomputefirewalldeniedDescIPProtocol.Validators[0].(func(string) error)
 	bronzehistorygcpcomputeforwardingruleFields := schema.BronzeHistoryGCPComputeForwardingRule{}.Fields()
 	_ = bronzehistorygcpcomputeforwardingruleFields
 	// bronzehistorygcpcomputeforwardingruleDescResourceID is the schema descriptor for resource_id field.
@@ -1233,6 +1351,46 @@ func init() {
 	bronzehistorygcpcomputenetworkpeeringDescAutoCreateRoutes := bronzehistorygcpcomputenetworkpeeringFields[15].Descriptor()
 	// bronzehistorygcpcomputenetworkpeering.DefaultAutoCreateRoutes holds the default value on creation for the auto_create_routes field.
 	bronzehistorygcpcomputenetworkpeering.DefaultAutoCreateRoutes = bronzehistorygcpcomputenetworkpeeringDescAutoCreateRoutes.Default.(bool)
+	bronzehistorygcpcomputerouterFields := schema.BronzeHistoryGCPComputeRouter{}.Fields()
+	_ = bronzehistorygcpcomputerouterFields
+	// bronzehistorygcpcomputerouterDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcpcomputerouterDescResourceID := bronzehistorygcpcomputerouterFields[1].Descriptor()
+	// bronzehistorygcpcomputerouter.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcpcomputerouter.ResourceIDValidator = bronzehistorygcpcomputerouterDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcpcomputerouterDescName is the schema descriptor for name field.
+	bronzehistorygcpcomputerouterDescName := bronzehistorygcpcomputerouterFields[2].Descriptor()
+	// bronzehistorygcpcomputerouter.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygcpcomputerouter.NameValidator = bronzehistorygcpcomputerouterDescName.Validators[0].(func(string) error)
+	// bronzehistorygcpcomputerouterDescBgpAsn is the schema descriptor for bgp_asn field.
+	bronzehistorygcpcomputerouterDescBgpAsn := bronzehistorygcpcomputerouterFields[8].Descriptor()
+	// bronzehistorygcpcomputerouter.DefaultBgpAsn holds the default value on creation for the bgp_asn field.
+	bronzehistorygcpcomputerouter.DefaultBgpAsn = bronzehistorygcpcomputerouterDescBgpAsn.Default.(int)
+	// bronzehistorygcpcomputerouterDescBgpKeepaliveInterval is the schema descriptor for bgp_keepalive_interval field.
+	bronzehistorygcpcomputerouterDescBgpKeepaliveInterval := bronzehistorygcpcomputerouterFields[12].Descriptor()
+	// bronzehistorygcpcomputerouter.DefaultBgpKeepaliveInterval holds the default value on creation for the bgp_keepalive_interval field.
+	bronzehistorygcpcomputerouter.DefaultBgpKeepaliveInterval = bronzehistorygcpcomputerouterDescBgpKeepaliveInterval.Default.(int)
+	// bronzehistorygcpcomputerouterDescEncryptedInterconnectRouter is the schema descriptor for encrypted_interconnect_router field.
+	bronzehistorygcpcomputerouterDescEncryptedInterconnectRouter := bronzehistorygcpcomputerouterFields[16].Descriptor()
+	// bronzehistorygcpcomputerouter.DefaultEncryptedInterconnectRouter holds the default value on creation for the encrypted_interconnect_router field.
+	bronzehistorygcpcomputerouter.DefaultEncryptedInterconnectRouter = bronzehistorygcpcomputerouterDescEncryptedInterconnectRouter.Default.(bool)
+	// bronzehistorygcpcomputerouterDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygcpcomputerouterDescProjectID := bronzehistorygcpcomputerouterFields[17].Descriptor()
+	// bronzehistorygcpcomputerouter.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygcpcomputerouter.ProjectIDValidator = bronzehistorygcpcomputerouterDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygcpcomputesecuritypolicyFields := schema.BronzeHistoryGCPComputeSecurityPolicy{}.Fields()
+	_ = bronzehistorygcpcomputesecuritypolicyFields
+	// bronzehistorygcpcomputesecuritypolicyDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcpcomputesecuritypolicyDescResourceID := bronzehistorygcpcomputesecuritypolicyFields[1].Descriptor()
+	// bronzehistorygcpcomputesecuritypolicy.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcpcomputesecuritypolicy.ResourceIDValidator = bronzehistorygcpcomputesecuritypolicyDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcpcomputesecuritypolicyDescName is the schema descriptor for name field.
+	bronzehistorygcpcomputesecuritypolicyDescName := bronzehistorygcpcomputesecuritypolicyFields[2].Descriptor()
+	// bronzehistorygcpcomputesecuritypolicy.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygcpcomputesecuritypolicy.NameValidator = bronzehistorygcpcomputesecuritypolicyDescName.Validators[0].(func(string) error)
+	// bronzehistorygcpcomputesecuritypolicyDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygcpcomputesecuritypolicyDescProjectID := bronzehistorygcpcomputesecuritypolicyFields[15].Descriptor()
+	// bronzehistorygcpcomputesecuritypolicy.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygcpcomputesecuritypolicy.ProjectIDValidator = bronzehistorygcpcomputesecuritypolicyDescProjectID.Validators[0].(func(string) error)
 	bronzehistorygcpcomputesnapshotFields := schema.BronzeHistoryGCPComputeSnapshot{}.Fields()
 	_ = bronzehistorygcpcomputesnapshotFields
 	// bronzehistorygcpcomputesnapshotDescResourceID is the schema descriptor for resource_id field.
@@ -1275,6 +1433,20 @@ func init() {
 	bronzehistorygcpcomputesnapshotlicenseDescLicense := bronzehistorygcpcomputesnapshotlicenseFields[4].Descriptor()
 	// bronzehistorygcpcomputesnapshotlicense.LicenseValidator is a validator for the "license" field. It is called by the builders before save.
 	bronzehistorygcpcomputesnapshotlicense.LicenseValidator = bronzehistorygcpcomputesnapshotlicenseDescLicense.Validators[0].(func(string) error)
+	bronzehistorygcpcomputesslpolicyFields := schema.BronzeHistoryGCPComputeSslPolicy{}.Fields()
+	_ = bronzehistorygcpcomputesslpolicyFields
+	// bronzehistorygcpcomputesslpolicyDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcpcomputesslpolicyDescResourceID := bronzehistorygcpcomputesslpolicyFields[1].Descriptor()
+	// bronzehistorygcpcomputesslpolicy.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcpcomputesslpolicy.ResourceIDValidator = bronzehistorygcpcomputesslpolicyDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcpcomputesslpolicyDescName is the schema descriptor for name field.
+	bronzehistorygcpcomputesslpolicyDescName := bronzehistorygcpcomputesslpolicyFields[2].Descriptor()
+	// bronzehistorygcpcomputesslpolicy.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygcpcomputesslpolicy.NameValidator = bronzehistorygcpcomputesslpolicyDescName.Validators[0].(func(string) error)
+	// bronzehistorygcpcomputesslpolicyDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygcpcomputesslpolicyDescProjectID := bronzehistorygcpcomputesslpolicyFields[12].Descriptor()
+	// bronzehistorygcpcomputesslpolicy.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygcpcomputesslpolicy.ProjectIDValidator = bronzehistorygcpcomputesslpolicyDescProjectID.Validators[0].(func(string) error)
 	bronzehistorygcpcomputesubnetworkFields := schema.BronzeHistoryGCPComputeSubnetwork{}.Fields()
 	_ = bronzehistorygcpcomputesubnetworkFields
 	// bronzehistorygcpcomputesubnetworkDescResourceID is the schema descriptor for resource_id field.

@@ -377,6 +377,88 @@ var (
 			},
 		},
 	}
+	// GcpComputeFirewallsColumns holds the columns for the "gcp_compute_firewalls" table.
+	GcpComputeFirewallsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "self_link", Type: field.TypeString, Nullable: true},
+		{Name: "creation_timestamp", Type: field.TypeString, Nullable: true},
+		{Name: "network", Type: field.TypeString, Nullable: true},
+		{Name: "priority", Type: field.TypeInt32, Default: 1000},
+		{Name: "direction", Type: field.TypeString, Nullable: true},
+		{Name: "disabled", Type: field.TypeBool, Default: false},
+		{Name: "source_ranges_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "destination_ranges_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "source_tags_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "target_tags_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "source_service_accounts_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "target_service_accounts_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "log_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpComputeFirewallsTable holds the schema information for the "gcp_compute_firewalls" table.
+	GcpComputeFirewallsTable = &schema.Table{
+		Name:       "gcp_compute_firewalls",
+		Columns:    GcpComputeFirewallsColumns,
+		PrimaryKey: []*schema.Column{GcpComputeFirewallsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpcomputefirewall_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeFirewallsColumns[18]},
+			},
+			{
+				Name:    "bronzegcpcomputefirewall_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeFirewallsColumns[1]},
+			},
+		},
+	}
+	// GcpComputeFirewallAllowedsColumns holds the columns for the "gcp_compute_firewall_alloweds" table.
+	GcpComputeFirewallAllowedsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "ip_protocol", Type: field.TypeString},
+		{Name: "ports_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "bronze_gcp_compute_firewall_allowed", Type: field.TypeString},
+	}
+	// GcpComputeFirewallAllowedsTable holds the schema information for the "gcp_compute_firewall_alloweds" table.
+	GcpComputeFirewallAllowedsTable = &schema.Table{
+		Name:       "gcp_compute_firewall_alloweds",
+		Columns:    GcpComputeFirewallAllowedsColumns,
+		PrimaryKey: []*schema.Column{GcpComputeFirewallAllowedsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "gcp_compute_firewall_alloweds_gcp_compute_firewalls_allowed",
+				Columns:    []*schema.Column{GcpComputeFirewallAllowedsColumns[3]},
+				RefColumns: []*schema.Column{GcpComputeFirewallsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+	}
+	// GcpComputeFirewallDeniedsColumns holds the columns for the "gcp_compute_firewall_denieds" table.
+	GcpComputeFirewallDeniedsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "ip_protocol", Type: field.TypeString},
+		{Name: "ports_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "bronze_gcp_compute_firewall_denied", Type: field.TypeString},
+	}
+	// GcpComputeFirewallDeniedsTable holds the schema information for the "gcp_compute_firewall_denieds" table.
+	GcpComputeFirewallDeniedsTable = &schema.Table{
+		Name:       "gcp_compute_firewall_denieds",
+		Columns:    GcpComputeFirewallDeniedsColumns,
+		PrimaryKey: []*schema.Column{GcpComputeFirewallDeniedsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "gcp_compute_firewall_denieds_gcp_compute_firewalls_denied",
+				Columns:    []*schema.Column{GcpComputeFirewallDeniedsColumns[3]},
+				RefColumns: []*schema.Column{GcpComputeFirewallsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+	}
 	// GcpComputeForwardingRulesColumns holds the columns for the "gcp_compute_forwarding_rules" table.
 	GcpComputeForwardingRulesColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -1238,6 +1320,84 @@ var (
 			},
 		},
 	}
+	// GcpComputeRoutersColumns holds the columns for the "gcp_compute_routers" table.
+	GcpComputeRoutersColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "self_link", Type: field.TypeString, Nullable: true},
+		{Name: "creation_timestamp", Type: field.TypeString, Nullable: true},
+		{Name: "network", Type: field.TypeString, Nullable: true},
+		{Name: "region", Type: field.TypeString, Nullable: true},
+		{Name: "bgp_asn", Type: field.TypeInt, Default: 0},
+		{Name: "bgp_advertise_mode", Type: field.TypeString, Nullable: true},
+		{Name: "bgp_advertised_groups_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "bgp_advertised_ip_ranges_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "bgp_keepalive_interval", Type: field.TypeInt, Default: 0},
+		{Name: "bgp_peers_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "interfaces_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "nats_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "encrypted_interconnect_router", Type: field.TypeBool, Default: false},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpComputeRoutersTable holds the schema information for the "gcp_compute_routers" table.
+	GcpComputeRoutersTable = &schema.Table{
+		Name:       "gcp_compute_routers",
+		Columns:    GcpComputeRoutersColumns,
+		PrimaryKey: []*schema.Column{GcpComputeRoutersColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpcomputerouter_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeRoutersColumns[18]},
+			},
+			{
+				Name:    "bronzegcpcomputerouter_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeRoutersColumns[1]},
+			},
+		},
+	}
+	// GcpComputeSecurityPoliciesColumns holds the columns for the "gcp_compute_security_policies" table.
+	GcpComputeSecurityPoliciesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "self_link", Type: field.TypeString, Nullable: true},
+		{Name: "creation_timestamp", Type: field.TypeString, Nullable: true},
+		{Name: "type", Type: field.TypeString, Nullable: true},
+		{Name: "fingerprint", Type: field.TypeString, Nullable: true},
+		{Name: "rules_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "associations_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "adaptive_protection_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "advanced_options_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "ddos_protection_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "recaptcha_options_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpComputeSecurityPoliciesTable holds the schema information for the "gcp_compute_security_policies" table.
+	GcpComputeSecurityPoliciesTable = &schema.Table{
+		Name:       "gcp_compute_security_policies",
+		Columns:    GcpComputeSecurityPoliciesColumns,
+		PrimaryKey: []*schema.Column{GcpComputeSecurityPoliciesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpcomputesecuritypolicy_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeSecurityPoliciesColumns[16]},
+			},
+			{
+				Name:    "bronzegcpcomputesecuritypolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeSecurityPoliciesColumns[1]},
+			},
+		},
+	}
 	// GcpComputeSnapshotsColumns holds the columns for the "gcp_compute_snapshots" table.
 	GcpComputeSnapshotsColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -1329,6 +1489,41 @@ var (
 				Columns:    []*schema.Column{GcpComputeSnapshotLicensesColumns[2]},
 				RefColumns: []*schema.Column{GcpComputeSnapshotsColumns[0]},
 				OnDelete:   schema.NoAction,
+			},
+		},
+	}
+	// GcpComputeSslPoliciesColumns holds the columns for the "gcp_compute_ssl_policies" table.
+	GcpComputeSslPoliciesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "self_link", Type: field.TypeString, Nullable: true},
+		{Name: "creation_timestamp", Type: field.TypeString, Nullable: true},
+		{Name: "profile", Type: field.TypeString, Nullable: true},
+		{Name: "min_tls_version", Type: field.TypeString, Nullable: true},
+		{Name: "fingerprint", Type: field.TypeString, Nullable: true},
+		{Name: "custom_features_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "enabled_features_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "warnings_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpComputeSslPoliciesTable holds the schema information for the "gcp_compute_ssl_policies" table.
+	GcpComputeSslPoliciesTable = &schema.Table{
+		Name:       "gcp_compute_ssl_policies",
+		Columns:    GcpComputeSslPoliciesColumns,
+		PrimaryKey: []*schema.Column{GcpComputeSslPoliciesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpcomputesslpolicy_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeSslPoliciesColumns[13]},
+			},
+			{
+				Name:    "bronzegcpcomputesslpolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeSslPoliciesColumns[1]},
 			},
 		},
 	}
@@ -2660,6 +2855,126 @@ var (
 			},
 		},
 	}
+	// GcpComputeFirewallsHistoryColumns holds the columns for the "gcp_compute_firewalls_history" table.
+	GcpComputeFirewallsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "self_link", Type: field.TypeString, Nullable: true},
+		{Name: "creation_timestamp", Type: field.TypeString, Nullable: true},
+		{Name: "network", Type: field.TypeString, Nullable: true},
+		{Name: "priority", Type: field.TypeInt32, Default: 1000},
+		{Name: "direction", Type: field.TypeString, Nullable: true},
+		{Name: "disabled", Type: field.TypeBool, Default: false},
+		{Name: "source_ranges_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "destination_ranges_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "source_tags_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "target_tags_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "source_service_accounts_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "target_service_accounts_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "log_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpComputeFirewallsHistoryTable holds the schema information for the "gcp_compute_firewalls_history" table.
+	GcpComputeFirewallsHistoryTable = &schema.Table{
+		Name:       "gcp_compute_firewalls_history",
+		Columns:    GcpComputeFirewallsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpComputeFirewallsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpcomputefirewall_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeFirewallsHistoryColumns[6], GcpComputeFirewallsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputefirewall_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeFirewallsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputefirewall_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeFirewallsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputefirewall_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeFirewallsHistoryColumns[22]},
+			},
+		},
+	}
+	// GcpComputeFirewallAllowedsHistoryColumns holds the columns for the "gcp_compute_firewall_alloweds_history" table.
+	GcpComputeFirewallAllowedsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "firewall_history_id", Type: field.TypeUint},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "ip_protocol", Type: field.TypeString},
+		{Name: "ports_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// GcpComputeFirewallAllowedsHistoryTable holds the schema information for the "gcp_compute_firewall_alloweds_history" table.
+	GcpComputeFirewallAllowedsHistoryTable = &schema.Table{
+		Name:       "gcp_compute_firewall_alloweds_history",
+		Columns:    GcpComputeFirewallAllowedsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpComputeFirewallAllowedsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpcomputefirewallallowed_firewall_history_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeFirewallAllowedsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputefirewallallowed_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeFirewallAllowedsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputefirewallallowed_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeFirewallAllowedsHistoryColumns[4]},
+			},
+		},
+	}
+	// GcpComputeFirewallDeniedsHistoryColumns holds the columns for the "gcp_compute_firewall_denieds_history" table.
+	GcpComputeFirewallDeniedsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "firewall_history_id", Type: field.TypeUint},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "ip_protocol", Type: field.TypeString},
+		{Name: "ports_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// GcpComputeFirewallDeniedsHistoryTable holds the schema information for the "gcp_compute_firewall_denieds_history" table.
+	GcpComputeFirewallDeniedsHistoryTable = &schema.Table{
+		Name:       "gcp_compute_firewall_denieds_history",
+		Columns:    GcpComputeFirewallDeniedsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpComputeFirewallDeniedsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpcomputefirewalldenied_firewall_history_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeFirewallDeniedsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputefirewalldenied_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeFirewallDeniedsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputefirewalldenied_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeFirewallDeniedsHistoryColumns[4]},
+			},
+		},
+	}
 	// GcpComputeForwardingRulesHistoryColumns holds the columns for the "gcp_compute_forwarding_rules_history" table.
 	GcpComputeForwardingRulesHistoryColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -3830,6 +4145,112 @@ var (
 			},
 		},
 	}
+	// GcpComputeRoutersHistoryColumns holds the columns for the "gcp_compute_routers_history" table.
+	GcpComputeRoutersHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "self_link", Type: field.TypeString, Nullable: true},
+		{Name: "creation_timestamp", Type: field.TypeString, Nullable: true},
+		{Name: "network", Type: field.TypeString, Nullable: true},
+		{Name: "region", Type: field.TypeString, Nullable: true},
+		{Name: "bgp_asn", Type: field.TypeInt, Default: 0},
+		{Name: "bgp_advertise_mode", Type: field.TypeString, Nullable: true},
+		{Name: "bgp_advertised_groups_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "bgp_advertised_ip_ranges_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "bgp_keepalive_interval", Type: field.TypeInt, Default: 0},
+		{Name: "bgp_peers_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "interfaces_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "nats_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "encrypted_interconnect_router", Type: field.TypeBool, Default: false},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpComputeRoutersHistoryTable holds the schema information for the "gcp_compute_routers_history" table.
+	GcpComputeRoutersHistoryTable = &schema.Table{
+		Name:       "gcp_compute_routers_history",
+		Columns:    GcpComputeRoutersHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpComputeRoutersHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpcomputerouter_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeRoutersHistoryColumns[6], GcpComputeRoutersHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputerouter_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeRoutersHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputerouter_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeRoutersHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputerouter_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeRoutersHistoryColumns[22]},
+			},
+		},
+	}
+	// GcpComputeSecurityPoliciesHistoryColumns holds the columns for the "gcp_compute_security_policies_history" table.
+	GcpComputeSecurityPoliciesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "self_link", Type: field.TypeString, Nullable: true},
+		{Name: "creation_timestamp", Type: field.TypeString, Nullable: true},
+		{Name: "type", Type: field.TypeString, Nullable: true},
+		{Name: "fingerprint", Type: field.TypeString, Nullable: true},
+		{Name: "rules_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "associations_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "adaptive_protection_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "advanced_options_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "ddos_protection_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "recaptcha_options_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpComputeSecurityPoliciesHistoryTable holds the schema information for the "gcp_compute_security_policies_history" table.
+	GcpComputeSecurityPoliciesHistoryTable = &schema.Table{
+		Name:       "gcp_compute_security_policies_history",
+		Columns:    GcpComputeSecurityPoliciesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpComputeSecurityPoliciesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpcomputesecuritypolicy_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeSecurityPoliciesHistoryColumns[6], GcpComputeSecurityPoliciesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputesecuritypolicy_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeSecurityPoliciesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputesecuritypolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeSecurityPoliciesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputesecuritypolicy_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeSecurityPoliciesHistoryColumns[20]},
+			},
+		},
+	}
 	// GcpComputeSnapshotsHistoryColumns holds the columns for the "gcp_compute_snapshots_history" table.
 	GcpComputeSnapshotsHistoryColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -3954,6 +4375,55 @@ var (
 				Name:    "bronzehistorygcpcomputesnapshotlicense_valid_to",
 				Unique:  false,
 				Columns: []*schema.Column{GcpComputeSnapshotLicensesHistoryColumns[4]},
+			},
+		},
+	}
+	// GcpComputeSslPoliciesHistoryColumns holds the columns for the "gcp_compute_ssl_policies_history" table.
+	GcpComputeSslPoliciesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "self_link", Type: field.TypeString, Nullable: true},
+		{Name: "creation_timestamp", Type: field.TypeString, Nullable: true},
+		{Name: "profile", Type: field.TypeString, Nullable: true},
+		{Name: "min_tls_version", Type: field.TypeString, Nullable: true},
+		{Name: "fingerprint", Type: field.TypeString, Nullable: true},
+		{Name: "custom_features_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "enabled_features_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "warnings_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpComputeSslPoliciesHistoryTable holds the schema information for the "gcp_compute_ssl_policies_history" table.
+	GcpComputeSslPoliciesHistoryTable = &schema.Table{
+		Name:       "gcp_compute_ssl_policies_history",
+		Columns:    GcpComputeSslPoliciesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpComputeSslPoliciesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpcomputesslpolicy_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeSslPoliciesHistoryColumns[6], GcpComputeSslPoliciesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputesslpolicy_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeSslPoliciesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputesslpolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeSslPoliciesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputesslpolicy_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeSslPoliciesHistoryColumns[17]},
 			},
 		},
 	}
@@ -5932,6 +6402,9 @@ var (
 		GcpComputeDisksTable,
 		GcpComputeDiskLabelsTable,
 		GcpComputeDiskLicensesTable,
+		GcpComputeFirewallsTable,
+		GcpComputeFirewallAllowedsTable,
+		GcpComputeFirewallDeniedsTable,
 		GcpComputeForwardingRulesTable,
 		GcpComputeForwardingRuleLabelsTable,
 		GcpComputeGlobalAddressesTable,
@@ -5959,9 +6432,12 @@ var (
 		GcpComputeNegEndpointsTable,
 		GcpComputeNetworksTable,
 		GcpComputeNetworkPeeringsTable,
+		GcpComputeRoutersTable,
+		GcpComputeSecurityPoliciesTable,
 		GcpComputeSnapshotsTable,
 		GcpComputeSnapshotLabelsTable,
 		GcpComputeSnapshotLicensesTable,
+		GcpComputeSslPoliciesTable,
 		GcpComputeSubnetworksTable,
 		GcpComputeSubnetworkSecondaryRangesTable,
 		GcpComputeTargetHTTPProxiesTable,
@@ -5997,6 +6473,9 @@ var (
 		GcpComputeDisksHistoryTable,
 		GcpComputeDiskLabelsHistoryTable,
 		GcpComputeDiskLicensesHistoryTable,
+		GcpComputeFirewallsHistoryTable,
+		GcpComputeFirewallAllowedsHistoryTable,
+		GcpComputeFirewallDeniedsHistoryTable,
 		GcpComputeForwardingRulesHistoryTable,
 		GcpComputeForwardingRuleLabelsHistoryTable,
 		GcpComputeGlobalAddressesHistoryTable,
@@ -6024,9 +6503,12 @@ var (
 		GcpComputeNegEndpointsHistoryTable,
 		GcpComputeNetworksHistoryTable,
 		GcpComputeNetworkPeeringsHistoryTable,
+		GcpComputeRoutersHistoryTable,
+		GcpComputeSecurityPoliciesHistoryTable,
 		GcpComputeSnapshotsHistoryTable,
 		GcpComputeSnapshotLabelsHistoryTable,
 		GcpComputeSnapshotLicensesHistoryTable,
+		GcpComputeSslPoliciesHistoryTable,
 		GcpComputeSubnetworksHistoryTable,
 		GcpComputeSubnetworkSecondaryRangesHistoryTable,
 		GcpComputeTargetHTTPProxiesHistoryTable,
@@ -6104,6 +6586,17 @@ func init() {
 	GcpComputeDiskLicensesTable.ForeignKeys[0].RefTable = GcpComputeDisksTable
 	GcpComputeDiskLicensesTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_disk_licenses",
+	}
+	GcpComputeFirewallsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_firewalls",
+	}
+	GcpComputeFirewallAllowedsTable.ForeignKeys[0].RefTable = GcpComputeFirewallsTable
+	GcpComputeFirewallAllowedsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_firewall_alloweds",
+	}
+	GcpComputeFirewallDeniedsTable.ForeignKeys[0].RefTable = GcpComputeFirewallsTable
+	GcpComputeFirewallDeniedsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_firewall_denieds",
 	}
 	GcpComputeForwardingRulesTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_forwarding_rules",
@@ -6203,6 +6696,12 @@ func init() {
 	GcpComputeNetworkPeeringsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_network_peerings",
 	}
+	GcpComputeRoutersTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_routers",
+	}
+	GcpComputeSecurityPoliciesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_security_policies",
+	}
 	GcpComputeSnapshotsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_snapshots",
 	}
@@ -6213,6 +6712,9 @@ func init() {
 	GcpComputeSnapshotLicensesTable.ForeignKeys[0].RefTable = GcpComputeSnapshotsTable
 	GcpComputeSnapshotLicensesTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_snapshot_licenses",
+	}
+	GcpComputeSslPoliciesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_ssl_policies",
 	}
 	GcpComputeSubnetworksTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_subnetworks",
@@ -6328,6 +6830,15 @@ func init() {
 	GcpComputeDiskLicensesHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_disk_licenses_history",
 	}
+	GcpComputeFirewallsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_firewalls_history",
+	}
+	GcpComputeFirewallAllowedsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_firewall_alloweds_history",
+	}
+	GcpComputeFirewallDeniedsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_firewall_denieds_history",
+	}
 	GcpComputeForwardingRulesHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_forwarding_rules_history",
 	}
@@ -6409,6 +6920,12 @@ func init() {
 	GcpComputeNetworkPeeringsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_network_peerings_history",
 	}
+	GcpComputeRoutersHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_routers_history",
+	}
+	GcpComputeSecurityPoliciesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_security_policies_history",
+	}
 	GcpComputeSnapshotsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_snapshots_history",
 	}
@@ -6417,6 +6934,9 @@ func init() {
 	}
 	GcpComputeSnapshotLicensesHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_snapshot_licenses_history",
+	}
+	GcpComputeSslPoliciesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_ssl_policies_history",
 	}
 	GcpComputeSubnetworksHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_subnetworks_history",

@@ -8,6 +8,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/address"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/backendservice"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/disk"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/firewall"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/forwardingrule"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/globaladdress"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/globalforwardingrule"
@@ -18,7 +19,10 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/neg"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/negendpoint"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/network"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/router"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/securitypolicy"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/snapshot"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/sslpolicy"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/subnetwork"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/targethttpproxy"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/targethttpsproxy"
@@ -62,6 +66,10 @@ func Register(w worker.Worker, configService *config.Service, entClient *ent.Cli
 	neg.Register(w, configService, entClient, limiter)
 	negendpoint.Register(w, configService, entClient, limiter)
 	backendservice.Register(w, configService, entClient, limiter)
+	firewall.Register(w, configService, entClient, limiter)
+	sslpolicy.Register(w, configService, entClient, limiter)
+	router.Register(w, configService, entClient, limiter)
+	securitypolicy.Register(w, configService, entClient, limiter)
 
 	// Register compute workflow
 	w.RegisterWorkflow(GCPComputeWorkflow)
