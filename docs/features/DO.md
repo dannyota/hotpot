@@ -2,6 +2,42 @@
 
 DigitalOcean API resource ingestion coverage in the bronze layer.
 
+## 🔑 API Token Setup
+
+Create a **custom-scoped** personal access token with read-only permissions.
+Do NOT use "Full Access" or "Read Only" (grants all read scopes including
+credentials).
+
+### Required scopes
+
+| Scope | Grants |
+|-------|--------|
+| `account:read` | View account details |
+| `database:read` | View managed databases |
+| `domain:read` | View domains and records |
+| `droplet:read` | View Droplets |
+| `firewall:read` | View cloud firewalls |
+| `kubernetes:read` | View clusters (no credentials) |
+| `load_balancer:read` | View load balancers |
+| `project:read` | View projects |
+| `block_storage:read` | View volumes |
+| `ssh_key:read` | View SSH keys |
+| `vpc:read` | View VPCs |
+
+### Do NOT grant
+
+These scopes expose secrets and are not needed for ingestion:
+
+| Scope | Risk |
+|-------|------|
+| `database:view_credentials` | Exposes database passwords, certificates, and connection URIs |
+| `kubernetes:access_cluster` | Generates and downloads kubeconfig with client certificates |
+
+The `database:read` scope returns cluster metadata (engine, version, status,
+firewall rules, configs) without connection strings or passwords.
+The `kubernetes:read` scope returns cluster metadata (version, HA, node pools)
+without kubeconfig credentials.
+
 ## 🌐 API v2 (`/v2/`)
 
 ### Account & Billing
