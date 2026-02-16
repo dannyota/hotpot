@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/dns/dnspolicy"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/dns/managedzone"
 )
 
@@ -18,6 +19,7 @@ type GCPDNSWorkflowParams struct {
 type GCPDNSWorkflowResult struct {
 	ProjectID        string
 	ManagedZoneCount int
+	PolicyCount      int
 }
 
 // GCPDNSWorkflow ingests all GCP DNS resources for a single project.
@@ -50,9 +52,20 @@ func GCPDNSWorkflow(ctx workflow.Context, params GCPDNSWorkflowParams) (*GCPDNSW
 	}
 	result.ManagedZoneCount = managedZoneResult.ManagedZoneCount
 
+	// Execute DNS policy workflow
+	var policyResult dnspolicy.GCPDNSPolicyWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, dnspolicy.GCPDNSPolicyWorkflow,
+		dnspolicy.GCPDNSPolicyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &policyResult)
+	if err != nil {
+		logger.Error("Failed to ingest DNS policies", "error", err)
+		return nil, err
+	}
+	result.PolicyCount = policyResult.PolicyCount
+
 	logger.Info("Completed GCPDNSWorkflow",
 		"projectID", params.ProjectID,
 		"managedZoneCount", result.ManagedZoneCount,
+		"policyCount", result.PolicyCount,
 	)
 
 	return result, nil

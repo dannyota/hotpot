@@ -118,6 +118,8 @@ type Tx struct {
 	BronzeGCPComputeInstanceServiceAccount *BronzeGCPComputeInstanceServiceAccountClient
 	// BronzeGCPComputeInstanceTag is the client for interacting with the BronzeGCPComputeInstanceTag builders.
 	BronzeGCPComputeInstanceTag *BronzeGCPComputeInstanceTagClient
+	// BronzeGCPComputeInterconnect is the client for interacting with the BronzeGCPComputeInterconnect builders.
+	BronzeGCPComputeInterconnect *BronzeGCPComputeInterconnectClient
 	// BronzeGCPComputeNeg is the client for interacting with the BronzeGCPComputeNeg builders.
 	BronzeGCPComputeNeg *BronzeGCPComputeNegClient
 	// BronzeGCPComputeNegEndpoint is the client for interacting with the BronzeGCPComputeNegEndpoint builders.
@@ -126,6 +128,12 @@ type Tx struct {
 	BronzeGCPComputeNetwork *BronzeGCPComputeNetworkClient
 	// BronzeGCPComputeNetworkPeering is the client for interacting with the BronzeGCPComputeNetworkPeering builders.
 	BronzeGCPComputeNetworkPeering *BronzeGCPComputeNetworkPeeringClient
+	// BronzeGCPComputePacketMirroring is the client for interacting with the BronzeGCPComputePacketMirroring builders.
+	BronzeGCPComputePacketMirroring *BronzeGCPComputePacketMirroringClient
+	// BronzeGCPComputeProjectMetadata is the client for interacting with the BronzeGCPComputeProjectMetadata builders.
+	BronzeGCPComputeProjectMetadata *BronzeGCPComputeProjectMetadataClient
+	// BronzeGCPComputeProjectMetadataItem is the client for interacting with the BronzeGCPComputeProjectMetadataItem builders.
+	BronzeGCPComputeProjectMetadataItem *BronzeGCPComputeProjectMetadataItemClient
 	// BronzeGCPComputeRouter is the client for interacting with the BronzeGCPComputeRouter builders.
 	BronzeGCPComputeRouter *BronzeGCPComputeRouterClient
 	// BronzeGCPComputeSecurityPolicy is the client for interacting with the BronzeGCPComputeSecurityPolicy builders.
@@ -170,6 +178,16 @@ type Tx struct {
 	BronzeGCPDNSManagedZone *BronzeGCPDNSManagedZoneClient
 	// BronzeGCPDNSManagedZoneLabel is the client for interacting with the BronzeGCPDNSManagedZoneLabel builders.
 	BronzeGCPDNSManagedZoneLabel *BronzeGCPDNSManagedZoneLabelClient
+	// BronzeGCPDNSPolicy is the client for interacting with the BronzeGCPDNSPolicy builders.
+	BronzeGCPDNSPolicy *BronzeGCPDNSPolicyClient
+	// BronzeGCPFolder is the client for interacting with the BronzeGCPFolder builders.
+	BronzeGCPFolder *BronzeGCPFolderClient
+	// BronzeGCPFolderIamPolicy is the client for interacting with the BronzeGCPFolderIamPolicy builders.
+	BronzeGCPFolderIamPolicy *BronzeGCPFolderIamPolicyClient
+	// BronzeGCPFolderIamPolicyBinding is the client for interacting with the BronzeGCPFolderIamPolicyBinding builders.
+	BronzeGCPFolderIamPolicyBinding *BronzeGCPFolderIamPolicyBindingClient
+	// BronzeGCPFolderLabel is the client for interacting with the BronzeGCPFolderLabel builders.
+	BronzeGCPFolderLabel *BronzeGCPFolderLabelClient
 	// BronzeGCPIAMServiceAccount is the client for interacting with the BronzeGCPIAMServiceAccount builders.
 	BronzeGCPIAMServiceAccount *BronzeGCPIAMServiceAccountClient
 	// BronzeGCPIAMServiceAccountKey is the client for interacting with the BronzeGCPIAMServiceAccountKey builders.
@@ -180,10 +198,24 @@ type Tx struct {
 	BronzeGCPKMSKeyRing *BronzeGCPKMSKeyRingClient
 	// BronzeGCPLoggingBucket is the client for interacting with the BronzeGCPLoggingBucket builders.
 	BronzeGCPLoggingBucket *BronzeGCPLoggingBucketClient
+	// BronzeGCPLoggingLogExclusion is the client for interacting with the BronzeGCPLoggingLogExclusion builders.
+	BronzeGCPLoggingLogExclusion *BronzeGCPLoggingLogExclusionClient
+	// BronzeGCPLoggingLogMetric is the client for interacting with the BronzeGCPLoggingLogMetric builders.
+	BronzeGCPLoggingLogMetric *BronzeGCPLoggingLogMetricClient
 	// BronzeGCPLoggingSink is the client for interacting with the BronzeGCPLoggingSink builders.
 	BronzeGCPLoggingSink *BronzeGCPLoggingSinkClient
+	// BronzeGCPOrgIamPolicy is the client for interacting with the BronzeGCPOrgIamPolicy builders.
+	BronzeGCPOrgIamPolicy *BronzeGCPOrgIamPolicyClient
+	// BronzeGCPOrgIamPolicyBinding is the client for interacting with the BronzeGCPOrgIamPolicyBinding builders.
+	BronzeGCPOrgIamPolicyBinding *BronzeGCPOrgIamPolicyBindingClient
+	// BronzeGCPOrganization is the client for interacting with the BronzeGCPOrganization builders.
+	BronzeGCPOrganization *BronzeGCPOrganizationClient
 	// BronzeGCPProject is the client for interacting with the BronzeGCPProject builders.
 	BronzeGCPProject *BronzeGCPProjectClient
+	// BronzeGCPProjectIamPolicy is the client for interacting with the BronzeGCPProjectIamPolicy builders.
+	BronzeGCPProjectIamPolicy *BronzeGCPProjectIamPolicyClient
+	// BronzeGCPProjectIamPolicyBinding is the client for interacting with the BronzeGCPProjectIamPolicyBinding builders.
+	BronzeGCPProjectIamPolicyBinding *BronzeGCPProjectIamPolicyBindingClient
 	// BronzeGCPProjectLabel is the client for interacting with the BronzeGCPProjectLabel builders.
 	BronzeGCPProjectLabel *BronzeGCPProjectLabelClient
 	// BronzeGCPSQLInstance is the client for interacting with the BronzeGCPSQLInstance builders.
@@ -196,6 +228,10 @@ type Tx struct {
 	BronzeGCPSecretManagerSecretLabel *BronzeGCPSecretManagerSecretLabelClient
 	// BronzeGCPStorageBucket is the client for interacting with the BronzeGCPStorageBucket builders.
 	BronzeGCPStorageBucket *BronzeGCPStorageBucketClient
+	// BronzeGCPStorageBucketIamPolicy is the client for interacting with the BronzeGCPStorageBucketIamPolicy builders.
+	BronzeGCPStorageBucketIamPolicy *BronzeGCPStorageBucketIamPolicyClient
+	// BronzeGCPStorageBucketIamPolicyBinding is the client for interacting with the BronzeGCPStorageBucketIamPolicyBinding builders.
+	BronzeGCPStorageBucketIamPolicyBinding *BronzeGCPStorageBucketIamPolicyBindingClient
 	// BronzeGCPStorageBucketLabel is the client for interacting with the BronzeGCPStorageBucketLabel builders.
 	BronzeGCPStorageBucketLabel *BronzeGCPStorageBucketLabelClient
 	// BronzeGCPVPCAccessConnector is the client for interacting with the BronzeGCPVPCAccessConnector builders.
@@ -318,6 +354,8 @@ type Tx struct {
 	BronzeHistoryGCPComputeInstanceServiceAccount *BronzeHistoryGCPComputeInstanceServiceAccountClient
 	// BronzeHistoryGCPComputeInstanceTag is the client for interacting with the BronzeHistoryGCPComputeInstanceTag builders.
 	BronzeHistoryGCPComputeInstanceTag *BronzeHistoryGCPComputeInstanceTagClient
+	// BronzeHistoryGCPComputeInterconnect is the client for interacting with the BronzeHistoryGCPComputeInterconnect builders.
+	BronzeHistoryGCPComputeInterconnect *BronzeHistoryGCPComputeInterconnectClient
 	// BronzeHistoryGCPComputeNeg is the client for interacting with the BronzeHistoryGCPComputeNeg builders.
 	BronzeHistoryGCPComputeNeg *BronzeHistoryGCPComputeNegClient
 	// BronzeHistoryGCPComputeNegEndpoint is the client for interacting with the BronzeHistoryGCPComputeNegEndpoint builders.
@@ -326,6 +364,12 @@ type Tx struct {
 	BronzeHistoryGCPComputeNetwork *BronzeHistoryGCPComputeNetworkClient
 	// BronzeHistoryGCPComputeNetworkPeering is the client for interacting with the BronzeHistoryGCPComputeNetworkPeering builders.
 	BronzeHistoryGCPComputeNetworkPeering *BronzeHistoryGCPComputeNetworkPeeringClient
+	// BronzeHistoryGCPComputePacketMirroring is the client for interacting with the BronzeHistoryGCPComputePacketMirroring builders.
+	BronzeHistoryGCPComputePacketMirroring *BronzeHistoryGCPComputePacketMirroringClient
+	// BronzeHistoryGCPComputeProjectMetadata is the client for interacting with the BronzeHistoryGCPComputeProjectMetadata builders.
+	BronzeHistoryGCPComputeProjectMetadata *BronzeHistoryGCPComputeProjectMetadataClient
+	// BronzeHistoryGCPComputeProjectMetadataItem is the client for interacting with the BronzeHistoryGCPComputeProjectMetadataItem builders.
+	BronzeHistoryGCPComputeProjectMetadataItem *BronzeHistoryGCPComputeProjectMetadataItemClient
 	// BronzeHistoryGCPComputeRouter is the client for interacting with the BronzeHistoryGCPComputeRouter builders.
 	BronzeHistoryGCPComputeRouter *BronzeHistoryGCPComputeRouterClient
 	// BronzeHistoryGCPComputeSecurityPolicy is the client for interacting with the BronzeHistoryGCPComputeSecurityPolicy builders.
@@ -370,6 +414,16 @@ type Tx struct {
 	BronzeHistoryGCPDNSManagedZone *BronzeHistoryGCPDNSManagedZoneClient
 	// BronzeHistoryGCPDNSManagedZoneLabel is the client for interacting with the BronzeHistoryGCPDNSManagedZoneLabel builders.
 	BronzeHistoryGCPDNSManagedZoneLabel *BronzeHistoryGCPDNSManagedZoneLabelClient
+	// BronzeHistoryGCPDNSPolicy is the client for interacting with the BronzeHistoryGCPDNSPolicy builders.
+	BronzeHistoryGCPDNSPolicy *BronzeHistoryGCPDNSPolicyClient
+	// BronzeHistoryGCPFolder is the client for interacting with the BronzeHistoryGCPFolder builders.
+	BronzeHistoryGCPFolder *BronzeHistoryGCPFolderClient
+	// BronzeHistoryGCPFolderIamPolicy is the client for interacting with the BronzeHistoryGCPFolderIamPolicy builders.
+	BronzeHistoryGCPFolderIamPolicy *BronzeHistoryGCPFolderIamPolicyClient
+	// BronzeHistoryGCPFolderIamPolicyBinding is the client for interacting with the BronzeHistoryGCPFolderIamPolicyBinding builders.
+	BronzeHistoryGCPFolderIamPolicyBinding *BronzeHistoryGCPFolderIamPolicyBindingClient
+	// BronzeHistoryGCPFolderLabel is the client for interacting with the BronzeHistoryGCPFolderLabel builders.
+	BronzeHistoryGCPFolderLabel *BronzeHistoryGCPFolderLabelClient
 	// BronzeHistoryGCPIAMServiceAccount is the client for interacting with the BronzeHistoryGCPIAMServiceAccount builders.
 	BronzeHistoryGCPIAMServiceAccount *BronzeHistoryGCPIAMServiceAccountClient
 	// BronzeHistoryGCPIAMServiceAccountKey is the client for interacting with the BronzeHistoryGCPIAMServiceAccountKey builders.
@@ -380,10 +434,24 @@ type Tx struct {
 	BronzeHistoryGCPKMSKeyRing *BronzeHistoryGCPKMSKeyRingClient
 	// BronzeHistoryGCPLoggingBucket is the client for interacting with the BronzeHistoryGCPLoggingBucket builders.
 	BronzeHistoryGCPLoggingBucket *BronzeHistoryGCPLoggingBucketClient
+	// BronzeHistoryGCPLoggingLogExclusion is the client for interacting with the BronzeHistoryGCPLoggingLogExclusion builders.
+	BronzeHistoryGCPLoggingLogExclusion *BronzeHistoryGCPLoggingLogExclusionClient
+	// BronzeHistoryGCPLoggingLogMetric is the client for interacting with the BronzeHistoryGCPLoggingLogMetric builders.
+	BronzeHistoryGCPLoggingLogMetric *BronzeHistoryGCPLoggingLogMetricClient
 	// BronzeHistoryGCPLoggingSink is the client for interacting with the BronzeHistoryGCPLoggingSink builders.
 	BronzeHistoryGCPLoggingSink *BronzeHistoryGCPLoggingSinkClient
+	// BronzeHistoryGCPOrgIamPolicy is the client for interacting with the BronzeHistoryGCPOrgIamPolicy builders.
+	BronzeHistoryGCPOrgIamPolicy *BronzeHistoryGCPOrgIamPolicyClient
+	// BronzeHistoryGCPOrgIamPolicyBinding is the client for interacting with the BronzeHistoryGCPOrgIamPolicyBinding builders.
+	BronzeHistoryGCPOrgIamPolicyBinding *BronzeHistoryGCPOrgIamPolicyBindingClient
+	// BronzeHistoryGCPOrganization is the client for interacting with the BronzeHistoryGCPOrganization builders.
+	BronzeHistoryGCPOrganization *BronzeHistoryGCPOrganizationClient
 	// BronzeHistoryGCPProject is the client for interacting with the BronzeHistoryGCPProject builders.
 	BronzeHistoryGCPProject *BronzeHistoryGCPProjectClient
+	// BronzeHistoryGCPProjectIamPolicy is the client for interacting with the BronzeHistoryGCPProjectIamPolicy builders.
+	BronzeHistoryGCPProjectIamPolicy *BronzeHistoryGCPProjectIamPolicyClient
+	// BronzeHistoryGCPProjectIamPolicyBinding is the client for interacting with the BronzeHistoryGCPProjectIamPolicyBinding builders.
+	BronzeHistoryGCPProjectIamPolicyBinding *BronzeHistoryGCPProjectIamPolicyBindingClient
 	// BronzeHistoryGCPProjectLabel is the client for interacting with the BronzeHistoryGCPProjectLabel builders.
 	BronzeHistoryGCPProjectLabel *BronzeHistoryGCPProjectLabelClient
 	// BronzeHistoryGCPSQLInstance is the client for interacting with the BronzeHistoryGCPSQLInstance builders.
@@ -396,6 +464,10 @@ type Tx struct {
 	BronzeHistoryGCPSecretManagerSecretLabel *BronzeHistoryGCPSecretManagerSecretLabelClient
 	// BronzeHistoryGCPStorageBucket is the client for interacting with the BronzeHistoryGCPStorageBucket builders.
 	BronzeHistoryGCPStorageBucket *BronzeHistoryGCPStorageBucketClient
+	// BronzeHistoryGCPStorageBucketIamPolicy is the client for interacting with the BronzeHistoryGCPStorageBucketIamPolicy builders.
+	BronzeHistoryGCPStorageBucketIamPolicy *BronzeHistoryGCPStorageBucketIamPolicyClient
+	// BronzeHistoryGCPStorageBucketIamPolicyBinding is the client for interacting with the BronzeHistoryGCPStorageBucketIamPolicyBinding builders.
+	BronzeHistoryGCPStorageBucketIamPolicyBinding *BronzeHistoryGCPStorageBucketIamPolicyBindingClient
 	// BronzeHistoryGCPStorageBucketLabel is the client for interacting with the BronzeHistoryGCPStorageBucketLabel builders.
 	BronzeHistoryGCPStorageBucketLabel *BronzeHistoryGCPStorageBucketLabelClient
 	// BronzeHistoryGCPVPCAccessConnector is the client for interacting with the BronzeHistoryGCPVPCAccessConnector builders.
@@ -624,10 +696,14 @@ func (tx *Tx) init() {
 	tx.BronzeGCPComputeInstanceNICAliasRange = NewBronzeGCPComputeInstanceNICAliasRangeClient(tx.config)
 	tx.BronzeGCPComputeInstanceServiceAccount = NewBronzeGCPComputeInstanceServiceAccountClient(tx.config)
 	tx.BronzeGCPComputeInstanceTag = NewBronzeGCPComputeInstanceTagClient(tx.config)
+	tx.BronzeGCPComputeInterconnect = NewBronzeGCPComputeInterconnectClient(tx.config)
 	tx.BronzeGCPComputeNeg = NewBronzeGCPComputeNegClient(tx.config)
 	tx.BronzeGCPComputeNegEndpoint = NewBronzeGCPComputeNegEndpointClient(tx.config)
 	tx.BronzeGCPComputeNetwork = NewBronzeGCPComputeNetworkClient(tx.config)
 	tx.BronzeGCPComputeNetworkPeering = NewBronzeGCPComputeNetworkPeeringClient(tx.config)
+	tx.BronzeGCPComputePacketMirroring = NewBronzeGCPComputePacketMirroringClient(tx.config)
+	tx.BronzeGCPComputeProjectMetadata = NewBronzeGCPComputeProjectMetadataClient(tx.config)
+	tx.BronzeGCPComputeProjectMetadataItem = NewBronzeGCPComputeProjectMetadataItemClient(tx.config)
 	tx.BronzeGCPComputeRouter = NewBronzeGCPComputeRouterClient(tx.config)
 	tx.BronzeGCPComputeSecurityPolicy = NewBronzeGCPComputeSecurityPolicyClient(tx.config)
 	tx.BronzeGCPComputeSnapshot = NewBronzeGCPComputeSnapshotClient(tx.config)
@@ -650,19 +726,33 @@ func (tx *Tx) init() {
 	tx.BronzeGCPContainerClusterNodePool = NewBronzeGCPContainerClusterNodePoolClient(tx.config)
 	tx.BronzeGCPDNSManagedZone = NewBronzeGCPDNSManagedZoneClient(tx.config)
 	tx.BronzeGCPDNSManagedZoneLabel = NewBronzeGCPDNSManagedZoneLabelClient(tx.config)
+	tx.BronzeGCPDNSPolicy = NewBronzeGCPDNSPolicyClient(tx.config)
+	tx.BronzeGCPFolder = NewBronzeGCPFolderClient(tx.config)
+	tx.BronzeGCPFolderIamPolicy = NewBronzeGCPFolderIamPolicyClient(tx.config)
+	tx.BronzeGCPFolderIamPolicyBinding = NewBronzeGCPFolderIamPolicyBindingClient(tx.config)
+	tx.BronzeGCPFolderLabel = NewBronzeGCPFolderLabelClient(tx.config)
 	tx.BronzeGCPIAMServiceAccount = NewBronzeGCPIAMServiceAccountClient(tx.config)
 	tx.BronzeGCPIAMServiceAccountKey = NewBronzeGCPIAMServiceAccountKeyClient(tx.config)
 	tx.BronzeGCPKMSCryptoKey = NewBronzeGCPKMSCryptoKeyClient(tx.config)
 	tx.BronzeGCPKMSKeyRing = NewBronzeGCPKMSKeyRingClient(tx.config)
 	tx.BronzeGCPLoggingBucket = NewBronzeGCPLoggingBucketClient(tx.config)
+	tx.BronzeGCPLoggingLogExclusion = NewBronzeGCPLoggingLogExclusionClient(tx.config)
+	tx.BronzeGCPLoggingLogMetric = NewBronzeGCPLoggingLogMetricClient(tx.config)
 	tx.BronzeGCPLoggingSink = NewBronzeGCPLoggingSinkClient(tx.config)
+	tx.BronzeGCPOrgIamPolicy = NewBronzeGCPOrgIamPolicyClient(tx.config)
+	tx.BronzeGCPOrgIamPolicyBinding = NewBronzeGCPOrgIamPolicyBindingClient(tx.config)
+	tx.BronzeGCPOrganization = NewBronzeGCPOrganizationClient(tx.config)
 	tx.BronzeGCPProject = NewBronzeGCPProjectClient(tx.config)
+	tx.BronzeGCPProjectIamPolicy = NewBronzeGCPProjectIamPolicyClient(tx.config)
+	tx.BronzeGCPProjectIamPolicyBinding = NewBronzeGCPProjectIamPolicyBindingClient(tx.config)
 	tx.BronzeGCPProjectLabel = NewBronzeGCPProjectLabelClient(tx.config)
 	tx.BronzeGCPSQLInstance = NewBronzeGCPSQLInstanceClient(tx.config)
 	tx.BronzeGCPSQLInstanceLabel = NewBronzeGCPSQLInstanceLabelClient(tx.config)
 	tx.BronzeGCPSecretManagerSecret = NewBronzeGCPSecretManagerSecretClient(tx.config)
 	tx.BronzeGCPSecretManagerSecretLabel = NewBronzeGCPSecretManagerSecretLabelClient(tx.config)
 	tx.BronzeGCPStorageBucket = NewBronzeGCPStorageBucketClient(tx.config)
+	tx.BronzeGCPStorageBucketIamPolicy = NewBronzeGCPStorageBucketIamPolicyClient(tx.config)
+	tx.BronzeGCPStorageBucketIamPolicyBinding = NewBronzeGCPStorageBucketIamPolicyBindingClient(tx.config)
 	tx.BronzeGCPStorageBucketLabel = NewBronzeGCPStorageBucketLabelClient(tx.config)
 	tx.BronzeGCPVPCAccessConnector = NewBronzeGCPVPCAccessConnectorClient(tx.config)
 	tx.BronzeGCPVPNGateway = NewBronzeGCPVPNGatewayClient(tx.config)
@@ -724,10 +814,14 @@ func (tx *Tx) init() {
 	tx.BronzeHistoryGCPComputeInstanceNICAliasRange = NewBronzeHistoryGCPComputeInstanceNICAliasRangeClient(tx.config)
 	tx.BronzeHistoryGCPComputeInstanceServiceAccount = NewBronzeHistoryGCPComputeInstanceServiceAccountClient(tx.config)
 	tx.BronzeHistoryGCPComputeInstanceTag = NewBronzeHistoryGCPComputeInstanceTagClient(tx.config)
+	tx.BronzeHistoryGCPComputeInterconnect = NewBronzeHistoryGCPComputeInterconnectClient(tx.config)
 	tx.BronzeHistoryGCPComputeNeg = NewBronzeHistoryGCPComputeNegClient(tx.config)
 	tx.BronzeHistoryGCPComputeNegEndpoint = NewBronzeHistoryGCPComputeNegEndpointClient(tx.config)
 	tx.BronzeHistoryGCPComputeNetwork = NewBronzeHistoryGCPComputeNetworkClient(tx.config)
 	tx.BronzeHistoryGCPComputeNetworkPeering = NewBronzeHistoryGCPComputeNetworkPeeringClient(tx.config)
+	tx.BronzeHistoryGCPComputePacketMirroring = NewBronzeHistoryGCPComputePacketMirroringClient(tx.config)
+	tx.BronzeHistoryGCPComputeProjectMetadata = NewBronzeHistoryGCPComputeProjectMetadataClient(tx.config)
+	tx.BronzeHistoryGCPComputeProjectMetadataItem = NewBronzeHistoryGCPComputeProjectMetadataItemClient(tx.config)
 	tx.BronzeHistoryGCPComputeRouter = NewBronzeHistoryGCPComputeRouterClient(tx.config)
 	tx.BronzeHistoryGCPComputeSecurityPolicy = NewBronzeHistoryGCPComputeSecurityPolicyClient(tx.config)
 	tx.BronzeHistoryGCPComputeSnapshot = NewBronzeHistoryGCPComputeSnapshotClient(tx.config)
@@ -750,19 +844,33 @@ func (tx *Tx) init() {
 	tx.BronzeHistoryGCPContainerClusterNodePool = NewBronzeHistoryGCPContainerClusterNodePoolClient(tx.config)
 	tx.BronzeHistoryGCPDNSManagedZone = NewBronzeHistoryGCPDNSManagedZoneClient(tx.config)
 	tx.BronzeHistoryGCPDNSManagedZoneLabel = NewBronzeHistoryGCPDNSManagedZoneLabelClient(tx.config)
+	tx.BronzeHistoryGCPDNSPolicy = NewBronzeHistoryGCPDNSPolicyClient(tx.config)
+	tx.BronzeHistoryGCPFolder = NewBronzeHistoryGCPFolderClient(tx.config)
+	tx.BronzeHistoryGCPFolderIamPolicy = NewBronzeHistoryGCPFolderIamPolicyClient(tx.config)
+	tx.BronzeHistoryGCPFolderIamPolicyBinding = NewBronzeHistoryGCPFolderIamPolicyBindingClient(tx.config)
+	tx.BronzeHistoryGCPFolderLabel = NewBronzeHistoryGCPFolderLabelClient(tx.config)
 	tx.BronzeHistoryGCPIAMServiceAccount = NewBronzeHistoryGCPIAMServiceAccountClient(tx.config)
 	tx.BronzeHistoryGCPIAMServiceAccountKey = NewBronzeHistoryGCPIAMServiceAccountKeyClient(tx.config)
 	tx.BronzeHistoryGCPKMSCryptoKey = NewBronzeHistoryGCPKMSCryptoKeyClient(tx.config)
 	tx.BronzeHistoryGCPKMSKeyRing = NewBronzeHistoryGCPKMSKeyRingClient(tx.config)
 	tx.BronzeHistoryGCPLoggingBucket = NewBronzeHistoryGCPLoggingBucketClient(tx.config)
+	tx.BronzeHistoryGCPLoggingLogExclusion = NewBronzeHistoryGCPLoggingLogExclusionClient(tx.config)
+	tx.BronzeHistoryGCPLoggingLogMetric = NewBronzeHistoryGCPLoggingLogMetricClient(tx.config)
 	tx.BronzeHistoryGCPLoggingSink = NewBronzeHistoryGCPLoggingSinkClient(tx.config)
+	tx.BronzeHistoryGCPOrgIamPolicy = NewBronzeHistoryGCPOrgIamPolicyClient(tx.config)
+	tx.BronzeHistoryGCPOrgIamPolicyBinding = NewBronzeHistoryGCPOrgIamPolicyBindingClient(tx.config)
+	tx.BronzeHistoryGCPOrganization = NewBronzeHistoryGCPOrganizationClient(tx.config)
 	tx.BronzeHistoryGCPProject = NewBronzeHistoryGCPProjectClient(tx.config)
+	tx.BronzeHistoryGCPProjectIamPolicy = NewBronzeHistoryGCPProjectIamPolicyClient(tx.config)
+	tx.BronzeHistoryGCPProjectIamPolicyBinding = NewBronzeHistoryGCPProjectIamPolicyBindingClient(tx.config)
 	tx.BronzeHistoryGCPProjectLabel = NewBronzeHistoryGCPProjectLabelClient(tx.config)
 	tx.BronzeHistoryGCPSQLInstance = NewBronzeHistoryGCPSQLInstanceClient(tx.config)
 	tx.BronzeHistoryGCPSQLInstanceLabel = NewBronzeHistoryGCPSQLInstanceLabelClient(tx.config)
 	tx.BronzeHistoryGCPSecretManagerSecret = NewBronzeHistoryGCPSecretManagerSecretClient(tx.config)
 	tx.BronzeHistoryGCPSecretManagerSecretLabel = NewBronzeHistoryGCPSecretManagerSecretLabelClient(tx.config)
 	tx.BronzeHistoryGCPStorageBucket = NewBronzeHistoryGCPStorageBucketClient(tx.config)
+	tx.BronzeHistoryGCPStorageBucketIamPolicy = NewBronzeHistoryGCPStorageBucketIamPolicyClient(tx.config)
+	tx.BronzeHistoryGCPStorageBucketIamPolicyBinding = NewBronzeHistoryGCPStorageBucketIamPolicyBindingClient(tx.config)
 	tx.BronzeHistoryGCPStorageBucketLabel = NewBronzeHistoryGCPStorageBucketLabelClient(tx.config)
 	tx.BronzeHistoryGCPVPCAccessConnector = NewBronzeHistoryGCPVPCAccessConnectorClient(tx.config)
 	tx.BronzeHistoryGCPVPNGateway = NewBronzeHistoryGCPVPNGatewayClient(tx.config)

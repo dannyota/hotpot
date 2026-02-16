@@ -7,6 +7,8 @@ import (
 	"go.temporal.io/sdk/workflow"
 
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/logging/logbucket"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/logging/logexclusion"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/logging/logmetric"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/logging/sink"
 )
 
@@ -17,9 +19,11 @@ type GCPLoggingWorkflowParams struct {
 
 // GCPLoggingWorkflowResult contains the result of the logging workflow.
 type GCPLoggingWorkflowResult struct {
-	ProjectID   string
-	SinkCount   int
-	BucketCount int
+	ProjectID      string
+	SinkCount      int
+	BucketCount    int
+	LogMetricCount int
+	ExclusionCount int
 }
 
 // GCPLoggingWorkflow ingests all GCP Cloud Logging resources for a single project.
@@ -62,10 +66,32 @@ func GCPLoggingWorkflow(ctx workflow.Context, params GCPLoggingWorkflowParams) (
 	}
 	result.BucketCount = bucketResult.BucketCount
 
+	// Execute log metric workflow
+	var logMetricResult logmetric.GCPLoggingLogMetricWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, logmetric.GCPLoggingLogMetricWorkflow,
+		logmetric.GCPLoggingLogMetricWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &logMetricResult)
+	if err != nil {
+		logger.Error("Failed to ingest log metrics", "error", err)
+		return nil, err
+	}
+	result.LogMetricCount = logMetricResult.LogMetricCount
+
+	// Execute log exclusion workflow
+	var logExclusionResult logexclusion.GCPLoggingLogExclusionWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, logexclusion.GCPLoggingLogExclusionWorkflow,
+		logexclusion.GCPLoggingLogExclusionWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &logExclusionResult)
+	if err != nil {
+		logger.Error("Failed to ingest log exclusions", "error", err)
+		return nil, err
+	}
+	result.ExclusionCount = logExclusionResult.ExclusionCount
+
 	logger.Info("Completed GCPLoggingWorkflow",
 		"projectID", params.ProjectID,
 		"sinkCount", result.SinkCount,
 		"bucketCount", result.BucketCount,
+		"logMetricCount", result.LogMetricCount,
+		"exclusionCount", result.ExclusionCount,
 	)
 
 	return result, nil

@@ -165,6 +165,9 @@ type BronzeGCPComputeInstanceServiceAccount func(*sql.Selector)
 // BronzeGCPComputeInstanceTag is the predicate function for bronzegcpcomputeinstancetag builders.
 type BronzeGCPComputeInstanceTag func(*sql.Selector)
 
+// BronzeGCPComputeInterconnect is the predicate function for bronzegcpcomputeinterconnect builders.
+type BronzeGCPComputeInterconnect func(*sql.Selector)
+
 // BronzeGCPComputeNeg is the predicate function for bronzegcpcomputeneg builders.
 type BronzeGCPComputeNeg func(*sql.Selector)
 
@@ -176,6 +179,15 @@ type BronzeGCPComputeNetwork func(*sql.Selector)
 
 // BronzeGCPComputeNetworkPeering is the predicate function for bronzegcpcomputenetworkpeering builders.
 type BronzeGCPComputeNetworkPeering func(*sql.Selector)
+
+// BronzeGCPComputePacketMirroring is the predicate function for bronzegcpcomputepacketmirroring builders.
+type BronzeGCPComputePacketMirroring func(*sql.Selector)
+
+// BronzeGCPComputeProjectMetadata is the predicate function for bronzegcpcomputeprojectmetadata builders.
+type BronzeGCPComputeProjectMetadata func(*sql.Selector)
+
+// BronzeGCPComputeProjectMetadataItem is the predicate function for bronzegcpcomputeprojectmetadataitem builders.
+type BronzeGCPComputeProjectMetadataItem func(*sql.Selector)
 
 // BronzeGCPComputeRouter is the predicate function for bronzegcpcomputerouter builders.
 type BronzeGCPComputeRouter func(*sql.Selector)
@@ -243,6 +255,21 @@ type BronzeGCPDNSManagedZone func(*sql.Selector)
 // BronzeGCPDNSManagedZoneLabel is the predicate function for bronzegcpdnsmanagedzonelabel builders.
 type BronzeGCPDNSManagedZoneLabel func(*sql.Selector)
 
+// BronzeGCPDNSPolicy is the predicate function for bronzegcpdnspolicy builders.
+type BronzeGCPDNSPolicy func(*sql.Selector)
+
+// BronzeGCPFolder is the predicate function for bronzegcpfolder builders.
+type BronzeGCPFolder func(*sql.Selector)
+
+// BronzeGCPFolderIamPolicy is the predicate function for bronzegcpfolderiampolicy builders.
+type BronzeGCPFolderIamPolicy func(*sql.Selector)
+
+// BronzeGCPFolderIamPolicyBinding is the predicate function for bronzegcpfolderiampolicybinding builders.
+type BronzeGCPFolderIamPolicyBinding func(*sql.Selector)
+
+// BronzeGCPFolderLabel is the predicate function for bronzegcpfolderlabel builders.
+type BronzeGCPFolderLabel func(*sql.Selector)
+
 // BronzeGCPIAMServiceAccount is the predicate function for bronzegcpiamserviceaccount builders.
 type BronzeGCPIAMServiceAccount func(*sql.Selector)
 
@@ -258,11 +285,32 @@ type BronzeGCPKMSKeyRing func(*sql.Selector)
 // BronzeGCPLoggingBucket is the predicate function for bronzegcploggingbucket builders.
 type BronzeGCPLoggingBucket func(*sql.Selector)
 
+// BronzeGCPLoggingLogExclusion is the predicate function for bronzegcplogginglogexclusion builders.
+type BronzeGCPLoggingLogExclusion func(*sql.Selector)
+
+// BronzeGCPLoggingLogMetric is the predicate function for bronzegcplogginglogmetric builders.
+type BronzeGCPLoggingLogMetric func(*sql.Selector)
+
 // BronzeGCPLoggingSink is the predicate function for bronzegcploggingsink builders.
 type BronzeGCPLoggingSink func(*sql.Selector)
 
+// BronzeGCPOrgIamPolicy is the predicate function for bronzegcporgiampolicy builders.
+type BronzeGCPOrgIamPolicy func(*sql.Selector)
+
+// BronzeGCPOrgIamPolicyBinding is the predicate function for bronzegcporgiampolicybinding builders.
+type BronzeGCPOrgIamPolicyBinding func(*sql.Selector)
+
+// BronzeGCPOrganization is the predicate function for bronzegcporganization builders.
+type BronzeGCPOrganization func(*sql.Selector)
+
 // BronzeGCPProject is the predicate function for bronzegcpproject builders.
 type BronzeGCPProject func(*sql.Selector)
+
+// BronzeGCPProjectIamPolicy is the predicate function for bronzegcpprojectiampolicy builders.
+type BronzeGCPProjectIamPolicy func(*sql.Selector)
+
+// BronzeGCPProjectIamPolicyBinding is the predicate function for bronzegcpprojectiampolicybinding builders.
+type BronzeGCPProjectIamPolicyBinding func(*sql.Selector)
 
 // BronzeGCPProjectLabel is the predicate function for bronzegcpprojectlabel builders.
 type BronzeGCPProjectLabel func(*sql.Selector)
@@ -281,6 +329,12 @@ type BronzeGCPSecretManagerSecretLabel func(*sql.Selector)
 
 // BronzeGCPStorageBucket is the predicate function for bronzegcpstoragebucket builders.
 type BronzeGCPStorageBucket func(*sql.Selector)
+
+// BronzeGCPStorageBucketIamPolicy is the predicate function for bronzegcpstoragebucketiampolicy builders.
+type BronzeGCPStorageBucketIamPolicy func(*sql.Selector)
+
+// BronzeGCPStorageBucketIamPolicyBinding is the predicate function for bronzegcpstoragebucketiampolicybinding builders.
+type BronzeGCPStorageBucketIamPolicyBinding func(*sql.Selector)
 
 // BronzeGCPStorageBucketLabel is the predicate function for bronzegcpstoragebucketlabel builders.
 type BronzeGCPStorageBucketLabel func(*sql.Selector)
@@ -465,6 +519,9 @@ type BronzeHistoryGCPComputeInstanceServiceAccount func(*sql.Selector)
 // BronzeHistoryGCPComputeInstanceTag is the predicate function for bronzehistorygcpcomputeinstancetag builders.
 type BronzeHistoryGCPComputeInstanceTag func(*sql.Selector)
 
+// BronzeHistoryGCPComputeInterconnect is the predicate function for bronzehistorygcpcomputeinterconnect builders.
+type BronzeHistoryGCPComputeInterconnect func(*sql.Selector)
+
 // BronzeHistoryGCPComputeNeg is the predicate function for bronzehistorygcpcomputeneg builders.
 type BronzeHistoryGCPComputeNeg func(*sql.Selector)
 
@@ -476,6 +533,15 @@ type BronzeHistoryGCPComputeNetwork func(*sql.Selector)
 
 // BronzeHistoryGCPComputeNetworkPeering is the predicate function for bronzehistorygcpcomputenetworkpeering builders.
 type BronzeHistoryGCPComputeNetworkPeering func(*sql.Selector)
+
+// BronzeHistoryGCPComputePacketMirroring is the predicate function for bronzehistorygcpcomputepacketmirroring builders.
+type BronzeHistoryGCPComputePacketMirroring func(*sql.Selector)
+
+// BronzeHistoryGCPComputeProjectMetadata is the predicate function for bronzehistorygcpcomputeprojectmetadata builders.
+type BronzeHistoryGCPComputeProjectMetadata func(*sql.Selector)
+
+// BronzeHistoryGCPComputeProjectMetadataItem is the predicate function for bronzehistorygcpcomputeprojectmetadataitem builders.
+type BronzeHistoryGCPComputeProjectMetadataItem func(*sql.Selector)
 
 // BronzeHistoryGCPComputeRouter is the predicate function for bronzehistorygcpcomputerouter builders.
 type BronzeHistoryGCPComputeRouter func(*sql.Selector)
@@ -543,6 +609,21 @@ type BronzeHistoryGCPDNSManagedZone func(*sql.Selector)
 // BronzeHistoryGCPDNSManagedZoneLabel is the predicate function for bronzehistorygcpdnsmanagedzonelabel builders.
 type BronzeHistoryGCPDNSManagedZoneLabel func(*sql.Selector)
 
+// BronzeHistoryGCPDNSPolicy is the predicate function for bronzehistorygcpdnspolicy builders.
+type BronzeHistoryGCPDNSPolicy func(*sql.Selector)
+
+// BronzeHistoryGCPFolder is the predicate function for bronzehistorygcpfolder builders.
+type BronzeHistoryGCPFolder func(*sql.Selector)
+
+// BronzeHistoryGCPFolderIamPolicy is the predicate function for bronzehistorygcpfolderiampolicy builders.
+type BronzeHistoryGCPFolderIamPolicy func(*sql.Selector)
+
+// BronzeHistoryGCPFolderIamPolicyBinding is the predicate function for bronzehistorygcpfolderiampolicybinding builders.
+type BronzeHistoryGCPFolderIamPolicyBinding func(*sql.Selector)
+
+// BronzeHistoryGCPFolderLabel is the predicate function for bronzehistorygcpfolderlabel builders.
+type BronzeHistoryGCPFolderLabel func(*sql.Selector)
+
 // BronzeHistoryGCPIAMServiceAccount is the predicate function for bronzehistorygcpiamserviceaccount builders.
 type BronzeHistoryGCPIAMServiceAccount func(*sql.Selector)
 
@@ -558,11 +639,32 @@ type BronzeHistoryGCPKMSKeyRing func(*sql.Selector)
 // BronzeHistoryGCPLoggingBucket is the predicate function for bronzehistorygcploggingbucket builders.
 type BronzeHistoryGCPLoggingBucket func(*sql.Selector)
 
+// BronzeHistoryGCPLoggingLogExclusion is the predicate function for bronzehistorygcplogginglogexclusion builders.
+type BronzeHistoryGCPLoggingLogExclusion func(*sql.Selector)
+
+// BronzeHistoryGCPLoggingLogMetric is the predicate function for bronzehistorygcplogginglogmetric builders.
+type BronzeHistoryGCPLoggingLogMetric func(*sql.Selector)
+
 // BronzeHistoryGCPLoggingSink is the predicate function for bronzehistorygcploggingsink builders.
 type BronzeHistoryGCPLoggingSink func(*sql.Selector)
 
+// BronzeHistoryGCPOrgIamPolicy is the predicate function for bronzehistorygcporgiampolicy builders.
+type BronzeHistoryGCPOrgIamPolicy func(*sql.Selector)
+
+// BronzeHistoryGCPOrgIamPolicyBinding is the predicate function for bronzehistorygcporgiampolicybinding builders.
+type BronzeHistoryGCPOrgIamPolicyBinding func(*sql.Selector)
+
+// BronzeHistoryGCPOrganization is the predicate function for bronzehistorygcporganization builders.
+type BronzeHistoryGCPOrganization func(*sql.Selector)
+
 // BronzeHistoryGCPProject is the predicate function for bronzehistorygcpproject builders.
 type BronzeHistoryGCPProject func(*sql.Selector)
+
+// BronzeHistoryGCPProjectIamPolicy is the predicate function for bronzehistorygcpprojectiampolicy builders.
+type BronzeHistoryGCPProjectIamPolicy func(*sql.Selector)
+
+// BronzeHistoryGCPProjectIamPolicyBinding is the predicate function for bronzehistorygcpprojectiampolicybinding builders.
+type BronzeHistoryGCPProjectIamPolicyBinding func(*sql.Selector)
 
 // BronzeHistoryGCPProjectLabel is the predicate function for bronzehistorygcpprojectlabel builders.
 type BronzeHistoryGCPProjectLabel func(*sql.Selector)
@@ -581,6 +683,12 @@ type BronzeHistoryGCPSecretManagerSecretLabel func(*sql.Selector)
 
 // BronzeHistoryGCPStorageBucket is the predicate function for bronzehistorygcpstoragebucket builders.
 type BronzeHistoryGCPStorageBucket func(*sql.Selector)
+
+// BronzeHistoryGCPStorageBucketIamPolicy is the predicate function for bronzehistorygcpstoragebucketiampolicy builders.
+type BronzeHistoryGCPStorageBucketIamPolicy func(*sql.Selector)
+
+// BronzeHistoryGCPStorageBucketIamPolicyBinding is the predicate function for bronzehistorygcpstoragebucketiampolicybinding builders.
+type BronzeHistoryGCPStorageBucketIamPolicyBinding func(*sql.Selector)
 
 // BronzeHistoryGCPStorageBucketLabel is the predicate function for bronzehistorygcpstoragebucketlabel builders.
 type BronzeHistoryGCPStorageBucketLabel func(*sql.Selector)

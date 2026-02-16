@@ -1806,6 +1806,50 @@ var (
 			},
 		},
 	}
+	// GcpComputeInterconnectsColumns holds the columns for the "gcp_compute_interconnects" table.
+	GcpComputeInterconnectsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "self_link", Type: field.TypeString, Nullable: true},
+		{Name: "location", Type: field.TypeString, Nullable: true},
+		{Name: "interconnect_type", Type: field.TypeString, Nullable: true},
+		{Name: "link_type", Type: field.TypeString, Nullable: true},
+		{Name: "admin_enabled", Type: field.TypeBool, Default: false},
+		{Name: "operational_status", Type: field.TypeString, Nullable: true},
+		{Name: "provisioned_link_count", Type: field.TypeInt, Nullable: true},
+		{Name: "requested_link_count", Type: field.TypeInt, Nullable: true},
+		{Name: "peer_ip_address", Type: field.TypeString, Nullable: true},
+		{Name: "google_ip_address", Type: field.TypeString, Nullable: true},
+		{Name: "google_reference_id", Type: field.TypeString, Nullable: true},
+		{Name: "noc_contact_email", Type: field.TypeString, Nullable: true},
+		{Name: "customer_name", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeString, Nullable: true},
+		{Name: "creation_timestamp", Type: field.TypeString, Nullable: true},
+		{Name: "expected_outages_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "circuit_infos_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpComputeInterconnectsTable holds the schema information for the "gcp_compute_interconnects" table.
+	GcpComputeInterconnectsTable = &schema.Table{
+		Name:       "gcp_compute_interconnects",
+		Columns:    GcpComputeInterconnectsColumns,
+		PrimaryKey: []*schema.Column{GcpComputeInterconnectsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpcomputeinterconnect_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeInterconnectsColumns[22]},
+			},
+			{
+				Name:    "bronzegcpcomputeinterconnect_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeInterconnectsColumns[1]},
+			},
+		},
+	}
 	// GcpComputeNegsColumns holds the columns for the "gcp_compute_negs" table.
 	GcpComputeNegsColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -1954,6 +1998,94 @@ var (
 				Symbol:     "gcp_compute_network_peerings_gcp_compute_networks_peerings",
 				Columns:    []*schema.Column{GcpComputeNetworkPeeringsColumns[13]},
 				RefColumns: []*schema.Column{GcpComputeNetworksColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+	}
+	// GcpComputePacketMirroringsColumns holds the columns for the "gcp_compute_packet_mirrorings" table.
+	GcpComputePacketMirroringsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "self_link", Type: field.TypeString, Nullable: true},
+		{Name: "region", Type: field.TypeString, Nullable: true},
+		{Name: "network", Type: field.TypeString, Nullable: true},
+		{Name: "priority", Type: field.TypeInt, Nullable: true},
+		{Name: "enable", Type: field.TypeString, Nullable: true},
+		{Name: "collector_ilb_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "mirrored_resources_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "filter_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "creation_timestamp", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpComputePacketMirroringsTable holds the schema information for the "gcp_compute_packet_mirrorings" table.
+	GcpComputePacketMirroringsTable = &schema.Table{
+		Name:       "gcp_compute_packet_mirrorings",
+		Columns:    GcpComputePacketMirroringsColumns,
+		PrimaryKey: []*schema.Column{GcpComputePacketMirroringsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpcomputepacketmirroring_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputePacketMirroringsColumns[14]},
+			},
+			{
+				Name:    "bronzegcpcomputepacketmirroring_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputePacketMirroringsColumns[1]},
+			},
+		},
+	}
+	// GcpComputeProjectMetadataColumns holds the columns for the "gcp_compute_project_metadata" table.
+	GcpComputeProjectMetadataColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "default_service_account", Type: field.TypeString, Nullable: true},
+		{Name: "default_network_tier", Type: field.TypeString, Nullable: true},
+		{Name: "xpn_project_status", Type: field.TypeString, Nullable: true},
+		{Name: "creation_timestamp", Type: field.TypeString, Nullable: true},
+		{Name: "usage_export_location_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpComputeProjectMetadataTable holds the schema information for the "gcp_compute_project_metadata" table.
+	GcpComputeProjectMetadataTable = &schema.Table{
+		Name:       "gcp_compute_project_metadata",
+		Columns:    GcpComputeProjectMetadataColumns,
+		PrimaryKey: []*schema.Column{GcpComputeProjectMetadataColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpcomputeprojectmetadata_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeProjectMetadataColumns[9]},
+			},
+			{
+				Name:    "bronzegcpcomputeprojectmetadata_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeProjectMetadataColumns[1]},
+			},
+		},
+	}
+	// GcpComputeProjectMetadataItemsColumns holds the columns for the "gcp_compute_project_metadata_items" table.
+	GcpComputeProjectMetadataItemsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "key", Type: field.TypeString},
+		{Name: "value", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "bronze_gcp_compute_project_metadata_items", Type: field.TypeString},
+	}
+	// GcpComputeProjectMetadataItemsTable holds the schema information for the "gcp_compute_project_metadata_items" table.
+	GcpComputeProjectMetadataItemsTable = &schema.Table{
+		Name:       "gcp_compute_project_metadata_items",
+		Columns:    GcpComputeProjectMetadataItemsColumns,
+		PrimaryKey: []*schema.Column{GcpComputeProjectMetadataItemsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "gcp_compute_project_metadata_items_gcp_compute_project_metadata_items",
+				Columns:    []*schema.Column{GcpComputeProjectMetadataItemsColumns[3]},
+				RefColumns: []*schema.Column{GcpComputeProjectMetadataColumns[0]},
 				OnDelete:   schema.NoAction,
 			},
 		},
@@ -2714,6 +2846,139 @@ var (
 			},
 		},
 	}
+	// GcpDNSPoliciesColumns holds the columns for the "gcp_dns_policies" table.
+	GcpDNSPoliciesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "enable_inbound_forwarding", Type: field.TypeBool, Default: false},
+		{Name: "enable_logging", Type: field.TypeBool, Default: false},
+		{Name: "networks_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "alternative_name_server_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpDNSPoliciesTable holds the schema information for the "gcp_dns_policies" table.
+	GcpDNSPoliciesTable = &schema.Table{
+		Name:       "gcp_dns_policies",
+		Columns:    GcpDNSPoliciesColumns,
+		PrimaryKey: []*schema.Column{GcpDNSPoliciesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpdnspolicy_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpDNSPoliciesColumns[9]},
+			},
+			{
+				Name:    "bronzegcpdnspolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpDNSPoliciesColumns[1]},
+			},
+		},
+	}
+	// GcpFoldersColumns holds the columns for the "gcp_folders" table.
+	GcpFoldersColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeString, Nullable: true},
+		{Name: "parent", Type: field.TypeString, Nullable: true},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "delete_time", Type: field.TypeString, Nullable: true},
+	}
+	// GcpFoldersTable holds the schema information for the "gcp_folders" table.
+	GcpFoldersTable = &schema.Table{
+		Name:       "gcp_folders",
+		Columns:    GcpFoldersColumns,
+		PrimaryKey: []*schema.Column{GcpFoldersColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpfolder_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFoldersColumns[1]},
+			},
+			{
+				Name:    "bronzegcpfolder_state",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFoldersColumns[5]},
+			},
+			{
+				Name:    "bronzegcpfolder_parent",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFoldersColumns[6]},
+			},
+		},
+	}
+	// GcpFolderIamPoliciesColumns holds the columns for the "gcp_folder_iam_policies" table.
+	GcpFolderIamPoliciesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "resource_name", Type: field.TypeString},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "version", Type: field.TypeInt, Nullable: true},
+	}
+	// GcpFolderIamPoliciesTable holds the schema information for the "gcp_folder_iam_policies" table.
+	GcpFolderIamPoliciesTable = &schema.Table{
+		Name:       "gcp_folder_iam_policies",
+		Columns:    GcpFolderIamPoliciesColumns,
+		PrimaryKey: []*schema.Column{GcpFolderIamPoliciesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpfolderiampolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFolderIamPoliciesColumns[1]},
+			},
+		},
+	}
+	// GcpFolderIamPolicyBindingsColumns holds the columns for the "gcp_folder_iam_policy_bindings" table.
+	GcpFolderIamPolicyBindingsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "role", Type: field.TypeString},
+		{Name: "members_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "condition_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "bronze_gcp_folder_iam_policy_bindings", Type: field.TypeString},
+	}
+	// GcpFolderIamPolicyBindingsTable holds the schema information for the "gcp_folder_iam_policy_bindings" table.
+	GcpFolderIamPolicyBindingsTable = &schema.Table{
+		Name:       "gcp_folder_iam_policy_bindings",
+		Columns:    GcpFolderIamPolicyBindingsColumns,
+		PrimaryKey: []*schema.Column{GcpFolderIamPolicyBindingsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "gcp_folder_iam_policy_bindings_gcp_folder_iam_policies_bindings",
+				Columns:    []*schema.Column{GcpFolderIamPolicyBindingsColumns[4]},
+				RefColumns: []*schema.Column{GcpFolderIamPoliciesColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+	}
+	// GcpFolderLabelsColumns holds the columns for the "gcp_folder_labels" table.
+	GcpFolderLabelsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "key", Type: field.TypeString},
+		{Name: "value", Type: field.TypeString},
+		{Name: "bronze_gcp_folder_labels", Type: field.TypeString},
+	}
+	// GcpFolderLabelsTable holds the schema information for the "gcp_folder_labels" table.
+	GcpFolderLabelsTable = &schema.Table{
+		Name:       "gcp_folder_labels",
+		Columns:    GcpFolderLabelsColumns,
+		PrimaryKey: []*schema.Column{GcpFolderLabelsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "gcp_folder_labels_gcp_folders_labels",
+				Columns:    []*schema.Column{GcpFolderLabelsColumns[3]},
+				RefColumns: []*schema.Column{GcpFoldersColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+	}
 	// GcpIamServiceAccountsColumns holds the columns for the "gcp_iam_service_accounts" table.
 	GcpIamServiceAccountsColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -2889,6 +3154,73 @@ var (
 			},
 		},
 	}
+	// GcpLoggingLogExclusionsColumns holds the columns for the "gcp_logging_log_exclusions" table.
+	GcpLoggingLogExclusionsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "filter", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "disabled", Type: field.TypeBool, Default: false},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpLoggingLogExclusionsTable holds the schema information for the "gcp_logging_log_exclusions" table.
+	GcpLoggingLogExclusionsTable = &schema.Table{
+		Name:       "gcp_logging_log_exclusions",
+		Columns:    GcpLoggingLogExclusionsColumns,
+		PrimaryKey: []*schema.Column{GcpLoggingLogExclusionsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcplogginglogexclusion_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpLoggingLogExclusionsColumns[9]},
+			},
+			{
+				Name:    "bronzegcplogginglogexclusion_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpLoggingLogExclusionsColumns[1]},
+			},
+		},
+	}
+	// GcpLoggingLogMetricsColumns holds the columns for the "gcp_logging_log_metrics" table.
+	GcpLoggingLogMetricsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "filter", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "metric_descriptor_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "label_extractors_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "bucket_options_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "value_extractor", Type: field.TypeString, Nullable: true},
+		{Name: "version", Type: field.TypeString, Nullable: true},
+		{Name: "disabled", Type: field.TypeBool, Default: false},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpLoggingLogMetricsTable holds the schema information for the "gcp_logging_log_metrics" table.
+	GcpLoggingLogMetricsTable = &schema.Table{
+		Name:       "gcp_logging_log_metrics",
+		Columns:    GcpLoggingLogMetricsColumns,
+		PrimaryKey: []*schema.Column{GcpLoggingLogMetricsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcplogginglogmetric_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpLoggingLogMetricsColumns[14]},
+			},
+			{
+				Name:    "bronzegcplogginglogmetric_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpLoggingLogMetricsColumns[1]},
+			},
+		},
+	}
 	// GcpLoggingSinksColumns holds the columns for the "gcp_logging_sinks" table.
 	GcpLoggingSinksColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -2920,6 +3252,82 @@ var (
 				Name:    "bronzegcploggingsink_collected_at",
 				Unique:  false,
 				Columns: []*schema.Column{GcpLoggingSinksColumns[1]},
+			},
+		},
+	}
+	// GcpOrgIamPoliciesColumns holds the columns for the "gcp_org_iam_policies" table.
+	GcpOrgIamPoliciesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "resource_name", Type: field.TypeString},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "version", Type: field.TypeInt, Nullable: true},
+	}
+	// GcpOrgIamPoliciesTable holds the schema information for the "gcp_org_iam_policies" table.
+	GcpOrgIamPoliciesTable = &schema.Table{
+		Name:       "gcp_org_iam_policies",
+		Columns:    GcpOrgIamPoliciesColumns,
+		PrimaryKey: []*schema.Column{GcpOrgIamPoliciesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcporgiampolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgIamPoliciesColumns[1]},
+			},
+		},
+	}
+	// GcpOrgIamPolicyBindingsColumns holds the columns for the "gcp_org_iam_policy_bindings" table.
+	GcpOrgIamPolicyBindingsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "role", Type: field.TypeString},
+		{Name: "members_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "condition_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "bronze_gcp_org_iam_policy_bindings", Type: field.TypeString},
+	}
+	// GcpOrgIamPolicyBindingsTable holds the schema information for the "gcp_org_iam_policy_bindings" table.
+	GcpOrgIamPolicyBindingsTable = &schema.Table{
+		Name:       "gcp_org_iam_policy_bindings",
+		Columns:    GcpOrgIamPolicyBindingsColumns,
+		PrimaryKey: []*schema.Column{GcpOrgIamPolicyBindingsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "gcp_org_iam_policy_bindings_gcp_org_iam_policies_bindings",
+				Columns:    []*schema.Column{GcpOrgIamPolicyBindingsColumns[4]},
+				RefColumns: []*schema.Column{GcpOrgIamPoliciesColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+	}
+	// GcpOrganizationsColumns holds the columns for the "gcp_organizations" table.
+	GcpOrganizationsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeString, Nullable: true},
+		{Name: "directory_customer_id", Type: field.TypeString, Nullable: true},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "delete_time", Type: field.TypeString, Nullable: true},
+	}
+	// GcpOrganizationsTable holds the schema information for the "gcp_organizations" table.
+	GcpOrganizationsTable = &schema.Table{
+		Name:       "gcp_organizations",
+		Columns:    GcpOrganizationsColumns,
+		PrimaryKey: []*schema.Column{GcpOrganizationsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcporganization_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrganizationsColumns[1]},
+			},
+			{
+				Name:    "bronzegcporganization_state",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrganizationsColumns[5]},
 			},
 		},
 	}
@@ -2957,6 +3365,56 @@ var (
 				Name:    "bronzegcpproject_collected_at",
 				Unique:  false,
 				Columns: []*schema.Column{GcpProjectsColumns[1]},
+			},
+		},
+	}
+	// GcpProjectIamPoliciesColumns holds the columns for the "gcp_project_iam_policies" table.
+	GcpProjectIamPoliciesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "resource_name", Type: field.TypeString},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "version", Type: field.TypeInt, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpProjectIamPoliciesTable holds the schema information for the "gcp_project_iam_policies" table.
+	GcpProjectIamPoliciesTable = &schema.Table{
+		Name:       "gcp_project_iam_policies",
+		Columns:    GcpProjectIamPoliciesColumns,
+		PrimaryKey: []*schema.Column{GcpProjectIamPoliciesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpprojectiampolicy_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpProjectIamPoliciesColumns[6]},
+			},
+			{
+				Name:    "bronzegcpprojectiampolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpProjectIamPoliciesColumns[1]},
+			},
+		},
+	}
+	// GcpProjectIamPolicyBindingsColumns holds the columns for the "gcp_project_iam_policy_bindings" table.
+	GcpProjectIamPolicyBindingsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "role", Type: field.TypeString},
+		{Name: "members_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "condition_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "bronze_gcp_project_iam_policy_bindings", Type: field.TypeString},
+	}
+	// GcpProjectIamPolicyBindingsTable holds the schema information for the "gcp_project_iam_policy_bindings" table.
+	GcpProjectIamPolicyBindingsTable = &schema.Table{
+		Name:       "gcp_project_iam_policy_bindings",
+		Columns:    GcpProjectIamPolicyBindingsColumns,
+		PrimaryKey: []*schema.Column{GcpProjectIamPolicyBindingsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "gcp_project_iam_policy_bindings_gcp_project_iam_policies_bindings",
+				Columns:    []*schema.Column{GcpProjectIamPolicyBindingsColumns[4]},
+				RefColumns: []*schema.Column{GcpProjectIamPoliciesColumns[0]},
+				OnDelete:   schema.NoAction,
 			},
 		},
 	}
@@ -3143,6 +3601,56 @@ var (
 				Name:    "bronzegcpstoragebucket_collected_at",
 				Unique:  false,
 				Columns: []*schema.Column{GcpStorageBucketsColumns[1]},
+			},
+		},
+	}
+	// GcpStorageBucketIamPoliciesColumns holds the columns for the "gcp_storage_bucket_iam_policies" table.
+	GcpStorageBucketIamPoliciesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "bucket_name", Type: field.TypeString},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "version", Type: field.TypeInt, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpStorageBucketIamPoliciesTable holds the schema information for the "gcp_storage_bucket_iam_policies" table.
+	GcpStorageBucketIamPoliciesTable = &schema.Table{
+		Name:       "gcp_storage_bucket_iam_policies",
+		Columns:    GcpStorageBucketIamPoliciesColumns,
+		PrimaryKey: []*schema.Column{GcpStorageBucketIamPoliciesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegcpstoragebucketiampolicy_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpStorageBucketIamPoliciesColumns[6]},
+			},
+			{
+				Name:    "bronzegcpstoragebucketiampolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpStorageBucketIamPoliciesColumns[1]},
+			},
+		},
+	}
+	// GcpStorageBucketIamPolicyBindingsColumns holds the columns for the "gcp_storage_bucket_iam_policy_bindings" table.
+	GcpStorageBucketIamPolicyBindingsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "role", Type: field.TypeString},
+		{Name: "members_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "condition_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "bronze_gcp_storage_bucket_iam_policy_bindings", Type: field.TypeString},
+	}
+	// GcpStorageBucketIamPolicyBindingsTable holds the schema information for the "gcp_storage_bucket_iam_policy_bindings" table.
+	GcpStorageBucketIamPolicyBindingsTable = &schema.Table{
+		Name:       "gcp_storage_bucket_iam_policy_bindings",
+		Columns:    GcpStorageBucketIamPolicyBindingsColumns,
+		PrimaryKey: []*schema.Column{GcpStorageBucketIamPolicyBindingsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "gcp_storage_bucket_iam_policy_bindings_gcp_storage_bucket_iam_policies_bindings",
+				Columns:    []*schema.Column{GcpStorageBucketIamPolicyBindingsColumns[4]},
+				RefColumns: []*schema.Column{GcpStorageBucketIamPoliciesColumns[0]},
+				OnDelete:   schema.NoAction,
 			},
 		},
 	}
@@ -5839,6 +6347,64 @@ var (
 			},
 		},
 	}
+	// GcpComputeInterconnectsHistoryColumns holds the columns for the "gcp_compute_interconnects_history" table.
+	GcpComputeInterconnectsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "self_link", Type: field.TypeString, Nullable: true},
+		{Name: "location", Type: field.TypeString, Nullable: true},
+		{Name: "interconnect_type", Type: field.TypeString, Nullable: true},
+		{Name: "link_type", Type: field.TypeString, Nullable: true},
+		{Name: "admin_enabled", Type: field.TypeBool, Default: false},
+		{Name: "operational_status", Type: field.TypeString, Nullable: true},
+		{Name: "provisioned_link_count", Type: field.TypeInt, Nullable: true},
+		{Name: "requested_link_count", Type: field.TypeInt, Nullable: true},
+		{Name: "peer_ip_address", Type: field.TypeString, Nullable: true},
+		{Name: "google_ip_address", Type: field.TypeString, Nullable: true},
+		{Name: "google_reference_id", Type: field.TypeString, Nullable: true},
+		{Name: "noc_contact_email", Type: field.TypeString, Nullable: true},
+		{Name: "customer_name", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeString, Nullable: true},
+		{Name: "creation_timestamp", Type: field.TypeString, Nullable: true},
+		{Name: "expected_outages_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "circuit_infos_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpComputeInterconnectsHistoryTable holds the schema information for the "gcp_compute_interconnects_history" table.
+	GcpComputeInterconnectsHistoryTable = &schema.Table{
+		Name:       "gcp_compute_interconnects_history",
+		Columns:    GcpComputeInterconnectsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpComputeInterconnectsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpcomputeinterconnect_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeInterconnectsHistoryColumns[6], GcpComputeInterconnectsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputeinterconnect_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeInterconnectsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputeinterconnect_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeInterconnectsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputeinterconnect_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeInterconnectsHistoryColumns[26]},
+			},
+		},
+	}
 	// GcpComputeNegsHistoryColumns holds the columns for the "gcp_compute_negs_history" table.
 	GcpComputeNegsHistoryColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -6032,6 +6598,134 @@ var (
 				Name:    "bronzehistorygcpcomputenetworkpeering_valid_to",
 				Unique:  false,
 				Columns: []*schema.Column{GcpComputeNetworkPeeringsHistoryColumns[4]},
+			},
+		},
+	}
+	// GcpComputePacketMirroringsHistoryColumns holds the columns for the "gcp_compute_packet_mirrorings_history" table.
+	GcpComputePacketMirroringsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "self_link", Type: field.TypeString, Nullable: true},
+		{Name: "region", Type: field.TypeString, Nullable: true},
+		{Name: "network", Type: field.TypeString, Nullable: true},
+		{Name: "priority", Type: field.TypeInt, Nullable: true},
+		{Name: "enable", Type: field.TypeString, Nullable: true},
+		{Name: "collector_ilb_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "mirrored_resources_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "filter_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "creation_timestamp", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpComputePacketMirroringsHistoryTable holds the schema information for the "gcp_compute_packet_mirrorings_history" table.
+	GcpComputePacketMirroringsHistoryTable = &schema.Table{
+		Name:       "gcp_compute_packet_mirrorings_history",
+		Columns:    GcpComputePacketMirroringsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpComputePacketMirroringsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpcomputepacketmirroring_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputePacketMirroringsHistoryColumns[6], GcpComputePacketMirroringsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputepacketmirroring_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputePacketMirroringsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputepacketmirroring_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputePacketMirroringsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputepacketmirroring_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputePacketMirroringsHistoryColumns[18]},
+			},
+		},
+	}
+	// GcpComputeProjectMetadataHistoryColumns holds the columns for the "gcp_compute_project_metadata_history" table.
+	GcpComputeProjectMetadataHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "default_service_account", Type: field.TypeString, Nullable: true},
+		{Name: "default_network_tier", Type: field.TypeString, Nullable: true},
+		{Name: "xpn_project_status", Type: field.TypeString, Nullable: true},
+		{Name: "creation_timestamp", Type: field.TypeString, Nullable: true},
+		{Name: "usage_export_location_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpComputeProjectMetadataHistoryTable holds the schema information for the "gcp_compute_project_metadata_history" table.
+	GcpComputeProjectMetadataHistoryTable = &schema.Table{
+		Name:       "gcp_compute_project_metadata_history",
+		Columns:    GcpComputeProjectMetadataHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpComputeProjectMetadataHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpcomputeprojectmetadata_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeProjectMetadataHistoryColumns[6], GcpComputeProjectMetadataHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputeprojectmetadata_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeProjectMetadataHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputeprojectmetadata_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeProjectMetadataHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputeprojectmetadata_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeProjectMetadataHistoryColumns[13]},
+			},
+		},
+	}
+	// GcpComputeProjectMetadataItemsHistoryColumns holds the columns for the "gcp_compute_project_metadata_items_history" table.
+	GcpComputeProjectMetadataItemsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "metadata_history_id", Type: field.TypeUint},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "key", Type: field.TypeString},
+		{Name: "value", Type: field.TypeString, Nullable: true, Size: 2147483647},
+	}
+	// GcpComputeProjectMetadataItemsHistoryTable holds the schema information for the "gcp_compute_project_metadata_items_history" table.
+	GcpComputeProjectMetadataItemsHistoryTable = &schema.Table{
+		Name:       "gcp_compute_project_metadata_items_history",
+		Columns:    GcpComputeProjectMetadataItemsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpComputeProjectMetadataItemsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpcomputeprojectmetadataitem_metadata_history_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeProjectMetadataItemsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputeprojectmetadataitem_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeProjectMetadataItemsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpcomputeprojectmetadataitem_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpComputeProjectMetadataItemsHistoryColumns[4]},
 			},
 		},
 	}
@@ -7068,6 +7762,195 @@ var (
 			},
 		},
 	}
+	// GcpDNSPoliciesHistoryColumns holds the columns for the "gcp_dns_policies_history" table.
+	GcpDNSPoliciesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "enable_inbound_forwarding", Type: field.TypeBool, Default: false},
+		{Name: "enable_logging", Type: field.TypeBool, Default: false},
+		{Name: "networks_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "alternative_name_server_config_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpDNSPoliciesHistoryTable holds the schema information for the "gcp_dns_policies_history" table.
+	GcpDNSPoliciesHistoryTable = &schema.Table{
+		Name:       "gcp_dns_policies_history",
+		Columns:    GcpDNSPoliciesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpDNSPoliciesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpdnspolicy_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpDNSPoliciesHistoryColumns[6], GcpDNSPoliciesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpdnspolicy_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpDNSPoliciesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpdnspolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpDNSPoliciesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpdnspolicy_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpDNSPoliciesHistoryColumns[13]},
+			},
+		},
+	}
+	// GcpFoldersHistoryColumns holds the columns for the "gcp_folders_history" table.
+	GcpFoldersHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeString, Nullable: true},
+		{Name: "parent", Type: field.TypeString, Nullable: true},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "delete_time", Type: field.TypeString, Nullable: true},
+	}
+	// GcpFoldersHistoryTable holds the schema information for the "gcp_folders_history" table.
+	GcpFoldersHistoryTable = &schema.Table{
+		Name:       "gcp_folders_history",
+		Columns:    GcpFoldersHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpFoldersHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpfolder_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFoldersHistoryColumns[6], GcpFoldersHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpfolder_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFoldersHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpfolder_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFoldersHistoryColumns[3]},
+			},
+		},
+	}
+	// GcpFolderIamPoliciesHistoryColumns holds the columns for the "gcp_folder_iam_policies_history" table.
+	GcpFolderIamPoliciesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "resource_name", Type: field.TypeString},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "version", Type: field.TypeInt, Nullable: true},
+	}
+	// GcpFolderIamPoliciesHistoryTable holds the schema information for the "gcp_folder_iam_policies_history" table.
+	GcpFolderIamPoliciesHistoryTable = &schema.Table{
+		Name:       "gcp_folder_iam_policies_history",
+		Columns:    GcpFolderIamPoliciesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpFolderIamPoliciesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpfolderiampolicy_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFolderIamPoliciesHistoryColumns[6], GcpFolderIamPoliciesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpfolderiampolicy_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFolderIamPoliciesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpfolderiampolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFolderIamPoliciesHistoryColumns[3]},
+			},
+		},
+	}
+	// GcpFolderIamPolicyBindingsHistoryColumns holds the columns for the "gcp_folder_iam_policy_bindings_history" table.
+	GcpFolderIamPolicyBindingsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "policy_history_id", Type: field.TypeUint},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "role", Type: field.TypeString},
+		{Name: "members_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "condition_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// GcpFolderIamPolicyBindingsHistoryTable holds the schema information for the "gcp_folder_iam_policy_bindings_history" table.
+	GcpFolderIamPolicyBindingsHistoryTable = &schema.Table{
+		Name:       "gcp_folder_iam_policy_bindings_history",
+		Columns:    GcpFolderIamPolicyBindingsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpFolderIamPolicyBindingsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpfolderiampolicybinding_policy_history_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFolderIamPolicyBindingsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpfolderiampolicybinding_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFolderIamPolicyBindingsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpfolderiampolicybinding_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFolderIamPolicyBindingsHistoryColumns[4]},
+			},
+		},
+	}
+	// GcpFolderLabelsHistoryColumns holds the columns for the "gcp_folder_labels_history" table.
+	GcpFolderLabelsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "folder_history_id", Type: field.TypeUint},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "key", Type: field.TypeString, Nullable: true},
+		{Name: "value", Type: field.TypeString},
+	}
+	// GcpFolderLabelsHistoryTable holds the schema information for the "gcp_folder_labels_history" table.
+	GcpFolderLabelsHistoryTable = &schema.Table{
+		Name:       "gcp_folder_labels_history",
+		Columns:    GcpFolderLabelsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpFolderLabelsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpfolderlabel_folder_history_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFolderLabelsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpfolderlabel_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFolderLabelsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpfolderlabel_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpFolderLabelsHistoryColumns[4]},
+			},
+		},
+	}
 	// GcpIamServiceAccountsHistoryColumns holds the columns for the "gcp_iam_service_accounts_history" table.
 	GcpIamServiceAccountsHistoryColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -7303,6 +8186,101 @@ var (
 			},
 		},
 	}
+	// GcpLoggingLogExclusionsHistoryColumns holds the columns for the "gcp_logging_log_exclusions_history" table.
+	GcpLoggingLogExclusionsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "filter", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "disabled", Type: field.TypeBool, Default: false},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpLoggingLogExclusionsHistoryTable holds the schema information for the "gcp_logging_log_exclusions_history" table.
+	GcpLoggingLogExclusionsHistoryTable = &schema.Table{
+		Name:       "gcp_logging_log_exclusions_history",
+		Columns:    GcpLoggingLogExclusionsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpLoggingLogExclusionsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcplogginglogexclusion_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpLoggingLogExclusionsHistoryColumns[6], GcpLoggingLogExclusionsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcplogginglogexclusion_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpLoggingLogExclusionsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcplogginglogexclusion_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpLoggingLogExclusionsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcplogginglogexclusion_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpLoggingLogExclusionsHistoryColumns[13]},
+			},
+		},
+	}
+	// GcpLoggingLogMetricsHistoryColumns holds the columns for the "gcp_logging_log_metrics_history" table.
+	GcpLoggingLogMetricsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "filter", Type: field.TypeString, Nullable: true, Size: 2147483647},
+		{Name: "metric_descriptor_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "label_extractors_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "bucket_options_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "value_extractor", Type: field.TypeString, Nullable: true},
+		{Name: "version", Type: field.TypeString, Nullable: true},
+		{Name: "disabled", Type: field.TypeBool, Default: false},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpLoggingLogMetricsHistoryTable holds the schema information for the "gcp_logging_log_metrics_history" table.
+	GcpLoggingLogMetricsHistoryTable = &schema.Table{
+		Name:       "gcp_logging_log_metrics_history",
+		Columns:    GcpLoggingLogMetricsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpLoggingLogMetricsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcplogginglogmetric_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpLoggingLogMetricsHistoryColumns[6], GcpLoggingLogMetricsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcplogginglogmetric_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpLoggingLogMetricsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcplogginglogmetric_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpLoggingLogMetricsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcplogginglogmetric_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpLoggingLogMetricsHistoryColumns[18]},
+			},
+		},
+	}
 	// GcpLoggingSinksHistoryColumns holds the columns for the "gcp_logging_sinks_history" table.
 	GcpLoggingSinksHistoryColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -7351,6 +8329,117 @@ var (
 			},
 		},
 	}
+	// GcpOrgIamPoliciesHistoryColumns holds the columns for the "gcp_org_iam_policies_history" table.
+	GcpOrgIamPoliciesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "resource_name", Type: field.TypeString},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "version", Type: field.TypeInt, Nullable: true},
+	}
+	// GcpOrgIamPoliciesHistoryTable holds the schema information for the "gcp_org_iam_policies_history" table.
+	GcpOrgIamPoliciesHistoryTable = &schema.Table{
+		Name:       "gcp_org_iam_policies_history",
+		Columns:    GcpOrgIamPoliciesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpOrgIamPoliciesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcporgiampolicy_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgIamPoliciesHistoryColumns[6], GcpOrgIamPoliciesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcporgiampolicy_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgIamPoliciesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcporgiampolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgIamPoliciesHistoryColumns[3]},
+			},
+		},
+	}
+	// GcpOrgIamPolicyBindingsHistoryColumns holds the columns for the "gcp_org_iam_policy_bindings_history" table.
+	GcpOrgIamPolicyBindingsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "policy_history_id", Type: field.TypeUint},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "role", Type: field.TypeString},
+		{Name: "members_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "condition_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// GcpOrgIamPolicyBindingsHistoryTable holds the schema information for the "gcp_org_iam_policy_bindings_history" table.
+	GcpOrgIamPolicyBindingsHistoryTable = &schema.Table{
+		Name:       "gcp_org_iam_policy_bindings_history",
+		Columns:    GcpOrgIamPolicyBindingsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpOrgIamPolicyBindingsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcporgiampolicybinding_policy_history_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgIamPolicyBindingsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcporgiampolicybinding_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgIamPolicyBindingsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcporgiampolicybinding_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrgIamPolicyBindingsHistoryColumns[4]},
+			},
+		},
+	}
+	// GcpOrganizationsHistoryColumns holds the columns for the "gcp_organizations_history" table.
+	GcpOrganizationsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "display_name", Type: field.TypeString, Nullable: true},
+		{Name: "state", Type: field.TypeString, Nullable: true},
+		{Name: "directory_customer_id", Type: field.TypeString, Nullable: true},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "create_time", Type: field.TypeString, Nullable: true},
+		{Name: "update_time", Type: field.TypeString, Nullable: true},
+		{Name: "delete_time", Type: field.TypeString, Nullable: true},
+	}
+	// GcpOrganizationsHistoryTable holds the schema information for the "gcp_organizations_history" table.
+	GcpOrganizationsHistoryTable = &schema.Table{
+		Name:       "gcp_organizations_history",
+		Columns:    GcpOrganizationsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpOrganizationsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcporganization_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrganizationsHistoryColumns[6], GcpOrganizationsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcporganization_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrganizationsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcporganization_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpOrganizationsHistoryColumns[3]},
+			},
+		},
+	}
 	// GcpProjectsHistoryColumns holds the columns for the "gcp_projects_history" table.
 	GcpProjectsHistoryColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -7389,6 +8478,77 @@ var (
 				Name:    "bronzehistorygcpproject_collected_at",
 				Unique:  false,
 				Columns: []*schema.Column{GcpProjectsHistoryColumns[3]},
+			},
+		},
+	}
+	// GcpProjectIamPoliciesHistoryColumns holds the columns for the "gcp_project_iam_policies_history" table.
+	GcpProjectIamPoliciesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "resource_name", Type: field.TypeString},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "version", Type: field.TypeInt, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpProjectIamPoliciesHistoryTable holds the schema information for the "gcp_project_iam_policies_history" table.
+	GcpProjectIamPoliciesHistoryTable = &schema.Table{
+		Name:       "gcp_project_iam_policies_history",
+		Columns:    GcpProjectIamPoliciesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpProjectIamPoliciesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpprojectiampolicy_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpProjectIamPoliciesHistoryColumns[6], GcpProjectIamPoliciesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpprojectiampolicy_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpProjectIamPoliciesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpprojectiampolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpProjectIamPoliciesHistoryColumns[3]},
+			},
+		},
+	}
+	// GcpProjectIamPolicyBindingsHistoryColumns holds the columns for the "gcp_project_iam_policy_bindings_history" table.
+	GcpProjectIamPolicyBindingsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "policy_history_id", Type: field.TypeUint},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "role", Type: field.TypeString},
+		{Name: "members_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "condition_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// GcpProjectIamPolicyBindingsHistoryTable holds the schema information for the "gcp_project_iam_policy_bindings_history" table.
+	GcpProjectIamPolicyBindingsHistoryTable = &schema.Table{
+		Name:       "gcp_project_iam_policy_bindings_history",
+		Columns:    GcpProjectIamPolicyBindingsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpProjectIamPolicyBindingsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpprojectiampolicybinding_policy_history_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpProjectIamPolicyBindingsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpprojectiampolicybinding_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpProjectIamPolicyBindingsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpprojectiampolicybinding_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpProjectIamPolicyBindingsHistoryColumns[4]},
 			},
 		},
 	}
@@ -7648,6 +8808,82 @@ var (
 				Name:    "bronzehistorygcpstoragebucket_project_id",
 				Unique:  false,
 				Columns: []*schema.Column{GcpStorageBucketsHistoryColumns[25]},
+			},
+		},
+	}
+	// GcpStorageBucketIamPoliciesHistoryColumns holds the columns for the "gcp_storage_bucket_iam_policies_history" table.
+	GcpStorageBucketIamPoliciesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "bucket_name", Type: field.TypeString},
+		{Name: "etag", Type: field.TypeString, Nullable: true},
+		{Name: "version", Type: field.TypeInt, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GcpStorageBucketIamPoliciesHistoryTable holds the schema information for the "gcp_storage_bucket_iam_policies_history" table.
+	GcpStorageBucketIamPoliciesHistoryTable = &schema.Table{
+		Name:       "gcp_storage_bucket_iam_policies_history",
+		Columns:    GcpStorageBucketIamPoliciesHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpStorageBucketIamPoliciesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpstoragebucketiampolicy_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpStorageBucketIamPoliciesHistoryColumns[6], GcpStorageBucketIamPoliciesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygcpstoragebucketiampolicy_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpStorageBucketIamPoliciesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpstoragebucketiampolicy_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GcpStorageBucketIamPoliciesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpstoragebucketiampolicy_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpStorageBucketIamPoliciesHistoryColumns[10]},
+			},
+		},
+	}
+	// GcpStorageBucketIamPolicyBindingsHistoryColumns holds the columns for the "gcp_storage_bucket_iam_policy_bindings_history" table.
+	GcpStorageBucketIamPolicyBindingsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "policy_history_id", Type: field.TypeUint},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "role", Type: field.TypeString},
+		{Name: "members_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "condition_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// GcpStorageBucketIamPolicyBindingsHistoryTable holds the schema information for the "gcp_storage_bucket_iam_policy_bindings_history" table.
+	GcpStorageBucketIamPolicyBindingsHistoryTable = &schema.Table{
+		Name:       "gcp_storage_bucket_iam_policy_bindings_history",
+		Columns:    GcpStorageBucketIamPolicyBindingsHistoryColumns,
+		PrimaryKey: []*schema.Column{GcpStorageBucketIamPolicyBindingsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygcpstoragebucketiampolicybinding_policy_history_id",
+				Unique:  false,
+				Columns: []*schema.Column{GcpStorageBucketIamPolicyBindingsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygcpstoragebucketiampolicybinding_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GcpStorageBucketIamPolicyBindingsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygcpstoragebucketiampolicybinding_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GcpStorageBucketIamPolicyBindingsHistoryColumns[4]},
 			},
 		},
 	}
@@ -8866,10 +10102,14 @@ var (
 		GcpComputeInstanceNicAliasRangesTable,
 		GcpComputeInstanceServiceAccountsTable,
 		GcpComputeInstanceTagsTable,
+		GcpComputeInterconnectsTable,
 		GcpComputeNegsTable,
 		GcpComputeNegEndpointsTable,
 		GcpComputeNetworksTable,
 		GcpComputeNetworkPeeringsTable,
+		GcpComputePacketMirroringsTable,
+		GcpComputeProjectMetadataTable,
+		GcpComputeProjectMetadataItemsTable,
 		GcpComputeRoutersTable,
 		GcpComputeSecurityPoliciesTable,
 		GcpComputeSnapshotsTable,
@@ -8892,19 +10132,33 @@ var (
 		GcpContainerClusterNodePoolsTable,
 		GcpDNSManagedZonesTable,
 		GcpDNSManagedZoneLabelsTable,
+		GcpDNSPoliciesTable,
+		GcpFoldersTable,
+		GcpFolderIamPoliciesTable,
+		GcpFolderIamPolicyBindingsTable,
+		GcpFolderLabelsTable,
 		GcpIamServiceAccountsTable,
 		GcpIamServiceAccountKeysTable,
 		GcpKmsCryptoKeysTable,
 		GcpKmsKeyRingsTable,
 		GcpLoggingBucketsTable,
+		GcpLoggingLogExclusionsTable,
+		GcpLoggingLogMetricsTable,
 		GcpLoggingSinksTable,
+		GcpOrgIamPoliciesTable,
+		GcpOrgIamPolicyBindingsTable,
+		GcpOrganizationsTable,
 		GcpProjectsTable,
+		GcpProjectIamPoliciesTable,
+		GcpProjectIamPolicyBindingsTable,
 		GcpProjectLabelsTable,
 		GcpSQLInstancesTable,
 		GcpSQLInstanceLabelsTable,
 		GcpSecretmanagerSecretsTable,
 		GcpSecretmanagerSecretLabelsTable,
 		GcpStorageBucketsTable,
+		GcpStorageBucketIamPoliciesTable,
+		GcpStorageBucketIamPolicyBindingsTable,
 		GcpStorageBucketLabelsTable,
 		GcpVpcAccessConnectorsTable,
 		GcpComputeVpnGatewaysTable,
@@ -8966,10 +10220,14 @@ var (
 		GcpComputeInstanceNicAliasRangesHistoryTable,
 		GcpComputeInstanceServiceAccountsHistoryTable,
 		GcpComputeInstanceTagsHistoryTable,
+		GcpComputeInterconnectsHistoryTable,
 		GcpComputeNegsHistoryTable,
 		GcpComputeNegEndpointsHistoryTable,
 		GcpComputeNetworksHistoryTable,
 		GcpComputeNetworkPeeringsHistoryTable,
+		GcpComputePacketMirroringsHistoryTable,
+		GcpComputeProjectMetadataHistoryTable,
+		GcpComputeProjectMetadataItemsHistoryTable,
 		GcpComputeRoutersHistoryTable,
 		GcpComputeSecurityPoliciesHistoryTable,
 		GcpComputeSnapshotsHistoryTable,
@@ -8992,19 +10250,33 @@ var (
 		GcpContainerClusterNodePoolsHistoryTable,
 		GcpDNSManagedZonesHistoryTable,
 		GcpDNSManagedZoneLabelsHistoryTable,
+		GcpDNSPoliciesHistoryTable,
+		GcpFoldersHistoryTable,
+		GcpFolderIamPoliciesHistoryTable,
+		GcpFolderIamPolicyBindingsHistoryTable,
+		GcpFolderLabelsHistoryTable,
 		GcpIamServiceAccountsHistoryTable,
 		GcpIamServiceAccountKeysHistoryTable,
 		GcpKmsCryptoKeysHistoryTable,
 		GcpKmsKeyRingsHistoryTable,
 		GcpLoggingBucketsHistoryTable,
+		GcpLoggingLogExclusionsHistoryTable,
+		GcpLoggingLogMetricsHistoryTable,
 		GcpLoggingSinksHistoryTable,
+		GcpOrgIamPoliciesHistoryTable,
+		GcpOrgIamPolicyBindingsHistoryTable,
+		GcpOrganizationsHistoryTable,
 		GcpProjectsHistoryTable,
+		GcpProjectIamPoliciesHistoryTable,
+		GcpProjectIamPolicyBindingsHistoryTable,
 		GcpProjectLabelsHistoryTable,
 		GcpSQLInstancesHistoryTable,
 		GcpSQLInstanceLabelsHistoryTable,
 		GcpSecretmanagerSecretsHistoryTable,
 		GcpSecretmanagerSecretLabelsHistoryTable,
 		GcpStorageBucketsHistoryTable,
+		GcpStorageBucketIamPoliciesHistoryTable,
+		GcpStorageBucketIamPolicyBindingsHistoryTable,
 		GcpStorageBucketLabelsHistoryTable,
 		GcpVpcAccessConnectorsHistoryTable,
 		GcpComputeVpnGatewaysHistoryTable,
@@ -9213,6 +10485,9 @@ func init() {
 	GcpComputeInstanceTagsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_instance_tags",
 	}
+	GcpComputeInterconnectsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_interconnects",
+	}
 	GcpComputeNegsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_negs",
 	}
@@ -9225,6 +10500,16 @@ func init() {
 	GcpComputeNetworkPeeringsTable.ForeignKeys[0].RefTable = GcpComputeNetworksTable
 	GcpComputeNetworkPeeringsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_network_peerings",
+	}
+	GcpComputePacketMirroringsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_packet_mirrorings",
+	}
+	GcpComputeProjectMetadataTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_project_metadata",
+	}
+	GcpComputeProjectMetadataItemsTable.ForeignKeys[0].RefTable = GcpComputeProjectMetadataTable
+	GcpComputeProjectMetadataItemsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_project_metadata_items",
 	}
 	GcpComputeRoutersTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_routers",
@@ -9300,6 +10585,23 @@ func init() {
 	GcpDNSManagedZoneLabelsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_dns_managed_zone_labels",
 	}
+	GcpDNSPoliciesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_dns_policies",
+	}
+	GcpFoldersTable.Annotation = &entsql.Annotation{
+		Table: "gcp_folders",
+	}
+	GcpFolderIamPoliciesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_folder_iam_policies",
+	}
+	GcpFolderIamPolicyBindingsTable.ForeignKeys[0].RefTable = GcpFolderIamPoliciesTable
+	GcpFolderIamPolicyBindingsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_folder_iam_policy_bindings",
+	}
+	GcpFolderLabelsTable.ForeignKeys[0].RefTable = GcpFoldersTable
+	GcpFolderLabelsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_folder_labels",
+	}
 	GcpIamServiceAccountsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_iam_service_accounts",
 	}
@@ -9315,11 +10617,34 @@ func init() {
 	GcpLoggingBucketsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_logging_buckets",
 	}
+	GcpLoggingLogExclusionsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_logging_log_exclusions",
+	}
+	GcpLoggingLogMetricsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_logging_log_metrics",
+	}
 	GcpLoggingSinksTable.Annotation = &entsql.Annotation{
 		Table: "gcp_logging_sinks",
 	}
+	GcpOrgIamPoliciesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_org_iam_policies",
+	}
+	GcpOrgIamPolicyBindingsTable.ForeignKeys[0].RefTable = GcpOrgIamPoliciesTable
+	GcpOrgIamPolicyBindingsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_org_iam_policy_bindings",
+	}
+	GcpOrganizationsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_organizations",
+	}
 	GcpProjectsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_projects",
+	}
+	GcpProjectIamPoliciesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_project_iam_policies",
+	}
+	GcpProjectIamPolicyBindingsTable.ForeignKeys[0].RefTable = GcpProjectIamPoliciesTable
+	GcpProjectIamPolicyBindingsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_project_iam_policy_bindings",
 	}
 	GcpProjectLabelsTable.ForeignKeys[0].RefTable = GcpProjectsTable
 	GcpProjectLabelsTable.Annotation = &entsql.Annotation{
@@ -9341,6 +10666,13 @@ func init() {
 	}
 	GcpStorageBucketsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_storage_buckets",
+	}
+	GcpStorageBucketIamPoliciesTable.Annotation = &entsql.Annotation{
+		Table: "gcp_storage_bucket_iam_policies",
+	}
+	GcpStorageBucketIamPolicyBindingsTable.ForeignKeys[0].RefTable = GcpStorageBucketIamPoliciesTable
+	GcpStorageBucketIamPolicyBindingsTable.Annotation = &entsql.Annotation{
+		Table: "gcp_storage_bucket_iam_policy_bindings",
 	}
 	GcpStorageBucketLabelsTable.ForeignKeys[0].RefTable = GcpStorageBucketsTable
 	GcpStorageBucketLabelsTable.Annotation = &entsql.Annotation{
@@ -9529,6 +10861,9 @@ func init() {
 	GcpComputeInstanceTagsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_instance_tags_history",
 	}
+	GcpComputeInterconnectsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_interconnects_history",
+	}
 	GcpComputeNegsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_negs_history",
 	}
@@ -9540,6 +10875,15 @@ func init() {
 	}
 	GcpComputeNetworkPeeringsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_network_peerings_history",
+	}
+	GcpComputePacketMirroringsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_packet_mirrorings_history",
+	}
+	GcpComputeProjectMetadataHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_project_metadata_history",
+	}
+	GcpComputeProjectMetadataItemsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_compute_project_metadata_items_history",
 	}
 	GcpComputeRoutersHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_routers_history",
@@ -9607,6 +10951,21 @@ func init() {
 	GcpDNSManagedZoneLabelsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_dns_managed_zone_labels_history",
 	}
+	GcpDNSPoliciesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_dns_policies_history",
+	}
+	GcpFoldersHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_folders_history",
+	}
+	GcpFolderIamPoliciesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_folder_iam_policies_history",
+	}
+	GcpFolderIamPolicyBindingsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_folder_iam_policy_bindings_history",
+	}
+	GcpFolderLabelsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_folder_labels_history",
+	}
 	GcpIamServiceAccountsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_iam_service_accounts_history",
 	}
@@ -9622,11 +10981,32 @@ func init() {
 	GcpLoggingBucketsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_logging_buckets_history",
 	}
+	GcpLoggingLogExclusionsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_logging_log_exclusions_history",
+	}
+	GcpLoggingLogMetricsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_logging_log_metrics_history",
+	}
 	GcpLoggingSinksHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_logging_sinks_history",
 	}
+	GcpOrgIamPoliciesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_org_iam_policies_history",
+	}
+	GcpOrgIamPolicyBindingsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_org_iam_policy_bindings_history",
+	}
+	GcpOrganizationsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_organizations_history",
+	}
 	GcpProjectsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_projects_history",
+	}
+	GcpProjectIamPoliciesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_project_iam_policies_history",
+	}
+	GcpProjectIamPolicyBindingsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_project_iam_policy_bindings_history",
 	}
 	GcpProjectLabelsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_project_labels_history",
@@ -9645,6 +11025,12 @@ func init() {
 	}
 	GcpStorageBucketsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_storage_buckets_history",
+	}
+	GcpStorageBucketIamPoliciesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_storage_bucket_iam_policies_history",
+	}
+	GcpStorageBucketIamPolicyBindingsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "gcp_storage_bucket_iam_policy_bindings_history",
 	}
 	GcpStorageBucketLabelsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_storage_bucket_labels_history",

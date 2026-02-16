@@ -25,13 +25,13 @@ GCP resource ingestion coverage in the bronze layer.
 | Subnetworks | `SubnetworksClient` | `AggregatedList()` | ✅ |
 | Firewall Rules | `FirewallsClient` | `List()` | ✅ |
 | Routers | `RoutersClient` | `AggregatedList()` | ✅ |
-| Interconnects | `InterconnectsClient` | `List()` | |
-| Packet Mirrorings | `PacketMirroringsClient` | `AggregatedList()` | |
+| Interconnects | `InterconnectsClient` | `List()` | ✅ |
+| Packet Mirrorings | `PacketMirroringsClient` | `AggregatedList()` | ✅ |
 | Addresses (Regional) | `AddressesClient` | `AggregatedList()` | ✅ |
 | Addresses (Global) | `GlobalAddressesClient` | `List()` | ✅ |
 | SSL Policies | `SslPoliciesClient` | `List()` | ✅ |
 | Security Policies | `SecurityPoliciesClient` | `List()` | ✅ |
-| Project Metadata | `ProjectsClient` | `Get()` | |
+| Project Metadata | `ProjectsClient` | `Get()` | ✅ |
 
 ### Load Balancing
 
@@ -68,12 +68,12 @@ GCP resource ingestion coverage in the bronze layer.
 
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
-| Organizations | `OrganizationsClient` | `SearchOrganizations()` | |
-| Folders | `FoldersClient` | `ListFolders()` | |
+| Organizations | `OrganizationsClient` | `SearchOrganizations()` | ✅ |
+| Folders | `FoldersClient` | `SearchFolders()` | ✅ |
 | Projects | `ProjectsClient` | `SearchProjects()` | ✅ |
-| Organization IAM Policies | `OrganizationsClient` | `GetIamPolicy()` | |
-| Folder IAM Policies | `FoldersClient` | `GetIamPolicy()` | |
-| Project IAM Policies | `ProjectsClient` | `GetIamPolicy()` | |
+| Organization IAM Policies | `OrganizationsClient` | `GetIamPolicy()` | ✅ |
+| Folder IAM Policies | `FoldersClient` | `GetIamPolicy()` | ✅ |
+| Project IAM Policies | `ProjectsClient` | `GetIamPolicy()` | ✅ |
 
 ## 🔑 IAM API (`iam.googleapis.com`)
 
@@ -112,9 +112,9 @@ GCP resource ingestion coverage in the bronze layer.
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Log Sinks | `ConfigClient` | `ListSinks()` | ✅ |
-| Log Metrics | `MetricsClient` | `ListLogMetrics()` | |
+| Log Metrics | `MetricsClient` | `ListLogMetrics()` | ✅ |
 | Log Buckets | `ConfigClient` | `ListBuckets()` | ✅ |
-| Log Exclusions | `ConfigClient` | `ListExclusions()` | |
+| Log Exclusions | `ConfigClient` | `ListExclusions()` | ✅ |
 
 ## 📊 Monitoring API (`monitoring.googleapis.com`)
 
@@ -128,7 +128,7 @@ GCP resource ingestion coverage in the bronze layer.
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Managed Zones | `ManagedZonesClient` | `List()` | ✅ |
-| DNS Policies | `PoliciesClient` | `List()` | |
+| DNS Policies | `PoliciesClient` | `List()` | ✅ |
 
 ## ✋ Access Approval API (`accessapproval.googleapis.com`)
 
@@ -142,7 +142,7 @@ GCP resource ingestion coverage in the bronze layer.
 | Resource | API Client | Method | Status |
 |----------|-----------|--------|:------:|
 | Buckets | `StorageClient` | `ListBuckets()` | ✅ |
-| Bucket IAM Policies | `StorageClient` | `GetIamPolicy()` | |
+| Bucket IAM Policies | `StorageClient` | `GetIamPolicy()` | ✅ |
 
 ## 🗄️ Cloud SQL Admin API (`sqladmin.googleapis.com`)
 
@@ -356,23 +356,25 @@ GCP resource ingestion coverage in the bronze layer.
 
 ## 📊 Summary
 
-**Total: 40/117 (34%)**
+**Total: 56/117 (48%)**
+
+See [GCP_ROADMAP.md](./GCP_ROADMAP.md) for implementation strategy.
 
 | API | Implemented | Total |
 |-----|:-----------:|:-----:|
-| Compute Engine | 27 | 32 |
+| Compute Engine | 33 | 33 |
 | Container | 2 | 2 |
-| Resource Manager | 1 | 6 |
+| Resource Manager | 6 | 6 |
 | IAM | 2 | 2 |
 | Cloud KMS | 2 | 2 |
 | API Keys | 0 | 1 |
 | Essential Contacts | 0 | 1 |
 | Cloud Functions | 0 | 1 |
-| Logging | 2 | 4 |
+| Logging | 4 | 4 |
 | Monitoring | 0 | 2 |
-| DNS | 1 | 2 |
+| DNS | 2 | 2 |
 | Access Approval | 0 | 2 |
-| Cloud Storage | 1 | 2 |
+| Cloud Storage | 2 | 2 |
 | Cloud SQL Admin | 1 | 1 |
 | BigQuery | 0 | 2 |
 | Dataproc | 0 | 1 |

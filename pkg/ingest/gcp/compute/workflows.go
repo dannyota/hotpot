@@ -16,10 +16,13 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/healthcheck"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/image"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/instance"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/interconnect"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/instancegroup"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/neg"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/negendpoint"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/network"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/packetmirroring"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/projectmetadata"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/router"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/securitypolicy"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/snapshot"
@@ -74,6 +77,9 @@ type GCPComputeWorkflowResult struct {
 	SslPolicyCount            int
 	RouterCount               int
 	SecurityPolicyCount       int
+	InterconnectCount         int
+	PacketMirroringCount      int
+	ProjectMetadataCount      int
 }
 
 // GCPComputeWorkflow ingests all GCP Compute Engine resources for a single project.
@@ -378,6 +384,36 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 	}
 	result.SecurityPolicyCount = securityPolicyResult.SecurityPolicyCount
 
+	// Execute interconnect workflow
+	var interconnectResult interconnect.GCPComputeInterconnectWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, interconnect.GCPComputeInterconnectWorkflow,
+		interconnect.GCPComputeInterconnectWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &interconnectResult)
+	if err != nil {
+		logger.Error("Failed to ingest interconnects", "error", err)
+		return nil, err
+	}
+	result.InterconnectCount = interconnectResult.InterconnectCount
+
+	// Execute packet mirroring workflow
+	var packetMirroringResult packetmirroring.GCPComputePacketMirroringWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, packetmirroring.GCPComputePacketMirroringWorkflow,
+		packetmirroring.GCPComputePacketMirroringWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &packetMirroringResult)
+	if err != nil {
+		logger.Error("Failed to ingest packet mirrorings", "error", err)
+		return nil, err
+	}
+	result.PacketMirroringCount = packetMirroringResult.PacketMirroringCount
+
+	// Execute project metadata workflow
+	var projectMetadataResult projectmetadata.GCPComputeProjectMetadataWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, projectmetadata.GCPComputeProjectMetadataWorkflow,
+		projectmetadata.GCPComputeProjectMetadataWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &projectMetadataResult)
+	if err != nil {
+		logger.Error("Failed to ingest project metadata", "error", err)
+		return nil, err
+	}
+	result.ProjectMetadataCount = projectMetadataResult.MetadataCount
+
 	// Execute NEG endpoint workflow (must run after NEG workflow since it queries NEGs from database)
 	var negEndpointResult negendpoint.GCPComputeNegEndpointWorkflowResult
 	err = workflow.ExecuteChildWorkflow(childCtx, negendpoint.GCPComputeNegEndpointWorkflow,
@@ -419,6 +455,9 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		"sslPolicyCount", result.SslPolicyCount,
 		"routerCount", result.RouterCount,
 		"securityPolicyCount", result.SecurityPolicyCount,
+		"interconnectCount", result.InterconnectCount,
+		"packetMirroringCount", result.PacketMirroringCount,
+		"projectMetadataCount", result.ProjectMetadataCount,
 	)
 
 	return result, nil

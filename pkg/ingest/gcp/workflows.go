@@ -35,9 +35,16 @@ type GCPInventoryWorkflowResult struct {
 	TotalCryptoKeys      int
 	TotalSinks           int
 	TotalLogBuckets      int
-	TotalManagedZones    int
-	TotalSecrets         int
-	TotalSQLInstances    int
+	TotalManagedZones       int
+	TotalDNSPolicies        int
+	TotalSecrets            int
+	TotalSQLInstances       int
+	TotalLogMetrics         int
+	TotalLogExclusions      int
+	TotalBucketIamPolicies  int
+	TotalInterconnects      int
+	TotalPacketMirrorings   int
+	TotalProjectMetadata    int
 }
 
 // ProjectResult contains the ingestion result for a single project.
@@ -52,10 +59,17 @@ type ProjectResult struct {
 	CryptoKeyCount      int
 	SinkCount           int
 	LogBucketCount      int
-	ManagedZoneCount    int
-	SecretCount         int
-	SQLInstanceCount    int
-	Error               string
+	ManagedZoneCount       int
+	DNSPolicyCount         int
+	SecretCount            int
+	SQLInstanceCount       int
+	LogMetricCount         int
+	LogExclusionCount      int
+	BucketIamPolicyCount   int
+	InterconnectCount      int
+	PacketMirroringCount   int
+	ProjectMetadataCount   int
+	Error                  string
 }
 
 // GCPInventoryWorkflow ingests all GCP resources across multiple projects.
@@ -95,7 +109,13 @@ func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParam
 			projectResult.Error = err.Error()
 		} else {
 			projectResult.InstanceCount = computeResult.InstanceCount
+			projectResult.InterconnectCount = computeResult.InterconnectCount
+			projectResult.PacketMirroringCount = computeResult.PacketMirroringCount
+			projectResult.ProjectMetadataCount = computeResult.ProjectMetadataCount
 			result.TotalInstances += computeResult.InstanceCount
+			result.TotalInterconnects += computeResult.InterconnectCount
+			result.TotalPacketMirrorings += computeResult.PacketMirroringCount
+			result.TotalProjectMetadata += computeResult.ProjectMetadataCount
 		}
 
 		// Execute GCPContainerWorkflow for this project
@@ -167,7 +187,9 @@ func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParam
 			}
 		} else {
 			projectResult.BucketCount = storageResult.BucketCount
+			projectResult.BucketIamPolicyCount = storageResult.BucketIamPolicyCount
 			result.TotalBuckets += storageResult.BucketCount
+			result.TotalBucketIamPolicies += storageResult.BucketIamPolicyCount
 		}
 
 		// Execute GCPKMSWorkflow for this project
@@ -206,8 +228,12 @@ func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParam
 		} else {
 			projectResult.SinkCount = loggingResult.SinkCount
 			projectResult.LogBucketCount = loggingResult.BucketCount
+			projectResult.LogMetricCount = loggingResult.LogMetricCount
+			projectResult.LogExclusionCount = loggingResult.ExclusionCount
 			result.TotalSinks += loggingResult.SinkCount
 			result.TotalLogBuckets += loggingResult.BucketCount
+			result.TotalLogMetrics += loggingResult.LogMetricCount
+			result.TotalLogExclusions += loggingResult.ExclusionCount
 		}
 
 		// Execute GCPDNSWorkflow for this project
@@ -225,7 +251,9 @@ func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParam
 			}
 		} else {
 			projectResult.ManagedZoneCount = dnsResult.ManagedZoneCount
+			projectResult.DNSPolicyCount = dnsResult.PolicyCount
 			result.TotalManagedZones += dnsResult.ManagedZoneCount
+			result.TotalDNSPolicies += dnsResult.PolicyCount
 		}
 
 		// Execute GCPSecretManagerWorkflow for this project
@@ -281,6 +309,13 @@ func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParam
 		"totalManagedZones", result.TotalManagedZones,
 		"totalSecrets", result.TotalSecrets,
 		"totalSQLInstances", result.TotalSQLInstances,
+		"totalLogMetrics", result.TotalLogMetrics,
+		"totalLogExclusions", result.TotalLogExclusions,
+		"totalDNSPolicies", result.TotalDNSPolicies,
+		"totalBucketIamPolicies", result.TotalBucketIamPolicies,
+		"totalInterconnects", result.TotalInterconnects,
+		"totalPacketMirrorings", result.TotalPacketMirrorings,
+		"totalProjectMetadata", result.TotalProjectMetadata,
 	)
 
 	return result, nil

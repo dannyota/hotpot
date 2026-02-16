@@ -65,10 +65,14 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstancenicaliasrange"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstanceserviceaccount"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstancetag"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinterconnect"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeneg"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputenegendpoint"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputenetwork"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputenetworkpeering"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputepacketmirroring"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeprojectmetadata"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeprojectmetadataitem"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputerouter"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesecuritypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesnapshot"
@@ -91,19 +95,33 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontainerclusternodepool"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpdnsmanagedzone"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpdnsmanagedzonelabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpdnspolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfolder"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfolderiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfolderiampolicybinding"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfolderlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpiamserviceaccount"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpiamserviceaccountkey"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpkmscryptokey"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpkmskeyring"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcploggingbucket"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcplogginglogexclusion"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcplogginglogmetric"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcploggingsink"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporganization"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpproject"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecretmanagersecret"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecretmanagersecretlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsqlinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsqlinstancelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpstoragebucket"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpstoragebucketiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpstoragebucketiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpstoragebucketlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpcaccessconnector"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpngateway"
@@ -165,10 +183,14 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancenicaliasrange"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstanceserviceaccount"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancetag"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinterconnect"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeneg"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenegendpoint"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenetwork"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenetworkpeering"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputepacketmirroring"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeprojectmetadata"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeprojectmetadataitem"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputerouter"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesecuritypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesnapshot"
@@ -191,19 +213,33 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontainerclusternodepool"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpdnsmanagedzone"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpdnsmanagedzonelabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpdnspolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfolder"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfolderiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfolderiampolicybinding"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfolderlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpiamserviceaccount"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpiamserviceaccountkey"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpkmscryptokey"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpkmskeyring"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcploggingbucket"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcplogginglogexclusion"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcplogginglogmetric"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcploggingsink"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporganization"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpproject"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecretmanagersecret"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecretmanagersecretlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsqlinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsqlinstancelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpstoragebucket"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpstoragebucketiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpstoragebucketiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpstoragebucketlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpvpcaccessconnector"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpvpngateway"
@@ -339,10 +375,14 @@ func checkColumn(t, c string) error {
 			bronzegcpcomputeinstancenicaliasrange.Table:            bronzegcpcomputeinstancenicaliasrange.ValidColumn,
 			bronzegcpcomputeinstanceserviceaccount.Table:           bronzegcpcomputeinstanceserviceaccount.ValidColumn,
 			bronzegcpcomputeinstancetag.Table:                      bronzegcpcomputeinstancetag.ValidColumn,
+			bronzegcpcomputeinterconnect.Table:                     bronzegcpcomputeinterconnect.ValidColumn,
 			bronzegcpcomputeneg.Table:                              bronzegcpcomputeneg.ValidColumn,
 			bronzegcpcomputenegendpoint.Table:                      bronzegcpcomputenegendpoint.ValidColumn,
 			bronzegcpcomputenetwork.Table:                          bronzegcpcomputenetwork.ValidColumn,
 			bronzegcpcomputenetworkpeering.Table:                   bronzegcpcomputenetworkpeering.ValidColumn,
+			bronzegcpcomputepacketmirroring.Table:                  bronzegcpcomputepacketmirroring.ValidColumn,
+			bronzegcpcomputeprojectmetadata.Table:                  bronzegcpcomputeprojectmetadata.ValidColumn,
+			bronzegcpcomputeprojectmetadataitem.Table:              bronzegcpcomputeprojectmetadataitem.ValidColumn,
 			bronzegcpcomputerouter.Table:                           bronzegcpcomputerouter.ValidColumn,
 			bronzegcpcomputesecuritypolicy.Table:                   bronzegcpcomputesecuritypolicy.ValidColumn,
 			bronzegcpcomputesnapshot.Table:                         bronzegcpcomputesnapshot.ValidColumn,
@@ -365,19 +405,33 @@ func checkColumn(t, c string) error {
 			bronzegcpcontainerclusternodepool.Table:                bronzegcpcontainerclusternodepool.ValidColumn,
 			bronzegcpdnsmanagedzone.Table:                          bronzegcpdnsmanagedzone.ValidColumn,
 			bronzegcpdnsmanagedzonelabel.Table:                     bronzegcpdnsmanagedzonelabel.ValidColumn,
+			bronzegcpdnspolicy.Table:                               bronzegcpdnspolicy.ValidColumn,
+			bronzegcpfolder.Table:                                  bronzegcpfolder.ValidColumn,
+			bronzegcpfolderiampolicy.Table:                         bronzegcpfolderiampolicy.ValidColumn,
+			bronzegcpfolderiampolicybinding.Table:                  bronzegcpfolderiampolicybinding.ValidColumn,
+			bronzegcpfolderlabel.Table:                             bronzegcpfolderlabel.ValidColumn,
 			bronzegcpiamserviceaccount.Table:                       bronzegcpiamserviceaccount.ValidColumn,
 			bronzegcpiamserviceaccountkey.Table:                    bronzegcpiamserviceaccountkey.ValidColumn,
 			bronzegcpkmscryptokey.Table:                            bronzegcpkmscryptokey.ValidColumn,
 			bronzegcpkmskeyring.Table:                              bronzegcpkmskeyring.ValidColumn,
 			bronzegcploggingbucket.Table:                           bronzegcploggingbucket.ValidColumn,
+			bronzegcplogginglogexclusion.Table:                     bronzegcplogginglogexclusion.ValidColumn,
+			bronzegcplogginglogmetric.Table:                        bronzegcplogginglogmetric.ValidColumn,
 			bronzegcploggingsink.Table:                             bronzegcploggingsink.ValidColumn,
+			bronzegcporgiampolicy.Table:                            bronzegcporgiampolicy.ValidColumn,
+			bronzegcporgiampolicybinding.Table:                     bronzegcporgiampolicybinding.ValidColumn,
+			bronzegcporganization.Table:                            bronzegcporganization.ValidColumn,
 			bronzegcpproject.Table:                                 bronzegcpproject.ValidColumn,
+			bronzegcpprojectiampolicy.Table:                        bronzegcpprojectiampolicy.ValidColumn,
+			bronzegcpprojectiampolicybinding.Table:                 bronzegcpprojectiampolicybinding.ValidColumn,
 			bronzegcpprojectlabel.Table:                            bronzegcpprojectlabel.ValidColumn,
 			bronzegcpsqlinstance.Table:                             bronzegcpsqlinstance.ValidColumn,
 			bronzegcpsqlinstancelabel.Table:                        bronzegcpsqlinstancelabel.ValidColumn,
 			bronzegcpsecretmanagersecret.Table:                     bronzegcpsecretmanagersecret.ValidColumn,
 			bronzegcpsecretmanagersecretlabel.Table:                bronzegcpsecretmanagersecretlabel.ValidColumn,
 			bronzegcpstoragebucket.Table:                           bronzegcpstoragebucket.ValidColumn,
+			bronzegcpstoragebucketiampolicy.Table:                  bronzegcpstoragebucketiampolicy.ValidColumn,
+			bronzegcpstoragebucketiampolicybinding.Table:           bronzegcpstoragebucketiampolicybinding.ValidColumn,
 			bronzegcpstoragebucketlabel.Table:                      bronzegcpstoragebucketlabel.ValidColumn,
 			bronzegcpvpcaccessconnector.Table:                      bronzegcpvpcaccessconnector.ValidColumn,
 			bronzegcpvpngateway.Table:                              bronzegcpvpngateway.ValidColumn,
@@ -439,10 +493,14 @@ func checkColumn(t, c string) error {
 			bronzehistorygcpcomputeinstancenicaliasrange.Table:     bronzehistorygcpcomputeinstancenicaliasrange.ValidColumn,
 			bronzehistorygcpcomputeinstanceserviceaccount.Table:    bronzehistorygcpcomputeinstanceserviceaccount.ValidColumn,
 			bronzehistorygcpcomputeinstancetag.Table:               bronzehistorygcpcomputeinstancetag.ValidColumn,
+			bronzehistorygcpcomputeinterconnect.Table:              bronzehistorygcpcomputeinterconnect.ValidColumn,
 			bronzehistorygcpcomputeneg.Table:                       bronzehistorygcpcomputeneg.ValidColumn,
 			bronzehistorygcpcomputenegendpoint.Table:               bronzehistorygcpcomputenegendpoint.ValidColumn,
 			bronzehistorygcpcomputenetwork.Table:                   bronzehistorygcpcomputenetwork.ValidColumn,
 			bronzehistorygcpcomputenetworkpeering.Table:            bronzehistorygcpcomputenetworkpeering.ValidColumn,
+			bronzehistorygcpcomputepacketmirroring.Table:           bronzehistorygcpcomputepacketmirroring.ValidColumn,
+			bronzehistorygcpcomputeprojectmetadata.Table:           bronzehistorygcpcomputeprojectmetadata.ValidColumn,
+			bronzehistorygcpcomputeprojectmetadataitem.Table:       bronzehistorygcpcomputeprojectmetadataitem.ValidColumn,
 			bronzehistorygcpcomputerouter.Table:                    bronzehistorygcpcomputerouter.ValidColumn,
 			bronzehistorygcpcomputesecuritypolicy.Table:            bronzehistorygcpcomputesecuritypolicy.ValidColumn,
 			bronzehistorygcpcomputesnapshot.Table:                  bronzehistorygcpcomputesnapshot.ValidColumn,
@@ -465,19 +523,33 @@ func checkColumn(t, c string) error {
 			bronzehistorygcpcontainerclusternodepool.Table:         bronzehistorygcpcontainerclusternodepool.ValidColumn,
 			bronzehistorygcpdnsmanagedzone.Table:                   bronzehistorygcpdnsmanagedzone.ValidColumn,
 			bronzehistorygcpdnsmanagedzonelabel.Table:              bronzehistorygcpdnsmanagedzonelabel.ValidColumn,
+			bronzehistorygcpdnspolicy.Table:                        bronzehistorygcpdnspolicy.ValidColumn,
+			bronzehistorygcpfolder.Table:                           bronzehistorygcpfolder.ValidColumn,
+			bronzehistorygcpfolderiampolicy.Table:                  bronzehistorygcpfolderiampolicy.ValidColumn,
+			bronzehistorygcpfolderiampolicybinding.Table:           bronzehistorygcpfolderiampolicybinding.ValidColumn,
+			bronzehistorygcpfolderlabel.Table:                      bronzehistorygcpfolderlabel.ValidColumn,
 			bronzehistorygcpiamserviceaccount.Table:                bronzehistorygcpiamserviceaccount.ValidColumn,
 			bronzehistorygcpiamserviceaccountkey.Table:             bronzehistorygcpiamserviceaccountkey.ValidColumn,
 			bronzehistorygcpkmscryptokey.Table:                     bronzehistorygcpkmscryptokey.ValidColumn,
 			bronzehistorygcpkmskeyring.Table:                       bronzehistorygcpkmskeyring.ValidColumn,
 			bronzehistorygcploggingbucket.Table:                    bronzehistorygcploggingbucket.ValidColumn,
+			bronzehistorygcplogginglogexclusion.Table:              bronzehistorygcplogginglogexclusion.ValidColumn,
+			bronzehistorygcplogginglogmetric.Table:                 bronzehistorygcplogginglogmetric.ValidColumn,
 			bronzehistorygcploggingsink.Table:                      bronzehistorygcploggingsink.ValidColumn,
+			bronzehistorygcporgiampolicy.Table:                     bronzehistorygcporgiampolicy.ValidColumn,
+			bronzehistorygcporgiampolicybinding.Table:              bronzehistorygcporgiampolicybinding.ValidColumn,
+			bronzehistorygcporganization.Table:                     bronzehistorygcporganization.ValidColumn,
 			bronzehistorygcpproject.Table:                          bronzehistorygcpproject.ValidColumn,
+			bronzehistorygcpprojectiampolicy.Table:                 bronzehistorygcpprojectiampolicy.ValidColumn,
+			bronzehistorygcpprojectiampolicybinding.Table:          bronzehistorygcpprojectiampolicybinding.ValidColumn,
 			bronzehistorygcpprojectlabel.Table:                     bronzehistorygcpprojectlabel.ValidColumn,
 			bronzehistorygcpsqlinstance.Table:                      bronzehistorygcpsqlinstance.ValidColumn,
 			bronzehistorygcpsqlinstancelabel.Table:                 bronzehistorygcpsqlinstancelabel.ValidColumn,
 			bronzehistorygcpsecretmanagersecret.Table:              bronzehistorygcpsecretmanagersecret.ValidColumn,
 			bronzehistorygcpsecretmanagersecretlabel.Table:         bronzehistorygcpsecretmanagersecretlabel.ValidColumn,
 			bronzehistorygcpstoragebucket.Table:                    bronzehistorygcpstoragebucket.ValidColumn,
+			bronzehistorygcpstoragebucketiampolicy.Table:           bronzehistorygcpstoragebucketiampolicy.ValidColumn,
+			bronzehistorygcpstoragebucketiampolicybinding.Table:    bronzehistorygcpstoragebucketiampolicybinding.ValidColumn,
 			bronzehistorygcpstoragebucketlabel.Table:               bronzehistorygcpstoragebucketlabel.ValidColumn,
 			bronzehistorygcpvpcaccessconnector.Table:               bronzehistorygcpvpcaccessconnector.ValidColumn,
 			bronzehistorygcpvpngateway.Table:                       bronzehistorygcpvpngateway.ValidColumn,

@@ -246,6 +246,10 @@ type BronzeGCPComputeInstanceGroupMember struct {
 	bronze_gcp_compute.BronzeGCPComputeInstanceGroupMember
 }
 
+type BronzeGCPComputeInterconnect struct {
+	bronze_gcp_compute.BronzeGCPComputeInterconnect
+}
+
 type BronzeGCPComputeNeg struct {
 	bronze_gcp_compute.BronzeGCPComputeNeg
 }
@@ -260,6 +264,18 @@ type BronzeGCPComputeNetwork struct {
 
 type BronzeGCPComputeNetworkPeering struct {
 	bronze_gcp_compute.BronzeGCPComputeNetworkPeering
+}
+
+type BronzeGCPComputePacketMirroring struct {
+	bronze_gcp_compute.BronzeGCPComputePacketMirroring
+}
+
+type BronzeGCPComputeProjectMetadata struct {
+	bronze_gcp_compute.BronzeGCPComputeProjectMetadata
+}
+
+type BronzeGCPComputeProjectMetadataItem struct {
+	bronze_gcp_compute.BronzeGCPComputeProjectMetadataItem
 }
 
 type BronzeGCPComputeRouter struct {
@@ -342,6 +358,10 @@ type BronzeGCPContainerClusterNodePool struct {
 	bronze_gcp_container.BronzeGCPContainerClusterNodePool
 }
 
+type BronzeGCPDNSPolicy struct {
+	bronze_gcp_dns.BronzeGCPDNSPolicy
+}
+
 type BronzeGCPDNSManagedZone struct {
 	bronze_gcp_dns.BronzeGCPDNSManagedZone
 }
@@ -370,8 +390,44 @@ type BronzeGCPLoggingBucket struct {
 	bronze_gcp_logging.BronzeGCPLoggingBucket
 }
 
+type BronzeGCPLoggingLogExclusion struct {
+	bronze_gcp_logging.BronzeGCPLoggingLogExclusion
+}
+
+type BronzeGCPLoggingLogMetric struct {
+	bronze_gcp_logging.BronzeGCPLoggingLogMetric
+}
+
 type BronzeGCPLoggingSink struct {
 	bronze_gcp_logging.BronzeGCPLoggingSink
+}
+
+type BronzeGCPFolder struct {
+	bronze_gcp_resourcemanager.BronzeGCPFolder
+}
+
+type BronzeGCPFolderLabel struct {
+	bronze_gcp_resourcemanager.BronzeGCPFolderLabel
+}
+
+type BronzeGCPFolderIamPolicy struct {
+	bronze_gcp_resourcemanager.BronzeGCPFolderIamPolicy
+}
+
+type BronzeGCPFolderIamPolicyBinding struct {
+	bronze_gcp_resourcemanager.BronzeGCPFolderIamPolicyBinding
+}
+
+type BronzeGCPOrganization struct {
+	bronze_gcp_resourcemanager.BronzeGCPOrganization
+}
+
+type BronzeGCPOrgIamPolicy struct {
+	bronze_gcp_resourcemanager.BronzeGCPOrgIamPolicy
+}
+
+type BronzeGCPOrgIamPolicyBinding struct {
+	bronze_gcp_resourcemanager.BronzeGCPOrgIamPolicyBinding
 }
 
 type BronzeGCPProject struct {
@@ -380,6 +436,14 @@ type BronzeGCPProject struct {
 
 type BronzeGCPProjectLabel struct {
 	bronze_gcp_resourcemanager.BronzeGCPProjectLabel
+}
+
+type BronzeGCPProjectIamPolicy struct {
+	bronze_gcp_resourcemanager.BronzeGCPProjectIamPolicy
+}
+
+type BronzeGCPProjectIamPolicyBinding struct {
+	bronze_gcp_resourcemanager.BronzeGCPProjectIamPolicyBinding
 }
 
 type BronzeGCPSecretManagerSecret struct {
@@ -404,6 +468,14 @@ type BronzeGCPStorageBucket struct {
 
 type BronzeGCPStorageBucketLabel struct {
 	bronze_gcp_storage.BronzeGCPStorageBucketLabel
+}
+
+type BronzeGCPStorageBucketIamPolicy struct {
+	bronze_gcp_storage.BronzeGCPStorageBucketIamPolicy
+}
+
+type BronzeGCPStorageBucketIamPolicyBinding struct {
+	bronze_gcp_storage.BronzeGCPStorageBucketIamPolicyBinding
 }
 
 type BronzeGCPVPCAccessConnector struct {
@@ -674,6 +746,10 @@ type BronzeHistoryGCPComputeInstanceGroupMember struct {
 	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceGroupMember
 }
 
+type BronzeHistoryGCPComputeInterconnect struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInterconnect
+}
+
 type BronzeHistoryGCPComputeNeg struct {
 	bronzehistory_gcp_compute.BronzeHistoryGCPComputeNeg
 }
@@ -688,6 +764,18 @@ type BronzeHistoryGCPComputeNetwork struct {
 
 type BronzeHistoryGCPComputeNetworkPeering struct {
 	bronzehistory_gcp_compute.BronzeHistoryGCPComputeNetworkPeering
+}
+
+type BronzeHistoryGCPComputePacketMirroring struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputePacketMirroring
+}
+
+type BronzeHistoryGCPComputeProjectMetadata struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeProjectMetadata
+}
+
+type BronzeHistoryGCPComputeProjectMetadataItem struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeProjectMetadataItem
 }
 
 type BronzeHistoryGCPComputeRouter struct {
@@ -770,6 +858,10 @@ type BronzeHistoryGCPContainerClusterNodePool struct {
 	bronzehistory_gcp_container.BronzeHistoryGCPContainerClusterNodePool
 }
 
+type BronzeHistoryGCPDNSPolicy struct {
+	bronzehistory_gcp_dns.BronzeHistoryGCPDNSPolicy
+}
+
 type BronzeHistoryGCPDNSManagedZone struct {
 	bronzehistory_gcp_dns.BronzeHistoryGCPDNSManagedZone
 }
@@ -798,8 +890,44 @@ type BronzeHistoryGCPLoggingBucket struct {
 	bronzehistory_gcp_logging.BronzeHistoryGCPLoggingBucket
 }
 
+type BronzeHistoryGCPLoggingLogExclusion struct {
+	bronzehistory_gcp_logging.BronzeHistoryGCPLoggingLogExclusion
+}
+
+type BronzeHistoryGCPLoggingLogMetric struct {
+	bronzehistory_gcp_logging.BronzeHistoryGCPLoggingLogMetric
+}
+
 type BronzeHistoryGCPLoggingSink struct {
 	bronzehistory_gcp_logging.BronzeHistoryGCPLoggingSink
+}
+
+type BronzeHistoryGCPFolder struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPFolder
+}
+
+type BronzeHistoryGCPFolderLabel struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPFolderLabel
+}
+
+type BronzeHistoryGCPFolderIamPolicy struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPFolderIamPolicy
+}
+
+type BronzeHistoryGCPFolderIamPolicyBinding struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPFolderIamPolicyBinding
+}
+
+type BronzeHistoryGCPOrganization struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPOrganization
+}
+
+type BronzeHistoryGCPOrgIamPolicy struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPOrgIamPolicy
+}
+
+type BronzeHistoryGCPOrgIamPolicyBinding struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPOrgIamPolicyBinding
 }
 
 type BronzeHistoryGCPProject struct {
@@ -808,6 +936,14 @@ type BronzeHistoryGCPProject struct {
 
 type BronzeHistoryGCPProjectLabel struct {
 	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPProjectLabel
+}
+
+type BronzeHistoryGCPProjectIamPolicy struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPProjectIamPolicy
+}
+
+type BronzeHistoryGCPProjectIamPolicyBinding struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPProjectIamPolicyBinding
 }
 
 type BronzeHistoryGCPSecretManagerSecret struct {
@@ -832,6 +968,14 @@ type BronzeHistoryGCPStorageBucket struct {
 
 type BronzeHistoryGCPStorageBucketLabel struct {
 	bronzehistory_gcp_storage.BronzeHistoryGCPStorageBucketLabel
+}
+
+type BronzeHistoryGCPStorageBucketIamPolicy struct {
+	bronzehistory_gcp_storage.BronzeHistoryGCPStorageBucketIamPolicy
+}
+
+type BronzeHistoryGCPStorageBucketIamPolicyBinding struct {
+	bronzehistory_gcp_storage.BronzeHistoryGCPStorageBucketIamPolicyBinding
 }
 
 type BronzeHistoryGCPVPCAccessConnector struct {

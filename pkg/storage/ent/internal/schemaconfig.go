@@ -60,10 +60,14 @@ type SchemaConfig struct {
 	BronzeGCPComputeInstanceNICAliasRange            string // BronzeGCPComputeInstanceNICAliasRange table.
 	BronzeGCPComputeInstanceServiceAccount           string // BronzeGCPComputeInstanceServiceAccount table.
 	BronzeGCPComputeInstanceTag                      string // BronzeGCPComputeInstanceTag table.
+	BronzeGCPComputeInterconnect                     string // BronzeGCPComputeInterconnect table.
 	BronzeGCPComputeNeg                              string // BronzeGCPComputeNeg table.
 	BronzeGCPComputeNegEndpoint                      string // BronzeGCPComputeNegEndpoint table.
 	BronzeGCPComputeNetwork                          string // BronzeGCPComputeNetwork table.
 	BronzeGCPComputeNetworkPeering                   string // BronzeGCPComputeNetworkPeering table.
+	BronzeGCPComputePacketMirroring                  string // BronzeGCPComputePacketMirroring table.
+	BronzeGCPComputeProjectMetadata                  string // BronzeGCPComputeProjectMetadata table.
+	BronzeGCPComputeProjectMetadataItem              string // BronzeGCPComputeProjectMetadataItem table.
 	BronzeGCPComputeRouter                           string // BronzeGCPComputeRouter table.
 	BronzeGCPComputeSecurityPolicy                   string // BronzeGCPComputeSecurityPolicy table.
 	BronzeGCPComputeSnapshot                         string // BronzeGCPComputeSnapshot table.
@@ -86,19 +90,33 @@ type SchemaConfig struct {
 	BronzeGCPContainerClusterNodePool                string // BronzeGCPContainerClusterNodePool table.
 	BronzeGCPDNSManagedZone                          string // BronzeGCPDNSManagedZone table.
 	BronzeGCPDNSManagedZoneLabel                     string // BronzeGCPDNSManagedZoneLabel table.
+	BronzeGCPDNSPolicy                               string // BronzeGCPDNSPolicy table.
+	BronzeGCPFolder                                  string // BronzeGCPFolder table.
+	BronzeGCPFolderIamPolicy                         string // BronzeGCPFolderIamPolicy table.
+	BronzeGCPFolderIamPolicyBinding                  string // BronzeGCPFolderIamPolicyBinding table.
+	BronzeGCPFolderLabel                             string // BronzeGCPFolderLabel table.
 	BronzeGCPIAMServiceAccount                       string // BronzeGCPIAMServiceAccount table.
 	BronzeGCPIAMServiceAccountKey                    string // BronzeGCPIAMServiceAccountKey table.
 	BronzeGCPKMSCryptoKey                            string // BronzeGCPKMSCryptoKey table.
 	BronzeGCPKMSKeyRing                              string // BronzeGCPKMSKeyRing table.
 	BronzeGCPLoggingBucket                           string // BronzeGCPLoggingBucket table.
+	BronzeGCPLoggingLogExclusion                     string // BronzeGCPLoggingLogExclusion table.
+	BronzeGCPLoggingLogMetric                        string // BronzeGCPLoggingLogMetric table.
 	BronzeGCPLoggingSink                             string // BronzeGCPLoggingSink table.
+	BronzeGCPOrgIamPolicy                            string // BronzeGCPOrgIamPolicy table.
+	BronzeGCPOrgIamPolicyBinding                     string // BronzeGCPOrgIamPolicyBinding table.
+	BronzeGCPOrganization                            string // BronzeGCPOrganization table.
 	BronzeGCPProject                                 string // BronzeGCPProject table.
+	BronzeGCPProjectIamPolicy                        string // BronzeGCPProjectIamPolicy table.
+	BronzeGCPProjectIamPolicyBinding                 string // BronzeGCPProjectIamPolicyBinding table.
 	BronzeGCPProjectLabel                            string // BronzeGCPProjectLabel table.
 	BronzeGCPSQLInstance                             string // BronzeGCPSQLInstance table.
 	BronzeGCPSQLInstanceLabel                        string // BronzeGCPSQLInstanceLabel table.
 	BronzeGCPSecretManagerSecret                     string // BronzeGCPSecretManagerSecret table.
 	BronzeGCPSecretManagerSecretLabel                string // BronzeGCPSecretManagerSecretLabel table.
 	BronzeGCPStorageBucket                           string // BronzeGCPStorageBucket table.
+	BronzeGCPStorageBucketIamPolicy                  string // BronzeGCPStorageBucketIamPolicy table.
+	BronzeGCPStorageBucketIamPolicyBinding           string // BronzeGCPStorageBucketIamPolicyBinding table.
 	BronzeGCPStorageBucketLabel                      string // BronzeGCPStorageBucketLabel table.
 	BronzeGCPVPCAccessConnector                      string // BronzeGCPVPCAccessConnector table.
 	BronzeGCPVPNGateway                              string // BronzeGCPVPNGateway table.
@@ -160,10 +178,14 @@ type SchemaConfig struct {
 	BronzeHistoryGCPComputeInstanceNICAliasRange     string // BronzeHistoryGCPComputeInstanceNICAliasRange table.
 	BronzeHistoryGCPComputeInstanceServiceAccount    string // BronzeHistoryGCPComputeInstanceServiceAccount table.
 	BronzeHistoryGCPComputeInstanceTag               string // BronzeHistoryGCPComputeInstanceTag table.
+	BronzeHistoryGCPComputeInterconnect              string // BronzeHistoryGCPComputeInterconnect table.
 	BronzeHistoryGCPComputeNeg                       string // BronzeHistoryGCPComputeNeg table.
 	BronzeHistoryGCPComputeNegEndpoint               string // BronzeHistoryGCPComputeNegEndpoint table.
 	BronzeHistoryGCPComputeNetwork                   string // BronzeHistoryGCPComputeNetwork table.
 	BronzeHistoryGCPComputeNetworkPeering            string // BronzeHistoryGCPComputeNetworkPeering table.
+	BronzeHistoryGCPComputePacketMirroring           string // BronzeHistoryGCPComputePacketMirroring table.
+	BronzeHistoryGCPComputeProjectMetadata           string // BronzeHistoryGCPComputeProjectMetadata table.
+	BronzeHistoryGCPComputeProjectMetadataItem       string // BronzeHistoryGCPComputeProjectMetadataItem table.
 	BronzeHistoryGCPComputeRouter                    string // BronzeHistoryGCPComputeRouter table.
 	BronzeHistoryGCPComputeSecurityPolicy            string // BronzeHistoryGCPComputeSecurityPolicy table.
 	BronzeHistoryGCPComputeSnapshot                  string // BronzeHistoryGCPComputeSnapshot table.
@@ -186,19 +208,33 @@ type SchemaConfig struct {
 	BronzeHistoryGCPContainerClusterNodePool         string // BronzeHistoryGCPContainerClusterNodePool table.
 	BronzeHistoryGCPDNSManagedZone                   string // BronzeHistoryGCPDNSManagedZone table.
 	BronzeHistoryGCPDNSManagedZoneLabel              string // BronzeHistoryGCPDNSManagedZoneLabel table.
+	BronzeHistoryGCPDNSPolicy                        string // BronzeHistoryGCPDNSPolicy table.
+	BronzeHistoryGCPFolder                           string // BronzeHistoryGCPFolder table.
+	BronzeHistoryGCPFolderIamPolicy                  string // BronzeHistoryGCPFolderIamPolicy table.
+	BronzeHistoryGCPFolderIamPolicyBinding           string // BronzeHistoryGCPFolderIamPolicyBinding table.
+	BronzeHistoryGCPFolderLabel                      string // BronzeHistoryGCPFolderLabel table.
 	BronzeHistoryGCPIAMServiceAccount                string // BronzeHistoryGCPIAMServiceAccount table.
 	BronzeHistoryGCPIAMServiceAccountKey             string // BronzeHistoryGCPIAMServiceAccountKey table.
 	BronzeHistoryGCPKMSCryptoKey                     string // BronzeHistoryGCPKMSCryptoKey table.
 	BronzeHistoryGCPKMSKeyRing                       string // BronzeHistoryGCPKMSKeyRing table.
 	BronzeHistoryGCPLoggingBucket                    string // BronzeHistoryGCPLoggingBucket table.
+	BronzeHistoryGCPLoggingLogExclusion              string // BronzeHistoryGCPLoggingLogExclusion table.
+	BronzeHistoryGCPLoggingLogMetric                 string // BronzeHistoryGCPLoggingLogMetric table.
 	BronzeHistoryGCPLoggingSink                      string // BronzeHistoryGCPLoggingSink table.
+	BronzeHistoryGCPOrgIamPolicy                     string // BronzeHistoryGCPOrgIamPolicy table.
+	BronzeHistoryGCPOrgIamPolicyBinding              string // BronzeHistoryGCPOrgIamPolicyBinding table.
+	BronzeHistoryGCPOrganization                     string // BronzeHistoryGCPOrganization table.
 	BronzeHistoryGCPProject                          string // BronzeHistoryGCPProject table.
+	BronzeHistoryGCPProjectIamPolicy                 string // BronzeHistoryGCPProjectIamPolicy table.
+	BronzeHistoryGCPProjectIamPolicyBinding          string // BronzeHistoryGCPProjectIamPolicyBinding table.
 	BronzeHistoryGCPProjectLabel                     string // BronzeHistoryGCPProjectLabel table.
 	BronzeHistoryGCPSQLInstance                      string // BronzeHistoryGCPSQLInstance table.
 	BronzeHistoryGCPSQLInstanceLabel                 string // BronzeHistoryGCPSQLInstanceLabel table.
 	BronzeHistoryGCPSecretManagerSecret              string // BronzeHistoryGCPSecretManagerSecret table.
 	BronzeHistoryGCPSecretManagerSecretLabel         string // BronzeHistoryGCPSecretManagerSecretLabel table.
 	BronzeHistoryGCPStorageBucket                    string // BronzeHistoryGCPStorageBucket table.
+	BronzeHistoryGCPStorageBucketIamPolicy           string // BronzeHistoryGCPStorageBucketIamPolicy table.
+	BronzeHistoryGCPStorageBucketIamPolicyBinding    string // BronzeHistoryGCPStorageBucketIamPolicyBinding table.
 	BronzeHistoryGCPStorageBucketLabel               string // BronzeHistoryGCPStorageBucketLabel table.
 	BronzeHistoryGCPVPCAccessConnector               string // BronzeHistoryGCPVPCAccessConnector table.
 	BronzeHistoryGCPVPNGateway                       string // BronzeHistoryGCPVPNGateway table.

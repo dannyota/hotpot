@@ -15,10 +15,13 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/healthcheck"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/image"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/instance"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/interconnect"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/instancegroup"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/neg"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/negendpoint"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/network"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/packetmirroring"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/projectmetadata"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/router"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/securitypolicy"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/snapshot"
@@ -70,6 +73,9 @@ func Register(w worker.Worker, configService *config.Service, entClient *ent.Cli
 	sslpolicy.Register(w, configService, entClient, limiter)
 	router.Register(w, configService, entClient, limiter)
 	securitypolicy.Register(w, configService, entClient, limiter)
+	interconnect.Register(w, configService, entClient, limiter)
+	packetmirroring.Register(w, configService, entClient, limiter)
+	projectmetadata.Register(w, configService, entClient, limiter)
 
 	// Register compute workflow
 	w.RegisterWorkflow(GCPComputeWorkflow)

@@ -53,10 +53,14 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstancemetadata"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstanceserviceaccount"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstancetag"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinterconnect"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeneg"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputenegendpoint"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputenetwork"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputenetworkpeering"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputepacketmirroring"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeprojectmetadata"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeprojectmetadataitem"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputerouter"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesecuritypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesnapshot"
@@ -78,19 +82,33 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontainerclusternodepool"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpdnsmanagedzone"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpdnsmanagedzonelabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpdnspolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfolder"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfolderiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfolderiampolicybinding"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfolderlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpiamserviceaccount"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpiamserviceaccountkey"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpkmscryptokey"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpkmskeyring"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcploggingbucket"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcplogginglogexclusion"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcplogginglogmetric"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcploggingsink"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporganization"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpproject"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecretmanagersecret"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecretmanagersecretlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsqlinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsqlinstancelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpstoragebucket"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpstoragebucketiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpstoragebucketiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpstoragebucketlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpcaccessconnector"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpngateway"
@@ -143,10 +161,14 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancegroup"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancegroupmember"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancegroupnamedport"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinterconnect"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeneg"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenegendpoint"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenetwork"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenetworkpeering"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputepacketmirroring"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeprojectmetadata"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeprojectmetadataitem"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputerouter"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesecuritypolicy"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesnapshot"
@@ -166,18 +188,31 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontainerclusteraddon"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpdnsmanagedzone"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpdnsmanagedzonelabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpdnspolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfolder"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfolderiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfolderiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpiamserviceaccount"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpiamserviceaccountkey"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpkmscryptokey"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpkmskeyring"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcploggingbucket"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcplogginglogexclusion"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcplogginglogmetric"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcploggingsink"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporganization"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpproject"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecretmanagersecret"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecretmanagersecretlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsqlinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsqlinstancelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpstoragebucket"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpstoragebucketiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpstoragebucketiampolicybinding"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpstoragebucketlabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpvpcaccessconnector"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpvpngateway"
@@ -761,6 +796,20 @@ func init() {
 	bronzegcpcomputeinstancetagDescTag := bronzegcpcomputeinstancetagFields[0].Descriptor()
 	// bronzegcpcomputeinstancetag.TagValidator is a validator for the "tag" field. It is called by the builders before save.
 	bronzegcpcomputeinstancetag.TagValidator = bronzegcpcomputeinstancetagDescTag.Validators[0].(func(string) error)
+	bronzegcpcomputeinterconnectFields := schema.BronzeGCPComputeInterconnect{}.Fields()
+	_ = bronzegcpcomputeinterconnectFields
+	// bronzegcpcomputeinterconnectDescName is the schema descriptor for name field.
+	bronzegcpcomputeinterconnectDescName := bronzegcpcomputeinterconnectFields[1].Descriptor()
+	// bronzegcpcomputeinterconnect.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegcpcomputeinterconnect.NameValidator = bronzegcpcomputeinterconnectDescName.Validators[0].(func(string) error)
+	// bronzegcpcomputeinterconnectDescAdminEnabled is the schema descriptor for admin_enabled field.
+	bronzegcpcomputeinterconnectDescAdminEnabled := bronzegcpcomputeinterconnectFields[7].Descriptor()
+	// bronzegcpcomputeinterconnect.DefaultAdminEnabled holds the default value on creation for the admin_enabled field.
+	bronzegcpcomputeinterconnect.DefaultAdminEnabled = bronzegcpcomputeinterconnectDescAdminEnabled.Default.(bool)
+	// bronzegcpcomputeinterconnectDescProjectID is the schema descriptor for project_id field.
+	bronzegcpcomputeinterconnectDescProjectID := bronzegcpcomputeinterconnectFields[20].Descriptor()
+	// bronzegcpcomputeinterconnect.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegcpcomputeinterconnect.ProjectIDValidator = bronzegcpcomputeinterconnectDescProjectID.Validators[0].(func(string) error)
 	bronzegcpcomputenegFields := schema.BronzeGCPComputeNeg{}.Fields()
 	_ = bronzegcpcomputenegFields
 	// bronzegcpcomputenegDescName is the schema descriptor for name field.
@@ -837,6 +886,32 @@ func init() {
 	bronzegcpcomputenetworkpeeringDescAutoCreateRoutes := bronzegcpcomputenetworkpeeringFields[11].Descriptor()
 	// bronzegcpcomputenetworkpeering.DefaultAutoCreateRoutes holds the default value on creation for the auto_create_routes field.
 	bronzegcpcomputenetworkpeering.DefaultAutoCreateRoutes = bronzegcpcomputenetworkpeeringDescAutoCreateRoutes.Default.(bool)
+	bronzegcpcomputepacketmirroringFields := schema.BronzeGCPComputePacketMirroring{}.Fields()
+	_ = bronzegcpcomputepacketmirroringFields
+	// bronzegcpcomputepacketmirroringDescName is the schema descriptor for name field.
+	bronzegcpcomputepacketmirroringDescName := bronzegcpcomputepacketmirroringFields[1].Descriptor()
+	// bronzegcpcomputepacketmirroring.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegcpcomputepacketmirroring.NameValidator = bronzegcpcomputepacketmirroringDescName.Validators[0].(func(string) error)
+	// bronzegcpcomputepacketmirroringDescProjectID is the schema descriptor for project_id field.
+	bronzegcpcomputepacketmirroringDescProjectID := bronzegcpcomputepacketmirroringFields[12].Descriptor()
+	// bronzegcpcomputepacketmirroring.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegcpcomputepacketmirroring.ProjectIDValidator = bronzegcpcomputepacketmirroringDescProjectID.Validators[0].(func(string) error)
+	bronzegcpcomputeprojectmetadataFields := schema.BronzeGCPComputeProjectMetadata{}.Fields()
+	_ = bronzegcpcomputeprojectmetadataFields
+	// bronzegcpcomputeprojectmetadataDescName is the schema descriptor for name field.
+	bronzegcpcomputeprojectmetadataDescName := bronzegcpcomputeprojectmetadataFields[1].Descriptor()
+	// bronzegcpcomputeprojectmetadata.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegcpcomputeprojectmetadata.NameValidator = bronzegcpcomputeprojectmetadataDescName.Validators[0].(func(string) error)
+	// bronzegcpcomputeprojectmetadataDescProjectID is the schema descriptor for project_id field.
+	bronzegcpcomputeprojectmetadataDescProjectID := bronzegcpcomputeprojectmetadataFields[7].Descriptor()
+	// bronzegcpcomputeprojectmetadata.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegcpcomputeprojectmetadata.ProjectIDValidator = bronzegcpcomputeprojectmetadataDescProjectID.Validators[0].(func(string) error)
+	bronzegcpcomputeprojectmetadataitemFields := schema.BronzeGCPComputeProjectMetadataItem{}.Fields()
+	_ = bronzegcpcomputeprojectmetadataitemFields
+	// bronzegcpcomputeprojectmetadataitemDescKey is the schema descriptor for key field.
+	bronzegcpcomputeprojectmetadataitemDescKey := bronzegcpcomputeprojectmetadataitemFields[0].Descriptor()
+	// bronzegcpcomputeprojectmetadataitem.KeyValidator is a validator for the "key" field. It is called by the builders before save.
+	bronzegcpcomputeprojectmetadataitem.KeyValidator = bronzegcpcomputeprojectmetadataitemDescKey.Validators[0].(func(string) error)
 	bronzegcpcomputerouterFields := schema.BronzeGCPComputeRouter{}.Fields()
 	_ = bronzegcpcomputerouterFields
 	// bronzegcpcomputerouterDescName is the schema descriptor for name field.
@@ -1091,6 +1166,48 @@ func init() {
 	bronzegcpdnsmanagedzonelabelDescKey := bronzegcpdnsmanagedzonelabelFields[0].Descriptor()
 	// bronzegcpdnsmanagedzonelabel.KeyValidator is a validator for the "key" field. It is called by the builders before save.
 	bronzegcpdnsmanagedzonelabel.KeyValidator = bronzegcpdnsmanagedzonelabelDescKey.Validators[0].(func(string) error)
+	bronzegcpdnspolicyFields := schema.BronzeGCPDNSPolicy{}.Fields()
+	_ = bronzegcpdnspolicyFields
+	// bronzegcpdnspolicyDescName is the schema descriptor for name field.
+	bronzegcpdnspolicyDescName := bronzegcpdnspolicyFields[1].Descriptor()
+	// bronzegcpdnspolicy.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegcpdnspolicy.NameValidator = bronzegcpdnspolicyDescName.Validators[0].(func(string) error)
+	// bronzegcpdnspolicyDescEnableInboundForwarding is the schema descriptor for enable_inbound_forwarding field.
+	bronzegcpdnspolicyDescEnableInboundForwarding := bronzegcpdnspolicyFields[3].Descriptor()
+	// bronzegcpdnspolicy.DefaultEnableInboundForwarding holds the default value on creation for the enable_inbound_forwarding field.
+	bronzegcpdnspolicy.DefaultEnableInboundForwarding = bronzegcpdnspolicyDescEnableInboundForwarding.Default.(bool)
+	// bronzegcpdnspolicyDescEnableLogging is the schema descriptor for enable_logging field.
+	bronzegcpdnspolicyDescEnableLogging := bronzegcpdnspolicyFields[4].Descriptor()
+	// bronzegcpdnspolicy.DefaultEnableLogging holds the default value on creation for the enable_logging field.
+	bronzegcpdnspolicy.DefaultEnableLogging = bronzegcpdnspolicyDescEnableLogging.Default.(bool)
+	// bronzegcpdnspolicyDescProjectID is the schema descriptor for project_id field.
+	bronzegcpdnspolicyDescProjectID := bronzegcpdnspolicyFields[7].Descriptor()
+	// bronzegcpdnspolicy.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegcpdnspolicy.ProjectIDValidator = bronzegcpdnspolicyDescProjectID.Validators[0].(func(string) error)
+	bronzegcpfolderFields := schema.BronzeGCPFolder{}.Fields()
+	_ = bronzegcpfolderFields
+	// bronzegcpfolderDescName is the schema descriptor for name field.
+	bronzegcpfolderDescName := bronzegcpfolderFields[1].Descriptor()
+	// bronzegcpfolder.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegcpfolder.NameValidator = bronzegcpfolderDescName.Validators[0].(func(string) error)
+	bronzegcpfolderiampolicyFields := schema.BronzeGCPFolderIamPolicy{}.Fields()
+	_ = bronzegcpfolderiampolicyFields
+	// bronzegcpfolderiampolicyDescResourceName is the schema descriptor for resource_name field.
+	bronzegcpfolderiampolicyDescResourceName := bronzegcpfolderiampolicyFields[1].Descriptor()
+	// bronzegcpfolderiampolicy.ResourceNameValidator is a validator for the "resource_name" field. It is called by the builders before save.
+	bronzegcpfolderiampolicy.ResourceNameValidator = bronzegcpfolderiampolicyDescResourceName.Validators[0].(func(string) error)
+	bronzegcpfolderiampolicybindingFields := schema.BronzeGCPFolderIamPolicyBinding{}.Fields()
+	_ = bronzegcpfolderiampolicybindingFields
+	// bronzegcpfolderiampolicybindingDescRole is the schema descriptor for role field.
+	bronzegcpfolderiampolicybindingDescRole := bronzegcpfolderiampolicybindingFields[0].Descriptor()
+	// bronzegcpfolderiampolicybinding.RoleValidator is a validator for the "role" field. It is called by the builders before save.
+	bronzegcpfolderiampolicybinding.RoleValidator = bronzegcpfolderiampolicybindingDescRole.Validators[0].(func(string) error)
+	bronzegcpfolderlabelFields := schema.BronzeGCPFolderLabel{}.Fields()
+	_ = bronzegcpfolderlabelFields
+	// bronzegcpfolderlabelDescKey is the schema descriptor for key field.
+	bronzegcpfolderlabelDescKey := bronzegcpfolderlabelFields[0].Descriptor()
+	// bronzegcpfolderlabel.KeyValidator is a validator for the "key" field. It is called by the builders before save.
+	bronzegcpfolderlabel.KeyValidator = bronzegcpfolderlabelDescKey.Validators[0].(func(string) error)
 	bronzegcpiamserviceaccountFields := schema.BronzeGCPIAMServiceAccount{}.Fields()
 	_ = bronzegcpiamserviceaccountFields
 	// bronzegcpiamserviceaccountDescName is the schema descriptor for name field.
@@ -1173,6 +1290,34 @@ func init() {
 	bronzegcploggingbucketDescProjectID := bronzegcploggingbucketFields[7].Descriptor()
 	// bronzegcploggingbucket.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
 	bronzegcploggingbucket.ProjectIDValidator = bronzegcploggingbucketDescProjectID.Validators[0].(func(string) error)
+	bronzegcplogginglogexclusionFields := schema.BronzeGCPLoggingLogExclusion{}.Fields()
+	_ = bronzegcplogginglogexclusionFields
+	// bronzegcplogginglogexclusionDescName is the schema descriptor for name field.
+	bronzegcplogginglogexclusionDescName := bronzegcplogginglogexclusionFields[1].Descriptor()
+	// bronzegcplogginglogexclusion.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegcplogginglogexclusion.NameValidator = bronzegcplogginglogexclusionDescName.Validators[0].(func(string) error)
+	// bronzegcplogginglogexclusionDescDisabled is the schema descriptor for disabled field.
+	bronzegcplogginglogexclusionDescDisabled := bronzegcplogginglogexclusionFields[4].Descriptor()
+	// bronzegcplogginglogexclusion.DefaultDisabled holds the default value on creation for the disabled field.
+	bronzegcplogginglogexclusion.DefaultDisabled = bronzegcplogginglogexclusionDescDisabled.Default.(bool)
+	// bronzegcplogginglogexclusionDescProjectID is the schema descriptor for project_id field.
+	bronzegcplogginglogexclusionDescProjectID := bronzegcplogginglogexclusionFields[7].Descriptor()
+	// bronzegcplogginglogexclusion.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegcplogginglogexclusion.ProjectIDValidator = bronzegcplogginglogexclusionDescProjectID.Validators[0].(func(string) error)
+	bronzegcplogginglogmetricFields := schema.BronzeGCPLoggingLogMetric{}.Fields()
+	_ = bronzegcplogginglogmetricFields
+	// bronzegcplogginglogmetricDescName is the schema descriptor for name field.
+	bronzegcplogginglogmetricDescName := bronzegcplogginglogmetricFields[1].Descriptor()
+	// bronzegcplogginglogmetric.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegcplogginglogmetric.NameValidator = bronzegcplogginglogmetricDescName.Validators[0].(func(string) error)
+	// bronzegcplogginglogmetricDescDisabled is the schema descriptor for disabled field.
+	bronzegcplogginglogmetricDescDisabled := bronzegcplogginglogmetricFields[9].Descriptor()
+	// bronzegcplogginglogmetric.DefaultDisabled holds the default value on creation for the disabled field.
+	bronzegcplogginglogmetric.DefaultDisabled = bronzegcplogginglogmetricDescDisabled.Default.(bool)
+	// bronzegcplogginglogmetricDescProjectID is the schema descriptor for project_id field.
+	bronzegcplogginglogmetricDescProjectID := bronzegcplogginglogmetricFields[12].Descriptor()
+	// bronzegcplogginglogmetric.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegcplogginglogmetric.ProjectIDValidator = bronzegcplogginglogmetricDescProjectID.Validators[0].(func(string) error)
 	bronzegcploggingsinkFields := schema.BronzeGCPLoggingSink{}.Fields()
 	_ = bronzegcploggingsinkFields
 	// bronzegcploggingsinkDescName is the schema descriptor for name field.
@@ -1191,12 +1336,46 @@ func init() {
 	bronzegcploggingsinkDescProjectID := bronzegcploggingsinkFields[10].Descriptor()
 	// bronzegcploggingsink.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
 	bronzegcploggingsink.ProjectIDValidator = bronzegcploggingsinkDescProjectID.Validators[0].(func(string) error)
+	bronzegcporgiampolicyFields := schema.BronzeGCPOrgIamPolicy{}.Fields()
+	_ = bronzegcporgiampolicyFields
+	// bronzegcporgiampolicyDescResourceName is the schema descriptor for resource_name field.
+	bronzegcporgiampolicyDescResourceName := bronzegcporgiampolicyFields[1].Descriptor()
+	// bronzegcporgiampolicy.ResourceNameValidator is a validator for the "resource_name" field. It is called by the builders before save.
+	bronzegcporgiampolicy.ResourceNameValidator = bronzegcporgiampolicyDescResourceName.Validators[0].(func(string) error)
+	bronzegcporgiampolicybindingFields := schema.BronzeGCPOrgIamPolicyBinding{}.Fields()
+	_ = bronzegcporgiampolicybindingFields
+	// bronzegcporgiampolicybindingDescRole is the schema descriptor for role field.
+	bronzegcporgiampolicybindingDescRole := bronzegcporgiampolicybindingFields[0].Descriptor()
+	// bronzegcporgiampolicybinding.RoleValidator is a validator for the "role" field. It is called by the builders before save.
+	bronzegcporgiampolicybinding.RoleValidator = bronzegcporgiampolicybindingDescRole.Validators[0].(func(string) error)
+	bronzegcporganizationFields := schema.BronzeGCPOrganization{}.Fields()
+	_ = bronzegcporganizationFields
+	// bronzegcporganizationDescName is the schema descriptor for name field.
+	bronzegcporganizationDescName := bronzegcporganizationFields[1].Descriptor()
+	// bronzegcporganization.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegcporganization.NameValidator = bronzegcporganizationDescName.Validators[0].(func(string) error)
 	bronzegcpprojectFields := schema.BronzeGCPProject{}.Fields()
 	_ = bronzegcpprojectFields
 	// bronzegcpprojectDescProjectNumber is the schema descriptor for project_number field.
 	bronzegcpprojectDescProjectNumber := bronzegcpprojectFields[1].Descriptor()
 	// bronzegcpproject.ProjectNumberValidator is a validator for the "project_number" field. It is called by the builders before save.
 	bronzegcpproject.ProjectNumberValidator = bronzegcpprojectDescProjectNumber.Validators[0].(func(string) error)
+	bronzegcpprojectiampolicyFields := schema.BronzeGCPProjectIamPolicy{}.Fields()
+	_ = bronzegcpprojectiampolicyFields
+	// bronzegcpprojectiampolicyDescResourceName is the schema descriptor for resource_name field.
+	bronzegcpprojectiampolicyDescResourceName := bronzegcpprojectiampolicyFields[1].Descriptor()
+	// bronzegcpprojectiampolicy.ResourceNameValidator is a validator for the "resource_name" field. It is called by the builders before save.
+	bronzegcpprojectiampolicy.ResourceNameValidator = bronzegcpprojectiampolicyDescResourceName.Validators[0].(func(string) error)
+	// bronzegcpprojectiampolicyDescProjectID is the schema descriptor for project_id field.
+	bronzegcpprojectiampolicyDescProjectID := bronzegcpprojectiampolicyFields[4].Descriptor()
+	// bronzegcpprojectiampolicy.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegcpprojectiampolicy.ProjectIDValidator = bronzegcpprojectiampolicyDescProjectID.Validators[0].(func(string) error)
+	bronzegcpprojectiampolicybindingFields := schema.BronzeGCPProjectIamPolicyBinding{}.Fields()
+	_ = bronzegcpprojectiampolicybindingFields
+	// bronzegcpprojectiampolicybindingDescRole is the schema descriptor for role field.
+	bronzegcpprojectiampolicybindingDescRole := bronzegcpprojectiampolicybindingFields[0].Descriptor()
+	// bronzegcpprojectiampolicybinding.RoleValidator is a validator for the "role" field. It is called by the builders before save.
+	bronzegcpprojectiampolicybinding.RoleValidator = bronzegcpprojectiampolicybindingDescRole.Validators[0].(func(string) error)
 	bronzegcpprojectlabelFields := schema.BronzeGCPProjectLabel{}.Fields()
 	_ = bronzegcpprojectlabelFields
 	// bronzegcpprojectlabelDescKey is the schema descriptor for key field.
@@ -1249,6 +1428,22 @@ func init() {
 	bronzegcpstoragebucketDescProjectID := bronzegcpstoragebucketFields[19].Descriptor()
 	// bronzegcpstoragebucket.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
 	bronzegcpstoragebucket.ProjectIDValidator = bronzegcpstoragebucketDescProjectID.Validators[0].(func(string) error)
+	bronzegcpstoragebucketiampolicyFields := schema.BronzeGCPStorageBucketIamPolicy{}.Fields()
+	_ = bronzegcpstoragebucketiampolicyFields
+	// bronzegcpstoragebucketiampolicyDescBucketName is the schema descriptor for bucket_name field.
+	bronzegcpstoragebucketiampolicyDescBucketName := bronzegcpstoragebucketiampolicyFields[1].Descriptor()
+	// bronzegcpstoragebucketiampolicy.BucketNameValidator is a validator for the "bucket_name" field. It is called by the builders before save.
+	bronzegcpstoragebucketiampolicy.BucketNameValidator = bronzegcpstoragebucketiampolicyDescBucketName.Validators[0].(func(string) error)
+	// bronzegcpstoragebucketiampolicyDescProjectID is the schema descriptor for project_id field.
+	bronzegcpstoragebucketiampolicyDescProjectID := bronzegcpstoragebucketiampolicyFields[4].Descriptor()
+	// bronzegcpstoragebucketiampolicy.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegcpstoragebucketiampolicy.ProjectIDValidator = bronzegcpstoragebucketiampolicyDescProjectID.Validators[0].(func(string) error)
+	bronzegcpstoragebucketiampolicybindingFields := schema.BronzeGCPStorageBucketIamPolicyBinding{}.Fields()
+	_ = bronzegcpstoragebucketiampolicybindingFields
+	// bronzegcpstoragebucketiampolicybindingDescRole is the schema descriptor for role field.
+	bronzegcpstoragebucketiampolicybindingDescRole := bronzegcpstoragebucketiampolicybindingFields[0].Descriptor()
+	// bronzegcpstoragebucketiampolicybinding.RoleValidator is a validator for the "role" field. It is called by the builders before save.
+	bronzegcpstoragebucketiampolicybinding.RoleValidator = bronzegcpstoragebucketiampolicybindingDescRole.Validators[0].(func(string) error)
 	bronzegcpstoragebucketlabelFields := schema.BronzeGCPStorageBucketLabel{}.Fields()
 	_ = bronzegcpstoragebucketlabelFields
 	// bronzegcpstoragebucketlabelDescKey is the schema descriptor for key field.
@@ -1949,6 +2144,24 @@ func init() {
 	bronzehistorygcpcomputeinstancegroupnamedportDescName := bronzehistorygcpcomputeinstancegroupnamedportFields[4].Descriptor()
 	// bronzehistorygcpcomputeinstancegroupnamedport.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	bronzehistorygcpcomputeinstancegroupnamedport.NameValidator = bronzehistorygcpcomputeinstancegroupnamedportDescName.Validators[0].(func(string) error)
+	bronzehistorygcpcomputeinterconnectFields := schema.BronzeHistoryGCPComputeInterconnect{}.Fields()
+	_ = bronzehistorygcpcomputeinterconnectFields
+	// bronzehistorygcpcomputeinterconnectDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcpcomputeinterconnectDescResourceID := bronzehistorygcpcomputeinterconnectFields[1].Descriptor()
+	// bronzehistorygcpcomputeinterconnect.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcpcomputeinterconnect.ResourceIDValidator = bronzehistorygcpcomputeinterconnectDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcpcomputeinterconnectDescName is the schema descriptor for name field.
+	bronzehistorygcpcomputeinterconnectDescName := bronzehistorygcpcomputeinterconnectFields[2].Descriptor()
+	// bronzehistorygcpcomputeinterconnect.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygcpcomputeinterconnect.NameValidator = bronzehistorygcpcomputeinterconnectDescName.Validators[0].(func(string) error)
+	// bronzehistorygcpcomputeinterconnectDescAdminEnabled is the schema descriptor for admin_enabled field.
+	bronzehistorygcpcomputeinterconnectDescAdminEnabled := bronzehistorygcpcomputeinterconnectFields[8].Descriptor()
+	// bronzehistorygcpcomputeinterconnect.DefaultAdminEnabled holds the default value on creation for the admin_enabled field.
+	bronzehistorygcpcomputeinterconnect.DefaultAdminEnabled = bronzehistorygcpcomputeinterconnectDescAdminEnabled.Default.(bool)
+	// bronzehistorygcpcomputeinterconnectDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygcpcomputeinterconnectDescProjectID := bronzehistorygcpcomputeinterconnectFields[21].Descriptor()
+	// bronzehistorygcpcomputeinterconnect.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygcpcomputeinterconnect.ProjectIDValidator = bronzehistorygcpcomputeinterconnectDescProjectID.Validators[0].(func(string) error)
 	bronzehistorygcpcomputenegFields := schema.BronzeHistoryGCPComputeNeg{}.Fields()
 	_ = bronzehistorygcpcomputenegFields
 	// bronzehistorygcpcomputenegDescResourceID is the schema descriptor for resource_id field.
@@ -2037,6 +2250,40 @@ func init() {
 	bronzehistorygcpcomputenetworkpeeringDescAutoCreateRoutes := bronzehistorygcpcomputenetworkpeeringFields[15].Descriptor()
 	// bronzehistorygcpcomputenetworkpeering.DefaultAutoCreateRoutes holds the default value on creation for the auto_create_routes field.
 	bronzehistorygcpcomputenetworkpeering.DefaultAutoCreateRoutes = bronzehistorygcpcomputenetworkpeeringDescAutoCreateRoutes.Default.(bool)
+	bronzehistorygcpcomputepacketmirroringFields := schema.BronzeHistoryGCPComputePacketMirroring{}.Fields()
+	_ = bronzehistorygcpcomputepacketmirroringFields
+	// bronzehistorygcpcomputepacketmirroringDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcpcomputepacketmirroringDescResourceID := bronzehistorygcpcomputepacketmirroringFields[1].Descriptor()
+	// bronzehistorygcpcomputepacketmirroring.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcpcomputepacketmirroring.ResourceIDValidator = bronzehistorygcpcomputepacketmirroringDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcpcomputepacketmirroringDescName is the schema descriptor for name field.
+	bronzehistorygcpcomputepacketmirroringDescName := bronzehistorygcpcomputepacketmirroringFields[2].Descriptor()
+	// bronzehistorygcpcomputepacketmirroring.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygcpcomputepacketmirroring.NameValidator = bronzehistorygcpcomputepacketmirroringDescName.Validators[0].(func(string) error)
+	// bronzehistorygcpcomputepacketmirroringDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygcpcomputepacketmirroringDescProjectID := bronzehistorygcpcomputepacketmirroringFields[13].Descriptor()
+	// bronzehistorygcpcomputepacketmirroring.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygcpcomputepacketmirroring.ProjectIDValidator = bronzehistorygcpcomputepacketmirroringDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygcpcomputeprojectmetadataFields := schema.BronzeHistoryGCPComputeProjectMetadata{}.Fields()
+	_ = bronzehistorygcpcomputeprojectmetadataFields
+	// bronzehistorygcpcomputeprojectmetadataDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcpcomputeprojectmetadataDescResourceID := bronzehistorygcpcomputeprojectmetadataFields[1].Descriptor()
+	// bronzehistorygcpcomputeprojectmetadata.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcpcomputeprojectmetadata.ResourceIDValidator = bronzehistorygcpcomputeprojectmetadataDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcpcomputeprojectmetadataDescName is the schema descriptor for name field.
+	bronzehistorygcpcomputeprojectmetadataDescName := bronzehistorygcpcomputeprojectmetadataFields[2].Descriptor()
+	// bronzehistorygcpcomputeprojectmetadata.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygcpcomputeprojectmetadata.NameValidator = bronzehistorygcpcomputeprojectmetadataDescName.Validators[0].(func(string) error)
+	// bronzehistorygcpcomputeprojectmetadataDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygcpcomputeprojectmetadataDescProjectID := bronzehistorygcpcomputeprojectmetadataFields[8].Descriptor()
+	// bronzehistorygcpcomputeprojectmetadata.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygcpcomputeprojectmetadata.ProjectIDValidator = bronzehistorygcpcomputeprojectmetadataDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygcpcomputeprojectmetadataitemFields := schema.BronzeHistoryGCPComputeProjectMetadataItem{}.Fields()
+	_ = bronzehistorygcpcomputeprojectmetadataitemFields
+	// bronzehistorygcpcomputeprojectmetadataitemDescKey is the schema descriptor for key field.
+	bronzehistorygcpcomputeprojectmetadataitemDescKey := bronzehistorygcpcomputeprojectmetadataitemFields[4].Descriptor()
+	// bronzehistorygcpcomputeprojectmetadataitem.KeyValidator is a validator for the "key" field. It is called by the builders before save.
+	bronzehistorygcpcomputeprojectmetadataitem.KeyValidator = bronzehistorygcpcomputeprojectmetadataitemDescKey.Validators[0].(func(string) error)
 	bronzehistorygcpcomputerouterFields := schema.BronzeHistoryGCPComputeRouter{}.Fields()
 	_ = bronzehistorygcpcomputerouterFields
 	// bronzehistorygcpcomputerouterDescResourceID is the schema descriptor for resource_id field.
@@ -2331,6 +2578,54 @@ func init() {
 	bronzehistorygcpdnsmanagedzonelabelDescKey := bronzehistorygcpdnsmanagedzonelabelFields[4].Descriptor()
 	// bronzehistorygcpdnsmanagedzonelabel.KeyValidator is a validator for the "key" field. It is called by the builders before save.
 	bronzehistorygcpdnsmanagedzonelabel.KeyValidator = bronzehistorygcpdnsmanagedzonelabelDescKey.Validators[0].(func(string) error)
+	bronzehistorygcpdnspolicyFields := schema.BronzeHistoryGCPDNSPolicy{}.Fields()
+	_ = bronzehistorygcpdnspolicyFields
+	// bronzehistorygcpdnspolicyDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcpdnspolicyDescResourceID := bronzehistorygcpdnspolicyFields[1].Descriptor()
+	// bronzehistorygcpdnspolicy.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcpdnspolicy.ResourceIDValidator = bronzehistorygcpdnspolicyDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcpdnspolicyDescName is the schema descriptor for name field.
+	bronzehistorygcpdnspolicyDescName := bronzehistorygcpdnspolicyFields[2].Descriptor()
+	// bronzehistorygcpdnspolicy.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygcpdnspolicy.NameValidator = bronzehistorygcpdnspolicyDescName.Validators[0].(func(string) error)
+	// bronzehistorygcpdnspolicyDescEnableInboundForwarding is the schema descriptor for enable_inbound_forwarding field.
+	bronzehistorygcpdnspolicyDescEnableInboundForwarding := bronzehistorygcpdnspolicyFields[4].Descriptor()
+	// bronzehistorygcpdnspolicy.DefaultEnableInboundForwarding holds the default value on creation for the enable_inbound_forwarding field.
+	bronzehistorygcpdnspolicy.DefaultEnableInboundForwarding = bronzehistorygcpdnspolicyDescEnableInboundForwarding.Default.(bool)
+	// bronzehistorygcpdnspolicyDescEnableLogging is the schema descriptor for enable_logging field.
+	bronzehistorygcpdnspolicyDescEnableLogging := bronzehistorygcpdnspolicyFields[5].Descriptor()
+	// bronzehistorygcpdnspolicy.DefaultEnableLogging holds the default value on creation for the enable_logging field.
+	bronzehistorygcpdnspolicy.DefaultEnableLogging = bronzehistorygcpdnspolicyDescEnableLogging.Default.(bool)
+	// bronzehistorygcpdnspolicyDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygcpdnspolicyDescProjectID := bronzehistorygcpdnspolicyFields[8].Descriptor()
+	// bronzehistorygcpdnspolicy.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygcpdnspolicy.ProjectIDValidator = bronzehistorygcpdnspolicyDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygcpfolderFields := schema.BronzeHistoryGCPFolder{}.Fields()
+	_ = bronzehistorygcpfolderFields
+	// bronzehistorygcpfolderDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcpfolderDescResourceID := bronzehistorygcpfolderFields[1].Descriptor()
+	// bronzehistorygcpfolder.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcpfolder.ResourceIDValidator = bronzehistorygcpfolderDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcpfolderDescName is the schema descriptor for name field.
+	bronzehistorygcpfolderDescName := bronzehistorygcpfolderFields[2].Descriptor()
+	// bronzehistorygcpfolder.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygcpfolder.NameValidator = bronzehistorygcpfolderDescName.Validators[0].(func(string) error)
+	bronzehistorygcpfolderiampolicyFields := schema.BronzeHistoryGCPFolderIamPolicy{}.Fields()
+	_ = bronzehistorygcpfolderiampolicyFields
+	// bronzehistorygcpfolderiampolicyDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcpfolderiampolicyDescResourceID := bronzehistorygcpfolderiampolicyFields[1].Descriptor()
+	// bronzehistorygcpfolderiampolicy.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcpfolderiampolicy.ResourceIDValidator = bronzehistorygcpfolderiampolicyDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcpfolderiampolicyDescResourceName is the schema descriptor for resource_name field.
+	bronzehistorygcpfolderiampolicyDescResourceName := bronzehistorygcpfolderiampolicyFields[2].Descriptor()
+	// bronzehistorygcpfolderiampolicy.ResourceNameValidator is a validator for the "resource_name" field. It is called by the builders before save.
+	bronzehistorygcpfolderiampolicy.ResourceNameValidator = bronzehistorygcpfolderiampolicyDescResourceName.Validators[0].(func(string) error)
+	bronzehistorygcpfolderiampolicybindingFields := schema.BronzeHistoryGCPFolderIamPolicyBinding{}.Fields()
+	_ = bronzehistorygcpfolderiampolicybindingFields
+	// bronzehistorygcpfolderiampolicybindingDescRole is the schema descriptor for role field.
+	bronzehistorygcpfolderiampolicybindingDescRole := bronzehistorygcpfolderiampolicybindingFields[4].Descriptor()
+	// bronzehistorygcpfolderiampolicybinding.RoleValidator is a validator for the "role" field. It is called by the builders before save.
+	bronzehistorygcpfolderiampolicybinding.RoleValidator = bronzehistorygcpfolderiampolicybindingDescRole.Validators[0].(func(string) error)
 	bronzehistorygcpiamserviceaccountFields := schema.BronzeHistoryGCPIAMServiceAccount{}.Fields()
 	_ = bronzehistorygcpiamserviceaccountFields
 	// bronzehistorygcpiamserviceaccountDescResourceID is the schema descriptor for resource_id field.
@@ -2433,6 +2728,42 @@ func init() {
 	bronzehistorygcploggingbucketDescProjectID := bronzehistorygcploggingbucketFields[8].Descriptor()
 	// bronzehistorygcploggingbucket.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
 	bronzehistorygcploggingbucket.ProjectIDValidator = bronzehistorygcploggingbucketDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygcplogginglogexclusionFields := schema.BronzeHistoryGCPLoggingLogExclusion{}.Fields()
+	_ = bronzehistorygcplogginglogexclusionFields
+	// bronzehistorygcplogginglogexclusionDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcplogginglogexclusionDescResourceID := bronzehistorygcplogginglogexclusionFields[1].Descriptor()
+	// bronzehistorygcplogginglogexclusion.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcplogginglogexclusion.ResourceIDValidator = bronzehistorygcplogginglogexclusionDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcplogginglogexclusionDescName is the schema descriptor for name field.
+	bronzehistorygcplogginglogexclusionDescName := bronzehistorygcplogginglogexclusionFields[2].Descriptor()
+	// bronzehistorygcplogginglogexclusion.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygcplogginglogexclusion.NameValidator = bronzehistorygcplogginglogexclusionDescName.Validators[0].(func(string) error)
+	// bronzehistorygcplogginglogexclusionDescDisabled is the schema descriptor for disabled field.
+	bronzehistorygcplogginglogexclusionDescDisabled := bronzehistorygcplogginglogexclusionFields[5].Descriptor()
+	// bronzehistorygcplogginglogexclusion.DefaultDisabled holds the default value on creation for the disabled field.
+	bronzehistorygcplogginglogexclusion.DefaultDisabled = bronzehistorygcplogginglogexclusionDescDisabled.Default.(bool)
+	// bronzehistorygcplogginglogexclusionDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygcplogginglogexclusionDescProjectID := bronzehistorygcplogginglogexclusionFields[8].Descriptor()
+	// bronzehistorygcplogginglogexclusion.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygcplogginglogexclusion.ProjectIDValidator = bronzehistorygcplogginglogexclusionDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygcplogginglogmetricFields := schema.BronzeHistoryGCPLoggingLogMetric{}.Fields()
+	_ = bronzehistorygcplogginglogmetricFields
+	// bronzehistorygcplogginglogmetricDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcplogginglogmetricDescResourceID := bronzehistorygcplogginglogmetricFields[1].Descriptor()
+	// bronzehistorygcplogginglogmetric.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcplogginglogmetric.ResourceIDValidator = bronzehistorygcplogginglogmetricDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcplogginglogmetricDescName is the schema descriptor for name field.
+	bronzehistorygcplogginglogmetricDescName := bronzehistorygcplogginglogmetricFields[2].Descriptor()
+	// bronzehistorygcplogginglogmetric.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygcplogginglogmetric.NameValidator = bronzehistorygcplogginglogmetricDescName.Validators[0].(func(string) error)
+	// bronzehistorygcplogginglogmetricDescDisabled is the schema descriptor for disabled field.
+	bronzehistorygcplogginglogmetricDescDisabled := bronzehistorygcplogginglogmetricFields[10].Descriptor()
+	// bronzehistorygcplogginglogmetric.DefaultDisabled holds the default value on creation for the disabled field.
+	bronzehistorygcplogginglogmetric.DefaultDisabled = bronzehistorygcplogginglogmetricDescDisabled.Default.(bool)
+	// bronzehistorygcplogginglogmetricDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygcplogginglogmetricDescProjectID := bronzehistorygcplogginglogmetricFields[13].Descriptor()
+	// bronzehistorygcplogginglogmetric.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygcplogginglogmetric.ProjectIDValidator = bronzehistorygcplogginglogmetricDescProjectID.Validators[0].(func(string) error)
 	bronzehistorygcploggingsinkFields := schema.BronzeHistoryGCPLoggingSink{}.Fields()
 	_ = bronzehistorygcploggingsinkFields
 	// bronzehistorygcploggingsinkDescResourceID is the schema descriptor for resource_id field.
@@ -2455,6 +2786,32 @@ func init() {
 	bronzehistorygcploggingsinkDescProjectID := bronzehistorygcploggingsinkFields[11].Descriptor()
 	// bronzehistorygcploggingsink.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
 	bronzehistorygcploggingsink.ProjectIDValidator = bronzehistorygcploggingsinkDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygcporgiampolicyFields := schema.BronzeHistoryGCPOrgIamPolicy{}.Fields()
+	_ = bronzehistorygcporgiampolicyFields
+	// bronzehistorygcporgiampolicyDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcporgiampolicyDescResourceID := bronzehistorygcporgiampolicyFields[1].Descriptor()
+	// bronzehistorygcporgiampolicy.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcporgiampolicy.ResourceIDValidator = bronzehistorygcporgiampolicyDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcporgiampolicyDescResourceName is the schema descriptor for resource_name field.
+	bronzehistorygcporgiampolicyDescResourceName := bronzehistorygcporgiampolicyFields[2].Descriptor()
+	// bronzehistorygcporgiampolicy.ResourceNameValidator is a validator for the "resource_name" field. It is called by the builders before save.
+	bronzehistorygcporgiampolicy.ResourceNameValidator = bronzehistorygcporgiampolicyDescResourceName.Validators[0].(func(string) error)
+	bronzehistorygcporgiampolicybindingFields := schema.BronzeHistoryGCPOrgIamPolicyBinding{}.Fields()
+	_ = bronzehistorygcporgiampolicybindingFields
+	// bronzehistorygcporgiampolicybindingDescRole is the schema descriptor for role field.
+	bronzehistorygcporgiampolicybindingDescRole := bronzehistorygcporgiampolicybindingFields[4].Descriptor()
+	// bronzehistorygcporgiampolicybinding.RoleValidator is a validator for the "role" field. It is called by the builders before save.
+	bronzehistorygcporgiampolicybinding.RoleValidator = bronzehistorygcporgiampolicybindingDescRole.Validators[0].(func(string) error)
+	bronzehistorygcporganizationFields := schema.BronzeHistoryGCPOrganization{}.Fields()
+	_ = bronzehistorygcporganizationFields
+	// bronzehistorygcporganizationDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcporganizationDescResourceID := bronzehistorygcporganizationFields[1].Descriptor()
+	// bronzehistorygcporganization.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcporganization.ResourceIDValidator = bronzehistorygcporganizationDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcporganizationDescName is the schema descriptor for name field.
+	bronzehistorygcporganizationDescName := bronzehistorygcporganizationFields[2].Descriptor()
+	// bronzehistorygcporganization.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygcporganization.NameValidator = bronzehistorygcporganizationDescName.Validators[0].(func(string) error)
 	bronzehistorygcpprojectFields := schema.BronzeHistoryGCPProject{}.Fields()
 	_ = bronzehistorygcpprojectFields
 	// bronzehistorygcpprojectDescProjectID is the schema descriptor for project_id field.
@@ -2465,6 +2822,26 @@ func init() {
 	bronzehistorygcpprojectDescProjectNumber := bronzehistorygcpprojectFields[2].Descriptor()
 	// bronzehistorygcpproject.ProjectNumberValidator is a validator for the "project_number" field. It is called by the builders before save.
 	bronzehistorygcpproject.ProjectNumberValidator = bronzehistorygcpprojectDescProjectNumber.Validators[0].(func(string) error)
+	bronzehistorygcpprojectiampolicyFields := schema.BronzeHistoryGCPProjectIamPolicy{}.Fields()
+	_ = bronzehistorygcpprojectiampolicyFields
+	// bronzehistorygcpprojectiampolicyDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcpprojectiampolicyDescResourceID := bronzehistorygcpprojectiampolicyFields[1].Descriptor()
+	// bronzehistorygcpprojectiampolicy.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcpprojectiampolicy.ResourceIDValidator = bronzehistorygcpprojectiampolicyDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcpprojectiampolicyDescResourceName is the schema descriptor for resource_name field.
+	bronzehistorygcpprojectiampolicyDescResourceName := bronzehistorygcpprojectiampolicyFields[2].Descriptor()
+	// bronzehistorygcpprojectiampolicy.ResourceNameValidator is a validator for the "resource_name" field. It is called by the builders before save.
+	bronzehistorygcpprojectiampolicy.ResourceNameValidator = bronzehistorygcpprojectiampolicyDescResourceName.Validators[0].(func(string) error)
+	// bronzehistorygcpprojectiampolicyDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygcpprojectiampolicyDescProjectID := bronzehistorygcpprojectiampolicyFields[5].Descriptor()
+	// bronzehistorygcpprojectiampolicy.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygcpprojectiampolicy.ProjectIDValidator = bronzehistorygcpprojectiampolicyDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygcpprojectiampolicybindingFields := schema.BronzeHistoryGCPProjectIamPolicyBinding{}.Fields()
+	_ = bronzehistorygcpprojectiampolicybindingFields
+	// bronzehistorygcpprojectiampolicybindingDescRole is the schema descriptor for role field.
+	bronzehistorygcpprojectiampolicybindingDescRole := bronzehistorygcpprojectiampolicybindingFields[4].Descriptor()
+	// bronzehistorygcpprojectiampolicybinding.RoleValidator is a validator for the "role" field. It is called by the builders before save.
+	bronzehistorygcpprojectiampolicybinding.RoleValidator = bronzehistorygcpprojectiampolicybindingDescRole.Validators[0].(func(string) error)
 	bronzehistorygcpsqlinstanceFields := schema.BronzeHistoryGCPSQLInstance{}.Fields()
 	_ = bronzehistorygcpsqlinstanceFields
 	// bronzehistorygcpsqlinstanceDescResourceID is the schema descriptor for resource_id field.
@@ -2523,6 +2900,26 @@ func init() {
 	bronzehistorygcpstoragebucketDescProjectID := bronzehistorygcpstoragebucketFields[20].Descriptor()
 	// bronzehistorygcpstoragebucket.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
 	bronzehistorygcpstoragebucket.ProjectIDValidator = bronzehistorygcpstoragebucketDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygcpstoragebucketiampolicyFields := schema.BronzeHistoryGCPStorageBucketIamPolicy{}.Fields()
+	_ = bronzehistorygcpstoragebucketiampolicyFields
+	// bronzehistorygcpstoragebucketiampolicyDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygcpstoragebucketiampolicyDescResourceID := bronzehistorygcpstoragebucketiampolicyFields[1].Descriptor()
+	// bronzehistorygcpstoragebucketiampolicy.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygcpstoragebucketiampolicy.ResourceIDValidator = bronzehistorygcpstoragebucketiampolicyDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygcpstoragebucketiampolicyDescBucketName is the schema descriptor for bucket_name field.
+	bronzehistorygcpstoragebucketiampolicyDescBucketName := bronzehistorygcpstoragebucketiampolicyFields[2].Descriptor()
+	// bronzehistorygcpstoragebucketiampolicy.BucketNameValidator is a validator for the "bucket_name" field. It is called by the builders before save.
+	bronzehistorygcpstoragebucketiampolicy.BucketNameValidator = bronzehistorygcpstoragebucketiampolicyDescBucketName.Validators[0].(func(string) error)
+	// bronzehistorygcpstoragebucketiampolicyDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygcpstoragebucketiampolicyDescProjectID := bronzehistorygcpstoragebucketiampolicyFields[5].Descriptor()
+	// bronzehistorygcpstoragebucketiampolicy.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygcpstoragebucketiampolicy.ProjectIDValidator = bronzehistorygcpstoragebucketiampolicyDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygcpstoragebucketiampolicybindingFields := schema.BronzeHistoryGCPStorageBucketIamPolicyBinding{}.Fields()
+	_ = bronzehistorygcpstoragebucketiampolicybindingFields
+	// bronzehistorygcpstoragebucketiampolicybindingDescRole is the schema descriptor for role field.
+	bronzehistorygcpstoragebucketiampolicybindingDescRole := bronzehistorygcpstoragebucketiampolicybindingFields[4].Descriptor()
+	// bronzehistorygcpstoragebucketiampolicybinding.RoleValidator is a validator for the "role" field. It is called by the builders before save.
+	bronzehistorygcpstoragebucketiampolicybinding.RoleValidator = bronzehistorygcpstoragebucketiampolicybindingDescRole.Validators[0].(func(string) error)
 	bronzehistorygcpstoragebucketlabelFields := schema.BronzeHistoryGCPStorageBucketLabel{}.Fields()
 	_ = bronzehistorygcpstoragebucketlabelFields
 	// bronzehistorygcpstoragebucketlabelDescKey is the schema descriptor for key field.
