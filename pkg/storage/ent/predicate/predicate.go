@@ -15,6 +15,27 @@ type BronzeAWSEC2InstanceTag func(*sql.Selector)
 // BronzeDOAccount is the predicate function for bronzedoaccount builders.
 type BronzeDOAccount func(*sql.Selector)
 
+// BronzeDODatabase is the predicate function for bronzedodatabase builders.
+type BronzeDODatabase func(*sql.Selector)
+
+// BronzeDODatabaseBackup is the predicate function for bronzedodatabasebackup builders.
+type BronzeDODatabaseBackup func(*sql.Selector)
+
+// BronzeDODatabaseConfig is the predicate function for bronzedodatabaseconfig builders.
+type BronzeDODatabaseConfig func(*sql.Selector)
+
+// BronzeDODatabaseFirewallRule is the predicate function for bronzedodatabasefirewallrule builders.
+type BronzeDODatabaseFirewallRule func(*sql.Selector)
+
+// BronzeDODatabasePool is the predicate function for bronzedodatabasepool builders.
+type BronzeDODatabasePool func(*sql.Selector)
+
+// BronzeDODatabaseReplica is the predicate function for bronzedodatabasereplica builders.
+type BronzeDODatabaseReplica func(*sql.Selector)
+
+// BronzeDODatabaseUser is the predicate function for bronzedodatabaseuser builders.
+type BronzeDODatabaseUser func(*sql.Selector)
+
 // BronzeDODomain is the predicate function for bronzedodomain builders.
 type BronzeDODomain func(*sql.Selector)
 
@@ -293,6 +314,27 @@ type BronzeHistoryAWSEC2InstanceTag func(*sql.Selector)
 
 // BronzeHistoryDOAccount is the predicate function for bronzehistorydoaccount builders.
 type BronzeHistoryDOAccount func(*sql.Selector)
+
+// BronzeHistoryDODatabase is the predicate function for bronzehistorydodatabase builders.
+type BronzeHistoryDODatabase func(*sql.Selector)
+
+// BronzeHistoryDODatabaseBackup is the predicate function for bronzehistorydodatabasebackup builders.
+type BronzeHistoryDODatabaseBackup func(*sql.Selector)
+
+// BronzeHistoryDODatabaseConfig is the predicate function for bronzehistorydodatabaseconfig builders.
+type BronzeHistoryDODatabaseConfig func(*sql.Selector)
+
+// BronzeHistoryDODatabaseFirewallRule is the predicate function for bronzehistorydodatabasefirewallrule builders.
+type BronzeHistoryDODatabaseFirewallRule func(*sql.Selector)
+
+// BronzeHistoryDODatabasePool is the predicate function for bronzehistorydodatabasepool builders.
+type BronzeHistoryDODatabasePool func(*sql.Selector)
+
+// BronzeHistoryDODatabaseReplica is the predicate function for bronzehistorydodatabasereplica builders.
+type BronzeHistoryDODatabaseReplica func(*sql.Selector)
+
+// BronzeHistoryDODatabaseUser is the predicate function for bronzehistorydodatabaseuser builders.
+type BronzeHistoryDODatabaseUser func(*sql.Selector)
 
 // BronzeHistoryDODomain is the predicate function for bronzehistorydodomain builders.
 type BronzeHistoryDODomain func(*sql.Selector)

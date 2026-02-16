@@ -15,6 +15,13 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzeawsec2instance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzeawsec2instancetag"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoaccount"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabase"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabasebackup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabaseconfig"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabasefirewallrule"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabasepool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabasereplica"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabaseuser"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodomain"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodomainrecord"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodroplet"
@@ -108,6 +115,13 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instancetag"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoaccount"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabase"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabasebackup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabaseconfig"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabasefirewallrule"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabasepool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabasereplica"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabaseuser"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodomain"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodomainrecord"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodroplet"
@@ -275,6 +289,13 @@ func checkColumn(t, c string) error {
 			bronzeawsec2instance.Table:                             bronzeawsec2instance.ValidColumn,
 			bronzeawsec2instancetag.Table:                          bronzeawsec2instancetag.ValidColumn,
 			bronzedoaccount.Table:                                  bronzedoaccount.ValidColumn,
+			bronzedodatabase.Table:                                 bronzedodatabase.ValidColumn,
+			bronzedodatabasebackup.Table:                           bronzedodatabasebackup.ValidColumn,
+			bronzedodatabaseconfig.Table:                           bronzedodatabaseconfig.ValidColumn,
+			bronzedodatabasefirewallrule.Table:                     bronzedodatabasefirewallrule.ValidColumn,
+			bronzedodatabasepool.Table:                             bronzedodatabasepool.ValidColumn,
+			bronzedodatabasereplica.Table:                          bronzedodatabasereplica.ValidColumn,
+			bronzedodatabaseuser.Table:                             bronzedodatabaseuser.ValidColumn,
 			bronzedodomain.Table:                                   bronzedodomain.ValidColumn,
 			bronzedodomainrecord.Table:                             bronzedodomainrecord.ValidColumn,
 			bronzedodroplet.Table:                                  bronzedodroplet.ValidColumn,
@@ -368,6 +389,13 @@ func checkColumn(t, c string) error {
 			bronzehistoryawsec2instance.Table:                      bronzehistoryawsec2instance.ValidColumn,
 			bronzehistoryawsec2instancetag.Table:                   bronzehistoryawsec2instancetag.ValidColumn,
 			bronzehistorydoaccount.Table:                           bronzehistorydoaccount.ValidColumn,
+			bronzehistorydodatabase.Table:                          bronzehistorydodatabase.ValidColumn,
+			bronzehistorydodatabasebackup.Table:                    bronzehistorydodatabasebackup.ValidColumn,
+			bronzehistorydodatabaseconfig.Table:                    bronzehistorydodatabaseconfig.ValidColumn,
+			bronzehistorydodatabasefirewallrule.Table:              bronzehistorydodatabasefirewallrule.ValidColumn,
+			bronzehistorydodatabasepool.Table:                      bronzehistorydodatabasepool.ValidColumn,
+			bronzehistorydodatabasereplica.Table:                   bronzehistorydodatabasereplica.ValidColumn,
+			bronzehistorydodatabaseuser.Table:                      bronzehistorydodatabaseuser.ValidColumn,
 			bronzehistorydodomain.Table:                            bronzehistorydodomain.ValidColumn,
 			bronzehistorydodomainrecord.Table:                      bronzehistorydodomainrecord.ValidColumn,
 			bronzehistorydodroplet.Table:                           bronzehistorydodroplet.ValidColumn,

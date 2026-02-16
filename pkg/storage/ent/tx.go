@@ -18,6 +18,20 @@ type Tx struct {
 	BronzeAWSEC2InstanceTag *BronzeAWSEC2InstanceTagClient
 	// BronzeDOAccount is the client for interacting with the BronzeDOAccount builders.
 	BronzeDOAccount *BronzeDOAccountClient
+	// BronzeDODatabase is the client for interacting with the BronzeDODatabase builders.
+	BronzeDODatabase *BronzeDODatabaseClient
+	// BronzeDODatabaseBackup is the client for interacting with the BronzeDODatabaseBackup builders.
+	BronzeDODatabaseBackup *BronzeDODatabaseBackupClient
+	// BronzeDODatabaseConfig is the client for interacting with the BronzeDODatabaseConfig builders.
+	BronzeDODatabaseConfig *BronzeDODatabaseConfigClient
+	// BronzeDODatabaseFirewallRule is the client for interacting with the BronzeDODatabaseFirewallRule builders.
+	BronzeDODatabaseFirewallRule *BronzeDODatabaseFirewallRuleClient
+	// BronzeDODatabasePool is the client for interacting with the BronzeDODatabasePool builders.
+	BronzeDODatabasePool *BronzeDODatabasePoolClient
+	// BronzeDODatabaseReplica is the client for interacting with the BronzeDODatabaseReplica builders.
+	BronzeDODatabaseReplica *BronzeDODatabaseReplicaClient
+	// BronzeDODatabaseUser is the client for interacting with the BronzeDODatabaseUser builders.
+	BronzeDODatabaseUser *BronzeDODatabaseUserClient
 	// BronzeDODomain is the client for interacting with the BronzeDODomain builders.
 	BronzeDODomain *BronzeDODomainClient
 	// BronzeDODomainRecord is the client for interacting with the BronzeDODomainRecord builders.
@@ -204,6 +218,20 @@ type Tx struct {
 	BronzeHistoryAWSEC2InstanceTag *BronzeHistoryAWSEC2InstanceTagClient
 	// BronzeHistoryDOAccount is the client for interacting with the BronzeHistoryDOAccount builders.
 	BronzeHistoryDOAccount *BronzeHistoryDOAccountClient
+	// BronzeHistoryDODatabase is the client for interacting with the BronzeHistoryDODatabase builders.
+	BronzeHistoryDODatabase *BronzeHistoryDODatabaseClient
+	// BronzeHistoryDODatabaseBackup is the client for interacting with the BronzeHistoryDODatabaseBackup builders.
+	BronzeHistoryDODatabaseBackup *BronzeHistoryDODatabaseBackupClient
+	// BronzeHistoryDODatabaseConfig is the client for interacting with the BronzeHistoryDODatabaseConfig builders.
+	BronzeHistoryDODatabaseConfig *BronzeHistoryDODatabaseConfigClient
+	// BronzeHistoryDODatabaseFirewallRule is the client for interacting with the BronzeHistoryDODatabaseFirewallRule builders.
+	BronzeHistoryDODatabaseFirewallRule *BronzeHistoryDODatabaseFirewallRuleClient
+	// BronzeHistoryDODatabasePool is the client for interacting with the BronzeHistoryDODatabasePool builders.
+	BronzeHistoryDODatabasePool *BronzeHistoryDODatabasePoolClient
+	// BronzeHistoryDODatabaseReplica is the client for interacting with the BronzeHistoryDODatabaseReplica builders.
+	BronzeHistoryDODatabaseReplica *BronzeHistoryDODatabaseReplicaClient
+	// BronzeHistoryDODatabaseUser is the client for interacting with the BronzeHistoryDODatabaseUser builders.
+	BronzeHistoryDODatabaseUser *BronzeHistoryDODatabaseUserClient
 	// BronzeHistoryDODomain is the client for interacting with the BronzeHistoryDODomain builders.
 	BronzeHistoryDODomain *BronzeHistoryDODomainClient
 	// BronzeHistoryDODomainRecord is the client for interacting with the BronzeHistoryDODomainRecord builders.
@@ -546,6 +574,13 @@ func (tx *Tx) init() {
 	tx.BronzeAWSEC2Instance = NewBronzeAWSEC2InstanceClient(tx.config)
 	tx.BronzeAWSEC2InstanceTag = NewBronzeAWSEC2InstanceTagClient(tx.config)
 	tx.BronzeDOAccount = NewBronzeDOAccountClient(tx.config)
+	tx.BronzeDODatabase = NewBronzeDODatabaseClient(tx.config)
+	tx.BronzeDODatabaseBackup = NewBronzeDODatabaseBackupClient(tx.config)
+	tx.BronzeDODatabaseConfig = NewBronzeDODatabaseConfigClient(tx.config)
+	tx.BronzeDODatabaseFirewallRule = NewBronzeDODatabaseFirewallRuleClient(tx.config)
+	tx.BronzeDODatabasePool = NewBronzeDODatabasePoolClient(tx.config)
+	tx.BronzeDODatabaseReplica = NewBronzeDODatabaseReplicaClient(tx.config)
+	tx.BronzeDODatabaseUser = NewBronzeDODatabaseUserClient(tx.config)
 	tx.BronzeDODomain = NewBronzeDODomainClient(tx.config)
 	tx.BronzeDODomainRecord = NewBronzeDODomainRecordClient(tx.config)
 	tx.BronzeDODroplet = NewBronzeDODropletClient(tx.config)
@@ -639,6 +674,13 @@ func (tx *Tx) init() {
 	tx.BronzeHistoryAWSEC2Instance = NewBronzeHistoryAWSEC2InstanceClient(tx.config)
 	tx.BronzeHistoryAWSEC2InstanceTag = NewBronzeHistoryAWSEC2InstanceTagClient(tx.config)
 	tx.BronzeHistoryDOAccount = NewBronzeHistoryDOAccountClient(tx.config)
+	tx.BronzeHistoryDODatabase = NewBronzeHistoryDODatabaseClient(tx.config)
+	tx.BronzeHistoryDODatabaseBackup = NewBronzeHistoryDODatabaseBackupClient(tx.config)
+	tx.BronzeHistoryDODatabaseConfig = NewBronzeHistoryDODatabaseConfigClient(tx.config)
+	tx.BronzeHistoryDODatabaseFirewallRule = NewBronzeHistoryDODatabaseFirewallRuleClient(tx.config)
+	tx.BronzeHistoryDODatabasePool = NewBronzeHistoryDODatabasePoolClient(tx.config)
+	tx.BronzeHistoryDODatabaseReplica = NewBronzeHistoryDODatabaseReplicaClient(tx.config)
+	tx.BronzeHistoryDODatabaseUser = NewBronzeHistoryDODatabaseUserClient(tx.config)
 	tx.BronzeHistoryDODomain = NewBronzeHistoryDODomainClient(tx.config)
 	tx.BronzeHistoryDODomainRecord = NewBronzeHistoryDODomainRecordClient(tx.config)
 	tx.BronzeHistoryDODroplet = NewBronzeHistoryDODropletClient(tx.config)

@@ -6,6 +6,13 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzeawsec2instance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzeawsec2instancetag"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoaccount"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabase"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabasebackup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabaseconfig"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabasefirewallrule"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabasepool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabasereplica"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabaseuser"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodomain"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodomainrecord"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodroplet"
@@ -94,6 +101,13 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntunnellabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoaccount"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabase"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabasebackup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabaseconfig"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabasefirewallrule"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabasepool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabasereplica"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabaseuser"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodomain"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodomainrecord"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodroplet"
@@ -229,6 +243,80 @@ func init() {
 	bronzedoaccountDescEmailVerified := bronzedoaccountFields[9].Descriptor()
 	// bronzedoaccount.DefaultEmailVerified holds the default value on creation for the email_verified field.
 	bronzedoaccount.DefaultEmailVerified = bronzedoaccountDescEmailVerified.Default.(bool)
+	bronzedodatabaseFields := schema.BronzeDODatabase{}.Fields()
+	_ = bronzedodatabaseFields
+	// bronzedodatabaseDescNumNodes is the schema descriptor for num_nodes field.
+	bronzedodatabaseDescNumNodes := bronzedodatabaseFields[4].Descriptor()
+	// bronzedodatabase.DefaultNumNodes holds the default value on creation for the num_nodes field.
+	bronzedodatabase.DefaultNumNodes = bronzedodatabaseDescNumNodes.Default.(int)
+	// bronzedodatabaseDescStorageSizeMib is the schema descriptor for storage_size_mib field.
+	bronzedodatabaseDescStorageSizeMib := bronzedodatabaseFields[9].Descriptor()
+	// bronzedodatabase.DefaultStorageSizeMib holds the default value on creation for the storage_size_mib field.
+	bronzedodatabase.DefaultStorageSizeMib = bronzedodatabaseDescStorageSizeMib.Default.(uint64)
+	bronzedodatabasebackupFields := schema.BronzeDODatabaseBackup{}.Fields()
+	_ = bronzedodatabasebackupFields
+	// bronzedodatabasebackupDescClusterID is the schema descriptor for cluster_id field.
+	bronzedodatabasebackupDescClusterID := bronzedodatabasebackupFields[1].Descriptor()
+	// bronzedodatabasebackup.ClusterIDValidator is a validator for the "cluster_id" field. It is called by the builders before save.
+	bronzedodatabasebackup.ClusterIDValidator = bronzedodatabasebackupDescClusterID.Validators[0].(func(string) error)
+	// bronzedodatabasebackupDescSizeGigabytes is the schema descriptor for size_gigabytes field.
+	bronzedodatabasebackupDescSizeGigabytes := bronzedodatabasebackupFields[2].Descriptor()
+	// bronzedodatabasebackup.DefaultSizeGigabytes holds the default value on creation for the size_gigabytes field.
+	bronzedodatabasebackup.DefaultSizeGigabytes = bronzedodatabasebackupDescSizeGigabytes.Default.(float64)
+	bronzedodatabaseconfigFields := schema.BronzeDODatabaseConfig{}.Fields()
+	_ = bronzedodatabaseconfigFields
+	// bronzedodatabaseconfigDescClusterID is the schema descriptor for cluster_id field.
+	bronzedodatabaseconfigDescClusterID := bronzedodatabaseconfigFields[1].Descriptor()
+	// bronzedodatabaseconfig.ClusterIDValidator is a validator for the "cluster_id" field. It is called by the builders before save.
+	bronzedodatabaseconfig.ClusterIDValidator = bronzedodatabaseconfigDescClusterID.Validators[0].(func(string) error)
+	bronzedodatabasefirewallruleFields := schema.BronzeDODatabaseFirewallRule{}.Fields()
+	_ = bronzedodatabasefirewallruleFields
+	// bronzedodatabasefirewallruleDescClusterID is the schema descriptor for cluster_id field.
+	bronzedodatabasefirewallruleDescClusterID := bronzedodatabasefirewallruleFields[1].Descriptor()
+	// bronzedodatabasefirewallrule.ClusterIDValidator is a validator for the "cluster_id" field. It is called by the builders before save.
+	bronzedodatabasefirewallrule.ClusterIDValidator = bronzedodatabasefirewallruleDescClusterID.Validators[0].(func(string) error)
+	// bronzedodatabasefirewallruleDescUUID is the schema descriptor for uuid field.
+	bronzedodatabasefirewallruleDescUUID := bronzedodatabasefirewallruleFields[2].Descriptor()
+	// bronzedodatabasefirewallrule.UUIDValidator is a validator for the "uuid" field. It is called by the builders before save.
+	bronzedodatabasefirewallrule.UUIDValidator = bronzedodatabasefirewallruleDescUUID.Validators[0].(func(string) error)
+	bronzedodatabasepoolFields := schema.BronzeDODatabasePool{}.Fields()
+	_ = bronzedodatabasepoolFields
+	// bronzedodatabasepoolDescClusterID is the schema descriptor for cluster_id field.
+	bronzedodatabasepoolDescClusterID := bronzedodatabasepoolFields[1].Descriptor()
+	// bronzedodatabasepool.ClusterIDValidator is a validator for the "cluster_id" field. It is called by the builders before save.
+	bronzedodatabasepool.ClusterIDValidator = bronzedodatabasepoolDescClusterID.Validators[0].(func(string) error)
+	// bronzedodatabasepoolDescName is the schema descriptor for name field.
+	bronzedodatabasepoolDescName := bronzedodatabasepoolFields[2].Descriptor()
+	// bronzedodatabasepool.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzedodatabasepool.NameValidator = bronzedodatabasepoolDescName.Validators[0].(func(string) error)
+	// bronzedodatabasepoolDescSize is the schema descriptor for size field.
+	bronzedodatabasepoolDescSize := bronzedodatabasepoolFields[4].Descriptor()
+	// bronzedodatabasepool.DefaultSize holds the default value on creation for the size field.
+	bronzedodatabasepool.DefaultSize = bronzedodatabasepoolDescSize.Default.(int)
+	bronzedodatabasereplicaFields := schema.BronzeDODatabaseReplica{}.Fields()
+	_ = bronzedodatabasereplicaFields
+	// bronzedodatabasereplicaDescClusterID is the schema descriptor for cluster_id field.
+	bronzedodatabasereplicaDescClusterID := bronzedodatabasereplicaFields[1].Descriptor()
+	// bronzedodatabasereplica.ClusterIDValidator is a validator for the "cluster_id" field. It is called by the builders before save.
+	bronzedodatabasereplica.ClusterIDValidator = bronzedodatabasereplicaDescClusterID.Validators[0].(func(string) error)
+	// bronzedodatabasereplicaDescName is the schema descriptor for name field.
+	bronzedodatabasereplicaDescName := bronzedodatabasereplicaFields[2].Descriptor()
+	// bronzedodatabasereplica.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzedodatabasereplica.NameValidator = bronzedodatabasereplicaDescName.Validators[0].(func(string) error)
+	// bronzedodatabasereplicaDescStorageSizeMib is the schema descriptor for storage_size_mib field.
+	bronzedodatabasereplicaDescStorageSizeMib := bronzedodatabasereplicaFields[6].Descriptor()
+	// bronzedodatabasereplica.DefaultStorageSizeMib holds the default value on creation for the storage_size_mib field.
+	bronzedodatabasereplica.DefaultStorageSizeMib = bronzedodatabasereplicaDescStorageSizeMib.Default.(uint64)
+	bronzedodatabaseuserFields := schema.BronzeDODatabaseUser{}.Fields()
+	_ = bronzedodatabaseuserFields
+	// bronzedodatabaseuserDescClusterID is the schema descriptor for cluster_id field.
+	bronzedodatabaseuserDescClusterID := bronzedodatabaseuserFields[1].Descriptor()
+	// bronzedodatabaseuser.ClusterIDValidator is a validator for the "cluster_id" field. It is called by the builders before save.
+	bronzedodatabaseuser.ClusterIDValidator = bronzedodatabaseuserDescClusterID.Validators[0].(func(string) error)
+	// bronzedodatabaseuserDescName is the schema descriptor for name field.
+	bronzedodatabaseuserDescName := bronzedodatabaseuserFields[2].Descriptor()
+	// bronzedodatabaseuser.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzedodatabaseuser.NameValidator = bronzedodatabaseuserDescName.Validators[0].(func(string) error)
 	bronzedodomainFields := schema.BronzeDODomain{}.Fields()
 	_ = bronzedodomainFields
 	// bronzedodomainDescTTL is the schema descriptor for ttl field.
@@ -1261,6 +1349,108 @@ func init() {
 	bronzehistorydoaccountDescEmailVerified := bronzehistorydoaccountFields[10].Descriptor()
 	// bronzehistorydoaccount.DefaultEmailVerified holds the default value on creation for the email_verified field.
 	bronzehistorydoaccount.DefaultEmailVerified = bronzehistorydoaccountDescEmailVerified.Default.(bool)
+	bronzehistorydodatabaseFields := schema.BronzeHistoryDODatabase{}.Fields()
+	_ = bronzehistorydodatabaseFields
+	// bronzehistorydodatabaseDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorydodatabaseDescResourceID := bronzehistorydodatabaseFields[1].Descriptor()
+	// bronzehistorydodatabase.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorydodatabase.ResourceIDValidator = bronzehistorydodatabaseDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorydodatabaseDescNumNodes is the schema descriptor for num_nodes field.
+	bronzehistorydodatabaseDescNumNodes := bronzehistorydodatabaseFields[5].Descriptor()
+	// bronzehistorydodatabase.DefaultNumNodes holds the default value on creation for the num_nodes field.
+	bronzehistorydodatabase.DefaultNumNodes = bronzehistorydodatabaseDescNumNodes.Default.(int)
+	// bronzehistorydodatabaseDescStorageSizeMib is the schema descriptor for storage_size_mib field.
+	bronzehistorydodatabaseDescStorageSizeMib := bronzehistorydodatabaseFields[10].Descriptor()
+	// bronzehistorydodatabase.DefaultStorageSizeMib holds the default value on creation for the storage_size_mib field.
+	bronzehistorydodatabase.DefaultStorageSizeMib = bronzehistorydodatabaseDescStorageSizeMib.Default.(uint64)
+	bronzehistorydodatabasebackupFields := schema.BronzeHistoryDODatabaseBackup{}.Fields()
+	_ = bronzehistorydodatabasebackupFields
+	// bronzehistorydodatabasebackupDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorydodatabasebackupDescResourceID := bronzehistorydodatabasebackupFields[1].Descriptor()
+	// bronzehistorydodatabasebackup.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorydodatabasebackup.ResourceIDValidator = bronzehistorydodatabasebackupDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorydodatabasebackupDescClusterID is the schema descriptor for cluster_id field.
+	bronzehistorydodatabasebackupDescClusterID := bronzehistorydodatabasebackupFields[2].Descriptor()
+	// bronzehistorydodatabasebackup.ClusterIDValidator is a validator for the "cluster_id" field. It is called by the builders before save.
+	bronzehistorydodatabasebackup.ClusterIDValidator = bronzehistorydodatabasebackupDescClusterID.Validators[0].(func(string) error)
+	// bronzehistorydodatabasebackupDescSizeGigabytes is the schema descriptor for size_gigabytes field.
+	bronzehistorydodatabasebackupDescSizeGigabytes := bronzehistorydodatabasebackupFields[3].Descriptor()
+	// bronzehistorydodatabasebackup.DefaultSizeGigabytes holds the default value on creation for the size_gigabytes field.
+	bronzehistorydodatabasebackup.DefaultSizeGigabytes = bronzehistorydodatabasebackupDescSizeGigabytes.Default.(float64)
+	bronzehistorydodatabaseconfigFields := schema.BronzeHistoryDODatabaseConfig{}.Fields()
+	_ = bronzehistorydodatabaseconfigFields
+	// bronzehistorydodatabaseconfigDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorydodatabaseconfigDescResourceID := bronzehistorydodatabaseconfigFields[1].Descriptor()
+	// bronzehistorydodatabaseconfig.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorydodatabaseconfig.ResourceIDValidator = bronzehistorydodatabaseconfigDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorydodatabaseconfigDescClusterID is the schema descriptor for cluster_id field.
+	bronzehistorydodatabaseconfigDescClusterID := bronzehistorydodatabaseconfigFields[2].Descriptor()
+	// bronzehistorydodatabaseconfig.ClusterIDValidator is a validator for the "cluster_id" field. It is called by the builders before save.
+	bronzehistorydodatabaseconfig.ClusterIDValidator = bronzehistorydodatabaseconfigDescClusterID.Validators[0].(func(string) error)
+	bronzehistorydodatabasefirewallruleFields := schema.BronzeHistoryDODatabaseFirewallRule{}.Fields()
+	_ = bronzehistorydodatabasefirewallruleFields
+	// bronzehistorydodatabasefirewallruleDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorydodatabasefirewallruleDescResourceID := bronzehistorydodatabasefirewallruleFields[1].Descriptor()
+	// bronzehistorydodatabasefirewallrule.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorydodatabasefirewallrule.ResourceIDValidator = bronzehistorydodatabasefirewallruleDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorydodatabasefirewallruleDescClusterID is the schema descriptor for cluster_id field.
+	bronzehistorydodatabasefirewallruleDescClusterID := bronzehistorydodatabasefirewallruleFields[2].Descriptor()
+	// bronzehistorydodatabasefirewallrule.ClusterIDValidator is a validator for the "cluster_id" field. It is called by the builders before save.
+	bronzehistorydodatabasefirewallrule.ClusterIDValidator = bronzehistorydodatabasefirewallruleDescClusterID.Validators[0].(func(string) error)
+	// bronzehistorydodatabasefirewallruleDescUUID is the schema descriptor for uuid field.
+	bronzehistorydodatabasefirewallruleDescUUID := bronzehistorydodatabasefirewallruleFields[3].Descriptor()
+	// bronzehistorydodatabasefirewallrule.UUIDValidator is a validator for the "uuid" field. It is called by the builders before save.
+	bronzehistorydodatabasefirewallrule.UUIDValidator = bronzehistorydodatabasefirewallruleDescUUID.Validators[0].(func(string) error)
+	bronzehistorydodatabasepoolFields := schema.BronzeHistoryDODatabasePool{}.Fields()
+	_ = bronzehistorydodatabasepoolFields
+	// bronzehistorydodatabasepoolDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorydodatabasepoolDescResourceID := bronzehistorydodatabasepoolFields[1].Descriptor()
+	// bronzehistorydodatabasepool.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorydodatabasepool.ResourceIDValidator = bronzehistorydodatabasepoolDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorydodatabasepoolDescClusterID is the schema descriptor for cluster_id field.
+	bronzehistorydodatabasepoolDescClusterID := bronzehistorydodatabasepoolFields[2].Descriptor()
+	// bronzehistorydodatabasepool.ClusterIDValidator is a validator for the "cluster_id" field. It is called by the builders before save.
+	bronzehistorydodatabasepool.ClusterIDValidator = bronzehistorydodatabasepoolDescClusterID.Validators[0].(func(string) error)
+	// bronzehistorydodatabasepoolDescName is the schema descriptor for name field.
+	bronzehistorydodatabasepoolDescName := bronzehistorydodatabasepoolFields[3].Descriptor()
+	// bronzehistorydodatabasepool.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorydodatabasepool.NameValidator = bronzehistorydodatabasepoolDescName.Validators[0].(func(string) error)
+	// bronzehistorydodatabasepoolDescSize is the schema descriptor for size field.
+	bronzehistorydodatabasepoolDescSize := bronzehistorydodatabasepoolFields[5].Descriptor()
+	// bronzehistorydodatabasepool.DefaultSize holds the default value on creation for the size field.
+	bronzehistorydodatabasepool.DefaultSize = bronzehistorydodatabasepoolDescSize.Default.(int)
+	bronzehistorydodatabasereplicaFields := schema.BronzeHistoryDODatabaseReplica{}.Fields()
+	_ = bronzehistorydodatabasereplicaFields
+	// bronzehistorydodatabasereplicaDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorydodatabasereplicaDescResourceID := bronzehistorydodatabasereplicaFields[1].Descriptor()
+	// bronzehistorydodatabasereplica.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorydodatabasereplica.ResourceIDValidator = bronzehistorydodatabasereplicaDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorydodatabasereplicaDescClusterID is the schema descriptor for cluster_id field.
+	bronzehistorydodatabasereplicaDescClusterID := bronzehistorydodatabasereplicaFields[2].Descriptor()
+	// bronzehistorydodatabasereplica.ClusterIDValidator is a validator for the "cluster_id" field. It is called by the builders before save.
+	bronzehistorydodatabasereplica.ClusterIDValidator = bronzehistorydodatabasereplicaDescClusterID.Validators[0].(func(string) error)
+	// bronzehistorydodatabasereplicaDescName is the schema descriptor for name field.
+	bronzehistorydodatabasereplicaDescName := bronzehistorydodatabasereplicaFields[3].Descriptor()
+	// bronzehistorydodatabasereplica.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorydodatabasereplica.NameValidator = bronzehistorydodatabasereplicaDescName.Validators[0].(func(string) error)
+	// bronzehistorydodatabasereplicaDescStorageSizeMib is the schema descriptor for storage_size_mib field.
+	bronzehistorydodatabasereplicaDescStorageSizeMib := bronzehistorydodatabasereplicaFields[7].Descriptor()
+	// bronzehistorydodatabasereplica.DefaultStorageSizeMib holds the default value on creation for the storage_size_mib field.
+	bronzehistorydodatabasereplica.DefaultStorageSizeMib = bronzehistorydodatabasereplicaDescStorageSizeMib.Default.(uint64)
+	bronzehistorydodatabaseuserFields := schema.BronzeHistoryDODatabaseUser{}.Fields()
+	_ = bronzehistorydodatabaseuserFields
+	// bronzehistorydodatabaseuserDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorydodatabaseuserDescResourceID := bronzehistorydodatabaseuserFields[1].Descriptor()
+	// bronzehistorydodatabaseuser.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorydodatabaseuser.ResourceIDValidator = bronzehistorydodatabaseuserDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorydodatabaseuserDescClusterID is the schema descriptor for cluster_id field.
+	bronzehistorydodatabaseuserDescClusterID := bronzehistorydodatabaseuserFields[2].Descriptor()
+	// bronzehistorydodatabaseuser.ClusterIDValidator is a validator for the "cluster_id" field. It is called by the builders before save.
+	bronzehistorydodatabaseuser.ClusterIDValidator = bronzehistorydodatabaseuserDescClusterID.Validators[0].(func(string) error)
+	// bronzehistorydodatabaseuserDescName is the schema descriptor for name field.
+	bronzehistorydodatabaseuserDescName := bronzehistorydodatabaseuserFields[3].Descriptor()
+	// bronzehistorydodatabaseuser.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorydodatabaseuser.NameValidator = bronzehistorydodatabaseuserDescName.Validators[0].(func(string) error)
 	bronzehistorydodomainFields := schema.BronzeHistoryDODomain{}.Fields()
 	_ = bronzehistorydodomainFields
 	// bronzehistorydodomainDescResourceID is the schema descriptor for resource_id field.

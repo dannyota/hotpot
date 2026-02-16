@@ -7,6 +7,7 @@ import (
 	"go.temporal.io/sdk/workflow"
 
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/account"
+	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/database"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/domain"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/droplet"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/firewall"
@@ -19,17 +20,24 @@ import (
 
 // DOInventoryWorkflowResult contains the result of DigitalOcean inventory collection.
 type DOInventoryWorkflowResult struct {
-	AccountCount      int
-	DomainCount       int
-	DomainRecordCount int
-	DropletCount      int
-	FirewallCount     int
-	KeyCount          int
-	LoadBalancerCount int
-	ProjectCount      int
-	ResourceCount     int
-	VolumeCount       int
-	VpcCount          int
+	AccountCount              int
+	DatabaseClusterCount      int
+	DatabaseFirewallRuleCount int
+	DatabaseUserCount         int
+	DatabaseReplicaCount      int
+	DatabaseBackupCount       int
+	DatabaseConfigCount       int
+	DatabasePoolCount         int
+	DomainCount               int
+	DomainRecordCount         int
+	DropletCount              int
+	FirewallCount             int
+	KeyCount                  int
+	LoadBalancerCount         int
+	ProjectCount              int
+	ResourceCount             int
+	VolumeCount               int
+	VpcCount                  int
 }
 
 // DOInventoryWorkflow orchestrates DigitalOcean inventory collection.
@@ -52,6 +60,7 @@ func DOInventoryWorkflow(ctx workflow.Context) (*DOInventoryWorkflowResult, erro
 
 	// Launch all child workflows concurrently
 	accountFuture := workflow.ExecuteChildWorkflow(ctx, account.DOAccountWorkflow)
+	databaseFuture := workflow.ExecuteChildWorkflow(ctx, database.DODatabaseWorkflow)
 	domainFuture := workflow.ExecuteChildWorkflow(ctx, domain.DODomainWorkflow)
 	dropletFuture := workflow.ExecuteChildWorkflow(ctx, droplet.DODropletWorkflow)
 	firewallFuture := workflow.ExecuteChildWorkflow(ctx, firewall.DOFirewallWorkflow)
@@ -67,6 +76,19 @@ func DOInventoryWorkflow(ctx workflow.Context) (*DOInventoryWorkflowResult, erro
 		logger.Error("Failed to execute DOAccountWorkflow", "error", err)
 	} else {
 		result.AccountCount = accountResult.AccountCount
+	}
+
+	var databaseResult database.DODatabaseWorkflowResult
+	if err := databaseFuture.Get(ctx, &databaseResult); err != nil {
+		logger.Error("Failed to execute DODatabaseWorkflow", "error", err)
+	} else {
+		result.DatabaseClusterCount = databaseResult.ClusterCount
+		result.DatabaseFirewallRuleCount = databaseResult.FirewallRuleCount
+		result.DatabaseUserCount = databaseResult.UserCount
+		result.DatabaseReplicaCount = databaseResult.ReplicaCount
+		result.DatabaseBackupCount = databaseResult.BackupCount
+		result.DatabaseConfigCount = databaseResult.ConfigCount
+		result.DatabasePoolCount = databaseResult.PoolCount
 	}
 
 	var domainResult domain.DODomainWorkflowResult
@@ -129,6 +151,13 @@ func DOInventoryWorkflow(ctx workflow.Context) (*DOInventoryWorkflowResult, erro
 
 	logger.Info("Completed DOInventoryWorkflow",
 		"accounts", result.AccountCount,
+		"databaseClusters", result.DatabaseClusterCount,
+		"databaseFirewallRules", result.DatabaseFirewallRuleCount,
+		"databaseUsers", result.DatabaseUserCount,
+		"databaseReplicas", result.DatabaseReplicaCount,
+		"databaseBackups", result.DatabaseBackupCount,
+		"databaseConfigs", result.DatabaseConfigCount,
+		"databasePools", result.DatabasePoolCount,
 		"domains", result.DomainCount,
 		"domainRecords", result.DomainRecordCount,
 		"droplets", result.DropletCount,

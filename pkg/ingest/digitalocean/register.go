@@ -6,6 +6,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/account"
+	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/database"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/domain"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/droplet"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/firewall"
@@ -28,6 +29,7 @@ func Register(w worker.Worker, configService *config.Service, entClient *ent.Cli
 	limiter := rateLimitSvc.Limiter()
 
 	account.Register(w, configService, entClient, limiter)
+	database.Register(w, configService, entClient, limiter)
 	domain.Register(w, configService, entClient, limiter)
 	droplet.Register(w, configService, entClient, limiter)
 	firewall.Register(w, configService, entClient, limiter)

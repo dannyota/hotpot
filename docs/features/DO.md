@@ -63,14 +63,14 @@ DigitalOcean API resource ingestion coverage in the bronze layer.
 
 | Resource | Endpoint | Status |
 |----------|----------|:------:|
-| Database Clusters | `/databases` | |
+| Database Clusters | `/databases` | ✅ |
 | Databases | `/databases/{id}/dbs` | |
-| Database Users | `/databases/{id}/users` | |
-| Database Replicas | `/databases/{id}/replicas` | |
-| Database Connection Pools | `/databases/{id}/pools` | |
-| Database Backups | `/databases/{id}/backups` | |
-| Database Config | `/databases/{id}/config` | |
-| Database Firewall Rules | `/databases/{id}/firewall` | |
+| Database Users | `/databases/{id}/users` | ✅ |
+| Database Replicas | `/databases/{id}/replicas` | ✅ |
+| Database Connection Pools | `/databases/{id}/pools` | ✅ |
+| Database Backups | `/databases/{id}/backups` | ✅ |
+| Database Config | `/databases/{id}/config` | ✅ |
+| Database Firewall Rules | `/databases/{id}/firewall` | ✅ |
 | Database Eviction Policy | `/databases/{id}/eviction_policy` | |
 | Database SQL Mode | `/databases/{id}/sql_mode` | |
 | Database Topics (Kafka) | `/databases/{id}/topics` | |
@@ -223,9 +223,132 @@ DigitalOcean API resource ingestion coverage in the bronze layer.
 | OpenAI Keys | `/gen-ai/openai/keys` | |
 | Anthropic Keys | `/gen-ai/anthropic/keys` | |
 
+## 🗺️ Ingestion Roadmap
+
+No CIS benchmark exists for DigitalOcean. Phases are ordered by security posture
+value — prioritizing data protection, access control, and encryption visibility
+before operational/inventory resources.
+
+### Phase 1 — Databases (data protection)
+
+Managed databases are the highest-risk surface: public access, authentication,
+encryption, and backup configuration all live here.
+
+| Resource | Endpoint | Parent | Security Signal |
+|----------|----------|--------|-----------------|
+| Database Clusters | `/databases` | — | Engine, version, public access, region, encryption |
+| Database Firewall Rules | `/databases/{id}/firewall` | Cluster | Trusted sources allowlist |
+| Database Users | `/databases/{id}/users` | Cluster | Authentication, role grants |
+| Database Replicas | `/databases/{id}/replicas` | Cluster | Replication targets, cross-region exposure |
+| Database Backups | `/databases/{id}/backups` | Cluster | Backup retention, recovery readiness |
+| Database Config | `/databases/{id}/config` | Cluster | Engine-specific security settings |
+| Database Connection Pools | `/databases/{id}/pools` | Cluster | Connection management, user mapping |
+
+Deferred (low security value or engine-specific):
+Databases (logical DBs), Eviction Policy, SQL Mode, Topics (Kafka), Indexes,
+Log Sinks, Autoscale, Events, Options, Metrics Credentials.
+
+### Phase 2 — Kubernetes (container security)
+
+DOKS clusters are high-value: node pool sizing, version currency, and cluster
+configuration control blast radius.
+
+| Resource | Endpoint | Parent | Security Signal |
+|----------|----------|--------|-----------------|
+| Clusters | `/kubernetes/clusters` | — | Version, HA, surge upgrades, auto-upgrade |
+| Node Pools | `/kubernetes/clusters/{id}/node_pools` | Cluster | Size, count, taints, labels |
+| Cluster Credentials | `/kubernetes/clusters/{id}/credentials` | Cluster | Certificate expiry, token rotation |
+
+Deferred: Upgrades (point-in-time), Lint Results (on-demand), Options (static).
+
+### Phase 3 — Networking gaps (access control)
+
+Fill remaining network visibility gaps — IP allocation, TLS posture, VPC topology.
+
+| Resource | Endpoint | Parent | Security Signal |
+|----------|----------|--------|-----------------|
+| Certificates | `/certificates` | — | Expiration, type (custom vs Let's Encrypt) |
+| Reserved IPs | `/reserved_ips` | — | Allocation, droplet attachment |
+| VPC Members | `/vpcs/{id}/members` | VPC | Resource isolation boundaries |
+| VPC Peerings | `/vpc_peerings` | — | Cross-VPC connectivity |
+
+Deferred: Reserved IPv6, Floating IPs (legacy), CDN Endpoints, BYOIP Prefixes,
+Partner Network Connect, NAT Gateways.
+
+### Phase 4 — Container Registry (supply chain)
+
+Image provenance and access control for private registries.
+
+| Resource | Endpoint | Parent | Security Signal |
+|----------|----------|--------|-----------------|
+| Registries | `/registries` | — | Storage usage, region, subscription tier |
+| Registry Repositories | `/registries/{name}/repositoriesV2` | Registry | Image inventory |
+| Repository Tags | `/registries/{name}/repositories/{repo}/tags` | Repository | Tag mutability, latest versions |
+
+Deferred: Digests (detail level), Garbage Collections (ops), Subscription (billing),
+Options (static).
+
+### Phase 5 — Data snapshots (backup & recovery)
+
+Snapshots and backup policies for disaster recovery posture.
+
+| Resource | Endpoint | Parent | Security Signal |
+|----------|----------|--------|-----------------|
+| Snapshots | `/snapshots` | — | Type, size, region, age |
+| Volume Snapshots | `/volumes/{id}/snapshots` | Volume | Backup coverage for block storage |
+| Droplet Backups | `/droplets/{id}/backups` | Droplet | Backup existence and recency |
+| Droplet Backup Policies | `/droplets/backups/policies` | — | Automatic backup scheduling |
+
+### Phase 6 — Monitoring & observability (detection gaps)
+
+Alerting coverage determines whether security events are noticed.
+
+| Resource | Endpoint | Parent | Security Signal |
+|----------|----------|--------|-----------------|
+| Alert Policies | `/monitoring/alerts` | — | What's monitored, thresholds |
+| Uptime Checks | `/uptime/checks` | — | Availability monitoring targets |
+| Uptime Alerts | `/uptime/checks/{id}/alerts` | Check | Notification configuration |
+
+Deferred: Uptime Check State (ephemeral), Monitoring Sinks/Destinations.
+
+### Phase 7 — Images & metadata (inventory)
+
+Foundational inventory for drift detection and governance.
+
+| Resource | Endpoint | Parent | Security Signal |
+|----------|----------|--------|-----------------|
+| Images | `/images` | — | Custom images, public flag, distribution |
+| Tags | `/tags` | — | Governance labeling, resource counts |
+| Spaces Keys | `/spaces/keys` | — | S3-compatible access credentials |
+
+### Phase 8 — App Platform & Functions (compute inventory)
+
+Lower priority — these are PaaS/FaaS surfaces with less configurable security.
+
+| Resource | Endpoint | Parent | Security Signal |
+|----------|----------|--------|-----------------|
+| Apps | `/apps` | — | Deployment config, domains, env vars |
+| App Deployments | `/apps/{id}/deployments` | App | Deployment history |
+| Namespaces | `/functions/namespaces` | — | Serverless function inventory |
+| Triggers | `/functions/namespaces/{id}/triggers` | Namespace | Invocation sources |
+
+Deferred: App Alerts, Instances, Health, Regions, Instance Sizes.
+
+### Not planned
+
+Low security value — billing, reference data, marketplace, and AI platform
+resources. Revisit if compliance requirements change.
+
+- Account & Billing: Balance, Billing History, Invoices, Billing Insights
+- Droplets: Kernels, Neighbors, Autoscale (Pools/Members/History)
+- NFS: Shares, Snapshots
+- Actions (audit log — high volume, better via event stream)
+- Sizes, Regions (static reference data)
+- 1-Click Applications, Add-Ons, GradientAI Platform
+
 ## 📊 Summary
 
-**Total: 11/113 (10%)**
+**Total: 18/113 (16%)**
 
 | API | Implemented | Total |
 |-----|:-----------:|:-----:|
@@ -234,7 +357,7 @@ DigitalOcean API resource ingestion coverage in the bronze layer.
 | Kubernetes | 0 | 6 |
 | App Platform | 0 | 7 |
 | Functions | 0 | 2 |
-| Databases | 0 | 17 |
+| Databases | 7 | 17 |
 | Block Storage | 1 | 2 |
 | NFS | 0 | 2 |
 | Spaces | 0 | 1 |

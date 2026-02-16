@@ -23,6 +23,118 @@ func (BronzeDOAccount) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze"})
 }
 
+type BronzeDODatabase struct {
+	bronze_do.BronzeDODatabase
+}
+
+func (BronzeDODatabase) Annotations() []schema.Annotation {
+	anns := bronze_do.BronzeDODatabase{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeDODatabaseBackup struct {
+	bronze_do.BronzeDODatabaseBackup
+}
+
+func (BronzeDODatabaseBackup) Annotations() []schema.Annotation {
+	anns := bronze_do.BronzeDODatabaseBackup{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeDODatabaseConfig struct {
+	bronze_do.BronzeDODatabaseConfig
+}
+
+func (BronzeDODatabaseConfig) Annotations() []schema.Annotation {
+	anns := bronze_do.BronzeDODatabaseConfig{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeDODatabaseFirewallRule struct {
+	bronze_do.BronzeDODatabaseFirewallRule
+}
+
+func (BronzeDODatabaseFirewallRule) Annotations() []schema.Annotation {
+	anns := bronze_do.BronzeDODatabaseFirewallRule{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeDODatabasePool struct {
+	bronze_do.BronzeDODatabasePool
+}
+
+func (BronzeDODatabasePool) Annotations() []schema.Annotation {
+	anns := bronze_do.BronzeDODatabasePool{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeDODatabaseReplica struct {
+	bronze_do.BronzeDODatabaseReplica
+}
+
+func (BronzeDODatabaseReplica) Annotations() []schema.Annotation {
+	anns := bronze_do.BronzeDODatabaseReplica{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeDODatabaseUser struct {
+	bronze_do.BronzeDODatabaseUser
+}
+
+func (BronzeDODatabaseUser) Annotations() []schema.Annotation {
+	anns := bronze_do.BronzeDODatabaseUser{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
 type BronzeDODomain struct {
 	bronze_do.BronzeDODomain
 }

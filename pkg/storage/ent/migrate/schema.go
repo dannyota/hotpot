@@ -114,6 +114,263 @@ var (
 			},
 		},
 	}
+	// DoDatabasesColumns holds the columns for the "do_databases" table.
+	DoDatabasesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString, Nullable: true},
+		{Name: "engine_slug", Type: field.TypeString, Nullable: true},
+		{Name: "version_slug", Type: field.TypeString, Nullable: true},
+		{Name: "num_nodes", Type: field.TypeInt, Default: 0},
+		{Name: "size_slug", Type: field.TypeString, Nullable: true},
+		{Name: "region_slug", Type: field.TypeString, Nullable: true},
+		{Name: "status", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString, Nullable: true},
+		{Name: "storage_size_mib", Type: field.TypeUint64, Default: 0},
+		{Name: "private_network_uuid", Type: field.TypeString, Nullable: true},
+		{Name: "tags_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "maintenance_window_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "api_created_at", Type: field.TypeTime, Nullable: true},
+	}
+	// DoDatabasesTable holds the schema information for the "do_databases" table.
+	DoDatabasesTable = &schema.Table{
+		Name:       "do_databases",
+		Columns:    DoDatabasesColumns,
+		PrimaryKey: []*schema.Column{DoDatabasesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzedodatabase_engine_slug",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasesColumns[4]},
+			},
+			{
+				Name:    "bronzedodatabase_region_slug",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasesColumns[8]},
+			},
+			{
+				Name:    "bronzedodatabase_status",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasesColumns[9]},
+			},
+			{
+				Name:    "bronzedodatabase_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasesColumns[10]},
+			},
+			{
+				Name:    "bronzedodatabase_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasesColumns[1]},
+			},
+		},
+	}
+	// DoDatabaseBackupsColumns holds the columns for the "do_database_backups" table.
+	DoDatabaseBackupsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "cluster_id", Type: field.TypeString},
+		{Name: "size_gigabytes", Type: field.TypeFloat64, Default: 0},
+		{Name: "api_created_at", Type: field.TypeTime, Nullable: true},
+	}
+	// DoDatabaseBackupsTable holds the schema information for the "do_database_backups" table.
+	DoDatabaseBackupsTable = &schema.Table{
+		Name:       "do_database_backups",
+		Columns:    DoDatabaseBackupsColumns,
+		PrimaryKey: []*schema.Column{DoDatabaseBackupsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzedodatabasebackup_cluster_id",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseBackupsColumns[3]},
+			},
+			{
+				Name:    "bronzedodatabasebackup_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseBackupsColumns[1]},
+			},
+		},
+	}
+	// DoDatabaseConfigsColumns holds the columns for the "do_database_configs" table.
+	DoDatabaseConfigsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "cluster_id", Type: field.TypeString},
+		{Name: "engine_slug", Type: field.TypeString, Nullable: true},
+		{Name: "config_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// DoDatabaseConfigsTable holds the schema information for the "do_database_configs" table.
+	DoDatabaseConfigsTable = &schema.Table{
+		Name:       "do_database_configs",
+		Columns:    DoDatabaseConfigsColumns,
+		PrimaryKey: []*schema.Column{DoDatabaseConfigsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzedodatabaseconfig_cluster_id",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseConfigsColumns[3]},
+			},
+			{
+				Name:    "bronzedodatabaseconfig_engine_slug",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseConfigsColumns[4]},
+			},
+			{
+				Name:    "bronzedodatabaseconfig_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseConfigsColumns[1]},
+			},
+		},
+	}
+	// DoDatabaseFirewallRulesColumns holds the columns for the "do_database_firewall_rules" table.
+	DoDatabaseFirewallRulesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "cluster_id", Type: field.TypeString},
+		{Name: "uuid", Type: field.TypeString},
+		{Name: "type", Type: field.TypeString, Nullable: true},
+		{Name: "value", Type: field.TypeString, Nullable: true},
+		{Name: "api_created_at", Type: field.TypeTime, Nullable: true},
+	}
+	// DoDatabaseFirewallRulesTable holds the schema information for the "do_database_firewall_rules" table.
+	DoDatabaseFirewallRulesTable = &schema.Table{
+		Name:       "do_database_firewall_rules",
+		Columns:    DoDatabaseFirewallRulesColumns,
+		PrimaryKey: []*schema.Column{DoDatabaseFirewallRulesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzedodatabasefirewallrule_cluster_id",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseFirewallRulesColumns[3]},
+			},
+			{
+				Name:    "bronzedodatabasefirewallrule_type",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseFirewallRulesColumns[5]},
+			},
+			{
+				Name:    "bronzedodatabasefirewallrule_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseFirewallRulesColumns[1]},
+			},
+		},
+	}
+	// DoDatabasePoolsColumns holds the columns for the "do_database_pools" table.
+	DoDatabasePoolsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "cluster_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "user", Type: field.TypeString, Nullable: true},
+		{Name: "size", Type: field.TypeInt, Default: 0},
+		{Name: "database", Type: field.TypeString, Nullable: true},
+		{Name: "mode", Type: field.TypeString, Nullable: true},
+	}
+	// DoDatabasePoolsTable holds the schema information for the "do_database_pools" table.
+	DoDatabasePoolsTable = &schema.Table{
+		Name:       "do_database_pools",
+		Columns:    DoDatabasePoolsColumns,
+		PrimaryKey: []*schema.Column{DoDatabasePoolsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzedodatabasepool_cluster_id",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasePoolsColumns[3]},
+			},
+			{
+				Name:    "bronzedodatabasepool_mode",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasePoolsColumns[8]},
+			},
+			{
+				Name:    "bronzedodatabasepool_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasePoolsColumns[1]},
+			},
+		},
+	}
+	// DoDatabaseReplicasColumns holds the columns for the "do_database_replicas" table.
+	DoDatabaseReplicasColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "cluster_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "region", Type: field.TypeString, Nullable: true},
+		{Name: "status", Type: field.TypeString, Nullable: true},
+		{Name: "size", Type: field.TypeString, Nullable: true},
+		{Name: "storage_size_mib", Type: field.TypeUint64, Default: 0},
+		{Name: "private_network_uuid", Type: field.TypeString, Nullable: true},
+		{Name: "tags_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "api_created_at", Type: field.TypeTime, Nullable: true},
+	}
+	// DoDatabaseReplicasTable holds the schema information for the "do_database_replicas" table.
+	DoDatabaseReplicasTable = &schema.Table{
+		Name:       "do_database_replicas",
+		Columns:    DoDatabaseReplicasColumns,
+		PrimaryKey: []*schema.Column{DoDatabaseReplicasColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzedodatabasereplica_cluster_id",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseReplicasColumns[3]},
+			},
+			{
+				Name:    "bronzedodatabasereplica_region",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseReplicasColumns[5]},
+			},
+			{
+				Name:    "bronzedodatabasereplica_status",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseReplicasColumns[6]},
+			},
+			{
+				Name:    "bronzedodatabasereplica_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseReplicasColumns[1]},
+			},
+		},
+	}
+	// DoDatabaseUsersColumns holds the columns for the "do_database_users" table.
+	DoDatabaseUsersColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "cluster_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "role", Type: field.TypeString, Nullable: true},
+		{Name: "mysql_settings_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "settings_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// DoDatabaseUsersTable holds the schema information for the "do_database_users" table.
+	DoDatabaseUsersTable = &schema.Table{
+		Name:       "do_database_users",
+		Columns:    DoDatabaseUsersColumns,
+		PrimaryKey: []*schema.Column{DoDatabaseUsersColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzedodatabaseuser_cluster_id",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseUsersColumns[3]},
+			},
+			{
+				Name:    "bronzedodatabaseuser_role",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseUsersColumns[5]},
+			},
+			{
+				Name:    "bronzedodatabaseuser_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseUsersColumns[1]},
+			},
+		},
+	}
 	// DoDomainsColumns holds the columns for the "do_domains" table.
 	DoDomainsColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -3271,6 +3528,361 @@ var (
 				Name:    "bronzehistorydoaccount_status",
 				Unique:  false,
 				Columns: []*schema.Column{DoAccountsHistoryColumns[9]},
+			},
+		},
+	}
+	// DoDatabasesHistoryColumns holds the columns for the "do_databases_history" table.
+	DoDatabasesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString, Nullable: true},
+		{Name: "engine_slug", Type: field.TypeString, Nullable: true},
+		{Name: "version_slug", Type: field.TypeString, Nullable: true},
+		{Name: "num_nodes", Type: field.TypeInt, Default: 0},
+		{Name: "size_slug", Type: field.TypeString, Nullable: true},
+		{Name: "region_slug", Type: field.TypeString, Nullable: true},
+		{Name: "status", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString, Nullable: true},
+		{Name: "storage_size_mib", Type: field.TypeUint64, Default: 0},
+		{Name: "private_network_uuid", Type: field.TypeString, Nullable: true},
+		{Name: "tags_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "maintenance_window_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "api_created_at", Type: field.TypeTime, Nullable: true},
+	}
+	// DoDatabasesHistoryTable holds the schema information for the "do_databases_history" table.
+	DoDatabasesHistoryTable = &schema.Table{
+		Name:       "do_databases_history",
+		Columns:    DoDatabasesHistoryColumns,
+		PrimaryKey: []*schema.Column{DoDatabasesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorydodatabase_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasesHistoryColumns[6], DoDatabasesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorydodatabase_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorydodatabase_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorydodatabase_engine_slug",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasesHistoryColumns[8]},
+			},
+			{
+				Name:    "bronzehistorydodatabase_region_slug",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasesHistoryColumns[12]},
+			},
+			{
+				Name:    "bronzehistorydodatabase_status",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasesHistoryColumns[13]},
+			},
+			{
+				Name:    "bronzehistorydodatabase_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasesHistoryColumns[14]},
+			},
+		},
+	}
+	// DoDatabaseBackupsHistoryColumns holds the columns for the "do_database_backups_history" table.
+	DoDatabaseBackupsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "cluster_id", Type: field.TypeString},
+		{Name: "size_gigabytes", Type: field.TypeFloat64, Default: 0},
+		{Name: "api_created_at", Type: field.TypeTime, Nullable: true},
+	}
+	// DoDatabaseBackupsHistoryTable holds the schema information for the "do_database_backups_history" table.
+	DoDatabaseBackupsHistoryTable = &schema.Table{
+		Name:       "do_database_backups_history",
+		Columns:    DoDatabaseBackupsHistoryColumns,
+		PrimaryKey: []*schema.Column{DoDatabaseBackupsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorydodatabasebackup_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseBackupsHistoryColumns[6], DoDatabaseBackupsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorydodatabasebackup_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseBackupsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorydodatabasebackup_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseBackupsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorydodatabasebackup_cluster_id",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseBackupsHistoryColumns[7]},
+			},
+		},
+	}
+	// DoDatabaseConfigsHistoryColumns holds the columns for the "do_database_configs_history" table.
+	DoDatabaseConfigsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "cluster_id", Type: field.TypeString},
+		{Name: "engine_slug", Type: field.TypeString, Nullable: true},
+		{Name: "config_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// DoDatabaseConfigsHistoryTable holds the schema information for the "do_database_configs_history" table.
+	DoDatabaseConfigsHistoryTable = &schema.Table{
+		Name:       "do_database_configs_history",
+		Columns:    DoDatabaseConfigsHistoryColumns,
+		PrimaryKey: []*schema.Column{DoDatabaseConfigsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorydodatabaseconfig_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseConfigsHistoryColumns[6], DoDatabaseConfigsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorydodatabaseconfig_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseConfigsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorydodatabaseconfig_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseConfigsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorydodatabaseconfig_cluster_id",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseConfigsHistoryColumns[7]},
+			},
+			{
+				Name:    "bronzehistorydodatabaseconfig_engine_slug",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseConfigsHistoryColumns[8]},
+			},
+		},
+	}
+	// DoDatabaseFirewallRulesHistoryColumns holds the columns for the "do_database_firewall_rules_history" table.
+	DoDatabaseFirewallRulesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "cluster_id", Type: field.TypeString},
+		{Name: "uuid", Type: field.TypeString},
+		{Name: "type", Type: field.TypeString, Nullable: true},
+		{Name: "value", Type: field.TypeString, Nullable: true},
+		{Name: "api_created_at", Type: field.TypeTime, Nullable: true},
+	}
+	// DoDatabaseFirewallRulesHistoryTable holds the schema information for the "do_database_firewall_rules_history" table.
+	DoDatabaseFirewallRulesHistoryTable = &schema.Table{
+		Name:       "do_database_firewall_rules_history",
+		Columns:    DoDatabaseFirewallRulesHistoryColumns,
+		PrimaryKey: []*schema.Column{DoDatabaseFirewallRulesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorydodatabasefirewallrule_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseFirewallRulesHistoryColumns[6], DoDatabaseFirewallRulesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorydodatabasefirewallrule_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseFirewallRulesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorydodatabasefirewallrule_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseFirewallRulesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorydodatabasefirewallrule_cluster_id",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseFirewallRulesHistoryColumns[7]},
+			},
+			{
+				Name:    "bronzehistorydodatabasefirewallrule_type",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseFirewallRulesHistoryColumns[9]},
+			},
+		},
+	}
+	// DoDatabasePoolsHistoryColumns holds the columns for the "do_database_pools_history" table.
+	DoDatabasePoolsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "cluster_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "user", Type: field.TypeString, Nullable: true},
+		{Name: "size", Type: field.TypeInt, Default: 0},
+		{Name: "database", Type: field.TypeString, Nullable: true},
+		{Name: "mode", Type: field.TypeString, Nullable: true},
+	}
+	// DoDatabasePoolsHistoryTable holds the schema information for the "do_database_pools_history" table.
+	DoDatabasePoolsHistoryTable = &schema.Table{
+		Name:       "do_database_pools_history",
+		Columns:    DoDatabasePoolsHistoryColumns,
+		PrimaryKey: []*schema.Column{DoDatabasePoolsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorydodatabasepool_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasePoolsHistoryColumns[6], DoDatabasePoolsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorydodatabasepool_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasePoolsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorydodatabasepool_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasePoolsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorydodatabasepool_cluster_id",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasePoolsHistoryColumns[7]},
+			},
+			{
+				Name:    "bronzehistorydodatabasepool_mode",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabasePoolsHistoryColumns[12]},
+			},
+		},
+	}
+	// DoDatabaseReplicasHistoryColumns holds the columns for the "do_database_replicas_history" table.
+	DoDatabaseReplicasHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "cluster_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "region", Type: field.TypeString, Nullable: true},
+		{Name: "status", Type: field.TypeString, Nullable: true},
+		{Name: "size", Type: field.TypeString, Nullable: true},
+		{Name: "storage_size_mib", Type: field.TypeUint64, Default: 0},
+		{Name: "private_network_uuid", Type: field.TypeString, Nullable: true},
+		{Name: "tags_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "api_created_at", Type: field.TypeTime, Nullable: true},
+	}
+	// DoDatabaseReplicasHistoryTable holds the schema information for the "do_database_replicas_history" table.
+	DoDatabaseReplicasHistoryTable = &schema.Table{
+		Name:       "do_database_replicas_history",
+		Columns:    DoDatabaseReplicasHistoryColumns,
+		PrimaryKey: []*schema.Column{DoDatabaseReplicasHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorydodatabasereplica_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseReplicasHistoryColumns[6], DoDatabaseReplicasHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorydodatabasereplica_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseReplicasHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorydodatabasereplica_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseReplicasHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorydodatabasereplica_cluster_id",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseReplicasHistoryColumns[7]},
+			},
+			{
+				Name:    "bronzehistorydodatabasereplica_region",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseReplicasHistoryColumns[9]},
+			},
+			{
+				Name:    "bronzehistorydodatabasereplica_status",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseReplicasHistoryColumns[10]},
+			},
+		},
+	}
+	// DoDatabaseUsersHistoryColumns holds the columns for the "do_database_users_history" table.
+	DoDatabaseUsersHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "cluster_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "role", Type: field.TypeString, Nullable: true},
+		{Name: "mysql_settings_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "settings_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// DoDatabaseUsersHistoryTable holds the schema information for the "do_database_users_history" table.
+	DoDatabaseUsersHistoryTable = &schema.Table{
+		Name:       "do_database_users_history",
+		Columns:    DoDatabaseUsersHistoryColumns,
+		PrimaryKey: []*schema.Column{DoDatabaseUsersHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorydodatabaseuser_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseUsersHistoryColumns[6], DoDatabaseUsersHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorydodatabaseuser_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseUsersHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorydodatabaseuser_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseUsersHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorydodatabaseuser_cluster_id",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseUsersHistoryColumns[7]},
+			},
+			{
+				Name:    "bronzehistorydodatabaseuser_role",
+				Unique:  false,
+				Columns: []*schema.Column{DoDatabaseUsersHistoryColumns[9]},
 			},
 		},
 	}
@@ -8204,6 +8816,13 @@ var (
 		AWSEc2InstancesTable,
 		AWSEc2InstanceTagsTable,
 		DoAccountsTable,
+		DoDatabasesTable,
+		DoDatabaseBackupsTable,
+		DoDatabaseConfigsTable,
+		DoDatabaseFirewallRulesTable,
+		DoDatabasePoolsTable,
+		DoDatabaseReplicasTable,
+		DoDatabaseUsersTable,
 		DoDomainsTable,
 		DoDomainRecordsTable,
 		DoDropletsTable,
@@ -8297,6 +8916,13 @@ var (
 		AWSEc2InstancesHistoryTable,
 		AWSEc2InstanceTagsHistoryTable,
 		DoAccountsHistoryTable,
+		DoDatabasesHistoryTable,
+		DoDatabaseBackupsHistoryTable,
+		DoDatabaseConfigsHistoryTable,
+		DoDatabaseFirewallRulesHistoryTable,
+		DoDatabasePoolsHistoryTable,
+		DoDatabaseReplicasHistoryTable,
+		DoDatabaseUsersHistoryTable,
 		DoDomainsHistoryTable,
 		DoDomainRecordsHistoryTable,
 		DoDropletsHistoryTable,
@@ -8414,6 +9040,27 @@ func init() {
 	}
 	DoAccountsTable.Annotation = &entsql.Annotation{
 		Table: "do_accounts",
+	}
+	DoDatabasesTable.Annotation = &entsql.Annotation{
+		Table: "do_databases",
+	}
+	DoDatabaseBackupsTable.Annotation = &entsql.Annotation{
+		Table: "do_database_backups",
+	}
+	DoDatabaseConfigsTable.Annotation = &entsql.Annotation{
+		Table: "do_database_configs",
+	}
+	DoDatabaseFirewallRulesTable.Annotation = &entsql.Annotation{
+		Table: "do_database_firewall_rules",
+	}
+	DoDatabasePoolsTable.Annotation = &entsql.Annotation{
+		Table: "do_database_pools",
+	}
+	DoDatabaseReplicasTable.Annotation = &entsql.Annotation{
+		Table: "do_database_replicas",
+	}
+	DoDatabaseUsersTable.Annotation = &entsql.Annotation{
+		Table: "do_database_users",
 	}
 	DoDomainsTable.Annotation = &entsql.Annotation{
 		Table: "do_domains",
@@ -8731,6 +9378,27 @@ func init() {
 	}
 	DoAccountsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "do_accounts_history",
+	}
+	DoDatabasesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "do_databases_history",
+	}
+	DoDatabaseBackupsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "do_database_backups_history",
+	}
+	DoDatabaseConfigsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "do_database_configs_history",
+	}
+	DoDatabaseFirewallRulesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "do_database_firewall_rules_history",
+	}
+	DoDatabasePoolsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "do_database_pools_history",
+	}
+	DoDatabaseReplicasHistoryTable.Annotation = &entsql.Annotation{
+		Table: "do_database_replicas_history",
+	}
+	DoDatabaseUsersHistoryTable.Annotation = &entsql.Annotation{
+		Table: "do_database_users_history",
 	}
 	DoDomainsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "do_domains_history",

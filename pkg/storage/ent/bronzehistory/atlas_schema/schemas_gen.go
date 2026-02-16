@@ -69,6 +69,118 @@ func (BronzeHistoryDOAccount) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze_history"})
 }
 
+type BronzeHistoryDODatabase struct {
+	bronzehistory_do.BronzeHistoryDODatabase
+}
+
+func (BronzeHistoryDODatabase) Annotations() []schema.Annotation {
+	anns := bronzehistory_do.BronzeHistoryDODatabase{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryDODatabaseBackup struct {
+	bronzehistory_do.BronzeHistoryDODatabaseBackup
+}
+
+func (BronzeHistoryDODatabaseBackup) Annotations() []schema.Annotation {
+	anns := bronzehistory_do.BronzeHistoryDODatabaseBackup{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryDODatabaseConfig struct {
+	bronzehistory_do.BronzeHistoryDODatabaseConfig
+}
+
+func (BronzeHistoryDODatabaseConfig) Annotations() []schema.Annotation {
+	anns := bronzehistory_do.BronzeHistoryDODatabaseConfig{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryDODatabaseFirewallRule struct {
+	bronzehistory_do.BronzeHistoryDODatabaseFirewallRule
+}
+
+func (BronzeHistoryDODatabaseFirewallRule) Annotations() []schema.Annotation {
+	anns := bronzehistory_do.BronzeHistoryDODatabaseFirewallRule{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryDODatabasePool struct {
+	bronzehistory_do.BronzeHistoryDODatabasePool
+}
+
+func (BronzeHistoryDODatabasePool) Annotations() []schema.Annotation {
+	anns := bronzehistory_do.BronzeHistoryDODatabasePool{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryDODatabaseReplica struct {
+	bronzehistory_do.BronzeHistoryDODatabaseReplica
+}
+
+func (BronzeHistoryDODatabaseReplica) Annotations() []schema.Annotation {
+	anns := bronzehistory_do.BronzeHistoryDODatabaseReplica{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryDODatabaseUser struct {
+	bronzehistory_do.BronzeHistoryDODatabaseUser
+}
+
+func (BronzeHistoryDODatabaseUser) Annotations() []schema.Annotation {
+	anns := bronzehistory_do.BronzeHistoryDODatabaseUser{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
 type BronzeHistoryDODomain struct {
 	bronzehistory_do.BronzeHistoryDODomain
 }

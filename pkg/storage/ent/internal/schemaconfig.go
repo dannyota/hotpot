@@ -10,6 +10,13 @@ type SchemaConfig struct {
 	BronzeAWSEC2Instance                             string // BronzeAWSEC2Instance table.
 	BronzeAWSEC2InstanceTag                          string // BronzeAWSEC2InstanceTag table.
 	BronzeDOAccount                                  string // BronzeDOAccount table.
+	BronzeDODatabase                                 string // BronzeDODatabase table.
+	BronzeDODatabaseBackup                           string // BronzeDODatabaseBackup table.
+	BronzeDODatabaseConfig                           string // BronzeDODatabaseConfig table.
+	BronzeDODatabaseFirewallRule                     string // BronzeDODatabaseFirewallRule table.
+	BronzeDODatabasePool                             string // BronzeDODatabasePool table.
+	BronzeDODatabaseReplica                          string // BronzeDODatabaseReplica table.
+	BronzeDODatabaseUser                             string // BronzeDODatabaseUser table.
 	BronzeDODomain                                   string // BronzeDODomain table.
 	BronzeDODomainRecord                             string // BronzeDODomainRecord table.
 	BronzeDODroplet                                  string // BronzeDODroplet table.
@@ -103,6 +110,13 @@ type SchemaConfig struct {
 	BronzeHistoryAWSEC2Instance                      string // BronzeHistoryAWSEC2Instance table.
 	BronzeHistoryAWSEC2InstanceTag                   string // BronzeHistoryAWSEC2InstanceTag table.
 	BronzeHistoryDOAccount                           string // BronzeHistoryDOAccount table.
+	BronzeHistoryDODatabase                          string // BronzeHistoryDODatabase table.
+	BronzeHistoryDODatabaseBackup                    string // BronzeHistoryDODatabaseBackup table.
+	BronzeHistoryDODatabaseConfig                    string // BronzeHistoryDODatabaseConfig table.
+	BronzeHistoryDODatabaseFirewallRule              string // BronzeHistoryDODatabaseFirewallRule table.
+	BronzeHistoryDODatabasePool                      string // BronzeHistoryDODatabasePool table.
+	BronzeHistoryDODatabaseReplica                   string // BronzeHistoryDODatabaseReplica table.
+	BronzeHistoryDODatabaseUser                      string // BronzeHistoryDODatabaseUser table.
 	BronzeHistoryDODomain                            string // BronzeHistoryDODomain table.
 	BronzeHistoryDODomainRecord                      string // BronzeHistoryDODomainRecord table.
 	BronzeHistoryDODroplet                           string // BronzeHistoryDODroplet table.

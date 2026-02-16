@@ -46,6 +46,34 @@ type BronzeDOAccount struct {
 	bronze_do.BronzeDOAccount
 }
 
+type BronzeDODatabase struct {
+	bronze_do.BronzeDODatabase
+}
+
+type BronzeDODatabaseBackup struct {
+	bronze_do.BronzeDODatabaseBackup
+}
+
+type BronzeDODatabaseConfig struct {
+	bronze_do.BronzeDODatabaseConfig
+}
+
+type BronzeDODatabaseFirewallRule struct {
+	bronze_do.BronzeDODatabaseFirewallRule
+}
+
+type BronzeDODatabasePool struct {
+	bronze_do.BronzeDODatabasePool
+}
+
+type BronzeDODatabaseReplica struct {
+	bronze_do.BronzeDODatabaseReplica
+}
+
+type BronzeDODatabaseUser struct {
+	bronze_do.BronzeDODatabaseUser
+}
+
 type BronzeDODomain struct {
 	bronze_do.BronzeDODomain
 }
@@ -444,6 +472,34 @@ type BronzeHistoryAWSEC2InstanceTag struct {
 
 type BronzeHistoryDOAccount struct {
 	bronzehistory_do.BronzeHistoryDOAccount
+}
+
+type BronzeHistoryDODatabase struct {
+	bronzehistory_do.BronzeHistoryDODatabase
+}
+
+type BronzeHistoryDODatabaseBackup struct {
+	bronzehistory_do.BronzeHistoryDODatabaseBackup
+}
+
+type BronzeHistoryDODatabaseConfig struct {
+	bronzehistory_do.BronzeHistoryDODatabaseConfig
+}
+
+type BronzeHistoryDODatabaseFirewallRule struct {
+	bronzehistory_do.BronzeHistoryDODatabaseFirewallRule
+}
+
+type BronzeHistoryDODatabasePool struct {
+	bronzehistory_do.BronzeHistoryDODatabasePool
+}
+
+type BronzeHistoryDODatabaseReplica struct {
+	bronzehistory_do.BronzeHistoryDODatabaseReplica
+}
+
+type BronzeHistoryDODatabaseUser struct {
+	bronzehistory_do.BronzeHistoryDODatabaseUser
 }
 
 type BronzeHistoryDODomain struct {
