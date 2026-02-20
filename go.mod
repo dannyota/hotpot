@@ -20,7 +20,7 @@ require (
 	cloud.google.com/go/functions v1.19.7
 	cloud.google.com/go/iam v1.5.3
 	cloud.google.com/go/iap v1.11.3
-	cloud.google.com/go/kms v1.25.0
+	cloud.google.com/go/kms v1.26.0
 	cloud.google.com/go/logging v1.13.2
 	cloud.google.com/go/monitoring v1.24.3
 	cloud.google.com/go/orgpolicy v1.15.1
