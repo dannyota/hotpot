@@ -328,6 +328,20 @@ type Tx struct {
 	BronzeGCPVPNTunnel *BronzeGCPVPNTunnelClient
 	// BronzeGCPVPNTunnelLabel is the client for interacting with the BronzeGCPVPNTunnelLabel builders.
 	BronzeGCPVPNTunnelLabel *BronzeGCPVPNTunnelLabelClient
+	// BronzeGreenNodeComputeSSHKey is the client for interacting with the BronzeGreenNodeComputeSSHKey builders.
+	BronzeGreenNodeComputeSSHKey *BronzeGreenNodeComputeSSHKeyClient
+	// BronzeGreenNodeComputeServer is the client for interacting with the BronzeGreenNodeComputeServer builders.
+	BronzeGreenNodeComputeServer *BronzeGreenNodeComputeServerClient
+	// BronzeGreenNodeComputeServerGroup is the client for interacting with the BronzeGreenNodeComputeServerGroup builders.
+	BronzeGreenNodeComputeServerGroup *BronzeGreenNodeComputeServerGroupClient
+	// BronzeGreenNodeComputeServerGroupMember is the client for interacting with the BronzeGreenNodeComputeServerGroupMember builders.
+	BronzeGreenNodeComputeServerGroupMember *BronzeGreenNodeComputeServerGroupMemberClient
+	// BronzeGreenNodeComputeServerSecGroup is the client for interacting with the BronzeGreenNodeComputeServerSecGroup builders.
+	BronzeGreenNodeComputeServerSecGroup *BronzeGreenNodeComputeServerSecGroupClient
+	// BronzeGreenNodePortalQuota is the client for interacting with the BronzeGreenNodePortalQuota builders.
+	BronzeGreenNodePortalQuota *BronzeGreenNodePortalQuotaClient
+	// BronzeGreenNodePortalRegion is the client for interacting with the BronzeGreenNodePortalRegion builders.
+	BronzeGreenNodePortalRegion *BronzeGreenNodePortalRegionClient
 	// BronzeHistoryAWSEC2Instance is the client for interacting with the BronzeHistoryAWSEC2Instance builders.
 	BronzeHistoryAWSEC2Instance *BronzeHistoryAWSEC2InstanceClient
 	// BronzeHistoryAWSEC2InstanceTag is the client for interacting with the BronzeHistoryAWSEC2InstanceTag builders.
@@ -644,6 +658,20 @@ type Tx struct {
 	BronzeHistoryGCPVPNTunnel *BronzeHistoryGCPVPNTunnelClient
 	// BronzeHistoryGCPVPNTunnelLabel is the client for interacting with the BronzeHistoryGCPVPNTunnelLabel builders.
 	BronzeHistoryGCPVPNTunnelLabel *BronzeHistoryGCPVPNTunnelLabelClient
+	// BronzeHistoryGreenNodeComputeSSHKey is the client for interacting with the BronzeHistoryGreenNodeComputeSSHKey builders.
+	BronzeHistoryGreenNodeComputeSSHKey *BronzeHistoryGreenNodeComputeSSHKeyClient
+	// BronzeHistoryGreenNodeComputeServer is the client for interacting with the BronzeHistoryGreenNodeComputeServer builders.
+	BronzeHistoryGreenNodeComputeServer *BronzeHistoryGreenNodeComputeServerClient
+	// BronzeHistoryGreenNodeComputeServerGroup is the client for interacting with the BronzeHistoryGreenNodeComputeServerGroup builders.
+	BronzeHistoryGreenNodeComputeServerGroup *BronzeHistoryGreenNodeComputeServerGroupClient
+	// BronzeHistoryGreenNodeComputeServerGroupMember is the client for interacting with the BronzeHistoryGreenNodeComputeServerGroupMember builders.
+	BronzeHistoryGreenNodeComputeServerGroupMember *BronzeHistoryGreenNodeComputeServerGroupMemberClient
+	// BronzeHistoryGreenNodeComputeServerSecGroup is the client for interacting with the BronzeHistoryGreenNodeComputeServerSecGroup builders.
+	BronzeHistoryGreenNodeComputeServerSecGroup *BronzeHistoryGreenNodeComputeServerSecGroupClient
+	// BronzeHistoryGreenNodePortalQuota is the client for interacting with the BronzeHistoryGreenNodePortalQuota builders.
+	BronzeHistoryGreenNodePortalQuota *BronzeHistoryGreenNodePortalQuotaClient
+	// BronzeHistoryGreenNodePortalRegion is the client for interacting with the BronzeHistoryGreenNodePortalRegion builders.
+	BronzeHistoryGreenNodePortalRegion *BronzeHistoryGreenNodePortalRegionClient
 	// BronzeHistoryS1Account is the client for interacting with the BronzeHistoryS1Account builders.
 	BronzeHistoryS1Account *BronzeHistoryS1AccountClient
 	// BronzeHistoryS1Agent is the client for interacting with the BronzeHistoryS1Agent builders.
@@ -961,6 +989,13 @@ func (tx *Tx) init() {
 	tx.BronzeGCPVPNTargetGatewayLabel = NewBronzeGCPVPNTargetGatewayLabelClient(tx.config)
 	tx.BronzeGCPVPNTunnel = NewBronzeGCPVPNTunnelClient(tx.config)
 	tx.BronzeGCPVPNTunnelLabel = NewBronzeGCPVPNTunnelLabelClient(tx.config)
+	tx.BronzeGreenNodeComputeSSHKey = NewBronzeGreenNodeComputeSSHKeyClient(tx.config)
+	tx.BronzeGreenNodeComputeServer = NewBronzeGreenNodeComputeServerClient(tx.config)
+	tx.BronzeGreenNodeComputeServerGroup = NewBronzeGreenNodeComputeServerGroupClient(tx.config)
+	tx.BronzeGreenNodeComputeServerGroupMember = NewBronzeGreenNodeComputeServerGroupMemberClient(tx.config)
+	tx.BronzeGreenNodeComputeServerSecGroup = NewBronzeGreenNodeComputeServerSecGroupClient(tx.config)
+	tx.BronzeGreenNodePortalQuota = NewBronzeGreenNodePortalQuotaClient(tx.config)
+	tx.BronzeGreenNodePortalRegion = NewBronzeGreenNodePortalRegionClient(tx.config)
 	tx.BronzeHistoryAWSEC2Instance = NewBronzeHistoryAWSEC2InstanceClient(tx.config)
 	tx.BronzeHistoryAWSEC2InstanceTag = NewBronzeHistoryAWSEC2InstanceTagClient(tx.config)
 	tx.BronzeHistoryDOAccount = NewBronzeHistoryDOAccountClient(tx.config)
@@ -1119,6 +1154,13 @@ func (tx *Tx) init() {
 	tx.BronzeHistoryGCPVPNTargetGatewayLabel = NewBronzeHistoryGCPVPNTargetGatewayLabelClient(tx.config)
 	tx.BronzeHistoryGCPVPNTunnel = NewBronzeHistoryGCPVPNTunnelClient(tx.config)
 	tx.BronzeHistoryGCPVPNTunnelLabel = NewBronzeHistoryGCPVPNTunnelLabelClient(tx.config)
+	tx.BronzeHistoryGreenNodeComputeSSHKey = NewBronzeHistoryGreenNodeComputeSSHKeyClient(tx.config)
+	tx.BronzeHistoryGreenNodeComputeServer = NewBronzeHistoryGreenNodeComputeServerClient(tx.config)
+	tx.BronzeHistoryGreenNodeComputeServerGroup = NewBronzeHistoryGreenNodeComputeServerGroupClient(tx.config)
+	tx.BronzeHistoryGreenNodeComputeServerGroupMember = NewBronzeHistoryGreenNodeComputeServerGroupMemberClient(tx.config)
+	tx.BronzeHistoryGreenNodeComputeServerSecGroup = NewBronzeHistoryGreenNodeComputeServerSecGroupClient(tx.config)
+	tx.BronzeHistoryGreenNodePortalQuota = NewBronzeHistoryGreenNodePortalQuotaClient(tx.config)
+	tx.BronzeHistoryGreenNodePortalRegion = NewBronzeHistoryGreenNodePortalRegionClient(tx.config)
 	tx.BronzeHistoryS1Account = NewBronzeHistoryS1AccountClient(tx.config)
 	tx.BronzeHistoryS1Agent = NewBronzeHistoryS1AgentClient(tx.config)
 	tx.BronzeHistoryS1AgentNIC = NewBronzeHistoryS1AgentNICClient(tx.config)

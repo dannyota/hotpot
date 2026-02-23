@@ -38,6 +38,8 @@ import (
 	bronzehistory_gcp_storage "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/storage"
 	bronzehistory_gcp_vpcaccess "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/vpcaccess"
 	bronzehistory_gcp_vpn "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/vpn"
+	bronzehistory_greennode_compute "github.com/dannyota/hotpot/pkg/schema/bronzehistory/greennode/compute"
+	bronzehistory_greennode_portal "github.com/dannyota/hotpot/pkg/schema/bronzehistory/greennode/portal"
 	bronzehistory_s1 "github.com/dannyota/hotpot/pkg/schema/bronzehistory/s1"
 )
 
@@ -2559,6 +2561,118 @@ type BronzeHistoryGCPVPNTunnelLabel struct {
 
 func (BronzeHistoryGCPVPNTunnelLabel) Annotations() []schema.Annotation {
 	anns := bronzehistory_gcp_vpn.BronzeHistoryGCPVPNTunnelLabel{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGreenNodeComputeServer struct {
+	bronzehistory_greennode_compute.BronzeHistoryGreenNodeComputeServer
+}
+
+func (BronzeHistoryGreenNodeComputeServer) Annotations() []schema.Annotation {
+	anns := bronzehistory_greennode_compute.BronzeHistoryGreenNodeComputeServer{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGreenNodeComputeServerSecGroup struct {
+	bronzehistory_greennode_compute.BronzeHistoryGreenNodeComputeServerSecGroup
+}
+
+func (BronzeHistoryGreenNodeComputeServerSecGroup) Annotations() []schema.Annotation {
+	anns := bronzehistory_greennode_compute.BronzeHistoryGreenNodeComputeServerSecGroup{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGreenNodeComputeServerGroup struct {
+	bronzehistory_greennode_compute.BronzeHistoryGreenNodeComputeServerGroup
+}
+
+func (BronzeHistoryGreenNodeComputeServerGroup) Annotations() []schema.Annotation {
+	anns := bronzehistory_greennode_compute.BronzeHistoryGreenNodeComputeServerGroup{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGreenNodeComputeServerGroupMember struct {
+	bronzehistory_greennode_compute.BronzeHistoryGreenNodeComputeServerGroupMember
+}
+
+func (BronzeHistoryGreenNodeComputeServerGroupMember) Annotations() []schema.Annotation {
+	anns := bronzehistory_greennode_compute.BronzeHistoryGreenNodeComputeServerGroupMember{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGreenNodeComputeSSHKey struct {
+	bronzehistory_greennode_compute.BronzeHistoryGreenNodeComputeSSHKey
+}
+
+func (BronzeHistoryGreenNodeComputeSSHKey) Annotations() []schema.Annotation {
+	anns := bronzehistory_greennode_compute.BronzeHistoryGreenNodeComputeSSHKey{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGreenNodePortalQuota struct {
+	bronzehistory_greennode_portal.BronzeHistoryGreenNodePortalQuota
+}
+
+func (BronzeHistoryGreenNodePortalQuota) Annotations() []schema.Annotation {
+	anns := bronzehistory_greennode_portal.BronzeHistoryGreenNodePortalQuota{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryGreenNodePortalRegion struct {
+	bronzehistory_greennode_portal.BronzeHistoryGreenNodePortalRegion
+}
+
+func (BronzeHistoryGreenNodePortalRegion) Annotations() []schema.Annotation {
+	anns := bronzehistory_greennode_portal.BronzeHistoryGreenNodePortalRegion{}.Annotations()
 	for i, a := range anns {
 		if v, ok := a.(entsql.Annotation); ok {
 			v.Schema = "bronze_history"

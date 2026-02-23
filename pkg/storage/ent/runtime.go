@@ -157,6 +157,13 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntargetgatewaylabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntunnel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntunnellabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputeserver"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputeservergroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputeservergroupmember"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputeserversecgroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputesshkey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeportalquota"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeportalregion"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoaccount"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabase"
@@ -301,6 +308,13 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpvpntargetgatewaylabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpvpntunnel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpvpntunnellabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputeserver"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputeservergroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputeservergroupmember"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputeserversecgroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputesshkey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeportalquota"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeportalregion"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1account"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1agent"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1app"
@@ -2108,6 +2122,88 @@ func init() {
 	bronzegcpvpntunnellabelDescKey := bronzegcpvpntunnellabelFields[0].Descriptor()
 	// bronzegcpvpntunnellabel.KeyValidator is a validator for the "key" field. It is called by the builders before save.
 	bronzegcpvpntunnellabel.KeyValidator = bronzegcpvpntunnellabelDescKey.Validators[0].(func(string) error)
+	bronzegreennodecomputesshkeyFields := schema.BronzeGreenNodeComputeSSHKey{}.Fields()
+	_ = bronzegreennodecomputesshkeyFields
+	// bronzegreennodecomputesshkeyDescName is the schema descriptor for name field.
+	bronzegreennodecomputesshkeyDescName := bronzegreennodecomputesshkeyFields[1].Descriptor()
+	// bronzegreennodecomputesshkey.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodecomputesshkey.NameValidator = bronzegreennodecomputesshkeyDescName.Validators[0].(func(string) error)
+	// bronzegreennodecomputesshkeyDescProjectID is the schema descriptor for project_id field.
+	bronzegreennodecomputesshkeyDescProjectID := bronzegreennodecomputesshkeyFields[5].Descriptor()
+	// bronzegreennodecomputesshkey.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegreennodecomputesshkey.ProjectIDValidator = bronzegreennodecomputesshkeyDescProjectID.Validators[0].(func(string) error)
+	bronzegreennodecomputeserverFields := schema.BronzeGreenNodeComputeServer{}.Fields()
+	_ = bronzegreennodecomputeserverFields
+	// bronzegreennodecomputeserverDescName is the schema descriptor for name field.
+	bronzegreennodecomputeserverDescName := bronzegreennodecomputeserverFields[1].Descriptor()
+	// bronzegreennodecomputeserver.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodecomputeserver.NameValidator = bronzegreennodecomputeserverDescName.Validators[0].(func(string) error)
+	// bronzegreennodecomputeserverDescEncryptionVolume is the schema descriptor for encryption_volume field.
+	bronzegreennodecomputeserverDescEncryptionVolume := bronzegreennodecomputeserverFields[7].Descriptor()
+	// bronzegreennodecomputeserver.DefaultEncryptionVolume holds the default value on creation for the encryption_volume field.
+	bronzegreennodecomputeserver.DefaultEncryptionVolume = bronzegreennodecomputeserverDescEncryptionVolume.Default.(bool)
+	// bronzegreennodecomputeserverDescLicence is the schema descriptor for licence field.
+	bronzegreennodecomputeserverDescLicence := bronzegreennodecomputeserverFields[8].Descriptor()
+	// bronzegreennodecomputeserver.DefaultLicence holds the default value on creation for the licence field.
+	bronzegreennodecomputeserver.DefaultLicence = bronzegreennodecomputeserverDescLicence.Default.(bool)
+	// bronzegreennodecomputeserverDescStopBeforeMigrate is the schema descriptor for stop_before_migrate field.
+	bronzegreennodecomputeserverDescStopBeforeMigrate := bronzegreennodecomputeserverFields[15].Descriptor()
+	// bronzegreennodecomputeserver.DefaultStopBeforeMigrate holds the default value on creation for the stop_before_migrate field.
+	bronzegreennodecomputeserver.DefaultStopBeforeMigrate = bronzegreennodecomputeserverDescStopBeforeMigrate.Default.(bool)
+	// bronzegreennodecomputeserverDescProjectID is the schema descriptor for project_id field.
+	bronzegreennodecomputeserverDescProjectID := bronzegreennodecomputeserverFields[27].Descriptor()
+	// bronzegreennodecomputeserver.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegreennodecomputeserver.ProjectIDValidator = bronzegreennodecomputeserverDescProjectID.Validators[0].(func(string) error)
+	bronzegreennodecomputeservergroupFields := schema.BronzeGreenNodeComputeServerGroup{}.Fields()
+	_ = bronzegreennodecomputeservergroupFields
+	// bronzegreennodecomputeservergroupDescName is the schema descriptor for name field.
+	bronzegreennodecomputeservergroupDescName := bronzegreennodecomputeservergroupFields[1].Descriptor()
+	// bronzegreennodecomputeservergroup.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodecomputeservergroup.NameValidator = bronzegreennodecomputeservergroupDescName.Validators[0].(func(string) error)
+	// bronzegreennodecomputeservergroupDescProjectID is the schema descriptor for project_id field.
+	bronzegreennodecomputeservergroupDescProjectID := bronzegreennodecomputeservergroupFields[5].Descriptor()
+	// bronzegreennodecomputeservergroup.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegreennodecomputeservergroup.ProjectIDValidator = bronzegreennodecomputeservergroupDescProjectID.Validators[0].(func(string) error)
+	bronzegreennodecomputeservergroupmemberFields := schema.BronzeGreenNodeComputeServerGroupMember{}.Fields()
+	_ = bronzegreennodecomputeservergroupmemberFields
+	// bronzegreennodecomputeservergroupmemberDescUUID is the schema descriptor for uuid field.
+	bronzegreennodecomputeservergroupmemberDescUUID := bronzegreennodecomputeservergroupmemberFields[0].Descriptor()
+	// bronzegreennodecomputeservergroupmember.UUIDValidator is a validator for the "uuid" field. It is called by the builders before save.
+	bronzegreennodecomputeservergroupmember.UUIDValidator = bronzegreennodecomputeservergroupmemberDescUUID.Validators[0].(func(string) error)
+	// bronzegreennodecomputeservergroupmemberDescName is the schema descriptor for name field.
+	bronzegreennodecomputeservergroupmemberDescName := bronzegreennodecomputeservergroupmemberFields[1].Descriptor()
+	// bronzegreennodecomputeservergroupmember.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodecomputeservergroupmember.NameValidator = bronzegreennodecomputeservergroupmemberDescName.Validators[0].(func(string) error)
+	bronzegreennodecomputeserversecgroupFields := schema.BronzeGreenNodeComputeServerSecGroup{}.Fields()
+	_ = bronzegreennodecomputeserversecgroupFields
+	// bronzegreennodecomputeserversecgroupDescUUID is the schema descriptor for uuid field.
+	bronzegreennodecomputeserversecgroupDescUUID := bronzegreennodecomputeserversecgroupFields[0].Descriptor()
+	// bronzegreennodecomputeserversecgroup.UUIDValidator is a validator for the "uuid" field. It is called by the builders before save.
+	bronzegreennodecomputeserversecgroup.UUIDValidator = bronzegreennodecomputeserversecgroupDescUUID.Validators[0].(func(string) error)
+	// bronzegreennodecomputeserversecgroupDescName is the schema descriptor for name field.
+	bronzegreennodecomputeserversecgroupDescName := bronzegreennodecomputeserversecgroupFields[1].Descriptor()
+	// bronzegreennodecomputeserversecgroup.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodecomputeserversecgroup.NameValidator = bronzegreennodecomputeserversecgroupDescName.Validators[0].(func(string) error)
+	bronzegreennodeportalquotaFields := schema.BronzeGreenNodePortalQuota{}.Fields()
+	_ = bronzegreennodeportalquotaFields
+	// bronzegreennodeportalquotaDescName is the schema descriptor for name field.
+	bronzegreennodeportalquotaDescName := bronzegreennodeportalquotaFields[1].Descriptor()
+	// bronzegreennodeportalquota.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodeportalquota.NameValidator = bronzegreennodeportalquotaDescName.Validators[0].(func(string) error)
+	// bronzegreennodeportalquotaDescProjectID is the schema descriptor for project_id field.
+	bronzegreennodeportalquotaDescProjectID := bronzegreennodeportalquotaFields[6].Descriptor()
+	// bronzegreennodeportalquota.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegreennodeportalquota.ProjectIDValidator = bronzegreennodeportalquotaDescProjectID.Validators[0].(func(string) error)
+	bronzegreennodeportalregionFields := schema.BronzeGreenNodePortalRegion{}.Fields()
+	_ = bronzegreennodeportalregionFields
+	// bronzegreennodeportalregionDescName is the schema descriptor for name field.
+	bronzegreennodeportalregionDescName := bronzegreennodeportalregionFields[1].Descriptor()
+	// bronzegreennodeportalregion.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodeportalregion.NameValidator = bronzegreennodeportalregionDescName.Validators[0].(func(string) error)
+	// bronzegreennodeportalregionDescProjectID is the schema descriptor for project_id field.
+	bronzegreennodeportalregionDescProjectID := bronzegreennodeportalregionFields[3].Descriptor()
+	// bronzegreennodeportalregion.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegreennodeportalregion.ProjectIDValidator = bronzegreennodeportalregionDescProjectID.Validators[0].(func(string) error)
 	bronzehistoryawsec2instanceFields := schema.BronzeHistoryAWSEC2Instance{}.Fields()
 	_ = bronzehistoryawsec2instanceFields
 	// bronzehistoryawsec2instanceDescResourceID is the schema descriptor for resource_id field.
@@ -4284,6 +4380,108 @@ func init() {
 	bronzehistorygcpvpntunnellabelDescKey := bronzehistorygcpvpntunnellabelFields[4].Descriptor()
 	// bronzehistorygcpvpntunnellabel.KeyValidator is a validator for the "key" field. It is called by the builders before save.
 	bronzehistorygcpvpntunnellabel.KeyValidator = bronzehistorygcpvpntunnellabelDescKey.Validators[0].(func(string) error)
+	bronzehistorygreennodecomputesshkeyFields := schema.BronzeHistoryGreenNodeComputeSSHKey{}.Fields()
+	_ = bronzehistorygreennodecomputesshkeyFields
+	// bronzehistorygreennodecomputesshkeyDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygreennodecomputesshkeyDescResourceID := bronzehistorygreennodecomputesshkeyFields[1].Descriptor()
+	// bronzehistorygreennodecomputesshkey.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygreennodecomputesshkey.ResourceIDValidator = bronzehistorygreennodecomputesshkeyDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygreennodecomputesshkeyDescName is the schema descriptor for name field.
+	bronzehistorygreennodecomputesshkeyDescName := bronzehistorygreennodecomputesshkeyFields[2].Descriptor()
+	// bronzehistorygreennodecomputesshkey.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodecomputesshkey.NameValidator = bronzehistorygreennodecomputesshkeyDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodecomputesshkeyDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygreennodecomputesshkeyDescProjectID := bronzehistorygreennodecomputesshkeyFields[6].Descriptor()
+	// bronzehistorygreennodecomputesshkey.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygreennodecomputesshkey.ProjectIDValidator = bronzehistorygreennodecomputesshkeyDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygreennodecomputeserverFields := schema.BronzeHistoryGreenNodeComputeServer{}.Fields()
+	_ = bronzehistorygreennodecomputeserverFields
+	// bronzehistorygreennodecomputeserverDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygreennodecomputeserverDescResourceID := bronzehistorygreennodecomputeserverFields[1].Descriptor()
+	// bronzehistorygreennodecomputeserver.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygreennodecomputeserver.ResourceIDValidator = bronzehistorygreennodecomputeserverDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygreennodecomputeserverDescName is the schema descriptor for name field.
+	bronzehistorygreennodecomputeserverDescName := bronzehistorygreennodecomputeserverFields[2].Descriptor()
+	// bronzehistorygreennodecomputeserver.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodecomputeserver.NameValidator = bronzehistorygreennodecomputeserverDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodecomputeserverDescEncryptionVolume is the schema descriptor for encryption_volume field.
+	bronzehistorygreennodecomputeserverDescEncryptionVolume := bronzehistorygreennodecomputeserverFields[8].Descriptor()
+	// bronzehistorygreennodecomputeserver.DefaultEncryptionVolume holds the default value on creation for the encryption_volume field.
+	bronzehistorygreennodecomputeserver.DefaultEncryptionVolume = bronzehistorygreennodecomputeserverDescEncryptionVolume.Default.(bool)
+	// bronzehistorygreennodecomputeserverDescLicence is the schema descriptor for licence field.
+	bronzehistorygreennodecomputeserverDescLicence := bronzehistorygreennodecomputeserverFields[9].Descriptor()
+	// bronzehistorygreennodecomputeserver.DefaultLicence holds the default value on creation for the licence field.
+	bronzehistorygreennodecomputeserver.DefaultLicence = bronzehistorygreennodecomputeserverDescLicence.Default.(bool)
+	// bronzehistorygreennodecomputeserverDescStopBeforeMigrate is the schema descriptor for stop_before_migrate field.
+	bronzehistorygreennodecomputeserverDescStopBeforeMigrate := bronzehistorygreennodecomputeserverFields[16].Descriptor()
+	// bronzehistorygreennodecomputeserver.DefaultStopBeforeMigrate holds the default value on creation for the stop_before_migrate field.
+	bronzehistorygreennodecomputeserver.DefaultStopBeforeMigrate = bronzehistorygreennodecomputeserverDescStopBeforeMigrate.Default.(bool)
+	// bronzehistorygreennodecomputeserverDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygreennodecomputeserverDescProjectID := bronzehistorygreennodecomputeserverFields[28].Descriptor()
+	// bronzehistorygreennodecomputeserver.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygreennodecomputeserver.ProjectIDValidator = bronzehistorygreennodecomputeserverDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygreennodecomputeservergroupFields := schema.BronzeHistoryGreenNodeComputeServerGroup{}.Fields()
+	_ = bronzehistorygreennodecomputeservergroupFields
+	// bronzehistorygreennodecomputeservergroupDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygreennodecomputeservergroupDescResourceID := bronzehistorygreennodecomputeservergroupFields[1].Descriptor()
+	// bronzehistorygreennodecomputeservergroup.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygreennodecomputeservergroup.ResourceIDValidator = bronzehistorygreennodecomputeservergroupDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygreennodecomputeservergroupDescName is the schema descriptor for name field.
+	bronzehistorygreennodecomputeservergroupDescName := bronzehistorygreennodecomputeservergroupFields[2].Descriptor()
+	// bronzehistorygreennodecomputeservergroup.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodecomputeservergroup.NameValidator = bronzehistorygreennodecomputeservergroupDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodecomputeservergroupDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygreennodecomputeservergroupDescProjectID := bronzehistorygreennodecomputeservergroupFields[6].Descriptor()
+	// bronzehistorygreennodecomputeservergroup.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygreennodecomputeservergroup.ProjectIDValidator = bronzehistorygreennodecomputeservergroupDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygreennodecomputeservergroupmemberFields := schema.BronzeHistoryGreenNodeComputeServerGroupMember{}.Fields()
+	_ = bronzehistorygreennodecomputeservergroupmemberFields
+	// bronzehistorygreennodecomputeservergroupmemberDescUUID is the schema descriptor for uuid field.
+	bronzehistorygreennodecomputeservergroupmemberDescUUID := bronzehistorygreennodecomputeservergroupmemberFields[4].Descriptor()
+	// bronzehistorygreennodecomputeservergroupmember.UUIDValidator is a validator for the "uuid" field. It is called by the builders before save.
+	bronzehistorygreennodecomputeservergroupmember.UUIDValidator = bronzehistorygreennodecomputeservergroupmemberDescUUID.Validators[0].(func(string) error)
+	// bronzehistorygreennodecomputeservergroupmemberDescName is the schema descriptor for name field.
+	bronzehistorygreennodecomputeservergroupmemberDescName := bronzehistorygreennodecomputeservergroupmemberFields[5].Descriptor()
+	// bronzehistorygreennodecomputeservergroupmember.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodecomputeservergroupmember.NameValidator = bronzehistorygreennodecomputeservergroupmemberDescName.Validators[0].(func(string) error)
+	bronzehistorygreennodecomputeserversecgroupFields := schema.BronzeHistoryGreenNodeComputeServerSecGroup{}.Fields()
+	_ = bronzehistorygreennodecomputeserversecgroupFields
+	// bronzehistorygreennodecomputeserversecgroupDescUUID is the schema descriptor for uuid field.
+	bronzehistorygreennodecomputeserversecgroupDescUUID := bronzehistorygreennodecomputeserversecgroupFields[4].Descriptor()
+	// bronzehistorygreennodecomputeserversecgroup.UUIDValidator is a validator for the "uuid" field. It is called by the builders before save.
+	bronzehistorygreennodecomputeserversecgroup.UUIDValidator = bronzehistorygreennodecomputeserversecgroupDescUUID.Validators[0].(func(string) error)
+	// bronzehistorygreennodecomputeserversecgroupDescName is the schema descriptor for name field.
+	bronzehistorygreennodecomputeserversecgroupDescName := bronzehistorygreennodecomputeserversecgroupFields[5].Descriptor()
+	// bronzehistorygreennodecomputeserversecgroup.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodecomputeserversecgroup.NameValidator = bronzehistorygreennodecomputeserversecgroupDescName.Validators[0].(func(string) error)
+	bronzehistorygreennodeportalquotaFields := schema.BronzeHistoryGreenNodePortalQuota{}.Fields()
+	_ = bronzehistorygreennodeportalquotaFields
+	// bronzehistorygreennodeportalquotaDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygreennodeportalquotaDescResourceID := bronzehistorygreennodeportalquotaFields[1].Descriptor()
+	// bronzehistorygreennodeportalquota.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygreennodeportalquota.ResourceIDValidator = bronzehistorygreennodeportalquotaDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygreennodeportalquotaDescName is the schema descriptor for name field.
+	bronzehistorygreennodeportalquotaDescName := bronzehistorygreennodeportalquotaFields[2].Descriptor()
+	// bronzehistorygreennodeportalquota.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodeportalquota.NameValidator = bronzehistorygreennodeportalquotaDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodeportalquotaDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygreennodeportalquotaDescProjectID := bronzehistorygreennodeportalquotaFields[7].Descriptor()
+	// bronzehistorygreennodeportalquota.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygreennodeportalquota.ProjectIDValidator = bronzehistorygreennodeportalquotaDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygreennodeportalregionFields := schema.BronzeHistoryGreenNodePortalRegion{}.Fields()
+	_ = bronzehistorygreennodeportalregionFields
+	// bronzehistorygreennodeportalregionDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygreennodeportalregionDescResourceID := bronzehistorygreennodeportalregionFields[1].Descriptor()
+	// bronzehistorygreennodeportalregion.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygreennodeportalregion.ResourceIDValidator = bronzehistorygreennodeportalregionDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygreennodeportalregionDescName is the schema descriptor for name field.
+	bronzehistorygreennodeportalregionDescName := bronzehistorygreennodeportalregionFields[2].Descriptor()
+	// bronzehistorygreennodeportalregion.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodeportalregion.NameValidator = bronzehistorygreennodeportalregionDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodeportalregionDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygreennodeportalregionDescProjectID := bronzehistorygreennodeportalregionFields[4].Descriptor()
+	// bronzehistorygreennodeportalregion.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygreennodeportalregion.ProjectIDValidator = bronzehistorygreennodeportalregionDescProjectID.Validators[0].(func(string) error)
 	bronzehistorys1accountFields := schema.BronzeHistoryS1Account{}.Fields()
 	_ = bronzehistorys1accountFields
 	// bronzehistorys1accountDescResourceID is the schema descriptor for resource_id field.

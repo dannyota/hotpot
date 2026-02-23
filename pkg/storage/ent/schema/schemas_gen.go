@@ -36,6 +36,8 @@ import (
 	bronze_gcp_storage "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/storage"
 	bronze_gcp_vpcaccess "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/vpcaccess"
 	bronze_gcp_vpn "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/vpn"
+	bronze_greennode_compute "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/compute"
+	bronze_greennode_portal "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/portal"
 	bronze_s1 "github.com/dannyota/hotpot/pkg/schema/bronze/s1"
 	bronzehistory_aws_ec2 "github.com/dannyota/hotpot/pkg/schema/bronzehistory/aws/ec2"
 	bronzehistory_do "github.com/dannyota/hotpot/pkg/schema/bronzehistory/do"
@@ -71,6 +73,8 @@ import (
 	bronzehistory_gcp_storage "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/storage"
 	bronzehistory_gcp_vpcaccess "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/vpcaccess"
 	bronzehistory_gcp_vpn "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/vpn"
+	bronzehistory_greennode_compute "github.com/dannyota/hotpot/pkg/schema/bronzehistory/greennode/compute"
+	bronzehistory_greennode_portal "github.com/dannyota/hotpot/pkg/schema/bronzehistory/greennode/portal"
 	bronzehistory_s1 "github.com/dannyota/hotpot/pkg/schema/bronzehistory/s1"
 )
 
@@ -704,6 +708,34 @@ type BronzeHistoryGCPVPNTunnel struct {
 
 type BronzeHistoryGCPVPNTunnelLabel struct {
 	bronzehistory_gcp_vpn.BronzeHistoryGCPVPNTunnelLabel
+}
+
+type BronzeHistoryGreenNodeComputeServer struct {
+	bronzehistory_greennode_compute.BronzeHistoryGreenNodeComputeServer
+}
+
+type BronzeHistoryGreenNodeComputeServerSecGroup struct {
+	bronzehistory_greennode_compute.BronzeHistoryGreenNodeComputeServerSecGroup
+}
+
+type BronzeHistoryGreenNodeComputeServerGroup struct {
+	bronzehistory_greennode_compute.BronzeHistoryGreenNodeComputeServerGroup
+}
+
+type BronzeHistoryGreenNodeComputeServerGroupMember struct {
+	bronzehistory_greennode_compute.BronzeHistoryGreenNodeComputeServerGroupMember
+}
+
+type BronzeHistoryGreenNodeComputeSSHKey struct {
+	bronzehistory_greennode_compute.BronzeHistoryGreenNodeComputeSSHKey
+}
+
+type BronzeHistoryGreenNodePortalQuota struct {
+	bronzehistory_greennode_portal.BronzeHistoryGreenNodePortalQuota
+}
+
+type BronzeHistoryGreenNodePortalRegion struct {
+	bronzehistory_greennode_portal.BronzeHistoryGreenNodePortalRegion
 }
 
 type BronzeHistoryS1Account struct {
@@ -1364,6 +1396,34 @@ type BronzeGCPVPNTunnel struct {
 
 type BronzeGCPVPNTunnelLabel struct {
 	bronze_gcp_vpn.BronzeGCPVPNTunnelLabel
+}
+
+type BronzeGreenNodeComputeServer struct {
+	bronze_greennode_compute.BronzeGreenNodeComputeServer
+}
+
+type BronzeGreenNodeComputeServerSecGroup struct {
+	bronze_greennode_compute.BronzeGreenNodeComputeServerSecGroup
+}
+
+type BronzeGreenNodeComputeServerGroup struct {
+	bronze_greennode_compute.BronzeGreenNodeComputeServerGroup
+}
+
+type BronzeGreenNodeComputeServerGroupMember struct {
+	bronze_greennode_compute.BronzeGreenNodeComputeServerGroupMember
+}
+
+type BronzeGreenNodeComputeSSHKey struct {
+	bronze_greennode_compute.BronzeGreenNodeComputeSSHKey
+}
+
+type BronzeGreenNodePortalQuota struct {
+	bronze_greennode_portal.BronzeGreenNodePortalQuota
+}
+
+type BronzeGreenNodePortalRegion struct {
+	bronze_greennode_portal.BronzeGreenNodePortalRegion
 }
 
 type BronzeS1Account struct {

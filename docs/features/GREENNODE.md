@@ -4,6 +4,8 @@ GreenNode (formerly VNG Cloud) resource ingestion coverage in the bronze layer.
 
 GreenNode wraps OpenStack services behind proprietary API gateways. No standard OpenStack APIs are exposed — all endpoints use custom REST with GreenNode-specific conventions.
 
+Go SDK: `danny.vn/greennode`
+
 ## Auth
 
 Two authentication flows available:
@@ -17,16 +19,16 @@ Service Account uses `client_id` + `client_secret` (created via IAM console), re
 
 ## API Gateways
 
-| Gateway | Console URL | SDK URL | OpenStack Analog |
-|---------|-------------|---------|------------------|
-| vServer | `{region}.console.vngcloud.vn/vserver/iam-vserver-gateway` | `{region}.api.vngcloud.vn/vserver/vserver-gateway` | Nova + Neutron + Cinder + Glance |
-| vNetwork | `{region}-vnetwork.console.vngcloud.vn/vnetwork-gateway/vnetwork` | — | Neutron (extended) |
-| vLB | `{region}.console.vngcloud.vn/vserver/iam-vlb-gateway` | `{region}.api.vngcloud.vn/vserver/vlb-gateway` | Octavia |
-| vKS | `{region}.console.vngcloud.vn/vserver/iam-vserver-gateway` | `vks.api.vngcloud.vn` | Magnum |
-| vDB | — | `vdb-gateway.vngcloud.vn` | Trove |
-| vStorage | — | (Swift/S3 compatible) | Swift + S3 |
-| vMonitor | `vmonitor.console.vngcloud.vn/vmonitor-api` | — | Ceilometer |
-| IAM | — | `iamapis.vngcloud.vn/accounts-api` | Keystone |
+| Gateway | SDK Client | Host Pattern |
+|---------|-----------|--------------|
+| vServer | `Compute` | `{region}.api.vngcloud.vn/vserver/vserver-gateway` |
+| Portal | `Portal`, `PortalV1` | `{region}.api.vngcloud.vn/vserver/vserver-gateway` |
+| vNetwork | `Network`, `NetworkV1` | `{region}-vnetwork.console.vngcloud.vn/vnetwork-gateway` |
+| vLB | `LoadBalancer` | `{region}.api.vngcloud.vn/vserver/vlb-gateway` |
+| GLB | `GLB` | Global load balancer |
+| Volume | `Volume`, `VolumeV1` | `{region}.api.vngcloud.vn/vserver/vserver-gateway` |
+| DNS | `DNS` | DNS service |
+| IAM | `Identity` | `iamapis.vngcloud.vn/accounts-api` |
 
 Regions: `hcm-3` (Ho Chi Minh City), `han-1` (Hanoi). All resources scoped to `{region}` + `{projectId}`.
 
@@ -40,37 +42,50 @@ Regions: `hcm-3` (Ho Chi Minh City), `han-1` (Hanoi). All resources scoped to `{
 | vNetwork (endpoints) | JSON `params` query string | `{success, data, page, size, totalPage, total}` |
 | vMonitor | `?page=N&size=50` | `{lstData, page, pageSize, totalPage, totalItem}` (note: `lstData` not `listData`) |
 
-## 🖥️ vServer — Compute (`iam-vserver-gateway`)
+## Portal API (`Portal`)
 
-### Compute
+| Resource | SDK Method | REST Endpoint | Status |
+|----------|-----------|---------------|:------:|
+| Regions | `Portal.ListRegions()` | `GET /v2/{projectId}/region` | ✅ |
+| Quotas | `Portal.ListAllQuotaUsed()` | `GET /v2/{projectId}/quotas/quotaUsed` | ✅ |
+| Projects | `PortalV1.ListProjects()` | `GET /v1/projects` | |
+| Zones | `PortalV1.ListZones()` | `GET /v1/{projectId}/zones` | |
 
-| Resource | Endpoint | OpenStack | Status |
-|----------|----------|-----------|:------:|
-| Projects | `GET /v1/projects` | Keystone Projects | |
-| Zones | `GET /v1/{projectId}/zones` | Nova AZs | |
-| Regions | `GET /v2/{projectId}/region` | Keystone Regions | |
-| Servers | `GET /v2/{projectId}/servers` | Nova Servers | |
-| Server Groups | `GET /v2/{projectId}/serverGroups` | Nova Server Groups | |
-| Server Group Policies | `GET /v2/{projectId}/serverGroups/policies` | Nova SG Policies | |
-| SSH Keys | `GET /v2/{projectId}/sshKeys` | Nova Keypairs | |
+## Compute API (`Compute`)
+
+| Resource | SDK Method | REST Endpoint | Status |
+|----------|-----------|---------------|:------:|
+| Servers | `Compute.ListServers()` | `GET /v2/{projectId}/servers` | ✅ |
+| Server Groups | `Compute.ListServerGroups()` | `GET /v2/{projectId}/serverGroups` | ✅ |
+| Server Group Policies | `Compute.ListServerGroupPolicies()` | `GET /v2/{projectId}/serverGroups/policies` | |
+| SSH Keys | `Compute.ListSSHKeys()` | `GET /v2/{projectId}/sshKeys` | ✅ |
+
+### Not in SDK
+
+| Resource | REST Endpoint | OpenStack Analog | Status |
+|----------|---------------|------------------|:------:|
 | OS Images | `GET /v1/{projectId}/images/os` | Glance Images | |
 | GPU Images | `GET /v1/{projectId}/images/gpu` | Glance Images | |
 | User Images | `GET /v2/{projectId}/user-images` | Glance Images | |
 | Flavors | `GET /v1/{projectId}/flavors/families/{family}/platforms/{code}` | Nova Flavors | |
 | Flavor Zones | `GET /v1/{projectId}/flavor_zones/product` | Nova AZ + Flavors | |
 | Flavor Families | `GET /v1/{projectId}/flavor_zones/families` | — | |
-| Quotas | `GET /v2/{projectId}/quotas/quotaUsed` | Nova Quotas | |
 | Tags | `GET /v2/{projectId}/tag` | — | |
 | Tag Keys | `GET /v2/{projectId}/tag/tag-key` | — | |
 
-### Networking
+## Network API (`Network`)
 
-| Resource | Endpoint | OpenStack | Status |
-|----------|----------|-----------|:------:|
+| Resource | SDK Method | REST Endpoint | Status |
+|----------|-----------|---------------|:------:|
+| Security Groups | `Network.ListSecgroup()` | `GET /v2/{projectId}/secgroups` | |
+| Security Group Rules | `Network.ListSecgroupRulesBySecgroupID()` | `GET /v2/{projectId}/secgroups/{id}/secGroupRules` | |
+
+### Not in SDK
+
+| Resource | REST Endpoint | OpenStack Analog | Status |
+|----------|---------------|------------------|:------:|
 | Networks (VPCs) | `GET /v2/{projectId}/networks` | Neutron Networks | |
 | Subnets | `GET /v2/{projectId}/networks/{networkId}/subnets` | Neutron Subnets | |
-| Security Groups | `GET /v2/{projectId}/secgroups` | Neutron SGs | |
-| Security Group Rules | `GET /v2/{projectId}/secgroups/{secgroupId}/secGroupRules` | Neutron SG Rules | |
 | Network ACLs | `GET /v2/{projectId}/network-acl/list` | — | |
 | Network ACL Rules | `GET /v2/{projectId}/network-acl/{uuid}/rules` | — | |
 | Route Tables | `GET /v2/{projectId}/route-table` | Neutron Routers | |
@@ -85,53 +100,87 @@ Regions: `hcm-3` (Ho Chi Minh City), `han-1` (Hanoi). All resources scoped to `{
 | Interconnect Connections | `GET /v2/{projectId}/interconnects/{id}/connections` | — | |
 | WAN IPs | `GET /v2/{projectId}/wanIps` | — | |
 
-### Block Storage
+## vNetwork API (`NetworkV1`)
 
-| Resource | Endpoint | OpenStack | Status |
-|----------|----------|-----------|:------:|
-| Volumes | `GET /v2/{projectId}/volumes` | Cinder Volumes | |
+| Resource | SDK Method | REST Endpoint | Status |
+|----------|-----------|---------------|:------:|
+| VPC Endpoints | `NetworkV1.ListEndpoints()` | `GET /vnetwork/v1/{regionId}/{projectId}/endpoints` | |
+
+### Not in SDK
+
+| Resource | REST Endpoint | OpenStack Analog | Status |
+|----------|---------------|------------------|:------:|
+| Regions | `GET /vnetwork/v1/regions` | Keystone Regions | |
+
+## Volume API (`Volume`)
+
+| Resource | SDK Method | REST Endpoint | Status |
+|----------|-----------|---------------|:------:|
+| Block Volumes | `Volume.ListBlockVolumes()` | `GET /v2/{projectId}/volumes` | |
+| Snapshots | `Volume.ListSnapshotsByBlockVolumeID()` | `GET /v2/{projectId}/volumes/{id}/snapshots` | |
+| Volume Types | `VolumeV1.GetListVolumeTypes()` | `GET /v1/{projectId}/volume_types` | |
+| Volume Type Zones | `VolumeV1.GetVolumeTypeZones()` | `GET /v1/{projectId}/volume_type_zones` | |
+
+### Not in SDK
+
+| Resource | REST Endpoint | OpenStack Analog | Status |
+|----------|---------------|------------------|:------:|
 | Persistent Volumes | `GET /v2/{projectId}/persistent-volumes` | Cinder Volumes | |
-| Volume Types | `GET /v1/{projectId}/volume_types` | Cinder Volume Types | |
-| Volume Type Zones | `GET /v1/{projectId}/volume_type_zones` | Cinder AZ Types | |
 | Encryption Types | `GET /v1/{projectId}/volumes/encryption_types` | Cinder Encryption | |
 
-### Other
+## Load Balancer API (`LoadBalancer`)
 
-| Resource | Endpoint | OpenStack | Status |
-|----------|----------|-----------|:------:|
-| Protocols | `GET /v2/protocols` | — | |
+| Resource | SDK Method | REST Endpoint | Status |
+|----------|-----------|---------------|:------:|
+| Load Balancers | `LoadBalancer.ListLoadBalancers()` | `GET /v2/{projectId}/loadBalancers` | |
+| Listeners | `LoadBalancer.ListListenersByLoadBalancerID()` | `GET /v2/{projectId}/loadBalancers/{id}/listeners` | |
+| Pools | `LoadBalancer.ListPoolsByLoadBalancerID()` | `GET /v2/{projectId}/loadBalancers/{id}/pools` | |
+| Pool Members | `LoadBalancer.ListPoolMembers()` | `GET /v2/{projectId}/loadBalancers/{id}/pools/{id}/members` | |
+| L7 Policies | `LoadBalancer.ListPolicies()` | `GET /v2/{projectId}/loadBalancers/{id}/l7policies` | |
+| Certificates | `LoadBalancer.ListCertificates()` | `GET /v2/{projectId}/certificates` | |
+| LB Packages | `LoadBalancer.ListLoadBalancerPackages()` | `GET /v2/{projectId}/packages` | |
 
-## 🌐 vNetwork (`vnetwork-gateway`)
+## Global Load Balancer API (`GLB`)
 
-Uses different host: `{region}-vnetwork.console.vngcloud.vn`. Requires `regionId` (MongoDB ObjectId, not region name).
+| Resource | SDK Method | REST Endpoint | Status |
+|----------|-----------|---------------|:------:|
+| Global Load Balancers | `GLB.ListGlobalLoadBalancers()` | `GET /v1/loadBalancers` | |
+| Global Listeners | `GLB.ListGlobalListeners()` | `GET /v1/loadBalancers/{id}/listeners` | |
+| Global Pools | `GLB.ListGlobalPools()` | `GET /v1/loadBalancers/{id}/pools` | |
+| Global Pool Members | `GLB.ListGlobalPoolMembers()` | `GET /v1/loadBalancers/{id}/pools/{id}/members` | |
+| Global Packages | `GLB.ListGlobalPackages()` | `GET /v1/packages` | |
+| Global Regions | `GLB.ListGlobalRegions()` | `GET /v1/regions` | |
 
-| Resource | Endpoint | OpenStack | Status |
-|----------|----------|-----------|:------:|
-| Regions | `GET /vnetwork/v1/regions` | Keystone Regions | |
-| VPC Endpoints | `GET /vnetwork/v1/{regionId}/{projectId}/endpoints` | — | |
+## DNS API (`DNS`)
 
-## ⚖️ vLB — Load Balancer (`iam-vlb-gateway`)
+| Resource | SDK Method | REST Endpoint | Status |
+|----------|-----------|---------------|:------:|
+| Hosted Zones | `DNS.ListHostedZones()` | DNS hosted zones | |
+| DNS Records | `DNS.ListRecords()` | DNS records | |
 
-| Resource | Endpoint | OpenStack | Status |
-|----------|----------|-----------|:------:|
-| Load Balancers | `GET /v2/{projectId}/loadBalancers` | Octavia LBs | |
-| Pools | `GET /v2/{projectId}/loadBalancers/{lbId}/pools` | Octavia Pools | |
-| Listeners | `GET /v2/{projectId}/loadBalancers/{lbId}/listeners` | Octavia Listeners | |
-| L7 Policies | `GET /v2/{projectId}/loadBalancers/{lbId}/l7policies` | Octavia L7Policies | |
-| Certificates | `GET /v2/{projectId}/certificates` | Barbican | |
-| LB Packages | `GET /v2/{projectId}/packages` | — | |
+## IAM API (`Identity`)
 
-## 🚢 vKS — Kubernetes (`iam-vserver-gateway`)
+| Resource | SDK Method | REST Endpoint | Status |
+|----------|-----------|---------------|:------:|
+| Access Token | `Identity.GetAccessToken()` | `POST /accounts-api/v2/auth/token` | |
 
-| Resource | Endpoint | OpenStack | Status |
-|----------|----------|-----------|:------:|
+### Not in SDK
+
+| Resource | REST Endpoint | OpenStack Analog | Status |
+|----------|---------------|------------------|:------:|
+| User Info | `GET /accounts-api/v1/auth/userinfo` | Keystone User | |
+
+## Kubernetes (vKS) — No SDK
+
+| Resource | REST Endpoint | OpenStack Analog | Status |
+|----------|---------------|------------------|:------:|
 | Clusters | `GET /v2/{projectId}/clusters` | Magnum Clusters | |
-| Cluster Node Groups | `GET /v2/{projectId}/clusters/{clusterId}/nodeGroups` | Magnum Node Groups | |
+| Cluster Node Groups | `GET /v2/{projectId}/clusters/{id}/nodeGroups` | Magnum Node Groups | |
 
-## 🗄️ vDB — Database (`vdb-gateway.vngcloud.vn`)
+## Database (vDB) — No SDK
 
-| Resource | Endpoint | OpenStack | Status |
-|----------|----------|-----------|:------:|
+| Resource | REST Endpoint | OpenStack Analog | Status |
+|----------|---------------|------------------|:------:|
 | Relational DBs | `GET /v1/{projectId}/relational/databases` | Trove Instances | |
 | Relational Backups | `GET /v1/{projectId}/relational/backups` | Trove Backups | |
 | Relational Config Groups | `GET /v1/{projectId}/relational/config-groups` | Trove Configurations | |
@@ -140,58 +189,54 @@ Uses different host: `{region}-vnetwork.console.vngcloud.vn`. Requires `regionId
 | Memstore Config Groups | `GET /v1/{projectId}/memstore/config-groups` | Trove Configurations | |
 | DB Packages | `GET /v1/{projectId}/packages` | — | |
 
-## 📦 vStorage — Object Storage
+## Object Storage (vStorage) — No SDK
 
 S3-compatible and Swift-compatible protocols. Separate service, not behind vServer gateway.
 
-| Resource | Endpoint | OpenStack | Status |
-|----------|----------|-----------|:------:|
-| Containers | Swift API: `GET /v1/{account}` | Swift Containers | |
-| Objects | Swift API: `GET /v1/{account}/{container}` | Swift Objects | |
-| Buckets | S3 API: `GET /` | S3 ListBuckets | |
+| Resource | REST Endpoint | OpenStack Analog | Status |
+|----------|---------------|------------------|:------:|
+| Containers | Swift: `GET /v1/{account}` | Swift Containers | |
+| Objects | Swift: `GET /v1/{account}/{container}` | Swift Objects | |
+| Buckets | S3: `GET /` | S3 ListBuckets | |
 
-## 📊 vMonitor (`vmonitor.console.vngcloud.vn`)
+## Monitoring (vMonitor) — No SDK
 
-Uses different host pattern. Note: `lstData` wrapper (not `listData`).
+Uses different host: `vmonitor.console.vngcloud.vn`. Note: `lstData` wrapper (not `listData`).
 
-| Resource | Endpoint | OpenStack | Status |
-|----------|----------|-----------|:------:|
+| Resource | REST Endpoint | OpenStack Analog | Status |
+|----------|---------------|------------------|:------:|
 | Dashboards | `GET /vmonitor-api/api/v1/dashboards` | Grafana | |
 | Configurations | `GET /vmonitor-api/api/v1/configurations/key/{key}` | — | |
 | User Info | `GET /user-api/v1/userinfo` | — | |
 | Quota Status | `POST /billing-api/v1/introspect-quotas` | — | |
 
-## 💰 Billing (`iam-billing-gateway`)
+## Billing — No SDK
 
-| Resource | Endpoint | OpenStack | Status |
-|----------|----------|-----------|:------:|
+| Resource | REST Endpoint | OpenStack Analog | Status |
+|----------|---------------|------------------|:------:|
 | User Info | `GET /v1/users/info` | — | |
 
-## 🔑 IAM (`iamapis.vngcloud.vn`)
+## Summary
 
-| Resource | Endpoint | OpenStack | Status |
-|----------|----------|-----------|:------:|
-| Token | `POST /accounts-api/v2/auth/token` | Keystone Token | |
-| User Info | `GET /accounts-api/v1/auth/userinfo` | Keystone User | |
+**Total: 5/74 (7%)**
 
-## 📊 Summary
-
-**Total: 0/74 (0%)**
-
-| Category | Implemented | Total |
-|----------|:-----------:|:-----:|
-| Compute | 0 | 16 |
-| Networking | 0 | 17 |
-| Block Storage | 0 | 5 |
-| vNetwork | 0 | 2 |
-| Load Balancer | 0 | 6 |
-| Kubernetes | 0 | 2 |
-| Database | 0 | 7 |
-| Object Storage | 0 | 3 |
-| Monitoring | 0 | 4 |
-| Billing | 0 | 1 |
-| IAM | 0 | 2 |
-| Other | 0 | 1 |
+| Category | SDK Client | Implemented | Total |
+|----------|-----------|:-----------:|:-----:|
+| Portal | `Portal` | 2 | 4 |
+| Compute | `Compute` | 3 | 12 |
+| Network | `Network` | 0 | 17 |
+| vNetwork | `NetworkV1` | 0 | 2 |
+| Volume | `Volume` | 0 | 6 |
+| Load Balancer | `LoadBalancer` | 0 | 7 |
+| Global LB | `GLB` | 0 | 6 |
+| DNS | `DNS` | 0 | 2 |
+| IAM | `Identity` | 0 | 2 |
+| Kubernetes | — | 0 | 2 |
+| Database | — | 0 | 7 |
+| Object Storage | — | 0 | 3 |
+| Monitoring | — | 0 | 4 |
+| Billing | — | 0 | 1 |
+| Other | — | 0 | 1 |
 
 ## References
 

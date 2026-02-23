@@ -5549,6 +5549,219 @@ var (
 			},
 		},
 	}
+	// GreennodeComputeSSHKeysColumns holds the columns for the "greennode_compute_ssh_keys" table.
+	GreennodeComputeSSHKeysColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "created_at_api", Type: field.TypeString, Nullable: true},
+		{Name: "pub_key", Type: field.TypeString, Nullable: true},
+		{Name: "status", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GreennodeComputeSSHKeysTable holds the schema information for the "greennode_compute_ssh_keys" table.
+	GreennodeComputeSSHKeysTable = &schema.Table{
+		Name:       "greennode_compute_ssh_keys",
+		Columns:    GreennodeComputeSSHKeysColumns,
+		PrimaryKey: []*schema.Column{GreennodeComputeSSHKeysColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegreennodecomputesshkey_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeSSHKeysColumns[7]},
+			},
+			{
+				Name:    "bronzegreennodecomputesshkey_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeSSHKeysColumns[1]},
+			},
+		},
+	}
+	// GreennodeComputeServersColumns holds the columns for the "greennode_compute_servers" table.
+	GreennodeComputeServersColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "status", Type: field.TypeString, Nullable: true},
+		{Name: "location", Type: field.TypeString, Nullable: true},
+		{Name: "zone_id", Type: field.TypeString, Nullable: true},
+		{Name: "created_at_api", Type: field.TypeString, Nullable: true},
+		{Name: "boot_volume_id", Type: field.TypeString, Nullable: true},
+		{Name: "encryption_volume", Type: field.TypeBool, Default: false},
+		{Name: "licence", Type: field.TypeBool, Default: false},
+		{Name: "metadata", Type: field.TypeString, Nullable: true},
+		{Name: "migrate_state", Type: field.TypeString, Nullable: true},
+		{Name: "product", Type: field.TypeString, Nullable: true},
+		{Name: "server_group_id", Type: field.TypeString, Nullable: true},
+		{Name: "server_group_name", Type: field.TypeString, Nullable: true},
+		{Name: "ssh_key_name", Type: field.TypeString, Nullable: true},
+		{Name: "stop_before_migrate", Type: field.TypeBool, Default: false},
+		{Name: "user", Type: field.TypeString, Nullable: true},
+		{Name: "image_id", Type: field.TypeString, Nullable: true},
+		{Name: "image_type", Type: field.TypeString, Nullable: true},
+		{Name: "image_version", Type: field.TypeString, Nullable: true},
+		{Name: "flavor_id", Type: field.TypeString, Nullable: true},
+		{Name: "flavor_name", Type: field.TypeString, Nullable: true},
+		{Name: "flavor_cpu", Type: field.TypeInt64, Nullable: true},
+		{Name: "flavor_memory", Type: field.TypeInt64, Nullable: true},
+		{Name: "flavor_gpu", Type: field.TypeInt64, Nullable: true},
+		{Name: "flavor_bandwidth", Type: field.TypeInt64, Nullable: true},
+		{Name: "interfaces_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GreennodeComputeServersTable holds the schema information for the "greennode_compute_servers" table.
+	GreennodeComputeServersTable = &schema.Table{
+		Name:       "greennode_compute_servers",
+		Columns:    GreennodeComputeServersColumns,
+		PrimaryKey: []*schema.Column{GreennodeComputeServersColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegreennodecomputeserver_status",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServersColumns[4]},
+			},
+			{
+				Name:    "bronzegreennodecomputeserver_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServersColumns[29]},
+			},
+			{
+				Name:    "bronzegreennodecomputeserver_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServersColumns[1]},
+			},
+		},
+	}
+	// GreennodeComputeServerGroupsColumns holds the columns for the "greennode_compute_server_groups" table.
+	GreennodeComputeServerGroupsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "policy_id", Type: field.TypeString, Nullable: true},
+		{Name: "policy_name", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GreennodeComputeServerGroupsTable holds the schema information for the "greennode_compute_server_groups" table.
+	GreennodeComputeServerGroupsTable = &schema.Table{
+		Name:       "greennode_compute_server_groups",
+		Columns:    GreennodeComputeServerGroupsColumns,
+		PrimaryKey: []*schema.Column{GreennodeComputeServerGroupsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegreennodecomputeservergroup_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServerGroupsColumns[7]},
+			},
+			{
+				Name:    "bronzegreennodecomputeservergroup_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServerGroupsColumns[1]},
+			},
+		},
+	}
+	// GreennodeComputeServerGroupMembersColumns holds the columns for the "greennode_compute_server_group_members" table.
+	GreennodeComputeServerGroupMembersColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "uuid", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "bronze_green_node_compute_server_group_members", Type: field.TypeString},
+	}
+	// GreennodeComputeServerGroupMembersTable holds the schema information for the "greennode_compute_server_group_members" table.
+	GreennodeComputeServerGroupMembersTable = &schema.Table{
+		Name:       "greennode_compute_server_group_members",
+		Columns:    GreennodeComputeServerGroupMembersColumns,
+		PrimaryKey: []*schema.Column{GreennodeComputeServerGroupMembersColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "greennode_compute_server_group_members_greennode_compute_server_groups_members",
+				Columns:    []*schema.Column{GreennodeComputeServerGroupMembersColumns[3]},
+				RefColumns: []*schema.Column{GreennodeComputeServerGroupsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+	}
+	// GreennodeComputeServerSecGroupsColumns holds the columns for the "greennode_compute_server_sec_groups" table.
+	GreennodeComputeServerSecGroupsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "uuid", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "bronze_green_node_compute_server_sec_groups", Type: field.TypeString},
+	}
+	// GreennodeComputeServerSecGroupsTable holds the schema information for the "greennode_compute_server_sec_groups" table.
+	GreennodeComputeServerSecGroupsTable = &schema.Table{
+		Name:       "greennode_compute_server_sec_groups",
+		Columns:    GreennodeComputeServerSecGroupsColumns,
+		PrimaryKey: []*schema.Column{GreennodeComputeServerSecGroupsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "greennode_compute_server_sec_groups_greennode_compute_servers_sec_groups",
+				Columns:    []*schema.Column{GreennodeComputeServerSecGroupsColumns[3]},
+				RefColumns: []*schema.Column{GreennodeComputeServersColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+	}
+	// GreennodePortalQuotasColumns holds the columns for the "greennode_portal_quotas" table.
+	GreennodePortalQuotasColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "type", Type: field.TypeString, Nullable: true},
+		{Name: "limit_value", Type: field.TypeInt},
+		{Name: "used_value", Type: field.TypeInt},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GreennodePortalQuotasTable holds the schema information for the "greennode_portal_quotas" table.
+	GreennodePortalQuotasTable = &schema.Table{
+		Name:       "greennode_portal_quotas",
+		Columns:    GreennodePortalQuotasColumns,
+		PrimaryKey: []*schema.Column{GreennodePortalQuotasColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegreennodeportalquota_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodePortalQuotasColumns[8]},
+			},
+			{
+				Name:    "bronzegreennodeportalquota_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodePortalQuotasColumns[1]},
+			},
+		},
+	}
+	// GreennodePortalRegionsColumns holds the columns for the "greennode_portal_regions" table.
+	GreennodePortalRegionsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GreennodePortalRegionsTable holds the schema information for the "greennode_portal_regions" table.
+	GreennodePortalRegionsTable = &schema.Table{
+		Name:       "greennode_portal_regions",
+		Columns:    GreennodePortalRegionsColumns,
+		PrimaryKey: []*schema.Column{GreennodePortalRegionsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzegreennodeportalregion_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodePortalRegionsColumns[5]},
+			},
+			{
+				Name:    "bronzegreennodeportalregion_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodePortalRegionsColumns[1]},
+			},
+		},
+	}
 	// AWSEc2InstancesHistoryColumns holds the columns for the "aws_ec2_instances_history" table.
 	AWSEc2InstancesHistoryColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -12863,6 +13076,308 @@ var (
 			},
 		},
 	}
+	// GreennodeComputeSSHKeysHistoryColumns holds the columns for the "greennode_compute_ssh_keys_history" table.
+	GreennodeComputeSSHKeysHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "created_at_api", Type: field.TypeString, Nullable: true},
+		{Name: "pub_key", Type: field.TypeString, Nullable: true},
+		{Name: "status", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GreennodeComputeSSHKeysHistoryTable holds the schema information for the "greennode_compute_ssh_keys_history" table.
+	GreennodeComputeSSHKeysHistoryTable = &schema.Table{
+		Name:       "greennode_compute_ssh_keys_history",
+		Columns:    GreennodeComputeSSHKeysHistoryColumns,
+		PrimaryKey: []*schema.Column{GreennodeComputeSSHKeysHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygreennodecomputesshkey_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeSSHKeysHistoryColumns[6], GreennodeComputeSSHKeysHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygreennodecomputesshkey_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeSSHKeysHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygreennodecomputesshkey_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeSSHKeysHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygreennodecomputesshkey_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeSSHKeysHistoryColumns[11]},
+			},
+		},
+	}
+	// GreennodeComputeServersHistoryColumns holds the columns for the "greennode_compute_servers_history" table.
+	GreennodeComputeServersHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "status", Type: field.TypeString, Nullable: true},
+		{Name: "location", Type: field.TypeString, Nullable: true},
+		{Name: "zone_id", Type: field.TypeString, Nullable: true},
+		{Name: "created_at_api", Type: field.TypeString, Nullable: true},
+		{Name: "boot_volume_id", Type: field.TypeString, Nullable: true},
+		{Name: "encryption_volume", Type: field.TypeBool, Default: false},
+		{Name: "licence", Type: field.TypeBool, Default: false},
+		{Name: "metadata", Type: field.TypeString, Nullable: true},
+		{Name: "migrate_state", Type: field.TypeString, Nullable: true},
+		{Name: "product", Type: field.TypeString, Nullable: true},
+		{Name: "server_group_id", Type: field.TypeString, Nullable: true},
+		{Name: "server_group_name", Type: field.TypeString, Nullable: true},
+		{Name: "ssh_key_name", Type: field.TypeString, Nullable: true},
+		{Name: "stop_before_migrate", Type: field.TypeBool, Default: false},
+		{Name: "user", Type: field.TypeString, Nullable: true},
+		{Name: "image_id", Type: field.TypeString, Nullable: true},
+		{Name: "image_type", Type: field.TypeString, Nullable: true},
+		{Name: "image_version", Type: field.TypeString, Nullable: true},
+		{Name: "flavor_id", Type: field.TypeString, Nullable: true},
+		{Name: "flavor_name", Type: field.TypeString, Nullable: true},
+		{Name: "flavor_cpu", Type: field.TypeInt64, Nullable: true},
+		{Name: "flavor_memory", Type: field.TypeInt64, Nullable: true},
+		{Name: "flavor_gpu", Type: field.TypeInt64, Nullable: true},
+		{Name: "flavor_bandwidth", Type: field.TypeInt64, Nullable: true},
+		{Name: "interfaces_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GreennodeComputeServersHistoryTable holds the schema information for the "greennode_compute_servers_history" table.
+	GreennodeComputeServersHistoryTable = &schema.Table{
+		Name:       "greennode_compute_servers_history",
+		Columns:    GreennodeComputeServersHistoryColumns,
+		PrimaryKey: []*schema.Column{GreennodeComputeServersHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygreennodecomputeserver_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServersHistoryColumns[6], GreennodeComputeServersHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygreennodecomputeserver_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServersHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygreennodecomputeserver_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServersHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygreennodecomputeserver_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServersHistoryColumns[33]},
+			},
+		},
+	}
+	// GreennodeComputeServerGroupsHistoryColumns holds the columns for the "greennode_compute_server_groups_history" table.
+	GreennodeComputeServerGroupsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "policy_id", Type: field.TypeString, Nullable: true},
+		{Name: "policy_name", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GreennodeComputeServerGroupsHistoryTable holds the schema information for the "greennode_compute_server_groups_history" table.
+	GreennodeComputeServerGroupsHistoryTable = &schema.Table{
+		Name:       "greennode_compute_server_groups_history",
+		Columns:    GreennodeComputeServerGroupsHistoryColumns,
+		PrimaryKey: []*schema.Column{GreennodeComputeServerGroupsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygreennodecomputeservergroup_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServerGroupsHistoryColumns[6], GreennodeComputeServerGroupsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygreennodecomputeservergroup_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServerGroupsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygreennodecomputeservergroup_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServerGroupsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygreennodecomputeservergroup_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServerGroupsHistoryColumns[11]},
+			},
+		},
+	}
+	// GreennodeComputeServerGroupMembersHistoryColumns holds the columns for the "greennode_compute_server_group_members_history" table.
+	GreennodeComputeServerGroupMembersHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "server_group_history_id", Type: field.TypeUint},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "uuid", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+	}
+	// GreennodeComputeServerGroupMembersHistoryTable holds the schema information for the "greennode_compute_server_group_members_history" table.
+	GreennodeComputeServerGroupMembersHistoryTable = &schema.Table{
+		Name:       "greennode_compute_server_group_members_history",
+		Columns:    GreennodeComputeServerGroupMembersHistoryColumns,
+		PrimaryKey: []*schema.Column{GreennodeComputeServerGroupMembersHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygreennodecomputeservergroupmember_server_group_history_id",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServerGroupMembersHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygreennodecomputeservergroupmember_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServerGroupMembersHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygreennodecomputeservergroupmember_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServerGroupMembersHistoryColumns[4]},
+			},
+		},
+	}
+	// GreennodeComputeServerSecGroupsHistoryColumns holds the columns for the "greennode_compute_server_sec_groups_history" table.
+	GreennodeComputeServerSecGroupsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "server_history_id", Type: field.TypeUint},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "uuid", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+	}
+	// GreennodeComputeServerSecGroupsHistoryTable holds the schema information for the "greennode_compute_server_sec_groups_history" table.
+	GreennodeComputeServerSecGroupsHistoryTable = &schema.Table{
+		Name:       "greennode_compute_server_sec_groups_history",
+		Columns:    GreennodeComputeServerSecGroupsHistoryColumns,
+		PrimaryKey: []*schema.Column{GreennodeComputeServerSecGroupsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygreennodecomputeserversecgroup_server_history_id",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServerSecGroupsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygreennodecomputeserversecgroup_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServerSecGroupsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygreennodecomputeserversecgroup_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServerSecGroupsHistoryColumns[4]},
+			},
+		},
+	}
+	// GreennodePortalQuotasHistoryColumns holds the columns for the "greennode_portal_quotas_history" table.
+	GreennodePortalQuotasHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "type", Type: field.TypeString, Nullable: true},
+		{Name: "limit_value", Type: field.TypeInt},
+		{Name: "used_value", Type: field.TypeInt},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GreennodePortalQuotasHistoryTable holds the schema information for the "greennode_portal_quotas_history" table.
+	GreennodePortalQuotasHistoryTable = &schema.Table{
+		Name:       "greennode_portal_quotas_history",
+		Columns:    GreennodePortalQuotasHistoryColumns,
+		PrimaryKey: []*schema.Column{GreennodePortalQuotasHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygreennodeportalquota_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodePortalQuotasHistoryColumns[6], GreennodePortalQuotasHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygreennodeportalquota_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodePortalQuotasHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygreennodeportalquota_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodePortalQuotasHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygreennodeportalquota_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodePortalQuotasHistoryColumns[12]},
+			},
+		},
+	}
+	// GreennodePortalRegionsHistoryColumns holds the columns for the "greennode_portal_regions_history" table.
+	GreennodePortalRegionsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "project_id", Type: field.TypeString},
+	}
+	// GreennodePortalRegionsHistoryTable holds the schema information for the "greennode_portal_regions_history" table.
+	GreennodePortalRegionsHistoryTable = &schema.Table{
+		Name:       "greennode_portal_regions_history",
+		Columns:    GreennodePortalRegionsHistoryColumns,
+		PrimaryKey: []*schema.Column{GreennodePortalRegionsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorygreennodeportalregion_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodePortalRegionsHistoryColumns[6], GreennodePortalRegionsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorygreennodeportalregion_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodePortalRegionsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorygreennodeportalregion_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodePortalRegionsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorygreennodeportalregion_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodePortalRegionsHistoryColumns[9]},
+			},
+		},
+	}
 	// S1AccountsHistoryColumns holds the columns for the "s1_accounts_history" table.
 	S1AccountsHistoryColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -13844,6 +14359,13 @@ var (
 		GcpComputeTargetVpnGatewayLabelsTable,
 		GcpComputeVpnTunnelsTable,
 		GcpComputeVpnTunnelLabelsTable,
+		GreennodeComputeSSHKeysTable,
+		GreennodeComputeServersTable,
+		GreennodeComputeServerGroupsTable,
+		GreennodeComputeServerGroupMembersTable,
+		GreennodeComputeServerSecGroupsTable,
+		GreennodePortalQuotasTable,
+		GreennodePortalRegionsTable,
 		AWSEc2InstancesHistoryTable,
 		AWSEc2InstanceTagsHistoryTable,
 		DoAccountsHistoryTable,
@@ -14002,6 +14524,13 @@ var (
 		GcpComputeTargetVpnGatewayLabelsHistoryTable,
 		GcpComputeVpnTunnelsHistoryTable,
 		GcpComputeVpnTunnelLabelsHistoryTable,
+		GreennodeComputeSSHKeysHistoryTable,
+		GreennodeComputeServersHistoryTable,
+		GreennodeComputeServerGroupsHistoryTable,
+		GreennodeComputeServerGroupMembersHistoryTable,
+		GreennodeComputeServerSecGroupsHistoryTable,
+		GreennodePortalQuotasHistoryTable,
+		GreennodePortalRegionsHistoryTable,
 		S1AccountsHistoryTable,
 		S1AgentsHistoryTable,
 		S1AgentNicsHistoryTable,
@@ -14545,6 +15074,29 @@ func init() {
 	GcpComputeVpnTunnelLabelsTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_vpn_tunnel_labels",
 	}
+	GreennodeComputeSSHKeysTable.Annotation = &entsql.Annotation{
+		Table: "greennode_compute_ssh_keys",
+	}
+	GreennodeComputeServersTable.Annotation = &entsql.Annotation{
+		Table: "greennode_compute_servers",
+	}
+	GreennodeComputeServerGroupsTable.Annotation = &entsql.Annotation{
+		Table: "greennode_compute_server_groups",
+	}
+	GreennodeComputeServerGroupMembersTable.ForeignKeys[0].RefTable = GreennodeComputeServerGroupsTable
+	GreennodeComputeServerGroupMembersTable.Annotation = &entsql.Annotation{
+		Table: "greennode_compute_server_group_members",
+	}
+	GreennodeComputeServerSecGroupsTable.ForeignKeys[0].RefTable = GreennodeComputeServersTable
+	GreennodeComputeServerSecGroupsTable.Annotation = &entsql.Annotation{
+		Table: "greennode_compute_server_sec_groups",
+	}
+	GreennodePortalQuotasTable.Annotation = &entsql.Annotation{
+		Table: "greennode_portal_quotas",
+	}
+	GreennodePortalRegionsTable.Annotation = &entsql.Annotation{
+		Table: "greennode_portal_regions",
+	}
 	AWSEc2InstancesHistoryTable.Annotation = &entsql.Annotation{
 		Table: "aws_ec2_instances_history",
 	}
@@ -15018,6 +15570,27 @@ func init() {
 	}
 	GcpComputeVpnTunnelLabelsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "gcp_compute_vpn_tunnel_labels_history",
+	}
+	GreennodeComputeSSHKeysHistoryTable.Annotation = &entsql.Annotation{
+		Table: "greennode_compute_ssh_keys_history",
+	}
+	GreennodeComputeServersHistoryTable.Annotation = &entsql.Annotation{
+		Table: "greennode_compute_servers_history",
+	}
+	GreennodeComputeServerGroupsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "greennode_compute_server_groups_history",
+	}
+	GreennodeComputeServerGroupMembersHistoryTable.Annotation = &entsql.Annotation{
+		Table: "greennode_compute_server_group_members_history",
+	}
+	GreennodeComputeServerSecGroupsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "greennode_compute_server_sec_groups_history",
+	}
+	GreennodePortalQuotasHistoryTable.Annotation = &entsql.Annotation{
+		Table: "greennode_portal_quotas_history",
+	}
+	GreennodePortalRegionsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "greennode_portal_regions_history",
 	}
 	S1AccountsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "s1_accounts_history",

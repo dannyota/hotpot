@@ -170,6 +170,13 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntargetgatewaylabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntunnel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntunnellabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputeserver"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputeservergroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputeservergroupmember"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputeserversecgroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputesshkey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeportalquota"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeportalregion"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instancetag"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoaccount"
@@ -328,6 +335,13 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpvpntargetgatewaylabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpvpntunnel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpvpntunnellabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputeserver"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputeservergroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputeservergroupmember"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputeserversecgroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputesshkey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeportalquota"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeportalregion"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1account"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1agent"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1agentnic"
@@ -560,6 +574,13 @@ func checkColumn(t, c string) error {
 			bronzegcpvpntargetgatewaylabel.Table:                       bronzegcpvpntargetgatewaylabel.ValidColumn,
 			bronzegcpvpntunnel.Table:                                   bronzegcpvpntunnel.ValidColumn,
 			bronzegcpvpntunnellabel.Table:                              bronzegcpvpntunnellabel.ValidColumn,
+			bronzegreennodecomputesshkey.Table:                         bronzegreennodecomputesshkey.ValidColumn,
+			bronzegreennodecomputeserver.Table:                         bronzegreennodecomputeserver.ValidColumn,
+			bronzegreennodecomputeservergroup.Table:                    bronzegreennodecomputeservergroup.ValidColumn,
+			bronzegreennodecomputeservergroupmember.Table:              bronzegreennodecomputeservergroupmember.ValidColumn,
+			bronzegreennodecomputeserversecgroup.Table:                 bronzegreennodecomputeserversecgroup.ValidColumn,
+			bronzegreennodeportalquota.Table:                           bronzegreennodeportalquota.ValidColumn,
+			bronzegreennodeportalregion.Table:                          bronzegreennodeportalregion.ValidColumn,
 			bronzehistoryawsec2instance.Table:                          bronzehistoryawsec2instance.ValidColumn,
 			bronzehistoryawsec2instancetag.Table:                       bronzehistoryawsec2instancetag.ValidColumn,
 			bronzehistorydoaccount.Table:                               bronzehistorydoaccount.ValidColumn,
@@ -718,6 +739,13 @@ func checkColumn(t, c string) error {
 			bronzehistorygcpvpntargetgatewaylabel.Table:                bronzehistorygcpvpntargetgatewaylabel.ValidColumn,
 			bronzehistorygcpvpntunnel.Table:                            bronzehistorygcpvpntunnel.ValidColumn,
 			bronzehistorygcpvpntunnellabel.Table:                       bronzehistorygcpvpntunnellabel.ValidColumn,
+			bronzehistorygreennodecomputesshkey.Table:                  bronzehistorygreennodecomputesshkey.ValidColumn,
+			bronzehistorygreennodecomputeserver.Table:                  bronzehistorygreennodecomputeserver.ValidColumn,
+			bronzehistorygreennodecomputeservergroup.Table:             bronzehistorygreennodecomputeservergroup.ValidColumn,
+			bronzehistorygreennodecomputeservergroupmember.Table:       bronzehistorygreennodecomputeservergroupmember.ValidColumn,
+			bronzehistorygreennodecomputeserversecgroup.Table:          bronzehistorygreennodecomputeserversecgroup.ValidColumn,
+			bronzehistorygreennodeportalquota.Table:                    bronzehistorygreennodeportalquota.ValidColumn,
+			bronzehistorygreennodeportalregion.Table:                   bronzehistorygreennodeportalregion.ValidColumn,
 			bronzehistorys1account.Table:                               bronzehistorys1account.ValidColumn,
 			bronzehistorys1agent.Table:                                 bronzehistorys1agent.ValidColumn,
 			bronzehistorys1agentnic.Table:                              bronzehistorys1agentnic.ValidColumn,

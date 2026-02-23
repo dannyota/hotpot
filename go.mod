@@ -33,6 +33,7 @@ require (
 	cloud.google.com/go/serviceusage v1.9.7
 	cloud.google.com/go/spanner v1.88.0
 	cloud.google.com/go/vpcaccess v1.8.7
+	danny.vn/greennode v1.0.0
 	entgo.io/ent v0.14.5
 	github.com/alicebob/miniredis/v2 v2.36.1
 	github.com/aws/aws-sdk-go-v2 v1.41.1

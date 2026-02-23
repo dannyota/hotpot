@@ -5,7 +5,8 @@ type Config struct {
 	GCP      GCPConfig      `yaml:"gcp"`
 	AWS      AWSConfig      `yaml:"aws"`
 	S1       S1Config       `yaml:"s1"`
-	DO       DOConfig       `yaml:"do"`
+	DO        DOConfig        `yaml:"do"`
+	GreenNode GreenNodeConfig `yaml:"greennode"`
 	Database DatabaseConfig `yaml:"database"`
 	Temporal TemporalConfig `yaml:"temporal"`
 	Redis    RedisConfig    `yaml:"redis"`
@@ -77,6 +78,28 @@ type DOConfig struct {
 	Enabled            bool   `yaml:"enabled"`
 	APIToken           string `yaml:"api_token"`
 	RateLimitPerMinute int    `yaml:"rate_limit_per_minute,omitempty"`
+}
+
+// GreenNodeConfig holds GreenNode (formerly VNG Cloud) configuration.
+type GreenNodeConfig struct {
+	// Enabled controls whether GreenNode ingestion runs and tables are created.
+	Enabled bool `yaml:"enabled"`
+
+	// Region is the GreenNode region (e.g., "hcm-3", "han-1").
+	Region string `yaml:"region"`
+
+	// ClientID is the service account client ID for OAuth2 authentication.
+	ClientID string `yaml:"client_id"`
+
+	// ClientSecret is the service account client secret.
+	ClientSecret string `yaml:"client_secret"`
+
+	// ProjectID is the GreenNode project to ingest resources from.
+	ProjectID string `yaml:"project_id"`
+
+	// RateLimitPerMinute is the max API requests per minute across all GreenNode clients.
+	// Default: 300 (see Service.GreenNodeRateLimitPerMinute()).
+	RateLimitPerMinute int `yaml:"rate_limit_per_minute,omitempty"`
 }
 
 // RedisConfig holds Redis connection configuration.

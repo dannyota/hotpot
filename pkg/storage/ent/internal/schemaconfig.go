@@ -165,6 +165,13 @@ type SchemaConfig struct {
 	BronzeGCPVPNTargetGatewayLabel                       string // BronzeGCPVPNTargetGatewayLabel table.
 	BronzeGCPVPNTunnel                                   string // BronzeGCPVPNTunnel table.
 	BronzeGCPVPNTunnelLabel                              string // BronzeGCPVPNTunnelLabel table.
+	BronzeGreenNodeComputeSSHKey                         string // BronzeGreenNodeComputeSSHKey table.
+	BronzeGreenNodeComputeServer                         string // BronzeGreenNodeComputeServer table.
+	BronzeGreenNodeComputeServerGroup                    string // BronzeGreenNodeComputeServerGroup table.
+	BronzeGreenNodeComputeServerGroupMember              string // BronzeGreenNodeComputeServerGroupMember table.
+	BronzeGreenNodeComputeServerSecGroup                 string // BronzeGreenNodeComputeServerSecGroup table.
+	BronzeGreenNodePortalQuota                           string // BronzeGreenNodePortalQuota table.
+	BronzeGreenNodePortalRegion                          string // BronzeGreenNodePortalRegion table.
 	BronzeHistoryAWSEC2Instance                          string // BronzeHistoryAWSEC2Instance table.
 	BronzeHistoryAWSEC2InstanceTag                       string // BronzeHistoryAWSEC2InstanceTag table.
 	BronzeHistoryDOAccount                               string // BronzeHistoryDOAccount table.
@@ -323,6 +330,13 @@ type SchemaConfig struct {
 	BronzeHistoryGCPVPNTargetGatewayLabel                string // BronzeHistoryGCPVPNTargetGatewayLabel table.
 	BronzeHistoryGCPVPNTunnel                            string // BronzeHistoryGCPVPNTunnel table.
 	BronzeHistoryGCPVPNTunnelLabel                       string // BronzeHistoryGCPVPNTunnelLabel table.
+	BronzeHistoryGreenNodeComputeSSHKey                  string // BronzeHistoryGreenNodeComputeSSHKey table.
+	BronzeHistoryGreenNodeComputeServer                  string // BronzeHistoryGreenNodeComputeServer table.
+	BronzeHistoryGreenNodeComputeServerGroup             string // BronzeHistoryGreenNodeComputeServerGroup table.
+	BronzeHistoryGreenNodeComputeServerGroupMember       string // BronzeHistoryGreenNodeComputeServerGroupMember table.
+	BronzeHistoryGreenNodeComputeServerSecGroup          string // BronzeHistoryGreenNodeComputeServerSecGroup table.
+	BronzeHistoryGreenNodePortalQuota                    string // BronzeHistoryGreenNodePortalQuota table.
+	BronzeHistoryGreenNodePortalRegion                   string // BronzeHistoryGreenNodePortalRegion table.
 	BronzeHistoryS1Account                               string // BronzeHistoryS1Account table.
 	BronzeHistoryS1Agent                                 string // BronzeHistoryS1Agent table.
 	BronzeHistoryS1AgentNIC                              string // BronzeHistoryS1AgentNIC table.

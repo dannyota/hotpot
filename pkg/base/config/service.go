@@ -164,6 +164,9 @@ func (s *Service) EnabledProviders() []string {
 	if s.config.AWS.Enabled {
 		providers = append(providers, "aws")
 	}
+	if s.config.GreenNode.Enabled {
+		providers = append(providers, "greennode")
+	}
 	return providers
 }
 
@@ -336,6 +339,64 @@ func (s *Service) AWSRateLimitPerMinute() int {
 		return 600
 	}
 	return s.config.AWS.RateLimitPerMinute
+}
+
+// GreenNodeEnabled returns true if GreenNode ingestion is enabled in config.
+func (s *Service) GreenNodeEnabled() bool {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.config != nil && s.config.GreenNode.Enabled
+}
+
+// GreenNodeRegion returns the GreenNode region (e.g., "hcm-3").
+func (s *Service) GreenNodeRegion() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.GreenNode.Region
+}
+
+// GreenNodeClientID returns the GreenNode service account client ID.
+func (s *Service) GreenNodeClientID() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.GreenNode.ClientID
+}
+
+// GreenNodeClientSecret returns the GreenNode service account client secret.
+func (s *Service) GreenNodeClientSecret() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.GreenNode.ClientSecret
+}
+
+// GreenNodeProjectID returns the GreenNode project ID.
+func (s *Service) GreenNodeProjectID() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.GreenNode.ProjectID
+}
+
+// GreenNodeRateLimitPerMinute returns the max API requests per minute for GreenNode.
+// Defaults to 300 if not configured.
+func (s *Service) GreenNodeRateLimitPerMinute() int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || s.config.GreenNode.RateLimitPerMinute <= 0 {
+		return 300
+	}
+	return s.config.GreenNode.RateLimitPerMinute
 }
 
 // RedisConfig returns the Redis configuration.
