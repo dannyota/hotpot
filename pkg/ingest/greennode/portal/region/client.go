@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"danny.vn/greennode"
+	"danny.vn/greennode/auth"
 	"danny.vn/greennode/option"
 	portalv2 "danny.vn/greennode/services/portal/v2"
 
@@ -20,10 +21,23 @@ type Client struct {
 // NewClient creates a GreenNode client with rate limiting.
 func NewClient(ctx context.Context, configService *config.Service, limiter ratelimit.Limiter, region string) (*Client, error) {
 	cfg := greennode.Config{
-		Region:       region,
-		ClientID:     configService.GreenNodeClientID(),
-		ClientSecret: configService.GreenNodeClientSecret(),
-		ProjectID:    configService.GreenNodeProjectID(),
+		Region:    region,
+		ProjectID: configService.GreenNodeProjectID(),
+	}
+
+	if username := configService.GreenNodeUsername(); username != "" {
+		iamAuth := &auth.IAMUserAuth{
+			RootEmail: configService.GreenNodeRootEmail(),
+			Username:  username,
+			Password:  configService.GreenNodePassword(),
+		}
+		if totpSecret := configService.GreenNodeTOTPSecret(); totpSecret != "" {
+			iamAuth.TOTP = &auth.SecretTOTP{Secret: totpSecret}
+		}
+		cfg.IAMAuth = iamAuth
+	} else {
+		cfg.ClientID = configService.GreenNodeClientID()
+		cfg.ClientSecret = configService.GreenNodeClientSecret()
 	}
 
 	sdk, err := greennode.NewClient(ctx, cfg,

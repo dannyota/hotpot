@@ -89,13 +89,25 @@ type GreenNodeConfig struct {
 	Regions []string `yaml:"regions"`
 
 	// ClientID is the service account client ID for OAuth2 authentication.
-	ClientID string `yaml:"client_id"`
+	ClientID string `yaml:"client_id,omitempty"`
 
 	// ClientSecret is the service account client secret.
-	ClientSecret string `yaml:"client_secret"`
+	ClientSecret string `yaml:"client_secret,omitempty"`
 
 	// ProjectID is the GreenNode project to ingest resources from.
 	ProjectID string `yaml:"project_id"`
+
+	// RootEmail is the IAM root account email (for IAM user auth).
+	RootEmail string `yaml:"root_email,omitempty"`
+
+	// Username is the IAM username (for IAM user auth).
+	Username string `yaml:"username,omitempty"`
+
+	// Password is the IAM password (for IAM user auth).
+	Password string `yaml:"password,omitempty"`
+
+	// TOTPSecret is the base32-encoded TOTP secret for 2FA (optional, for IAM user auth).
+	TOTPSecret string `yaml:"totp_secret,omitempty"`
 
 	// RateLimitPerMinute is the max API requests per minute across all GreenNode clients.
 	// Default: 300 (see Service.GreenNodeRateLimitPerMinute()).

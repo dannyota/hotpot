@@ -390,6 +390,46 @@ func (s *Service) GreenNodeProjectID() string {
 	return s.config.GreenNode.ProjectID
 }
 
+// GreenNodeRootEmail returns the GreenNode IAM root account email.
+func (s *Service) GreenNodeRootEmail() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.GreenNode.RootEmail
+}
+
+// GreenNodeUsername returns the GreenNode IAM username.
+func (s *Service) GreenNodeUsername() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.GreenNode.Username
+}
+
+// GreenNodePassword returns the GreenNode IAM password.
+func (s *Service) GreenNodePassword() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.GreenNode.Password
+}
+
+// GreenNodeTOTPSecret returns the GreenNode TOTP secret for 2FA.
+func (s *Service) GreenNodeTOTPSecret() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.GreenNode.TOTPSecret
+}
+
 // GreenNodeRateLimitPerMinute returns the max API requests per minute for GreenNode.
 // Defaults to 300 if not configured.
 func (s *Service) GreenNodeRateLimitPerMinute() int {

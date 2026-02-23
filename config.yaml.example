@@ -38,12 +38,42 @@ s1:
   # rate_limit_per_minute: 600  # Default: 600
   # batch_size: 1000            # Default: 1000 (API max)
 
+# AWS Configuration
+# nosemgrep: generic.secrets.security.detected-generic-secret
+aws:
+  # Enable AWS ingestion (default: false)
+  enabled: false
+  # access_key_id: "<YOUR_AWS_ACCESS_KEY_ID>"       # Optional - falls back to default credential chain
+  # secret_access_key: "<YOUR_AWS_SECRET_ACCESS_KEY>"
+  # regions: ["us-east-1", "ap-southeast-1"]  # Optional - discovers all regions if not set
+  # rate_limit_per_minute: 600  # Default: 600
+
 # DigitalOcean Configuration
 # nosemgrep: generic.secrets.security.detected-generic-secret
 do:
   # Enable DigitalOcean ingestion (default: false)
   enabled: false
   # api_token: "<YOUR_DO_API_TOKEN>"
+  # rate_limit_per_minute: 300  # Default: 300
+
+# GreenNode Configuration
+# nosemgrep: generic.secrets.security.detected-generic-secret
+greennode:
+  # Enable GreenNode ingestion (default: false)
+  enabled: false
+  # regions: ["hcm-3", "han-1"]
+  # project_id: "<YOUR_PROJECT_ID>"
+  #
+  # Auth option 1: Service account (client_id + client_secret)
+  # client_id: "<YOUR_CLIENT_ID>"
+  # client_secret: "<YOUR_CLIENT_SECRET>"
+  #
+  # Auth option 2: IAM user (takes priority over service account when username is set)
+  # root_email: "<YOUR_ROOT_EMAIL>"
+  # username: "<YOUR_USERNAME>"
+  # password: "<YOUR_PASSWORD>"
+  # totp_secret: "<YOUR_BASE32_TOTP_SECRET>"  # Optional, for accounts with 2FA
+  #
   # rate_limit_per_minute: 300  # Default: 300
 
 # Database Configuration (REQUIRED)

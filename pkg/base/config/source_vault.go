@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -272,6 +273,38 @@ func (v *VaultSource) parseConfig(data map[string]interface{}) (*Config, error) 
 		cfg.DO.RateLimitPerMinute = toInt(val)
 	}
 
+	// GreenNode config
+	if val, ok := data["greennode_enabled"]; ok {
+		cfg.GreenNode.Enabled = toBool(val)
+	}
+	if val, ok := data["greennode_regions"].(string); ok && val != "" {
+		cfg.GreenNode.Regions = splitTrim(val, ",")
+	}
+	if val, ok := data["greennode_client_id"].(string); ok {
+		cfg.GreenNode.ClientID = val
+	}
+	if val, ok := data["greennode_client_secret"].(string); ok {
+		cfg.GreenNode.ClientSecret = val
+	}
+	if val, ok := data["greennode_project_id"].(string); ok {
+		cfg.GreenNode.ProjectID = val
+	}
+	if val, ok := data["greennode_root_email"].(string); ok {
+		cfg.GreenNode.RootEmail = val
+	}
+	if val, ok := data["greennode_username"].(string); ok {
+		cfg.GreenNode.Username = val
+	}
+	if val, ok := data["greennode_password"].(string); ok {
+		cfg.GreenNode.Password = val
+	}
+	if val, ok := data["greennode_totp_secret"].(string); ok {
+		cfg.GreenNode.TOTPSecret = val
+	}
+	if val, ok := data["greennode_rate_limit_per_minute"]; ok {
+		cfg.GreenNode.RateLimitPerMinute = toInt(val)
+	}
+
 	return cfg, nil
 }
 
@@ -302,4 +335,16 @@ func toInt(val interface{}) int {
 	default:
 		return 0
 	}
+}
+
+// splitTrim splits a string by sep and trims whitespace from each element.
+func splitTrim(s, sep string) []string {
+	parts := strings.Split(s, sep)
+	result := make([]string, 0, len(parts))
+	for _, p := range parts {
+		if t := strings.TrimSpace(p); t != "" {
+			result = append(result, t)
+		}
+	}
+	return result
 }
