@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGreenNodeComputeServerQuery) FirstX(ctx context.Context) 
 
 // FirstID returns the first BronzeHistoryGreenNodeComputeServer ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGreenNodeComputeServer ID was found.
-func (_q *BronzeHistoryGreenNodeComputeServerQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGreenNodeComputeServerQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGreenNodeComputeServerQuery) FirstID(ctx context.Context)
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGreenNodeComputeServerQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGreenNodeComputeServerQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGreenNodeComputeServerQuery) OnlyX(ctx context.Context) *
 // OnlyID is like Only, but returns the only BronzeHistoryGreenNodeComputeServer ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGreenNodeComputeServer ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGreenNodeComputeServerQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGreenNodeComputeServerQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGreenNodeComputeServerQuery) OnlyID(ctx context.Context) 
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGreenNodeComputeServerQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGreenNodeComputeServerQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGreenNodeComputeServerQuery) AllX(ctx context.Context) []
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGreenNodeComputeServer IDs.
-func (_q *BronzeHistoryGreenNodeComputeServerQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGreenNodeComputeServerQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGreenNodeComputeServerQuery) IDs(ctx context.Context) (id
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGreenNodeComputeServerQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGreenNodeComputeServerQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGreenNodeComputeServerQuery) sqlCount(ctx context.Context
 }
 
 func (_q *BronzeHistoryGreenNodeComputeServerQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygreennodecomputeserver.Table, bronzehistorygreennodecomputeserver.Columns, sqlgraph.NewFieldSpec(bronzehistorygreennodecomputeserver.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygreennodecomputeserver.Table, bronzehistorygreennodecomputeserver.Columns, sqlgraph.NewFieldSpec(bronzehistorygreennodecomputeserver.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

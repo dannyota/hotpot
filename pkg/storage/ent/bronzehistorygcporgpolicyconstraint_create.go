@@ -52,12 +52,6 @@ func (_c *BronzeHistoryGCPOrgPolicyConstraintCreate) SetFirstCollectedAt(v time.
 	return _c
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPOrgPolicyConstraintCreate) SetHistoryID(v uint) *BronzeHistoryGCPOrgPolicyConstraintCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetResourceID sets the "resource_id" field.
 func (_c *BronzeHistoryGCPOrgPolicyConstraintCreate) SetResourceID(v string) *BronzeHistoryGCPOrgPolicyConstraintCreate {
 	_c.mutation.SetResourceID(v)
@@ -152,6 +146,12 @@ func (_c *BronzeHistoryGCPOrgPolicyConstraintCreate) SetOrganizationID(v string)
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPOrgPolicyConstraintCreate) SetID(v uint) *BronzeHistoryGCPOrgPolicyConstraintCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPOrgPolicyConstraintMutation object of the builder.
 func (_c *BronzeHistoryGCPOrgPolicyConstraintCreate) Mutation() *BronzeHistoryGCPOrgPolicyConstraintMutation {
 	return _c.mutation
@@ -212,9 +212,6 @@ func (_c *BronzeHistoryGCPOrgPolicyConstraintCreate) check() error {
 	if _, ok := _c.mutation.FirstCollectedAt(); !ok {
 		return &ValidationError{Name: "first_collected_at", err: errors.New(`ent: missing required field "BronzeHistoryGCPOrgPolicyConstraint.first_collected_at"`)}
 	}
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPOrgPolicyConstraint.history_id"`)}
-	}
 	if _, ok := _c.mutation.ResourceID(); !ok {
 		return &ValidationError{Name: "resource_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPOrgPolicyConstraint.resource_id"`)}
 	}
@@ -254,8 +251,10 @@ func (_c *BronzeHistoryGCPOrgPolicyConstraintCreate) sqlSave(ctx context.Context
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -264,9 +263,13 @@ func (_c *BronzeHistoryGCPOrgPolicyConstraintCreate) sqlSave(ctx context.Context
 func (_c *BronzeHistoryGCPOrgPolicyConstraintCreate) createSpec() (*BronzeHistoryGCPOrgPolicyConstraint, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPOrgPolicyConstraint{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcporgpolicyconstraint.Table, sqlgraph.NewFieldSpec(bronzehistorygcporgpolicyconstraint.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcporgpolicyconstraint.Table, sqlgraph.NewFieldSpec(bronzehistorygcporgpolicyconstraint.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPOrgPolicyConstraint
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := _c.mutation.ValidFrom(); ok {
 		_spec.SetField(bronzehistorygcporgpolicyconstraint.FieldValidFrom, field.TypeTime, value)
 		_node.ValidFrom = value
@@ -282,10 +285,6 @@ func (_c *BronzeHistoryGCPOrgPolicyConstraintCreate) createSpec() (*BronzeHistor
 	if value, ok := _c.mutation.FirstCollectedAt(); ok {
 		_spec.SetField(bronzehistorygcporgpolicyconstraint.FieldFirstCollectedAt, field.TypeTime, value)
 		_node.FirstCollectedAt = value
-	}
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcporgpolicyconstraint.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
 	}
 	if value, ok := _c.mutation.ResourceID(); ok {
 		_spec.SetField(bronzehistorygcporgpolicyconstraint.FieldResourceID, field.TypeString, value)
@@ -371,9 +370,9 @@ func (_c *BronzeHistoryGCPOrgPolicyConstraintCreateBulk) Save(ctx context.Contex
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

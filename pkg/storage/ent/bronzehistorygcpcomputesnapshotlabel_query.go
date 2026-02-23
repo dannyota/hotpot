@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) FirstX(ctx context.Context)
 
 // FirstID returns the first BronzeHistoryGCPComputeSnapshotLabel ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPComputeSnapshotLabel ID was found.
-func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) FirstID(ctx context.Context
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) OnlyX(ctx context.Context) 
 // OnlyID is like Only, but returns the only BronzeHistoryGCPComputeSnapshotLabel ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPComputeSnapshotLabel ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) OnlyID(ctx context.Context)
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) AllX(ctx context.Context) [
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPComputeSnapshotLabel IDs.
-func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) IDs(ctx context.Context) (i
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -263,12 +263,12 @@ func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) Clone() *BronzeHistoryGCPCo
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		SnapshotHistoryID uint `json:"snapshot_history_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeSnapshotLabel.Query().
-//		GroupBy(bronzehistorygcpcomputesnapshotlabel.FieldHistoryID).
+//		GroupBy(bronzehistorygcpcomputesnapshotlabel.FieldSnapshotHistoryID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) GroupBy(field string, fields ...string) *BronzeHistoryGCPComputeSnapshotLabelGroupBy {
@@ -286,11 +286,11 @@ func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) GroupBy(field string, field
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		SnapshotHistoryID uint `json:"snapshot_history_id,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeSnapshotLabel.Query().
-//		Select(bronzehistorygcpcomputesnapshotlabel.FieldHistoryID).
+//		Select(bronzehistorygcpcomputesnapshotlabel.FieldSnapshotHistoryID).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) Select(fields ...string) *BronzeHistoryGCPComputeSnapshotLabelSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) sqlCount(ctx context.Contex
 }
 
 func (_q *BronzeHistoryGCPComputeSnapshotLabelQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputesnapshotlabel.Table, bronzehistorygcpcomputesnapshotlabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesnapshotlabel.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputesnapshotlabel.Table, bronzehistorygcpcomputesnapshotlabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesnapshotlabel.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

@@ -21,9 +21,7 @@ func (BronzeHistoryS1Group) Mixin() []ent.Mixin {
 
 func (BronzeHistoryS1Group) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze group by resource_id"),

@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPRunRevisionDelete) ExecX(ctx context.Context) int {
 }
 
 func (_d *BronzeHistoryGCPRunRevisionDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcprunrevision.Table, sqlgraph.NewFieldSpec(bronzehistorygcprunrevision.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcprunrevision.Table, sqlgraph.NewFieldSpec(bronzehistorygcprunrevision.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPRunRevision
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

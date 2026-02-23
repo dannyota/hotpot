@@ -150,7 +150,7 @@ func (_u *BronzeHistoryGCPComputeProjectMetadataItemUpdate) sqlSave(ctx context.
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeprojectmetadataitem.Table, bronzehistorygcpcomputeprojectmetadataitem.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeprojectmetadataitem.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeprojectmetadataitem.Table, bronzehistorygcpcomputeprojectmetadataitem.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeprojectmetadataitem.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -335,7 +335,7 @@ func (_u *BronzeHistoryGCPComputeProjectMetadataItemUpdateOne) sqlSave(ctx conte
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeprojectmetadataitem.Table, bronzehistorygcpcomputeprojectmetadataitem.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeprojectmetadataitem.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeprojectmetadataitem.Table, bronzehistorygcpcomputeprojectmetadataitem.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeprojectmetadataitem.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPComputeProjectMetadataItem.id" for update`)}

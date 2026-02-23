@@ -83,8 +83,8 @@ func (_q *BronzeHistoryS1AgentNICQuery) FirstX(ctx context.Context) *BronzeHisto
 
 // FirstID returns the first BronzeHistoryS1AgentNIC ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryS1AgentNIC ID was found.
-func (_q *BronzeHistoryS1AgentNICQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryS1AgentNICQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryS1AgentNICQuery) FirstID(ctx context.Context) (id int, er
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryS1AgentNICQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryS1AgentNICQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryS1AgentNICQuery) OnlyX(ctx context.Context) *BronzeHistor
 // OnlyID is like Only, but returns the only BronzeHistoryS1AgentNIC ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryS1AgentNIC ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryS1AgentNICQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryS1AgentNICQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryS1AgentNICQuery) OnlyID(ctx context.Context) (id int, err
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryS1AgentNICQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryS1AgentNICQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryS1AgentNICQuery) AllX(ctx context.Context) []*BronzeHisto
 }
 
 // IDs executes the query and returns a list of BronzeHistoryS1AgentNIC IDs.
-func (_q *BronzeHistoryS1AgentNICQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryS1AgentNICQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryS1AgentNICQuery) IDs(ctx context.Context) (ids []int, err
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryS1AgentNICQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryS1AgentNICQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -263,12 +263,12 @@ func (_q *BronzeHistoryS1AgentNICQuery) Clone() *BronzeHistoryS1AgentNICQuery {
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		AgentHistoryID uint `json:"agent_history_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BronzeHistoryS1AgentNIC.Query().
-//		GroupBy(bronzehistorys1agentnic.FieldHistoryID).
+//		GroupBy(bronzehistorys1agentnic.FieldAgentHistoryID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryS1AgentNICQuery) GroupBy(field string, fields ...string) *BronzeHistoryS1AgentNICGroupBy {
@@ -286,11 +286,11 @@ func (_q *BronzeHistoryS1AgentNICQuery) GroupBy(field string, fields ...string) 
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		AgentHistoryID uint `json:"agent_history_id,omitempty"`
 //	}
 //
 //	client.BronzeHistoryS1AgentNIC.Query().
-//		Select(bronzehistorys1agentnic.FieldHistoryID).
+//		Select(bronzehistorys1agentnic.FieldAgentHistoryID).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryS1AgentNICQuery) Select(fields ...string) *BronzeHistoryS1AgentNICSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryS1AgentNICQuery) sqlCount(ctx context.Context) (int, erro
 }
 
 func (_q *BronzeHistoryS1AgentNICQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorys1agentnic.Table, bronzehistorys1agentnic.Columns, sqlgraph.NewFieldSpec(bronzehistorys1agentnic.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorys1agentnic.Table, bronzehistorys1agentnic.Columns, sqlgraph.NewFieldSpec(bronzehistorys1agentnic.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

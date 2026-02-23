@@ -21,9 +21,7 @@ func (BronzeHistoryGCPComputeBackendService) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeBackendService) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze backend service by resource_id"),
@@ -138,9 +136,7 @@ type BronzeHistoryGCPComputeBackendServiceBackend struct {
 
 func (BronzeHistoryGCPComputeBackendServiceBackend) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("backend_service_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeBackendService"),
 		field.Time("valid_from").

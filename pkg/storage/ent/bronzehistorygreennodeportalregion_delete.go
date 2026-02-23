@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGreenNodePortalRegionDelete) ExecX(ctx context.Context) i
 }
 
 func (_d *BronzeHistoryGreenNodePortalRegionDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygreennodeportalregion.Table, sqlgraph.NewFieldSpec(bronzehistorygreennodeportalregion.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygreennodeportalregion.Table, sqlgraph.NewFieldSpec(bronzehistorygreennodeportalregion.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGreenNodePortalRegion
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

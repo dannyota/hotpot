@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPVPCAccessConnectorDelete) ExecX(ctx context.Context) i
 }
 
 func (_d *BronzeHistoryGCPVPCAccessConnectorDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpvpcaccessconnector.Table, sqlgraph.NewFieldSpec(bronzehistorygcpvpcaccessconnector.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpvpcaccessconnector.Table, sqlgraph.NewFieldSpec(bronzehistorygcpvpcaccessconnector.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPVPCAccessConnector
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

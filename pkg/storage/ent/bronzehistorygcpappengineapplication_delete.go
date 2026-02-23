@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPAppEngineApplicationDelete) ExecX(ctx context.Context)
 }
 
 func (_d *BronzeHistoryGCPAppEngineApplicationDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpappengineapplication.Table, sqlgraph.NewFieldSpec(bronzehistorygcpappengineapplication.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpappengineapplication.Table, sqlgraph.NewFieldSpec(bronzehistorygcpappengineapplication.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPAppEngineApplication
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

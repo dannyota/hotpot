@@ -1,6 +1,7 @@
 package portal
 
 import (
+	"danny.vn/greennode/auth"
 	"go.temporal.io/sdk/worker"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
@@ -11,9 +12,9 @@ import (
 )
 
 // Register registers all GreenNode portal activities and workflows.
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
-	region.Register(w, configService, entClient, limiter)
-	quota.Register(w, configService, entClient, limiter)
+func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, iamAuth *auth.IAMUserAuth, limiter ratelimit.Limiter) {
+	region.Register(w, configService, entClient, iamAuth, limiter)
+	quota.Register(w, configService, entClient, iamAuth, limiter)
 
 	w.RegisterWorkflow(GreenNodePortalWorkflow)
 }

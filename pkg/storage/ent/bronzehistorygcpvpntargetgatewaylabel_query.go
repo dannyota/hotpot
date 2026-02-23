@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) FirstX(ctx context.Context
 
 // FirstID returns the first BronzeHistoryGCPVPNTargetGatewayLabel ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPVPNTargetGatewayLabel ID was found.
-func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) FirstID(ctx context.Contex
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) OnlyX(ctx context.Context)
 // OnlyID is like Only, but returns the only BronzeHistoryGCPVPNTargetGatewayLabel ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPVPNTargetGatewayLabel ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) OnlyID(ctx context.Context
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) AllX(ctx context.Context) 
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPVPNTargetGatewayLabel IDs.
-func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) IDs(ctx context.Context) (
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -263,12 +263,12 @@ func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) Clone() *BronzeHistoryGCPV
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		TargetVpnGatewayHistoryID uint `json:"target_vpn_gateway_history_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPVPNTargetGatewayLabel.Query().
-//		GroupBy(bronzehistorygcpvpntargetgatewaylabel.FieldHistoryID).
+//		GroupBy(bronzehistorygcpvpntargetgatewaylabel.FieldTargetVpnGatewayHistoryID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) GroupBy(field string, fields ...string) *BronzeHistoryGCPVPNTargetGatewayLabelGroupBy {
@@ -286,11 +286,11 @@ func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) GroupBy(field string, fiel
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		TargetVpnGatewayHistoryID uint `json:"target_vpn_gateway_history_id,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPVPNTargetGatewayLabel.Query().
-//		Select(bronzehistorygcpvpntargetgatewaylabel.FieldHistoryID).
+//		Select(bronzehistorygcpvpntargetgatewaylabel.FieldTargetVpnGatewayHistoryID).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) Select(fields ...string) *BronzeHistoryGCPVPNTargetGatewayLabelSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) sqlCount(ctx context.Conte
 }
 
 func (_q *BronzeHistoryGCPVPNTargetGatewayLabelQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpvpntargetgatewaylabel.Table, bronzehistorygcpvpntargetgatewaylabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpvpntargetgatewaylabel.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpvpntargetgatewaylabel.Table, bronzehistorygcpvpntargetgatewaylabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpvpntargetgatewaylabel.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

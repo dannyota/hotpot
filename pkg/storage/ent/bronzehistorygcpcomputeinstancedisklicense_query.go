@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) FirstX(ctx context.Co
 
 // FirstID returns the first BronzeHistoryGCPComputeInstanceDiskLicense ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPComputeInstanceDiskLicense ID was found.
-func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) FirstID(ctx context.C
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) OnlyX(ctx context.Con
 // OnlyID is like Only, but returns the only BronzeHistoryGCPComputeInstanceDiskLicense ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPComputeInstanceDiskLicense ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) OnlyID(ctx context.Co
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) AllX(ctx context.Cont
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPComputeInstanceDiskLicense IDs.
-func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) IDs(ctx context.Conte
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -263,12 +263,12 @@ func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) Clone() *BronzeHistor
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		DiskHistoryID uint `json:"disk_history_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeInstanceDiskLicense.Query().
-//		GroupBy(bronzehistorygcpcomputeinstancedisklicense.FieldHistoryID).
+//		GroupBy(bronzehistorygcpcomputeinstancedisklicense.FieldDiskHistoryID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) GroupBy(field string, fields ...string) *BronzeHistoryGCPComputeInstanceDiskLicenseGroupBy {
@@ -286,11 +286,11 @@ func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) GroupBy(field string,
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		DiskHistoryID uint `json:"disk_history_id,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeInstanceDiskLicense.Query().
-//		Select(bronzehistorygcpcomputeinstancedisklicense.FieldHistoryID).
+//		Select(bronzehistorygcpcomputeinstancedisklicense.FieldDiskHistoryID).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) Select(fields ...string) *BronzeHistoryGCPComputeInstanceDiskLicenseSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) sqlCount(ctx context.
 }
 
 func (_q *BronzeHistoryGCPComputeInstanceDiskLicenseQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputeinstancedisklicense.Table, bronzehistorygcpcomputeinstancedisklicense.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancedisklicense.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputeinstancedisklicense.Table, bronzehistorygcpcomputeinstancedisklicense.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancedisklicense.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

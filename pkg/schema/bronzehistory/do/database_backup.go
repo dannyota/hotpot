@@ -21,9 +21,7 @@ func (BronzeHistoryDODatabaseBackup) Mixin() []ent.Mixin {
 
 func (BronzeHistoryDODatabaseBackup) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze DatabaseBackup by resource_id"),

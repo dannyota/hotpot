@@ -23,9 +23,7 @@ func (BronzeHistoryGCPSecurityCenterNotificationConfig) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPSecurityCenterNotificationConfig) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze SCC notification config by resource_id"),

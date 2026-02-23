@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) FirstX(ctx conte
 
 // FirstID returns the first BronzeHistoryGCPAccessContextManagerAccessLevel ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPAccessContextManagerAccessLevel ID was found.
-func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) FirstID(ctx cont
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) OnlyX(ctx contex
 // OnlyID is like Only, but returns the only BronzeHistoryGCPAccessContextManagerAccessLevel ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPAccessContextManagerAccessLevel ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) OnlyID(ctx conte
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) AllX(ctx context
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPAccessContextManagerAccessLevel IDs.
-func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) IDs(ctx context.
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) sqlCount(ctx con
 }
 
 func (_q *BronzeHistoryGCPAccessContextManagerAccessLevelQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpaccesscontextmanageraccesslevel.Table, bronzehistorygcpaccesscontextmanageraccesslevel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpaccesscontextmanageraccesslevel.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpaccesscontextmanageraccesslevel.Table, bronzehistorygcpaccesscontextmanageraccesslevel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpaccesscontextmanageraccesslevel.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

@@ -22,9 +22,7 @@ func (BronzeHistoryGCPFolder) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPFolder) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze folder by resource_id"),
@@ -72,9 +70,7 @@ type BronzeHistoryGCPFolderLabel struct {
 
 func (BronzeHistoryGCPFolderLabel) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("folder_history_id").
 			Comment("Links to parent BronzeHistoryGCPFolder"),
 		field.Time("valid_from").

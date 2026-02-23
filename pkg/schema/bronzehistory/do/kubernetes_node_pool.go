@@ -23,9 +23,7 @@ func (BronzeHistoryDOKubernetesNodePool) Mixin() []ent.Mixin {
 
 func (BronzeHistoryDOKubernetesNodePool) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze KubernetesNodePool by resource_id"),

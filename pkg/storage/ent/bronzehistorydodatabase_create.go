@@ -53,12 +53,6 @@ func (_c *BronzeHistoryDODatabaseCreate) SetFirstCollectedAt(v time.Time) *Bronz
 	return _c
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryDODatabaseCreate) SetHistoryID(v uint) *BronzeHistoryDODatabaseCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetResourceID sets the "resource_id" field.
 func (_c *BronzeHistoryDODatabaseCreate) SetResourceID(v string) *BronzeHistoryDODatabaseCreate {
 	_c.mutation.SetResourceID(v)
@@ -231,6 +225,12 @@ func (_c *BronzeHistoryDODatabaseCreate) SetNillableAPICreatedAt(v *time.Time) *
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryDODatabaseCreate) SetID(v uint) *BronzeHistoryDODatabaseCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryDODatabaseMutation object of the builder.
 func (_c *BronzeHistoryDODatabaseCreate) Mutation() *BronzeHistoryDODatabaseMutation {
 	return _c.mutation
@@ -287,9 +287,6 @@ func (_c *BronzeHistoryDODatabaseCreate) check() error {
 	if _, ok := _c.mutation.FirstCollectedAt(); !ok {
 		return &ValidationError{Name: "first_collected_at", err: errors.New(`ent: missing required field "BronzeHistoryDODatabase.first_collected_at"`)}
 	}
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryDODatabase.history_id"`)}
-	}
 	if _, ok := _c.mutation.ResourceID(); !ok {
 		return &ValidationError{Name: "resource_id", err: errors.New(`ent: missing required field "BronzeHistoryDODatabase.resource_id"`)}
 	}
@@ -318,8 +315,10 @@ func (_c *BronzeHistoryDODatabaseCreate) sqlSave(ctx context.Context) (*BronzeHi
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -328,9 +327,13 @@ func (_c *BronzeHistoryDODatabaseCreate) sqlSave(ctx context.Context) (*BronzeHi
 func (_c *BronzeHistoryDODatabaseCreate) createSpec() (*BronzeHistoryDODatabase, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryDODatabase{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorydodatabase.Table, sqlgraph.NewFieldSpec(bronzehistorydodatabase.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorydodatabase.Table, sqlgraph.NewFieldSpec(bronzehistorydodatabase.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryDODatabase
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := _c.mutation.ValidFrom(); ok {
 		_spec.SetField(bronzehistorydodatabase.FieldValidFrom, field.TypeTime, value)
 		_node.ValidFrom = value
@@ -346,10 +349,6 @@ func (_c *BronzeHistoryDODatabaseCreate) createSpec() (*BronzeHistoryDODatabase,
 	if value, ok := _c.mutation.FirstCollectedAt(); ok {
 		_spec.SetField(bronzehistorydodatabase.FieldFirstCollectedAt, field.TypeTime, value)
 		_node.FirstCollectedAt = value
-	}
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorydodatabase.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
 	}
 	if value, ok := _c.mutation.ResourceID(); ok {
 		_spec.SetField(bronzehistorydodatabase.FieldResourceID, field.TypeString, value)
@@ -455,9 +454,9 @@ func (_c *BronzeHistoryDODatabaseCreateBulk) Save(ctx context.Context) ([]*Bronz
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

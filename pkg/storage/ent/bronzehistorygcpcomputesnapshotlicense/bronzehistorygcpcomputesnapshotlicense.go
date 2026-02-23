@@ -10,9 +10,7 @@ const (
 	// Label holds the string label denoting the bronzehistorygcpcomputesnapshotlicense type in the database.
 	Label = "bronze_history_gcp_compute_snapshot_license"
 	// FieldID holds the string denoting the id field in the database.
-	FieldID = "id"
-	// FieldHistoryID holds the string denoting the history_id field in the database.
-	FieldHistoryID = "history_id"
+	FieldID = "history_id"
 	// FieldSnapshotHistoryID holds the string denoting the snapshot_history_id field in the database.
 	FieldSnapshotHistoryID = "snapshot_history_id"
 	// FieldValidFrom holds the string denoting the valid_from field in the database.
@@ -28,7 +26,6 @@ const (
 // Columns holds all SQL columns for bronzehistorygcpcomputesnapshotlicense fields.
 var Columns = []string{
 	FieldID,
-	FieldHistoryID,
 	FieldSnapshotHistoryID,
 	FieldValidFrom,
 	FieldValidTo,
@@ -56,11 +53,6 @@ type OrderOption func(*sql.Selector)
 // ByID orders the results by the id field.
 func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
-}
-
-// ByHistoryID orders the results by the history_id field.
-func ByHistoryID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldHistoryID, opts...).ToFunc()
 }
 
 // BySnapshotHistoryID orders the results by the snapshot_history_id field.

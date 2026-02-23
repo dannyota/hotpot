@@ -24,9 +24,7 @@ func (BronzeHistoryGCPComputeInstance) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeInstance) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze instance by resource_id"),
@@ -92,9 +90,7 @@ type BronzeHistoryGCPComputeInstanceDisk struct {
 
 func (BronzeHistoryGCPComputeInstanceDisk) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("instance_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeInstance"),
 		field.Time("valid_from").
@@ -151,9 +147,7 @@ type BronzeHistoryGCPComputeInstanceDiskLicense struct {
 
 func (BronzeHistoryGCPComputeInstanceDiskLicense) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("disk_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeInstanceDisk"),
 		field.Time("valid_from").
@@ -189,9 +183,7 @@ type BronzeHistoryGCPComputeInstanceLabel struct {
 
 func (BronzeHistoryGCPComputeInstanceLabel) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("instance_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeInstance"),
 		field.Time("valid_from").
@@ -229,9 +221,7 @@ type BronzeHistoryGCPComputeInstanceMetadata struct {
 
 func (BronzeHistoryGCPComputeInstanceMetadata) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("instance_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeInstance"),
 		field.Time("valid_from").
@@ -269,9 +259,7 @@ type BronzeHistoryGCPComputeInstanceNIC struct {
 
 func (BronzeHistoryGCPComputeInstanceNIC) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("instance_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeInstance"),
 		field.Time("valid_from").
@@ -318,9 +306,7 @@ type BronzeHistoryGCPComputeInstanceNICAccessConfig struct {
 
 func (BronzeHistoryGCPComputeInstanceNICAccessConfig) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("nic_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeInstanceNIC"),
 		field.Time("valid_from").
@@ -363,9 +349,7 @@ type BronzeHistoryGCPComputeInstanceNICAliasRange struct {
 
 func (BronzeHistoryGCPComputeInstanceNICAliasRange) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("nic_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeInstanceNIC"),
 		field.Time("valid_from").
@@ -403,9 +387,7 @@ type BronzeHistoryGCPComputeInstanceServiceAccount struct {
 
 func (BronzeHistoryGCPComputeInstanceServiceAccount) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("instance_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeInstance"),
 		field.Time("valid_from").
@@ -443,9 +425,7 @@ type BronzeHistoryGCPComputeInstanceTag struct {
 
 func (BronzeHistoryGCPComputeInstanceTag) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("instance_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeInstance"),
 		field.Time("valid_from").

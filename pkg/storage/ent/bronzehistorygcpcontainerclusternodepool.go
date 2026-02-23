@@ -17,9 +17,7 @@ import (
 type BronzeHistoryGCPContainerClusterNodePool struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Links to parent BronzeHistoryGCPContainerCluster
 	ClusterHistoryID uint `json:"cluster_history_id,omitempty"`
 	// ValidFrom holds the value of the "valid_from" field.
@@ -68,7 +66,7 @@ func (*BronzeHistoryGCPContainerClusterNodePool) scanValues(columns []string) ([
 		switch columns[i] {
 		case bronzehistorygcpcontainerclusternodepool.FieldLocationsJSON, bronzehistorygcpcontainerclusternodepool.FieldConfigJSON, bronzehistorygcpcontainerclusternodepool.FieldAutoscalingJSON, bronzehistorygcpcontainerclusternodepool.FieldManagementJSON, bronzehistorygcpcontainerclusternodepool.FieldUpgradeSettingsJSON, bronzehistorygcpcontainerclusternodepool.FieldNetworkConfigJSON, bronzehistorygcpcontainerclusternodepool.FieldPlacementPolicyJSON, bronzehistorygcpcontainerclusternodepool.FieldMaxPodsConstraintJSON:
 			values[i] = new([]byte)
-		case bronzehistorygcpcontainerclusternodepool.FieldID, bronzehistorygcpcontainerclusternodepool.FieldHistoryID, bronzehistorygcpcontainerclusternodepool.FieldClusterHistoryID, bronzehistorygcpcontainerclusternodepool.FieldInitialNodeCount, bronzehistorygcpcontainerclusternodepool.FieldPodIpv4CidrSize:
+		case bronzehistorygcpcontainerclusternodepool.FieldID, bronzehistorygcpcontainerclusternodepool.FieldClusterHistoryID, bronzehistorygcpcontainerclusternodepool.FieldInitialNodeCount, bronzehistorygcpcontainerclusternodepool.FieldPodIpv4CidrSize:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorygcpcontainerclusternodepool.FieldName, bronzehistorygcpcontainerclusternodepool.FieldVersion, bronzehistorygcpcontainerclusternodepool.FieldStatus, bronzehistorygcpcontainerclusternodepool.FieldStatusMessage, bronzehistorygcpcontainerclusternodepool.FieldSelfLink, bronzehistorygcpcontainerclusternodepool.FieldEtag:
 			values[i] = new(sql.NullString)
@@ -94,13 +92,7 @@ func (_m *BronzeHistoryGCPContainerClusterNodePool) assignValues(columns []strin
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
-		case bronzehistorygcpcontainerclusternodepool.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
-			}
+			_m.ID = uint(value.Int64)
 		case bronzehistorygcpcontainerclusternodepool.FieldClusterHistoryID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field cluster_history_id", values[i])
@@ -268,9 +260,6 @@ func (_m *BronzeHistoryGCPContainerClusterNodePool) String() string {
 	var builder strings.Builder
 	builder.WriteString("BronzeHistoryGCPContainerClusterNodePool(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
-	builder.WriteString(", ")
 	builder.WriteString("cluster_history_id=")
 	builder.WriteString(fmt.Sprintf("%v", _m.ClusterHistoryID))
 	builder.WriteString(", ")

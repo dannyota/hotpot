@@ -256,7 +256,7 @@ func (_u *BronzeHistoryDODatabasePoolUpdate) sqlSave(ctx context.Context) (_node
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorydodatabasepool.Table, bronzehistorydodatabasepool.Columns, sqlgraph.NewFieldSpec(bronzehistorydodatabasepool.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorydodatabasepool.Table, bronzehistorydodatabasepool.Columns, sqlgraph.NewFieldSpec(bronzehistorydodatabasepool.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -571,7 +571,7 @@ func (_u *BronzeHistoryDODatabasePoolUpdateOne) sqlSave(ctx context.Context) (_n
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorydodatabasepool.Table, bronzehistorydodatabasepool.Columns, sqlgraph.NewFieldSpec(bronzehistorydodatabasepool.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorydodatabasepool.Table, bronzehistorydodatabasepool.Columns, sqlgraph.NewFieldSpec(bronzehistorydodatabasepool.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryDODatabasePool.id" for update`)}

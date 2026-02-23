@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPMonitoringUptimeCheckConfigDelete) ExecX(ctx context.C
 }
 
 func (_d *BronzeHistoryGCPMonitoringUptimeCheckConfigDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpmonitoringuptimecheckconfig.Table, sqlgraph.NewFieldSpec(bronzehistorygcpmonitoringuptimecheckconfig.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpmonitoringuptimecheckconfig.Table, sqlgraph.NewFieldSpec(bronzehistorygcpmonitoringuptimecheckconfig.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPMonitoringUptimeCheckConfig
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

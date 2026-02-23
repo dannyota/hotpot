@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPContainerClusterQuery) FirstX(ctx context.Context) *Br
 
 // FirstID returns the first BronzeHistoryGCPContainerCluster ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPContainerCluster ID was found.
-func (_q *BronzeHistoryGCPContainerClusterQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPContainerClusterQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPContainerClusterQuery) FirstID(ctx context.Context) (i
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPContainerClusterQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPContainerClusterQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPContainerClusterQuery) OnlyX(ctx context.Context) *Bro
 // OnlyID is like Only, but returns the only BronzeHistoryGCPContainerCluster ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPContainerCluster ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPContainerClusterQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPContainerClusterQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPContainerClusterQuery) OnlyID(ctx context.Context) (id
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPContainerClusterQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPContainerClusterQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPContainerClusterQuery) AllX(ctx context.Context) []*Br
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPContainerCluster IDs.
-func (_q *BronzeHistoryGCPContainerClusterQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPContainerClusterQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPContainerClusterQuery) IDs(ctx context.Context) (ids [
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPContainerClusterQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPContainerClusterQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPContainerClusterQuery) sqlCount(ctx context.Context) (
 }
 
 func (_q *BronzeHistoryGCPContainerClusterQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcontainercluster.Table, bronzehistorygcpcontainercluster.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcontainercluster.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcontainercluster.Table, bronzehistorygcpcontainercluster.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcontainercluster.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

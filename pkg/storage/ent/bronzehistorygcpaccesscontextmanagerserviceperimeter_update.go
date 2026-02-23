@@ -308,7 +308,7 @@ func (_u *BronzeHistoryGCPAccessContextManagerServicePerimeterUpdate) sqlSave(ct
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpaccesscontextmanagerserviceperimeter.Table, bronzehistorygcpaccesscontextmanagerserviceperimeter.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpaccesscontextmanagerserviceperimeter.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpaccesscontextmanagerserviceperimeter.Table, bronzehistorygcpaccesscontextmanagerserviceperimeter.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpaccesscontextmanagerserviceperimeter.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -698,7 +698,7 @@ func (_u *BronzeHistoryGCPAccessContextManagerServicePerimeterUpdateOne) sqlSave
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpaccesscontextmanagerserviceperimeter.Table, bronzehistorygcpaccesscontextmanagerserviceperimeter.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpaccesscontextmanagerserviceperimeter.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpaccesscontextmanagerserviceperimeter.Table, bronzehistorygcpaccesscontextmanagerserviceperimeter.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpaccesscontextmanagerserviceperimeter.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPAccessContextManagerServicePerimeter.id" for update`)}

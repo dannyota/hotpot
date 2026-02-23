@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPBinaryAuthorizationAttestorDelete) ExecX(ctx context.C
 }
 
 func (_d *BronzeHistoryGCPBinaryAuthorizationAttestorDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpbinaryauthorizationattestor.Table, sqlgraph.NewFieldSpec(bronzehistorygcpbinaryauthorizationattestor.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpbinaryauthorizationattestor.Table, sqlgraph.NewFieldSpec(bronzehistorygcpbinaryauthorizationattestor.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPBinaryAuthorizationAttestor
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

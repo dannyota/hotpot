@@ -39,7 +39,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Fo
 	// Create binding history
 	for _, binding := range data.Bindings {
 		create := tx.BronzeHistoryGCPFolderIamPolicyBinding.Create().
-			SetPolicyHistoryID(policyHistory.HistoryID).
+			SetPolicyHistoryID(policyHistory.ID).
 			SetValidFrom(now).
 			SetRole(binding.Role)
 
@@ -76,7 +76,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Close old binding history first
 		_, err := tx.BronzeHistoryGCPFolderIamPolicyBinding.Update().
 			Where(
-				bronzehistorygcpfolderiampolicybinding.PolicyHistoryID(currentHistory.HistoryID),
+				bronzehistorygcpfolderiampolicybinding.PolicyHistoryID(currentHistory.ID),
 				bronzehistorygcpfolderiampolicybinding.ValidToIsNil(),
 			).
 			SetValidTo(now).
@@ -110,7 +110,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Create new binding history linked to new policy history
 		for _, binding := range new.Bindings {
 			create := tx.BronzeHistoryGCPFolderIamPolicyBinding.Create().
-				SetPolicyHistoryID(newHistory.HistoryID).
+				SetPolicyHistoryID(newHistory.ID).
 				SetValidFrom(now).
 				SetRole(binding.Role)
 
@@ -129,7 +129,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Only bindings changed - close old binding history and create new ones
 		_, err := tx.BronzeHistoryGCPFolderIamPolicyBinding.Update().
 			Where(
-				bronzehistorygcpfolderiampolicybinding.PolicyHistoryID(currentHistory.HistoryID),
+				bronzehistorygcpfolderiampolicybinding.PolicyHistoryID(currentHistory.ID),
 				bronzehistorygcpfolderiampolicybinding.ValidToIsNil(),
 			).
 			SetValidTo(now).
@@ -140,7 +140,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 
 		for _, binding := range new.Bindings {
 			create := tx.BronzeHistoryGCPFolderIamPolicyBinding.Create().
-				SetPolicyHistoryID(currentHistory.HistoryID).
+				SetPolicyHistoryID(currentHistory.ID).
 				SetValidFrom(now).
 				SetRole(binding.Role)
 
@@ -187,7 +187,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	// Close binding history
 	_, err = tx.BronzeHistoryGCPFolderIamPolicyBinding.Update().
 		Where(
-			bronzehistorygcpfolderiampolicybinding.PolicyHistoryID(currentHistory.HistoryID),
+			bronzehistorygcpfolderiampolicybinding.PolicyHistoryID(currentHistory.ID),
 			bronzehistorygcpfolderiampolicybinding.ValidToIsNil(),
 		).
 		SetValidTo(now).

@@ -53,7 +53,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *In
 		return fmt.Errorf("failed to create instance history: %w", err)
 	}
 
-	return h.createTagsHistory(ctx, tx, instHist.HistoryID, data.Tags, now)
+	return h.createTagsHistory(ctx, tx, instHist.ID, data.Tags, now)
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
@@ -109,15 +109,15 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		}
 
 		// Close all tags history and create new ones
-		if err := h.closeTagsHistory(ctx, tx, currentHist.HistoryID, now); err != nil {
+		if err := h.closeTagsHistory(ctx, tx, currentHist.ID, now); err != nil {
 			return fmt.Errorf("failed to close tags history: %w", err)
 		}
-		return h.createTagsHistory(ctx, tx, instHist.HistoryID, new.Tags, now)
+		return h.createTagsHistory(ctx, tx, instHist.ID, new.Tags, now)
 	}
 
 	// Instance unchanged, check tags
 	if diff.TagsDiff.Changed {
-		if err := h.updateTagsHistory(ctx, tx, currentHist.HistoryID, new.Tags, now); err != nil {
+		if err := h.updateTagsHistory(ctx, tx, currentHist.ID, new.Tags, now); err != nil {
 			return err
 		}
 	}
@@ -146,7 +146,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		return fmt.Errorf("failed to close instance history: %w", err)
 	}
 
-	return h.closeTagsHistory(ctx, tx, currentHist.HistoryID, now)
+	return h.closeTagsHistory(ctx, tx, currentHist.ID, now)
 }
 
 func (h *HistoryService) createTagsHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, tags []TagData, now time.Time) error {

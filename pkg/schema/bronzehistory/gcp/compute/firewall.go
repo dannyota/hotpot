@@ -24,9 +24,7 @@ func (BronzeHistoryGCPComputeFirewall) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeFirewall) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze firewall by resource_id"),
@@ -96,9 +94,7 @@ type BronzeHistoryGCPComputeFirewallAllowed struct {
 
 func (BronzeHistoryGCPComputeFirewallAllowed) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("firewall_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeFirewall"),
 		field.Time("valid_from").
@@ -137,9 +133,7 @@ type BronzeHistoryGCPComputeFirewallDenied struct {
 
 func (BronzeHistoryGCPComputeFirewallDenied) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("firewall_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeFirewall"),
 		field.Time("valid_from").

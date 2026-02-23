@@ -20,12 +20,6 @@ type BronzeHistoryGCPComputeSubnetworkSecondaryRangeCreate struct {
 	hooks    []Hook
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeCreate) SetHistoryID(v uint) *BronzeHistoryGCPComputeSubnetworkSecondaryRangeCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetSubnetworkHistoryID sets the "subnetwork_history_id" field.
 func (_c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeCreate) SetSubnetworkHistoryID(v uint) *BronzeHistoryGCPComputeSubnetworkSecondaryRangeCreate {
 	_c.mutation.SetSubnetworkHistoryID(v)
@@ -64,6 +58,12 @@ func (_c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeCreate) SetIPCidrRange(
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeCreate) SetID(v uint) *BronzeHistoryGCPComputeSubnetworkSecondaryRangeCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPComputeSubnetworkSecondaryRangeMutation object of the builder.
 func (_c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeCreate) Mutation() *BronzeHistoryGCPComputeSubnetworkSecondaryRangeMutation {
 	return _c.mutation
@@ -98,9 +98,6 @@ func (_c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeCreate) ExecX(ctx conte
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeCreate) check() error {
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeSubnetworkSecondaryRange.history_id"`)}
-	}
 	if _, ok := _c.mutation.SubnetworkHistoryID(); !ok {
 		return &ValidationError{Name: "subnetwork_history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeSubnetworkSecondaryRange.subnetwork_history_id"`)}
 	}
@@ -137,8 +134,10 @@ func (_c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeCreate) sqlSave(ctx con
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -147,12 +146,12 @@ func (_c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeCreate) sqlSave(ctx con
 func (_c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeCreate) createSpec() (*BronzeHistoryGCPComputeSubnetworkSecondaryRange, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPComputeSubnetworkSecondaryRange{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputesubnetworksecondaryrange.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesubnetworksecondaryrange.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputesubnetworksecondaryrange.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesubnetworksecondaryrange.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPComputeSubnetworkSecondaryRange
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpcomputesubnetworksecondaryrange.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
 	}
 	if value, ok := _c.mutation.SubnetworkHistoryID(); ok {
 		_spec.SetField(bronzehistorygcpcomputesubnetworksecondaryrange.FieldSubnetworkHistoryID, field.TypeUint, value)
@@ -221,9 +220,9 @@ func (_c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeCreateBulk) Save(ctx co
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

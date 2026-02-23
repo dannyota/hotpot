@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPContainerClusterNodePoolDelete) ExecX(ctx context.Cont
 }
 
 func (_d *BronzeHistoryGCPContainerClusterNodePoolDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcontainerclusternodepool.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcontainerclusternodepool.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcontainerclusternodepool.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcontainerclusternodepool.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPContainerClusterNodePool
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

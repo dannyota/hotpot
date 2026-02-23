@@ -41,7 +41,7 @@ func (_d *BronzeHistoryS1SiteDelete) ExecX(ctx context.Context) int {
 }
 
 func (_d *BronzeHistoryS1SiteDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorys1site.Table, sqlgraph.NewFieldSpec(bronzehistorys1site.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorys1site.Table, sqlgraph.NewFieldSpec(bronzehistorys1site.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryS1Site
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

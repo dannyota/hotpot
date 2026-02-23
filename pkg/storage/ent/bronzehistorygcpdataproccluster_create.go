@@ -53,12 +53,6 @@ func (_c *BronzeHistoryGCPDataprocClusterCreate) SetFirstCollectedAt(v time.Time
 	return _c
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPDataprocClusterCreate) SetHistoryID(v uint) *BronzeHistoryGCPDataprocClusterCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetResourceID sets the "resource_id" field.
 func (_c *BronzeHistoryGCPDataprocClusterCreate) SetResourceID(v string) *BronzeHistoryGCPDataprocClusterCreate {
 	_c.mutation.SetResourceID(v)
@@ -127,6 +121,12 @@ func (_c *BronzeHistoryGCPDataprocClusterCreate) SetLocation(v string) *BronzeHi
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPDataprocClusterCreate) SetID(v uint) *BronzeHistoryGCPDataprocClusterCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPDataprocClusterMutation object of the builder.
 func (_c *BronzeHistoryGCPDataprocClusterCreate) Mutation() *BronzeHistoryGCPDataprocClusterMutation {
 	return _c.mutation
@@ -169,9 +169,6 @@ func (_c *BronzeHistoryGCPDataprocClusterCreate) check() error {
 	}
 	if _, ok := _c.mutation.FirstCollectedAt(); !ok {
 		return &ValidationError{Name: "first_collected_at", err: errors.New(`ent: missing required field "BronzeHistoryGCPDataprocCluster.first_collected_at"`)}
-	}
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPDataprocCluster.history_id"`)}
 	}
 	if _, ok := _c.mutation.ResourceID(); !ok {
 		return &ValidationError{Name: "resource_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPDataprocCluster.resource_id"`)}
@@ -219,8 +216,10 @@ func (_c *BronzeHistoryGCPDataprocClusterCreate) sqlSave(ctx context.Context) (*
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -229,9 +228,13 @@ func (_c *BronzeHistoryGCPDataprocClusterCreate) sqlSave(ctx context.Context) (*
 func (_c *BronzeHistoryGCPDataprocClusterCreate) createSpec() (*BronzeHistoryGCPDataprocCluster, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPDataprocCluster{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpdataproccluster.Table, sqlgraph.NewFieldSpec(bronzehistorygcpdataproccluster.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpdataproccluster.Table, sqlgraph.NewFieldSpec(bronzehistorygcpdataproccluster.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPDataprocCluster
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := _c.mutation.ValidFrom(); ok {
 		_spec.SetField(bronzehistorygcpdataproccluster.FieldValidFrom, field.TypeTime, value)
 		_node.ValidFrom = value
@@ -247,10 +250,6 @@ func (_c *BronzeHistoryGCPDataprocClusterCreate) createSpec() (*BronzeHistoryGCP
 	if value, ok := _c.mutation.FirstCollectedAt(); ok {
 		_spec.SetField(bronzehistorygcpdataproccluster.FieldFirstCollectedAt, field.TypeTime, value)
 		_node.FirstCollectedAt = value
-	}
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpdataproccluster.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
 	}
 	if value, ok := _c.mutation.ResourceID(); ok {
 		_spec.SetField(bronzehistorygcpdataproccluster.FieldResourceID, field.TypeString, value)
@@ -339,9 +338,9 @@ func (_c *BronzeHistoryGCPDataprocClusterCreateBulk) Save(ctx context.Context) (
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

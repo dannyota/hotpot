@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPComputeSslPolicyQuery) FirstX(ctx context.Context) *Br
 
 // FirstID returns the first BronzeHistoryGCPComputeSslPolicy ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPComputeSslPolicy ID was found.
-func (_q *BronzeHistoryGCPComputeSslPolicyQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeSslPolicyQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPComputeSslPolicyQuery) FirstID(ctx context.Context) (i
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeSslPolicyQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeSslPolicyQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPComputeSslPolicyQuery) OnlyX(ctx context.Context) *Bro
 // OnlyID is like Only, but returns the only BronzeHistoryGCPComputeSslPolicy ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPComputeSslPolicy ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPComputeSslPolicyQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeSslPolicyQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPComputeSslPolicyQuery) OnlyID(ctx context.Context) (id
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeSslPolicyQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeSslPolicyQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPComputeSslPolicyQuery) AllX(ctx context.Context) []*Br
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPComputeSslPolicy IDs.
-func (_q *BronzeHistoryGCPComputeSslPolicyQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPComputeSslPolicyQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPComputeSslPolicyQuery) IDs(ctx context.Context) (ids [
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeSslPolicyQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPComputeSslPolicyQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPComputeSslPolicyQuery) sqlCount(ctx context.Context) (
 }
 
 func (_q *BronzeHistoryGCPComputeSslPolicyQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputesslpolicy.Table, bronzehistorygcpcomputesslpolicy.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesslpolicy.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputesslpolicy.Table, bronzehistorygcpcomputesslpolicy.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesslpolicy.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

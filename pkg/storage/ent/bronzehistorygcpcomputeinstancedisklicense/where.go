@@ -10,53 +10,48 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
+func ID(id uint) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
 	return predicate.BronzeHistoryGCPComputeInstanceDiskLicense(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
+func IDEQ(id uint) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
 	return predicate.BronzeHistoryGCPComputeInstanceDiskLicense(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
 	return predicate.BronzeHistoryGCPComputeInstanceDiskLicense(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
 	return predicate.BronzeHistoryGCPComputeInstanceDiskLicense(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
 	return predicate.BronzeHistoryGCPComputeInstanceDiskLicense(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
+func IDGT(id uint) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
 	return predicate.BronzeHistoryGCPComputeInstanceDiskLicense(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
+func IDGTE(id uint) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
 	return predicate.BronzeHistoryGCPComputeInstanceDiskLicense(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
+func IDLT(id uint) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
 	return predicate.BronzeHistoryGCPComputeInstanceDiskLicense(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
+func IDLTE(id uint) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
 	return predicate.BronzeHistoryGCPComputeInstanceDiskLicense(sql.FieldLTE(FieldID, id))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
-	return predicate.BronzeHistoryGCPComputeInstanceDiskLicense(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // DiskHistoryID applies equality check predicate on the "disk_history_id" field. It's identical to DiskHistoryIDEQ.
@@ -77,46 +72,6 @@ func ValidTo(v time.Time) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
 // License applies equality check predicate on the "license" field. It's identical to LicenseEQ.
 func License(v string) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
 	return predicate.BronzeHistoryGCPComputeInstanceDiskLicense(sql.FieldEQ(FieldLicense, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
-	return predicate.BronzeHistoryGCPComputeInstanceDiskLicense(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
-	return predicate.BronzeHistoryGCPComputeInstanceDiskLicense(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
-	return predicate.BronzeHistoryGCPComputeInstanceDiskLicense(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
-	return predicate.BronzeHistoryGCPComputeInstanceDiskLicense(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
-	return predicate.BronzeHistoryGCPComputeInstanceDiskLicense(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
-	return predicate.BronzeHistoryGCPComputeInstanceDiskLicense(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
-	return predicate.BronzeHistoryGCPComputeInstanceDiskLicense(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPComputeInstanceDiskLicense {
-	return predicate.BronzeHistoryGCPComputeInstanceDiskLicense(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // DiskHistoryIDEQ applies the EQ predicate on the "disk_history_id" field.

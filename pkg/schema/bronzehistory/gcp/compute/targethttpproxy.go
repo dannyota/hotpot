@@ -22,9 +22,7 @@ func (BronzeHistoryGCPComputeTargetHttpProxy) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeTargetHttpProxy) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze target HTTP proxy by resource_id"),

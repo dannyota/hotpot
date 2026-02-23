@@ -20,12 +20,6 @@ type BronzeHistoryGCPComputeInstanceNICAccessConfigCreate struct {
 	hooks    []Hook
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPComputeInstanceNICAccessConfigCreate) SetHistoryID(v uint) *BronzeHistoryGCPComputeInstanceNICAccessConfigCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetNicHistoryID sets the "nic_history_id" field.
 func (_c *BronzeHistoryGCPComputeInstanceNICAccessConfigCreate) SetNicHistoryID(v uint) *BronzeHistoryGCPComputeInstanceNICAccessConfigCreate {
 	_c.mutation.SetNicHistoryID(v)
@@ -108,6 +102,12 @@ func (_c *BronzeHistoryGCPComputeInstanceNICAccessConfigCreate) SetNillableNetwo
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPComputeInstanceNICAccessConfigCreate) SetID(v uint) *BronzeHistoryGCPComputeInstanceNICAccessConfigCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPComputeInstanceNICAccessConfigMutation object of the builder.
 func (_c *BronzeHistoryGCPComputeInstanceNICAccessConfigCreate) Mutation() *BronzeHistoryGCPComputeInstanceNICAccessConfigMutation {
 	return _c.mutation
@@ -142,9 +142,6 @@ func (_c *BronzeHistoryGCPComputeInstanceNICAccessConfigCreate) ExecX(ctx contex
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *BronzeHistoryGCPComputeInstanceNICAccessConfigCreate) check() error {
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeInstanceNICAccessConfig.history_id"`)}
-	}
 	if _, ok := _c.mutation.NicHistoryID(); !ok {
 		return &ValidationError{Name: "nic_history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeInstanceNICAccessConfig.nic_history_id"`)}
 	}
@@ -165,8 +162,10 @@ func (_c *BronzeHistoryGCPComputeInstanceNICAccessConfigCreate) sqlSave(ctx cont
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -175,12 +174,12 @@ func (_c *BronzeHistoryGCPComputeInstanceNICAccessConfigCreate) sqlSave(ctx cont
 func (_c *BronzeHistoryGCPComputeInstanceNICAccessConfigCreate) createSpec() (*BronzeHistoryGCPComputeInstanceNICAccessConfig, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPComputeInstanceNICAccessConfig{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputeinstancenicaccessconfig.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancenicaccessconfig.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputeinstancenicaccessconfig.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancenicaccessconfig.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPComputeInstanceNICAccessConfig
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpcomputeinstancenicaccessconfig.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
 	}
 	if value, ok := _c.mutation.NicHistoryID(); ok {
 		_spec.SetField(bronzehistorygcpcomputeinstancenicaccessconfig.FieldNicHistoryID, field.TypeUint, value)
@@ -257,9 +256,9 @@ func (_c *BronzeHistoryGCPComputeInstanceNICAccessConfigCreateBulk) Save(ctx con
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

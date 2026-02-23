@@ -1,6 +1,7 @@
 package compute
 
 import (
+	"danny.vn/greennode/auth"
 	"go.temporal.io/sdk/worker"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
@@ -12,10 +13,10 @@ import (
 )
 
 // Register registers all GreenNode compute activities and workflows.
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
-	server.Register(w, configService, entClient, limiter)
-	sshkey.Register(w, configService, entClient, limiter)
-	servergroup.Register(w, configService, entClient, limiter)
+func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, iamAuth *auth.IAMUserAuth, limiter ratelimit.Limiter) {
+	server.Register(w, configService, entClient, iamAuth, limiter)
+	sshkey.Register(w, configService, entClient, iamAuth, limiter)
+	servergroup.Register(w, configService, entClient, iamAuth, limiter)
 
 	w.RegisterWorkflow(GreenNodeComputeWorkflow)
 }

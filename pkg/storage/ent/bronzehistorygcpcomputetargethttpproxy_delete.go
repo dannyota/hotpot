@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPComputeTargetHttpProxyDelete) ExecX(ctx context.Contex
 }
 
 func (_d *BronzeHistoryGCPComputeTargetHttpProxyDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputetargethttpproxy.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputetargethttpproxy.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputetargethttpproxy.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputetargethttpproxy.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPComputeTargetHttpProxy
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

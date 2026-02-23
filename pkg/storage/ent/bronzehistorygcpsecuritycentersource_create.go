@@ -52,12 +52,6 @@ func (_c *BronzeHistoryGCPSecurityCenterSourceCreate) SetFirstCollectedAt(v time
 	return _c
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPSecurityCenterSourceCreate) SetHistoryID(v uint) *BronzeHistoryGCPSecurityCenterSourceCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetResourceID sets the "resource_id" field.
 func (_c *BronzeHistoryGCPSecurityCenterSourceCreate) SetResourceID(v string) *BronzeHistoryGCPSecurityCenterSourceCreate {
 	_c.mutation.SetResourceID(v)
@@ -112,6 +106,12 @@ func (_c *BronzeHistoryGCPSecurityCenterSourceCreate) SetOrganizationID(v string
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPSecurityCenterSourceCreate) SetID(v uint) *BronzeHistoryGCPSecurityCenterSourceCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPSecurityCenterSourceMutation object of the builder.
 func (_c *BronzeHistoryGCPSecurityCenterSourceCreate) Mutation() *BronzeHistoryGCPSecurityCenterSourceMutation {
 	return _c.mutation
@@ -155,9 +155,6 @@ func (_c *BronzeHistoryGCPSecurityCenterSourceCreate) check() error {
 	if _, ok := _c.mutation.FirstCollectedAt(); !ok {
 		return &ValidationError{Name: "first_collected_at", err: errors.New(`ent: missing required field "BronzeHistoryGCPSecurityCenterSource.first_collected_at"`)}
 	}
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPSecurityCenterSource.history_id"`)}
-	}
 	if _, ok := _c.mutation.ResourceID(); !ok {
 		return &ValidationError{Name: "resource_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPSecurityCenterSource.resource_id"`)}
 	}
@@ -188,8 +185,10 @@ func (_c *BronzeHistoryGCPSecurityCenterSourceCreate) sqlSave(ctx context.Contex
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -198,9 +197,13 @@ func (_c *BronzeHistoryGCPSecurityCenterSourceCreate) sqlSave(ctx context.Contex
 func (_c *BronzeHistoryGCPSecurityCenterSourceCreate) createSpec() (*BronzeHistoryGCPSecurityCenterSource, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPSecurityCenterSource{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpsecuritycentersource.Table, sqlgraph.NewFieldSpec(bronzehistorygcpsecuritycentersource.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpsecuritycentersource.Table, sqlgraph.NewFieldSpec(bronzehistorygcpsecuritycentersource.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPSecurityCenterSource
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := _c.mutation.ValidFrom(); ok {
 		_spec.SetField(bronzehistorygcpsecuritycentersource.FieldValidFrom, field.TypeTime, value)
 		_node.ValidFrom = value
@@ -216,10 +219,6 @@ func (_c *BronzeHistoryGCPSecurityCenterSourceCreate) createSpec() (*BronzeHisto
 	if value, ok := _c.mutation.FirstCollectedAt(); ok {
 		_spec.SetField(bronzehistorygcpsecuritycentersource.FieldFirstCollectedAt, field.TypeTime, value)
 		_node.FirstCollectedAt = value
-	}
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpsecuritycentersource.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
 	}
 	if value, ok := _c.mutation.ResourceID(); ok {
 		_spec.SetField(bronzehistorygcpsecuritycentersource.FieldResourceID, field.TypeString, value)
@@ -288,9 +287,9 @@ func (_c *BronzeHistoryGCPSecurityCenterSourceCreateBulk) Save(ctx context.Conte
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

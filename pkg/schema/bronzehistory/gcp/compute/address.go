@@ -24,9 +24,7 @@ func (BronzeHistoryGCPComputeAddress) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeAddress) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze address by resource_id"),
@@ -101,9 +99,7 @@ type BronzeHistoryGCPComputeAddressLabel struct {
 
 func (BronzeHistoryGCPComputeAddressLabel) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("address_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeAddress"),
 		field.Time("valid_from").
@@ -146,9 +142,7 @@ func (BronzeHistoryGCPComputeGlobalAddress) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeGlobalAddress) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze global address by resource_id"),
@@ -223,9 +217,7 @@ type BronzeHistoryGCPComputeGlobalAddressLabel struct {
 
 func (BronzeHistoryGCPComputeGlobalAddressLabel) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("global_address_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeGlobalAddress"),
 		field.Time("valid_from").

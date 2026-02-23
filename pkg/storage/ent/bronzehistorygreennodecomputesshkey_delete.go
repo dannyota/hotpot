@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGreenNodeComputeSSHKeyDelete) ExecX(ctx context.Context) 
 }
 
 func (_d *BronzeHistoryGreenNodeComputeSSHKeyDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygreennodecomputesshkey.Table, sqlgraph.NewFieldSpec(bronzehistorygreennodecomputesshkey.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygreennodecomputesshkey.Table, sqlgraph.NewFieldSpec(bronzehistorygreennodecomputesshkey.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGreenNodeComputeSSHKey
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

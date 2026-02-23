@@ -99,7 +99,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, ruleData
 	// Create label history
 	for _, label := range ruleData.Labels {
 		_, err := tx.BronzeHistoryGCPComputeForwardingRuleLabel.Create().
-			SetForwardingRuleHistoryID(ruleHistory.HistoryID).
+			SetForwardingRuleHistoryID(ruleHistory.ID).
 			SetValidFrom(now).
 			SetKey(label.Key).
 			SetValue(label.Value).
@@ -130,7 +130,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Close old label history first
 		_, err := tx.BronzeHistoryGCPComputeForwardingRuleLabel.Update().
 			Where(
-				bronzehistorygcpcomputeforwardingrulelabel.ForwardingRuleHistoryID(currentHistory.HistoryID),
+				bronzehistorygcpcomputeforwardingrulelabel.ForwardingRuleHistoryID(currentHistory.ID),
 				bronzehistorygcpcomputeforwardingrulelabel.ValidToIsNil(),
 			).
 			SetValidTo(now).
@@ -223,7 +223,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Create new label history linked to new forwarding rule history
 		for _, label := range new.Labels {
 			_, err := tx.BronzeHistoryGCPComputeForwardingRuleLabel.Create().
-				SetForwardingRuleHistoryID(newHistory.HistoryID).
+				SetForwardingRuleHistoryID(newHistory.ID).
 				SetValidFrom(now).
 				SetKey(label.Key).
 				SetValue(label.Value).
@@ -236,7 +236,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Only labels changed - close old label history and create new ones
 		_, err := tx.BronzeHistoryGCPComputeForwardingRuleLabel.Update().
 			Where(
-				bronzehistorygcpcomputeforwardingrulelabel.ForwardingRuleHistoryID(currentHistory.HistoryID),
+				bronzehistorygcpcomputeforwardingrulelabel.ForwardingRuleHistoryID(currentHistory.ID),
 				bronzehistorygcpcomputeforwardingrulelabel.ValidToIsNil(),
 			).
 			SetValidTo(now).
@@ -247,7 +247,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 
 		for _, label := range new.Labels {
 			_, err := tx.BronzeHistoryGCPComputeForwardingRuleLabel.Create().
-				SetForwardingRuleHistoryID(currentHistory.HistoryID).
+				SetForwardingRuleHistoryID(currentHistory.ID).
 				SetValidFrom(now).
 				SetKey(label.Key).
 				SetValue(label.Value).
@@ -288,7 +288,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	// Close label history
 	_, err = tx.BronzeHistoryGCPComputeForwardingRuleLabel.Update().
 		Where(
-			bronzehistorygcpcomputeforwardingrulelabel.ForwardingRuleHistoryID(currentHistory.HistoryID),
+			bronzehistorygcpcomputeforwardingrulelabel.ForwardingRuleHistoryID(currentHistory.ID),
 			bronzehistorygcpcomputeforwardingrulelabel.ValidToIsNil(),
 		).
 		SetValidTo(now).

@@ -10,47 +10,47 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPComputeGlobalAddress {
+func ID(id uint) predicate.BronzeHistoryGCPComputeGlobalAddress {
 	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPComputeGlobalAddress {
+func IDEQ(id uint) predicate.BronzeHistoryGCPComputeGlobalAddress {
 	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPComputeGlobalAddress {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPComputeGlobalAddress {
 	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPComputeGlobalAddress {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPComputeGlobalAddress {
 	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPComputeGlobalAddress {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPComputeGlobalAddress {
 	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPComputeGlobalAddress {
+func IDGT(id uint) predicate.BronzeHistoryGCPComputeGlobalAddress {
 	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPComputeGlobalAddress {
+func IDGTE(id uint) predicate.BronzeHistoryGCPComputeGlobalAddress {
 	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPComputeGlobalAddress {
+func IDLT(id uint) predicate.BronzeHistoryGCPComputeGlobalAddress {
 	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPComputeGlobalAddress {
+func IDLTE(id uint) predicate.BronzeHistoryGCPComputeGlobalAddress {
 	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldLTE(FieldID, id))
 }
 
@@ -72,11 +72,6 @@ func CollectedAt(v time.Time) predicate.BronzeHistoryGCPComputeGlobalAddress {
 // FirstCollectedAt applies equality check predicate on the "first_collected_at" field. It's identical to FirstCollectedAtEQ.
 func FirstCollectedAt(v time.Time) predicate.BronzeHistoryGCPComputeGlobalAddress {
 	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldEQ(FieldFirstCollectedAt, v))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPComputeGlobalAddress {
-	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // ResourceID applies equality check predicate on the "resource_id" field. It's identical to ResourceIDEQ.
@@ -342,46 +337,6 @@ func FirstCollectedAtLT(v time.Time) predicate.BronzeHistoryGCPComputeGlobalAddr
 // FirstCollectedAtLTE applies the LTE predicate on the "first_collected_at" field.
 func FirstCollectedAtLTE(v time.Time) predicate.BronzeHistoryGCPComputeGlobalAddress {
 	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldLTE(FieldFirstCollectedAt, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPComputeGlobalAddress {
-	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPComputeGlobalAddress {
-	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPComputeGlobalAddress {
-	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPComputeGlobalAddress {
-	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPComputeGlobalAddress {
-	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPComputeGlobalAddress {
-	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPComputeGlobalAddress {
-	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPComputeGlobalAddress {
-	return predicate.BronzeHistoryGCPComputeGlobalAddress(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // ResourceIDEQ applies the EQ predicate on the "resource_id" field.

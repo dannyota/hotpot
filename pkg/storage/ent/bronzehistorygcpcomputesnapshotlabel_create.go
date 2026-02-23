@@ -20,12 +20,6 @@ type BronzeHistoryGCPComputeSnapshotLabelCreate struct {
 	hooks    []Hook
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPComputeSnapshotLabelCreate) SetHistoryID(v uint) *BronzeHistoryGCPComputeSnapshotLabelCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetSnapshotHistoryID sets the "snapshot_history_id" field.
 func (_c *BronzeHistoryGCPComputeSnapshotLabelCreate) SetSnapshotHistoryID(v uint) *BronzeHistoryGCPComputeSnapshotLabelCreate {
 	_c.mutation.SetSnapshotHistoryID(v)
@@ -64,6 +58,12 @@ func (_c *BronzeHistoryGCPComputeSnapshotLabelCreate) SetValue(v string) *Bronze
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPComputeSnapshotLabelCreate) SetID(v uint) *BronzeHistoryGCPComputeSnapshotLabelCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPComputeSnapshotLabelMutation object of the builder.
 func (_c *BronzeHistoryGCPComputeSnapshotLabelCreate) Mutation() *BronzeHistoryGCPComputeSnapshotLabelMutation {
 	return _c.mutation
@@ -98,9 +98,6 @@ func (_c *BronzeHistoryGCPComputeSnapshotLabelCreate) ExecX(ctx context.Context)
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *BronzeHistoryGCPComputeSnapshotLabelCreate) check() error {
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeSnapshotLabel.history_id"`)}
-	}
 	if _, ok := _c.mutation.SnapshotHistoryID(); !ok {
 		return &ValidationError{Name: "snapshot_history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeSnapshotLabel.snapshot_history_id"`)}
 	}
@@ -132,8 +129,10 @@ func (_c *BronzeHistoryGCPComputeSnapshotLabelCreate) sqlSave(ctx context.Contex
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -142,12 +141,12 @@ func (_c *BronzeHistoryGCPComputeSnapshotLabelCreate) sqlSave(ctx context.Contex
 func (_c *BronzeHistoryGCPComputeSnapshotLabelCreate) createSpec() (*BronzeHistoryGCPComputeSnapshotLabel, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPComputeSnapshotLabel{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputesnapshotlabel.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesnapshotlabel.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputesnapshotlabel.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesnapshotlabel.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPComputeSnapshotLabel
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpcomputesnapshotlabel.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
 	}
 	if value, ok := _c.mutation.SnapshotHistoryID(); ok {
 		_spec.SetField(bronzehistorygcpcomputesnapshotlabel.FieldSnapshotHistoryID, field.TypeUint, value)
@@ -216,9 +215,9 @@ func (_c *BronzeHistoryGCPComputeSnapshotLabelCreateBulk) Save(ctx context.Conte
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

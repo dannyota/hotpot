@@ -44,7 +44,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, projectD
 	// Create label history
 	for _, label := range projectData.Labels {
 		_, err := tx.BronzeHistoryGCPProjectLabel.Create().
-			SetProjectHistoryID(projectHistory.HistoryID).
+			SetProjectHistoryID(projectHistory.ID).
 			SetValidFrom(now).
 			SetKey(label.Key).
 			SetValue(label.Value).
@@ -75,7 +75,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Close old label history first
 		_, err := tx.BronzeHistoryGCPProjectLabel.Update().
 			Where(
-				bronzehistorygcpprojectlabel.ProjectHistoryID(currentHistory.HistoryID),
+				bronzehistorygcpprojectlabel.ProjectHistoryID(currentHistory.ID),
 				bronzehistorygcpprojectlabel.ValidToIsNil(),
 			).
 			SetValidTo(now).
@@ -114,7 +114,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Create new label history linked to new project history
 		for _, label := range new.Labels {
 			_, err := tx.BronzeHistoryGCPProjectLabel.Create().
-				SetProjectHistoryID(newHistory.HistoryID).
+				SetProjectHistoryID(newHistory.ID).
 				SetValidFrom(now).
 				SetKey(label.Key).
 				SetValue(label.Value).
@@ -127,7 +127,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Only labels changed - close old label history and create new ones
 		_, err := tx.BronzeHistoryGCPProjectLabel.Update().
 			Where(
-				bronzehistorygcpprojectlabel.ProjectHistoryID(currentHistory.HistoryID),
+				bronzehistorygcpprojectlabel.ProjectHistoryID(currentHistory.ID),
 				bronzehistorygcpprojectlabel.ValidToIsNil(),
 			).
 			SetValidTo(now).
@@ -138,7 +138,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 
 		for _, label := range new.Labels {
 			_, err := tx.BronzeHistoryGCPProjectLabel.Create().
-				SetProjectHistoryID(currentHistory.HistoryID).
+				SetProjectHistoryID(currentHistory.ID).
 				SetValidFrom(now).
 				SetKey(label.Key).
 				SetValue(label.Value).
@@ -179,7 +179,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, projectID
 	// Close label history
 	_, err = tx.BronzeHistoryGCPProjectLabel.Update().
 		Where(
-			bronzehistorygcpprojectlabel.ProjectHistoryID(currentHistory.HistoryID),
+			bronzehistorygcpprojectlabel.ProjectHistoryID(currentHistory.ID),
 			bronzehistorygcpprojectlabel.ValidToIsNil(),
 		).
 		SetValidTo(now).

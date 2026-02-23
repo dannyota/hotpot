@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPVPNGatewayDelete) ExecX(ctx context.Context) int {
 }
 
 func (_d *BronzeHistoryGCPVPNGatewayDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpvpngateway.Table, sqlgraph.NewFieldSpec(bronzehistorygcpvpngateway.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpvpngateway.Table, sqlgraph.NewFieldSpec(bronzehistorygcpvpngateway.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPVPNGateway
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

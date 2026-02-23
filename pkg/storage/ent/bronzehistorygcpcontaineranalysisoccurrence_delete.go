@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPContainerAnalysisOccurrenceDelete) ExecX(ctx context.C
 }
 
 func (_d *BronzeHistoryGCPContainerAnalysisOccurrenceDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcontaineranalysisoccurrence.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcontaineranalysisoccurrence.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcontaineranalysisoccurrence.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcontaineranalysisoccurrence.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPContainerAnalysisOccurrence
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

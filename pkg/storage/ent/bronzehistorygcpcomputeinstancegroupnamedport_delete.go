@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPComputeInstanceGroupNamedPortDelete) ExecX(ctx context
 }
 
 func (_d *BronzeHistoryGCPComputeInstanceGroupNamedPortDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputeinstancegroupnamedport.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancegroupnamedport.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputeinstancegroupnamedport.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancegroupnamedport.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPComputeInstanceGroupNamedPort
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

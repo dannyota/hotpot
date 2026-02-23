@@ -53,7 +53,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, subnetDa
 	}
 
 	// Create children history with subnetwork_history_id
-	return h.createChildrenHistory(ctx, tx, subnetHist.HistoryID, subnetData, now)
+	return h.createChildrenHistory(ctx, tx, subnetHist.ID, subnetData, now)
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
@@ -110,14 +110,14 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		}
 
 		// Close all children history and create new ones
-		if err := h.closeChildrenHistory(ctx, tx, currentHist.HistoryID, now); err != nil {
+		if err := h.closeChildrenHistory(ctx, tx, currentHist.ID, now); err != nil {
 			return fmt.Errorf("failed to close children history: %w", err)
 		}
-		return h.createChildrenHistory(ctx, tx, subnetHist.HistoryID, new, now)
+		return h.createChildrenHistory(ctx, tx, subnetHist.ID, new, now)
 	}
 
 	// Subnetwork unchanged, check children individually (granular tracking)
-	return h.updateChildrenHistory(ctx, tx, currentHist.HistoryID, new, diff, now)
+	return h.updateChildrenHistory(ctx, tx, currentHist.ID, new, diff, now)
 }
 
 // CloseHistory closes history records for a deleted subnetwork.
@@ -145,7 +145,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	}
 
 	// Close all children history
-	return h.closeChildrenHistory(ctx, tx, currentHist.HistoryID, now)
+	return h.closeChildrenHistory(ctx, tx, currentHist.ID, now)
 }
 
 // createChildrenHistory creates history records for all children.

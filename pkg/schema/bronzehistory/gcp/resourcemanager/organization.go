@@ -22,9 +22,7 @@ func (BronzeHistoryGCPOrganization) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPOrganization) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze organization by resource_id"),

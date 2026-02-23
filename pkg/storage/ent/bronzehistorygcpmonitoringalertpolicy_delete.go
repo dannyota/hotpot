@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPMonitoringAlertPolicyDelete) ExecX(ctx context.Context
 }
 
 func (_d *BronzeHistoryGCPMonitoringAlertPolicyDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpmonitoringalertpolicy.Table, sqlgraph.NewFieldSpec(bronzehistorygcpmonitoringalertpolicy.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpmonitoringalertpolicy.Table, sqlgraph.NewFieldSpec(bronzehistorygcpmonitoringalertpolicy.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPMonitoringAlertPolicy
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

@@ -53,12 +53,6 @@ func (_c *BronzeHistoryGCPPubSubTopicCreate) SetFirstCollectedAt(v time.Time) *B
 	return _c
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPPubSubTopicCreate) SetHistoryID(v uint) *BronzeHistoryGCPPubSubTopicCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetResourceID sets the "resource_id" field.
 func (_c *BronzeHistoryGCPPubSubTopicCreate) SetResourceID(v string) *BronzeHistoryGCPPubSubTopicCreate {
 	_c.mutation.SetResourceID(v)
@@ -143,6 +137,12 @@ func (_c *BronzeHistoryGCPPubSubTopicCreate) SetProjectID(v string) *BronzeHisto
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPPubSubTopicCreate) SetID(v uint) *BronzeHistoryGCPPubSubTopicCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPPubSubTopicMutation object of the builder.
 func (_c *BronzeHistoryGCPPubSubTopicCreate) Mutation() *BronzeHistoryGCPPubSubTopicMutation {
 	return _c.mutation
@@ -186,9 +186,6 @@ func (_c *BronzeHistoryGCPPubSubTopicCreate) check() error {
 	if _, ok := _c.mutation.FirstCollectedAt(); !ok {
 		return &ValidationError{Name: "first_collected_at", err: errors.New(`ent: missing required field "BronzeHistoryGCPPubSubTopic.first_collected_at"`)}
 	}
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPPubSubTopic.history_id"`)}
-	}
 	if _, ok := _c.mutation.ResourceID(); !ok {
 		return &ValidationError{Name: "resource_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPPubSubTopic.resource_id"`)}
 	}
@@ -227,8 +224,10 @@ func (_c *BronzeHistoryGCPPubSubTopicCreate) sqlSave(ctx context.Context) (*Bron
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -237,9 +236,13 @@ func (_c *BronzeHistoryGCPPubSubTopicCreate) sqlSave(ctx context.Context) (*Bron
 func (_c *BronzeHistoryGCPPubSubTopicCreate) createSpec() (*BronzeHistoryGCPPubSubTopic, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPPubSubTopic{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcppubsubtopic.Table, sqlgraph.NewFieldSpec(bronzehistorygcppubsubtopic.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcppubsubtopic.Table, sqlgraph.NewFieldSpec(bronzehistorygcppubsubtopic.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPPubSubTopic
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := _c.mutation.ValidFrom(); ok {
 		_spec.SetField(bronzehistorygcppubsubtopic.FieldValidFrom, field.TypeTime, value)
 		_node.ValidFrom = value
@@ -255,10 +258,6 @@ func (_c *BronzeHistoryGCPPubSubTopicCreate) createSpec() (*BronzeHistoryGCPPubS
 	if value, ok := _c.mutation.FirstCollectedAt(); ok {
 		_spec.SetField(bronzehistorygcppubsubtopic.FieldFirstCollectedAt, field.TypeTime, value)
 		_node.FirstCollectedAt = value
-	}
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcppubsubtopic.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
 	}
 	if value, ok := _c.mutation.ResourceID(); ok {
 		_spec.SetField(bronzehistorygcppubsubtopic.FieldResourceID, field.TypeString, value)
@@ -347,9 +346,9 @@ func (_c *BronzeHistoryGCPPubSubTopicCreateBulk) Save(ctx context.Context) ([]*B
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

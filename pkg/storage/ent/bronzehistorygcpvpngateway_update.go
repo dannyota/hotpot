@@ -355,7 +355,7 @@ func (_u *BronzeHistoryGCPVPNGatewayUpdate) sqlSave(ctx context.Context) (_node 
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpvpngateway.Table, bronzehistorygcpvpngateway.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpvpngateway.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpvpngateway.Table, bronzehistorygcpvpngateway.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpvpngateway.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -802,7 +802,7 @@ func (_u *BronzeHistoryGCPVPNGatewayUpdateOne) sqlSave(ctx context.Context) (_no
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpvpngateway.Table, bronzehistorygcpvpngateway.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpvpngateway.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpvpngateway.Table, bronzehistorygcpvpngateway.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpvpngateway.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPVPNGateway.id" for update`)}

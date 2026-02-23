@@ -16,9 +16,7 @@ import (
 type BronzeHistoryGCPComputeInstanceGroupNamedPort struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Links to parent BronzeHistoryGCPComputeInstanceGroup
 	GroupHistoryID uint `json:"group_history_id,omitempty"`
 	// ValidFrom holds the value of the "valid_from" field.
@@ -37,7 +35,7 @@ func (*BronzeHistoryGCPComputeInstanceGroupNamedPort) scanValues(columns []strin
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case bronzehistorygcpcomputeinstancegroupnamedport.FieldID, bronzehistorygcpcomputeinstancegroupnamedport.FieldHistoryID, bronzehistorygcpcomputeinstancegroupnamedport.FieldGroupHistoryID, bronzehistorygcpcomputeinstancegroupnamedport.FieldPort:
+		case bronzehistorygcpcomputeinstancegroupnamedport.FieldID, bronzehistorygcpcomputeinstancegroupnamedport.FieldGroupHistoryID, bronzehistorygcpcomputeinstancegroupnamedport.FieldPort:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorygcpcomputeinstancegroupnamedport.FieldName:
 			values[i] = new(sql.NullString)
@@ -63,13 +61,7 @@ func (_m *BronzeHistoryGCPComputeInstanceGroupNamedPort) assignValues(columns []
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
-		case bronzehistorygcpcomputeinstancegroupnamedport.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
-			}
+			_m.ID = uint(value.Int64)
 		case bronzehistorygcpcomputeinstancegroupnamedport.FieldGroupHistoryID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field group_history_id", values[i])
@@ -137,9 +129,6 @@ func (_m *BronzeHistoryGCPComputeInstanceGroupNamedPort) String() string {
 	var builder strings.Builder
 	builder.WriteString("BronzeHistoryGCPComputeInstanceGroupNamedPort(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
-	builder.WriteString(", ")
 	builder.WriteString("group_history_id=")
 	builder.WriteString(fmt.Sprintf("%v", _m.GroupHistoryID))
 	builder.WriteString(", ")

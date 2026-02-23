@@ -20,12 +20,6 @@ type BronzeHistoryGCPComputeForwardingRuleLabelCreate struct {
 	hooks    []Hook
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPComputeForwardingRuleLabelCreate) SetHistoryID(v uint) *BronzeHistoryGCPComputeForwardingRuleLabelCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetForwardingRuleHistoryID sets the "forwarding_rule_history_id" field.
 func (_c *BronzeHistoryGCPComputeForwardingRuleLabelCreate) SetForwardingRuleHistoryID(v uint) *BronzeHistoryGCPComputeForwardingRuleLabelCreate {
 	_c.mutation.SetForwardingRuleHistoryID(v)
@@ -64,6 +58,12 @@ func (_c *BronzeHistoryGCPComputeForwardingRuleLabelCreate) SetValue(v string) *
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPComputeForwardingRuleLabelCreate) SetID(v uint) *BronzeHistoryGCPComputeForwardingRuleLabelCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPComputeForwardingRuleLabelMutation object of the builder.
 func (_c *BronzeHistoryGCPComputeForwardingRuleLabelCreate) Mutation() *BronzeHistoryGCPComputeForwardingRuleLabelMutation {
 	return _c.mutation
@@ -98,9 +98,6 @@ func (_c *BronzeHistoryGCPComputeForwardingRuleLabelCreate) ExecX(ctx context.Co
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *BronzeHistoryGCPComputeForwardingRuleLabelCreate) check() error {
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeForwardingRuleLabel.history_id"`)}
-	}
 	if _, ok := _c.mutation.ForwardingRuleHistoryID(); !ok {
 		return &ValidationError{Name: "forwarding_rule_history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeForwardingRuleLabel.forwarding_rule_history_id"`)}
 	}
@@ -132,8 +129,10 @@ func (_c *BronzeHistoryGCPComputeForwardingRuleLabelCreate) sqlSave(ctx context.
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -142,12 +141,12 @@ func (_c *BronzeHistoryGCPComputeForwardingRuleLabelCreate) sqlSave(ctx context.
 func (_c *BronzeHistoryGCPComputeForwardingRuleLabelCreate) createSpec() (*BronzeHistoryGCPComputeForwardingRuleLabel, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPComputeForwardingRuleLabel{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputeforwardingrulelabel.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeforwardingrulelabel.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputeforwardingrulelabel.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeforwardingrulelabel.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPComputeForwardingRuleLabel
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpcomputeforwardingrulelabel.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
 	}
 	if value, ok := _c.mutation.ForwardingRuleHistoryID(); ok {
 		_spec.SetField(bronzehistorygcpcomputeforwardingrulelabel.FieldForwardingRuleHistoryID, field.TypeUint, value)
@@ -216,9 +215,9 @@ func (_c *BronzeHistoryGCPComputeForwardingRuleLabelCreateBulk) Save(ctx context
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

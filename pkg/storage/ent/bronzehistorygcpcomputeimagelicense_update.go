@@ -130,7 +130,7 @@ func (_u *BronzeHistoryGCPComputeImageLicenseUpdate) sqlSave(ctx context.Context
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeimagelicense.Table, bronzehistorygcpcomputeimagelicense.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeimagelicense.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeimagelicense.Table, bronzehistorygcpcomputeimagelicense.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeimagelicense.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -289,7 +289,7 @@ func (_u *BronzeHistoryGCPComputeImageLicenseUpdateOne) sqlSave(ctx context.Cont
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeimagelicense.Table, bronzehistorygcpcomputeimagelicense.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeimagelicense.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeimagelicense.Table, bronzehistorygcpcomputeimagelicense.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeimagelicense.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPComputeImageLicense.id" for update`)}

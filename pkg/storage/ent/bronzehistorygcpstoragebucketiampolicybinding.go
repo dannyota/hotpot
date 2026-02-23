@@ -17,9 +17,7 @@ import (
 type BronzeHistoryGCPStorageBucketIamPolicyBinding struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Links to parent BronzeHistoryGCPStorageBucketIamPolicy
 	PolicyHistoryID uint `json:"policy_history_id,omitempty"`
 	// ValidFrom holds the value of the "valid_from" field.
@@ -42,7 +40,7 @@ func (*BronzeHistoryGCPStorageBucketIamPolicyBinding) scanValues(columns []strin
 		switch columns[i] {
 		case bronzehistorygcpstoragebucketiampolicybinding.FieldMembersJSON, bronzehistorygcpstoragebucketiampolicybinding.FieldConditionJSON:
 			values[i] = new([]byte)
-		case bronzehistorygcpstoragebucketiampolicybinding.FieldID, bronzehistorygcpstoragebucketiampolicybinding.FieldHistoryID, bronzehistorygcpstoragebucketiampolicybinding.FieldPolicyHistoryID:
+		case bronzehistorygcpstoragebucketiampolicybinding.FieldID, bronzehistorygcpstoragebucketiampolicybinding.FieldPolicyHistoryID:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorygcpstoragebucketiampolicybinding.FieldRole:
 			values[i] = new(sql.NullString)
@@ -68,13 +66,7 @@ func (_m *BronzeHistoryGCPStorageBucketIamPolicyBinding) assignValues(columns []
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
-		case bronzehistorygcpstoragebucketiampolicybinding.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
-			}
+			_m.ID = uint(value.Int64)
 		case bronzehistorygcpstoragebucketiampolicybinding.FieldPolicyHistoryID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field policy_history_id", values[i])
@@ -152,9 +144,6 @@ func (_m *BronzeHistoryGCPStorageBucketIamPolicyBinding) String() string {
 	var builder strings.Builder
 	builder.WriteString("BronzeHistoryGCPStorageBucketIamPolicyBinding(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
-	builder.WriteString(", ")
 	builder.WriteString("policy_history_id=")
 	builder.WriteString(fmt.Sprintf("%v", _m.PolicyHistoryID))
 	builder.WriteString(", ")

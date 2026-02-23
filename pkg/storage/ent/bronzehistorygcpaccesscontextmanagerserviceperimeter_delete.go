@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPAccessContextManagerServicePerimeterDelete) ExecX(ctx 
 }
 
 func (_d *BronzeHistoryGCPAccessContextManagerServicePerimeterDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpaccesscontextmanagerserviceperimeter.Table, sqlgraph.NewFieldSpec(bronzehistorygcpaccesscontextmanagerserviceperimeter.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpaccesscontextmanagerserviceperimeter.Table, sqlgraph.NewFieldSpec(bronzehistorygcpaccesscontextmanagerserviceperimeter.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPAccessContextManagerServicePerimeter
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

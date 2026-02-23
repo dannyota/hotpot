@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) FirstX(ctx conte
 
 // FirstID returns the first BronzeHistoryGCPComputeSubnetworkSecondaryRange ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPComputeSubnetworkSecondaryRange ID was found.
-func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) FirstID(ctx cont
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) OnlyX(ctx contex
 // OnlyID is like Only, but returns the only BronzeHistoryGCPComputeSubnetworkSecondaryRange ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPComputeSubnetworkSecondaryRange ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) OnlyID(ctx conte
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) AllX(ctx context
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPComputeSubnetworkSecondaryRange IDs.
-func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) IDs(ctx context.
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -263,12 +263,12 @@ func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) Clone() *BronzeH
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		SubnetworkHistoryID uint `json:"subnetwork_history_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeSubnetworkSecondaryRange.Query().
-//		GroupBy(bronzehistorygcpcomputesubnetworksecondaryrange.FieldHistoryID).
+//		GroupBy(bronzehistorygcpcomputesubnetworksecondaryrange.FieldSubnetworkHistoryID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) GroupBy(field string, fields ...string) *BronzeHistoryGCPComputeSubnetworkSecondaryRangeGroupBy {
@@ -286,11 +286,11 @@ func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) GroupBy(field st
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		SubnetworkHistoryID uint `json:"subnetwork_history_id,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeSubnetworkSecondaryRange.Query().
-//		Select(bronzehistorygcpcomputesubnetworksecondaryrange.FieldHistoryID).
+//		Select(bronzehistorygcpcomputesubnetworksecondaryrange.FieldSubnetworkHistoryID).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) Select(fields ...string) *BronzeHistoryGCPComputeSubnetworkSecondaryRangeSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) sqlCount(ctx con
 }
 
 func (_q *BronzeHistoryGCPComputeSubnetworkSecondaryRangeQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputesubnetworksecondaryrange.Table, bronzehistorygcpcomputesubnetworksecondaryrange.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesubnetworksecondaryrange.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputesubnetworksecondaryrange.Table, bronzehistorygcpcomputesubnetworksecondaryrange.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesubnetworksecondaryrange.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

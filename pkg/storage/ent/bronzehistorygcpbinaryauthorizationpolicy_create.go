@@ -53,12 +53,6 @@ func (_c *BronzeHistoryGCPBinaryAuthorizationPolicyCreate) SetFirstCollectedAt(v
 	return _c
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPBinaryAuthorizationPolicyCreate) SetHistoryID(v uint) *BronzeHistoryGCPBinaryAuthorizationPolicyCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetResourceID sets the "resource_id" field.
 func (_c *BronzeHistoryGCPBinaryAuthorizationPolicyCreate) SetResourceID(v string) *BronzeHistoryGCPBinaryAuthorizationPolicyCreate {
 	_c.mutation.SetResourceID(v)
@@ -151,6 +145,12 @@ func (_c *BronzeHistoryGCPBinaryAuthorizationPolicyCreate) SetProjectID(v string
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPBinaryAuthorizationPolicyCreate) SetID(v uint) *BronzeHistoryGCPBinaryAuthorizationPolicyCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPBinaryAuthorizationPolicyMutation object of the builder.
 func (_c *BronzeHistoryGCPBinaryAuthorizationPolicyCreate) Mutation() *BronzeHistoryGCPBinaryAuthorizationPolicyMutation {
 	return _c.mutation
@@ -203,9 +203,6 @@ func (_c *BronzeHistoryGCPBinaryAuthorizationPolicyCreate) check() error {
 	if _, ok := _c.mutation.FirstCollectedAt(); !ok {
 		return &ValidationError{Name: "first_collected_at", err: errors.New(`ent: missing required field "BronzeHistoryGCPBinaryAuthorizationPolicy.first_collected_at"`)}
 	}
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPBinaryAuthorizationPolicy.history_id"`)}
-	}
 	if _, ok := _c.mutation.ResourceID(); !ok {
 		return &ValidationError{Name: "resource_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPBinaryAuthorizationPolicy.resource_id"`)}
 	}
@@ -239,8 +236,10 @@ func (_c *BronzeHistoryGCPBinaryAuthorizationPolicyCreate) sqlSave(ctx context.C
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -249,9 +248,13 @@ func (_c *BronzeHistoryGCPBinaryAuthorizationPolicyCreate) sqlSave(ctx context.C
 func (_c *BronzeHistoryGCPBinaryAuthorizationPolicyCreate) createSpec() (*BronzeHistoryGCPBinaryAuthorizationPolicy, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPBinaryAuthorizationPolicy{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpbinaryauthorizationpolicy.Table, sqlgraph.NewFieldSpec(bronzehistorygcpbinaryauthorizationpolicy.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpbinaryauthorizationpolicy.Table, sqlgraph.NewFieldSpec(bronzehistorygcpbinaryauthorizationpolicy.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPBinaryAuthorizationPolicy
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := _c.mutation.ValidFrom(); ok {
 		_spec.SetField(bronzehistorygcpbinaryauthorizationpolicy.FieldValidFrom, field.TypeTime, value)
 		_node.ValidFrom = value
@@ -267,10 +270,6 @@ func (_c *BronzeHistoryGCPBinaryAuthorizationPolicyCreate) createSpec() (*Bronze
 	if value, ok := _c.mutation.FirstCollectedAt(); ok {
 		_spec.SetField(bronzehistorygcpbinaryauthorizationpolicy.FieldFirstCollectedAt, field.TypeTime, value)
 		_node.FirstCollectedAt = value
-	}
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpbinaryauthorizationpolicy.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
 	}
 	if value, ok := _c.mutation.ResourceID(); ok {
 		_spec.SetField(bronzehistorygcpbinaryauthorizationpolicy.FieldResourceID, field.TypeString, value)
@@ -360,9 +359,9 @@ func (_c *BronzeHistoryGCPBinaryAuthorizationPolicyCreateBulk) Save(ctx context.
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

@@ -16,7 +16,7 @@ import (
 type BronzeHistoryGCPProject struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Start of validity period
 	ValidFrom time.Time `json:"valid_from,omitempty"`
 	// End of validity period (null = current)
@@ -25,8 +25,6 @@ type BronzeHistoryGCPProject struct {
 	CollectedAt time.Time `json:"collected_at,omitempty"`
 	// Timestamp when this asset was first collected
 	FirstCollectedAt time.Time `json:"first_collected_at,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
 	// Link to bronze project by project_id
 	ProjectID string `json:"project_id,omitempty"`
 	// ProjectNumber holds the value of the "project_number" field.
@@ -53,7 +51,7 @@ func (*BronzeHistoryGCPProject) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case bronzehistorygcpproject.FieldID, bronzehistorygcpproject.FieldHistoryID:
+		case bronzehistorygcpproject.FieldID:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorygcpproject.FieldProjectID, bronzehistorygcpproject.FieldProjectNumber, bronzehistorygcpproject.FieldDisplayName, bronzehistorygcpproject.FieldState, bronzehistorygcpproject.FieldParent, bronzehistorygcpproject.FieldCreateTime, bronzehistorygcpproject.FieldUpdateTime, bronzehistorygcpproject.FieldDeleteTime, bronzehistorygcpproject.FieldEtag:
 			values[i] = new(sql.NullString)
@@ -79,7 +77,7 @@ func (_m *BronzeHistoryGCPProject) assignValues(columns []string, values []any) 
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
+			_m.ID = uint(value.Int64)
 		case bronzehistorygcpproject.FieldValidFrom:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field valid_from", values[i])
@@ -104,12 +102,6 @@ func (_m *BronzeHistoryGCPProject) assignValues(columns []string, values []any) 
 				return fmt.Errorf("unexpected type %T for field first_collected_at", values[i])
 			} else if value.Valid {
 				_m.FirstCollectedAt = value.Time
-			}
-		case bronzehistorygcpproject.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
 			}
 		case bronzehistorygcpproject.FieldProjectID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -214,9 +206,6 @@ func (_m *BronzeHistoryGCPProject) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("first_collected_at=")
 	builder.WriteString(_m.FirstCollectedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
 	builder.WriteString(", ")
 	builder.WriteString("project_id=")
 	builder.WriteString(_m.ProjectID)

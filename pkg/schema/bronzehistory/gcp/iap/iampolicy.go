@@ -24,9 +24,7 @@ func (BronzeHistoryGCPIAPIAMPolicy) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPIAPIAMPolicy) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze IAP IAM policy by resource_id"),

@@ -20,12 +20,6 @@ type BronzeHistoryGCPComputeProjectMetadataItemCreate struct {
 	hooks    []Hook
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPComputeProjectMetadataItemCreate) SetHistoryID(v uint) *BronzeHistoryGCPComputeProjectMetadataItemCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetMetadataHistoryID sets the "metadata_history_id" field.
 func (_c *BronzeHistoryGCPComputeProjectMetadataItemCreate) SetMetadataHistoryID(v uint) *BronzeHistoryGCPComputeProjectMetadataItemCreate {
 	_c.mutation.SetMetadataHistoryID(v)
@@ -72,6 +66,12 @@ func (_c *BronzeHistoryGCPComputeProjectMetadataItemCreate) SetNillableValue(v *
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPComputeProjectMetadataItemCreate) SetID(v uint) *BronzeHistoryGCPComputeProjectMetadataItemCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPComputeProjectMetadataItemMutation object of the builder.
 func (_c *BronzeHistoryGCPComputeProjectMetadataItemCreate) Mutation() *BronzeHistoryGCPComputeProjectMetadataItemMutation {
 	return _c.mutation
@@ -106,9 +106,6 @@ func (_c *BronzeHistoryGCPComputeProjectMetadataItemCreate) ExecX(ctx context.Co
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *BronzeHistoryGCPComputeProjectMetadataItemCreate) check() error {
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeProjectMetadataItem.history_id"`)}
-	}
 	if _, ok := _c.mutation.MetadataHistoryID(); !ok {
 		return &ValidationError{Name: "metadata_history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeProjectMetadataItem.metadata_history_id"`)}
 	}
@@ -137,8 +134,10 @@ func (_c *BronzeHistoryGCPComputeProjectMetadataItemCreate) sqlSave(ctx context.
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -147,12 +146,12 @@ func (_c *BronzeHistoryGCPComputeProjectMetadataItemCreate) sqlSave(ctx context.
 func (_c *BronzeHistoryGCPComputeProjectMetadataItemCreate) createSpec() (*BronzeHistoryGCPComputeProjectMetadataItem, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPComputeProjectMetadataItem{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputeprojectmetadataitem.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeprojectmetadataitem.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputeprojectmetadataitem.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeprojectmetadataitem.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPComputeProjectMetadataItem
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpcomputeprojectmetadataitem.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
 	}
 	if value, ok := _c.mutation.MetadataHistoryID(); ok {
 		_spec.SetField(bronzehistorygcpcomputeprojectmetadataitem.FieldMetadataHistoryID, field.TypeUint, value)
@@ -221,9 +220,9 @@ func (_c *BronzeHistoryGCPComputeProjectMetadataItemCreateBulk) Save(ctx context
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

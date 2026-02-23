@@ -17,7 +17,7 @@ import (
 type BronzeHistoryS1Threat struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Start of validity period
 	ValidFrom time.Time `json:"valid_from,omitempty"`
 	// End of validity period (null = current)
@@ -26,8 +26,6 @@ type BronzeHistoryS1Threat struct {
 	CollectedAt time.Time `json:"collected_at,omitempty"`
 	// Timestamp when this asset was first collected
 	FirstCollectedAt time.Time `json:"first_collected_at,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
 	// Link to bronze threat by resource_id
 	ResourceID string `json:"resource_id,omitempty"`
 	// AgentID holds the value of the "agent_id" field.
@@ -92,7 +90,7 @@ func (*BronzeHistoryS1Threat) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case bronzehistorys1threat.FieldAgentIsActive, bronzehistorys1threat.FieldAgentIsDecommissioned:
 			values[i] = new(sql.NullBool)
-		case bronzehistorys1threat.FieldID, bronzehistorys1threat.FieldHistoryID:
+		case bronzehistorys1threat.FieldID:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorys1threat.FieldResourceID, bronzehistorys1threat.FieldAgentID, bronzehistorys1threat.FieldClassification, bronzehistorys1threat.FieldThreatName, bronzehistorys1threat.FieldFilePath, bronzehistorys1threat.FieldStatus, bronzehistorys1threat.FieldAnalystVerdict, bronzehistorys1threat.FieldConfidenceLevel, bronzehistorys1threat.FieldInitiatedBy, bronzehistorys1threat.FieldFileContentHash, bronzehistorys1threat.FieldFileSha256, bronzehistorys1threat.FieldCloudVerdict, bronzehistorys1threat.FieldClassificationSource, bronzehistorys1threat.FieldSiteID, bronzehistorys1threat.FieldSiteName, bronzehistorys1threat.FieldAccountID, bronzehistorys1threat.FieldAccountName, bronzehistorys1threat.FieldAgentComputerName, bronzehistorys1threat.FieldAgentOsType, bronzehistorys1threat.FieldAgentMachineType, bronzehistorys1threat.FieldAgentVersion:
 			values[i] = new(sql.NullString)
@@ -118,7 +116,7 @@ func (_m *BronzeHistoryS1Threat) assignValues(columns []string, values []any) er
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
+			_m.ID = uint(value.Int64)
 		case bronzehistorys1threat.FieldValidFrom:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field valid_from", values[i])
@@ -143,12 +141,6 @@ func (_m *BronzeHistoryS1Threat) assignValues(columns []string, values []any) er
 				return fmt.Errorf("unexpected type %T for field first_collected_at", values[i])
 			} else if value.Valid {
 				_m.FirstCollectedAt = value.Time
-			}
-		case bronzehistorys1threat.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
 			}
 		case bronzehistorys1threat.FieldResourceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -359,9 +351,6 @@ func (_m *BronzeHistoryS1Threat) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("first_collected_at=")
 	builder.WriteString(_m.FirstCollectedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
 	builder.WriteString(", ")
 	builder.WriteString("resource_id=")
 	builder.WriteString(_m.ResourceID)

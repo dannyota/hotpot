@@ -83,8 +83,8 @@ func (_q *BronzeHistoryDOAccountQuery) FirstX(ctx context.Context) *BronzeHistor
 
 // FirstID returns the first BronzeHistoryDOAccount ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryDOAccount ID was found.
-func (_q *BronzeHistoryDOAccountQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryDOAccountQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryDOAccountQuery) FirstID(ctx context.Context) (id int, err
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryDOAccountQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryDOAccountQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryDOAccountQuery) OnlyX(ctx context.Context) *BronzeHistory
 // OnlyID is like Only, but returns the only BronzeHistoryDOAccount ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryDOAccount ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryDOAccountQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryDOAccountQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryDOAccountQuery) OnlyID(ctx context.Context) (id int, err 
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryDOAccountQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryDOAccountQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryDOAccountQuery) AllX(ctx context.Context) []*BronzeHistor
 }
 
 // IDs executes the query and returns a list of BronzeHistoryDOAccount IDs.
-func (_q *BronzeHistoryDOAccountQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryDOAccountQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryDOAccountQuery) IDs(ctx context.Context) (ids []int, err 
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryDOAccountQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryDOAccountQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryDOAccountQuery) sqlCount(ctx context.Context) (int, error
 }
 
 func (_q *BronzeHistoryDOAccountQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorydoaccount.Table, bronzehistorydoaccount.Columns, sqlgraph.NewFieldSpec(bronzehistorydoaccount.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorydoaccount.Table, bronzehistorydoaccount.Columns, sqlgraph.NewFieldSpec(bronzehistorydoaccount.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

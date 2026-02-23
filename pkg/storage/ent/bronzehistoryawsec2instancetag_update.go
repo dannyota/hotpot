@@ -143,7 +143,7 @@ func (_u *BronzeHistoryAWSEC2InstanceTagUpdate) ExecX(ctx context.Context) {
 }
 
 func (_u *BronzeHistoryAWSEC2InstanceTagUpdate) sqlSave(ctx context.Context) (_node int, err error) {
-	_spec := sqlgraph.NewUpdateSpec(bronzehistoryawsec2instancetag.Table, bronzehistoryawsec2instancetag.Columns, sqlgraph.NewFieldSpec(bronzehistoryawsec2instancetag.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistoryawsec2instancetag.Table, bronzehistoryawsec2instancetag.Columns, sqlgraph.NewFieldSpec(bronzehistoryawsec2instancetag.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -324,7 +324,7 @@ func (_u *BronzeHistoryAWSEC2InstanceTagUpdateOne) ExecX(ctx context.Context) {
 }
 
 func (_u *BronzeHistoryAWSEC2InstanceTagUpdateOne) sqlSave(ctx context.Context) (_node *BronzeHistoryAWSEC2InstanceTag, err error) {
-	_spec := sqlgraph.NewUpdateSpec(bronzehistoryawsec2instancetag.Table, bronzehistoryawsec2instancetag.Columns, sqlgraph.NewFieldSpec(bronzehistoryawsec2instancetag.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistoryawsec2instancetag.Table, bronzehistoryawsec2instancetag.Columns, sqlgraph.NewFieldSpec(bronzehistoryawsec2instancetag.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryAWSEC2InstanceTag.id" for update`)}

@@ -24,9 +24,7 @@ func (BronzeHistoryGCPComputeDisk) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeDisk) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze disk by resource_id"),
@@ -127,9 +125,7 @@ type BronzeHistoryGCPComputeDiskLabel struct {
 
 func (BronzeHistoryGCPComputeDiskLabel) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("disk_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeDisk"),
 		field.Time("valid_from").
@@ -168,9 +164,7 @@ type BronzeHistoryGCPComputeDiskLicense struct {
 
 func (BronzeHistoryGCPComputeDiskLicense) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("disk_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeDisk"),
 		field.Time("valid_from").

@@ -83,8 +83,8 @@ func (_q *BronzeHistoryDOProjectResourceQuery) FirstX(ctx context.Context) *Bron
 
 // FirstID returns the first BronzeHistoryDOProjectResource ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryDOProjectResource ID was found.
-func (_q *BronzeHistoryDOProjectResourceQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryDOProjectResourceQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryDOProjectResourceQuery) FirstID(ctx context.Context) (id 
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryDOProjectResourceQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryDOProjectResourceQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryDOProjectResourceQuery) OnlyX(ctx context.Context) *Bronz
 // OnlyID is like Only, but returns the only BronzeHistoryDOProjectResource ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryDOProjectResource ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryDOProjectResourceQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryDOProjectResourceQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryDOProjectResourceQuery) OnlyID(ctx context.Context) (id i
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryDOProjectResourceQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryDOProjectResourceQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryDOProjectResourceQuery) AllX(ctx context.Context) []*Bron
 }
 
 // IDs executes the query and returns a list of BronzeHistoryDOProjectResource IDs.
-func (_q *BronzeHistoryDOProjectResourceQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryDOProjectResourceQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryDOProjectResourceQuery) IDs(ctx context.Context) (ids []i
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryDOProjectResourceQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryDOProjectResourceQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryDOProjectResourceQuery) sqlCount(ctx context.Context) (in
 }
 
 func (_q *BronzeHistoryDOProjectResourceQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorydoprojectresource.Table, bronzehistorydoprojectresource.Columns, sqlgraph.NewFieldSpec(bronzehistorydoprojectresource.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorydoprojectresource.Table, bronzehistorydoprojectresource.Columns, sqlgraph.NewFieldSpec(bronzehistorydoprojectresource.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

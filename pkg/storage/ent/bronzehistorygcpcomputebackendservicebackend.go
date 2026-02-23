@@ -16,9 +16,7 @@ import (
 type BronzeHistoryGCPComputeBackendServiceBackend struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Links to parent BronzeHistoryGCPComputeBackendService
 	BackendServiceHistoryID uint `json:"backend_service_history_id,omitempty"`
 	// ValidFrom holds the value of the "valid_from" field.
@@ -61,7 +59,7 @@ func (*BronzeHistoryGCPComputeBackendServiceBackend) scanValues(columns []string
 		switch columns[i] {
 		case bronzehistorygcpcomputebackendservicebackend.FieldFailover:
 			values[i] = new(sql.NullBool)
-		case bronzehistorygcpcomputebackendservicebackend.FieldID, bronzehistorygcpcomputebackendservicebackend.FieldHistoryID, bronzehistorygcpcomputebackendservicebackend.FieldBackendServiceHistoryID:
+		case bronzehistorygcpcomputebackendservicebackend.FieldID, bronzehistorygcpcomputebackendservicebackend.FieldBackendServiceHistoryID:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorygcpcomputebackendservicebackend.FieldGroup, bronzehistorygcpcomputebackendservicebackend.FieldBalancingMode, bronzehistorygcpcomputebackendservicebackend.FieldCapacityScaler, bronzehistorygcpcomputebackendservicebackend.FieldDescription, bronzehistorygcpcomputebackendservicebackend.FieldMaxConnections, bronzehistorygcpcomputebackendservicebackend.FieldMaxConnectionsPerEndpoint, bronzehistorygcpcomputebackendservicebackend.FieldMaxConnectionsPerInstance, bronzehistorygcpcomputebackendservicebackend.FieldMaxRate, bronzehistorygcpcomputebackendservicebackend.FieldMaxRatePerEndpoint, bronzehistorygcpcomputebackendservicebackend.FieldMaxRatePerInstance, bronzehistorygcpcomputebackendservicebackend.FieldMaxUtilization, bronzehistorygcpcomputebackendservicebackend.FieldPreference:
 			values[i] = new(sql.NullString)
@@ -87,13 +85,7 @@ func (_m *BronzeHistoryGCPComputeBackendServiceBackend) assignValues(columns []s
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
-		case bronzehistorygcpcomputebackendservicebackend.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
-			}
+			_m.ID = uint(value.Int64)
 		case bronzehistorygcpcomputebackendservicebackend.FieldBackendServiceHistoryID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field backend_service_history_id", values[i])
@@ -227,9 +219,6 @@ func (_m *BronzeHistoryGCPComputeBackendServiceBackend) String() string {
 	var builder strings.Builder
 	builder.WriteString("BronzeHistoryGCPComputeBackendServiceBackend(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
-	builder.WriteString(", ")
 	builder.WriteString("backend_service_history_id=")
 	builder.WriteString(fmt.Sprintf("%v", _m.BackendServiceHistoryID))
 	builder.WriteString(", ")

@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPComputePacketMirroringDelete) ExecX(ctx context.Contex
 }
 
 func (_d *BronzeHistoryGCPComputePacketMirroringDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputepacketmirroring.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputepacketmirroring.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputepacketmirroring.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputepacketmirroring.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPComputePacketMirroring
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

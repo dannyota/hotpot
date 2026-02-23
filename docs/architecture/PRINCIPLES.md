@@ -240,7 +240,8 @@ type BronzeHistoryGCPComputeInstance struct {
 
 func (BronzeHistoryGCPComputeInstance) Fields() []ent.Field {
     return []ent.Field{
-        field.Uint("history_id").Unique().Immutable(),
+        // History PK (auto-increment, stored as "history_id" column)
+        field.Uint("id").StorageKey("history_id"),
         field.String("resource_id").NotEmpty(),
         field.Time("valid_from").Immutable(),
         field.Time("valid_to").Optional().Nillable(),  // NULL = current
@@ -265,7 +266,8 @@ type BronzeHistoryGCPComputeInstanceNIC struct {
 
 func (BronzeHistoryGCPComputeInstanceNIC) Fields() []ent.Field {
     return []ent.Field{
-        field.Uint("history_id").Unique().Immutable(),
+        // History PK (auto-increment, stored as "history_id" column)
+        field.Uint("id").StorageKey("history_id"),
         field.Uint("instance_history_id"),
         field.Time("valid_from").Immutable(),  // NIC's own time range
         field.Time("valid_to").Optional().Nillable(),

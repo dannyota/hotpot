@@ -17,7 +17,7 @@ import (
 type BronzeHistoryS1RangerSetting struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Start of validity period
 	ValidFrom time.Time `json:"valid_from,omitempty"`
 	// End of validity period (null = current)
@@ -26,8 +26,6 @@ type BronzeHistoryS1RangerSetting struct {
 	CollectedAt time.Time `json:"collected_at,omitempty"`
 	// Timestamp when this asset was first collected
 	FirstCollectedAt time.Time `json:"first_collected_at,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
 	// Link to bronze ranger setting by resource_id (account_id)
 	ResourceID string `json:"resource_id,omitempty"`
 	// AccountID holds the value of the "account_id" field.
@@ -88,7 +86,7 @@ func (*BronzeHistoryS1RangerSetting) scanValues(columns []string) ([]any, error)
 			values[i] = new([]byte)
 		case bronzehistorys1rangersetting.FieldEnabled, bronzehistorys1rangersetting.FieldUsePeriodicSnapshots, bronzehistorys1rangersetting.FieldTCPPortScan, bronzehistorys1rangersetting.FieldUDPPortScan, bronzehistorys1rangersetting.FieldIcmpScan, bronzehistorys1rangersetting.FieldSmbScan, bronzehistorys1rangersetting.FieldMdnsScan, bronzehistorys1rangersetting.FieldRdnsScan, bronzehistorys1rangersetting.FieldSnmpScan, bronzehistorys1rangersetting.FieldMultiScanSsdp, bronzehistorys1rangersetting.FieldUseFullDNSScan, bronzehistorys1rangersetting.FieldScanOnlyLocalSubnets, bronzehistorys1rangersetting.FieldAutoEnableNetworks, bronzehistorys1rangersetting.FieldCombineDevices:
 			values[i] = new(sql.NullBool)
-		case bronzehistorys1rangersetting.FieldID, bronzehistorys1rangersetting.FieldHistoryID, bronzehistorys1rangersetting.FieldSnapshotPeriod, bronzehistorys1rangersetting.FieldNetworkDecommissionValue, bronzehistorys1rangersetting.FieldMinAgentsInNetworkToScan, bronzehistorys1rangersetting.FieldNewNetworkInHours:
+		case bronzehistorys1rangersetting.FieldID, bronzehistorys1rangersetting.FieldSnapshotPeriod, bronzehistorys1rangersetting.FieldNetworkDecommissionValue, bronzehistorys1rangersetting.FieldMinAgentsInNetworkToScan, bronzehistorys1rangersetting.FieldNewNetworkInHours:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorys1rangersetting.FieldResourceID, bronzehistorys1rangersetting.FieldAccountID, bronzehistorys1rangersetting.FieldScopeID:
 			values[i] = new(sql.NullString)
@@ -114,7 +112,7 @@ func (_m *BronzeHistoryS1RangerSetting) assignValues(columns []string, values []
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
+			_m.ID = uint(value.Int64)
 		case bronzehistorys1rangersetting.FieldValidFrom:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field valid_from", values[i])
@@ -139,12 +137,6 @@ func (_m *BronzeHistoryS1RangerSetting) assignValues(columns []string, values []
 				return fmt.Errorf("unexpected type %T for field first_collected_at", values[i])
 			} else if value.Valid {
 				_m.FirstCollectedAt = value.Time
-			}
-		case bronzehistorys1rangersetting.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
 			}
 		case bronzehistorys1rangersetting.FieldResourceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -345,9 +337,6 @@ func (_m *BronzeHistoryS1RangerSetting) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("first_collected_at=")
 	builder.WriteString(_m.FirstCollectedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
 	builder.WriteString(", ")
 	builder.WriteString("resource_id=")
 	builder.WriteString(_m.ResourceID)

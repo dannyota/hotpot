@@ -24,9 +24,7 @@ func (BronzeHistoryGCPComputeNetwork) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeNetwork) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze network by resource_id"),
@@ -95,9 +93,7 @@ type BronzeHistoryGCPComputeNetworkPeering struct {
 
 func (BronzeHistoryGCPComputeNetworkPeering) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("network_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeNetwork"),
 		field.Time("valid_from").

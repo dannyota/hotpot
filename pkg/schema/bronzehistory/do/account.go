@@ -21,9 +21,7 @@ func (BronzeHistoryDOAccount) Mixin() []ent.Mixin {
 
 func (BronzeHistoryDOAccount) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze Account by resource_id"),

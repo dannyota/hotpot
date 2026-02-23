@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) FirstX(ctx context.Contex
 
 // FirstID returns the first BronzeHistoryGCPComputeFirewallAllowed ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPComputeFirewallAllowed ID was found.
-func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) FirstID(ctx context.Conte
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) OnlyX(ctx context.Context
 // OnlyID is like Only, but returns the only BronzeHistoryGCPComputeFirewallAllowed ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPComputeFirewallAllowed ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) OnlyID(ctx context.Contex
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) AllX(ctx context.Context)
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPComputeFirewallAllowed IDs.
-func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) IDs(ctx context.Context) 
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -263,12 +263,12 @@ func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) Clone() *BronzeHistoryGCP
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		FirewallHistoryID uint `json:"firewall_history_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeFirewallAllowed.Query().
-//		GroupBy(bronzehistorygcpcomputefirewallallowed.FieldHistoryID).
+//		GroupBy(bronzehistorygcpcomputefirewallallowed.FieldFirewallHistoryID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) GroupBy(field string, fields ...string) *BronzeHistoryGCPComputeFirewallAllowedGroupBy {
@@ -286,11 +286,11 @@ func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) GroupBy(field string, fie
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		FirewallHistoryID uint `json:"firewall_history_id,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeFirewallAllowed.Query().
-//		Select(bronzehistorygcpcomputefirewallallowed.FieldHistoryID).
+//		Select(bronzehistorygcpcomputefirewallallowed.FieldFirewallHistoryID).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) Select(fields ...string) *BronzeHistoryGCPComputeFirewallAllowedSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) sqlCount(ctx context.Cont
 }
 
 func (_q *BronzeHistoryGCPComputeFirewallAllowedQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputefirewallallowed.Table, bronzehistorygcpcomputefirewallallowed.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputefirewallallowed.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputefirewallallowed.Table, bronzehistorygcpcomputefirewallallowed.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputefirewallallowed.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

@@ -23,9 +23,7 @@ func (BronzeHistoryGCPStorageBucketIamPolicy) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPStorageBucketIamPolicy) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze bucket IAM policy by resource_id"),
@@ -66,9 +64,7 @@ type BronzeHistoryGCPStorageBucketIamPolicyBinding struct {
 
 func (BronzeHistoryGCPStorageBucketIamPolicyBinding) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("policy_history_id").
 			Comment("Links to parent BronzeHistoryGCPStorageBucketIamPolicy"),
 		field.Time("valid_from").

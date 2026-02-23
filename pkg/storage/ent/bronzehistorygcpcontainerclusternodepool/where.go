@@ -10,53 +10,48 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPContainerClusterNodePool {
+func ID(id uint) predicate.BronzeHistoryGCPContainerClusterNodePool {
 	return predicate.BronzeHistoryGCPContainerClusterNodePool(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPContainerClusterNodePool {
+func IDEQ(id uint) predicate.BronzeHistoryGCPContainerClusterNodePool {
 	return predicate.BronzeHistoryGCPContainerClusterNodePool(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPContainerClusterNodePool {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPContainerClusterNodePool {
 	return predicate.BronzeHistoryGCPContainerClusterNodePool(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPContainerClusterNodePool {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPContainerClusterNodePool {
 	return predicate.BronzeHistoryGCPContainerClusterNodePool(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPContainerClusterNodePool {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPContainerClusterNodePool {
 	return predicate.BronzeHistoryGCPContainerClusterNodePool(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPContainerClusterNodePool {
+func IDGT(id uint) predicate.BronzeHistoryGCPContainerClusterNodePool {
 	return predicate.BronzeHistoryGCPContainerClusterNodePool(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPContainerClusterNodePool {
+func IDGTE(id uint) predicate.BronzeHistoryGCPContainerClusterNodePool {
 	return predicate.BronzeHistoryGCPContainerClusterNodePool(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPContainerClusterNodePool {
+func IDLT(id uint) predicate.BronzeHistoryGCPContainerClusterNodePool {
 	return predicate.BronzeHistoryGCPContainerClusterNodePool(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPContainerClusterNodePool {
+func IDLTE(id uint) predicate.BronzeHistoryGCPContainerClusterNodePool {
 	return predicate.BronzeHistoryGCPContainerClusterNodePool(sql.FieldLTE(FieldID, id))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPContainerClusterNodePool {
-	return predicate.BronzeHistoryGCPContainerClusterNodePool(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // ClusterHistoryID applies equality check predicate on the "cluster_history_id" field. It's identical to ClusterHistoryIDEQ.
@@ -112,46 +107,6 @@ func PodIpv4CidrSize(v int32) predicate.BronzeHistoryGCPContainerClusterNodePool
 // Etag applies equality check predicate on the "etag" field. It's identical to EtagEQ.
 func Etag(v string) predicate.BronzeHistoryGCPContainerClusterNodePool {
 	return predicate.BronzeHistoryGCPContainerClusterNodePool(sql.FieldEQ(FieldEtag, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPContainerClusterNodePool {
-	return predicate.BronzeHistoryGCPContainerClusterNodePool(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPContainerClusterNodePool {
-	return predicate.BronzeHistoryGCPContainerClusterNodePool(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPContainerClusterNodePool {
-	return predicate.BronzeHistoryGCPContainerClusterNodePool(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPContainerClusterNodePool {
-	return predicate.BronzeHistoryGCPContainerClusterNodePool(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPContainerClusterNodePool {
-	return predicate.BronzeHistoryGCPContainerClusterNodePool(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPContainerClusterNodePool {
-	return predicate.BronzeHistoryGCPContainerClusterNodePool(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPContainerClusterNodePool {
-	return predicate.BronzeHistoryGCPContainerClusterNodePool(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPContainerClusterNodePool {
-	return predicate.BronzeHistoryGCPContainerClusterNodePool(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // ClusterHistoryIDEQ applies the EQ predicate on the "cluster_history_id" field.

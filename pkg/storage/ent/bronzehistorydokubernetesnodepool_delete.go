@@ -41,7 +41,7 @@ func (_d *BronzeHistoryDOKubernetesNodePoolDelete) ExecX(ctx context.Context) in
 }
 
 func (_d *BronzeHistoryDOKubernetesNodePoolDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorydokubernetesnodepool.Table, sqlgraph.NewFieldSpec(bronzehistorydokubernetesnodepool.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorydokubernetesnodepool.Table, sqlgraph.NewFieldSpec(bronzehistorydokubernetesnodepool.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryDOKubernetesNodePool
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

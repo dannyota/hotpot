@@ -10,53 +10,48 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPComputeNetworkPeering {
+func ID(id uint) predicate.BronzeHistoryGCPComputeNetworkPeering {
 	return predicate.BronzeHistoryGCPComputeNetworkPeering(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPComputeNetworkPeering {
+func IDEQ(id uint) predicate.BronzeHistoryGCPComputeNetworkPeering {
 	return predicate.BronzeHistoryGCPComputeNetworkPeering(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPComputeNetworkPeering {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPComputeNetworkPeering {
 	return predicate.BronzeHistoryGCPComputeNetworkPeering(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPComputeNetworkPeering {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPComputeNetworkPeering {
 	return predicate.BronzeHistoryGCPComputeNetworkPeering(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPComputeNetworkPeering {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPComputeNetworkPeering {
 	return predicate.BronzeHistoryGCPComputeNetworkPeering(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPComputeNetworkPeering {
+func IDGT(id uint) predicate.BronzeHistoryGCPComputeNetworkPeering {
 	return predicate.BronzeHistoryGCPComputeNetworkPeering(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPComputeNetworkPeering {
+func IDGTE(id uint) predicate.BronzeHistoryGCPComputeNetworkPeering {
 	return predicate.BronzeHistoryGCPComputeNetworkPeering(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPComputeNetworkPeering {
+func IDLT(id uint) predicate.BronzeHistoryGCPComputeNetworkPeering {
 	return predicate.BronzeHistoryGCPComputeNetworkPeering(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPComputeNetworkPeering {
+func IDLTE(id uint) predicate.BronzeHistoryGCPComputeNetworkPeering {
 	return predicate.BronzeHistoryGCPComputeNetworkPeering(sql.FieldLTE(FieldID, id))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPComputeNetworkPeering {
-	return predicate.BronzeHistoryGCPComputeNetworkPeering(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // NetworkHistoryID applies equality check predicate on the "network_history_id" field. It's identical to NetworkHistoryIDEQ.
@@ -132,46 +127,6 @@ func PeerMtu(v int) predicate.BronzeHistoryGCPComputeNetworkPeering {
 // AutoCreateRoutes applies equality check predicate on the "auto_create_routes" field. It's identical to AutoCreateRoutesEQ.
 func AutoCreateRoutes(v bool) predicate.BronzeHistoryGCPComputeNetworkPeering {
 	return predicate.BronzeHistoryGCPComputeNetworkPeering(sql.FieldEQ(FieldAutoCreateRoutes, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPComputeNetworkPeering {
-	return predicate.BronzeHistoryGCPComputeNetworkPeering(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPComputeNetworkPeering {
-	return predicate.BronzeHistoryGCPComputeNetworkPeering(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPComputeNetworkPeering {
-	return predicate.BronzeHistoryGCPComputeNetworkPeering(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPComputeNetworkPeering {
-	return predicate.BronzeHistoryGCPComputeNetworkPeering(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPComputeNetworkPeering {
-	return predicate.BronzeHistoryGCPComputeNetworkPeering(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPComputeNetworkPeering {
-	return predicate.BronzeHistoryGCPComputeNetworkPeering(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPComputeNetworkPeering {
-	return predicate.BronzeHistoryGCPComputeNetworkPeering(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPComputeNetworkPeering {
-	return predicate.BronzeHistoryGCPComputeNetworkPeering(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // NetworkHistoryIDEQ applies the EQ predicate on the "network_history_id" field.

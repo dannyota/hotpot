@@ -17,7 +17,7 @@ import (
 type BronzeHistoryGCPComputeFirewall struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Start of validity period
 	ValidFrom time.Time `json:"valid_from,omitempty"`
 	// End of validity period (null = current)
@@ -26,8 +26,6 @@ type BronzeHistoryGCPComputeFirewall struct {
 	CollectedAt time.Time `json:"collected_at,omitempty"`
 	// Timestamp when this asset was first collected
 	FirstCollectedAt time.Time `json:"first_collected_at,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
 	// Link to bronze firewall by resource_id
 	ResourceID string `json:"resource_id,omitempty"`
 	// Name holds the value of the "name" field.
@@ -74,7 +72,7 @@ func (*BronzeHistoryGCPComputeFirewall) scanValues(columns []string) ([]any, err
 			values[i] = new([]byte)
 		case bronzehistorygcpcomputefirewall.FieldDisabled:
 			values[i] = new(sql.NullBool)
-		case bronzehistorygcpcomputefirewall.FieldID, bronzehistorygcpcomputefirewall.FieldHistoryID, bronzehistorygcpcomputefirewall.FieldPriority:
+		case bronzehistorygcpcomputefirewall.FieldID, bronzehistorygcpcomputefirewall.FieldPriority:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorygcpcomputefirewall.FieldResourceID, bronzehistorygcpcomputefirewall.FieldName, bronzehistorygcpcomputefirewall.FieldDescription, bronzehistorygcpcomputefirewall.FieldSelfLink, bronzehistorygcpcomputefirewall.FieldCreationTimestamp, bronzehistorygcpcomputefirewall.FieldNetwork, bronzehistorygcpcomputefirewall.FieldDirection, bronzehistorygcpcomputefirewall.FieldProjectID:
 			values[i] = new(sql.NullString)
@@ -100,7 +98,7 @@ func (_m *BronzeHistoryGCPComputeFirewall) assignValues(columns []string, values
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
+			_m.ID = uint(value.Int64)
 		case bronzehistorygcpcomputefirewall.FieldValidFrom:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field valid_from", values[i])
@@ -125,12 +123,6 @@ func (_m *BronzeHistoryGCPComputeFirewall) assignValues(columns []string, values
 				return fmt.Errorf("unexpected type %T for field first_collected_at", values[i])
 			} else if value.Valid {
 				_m.FirstCollectedAt = value.Time
-			}
-		case bronzehistorygcpcomputefirewall.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
 			}
 		case bronzehistorygcpcomputefirewall.FieldResourceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -297,9 +289,6 @@ func (_m *BronzeHistoryGCPComputeFirewall) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("first_collected_at=")
 	builder.WriteString(_m.FirstCollectedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
 	builder.WriteString(", ")
 	builder.WriteString("resource_id=")
 	builder.WriteString(_m.ResourceID)

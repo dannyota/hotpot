@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPComputeHealthCheckDelete) ExecX(ctx context.Context) i
 }
 
 func (_d *BronzeHistoryGCPComputeHealthCheckDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputehealthcheck.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputehealthcheck.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputehealthcheck.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputehealthcheck.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPComputeHealthCheck
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

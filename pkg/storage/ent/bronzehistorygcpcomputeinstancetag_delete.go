@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPComputeInstanceTagDelete) ExecX(ctx context.Context) i
 }
 
 func (_d *BronzeHistoryGCPComputeInstanceTagDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputeinstancetag.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancetag.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputeinstancetag.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancetag.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPComputeInstanceTag
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

@@ -24,9 +24,7 @@ func (BronzeHistoryGCPComputeImage) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeImage) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze image by resource_id"),
@@ -131,9 +129,7 @@ type BronzeHistoryGCPComputeImageLabel struct {
 
 func (BronzeHistoryGCPComputeImageLabel) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("image_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeImage"),
 		field.Time("valid_from").
@@ -172,9 +168,7 @@ type BronzeHistoryGCPComputeImageLicense struct {
 
 func (BronzeHistoryGCPComputeImageLicense) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("image_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeImage"),
 		field.Time("valid_from").

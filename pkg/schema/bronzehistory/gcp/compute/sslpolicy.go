@@ -24,9 +24,7 @@ func (BronzeHistoryGCPComputeSslPolicy) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeSslPolicy) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze SSL policy by resource_id"),

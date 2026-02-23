@@ -10,53 +10,48 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
+func ID(id uint) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAliasRange(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
+func IDEQ(id uint) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAliasRange(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAliasRange(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAliasRange(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAliasRange(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
+func IDGT(id uint) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAliasRange(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
+func IDGTE(id uint) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAliasRange(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
+func IDLT(id uint) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAliasRange(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
+func IDLTE(id uint) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAliasRange(sql.FieldLTE(FieldID, id))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
-	return predicate.BronzeHistoryGCPComputeInstanceNICAliasRange(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // NicHistoryID applies equality check predicate on the "nic_history_id" field. It's identical to NicHistoryIDEQ.
@@ -82,46 +77,6 @@ func IPCidrRange(v string) predicate.BronzeHistoryGCPComputeInstanceNICAliasRang
 // SubnetworkRangeName applies equality check predicate on the "subnetwork_range_name" field. It's identical to SubnetworkRangeNameEQ.
 func SubnetworkRangeName(v string) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAliasRange(sql.FieldEQ(FieldSubnetworkRangeName, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
-	return predicate.BronzeHistoryGCPComputeInstanceNICAliasRange(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
-	return predicate.BronzeHistoryGCPComputeInstanceNICAliasRange(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
-	return predicate.BronzeHistoryGCPComputeInstanceNICAliasRange(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
-	return predicate.BronzeHistoryGCPComputeInstanceNICAliasRange(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
-	return predicate.BronzeHistoryGCPComputeInstanceNICAliasRange(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
-	return predicate.BronzeHistoryGCPComputeInstanceNICAliasRange(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
-	return predicate.BronzeHistoryGCPComputeInstanceNICAliasRange(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPComputeInstanceNICAliasRange {
-	return predicate.BronzeHistoryGCPComputeInstanceNICAliasRange(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // NicHistoryIDEQ applies the EQ predicate on the "nic_history_id" field.

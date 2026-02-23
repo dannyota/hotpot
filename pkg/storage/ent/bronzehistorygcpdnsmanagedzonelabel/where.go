@@ -10,53 +10,48 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
+func ID(id uint) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
 	return predicate.BronzeHistoryGCPDNSManagedZoneLabel(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
+func IDEQ(id uint) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
 	return predicate.BronzeHistoryGCPDNSManagedZoneLabel(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
 	return predicate.BronzeHistoryGCPDNSManagedZoneLabel(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
 	return predicate.BronzeHistoryGCPDNSManagedZoneLabel(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
 	return predicate.BronzeHistoryGCPDNSManagedZoneLabel(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
+func IDGT(id uint) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
 	return predicate.BronzeHistoryGCPDNSManagedZoneLabel(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
+func IDGTE(id uint) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
 	return predicate.BronzeHistoryGCPDNSManagedZoneLabel(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
+func IDLT(id uint) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
 	return predicate.BronzeHistoryGCPDNSManagedZoneLabel(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
+func IDLTE(id uint) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
 	return predicate.BronzeHistoryGCPDNSManagedZoneLabel(sql.FieldLTE(FieldID, id))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
-	return predicate.BronzeHistoryGCPDNSManagedZoneLabel(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // ManagedZoneHistoryID applies equality check predicate on the "managed_zone_history_id" field. It's identical to ManagedZoneHistoryIDEQ.
@@ -82,46 +77,6 @@ func Key(v string) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
 // Value applies equality check predicate on the "value" field. It's identical to ValueEQ.
 func Value(v string) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
 	return predicate.BronzeHistoryGCPDNSManagedZoneLabel(sql.FieldEQ(FieldValue, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
-	return predicate.BronzeHistoryGCPDNSManagedZoneLabel(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
-	return predicate.BronzeHistoryGCPDNSManagedZoneLabel(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
-	return predicate.BronzeHistoryGCPDNSManagedZoneLabel(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
-	return predicate.BronzeHistoryGCPDNSManagedZoneLabel(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
-	return predicate.BronzeHistoryGCPDNSManagedZoneLabel(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
-	return predicate.BronzeHistoryGCPDNSManagedZoneLabel(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
-	return predicate.BronzeHistoryGCPDNSManagedZoneLabel(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPDNSManagedZoneLabel {
-	return predicate.BronzeHistoryGCPDNSManagedZoneLabel(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // ManagedZoneHistoryIDEQ applies the EQ predicate on the "managed_zone_history_id" field.

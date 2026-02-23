@@ -17,7 +17,7 @@ import (
 type BronzeHistoryS1Agent struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Start of validity period
 	ValidFrom time.Time `json:"valid_from,omitempty"`
 	// End of validity period (null = current)
@@ -26,8 +26,6 @@ type BronzeHistoryS1Agent struct {
 	CollectedAt time.Time `json:"collected_at,omitempty"`
 	// Timestamp when this asset was first collected
 	FirstCollectedAt time.Time `json:"first_collected_at,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
 	// Link to bronze agent by resource_id
 	ResourceID string `json:"resource_id,omitempty"`
 	// ComputerName holds the value of the "computer_name" field.
@@ -156,7 +154,7 @@ func (*BronzeHistoryS1Agent) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case bronzehistorys1agent.FieldIsActive, bronzehistorys1agent.FieldIsInfected, bronzehistorys1agent.FieldIsDecommissioned, bronzehistorys1agent.FieldEncryptedApplications, bronzehistorys1agent.FieldIsUpToDate, bronzehistorys1agent.FieldIsPendingUninstall, bronzehistorys1agent.FieldIsUninstalled:
 			values[i] = new(sql.NullBool)
-		case bronzehistorys1agent.FieldID, bronzehistorys1agent.FieldHistoryID, bronzehistorys1agent.FieldActiveThreats, bronzehistorys1agent.FieldCPUCount, bronzehistorys1agent.FieldCoreCount, bronzehistorys1agent.FieldTotalMemory:
+		case bronzehistorys1agent.FieldID, bronzehistorys1agent.FieldActiveThreats, bronzehistorys1agent.FieldCPUCount, bronzehistorys1agent.FieldCoreCount, bronzehistorys1agent.FieldTotalMemory:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorys1agent.FieldResourceID, bronzehistorys1agent.FieldComputerName, bronzehistorys1agent.FieldExternalIP, bronzehistorys1agent.FieldSiteName, bronzehistorys1agent.FieldAccountID, bronzehistorys1agent.FieldAccountName, bronzehistorys1agent.FieldAgentVersion, bronzehistorys1agent.FieldOsType, bronzehistorys1agent.FieldOsName, bronzehistorys1agent.FieldOsRevision, bronzehistorys1agent.FieldOsArch, bronzehistorys1agent.FieldMachineType, bronzehistorys1agent.FieldDomain, bronzehistorys1agent.FieldUUID, bronzehistorys1agent.FieldNetworkStatus, bronzehistorys1agent.FieldGroupName, bronzehistorys1agent.FieldGroupID, bronzehistorys1agent.FieldCPUID, bronzehistorys1agent.FieldModelName, bronzehistorys1agent.FieldSerialNumber, bronzehistorys1agent.FieldStorageEncryptionStatus, bronzehistorys1agent.FieldSiteID, bronzehistorys1agent.FieldOsUsername, bronzehistorys1agent.FieldGroupIP, bronzehistorys1agent.FieldScanStatus, bronzehistorys1agent.FieldMitigationMode, bronzehistorys1agent.FieldMitigationModeSuspicious, bronzehistorys1agent.FieldLastLoggedInUserName, bronzehistorys1agent.FieldInstallerType, bronzehistorys1agent.FieldExternalID, bronzehistorys1agent.FieldLastIPToMgmt, bronzehistorys1agent.FieldAppsVulnerabilityStatus, bronzehistorys1agent.FieldConsoleMigrationStatus, bronzehistorys1agent.FieldRangerVersion, bronzehistorys1agent.FieldRangerStatus:
 			values[i] = new(sql.NullString)
@@ -182,7 +180,7 @@ func (_m *BronzeHistoryS1Agent) assignValues(columns []string, values []any) err
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
+			_m.ID = uint(value.Int64)
 		case bronzehistorys1agent.FieldValidFrom:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field valid_from", values[i])
@@ -207,12 +205,6 @@ func (_m *BronzeHistoryS1Agent) assignValues(columns []string, values []any) err
 				return fmt.Errorf("unexpected type %T for field first_collected_at", values[i])
 			} else if value.Valid {
 				_m.FirstCollectedAt = value.Time
-			}
-		case bronzehistorys1agent.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
 			}
 		case bronzehistorys1agent.FieldResourceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -628,9 +620,6 @@ func (_m *BronzeHistoryS1Agent) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("first_collected_at=")
 	builder.WriteString(_m.FirstCollectedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
 	builder.WriteString(", ")
 	builder.WriteString("resource_id=")
 	builder.WriteString(_m.ResourceID)

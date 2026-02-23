@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPDNSManagedZoneLabelDelete) ExecX(ctx context.Context) 
 }
 
 func (_d *BronzeHistoryGCPDNSManagedZoneLabelDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpdnsmanagedzonelabel.Table, sqlgraph.NewFieldSpec(bronzehistorygcpdnsmanagedzonelabel.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpdnsmanagedzonelabel.Table, sqlgraph.NewFieldSpec(bronzehistorygcpdnsmanagedzonelabel.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPDNSManagedZoneLabel
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

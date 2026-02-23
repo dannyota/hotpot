@@ -23,9 +23,7 @@ func (BronzeHistoryS1Agent) Mixin() []ent.Mixin {
 
 func (BronzeHistoryS1Agent) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze agent by resource_id"),
@@ -176,9 +174,7 @@ type BronzeHistoryS1AgentNIC struct {
 
 func (BronzeHistoryS1AgentNIC) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("agent_history_id").
 			Comment("Links to parent BronzeHistoryS1Agent"),
 		field.Time("valid_from").

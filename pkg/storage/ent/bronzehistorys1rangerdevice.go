@@ -17,7 +17,7 @@ import (
 type BronzeHistoryS1RangerDevice struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Start of validity period
 	ValidFrom time.Time `json:"valid_from,omitempty"`
 	// End of validity period (null = current)
@@ -26,8 +26,6 @@ type BronzeHistoryS1RangerDevice struct {
 	CollectedAt time.Time `json:"collected_at,omitempty"`
 	// Timestamp when this asset was first collected
 	FirstCollectedAt time.Time `json:"first_collected_at,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
 	// Link to bronze ranger device by resource_id
 	ResourceID string `json:"resource_id,omitempty"`
 	// LocalIP holds the value of the "local_ip" field.
@@ -100,7 +98,7 @@ func (*BronzeHistoryS1RangerDevice) scanValues(columns []string) ([]any, error) 
 			values[i] = new([]byte)
 		case bronzehistorys1rangerdevice.FieldHasIdentity, bronzehistorys1rangerdevice.FieldHasUserLabel:
 			values[i] = new(sql.NullBool)
-		case bronzehistorys1rangerdevice.FieldID, bronzehistorys1rangerdevice.FieldHistoryID, bronzehistorys1rangerdevice.FieldFingerprintScore:
+		case bronzehistorys1rangerdevice.FieldID, bronzehistorys1rangerdevice.FieldFingerprintScore:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorys1rangerdevice.FieldResourceID, bronzehistorys1rangerdevice.FieldLocalIP, bronzehistorys1rangerdevice.FieldExternalIP, bronzehistorys1rangerdevice.FieldMACAddress, bronzehistorys1rangerdevice.FieldOsType, bronzehistorys1rangerdevice.FieldOsName, bronzehistorys1rangerdevice.FieldOsVersion, bronzehistorys1rangerdevice.FieldDeviceType, bronzehistorys1rangerdevice.FieldDeviceFunction, bronzehistorys1rangerdevice.FieldManufacturer, bronzehistorys1rangerdevice.FieldManagedState, bronzehistorys1rangerdevice.FieldAgentID, bronzehistorys1rangerdevice.FieldSubnetAddress, bronzehistorys1rangerdevice.FieldGatewayIPAddress, bronzehistorys1rangerdevice.FieldGatewayMACAddress, bronzehistorys1rangerdevice.FieldNetworkName, bronzehistorys1rangerdevice.FieldDomain, bronzehistorys1rangerdevice.FieldSiteName, bronzehistorys1rangerdevice.FieldDeviceReview:
 			values[i] = new(sql.NullString)
@@ -126,7 +124,7 @@ func (_m *BronzeHistoryS1RangerDevice) assignValues(columns []string, values []a
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
+			_m.ID = uint(value.Int64)
 		case bronzehistorys1rangerdevice.FieldValidFrom:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field valid_from", values[i])
@@ -151,12 +149,6 @@ func (_m *BronzeHistoryS1RangerDevice) assignValues(columns []string, values []a
 				return fmt.Errorf("unexpected type %T for field first_collected_at", values[i])
 			} else if value.Valid {
 				_m.FirstCollectedAt = value.Time
-			}
-		case bronzehistorys1rangerdevice.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
 			}
 		case bronzehistorys1rangerdevice.FieldResourceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -401,9 +393,6 @@ func (_m *BronzeHistoryS1RangerDevice) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("first_collected_at=")
 	builder.WriteString(_m.FirstCollectedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
 	builder.WriteString(", ")
 	builder.WriteString("resource_id=")
 	builder.WriteString(_m.ResourceID)

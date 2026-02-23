@@ -24,9 +24,7 @@ func (BronzeHistoryGCPComputeSubnetwork) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeSubnetwork) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze subnetwork by resource_id"),
@@ -113,9 +111,7 @@ type BronzeHistoryGCPComputeSubnetworkSecondaryRange struct {
 
 func (BronzeHistoryGCPComputeSubnetworkSecondaryRange) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("subnetwork_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeSubnetwork"),
 		field.Time("valid_from").

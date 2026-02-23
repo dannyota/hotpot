@@ -143,7 +143,7 @@ func (_u *BronzeHistoryGCPComputeInstanceNICAliasRangeUpdate) ExecX(ctx context.
 }
 
 func (_u *BronzeHistoryGCPComputeInstanceNICAliasRangeUpdate) sqlSave(ctx context.Context) (_node int, err error) {
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstancenicaliasrange.Table, bronzehistorygcpcomputeinstancenicaliasrange.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancenicaliasrange.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstancenicaliasrange.Table, bronzehistorygcpcomputeinstancenicaliasrange.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancenicaliasrange.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -324,7 +324,7 @@ func (_u *BronzeHistoryGCPComputeInstanceNICAliasRangeUpdateOne) ExecX(ctx conte
 }
 
 func (_u *BronzeHistoryGCPComputeInstanceNICAliasRangeUpdateOne) sqlSave(ctx context.Context) (_node *BronzeHistoryGCPComputeInstanceNICAliasRange, err error) {
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstancenicaliasrange.Table, bronzehistorygcpcomputeinstancenicaliasrange.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancenicaliasrange.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstancenicaliasrange.Table, bronzehistorygcpcomputeinstancenicaliasrange.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancenicaliasrange.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPComputeInstanceNICAliasRange.id" for update`)}

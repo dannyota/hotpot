@@ -189,12 +189,12 @@ func (s *Service) saveServices(ctx context.Context, services []*ServiceData, pro
 
 		// Track history
 		if diff.IsNew {
-			if err := s.history.CreateHistory(ctx, tx, svcData, appHistory.HistoryID, now); err != nil {
+			if err := s.history.CreateHistory(ctx, tx, svcData, appHistory.ID, now); err != nil {
 				tx.Rollback()
 				return fmt.Errorf("failed to create history for service %s: %w", svcData.ID, err)
 			}
 		} else {
-			if err := s.history.UpdateHistory(ctx, tx, existing, svcData, diff, appHistory.HistoryID, now); err != nil {
+			if err := s.history.UpdateHistory(ctx, tx, existing, svcData, diff, appHistory.ID, now); err != nil {
 				tx.Rollback()
 				return fmt.Errorf("failed to update history for service %s: %w", svcData.ID, err)
 			}

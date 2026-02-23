@@ -10,53 +10,48 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPComputeImageLicense {
+func ID(id uint) predicate.BronzeHistoryGCPComputeImageLicense {
 	return predicate.BronzeHistoryGCPComputeImageLicense(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPComputeImageLicense {
+func IDEQ(id uint) predicate.BronzeHistoryGCPComputeImageLicense {
 	return predicate.BronzeHistoryGCPComputeImageLicense(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPComputeImageLicense {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPComputeImageLicense {
 	return predicate.BronzeHistoryGCPComputeImageLicense(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPComputeImageLicense {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPComputeImageLicense {
 	return predicate.BronzeHistoryGCPComputeImageLicense(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPComputeImageLicense {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPComputeImageLicense {
 	return predicate.BronzeHistoryGCPComputeImageLicense(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPComputeImageLicense {
+func IDGT(id uint) predicate.BronzeHistoryGCPComputeImageLicense {
 	return predicate.BronzeHistoryGCPComputeImageLicense(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPComputeImageLicense {
+func IDGTE(id uint) predicate.BronzeHistoryGCPComputeImageLicense {
 	return predicate.BronzeHistoryGCPComputeImageLicense(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPComputeImageLicense {
+func IDLT(id uint) predicate.BronzeHistoryGCPComputeImageLicense {
 	return predicate.BronzeHistoryGCPComputeImageLicense(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPComputeImageLicense {
+func IDLTE(id uint) predicate.BronzeHistoryGCPComputeImageLicense {
 	return predicate.BronzeHistoryGCPComputeImageLicense(sql.FieldLTE(FieldID, id))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPComputeImageLicense {
-	return predicate.BronzeHistoryGCPComputeImageLicense(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // ImageHistoryID applies equality check predicate on the "image_history_id" field. It's identical to ImageHistoryIDEQ.
@@ -77,46 +72,6 @@ func ValidTo(v time.Time) predicate.BronzeHistoryGCPComputeImageLicense {
 // License applies equality check predicate on the "license" field. It's identical to LicenseEQ.
 func License(v string) predicate.BronzeHistoryGCPComputeImageLicense {
 	return predicate.BronzeHistoryGCPComputeImageLicense(sql.FieldEQ(FieldLicense, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPComputeImageLicense {
-	return predicate.BronzeHistoryGCPComputeImageLicense(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPComputeImageLicense {
-	return predicate.BronzeHistoryGCPComputeImageLicense(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPComputeImageLicense {
-	return predicate.BronzeHistoryGCPComputeImageLicense(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPComputeImageLicense {
-	return predicate.BronzeHistoryGCPComputeImageLicense(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPComputeImageLicense {
-	return predicate.BronzeHistoryGCPComputeImageLicense(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPComputeImageLicense {
-	return predicate.BronzeHistoryGCPComputeImageLicense(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPComputeImageLicense {
-	return predicate.BronzeHistoryGCPComputeImageLicense(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPComputeImageLicense {
-	return predicate.BronzeHistoryGCPComputeImageLicense(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // ImageHistoryIDEQ applies the EQ predicate on the "image_history_id" field.

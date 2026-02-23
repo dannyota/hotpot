@@ -22,9 +22,7 @@ func (BronzeHistoryGCPOrgPolicyCustomConstraint) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPOrgPolicyCustomConstraint) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze org policy custom constraint by resource_id"),

@@ -1,6 +1,6 @@
 module github.com/dannyota/hotpot
 
-go 1.25.0
+go 1.25.7
 
 require (
 	cloud.google.com/go/accesscontextmanager v1.9.7

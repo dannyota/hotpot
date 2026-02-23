@@ -52,12 +52,6 @@ func (_c *BronzeHistoryGCPComputeTargetTcpProxyCreate) SetFirstCollectedAt(v tim
 	return _c
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPComputeTargetTcpProxyCreate) SetHistoryID(v uint) *BronzeHistoryGCPComputeTargetTcpProxyCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetResourceID sets the "resource_id" field.
 func (_c *BronzeHistoryGCPComputeTargetTcpProxyCreate) SetResourceID(v string) *BronzeHistoryGCPComputeTargetTcpProxyCreate {
 	_c.mutation.SetResourceID(v)
@@ -174,6 +168,12 @@ func (_c *BronzeHistoryGCPComputeTargetTcpProxyCreate) SetProjectID(v string) *B
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPComputeTargetTcpProxyCreate) SetID(v uint) *BronzeHistoryGCPComputeTargetTcpProxyCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPComputeTargetTcpProxyMutation object of the builder.
 func (_c *BronzeHistoryGCPComputeTargetTcpProxyCreate) Mutation() *BronzeHistoryGCPComputeTargetTcpProxyMutation {
 	return _c.mutation
@@ -226,9 +226,6 @@ func (_c *BronzeHistoryGCPComputeTargetTcpProxyCreate) check() error {
 	if _, ok := _c.mutation.FirstCollectedAt(); !ok {
 		return &ValidationError{Name: "first_collected_at", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeTargetTcpProxy.first_collected_at"`)}
 	}
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeTargetTcpProxy.history_id"`)}
-	}
 	if _, ok := _c.mutation.ResourceID(); !ok {
 		return &ValidationError{Name: "resource_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeTargetTcpProxy.resource_id"`)}
 	}
@@ -270,8 +267,10 @@ func (_c *BronzeHistoryGCPComputeTargetTcpProxyCreate) sqlSave(ctx context.Conte
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -280,9 +279,13 @@ func (_c *BronzeHistoryGCPComputeTargetTcpProxyCreate) sqlSave(ctx context.Conte
 func (_c *BronzeHistoryGCPComputeTargetTcpProxyCreate) createSpec() (*BronzeHistoryGCPComputeTargetTcpProxy, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPComputeTargetTcpProxy{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputetargettcpproxy.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputetargettcpproxy.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputetargettcpproxy.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputetargettcpproxy.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPComputeTargetTcpProxy
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := _c.mutation.ValidFrom(); ok {
 		_spec.SetField(bronzehistorygcpcomputetargettcpproxy.FieldValidFrom, field.TypeTime, value)
 		_node.ValidFrom = value
@@ -298,10 +301,6 @@ func (_c *BronzeHistoryGCPComputeTargetTcpProxyCreate) createSpec() (*BronzeHist
 	if value, ok := _c.mutation.FirstCollectedAt(); ok {
 		_spec.SetField(bronzehistorygcpcomputetargettcpproxy.FieldFirstCollectedAt, field.TypeTime, value)
 		_node.FirstCollectedAt = value
-	}
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpcomputetargettcpproxy.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
 	}
 	if value, ok := _c.mutation.ResourceID(); ok {
 		_spec.SetField(bronzehistorygcpcomputetargettcpproxy.FieldResourceID, field.TypeString, value)
@@ -391,9 +390,9 @@ func (_c *BronzeHistoryGCPComputeTargetTcpProxyCreateBulk) Save(ctx context.Cont
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

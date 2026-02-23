@@ -63,7 +63,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Vp
 	// Create labels history
 	for _, label := range data.Labels {
 		_, err := tx.BronzeHistoryGCPVPNTunnelLabel.Create().
-			SetVpnTunnelHistoryID(tunnelHist.HistoryID).
+			SetVpnTunnelHistoryID(tunnelHist.ID).
 			SetValidFrom(now).
 			SetKey(label.Key).
 			SetValue(label.Value).
@@ -96,7 +96,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 	// If VPN tunnel-level fields changed, close old and create new VPN tunnel history
 	if diff.IsChanged {
 		// Close old VPN tunnel history
-		_, err := tx.BronzeHistoryGCPVPNTunnel.UpdateOneID(int(currentHist.HistoryID)).
+		_, err := tx.BronzeHistoryGCPVPNTunnel.UpdateOneID(currentHist.ID).
 			SetValidTo(now).
 			Save(ctx)
 		if err != nil {
@@ -106,7 +106,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Close all children history
 		_, err = tx.BronzeHistoryGCPVPNTunnelLabel.Update().
 			Where(
-				bronzehistorygcpvpntunnellabel.VpnTunnelHistoryID(currentHist.HistoryID),
+				bronzehistorygcpvpntunnellabel.VpnTunnelHistoryID(currentHist.ID),
 				bronzehistorygcpvpntunnellabel.ValidToIsNil(),
 			).
 			SetValidTo(now).
@@ -156,7 +156,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Create labels history
 		for _, label := range new.Labels {
 			_, err := tx.BronzeHistoryGCPVPNTunnelLabel.Create().
-				SetVpnTunnelHistoryID(tunnelHist.HistoryID).
+				SetVpnTunnelHistoryID(tunnelHist.ID).
 				SetValidFrom(now).
 				SetKey(label.Key).
 				SetValue(label.Value).
@@ -174,7 +174,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Close old labels history
 		_, err := tx.BronzeHistoryGCPVPNTunnelLabel.Update().
 			Where(
-				bronzehistorygcpvpntunnellabel.VpnTunnelHistoryID(currentHist.HistoryID),
+				bronzehistorygcpvpntunnellabel.VpnTunnelHistoryID(currentHist.ID),
 				bronzehistorygcpvpntunnellabel.ValidToIsNil(),
 			).
 			SetValidTo(now).
@@ -186,7 +186,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Create new labels history
 		for _, label := range new.Labels {
 			_, err := tx.BronzeHistoryGCPVPNTunnelLabel.Create().
-				SetVpnTunnelHistoryID(currentHist.HistoryID).
+				SetVpnTunnelHistoryID(currentHist.ID).
 				SetValidFrom(now).
 				SetKey(label.Key).
 				SetValue(label.Value).
@@ -217,7 +217,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	}
 
 	// Close VPN tunnel history
-	_, err = tx.BronzeHistoryGCPVPNTunnel.UpdateOneID(int(currentHist.HistoryID)).
+	_, err = tx.BronzeHistoryGCPVPNTunnel.UpdateOneID(currentHist.ID).
 		SetValidTo(now).
 		Save(ctx)
 	if err != nil {
@@ -227,7 +227,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	// Close all children history
 	_, err = tx.BronzeHistoryGCPVPNTunnelLabel.Update().
 		Where(
-			bronzehistorygcpvpntunnellabel.VpnTunnelHistoryID(currentHist.HistoryID),
+			bronzehistorygcpvpntunnellabel.VpnTunnelHistoryID(currentHist.ID),
 			bronzehistorygcpvpntunnellabel.ValidToIsNil(),
 		).
 		SetValidTo(now).

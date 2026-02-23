@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPServiceUsageEnabledServiceDelete) ExecX(ctx context.Co
 }
 
 func (_d *BronzeHistoryGCPServiceUsageEnabledServiceDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpserviceusageenabledservice.Table, sqlgraph.NewFieldSpec(bronzehistorygcpserviceusageenabledservice.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpserviceusageenabledservice.Table, sqlgraph.NewFieldSpec(bronzehistorygcpserviceusageenabledservice.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPServiceUsageEnabledService
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

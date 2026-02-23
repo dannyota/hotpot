@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) FirstX(ctx 
 
 // FirstID returns the first BronzeHistoryGCPAccessContextManagerServicePerimeter ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPAccessContextManagerServicePerimeter ID was found.
-func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) FirstID(ctx
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) OnlyX(ctx c
 // OnlyID is like Only, but returns the only BronzeHistoryGCPAccessContextManagerServicePerimeter ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPAccessContextManagerServicePerimeter ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) OnlyID(ctx 
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) AllX(ctx co
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPAccessContextManagerServicePerimeter IDs.
-func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) IDs(ctx con
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) sqlCount(ct
 }
 
 func (_q *BronzeHistoryGCPAccessContextManagerServicePerimeterQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpaccesscontextmanagerserviceperimeter.Table, bronzehistorygcpaccesscontextmanagerserviceperimeter.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpaccesscontextmanagerserviceperimeter.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpaccesscontextmanagerserviceperimeter.Table, bronzehistorygcpaccesscontextmanagerserviceperimeter.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpaccesscontextmanagerserviceperimeter.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

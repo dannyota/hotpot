@@ -10,47 +10,47 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPLoggingLogMetric {
+func ID(id uint) predicate.BronzeHistoryGCPLoggingLogMetric {
 	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPLoggingLogMetric {
+func IDEQ(id uint) predicate.BronzeHistoryGCPLoggingLogMetric {
 	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPLoggingLogMetric {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPLoggingLogMetric {
 	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPLoggingLogMetric {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPLoggingLogMetric {
 	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPLoggingLogMetric {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPLoggingLogMetric {
 	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPLoggingLogMetric {
+func IDGT(id uint) predicate.BronzeHistoryGCPLoggingLogMetric {
 	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPLoggingLogMetric {
+func IDGTE(id uint) predicate.BronzeHistoryGCPLoggingLogMetric {
 	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPLoggingLogMetric {
+func IDLT(id uint) predicate.BronzeHistoryGCPLoggingLogMetric {
 	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPLoggingLogMetric {
+func IDLTE(id uint) predicate.BronzeHistoryGCPLoggingLogMetric {
 	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldLTE(FieldID, id))
 }
 
@@ -72,11 +72,6 @@ func CollectedAt(v time.Time) predicate.BronzeHistoryGCPLoggingLogMetric {
 // FirstCollectedAt applies equality check predicate on the "first_collected_at" field. It's identical to FirstCollectedAtEQ.
 func FirstCollectedAt(v time.Time) predicate.BronzeHistoryGCPLoggingLogMetric {
 	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldEQ(FieldFirstCollectedAt, v))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPLoggingLogMetric {
-	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // ResourceID applies equality check predicate on the "resource_id" field. It's identical to ResourceIDEQ.
@@ -297,46 +292,6 @@ func FirstCollectedAtLT(v time.Time) predicate.BronzeHistoryGCPLoggingLogMetric 
 // FirstCollectedAtLTE applies the LTE predicate on the "first_collected_at" field.
 func FirstCollectedAtLTE(v time.Time) predicate.BronzeHistoryGCPLoggingLogMetric {
 	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldLTE(FieldFirstCollectedAt, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPLoggingLogMetric {
-	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPLoggingLogMetric {
-	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPLoggingLogMetric {
-	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPLoggingLogMetric {
-	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPLoggingLogMetric {
-	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPLoggingLogMetric {
-	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPLoggingLogMetric {
-	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPLoggingLogMetric {
-	return predicate.BronzeHistoryGCPLoggingLogMetric(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // ResourceIDEQ applies the EQ predicate on the "resource_id" field.

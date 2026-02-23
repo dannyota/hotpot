@@ -23,9 +23,7 @@ func (BronzeHistoryGCPFolderIamPolicy) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPFolderIamPolicy) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze folder IAM policy by resource_id"),
@@ -62,9 +60,7 @@ type BronzeHistoryGCPFolderIamPolicyBinding struct {
 
 func (BronzeHistoryGCPFolderIamPolicyBinding) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("policy_history_id").
 			Comment("Links to parent BronzeHistoryGCPFolderIamPolicy"),
 		field.Time("valid_from").

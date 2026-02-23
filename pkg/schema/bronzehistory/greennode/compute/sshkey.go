@@ -21,9 +21,7 @@ func (BronzeHistoryGreenNodeComputeSSHKey) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGreenNodeComputeSSHKey) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty(),
 		field.String("name").

@@ -287,7 +287,7 @@ func (_u *BronzeHistoryGCPCloudAssetAssetUpdate) sqlSave(ctx context.Context) (_
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcloudassetasset.Table, bronzehistorygcpcloudassetasset.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcloudassetasset.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcloudassetasset.Table, bronzehistorygcpcloudassetasset.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcloudassetasset.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -668,7 +668,7 @@ func (_u *BronzeHistoryGCPCloudAssetAssetUpdateOne) sqlSave(ctx context.Context)
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcloudassetasset.Table, bronzehistorygcpcloudassetasset.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcloudassetasset.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcloudassetasset.Table, bronzehistorygcpcloudassetasset.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcloudassetasset.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPCloudAssetAsset.id" for update`)}

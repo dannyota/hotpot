@@ -157,7 +157,7 @@ func (_u *BronzeHistoryGCPContainerClusterAddonUpdate) ExecX(ctx context.Context
 }
 
 func (_u *BronzeHistoryGCPContainerClusterAddonUpdate) sqlSave(ctx context.Context) (_node int, err error) {
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcontainerclusteraddon.Table, bronzehistorygcpcontainerclusteraddon.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcontainerclusteraddon.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcontainerclusteraddon.Table, bronzehistorygcpcontainerclusteraddon.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcontainerclusteraddon.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -358,7 +358,7 @@ func (_u *BronzeHistoryGCPContainerClusterAddonUpdateOne) ExecX(ctx context.Cont
 }
 
 func (_u *BronzeHistoryGCPContainerClusterAddonUpdateOne) sqlSave(ctx context.Context) (_node *BronzeHistoryGCPContainerClusterAddon, err error) {
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcontainerclusteraddon.Table, bronzehistorygcpcontainerclusteraddon.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcontainerclusteraddon.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcontainerclusteraddon.Table, bronzehistorygcpcontainerclusteraddon.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcontainerclusteraddon.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPContainerClusterAddon.id" for update`)}

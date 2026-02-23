@@ -41,7 +41,7 @@ func (_d *BronzeHistoryDOAccountDelete) ExecX(ctx context.Context) int {
 }
 
 func (_d *BronzeHistoryDOAccountDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorydoaccount.Table, sqlgraph.NewFieldSpec(bronzehistorydoaccount.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorydoaccount.Table, sqlgraph.NewFieldSpec(bronzehistorydoaccount.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryDOAccount
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

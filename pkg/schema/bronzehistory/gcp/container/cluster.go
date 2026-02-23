@@ -24,9 +24,7 @@ func (BronzeHistoryGCPContainerCluster) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPContainerCluster) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze cluster by resource_id"),
@@ -153,9 +151,7 @@ type BronzeHistoryGCPContainerClusterAddon struct {
 
 func (BronzeHistoryGCPContainerClusterAddon) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("cluster_history_id").
 			Comment("Links to parent BronzeHistoryGCPContainerCluster"),
 		field.Time("valid_from").
@@ -197,9 +193,7 @@ type BronzeHistoryGCPContainerClusterCondition struct {
 
 func (BronzeHistoryGCPContainerClusterCondition) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("cluster_history_id").
 			Comment("Links to parent BronzeHistoryGCPContainerCluster"),
 		field.Time("valid_from").
@@ -241,9 +235,7 @@ type BronzeHistoryGCPContainerClusterLabel struct {
 
 func (BronzeHistoryGCPContainerClusterLabel) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("cluster_history_id").
 			Comment("Links to parent BronzeHistoryGCPContainerCluster"),
 		field.Time("valid_from").
@@ -282,9 +274,7 @@ type BronzeHistoryGCPContainerClusterNodePool struct {
 
 func (BronzeHistoryGCPContainerClusterNodePool) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("cluster_history_id").
 			Comment("Links to parent BronzeHistoryGCPContainerCluster"),
 		field.Time("valid_from").

@@ -24,9 +24,7 @@ func (BronzeHistoryGCPComputeSnapshot) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeSnapshot) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze snapshot by resource_id"),
@@ -117,9 +115,7 @@ type BronzeHistoryGCPComputeSnapshotLabel struct {
 
 func (BronzeHistoryGCPComputeSnapshotLabel) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("snapshot_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeSnapshot"),
 		field.Time("valid_from").
@@ -158,9 +154,7 @@ type BronzeHistoryGCPComputeSnapshotLicense struct {
 
 func (BronzeHistoryGCPComputeSnapshotLicense) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("snapshot_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeSnapshot"),
 		field.Time("valid_from").

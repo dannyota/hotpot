@@ -10,53 +10,48 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPFolderLabel {
+func ID(id uint) predicate.BronzeHistoryGCPFolderLabel {
 	return predicate.BronzeHistoryGCPFolderLabel(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPFolderLabel {
+func IDEQ(id uint) predicate.BronzeHistoryGCPFolderLabel {
 	return predicate.BronzeHistoryGCPFolderLabel(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPFolderLabel {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPFolderLabel {
 	return predicate.BronzeHistoryGCPFolderLabel(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPFolderLabel {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPFolderLabel {
 	return predicate.BronzeHistoryGCPFolderLabel(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPFolderLabel {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPFolderLabel {
 	return predicate.BronzeHistoryGCPFolderLabel(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPFolderLabel {
+func IDGT(id uint) predicate.BronzeHistoryGCPFolderLabel {
 	return predicate.BronzeHistoryGCPFolderLabel(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPFolderLabel {
+func IDGTE(id uint) predicate.BronzeHistoryGCPFolderLabel {
 	return predicate.BronzeHistoryGCPFolderLabel(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPFolderLabel {
+func IDLT(id uint) predicate.BronzeHistoryGCPFolderLabel {
 	return predicate.BronzeHistoryGCPFolderLabel(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPFolderLabel {
+func IDLTE(id uint) predicate.BronzeHistoryGCPFolderLabel {
 	return predicate.BronzeHistoryGCPFolderLabel(sql.FieldLTE(FieldID, id))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPFolderLabel {
-	return predicate.BronzeHistoryGCPFolderLabel(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // FolderHistoryID applies equality check predicate on the "folder_history_id" field. It's identical to FolderHistoryIDEQ.
@@ -82,46 +77,6 @@ func Key(v string) predicate.BronzeHistoryGCPFolderLabel {
 // Value applies equality check predicate on the "value" field. It's identical to ValueEQ.
 func Value(v string) predicate.BronzeHistoryGCPFolderLabel {
 	return predicate.BronzeHistoryGCPFolderLabel(sql.FieldEQ(FieldValue, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPFolderLabel {
-	return predicate.BronzeHistoryGCPFolderLabel(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPFolderLabel {
-	return predicate.BronzeHistoryGCPFolderLabel(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPFolderLabel {
-	return predicate.BronzeHistoryGCPFolderLabel(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPFolderLabel {
-	return predicate.BronzeHistoryGCPFolderLabel(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPFolderLabel {
-	return predicate.BronzeHistoryGCPFolderLabel(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPFolderLabel {
-	return predicate.BronzeHistoryGCPFolderLabel(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPFolderLabel {
-	return predicate.BronzeHistoryGCPFolderLabel(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPFolderLabel {
-	return predicate.BronzeHistoryGCPFolderLabel(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // FolderHistoryIDEQ applies the EQ predicate on the "folder_history_id" field.

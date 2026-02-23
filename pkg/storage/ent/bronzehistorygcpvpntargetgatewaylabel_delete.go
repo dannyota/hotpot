@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPVPNTargetGatewayLabelDelete) ExecX(ctx context.Context
 }
 
 func (_d *BronzeHistoryGCPVPNTargetGatewayLabelDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpvpntargetgatewaylabel.Table, sqlgraph.NewFieldSpec(bronzehistorygcpvpntargetgatewaylabel.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpvpntargetgatewaylabel.Table, sqlgraph.NewFieldSpec(bronzehistorygcpvpntargetgatewaylabel.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPVPNTargetGatewayLabel
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

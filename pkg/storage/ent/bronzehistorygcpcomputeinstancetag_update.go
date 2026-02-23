@@ -123,7 +123,7 @@ func (_u *BronzeHistoryGCPComputeInstanceTagUpdate) ExecX(ctx context.Context) {
 }
 
 func (_u *BronzeHistoryGCPComputeInstanceTagUpdate) sqlSave(ctx context.Context) (_node int, err error) {
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstancetag.Table, bronzehistorygcpcomputeinstancetag.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancetag.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstancetag.Table, bronzehistorygcpcomputeinstancetag.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancetag.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -278,7 +278,7 @@ func (_u *BronzeHistoryGCPComputeInstanceTagUpdateOne) ExecX(ctx context.Context
 }
 
 func (_u *BronzeHistoryGCPComputeInstanceTagUpdateOne) sqlSave(ctx context.Context) (_node *BronzeHistoryGCPComputeInstanceTag, err error) {
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstancetag.Table, bronzehistorygcpcomputeinstancetag.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancetag.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstancetag.Table, bronzehistorygcpcomputeinstancetag.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancetag.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPComputeInstanceTag.id" for update`)}

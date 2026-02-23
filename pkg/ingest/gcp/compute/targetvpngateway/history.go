@@ -54,7 +54,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Ta
 	// Create labels history
 	for _, label := range data.Labels {
 		_, err := tx.BronzeHistoryGCPVPNTargetGatewayLabel.Create().
-			SetTargetVpnGatewayHistoryID(gwHist.HistoryID).
+			SetTargetVpnGatewayHistoryID(gwHist.ID).
 			SetValidFrom(now).
 			SetKey(label.Key).
 			SetValue(label.Value).
@@ -87,7 +87,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 	// If target VPN gateway-level fields changed, close old and create new target VPN gateway history
 	if diff.IsChanged {
 		// Close old target VPN gateway history
-		_, err := tx.BronzeHistoryGCPVPNTargetGateway.UpdateOneID(int(currentHist.HistoryID)).
+		_, err := tx.BronzeHistoryGCPVPNTargetGateway.UpdateOneID(currentHist.ID).
 			SetValidTo(now).
 			Save(ctx)
 		if err != nil {
@@ -97,7 +97,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Close all children history
 		_, err = tx.BronzeHistoryGCPVPNTargetGatewayLabel.Update().
 			Where(
-				bronzehistorygcpvpntargetgatewaylabel.TargetVpnGatewayHistoryID(currentHist.HistoryID),
+				bronzehistorygcpvpntargetgatewaylabel.TargetVpnGatewayHistoryID(currentHist.ID),
 				bronzehistorygcpvpntargetgatewaylabel.ValidToIsNil(),
 			).
 			SetValidTo(now).
@@ -138,7 +138,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Create labels history
 		for _, label := range new.Labels {
 			_, err := tx.BronzeHistoryGCPVPNTargetGatewayLabel.Create().
-				SetTargetVpnGatewayHistoryID(gwHist.HistoryID).
+				SetTargetVpnGatewayHistoryID(gwHist.ID).
 				SetValidFrom(now).
 				SetKey(label.Key).
 				SetValue(label.Value).
@@ -156,7 +156,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Close old labels history
 		_, err := tx.BronzeHistoryGCPVPNTargetGatewayLabel.Update().
 			Where(
-				bronzehistorygcpvpntargetgatewaylabel.TargetVpnGatewayHistoryID(currentHist.HistoryID),
+				bronzehistorygcpvpntargetgatewaylabel.TargetVpnGatewayHistoryID(currentHist.ID),
 				bronzehistorygcpvpntargetgatewaylabel.ValidToIsNil(),
 			).
 			SetValidTo(now).
@@ -168,7 +168,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Create new labels history
 		for _, label := range new.Labels {
 			_, err := tx.BronzeHistoryGCPVPNTargetGatewayLabel.Create().
-				SetTargetVpnGatewayHistoryID(currentHist.HistoryID).
+				SetTargetVpnGatewayHistoryID(currentHist.ID).
 				SetValidFrom(now).
 				SetKey(label.Key).
 				SetValue(label.Value).
@@ -199,7 +199,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	}
 
 	// Close target VPN gateway history
-	_, err = tx.BronzeHistoryGCPVPNTargetGateway.UpdateOneID(int(currentHist.HistoryID)).
+	_, err = tx.BronzeHistoryGCPVPNTargetGateway.UpdateOneID(currentHist.ID).
 		SetValidTo(now).
 		Save(ctx)
 	if err != nil {
@@ -209,7 +209,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	// Close all children history
 	_, err = tx.BronzeHistoryGCPVPNTargetGatewayLabel.Update().
 		Where(
-			bronzehistorygcpvpntargetgatewaylabel.TargetVpnGatewayHistoryID(currentHist.HistoryID),
+			bronzehistorygcpvpntargetgatewaylabel.TargetVpnGatewayHistoryID(currentHist.ID),
 			bronzehistorygcpvpntargetgatewaylabel.ValidToIsNil(),
 		).
 		SetValidTo(now).

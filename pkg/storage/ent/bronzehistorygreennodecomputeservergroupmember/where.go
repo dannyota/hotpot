@@ -10,53 +10,48 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
+func ID(id uint) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
 	return predicate.BronzeHistoryGreenNodeComputeServerGroupMember(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
+func IDEQ(id uint) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
 	return predicate.BronzeHistoryGreenNodeComputeServerGroupMember(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
+func IDNEQ(id uint) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
 	return predicate.BronzeHistoryGreenNodeComputeServerGroupMember(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
+func IDIn(ids ...uint) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
 	return predicate.BronzeHistoryGreenNodeComputeServerGroupMember(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
 	return predicate.BronzeHistoryGreenNodeComputeServerGroupMember(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
+func IDGT(id uint) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
 	return predicate.BronzeHistoryGreenNodeComputeServerGroupMember(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
+func IDGTE(id uint) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
 	return predicate.BronzeHistoryGreenNodeComputeServerGroupMember(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
+func IDLT(id uint) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
 	return predicate.BronzeHistoryGreenNodeComputeServerGroupMember(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
+func IDLTE(id uint) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
 	return predicate.BronzeHistoryGreenNodeComputeServerGroupMember(sql.FieldLTE(FieldID, id))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
-	return predicate.BronzeHistoryGreenNodeComputeServerGroupMember(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // ServerGroupHistoryID applies equality check predicate on the "server_group_history_id" field. It's identical to ServerGroupHistoryIDEQ.
@@ -82,46 +77,6 @@ func UUID(v string) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
 // Name applies equality check predicate on the "name" field. It's identical to NameEQ.
 func Name(v string) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
 	return predicate.BronzeHistoryGreenNodeComputeServerGroupMember(sql.FieldEQ(FieldName, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
-	return predicate.BronzeHistoryGreenNodeComputeServerGroupMember(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
-	return predicate.BronzeHistoryGreenNodeComputeServerGroupMember(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
-	return predicate.BronzeHistoryGreenNodeComputeServerGroupMember(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
-	return predicate.BronzeHistoryGreenNodeComputeServerGroupMember(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
-	return predicate.BronzeHistoryGreenNodeComputeServerGroupMember(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
-	return predicate.BronzeHistoryGreenNodeComputeServerGroupMember(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
-	return predicate.BronzeHistoryGreenNodeComputeServerGroupMember(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGreenNodeComputeServerGroupMember {
-	return predicate.BronzeHistoryGreenNodeComputeServerGroupMember(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // ServerGroupHistoryIDEQ applies the EQ predicate on the "server_group_history_id" field.

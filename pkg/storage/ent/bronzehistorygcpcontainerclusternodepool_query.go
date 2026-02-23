@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) FirstX(ctx context.Cont
 
 // FirstID returns the first BronzeHistoryGCPContainerClusterNodePool ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPContainerClusterNodePool ID was found.
-func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) FirstID(ctx context.Con
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) OnlyX(ctx context.Conte
 // OnlyID is like Only, but returns the only BronzeHistoryGCPContainerClusterNodePool ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPContainerClusterNodePool ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) OnlyID(ctx context.Cont
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) AllX(ctx context.Contex
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPContainerClusterNodePool IDs.
-func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) IDs(ctx context.Context
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -263,12 +263,12 @@ func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) Clone() *BronzeHistoryG
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		ClusterHistoryID uint `json:"cluster_history_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPContainerClusterNodePool.Query().
-//		GroupBy(bronzehistorygcpcontainerclusternodepool.FieldHistoryID).
+//		GroupBy(bronzehistorygcpcontainerclusternodepool.FieldClusterHistoryID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) GroupBy(field string, fields ...string) *BronzeHistoryGCPContainerClusterNodePoolGroupBy {
@@ -286,11 +286,11 @@ func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) GroupBy(field string, f
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		ClusterHistoryID uint `json:"cluster_history_id,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPContainerClusterNodePool.Query().
-//		Select(bronzehistorygcpcontainerclusternodepool.FieldHistoryID).
+//		Select(bronzehistorygcpcontainerclusternodepool.FieldClusterHistoryID).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) Select(fields ...string) *BronzeHistoryGCPContainerClusterNodePoolSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) sqlCount(ctx context.Co
 }
 
 func (_q *BronzeHistoryGCPContainerClusterNodePoolQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcontainerclusternodepool.Table, bronzehistorygcpcontainerclusternodepool.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcontainerclusternodepool.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcontainerclusternodepool.Table, bronzehistorygcpcontainerclusternodepool.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcontainerclusternodepool.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

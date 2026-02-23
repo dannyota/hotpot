@@ -365,7 +365,7 @@ func (_u *BronzeHistoryGCPLoggingLogMetricUpdate) sqlSave(ctx context.Context) (
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcplogginglogmetric.Table, bronzehistorygcplogginglogmetric.Columns, sqlgraph.NewFieldSpec(bronzehistorygcplogginglogmetric.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcplogginglogmetric.Table, bronzehistorygcplogginglogmetric.Columns, sqlgraph.NewFieldSpec(bronzehistorygcplogginglogmetric.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -835,7 +835,7 @@ func (_u *BronzeHistoryGCPLoggingLogMetricUpdateOne) sqlSave(ctx context.Context
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcplogginglogmetric.Table, bronzehistorygcplogginglogmetric.Columns, sqlgraph.NewFieldSpec(bronzehistorygcplogginglogmetric.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcplogginglogmetric.Table, bronzehistorygcplogginglogmetric.Columns, sqlgraph.NewFieldSpec(bronzehistorygcplogginglogmetric.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPLoggingLogMetric.id" for update`)}

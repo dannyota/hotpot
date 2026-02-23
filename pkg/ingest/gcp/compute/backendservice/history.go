@@ -187,7 +187,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Ba
 	// Create backend history records
 	for _, backend := range data.Backends {
 		_, err := tx.BronzeHistoryGCPComputeBackendServiceBackend.Create().
-			SetBackendServiceHistoryID(bsHistory.HistoryID).
+			SetBackendServiceHistoryID(bsHistory.ID).
 			SetValidFrom(now).
 			SetGroup(backend.Group).
 			SetBalancingMode(backend.BalancingMode).
@@ -229,7 +229,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Close old backend history first
 		_, err := tx.BronzeHistoryGCPComputeBackendServiceBackend.Update().
 			Where(
-				bronzehistorygcpcomputebackendservicebackend.BackendServiceHistoryID(currentHistory.HistoryID),
+				bronzehistorygcpcomputebackendservicebackend.BackendServiceHistoryID(currentHistory.ID),
 				bronzehistorygcpcomputebackendservicebackend.ValidToIsNil(),
 			).
 			SetValidTo(now).
@@ -411,7 +411,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Create new backend history linked to new backend service history
 		for _, backend := range new.Backends {
 			_, err := tx.BronzeHistoryGCPComputeBackendServiceBackend.Create().
-				SetBackendServiceHistoryID(newHistory.HistoryID).
+				SetBackendServiceHistoryID(newHistory.ID).
 				SetValidFrom(now).
 				SetGroup(backend.Group).
 				SetBalancingMode(backend.BalancingMode).
@@ -435,7 +435,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Only backends changed - close old backend history and create new ones
 		_, err := tx.BronzeHistoryGCPComputeBackendServiceBackend.Update().
 			Where(
-				bronzehistorygcpcomputebackendservicebackend.BackendServiceHistoryID(currentHistory.HistoryID),
+				bronzehistorygcpcomputebackendservicebackend.BackendServiceHistoryID(currentHistory.ID),
 				bronzehistorygcpcomputebackendservicebackend.ValidToIsNil(),
 			).
 			SetValidTo(now).
@@ -446,7 +446,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 
 		for _, backend := range new.Backends {
 			_, err := tx.BronzeHistoryGCPComputeBackendServiceBackend.Create().
-				SetBackendServiceHistoryID(currentHistory.HistoryID).
+				SetBackendServiceHistoryID(currentHistory.ID).
 				SetValidFrom(now).
 				SetGroup(backend.Group).
 				SetBalancingMode(backend.BalancingMode).
@@ -498,7 +498,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	// Close backend history
 	_, err = tx.BronzeHistoryGCPComputeBackendServiceBackend.Update().
 		Where(
-			bronzehistorygcpcomputebackendservicebackend.BackendServiceHistoryID(currentHistory.HistoryID),
+			bronzehistorygcpcomputebackendservicebackend.BackendServiceHistoryID(currentHistory.ID),
 			bronzehistorygcpcomputebackendservicebackend.ValidToIsNil(),
 		).
 		SetValidTo(now).

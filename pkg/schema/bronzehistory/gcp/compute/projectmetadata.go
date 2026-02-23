@@ -24,9 +24,7 @@ func (BronzeHistoryGCPComputeProjectMetadata) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeProjectMetadata) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze project metadata by resource_id"),
@@ -76,9 +74,7 @@ type BronzeHistoryGCPComputeProjectMetadataItem struct {
 
 func (BronzeHistoryGCPComputeProjectMetadataItem) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("metadata_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeProjectMetadata"),
 		field.Time("valid_from").

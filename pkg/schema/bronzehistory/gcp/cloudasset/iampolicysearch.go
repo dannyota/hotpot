@@ -24,9 +24,7 @@ func (BronzeHistoryGCPCloudAssetIAMPolicySearch) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPCloudAssetIAMPolicySearch) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze IAM policy search by resource_id"),

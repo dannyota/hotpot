@@ -21,9 +21,7 @@ func (BronzeHistoryDOVpc) Mixin() []ent.Mixin {
 
 func (BronzeHistoryDOVpc) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze VPC by resource_id"),

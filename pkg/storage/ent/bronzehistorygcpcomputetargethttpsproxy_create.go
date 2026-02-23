@@ -52,12 +52,6 @@ func (_c *BronzeHistoryGCPComputeTargetHttpsProxyCreate) SetFirstCollectedAt(v t
 	return _c
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPComputeTargetHttpsProxyCreate) SetHistoryID(v uint) *BronzeHistoryGCPComputeTargetHttpsProxyCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetResourceID sets the "resource_id" field.
 func (_c *BronzeHistoryGCPComputeTargetHttpsProxyCreate) SetResourceID(v string) *BronzeHistoryGCPComputeTargetHttpsProxyCreate {
 	_c.mutation.SetResourceID(v)
@@ -278,6 +272,12 @@ func (_c *BronzeHistoryGCPComputeTargetHttpsProxyCreate) SetProjectID(v string) 
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPComputeTargetHttpsProxyCreate) SetID(v uint) *BronzeHistoryGCPComputeTargetHttpsProxyCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPComputeTargetHttpsProxyMutation object of the builder.
 func (_c *BronzeHistoryGCPComputeTargetHttpsProxyCreate) Mutation() *BronzeHistoryGCPComputeTargetHttpsProxyMutation {
 	return _c.mutation
@@ -330,9 +330,6 @@ func (_c *BronzeHistoryGCPComputeTargetHttpsProxyCreate) check() error {
 	if _, ok := _c.mutation.FirstCollectedAt(); !ok {
 		return &ValidationError{Name: "first_collected_at", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeTargetHttpsProxy.first_collected_at"`)}
 	}
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeTargetHttpsProxy.history_id"`)}
-	}
 	if _, ok := _c.mutation.ResourceID(); !ok {
 		return &ValidationError{Name: "resource_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeTargetHttpsProxy.resource_id"`)}
 	}
@@ -374,8 +371,10 @@ func (_c *BronzeHistoryGCPComputeTargetHttpsProxyCreate) sqlSave(ctx context.Con
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -384,9 +383,13 @@ func (_c *BronzeHistoryGCPComputeTargetHttpsProxyCreate) sqlSave(ctx context.Con
 func (_c *BronzeHistoryGCPComputeTargetHttpsProxyCreate) createSpec() (*BronzeHistoryGCPComputeTargetHttpsProxy, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPComputeTargetHttpsProxy{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputetargethttpsproxy.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputetargethttpsproxy.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputetargethttpsproxy.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputetargethttpsproxy.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPComputeTargetHttpsProxy
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := _c.mutation.ValidFrom(); ok {
 		_spec.SetField(bronzehistorygcpcomputetargethttpsproxy.FieldValidFrom, field.TypeTime, value)
 		_node.ValidFrom = value
@@ -402,10 +405,6 @@ func (_c *BronzeHistoryGCPComputeTargetHttpsProxyCreate) createSpec() (*BronzeHi
 	if value, ok := _c.mutation.FirstCollectedAt(); ok {
 		_spec.SetField(bronzehistorygcpcomputetargethttpsproxy.FieldFirstCollectedAt, field.TypeTime, value)
 		_node.FirstCollectedAt = value
-	}
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpcomputetargethttpsproxy.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
 	}
 	if value, ok := _c.mutation.ResourceID(); ok {
 		_spec.SetField(bronzehistorygcpcomputetargethttpsproxy.FieldResourceID, field.TypeString, value)
@@ -527,9 +526,9 @@ func (_c *BronzeHistoryGCPComputeTargetHttpsProxyCreateBulk) Save(ctx context.Co
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

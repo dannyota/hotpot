@@ -83,8 +83,8 @@ func (_q *BronzeHistoryAWSEC2InstanceTagQuery) FirstX(ctx context.Context) *Bron
 
 // FirstID returns the first BronzeHistoryAWSEC2InstanceTag ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryAWSEC2InstanceTag ID was found.
-func (_q *BronzeHistoryAWSEC2InstanceTagQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryAWSEC2InstanceTagQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryAWSEC2InstanceTagQuery) FirstID(ctx context.Context) (id 
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryAWSEC2InstanceTagQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryAWSEC2InstanceTagQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryAWSEC2InstanceTagQuery) OnlyX(ctx context.Context) *Bronz
 // OnlyID is like Only, but returns the only BronzeHistoryAWSEC2InstanceTag ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryAWSEC2InstanceTag ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryAWSEC2InstanceTagQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryAWSEC2InstanceTagQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryAWSEC2InstanceTagQuery) OnlyID(ctx context.Context) (id i
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryAWSEC2InstanceTagQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryAWSEC2InstanceTagQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryAWSEC2InstanceTagQuery) AllX(ctx context.Context) []*Bron
 }
 
 // IDs executes the query and returns a list of BronzeHistoryAWSEC2InstanceTag IDs.
-func (_q *BronzeHistoryAWSEC2InstanceTagQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryAWSEC2InstanceTagQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryAWSEC2InstanceTagQuery) IDs(ctx context.Context) (ids []i
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryAWSEC2InstanceTagQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryAWSEC2InstanceTagQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -263,12 +263,12 @@ func (_q *BronzeHistoryAWSEC2InstanceTagQuery) Clone() *BronzeHistoryAWSEC2Insta
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		InstanceHistoryID uint `json:"instance_history_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BronzeHistoryAWSEC2InstanceTag.Query().
-//		GroupBy(bronzehistoryawsec2instancetag.FieldHistoryID).
+//		GroupBy(bronzehistoryawsec2instancetag.FieldInstanceHistoryID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryAWSEC2InstanceTagQuery) GroupBy(field string, fields ...string) *BronzeHistoryAWSEC2InstanceTagGroupBy {
@@ -286,11 +286,11 @@ func (_q *BronzeHistoryAWSEC2InstanceTagQuery) GroupBy(field string, fields ...s
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		InstanceHistoryID uint `json:"instance_history_id,omitempty"`
 //	}
 //
 //	client.BronzeHistoryAWSEC2InstanceTag.Query().
-//		Select(bronzehistoryawsec2instancetag.FieldHistoryID).
+//		Select(bronzehistoryawsec2instancetag.FieldInstanceHistoryID).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryAWSEC2InstanceTagQuery) Select(fields ...string) *BronzeHistoryAWSEC2InstanceTagSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryAWSEC2InstanceTagQuery) sqlCount(ctx context.Context) (in
 }
 
 func (_q *BronzeHistoryAWSEC2InstanceTagQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistoryawsec2instancetag.Table, bronzehistoryawsec2instancetag.Columns, sqlgraph.NewFieldSpec(bronzehistoryawsec2instancetag.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistoryawsec2instancetag.Table, bronzehistoryawsec2instancetag.Columns, sqlgraph.NewFieldSpec(bronzehistoryawsec2instancetag.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

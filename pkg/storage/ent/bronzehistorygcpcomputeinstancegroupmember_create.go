@@ -20,12 +20,6 @@ type BronzeHistoryGCPComputeInstanceGroupMemberCreate struct {
 	hooks    []Hook
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPComputeInstanceGroupMemberCreate) SetHistoryID(v uint) *BronzeHistoryGCPComputeInstanceGroupMemberCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetGroupHistoryID sets the "group_history_id" field.
 func (_c *BronzeHistoryGCPComputeInstanceGroupMemberCreate) SetGroupHistoryID(v uint) *BronzeHistoryGCPComputeInstanceGroupMemberCreate {
 	_c.mutation.SetGroupHistoryID(v)
@@ -86,6 +80,12 @@ func (_c *BronzeHistoryGCPComputeInstanceGroupMemberCreate) SetNillableStatus(v 
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPComputeInstanceGroupMemberCreate) SetID(v uint) *BronzeHistoryGCPComputeInstanceGroupMemberCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPComputeInstanceGroupMemberMutation object of the builder.
 func (_c *BronzeHistoryGCPComputeInstanceGroupMemberCreate) Mutation() *BronzeHistoryGCPComputeInstanceGroupMemberMutation {
 	return _c.mutation
@@ -120,9 +120,6 @@ func (_c *BronzeHistoryGCPComputeInstanceGroupMemberCreate) ExecX(ctx context.Co
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *BronzeHistoryGCPComputeInstanceGroupMemberCreate) check() error {
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeInstanceGroupMember.history_id"`)}
-	}
 	if _, ok := _c.mutation.GroupHistoryID(); !ok {
 		return &ValidationError{Name: "group_history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeInstanceGroupMember.group_history_id"`)}
 	}
@@ -151,8 +148,10 @@ func (_c *BronzeHistoryGCPComputeInstanceGroupMemberCreate) sqlSave(ctx context.
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -161,12 +160,12 @@ func (_c *BronzeHistoryGCPComputeInstanceGroupMemberCreate) sqlSave(ctx context.
 func (_c *BronzeHistoryGCPComputeInstanceGroupMemberCreate) createSpec() (*BronzeHistoryGCPComputeInstanceGroupMember, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPComputeInstanceGroupMember{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputeinstancegroupmember.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancegroupmember.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputeinstancegroupmember.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancegroupmember.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPComputeInstanceGroupMember
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpcomputeinstancegroupmember.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
 	}
 	if value, ok := _c.mutation.GroupHistoryID(); ok {
 		_spec.SetField(bronzehistorygcpcomputeinstancegroupmember.FieldGroupHistoryID, field.TypeUint, value)
@@ -239,9 +238,9 @@ func (_c *BronzeHistoryGCPComputeInstanceGroupMemberCreateBulk) Save(ctx context
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

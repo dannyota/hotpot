@@ -41,7 +41,7 @@ func (_d *BronzeHistoryS1AgentNICDelete) ExecX(ctx context.Context) int {
 }
 
 func (_d *BronzeHistoryS1AgentNICDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorys1agentnic.Table, sqlgraph.NewFieldSpec(bronzehistorys1agentnic.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorys1agentnic.Table, sqlgraph.NewFieldSpec(bronzehistorys1agentnic.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryS1AgentNIC
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

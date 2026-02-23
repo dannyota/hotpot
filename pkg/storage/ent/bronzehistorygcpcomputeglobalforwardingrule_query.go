@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) FirstX(ctx context.C
 
 // FirstID returns the first BronzeHistoryGCPComputeGlobalForwardingRule ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPComputeGlobalForwardingRule ID was found.
-func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) FirstID(ctx context.
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) OnlyX(ctx context.Co
 // OnlyID is like Only, but returns the only BronzeHistoryGCPComputeGlobalForwardingRule ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPComputeGlobalForwardingRule ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) OnlyID(ctx context.C
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) AllX(ctx context.Con
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPComputeGlobalForwardingRule IDs.
-func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) IDs(ctx context.Cont
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) sqlCount(ctx context
 }
 
 func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputeglobalforwardingrule.Table, bronzehistorygcpcomputeglobalforwardingrule.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeglobalforwardingrule.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputeglobalforwardingrule.Table, bronzehistorygcpcomputeglobalforwardingrule.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeglobalforwardingrule.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

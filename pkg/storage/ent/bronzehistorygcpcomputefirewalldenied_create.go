@@ -21,12 +21,6 @@ type BronzeHistoryGCPComputeFirewallDeniedCreate struct {
 	hooks    []Hook
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPComputeFirewallDeniedCreate) SetHistoryID(v uint) *BronzeHistoryGCPComputeFirewallDeniedCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetFirewallHistoryID sets the "firewall_history_id" field.
 func (_c *BronzeHistoryGCPComputeFirewallDeniedCreate) SetFirewallHistoryID(v uint) *BronzeHistoryGCPComputeFirewallDeniedCreate {
 	_c.mutation.SetFirewallHistoryID(v)
@@ -65,6 +59,12 @@ func (_c *BronzeHistoryGCPComputeFirewallDeniedCreate) SetPortsJSON(v json.RawMe
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPComputeFirewallDeniedCreate) SetID(v uint) *BronzeHistoryGCPComputeFirewallDeniedCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPComputeFirewallDeniedMutation object of the builder.
 func (_c *BronzeHistoryGCPComputeFirewallDeniedCreate) Mutation() *BronzeHistoryGCPComputeFirewallDeniedMutation {
 	return _c.mutation
@@ -99,9 +99,6 @@ func (_c *BronzeHistoryGCPComputeFirewallDeniedCreate) ExecX(ctx context.Context
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *BronzeHistoryGCPComputeFirewallDeniedCreate) check() error {
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeFirewallDenied.history_id"`)}
-	}
 	if _, ok := _c.mutation.FirewallHistoryID(); !ok {
 		return &ValidationError{Name: "firewall_history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeFirewallDenied.firewall_history_id"`)}
 	}
@@ -130,8 +127,10 @@ func (_c *BronzeHistoryGCPComputeFirewallDeniedCreate) sqlSave(ctx context.Conte
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -140,12 +139,12 @@ func (_c *BronzeHistoryGCPComputeFirewallDeniedCreate) sqlSave(ctx context.Conte
 func (_c *BronzeHistoryGCPComputeFirewallDeniedCreate) createSpec() (*BronzeHistoryGCPComputeFirewallDenied, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPComputeFirewallDenied{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputefirewalldenied.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputefirewalldenied.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputefirewalldenied.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputefirewalldenied.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPComputeFirewallDenied
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpcomputefirewalldenied.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
 	}
 	if value, ok := _c.mutation.FirewallHistoryID(); ok {
 		_spec.SetField(bronzehistorygcpcomputefirewalldenied.FieldFirewallHistoryID, field.TypeUint, value)
@@ -214,9 +213,9 @@ func (_c *BronzeHistoryGCPComputeFirewallDeniedCreateBulk) Save(ctx context.Cont
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

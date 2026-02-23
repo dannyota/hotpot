@@ -22,9 +22,7 @@ func (BronzeHistoryGCPProject) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPProject) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("project_id").
 			NotEmpty().
 			Comment("Link to bronze project by project_id"),
@@ -72,9 +70,7 @@ type BronzeHistoryGCPProjectLabel struct {
 
 func (BronzeHistoryGCPProjectLabel) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("project_history_id").
 			Comment("Links to parent BronzeHistoryGCPProject"),
 		field.Time("valid_from").

@@ -467,7 +467,7 @@ func (_u *BronzeHistoryGCPComputeHealthCheckUpdate) sqlSave(ctx context.Context)
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputehealthcheck.Table, bronzehistorygcpcomputehealthcheck.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputehealthcheck.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputehealthcheck.Table, bronzehistorygcpcomputehealthcheck.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputehealthcheck.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -1077,7 +1077,7 @@ func (_u *BronzeHistoryGCPComputeHealthCheckUpdateOne) sqlSave(ctx context.Conte
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputehealthcheck.Table, bronzehistorygcpcomputehealthcheck.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputehealthcheck.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputehealthcheck.Table, bronzehistorygcpcomputehealthcheck.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputehealthcheck.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPComputeHealthCheck.id" for update`)}

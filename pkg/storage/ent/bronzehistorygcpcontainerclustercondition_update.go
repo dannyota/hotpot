@@ -163,7 +163,7 @@ func (_u *BronzeHistoryGCPContainerClusterConditionUpdate) ExecX(ctx context.Con
 }
 
 func (_u *BronzeHistoryGCPContainerClusterConditionUpdate) sqlSave(ctx context.Context) (_node int, err error) {
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcontainerclustercondition.Table, bronzehistorygcpcontainerclustercondition.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcontainerclustercondition.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcontainerclustercondition.Table, bronzehistorygcpcontainerclustercondition.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcontainerclustercondition.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -370,7 +370,7 @@ func (_u *BronzeHistoryGCPContainerClusterConditionUpdateOne) ExecX(ctx context.
 }
 
 func (_u *BronzeHistoryGCPContainerClusterConditionUpdateOne) sqlSave(ctx context.Context) (_node *BronzeHistoryGCPContainerClusterCondition, err error) {
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcontainerclustercondition.Table, bronzehistorygcpcontainerclustercondition.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcontainerclustercondition.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcontainerclustercondition.Table, bronzehistorygcpcontainerclustercondition.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcontainerclustercondition.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPContainerClusterCondition.id" for update`)}

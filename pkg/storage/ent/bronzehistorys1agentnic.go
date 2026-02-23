@@ -17,9 +17,7 @@ import (
 type BronzeHistoryS1AgentNIC struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Links to parent BronzeHistoryS1Agent
 	AgentHistoryID uint `json:"agent_history_id,omitempty"`
 	// ValidFrom holds the value of the "valid_from" field.
@@ -54,7 +52,7 @@ func (*BronzeHistoryS1AgentNIC) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case bronzehistorys1agentnic.FieldInetJSON, bronzehistorys1agentnic.FieldInet6JSON:
 			values[i] = new([]byte)
-		case bronzehistorys1agentnic.FieldID, bronzehistorys1agentnic.FieldHistoryID, bronzehistorys1agentnic.FieldAgentHistoryID:
+		case bronzehistorys1agentnic.FieldID, bronzehistorys1agentnic.FieldAgentHistoryID:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorys1agentnic.FieldInterfaceID, bronzehistorys1agentnic.FieldName, bronzehistorys1agentnic.FieldDescription, bronzehistorys1agentnic.FieldType, bronzehistorys1agentnic.FieldPhysical, bronzehistorys1agentnic.FieldGatewayIP, bronzehistorys1agentnic.FieldGatewayMAC:
 			values[i] = new(sql.NullString)
@@ -80,13 +78,7 @@ func (_m *BronzeHistoryS1AgentNIC) assignValues(columns []string, values []any) 
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
-		case bronzehistorys1agentnic.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
-			}
+			_m.ID = uint(value.Int64)
 		case bronzehistorys1agentnic.FieldAgentHistoryID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field agent_history_id", values[i])
@@ -200,9 +192,6 @@ func (_m *BronzeHistoryS1AgentNIC) String() string {
 	var builder strings.Builder
 	builder.WriteString("BronzeHistoryS1AgentNIC(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
-	builder.WriteString(", ")
 	builder.WriteString("agent_history_id=")
 	builder.WriteString(fmt.Sprintf("%v", _m.AgentHistoryID))
 	builder.WriteString(", ")

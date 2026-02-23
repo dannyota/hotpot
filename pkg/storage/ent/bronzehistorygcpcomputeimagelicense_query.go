@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPComputeImageLicenseQuery) FirstX(ctx context.Context) 
 
 // FirstID returns the first BronzeHistoryGCPComputeImageLicense ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPComputeImageLicense ID was found.
-func (_q *BronzeHistoryGCPComputeImageLicenseQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeImageLicenseQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPComputeImageLicenseQuery) FirstID(ctx context.Context)
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeImageLicenseQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeImageLicenseQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPComputeImageLicenseQuery) OnlyX(ctx context.Context) *
 // OnlyID is like Only, but returns the only BronzeHistoryGCPComputeImageLicense ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPComputeImageLicense ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPComputeImageLicenseQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeImageLicenseQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPComputeImageLicenseQuery) OnlyID(ctx context.Context) 
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeImageLicenseQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeImageLicenseQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPComputeImageLicenseQuery) AllX(ctx context.Context) []
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPComputeImageLicense IDs.
-func (_q *BronzeHistoryGCPComputeImageLicenseQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPComputeImageLicenseQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPComputeImageLicenseQuery) IDs(ctx context.Context) (id
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeImageLicenseQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPComputeImageLicenseQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -263,12 +263,12 @@ func (_q *BronzeHistoryGCPComputeImageLicenseQuery) Clone() *BronzeHistoryGCPCom
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		ImageHistoryID uint `json:"image_history_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeImageLicense.Query().
-//		GroupBy(bronzehistorygcpcomputeimagelicense.FieldHistoryID).
+//		GroupBy(bronzehistorygcpcomputeimagelicense.FieldImageHistoryID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeImageLicenseQuery) GroupBy(field string, fields ...string) *BronzeHistoryGCPComputeImageLicenseGroupBy {
@@ -286,11 +286,11 @@ func (_q *BronzeHistoryGCPComputeImageLicenseQuery) GroupBy(field string, fields
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		ImageHistoryID uint `json:"image_history_id,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeImageLicense.Query().
-//		Select(bronzehistorygcpcomputeimagelicense.FieldHistoryID).
+//		Select(bronzehistorygcpcomputeimagelicense.FieldImageHistoryID).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeImageLicenseQuery) Select(fields ...string) *BronzeHistoryGCPComputeImageLicenseSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPComputeImageLicenseQuery) sqlCount(ctx context.Context
 }
 
 func (_q *BronzeHistoryGCPComputeImageLicenseQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputeimagelicense.Table, bronzehistorygcpcomputeimagelicense.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeimagelicense.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputeimagelicense.Table, bronzehistorygcpcomputeimagelicense.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeimagelicense.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

@@ -41,7 +41,7 @@ func (_d *BronzeHistoryDODatabaseFirewallRuleDelete) ExecX(ctx context.Context) 
 }
 
 func (_d *BronzeHistoryDODatabaseFirewallRuleDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorydodatabasefirewallrule.Table, sqlgraph.NewFieldSpec(bronzehistorydodatabasefirewallrule.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorydodatabasefirewallrule.Table, sqlgraph.NewFieldSpec(bronzehistorydodatabasefirewallrule.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryDODatabaseFirewallRule
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

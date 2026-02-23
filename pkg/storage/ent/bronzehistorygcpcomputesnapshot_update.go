@@ -606,7 +606,7 @@ func (_u *BronzeHistoryGCPComputeSnapshotUpdate) sqlSave(ctx context.Context) (_
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputesnapshot.Table, bronzehistorygcpcomputesnapshot.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesnapshot.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputesnapshot.Table, bronzehistorygcpcomputesnapshot.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesnapshot.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -1394,7 +1394,7 @@ func (_u *BronzeHistoryGCPComputeSnapshotUpdateOne) sqlSave(ctx context.Context)
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputesnapshot.Table, bronzehistorygcpcomputesnapshot.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesnapshot.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputesnapshot.Table, bronzehistorygcpcomputesnapshot.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesnapshot.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPComputeSnapshot.id" for update`)}

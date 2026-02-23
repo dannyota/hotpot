@@ -24,8 +24,8 @@ func Register(w worker.Worker, configService *config.Service, entClient *ent.Cli
 	w.RegisterActivity(activities.DiscoverRegions)
 	w.RegisterActivity(activities.DiscoverProjects)
 
-	portal.Register(w, configService, entClient, limiter)
-	compute.Register(w, configService, entClient, limiter)
+	portal.Register(w, configService, entClient, activities.iamAuth, limiter)
+	compute.Register(w, configService, entClient, activities.iamAuth, limiter)
 
 	w.RegisterWorkflow(GreenNodeInventoryWorkflow)
 

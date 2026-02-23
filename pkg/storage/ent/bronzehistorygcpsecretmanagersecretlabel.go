@@ -16,9 +16,7 @@ import (
 type BronzeHistoryGCPSecretManagerSecretLabel struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Links to parent BronzeHistoryGCPSecretManagerSecret
 	SecretHistoryID uint `json:"secret_history_id,omitempty"`
 	// ValidFrom holds the value of the "valid_from" field.
@@ -37,7 +35,7 @@ func (*BronzeHistoryGCPSecretManagerSecretLabel) scanValues(columns []string) ([
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case bronzehistorygcpsecretmanagersecretlabel.FieldID, bronzehistorygcpsecretmanagersecretlabel.FieldHistoryID, bronzehistorygcpsecretmanagersecretlabel.FieldSecretHistoryID:
+		case bronzehistorygcpsecretmanagersecretlabel.FieldID, bronzehistorygcpsecretmanagersecretlabel.FieldSecretHistoryID:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorygcpsecretmanagersecretlabel.FieldKey, bronzehistorygcpsecretmanagersecretlabel.FieldValue:
 			values[i] = new(sql.NullString)
@@ -63,13 +61,7 @@ func (_m *BronzeHistoryGCPSecretManagerSecretLabel) assignValues(columns []strin
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
-		case bronzehistorygcpsecretmanagersecretlabel.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
-			}
+			_m.ID = uint(value.Int64)
 		case bronzehistorygcpsecretmanagersecretlabel.FieldSecretHistoryID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field secret_history_id", values[i])
@@ -137,9 +129,6 @@ func (_m *BronzeHistoryGCPSecretManagerSecretLabel) String() string {
 	var builder strings.Builder
 	builder.WriteString("BronzeHistoryGCPSecretManagerSecretLabel(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
-	builder.WriteString(", ")
 	builder.WriteString("secret_history_id=")
 	builder.WriteString(fmt.Sprintf("%v", _m.SecretHistoryID))
 	builder.WriteString(", ")

@@ -23,9 +23,7 @@ func (BronzeHistoryGCPRunService) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPRunService) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze service by resource_id"),

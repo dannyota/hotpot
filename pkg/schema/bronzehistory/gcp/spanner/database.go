@@ -23,9 +23,7 @@ func (BronzeHistoryGCPSpannerDatabase) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPSpannerDatabase) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze Spanner database by resource_id"),

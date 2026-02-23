@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) FirstX(ctx context.Context)
 
 // FirstID returns the first BronzeHistoryGCPSecurityCenterSource ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPSecurityCenterSource ID was found.
-func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) FirstID(ctx context.Context
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) OnlyX(ctx context.Context) 
 // OnlyID is like Only, but returns the only BronzeHistoryGCPSecurityCenterSource ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPSecurityCenterSource ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) OnlyID(ctx context.Context)
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) AllX(ctx context.Context) [
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPSecurityCenterSource IDs.
-func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) IDs(ctx context.Context) (i
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) sqlCount(ctx context.Contex
 }
 
 func (_q *BronzeHistoryGCPSecurityCenterSourceQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpsecuritycentersource.Table, bronzehistorygcpsecuritycentersource.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpsecuritycentersource.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpsecuritycentersource.Table, bronzehistorygcpsecuritycentersource.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpsecuritycentersource.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

@@ -351,7 +351,7 @@ func (_u *BronzeHistoryGCPComputeSslPolicyUpdate) sqlSave(ctx context.Context) (
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputesslpolicy.Table, bronzehistorygcpcomputesslpolicy.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesslpolicy.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputesslpolicy.Table, bronzehistorygcpcomputesslpolicy.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesslpolicy.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -804,7 +804,7 @@ func (_u *BronzeHistoryGCPComputeSslPolicyUpdateOne) sqlSave(ctx context.Context
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputesslpolicy.Table, bronzehistorygcpcomputesslpolicy.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesslpolicy.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputesslpolicy.Table, bronzehistorygcpcomputesslpolicy.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesslpolicy.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPComputeSslPolicy.id" for update`)}

@@ -21,7 +21,7 @@ func (BronzeHistoryGCPComputeTargetSslProxy) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeTargetSslProxy) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").Unique().Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").NotEmpty().Comment("Link to bronze target SSL proxy by resource_id"),
 		field.String("name").NotEmpty(),
 		field.String("description").Optional(),

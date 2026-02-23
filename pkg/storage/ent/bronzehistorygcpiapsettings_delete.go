@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPIAPSettingsDelete) ExecX(ctx context.Context) int {
 }
 
 func (_d *BronzeHistoryGCPIAPSettingsDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpiapsettings.Table, sqlgraph.NewFieldSpec(bronzehistorygcpiapsettings.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpiapsettings.Table, sqlgraph.NewFieldSpec(bronzehistorygcpiapsettings.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPIAPSettings
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

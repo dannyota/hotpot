@@ -53,12 +53,6 @@ func (_c *BronzeHistoryGCPIAPIAMPolicyCreate) SetFirstCollectedAt(v time.Time) *
 	return _c
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPIAPIAMPolicyCreate) SetHistoryID(v uint) *BronzeHistoryGCPIAPIAMPolicyCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetResourceID sets the "resource_id" field.
 func (_c *BronzeHistoryGCPIAPIAMPolicyCreate) SetResourceID(v string) *BronzeHistoryGCPIAPIAMPolicyCreate {
 	_c.mutation.SetResourceID(v)
@@ -117,6 +111,12 @@ func (_c *BronzeHistoryGCPIAPIAMPolicyCreate) SetProjectID(v string) *BronzeHist
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPIAPIAMPolicyCreate) SetID(v uint) *BronzeHistoryGCPIAPIAMPolicyCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPIAPIAMPolicyMutation object of the builder.
 func (_c *BronzeHistoryGCPIAPIAMPolicyCreate) Mutation() *BronzeHistoryGCPIAPIAMPolicyMutation {
 	return _c.mutation
@@ -160,9 +160,6 @@ func (_c *BronzeHistoryGCPIAPIAMPolicyCreate) check() error {
 	if _, ok := _c.mutation.FirstCollectedAt(); !ok {
 		return &ValidationError{Name: "first_collected_at", err: errors.New(`ent: missing required field "BronzeHistoryGCPIAPIAMPolicy.first_collected_at"`)}
 	}
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPIAPIAMPolicy.history_id"`)}
-	}
 	if _, ok := _c.mutation.ResourceID(); !ok {
 		return &ValidationError{Name: "resource_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPIAPIAMPolicy.resource_id"`)}
 	}
@@ -201,8 +198,10 @@ func (_c *BronzeHistoryGCPIAPIAMPolicyCreate) sqlSave(ctx context.Context) (*Bro
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -211,9 +210,13 @@ func (_c *BronzeHistoryGCPIAPIAMPolicyCreate) sqlSave(ctx context.Context) (*Bro
 func (_c *BronzeHistoryGCPIAPIAMPolicyCreate) createSpec() (*BronzeHistoryGCPIAPIAMPolicy, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPIAPIAMPolicy{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpiapiampolicy.Table, sqlgraph.NewFieldSpec(bronzehistorygcpiapiampolicy.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpiapiampolicy.Table, sqlgraph.NewFieldSpec(bronzehistorygcpiapiampolicy.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPIAPIAMPolicy
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := _c.mutation.ValidFrom(); ok {
 		_spec.SetField(bronzehistorygcpiapiampolicy.FieldValidFrom, field.TypeTime, value)
 		_node.ValidFrom = value
@@ -229,10 +232,6 @@ func (_c *BronzeHistoryGCPIAPIAMPolicyCreate) createSpec() (*BronzeHistoryGCPIAP
 	if value, ok := _c.mutation.FirstCollectedAt(); ok {
 		_spec.SetField(bronzehistorygcpiapiampolicy.FieldFirstCollectedAt, field.TypeTime, value)
 		_node.FirstCollectedAt = value
-	}
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpiapiampolicy.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
 	}
 	if value, ok := _c.mutation.ResourceID(); ok {
 		_spec.SetField(bronzehistorygcpiapiampolicy.FieldResourceID, field.TypeString, value)
@@ -309,9 +308,9 @@ func (_c *BronzeHistoryGCPIAPIAMPolicyCreateBulk) Save(ctx context.Context) ([]*
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

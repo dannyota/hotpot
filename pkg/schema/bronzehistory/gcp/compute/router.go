@@ -24,9 +24,7 @@ func (BronzeHistoryGCPComputeRouter) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeRouter) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze router by resource_id"),

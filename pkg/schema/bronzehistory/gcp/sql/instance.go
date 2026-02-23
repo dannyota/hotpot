@@ -24,9 +24,7 @@ func (BronzeHistoryGCPSQLInstance) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPSQLInstance) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze SQL instance by resource_id"),
@@ -98,9 +96,7 @@ type BronzeHistoryGCPSQLInstanceLabel struct {
 
 func (BronzeHistoryGCPSQLInstanceLabel) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("instance_history_id").
 			Comment("Links to parent BronzeHistoryGCPSQLInstance"),
 		field.Time("valid_from").

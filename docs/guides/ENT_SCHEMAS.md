@@ -186,8 +186,8 @@ type BronzeHistoryGCPComputeInstance struct {
 
 func (BronzeHistoryGCPComputeInstance) Fields() []ent.Field {
     return []ent.Field{
-        // History tracking fields
-        field.Uint("history_id").Unique().Immutable(),
+        // History PK (auto-increment, stored as "history_id" column)
+        field.Uint("id").StorageKey("history_id"),
         field.String("resource_id").NotEmpty(),
         field.Time("valid_from").Immutable(),
         field.Time("valid_to").Optional().Nillable(),
@@ -229,7 +229,8 @@ type BronzeHistoryGCPComputeInstanceLabel struct {
 
 func (BronzeHistoryGCPComputeInstanceLabel) Fields() []ent.Field {
     return []ent.Field{
-        field.Uint("history_id").Unique().Immutable(),
+        // History PK (auto-increment, stored as "history_id" column)
+        field.Uint("id").StorageKey("history_id"),
         field.Uint("instance_history_id"),  // Link to parent
         field.Time("valid_from").Immutable(),
         field.Time("valid_to").Optional().Nillable(),

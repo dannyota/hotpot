@@ -20,12 +20,6 @@ type BronzeHistoryGCPComputeDiskLicenseCreate struct {
 	hooks    []Hook
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPComputeDiskLicenseCreate) SetHistoryID(v uint) *BronzeHistoryGCPComputeDiskLicenseCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetDiskHistoryID sets the "disk_history_id" field.
 func (_c *BronzeHistoryGCPComputeDiskLicenseCreate) SetDiskHistoryID(v uint) *BronzeHistoryGCPComputeDiskLicenseCreate {
 	_c.mutation.SetDiskHistoryID(v)
@@ -55,6 +49,12 @@ func (_c *BronzeHistoryGCPComputeDiskLicenseCreate) SetNillableValidTo(v *time.T
 // SetLicense sets the "license" field.
 func (_c *BronzeHistoryGCPComputeDiskLicenseCreate) SetLicense(v string) *BronzeHistoryGCPComputeDiskLicenseCreate {
 	_c.mutation.SetLicense(v)
+	return _c
+}
+
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPComputeDiskLicenseCreate) SetID(v uint) *BronzeHistoryGCPComputeDiskLicenseCreate {
+	_c.mutation.SetID(v)
 	return _c
 }
 
@@ -92,9 +92,6 @@ func (_c *BronzeHistoryGCPComputeDiskLicenseCreate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *BronzeHistoryGCPComputeDiskLicenseCreate) check() error {
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeDiskLicense.history_id"`)}
-	}
 	if _, ok := _c.mutation.DiskHistoryID(); !ok {
 		return &ValidationError{Name: "disk_history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeDiskLicense.disk_history_id"`)}
 	}
@@ -123,8 +120,10 @@ func (_c *BronzeHistoryGCPComputeDiskLicenseCreate) sqlSave(ctx context.Context)
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -133,12 +132,12 @@ func (_c *BronzeHistoryGCPComputeDiskLicenseCreate) sqlSave(ctx context.Context)
 func (_c *BronzeHistoryGCPComputeDiskLicenseCreate) createSpec() (*BronzeHistoryGCPComputeDiskLicense, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPComputeDiskLicense{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputedisklicense.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputedisklicense.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputedisklicense.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputedisklicense.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPComputeDiskLicense
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpcomputedisklicense.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
 	}
 	if value, ok := _c.mutation.DiskHistoryID(); ok {
 		_spec.SetField(bronzehistorygcpcomputedisklicense.FieldDiskHistoryID, field.TypeUint, value)
@@ -203,9 +202,9 @@ func (_c *BronzeHistoryGCPComputeDiskLicenseCreateBulk) Save(ctx context.Context
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

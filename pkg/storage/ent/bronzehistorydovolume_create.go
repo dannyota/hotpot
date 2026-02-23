@@ -52,12 +52,6 @@ func (_c *BronzeHistoryDOVolumeCreate) SetFirstCollectedAt(v time.Time) *BronzeH
 	return _c
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryDOVolumeCreate) SetHistoryID(v uint) *BronzeHistoryDOVolumeCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetResourceID sets the "resource_id" field.
 func (_c *BronzeHistoryDOVolumeCreate) SetResourceID(v string) *BronzeHistoryDOVolumeCreate {
 	_c.mutation.SetResourceID(v)
@@ -166,6 +160,12 @@ func (_c *BronzeHistoryDOVolumeCreate) SetNillableAPICreatedAt(v *time.Time) *Br
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryDOVolumeCreate) SetID(v uint) *BronzeHistoryDOVolumeCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryDOVolumeMutation object of the builder.
 func (_c *BronzeHistoryDOVolumeCreate) Mutation() *BronzeHistoryDOVolumeMutation {
 	return _c.mutation
@@ -218,9 +218,6 @@ func (_c *BronzeHistoryDOVolumeCreate) check() error {
 	if _, ok := _c.mutation.FirstCollectedAt(); !ok {
 		return &ValidationError{Name: "first_collected_at", err: errors.New(`ent: missing required field "BronzeHistoryDOVolume.first_collected_at"`)}
 	}
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryDOVolume.history_id"`)}
-	}
 	if _, ok := _c.mutation.ResourceID(); !ok {
 		return &ValidationError{Name: "resource_id", err: errors.New(`ent: missing required field "BronzeHistoryDOVolume.resource_id"`)}
 	}
@@ -254,8 +251,10 @@ func (_c *BronzeHistoryDOVolumeCreate) sqlSave(ctx context.Context) (*BronzeHist
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -264,9 +263,13 @@ func (_c *BronzeHistoryDOVolumeCreate) sqlSave(ctx context.Context) (*BronzeHist
 func (_c *BronzeHistoryDOVolumeCreate) createSpec() (*BronzeHistoryDOVolume, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryDOVolume{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorydovolume.Table, sqlgraph.NewFieldSpec(bronzehistorydovolume.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorydovolume.Table, sqlgraph.NewFieldSpec(bronzehistorydovolume.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryDOVolume
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := _c.mutation.ValidFrom(); ok {
 		_spec.SetField(bronzehistorydovolume.FieldValidFrom, field.TypeTime, value)
 		_node.ValidFrom = value
@@ -282,10 +285,6 @@ func (_c *BronzeHistoryDOVolumeCreate) createSpec() (*BronzeHistoryDOVolume, *sq
 	if value, ok := _c.mutation.FirstCollectedAt(); ok {
 		_spec.SetField(bronzehistorydovolume.FieldFirstCollectedAt, field.TypeTime, value)
 		_node.FirstCollectedAt = value
-	}
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorydovolume.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
 	}
 	if value, ok := _c.mutation.ResourceID(); ok {
 		_spec.SetField(bronzehistorydovolume.FieldResourceID, field.TypeString, value)
@@ -375,9 +374,9 @@ func (_c *BronzeHistoryDOVolumeCreateBulk) Save(ctx context.Context) ([]*BronzeH
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

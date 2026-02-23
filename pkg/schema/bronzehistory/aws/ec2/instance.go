@@ -24,9 +24,7 @@ func (BronzeHistoryAWSEC2Instance) Mixin() []ent.Mixin {
 
 func (BronzeHistoryAWSEC2Instance) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze instance by resource_id"),
@@ -89,9 +87,7 @@ type BronzeHistoryAWSEC2InstanceTag struct {
 
 func (BronzeHistoryAWSEC2InstanceTag) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("instance_history_id").
 			Comment("Links to parent BronzeHistoryAWSEC2Instance"),
 		field.Time("valid_from").

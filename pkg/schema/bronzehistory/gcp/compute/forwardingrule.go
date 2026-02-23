@@ -22,9 +22,7 @@ func (BronzeHistoryGCPComputeForwardingRule) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeForwardingRule) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze forwarding rule by resource_id"),
@@ -133,9 +131,7 @@ type BronzeHistoryGCPComputeForwardingRuleLabel struct {
 
 func (BronzeHistoryGCPComputeForwardingRuleLabel) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("forwarding_rule_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeForwardingRule"),
 		field.Time("valid_from").
@@ -178,9 +174,7 @@ func (BronzeHistoryGCPComputeGlobalForwardingRule) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeGlobalForwardingRule) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze global forwarding rule by resource_id"),
@@ -289,9 +283,7 @@ type BronzeHistoryGCPComputeGlobalForwardingRuleLabel struct {
 
 func (BronzeHistoryGCPComputeGlobalForwardingRuleLabel) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("global_forwarding_rule_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeGlobalForwardingRule"),
 		field.Time("valid_from").

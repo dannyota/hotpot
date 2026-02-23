@@ -5788,12 +5788,11 @@ var (
 	}
 	// AWSEc2InstancesHistoryColumns holds the columns for the "aws_ec2_instances_history" table.
 	AWSEc2InstancesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString, Nullable: true},
 		{Name: "instance_type", Type: field.TypeString, Nullable: true},
@@ -5820,7 +5819,7 @@ var (
 			{
 				Name:    "bronzehistoryawsec2instance_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{AWSEc2InstancesHistoryColumns[6], AWSEc2InstancesHistoryColumns[1]},
+				Columns: []*schema.Column{AWSEc2InstancesHistoryColumns[5], AWSEc2InstancesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistoryawsec2instance_valid_to",
@@ -5835,19 +5834,18 @@ var (
 			{
 				Name:    "bronzehistoryawsec2instance_account_id",
 				Unique:  false,
-				Columns: []*schema.Column{AWSEc2InstancesHistoryColumns[20]},
+				Columns: []*schema.Column{AWSEc2InstancesHistoryColumns[19]},
 			},
 			{
 				Name:    "bronzehistoryawsec2instance_region",
 				Unique:  false,
-				Columns: []*schema.Column{AWSEc2InstancesHistoryColumns[21]},
+				Columns: []*schema.Column{AWSEc2InstancesHistoryColumns[20]},
 			},
 		},
 	}
 	// AWSEc2InstanceTagsHistoryColumns holds the columns for the "aws_ec2_instance_tags_history" table.
 	AWSEc2InstanceTagsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "instance_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -5863,28 +5861,27 @@ var (
 			{
 				Name:    "bronzehistoryawsec2instancetag_instance_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{AWSEc2InstanceTagsHistoryColumns[2]},
+				Columns: []*schema.Column{AWSEc2InstanceTagsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistoryawsec2instancetag_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{AWSEc2InstanceTagsHistoryColumns[3]},
+				Columns: []*schema.Column{AWSEc2InstanceTagsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistoryawsec2instancetag_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{AWSEc2InstanceTagsHistoryColumns[4]},
+				Columns: []*schema.Column{AWSEc2InstanceTagsHistoryColumns[3]},
 			},
 		},
 	}
 	// DoAccountsHistoryColumns holds the columns for the "do_accounts_history" table.
 	DoAccountsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "email", Type: field.TypeString, Nullable: true},
 		{Name: "name", Type: field.TypeString, Nullable: true},
@@ -5907,7 +5904,7 @@ var (
 			{
 				Name:    "bronzehistorydoaccount_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoAccountsHistoryColumns[6], DoAccountsHistoryColumns[1]},
+				Columns: []*schema.Column{DoAccountsHistoryColumns[5], DoAccountsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydoaccount_valid_to",
@@ -5922,18 +5919,17 @@ var (
 			{
 				Name:    "bronzehistorydoaccount_status",
 				Unique:  false,
-				Columns: []*schema.Column{DoAccountsHistoryColumns[9]},
+				Columns: []*schema.Column{DoAccountsHistoryColumns[8]},
 			},
 		},
 	}
 	// DoDatabasesHistoryColumns holds the columns for the "do_databases_history" table.
 	DoDatabasesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString, Nullable: true},
 		{Name: "engine_slug", Type: field.TypeString, Nullable: true},
@@ -5958,7 +5954,7 @@ var (
 			{
 				Name:    "bronzehistorydodatabase_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabasesHistoryColumns[6], DoDatabasesHistoryColumns[1]},
+				Columns: []*schema.Column{DoDatabasesHistoryColumns[5], DoDatabasesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydodatabase_valid_to",
@@ -5973,33 +5969,32 @@ var (
 			{
 				Name:    "bronzehistorydodatabase_engine_slug",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabasesHistoryColumns[8]},
+				Columns: []*schema.Column{DoDatabasesHistoryColumns[7]},
 			},
 			{
 				Name:    "bronzehistorydodatabase_region_slug",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabasesHistoryColumns[12]},
+				Columns: []*schema.Column{DoDatabasesHistoryColumns[11]},
 			},
 			{
 				Name:    "bronzehistorydodatabase_status",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabasesHistoryColumns[13]},
+				Columns: []*schema.Column{DoDatabasesHistoryColumns[12]},
 			},
 			{
 				Name:    "bronzehistorydodatabase_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabasesHistoryColumns[14]},
+				Columns: []*schema.Column{DoDatabasesHistoryColumns[13]},
 			},
 		},
 	}
 	// DoDatabaseBackupsHistoryColumns holds the columns for the "do_database_backups_history" table.
 	DoDatabaseBackupsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "cluster_id", Type: field.TypeString},
 		{Name: "size_gigabytes", Type: field.TypeFloat64, Default: 0},
@@ -6014,7 +6009,7 @@ var (
 			{
 				Name:    "bronzehistorydodatabasebackup_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabaseBackupsHistoryColumns[6], DoDatabaseBackupsHistoryColumns[1]},
+				Columns: []*schema.Column{DoDatabaseBackupsHistoryColumns[5], DoDatabaseBackupsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydodatabasebackup_valid_to",
@@ -6029,18 +6024,17 @@ var (
 			{
 				Name:    "bronzehistorydodatabasebackup_cluster_id",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabaseBackupsHistoryColumns[7]},
+				Columns: []*schema.Column{DoDatabaseBackupsHistoryColumns[6]},
 			},
 		},
 	}
 	// DoDatabaseConfigsHistoryColumns holds the columns for the "do_database_configs_history" table.
 	DoDatabaseConfigsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "cluster_id", Type: field.TypeString},
 		{Name: "engine_slug", Type: field.TypeString, Nullable: true},
@@ -6055,7 +6049,7 @@ var (
 			{
 				Name:    "bronzehistorydodatabaseconfig_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabaseConfigsHistoryColumns[6], DoDatabaseConfigsHistoryColumns[1]},
+				Columns: []*schema.Column{DoDatabaseConfigsHistoryColumns[5], DoDatabaseConfigsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydodatabaseconfig_valid_to",
@@ -6070,23 +6064,22 @@ var (
 			{
 				Name:    "bronzehistorydodatabaseconfig_cluster_id",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabaseConfigsHistoryColumns[7]},
+				Columns: []*schema.Column{DoDatabaseConfigsHistoryColumns[6]},
 			},
 			{
 				Name:    "bronzehistorydodatabaseconfig_engine_slug",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabaseConfigsHistoryColumns[8]},
+				Columns: []*schema.Column{DoDatabaseConfigsHistoryColumns[7]},
 			},
 		},
 	}
 	// DoDatabaseFirewallRulesHistoryColumns holds the columns for the "do_database_firewall_rules_history" table.
 	DoDatabaseFirewallRulesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "cluster_id", Type: field.TypeString},
 		{Name: "uuid", Type: field.TypeString},
@@ -6103,7 +6096,7 @@ var (
 			{
 				Name:    "bronzehistorydodatabasefirewallrule_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabaseFirewallRulesHistoryColumns[6], DoDatabaseFirewallRulesHistoryColumns[1]},
+				Columns: []*schema.Column{DoDatabaseFirewallRulesHistoryColumns[5], DoDatabaseFirewallRulesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydodatabasefirewallrule_valid_to",
@@ -6118,23 +6111,22 @@ var (
 			{
 				Name:    "bronzehistorydodatabasefirewallrule_cluster_id",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabaseFirewallRulesHistoryColumns[7]},
+				Columns: []*schema.Column{DoDatabaseFirewallRulesHistoryColumns[6]},
 			},
 			{
 				Name:    "bronzehistorydodatabasefirewallrule_type",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabaseFirewallRulesHistoryColumns[9]},
+				Columns: []*schema.Column{DoDatabaseFirewallRulesHistoryColumns[8]},
 			},
 		},
 	}
 	// DoDatabasePoolsHistoryColumns holds the columns for the "do_database_pools_history" table.
 	DoDatabasePoolsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "cluster_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
@@ -6152,7 +6144,7 @@ var (
 			{
 				Name:    "bronzehistorydodatabasepool_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabasePoolsHistoryColumns[6], DoDatabasePoolsHistoryColumns[1]},
+				Columns: []*schema.Column{DoDatabasePoolsHistoryColumns[5], DoDatabasePoolsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydodatabasepool_valid_to",
@@ -6167,23 +6159,22 @@ var (
 			{
 				Name:    "bronzehistorydodatabasepool_cluster_id",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabasePoolsHistoryColumns[7]},
+				Columns: []*schema.Column{DoDatabasePoolsHistoryColumns[6]},
 			},
 			{
 				Name:    "bronzehistorydodatabasepool_mode",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabasePoolsHistoryColumns[12]},
+				Columns: []*schema.Column{DoDatabasePoolsHistoryColumns[11]},
 			},
 		},
 	}
 	// DoDatabaseReplicasHistoryColumns holds the columns for the "do_database_replicas_history" table.
 	DoDatabaseReplicasHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "cluster_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
@@ -6204,7 +6195,7 @@ var (
 			{
 				Name:    "bronzehistorydodatabasereplica_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabaseReplicasHistoryColumns[6], DoDatabaseReplicasHistoryColumns[1]},
+				Columns: []*schema.Column{DoDatabaseReplicasHistoryColumns[5], DoDatabaseReplicasHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydodatabasereplica_valid_to",
@@ -6219,28 +6210,27 @@ var (
 			{
 				Name:    "bronzehistorydodatabasereplica_cluster_id",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabaseReplicasHistoryColumns[7]},
+				Columns: []*schema.Column{DoDatabaseReplicasHistoryColumns[6]},
 			},
 			{
 				Name:    "bronzehistorydodatabasereplica_region",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabaseReplicasHistoryColumns[9]},
+				Columns: []*schema.Column{DoDatabaseReplicasHistoryColumns[8]},
 			},
 			{
 				Name:    "bronzehistorydodatabasereplica_status",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabaseReplicasHistoryColumns[10]},
+				Columns: []*schema.Column{DoDatabaseReplicasHistoryColumns[9]},
 			},
 		},
 	}
 	// DoDatabaseUsersHistoryColumns holds the columns for the "do_database_users_history" table.
 	DoDatabaseUsersHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "cluster_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
@@ -6257,7 +6247,7 @@ var (
 			{
 				Name:    "bronzehistorydodatabaseuser_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabaseUsersHistoryColumns[6], DoDatabaseUsersHistoryColumns[1]},
+				Columns: []*schema.Column{DoDatabaseUsersHistoryColumns[5], DoDatabaseUsersHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydodatabaseuser_valid_to",
@@ -6272,23 +6262,22 @@ var (
 			{
 				Name:    "bronzehistorydodatabaseuser_cluster_id",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabaseUsersHistoryColumns[7]},
+				Columns: []*schema.Column{DoDatabaseUsersHistoryColumns[6]},
 			},
 			{
 				Name:    "bronzehistorydodatabaseuser_role",
 				Unique:  false,
-				Columns: []*schema.Column{DoDatabaseUsersHistoryColumns[9]},
+				Columns: []*schema.Column{DoDatabaseUsersHistoryColumns[8]},
 			},
 		},
 	}
 	// DoDomainsHistoryColumns holds the columns for the "do_domains_history" table.
 	DoDomainsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "ttl", Type: field.TypeInt, Default: 0},
 		{Name: "zone_file", Type: field.TypeString, Nullable: true},
@@ -6302,7 +6291,7 @@ var (
 			{
 				Name:    "bronzehistorydodomain_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoDomainsHistoryColumns[6], DoDomainsHistoryColumns[1]},
+				Columns: []*schema.Column{DoDomainsHistoryColumns[5], DoDomainsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydodomain_valid_to",
@@ -6318,12 +6307,11 @@ var (
 	}
 	// DoDomainRecordsHistoryColumns holds the columns for the "do_domain_records_history" table.
 	DoDomainRecordsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "domain_name", Type: field.TypeString},
 		{Name: "record_id", Type: field.TypeInt},
@@ -6346,7 +6334,7 @@ var (
 			{
 				Name:    "bronzehistorydodomainrecord_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoDomainRecordsHistoryColumns[6], DoDomainRecordsHistoryColumns[1]},
+				Columns: []*schema.Column{DoDomainRecordsHistoryColumns[5], DoDomainRecordsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydodomainrecord_valid_to",
@@ -6361,23 +6349,22 @@ var (
 			{
 				Name:    "bronzehistorydodomainrecord_domain_name",
 				Unique:  false,
-				Columns: []*schema.Column{DoDomainRecordsHistoryColumns[7]},
+				Columns: []*schema.Column{DoDomainRecordsHistoryColumns[6]},
 			},
 			{
 				Name:    "bronzehistorydodomainrecord_type",
 				Unique:  false,
-				Columns: []*schema.Column{DoDomainRecordsHistoryColumns[9]},
+				Columns: []*schema.Column{DoDomainRecordsHistoryColumns[8]},
 			},
 		},
 	}
 	// DoDropletsHistoryColumns holds the columns for the "do_droplets_history" table.
 	DoDropletsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "memory", Type: field.TypeInt, Default: 0},
@@ -6408,7 +6395,7 @@ var (
 			{
 				Name:    "bronzehistorydodroplet_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoDropletsHistoryColumns[6], DoDropletsHistoryColumns[1]},
+				Columns: []*schema.Column{DoDropletsHistoryColumns[5], DoDropletsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydodroplet_valid_to",
@@ -6423,28 +6410,27 @@ var (
 			{
 				Name:    "bronzehistorydodroplet_region",
 				Unique:  false,
-				Columns: []*schema.Column{DoDropletsHistoryColumns[11]},
+				Columns: []*schema.Column{DoDropletsHistoryColumns[10]},
 			},
 			{
 				Name:    "bronzehistorydodroplet_status",
 				Unique:  false,
-				Columns: []*schema.Column{DoDropletsHistoryColumns[13]},
+				Columns: []*schema.Column{DoDropletsHistoryColumns[12]},
 			},
 			{
 				Name:    "bronzehistorydodroplet_vpc_uuid",
 				Unique:  false,
-				Columns: []*schema.Column{DoDropletsHistoryColumns[15]},
+				Columns: []*schema.Column{DoDropletsHistoryColumns[14]},
 			},
 		},
 	}
 	// DoFirewallsHistoryColumns holds the columns for the "do_firewalls_history" table.
 	DoFirewallsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "status", Type: field.TypeString, Nullable: true},
@@ -6464,7 +6450,7 @@ var (
 			{
 				Name:    "bronzehistorydofirewall_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoFirewallsHistoryColumns[6], DoFirewallsHistoryColumns[1]},
+				Columns: []*schema.Column{DoFirewallsHistoryColumns[5], DoFirewallsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydofirewall_valid_to",
@@ -6479,18 +6465,17 @@ var (
 			{
 				Name:    "bronzehistorydofirewall_status",
 				Unique:  false,
-				Columns: []*schema.Column{DoFirewallsHistoryColumns[8]},
+				Columns: []*schema.Column{DoFirewallsHistoryColumns[7]},
 			},
 		},
 	}
 	// DoKeysHistoryColumns holds the columns for the "do_keys_history" table.
 	DoKeysHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "fingerprint", Type: field.TypeString, Nullable: true},
@@ -6505,7 +6490,7 @@ var (
 			{
 				Name:    "bronzehistorydokey_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoKeysHistoryColumns[6], DoKeysHistoryColumns[1]},
+				Columns: []*schema.Column{DoKeysHistoryColumns[5], DoKeysHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydokey_valid_to",
@@ -6520,18 +6505,17 @@ var (
 			{
 				Name:    "bronzehistorydokey_fingerprint",
 				Unique:  false,
-				Columns: []*schema.Column{DoKeysHistoryColumns[8]},
+				Columns: []*schema.Column{DoKeysHistoryColumns[7]},
 			},
 		},
 	}
 	// DoKubernetesClustersHistoryColumns holds the columns for the "do_kubernetes_clusters_history" table.
 	DoKubernetesClustersHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString, Nullable: true},
 		{Name: "region_slug", Type: field.TypeString, Nullable: true},
@@ -6563,7 +6547,7 @@ var (
 			{
 				Name:    "bronzehistorydokubernetescluster_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[6], DoKubernetesClustersHistoryColumns[1]},
+				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[5], DoKubernetesClustersHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydokubernetescluster_valid_to",
@@ -6578,38 +6562,37 @@ var (
 			{
 				Name:    "bronzehistorydokubernetescluster_version_slug",
 				Unique:  false,
-				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[9]},
+				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[8]},
 			},
 			{
 				Name:    "bronzehistorydokubernetescluster_region_slug",
 				Unique:  false,
-				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[8]},
+				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[7]},
 			},
 			{
 				Name:    "bronzehistorydokubernetescluster_status_state",
 				Unique:  false,
-				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[19]},
+				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[18]},
 			},
 			{
 				Name:    "bronzehistorydokubernetescluster_vpc_uuid",
 				Unique:  false,
-				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[14]},
+				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[13]},
 			},
 			{
 				Name:    "bronzehistorydokubernetescluster_ha",
 				Unique:  false,
-				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[15]},
+				Columns: []*schema.Column{DoKubernetesClustersHistoryColumns[14]},
 			},
 		},
 	}
 	// DoKubernetesNodePoolsHistoryColumns holds the columns for the "do_kubernetes_node_pools_history" table.
 	DoKubernetesNodePoolsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "cluster_id", Type: field.TypeString},
 		{Name: "node_pool_id", Type: field.TypeString},
@@ -6633,7 +6616,7 @@ var (
 			{
 				Name:    "bronzehistorydokubernetesnodepool_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoKubernetesNodePoolsHistoryColumns[6], DoKubernetesNodePoolsHistoryColumns[1]},
+				Columns: []*schema.Column{DoKubernetesNodePoolsHistoryColumns[5], DoKubernetesNodePoolsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydokubernetesnodepool_valid_to",
@@ -6648,23 +6631,22 @@ var (
 			{
 				Name:    "bronzehistorydokubernetesnodepool_cluster_id",
 				Unique:  false,
-				Columns: []*schema.Column{DoKubernetesNodePoolsHistoryColumns[7]},
+				Columns: []*schema.Column{DoKubernetesNodePoolsHistoryColumns[6]},
 			},
 			{
 				Name:    "bronzehistorydokubernetesnodepool_size",
 				Unique:  false,
-				Columns: []*schema.Column{DoKubernetesNodePoolsHistoryColumns[10]},
+				Columns: []*schema.Column{DoKubernetesNodePoolsHistoryColumns[9]},
 			},
 		},
 	}
 	// DoLoadBalancersHistoryColumns holds the columns for the "do_load_balancers_history" table.
 	DoLoadBalancersHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString, Nullable: true},
 		{Name: "ip", Type: field.TypeString, Nullable: true},
@@ -6706,7 +6688,7 @@ var (
 			{
 				Name:    "bronzehistorydoloadbalancer_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoLoadBalancersHistoryColumns[6], DoLoadBalancersHistoryColumns[1]},
+				Columns: []*schema.Column{DoLoadBalancersHistoryColumns[5], DoLoadBalancersHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydoloadbalancer_valid_to",
@@ -6721,33 +6703,32 @@ var (
 			{
 				Name:    "bronzehistorydoloadbalancer_region",
 				Unique:  false,
-				Columns: []*schema.Column{DoLoadBalancersHistoryColumns[15]},
+				Columns: []*schema.Column{DoLoadBalancersHistoryColumns[14]},
 			},
 			{
 				Name:    "bronzehistorydoloadbalancer_status",
 				Unique:  false,
-				Columns: []*schema.Column{DoLoadBalancersHistoryColumns[14]},
+				Columns: []*schema.Column{DoLoadBalancersHistoryColumns[13]},
 			},
 			{
 				Name:    "bronzehistorydoloadbalancer_vpc_uuid",
 				Unique:  false,
-				Columns: []*schema.Column{DoLoadBalancersHistoryColumns[20]},
+				Columns: []*schema.Column{DoLoadBalancersHistoryColumns[19]},
 			},
 			{
 				Name:    "bronzehistorydoloadbalancer_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{DoLoadBalancersHistoryColumns[21]},
+				Columns: []*schema.Column{DoLoadBalancersHistoryColumns[20]},
 			},
 		},
 	}
 	// DoProjectsHistoryColumns holds the columns for the "do_projects_history" table.
 	DoProjectsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "owner_uuid", Type: field.TypeString, Nullable: true},
 		{Name: "owner_id", Type: field.TypeUint64, Default: 0},
@@ -6768,7 +6749,7 @@ var (
 			{
 				Name:    "bronzehistorydoproject_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoProjectsHistoryColumns[6], DoProjectsHistoryColumns[1]},
+				Columns: []*schema.Column{DoProjectsHistoryColumns[5], DoProjectsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydoproject_valid_to",
@@ -6783,23 +6764,22 @@ var (
 			{
 				Name:    "bronzehistorydoproject_environment",
 				Unique:  false,
-				Columns: []*schema.Column{DoProjectsHistoryColumns[12]},
+				Columns: []*schema.Column{DoProjectsHistoryColumns[11]},
 			},
 			{
 				Name:    "bronzehistorydoproject_is_default",
 				Unique:  false,
-				Columns: []*schema.Column{DoProjectsHistoryColumns[13]},
+				Columns: []*schema.Column{DoProjectsHistoryColumns[12]},
 			},
 		},
 	}
 	// DoProjectResourcesHistoryColumns holds the columns for the "do_project_resources_history" table.
 	DoProjectResourcesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "project_id", Type: field.TypeString},
 		{Name: "urn", Type: field.TypeString},
@@ -6815,7 +6795,7 @@ var (
 			{
 				Name:    "bronzehistorydoprojectresource_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoProjectResourcesHistoryColumns[6], DoProjectResourcesHistoryColumns[1]},
+				Columns: []*schema.Column{DoProjectResourcesHistoryColumns[5], DoProjectResourcesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydoprojectresource_valid_to",
@@ -6830,23 +6810,22 @@ var (
 			{
 				Name:    "bronzehistorydoprojectresource_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{DoProjectResourcesHistoryColumns[7]},
+				Columns: []*schema.Column{DoProjectResourcesHistoryColumns[6]},
 			},
 			{
 				Name:    "bronzehistorydoprojectresource_urn",
 				Unique:  false,
-				Columns: []*schema.Column{DoProjectResourcesHistoryColumns[8]},
+				Columns: []*schema.Column{DoProjectResourcesHistoryColumns[7]},
 			},
 		},
 	}
 	// DoVolumesHistoryColumns holds the columns for the "do_volumes_history" table.
 	DoVolumesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "region", Type: field.TypeString, Nullable: true},
@@ -6867,7 +6846,7 @@ var (
 			{
 				Name:    "bronzehistorydovolume_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoVolumesHistoryColumns[6], DoVolumesHistoryColumns[1]},
+				Columns: []*schema.Column{DoVolumesHistoryColumns[5], DoVolumesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydovolume_valid_to",
@@ -6882,18 +6861,17 @@ var (
 			{
 				Name:    "bronzehistorydovolume_region",
 				Unique:  false,
-				Columns: []*schema.Column{DoVolumesHistoryColumns[8]},
+				Columns: []*schema.Column{DoVolumesHistoryColumns[7]},
 			},
 		},
 	}
 	// DoVpcsHistoryColumns holds the columns for the "do_vpcs_history" table.
 	DoVpcsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -6912,7 +6890,7 @@ var (
 			{
 				Name:    "bronzehistorydovpc_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{DoVpcsHistoryColumns[6], DoVpcsHistoryColumns[1]},
+				Columns: []*schema.Column{DoVpcsHistoryColumns[5], DoVpcsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorydovpc_valid_to",
@@ -6927,18 +6905,17 @@ var (
 			{
 				Name:    "bronzehistorydovpc_region",
 				Unique:  false,
-				Columns: []*schema.Column{DoVpcsHistoryColumns[9]},
+				Columns: []*schema.Column{DoVpcsHistoryColumns[8]},
 			},
 		},
 	}
 	// GcpAccesscontextmanagerAccessLevelsHistoryColumns holds the columns for the "gcp_accesscontextmanager_access_levels_history" table.
 	GcpAccesscontextmanagerAccessLevelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "title", Type: field.TypeString, Nullable: true},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -6956,7 +6933,7 @@ var (
 			{
 				Name:    "bronzehistorygcpaccesscontextmanageraccesslevel_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpAccesscontextmanagerAccessLevelsHistoryColumns[6], GcpAccesscontextmanagerAccessLevelsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpAccesscontextmanagerAccessLevelsHistoryColumns[5], GcpAccesscontextmanagerAccessLevelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpaccesscontextmanageraccesslevel_valid_to",
@@ -6972,12 +6949,11 @@ var (
 	}
 	// GcpAccesscontextmanagerAccessPoliciesHistoryColumns holds the columns for the "gcp_accesscontextmanager_access_policies_history" table.
 	GcpAccesscontextmanagerAccessPoliciesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "parent", Type: field.TypeString},
 		{Name: "title", Type: field.TypeString, Nullable: true},
@@ -6994,7 +6970,7 @@ var (
 			{
 				Name:    "bronzehistorygcpaccesscontextmanageraccesspolicy_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpAccesscontextmanagerAccessPoliciesHistoryColumns[6], GcpAccesscontextmanagerAccessPoliciesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpAccesscontextmanagerAccessPoliciesHistoryColumns[5], GcpAccesscontextmanagerAccessPoliciesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpaccesscontextmanageraccesspolicy_valid_to",
@@ -7010,12 +6986,11 @@ var (
 	}
 	// GcpAccesscontextmanagerServicePerimetersHistoryColumns holds the columns for the "gcp_accesscontextmanager_service_perimeters_history" table.
 	GcpAccesscontextmanagerServicePerimetersHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "title", Type: field.TypeString, Nullable: true},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -7036,7 +7011,7 @@ var (
 			{
 				Name:    "bronzehistorygcpaccesscontextmanagerserviceperimeter_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpAccesscontextmanagerServicePerimetersHistoryColumns[6], GcpAccesscontextmanagerServicePerimetersHistoryColumns[1]},
+				Columns: []*schema.Column{GcpAccesscontextmanagerServicePerimetersHistoryColumns[5], GcpAccesscontextmanagerServicePerimetersHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpaccesscontextmanagerserviceperimeter_valid_to",
@@ -7052,12 +7027,11 @@ var (
 	}
 	// GcpAlloydbClustersHistoryColumns holds the columns for the "gcp_alloydb_clusters_history" table.
 	GcpAlloydbClustersHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "display_name", Type: field.TypeString, Nullable: true},
@@ -7102,7 +7076,7 @@ var (
 			{
 				Name:    "bronzehistorygcpalloydbcluster_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpAlloydbClustersHistoryColumns[6], GcpAlloydbClustersHistoryColumns[1]},
+				Columns: []*schema.Column{GcpAlloydbClustersHistoryColumns[5], GcpAlloydbClustersHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpalloydbcluster_valid_to",
@@ -7117,18 +7091,17 @@ var (
 			{
 				Name:    "bronzehistorygcpalloydbcluster_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpAlloydbClustersHistoryColumns[38]},
+				Columns: []*schema.Column{GcpAlloydbClustersHistoryColumns[37]},
 			},
 		},
 	}
 	// GcpAppengineApplicationsHistoryColumns holds the columns for the "gcp_appengine_applications_history" table.
 	GcpAppengineApplicationsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "auth_domain", Type: field.TypeString, Nullable: true},
@@ -7154,7 +7127,7 @@ var (
 			{
 				Name:    "bronzehistorygcpappengineapplication_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpAppengineApplicationsHistoryColumns[6], GcpAppengineApplicationsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpAppengineApplicationsHistoryColumns[5], GcpAppengineApplicationsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpappengineapplication_valid_to",
@@ -7169,18 +7142,17 @@ var (
 			{
 				Name:    "bronzehistorygcpappengineapplication_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpAppengineApplicationsHistoryColumns[20]},
+				Columns: []*schema.Column{GcpAppengineApplicationsHistoryColumns[19]},
 			},
 		},
 	}
 	// GcpAppengineServicesHistoryColumns holds the columns for the "gcp_appengine_services_history" table.
 	GcpAppengineServicesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "application_history_id", Type: field.TypeUint},
 		{Name: "name", Type: field.TypeString},
@@ -7198,12 +7170,12 @@ var (
 			{
 				Name:    "bronzehistorygcpappengineservice_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpAppengineServicesHistoryColumns[6], GcpAppengineServicesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpAppengineServicesHistoryColumns[5], GcpAppengineServicesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpappengineservice_application_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpAppengineServicesHistoryColumns[7]},
+				Columns: []*schema.Column{GcpAppengineServicesHistoryColumns[6]},
 			},
 			{
 				Name:    "bronzehistorygcpappengineservice_valid_to",
@@ -7218,18 +7190,17 @@ var (
 			{
 				Name:    "bronzehistorygcpappengineservice_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpAppengineServicesHistoryColumns[12]},
+				Columns: []*schema.Column{GcpAppengineServicesHistoryColumns[11]},
 			},
 		},
 	}
 	// GcpBigqueryDatasetsHistoryColumns holds the columns for the "gcp_bigquery_datasets_history" table.
 	GcpBigqueryDatasetsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "friendly_name", Type: field.TypeString, Nullable: true},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -7255,7 +7226,7 @@ var (
 			{
 				Name:    "bronzehistorygcpbigquerydataset_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpBigqueryDatasetsHistoryColumns[6], GcpBigqueryDatasetsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpBigqueryDatasetsHistoryColumns[5], GcpBigqueryDatasetsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpbigquerydataset_valid_to",
@@ -7270,18 +7241,17 @@ var (
 			{
 				Name:    "bronzehistorygcpbigquerydataset_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpBigqueryDatasetsHistoryColumns[20]},
+				Columns: []*schema.Column{GcpBigqueryDatasetsHistoryColumns[19]},
 			},
 		},
 	}
 	// GcpBigqueryTablesHistoryColumns holds the columns for the "gcp_bigquery_tables_history" table.
 	GcpBigqueryTablesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "dataset_id", Type: field.TypeString},
 		{Name: "friendly_name", Type: field.TypeString, Nullable: true},
@@ -7312,7 +7282,7 @@ var (
 			{
 				Name:    "bronzehistorygcpbigquerytable_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpBigqueryTablesHistoryColumns[6], GcpBigqueryTablesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpBigqueryTablesHistoryColumns[5], GcpBigqueryTablesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpbigquerytable_valid_to",
@@ -7327,18 +7297,17 @@ var (
 			{
 				Name:    "bronzehistorygcpbigquerytable_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpBigqueryTablesHistoryColumns[25]},
+				Columns: []*schema.Column{GcpBigqueryTablesHistoryColumns[24]},
 			},
 		},
 	}
 	// GcpBigtableClustersHistoryColumns holds the columns for the "gcp_bigtable_clusters_history" table.
 	GcpBigtableClustersHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "location", Type: field.TypeString, Nullable: true},
 		{Name: "state", Type: field.TypeInt32, Nullable: true},
@@ -7358,7 +7327,7 @@ var (
 			{
 				Name:    "bronzehistorygcpbigtablecluster_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpBigtableClustersHistoryColumns[6], GcpBigtableClustersHistoryColumns[1]},
+				Columns: []*schema.Column{GcpBigtableClustersHistoryColumns[5], GcpBigtableClustersHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpbigtablecluster_valid_to",
@@ -7373,23 +7342,22 @@ var (
 			{
 				Name:    "bronzehistorygcpbigtablecluster_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpBigtableClustersHistoryColumns[14]},
+				Columns: []*schema.Column{GcpBigtableClustersHistoryColumns[13]},
 			},
 			{
 				Name:    "bronzehistorygcpbigtablecluster_instance_name",
 				Unique:  false,
-				Columns: []*schema.Column{GcpBigtableClustersHistoryColumns[13]},
+				Columns: []*schema.Column{GcpBigtableClustersHistoryColumns[12]},
 			},
 		},
 	}
 	// GcpBigtableInstancesHistoryColumns holds the columns for the "gcp_bigtable_instances_history" table.
 	GcpBigtableInstancesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "display_name", Type: field.TypeString, Nullable: true},
 		{Name: "state", Type: field.TypeInt32, Nullable: true},
@@ -7408,7 +7376,7 @@ var (
 			{
 				Name:    "bronzehistorygcpbigtableinstance_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpBigtableInstancesHistoryColumns[6], GcpBigtableInstancesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpBigtableInstancesHistoryColumns[5], GcpBigtableInstancesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpbigtableinstance_valid_to",
@@ -7423,18 +7391,17 @@ var (
 			{
 				Name:    "bronzehistorygcpbigtableinstance_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpBigtableInstancesHistoryColumns[13]},
+				Columns: []*schema.Column{GcpBigtableInstancesHistoryColumns[12]},
 			},
 		},
 	}
 	// GcpBinaryauthorizationAttestorsHistoryColumns holds the columns for the "gcp_binaryauthorization_attestors_history" table.
 	GcpBinaryauthorizationAttestorsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
 		{Name: "user_owned_grafeas_note_json", Type: field.TypeJSON, Nullable: true},
@@ -7451,7 +7418,7 @@ var (
 			{
 				Name:    "bronzehistorygcpbinaryauthorizationattestor_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpBinaryauthorizationAttestorsHistoryColumns[6], GcpBinaryauthorizationAttestorsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpBinaryauthorizationAttestorsHistoryColumns[5], GcpBinaryauthorizationAttestorsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpbinaryauthorizationattestor_valid_to",
@@ -7467,12 +7434,11 @@ var (
 	}
 	// GcpBinaryauthorizationPoliciesHistoryColumns holds the columns for the "gcp_binaryauthorization_policies_history" table.
 	GcpBinaryauthorizationPoliciesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
 		{Name: "global_policy_evaluation_mode", Type: field.TypeInt, Default: 0},
@@ -7493,7 +7459,7 @@ var (
 			{
 				Name:    "bronzehistorygcpbinaryauthorizationpolicy_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpBinaryauthorizationPoliciesHistoryColumns[6], GcpBinaryauthorizationPoliciesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpBinaryauthorizationPoliciesHistoryColumns[5], GcpBinaryauthorizationPoliciesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpbinaryauthorizationpolicy_valid_to",
@@ -7509,12 +7475,11 @@ var (
 	}
 	// GcpCloudassetAssetsHistoryColumns holds the columns for the "gcp_cloudasset_assets_history" table.
 	GcpCloudassetAssetsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "asset_type", Type: field.TypeString},
 		{Name: "organization_id", Type: field.TypeString},
@@ -7534,7 +7499,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcloudassetasset_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpCloudassetAssetsHistoryColumns[6], GcpCloudassetAssetsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpCloudassetAssetsHistoryColumns[5], GcpCloudassetAssetsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcloudassetasset_valid_to",
@@ -7550,12 +7515,11 @@ var (
 	}
 	// GcpCloudassetIamPolicySearchesHistoryColumns holds the columns for the "gcp_cloudasset_iam_policy_searches_history" table.
 	GcpCloudassetIamPolicySearchesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "asset_type", Type: field.TypeString, Nullable: true},
 		{Name: "project", Type: field.TypeString, Nullable: true},
@@ -7574,7 +7538,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcloudassetiampolicysearch_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpCloudassetIamPolicySearchesHistoryColumns[6], GcpCloudassetIamPolicySearchesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpCloudassetIamPolicySearchesHistoryColumns[5], GcpCloudassetIamPolicySearchesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcloudassetiampolicysearch_valid_to",
@@ -7590,12 +7554,11 @@ var (
 	}
 	// GcpCloudassetResourceSearchesHistoryColumns holds the columns for the "gcp_cloudasset_resource_searches_history" table.
 	GcpCloudassetResourceSearchesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "asset_type", Type: field.TypeString},
 		{Name: "project", Type: field.TypeString, Nullable: true},
@@ -7616,7 +7579,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcloudassetresourcesearch_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpCloudassetResourceSearchesHistoryColumns[6], GcpCloudassetResourceSearchesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpCloudassetResourceSearchesHistoryColumns[5], GcpCloudassetResourceSearchesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcloudassetresourcesearch_valid_to",
@@ -7632,12 +7595,11 @@ var (
 	}
 	// GcpCloudfunctionsFunctionsHistoryColumns holds the columns for the "gcp_cloudfunctions_functions_history" table.
 	GcpCloudfunctionsFunctionsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -7665,7 +7627,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcloudfunctionsfunction_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpCloudfunctionsFunctionsHistoryColumns[6], GcpCloudfunctionsFunctionsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpCloudfunctionsFunctionsHistoryColumns[5], GcpCloudfunctionsFunctionsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcloudfunctionsfunction_valid_to",
@@ -7680,18 +7642,17 @@ var (
 			{
 				Name:    "bronzehistorygcpcloudfunctionsfunction_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpCloudfunctionsFunctionsHistoryColumns[21]},
+				Columns: []*schema.Column{GcpCloudfunctionsFunctionsHistoryColumns[20]},
 			},
 		},
 	}
 	// GcpComputeAddressesHistoryColumns holds the columns for the "gcp_compute_addresses_history" table.
 	GcpComputeAddressesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -7722,7 +7683,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeaddress_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeAddressesHistoryColumns[6], GcpComputeAddressesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeAddressesHistoryColumns[5], GcpComputeAddressesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeaddress_valid_to",
@@ -7737,14 +7698,13 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeaddress_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeAddressesHistoryColumns[25]},
+				Columns: []*schema.Column{GcpComputeAddressesHistoryColumns[24]},
 			},
 		},
 	}
 	// GcpComputeAddressLabelsHistoryColumns holds the columns for the "gcp_compute_address_labels_history" table.
 	GcpComputeAddressLabelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "address_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -7760,28 +7720,27 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeaddresslabel_address_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeAddressLabelsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeAddressLabelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeaddresslabel_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeAddressLabelsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeAddressLabelsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeaddresslabel_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeAddressLabelsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeAddressLabelsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeBackendServicesHistoryColumns holds the columns for the "gcp_compute_backend_services_history" table.
 	GcpComputeBackendServicesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -7832,7 +7791,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputebackendservice_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeBackendServicesHistoryColumns[6], GcpComputeBackendServicesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeBackendServicesHistoryColumns[5], GcpComputeBackendServicesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputebackendservice_valid_to",
@@ -7842,7 +7801,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputebackendservice_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeBackendServicesHistoryColumns[45]},
+				Columns: []*schema.Column{GcpComputeBackendServicesHistoryColumns[44]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputebackendservice_collected_at",
@@ -7853,8 +7812,7 @@ var (
 	}
 	// GcpComputeBackendServiceBackendsHistoryColumns holds the columns for the "gcp_compute_backend_service_backends_history" table.
 	GcpComputeBackendServiceBackendsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "backend_service_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -7881,28 +7839,27 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputebackendservicebackend_backend_service_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeBackendServiceBackendsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeBackendServiceBackendsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputebackendservicebackend_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeBackendServiceBackendsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeBackendServiceBackendsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputebackendservicebackend_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeBackendServiceBackendsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeBackendServiceBackendsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeDisksHistoryColumns holds the columns for the "gcp_compute_disks_history" table.
 	GcpComputeDisksHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -7942,7 +7899,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputedisk_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeDisksHistoryColumns[6], GcpComputeDisksHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeDisksHistoryColumns[5], GcpComputeDisksHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputedisk_valid_to",
@@ -7957,14 +7914,13 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputedisk_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeDisksHistoryColumns[34]},
+				Columns: []*schema.Column{GcpComputeDisksHistoryColumns[33]},
 			},
 		},
 	}
 	// GcpComputeDiskLabelsHistoryColumns holds the columns for the "gcp_compute_disk_labels_history" table.
 	GcpComputeDiskLabelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "disk_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -7980,24 +7936,23 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputedisklabel_disk_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeDiskLabelsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeDiskLabelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputedisklabel_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeDiskLabelsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeDiskLabelsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputedisklabel_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeDiskLabelsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeDiskLabelsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeDiskLicensesHistoryColumns holds the columns for the "gcp_compute_disk_licenses_history" table.
 	GcpComputeDiskLicensesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "disk_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -8012,28 +7967,27 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputedisklicense_disk_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeDiskLicensesHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeDiskLicensesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputedisklicense_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeDiskLicensesHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeDiskLicensesHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputedisklicense_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeDiskLicensesHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeDiskLicensesHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeFirewallsHistoryColumns holds the columns for the "gcp_compute_firewalls_history" table.
 	GcpComputeFirewallsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -8061,7 +8015,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputefirewall_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeFirewallsHistoryColumns[6], GcpComputeFirewallsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeFirewallsHistoryColumns[5], GcpComputeFirewallsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputefirewall_valid_to",
@@ -8076,14 +8030,13 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputefirewall_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeFirewallsHistoryColumns[22]},
+				Columns: []*schema.Column{GcpComputeFirewallsHistoryColumns[21]},
 			},
 		},
 	}
 	// GcpComputeFirewallAllowedsHistoryColumns holds the columns for the "gcp_compute_firewall_alloweds_history" table.
 	GcpComputeFirewallAllowedsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "firewall_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -8099,24 +8052,23 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputefirewallallowed_firewall_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeFirewallAllowedsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeFirewallAllowedsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputefirewallallowed_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeFirewallAllowedsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeFirewallAllowedsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputefirewallallowed_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeFirewallAllowedsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeFirewallAllowedsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeFirewallDeniedsHistoryColumns holds the columns for the "gcp_compute_firewall_denieds_history" table.
 	GcpComputeFirewallDeniedsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "firewall_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -8132,28 +8084,27 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputefirewalldenied_firewall_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeFirewallDeniedsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeFirewallDeniedsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputefirewalldenied_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeFirewallDeniedsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeFirewallDeniedsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputefirewalldenied_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeFirewallDeniedsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeFirewallDeniedsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeForwardingRulesHistoryColumns holds the columns for the "gcp_compute_forwarding_rules_history" table.
 	GcpComputeForwardingRulesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -8201,7 +8152,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeforwardingrule_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeForwardingRulesHistoryColumns[6], GcpComputeForwardingRulesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeForwardingRulesHistoryColumns[5], GcpComputeForwardingRulesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeforwardingrule_valid_to",
@@ -8211,7 +8162,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeforwardingrule_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeForwardingRulesHistoryColumns[42]},
+				Columns: []*schema.Column{GcpComputeForwardingRulesHistoryColumns[41]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeforwardingrule_collected_at",
@@ -8222,8 +8173,7 @@ var (
 	}
 	// GcpComputeForwardingRuleLabelsHistoryColumns holds the columns for the "gcp_compute_forwarding_rule_labels_history" table.
 	GcpComputeForwardingRuleLabelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "forwarding_rule_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -8239,28 +8189,27 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeforwardingrulelabel_forwarding_rule_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeForwardingRuleLabelsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeForwardingRuleLabelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeforwardingrulelabel_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeForwardingRuleLabelsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeForwardingRuleLabelsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeforwardingrulelabel_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeForwardingRuleLabelsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeForwardingRuleLabelsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeGlobalAddressesHistoryColumns holds the columns for the "gcp_compute_global_addresses_history" table.
 	GcpComputeGlobalAddressesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -8291,7 +8240,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeglobaladdress_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeGlobalAddressesHistoryColumns[6], GcpComputeGlobalAddressesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeGlobalAddressesHistoryColumns[5], GcpComputeGlobalAddressesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeglobaladdress_valid_to",
@@ -8306,14 +8255,13 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeglobaladdress_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeGlobalAddressesHistoryColumns[25]},
+				Columns: []*schema.Column{GcpComputeGlobalAddressesHistoryColumns[24]},
 			},
 		},
 	}
 	// GcpComputeGlobalAddressLabelsHistoryColumns holds the columns for the "gcp_compute_global_address_labels_history" table.
 	GcpComputeGlobalAddressLabelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "global_address_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -8329,28 +8277,27 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeglobaladdresslabel_global_address_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeGlobalAddressLabelsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeGlobalAddressLabelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeglobaladdresslabel_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeGlobalAddressLabelsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeGlobalAddressLabelsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeglobaladdresslabel_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeGlobalAddressLabelsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeGlobalAddressLabelsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeGlobalForwardingRulesHistoryColumns holds the columns for the "gcp_compute_global_forwarding_rules_history" table.
 	GcpComputeGlobalForwardingRulesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -8398,7 +8345,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeglobalforwardingrule_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeGlobalForwardingRulesHistoryColumns[6], GcpComputeGlobalForwardingRulesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeGlobalForwardingRulesHistoryColumns[5], GcpComputeGlobalForwardingRulesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeglobalforwardingrule_valid_to",
@@ -8408,7 +8355,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeglobalforwardingrule_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeGlobalForwardingRulesHistoryColumns[42]},
+				Columns: []*schema.Column{GcpComputeGlobalForwardingRulesHistoryColumns[41]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeglobalforwardingrule_collected_at",
@@ -8419,8 +8366,7 @@ var (
 	}
 	// GcpComputeGlobalForwardingRuleLabelsHistoryColumns holds the columns for the "gcp_compute_global_forwarding_rule_labels_history" table.
 	GcpComputeGlobalForwardingRuleLabelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "global_forwarding_rule_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -8436,28 +8382,27 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeglobalforwardingrulelabel_global_forwarding_rule_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeGlobalForwardingRuleLabelsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeGlobalForwardingRuleLabelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeglobalforwardingrulelabel_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeGlobalForwardingRuleLabelsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeGlobalForwardingRuleLabelsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeglobalforwardingrulelabel_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeGlobalForwardingRuleLabelsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeGlobalForwardingRuleLabelsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeHealthChecksHistoryColumns holds the columns for the "gcp_compute_health_checks_history" table.
 	GcpComputeHealthChecksHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -8487,7 +8432,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputehealthcheck_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeHealthChecksHistoryColumns[6], GcpComputeHealthChecksHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeHealthChecksHistoryColumns[5], GcpComputeHealthChecksHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputehealthcheck_valid_to",
@@ -8497,7 +8442,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputehealthcheck_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeHealthChecksHistoryColumns[24]},
+				Columns: []*schema.Column{GcpComputeHealthChecksHistoryColumns[23]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputehealthcheck_collected_at",
@@ -8508,12 +8453,11 @@ var (
 	}
 	// GcpComputeImagesHistoryColumns holds the columns for the "gcp_compute_images_history" table.
 	GcpComputeImagesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -8556,7 +8500,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeimage_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeImagesHistoryColumns[6], GcpComputeImagesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeImagesHistoryColumns[5], GcpComputeImagesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeimage_valid_to",
@@ -8571,14 +8515,13 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeimage_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeImagesHistoryColumns[37]},
+				Columns: []*schema.Column{GcpComputeImagesHistoryColumns[36]},
 			},
 		},
 	}
 	// GcpComputeImageLabelsHistoryColumns holds the columns for the "gcp_compute_image_labels_history" table.
 	GcpComputeImageLabelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "image_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -8594,24 +8537,23 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeimagelabel_image_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeImageLabelsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeImageLabelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeimagelabel_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeImageLabelsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeImageLabelsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeimagelabel_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeImageLabelsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeImageLabelsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeImageLicensesHistoryColumns holds the columns for the "gcp_compute_image_licenses_history" table.
 	GcpComputeImageLicensesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "image_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -8626,28 +8568,27 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeimagelicense_image_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeImageLicensesHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeImageLicensesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeimagelicense_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeImageLicensesHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeImageLicensesHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeimagelicense_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeImageLicensesHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeImageLicensesHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeInstancesHistoryColumns holds the columns for the "gcp_compute_instances_history" table.
 	GcpComputeInstancesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "zone", Type: field.TypeString, Nullable: true},
@@ -8676,7 +8617,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeinstance_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstancesHistoryColumns[6], GcpComputeInstancesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeInstancesHistoryColumns[5], GcpComputeInstancesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstance_valid_to",
@@ -8691,14 +8632,13 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeinstance_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstancesHistoryColumns[23]},
+				Columns: []*schema.Column{GcpComputeInstancesHistoryColumns[22]},
 			},
 		},
 	}
 	// GcpComputeInstanceDisksHistoryColumns holds the columns for the "gcp_compute_instance_disks_history" table.
 	GcpComputeInstanceDisksHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "instance_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -8723,24 +8663,23 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeinstancedisk_instance_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceDisksHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeInstanceDisksHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancedisk_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceDisksHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeInstanceDisksHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancedisk_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceDisksHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeInstanceDisksHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeInstanceDiskLicensesHistoryColumns holds the columns for the "gcp_compute_instance_disk_licenses_history" table.
 	GcpComputeInstanceDiskLicensesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "disk_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -8755,28 +8694,27 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeinstancedisklicense_disk_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceDiskLicensesHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeInstanceDiskLicensesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancedisklicense_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceDiskLicensesHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeInstanceDiskLicensesHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancedisklicense_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceDiskLicensesHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeInstanceDiskLicensesHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeInstanceGroupsHistoryColumns holds the columns for the "gcp_compute_instance_groups_history" table.
 	GcpComputeInstanceGroupsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -8798,7 +8736,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeinstancegroup_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceGroupsHistoryColumns[6], GcpComputeInstanceGroupsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeInstanceGroupsHistoryColumns[5], GcpComputeInstanceGroupsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancegroup_valid_to",
@@ -8808,7 +8746,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeinstancegroup_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceGroupsHistoryColumns[16]},
+				Columns: []*schema.Column{GcpComputeInstanceGroupsHistoryColumns[15]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancegroup_collected_at",
@@ -8819,8 +8757,7 @@ var (
 	}
 	// GcpComputeInstanceGroupMembersHistoryColumns holds the columns for the "gcp_compute_instance_group_members_history" table.
 	GcpComputeInstanceGroupMembersHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "group_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -8837,24 +8774,23 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeinstancegroupmember_group_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceGroupMembersHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeInstanceGroupMembersHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancegroupmember_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceGroupMembersHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeInstanceGroupMembersHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancegroupmember_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceGroupMembersHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeInstanceGroupMembersHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeInstanceGroupNamedPortsHistoryColumns holds the columns for the "gcp_compute_instance_group_named_ports_history" table.
 	GcpComputeInstanceGroupNamedPortsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "group_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -8870,24 +8806,23 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeinstancegroupnamedport_group_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceGroupNamedPortsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeInstanceGroupNamedPortsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancegroupnamedport_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceGroupNamedPortsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeInstanceGroupNamedPortsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancegroupnamedport_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceGroupNamedPortsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeInstanceGroupNamedPortsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeInstanceLabelsHistoryColumns holds the columns for the "gcp_compute_instance_labels_history" table.
 	GcpComputeInstanceLabelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "instance_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -8903,24 +8838,23 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeinstancelabel_instance_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceLabelsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeInstanceLabelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancelabel_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceLabelsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeInstanceLabelsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancelabel_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceLabelsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeInstanceLabelsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeInstanceMetadataHistoryColumns holds the columns for the "gcp_compute_instance_metadata_history" table.
 	GcpComputeInstanceMetadataHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "instance_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -8936,24 +8870,23 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeinstancemetadata_instance_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceMetadataHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeInstanceMetadataHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancemetadata_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceMetadataHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeInstanceMetadataHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancemetadata_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceMetadataHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeInstanceMetadataHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeInstanceNicsHistoryColumns holds the columns for the "gcp_compute_instance_nics_history" table.
 	GcpComputeInstanceNicsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "instance_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -8973,24 +8906,23 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeinstancenic_instance_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceNicsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeInstanceNicsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancenic_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceNicsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeInstanceNicsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancenic_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceNicsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeInstanceNicsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeInstanceNicAccessConfigsHistoryColumns holds the columns for the "gcp_compute_instance_nic_access_configs_history" table.
 	GcpComputeInstanceNicAccessConfigsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "nic_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -9008,24 +8940,23 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeinstancenicaccessconfig_nic_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceNicAccessConfigsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeInstanceNicAccessConfigsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancenicaccessconfig_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceNicAccessConfigsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeInstanceNicAccessConfigsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancenicaccessconfig_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceNicAccessConfigsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeInstanceNicAccessConfigsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeInstanceNicAliasRangesHistoryColumns holds the columns for the "gcp_compute_instance_nic_alias_ranges_history" table.
 	GcpComputeInstanceNicAliasRangesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "nic_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -9041,24 +8972,23 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeinstancenicaliasrange_nic_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceNicAliasRangesHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeInstanceNicAliasRangesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancenicaliasrange_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceNicAliasRangesHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeInstanceNicAliasRangesHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancenicaliasrange_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceNicAliasRangesHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeInstanceNicAliasRangesHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeInstanceServiceAccountsHistoryColumns holds the columns for the "gcp_compute_instance_service_accounts_history" table.
 	GcpComputeInstanceServiceAccountsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "instance_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -9074,24 +9004,23 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeinstanceserviceaccount_instance_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceServiceAccountsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeInstanceServiceAccountsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstanceserviceaccount_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceServiceAccountsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeInstanceServiceAccountsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstanceserviceaccount_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceServiceAccountsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeInstanceServiceAccountsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeInstanceTagsHistoryColumns holds the columns for the "gcp_compute_instance_tags_history" table.
 	GcpComputeInstanceTagsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "instance_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -9106,28 +9035,27 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeinstancetag_instance_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceTagsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeInstanceTagsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancetag_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceTagsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeInstanceTagsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinstancetag_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInstanceTagsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeInstanceTagsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeInterconnectsHistoryColumns holds the columns for the "gcp_compute_interconnects_history" table.
 	GcpComputeInterconnectsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -9159,7 +9087,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeinterconnect_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInterconnectsHistoryColumns[6], GcpComputeInterconnectsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeInterconnectsHistoryColumns[5], GcpComputeInterconnectsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeinterconnect_valid_to",
@@ -9174,18 +9102,17 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeinterconnect_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeInterconnectsHistoryColumns[26]},
+				Columns: []*schema.Column{GcpComputeInterconnectsHistoryColumns[25]},
 			},
 		},
 	}
 	// GcpComputeNegsHistoryColumns holds the columns for the "gcp_compute_negs_history" table.
 	GcpComputeNegsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -9214,7 +9141,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeneg_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeNegsHistoryColumns[6], GcpComputeNegsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeNegsHistoryColumns[5], GcpComputeNegsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeneg_valid_to",
@@ -9224,7 +9151,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeneg_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeNegsHistoryColumns[23]},
+				Columns: []*schema.Column{GcpComputeNegsHistoryColumns[22]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeneg_collected_at",
@@ -9235,12 +9162,11 @@ var (
 	}
 	// GcpComputeNegEndpointsHistoryColumns holds the columns for the "gcp_compute_neg_endpoints_history" table.
 	GcpComputeNegEndpointsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "instance", Type: field.TypeString, Nullable: true},
 		{Name: "ip_address", Type: field.TypeString, Nullable: true},
@@ -9261,7 +9187,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputenegendpoint_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeNegEndpointsHistoryColumns[6], GcpComputeNegEndpointsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeNegEndpointsHistoryColumns[5], GcpComputeNegEndpointsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputenegendpoint_valid_to",
@@ -9271,7 +9197,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputenegendpoint_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeNegEndpointsHistoryColumns[15]},
+				Columns: []*schema.Column{GcpComputeNegEndpointsHistoryColumns[14]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputenegendpoint_collected_at",
@@ -9282,12 +9208,11 @@ var (
 	}
 	// GcpComputeNetworksHistoryColumns holds the columns for the "gcp_compute_networks_history" table.
 	GcpComputeNetworksHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -9312,7 +9237,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputenetwork_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeNetworksHistoryColumns[6], GcpComputeNetworksHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeNetworksHistoryColumns[5], GcpComputeNetworksHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputenetwork_valid_to",
@@ -9327,14 +9252,13 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputenetwork_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeNetworksHistoryColumns[19]},
+				Columns: []*schema.Column{GcpComputeNetworksHistoryColumns[18]},
 			},
 		},
 	}
 	// GcpComputeNetworkPeeringsHistoryColumns holds the columns for the "gcp_compute_network_peerings_history" table.
 	GcpComputeNetworkPeeringsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "network_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -9360,28 +9284,27 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputenetworkpeering_network_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeNetworkPeeringsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeNetworkPeeringsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputenetworkpeering_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeNetworkPeeringsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeNetworkPeeringsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputenetworkpeering_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeNetworkPeeringsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeNetworkPeeringsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputePacketMirroringsHistoryColumns holds the columns for the "gcp_compute_packet_mirrorings_history" table.
 	GcpComputePacketMirroringsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -9405,7 +9328,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputepacketmirroring_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputePacketMirroringsHistoryColumns[6], GcpComputePacketMirroringsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputePacketMirroringsHistoryColumns[5], GcpComputePacketMirroringsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputepacketmirroring_valid_to",
@@ -9420,18 +9343,17 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputepacketmirroring_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputePacketMirroringsHistoryColumns[18]},
+				Columns: []*schema.Column{GcpComputePacketMirroringsHistoryColumns[17]},
 			},
 		},
 	}
 	// GcpComputeProjectMetadataHistoryColumns holds the columns for the "gcp_compute_project_metadata_history" table.
 	GcpComputeProjectMetadataHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "default_service_account", Type: field.TypeString, Nullable: true},
@@ -9450,7 +9372,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeprojectmetadata_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeProjectMetadataHistoryColumns[6], GcpComputeProjectMetadataHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeProjectMetadataHistoryColumns[5], GcpComputeProjectMetadataHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeprojectmetadata_valid_to",
@@ -9465,14 +9387,13 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeprojectmetadata_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeProjectMetadataHistoryColumns[13]},
+				Columns: []*schema.Column{GcpComputeProjectMetadataHistoryColumns[12]},
 			},
 		},
 	}
 	// GcpComputeProjectMetadataItemsHistoryColumns holds the columns for the "gcp_compute_project_metadata_items_history" table.
 	GcpComputeProjectMetadataItemsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "metadata_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -9488,28 +9409,27 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeprojectmetadataitem_metadata_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeProjectMetadataItemsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeProjectMetadataItemsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeprojectmetadataitem_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeProjectMetadataItemsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeProjectMetadataItemsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeprojectmetadataitem_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeProjectMetadataItemsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeProjectMetadataItemsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeRoutersHistoryColumns holds the columns for the "gcp_compute_routers_history" table.
 	GcpComputeRoutersHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -9537,7 +9457,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputerouter_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeRoutersHistoryColumns[6], GcpComputeRoutersHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeRoutersHistoryColumns[5], GcpComputeRoutersHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputerouter_valid_to",
@@ -9552,18 +9472,17 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputerouter_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeRoutersHistoryColumns[22]},
+				Columns: []*schema.Column{GcpComputeRoutersHistoryColumns[21]},
 			},
 		},
 	}
 	// GcpComputeSecurityPoliciesHistoryColumns holds the columns for the "gcp_compute_security_policies_history" table.
 	GcpComputeSecurityPoliciesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -9589,7 +9508,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputesecuritypolicy_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeSecurityPoliciesHistoryColumns[6], GcpComputeSecurityPoliciesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeSecurityPoliciesHistoryColumns[5], GcpComputeSecurityPoliciesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputesecuritypolicy_valid_to",
@@ -9604,18 +9523,17 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputesecuritypolicy_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeSecurityPoliciesHistoryColumns[20]},
+				Columns: []*schema.Column{GcpComputeSecurityPoliciesHistoryColumns[19]},
 			},
 		},
 	}
 	// GcpComputeSnapshotsHistoryColumns holds the columns for the "gcp_compute_snapshots_history" table.
 	GcpComputeSnapshotsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -9651,7 +9569,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputesnapshot_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeSnapshotsHistoryColumns[6], GcpComputeSnapshotsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeSnapshotsHistoryColumns[5], GcpComputeSnapshotsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputesnapshot_valid_to",
@@ -9666,14 +9584,13 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputesnapshot_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeSnapshotsHistoryColumns[30]},
+				Columns: []*schema.Column{GcpComputeSnapshotsHistoryColumns[29]},
 			},
 		},
 	}
 	// GcpComputeSnapshotLabelsHistoryColumns holds the columns for the "gcp_compute_snapshot_labels_history" table.
 	GcpComputeSnapshotLabelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "snapshot_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -9689,24 +9606,23 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputesnapshotlabel_snapshot_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeSnapshotLabelsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeSnapshotLabelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputesnapshotlabel_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeSnapshotLabelsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeSnapshotLabelsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputesnapshotlabel_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeSnapshotLabelsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeSnapshotLabelsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeSnapshotLicensesHistoryColumns holds the columns for the "gcp_compute_snapshot_licenses_history" table.
 	GcpComputeSnapshotLicensesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "snapshot_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -9721,28 +9637,27 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputesnapshotlicense_snapshot_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeSnapshotLicensesHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeSnapshotLicensesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputesnapshotlicense_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeSnapshotLicensesHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeSnapshotLicensesHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputesnapshotlicense_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeSnapshotLicensesHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeSnapshotLicensesHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeSslPoliciesHistoryColumns holds the columns for the "gcp_compute_ssl_policies_history" table.
 	GcpComputeSslPoliciesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -9765,7 +9680,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputesslpolicy_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeSslPoliciesHistoryColumns[6], GcpComputeSslPoliciesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeSslPoliciesHistoryColumns[5], GcpComputeSslPoliciesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputesslpolicy_valid_to",
@@ -9780,18 +9695,17 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputesslpolicy_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeSslPoliciesHistoryColumns[17]},
+				Columns: []*schema.Column{GcpComputeSslPoliciesHistoryColumns[16]},
 			},
 		},
 	}
 	// GcpComputeSubnetworksHistoryColumns holds the columns for the "gcp_compute_subnetworks_history" table.
 	GcpComputeSubnetworksHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -9822,7 +9736,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputesubnetwork_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeSubnetworksHistoryColumns[6], GcpComputeSubnetworksHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeSubnetworksHistoryColumns[5], GcpComputeSubnetworksHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputesubnetwork_valid_to",
@@ -9837,14 +9751,13 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputesubnetwork_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeSubnetworksHistoryColumns[25]},
+				Columns: []*schema.Column{GcpComputeSubnetworksHistoryColumns[24]},
 			},
 		},
 	}
 	// GcpComputeSubnetworkSecondaryRangesHistoryColumns holds the columns for the "gcp_compute_subnetwork_secondary_ranges_history" table.
 	GcpComputeSubnetworkSecondaryRangesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "subnetwork_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -9860,28 +9773,27 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputesubnetworksecondaryrange_subnetwork_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeSubnetworkSecondaryRangesHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeSubnetworkSecondaryRangesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputesubnetworksecondaryrange_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeSubnetworkSecondaryRangesHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeSubnetworkSecondaryRangesHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputesubnetworksecondaryrange_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeSubnetworkSecondaryRangesHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeSubnetworkSecondaryRangesHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeTargetHTTPProxiesHistoryColumns holds the columns for the "gcp_compute_target_http_proxies_history" table.
 	GcpComputeTargetHTTPProxiesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -9903,7 +9815,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputetargethttpproxy_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeTargetHTTPProxiesHistoryColumns[6], GcpComputeTargetHTTPProxiesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeTargetHTTPProxiesHistoryColumns[5], GcpComputeTargetHTTPProxiesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputetargethttpproxy_valid_to",
@@ -9913,7 +9825,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputetargethttpproxy_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeTargetHTTPProxiesHistoryColumns[16]},
+				Columns: []*schema.Column{GcpComputeTargetHTTPProxiesHistoryColumns[15]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputetargethttpproxy_collected_at",
@@ -9924,12 +9836,11 @@ var (
 	}
 	// GcpComputeTargetHTTPSProxiesHistoryColumns holds the columns for the "gcp_compute_target_https_proxies_history" table.
 	GcpComputeTargetHTTPSProxiesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -9958,7 +9869,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputetargethttpsproxy_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeTargetHTTPSProxiesHistoryColumns[6], GcpComputeTargetHTTPSProxiesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeTargetHTTPSProxiesHistoryColumns[5], GcpComputeTargetHTTPSProxiesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputetargethttpsproxy_valid_to",
@@ -9968,7 +9879,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputetargethttpsproxy_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeTargetHTTPSProxiesHistoryColumns[23]},
+				Columns: []*schema.Column{GcpComputeTargetHTTPSProxiesHistoryColumns[22]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputetargethttpsproxy_collected_at",
@@ -9979,12 +9890,11 @@ var (
 	}
 	// GcpComputeTargetInstancesHistoryColumns holds the columns for the "gcp_compute_target_instances_history" table.
 	GcpComputeTargetInstancesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -10006,7 +9916,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputetargetinstance_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeTargetInstancesHistoryColumns[6], GcpComputeTargetInstancesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeTargetInstancesHistoryColumns[5], GcpComputeTargetInstancesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputetargetinstance_valid_to",
@@ -10016,7 +9926,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputetargetinstance_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeTargetInstancesHistoryColumns[16]},
+				Columns: []*schema.Column{GcpComputeTargetInstancesHistoryColumns[15]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputetargetinstance_collected_at",
@@ -10027,12 +9937,11 @@ var (
 	}
 	// GcpComputeTargetPoolsHistoryColumns holds the columns for the "gcp_compute_target_pools_history" table.
 	GcpComputeTargetPoolsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -10056,7 +9965,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputetargetpool_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeTargetPoolsHistoryColumns[6], GcpComputeTargetPoolsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeTargetPoolsHistoryColumns[5], GcpComputeTargetPoolsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputetargetpool_valid_to",
@@ -10066,7 +9975,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputetargetpool_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeTargetPoolsHistoryColumns[18]},
+				Columns: []*schema.Column{GcpComputeTargetPoolsHistoryColumns[17]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputetargetpool_collected_at",
@@ -10077,12 +9986,11 @@ var (
 	}
 	// GcpComputeTargetSslProxiesHistoryColumns holds the columns for the "gcp_compute_target_ssl_proxies_history" table.
 	GcpComputeTargetSslProxiesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -10104,7 +10012,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputetargetsslproxy_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeTargetSslProxiesHistoryColumns[6], GcpComputeTargetSslProxiesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeTargetSslProxiesHistoryColumns[5], GcpComputeTargetSslProxiesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputetargetsslproxy_valid_to",
@@ -10114,7 +10022,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputetargetsslproxy_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeTargetSslProxiesHistoryColumns[16]},
+				Columns: []*schema.Column{GcpComputeTargetSslProxiesHistoryColumns[15]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputetargetsslproxy_collected_at",
@@ -10125,12 +10033,11 @@ var (
 	}
 	// GcpComputeTargetTCPProxiesHistoryColumns holds the columns for the "gcp_compute_target_tcp_proxies_history" table.
 	GcpComputeTargetTCPProxiesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -10151,7 +10058,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputetargettcpproxy_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeTargetTCPProxiesHistoryColumns[6], GcpComputeTargetTCPProxiesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeTargetTCPProxiesHistoryColumns[5], GcpComputeTargetTCPProxiesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputetargettcpproxy_valid_to",
@@ -10161,7 +10068,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputetargettcpproxy_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeTargetTCPProxiesHistoryColumns[15]},
+				Columns: []*schema.Column{GcpComputeTargetTCPProxiesHistoryColumns[14]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputetargettcpproxy_collected_at",
@@ -10172,12 +10079,11 @@ var (
 	}
 	// GcpComputeURLMapsHistoryColumns holds the columns for the "gcp_compute_url_maps_history" table.
 	GcpComputeURLMapsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -10203,7 +10109,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeurlmap_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeURLMapsHistoryColumns[6], GcpComputeURLMapsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeURLMapsHistoryColumns[5], GcpComputeURLMapsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeurlmap_valid_to",
@@ -10213,7 +10119,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcomputeurlmap_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeURLMapsHistoryColumns[20]},
+				Columns: []*schema.Column{GcpComputeURLMapsHistoryColumns[19]},
 			},
 			{
 				Name:    "bronzehistorygcpcomputeurlmap_collected_at",
@@ -10224,12 +10130,11 @@ var (
 	}
 	// GcpContaineranalysisNotesHistoryColumns holds the columns for the "gcp_containeranalysis_notes_history" table.
 	GcpContaineranalysisNotesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "short_description", Type: field.TypeString, Nullable: true},
 		{Name: "long_description", Type: field.TypeString, Nullable: true},
@@ -10262,7 +10167,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcontaineranalysisnote_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpContaineranalysisNotesHistoryColumns[6], GcpContaineranalysisNotesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpContaineranalysisNotesHistoryColumns[5], GcpContaineranalysisNotesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcontaineranalysisnote_valid_to",
@@ -10277,18 +10182,17 @@ var (
 			{
 				Name:    "bronzehistorygcpcontaineranalysisnote_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpContaineranalysisNotesHistoryColumns[27]},
+				Columns: []*schema.Column{GcpContaineranalysisNotesHistoryColumns[26]},
 			},
 		},
 	}
 	// GcpContaineranalysisOccurrencesHistoryColumns holds the columns for the "gcp_containeranalysis_occurrences_history" table.
 	GcpContaineranalysisOccurrencesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "resource_uri", Type: field.TypeString, Nullable: true},
 		{Name: "note_name", Type: field.TypeString, Nullable: true},
@@ -10319,7 +10223,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcontaineranalysisoccurrence_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpContaineranalysisOccurrencesHistoryColumns[6], GcpContaineranalysisOccurrencesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpContaineranalysisOccurrencesHistoryColumns[5], GcpContaineranalysisOccurrencesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcontaineranalysisoccurrence_valid_to",
@@ -10334,23 +10238,22 @@ var (
 			{
 				Name:    "bronzehistorygcpcontaineranalysisoccurrence_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpContaineranalysisOccurrencesHistoryColumns[25]},
+				Columns: []*schema.Column{GcpContaineranalysisOccurrencesHistoryColumns[24]},
 			},
 			{
 				Name:    "bronzehistorygcpcontaineranalysisoccurrence_note_name",
 				Unique:  false,
-				Columns: []*schema.Column{GcpContaineranalysisOccurrencesHistoryColumns[8]},
+				Columns: []*schema.Column{GcpContaineranalysisOccurrencesHistoryColumns[7]},
 			},
 		},
 	}
 	// GcpContainerClustersHistoryColumns holds the columns for the "gcp_container_clusters_history" table.
 	GcpContainerClustersHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "location", Type: field.TypeString, Nullable: true},
@@ -10407,7 +10310,7 @@ var (
 			{
 				Name:    "bronzehistorygcpcontainercluster_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpContainerClustersHistoryColumns[6], GcpContainerClustersHistoryColumns[1]},
+				Columns: []*schema.Column{GcpContainerClustersHistoryColumns[5], GcpContainerClustersHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcontainercluster_valid_to",
@@ -10422,14 +10325,13 @@ var (
 			{
 				Name:    "bronzehistorygcpcontainercluster_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpContainerClustersHistoryColumns[51]},
+				Columns: []*schema.Column{GcpContainerClustersHistoryColumns[50]},
 			},
 		},
 	}
 	// GcpContainerClusterAddonsHistoryColumns holds the columns for the "gcp_container_cluster_addons_history" table.
 	GcpContainerClusterAddonsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "cluster_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -10446,24 +10348,23 @@ var (
 			{
 				Name:    "bronzehistorygcpcontainerclusteraddon_cluster_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpContainerClusterAddonsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpContainerClusterAddonsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcontainerclusteraddon_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpContainerClusterAddonsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpContainerClusterAddonsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcontainerclusteraddon_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpContainerClusterAddonsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpContainerClusterAddonsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpContainerClusterConditionsHistoryColumns holds the columns for the "gcp_container_cluster_conditions_history" table.
 	GcpContainerClusterConditionsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "cluster_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -10480,24 +10381,23 @@ var (
 			{
 				Name:    "bronzehistorygcpcontainerclustercondition_cluster_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpContainerClusterConditionsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpContainerClusterConditionsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcontainerclustercondition_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpContainerClusterConditionsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpContainerClusterConditionsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcontainerclustercondition_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpContainerClusterConditionsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpContainerClusterConditionsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpContainerClusterLabelsHistoryColumns holds the columns for the "gcp_container_cluster_labels_history" table.
 	GcpContainerClusterLabelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "cluster_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -10513,24 +10413,23 @@ var (
 			{
 				Name:    "bronzehistorygcpcontainerclusterlabel_cluster_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpContainerClusterLabelsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpContainerClusterLabelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcontainerclusterlabel_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpContainerClusterLabelsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpContainerClusterLabelsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcontainerclusterlabel_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpContainerClusterLabelsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpContainerClusterLabelsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpContainerClusterNodePoolsHistoryColumns holds the columns for the "gcp_container_cluster_node_pools_history" table.
 	GcpContainerClusterNodePoolsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "cluster_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -10560,28 +10459,27 @@ var (
 			{
 				Name:    "bronzehistorygcpcontainerclusternodepool_cluster_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpContainerClusterNodePoolsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpContainerClusterNodePoolsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpcontainerclusternodepool_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpContainerClusterNodePoolsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpContainerClusterNodePoolsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpcontainerclusternodepool_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpContainerClusterNodePoolsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpContainerClusterNodePoolsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpDNSManagedZonesHistoryColumns holds the columns for the "gcp_dns_managed_zones_history" table.
 	GcpDNSManagedZonesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "dns_name", Type: field.TypeString, Nullable: true},
@@ -10604,7 +10502,7 @@ var (
 			{
 				Name:    "bronzehistorygcpdnsmanagedzone_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpDNSManagedZonesHistoryColumns[6], GcpDNSManagedZonesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpDNSManagedZonesHistoryColumns[5], GcpDNSManagedZonesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpdnsmanagedzone_valid_to",
@@ -10619,14 +10517,13 @@ var (
 			{
 				Name:    "bronzehistorygcpdnsmanagedzone_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpDNSManagedZonesHistoryColumns[17]},
+				Columns: []*schema.Column{GcpDNSManagedZonesHistoryColumns[16]},
 			},
 		},
 	}
 	// GcpDNSManagedZoneLabelsHistoryColumns holds the columns for the "gcp_dns_managed_zone_labels_history" table.
 	GcpDNSManagedZoneLabelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "managed_zone_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -10642,28 +10539,27 @@ var (
 			{
 				Name:    "bronzehistorygcpdnsmanagedzonelabel_managed_zone_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpDNSManagedZoneLabelsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpDNSManagedZoneLabelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpdnsmanagedzonelabel_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpDNSManagedZoneLabelsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpDNSManagedZoneLabelsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpdnsmanagedzonelabel_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpDNSManagedZoneLabelsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpDNSManagedZoneLabelsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpDNSPoliciesHistoryColumns holds the columns for the "gcp_dns_policies_history" table.
 	GcpDNSPoliciesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -10682,7 +10578,7 @@ var (
 			{
 				Name:    "bronzehistorygcpdnspolicy_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpDNSPoliciesHistoryColumns[6], GcpDNSPoliciesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpDNSPoliciesHistoryColumns[5], GcpDNSPoliciesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpdnspolicy_valid_to",
@@ -10697,18 +10593,17 @@ var (
 			{
 				Name:    "bronzehistorygcpdnspolicy_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpDNSPoliciesHistoryColumns[13]},
+				Columns: []*schema.Column{GcpDNSPoliciesHistoryColumns[12]},
 			},
 		},
 	}
 	// GcpDataprocClustersHistoryColumns holds the columns for the "gcp_dataproc_clusters_history" table.
 	GcpDataprocClustersHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "cluster_name", Type: field.TypeString},
 		{Name: "cluster_uuid", Type: field.TypeString, Nullable: true},
@@ -10729,7 +10624,7 @@ var (
 			{
 				Name:    "bronzehistorygcpdataproccluster_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpDataprocClustersHistoryColumns[6], GcpDataprocClustersHistoryColumns[1]},
+				Columns: []*schema.Column{GcpDataprocClustersHistoryColumns[5], GcpDataprocClustersHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpdataproccluster_valid_to",
@@ -10744,18 +10639,17 @@ var (
 			{
 				Name:    "bronzehistorygcpdataproccluster_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpDataprocClustersHistoryColumns[14]},
+				Columns: []*schema.Column{GcpDataprocClustersHistoryColumns[13]},
 			},
 		},
 	}
 	// GcpFilestoreInstancesHistoryColumns holds the columns for the "gcp_filestore_instances_history" table.
 	GcpFilestoreInstancesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -10785,7 +10679,7 @@ var (
 			{
 				Name:    "bronzehistorygcpfilestoreinstance_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpFilestoreInstancesHistoryColumns[6], GcpFilestoreInstancesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpFilestoreInstancesHistoryColumns[5], GcpFilestoreInstancesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpfilestoreinstance_valid_to",
@@ -10800,18 +10694,17 @@ var (
 			{
 				Name:    "bronzehistorygcpfilestoreinstance_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpFilestoreInstancesHistoryColumns[23]},
+				Columns: []*schema.Column{GcpFilestoreInstancesHistoryColumns[22]},
 			},
 		},
 	}
 	// GcpFoldersHistoryColumns holds the columns for the "gcp_folders_history" table.
 	GcpFoldersHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "display_name", Type: field.TypeString, Nullable: true},
@@ -10831,7 +10724,7 @@ var (
 			{
 				Name:    "bronzehistorygcpfolder_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpFoldersHistoryColumns[6], GcpFoldersHistoryColumns[1]},
+				Columns: []*schema.Column{GcpFoldersHistoryColumns[5], GcpFoldersHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpfolder_valid_to",
@@ -10847,12 +10740,11 @@ var (
 	}
 	// GcpFolderIamPoliciesHistoryColumns holds the columns for the "gcp_folder_iam_policies_history" table.
 	GcpFolderIamPoliciesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "resource_name", Type: field.TypeString},
 		{Name: "etag", Type: field.TypeString, Nullable: true},
@@ -10867,7 +10759,7 @@ var (
 			{
 				Name:    "bronzehistorygcpfolderiampolicy_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpFolderIamPoliciesHistoryColumns[6], GcpFolderIamPoliciesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpFolderIamPoliciesHistoryColumns[5], GcpFolderIamPoliciesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpfolderiampolicy_valid_to",
@@ -10883,8 +10775,7 @@ var (
 	}
 	// GcpFolderIamPolicyBindingsHistoryColumns holds the columns for the "gcp_folder_iam_policy_bindings_history" table.
 	GcpFolderIamPolicyBindingsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "policy_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -10901,24 +10792,23 @@ var (
 			{
 				Name:    "bronzehistorygcpfolderiampolicybinding_policy_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpFolderIamPolicyBindingsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpFolderIamPolicyBindingsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpfolderiampolicybinding_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpFolderIamPolicyBindingsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpFolderIamPolicyBindingsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpfolderiampolicybinding_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpFolderIamPolicyBindingsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpFolderIamPolicyBindingsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpFolderLabelsHistoryColumns holds the columns for the "gcp_folder_labels_history" table.
 	GcpFolderLabelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "folder_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -10934,28 +10824,27 @@ var (
 			{
 				Name:    "bronzehistorygcpfolderlabel_folder_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpFolderLabelsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpFolderLabelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpfolderlabel_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpFolderLabelsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpFolderLabelsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpfolderlabel_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpFolderLabelsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpFolderLabelsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpIamServiceAccountsHistoryColumns holds the columns for the "gcp_iam_service_accounts_history" table.
 	GcpIamServiceAccountsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "email", Type: field.TypeString},
@@ -10975,7 +10864,7 @@ var (
 			{
 				Name:    "bronzehistorygcpiamserviceaccount_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpIamServiceAccountsHistoryColumns[6], GcpIamServiceAccountsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpIamServiceAccountsHistoryColumns[5], GcpIamServiceAccountsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpiamserviceaccount_valid_to",
@@ -10990,18 +10879,17 @@ var (
 			{
 				Name:    "bronzehistorygcpiamserviceaccount_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpIamServiceAccountsHistoryColumns[14]},
+				Columns: []*schema.Column{GcpIamServiceAccountsHistoryColumns[13]},
 			},
 		},
 	}
 	// GcpIamServiceAccountKeysHistoryColumns holds the columns for the "gcp_iam_service_account_keys_history" table.
 	GcpIamServiceAccountKeysHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "service_account_email", Type: field.TypeString},
@@ -11022,7 +10910,7 @@ var (
 			{
 				Name:    "bronzehistorygcpiamserviceaccountkey_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpIamServiceAccountKeysHistoryColumns[6], GcpIamServiceAccountKeysHistoryColumns[1]},
+				Columns: []*schema.Column{GcpIamServiceAccountKeysHistoryColumns[5], GcpIamServiceAccountKeysHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpiamserviceaccountkey_valid_to",
@@ -11037,18 +10925,17 @@ var (
 			{
 				Name:    "bronzehistorygcpiamserviceaccountkey_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpIamServiceAccountKeysHistoryColumns[15]},
+				Columns: []*schema.Column{GcpIamServiceAccountKeysHistoryColumns[14]},
 			},
 		},
 	}
 	// GcpIapIamPoliciesHistoryColumns holds the columns for the "gcp_iap_iam_policies_history" table.
 	GcpIapIamPoliciesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "etag", Type: field.TypeString, Nullable: true},
@@ -11066,7 +10953,7 @@ var (
 			{
 				Name:    "bronzehistorygcpiapiampolicy_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpIapIamPoliciesHistoryColumns[6], GcpIapIamPoliciesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpIapIamPoliciesHistoryColumns[5], GcpIapIamPoliciesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpiapiampolicy_valid_to",
@@ -11082,12 +10969,11 @@ var (
 	}
 	// GcpIapSettingsHistoryColumns holds the columns for the "gcp_iap_settings_history" table.
 	GcpIapSettingsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "access_settings_json", Type: field.TypeJSON, Nullable: true},
@@ -11103,7 +10989,7 @@ var (
 			{
 				Name:    "bronzehistorygcpiapsettings_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpIapSettingsHistoryColumns[6], GcpIapSettingsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpIapSettingsHistoryColumns[5], GcpIapSettingsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpiapsettings_valid_to",
@@ -11119,12 +11005,11 @@ var (
 	}
 	// GcpKmsCryptoKeysHistoryColumns holds the columns for the "gcp_kms_crypto_keys_history" table.
 	GcpKmsCryptoKeysHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "purpose", Type: field.TypeString, Nullable: true},
@@ -11150,7 +11035,7 @@ var (
 			{
 				Name:    "bronzehistorygcpkmscryptokey_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpKmsCryptoKeysHistoryColumns[6], GcpKmsCryptoKeysHistoryColumns[1]},
+				Columns: []*schema.Column{GcpKmsCryptoKeysHistoryColumns[5], GcpKmsCryptoKeysHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpkmscryptokey_valid_to",
@@ -11165,18 +11050,17 @@ var (
 			{
 				Name:    "bronzehistorygcpkmscryptokey_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpKmsCryptoKeysHistoryColumns[18]},
+				Columns: []*schema.Column{GcpKmsCryptoKeysHistoryColumns[17]},
 			},
 		},
 	}
 	// GcpKmsKeyRingsHistoryColumns holds the columns for the "gcp_kms_key_rings_history" table.
 	GcpKmsKeyRingsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "create_time", Type: field.TypeString, Nullable: true},
@@ -11192,7 +11076,7 @@ var (
 			{
 				Name:    "bronzehistorygcpkmskeyring_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpKmsKeyRingsHistoryColumns[6], GcpKmsKeyRingsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpKmsKeyRingsHistoryColumns[5], GcpKmsKeyRingsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpkmskeyring_valid_to",
@@ -11207,18 +11091,17 @@ var (
 			{
 				Name:    "bronzehistorygcpkmskeyring_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpKmsKeyRingsHistoryColumns[9]},
+				Columns: []*schema.Column{GcpKmsKeyRingsHistoryColumns[8]},
 			},
 		},
 	}
 	// GcpLoggingBucketsHistoryColumns holds the columns for the "gcp_logging_buckets_history" table.
 	GcpLoggingBucketsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -11240,7 +11123,7 @@ var (
 			{
 				Name:    "bronzehistorygcploggingbucket_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpLoggingBucketsHistoryColumns[6], GcpLoggingBucketsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpLoggingBucketsHistoryColumns[5], GcpLoggingBucketsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcploggingbucket_valid_to",
@@ -11255,18 +11138,17 @@ var (
 			{
 				Name:    "bronzehistorygcploggingbucket_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpLoggingBucketsHistoryColumns[13]},
+				Columns: []*schema.Column{GcpLoggingBucketsHistoryColumns[12]},
 			},
 		},
 	}
 	// GcpLoggingLogExclusionsHistoryColumns holds the columns for the "gcp_logging_log_exclusions_history" table.
 	GcpLoggingLogExclusionsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -11285,7 +11167,7 @@ var (
 			{
 				Name:    "bronzehistorygcplogginglogexclusion_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpLoggingLogExclusionsHistoryColumns[6], GcpLoggingLogExclusionsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpLoggingLogExclusionsHistoryColumns[5], GcpLoggingLogExclusionsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcplogginglogexclusion_valid_to",
@@ -11300,18 +11182,17 @@ var (
 			{
 				Name:    "bronzehistorygcplogginglogexclusion_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpLoggingLogExclusionsHistoryColumns[13]},
+				Columns: []*schema.Column{GcpLoggingLogExclusionsHistoryColumns[12]},
 			},
 		},
 	}
 	// GcpLoggingLogMetricsHistoryColumns holds the columns for the "gcp_logging_log_metrics_history" table.
 	GcpLoggingLogMetricsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -11335,7 +11216,7 @@ var (
 			{
 				Name:    "bronzehistorygcplogginglogmetric_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpLoggingLogMetricsHistoryColumns[6], GcpLoggingLogMetricsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpLoggingLogMetricsHistoryColumns[5], GcpLoggingLogMetricsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcplogginglogmetric_valid_to",
@@ -11350,18 +11231,17 @@ var (
 			{
 				Name:    "bronzehistorygcplogginglogmetric_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpLoggingLogMetricsHistoryColumns[18]},
+				Columns: []*schema.Column{GcpLoggingLogMetricsHistoryColumns[17]},
 			},
 		},
 	}
 	// GcpLoggingSinksHistoryColumns holds the columns for the "gcp_logging_sinks_history" table.
 	GcpLoggingSinksHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "destination", Type: field.TypeString, Nullable: true},
@@ -11383,7 +11263,7 @@ var (
 			{
 				Name:    "bronzehistorygcploggingsink_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpLoggingSinksHistoryColumns[6], GcpLoggingSinksHistoryColumns[1]},
+				Columns: []*schema.Column{GcpLoggingSinksHistoryColumns[5], GcpLoggingSinksHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcploggingsink_valid_to",
@@ -11398,18 +11278,17 @@ var (
 			{
 				Name:    "bronzehistorygcploggingsink_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpLoggingSinksHistoryColumns[16]},
+				Columns: []*schema.Column{GcpLoggingSinksHistoryColumns[15]},
 			},
 		},
 	}
 	// GcpMonitoringAlertPoliciesHistoryColumns holds the columns for the "gcp_monitoring_alert_policies_history" table.
 	GcpMonitoringAlertPoliciesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "display_name", Type: field.TypeString, Nullable: true},
@@ -11434,7 +11313,7 @@ var (
 			{
 				Name:    "bronzehistorygcpmonitoringalertpolicy_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpMonitoringAlertPoliciesHistoryColumns[6], GcpMonitoringAlertPoliciesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpMonitoringAlertPoliciesHistoryColumns[5], GcpMonitoringAlertPoliciesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpmonitoringalertpolicy_valid_to",
@@ -11449,18 +11328,17 @@ var (
 			{
 				Name:    "bronzehistorygcpmonitoringalertpolicy_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpMonitoringAlertPoliciesHistoryColumns[19]},
+				Columns: []*schema.Column{GcpMonitoringAlertPoliciesHistoryColumns[18]},
 			},
 		},
 	}
 	// GcpMonitoringUptimeCheckConfigsHistoryColumns holds the columns for the "gcp_monitoring_uptime_check_configs_history" table.
 	GcpMonitoringUptimeCheckConfigsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "display_name", Type: field.TypeString, Nullable: true},
@@ -11487,7 +11365,7 @@ var (
 			{
 				Name:    "bronzehistorygcpmonitoringuptimecheckconfig_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpMonitoringUptimeCheckConfigsHistoryColumns[6], GcpMonitoringUptimeCheckConfigsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpMonitoringUptimeCheckConfigsHistoryColumns[5], GcpMonitoringUptimeCheckConfigsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpmonitoringuptimecheckconfig_valid_to",
@@ -11502,18 +11380,17 @@ var (
 			{
 				Name:    "bronzehistorygcpmonitoringuptimecheckconfig_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpMonitoringUptimeCheckConfigsHistoryColumns[21]},
+				Columns: []*schema.Column{GcpMonitoringUptimeCheckConfigsHistoryColumns[20]},
 			},
 		},
 	}
 	// GcpOrgIamPoliciesHistoryColumns holds the columns for the "gcp_org_iam_policies_history" table.
 	GcpOrgIamPoliciesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "resource_name", Type: field.TypeString},
 		{Name: "etag", Type: field.TypeString, Nullable: true},
@@ -11528,7 +11405,7 @@ var (
 			{
 				Name:    "bronzehistorygcporgiampolicy_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpOrgIamPoliciesHistoryColumns[6], GcpOrgIamPoliciesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpOrgIamPoliciesHistoryColumns[5], GcpOrgIamPoliciesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcporgiampolicy_valid_to",
@@ -11544,8 +11421,7 @@ var (
 	}
 	// GcpOrgIamPolicyBindingsHistoryColumns holds the columns for the "gcp_org_iam_policy_bindings_history" table.
 	GcpOrgIamPolicyBindingsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "policy_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -11562,28 +11438,27 @@ var (
 			{
 				Name:    "bronzehistorygcporgiampolicybinding_policy_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpOrgIamPolicyBindingsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpOrgIamPolicyBindingsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcporgiampolicybinding_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpOrgIamPolicyBindingsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpOrgIamPolicyBindingsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcporgiampolicybinding_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpOrgIamPolicyBindingsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpOrgIamPolicyBindingsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpOrgpolicyConstraintsHistoryColumns holds the columns for the "gcp_orgpolicy_constraints_history" table.
 	GcpOrgpolicyConstraintsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "display_name", Type: field.TypeString, Nullable: true},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -11603,7 +11478,7 @@ var (
 			{
 				Name:    "bronzehistorygcporgpolicyconstraint_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpOrgpolicyConstraintsHistoryColumns[6], GcpOrgpolicyConstraintsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpOrgpolicyConstraintsHistoryColumns[5], GcpOrgpolicyConstraintsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcporgpolicyconstraint_valid_to",
@@ -11619,12 +11494,11 @@ var (
 	}
 	// GcpOrgpolicyCustomConstraintsHistoryColumns holds the columns for the "gcp_orgpolicy_custom_constraints_history" table.
 	GcpOrgpolicyCustomConstraintsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "resource_types", Type: field.TypeJSON, Nullable: true},
 		{Name: "method_types", Type: field.TypeJSON, Nullable: true},
@@ -11644,7 +11518,7 @@ var (
 			{
 				Name:    "bronzehistorygcporgpolicycustomconstraint_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpOrgpolicyCustomConstraintsHistoryColumns[6], GcpOrgpolicyCustomConstraintsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpOrgpolicyCustomConstraintsHistoryColumns[5], GcpOrgpolicyCustomConstraintsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcporgpolicycustomconstraint_valid_to",
@@ -11660,12 +11534,11 @@ var (
 	}
 	// GcpOrgpolicyPoliciesHistoryColumns holds the columns for the "gcp_orgpolicy_policies_history" table.
 	GcpOrgpolicyPoliciesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "etag", Type: field.TypeString, Nullable: true},
 		{Name: "spec", Type: field.TypeJSON, Nullable: true},
@@ -11681,7 +11554,7 @@ var (
 			{
 				Name:    "bronzehistorygcporgpolicypolicy_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpOrgpolicyPoliciesHistoryColumns[6], GcpOrgpolicyPoliciesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpOrgpolicyPoliciesHistoryColumns[5], GcpOrgpolicyPoliciesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcporgpolicypolicy_valid_to",
@@ -11697,12 +11570,11 @@ var (
 	}
 	// GcpOrganizationsHistoryColumns holds the columns for the "gcp_organizations_history" table.
 	GcpOrganizationsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "display_name", Type: field.TypeString, Nullable: true},
@@ -11722,7 +11594,7 @@ var (
 			{
 				Name:    "bronzehistorygcporganization_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpOrganizationsHistoryColumns[6], GcpOrganizationsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpOrganizationsHistoryColumns[5], GcpOrganizationsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcporganization_valid_to",
@@ -11738,12 +11610,11 @@ var (
 	}
 	// GcpProjectsHistoryColumns holds the columns for the "gcp_projects_history" table.
 	GcpProjectsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "project_id", Type: field.TypeString},
 		{Name: "project_number", Type: field.TypeString},
 		{Name: "display_name", Type: field.TypeString, Nullable: true},
@@ -11763,7 +11634,7 @@ var (
 			{
 				Name:    "bronzehistorygcpproject_project_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpProjectsHistoryColumns[6], GcpProjectsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpProjectsHistoryColumns[5], GcpProjectsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpproject_valid_to",
@@ -11779,12 +11650,11 @@ var (
 	}
 	// GcpProjectIamPoliciesHistoryColumns holds the columns for the "gcp_project_iam_policies_history" table.
 	GcpProjectIamPoliciesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "resource_name", Type: field.TypeString},
 		{Name: "etag", Type: field.TypeString, Nullable: true},
@@ -11800,7 +11670,7 @@ var (
 			{
 				Name:    "bronzehistorygcpprojectiampolicy_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpProjectIamPoliciesHistoryColumns[6], GcpProjectIamPoliciesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpProjectIamPoliciesHistoryColumns[5], GcpProjectIamPoliciesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpprojectiampolicy_valid_to",
@@ -11816,8 +11686,7 @@ var (
 	}
 	// GcpProjectIamPolicyBindingsHistoryColumns holds the columns for the "gcp_project_iam_policy_bindings_history" table.
 	GcpProjectIamPolicyBindingsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "policy_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -11834,24 +11703,23 @@ var (
 			{
 				Name:    "bronzehistorygcpprojectiampolicybinding_policy_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpProjectIamPolicyBindingsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpProjectIamPolicyBindingsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpprojectiampolicybinding_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpProjectIamPolicyBindingsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpProjectIamPolicyBindingsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpprojectiampolicybinding_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpProjectIamPolicyBindingsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpProjectIamPolicyBindingsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpProjectLabelsHistoryColumns holds the columns for the "gcp_project_labels_history" table.
 	GcpProjectLabelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "project_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -11867,28 +11735,27 @@ var (
 			{
 				Name:    "bronzehistorygcpprojectlabel_project_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpProjectLabelsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpProjectLabelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpprojectlabel_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpProjectLabelsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpProjectLabelsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpprojectlabel_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpProjectLabelsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpProjectLabelsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpPubsubSubscriptionsHistoryColumns holds the columns for the "gcp_pubsub_subscriptions_history" table.
 	GcpPubsubSubscriptionsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "topic", Type: field.TypeString, Nullable: true},
@@ -11918,7 +11785,7 @@ var (
 			{
 				Name:    "bronzehistorygcppubsubsubscription_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpPubsubSubscriptionsHistoryColumns[6], GcpPubsubSubscriptionsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpPubsubSubscriptionsHistoryColumns[5], GcpPubsubSubscriptionsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcppubsubsubscription_valid_to",
@@ -11933,18 +11800,17 @@ var (
 			{
 				Name:    "bronzehistorygcppubsubsubscription_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpPubsubSubscriptionsHistoryColumns[24]},
+				Columns: []*schema.Column{GcpPubsubSubscriptionsHistoryColumns[23]},
 			},
 		},
 	}
 	// GcpPubsubTopicsHistoryColumns holds the columns for the "gcp_pubsub_topics_history" table.
 	GcpPubsubTopicsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "labels_json", Type: field.TypeJSON, Nullable: true},
@@ -11965,7 +11831,7 @@ var (
 			{
 				Name:    "bronzehistorygcppubsubtopic_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpPubsubTopicsHistoryColumns[6], GcpPubsubTopicsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpPubsubTopicsHistoryColumns[5], GcpPubsubTopicsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcppubsubtopic_valid_to",
@@ -11980,18 +11846,17 @@ var (
 			{
 				Name:    "bronzehistorygcppubsubtopic_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpPubsubTopicsHistoryColumns[15]},
+				Columns: []*schema.Column{GcpPubsubTopicsHistoryColumns[14]},
 			},
 		},
 	}
 	// GcpRedisInstancesHistoryColumns holds the columns for the "gcp_redis_instances_history" table.
 	GcpRedisInstancesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "display_name", Type: field.TypeString, Nullable: true},
@@ -12039,7 +11904,7 @@ var (
 			{
 				Name:    "bronzehistorygcpredisinstance_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpRedisInstancesHistoryColumns[6], GcpRedisInstancesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpRedisInstancesHistoryColumns[5], GcpRedisInstancesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpredisinstance_valid_to",
@@ -12054,18 +11919,17 @@ var (
 			{
 				Name:    "bronzehistorygcpredisinstance_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpRedisInstancesHistoryColumns[42]},
+				Columns: []*schema.Column{GcpRedisInstancesHistoryColumns[41]},
 			},
 		},
 	}
 	// GcpRunRevisionsHistoryColumns holds the columns for the "gcp_run_revisions_history" table.
 	GcpRunRevisionsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "uid", Type: field.TypeString, Nullable: true},
@@ -12102,7 +11966,7 @@ var (
 			{
 				Name:    "bronzehistorygcprunrevision_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpRunRevisionsHistoryColumns[6], GcpRunRevisionsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpRunRevisionsHistoryColumns[5], GcpRunRevisionsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcprunrevision_valid_to",
@@ -12117,18 +11981,17 @@ var (
 			{
 				Name:    "bronzehistorygcprunrevision_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpRunRevisionsHistoryColumns[30]},
+				Columns: []*schema.Column{GcpRunRevisionsHistoryColumns[29]},
 			},
 		},
 	}
 	// GcpRunServicesHistoryColumns holds the columns for the "gcp_run_services_history" table.
 	GcpRunServicesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -12166,7 +12029,7 @@ var (
 			{
 				Name:    "bronzehistorygcprunservice_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpRunServicesHistoryColumns[6], GcpRunServicesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpRunServicesHistoryColumns[5], GcpRunServicesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcprunservice_valid_to",
@@ -12181,18 +12044,17 @@ var (
 			{
 				Name:    "bronzehistorygcprunservice_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpRunServicesHistoryColumns[31]},
+				Columns: []*schema.Column{GcpRunServicesHistoryColumns[30]},
 			},
 		},
 	}
 	// GcpSQLInstancesHistoryColumns holds the columns for the "gcp_sql_instances_history" table.
 	GcpSQLInstancesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "database_version", Type: field.TypeString, Nullable: true},
@@ -12222,7 +12084,7 @@ var (
 			{
 				Name:    "bronzehistorygcpsqlinstance_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpSQLInstancesHistoryColumns[6], GcpSQLInstancesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpSQLInstancesHistoryColumns[5], GcpSQLInstancesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpsqlinstance_valid_to",
@@ -12237,14 +12099,13 @@ var (
 			{
 				Name:    "bronzehistorygcpsqlinstance_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpSQLInstancesHistoryColumns[24]},
+				Columns: []*schema.Column{GcpSQLInstancesHistoryColumns[23]},
 			},
 		},
 	}
 	// GcpSQLInstanceLabelsHistoryColumns holds the columns for the "gcp_sql_instance_labels_history" table.
 	GcpSQLInstanceLabelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "instance_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -12260,28 +12121,27 @@ var (
 			{
 				Name:    "bronzehistorygcpsqlinstancelabel_instance_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpSQLInstanceLabelsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpSQLInstanceLabelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpsqlinstancelabel_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpSQLInstanceLabelsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpSQLInstanceLabelsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpsqlinstancelabel_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpSQLInstanceLabelsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpSQLInstanceLabelsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpSecretmanagerSecretsHistoryColumns holds the columns for the "gcp_secretmanager_secrets_history" table.
 	GcpSecretmanagerSecretsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "create_time", Type: field.TypeString, Nullable: true},
@@ -12302,7 +12162,7 @@ var (
 			{
 				Name:    "bronzehistorygcpsecretmanagersecret_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpSecretmanagerSecretsHistoryColumns[6], GcpSecretmanagerSecretsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpSecretmanagerSecretsHistoryColumns[5], GcpSecretmanagerSecretsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpsecretmanagersecret_valid_to",
@@ -12317,14 +12177,13 @@ var (
 			{
 				Name:    "bronzehistorygcpsecretmanagersecret_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpSecretmanagerSecretsHistoryColumns[15]},
+				Columns: []*schema.Column{GcpSecretmanagerSecretsHistoryColumns[14]},
 			},
 		},
 	}
 	// GcpSecretmanagerSecretLabelsHistoryColumns holds the columns for the "gcp_secretmanager_secret_labels_history" table.
 	GcpSecretmanagerSecretLabelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "secret_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -12340,28 +12199,27 @@ var (
 			{
 				Name:    "bronzehistorygcpsecretmanagersecretlabel_secret_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpSecretmanagerSecretLabelsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpSecretmanagerSecretLabelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpsecretmanagersecretlabel_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpSecretmanagerSecretLabelsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpSecretmanagerSecretLabelsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpsecretmanagersecretlabel_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpSecretmanagerSecretLabelsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpSecretmanagerSecretLabelsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpSecuritycenterFindingsHistoryColumns holds the columns for the "gcp_securitycenter_findings_history" table.
 	GcpSecuritycenterFindingsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "parent", Type: field.TypeString},
 		{Name: "resource_name", Type: field.TypeString, Nullable: true},
@@ -12392,7 +12250,7 @@ var (
 			{
 				Name:    "bronzehistorygcpsecuritycenterfinding_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpSecuritycenterFindingsHistoryColumns[6], GcpSecuritycenterFindingsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpSecuritycenterFindingsHistoryColumns[5], GcpSecuritycenterFindingsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpsecuritycenterfinding_valid_to",
@@ -12408,12 +12266,11 @@ var (
 	}
 	// GcpSecuritycenterNotificationConfigsHistoryColumns holds the columns for the "gcp_securitycenter_notification_configs_history" table.
 	GcpSecuritycenterNotificationConfigsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -12431,7 +12288,7 @@ var (
 			{
 				Name:    "bronzehistorygcpsecuritycenternotificationconfig_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpSecuritycenterNotificationConfigsHistoryColumns[6], GcpSecuritycenterNotificationConfigsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpSecuritycenterNotificationConfigsHistoryColumns[5], GcpSecuritycenterNotificationConfigsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpsecuritycenternotificationconfig_valid_to",
@@ -12447,12 +12304,11 @@ var (
 	}
 	// GcpSecuritycenterSourcesHistoryColumns holds the columns for the "gcp_securitycenter_sources_history" table.
 	GcpSecuritycenterSourcesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "display_name", Type: field.TypeString, Nullable: true},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -12468,7 +12324,7 @@ var (
 			{
 				Name:    "bronzehistorygcpsecuritycentersource_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpSecuritycenterSourcesHistoryColumns[6], GcpSecuritycenterSourcesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpSecuritycenterSourcesHistoryColumns[5], GcpSecuritycenterSourcesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpsecuritycentersource_valid_to",
@@ -12484,12 +12340,11 @@ var (
 	}
 	// GcpServiceusageEnabledServicesHistoryColumns holds the columns for the "gcp_serviceusage_enabled_services_history" table.
 	GcpServiceusageEnabledServicesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "parent", Type: field.TypeString},
@@ -12506,7 +12361,7 @@ var (
 			{
 				Name:    "bronzehistorygcpserviceusageenabledservice_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpServiceusageEnabledServicesHistoryColumns[6], GcpServiceusageEnabledServicesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpServiceusageEnabledServicesHistoryColumns[5], GcpServiceusageEnabledServicesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpserviceusageenabledservice_valid_to",
@@ -12521,18 +12376,17 @@ var (
 			{
 				Name:    "bronzehistorygcpserviceusageenabledservice_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpServiceusageEnabledServicesHistoryColumns[11]},
+				Columns: []*schema.Column{GcpServiceusageEnabledServicesHistoryColumns[10]},
 			},
 		},
 	}
 	// GcpSpannerDatabasesHistoryColumns holds the columns for the "gcp_spanner_databases_history" table.
 	GcpSpannerDatabasesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "state", Type: field.TypeInt, Nullable: true},
@@ -12558,7 +12412,7 @@ var (
 			{
 				Name:    "bronzehistorygcpspannerdatabase_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpSpannerDatabasesHistoryColumns[6], GcpSpannerDatabasesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpSpannerDatabasesHistoryColumns[5], GcpSpannerDatabasesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpspannerdatabase_valid_to",
@@ -12573,18 +12427,17 @@ var (
 			{
 				Name:    "bronzehistorygcpspannerdatabase_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpSpannerDatabasesHistoryColumns[20]},
+				Columns: []*schema.Column{GcpSpannerDatabasesHistoryColumns[19]},
 			},
 		},
 	}
 	// GcpSpannerInstancesHistoryColumns holds the columns for the "gcp_spanner_instances_history" table.
 	GcpSpannerInstancesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "config", Type: field.TypeString, Nullable: true},
@@ -12609,7 +12462,7 @@ var (
 			{
 				Name:    "bronzehistorygcpspannerinstance_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpSpannerInstancesHistoryColumns[6], GcpSpannerInstancesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpSpannerInstancesHistoryColumns[5], GcpSpannerInstancesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpspannerinstance_valid_to",
@@ -12624,18 +12477,17 @@ var (
 			{
 				Name:    "bronzehistorygcpspannerinstance_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpSpannerInstancesHistoryColumns[19]},
+				Columns: []*schema.Column{GcpSpannerInstancesHistoryColumns[18]},
 			},
 		},
 	}
 	// GcpStorageBucketsHistoryColumns holds the columns for the "gcp_storage_buckets_history" table.
 	GcpStorageBucketsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "location", Type: field.TypeString, Nullable: true},
@@ -12666,7 +12518,7 @@ var (
 			{
 				Name:    "bronzehistorygcpstoragebucket_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpStorageBucketsHistoryColumns[6], GcpStorageBucketsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpStorageBucketsHistoryColumns[5], GcpStorageBucketsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpstoragebucket_valid_to",
@@ -12681,18 +12533,17 @@ var (
 			{
 				Name:    "bronzehistorygcpstoragebucket_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpStorageBucketsHistoryColumns[25]},
+				Columns: []*schema.Column{GcpStorageBucketsHistoryColumns[24]},
 			},
 		},
 	}
 	// GcpStorageBucketIamPoliciesHistoryColumns holds the columns for the "gcp_storage_bucket_iam_policies_history" table.
 	GcpStorageBucketIamPoliciesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "bucket_name", Type: field.TypeString},
 		{Name: "etag", Type: field.TypeString, Nullable: true},
@@ -12708,7 +12559,7 @@ var (
 			{
 				Name:    "bronzehistorygcpstoragebucketiampolicy_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpStorageBucketIamPoliciesHistoryColumns[6], GcpStorageBucketIamPoliciesHistoryColumns[1]},
+				Columns: []*schema.Column{GcpStorageBucketIamPoliciesHistoryColumns[5], GcpStorageBucketIamPoliciesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpstoragebucketiampolicy_valid_to",
@@ -12723,14 +12574,13 @@ var (
 			{
 				Name:    "bronzehistorygcpstoragebucketiampolicy_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpStorageBucketIamPoliciesHistoryColumns[10]},
+				Columns: []*schema.Column{GcpStorageBucketIamPoliciesHistoryColumns[9]},
 			},
 		},
 	}
 	// GcpStorageBucketIamPolicyBindingsHistoryColumns holds the columns for the "gcp_storage_bucket_iam_policy_bindings_history" table.
 	GcpStorageBucketIamPolicyBindingsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "policy_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -12747,24 +12597,23 @@ var (
 			{
 				Name:    "bronzehistorygcpstoragebucketiampolicybinding_policy_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpStorageBucketIamPolicyBindingsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpStorageBucketIamPolicyBindingsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpstoragebucketiampolicybinding_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpStorageBucketIamPolicyBindingsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpStorageBucketIamPolicyBindingsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpstoragebucketiampolicybinding_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpStorageBucketIamPolicyBindingsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpStorageBucketIamPolicyBindingsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpStorageBucketLabelsHistoryColumns holds the columns for the "gcp_storage_bucket_labels_history" table.
 	GcpStorageBucketLabelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "bucket_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -12780,28 +12629,27 @@ var (
 			{
 				Name:    "bronzehistorygcpstoragebucketlabel_bucket_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpStorageBucketLabelsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpStorageBucketLabelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpstoragebucketlabel_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpStorageBucketLabelsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpStorageBucketLabelsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpstoragebucketlabel_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpStorageBucketLabelsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpStorageBucketLabelsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpVpcAccessConnectorsHistoryColumns holds the columns for the "gcp_vpc_access_connectors_history" table.
 	GcpVpcAccessConnectorsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "network", Type: field.TypeString, Nullable: true},
 		{Name: "ip_cidr_range", Type: field.TypeString, Nullable: true},
@@ -12825,7 +12673,7 @@ var (
 			{
 				Name:    "bronzehistorygcpvpcaccessconnector_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpVpcAccessConnectorsHistoryColumns[6], GcpVpcAccessConnectorsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpVpcAccessConnectorsHistoryColumns[5], GcpVpcAccessConnectorsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpvpcaccessconnector_valid_to",
@@ -12840,18 +12688,17 @@ var (
 			{
 				Name:    "bronzehistorygcpvpcaccessconnector_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpVpcAccessConnectorsHistoryColumns[18]},
+				Columns: []*schema.Column{GcpVpcAccessConnectorsHistoryColumns[17]},
 			},
 		},
 	}
 	// GcpComputeVpnGatewaysHistoryColumns holds the columns for the "gcp_compute_vpn_gateways_history" table.
 	GcpComputeVpnGatewaysHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -12874,7 +12721,7 @@ var (
 			{
 				Name:    "bronzehistorygcpvpngateway_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeVpnGatewaysHistoryColumns[6], GcpComputeVpnGatewaysHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeVpnGatewaysHistoryColumns[5], GcpComputeVpnGatewaysHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpvpngateway_valid_to",
@@ -12889,14 +12736,13 @@ var (
 			{
 				Name:    "bronzehistorygcpvpngateway_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeVpnGatewaysHistoryColumns[17]},
+				Columns: []*schema.Column{GcpComputeVpnGatewaysHistoryColumns[16]},
 			},
 		},
 	}
 	// GcpComputeVpnGatewayLabelsHistoryColumns holds the columns for the "gcp_compute_vpn_gateway_labels_history" table.
 	GcpComputeVpnGatewayLabelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "vpn_gateway_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -12912,28 +12758,27 @@ var (
 			{
 				Name:    "bronzehistorygcpvpngatewaylabel_vpn_gateway_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeVpnGatewayLabelsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeVpnGatewayLabelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpvpngatewaylabel_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeVpnGatewayLabelsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeVpnGatewayLabelsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpvpngatewaylabel_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeVpnGatewayLabelsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeVpnGatewayLabelsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeTargetVpnGatewaysHistoryColumns holds the columns for the "gcp_compute_target_vpn_gateways_history" table.
 	GcpComputeTargetVpnGatewaysHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -12956,7 +12801,7 @@ var (
 			{
 				Name:    "bronzehistorygcpvpntargetgateway_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeTargetVpnGatewaysHistoryColumns[6], GcpComputeTargetVpnGatewaysHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeTargetVpnGatewaysHistoryColumns[5], GcpComputeTargetVpnGatewaysHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpvpntargetgateway_valid_to",
@@ -12971,14 +12816,13 @@ var (
 			{
 				Name:    "bronzehistorygcpvpntargetgateway_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeTargetVpnGatewaysHistoryColumns[17]},
+				Columns: []*schema.Column{GcpComputeTargetVpnGatewaysHistoryColumns[16]},
 			},
 		},
 	}
 	// GcpComputeTargetVpnGatewayLabelsHistoryColumns holds the columns for the "gcp_compute_target_vpn_gateway_labels_history" table.
 	GcpComputeTargetVpnGatewayLabelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "target_vpn_gateway_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -12994,28 +12838,27 @@ var (
 			{
 				Name:    "bronzehistorygcpvpntargetgatewaylabel_target_vpn_gateway_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeTargetVpnGatewayLabelsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeTargetVpnGatewayLabelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpvpntargetgatewaylabel_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeTargetVpnGatewayLabelsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeTargetVpnGatewayLabelsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpvpntargetgatewaylabel_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeTargetVpnGatewayLabelsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeTargetVpnGatewayLabelsHistoryColumns[3]},
 			},
 		},
 	}
 	// GcpComputeVpnTunnelsHistoryColumns holds the columns for the "gcp_compute_vpn_tunnels_history" table.
 	GcpComputeVpnTunnelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -13048,7 +12891,7 @@ var (
 			{
 				Name:    "bronzehistorygcpvpntunnel_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeVpnTunnelsHistoryColumns[6], GcpComputeVpnTunnelsHistoryColumns[1]},
+				Columns: []*schema.Column{GcpComputeVpnTunnelsHistoryColumns[5], GcpComputeVpnTunnelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpvpntunnel_valid_to",
@@ -13063,14 +12906,13 @@ var (
 			{
 				Name:    "bronzehistorygcpvpntunnel_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeVpnTunnelsHistoryColumns[27]},
+				Columns: []*schema.Column{GcpComputeVpnTunnelsHistoryColumns[26]},
 			},
 		},
 	}
 	// GcpComputeVpnTunnelLabelsHistoryColumns holds the columns for the "gcp_compute_vpn_tunnel_labels_history" table.
 	GcpComputeVpnTunnelLabelsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "vpn_tunnel_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -13086,28 +12928,27 @@ var (
 			{
 				Name:    "bronzehistorygcpvpntunnellabel_vpn_tunnel_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeVpnTunnelLabelsHistoryColumns[2]},
+				Columns: []*schema.Column{GcpComputeVpnTunnelLabelsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygcpvpntunnellabel_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeVpnTunnelLabelsHistoryColumns[3]},
+				Columns: []*schema.Column{GcpComputeVpnTunnelLabelsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygcpvpntunnellabel_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GcpComputeVpnTunnelLabelsHistoryColumns[4]},
+				Columns: []*schema.Column{GcpComputeVpnTunnelLabelsHistoryColumns[3]},
 			},
 		},
 	}
 	// GreennodeComputeSSHKeysHistoryColumns holds the columns for the "greennode_compute_ssh_keys_history" table.
 	GreennodeComputeSSHKeysHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "created_at_api", Type: field.TypeString, Nullable: true},
@@ -13125,7 +12966,7 @@ var (
 			{
 				Name:    "bronzehistorygreennodecomputesshkey_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeComputeSSHKeysHistoryColumns[6], GreennodeComputeSSHKeysHistoryColumns[1]},
+				Columns: []*schema.Column{GreennodeComputeSSHKeysHistoryColumns[5], GreennodeComputeSSHKeysHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygreennodecomputesshkey_valid_to",
@@ -13140,18 +12981,17 @@ var (
 			{
 				Name:    "bronzehistorygreennodecomputesshkey_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeComputeSSHKeysHistoryColumns[12]},
+				Columns: []*schema.Column{GreennodeComputeSSHKeysHistoryColumns[11]},
 			},
 		},
 	}
 	// GreennodeComputeServersHistoryColumns holds the columns for the "greennode_compute_servers_history" table.
 	GreennodeComputeServersHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "status", Type: field.TypeString, Nullable: true},
@@ -13191,7 +13031,7 @@ var (
 			{
 				Name:    "bronzehistorygreennodecomputeserver_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeComputeServersHistoryColumns[6], GreennodeComputeServersHistoryColumns[1]},
+				Columns: []*schema.Column{GreennodeComputeServersHistoryColumns[5], GreennodeComputeServersHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygreennodecomputeserver_valid_to",
@@ -13206,18 +13046,17 @@ var (
 			{
 				Name:    "bronzehistorygreennodecomputeserver_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeComputeServersHistoryColumns[34]},
+				Columns: []*schema.Column{GreennodeComputeServersHistoryColumns[33]},
 			},
 		},
 	}
 	// GreennodeComputeServerGroupsHistoryColumns holds the columns for the "greennode_compute_server_groups_history" table.
 	GreennodeComputeServerGroupsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -13235,7 +13074,7 @@ var (
 			{
 				Name:    "bronzehistorygreennodecomputeservergroup_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeComputeServerGroupsHistoryColumns[6], GreennodeComputeServerGroupsHistoryColumns[1]},
+				Columns: []*schema.Column{GreennodeComputeServerGroupsHistoryColumns[5], GreennodeComputeServerGroupsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygreennodecomputeservergroup_valid_to",
@@ -13250,14 +13089,13 @@ var (
 			{
 				Name:    "bronzehistorygreennodecomputeservergroup_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeComputeServerGroupsHistoryColumns[12]},
+				Columns: []*schema.Column{GreennodeComputeServerGroupsHistoryColumns[11]},
 			},
 		},
 	}
 	// GreennodeComputeServerGroupMembersHistoryColumns holds the columns for the "greennode_compute_server_group_members_history" table.
 	GreennodeComputeServerGroupMembersHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "server_group_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -13273,24 +13111,23 @@ var (
 			{
 				Name:    "bronzehistorygreennodecomputeservergroupmember_server_group_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeComputeServerGroupMembersHistoryColumns[2]},
+				Columns: []*schema.Column{GreennodeComputeServerGroupMembersHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygreennodecomputeservergroupmember_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeComputeServerGroupMembersHistoryColumns[3]},
+				Columns: []*schema.Column{GreennodeComputeServerGroupMembersHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygreennodecomputeservergroupmember_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeComputeServerGroupMembersHistoryColumns[4]},
+				Columns: []*schema.Column{GreennodeComputeServerGroupMembersHistoryColumns[3]},
 			},
 		},
 	}
 	// GreennodeComputeServerSecGroupsHistoryColumns holds the columns for the "greennode_compute_server_sec_groups_history" table.
 	GreennodeComputeServerSecGroupsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "server_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -13306,28 +13143,27 @@ var (
 			{
 				Name:    "bronzehistorygreennodecomputeserversecgroup_server_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeComputeServerSecGroupsHistoryColumns[2]},
+				Columns: []*schema.Column{GreennodeComputeServerSecGroupsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygreennodecomputeserversecgroup_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeComputeServerSecGroupsHistoryColumns[3]},
+				Columns: []*schema.Column{GreennodeComputeServerSecGroupsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorygreennodecomputeserversecgroup_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeComputeServerSecGroupsHistoryColumns[4]},
+				Columns: []*schema.Column{GreennodeComputeServerSecGroupsHistoryColumns[3]},
 			},
 		},
 	}
 	// GreennodePortalQuotasHistoryColumns holds the columns for the "greennode_portal_quotas_history" table.
 	GreennodePortalQuotasHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -13346,7 +13182,7 @@ var (
 			{
 				Name:    "bronzehistorygreennodeportalquota_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodePortalQuotasHistoryColumns[6], GreennodePortalQuotasHistoryColumns[1]},
+				Columns: []*schema.Column{GreennodePortalQuotasHistoryColumns[5], GreennodePortalQuotasHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygreennodeportalquota_valid_to",
@@ -13361,18 +13197,17 @@ var (
 			{
 				Name:    "bronzehistorygreennodeportalquota_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodePortalQuotasHistoryColumns[13]},
+				Columns: []*schema.Column{GreennodePortalQuotasHistoryColumns[12]},
 			},
 		},
 	}
 	// GreennodePortalRegionsHistoryColumns holds the columns for the "greennode_portal_regions_history" table.
 	GreennodePortalRegionsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
@@ -13387,7 +13222,7 @@ var (
 			{
 				Name:    "bronzehistorygreennodeportalregion_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodePortalRegionsHistoryColumns[6], GreennodePortalRegionsHistoryColumns[1]},
+				Columns: []*schema.Column{GreennodePortalRegionsHistoryColumns[5], GreennodePortalRegionsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorygreennodeportalregion_valid_to",
@@ -13402,18 +13237,17 @@ var (
 			{
 				Name:    "bronzehistorygreennodeportalregion_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodePortalRegionsHistoryColumns[9]},
+				Columns: []*schema.Column{GreennodePortalRegionsHistoryColumns[8]},
 			},
 		},
 	}
 	// S1AccountsHistoryColumns holds the columns for the "s1_accounts_history" table.
 	S1AccountsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "state", Type: field.TypeString, Nullable: true},
@@ -13441,7 +13275,7 @@ var (
 			{
 				Name:    "bronzehistorys1account_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{S1AccountsHistoryColumns[6], S1AccountsHistoryColumns[1]},
+				Columns: []*schema.Column{S1AccountsHistoryColumns[5], S1AccountsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorys1account_valid_to",
@@ -13457,12 +13291,11 @@ var (
 	}
 	// S1AgentsHistoryColumns holds the columns for the "s1_agents_history" table.
 	S1AgentsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "computer_name", Type: field.TypeString},
 		{Name: "external_ip", Type: field.TypeString, Nullable: true},
@@ -13531,7 +13364,7 @@ var (
 			{
 				Name:    "bronzehistorys1agent_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{S1AgentsHistoryColumns[6], S1AgentsHistoryColumns[1]},
+				Columns: []*schema.Column{S1AgentsHistoryColumns[5], S1AgentsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorys1agent_valid_to",
@@ -13546,14 +13379,13 @@ var (
 			{
 				Name:    "bronzehistorys1agent_account_id",
 				Unique:  false,
-				Columns: []*schema.Column{S1AgentsHistoryColumns[10]},
+				Columns: []*schema.Column{S1AgentsHistoryColumns[9]},
 			},
 		},
 	}
 	// S1AgentNicsHistoryColumns holds the columns for the "s1_agent_nics_history" table.
 	S1AgentNicsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "agent_history_id", Type: field.TypeUint},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
@@ -13576,28 +13408,27 @@ var (
 			{
 				Name:    "bronzehistorys1agentnic_agent_history_id",
 				Unique:  false,
-				Columns: []*schema.Column{S1AgentNicsHistoryColumns[2]},
+				Columns: []*schema.Column{S1AgentNicsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorys1agentnic_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{S1AgentNicsHistoryColumns[3]},
+				Columns: []*schema.Column{S1AgentNicsHistoryColumns[2]},
 			},
 			{
 				Name:    "bronzehistorys1agentnic_valid_to",
 				Unique:  false,
-				Columns: []*schema.Column{S1AgentNicsHistoryColumns[4]},
+				Columns: []*schema.Column{S1AgentNicsHistoryColumns[3]},
 			},
 		},
 	}
 	// S1AppsHistoryColumns holds the columns for the "s1_apps_history" table.
 	S1AppsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "publisher", Type: field.TypeString, Nullable: true},
@@ -13632,7 +13463,7 @@ var (
 			{
 				Name:    "bronzehistorys1app_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{S1AppsHistoryColumns[6], S1AppsHistoryColumns[1]},
+				Columns: []*schema.Column{S1AppsHistoryColumns[5], S1AppsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorys1app_valid_to",
@@ -13647,18 +13478,17 @@ var (
 			{
 				Name:    "bronzehistorys1app_agent_id",
 				Unique:  false,
-				Columns: []*schema.Column{S1AppsHistoryColumns[14]},
+				Columns: []*schema.Column{S1AppsHistoryColumns[13]},
 			},
 		},
 	}
 	// S1GroupsHistoryColumns holds the columns for the "s1_groups_history" table.
 	S1GroupsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "site_id", Type: field.TypeString, Nullable: true},
@@ -13684,7 +13514,7 @@ var (
 			{
 				Name:    "bronzehistorys1group_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{S1GroupsHistoryColumns[6], S1GroupsHistoryColumns[1]},
+				Columns: []*schema.Column{S1GroupsHistoryColumns[5], S1GroupsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorys1group_valid_to",
@@ -13699,18 +13529,17 @@ var (
 			{
 				Name:    "bronzehistorys1group_site_id",
 				Unique:  false,
-				Columns: []*schema.Column{S1GroupsHistoryColumns[8]},
+				Columns: []*schema.Column{S1GroupsHistoryColumns[7]},
 			},
 		},
 	}
 	// S1RangerDevicesHistoryColumns holds the columns for the "s1_ranger_devices_history" table.
 	S1RangerDevicesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "local_ip", Type: field.TypeString, Nullable: true},
 		{Name: "external_ip", Type: field.TypeString, Nullable: true},
@@ -13751,7 +13580,7 @@ var (
 			{
 				Name:    "bronzehistorys1rangerdevice_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{S1RangerDevicesHistoryColumns[6], S1RangerDevicesHistoryColumns[1]},
+				Columns: []*schema.Column{S1RangerDevicesHistoryColumns[5], S1RangerDevicesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorys1rangerdevice_valid_to",
@@ -13766,23 +13595,22 @@ var (
 			{
 				Name:    "bronzehistorys1rangerdevice_managed_state",
 				Unique:  false,
-				Columns: []*schema.Column{S1RangerDevicesHistoryColumns[16]},
+				Columns: []*schema.Column{S1RangerDevicesHistoryColumns[15]},
 			},
 			{
 				Name:    "bronzehistorys1rangerdevice_agent_id",
 				Unique:  false,
-				Columns: []*schema.Column{S1RangerDevicesHistoryColumns[17]},
+				Columns: []*schema.Column{S1RangerDevicesHistoryColumns[16]},
 			},
 		},
 	}
 	// S1RangerGatewaysHistoryColumns holds the columns for the "s1_ranger_gateways_history" table.
 	S1RangerGatewaysHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "ip", Type: field.TypeString, Nullable: true},
 		{Name: "mac_address", Type: field.TypeString, Nullable: true},
@@ -13824,7 +13652,7 @@ var (
 			{
 				Name:    "bronzehistorys1rangergateway_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{S1RangerGatewaysHistoryColumns[6], S1RangerGatewaysHistoryColumns[1]},
+				Columns: []*schema.Column{S1RangerGatewaysHistoryColumns[5], S1RangerGatewaysHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorys1rangergateway_valid_to",
@@ -13839,18 +13667,17 @@ var (
 			{
 				Name:    "bronzehistorys1rangergateway_account_id",
 				Unique:  false,
-				Columns: []*schema.Column{S1RangerGatewaysHistoryColumns[12]},
+				Columns: []*schema.Column{S1RangerGatewaysHistoryColumns[11]},
 			},
 		},
 	}
 	// S1RangerSettingsHistoryColumns holds the columns for the "s1_ranger_settings_history" table.
 	S1RangerSettingsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "account_id", Type: field.TypeString, Nullable: true},
 		{Name: "scope_id", Type: field.TypeString, Nullable: true},
@@ -13885,7 +13712,7 @@ var (
 			{
 				Name:    "bronzehistorys1rangersetting_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{S1RangerSettingsHistoryColumns[6], S1RangerSettingsHistoryColumns[1]},
+				Columns: []*schema.Column{S1RangerSettingsHistoryColumns[5], S1RangerSettingsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorys1rangersetting_valid_to",
@@ -13900,18 +13727,17 @@ var (
 			{
 				Name:    "bronzehistorys1rangersetting_account_id",
 				Unique:  false,
-				Columns: []*schema.Column{S1RangerSettingsHistoryColumns[7]},
+				Columns: []*schema.Column{S1RangerSettingsHistoryColumns[6]},
 			},
 		},
 	}
 	// S1SitesHistoryColumns holds the columns for the "s1_sites_history" table.
 	S1SitesHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
 		{Name: "account_id", Type: field.TypeString, Nullable: true},
@@ -13946,7 +13772,7 @@ var (
 			{
 				Name:    "bronzehistorys1site_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{S1SitesHistoryColumns[6], S1SitesHistoryColumns[1]},
+				Columns: []*schema.Column{S1SitesHistoryColumns[5], S1SitesHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorys1site_valid_to",
@@ -13961,18 +13787,17 @@ var (
 			{
 				Name:    "bronzehistorys1site_account_id",
 				Unique:  false,
-				Columns: []*schema.Column{S1SitesHistoryColumns[8]},
+				Columns: []*schema.Column{S1SitesHistoryColumns[7]},
 			},
 		},
 	}
 	// S1ThreatsHistoryColumns holds the columns for the "s1_threats_history" table.
 	S1ThreatsHistoryColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
 		{Name: "valid_from", Type: field.TypeTime},
 		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "history_id", Type: field.TypeUint, Unique: true},
 		{Name: "resource_id", Type: field.TypeString},
 		{Name: "agent_id", Type: field.TypeString, Nullable: true},
 		{Name: "classification", Type: field.TypeString, Nullable: true},
@@ -14009,7 +13834,7 @@ var (
 			{
 				Name:    "bronzehistorys1threat_resource_id_valid_from",
 				Unique:  false,
-				Columns: []*schema.Column{S1ThreatsHistoryColumns[6], S1ThreatsHistoryColumns[1]},
+				Columns: []*schema.Column{S1ThreatsHistoryColumns[5], S1ThreatsHistoryColumns[1]},
 			},
 			{
 				Name:    "bronzehistorys1threat_valid_to",
@@ -14024,7 +13849,7 @@ var (
 			{
 				Name:    "bronzehistorys1threat_agent_id",
 				Unique:  false,
-				Columns: []*schema.Column{S1ThreatsHistoryColumns[7]},
+				Columns: []*schema.Column{S1ThreatsHistoryColumns[6]},
 			},
 		},
 	}

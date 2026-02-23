@@ -10,53 +10,48 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryAWSEC2InstanceTag {
+func ID(id uint) predicate.BronzeHistoryAWSEC2InstanceTag {
 	return predicate.BronzeHistoryAWSEC2InstanceTag(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryAWSEC2InstanceTag {
+func IDEQ(id uint) predicate.BronzeHistoryAWSEC2InstanceTag {
 	return predicate.BronzeHistoryAWSEC2InstanceTag(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryAWSEC2InstanceTag {
+func IDNEQ(id uint) predicate.BronzeHistoryAWSEC2InstanceTag {
 	return predicate.BronzeHistoryAWSEC2InstanceTag(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryAWSEC2InstanceTag {
+func IDIn(ids ...uint) predicate.BronzeHistoryAWSEC2InstanceTag {
 	return predicate.BronzeHistoryAWSEC2InstanceTag(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryAWSEC2InstanceTag {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryAWSEC2InstanceTag {
 	return predicate.BronzeHistoryAWSEC2InstanceTag(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryAWSEC2InstanceTag {
+func IDGT(id uint) predicate.BronzeHistoryAWSEC2InstanceTag {
 	return predicate.BronzeHistoryAWSEC2InstanceTag(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryAWSEC2InstanceTag {
+func IDGTE(id uint) predicate.BronzeHistoryAWSEC2InstanceTag {
 	return predicate.BronzeHistoryAWSEC2InstanceTag(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryAWSEC2InstanceTag {
+func IDLT(id uint) predicate.BronzeHistoryAWSEC2InstanceTag {
 	return predicate.BronzeHistoryAWSEC2InstanceTag(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryAWSEC2InstanceTag {
+func IDLTE(id uint) predicate.BronzeHistoryAWSEC2InstanceTag {
 	return predicate.BronzeHistoryAWSEC2InstanceTag(sql.FieldLTE(FieldID, id))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryAWSEC2InstanceTag {
-	return predicate.BronzeHistoryAWSEC2InstanceTag(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // InstanceHistoryID applies equality check predicate on the "instance_history_id" field. It's identical to InstanceHistoryIDEQ.
@@ -82,46 +77,6 @@ func Key(v string) predicate.BronzeHistoryAWSEC2InstanceTag {
 // Value applies equality check predicate on the "value" field. It's identical to ValueEQ.
 func Value(v string) predicate.BronzeHistoryAWSEC2InstanceTag {
 	return predicate.BronzeHistoryAWSEC2InstanceTag(sql.FieldEQ(FieldValue, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryAWSEC2InstanceTag {
-	return predicate.BronzeHistoryAWSEC2InstanceTag(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryAWSEC2InstanceTag {
-	return predicate.BronzeHistoryAWSEC2InstanceTag(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryAWSEC2InstanceTag {
-	return predicate.BronzeHistoryAWSEC2InstanceTag(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryAWSEC2InstanceTag {
-	return predicate.BronzeHistoryAWSEC2InstanceTag(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryAWSEC2InstanceTag {
-	return predicate.BronzeHistoryAWSEC2InstanceTag(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryAWSEC2InstanceTag {
-	return predicate.BronzeHistoryAWSEC2InstanceTag(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryAWSEC2InstanceTag {
-	return predicate.BronzeHistoryAWSEC2InstanceTag(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryAWSEC2InstanceTag {
-	return predicate.BronzeHistoryAWSEC2InstanceTag(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // InstanceHistoryIDEQ applies the EQ predicate on the "instance_history_id" field.

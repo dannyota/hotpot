@@ -10,7 +10,7 @@ const (
 	// Label holds the string label denoting the bronzehistorydoaccount type in the database.
 	Label = "bronze_history_do_account"
 	// FieldID holds the string denoting the id field in the database.
-	FieldID = "id"
+	FieldID = "history_id"
 	// FieldValidFrom holds the string denoting the valid_from field in the database.
 	FieldValidFrom = "valid_from"
 	// FieldValidTo holds the string denoting the valid_to field in the database.
@@ -19,8 +19,6 @@ const (
 	FieldCollectedAt = "collected_at"
 	// FieldFirstCollectedAt holds the string denoting the first_collected_at field in the database.
 	FieldFirstCollectedAt = "first_collected_at"
-	// FieldHistoryID holds the string denoting the history_id field in the database.
-	FieldHistoryID = "history_id"
 	// FieldResourceID holds the string denoting the resource_id field in the database.
 	FieldResourceID = "resource_id"
 	// FieldEmail holds the string denoting the email field in the database.
@@ -56,7 +54,6 @@ var Columns = []string{
 	FieldValidTo,
 	FieldCollectedAt,
 	FieldFirstCollectedAt,
-	FieldHistoryID,
 	FieldResourceID,
 	FieldEmail,
 	FieldName,
@@ -122,11 +119,6 @@ func ByCollectedAt(opts ...sql.OrderTermOption) OrderOption {
 // ByFirstCollectedAt orders the results by the first_collected_at field.
 func ByFirstCollectedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldFirstCollectedAt, opts...).ToFunc()
-}
-
-// ByHistoryID orders the results by the history_id field.
-func ByHistoryID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldHistoryID, opts...).ToFunc()
 }
 
 // ByResourceID orders the results by the resource_id field.

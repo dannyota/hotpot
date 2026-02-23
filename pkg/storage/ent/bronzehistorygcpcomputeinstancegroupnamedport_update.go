@@ -151,7 +151,7 @@ func (_u *BronzeHistoryGCPComputeInstanceGroupNamedPortUpdate) sqlSave(ctx conte
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstancegroupnamedport.Table, bronzehistorygcpcomputeinstancegroupnamedport.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancegroupnamedport.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstancegroupnamedport.Table, bronzehistorygcpcomputeinstancegroupnamedport.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancegroupnamedport.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -337,7 +337,7 @@ func (_u *BronzeHistoryGCPComputeInstanceGroupNamedPortUpdateOne) sqlSave(ctx co
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstancegroupnamedport.Table, bronzehistorygcpcomputeinstancegroupnamedport.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancegroupnamedport.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstancegroupnamedport.Table, bronzehistorygcpcomputeinstancegroupnamedport.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancegroupnamedport.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPComputeInstanceGroupNamedPort.id" for update`)}

@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPComputeBackendServiceBackendDelete) ExecX(ctx context.
 }
 
 func (_d *BronzeHistoryGCPComputeBackendServiceBackendDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputebackendservicebackend.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputebackendservicebackend.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputebackendservicebackend.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputebackendservicebackend.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPComputeBackendServiceBackend
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

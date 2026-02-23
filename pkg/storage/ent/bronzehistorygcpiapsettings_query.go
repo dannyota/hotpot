@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPIAPSettingsQuery) FirstX(ctx context.Context) *BronzeH
 
 // FirstID returns the first BronzeHistoryGCPIAPSettings ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPIAPSettings ID was found.
-func (_q *BronzeHistoryGCPIAPSettingsQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPIAPSettingsQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPIAPSettingsQuery) FirstID(ctx context.Context) (id int
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPIAPSettingsQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPIAPSettingsQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPIAPSettingsQuery) OnlyX(ctx context.Context) *BronzeHi
 // OnlyID is like Only, but returns the only BronzeHistoryGCPIAPSettings ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPIAPSettings ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPIAPSettingsQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPIAPSettingsQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPIAPSettingsQuery) OnlyID(ctx context.Context) (id int,
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPIAPSettingsQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPIAPSettingsQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPIAPSettingsQuery) AllX(ctx context.Context) []*BronzeH
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPIAPSettings IDs.
-func (_q *BronzeHistoryGCPIAPSettingsQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPIAPSettingsQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPIAPSettingsQuery) IDs(ctx context.Context) (ids []int,
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPIAPSettingsQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPIAPSettingsQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPIAPSettingsQuery) sqlCount(ctx context.Context) (int, 
 }
 
 func (_q *BronzeHistoryGCPIAPSettingsQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpiapsettings.Table, bronzehistorygcpiapsettings.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpiapsettings.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpiapsettings.Table, bronzehistorygcpiapsettings.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpiapsettings.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

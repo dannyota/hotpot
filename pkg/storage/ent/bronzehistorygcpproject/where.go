@@ -10,47 +10,47 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPProject {
+func ID(id uint) predicate.BronzeHistoryGCPProject {
 	return predicate.BronzeHistoryGCPProject(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPProject {
+func IDEQ(id uint) predicate.BronzeHistoryGCPProject {
 	return predicate.BronzeHistoryGCPProject(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPProject {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPProject {
 	return predicate.BronzeHistoryGCPProject(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPProject {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPProject {
 	return predicate.BronzeHistoryGCPProject(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPProject {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPProject {
 	return predicate.BronzeHistoryGCPProject(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPProject {
+func IDGT(id uint) predicate.BronzeHistoryGCPProject {
 	return predicate.BronzeHistoryGCPProject(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPProject {
+func IDGTE(id uint) predicate.BronzeHistoryGCPProject {
 	return predicate.BronzeHistoryGCPProject(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPProject {
+func IDLT(id uint) predicate.BronzeHistoryGCPProject {
 	return predicate.BronzeHistoryGCPProject(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPProject {
+func IDLTE(id uint) predicate.BronzeHistoryGCPProject {
 	return predicate.BronzeHistoryGCPProject(sql.FieldLTE(FieldID, id))
 }
 
@@ -72,11 +72,6 @@ func CollectedAt(v time.Time) predicate.BronzeHistoryGCPProject {
 // FirstCollectedAt applies equality check predicate on the "first_collected_at" field. It's identical to FirstCollectedAtEQ.
 func FirstCollectedAt(v time.Time) predicate.BronzeHistoryGCPProject {
 	return predicate.BronzeHistoryGCPProject(sql.FieldEQ(FieldFirstCollectedAt, v))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPProject {
-	return predicate.BronzeHistoryGCPProject(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // ProjectID applies equality check predicate on the "project_id" field. It's identical to ProjectIDEQ.
@@ -292,46 +287,6 @@ func FirstCollectedAtLT(v time.Time) predicate.BronzeHistoryGCPProject {
 // FirstCollectedAtLTE applies the LTE predicate on the "first_collected_at" field.
 func FirstCollectedAtLTE(v time.Time) predicate.BronzeHistoryGCPProject {
 	return predicate.BronzeHistoryGCPProject(sql.FieldLTE(FieldFirstCollectedAt, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPProject {
-	return predicate.BronzeHistoryGCPProject(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPProject {
-	return predicate.BronzeHistoryGCPProject(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPProject {
-	return predicate.BronzeHistoryGCPProject(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPProject {
-	return predicate.BronzeHistoryGCPProject(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPProject {
-	return predicate.BronzeHistoryGCPProject(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPProject {
-	return predicate.BronzeHistoryGCPProject(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPProject {
-	return predicate.BronzeHistoryGCPProject(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPProject {
-	return predicate.BronzeHistoryGCPProject(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // ProjectIDEQ applies the EQ predicate on the "project_id" field.

@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPComputeSnapshotLicenseDelete) ExecX(ctx context.Contex
 }
 
 func (_d *BronzeHistoryGCPComputeSnapshotLicenseDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputesnapshotlicense.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesnapshotlicense.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputesnapshotlicense.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesnapshotlicense.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPComputeSnapshotLicense
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

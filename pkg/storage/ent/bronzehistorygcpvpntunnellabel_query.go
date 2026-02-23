@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) FirstX(ctx context.Context) *Bron
 
 // FirstID returns the first BronzeHistoryGCPVPNTunnelLabel ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPVPNTunnelLabel ID was found.
-func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) FirstID(ctx context.Context) (id 
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) OnlyX(ctx context.Context) *Bronz
 // OnlyID is like Only, but returns the only BronzeHistoryGCPVPNTunnelLabel ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPVPNTunnelLabel ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) OnlyID(ctx context.Context) (id i
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) AllX(ctx context.Context) []*Bron
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPVPNTunnelLabel IDs.
-func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) IDs(ctx context.Context) (ids []i
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -263,12 +263,12 @@ func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) Clone() *BronzeHistoryGCPVPNTunne
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		VpnTunnelHistoryID uint `json:"vpn_tunnel_history_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPVPNTunnelLabel.Query().
-//		GroupBy(bronzehistorygcpvpntunnellabel.FieldHistoryID).
+//		GroupBy(bronzehistorygcpvpntunnellabel.FieldVpnTunnelHistoryID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) GroupBy(field string, fields ...string) *BronzeHistoryGCPVPNTunnelLabelGroupBy {
@@ -286,11 +286,11 @@ func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) GroupBy(field string, fields ...s
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		VpnTunnelHistoryID uint `json:"vpn_tunnel_history_id,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPVPNTunnelLabel.Query().
-//		Select(bronzehistorygcpvpntunnellabel.FieldHistoryID).
+//		Select(bronzehistorygcpvpntunnellabel.FieldVpnTunnelHistoryID).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) Select(fields ...string) *BronzeHistoryGCPVPNTunnelLabelSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) sqlCount(ctx context.Context) (in
 }
 
 func (_q *BronzeHistoryGCPVPNTunnelLabelQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpvpntunnellabel.Table, bronzehistorygcpvpntunnellabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpvpntunnellabel.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpvpntunnellabel.Table, bronzehistorygcpvpntunnellabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpvpntunnellabel.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

@@ -281,7 +281,7 @@ func (_u *BronzeHistoryS1AgentNICUpdate) ExecX(ctx context.Context) {
 }
 
 func (_u *BronzeHistoryS1AgentNICUpdate) sqlSave(ctx context.Context) (_node int, err error) {
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorys1agentnic.Table, bronzehistorys1agentnic.Columns, sqlgraph.NewFieldSpec(bronzehistorys1agentnic.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorys1agentnic.Table, bronzehistorys1agentnic.Columns, sqlgraph.NewFieldSpec(bronzehistorys1agentnic.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -650,7 +650,7 @@ func (_u *BronzeHistoryS1AgentNICUpdateOne) ExecX(ctx context.Context) {
 }
 
 func (_u *BronzeHistoryS1AgentNICUpdateOne) sqlSave(ctx context.Context) (_node *BronzeHistoryS1AgentNIC, err error) {
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorys1agentnic.Table, bronzehistorys1agentnic.Columns, sqlgraph.NewFieldSpec(bronzehistorys1agentnic.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorys1agentnic.Table, bronzehistorys1agentnic.Columns, sqlgraph.NewFieldSpec(bronzehistorys1agentnic.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryS1AgentNIC.id" for update`)}

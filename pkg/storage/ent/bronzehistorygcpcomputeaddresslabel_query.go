@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPComputeAddressLabelQuery) FirstX(ctx context.Context) 
 
 // FirstID returns the first BronzeHistoryGCPComputeAddressLabel ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPComputeAddressLabel ID was found.
-func (_q *BronzeHistoryGCPComputeAddressLabelQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeAddressLabelQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPComputeAddressLabelQuery) FirstID(ctx context.Context)
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeAddressLabelQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeAddressLabelQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPComputeAddressLabelQuery) OnlyX(ctx context.Context) *
 // OnlyID is like Only, but returns the only BronzeHistoryGCPComputeAddressLabel ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPComputeAddressLabel ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPComputeAddressLabelQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeAddressLabelQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPComputeAddressLabelQuery) OnlyID(ctx context.Context) 
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeAddressLabelQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeAddressLabelQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPComputeAddressLabelQuery) AllX(ctx context.Context) []
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPComputeAddressLabel IDs.
-func (_q *BronzeHistoryGCPComputeAddressLabelQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPComputeAddressLabelQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPComputeAddressLabelQuery) IDs(ctx context.Context) (id
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeAddressLabelQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPComputeAddressLabelQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -263,12 +263,12 @@ func (_q *BronzeHistoryGCPComputeAddressLabelQuery) Clone() *BronzeHistoryGCPCom
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		AddressHistoryID uint `json:"address_history_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeAddressLabel.Query().
-//		GroupBy(bronzehistorygcpcomputeaddresslabel.FieldHistoryID).
+//		GroupBy(bronzehistorygcpcomputeaddresslabel.FieldAddressHistoryID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeAddressLabelQuery) GroupBy(field string, fields ...string) *BronzeHistoryGCPComputeAddressLabelGroupBy {
@@ -286,11 +286,11 @@ func (_q *BronzeHistoryGCPComputeAddressLabelQuery) GroupBy(field string, fields
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		AddressHistoryID uint `json:"address_history_id,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeAddressLabel.Query().
-//		Select(bronzehistorygcpcomputeaddresslabel.FieldHistoryID).
+//		Select(bronzehistorygcpcomputeaddresslabel.FieldAddressHistoryID).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeAddressLabelQuery) Select(fields ...string) *BronzeHistoryGCPComputeAddressLabelSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPComputeAddressLabelQuery) sqlCount(ctx context.Context
 }
 
 func (_q *BronzeHistoryGCPComputeAddressLabelQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputeaddresslabel.Table, bronzehistorygcpcomputeaddresslabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeaddresslabel.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputeaddresslabel.Table, bronzehistorygcpcomputeaddresslabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeaddresslabel.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

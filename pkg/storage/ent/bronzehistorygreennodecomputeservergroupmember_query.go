@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) FirstX(ctx contex
 
 // FirstID returns the first BronzeHistoryGreenNodeComputeServerGroupMember ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGreenNodeComputeServerGroupMember ID was found.
-func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) FirstID(ctx conte
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) OnlyX(ctx context
 // OnlyID is like Only, but returns the only BronzeHistoryGreenNodeComputeServerGroupMember ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGreenNodeComputeServerGroupMember ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) OnlyID(ctx contex
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) AllX(ctx context.
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGreenNodeComputeServerGroupMember IDs.
-func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) IDs(ctx context.C
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -263,12 +263,12 @@ func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) Clone() *BronzeHi
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		ServerGroupHistoryID uint `json:"server_group_history_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGreenNodeComputeServerGroupMember.Query().
-//		GroupBy(bronzehistorygreennodecomputeservergroupmember.FieldHistoryID).
+//		GroupBy(bronzehistorygreennodecomputeservergroupmember.FieldServerGroupHistoryID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) GroupBy(field string, fields ...string) *BronzeHistoryGreenNodeComputeServerGroupMemberGroupBy {
@@ -286,11 +286,11 @@ func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) GroupBy(field str
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		ServerGroupHistoryID uint `json:"server_group_history_id,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGreenNodeComputeServerGroupMember.Query().
-//		Select(bronzehistorygreennodecomputeservergroupmember.FieldHistoryID).
+//		Select(bronzehistorygreennodecomputeservergroupmember.FieldServerGroupHistoryID).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) Select(fields ...string) *BronzeHistoryGreenNodeComputeServerGroupMemberSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) sqlCount(ctx cont
 }
 
 func (_q *BronzeHistoryGreenNodeComputeServerGroupMemberQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygreennodecomputeservergroupmember.Table, bronzehistorygreennodecomputeservergroupmember.Columns, sqlgraph.NewFieldSpec(bronzehistorygreennodecomputeservergroupmember.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygreennodecomputeservergroupmember.Table, bronzehistorygreennodecomputeservergroupmember.Columns, sqlgraph.NewFieldSpec(bronzehistorygreennodecomputeservergroupmember.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

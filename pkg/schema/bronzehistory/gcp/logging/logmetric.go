@@ -24,9 +24,7 @@ func (BronzeHistoryGCPLoggingLogMetric) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPLoggingLogMetric) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze log metric by resource_id"),

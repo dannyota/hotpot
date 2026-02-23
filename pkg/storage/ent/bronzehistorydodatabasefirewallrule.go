@@ -16,7 +16,7 @@ import (
 type BronzeHistoryDODatabaseFirewallRule struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Start of validity period
 	ValidFrom time.Time `json:"valid_from,omitempty"`
 	// End of validity period (null = current)
@@ -25,8 +25,6 @@ type BronzeHistoryDODatabaseFirewallRule struct {
 	CollectedAt time.Time `json:"collected_at,omitempty"`
 	// Timestamp when this asset was first collected
 	FirstCollectedAt time.Time `json:"first_collected_at,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
 	// Link to bronze DatabaseFirewallRule by resource_id
 	ResourceID string `json:"resource_id,omitempty"`
 	// ClusterID holds the value of the "cluster_id" field.
@@ -47,7 +45,7 @@ func (*BronzeHistoryDODatabaseFirewallRule) scanValues(columns []string) ([]any,
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case bronzehistorydodatabasefirewallrule.FieldID, bronzehistorydodatabasefirewallrule.FieldHistoryID:
+		case bronzehistorydodatabasefirewallrule.FieldID:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorydodatabasefirewallrule.FieldResourceID, bronzehistorydodatabasefirewallrule.FieldClusterID, bronzehistorydodatabasefirewallrule.FieldUUID, bronzehistorydodatabasefirewallrule.FieldType, bronzehistorydodatabasefirewallrule.FieldValue:
 			values[i] = new(sql.NullString)
@@ -73,7 +71,7 @@ func (_m *BronzeHistoryDODatabaseFirewallRule) assignValues(columns []string, va
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
+			_m.ID = uint(value.Int64)
 		case bronzehistorydodatabasefirewallrule.FieldValidFrom:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field valid_from", values[i])
@@ -98,12 +96,6 @@ func (_m *BronzeHistoryDODatabaseFirewallRule) assignValues(columns []string, va
 				return fmt.Errorf("unexpected type %T for field first_collected_at", values[i])
 			} else if value.Valid {
 				_m.FirstCollectedAt = value.Time
-			}
-		case bronzehistorydodatabasefirewallrule.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
 			}
 		case bronzehistorydodatabasefirewallrule.FieldResourceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -191,9 +183,6 @@ func (_m *BronzeHistoryDODatabaseFirewallRule) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("first_collected_at=")
 	builder.WriteString(_m.FirstCollectedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
 	builder.WriteString(", ")
 	builder.WriteString("resource_id=")
 	builder.WriteString(_m.ResourceID)

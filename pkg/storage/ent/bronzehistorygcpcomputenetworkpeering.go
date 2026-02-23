@@ -16,9 +16,7 @@ import (
 type BronzeHistoryGCPComputeNetworkPeering struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Links to parent BronzeHistoryGCPComputeNetwork
 	NetworkHistoryID uint `json:"network_history_id,omitempty"`
 	// ValidFrom holds the value of the "valid_from" field.
@@ -59,7 +57,7 @@ func (*BronzeHistoryGCPComputeNetworkPeering) scanValues(columns []string) ([]an
 		switch columns[i] {
 		case bronzehistorygcpcomputenetworkpeering.FieldExportCustomRoutes, bronzehistorygcpcomputenetworkpeering.FieldImportCustomRoutes, bronzehistorygcpcomputenetworkpeering.FieldExportSubnetRoutesWithPublicIP, bronzehistorygcpcomputenetworkpeering.FieldImportSubnetRoutesWithPublicIP, bronzehistorygcpcomputenetworkpeering.FieldExchangeSubnetRoutes, bronzehistorygcpcomputenetworkpeering.FieldAutoCreateRoutes:
 			values[i] = new(sql.NullBool)
-		case bronzehistorygcpcomputenetworkpeering.FieldID, bronzehistorygcpcomputenetworkpeering.FieldHistoryID, bronzehistorygcpcomputenetworkpeering.FieldNetworkHistoryID, bronzehistorygcpcomputenetworkpeering.FieldPeerMtu:
+		case bronzehistorygcpcomputenetworkpeering.FieldID, bronzehistorygcpcomputenetworkpeering.FieldNetworkHistoryID, bronzehistorygcpcomputenetworkpeering.FieldPeerMtu:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorygcpcomputenetworkpeering.FieldName, bronzehistorygcpcomputenetworkpeering.FieldNetwork, bronzehistorygcpcomputenetworkpeering.FieldState, bronzehistorygcpcomputenetworkpeering.FieldStateDetails, bronzehistorygcpcomputenetworkpeering.FieldStackType:
 			values[i] = new(sql.NullString)
@@ -85,13 +83,7 @@ func (_m *BronzeHistoryGCPComputeNetworkPeering) assignValues(columns []string, 
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
-		case bronzehistorygcpcomputenetworkpeering.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
-			}
+			_m.ID = uint(value.Int64)
 		case bronzehistorygcpcomputenetworkpeering.FieldNetworkHistoryID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field network_history_id", values[i])
@@ -219,9 +211,6 @@ func (_m *BronzeHistoryGCPComputeNetworkPeering) String() string {
 	var builder strings.Builder
 	builder.WriteString("BronzeHistoryGCPComputeNetworkPeering(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
-	builder.WriteString(", ")
 	builder.WriteString("network_history_id=")
 	builder.WriteString(fmt.Sprintf("%v", _m.NetworkHistoryID))
 	builder.WriteString(", ")

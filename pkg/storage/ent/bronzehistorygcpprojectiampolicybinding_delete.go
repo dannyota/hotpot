@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPProjectIamPolicyBindingDelete) ExecX(ctx context.Conte
 }
 
 func (_d *BronzeHistoryGCPProjectIamPolicyBindingDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpprojectiampolicybinding.Table, sqlgraph.NewFieldSpec(bronzehistorygcpprojectiampolicybinding.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpprojectiampolicybinding.Table, sqlgraph.NewFieldSpec(bronzehistorygcpprojectiampolicybinding.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPProjectIamPolicyBinding
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

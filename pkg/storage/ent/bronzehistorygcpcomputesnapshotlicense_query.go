@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) FirstX(ctx context.Contex
 
 // FirstID returns the first BronzeHistoryGCPComputeSnapshotLicense ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPComputeSnapshotLicense ID was found.
-func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) FirstID(ctx context.Conte
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) OnlyX(ctx context.Context
 // OnlyID is like Only, but returns the only BronzeHistoryGCPComputeSnapshotLicense ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPComputeSnapshotLicense ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) OnlyID(ctx context.Contex
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) AllX(ctx context.Context)
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPComputeSnapshotLicense IDs.
-func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) IDs(ctx context.Context) 
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -263,12 +263,12 @@ func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) Clone() *BronzeHistoryGCP
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		SnapshotHistoryID uint `json:"snapshot_history_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeSnapshotLicense.Query().
-//		GroupBy(bronzehistorygcpcomputesnapshotlicense.FieldHistoryID).
+//		GroupBy(bronzehistorygcpcomputesnapshotlicense.FieldSnapshotHistoryID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) GroupBy(field string, fields ...string) *BronzeHistoryGCPComputeSnapshotLicenseGroupBy {
@@ -286,11 +286,11 @@ func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) GroupBy(field string, fie
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		SnapshotHistoryID uint `json:"snapshot_history_id,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeSnapshotLicense.Query().
-//		Select(bronzehistorygcpcomputesnapshotlicense.FieldHistoryID).
+//		Select(bronzehistorygcpcomputesnapshotlicense.FieldSnapshotHistoryID).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) Select(fields ...string) *BronzeHistoryGCPComputeSnapshotLicenseSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) sqlCount(ctx context.Cont
 }
 
 func (_q *BronzeHistoryGCPComputeSnapshotLicenseQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputesnapshotlicense.Table, bronzehistorygcpcomputesnapshotlicense.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesnapshotlicense.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputesnapshotlicense.Table, bronzehistorygcpcomputesnapshotlicense.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesnapshotlicense.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

@@ -20,12 +20,6 @@ type BronzeHistoryGCPVPNTargetGatewayLabelCreate struct {
 	hooks    []Hook
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPVPNTargetGatewayLabelCreate) SetHistoryID(v uint) *BronzeHistoryGCPVPNTargetGatewayLabelCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetTargetVpnGatewayHistoryID sets the "target_vpn_gateway_history_id" field.
 func (_c *BronzeHistoryGCPVPNTargetGatewayLabelCreate) SetTargetVpnGatewayHistoryID(v uint) *BronzeHistoryGCPVPNTargetGatewayLabelCreate {
 	_c.mutation.SetTargetVpnGatewayHistoryID(v)
@@ -64,6 +58,12 @@ func (_c *BronzeHistoryGCPVPNTargetGatewayLabelCreate) SetValue(v string) *Bronz
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPVPNTargetGatewayLabelCreate) SetID(v uint) *BronzeHistoryGCPVPNTargetGatewayLabelCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPVPNTargetGatewayLabelMutation object of the builder.
 func (_c *BronzeHistoryGCPVPNTargetGatewayLabelCreate) Mutation() *BronzeHistoryGCPVPNTargetGatewayLabelMutation {
 	return _c.mutation
@@ -98,9 +98,6 @@ func (_c *BronzeHistoryGCPVPNTargetGatewayLabelCreate) ExecX(ctx context.Context
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *BronzeHistoryGCPVPNTargetGatewayLabelCreate) check() error {
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPVPNTargetGatewayLabel.history_id"`)}
-	}
 	if _, ok := _c.mutation.TargetVpnGatewayHistoryID(); !ok {
 		return &ValidationError{Name: "target_vpn_gateway_history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPVPNTargetGatewayLabel.target_vpn_gateway_history_id"`)}
 	}
@@ -132,8 +129,10 @@ func (_c *BronzeHistoryGCPVPNTargetGatewayLabelCreate) sqlSave(ctx context.Conte
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -142,12 +141,12 @@ func (_c *BronzeHistoryGCPVPNTargetGatewayLabelCreate) sqlSave(ctx context.Conte
 func (_c *BronzeHistoryGCPVPNTargetGatewayLabelCreate) createSpec() (*BronzeHistoryGCPVPNTargetGatewayLabel, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPVPNTargetGatewayLabel{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpvpntargetgatewaylabel.Table, sqlgraph.NewFieldSpec(bronzehistorygcpvpntargetgatewaylabel.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpvpntargetgatewaylabel.Table, sqlgraph.NewFieldSpec(bronzehistorygcpvpntargetgatewaylabel.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPVPNTargetGatewayLabel
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpvpntargetgatewaylabel.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
 	}
 	if value, ok := _c.mutation.TargetVpnGatewayHistoryID(); ok {
 		_spec.SetField(bronzehistorygcpvpntargetgatewaylabel.FieldTargetVpnGatewayHistoryID, field.TypeUint, value)
@@ -216,9 +215,9 @@ func (_c *BronzeHistoryGCPVPNTargetGatewayLabelCreateBulk) Save(ctx context.Cont
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

@@ -353,7 +353,7 @@ func (_u *BronzeHistoryGCPVPNTargetGatewayUpdate) sqlSave(ctx context.Context) (
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpvpntargetgateway.Table, bronzehistorygcpvpntargetgateway.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpvpntargetgateway.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpvpntargetgateway.Table, bronzehistorygcpvpntargetgateway.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpvpntargetgateway.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -803,7 +803,7 @@ func (_u *BronzeHistoryGCPVPNTargetGatewayUpdateOne) sqlSave(ctx context.Context
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpvpntargetgateway.Table, bronzehistorygcpvpntargetgateway.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpvpntargetgateway.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpvpntargetgateway.Table, bronzehistorygcpvpntargetgateway.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpvpntargetgateway.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPVPNTargetGateway.id" for update`)}

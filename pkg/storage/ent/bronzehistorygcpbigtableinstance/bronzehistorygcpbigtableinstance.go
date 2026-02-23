@@ -10,7 +10,7 @@ const (
 	// Label holds the string label denoting the bronzehistorygcpbigtableinstance type in the database.
 	Label = "bronze_history_gcp_bigtable_instance"
 	// FieldID holds the string denoting the id field in the database.
-	FieldID = "id"
+	FieldID = "history_id"
 	// FieldValidFrom holds the string denoting the valid_from field in the database.
 	FieldValidFrom = "valid_from"
 	// FieldValidTo holds the string denoting the valid_to field in the database.
@@ -19,8 +19,6 @@ const (
 	FieldCollectedAt = "collected_at"
 	// FieldFirstCollectedAt holds the string denoting the first_collected_at field in the database.
 	FieldFirstCollectedAt = "first_collected_at"
-	// FieldHistoryID holds the string denoting the history_id field in the database.
-	FieldHistoryID = "history_id"
 	// FieldResourceID holds the string denoting the resource_id field in the database.
 	FieldResourceID = "resource_id"
 	// FieldDisplayName holds the string denoting the display_name field in the database.
@@ -48,7 +46,6 @@ var Columns = []string{
 	FieldValidTo,
 	FieldCollectedAt,
 	FieldFirstCollectedAt,
-	FieldHistoryID,
 	FieldResourceID,
 	FieldDisplayName,
 	FieldState,
@@ -102,11 +99,6 @@ func ByCollectedAt(opts ...sql.OrderTermOption) OrderOption {
 // ByFirstCollectedAt orders the results by the first_collected_at field.
 func ByFirstCollectedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldFirstCollectedAt, opts...).ToFunc()
-}
-
-// ByHistoryID orders the results by the history_id field.
-func ByHistoryID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldHistoryID, opts...).ToFunc()
 }
 
 // ByResourceID orders the results by the resource_id field.

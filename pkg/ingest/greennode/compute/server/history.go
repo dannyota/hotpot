@@ -26,7 +26,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Se
 	if err != nil {
 		return err
 	}
-	return h.createSecGroupsHistory(ctx, tx, serverHist.HistoryID, data.SecGroups, now)
+	return h.createSecGroupsHistory(ctx, tx, serverHist.ID, data.SecGroups, now)
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
@@ -56,18 +56,18 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		}
 
 		// Close and recreate all children
-		if err := h.closeSecGroupsHistory(ctx, tx, currentHist.HistoryID, now); err != nil {
+		if err := h.closeSecGroupsHistory(ctx, tx, currentHist.ID, now); err != nil {
 			return err
 		}
-		return h.createSecGroupsHistory(ctx, tx, serverHist.HistoryID, new.SecGroups, now)
+		return h.createSecGroupsHistory(ctx, tx, serverHist.ID, new.SecGroups, now)
 	}
 
 	// Server unchanged, check children
 	if diff.SecGroupsDiff.Changed {
-		if err := h.closeSecGroupsHistory(ctx, tx, currentHist.HistoryID, now); err != nil {
+		if err := h.closeSecGroupsHistory(ctx, tx, currentHist.ID, now); err != nil {
 			return err
 		}
-		return h.createSecGroupsHistory(ctx, tx, currentHist.HistoryID, new.SecGroups, now)
+		return h.createSecGroupsHistory(ctx, tx, currentHist.ID, new.SecGroups, now)
 	}
 
 	return nil
@@ -94,7 +94,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		return fmt.Errorf("close server history: %w", err)
 	}
 
-	return h.closeSecGroupsHistory(ctx, tx, currentHist.HistoryID, now)
+	return h.closeSecGroupsHistory(ctx, tx, currentHist.ID, now)
 }
 
 func (h *HistoryService) createServerHistory(ctx context.Context, tx *ent.Tx, data *ServerData, now time.Time, firstCollectedAt time.Time) (*ent.BronzeHistoryGreenNodeComputeServer, error) {

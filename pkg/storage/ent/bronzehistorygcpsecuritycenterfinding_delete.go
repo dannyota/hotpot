@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPSecurityCenterFindingDelete) ExecX(ctx context.Context
 }
 
 func (_d *BronzeHistoryGCPSecurityCenterFindingDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpsecuritycenterfinding.Table, sqlgraph.NewFieldSpec(bronzehistorygcpsecuritycenterfinding.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpsecuritycenterfinding.Table, sqlgraph.NewFieldSpec(bronzehistorygcpsecuritycenterfinding.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPSecurityCenterFinding
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) FirstX(ctx cont
 
 // FirstID returns the first BronzeHistoryGCPComputeGlobalForwardingRuleLabel ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPComputeGlobalForwardingRuleLabel ID was found.
-func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) FirstID(ctx con
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) OnlyX(ctx conte
 // OnlyID is like Only, but returns the only BronzeHistoryGCPComputeGlobalForwardingRuleLabel ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPComputeGlobalForwardingRuleLabel ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) OnlyID(ctx cont
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) AllX(ctx contex
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPComputeGlobalForwardingRuleLabel IDs.
-func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) IDs(ctx context
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -263,12 +263,12 @@ func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) Clone() *Bronze
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		GlobalForwardingRuleHistoryID uint `json:"global_forwarding_rule_history_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeGlobalForwardingRuleLabel.Query().
-//		GroupBy(bronzehistorygcpcomputeglobalforwardingrulelabel.FieldHistoryID).
+//		GroupBy(bronzehistorygcpcomputeglobalforwardingrulelabel.FieldGlobalForwardingRuleHistoryID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) GroupBy(field string, fields ...string) *BronzeHistoryGCPComputeGlobalForwardingRuleLabelGroupBy {
@@ -286,11 +286,11 @@ func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) GroupBy(field s
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		GlobalForwardingRuleHistoryID uint `json:"global_forwarding_rule_history_id,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeGlobalForwardingRuleLabel.Query().
-//		Select(bronzehistorygcpcomputeglobalforwardingrulelabel.FieldHistoryID).
+//		Select(bronzehistorygcpcomputeglobalforwardingrulelabel.FieldGlobalForwardingRuleHistoryID).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) Select(fields ...string) *BronzeHistoryGCPComputeGlobalForwardingRuleLabelSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) sqlCount(ctx co
 }
 
 func (_q *BronzeHistoryGCPComputeGlobalForwardingRuleLabelQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputeglobalforwardingrulelabel.Table, bronzehistorygcpcomputeglobalforwardingrulelabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeglobalforwardingrulelabel.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputeglobalforwardingrulelabel.Table, bronzehistorygcpcomputeglobalforwardingrulelabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeglobalforwardingrulelabel.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

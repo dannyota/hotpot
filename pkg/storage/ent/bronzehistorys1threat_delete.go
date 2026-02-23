@@ -41,7 +41,7 @@ func (_d *BronzeHistoryS1ThreatDelete) ExecX(ctx context.Context) int {
 }
 
 func (_d *BronzeHistoryS1ThreatDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorys1threat.Table, sqlgraph.NewFieldSpec(bronzehistorys1threat.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorys1threat.Table, sqlgraph.NewFieldSpec(bronzehistorys1threat.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryS1Threat
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

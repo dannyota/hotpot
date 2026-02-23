@@ -24,9 +24,7 @@ func (BronzeHistoryGCPVPNTunnel) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPVPNTunnel) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze VPN tunnel by resource_id"),
@@ -115,9 +113,7 @@ type BronzeHistoryGCPVPNTunnelLabel struct {
 
 func (BronzeHistoryGCPVPNTunnelLabel) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("vpn_tunnel_history_id").
 			Comment("Links to parent BronzeHistoryGCPVPNTunnel"),
 		field.Time("valid_from").

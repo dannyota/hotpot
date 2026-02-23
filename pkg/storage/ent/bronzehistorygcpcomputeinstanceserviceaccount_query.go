@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) FirstX(ctx context
 
 // FirstID returns the first BronzeHistoryGCPComputeInstanceServiceAccount ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPComputeInstanceServiceAccount ID was found.
-func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) FirstID(ctx contex
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) OnlyX(ctx context.
 // OnlyID is like Only, but returns the only BronzeHistoryGCPComputeInstanceServiceAccount ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPComputeInstanceServiceAccount ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) OnlyID(ctx context
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) AllX(ctx context.C
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPComputeInstanceServiceAccount IDs.
-func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) IDs(ctx context.Co
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -263,12 +263,12 @@ func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) Clone() *BronzeHis
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		InstanceHistoryID uint `json:"instance_history_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeInstanceServiceAccount.Query().
-//		GroupBy(bronzehistorygcpcomputeinstanceserviceaccount.FieldHistoryID).
+//		GroupBy(bronzehistorygcpcomputeinstanceserviceaccount.FieldInstanceHistoryID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) GroupBy(field string, fields ...string) *BronzeHistoryGCPComputeInstanceServiceAccountGroupBy {
@@ -286,11 +286,11 @@ func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) GroupBy(field stri
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		InstanceHistoryID uint `json:"instance_history_id,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeInstanceServiceAccount.Query().
-//		Select(bronzehistorygcpcomputeinstanceserviceaccount.FieldHistoryID).
+//		Select(bronzehistorygcpcomputeinstanceserviceaccount.FieldInstanceHistoryID).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) Select(fields ...string) *BronzeHistoryGCPComputeInstanceServiceAccountSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) sqlCount(ctx conte
 }
 
 func (_q *BronzeHistoryGCPComputeInstanceServiceAccountQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputeinstanceserviceaccount.Table, bronzehistorygcpcomputeinstanceserviceaccount.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstanceserviceaccount.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputeinstanceserviceaccount.Table, bronzehistorygcpcomputeinstanceserviceaccount.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstanceserviceaccount.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

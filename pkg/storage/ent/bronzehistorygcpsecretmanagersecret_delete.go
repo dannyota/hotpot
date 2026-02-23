@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPSecretManagerSecretDelete) ExecX(ctx context.Context) 
 }
 
 func (_d *BronzeHistoryGCPSecretManagerSecretDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpsecretmanagersecret.Table, sqlgraph.NewFieldSpec(bronzehistorygcpsecretmanagersecret.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpsecretmanagersecret.Table, sqlgraph.NewFieldSpec(bronzehistorygcpsecretmanagersecret.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPSecretManagerSecret
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

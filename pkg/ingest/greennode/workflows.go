@@ -30,7 +30,7 @@ func GreenNodeInventoryWorkflow(ctx workflow.Context) (*GreenNodeInventoryWorkfl
 	result := &GreenNodeInventoryWorkflowResult{}
 
 	activityOpts := workflow.ActivityOptions{
-		StartToCloseTimeout: time.Minute,
+		StartToCloseTimeout: 5 * time.Minute,
 		RetryPolicy: &temporal.RetryPolicy{
 			MaximumAttempts: 3,
 		},

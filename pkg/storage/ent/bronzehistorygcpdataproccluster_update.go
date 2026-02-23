@@ -306,7 +306,7 @@ func (_u *BronzeHistoryGCPDataprocClusterUpdate) sqlSave(ctx context.Context) (_
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpdataproccluster.Table, bronzehistorygcpdataproccluster.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpdataproccluster.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpdataproccluster.Table, bronzehistorygcpdataproccluster.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpdataproccluster.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -709,7 +709,7 @@ func (_u *BronzeHistoryGCPDataprocClusterUpdateOne) sqlSave(ctx context.Context)
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpdataproccluster.Table, bronzehistorygcpdataproccluster.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpdataproccluster.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpdataproccluster.Table, bronzehistorygcpdataproccluster.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpdataproccluster.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPDataprocCluster.id" for update`)}

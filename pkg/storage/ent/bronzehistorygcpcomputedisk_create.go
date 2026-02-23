@@ -53,12 +53,6 @@ func (_c *BronzeHistoryGCPComputeDiskCreate) SetFirstCollectedAt(v time.Time) *B
 	return _c
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPComputeDiskCreate) SetHistoryID(v uint) *BronzeHistoryGCPComputeDiskCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetResourceID sets the "resource_id" field.
 func (_c *BronzeHistoryGCPComputeDiskCreate) SetResourceID(v string) *BronzeHistoryGCPComputeDiskCreate {
 	_c.mutation.SetResourceID(v)
@@ -401,6 +395,12 @@ func (_c *BronzeHistoryGCPComputeDiskCreate) SetProjectID(v string) *BronzeHisto
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPComputeDiskCreate) SetID(v uint) *BronzeHistoryGCPComputeDiskCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPComputeDiskMutation object of the builder.
 func (_c *BronzeHistoryGCPComputeDiskCreate) Mutation() *BronzeHistoryGCPComputeDiskMutation {
 	return _c.mutation
@@ -453,9 +453,6 @@ func (_c *BronzeHistoryGCPComputeDiskCreate) check() error {
 	if _, ok := _c.mutation.FirstCollectedAt(); !ok {
 		return &ValidationError{Name: "first_collected_at", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeDisk.first_collected_at"`)}
 	}
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeDisk.history_id"`)}
-	}
 	if _, ok := _c.mutation.ResourceID(); !ok {
 		return &ValidationError{Name: "resource_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeDisk.resource_id"`)}
 	}
@@ -497,8 +494,10 @@ func (_c *BronzeHistoryGCPComputeDiskCreate) sqlSave(ctx context.Context) (*Bron
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -507,9 +506,13 @@ func (_c *BronzeHistoryGCPComputeDiskCreate) sqlSave(ctx context.Context) (*Bron
 func (_c *BronzeHistoryGCPComputeDiskCreate) createSpec() (*BronzeHistoryGCPComputeDisk, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPComputeDisk{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputedisk.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputedisk.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputedisk.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputedisk.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPComputeDisk
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := _c.mutation.ValidFrom(); ok {
 		_spec.SetField(bronzehistorygcpcomputedisk.FieldValidFrom, field.TypeTime, value)
 		_node.ValidFrom = value
@@ -525,10 +528,6 @@ func (_c *BronzeHistoryGCPComputeDiskCreate) createSpec() (*BronzeHistoryGCPComp
 	if value, ok := _c.mutation.FirstCollectedAt(); ok {
 		_spec.SetField(bronzehistorygcpcomputedisk.FieldFirstCollectedAt, field.TypeTime, value)
 		_node.FirstCollectedAt = value
-	}
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpcomputedisk.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
 	}
 	if value, ok := _c.mutation.ResourceID(); ok {
 		_spec.SetField(bronzehistorygcpcomputedisk.FieldResourceID, field.TypeString, value)
@@ -694,9 +693,9 @@ func (_c *BronzeHistoryGCPComputeDiskCreateBulk) Save(ctx context.Context) ([]*B
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

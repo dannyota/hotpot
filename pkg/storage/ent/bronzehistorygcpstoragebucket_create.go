@@ -53,12 +53,6 @@ func (_c *BronzeHistoryGCPStorageBucketCreate) SetFirstCollectedAt(v time.Time) 
 	return _c
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPStorageBucketCreate) SetHistoryID(v uint) *BronzeHistoryGCPStorageBucketCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetResourceID sets the "resource_id" field.
 func (_c *BronzeHistoryGCPStorageBucketCreate) SetResourceID(v string) *BronzeHistoryGCPStorageBucketCreate {
 	_c.mutation.SetResourceID(v)
@@ -243,6 +237,12 @@ func (_c *BronzeHistoryGCPStorageBucketCreate) SetProjectID(v string) *BronzeHis
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPStorageBucketCreate) SetID(v uint) *BronzeHistoryGCPStorageBucketCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPStorageBucketMutation object of the builder.
 func (_c *BronzeHistoryGCPStorageBucketCreate) Mutation() *BronzeHistoryGCPStorageBucketMutation {
 	return _c.mutation
@@ -295,9 +295,6 @@ func (_c *BronzeHistoryGCPStorageBucketCreate) check() error {
 	if _, ok := _c.mutation.FirstCollectedAt(); !ok {
 		return &ValidationError{Name: "first_collected_at", err: errors.New(`ent: missing required field "BronzeHistoryGCPStorageBucket.first_collected_at"`)}
 	}
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPStorageBucket.history_id"`)}
-	}
 	if _, ok := _c.mutation.ResourceID(); !ok {
 		return &ValidationError{Name: "resource_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPStorageBucket.resource_id"`)}
 	}
@@ -339,8 +336,10 @@ func (_c *BronzeHistoryGCPStorageBucketCreate) sqlSave(ctx context.Context) (*Br
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -349,9 +348,13 @@ func (_c *BronzeHistoryGCPStorageBucketCreate) sqlSave(ctx context.Context) (*Br
 func (_c *BronzeHistoryGCPStorageBucketCreate) createSpec() (*BronzeHistoryGCPStorageBucket, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPStorageBucket{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpstoragebucket.Table, sqlgraph.NewFieldSpec(bronzehistorygcpstoragebucket.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpstoragebucket.Table, sqlgraph.NewFieldSpec(bronzehistorygcpstoragebucket.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPStorageBucket
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := _c.mutation.ValidFrom(); ok {
 		_spec.SetField(bronzehistorygcpstoragebucket.FieldValidFrom, field.TypeTime, value)
 		_node.ValidFrom = value
@@ -367,10 +370,6 @@ func (_c *BronzeHistoryGCPStorageBucketCreate) createSpec() (*BronzeHistoryGCPSt
 	if value, ok := _c.mutation.FirstCollectedAt(); ok {
 		_spec.SetField(bronzehistorygcpstoragebucket.FieldFirstCollectedAt, field.TypeTime, value)
 		_node.FirstCollectedAt = value
-	}
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpstoragebucket.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
 	}
 	if value, ok := _c.mutation.ResourceID(); ok {
 		_spec.SetField(bronzehistorygcpstoragebucket.FieldResourceID, field.TypeString, value)
@@ -500,9 +499,9 @@ func (_c *BronzeHistoryGCPStorageBucketCreateBulk) Save(ctx context.Context) ([]
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

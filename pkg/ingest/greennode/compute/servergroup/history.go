@@ -37,7 +37,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Se
 	if err != nil {
 		return fmt.Errorf("create server group history: %w", err)
 	}
-	return h.createMembersHistory(ctx, tx, sgHist.HistoryID, data.Members, now)
+	return h.createMembersHistory(ctx, tx, sgHist.ID, data.Members, now)
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
@@ -75,17 +75,17 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 			return fmt.Errorf("create new server group history: %w", err)
 		}
 
-		if err := h.closeMembersHistory(ctx, tx, currentHist.HistoryID, now); err != nil {
+		if err := h.closeMembersHistory(ctx, tx, currentHist.ID, now); err != nil {
 			return err
 		}
-		return h.createMembersHistory(ctx, tx, sgHist.HistoryID, new.Members, now)
+		return h.createMembersHistory(ctx, tx, sgHist.ID, new.Members, now)
 	}
 
 	if diff.MembersDiff.Changed {
-		if err := h.closeMembersHistory(ctx, tx, currentHist.HistoryID, now); err != nil {
+		if err := h.closeMembersHistory(ctx, tx, currentHist.ID, now); err != nil {
 			return err
 		}
-		return h.createMembersHistory(ctx, tx, currentHist.HistoryID, new.Members, now)
+		return h.createMembersHistory(ctx, tx, currentHist.ID, new.Members, now)
 	}
 
 	return nil
@@ -112,7 +112,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		return fmt.Errorf("close server group history: %w", err)
 	}
 
-	return h.closeMembersHistory(ctx, tx, currentHist.HistoryID, now)
+	return h.closeMembersHistory(ctx, tx, currentHist.ID, now)
 }
 
 func (h *HistoryService) createMembersHistory(ctx context.Context, tx *ent.Tx, sgHistoryID uint, members []MemberData, now time.Time) error {

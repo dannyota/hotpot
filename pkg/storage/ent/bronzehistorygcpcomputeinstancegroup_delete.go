@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPComputeInstanceGroupDelete) ExecX(ctx context.Context)
 }
 
 func (_d *BronzeHistoryGCPComputeInstanceGroupDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputeinstancegroup.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancegroup.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputeinstancegroup.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancegroup.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPComputeInstanceGroup
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

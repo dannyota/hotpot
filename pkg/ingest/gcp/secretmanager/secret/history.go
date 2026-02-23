@@ -41,7 +41,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, secretDa
 		return fmt.Errorf("failed to create secret history: %w", err)
 	}
 
-	return h.createLabelsHistory(ctx, tx, hist.HistoryID, secretData, now)
+	return h.createLabelsHistory(ctx, tx, hist.ID, secretData, now)
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
@@ -83,14 +83,14 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 			return fmt.Errorf("failed to create new secret history: %w", err)
 		}
 
-		if err := h.closeLabelsHistory(ctx, tx, currentHist.HistoryID, now); err != nil {
+		if err := h.closeLabelsHistory(ctx, tx, currentHist.ID, now); err != nil {
 			return fmt.Errorf("failed to close labels history: %w", err)
 		}
-		return h.createLabelsHistory(ctx, tx, hist.HistoryID, new, now)
+		return h.createLabelsHistory(ctx, tx, hist.ID, new, now)
 	}
 
 	if diff.LabelDiff.Changed {
-		return h.updateLabelsHistory(ctx, tx, currentHist.HistoryID, new, now)
+		return h.updateLabelsHistory(ctx, tx, currentHist.ID, new, now)
 	}
 
 	return nil
@@ -118,7 +118,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		return fmt.Errorf("failed to close secret history: %w", err)
 	}
 
-	return h.closeLabelsHistory(ctx, tx, currentHist.HistoryID, now)
+	return h.closeLabelsHistory(ctx, tx, currentHist.ID, now)
 }
 
 func (h *HistoryService) createLabelsHistory(ctx context.Context, tx *ent.Tx, secretHistoryID uint, secretData *SecretData, now time.Time) error {

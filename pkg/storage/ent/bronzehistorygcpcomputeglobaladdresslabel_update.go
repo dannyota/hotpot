@@ -144,7 +144,7 @@ func (_u *BronzeHistoryGCPComputeGlobalAddressLabelUpdate) sqlSave(ctx context.C
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeglobaladdresslabel.Table, bronzehistorygcpcomputeglobaladdresslabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeglobaladdresslabel.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeglobaladdresslabel.Table, bronzehistorygcpcomputeglobaladdresslabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeglobaladdresslabel.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -320,7 +320,7 @@ func (_u *BronzeHistoryGCPComputeGlobalAddressLabelUpdateOne) sqlSave(ctx contex
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeglobaladdresslabel.Table, bronzehistorygcpcomputeglobaladdresslabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeglobaladdresslabel.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeglobaladdresslabel.Table, bronzehistorygcpcomputeglobaladdresslabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeglobaladdresslabel.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPComputeGlobalAddressLabel.id" for update`)}

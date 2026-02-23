@@ -10,53 +10,48 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
+func ID(id uint) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
 	return predicate.BronzeHistoryGCPProjectIamPolicyBinding(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
+func IDEQ(id uint) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
 	return predicate.BronzeHistoryGCPProjectIamPolicyBinding(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
 	return predicate.BronzeHistoryGCPProjectIamPolicyBinding(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
 	return predicate.BronzeHistoryGCPProjectIamPolicyBinding(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
 	return predicate.BronzeHistoryGCPProjectIamPolicyBinding(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
+func IDGT(id uint) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
 	return predicate.BronzeHistoryGCPProjectIamPolicyBinding(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
+func IDGTE(id uint) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
 	return predicate.BronzeHistoryGCPProjectIamPolicyBinding(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
+func IDLT(id uint) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
 	return predicate.BronzeHistoryGCPProjectIamPolicyBinding(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
+func IDLTE(id uint) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
 	return predicate.BronzeHistoryGCPProjectIamPolicyBinding(sql.FieldLTE(FieldID, id))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
-	return predicate.BronzeHistoryGCPProjectIamPolicyBinding(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // PolicyHistoryID applies equality check predicate on the "policy_history_id" field. It's identical to PolicyHistoryIDEQ.
@@ -77,46 +72,6 @@ func ValidTo(v time.Time) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
 // Role applies equality check predicate on the "role" field. It's identical to RoleEQ.
 func Role(v string) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
 	return predicate.BronzeHistoryGCPProjectIamPolicyBinding(sql.FieldEQ(FieldRole, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
-	return predicate.BronzeHistoryGCPProjectIamPolicyBinding(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
-	return predicate.BronzeHistoryGCPProjectIamPolicyBinding(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
-	return predicate.BronzeHistoryGCPProjectIamPolicyBinding(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
-	return predicate.BronzeHistoryGCPProjectIamPolicyBinding(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
-	return predicate.BronzeHistoryGCPProjectIamPolicyBinding(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
-	return predicate.BronzeHistoryGCPProjectIamPolicyBinding(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
-	return predicate.BronzeHistoryGCPProjectIamPolicyBinding(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPProjectIamPolicyBinding {
-	return predicate.BronzeHistoryGCPProjectIamPolicyBinding(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // PolicyHistoryIDEQ applies the EQ predicate on the "policy_history_id" field.

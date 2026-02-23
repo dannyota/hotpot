@@ -22,9 +22,7 @@ func (BronzeHistoryGCPComputeInstanceGroup) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeInstanceGroup) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze instance group by resource_id"),
@@ -79,9 +77,7 @@ type BronzeHistoryGCPComputeInstanceGroupNamedPort struct {
 
 func (BronzeHistoryGCPComputeInstanceGroupNamedPort) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("group_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeInstanceGroup"),
 		field.Time("valid_from").
@@ -120,9 +116,7 @@ type BronzeHistoryGCPComputeInstanceGroupMember struct {
 
 func (BronzeHistoryGCPComputeInstanceGroupMember) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("group_history_id").
 			Comment("Links to parent BronzeHistoryGCPComputeInstanceGroup"),
 		field.Time("valid_from").

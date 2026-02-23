@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPComputeUrlMapDelete) ExecX(ctx context.Context) int {
 }
 
 func (_d *BronzeHistoryGCPComputeUrlMapDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputeurlmap.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeurlmap.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputeurlmap.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeurlmap.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPComputeUrlMap
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

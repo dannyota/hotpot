@@ -123,7 +123,7 @@ func (_u *BronzeHistoryGCPComputeInstanceDiskLicenseUpdate) ExecX(ctx context.Co
 }
 
 func (_u *BronzeHistoryGCPComputeInstanceDiskLicenseUpdate) sqlSave(ctx context.Context) (_node int, err error) {
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstancedisklicense.Table, bronzehistorygcpcomputeinstancedisklicense.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancedisklicense.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstancedisklicense.Table, bronzehistorygcpcomputeinstancedisklicense.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancedisklicense.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -278,7 +278,7 @@ func (_u *BronzeHistoryGCPComputeInstanceDiskLicenseUpdateOne) ExecX(ctx context
 }
 
 func (_u *BronzeHistoryGCPComputeInstanceDiskLicenseUpdateOne) sqlSave(ctx context.Context) (_node *BronzeHistoryGCPComputeInstanceDiskLicense, err error) {
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstancedisklicense.Table, bronzehistorygcpcomputeinstancedisklicense.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancedisklicense.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstancedisklicense.Table, bronzehistorygcpcomputeinstancedisklicense.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancedisklicense.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPComputeInstanceDiskLicense.id" for update`)}

@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPComputeFirewallDeniedDelete) ExecX(ctx context.Context
 }
 
 func (_d *BronzeHistoryGCPComputeFirewallDeniedDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputefirewalldenied.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputefirewalldenied.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputefirewalldenied.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputefirewalldenied.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPComputeFirewallDenied
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

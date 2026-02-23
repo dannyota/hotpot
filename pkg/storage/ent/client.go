@@ -27403,7 +27403,7 @@ func (c *BronzeHistoryAWSEC2InstanceClient) UpdateOne(_m *BronzeHistoryAWSEC2Ins
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryAWSEC2InstanceClient) UpdateOneID(id int) *BronzeHistoryAWSEC2InstanceUpdateOne {
+func (c *BronzeHistoryAWSEC2InstanceClient) UpdateOneID(id uint) *BronzeHistoryAWSEC2InstanceUpdateOne {
 	mutation := newBronzeHistoryAWSEC2InstanceMutation(c.config, OpUpdateOne, withBronzeHistoryAWSEC2InstanceID(id))
 	return &BronzeHistoryAWSEC2InstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -27420,7 +27420,7 @@ func (c *BronzeHistoryAWSEC2InstanceClient) DeleteOne(_m *BronzeHistoryAWSEC2Ins
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryAWSEC2InstanceClient) DeleteOneID(id int) *BronzeHistoryAWSEC2InstanceDeleteOne {
+func (c *BronzeHistoryAWSEC2InstanceClient) DeleteOneID(id uint) *BronzeHistoryAWSEC2InstanceDeleteOne {
 	builder := c.Delete().Where(bronzehistoryawsec2instance.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -27437,12 +27437,12 @@ func (c *BronzeHistoryAWSEC2InstanceClient) Query() *BronzeHistoryAWSEC2Instance
 }
 
 // Get returns a BronzeHistoryAWSEC2Instance entity by its id.
-func (c *BronzeHistoryAWSEC2InstanceClient) Get(ctx context.Context, id int) (*BronzeHistoryAWSEC2Instance, error) {
+func (c *BronzeHistoryAWSEC2InstanceClient) Get(ctx context.Context, id uint) (*BronzeHistoryAWSEC2Instance, error) {
 	return c.Query().Where(bronzehistoryawsec2instance.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryAWSEC2InstanceClient) GetX(ctx context.Context, id int) *BronzeHistoryAWSEC2Instance {
+func (c *BronzeHistoryAWSEC2InstanceClient) GetX(ctx context.Context, id uint) *BronzeHistoryAWSEC2Instance {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -27536,7 +27536,7 @@ func (c *BronzeHistoryAWSEC2InstanceTagClient) UpdateOne(_m *BronzeHistoryAWSEC2
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryAWSEC2InstanceTagClient) UpdateOneID(id int) *BronzeHistoryAWSEC2InstanceTagUpdateOne {
+func (c *BronzeHistoryAWSEC2InstanceTagClient) UpdateOneID(id uint) *BronzeHistoryAWSEC2InstanceTagUpdateOne {
 	mutation := newBronzeHistoryAWSEC2InstanceTagMutation(c.config, OpUpdateOne, withBronzeHistoryAWSEC2InstanceTagID(id))
 	return &BronzeHistoryAWSEC2InstanceTagUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -27553,7 +27553,7 @@ func (c *BronzeHistoryAWSEC2InstanceTagClient) DeleteOne(_m *BronzeHistoryAWSEC2
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryAWSEC2InstanceTagClient) DeleteOneID(id int) *BronzeHistoryAWSEC2InstanceTagDeleteOne {
+func (c *BronzeHistoryAWSEC2InstanceTagClient) DeleteOneID(id uint) *BronzeHistoryAWSEC2InstanceTagDeleteOne {
 	builder := c.Delete().Where(bronzehistoryawsec2instancetag.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -27570,12 +27570,12 @@ func (c *BronzeHistoryAWSEC2InstanceTagClient) Query() *BronzeHistoryAWSEC2Insta
 }
 
 // Get returns a BronzeHistoryAWSEC2InstanceTag entity by its id.
-func (c *BronzeHistoryAWSEC2InstanceTagClient) Get(ctx context.Context, id int) (*BronzeHistoryAWSEC2InstanceTag, error) {
+func (c *BronzeHistoryAWSEC2InstanceTagClient) Get(ctx context.Context, id uint) (*BronzeHistoryAWSEC2InstanceTag, error) {
 	return c.Query().Where(bronzehistoryawsec2instancetag.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryAWSEC2InstanceTagClient) GetX(ctx context.Context, id int) *BronzeHistoryAWSEC2InstanceTag {
+func (c *BronzeHistoryAWSEC2InstanceTagClient) GetX(ctx context.Context, id uint) *BronzeHistoryAWSEC2InstanceTag {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -27669,7 +27669,7 @@ func (c *BronzeHistoryDOAccountClient) UpdateOne(_m *BronzeHistoryDOAccount) *Br
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDOAccountClient) UpdateOneID(id int) *BronzeHistoryDOAccountUpdateOne {
+func (c *BronzeHistoryDOAccountClient) UpdateOneID(id uint) *BronzeHistoryDOAccountUpdateOne {
 	mutation := newBronzeHistoryDOAccountMutation(c.config, OpUpdateOne, withBronzeHistoryDOAccountID(id))
 	return &BronzeHistoryDOAccountUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -27686,7 +27686,7 @@ func (c *BronzeHistoryDOAccountClient) DeleteOne(_m *BronzeHistoryDOAccount) *Br
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDOAccountClient) DeleteOneID(id int) *BronzeHistoryDOAccountDeleteOne {
+func (c *BronzeHistoryDOAccountClient) DeleteOneID(id uint) *BronzeHistoryDOAccountDeleteOne {
 	builder := c.Delete().Where(bronzehistorydoaccount.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -27703,12 +27703,12 @@ func (c *BronzeHistoryDOAccountClient) Query() *BronzeHistoryDOAccountQuery {
 }
 
 // Get returns a BronzeHistoryDOAccount entity by its id.
-func (c *BronzeHistoryDOAccountClient) Get(ctx context.Context, id int) (*BronzeHistoryDOAccount, error) {
+func (c *BronzeHistoryDOAccountClient) Get(ctx context.Context, id uint) (*BronzeHistoryDOAccount, error) {
 	return c.Query().Where(bronzehistorydoaccount.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDOAccountClient) GetX(ctx context.Context, id int) *BronzeHistoryDOAccount {
+func (c *BronzeHistoryDOAccountClient) GetX(ctx context.Context, id uint) *BronzeHistoryDOAccount {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -27802,7 +27802,7 @@ func (c *BronzeHistoryDODatabaseClient) UpdateOne(_m *BronzeHistoryDODatabase) *
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDODatabaseClient) UpdateOneID(id int) *BronzeHistoryDODatabaseUpdateOne {
+func (c *BronzeHistoryDODatabaseClient) UpdateOneID(id uint) *BronzeHistoryDODatabaseUpdateOne {
 	mutation := newBronzeHistoryDODatabaseMutation(c.config, OpUpdateOne, withBronzeHistoryDODatabaseID(id))
 	return &BronzeHistoryDODatabaseUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -27819,7 +27819,7 @@ func (c *BronzeHistoryDODatabaseClient) DeleteOne(_m *BronzeHistoryDODatabase) *
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDODatabaseClient) DeleteOneID(id int) *BronzeHistoryDODatabaseDeleteOne {
+func (c *BronzeHistoryDODatabaseClient) DeleteOneID(id uint) *BronzeHistoryDODatabaseDeleteOne {
 	builder := c.Delete().Where(bronzehistorydodatabase.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -27836,12 +27836,12 @@ func (c *BronzeHistoryDODatabaseClient) Query() *BronzeHistoryDODatabaseQuery {
 }
 
 // Get returns a BronzeHistoryDODatabase entity by its id.
-func (c *BronzeHistoryDODatabaseClient) Get(ctx context.Context, id int) (*BronzeHistoryDODatabase, error) {
+func (c *BronzeHistoryDODatabaseClient) Get(ctx context.Context, id uint) (*BronzeHistoryDODatabase, error) {
 	return c.Query().Where(bronzehistorydodatabase.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDODatabaseClient) GetX(ctx context.Context, id int) *BronzeHistoryDODatabase {
+func (c *BronzeHistoryDODatabaseClient) GetX(ctx context.Context, id uint) *BronzeHistoryDODatabase {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -27935,7 +27935,7 @@ func (c *BronzeHistoryDODatabaseBackupClient) UpdateOne(_m *BronzeHistoryDODatab
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDODatabaseBackupClient) UpdateOneID(id int) *BronzeHistoryDODatabaseBackupUpdateOne {
+func (c *BronzeHistoryDODatabaseBackupClient) UpdateOneID(id uint) *BronzeHistoryDODatabaseBackupUpdateOne {
 	mutation := newBronzeHistoryDODatabaseBackupMutation(c.config, OpUpdateOne, withBronzeHistoryDODatabaseBackupID(id))
 	return &BronzeHistoryDODatabaseBackupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -27952,7 +27952,7 @@ func (c *BronzeHistoryDODatabaseBackupClient) DeleteOne(_m *BronzeHistoryDODatab
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDODatabaseBackupClient) DeleteOneID(id int) *BronzeHistoryDODatabaseBackupDeleteOne {
+func (c *BronzeHistoryDODatabaseBackupClient) DeleteOneID(id uint) *BronzeHistoryDODatabaseBackupDeleteOne {
 	builder := c.Delete().Where(bronzehistorydodatabasebackup.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -27969,12 +27969,12 @@ func (c *BronzeHistoryDODatabaseBackupClient) Query() *BronzeHistoryDODatabaseBa
 }
 
 // Get returns a BronzeHistoryDODatabaseBackup entity by its id.
-func (c *BronzeHistoryDODatabaseBackupClient) Get(ctx context.Context, id int) (*BronzeHistoryDODatabaseBackup, error) {
+func (c *BronzeHistoryDODatabaseBackupClient) Get(ctx context.Context, id uint) (*BronzeHistoryDODatabaseBackup, error) {
 	return c.Query().Where(bronzehistorydodatabasebackup.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDODatabaseBackupClient) GetX(ctx context.Context, id int) *BronzeHistoryDODatabaseBackup {
+func (c *BronzeHistoryDODatabaseBackupClient) GetX(ctx context.Context, id uint) *BronzeHistoryDODatabaseBackup {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -28068,7 +28068,7 @@ func (c *BronzeHistoryDODatabaseConfigClient) UpdateOne(_m *BronzeHistoryDODatab
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDODatabaseConfigClient) UpdateOneID(id int) *BronzeHistoryDODatabaseConfigUpdateOne {
+func (c *BronzeHistoryDODatabaseConfigClient) UpdateOneID(id uint) *BronzeHistoryDODatabaseConfigUpdateOne {
 	mutation := newBronzeHistoryDODatabaseConfigMutation(c.config, OpUpdateOne, withBronzeHistoryDODatabaseConfigID(id))
 	return &BronzeHistoryDODatabaseConfigUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -28085,7 +28085,7 @@ func (c *BronzeHistoryDODatabaseConfigClient) DeleteOne(_m *BronzeHistoryDODatab
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDODatabaseConfigClient) DeleteOneID(id int) *BronzeHistoryDODatabaseConfigDeleteOne {
+func (c *BronzeHistoryDODatabaseConfigClient) DeleteOneID(id uint) *BronzeHistoryDODatabaseConfigDeleteOne {
 	builder := c.Delete().Where(bronzehistorydodatabaseconfig.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -28102,12 +28102,12 @@ func (c *BronzeHistoryDODatabaseConfigClient) Query() *BronzeHistoryDODatabaseCo
 }
 
 // Get returns a BronzeHistoryDODatabaseConfig entity by its id.
-func (c *BronzeHistoryDODatabaseConfigClient) Get(ctx context.Context, id int) (*BronzeHistoryDODatabaseConfig, error) {
+func (c *BronzeHistoryDODatabaseConfigClient) Get(ctx context.Context, id uint) (*BronzeHistoryDODatabaseConfig, error) {
 	return c.Query().Where(bronzehistorydodatabaseconfig.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDODatabaseConfigClient) GetX(ctx context.Context, id int) *BronzeHistoryDODatabaseConfig {
+func (c *BronzeHistoryDODatabaseConfigClient) GetX(ctx context.Context, id uint) *BronzeHistoryDODatabaseConfig {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -28201,7 +28201,7 @@ func (c *BronzeHistoryDODatabaseFirewallRuleClient) UpdateOne(_m *BronzeHistoryD
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDODatabaseFirewallRuleClient) UpdateOneID(id int) *BronzeHistoryDODatabaseFirewallRuleUpdateOne {
+func (c *BronzeHistoryDODatabaseFirewallRuleClient) UpdateOneID(id uint) *BronzeHistoryDODatabaseFirewallRuleUpdateOne {
 	mutation := newBronzeHistoryDODatabaseFirewallRuleMutation(c.config, OpUpdateOne, withBronzeHistoryDODatabaseFirewallRuleID(id))
 	return &BronzeHistoryDODatabaseFirewallRuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -28218,7 +28218,7 @@ func (c *BronzeHistoryDODatabaseFirewallRuleClient) DeleteOne(_m *BronzeHistoryD
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDODatabaseFirewallRuleClient) DeleteOneID(id int) *BronzeHistoryDODatabaseFirewallRuleDeleteOne {
+func (c *BronzeHistoryDODatabaseFirewallRuleClient) DeleteOneID(id uint) *BronzeHistoryDODatabaseFirewallRuleDeleteOne {
 	builder := c.Delete().Where(bronzehistorydodatabasefirewallrule.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -28235,12 +28235,12 @@ func (c *BronzeHistoryDODatabaseFirewallRuleClient) Query() *BronzeHistoryDOData
 }
 
 // Get returns a BronzeHistoryDODatabaseFirewallRule entity by its id.
-func (c *BronzeHistoryDODatabaseFirewallRuleClient) Get(ctx context.Context, id int) (*BronzeHistoryDODatabaseFirewallRule, error) {
+func (c *BronzeHistoryDODatabaseFirewallRuleClient) Get(ctx context.Context, id uint) (*BronzeHistoryDODatabaseFirewallRule, error) {
 	return c.Query().Where(bronzehistorydodatabasefirewallrule.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDODatabaseFirewallRuleClient) GetX(ctx context.Context, id int) *BronzeHistoryDODatabaseFirewallRule {
+func (c *BronzeHistoryDODatabaseFirewallRuleClient) GetX(ctx context.Context, id uint) *BronzeHistoryDODatabaseFirewallRule {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -28334,7 +28334,7 @@ func (c *BronzeHistoryDODatabasePoolClient) UpdateOne(_m *BronzeHistoryDODatabas
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDODatabasePoolClient) UpdateOneID(id int) *BronzeHistoryDODatabasePoolUpdateOne {
+func (c *BronzeHistoryDODatabasePoolClient) UpdateOneID(id uint) *BronzeHistoryDODatabasePoolUpdateOne {
 	mutation := newBronzeHistoryDODatabasePoolMutation(c.config, OpUpdateOne, withBronzeHistoryDODatabasePoolID(id))
 	return &BronzeHistoryDODatabasePoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -28351,7 +28351,7 @@ func (c *BronzeHistoryDODatabasePoolClient) DeleteOne(_m *BronzeHistoryDODatabas
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDODatabasePoolClient) DeleteOneID(id int) *BronzeHistoryDODatabasePoolDeleteOne {
+func (c *BronzeHistoryDODatabasePoolClient) DeleteOneID(id uint) *BronzeHistoryDODatabasePoolDeleteOne {
 	builder := c.Delete().Where(bronzehistorydodatabasepool.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -28368,12 +28368,12 @@ func (c *BronzeHistoryDODatabasePoolClient) Query() *BronzeHistoryDODatabasePool
 }
 
 // Get returns a BronzeHistoryDODatabasePool entity by its id.
-func (c *BronzeHistoryDODatabasePoolClient) Get(ctx context.Context, id int) (*BronzeHistoryDODatabasePool, error) {
+func (c *BronzeHistoryDODatabasePoolClient) Get(ctx context.Context, id uint) (*BronzeHistoryDODatabasePool, error) {
 	return c.Query().Where(bronzehistorydodatabasepool.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDODatabasePoolClient) GetX(ctx context.Context, id int) *BronzeHistoryDODatabasePool {
+func (c *BronzeHistoryDODatabasePoolClient) GetX(ctx context.Context, id uint) *BronzeHistoryDODatabasePool {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -28467,7 +28467,7 @@ func (c *BronzeHistoryDODatabaseReplicaClient) UpdateOne(_m *BronzeHistoryDOData
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDODatabaseReplicaClient) UpdateOneID(id int) *BronzeHistoryDODatabaseReplicaUpdateOne {
+func (c *BronzeHistoryDODatabaseReplicaClient) UpdateOneID(id uint) *BronzeHistoryDODatabaseReplicaUpdateOne {
 	mutation := newBronzeHistoryDODatabaseReplicaMutation(c.config, OpUpdateOne, withBronzeHistoryDODatabaseReplicaID(id))
 	return &BronzeHistoryDODatabaseReplicaUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -28484,7 +28484,7 @@ func (c *BronzeHistoryDODatabaseReplicaClient) DeleteOne(_m *BronzeHistoryDOData
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDODatabaseReplicaClient) DeleteOneID(id int) *BronzeHistoryDODatabaseReplicaDeleteOne {
+func (c *BronzeHistoryDODatabaseReplicaClient) DeleteOneID(id uint) *BronzeHistoryDODatabaseReplicaDeleteOne {
 	builder := c.Delete().Where(bronzehistorydodatabasereplica.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -28501,12 +28501,12 @@ func (c *BronzeHistoryDODatabaseReplicaClient) Query() *BronzeHistoryDODatabaseR
 }
 
 // Get returns a BronzeHistoryDODatabaseReplica entity by its id.
-func (c *BronzeHistoryDODatabaseReplicaClient) Get(ctx context.Context, id int) (*BronzeHistoryDODatabaseReplica, error) {
+func (c *BronzeHistoryDODatabaseReplicaClient) Get(ctx context.Context, id uint) (*BronzeHistoryDODatabaseReplica, error) {
 	return c.Query().Where(bronzehistorydodatabasereplica.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDODatabaseReplicaClient) GetX(ctx context.Context, id int) *BronzeHistoryDODatabaseReplica {
+func (c *BronzeHistoryDODatabaseReplicaClient) GetX(ctx context.Context, id uint) *BronzeHistoryDODatabaseReplica {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -28600,7 +28600,7 @@ func (c *BronzeHistoryDODatabaseUserClient) UpdateOne(_m *BronzeHistoryDODatabas
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDODatabaseUserClient) UpdateOneID(id int) *BronzeHistoryDODatabaseUserUpdateOne {
+func (c *BronzeHistoryDODatabaseUserClient) UpdateOneID(id uint) *BronzeHistoryDODatabaseUserUpdateOne {
 	mutation := newBronzeHistoryDODatabaseUserMutation(c.config, OpUpdateOne, withBronzeHistoryDODatabaseUserID(id))
 	return &BronzeHistoryDODatabaseUserUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -28617,7 +28617,7 @@ func (c *BronzeHistoryDODatabaseUserClient) DeleteOne(_m *BronzeHistoryDODatabas
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDODatabaseUserClient) DeleteOneID(id int) *BronzeHistoryDODatabaseUserDeleteOne {
+func (c *BronzeHistoryDODatabaseUserClient) DeleteOneID(id uint) *BronzeHistoryDODatabaseUserDeleteOne {
 	builder := c.Delete().Where(bronzehistorydodatabaseuser.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -28634,12 +28634,12 @@ func (c *BronzeHistoryDODatabaseUserClient) Query() *BronzeHistoryDODatabaseUser
 }
 
 // Get returns a BronzeHistoryDODatabaseUser entity by its id.
-func (c *BronzeHistoryDODatabaseUserClient) Get(ctx context.Context, id int) (*BronzeHistoryDODatabaseUser, error) {
+func (c *BronzeHistoryDODatabaseUserClient) Get(ctx context.Context, id uint) (*BronzeHistoryDODatabaseUser, error) {
 	return c.Query().Where(bronzehistorydodatabaseuser.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDODatabaseUserClient) GetX(ctx context.Context, id int) *BronzeHistoryDODatabaseUser {
+func (c *BronzeHistoryDODatabaseUserClient) GetX(ctx context.Context, id uint) *BronzeHistoryDODatabaseUser {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -28733,7 +28733,7 @@ func (c *BronzeHistoryDODomainClient) UpdateOne(_m *BronzeHistoryDODomain) *Bron
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDODomainClient) UpdateOneID(id int) *BronzeHistoryDODomainUpdateOne {
+func (c *BronzeHistoryDODomainClient) UpdateOneID(id uint) *BronzeHistoryDODomainUpdateOne {
 	mutation := newBronzeHistoryDODomainMutation(c.config, OpUpdateOne, withBronzeHistoryDODomainID(id))
 	return &BronzeHistoryDODomainUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -28750,7 +28750,7 @@ func (c *BronzeHistoryDODomainClient) DeleteOne(_m *BronzeHistoryDODomain) *Bron
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDODomainClient) DeleteOneID(id int) *BronzeHistoryDODomainDeleteOne {
+func (c *BronzeHistoryDODomainClient) DeleteOneID(id uint) *BronzeHistoryDODomainDeleteOne {
 	builder := c.Delete().Where(bronzehistorydodomain.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -28767,12 +28767,12 @@ func (c *BronzeHistoryDODomainClient) Query() *BronzeHistoryDODomainQuery {
 }
 
 // Get returns a BronzeHistoryDODomain entity by its id.
-func (c *BronzeHistoryDODomainClient) Get(ctx context.Context, id int) (*BronzeHistoryDODomain, error) {
+func (c *BronzeHistoryDODomainClient) Get(ctx context.Context, id uint) (*BronzeHistoryDODomain, error) {
 	return c.Query().Where(bronzehistorydodomain.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDODomainClient) GetX(ctx context.Context, id int) *BronzeHistoryDODomain {
+func (c *BronzeHistoryDODomainClient) GetX(ctx context.Context, id uint) *BronzeHistoryDODomain {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -28866,7 +28866,7 @@ func (c *BronzeHistoryDODomainRecordClient) UpdateOne(_m *BronzeHistoryDODomainR
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDODomainRecordClient) UpdateOneID(id int) *BronzeHistoryDODomainRecordUpdateOne {
+func (c *BronzeHistoryDODomainRecordClient) UpdateOneID(id uint) *BronzeHistoryDODomainRecordUpdateOne {
 	mutation := newBronzeHistoryDODomainRecordMutation(c.config, OpUpdateOne, withBronzeHistoryDODomainRecordID(id))
 	return &BronzeHistoryDODomainRecordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -28883,7 +28883,7 @@ func (c *BronzeHistoryDODomainRecordClient) DeleteOne(_m *BronzeHistoryDODomainR
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDODomainRecordClient) DeleteOneID(id int) *BronzeHistoryDODomainRecordDeleteOne {
+func (c *BronzeHistoryDODomainRecordClient) DeleteOneID(id uint) *BronzeHistoryDODomainRecordDeleteOne {
 	builder := c.Delete().Where(bronzehistorydodomainrecord.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -28900,12 +28900,12 @@ func (c *BronzeHistoryDODomainRecordClient) Query() *BronzeHistoryDODomainRecord
 }
 
 // Get returns a BronzeHistoryDODomainRecord entity by its id.
-func (c *BronzeHistoryDODomainRecordClient) Get(ctx context.Context, id int) (*BronzeHistoryDODomainRecord, error) {
+func (c *BronzeHistoryDODomainRecordClient) Get(ctx context.Context, id uint) (*BronzeHistoryDODomainRecord, error) {
 	return c.Query().Where(bronzehistorydodomainrecord.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDODomainRecordClient) GetX(ctx context.Context, id int) *BronzeHistoryDODomainRecord {
+func (c *BronzeHistoryDODomainRecordClient) GetX(ctx context.Context, id uint) *BronzeHistoryDODomainRecord {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -28999,7 +28999,7 @@ func (c *BronzeHistoryDODropletClient) UpdateOne(_m *BronzeHistoryDODroplet) *Br
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDODropletClient) UpdateOneID(id int) *BronzeHistoryDODropletUpdateOne {
+func (c *BronzeHistoryDODropletClient) UpdateOneID(id uint) *BronzeHistoryDODropletUpdateOne {
 	mutation := newBronzeHistoryDODropletMutation(c.config, OpUpdateOne, withBronzeHistoryDODropletID(id))
 	return &BronzeHistoryDODropletUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -29016,7 +29016,7 @@ func (c *BronzeHistoryDODropletClient) DeleteOne(_m *BronzeHistoryDODroplet) *Br
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDODropletClient) DeleteOneID(id int) *BronzeHistoryDODropletDeleteOne {
+func (c *BronzeHistoryDODropletClient) DeleteOneID(id uint) *BronzeHistoryDODropletDeleteOne {
 	builder := c.Delete().Where(bronzehistorydodroplet.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -29033,12 +29033,12 @@ func (c *BronzeHistoryDODropletClient) Query() *BronzeHistoryDODropletQuery {
 }
 
 // Get returns a BronzeHistoryDODroplet entity by its id.
-func (c *BronzeHistoryDODropletClient) Get(ctx context.Context, id int) (*BronzeHistoryDODroplet, error) {
+func (c *BronzeHistoryDODropletClient) Get(ctx context.Context, id uint) (*BronzeHistoryDODroplet, error) {
 	return c.Query().Where(bronzehistorydodroplet.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDODropletClient) GetX(ctx context.Context, id int) *BronzeHistoryDODroplet {
+func (c *BronzeHistoryDODropletClient) GetX(ctx context.Context, id uint) *BronzeHistoryDODroplet {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -29132,7 +29132,7 @@ func (c *BronzeHistoryDOFirewallClient) UpdateOne(_m *BronzeHistoryDOFirewall) *
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDOFirewallClient) UpdateOneID(id int) *BronzeHistoryDOFirewallUpdateOne {
+func (c *BronzeHistoryDOFirewallClient) UpdateOneID(id uint) *BronzeHistoryDOFirewallUpdateOne {
 	mutation := newBronzeHistoryDOFirewallMutation(c.config, OpUpdateOne, withBronzeHistoryDOFirewallID(id))
 	return &BronzeHistoryDOFirewallUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -29149,7 +29149,7 @@ func (c *BronzeHistoryDOFirewallClient) DeleteOne(_m *BronzeHistoryDOFirewall) *
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDOFirewallClient) DeleteOneID(id int) *BronzeHistoryDOFirewallDeleteOne {
+func (c *BronzeHistoryDOFirewallClient) DeleteOneID(id uint) *BronzeHistoryDOFirewallDeleteOne {
 	builder := c.Delete().Where(bronzehistorydofirewall.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -29166,12 +29166,12 @@ func (c *BronzeHistoryDOFirewallClient) Query() *BronzeHistoryDOFirewallQuery {
 }
 
 // Get returns a BronzeHistoryDOFirewall entity by its id.
-func (c *BronzeHistoryDOFirewallClient) Get(ctx context.Context, id int) (*BronzeHistoryDOFirewall, error) {
+func (c *BronzeHistoryDOFirewallClient) Get(ctx context.Context, id uint) (*BronzeHistoryDOFirewall, error) {
 	return c.Query().Where(bronzehistorydofirewall.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDOFirewallClient) GetX(ctx context.Context, id int) *BronzeHistoryDOFirewall {
+func (c *BronzeHistoryDOFirewallClient) GetX(ctx context.Context, id uint) *BronzeHistoryDOFirewall {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -29265,7 +29265,7 @@ func (c *BronzeHistoryDOKeyClient) UpdateOne(_m *BronzeHistoryDOKey) *BronzeHist
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDOKeyClient) UpdateOneID(id int) *BronzeHistoryDOKeyUpdateOne {
+func (c *BronzeHistoryDOKeyClient) UpdateOneID(id uint) *BronzeHistoryDOKeyUpdateOne {
 	mutation := newBronzeHistoryDOKeyMutation(c.config, OpUpdateOne, withBronzeHistoryDOKeyID(id))
 	return &BronzeHistoryDOKeyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -29282,7 +29282,7 @@ func (c *BronzeHistoryDOKeyClient) DeleteOne(_m *BronzeHistoryDOKey) *BronzeHist
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDOKeyClient) DeleteOneID(id int) *BronzeHistoryDOKeyDeleteOne {
+func (c *BronzeHistoryDOKeyClient) DeleteOneID(id uint) *BronzeHistoryDOKeyDeleteOne {
 	builder := c.Delete().Where(bronzehistorydokey.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -29299,12 +29299,12 @@ func (c *BronzeHistoryDOKeyClient) Query() *BronzeHistoryDOKeyQuery {
 }
 
 // Get returns a BronzeHistoryDOKey entity by its id.
-func (c *BronzeHistoryDOKeyClient) Get(ctx context.Context, id int) (*BronzeHistoryDOKey, error) {
+func (c *BronzeHistoryDOKeyClient) Get(ctx context.Context, id uint) (*BronzeHistoryDOKey, error) {
 	return c.Query().Where(bronzehistorydokey.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDOKeyClient) GetX(ctx context.Context, id int) *BronzeHistoryDOKey {
+func (c *BronzeHistoryDOKeyClient) GetX(ctx context.Context, id uint) *BronzeHistoryDOKey {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -29398,7 +29398,7 @@ func (c *BronzeHistoryDOKubernetesClusterClient) UpdateOne(_m *BronzeHistoryDOKu
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDOKubernetesClusterClient) UpdateOneID(id int) *BronzeHistoryDOKubernetesClusterUpdateOne {
+func (c *BronzeHistoryDOKubernetesClusterClient) UpdateOneID(id uint) *BronzeHistoryDOKubernetesClusterUpdateOne {
 	mutation := newBronzeHistoryDOKubernetesClusterMutation(c.config, OpUpdateOne, withBronzeHistoryDOKubernetesClusterID(id))
 	return &BronzeHistoryDOKubernetesClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -29415,7 +29415,7 @@ func (c *BronzeHistoryDOKubernetesClusterClient) DeleteOne(_m *BronzeHistoryDOKu
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDOKubernetesClusterClient) DeleteOneID(id int) *BronzeHistoryDOKubernetesClusterDeleteOne {
+func (c *BronzeHistoryDOKubernetesClusterClient) DeleteOneID(id uint) *BronzeHistoryDOKubernetesClusterDeleteOne {
 	builder := c.Delete().Where(bronzehistorydokubernetescluster.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -29432,12 +29432,12 @@ func (c *BronzeHistoryDOKubernetesClusterClient) Query() *BronzeHistoryDOKuberne
 }
 
 // Get returns a BronzeHistoryDOKubernetesCluster entity by its id.
-func (c *BronzeHistoryDOKubernetesClusterClient) Get(ctx context.Context, id int) (*BronzeHistoryDOKubernetesCluster, error) {
+func (c *BronzeHistoryDOKubernetesClusterClient) Get(ctx context.Context, id uint) (*BronzeHistoryDOKubernetesCluster, error) {
 	return c.Query().Where(bronzehistorydokubernetescluster.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDOKubernetesClusterClient) GetX(ctx context.Context, id int) *BronzeHistoryDOKubernetesCluster {
+func (c *BronzeHistoryDOKubernetesClusterClient) GetX(ctx context.Context, id uint) *BronzeHistoryDOKubernetesCluster {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -29531,7 +29531,7 @@ func (c *BronzeHistoryDOKubernetesNodePoolClient) UpdateOne(_m *BronzeHistoryDOK
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) UpdateOneID(id int) *BronzeHistoryDOKubernetesNodePoolUpdateOne {
+func (c *BronzeHistoryDOKubernetesNodePoolClient) UpdateOneID(id uint) *BronzeHistoryDOKubernetesNodePoolUpdateOne {
 	mutation := newBronzeHistoryDOKubernetesNodePoolMutation(c.config, OpUpdateOne, withBronzeHistoryDOKubernetesNodePoolID(id))
 	return &BronzeHistoryDOKubernetesNodePoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -29548,7 +29548,7 @@ func (c *BronzeHistoryDOKubernetesNodePoolClient) DeleteOne(_m *BronzeHistoryDOK
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) DeleteOneID(id int) *BronzeHistoryDOKubernetesNodePoolDeleteOne {
+func (c *BronzeHistoryDOKubernetesNodePoolClient) DeleteOneID(id uint) *BronzeHistoryDOKubernetesNodePoolDeleteOne {
 	builder := c.Delete().Where(bronzehistorydokubernetesnodepool.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -29565,12 +29565,12 @@ func (c *BronzeHistoryDOKubernetesNodePoolClient) Query() *BronzeHistoryDOKubern
 }
 
 // Get returns a BronzeHistoryDOKubernetesNodePool entity by its id.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) Get(ctx context.Context, id int) (*BronzeHistoryDOKubernetesNodePool, error) {
+func (c *BronzeHistoryDOKubernetesNodePoolClient) Get(ctx context.Context, id uint) (*BronzeHistoryDOKubernetesNodePool, error) {
 	return c.Query().Where(bronzehistorydokubernetesnodepool.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDOKubernetesNodePoolClient) GetX(ctx context.Context, id int) *BronzeHistoryDOKubernetesNodePool {
+func (c *BronzeHistoryDOKubernetesNodePoolClient) GetX(ctx context.Context, id uint) *BronzeHistoryDOKubernetesNodePool {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -29664,7 +29664,7 @@ func (c *BronzeHistoryDOLoadBalancerClient) UpdateOne(_m *BronzeHistoryDOLoadBal
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDOLoadBalancerClient) UpdateOneID(id int) *BronzeHistoryDOLoadBalancerUpdateOne {
+func (c *BronzeHistoryDOLoadBalancerClient) UpdateOneID(id uint) *BronzeHistoryDOLoadBalancerUpdateOne {
 	mutation := newBronzeHistoryDOLoadBalancerMutation(c.config, OpUpdateOne, withBronzeHistoryDOLoadBalancerID(id))
 	return &BronzeHistoryDOLoadBalancerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -29681,7 +29681,7 @@ func (c *BronzeHistoryDOLoadBalancerClient) DeleteOne(_m *BronzeHistoryDOLoadBal
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDOLoadBalancerClient) DeleteOneID(id int) *BronzeHistoryDOLoadBalancerDeleteOne {
+func (c *BronzeHistoryDOLoadBalancerClient) DeleteOneID(id uint) *BronzeHistoryDOLoadBalancerDeleteOne {
 	builder := c.Delete().Where(bronzehistorydoloadbalancer.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -29698,12 +29698,12 @@ func (c *BronzeHistoryDOLoadBalancerClient) Query() *BronzeHistoryDOLoadBalancer
 }
 
 // Get returns a BronzeHistoryDOLoadBalancer entity by its id.
-func (c *BronzeHistoryDOLoadBalancerClient) Get(ctx context.Context, id int) (*BronzeHistoryDOLoadBalancer, error) {
+func (c *BronzeHistoryDOLoadBalancerClient) Get(ctx context.Context, id uint) (*BronzeHistoryDOLoadBalancer, error) {
 	return c.Query().Where(bronzehistorydoloadbalancer.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDOLoadBalancerClient) GetX(ctx context.Context, id int) *BronzeHistoryDOLoadBalancer {
+func (c *BronzeHistoryDOLoadBalancerClient) GetX(ctx context.Context, id uint) *BronzeHistoryDOLoadBalancer {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -29797,7 +29797,7 @@ func (c *BronzeHistoryDOProjectClient) UpdateOne(_m *BronzeHistoryDOProject) *Br
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDOProjectClient) UpdateOneID(id int) *BronzeHistoryDOProjectUpdateOne {
+func (c *BronzeHistoryDOProjectClient) UpdateOneID(id uint) *BronzeHistoryDOProjectUpdateOne {
 	mutation := newBronzeHistoryDOProjectMutation(c.config, OpUpdateOne, withBronzeHistoryDOProjectID(id))
 	return &BronzeHistoryDOProjectUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -29814,7 +29814,7 @@ func (c *BronzeHistoryDOProjectClient) DeleteOne(_m *BronzeHistoryDOProject) *Br
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDOProjectClient) DeleteOneID(id int) *BronzeHistoryDOProjectDeleteOne {
+func (c *BronzeHistoryDOProjectClient) DeleteOneID(id uint) *BronzeHistoryDOProjectDeleteOne {
 	builder := c.Delete().Where(bronzehistorydoproject.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -29831,12 +29831,12 @@ func (c *BronzeHistoryDOProjectClient) Query() *BronzeHistoryDOProjectQuery {
 }
 
 // Get returns a BronzeHistoryDOProject entity by its id.
-func (c *BronzeHistoryDOProjectClient) Get(ctx context.Context, id int) (*BronzeHistoryDOProject, error) {
+func (c *BronzeHistoryDOProjectClient) Get(ctx context.Context, id uint) (*BronzeHistoryDOProject, error) {
 	return c.Query().Where(bronzehistorydoproject.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDOProjectClient) GetX(ctx context.Context, id int) *BronzeHistoryDOProject {
+func (c *BronzeHistoryDOProjectClient) GetX(ctx context.Context, id uint) *BronzeHistoryDOProject {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -29930,7 +29930,7 @@ func (c *BronzeHistoryDOProjectResourceClient) UpdateOne(_m *BronzeHistoryDOProj
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDOProjectResourceClient) UpdateOneID(id int) *BronzeHistoryDOProjectResourceUpdateOne {
+func (c *BronzeHistoryDOProjectResourceClient) UpdateOneID(id uint) *BronzeHistoryDOProjectResourceUpdateOne {
 	mutation := newBronzeHistoryDOProjectResourceMutation(c.config, OpUpdateOne, withBronzeHistoryDOProjectResourceID(id))
 	return &BronzeHistoryDOProjectResourceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -29947,7 +29947,7 @@ func (c *BronzeHistoryDOProjectResourceClient) DeleteOne(_m *BronzeHistoryDOProj
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDOProjectResourceClient) DeleteOneID(id int) *BronzeHistoryDOProjectResourceDeleteOne {
+func (c *BronzeHistoryDOProjectResourceClient) DeleteOneID(id uint) *BronzeHistoryDOProjectResourceDeleteOne {
 	builder := c.Delete().Where(bronzehistorydoprojectresource.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -29964,12 +29964,12 @@ func (c *BronzeHistoryDOProjectResourceClient) Query() *BronzeHistoryDOProjectRe
 }
 
 // Get returns a BronzeHistoryDOProjectResource entity by its id.
-func (c *BronzeHistoryDOProjectResourceClient) Get(ctx context.Context, id int) (*BronzeHistoryDOProjectResource, error) {
+func (c *BronzeHistoryDOProjectResourceClient) Get(ctx context.Context, id uint) (*BronzeHistoryDOProjectResource, error) {
 	return c.Query().Where(bronzehistorydoprojectresource.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDOProjectResourceClient) GetX(ctx context.Context, id int) *BronzeHistoryDOProjectResource {
+func (c *BronzeHistoryDOProjectResourceClient) GetX(ctx context.Context, id uint) *BronzeHistoryDOProjectResource {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -30063,7 +30063,7 @@ func (c *BronzeHistoryDOVolumeClient) UpdateOne(_m *BronzeHistoryDOVolume) *Bron
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDOVolumeClient) UpdateOneID(id int) *BronzeHistoryDOVolumeUpdateOne {
+func (c *BronzeHistoryDOVolumeClient) UpdateOneID(id uint) *BronzeHistoryDOVolumeUpdateOne {
 	mutation := newBronzeHistoryDOVolumeMutation(c.config, OpUpdateOne, withBronzeHistoryDOVolumeID(id))
 	return &BronzeHistoryDOVolumeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -30080,7 +30080,7 @@ func (c *BronzeHistoryDOVolumeClient) DeleteOne(_m *BronzeHistoryDOVolume) *Bron
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDOVolumeClient) DeleteOneID(id int) *BronzeHistoryDOVolumeDeleteOne {
+func (c *BronzeHistoryDOVolumeClient) DeleteOneID(id uint) *BronzeHistoryDOVolumeDeleteOne {
 	builder := c.Delete().Where(bronzehistorydovolume.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -30097,12 +30097,12 @@ func (c *BronzeHistoryDOVolumeClient) Query() *BronzeHistoryDOVolumeQuery {
 }
 
 // Get returns a BronzeHistoryDOVolume entity by its id.
-func (c *BronzeHistoryDOVolumeClient) Get(ctx context.Context, id int) (*BronzeHistoryDOVolume, error) {
+func (c *BronzeHistoryDOVolumeClient) Get(ctx context.Context, id uint) (*BronzeHistoryDOVolume, error) {
 	return c.Query().Where(bronzehistorydovolume.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDOVolumeClient) GetX(ctx context.Context, id int) *BronzeHistoryDOVolume {
+func (c *BronzeHistoryDOVolumeClient) GetX(ctx context.Context, id uint) *BronzeHistoryDOVolume {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -30196,7 +30196,7 @@ func (c *BronzeHistoryDOVpcClient) UpdateOne(_m *BronzeHistoryDOVpc) *BronzeHist
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryDOVpcClient) UpdateOneID(id int) *BronzeHistoryDOVpcUpdateOne {
+func (c *BronzeHistoryDOVpcClient) UpdateOneID(id uint) *BronzeHistoryDOVpcUpdateOne {
 	mutation := newBronzeHistoryDOVpcMutation(c.config, OpUpdateOne, withBronzeHistoryDOVpcID(id))
 	return &BronzeHistoryDOVpcUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -30213,7 +30213,7 @@ func (c *BronzeHistoryDOVpcClient) DeleteOne(_m *BronzeHistoryDOVpc) *BronzeHist
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryDOVpcClient) DeleteOneID(id int) *BronzeHistoryDOVpcDeleteOne {
+func (c *BronzeHistoryDOVpcClient) DeleteOneID(id uint) *BronzeHistoryDOVpcDeleteOne {
 	builder := c.Delete().Where(bronzehistorydovpc.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -30230,12 +30230,12 @@ func (c *BronzeHistoryDOVpcClient) Query() *BronzeHistoryDOVpcQuery {
 }
 
 // Get returns a BronzeHistoryDOVpc entity by its id.
-func (c *BronzeHistoryDOVpcClient) Get(ctx context.Context, id int) (*BronzeHistoryDOVpc, error) {
+func (c *BronzeHistoryDOVpcClient) Get(ctx context.Context, id uint) (*BronzeHistoryDOVpc, error) {
 	return c.Query().Where(bronzehistorydovpc.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryDOVpcClient) GetX(ctx context.Context, id int) *BronzeHistoryDOVpc {
+func (c *BronzeHistoryDOVpcClient) GetX(ctx context.Context, id uint) *BronzeHistoryDOVpc {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -30329,7 +30329,7 @@ func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) UpdateOne(_m *Br
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) UpdateOneID(id int) *BronzeHistoryGCPAccessContextManagerAccessLevelUpdateOne {
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) UpdateOneID(id uint) *BronzeHistoryGCPAccessContextManagerAccessLevelUpdateOne {
 	mutation := newBronzeHistoryGCPAccessContextManagerAccessLevelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPAccessContextManagerAccessLevelID(id))
 	return &BronzeHistoryGCPAccessContextManagerAccessLevelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -30346,7 +30346,7 @@ func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) DeleteOne(_m *Br
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) DeleteOneID(id int) *BronzeHistoryGCPAccessContextManagerAccessLevelDeleteOne {
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) DeleteOneID(id uint) *BronzeHistoryGCPAccessContextManagerAccessLevelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpaccesscontextmanageraccesslevel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -30363,12 +30363,12 @@ func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) Query() *BronzeH
 }
 
 // Get returns a BronzeHistoryGCPAccessContextManagerAccessLevel entity by its id.
-func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPAccessContextManagerAccessLevel, error) {
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPAccessContextManagerAccessLevel, error) {
 	return c.Query().Where(bronzehistorygcpaccesscontextmanageraccesslevel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPAccessContextManagerAccessLevel {
+func (c *BronzeHistoryGCPAccessContextManagerAccessLevelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPAccessContextManagerAccessLevel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -30462,7 +30462,7 @@ func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) UpdateOne(_m *B
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) UpdateOneID(id int) *BronzeHistoryGCPAccessContextManagerAccessPolicyUpdateOne {
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) UpdateOneID(id uint) *BronzeHistoryGCPAccessContextManagerAccessPolicyUpdateOne {
 	mutation := newBronzeHistoryGCPAccessContextManagerAccessPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPAccessContextManagerAccessPolicyID(id))
 	return &BronzeHistoryGCPAccessContextManagerAccessPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -30479,7 +30479,7 @@ func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) DeleteOne(_m *B
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) DeleteOneID(id int) *BronzeHistoryGCPAccessContextManagerAccessPolicyDeleteOne {
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) DeleteOneID(id uint) *BronzeHistoryGCPAccessContextManagerAccessPolicyDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpaccesscontextmanageraccesspolicy.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -30496,12 +30496,12 @@ func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) Query() *Bronze
 }
 
 // Get returns a BronzeHistoryGCPAccessContextManagerAccessPolicy entity by its id.
-func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPAccessContextManagerAccessPolicy, error) {
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPAccessContextManagerAccessPolicy, error) {
 	return c.Query().Where(bronzehistorygcpaccesscontextmanageraccesspolicy.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPAccessContextManagerAccessPolicy {
+func (c *BronzeHistoryGCPAccessContextManagerAccessPolicyClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPAccessContextManagerAccessPolicy {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -30595,7 +30595,7 @@ func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) UpdateOne(_
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) UpdateOneID(id int) *BronzeHistoryGCPAccessContextManagerServicePerimeterUpdateOne {
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) UpdateOneID(id uint) *BronzeHistoryGCPAccessContextManagerServicePerimeterUpdateOne {
 	mutation := newBronzeHistoryGCPAccessContextManagerServicePerimeterMutation(c.config, OpUpdateOne, withBronzeHistoryGCPAccessContextManagerServicePerimeterID(id))
 	return &BronzeHistoryGCPAccessContextManagerServicePerimeterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -30612,7 +30612,7 @@ func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) DeleteOne(_
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) DeleteOneID(id int) *BronzeHistoryGCPAccessContextManagerServicePerimeterDeleteOne {
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) DeleteOneID(id uint) *BronzeHistoryGCPAccessContextManagerServicePerimeterDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpaccesscontextmanagerserviceperimeter.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -30629,12 +30629,12 @@ func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) Query() *Br
 }
 
 // Get returns a BronzeHistoryGCPAccessContextManagerServicePerimeter entity by its id.
-func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPAccessContextManagerServicePerimeter, error) {
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPAccessContextManagerServicePerimeter, error) {
 	return c.Query().Where(bronzehistorygcpaccesscontextmanagerserviceperimeter.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPAccessContextManagerServicePerimeter {
+func (c *BronzeHistoryGCPAccessContextManagerServicePerimeterClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPAccessContextManagerServicePerimeter {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -30728,7 +30728,7 @@ func (c *BronzeHistoryGCPAlloyDBClusterClient) UpdateOne(_m *BronzeHistoryGCPAll
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPAlloyDBClusterClient) UpdateOneID(id int) *BronzeHistoryGCPAlloyDBClusterUpdateOne {
+func (c *BronzeHistoryGCPAlloyDBClusterClient) UpdateOneID(id uint) *BronzeHistoryGCPAlloyDBClusterUpdateOne {
 	mutation := newBronzeHistoryGCPAlloyDBClusterMutation(c.config, OpUpdateOne, withBronzeHistoryGCPAlloyDBClusterID(id))
 	return &BronzeHistoryGCPAlloyDBClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -30745,7 +30745,7 @@ func (c *BronzeHistoryGCPAlloyDBClusterClient) DeleteOne(_m *BronzeHistoryGCPAll
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPAlloyDBClusterClient) DeleteOneID(id int) *BronzeHistoryGCPAlloyDBClusterDeleteOne {
+func (c *BronzeHistoryGCPAlloyDBClusterClient) DeleteOneID(id uint) *BronzeHistoryGCPAlloyDBClusterDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpalloydbcluster.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -30762,12 +30762,12 @@ func (c *BronzeHistoryGCPAlloyDBClusterClient) Query() *BronzeHistoryGCPAlloyDBC
 }
 
 // Get returns a BronzeHistoryGCPAlloyDBCluster entity by its id.
-func (c *BronzeHistoryGCPAlloyDBClusterClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPAlloyDBCluster, error) {
+func (c *BronzeHistoryGCPAlloyDBClusterClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPAlloyDBCluster, error) {
 	return c.Query().Where(bronzehistorygcpalloydbcluster.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPAlloyDBClusterClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPAlloyDBCluster {
+func (c *BronzeHistoryGCPAlloyDBClusterClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPAlloyDBCluster {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -30861,7 +30861,7 @@ func (c *BronzeHistoryGCPAppEngineApplicationClient) UpdateOne(_m *BronzeHistory
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPAppEngineApplicationClient) UpdateOneID(id int) *BronzeHistoryGCPAppEngineApplicationUpdateOne {
+func (c *BronzeHistoryGCPAppEngineApplicationClient) UpdateOneID(id uint) *BronzeHistoryGCPAppEngineApplicationUpdateOne {
 	mutation := newBronzeHistoryGCPAppEngineApplicationMutation(c.config, OpUpdateOne, withBronzeHistoryGCPAppEngineApplicationID(id))
 	return &BronzeHistoryGCPAppEngineApplicationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -30878,7 +30878,7 @@ func (c *BronzeHistoryGCPAppEngineApplicationClient) DeleteOne(_m *BronzeHistory
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPAppEngineApplicationClient) DeleteOneID(id int) *BronzeHistoryGCPAppEngineApplicationDeleteOne {
+func (c *BronzeHistoryGCPAppEngineApplicationClient) DeleteOneID(id uint) *BronzeHistoryGCPAppEngineApplicationDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpappengineapplication.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -30895,12 +30895,12 @@ func (c *BronzeHistoryGCPAppEngineApplicationClient) Query() *BronzeHistoryGCPAp
 }
 
 // Get returns a BronzeHistoryGCPAppEngineApplication entity by its id.
-func (c *BronzeHistoryGCPAppEngineApplicationClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPAppEngineApplication, error) {
+func (c *BronzeHistoryGCPAppEngineApplicationClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPAppEngineApplication, error) {
 	return c.Query().Where(bronzehistorygcpappengineapplication.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPAppEngineApplicationClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPAppEngineApplication {
+func (c *BronzeHistoryGCPAppEngineApplicationClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPAppEngineApplication {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -30994,7 +30994,7 @@ func (c *BronzeHistoryGCPAppEngineServiceClient) UpdateOne(_m *BronzeHistoryGCPA
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPAppEngineServiceClient) UpdateOneID(id int) *BronzeHistoryGCPAppEngineServiceUpdateOne {
+func (c *BronzeHistoryGCPAppEngineServiceClient) UpdateOneID(id uint) *BronzeHistoryGCPAppEngineServiceUpdateOne {
 	mutation := newBronzeHistoryGCPAppEngineServiceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPAppEngineServiceID(id))
 	return &BronzeHistoryGCPAppEngineServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -31011,7 +31011,7 @@ func (c *BronzeHistoryGCPAppEngineServiceClient) DeleteOne(_m *BronzeHistoryGCPA
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPAppEngineServiceClient) DeleteOneID(id int) *BronzeHistoryGCPAppEngineServiceDeleteOne {
+func (c *BronzeHistoryGCPAppEngineServiceClient) DeleteOneID(id uint) *BronzeHistoryGCPAppEngineServiceDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpappengineservice.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -31028,12 +31028,12 @@ func (c *BronzeHistoryGCPAppEngineServiceClient) Query() *BronzeHistoryGCPAppEng
 }
 
 // Get returns a BronzeHistoryGCPAppEngineService entity by its id.
-func (c *BronzeHistoryGCPAppEngineServiceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPAppEngineService, error) {
+func (c *BronzeHistoryGCPAppEngineServiceClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPAppEngineService, error) {
 	return c.Query().Where(bronzehistorygcpappengineservice.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPAppEngineServiceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPAppEngineService {
+func (c *BronzeHistoryGCPAppEngineServiceClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPAppEngineService {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -31127,7 +31127,7 @@ func (c *BronzeHistoryGCPBigQueryDatasetClient) UpdateOne(_m *BronzeHistoryGCPBi
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPBigQueryDatasetClient) UpdateOneID(id int) *BronzeHistoryGCPBigQueryDatasetUpdateOne {
+func (c *BronzeHistoryGCPBigQueryDatasetClient) UpdateOneID(id uint) *BronzeHistoryGCPBigQueryDatasetUpdateOne {
 	mutation := newBronzeHistoryGCPBigQueryDatasetMutation(c.config, OpUpdateOne, withBronzeHistoryGCPBigQueryDatasetID(id))
 	return &BronzeHistoryGCPBigQueryDatasetUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -31144,7 +31144,7 @@ func (c *BronzeHistoryGCPBigQueryDatasetClient) DeleteOne(_m *BronzeHistoryGCPBi
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPBigQueryDatasetClient) DeleteOneID(id int) *BronzeHistoryGCPBigQueryDatasetDeleteOne {
+func (c *BronzeHistoryGCPBigQueryDatasetClient) DeleteOneID(id uint) *BronzeHistoryGCPBigQueryDatasetDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpbigquerydataset.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -31161,12 +31161,12 @@ func (c *BronzeHistoryGCPBigQueryDatasetClient) Query() *BronzeHistoryGCPBigQuer
 }
 
 // Get returns a BronzeHistoryGCPBigQueryDataset entity by its id.
-func (c *BronzeHistoryGCPBigQueryDatasetClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPBigQueryDataset, error) {
+func (c *BronzeHistoryGCPBigQueryDatasetClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPBigQueryDataset, error) {
 	return c.Query().Where(bronzehistorygcpbigquerydataset.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPBigQueryDatasetClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPBigQueryDataset {
+func (c *BronzeHistoryGCPBigQueryDatasetClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPBigQueryDataset {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -31260,7 +31260,7 @@ func (c *BronzeHistoryGCPBigQueryTableClient) UpdateOne(_m *BronzeHistoryGCPBigQ
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPBigQueryTableClient) UpdateOneID(id int) *BronzeHistoryGCPBigQueryTableUpdateOne {
+func (c *BronzeHistoryGCPBigQueryTableClient) UpdateOneID(id uint) *BronzeHistoryGCPBigQueryTableUpdateOne {
 	mutation := newBronzeHistoryGCPBigQueryTableMutation(c.config, OpUpdateOne, withBronzeHistoryGCPBigQueryTableID(id))
 	return &BronzeHistoryGCPBigQueryTableUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -31277,7 +31277,7 @@ func (c *BronzeHistoryGCPBigQueryTableClient) DeleteOne(_m *BronzeHistoryGCPBigQ
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPBigQueryTableClient) DeleteOneID(id int) *BronzeHistoryGCPBigQueryTableDeleteOne {
+func (c *BronzeHistoryGCPBigQueryTableClient) DeleteOneID(id uint) *BronzeHistoryGCPBigQueryTableDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpbigquerytable.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -31294,12 +31294,12 @@ func (c *BronzeHistoryGCPBigQueryTableClient) Query() *BronzeHistoryGCPBigQueryT
 }
 
 // Get returns a BronzeHistoryGCPBigQueryTable entity by its id.
-func (c *BronzeHistoryGCPBigQueryTableClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPBigQueryTable, error) {
+func (c *BronzeHistoryGCPBigQueryTableClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPBigQueryTable, error) {
 	return c.Query().Where(bronzehistorygcpbigquerytable.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPBigQueryTableClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPBigQueryTable {
+func (c *BronzeHistoryGCPBigQueryTableClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPBigQueryTable {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -31393,7 +31393,7 @@ func (c *BronzeHistoryGCPBigtableClusterClient) UpdateOne(_m *BronzeHistoryGCPBi
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPBigtableClusterClient) UpdateOneID(id int) *BronzeHistoryGCPBigtableClusterUpdateOne {
+func (c *BronzeHistoryGCPBigtableClusterClient) UpdateOneID(id uint) *BronzeHistoryGCPBigtableClusterUpdateOne {
 	mutation := newBronzeHistoryGCPBigtableClusterMutation(c.config, OpUpdateOne, withBronzeHistoryGCPBigtableClusterID(id))
 	return &BronzeHistoryGCPBigtableClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -31410,7 +31410,7 @@ func (c *BronzeHistoryGCPBigtableClusterClient) DeleteOne(_m *BronzeHistoryGCPBi
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPBigtableClusterClient) DeleteOneID(id int) *BronzeHistoryGCPBigtableClusterDeleteOne {
+func (c *BronzeHistoryGCPBigtableClusterClient) DeleteOneID(id uint) *BronzeHistoryGCPBigtableClusterDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpbigtablecluster.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -31427,12 +31427,12 @@ func (c *BronzeHistoryGCPBigtableClusterClient) Query() *BronzeHistoryGCPBigtabl
 }
 
 // Get returns a BronzeHistoryGCPBigtableCluster entity by its id.
-func (c *BronzeHistoryGCPBigtableClusterClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPBigtableCluster, error) {
+func (c *BronzeHistoryGCPBigtableClusterClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPBigtableCluster, error) {
 	return c.Query().Where(bronzehistorygcpbigtablecluster.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPBigtableClusterClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPBigtableCluster {
+func (c *BronzeHistoryGCPBigtableClusterClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPBigtableCluster {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -31526,7 +31526,7 @@ func (c *BronzeHistoryGCPBigtableInstanceClient) UpdateOne(_m *BronzeHistoryGCPB
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPBigtableInstanceClient) UpdateOneID(id int) *BronzeHistoryGCPBigtableInstanceUpdateOne {
+func (c *BronzeHistoryGCPBigtableInstanceClient) UpdateOneID(id uint) *BronzeHistoryGCPBigtableInstanceUpdateOne {
 	mutation := newBronzeHistoryGCPBigtableInstanceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPBigtableInstanceID(id))
 	return &BronzeHistoryGCPBigtableInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -31543,7 +31543,7 @@ func (c *BronzeHistoryGCPBigtableInstanceClient) DeleteOne(_m *BronzeHistoryGCPB
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPBigtableInstanceClient) DeleteOneID(id int) *BronzeHistoryGCPBigtableInstanceDeleteOne {
+func (c *BronzeHistoryGCPBigtableInstanceClient) DeleteOneID(id uint) *BronzeHistoryGCPBigtableInstanceDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpbigtableinstance.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -31560,12 +31560,12 @@ func (c *BronzeHistoryGCPBigtableInstanceClient) Query() *BronzeHistoryGCPBigtab
 }
 
 // Get returns a BronzeHistoryGCPBigtableInstance entity by its id.
-func (c *BronzeHistoryGCPBigtableInstanceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPBigtableInstance, error) {
+func (c *BronzeHistoryGCPBigtableInstanceClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPBigtableInstance, error) {
 	return c.Query().Where(bronzehistorygcpbigtableinstance.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPBigtableInstanceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPBigtableInstance {
+func (c *BronzeHistoryGCPBigtableInstanceClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPBigtableInstance {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -31659,7 +31659,7 @@ func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) UpdateOne(_m *Bronze
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) UpdateOneID(id int) *BronzeHistoryGCPBinaryAuthorizationAttestorUpdateOne {
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) UpdateOneID(id uint) *BronzeHistoryGCPBinaryAuthorizationAttestorUpdateOne {
 	mutation := newBronzeHistoryGCPBinaryAuthorizationAttestorMutation(c.config, OpUpdateOne, withBronzeHistoryGCPBinaryAuthorizationAttestorID(id))
 	return &BronzeHistoryGCPBinaryAuthorizationAttestorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -31676,7 +31676,7 @@ func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) DeleteOne(_m *Bronze
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) DeleteOneID(id int) *BronzeHistoryGCPBinaryAuthorizationAttestorDeleteOne {
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) DeleteOneID(id uint) *BronzeHistoryGCPBinaryAuthorizationAttestorDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpbinaryauthorizationattestor.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -31693,12 +31693,12 @@ func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) Query() *BronzeHisto
 }
 
 // Get returns a BronzeHistoryGCPBinaryAuthorizationAttestor entity by its id.
-func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPBinaryAuthorizationAttestor, error) {
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPBinaryAuthorizationAttestor, error) {
 	return c.Query().Where(bronzehistorygcpbinaryauthorizationattestor.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPBinaryAuthorizationAttestor {
+func (c *BronzeHistoryGCPBinaryAuthorizationAttestorClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPBinaryAuthorizationAttestor {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -31792,7 +31792,7 @@ func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) UpdateOne(_m *BronzeHi
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) UpdateOneID(id int) *BronzeHistoryGCPBinaryAuthorizationPolicyUpdateOne {
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) UpdateOneID(id uint) *BronzeHistoryGCPBinaryAuthorizationPolicyUpdateOne {
 	mutation := newBronzeHistoryGCPBinaryAuthorizationPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPBinaryAuthorizationPolicyID(id))
 	return &BronzeHistoryGCPBinaryAuthorizationPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -31809,7 +31809,7 @@ func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) DeleteOne(_m *BronzeHi
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) DeleteOneID(id int) *BronzeHistoryGCPBinaryAuthorizationPolicyDeleteOne {
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) DeleteOneID(id uint) *BronzeHistoryGCPBinaryAuthorizationPolicyDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpbinaryauthorizationpolicy.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -31826,12 +31826,12 @@ func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) Query() *BronzeHistory
 }
 
 // Get returns a BronzeHistoryGCPBinaryAuthorizationPolicy entity by its id.
-func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPBinaryAuthorizationPolicy, error) {
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPBinaryAuthorizationPolicy, error) {
 	return c.Query().Where(bronzehistorygcpbinaryauthorizationpolicy.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPBinaryAuthorizationPolicy {
+func (c *BronzeHistoryGCPBinaryAuthorizationPolicyClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPBinaryAuthorizationPolicy {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -31925,7 +31925,7 @@ func (c *BronzeHistoryGCPCloudAssetAssetClient) UpdateOne(_m *BronzeHistoryGCPCl
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPCloudAssetAssetClient) UpdateOneID(id int) *BronzeHistoryGCPCloudAssetAssetUpdateOne {
+func (c *BronzeHistoryGCPCloudAssetAssetClient) UpdateOneID(id uint) *BronzeHistoryGCPCloudAssetAssetUpdateOne {
 	mutation := newBronzeHistoryGCPCloudAssetAssetMutation(c.config, OpUpdateOne, withBronzeHistoryGCPCloudAssetAssetID(id))
 	return &BronzeHistoryGCPCloudAssetAssetUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -31942,7 +31942,7 @@ func (c *BronzeHistoryGCPCloudAssetAssetClient) DeleteOne(_m *BronzeHistoryGCPCl
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPCloudAssetAssetClient) DeleteOneID(id int) *BronzeHistoryGCPCloudAssetAssetDeleteOne {
+func (c *BronzeHistoryGCPCloudAssetAssetClient) DeleteOneID(id uint) *BronzeHistoryGCPCloudAssetAssetDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcloudassetasset.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -31959,12 +31959,12 @@ func (c *BronzeHistoryGCPCloudAssetAssetClient) Query() *BronzeHistoryGCPCloudAs
 }
 
 // Get returns a BronzeHistoryGCPCloudAssetAsset entity by its id.
-func (c *BronzeHistoryGCPCloudAssetAssetClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPCloudAssetAsset, error) {
+func (c *BronzeHistoryGCPCloudAssetAssetClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPCloudAssetAsset, error) {
 	return c.Query().Where(bronzehistorygcpcloudassetasset.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPCloudAssetAssetClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPCloudAssetAsset {
+func (c *BronzeHistoryGCPCloudAssetAssetClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPCloudAssetAsset {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -32058,7 +32058,7 @@ func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) UpdateOne(_m *BronzeHi
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) UpdateOneID(id int) *BronzeHistoryGCPCloudAssetIAMPolicySearchUpdateOne {
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) UpdateOneID(id uint) *BronzeHistoryGCPCloudAssetIAMPolicySearchUpdateOne {
 	mutation := newBronzeHistoryGCPCloudAssetIAMPolicySearchMutation(c.config, OpUpdateOne, withBronzeHistoryGCPCloudAssetIAMPolicySearchID(id))
 	return &BronzeHistoryGCPCloudAssetIAMPolicySearchUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -32075,7 +32075,7 @@ func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) DeleteOne(_m *BronzeHi
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) DeleteOneID(id int) *BronzeHistoryGCPCloudAssetIAMPolicySearchDeleteOne {
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) DeleteOneID(id uint) *BronzeHistoryGCPCloudAssetIAMPolicySearchDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcloudassetiampolicysearch.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -32092,12 +32092,12 @@ func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) Query() *BronzeHistory
 }
 
 // Get returns a BronzeHistoryGCPCloudAssetIAMPolicySearch entity by its id.
-func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPCloudAssetIAMPolicySearch, error) {
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPCloudAssetIAMPolicySearch, error) {
 	return c.Query().Where(bronzehistorygcpcloudassetiampolicysearch.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPCloudAssetIAMPolicySearch {
+func (c *BronzeHistoryGCPCloudAssetIAMPolicySearchClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPCloudAssetIAMPolicySearch {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -32191,7 +32191,7 @@ func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) UpdateOne(_m *BronzeHis
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) UpdateOneID(id int) *BronzeHistoryGCPCloudAssetResourceSearchUpdateOne {
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) UpdateOneID(id uint) *BronzeHistoryGCPCloudAssetResourceSearchUpdateOne {
 	mutation := newBronzeHistoryGCPCloudAssetResourceSearchMutation(c.config, OpUpdateOne, withBronzeHistoryGCPCloudAssetResourceSearchID(id))
 	return &BronzeHistoryGCPCloudAssetResourceSearchUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -32208,7 +32208,7 @@ func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) DeleteOne(_m *BronzeHis
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) DeleteOneID(id int) *BronzeHistoryGCPCloudAssetResourceSearchDeleteOne {
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) DeleteOneID(id uint) *BronzeHistoryGCPCloudAssetResourceSearchDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcloudassetresourcesearch.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -32225,12 +32225,12 @@ func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) Query() *BronzeHistoryG
 }
 
 // Get returns a BronzeHistoryGCPCloudAssetResourceSearch entity by its id.
-func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPCloudAssetResourceSearch, error) {
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPCloudAssetResourceSearch, error) {
 	return c.Query().Where(bronzehistorygcpcloudassetresourcesearch.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPCloudAssetResourceSearch {
+func (c *BronzeHistoryGCPCloudAssetResourceSearchClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPCloudAssetResourceSearch {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -32324,7 +32324,7 @@ func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) UpdateOne(_m *BronzeHisto
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) UpdateOneID(id int) *BronzeHistoryGCPCloudFunctionsFunctionUpdateOne {
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) UpdateOneID(id uint) *BronzeHistoryGCPCloudFunctionsFunctionUpdateOne {
 	mutation := newBronzeHistoryGCPCloudFunctionsFunctionMutation(c.config, OpUpdateOne, withBronzeHistoryGCPCloudFunctionsFunctionID(id))
 	return &BronzeHistoryGCPCloudFunctionsFunctionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -32341,7 +32341,7 @@ func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) DeleteOne(_m *BronzeHisto
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) DeleteOneID(id int) *BronzeHistoryGCPCloudFunctionsFunctionDeleteOne {
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) DeleteOneID(id uint) *BronzeHistoryGCPCloudFunctionsFunctionDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcloudfunctionsfunction.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -32358,12 +32358,12 @@ func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) Query() *BronzeHistoryGCP
 }
 
 // Get returns a BronzeHistoryGCPCloudFunctionsFunction entity by its id.
-func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPCloudFunctionsFunction, error) {
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPCloudFunctionsFunction, error) {
 	return c.Query().Where(bronzehistorygcpcloudfunctionsfunction.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPCloudFunctionsFunction {
+func (c *BronzeHistoryGCPCloudFunctionsFunctionClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPCloudFunctionsFunction {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -32457,7 +32457,7 @@ func (c *BronzeHistoryGCPComputeAddressClient) UpdateOne(_m *BronzeHistoryGCPCom
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeAddressClient) UpdateOneID(id int) *BronzeHistoryGCPComputeAddressUpdateOne {
+func (c *BronzeHistoryGCPComputeAddressClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeAddressUpdateOne {
 	mutation := newBronzeHistoryGCPComputeAddressMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeAddressID(id))
 	return &BronzeHistoryGCPComputeAddressUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -32474,7 +32474,7 @@ func (c *BronzeHistoryGCPComputeAddressClient) DeleteOne(_m *BronzeHistoryGCPCom
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeAddressClient) DeleteOneID(id int) *BronzeHistoryGCPComputeAddressDeleteOne {
+func (c *BronzeHistoryGCPComputeAddressClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeAddressDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeaddress.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -32491,12 +32491,12 @@ func (c *BronzeHistoryGCPComputeAddressClient) Query() *BronzeHistoryGCPComputeA
 }
 
 // Get returns a BronzeHistoryGCPComputeAddress entity by its id.
-func (c *BronzeHistoryGCPComputeAddressClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeAddress, error) {
+func (c *BronzeHistoryGCPComputeAddressClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeAddress, error) {
 	return c.Query().Where(bronzehistorygcpcomputeaddress.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeAddressClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeAddress {
+func (c *BronzeHistoryGCPComputeAddressClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeAddress {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -32590,7 +32590,7 @@ func (c *BronzeHistoryGCPComputeAddressLabelClient) UpdateOne(_m *BronzeHistoryG
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeAddressLabelClient) UpdateOneID(id int) *BronzeHistoryGCPComputeAddressLabelUpdateOne {
+func (c *BronzeHistoryGCPComputeAddressLabelClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeAddressLabelUpdateOne {
 	mutation := newBronzeHistoryGCPComputeAddressLabelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeAddressLabelID(id))
 	return &BronzeHistoryGCPComputeAddressLabelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -32607,7 +32607,7 @@ func (c *BronzeHistoryGCPComputeAddressLabelClient) DeleteOne(_m *BronzeHistoryG
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeAddressLabelClient) DeleteOneID(id int) *BronzeHistoryGCPComputeAddressLabelDeleteOne {
+func (c *BronzeHistoryGCPComputeAddressLabelClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeAddressLabelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeaddresslabel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -32624,12 +32624,12 @@ func (c *BronzeHistoryGCPComputeAddressLabelClient) Query() *BronzeHistoryGCPCom
 }
 
 // Get returns a BronzeHistoryGCPComputeAddressLabel entity by its id.
-func (c *BronzeHistoryGCPComputeAddressLabelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeAddressLabel, error) {
+func (c *BronzeHistoryGCPComputeAddressLabelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeAddressLabel, error) {
 	return c.Query().Where(bronzehistorygcpcomputeaddresslabel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeAddressLabelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeAddressLabel {
+func (c *BronzeHistoryGCPComputeAddressLabelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeAddressLabel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -32723,7 +32723,7 @@ func (c *BronzeHistoryGCPComputeBackendServiceClient) UpdateOne(_m *BronzeHistor
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeBackendServiceClient) UpdateOneID(id int) *BronzeHistoryGCPComputeBackendServiceUpdateOne {
+func (c *BronzeHistoryGCPComputeBackendServiceClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeBackendServiceUpdateOne {
 	mutation := newBronzeHistoryGCPComputeBackendServiceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeBackendServiceID(id))
 	return &BronzeHistoryGCPComputeBackendServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -32740,7 +32740,7 @@ func (c *BronzeHistoryGCPComputeBackendServiceClient) DeleteOne(_m *BronzeHistor
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeBackendServiceClient) DeleteOneID(id int) *BronzeHistoryGCPComputeBackendServiceDeleteOne {
+func (c *BronzeHistoryGCPComputeBackendServiceClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeBackendServiceDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputebackendservice.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -32757,12 +32757,12 @@ func (c *BronzeHistoryGCPComputeBackendServiceClient) Query() *BronzeHistoryGCPC
 }
 
 // Get returns a BronzeHistoryGCPComputeBackendService entity by its id.
-func (c *BronzeHistoryGCPComputeBackendServiceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeBackendService, error) {
+func (c *BronzeHistoryGCPComputeBackendServiceClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeBackendService, error) {
 	return c.Query().Where(bronzehistorygcpcomputebackendservice.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeBackendServiceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeBackendService {
+func (c *BronzeHistoryGCPComputeBackendServiceClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeBackendService {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -32856,7 +32856,7 @@ func (c *BronzeHistoryGCPComputeBackendServiceBackendClient) UpdateOne(_m *Bronz
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeBackendServiceBackendClient) UpdateOneID(id int) *BronzeHistoryGCPComputeBackendServiceBackendUpdateOne {
+func (c *BronzeHistoryGCPComputeBackendServiceBackendClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeBackendServiceBackendUpdateOne {
 	mutation := newBronzeHistoryGCPComputeBackendServiceBackendMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeBackendServiceBackendID(id))
 	return &BronzeHistoryGCPComputeBackendServiceBackendUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -32873,7 +32873,7 @@ func (c *BronzeHistoryGCPComputeBackendServiceBackendClient) DeleteOne(_m *Bronz
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeBackendServiceBackendClient) DeleteOneID(id int) *BronzeHistoryGCPComputeBackendServiceBackendDeleteOne {
+func (c *BronzeHistoryGCPComputeBackendServiceBackendClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeBackendServiceBackendDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputebackendservicebackend.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -32890,12 +32890,12 @@ func (c *BronzeHistoryGCPComputeBackendServiceBackendClient) Query() *BronzeHist
 }
 
 // Get returns a BronzeHistoryGCPComputeBackendServiceBackend entity by its id.
-func (c *BronzeHistoryGCPComputeBackendServiceBackendClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeBackendServiceBackend, error) {
+func (c *BronzeHistoryGCPComputeBackendServiceBackendClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeBackendServiceBackend, error) {
 	return c.Query().Where(bronzehistorygcpcomputebackendservicebackend.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeBackendServiceBackendClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeBackendServiceBackend {
+func (c *BronzeHistoryGCPComputeBackendServiceBackendClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeBackendServiceBackend {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -32989,7 +32989,7 @@ func (c *BronzeHistoryGCPComputeDiskClient) UpdateOne(_m *BronzeHistoryGCPComput
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeDiskClient) UpdateOneID(id int) *BronzeHistoryGCPComputeDiskUpdateOne {
+func (c *BronzeHistoryGCPComputeDiskClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeDiskUpdateOne {
 	mutation := newBronzeHistoryGCPComputeDiskMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeDiskID(id))
 	return &BronzeHistoryGCPComputeDiskUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -33006,7 +33006,7 @@ func (c *BronzeHistoryGCPComputeDiskClient) DeleteOne(_m *BronzeHistoryGCPComput
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeDiskClient) DeleteOneID(id int) *BronzeHistoryGCPComputeDiskDeleteOne {
+func (c *BronzeHistoryGCPComputeDiskClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeDiskDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputedisk.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -33023,12 +33023,12 @@ func (c *BronzeHistoryGCPComputeDiskClient) Query() *BronzeHistoryGCPComputeDisk
 }
 
 // Get returns a BronzeHistoryGCPComputeDisk entity by its id.
-func (c *BronzeHistoryGCPComputeDiskClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeDisk, error) {
+func (c *BronzeHistoryGCPComputeDiskClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeDisk, error) {
 	return c.Query().Where(bronzehistorygcpcomputedisk.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeDiskClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeDisk {
+func (c *BronzeHistoryGCPComputeDiskClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeDisk {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -33122,7 +33122,7 @@ func (c *BronzeHistoryGCPComputeDiskLabelClient) UpdateOne(_m *BronzeHistoryGCPC
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeDiskLabelClient) UpdateOneID(id int) *BronzeHistoryGCPComputeDiskLabelUpdateOne {
+func (c *BronzeHistoryGCPComputeDiskLabelClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeDiskLabelUpdateOne {
 	mutation := newBronzeHistoryGCPComputeDiskLabelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeDiskLabelID(id))
 	return &BronzeHistoryGCPComputeDiskLabelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -33139,7 +33139,7 @@ func (c *BronzeHistoryGCPComputeDiskLabelClient) DeleteOne(_m *BronzeHistoryGCPC
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeDiskLabelClient) DeleteOneID(id int) *BronzeHistoryGCPComputeDiskLabelDeleteOne {
+func (c *BronzeHistoryGCPComputeDiskLabelClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeDiskLabelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputedisklabel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -33156,12 +33156,12 @@ func (c *BronzeHistoryGCPComputeDiskLabelClient) Query() *BronzeHistoryGCPComput
 }
 
 // Get returns a BronzeHistoryGCPComputeDiskLabel entity by its id.
-func (c *BronzeHistoryGCPComputeDiskLabelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeDiskLabel, error) {
+func (c *BronzeHistoryGCPComputeDiskLabelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeDiskLabel, error) {
 	return c.Query().Where(bronzehistorygcpcomputedisklabel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeDiskLabelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeDiskLabel {
+func (c *BronzeHistoryGCPComputeDiskLabelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeDiskLabel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -33255,7 +33255,7 @@ func (c *BronzeHistoryGCPComputeDiskLicenseClient) UpdateOne(_m *BronzeHistoryGC
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeDiskLicenseClient) UpdateOneID(id int) *BronzeHistoryGCPComputeDiskLicenseUpdateOne {
+func (c *BronzeHistoryGCPComputeDiskLicenseClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeDiskLicenseUpdateOne {
 	mutation := newBronzeHistoryGCPComputeDiskLicenseMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeDiskLicenseID(id))
 	return &BronzeHistoryGCPComputeDiskLicenseUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -33272,7 +33272,7 @@ func (c *BronzeHistoryGCPComputeDiskLicenseClient) DeleteOne(_m *BronzeHistoryGC
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeDiskLicenseClient) DeleteOneID(id int) *BronzeHistoryGCPComputeDiskLicenseDeleteOne {
+func (c *BronzeHistoryGCPComputeDiskLicenseClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeDiskLicenseDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputedisklicense.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -33289,12 +33289,12 @@ func (c *BronzeHistoryGCPComputeDiskLicenseClient) Query() *BronzeHistoryGCPComp
 }
 
 // Get returns a BronzeHistoryGCPComputeDiskLicense entity by its id.
-func (c *BronzeHistoryGCPComputeDiskLicenseClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeDiskLicense, error) {
+func (c *BronzeHistoryGCPComputeDiskLicenseClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeDiskLicense, error) {
 	return c.Query().Where(bronzehistorygcpcomputedisklicense.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeDiskLicenseClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeDiskLicense {
+func (c *BronzeHistoryGCPComputeDiskLicenseClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeDiskLicense {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -33388,7 +33388,7 @@ func (c *BronzeHistoryGCPComputeFirewallClient) UpdateOne(_m *BronzeHistoryGCPCo
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeFirewallClient) UpdateOneID(id int) *BronzeHistoryGCPComputeFirewallUpdateOne {
+func (c *BronzeHistoryGCPComputeFirewallClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeFirewallUpdateOne {
 	mutation := newBronzeHistoryGCPComputeFirewallMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeFirewallID(id))
 	return &BronzeHistoryGCPComputeFirewallUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -33405,7 +33405,7 @@ func (c *BronzeHistoryGCPComputeFirewallClient) DeleteOne(_m *BronzeHistoryGCPCo
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeFirewallClient) DeleteOneID(id int) *BronzeHistoryGCPComputeFirewallDeleteOne {
+func (c *BronzeHistoryGCPComputeFirewallClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeFirewallDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputefirewall.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -33422,12 +33422,12 @@ func (c *BronzeHistoryGCPComputeFirewallClient) Query() *BronzeHistoryGCPCompute
 }
 
 // Get returns a BronzeHistoryGCPComputeFirewall entity by its id.
-func (c *BronzeHistoryGCPComputeFirewallClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeFirewall, error) {
+func (c *BronzeHistoryGCPComputeFirewallClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeFirewall, error) {
 	return c.Query().Where(bronzehistorygcpcomputefirewall.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeFirewallClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeFirewall {
+func (c *BronzeHistoryGCPComputeFirewallClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeFirewall {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -33521,7 +33521,7 @@ func (c *BronzeHistoryGCPComputeFirewallAllowedClient) UpdateOne(_m *BronzeHisto
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeFirewallAllowedClient) UpdateOneID(id int) *BronzeHistoryGCPComputeFirewallAllowedUpdateOne {
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeFirewallAllowedUpdateOne {
 	mutation := newBronzeHistoryGCPComputeFirewallAllowedMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeFirewallAllowedID(id))
 	return &BronzeHistoryGCPComputeFirewallAllowedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -33538,7 +33538,7 @@ func (c *BronzeHistoryGCPComputeFirewallAllowedClient) DeleteOne(_m *BronzeHisto
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeFirewallAllowedClient) DeleteOneID(id int) *BronzeHistoryGCPComputeFirewallAllowedDeleteOne {
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeFirewallAllowedDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputefirewallallowed.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -33555,12 +33555,12 @@ func (c *BronzeHistoryGCPComputeFirewallAllowedClient) Query() *BronzeHistoryGCP
 }
 
 // Get returns a BronzeHistoryGCPComputeFirewallAllowed entity by its id.
-func (c *BronzeHistoryGCPComputeFirewallAllowedClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeFirewallAllowed, error) {
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeFirewallAllowed, error) {
 	return c.Query().Where(bronzehistorygcpcomputefirewallallowed.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeFirewallAllowedClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeFirewallAllowed {
+func (c *BronzeHistoryGCPComputeFirewallAllowedClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeFirewallAllowed {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -33654,7 +33654,7 @@ func (c *BronzeHistoryGCPComputeFirewallDeniedClient) UpdateOne(_m *BronzeHistor
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeFirewallDeniedClient) UpdateOneID(id int) *BronzeHistoryGCPComputeFirewallDeniedUpdateOne {
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeFirewallDeniedUpdateOne {
 	mutation := newBronzeHistoryGCPComputeFirewallDeniedMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeFirewallDeniedID(id))
 	return &BronzeHistoryGCPComputeFirewallDeniedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -33671,7 +33671,7 @@ func (c *BronzeHistoryGCPComputeFirewallDeniedClient) DeleteOne(_m *BronzeHistor
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeFirewallDeniedClient) DeleteOneID(id int) *BronzeHistoryGCPComputeFirewallDeniedDeleteOne {
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeFirewallDeniedDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputefirewalldenied.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -33688,12 +33688,12 @@ func (c *BronzeHistoryGCPComputeFirewallDeniedClient) Query() *BronzeHistoryGCPC
 }
 
 // Get returns a BronzeHistoryGCPComputeFirewallDenied entity by its id.
-func (c *BronzeHistoryGCPComputeFirewallDeniedClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeFirewallDenied, error) {
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeFirewallDenied, error) {
 	return c.Query().Where(bronzehistorygcpcomputefirewalldenied.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeFirewallDeniedClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeFirewallDenied {
+func (c *BronzeHistoryGCPComputeFirewallDeniedClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeFirewallDenied {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -33787,7 +33787,7 @@ func (c *BronzeHistoryGCPComputeForwardingRuleClient) UpdateOne(_m *BronzeHistor
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeForwardingRuleClient) UpdateOneID(id int) *BronzeHistoryGCPComputeForwardingRuleUpdateOne {
+func (c *BronzeHistoryGCPComputeForwardingRuleClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeForwardingRuleUpdateOne {
 	mutation := newBronzeHistoryGCPComputeForwardingRuleMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeForwardingRuleID(id))
 	return &BronzeHistoryGCPComputeForwardingRuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -33804,7 +33804,7 @@ func (c *BronzeHistoryGCPComputeForwardingRuleClient) DeleteOne(_m *BronzeHistor
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeForwardingRuleClient) DeleteOneID(id int) *BronzeHistoryGCPComputeForwardingRuleDeleteOne {
+func (c *BronzeHistoryGCPComputeForwardingRuleClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeForwardingRuleDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeforwardingrule.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -33821,12 +33821,12 @@ func (c *BronzeHistoryGCPComputeForwardingRuleClient) Query() *BronzeHistoryGCPC
 }
 
 // Get returns a BronzeHistoryGCPComputeForwardingRule entity by its id.
-func (c *BronzeHistoryGCPComputeForwardingRuleClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeForwardingRule, error) {
+func (c *BronzeHistoryGCPComputeForwardingRuleClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeForwardingRule, error) {
 	return c.Query().Where(bronzehistorygcpcomputeforwardingrule.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeForwardingRuleClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeForwardingRule {
+func (c *BronzeHistoryGCPComputeForwardingRuleClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeForwardingRule {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -33920,7 +33920,7 @@ func (c *BronzeHistoryGCPComputeForwardingRuleLabelClient) UpdateOne(_m *BronzeH
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeForwardingRuleLabelClient) UpdateOneID(id int) *BronzeHistoryGCPComputeForwardingRuleLabelUpdateOne {
+func (c *BronzeHistoryGCPComputeForwardingRuleLabelClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeForwardingRuleLabelUpdateOne {
 	mutation := newBronzeHistoryGCPComputeForwardingRuleLabelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeForwardingRuleLabelID(id))
 	return &BronzeHistoryGCPComputeForwardingRuleLabelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -33937,7 +33937,7 @@ func (c *BronzeHistoryGCPComputeForwardingRuleLabelClient) DeleteOne(_m *BronzeH
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeForwardingRuleLabelClient) DeleteOneID(id int) *BronzeHistoryGCPComputeForwardingRuleLabelDeleteOne {
+func (c *BronzeHistoryGCPComputeForwardingRuleLabelClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeForwardingRuleLabelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeforwardingrulelabel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -33954,12 +33954,12 @@ func (c *BronzeHistoryGCPComputeForwardingRuleLabelClient) Query() *BronzeHistor
 }
 
 // Get returns a BronzeHistoryGCPComputeForwardingRuleLabel entity by its id.
-func (c *BronzeHistoryGCPComputeForwardingRuleLabelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeForwardingRuleLabel, error) {
+func (c *BronzeHistoryGCPComputeForwardingRuleLabelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeForwardingRuleLabel, error) {
 	return c.Query().Where(bronzehistorygcpcomputeforwardingrulelabel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeForwardingRuleLabelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeForwardingRuleLabel {
+func (c *BronzeHistoryGCPComputeForwardingRuleLabelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeForwardingRuleLabel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -34053,7 +34053,7 @@ func (c *BronzeHistoryGCPComputeGlobalAddressClient) UpdateOne(_m *BronzeHistory
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeGlobalAddressClient) UpdateOneID(id int) *BronzeHistoryGCPComputeGlobalAddressUpdateOne {
+func (c *BronzeHistoryGCPComputeGlobalAddressClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeGlobalAddressUpdateOne {
 	mutation := newBronzeHistoryGCPComputeGlobalAddressMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeGlobalAddressID(id))
 	return &BronzeHistoryGCPComputeGlobalAddressUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -34070,7 +34070,7 @@ func (c *BronzeHistoryGCPComputeGlobalAddressClient) DeleteOne(_m *BronzeHistory
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeGlobalAddressClient) DeleteOneID(id int) *BronzeHistoryGCPComputeGlobalAddressDeleteOne {
+func (c *BronzeHistoryGCPComputeGlobalAddressClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeGlobalAddressDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeglobaladdress.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -34087,12 +34087,12 @@ func (c *BronzeHistoryGCPComputeGlobalAddressClient) Query() *BronzeHistoryGCPCo
 }
 
 // Get returns a BronzeHistoryGCPComputeGlobalAddress entity by its id.
-func (c *BronzeHistoryGCPComputeGlobalAddressClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeGlobalAddress, error) {
+func (c *BronzeHistoryGCPComputeGlobalAddressClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeGlobalAddress, error) {
 	return c.Query().Where(bronzehistorygcpcomputeglobaladdress.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeGlobalAddressClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeGlobalAddress {
+func (c *BronzeHistoryGCPComputeGlobalAddressClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeGlobalAddress {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -34186,7 +34186,7 @@ func (c *BronzeHistoryGCPComputeGlobalAddressLabelClient) UpdateOne(_m *BronzeHi
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeGlobalAddressLabelClient) UpdateOneID(id int) *BronzeHistoryGCPComputeGlobalAddressLabelUpdateOne {
+func (c *BronzeHistoryGCPComputeGlobalAddressLabelClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeGlobalAddressLabelUpdateOne {
 	mutation := newBronzeHistoryGCPComputeGlobalAddressLabelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeGlobalAddressLabelID(id))
 	return &BronzeHistoryGCPComputeGlobalAddressLabelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -34203,7 +34203,7 @@ func (c *BronzeHistoryGCPComputeGlobalAddressLabelClient) DeleteOne(_m *BronzeHi
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeGlobalAddressLabelClient) DeleteOneID(id int) *BronzeHistoryGCPComputeGlobalAddressLabelDeleteOne {
+func (c *BronzeHistoryGCPComputeGlobalAddressLabelClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeGlobalAddressLabelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeglobaladdresslabel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -34220,12 +34220,12 @@ func (c *BronzeHistoryGCPComputeGlobalAddressLabelClient) Query() *BronzeHistory
 }
 
 // Get returns a BronzeHistoryGCPComputeGlobalAddressLabel entity by its id.
-func (c *BronzeHistoryGCPComputeGlobalAddressLabelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeGlobalAddressLabel, error) {
+func (c *BronzeHistoryGCPComputeGlobalAddressLabelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeGlobalAddressLabel, error) {
 	return c.Query().Where(bronzehistorygcpcomputeglobaladdresslabel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeGlobalAddressLabelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeGlobalAddressLabel {
+func (c *BronzeHistoryGCPComputeGlobalAddressLabelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeGlobalAddressLabel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -34319,7 +34319,7 @@ func (c *BronzeHistoryGCPComputeGlobalForwardingRuleClient) UpdateOne(_m *Bronze
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeGlobalForwardingRuleClient) UpdateOneID(id int) *BronzeHistoryGCPComputeGlobalForwardingRuleUpdateOne {
+func (c *BronzeHistoryGCPComputeGlobalForwardingRuleClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeGlobalForwardingRuleUpdateOne {
 	mutation := newBronzeHistoryGCPComputeGlobalForwardingRuleMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeGlobalForwardingRuleID(id))
 	return &BronzeHistoryGCPComputeGlobalForwardingRuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -34336,7 +34336,7 @@ func (c *BronzeHistoryGCPComputeGlobalForwardingRuleClient) DeleteOne(_m *Bronze
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeGlobalForwardingRuleClient) DeleteOneID(id int) *BronzeHistoryGCPComputeGlobalForwardingRuleDeleteOne {
+func (c *BronzeHistoryGCPComputeGlobalForwardingRuleClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeGlobalForwardingRuleDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeglobalforwardingrule.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -34353,12 +34353,12 @@ func (c *BronzeHistoryGCPComputeGlobalForwardingRuleClient) Query() *BronzeHisto
 }
 
 // Get returns a BronzeHistoryGCPComputeGlobalForwardingRule entity by its id.
-func (c *BronzeHistoryGCPComputeGlobalForwardingRuleClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeGlobalForwardingRule, error) {
+func (c *BronzeHistoryGCPComputeGlobalForwardingRuleClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeGlobalForwardingRule, error) {
 	return c.Query().Where(bronzehistorygcpcomputeglobalforwardingrule.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeGlobalForwardingRuleClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeGlobalForwardingRule {
+func (c *BronzeHistoryGCPComputeGlobalForwardingRuleClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeGlobalForwardingRule {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -34452,7 +34452,7 @@ func (c *BronzeHistoryGCPComputeGlobalForwardingRuleLabelClient) UpdateOne(_m *B
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeGlobalForwardingRuleLabelClient) UpdateOneID(id int) *BronzeHistoryGCPComputeGlobalForwardingRuleLabelUpdateOne {
+func (c *BronzeHistoryGCPComputeGlobalForwardingRuleLabelClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeGlobalForwardingRuleLabelUpdateOne {
 	mutation := newBronzeHistoryGCPComputeGlobalForwardingRuleLabelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeGlobalForwardingRuleLabelID(id))
 	return &BronzeHistoryGCPComputeGlobalForwardingRuleLabelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -34469,7 +34469,7 @@ func (c *BronzeHistoryGCPComputeGlobalForwardingRuleLabelClient) DeleteOne(_m *B
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeGlobalForwardingRuleLabelClient) DeleteOneID(id int) *BronzeHistoryGCPComputeGlobalForwardingRuleLabelDeleteOne {
+func (c *BronzeHistoryGCPComputeGlobalForwardingRuleLabelClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeGlobalForwardingRuleLabelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeglobalforwardingrulelabel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -34486,12 +34486,12 @@ func (c *BronzeHistoryGCPComputeGlobalForwardingRuleLabelClient) Query() *Bronze
 }
 
 // Get returns a BronzeHistoryGCPComputeGlobalForwardingRuleLabel entity by its id.
-func (c *BronzeHistoryGCPComputeGlobalForwardingRuleLabelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeGlobalForwardingRuleLabel, error) {
+func (c *BronzeHistoryGCPComputeGlobalForwardingRuleLabelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeGlobalForwardingRuleLabel, error) {
 	return c.Query().Where(bronzehistorygcpcomputeglobalforwardingrulelabel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeGlobalForwardingRuleLabelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeGlobalForwardingRuleLabel {
+func (c *BronzeHistoryGCPComputeGlobalForwardingRuleLabelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeGlobalForwardingRuleLabel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -34585,7 +34585,7 @@ func (c *BronzeHistoryGCPComputeHealthCheckClient) UpdateOne(_m *BronzeHistoryGC
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeHealthCheckClient) UpdateOneID(id int) *BronzeHistoryGCPComputeHealthCheckUpdateOne {
+func (c *BronzeHistoryGCPComputeHealthCheckClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeHealthCheckUpdateOne {
 	mutation := newBronzeHistoryGCPComputeHealthCheckMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeHealthCheckID(id))
 	return &BronzeHistoryGCPComputeHealthCheckUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -34602,7 +34602,7 @@ func (c *BronzeHistoryGCPComputeHealthCheckClient) DeleteOne(_m *BronzeHistoryGC
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeHealthCheckClient) DeleteOneID(id int) *BronzeHistoryGCPComputeHealthCheckDeleteOne {
+func (c *BronzeHistoryGCPComputeHealthCheckClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeHealthCheckDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputehealthcheck.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -34619,12 +34619,12 @@ func (c *BronzeHistoryGCPComputeHealthCheckClient) Query() *BronzeHistoryGCPComp
 }
 
 // Get returns a BronzeHistoryGCPComputeHealthCheck entity by its id.
-func (c *BronzeHistoryGCPComputeHealthCheckClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeHealthCheck, error) {
+func (c *BronzeHistoryGCPComputeHealthCheckClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeHealthCheck, error) {
 	return c.Query().Where(bronzehistorygcpcomputehealthcheck.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeHealthCheckClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeHealthCheck {
+func (c *BronzeHistoryGCPComputeHealthCheckClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeHealthCheck {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -34718,7 +34718,7 @@ func (c *BronzeHistoryGCPComputeImageClient) UpdateOne(_m *BronzeHistoryGCPCompu
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeImageClient) UpdateOneID(id int) *BronzeHistoryGCPComputeImageUpdateOne {
+func (c *BronzeHistoryGCPComputeImageClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeImageUpdateOne {
 	mutation := newBronzeHistoryGCPComputeImageMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeImageID(id))
 	return &BronzeHistoryGCPComputeImageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -34735,7 +34735,7 @@ func (c *BronzeHistoryGCPComputeImageClient) DeleteOne(_m *BronzeHistoryGCPCompu
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeImageClient) DeleteOneID(id int) *BronzeHistoryGCPComputeImageDeleteOne {
+func (c *BronzeHistoryGCPComputeImageClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeImageDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeimage.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -34752,12 +34752,12 @@ func (c *BronzeHistoryGCPComputeImageClient) Query() *BronzeHistoryGCPComputeIma
 }
 
 // Get returns a BronzeHistoryGCPComputeImage entity by its id.
-func (c *BronzeHistoryGCPComputeImageClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeImage, error) {
+func (c *BronzeHistoryGCPComputeImageClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeImage, error) {
 	return c.Query().Where(bronzehistorygcpcomputeimage.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeImageClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeImage {
+func (c *BronzeHistoryGCPComputeImageClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeImage {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -34851,7 +34851,7 @@ func (c *BronzeHistoryGCPComputeImageLabelClient) UpdateOne(_m *BronzeHistoryGCP
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeImageLabelClient) UpdateOneID(id int) *BronzeHistoryGCPComputeImageLabelUpdateOne {
+func (c *BronzeHistoryGCPComputeImageLabelClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeImageLabelUpdateOne {
 	mutation := newBronzeHistoryGCPComputeImageLabelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeImageLabelID(id))
 	return &BronzeHistoryGCPComputeImageLabelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -34868,7 +34868,7 @@ func (c *BronzeHistoryGCPComputeImageLabelClient) DeleteOne(_m *BronzeHistoryGCP
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeImageLabelClient) DeleteOneID(id int) *BronzeHistoryGCPComputeImageLabelDeleteOne {
+func (c *BronzeHistoryGCPComputeImageLabelClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeImageLabelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeimagelabel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -34885,12 +34885,12 @@ func (c *BronzeHistoryGCPComputeImageLabelClient) Query() *BronzeHistoryGCPCompu
 }
 
 // Get returns a BronzeHistoryGCPComputeImageLabel entity by its id.
-func (c *BronzeHistoryGCPComputeImageLabelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeImageLabel, error) {
+func (c *BronzeHistoryGCPComputeImageLabelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeImageLabel, error) {
 	return c.Query().Where(bronzehistorygcpcomputeimagelabel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeImageLabelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeImageLabel {
+func (c *BronzeHistoryGCPComputeImageLabelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeImageLabel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -34984,7 +34984,7 @@ func (c *BronzeHistoryGCPComputeImageLicenseClient) UpdateOne(_m *BronzeHistoryG
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeImageLicenseClient) UpdateOneID(id int) *BronzeHistoryGCPComputeImageLicenseUpdateOne {
+func (c *BronzeHistoryGCPComputeImageLicenseClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeImageLicenseUpdateOne {
 	mutation := newBronzeHistoryGCPComputeImageLicenseMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeImageLicenseID(id))
 	return &BronzeHistoryGCPComputeImageLicenseUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -35001,7 +35001,7 @@ func (c *BronzeHistoryGCPComputeImageLicenseClient) DeleteOne(_m *BronzeHistoryG
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeImageLicenseClient) DeleteOneID(id int) *BronzeHistoryGCPComputeImageLicenseDeleteOne {
+func (c *BronzeHistoryGCPComputeImageLicenseClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeImageLicenseDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeimagelicense.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -35018,12 +35018,12 @@ func (c *BronzeHistoryGCPComputeImageLicenseClient) Query() *BronzeHistoryGCPCom
 }
 
 // Get returns a BronzeHistoryGCPComputeImageLicense entity by its id.
-func (c *BronzeHistoryGCPComputeImageLicenseClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeImageLicense, error) {
+func (c *BronzeHistoryGCPComputeImageLicenseClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeImageLicense, error) {
 	return c.Query().Where(bronzehistorygcpcomputeimagelicense.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeImageLicenseClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeImageLicense {
+func (c *BronzeHistoryGCPComputeImageLicenseClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeImageLicense {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -35117,7 +35117,7 @@ func (c *BronzeHistoryGCPComputeInstanceClient) UpdateOne(_m *BronzeHistoryGCPCo
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeInstanceClient) UpdateOneID(id int) *BronzeHistoryGCPComputeInstanceUpdateOne {
+func (c *BronzeHistoryGCPComputeInstanceClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeInstanceUpdateOne {
 	mutation := newBronzeHistoryGCPComputeInstanceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeInstanceID(id))
 	return &BronzeHistoryGCPComputeInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -35134,7 +35134,7 @@ func (c *BronzeHistoryGCPComputeInstanceClient) DeleteOne(_m *BronzeHistoryGCPCo
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceClient) DeleteOneID(id int) *BronzeHistoryGCPComputeInstanceDeleteOne {
+func (c *BronzeHistoryGCPComputeInstanceClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeInstanceDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeinstance.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -35151,12 +35151,12 @@ func (c *BronzeHistoryGCPComputeInstanceClient) Query() *BronzeHistoryGCPCompute
 }
 
 // Get returns a BronzeHistoryGCPComputeInstance entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeInstance, error) {
+func (c *BronzeHistoryGCPComputeInstanceClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeInstance, error) {
 	return c.Query().Where(bronzehistorygcpcomputeinstance.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeInstanceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeInstance {
+func (c *BronzeHistoryGCPComputeInstanceClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeInstance {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -35250,7 +35250,7 @@ func (c *BronzeHistoryGCPComputeInstanceDiskClient) UpdateOne(_m *BronzeHistoryG
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeInstanceDiskClient) UpdateOneID(id int) *BronzeHistoryGCPComputeInstanceDiskUpdateOne {
+func (c *BronzeHistoryGCPComputeInstanceDiskClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeInstanceDiskUpdateOne {
 	mutation := newBronzeHistoryGCPComputeInstanceDiskMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeInstanceDiskID(id))
 	return &BronzeHistoryGCPComputeInstanceDiskUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -35267,7 +35267,7 @@ func (c *BronzeHistoryGCPComputeInstanceDiskClient) DeleteOne(_m *BronzeHistoryG
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceDiskClient) DeleteOneID(id int) *BronzeHistoryGCPComputeInstanceDiskDeleteOne {
+func (c *BronzeHistoryGCPComputeInstanceDiskClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeInstanceDiskDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeinstancedisk.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -35284,12 +35284,12 @@ func (c *BronzeHistoryGCPComputeInstanceDiskClient) Query() *BronzeHistoryGCPCom
 }
 
 // Get returns a BronzeHistoryGCPComputeInstanceDisk entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceDiskClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeInstanceDisk, error) {
+func (c *BronzeHistoryGCPComputeInstanceDiskClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeInstanceDisk, error) {
 	return c.Query().Where(bronzehistorygcpcomputeinstancedisk.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeInstanceDiskClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeInstanceDisk {
+func (c *BronzeHistoryGCPComputeInstanceDiskClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeInstanceDisk {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -35383,7 +35383,7 @@ func (c *BronzeHistoryGCPComputeInstanceDiskLicenseClient) UpdateOne(_m *BronzeH
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeInstanceDiskLicenseClient) UpdateOneID(id int) *BronzeHistoryGCPComputeInstanceDiskLicenseUpdateOne {
+func (c *BronzeHistoryGCPComputeInstanceDiskLicenseClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeInstanceDiskLicenseUpdateOne {
 	mutation := newBronzeHistoryGCPComputeInstanceDiskLicenseMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeInstanceDiskLicenseID(id))
 	return &BronzeHistoryGCPComputeInstanceDiskLicenseUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -35400,7 +35400,7 @@ func (c *BronzeHistoryGCPComputeInstanceDiskLicenseClient) DeleteOne(_m *BronzeH
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceDiskLicenseClient) DeleteOneID(id int) *BronzeHistoryGCPComputeInstanceDiskLicenseDeleteOne {
+func (c *BronzeHistoryGCPComputeInstanceDiskLicenseClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeInstanceDiskLicenseDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeinstancedisklicense.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -35417,12 +35417,12 @@ func (c *BronzeHistoryGCPComputeInstanceDiskLicenseClient) Query() *BronzeHistor
 }
 
 // Get returns a BronzeHistoryGCPComputeInstanceDiskLicense entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceDiskLicenseClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeInstanceDiskLicense, error) {
+func (c *BronzeHistoryGCPComputeInstanceDiskLicenseClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeInstanceDiskLicense, error) {
 	return c.Query().Where(bronzehistorygcpcomputeinstancedisklicense.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeInstanceDiskLicenseClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeInstanceDiskLicense {
+func (c *BronzeHistoryGCPComputeInstanceDiskLicenseClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeInstanceDiskLicense {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -35516,7 +35516,7 @@ func (c *BronzeHistoryGCPComputeInstanceGroupClient) UpdateOne(_m *BronzeHistory
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeInstanceGroupClient) UpdateOneID(id int) *BronzeHistoryGCPComputeInstanceGroupUpdateOne {
+func (c *BronzeHistoryGCPComputeInstanceGroupClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeInstanceGroupUpdateOne {
 	mutation := newBronzeHistoryGCPComputeInstanceGroupMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeInstanceGroupID(id))
 	return &BronzeHistoryGCPComputeInstanceGroupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -35533,7 +35533,7 @@ func (c *BronzeHistoryGCPComputeInstanceGroupClient) DeleteOne(_m *BronzeHistory
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceGroupClient) DeleteOneID(id int) *BronzeHistoryGCPComputeInstanceGroupDeleteOne {
+func (c *BronzeHistoryGCPComputeInstanceGroupClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeInstanceGroupDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeinstancegroup.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -35550,12 +35550,12 @@ func (c *BronzeHistoryGCPComputeInstanceGroupClient) Query() *BronzeHistoryGCPCo
 }
 
 // Get returns a BronzeHistoryGCPComputeInstanceGroup entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceGroupClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeInstanceGroup, error) {
+func (c *BronzeHistoryGCPComputeInstanceGroupClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeInstanceGroup, error) {
 	return c.Query().Where(bronzehistorygcpcomputeinstancegroup.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeInstanceGroupClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeInstanceGroup {
+func (c *BronzeHistoryGCPComputeInstanceGroupClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeInstanceGroup {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -35649,7 +35649,7 @@ func (c *BronzeHistoryGCPComputeInstanceGroupMemberClient) UpdateOne(_m *BronzeH
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeInstanceGroupMemberClient) UpdateOneID(id int) *BronzeHistoryGCPComputeInstanceGroupMemberUpdateOne {
+func (c *BronzeHistoryGCPComputeInstanceGroupMemberClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeInstanceGroupMemberUpdateOne {
 	mutation := newBronzeHistoryGCPComputeInstanceGroupMemberMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeInstanceGroupMemberID(id))
 	return &BronzeHistoryGCPComputeInstanceGroupMemberUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -35666,7 +35666,7 @@ func (c *BronzeHistoryGCPComputeInstanceGroupMemberClient) DeleteOne(_m *BronzeH
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceGroupMemberClient) DeleteOneID(id int) *BronzeHistoryGCPComputeInstanceGroupMemberDeleteOne {
+func (c *BronzeHistoryGCPComputeInstanceGroupMemberClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeInstanceGroupMemberDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeinstancegroupmember.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -35683,12 +35683,12 @@ func (c *BronzeHistoryGCPComputeInstanceGroupMemberClient) Query() *BronzeHistor
 }
 
 // Get returns a BronzeHistoryGCPComputeInstanceGroupMember entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceGroupMemberClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeInstanceGroupMember, error) {
+func (c *BronzeHistoryGCPComputeInstanceGroupMemberClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeInstanceGroupMember, error) {
 	return c.Query().Where(bronzehistorygcpcomputeinstancegroupmember.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeInstanceGroupMemberClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeInstanceGroupMember {
+func (c *BronzeHistoryGCPComputeInstanceGroupMemberClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeInstanceGroupMember {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -35782,7 +35782,7 @@ func (c *BronzeHistoryGCPComputeInstanceGroupNamedPortClient) UpdateOne(_m *Bron
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeInstanceGroupNamedPortClient) UpdateOneID(id int) *BronzeHistoryGCPComputeInstanceGroupNamedPortUpdateOne {
+func (c *BronzeHistoryGCPComputeInstanceGroupNamedPortClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeInstanceGroupNamedPortUpdateOne {
 	mutation := newBronzeHistoryGCPComputeInstanceGroupNamedPortMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeInstanceGroupNamedPortID(id))
 	return &BronzeHistoryGCPComputeInstanceGroupNamedPortUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -35799,7 +35799,7 @@ func (c *BronzeHistoryGCPComputeInstanceGroupNamedPortClient) DeleteOne(_m *Bron
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceGroupNamedPortClient) DeleteOneID(id int) *BronzeHistoryGCPComputeInstanceGroupNamedPortDeleteOne {
+func (c *BronzeHistoryGCPComputeInstanceGroupNamedPortClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeInstanceGroupNamedPortDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeinstancegroupnamedport.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -35816,12 +35816,12 @@ func (c *BronzeHistoryGCPComputeInstanceGroupNamedPortClient) Query() *BronzeHis
 }
 
 // Get returns a BronzeHistoryGCPComputeInstanceGroupNamedPort entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceGroupNamedPortClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeInstanceGroupNamedPort, error) {
+func (c *BronzeHistoryGCPComputeInstanceGroupNamedPortClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeInstanceGroupNamedPort, error) {
 	return c.Query().Where(bronzehistorygcpcomputeinstancegroupnamedport.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeInstanceGroupNamedPortClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeInstanceGroupNamedPort {
+func (c *BronzeHistoryGCPComputeInstanceGroupNamedPortClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeInstanceGroupNamedPort {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -35915,7 +35915,7 @@ func (c *BronzeHistoryGCPComputeInstanceLabelClient) UpdateOne(_m *BronzeHistory
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeInstanceLabelClient) UpdateOneID(id int) *BronzeHistoryGCPComputeInstanceLabelUpdateOne {
+func (c *BronzeHistoryGCPComputeInstanceLabelClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeInstanceLabelUpdateOne {
 	mutation := newBronzeHistoryGCPComputeInstanceLabelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeInstanceLabelID(id))
 	return &BronzeHistoryGCPComputeInstanceLabelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -35932,7 +35932,7 @@ func (c *BronzeHistoryGCPComputeInstanceLabelClient) DeleteOne(_m *BronzeHistory
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceLabelClient) DeleteOneID(id int) *BronzeHistoryGCPComputeInstanceLabelDeleteOne {
+func (c *BronzeHistoryGCPComputeInstanceLabelClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeInstanceLabelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeinstancelabel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -35949,12 +35949,12 @@ func (c *BronzeHistoryGCPComputeInstanceLabelClient) Query() *BronzeHistoryGCPCo
 }
 
 // Get returns a BronzeHistoryGCPComputeInstanceLabel entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceLabelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeInstanceLabel, error) {
+func (c *BronzeHistoryGCPComputeInstanceLabelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeInstanceLabel, error) {
 	return c.Query().Where(bronzehistorygcpcomputeinstancelabel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeInstanceLabelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeInstanceLabel {
+func (c *BronzeHistoryGCPComputeInstanceLabelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeInstanceLabel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -36048,7 +36048,7 @@ func (c *BronzeHistoryGCPComputeInstanceMetadataClient) UpdateOne(_m *BronzeHist
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeInstanceMetadataClient) UpdateOneID(id int) *BronzeHistoryGCPComputeInstanceMetadataUpdateOne {
+func (c *BronzeHistoryGCPComputeInstanceMetadataClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeInstanceMetadataUpdateOne {
 	mutation := newBronzeHistoryGCPComputeInstanceMetadataMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeInstanceMetadataID(id))
 	return &BronzeHistoryGCPComputeInstanceMetadataUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -36065,7 +36065,7 @@ func (c *BronzeHistoryGCPComputeInstanceMetadataClient) DeleteOne(_m *BronzeHist
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceMetadataClient) DeleteOneID(id int) *BronzeHistoryGCPComputeInstanceMetadataDeleteOne {
+func (c *BronzeHistoryGCPComputeInstanceMetadataClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeInstanceMetadataDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeinstancemetadata.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -36082,12 +36082,12 @@ func (c *BronzeHistoryGCPComputeInstanceMetadataClient) Query() *BronzeHistoryGC
 }
 
 // Get returns a BronzeHistoryGCPComputeInstanceMetadata entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceMetadataClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeInstanceMetadata, error) {
+func (c *BronzeHistoryGCPComputeInstanceMetadataClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeInstanceMetadata, error) {
 	return c.Query().Where(bronzehistorygcpcomputeinstancemetadata.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeInstanceMetadataClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeInstanceMetadata {
+func (c *BronzeHistoryGCPComputeInstanceMetadataClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeInstanceMetadata {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -36181,7 +36181,7 @@ func (c *BronzeHistoryGCPComputeInstanceNICClient) UpdateOne(_m *BronzeHistoryGC
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeInstanceNICClient) UpdateOneID(id int) *BronzeHistoryGCPComputeInstanceNICUpdateOne {
+func (c *BronzeHistoryGCPComputeInstanceNICClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeInstanceNICUpdateOne {
 	mutation := newBronzeHistoryGCPComputeInstanceNICMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeInstanceNICID(id))
 	return &BronzeHistoryGCPComputeInstanceNICUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -36198,7 +36198,7 @@ func (c *BronzeHistoryGCPComputeInstanceNICClient) DeleteOne(_m *BronzeHistoryGC
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceNICClient) DeleteOneID(id int) *BronzeHistoryGCPComputeInstanceNICDeleteOne {
+func (c *BronzeHistoryGCPComputeInstanceNICClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeInstanceNICDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeinstancenic.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -36215,12 +36215,12 @@ func (c *BronzeHistoryGCPComputeInstanceNICClient) Query() *BronzeHistoryGCPComp
 }
 
 // Get returns a BronzeHistoryGCPComputeInstanceNIC entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceNICClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeInstanceNIC, error) {
+func (c *BronzeHistoryGCPComputeInstanceNICClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeInstanceNIC, error) {
 	return c.Query().Where(bronzehistorygcpcomputeinstancenic.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeInstanceNICClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeInstanceNIC {
+func (c *BronzeHistoryGCPComputeInstanceNICClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeInstanceNIC {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -36314,7 +36314,7 @@ func (c *BronzeHistoryGCPComputeInstanceNICAccessConfigClient) UpdateOne(_m *Bro
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeInstanceNICAccessConfigClient) UpdateOneID(id int) *BronzeHistoryGCPComputeInstanceNICAccessConfigUpdateOne {
+func (c *BronzeHistoryGCPComputeInstanceNICAccessConfigClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeInstanceNICAccessConfigUpdateOne {
 	mutation := newBronzeHistoryGCPComputeInstanceNICAccessConfigMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeInstanceNICAccessConfigID(id))
 	return &BronzeHistoryGCPComputeInstanceNICAccessConfigUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -36331,7 +36331,7 @@ func (c *BronzeHistoryGCPComputeInstanceNICAccessConfigClient) DeleteOne(_m *Bro
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceNICAccessConfigClient) DeleteOneID(id int) *BronzeHistoryGCPComputeInstanceNICAccessConfigDeleteOne {
+func (c *BronzeHistoryGCPComputeInstanceNICAccessConfigClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeInstanceNICAccessConfigDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeinstancenicaccessconfig.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -36348,12 +36348,12 @@ func (c *BronzeHistoryGCPComputeInstanceNICAccessConfigClient) Query() *BronzeHi
 }
 
 // Get returns a BronzeHistoryGCPComputeInstanceNICAccessConfig entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceNICAccessConfigClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeInstanceNICAccessConfig, error) {
+func (c *BronzeHistoryGCPComputeInstanceNICAccessConfigClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeInstanceNICAccessConfig, error) {
 	return c.Query().Where(bronzehistorygcpcomputeinstancenicaccessconfig.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeInstanceNICAccessConfigClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeInstanceNICAccessConfig {
+func (c *BronzeHistoryGCPComputeInstanceNICAccessConfigClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeInstanceNICAccessConfig {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -36447,7 +36447,7 @@ func (c *BronzeHistoryGCPComputeInstanceNICAliasRangeClient) UpdateOne(_m *Bronz
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeInstanceNICAliasRangeClient) UpdateOneID(id int) *BronzeHistoryGCPComputeInstanceNICAliasRangeUpdateOne {
+func (c *BronzeHistoryGCPComputeInstanceNICAliasRangeClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeInstanceNICAliasRangeUpdateOne {
 	mutation := newBronzeHistoryGCPComputeInstanceNICAliasRangeMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeInstanceNICAliasRangeID(id))
 	return &BronzeHistoryGCPComputeInstanceNICAliasRangeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -36464,7 +36464,7 @@ func (c *BronzeHistoryGCPComputeInstanceNICAliasRangeClient) DeleteOne(_m *Bronz
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceNICAliasRangeClient) DeleteOneID(id int) *BronzeHistoryGCPComputeInstanceNICAliasRangeDeleteOne {
+func (c *BronzeHistoryGCPComputeInstanceNICAliasRangeClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeInstanceNICAliasRangeDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeinstancenicaliasrange.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -36481,12 +36481,12 @@ func (c *BronzeHistoryGCPComputeInstanceNICAliasRangeClient) Query() *BronzeHist
 }
 
 // Get returns a BronzeHistoryGCPComputeInstanceNICAliasRange entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceNICAliasRangeClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeInstanceNICAliasRange, error) {
+func (c *BronzeHistoryGCPComputeInstanceNICAliasRangeClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeInstanceNICAliasRange, error) {
 	return c.Query().Where(bronzehistorygcpcomputeinstancenicaliasrange.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeInstanceNICAliasRangeClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeInstanceNICAliasRange {
+func (c *BronzeHistoryGCPComputeInstanceNICAliasRangeClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeInstanceNICAliasRange {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -36580,7 +36580,7 @@ func (c *BronzeHistoryGCPComputeInstanceServiceAccountClient) UpdateOne(_m *Bron
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeInstanceServiceAccountClient) UpdateOneID(id int) *BronzeHistoryGCPComputeInstanceServiceAccountUpdateOne {
+func (c *BronzeHistoryGCPComputeInstanceServiceAccountClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeInstanceServiceAccountUpdateOne {
 	mutation := newBronzeHistoryGCPComputeInstanceServiceAccountMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeInstanceServiceAccountID(id))
 	return &BronzeHistoryGCPComputeInstanceServiceAccountUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -36597,7 +36597,7 @@ func (c *BronzeHistoryGCPComputeInstanceServiceAccountClient) DeleteOne(_m *Bron
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceServiceAccountClient) DeleteOneID(id int) *BronzeHistoryGCPComputeInstanceServiceAccountDeleteOne {
+func (c *BronzeHistoryGCPComputeInstanceServiceAccountClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeInstanceServiceAccountDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeinstanceserviceaccount.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -36614,12 +36614,12 @@ func (c *BronzeHistoryGCPComputeInstanceServiceAccountClient) Query() *BronzeHis
 }
 
 // Get returns a BronzeHistoryGCPComputeInstanceServiceAccount entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceServiceAccountClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeInstanceServiceAccount, error) {
+func (c *BronzeHistoryGCPComputeInstanceServiceAccountClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeInstanceServiceAccount, error) {
 	return c.Query().Where(bronzehistorygcpcomputeinstanceserviceaccount.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeInstanceServiceAccountClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeInstanceServiceAccount {
+func (c *BronzeHistoryGCPComputeInstanceServiceAccountClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeInstanceServiceAccount {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -36713,7 +36713,7 @@ func (c *BronzeHistoryGCPComputeInstanceTagClient) UpdateOne(_m *BronzeHistoryGC
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeInstanceTagClient) UpdateOneID(id int) *BronzeHistoryGCPComputeInstanceTagUpdateOne {
+func (c *BronzeHistoryGCPComputeInstanceTagClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeInstanceTagUpdateOne {
 	mutation := newBronzeHistoryGCPComputeInstanceTagMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeInstanceTagID(id))
 	return &BronzeHistoryGCPComputeInstanceTagUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -36730,7 +36730,7 @@ func (c *BronzeHistoryGCPComputeInstanceTagClient) DeleteOne(_m *BronzeHistoryGC
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceTagClient) DeleteOneID(id int) *BronzeHistoryGCPComputeInstanceTagDeleteOne {
+func (c *BronzeHistoryGCPComputeInstanceTagClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeInstanceTagDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeinstancetag.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -36747,12 +36747,12 @@ func (c *BronzeHistoryGCPComputeInstanceTagClient) Query() *BronzeHistoryGCPComp
 }
 
 // Get returns a BronzeHistoryGCPComputeInstanceTag entity by its id.
-func (c *BronzeHistoryGCPComputeInstanceTagClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeInstanceTag, error) {
+func (c *BronzeHistoryGCPComputeInstanceTagClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeInstanceTag, error) {
 	return c.Query().Where(bronzehistorygcpcomputeinstancetag.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeInstanceTagClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeInstanceTag {
+func (c *BronzeHistoryGCPComputeInstanceTagClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeInstanceTag {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -36846,7 +36846,7 @@ func (c *BronzeHistoryGCPComputeInterconnectClient) UpdateOne(_m *BronzeHistoryG
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeInterconnectClient) UpdateOneID(id int) *BronzeHistoryGCPComputeInterconnectUpdateOne {
+func (c *BronzeHistoryGCPComputeInterconnectClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeInterconnectUpdateOne {
 	mutation := newBronzeHistoryGCPComputeInterconnectMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeInterconnectID(id))
 	return &BronzeHistoryGCPComputeInterconnectUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -36863,7 +36863,7 @@ func (c *BronzeHistoryGCPComputeInterconnectClient) DeleteOne(_m *BronzeHistoryG
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeInterconnectClient) DeleteOneID(id int) *BronzeHistoryGCPComputeInterconnectDeleteOne {
+func (c *BronzeHistoryGCPComputeInterconnectClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeInterconnectDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeinterconnect.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -36880,12 +36880,12 @@ func (c *BronzeHistoryGCPComputeInterconnectClient) Query() *BronzeHistoryGCPCom
 }
 
 // Get returns a BronzeHistoryGCPComputeInterconnect entity by its id.
-func (c *BronzeHistoryGCPComputeInterconnectClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeInterconnect, error) {
+func (c *BronzeHistoryGCPComputeInterconnectClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeInterconnect, error) {
 	return c.Query().Where(bronzehistorygcpcomputeinterconnect.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeInterconnectClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeInterconnect {
+func (c *BronzeHistoryGCPComputeInterconnectClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeInterconnect {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -36979,7 +36979,7 @@ func (c *BronzeHistoryGCPComputeNegClient) UpdateOne(_m *BronzeHistoryGCPCompute
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeNegClient) UpdateOneID(id int) *BronzeHistoryGCPComputeNegUpdateOne {
+func (c *BronzeHistoryGCPComputeNegClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeNegUpdateOne {
 	mutation := newBronzeHistoryGCPComputeNegMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeNegID(id))
 	return &BronzeHistoryGCPComputeNegUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -36996,7 +36996,7 @@ func (c *BronzeHistoryGCPComputeNegClient) DeleteOne(_m *BronzeHistoryGCPCompute
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeNegClient) DeleteOneID(id int) *BronzeHistoryGCPComputeNegDeleteOne {
+func (c *BronzeHistoryGCPComputeNegClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeNegDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeneg.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -37013,12 +37013,12 @@ func (c *BronzeHistoryGCPComputeNegClient) Query() *BronzeHistoryGCPComputeNegQu
 }
 
 // Get returns a BronzeHistoryGCPComputeNeg entity by its id.
-func (c *BronzeHistoryGCPComputeNegClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeNeg, error) {
+func (c *BronzeHistoryGCPComputeNegClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeNeg, error) {
 	return c.Query().Where(bronzehistorygcpcomputeneg.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeNegClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeNeg {
+func (c *BronzeHistoryGCPComputeNegClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeNeg {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -37112,7 +37112,7 @@ func (c *BronzeHistoryGCPComputeNegEndpointClient) UpdateOne(_m *BronzeHistoryGC
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeNegEndpointClient) UpdateOneID(id int) *BronzeHistoryGCPComputeNegEndpointUpdateOne {
+func (c *BronzeHistoryGCPComputeNegEndpointClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeNegEndpointUpdateOne {
 	mutation := newBronzeHistoryGCPComputeNegEndpointMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeNegEndpointID(id))
 	return &BronzeHistoryGCPComputeNegEndpointUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -37129,7 +37129,7 @@ func (c *BronzeHistoryGCPComputeNegEndpointClient) DeleteOne(_m *BronzeHistoryGC
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeNegEndpointClient) DeleteOneID(id int) *BronzeHistoryGCPComputeNegEndpointDeleteOne {
+func (c *BronzeHistoryGCPComputeNegEndpointClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeNegEndpointDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputenegendpoint.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -37146,12 +37146,12 @@ func (c *BronzeHistoryGCPComputeNegEndpointClient) Query() *BronzeHistoryGCPComp
 }
 
 // Get returns a BronzeHistoryGCPComputeNegEndpoint entity by its id.
-func (c *BronzeHistoryGCPComputeNegEndpointClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeNegEndpoint, error) {
+func (c *BronzeHistoryGCPComputeNegEndpointClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeNegEndpoint, error) {
 	return c.Query().Where(bronzehistorygcpcomputenegendpoint.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeNegEndpointClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeNegEndpoint {
+func (c *BronzeHistoryGCPComputeNegEndpointClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeNegEndpoint {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -37245,7 +37245,7 @@ func (c *BronzeHistoryGCPComputeNetworkClient) UpdateOne(_m *BronzeHistoryGCPCom
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeNetworkClient) UpdateOneID(id int) *BronzeHistoryGCPComputeNetworkUpdateOne {
+func (c *BronzeHistoryGCPComputeNetworkClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeNetworkUpdateOne {
 	mutation := newBronzeHistoryGCPComputeNetworkMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeNetworkID(id))
 	return &BronzeHistoryGCPComputeNetworkUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -37262,7 +37262,7 @@ func (c *BronzeHistoryGCPComputeNetworkClient) DeleteOne(_m *BronzeHistoryGCPCom
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeNetworkClient) DeleteOneID(id int) *BronzeHistoryGCPComputeNetworkDeleteOne {
+func (c *BronzeHistoryGCPComputeNetworkClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeNetworkDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputenetwork.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -37279,12 +37279,12 @@ func (c *BronzeHistoryGCPComputeNetworkClient) Query() *BronzeHistoryGCPComputeN
 }
 
 // Get returns a BronzeHistoryGCPComputeNetwork entity by its id.
-func (c *BronzeHistoryGCPComputeNetworkClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeNetwork, error) {
+func (c *BronzeHistoryGCPComputeNetworkClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeNetwork, error) {
 	return c.Query().Where(bronzehistorygcpcomputenetwork.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeNetworkClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeNetwork {
+func (c *BronzeHistoryGCPComputeNetworkClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeNetwork {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -37378,7 +37378,7 @@ func (c *BronzeHistoryGCPComputeNetworkPeeringClient) UpdateOne(_m *BronzeHistor
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeNetworkPeeringClient) UpdateOneID(id int) *BronzeHistoryGCPComputeNetworkPeeringUpdateOne {
+func (c *BronzeHistoryGCPComputeNetworkPeeringClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeNetworkPeeringUpdateOne {
 	mutation := newBronzeHistoryGCPComputeNetworkPeeringMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeNetworkPeeringID(id))
 	return &BronzeHistoryGCPComputeNetworkPeeringUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -37395,7 +37395,7 @@ func (c *BronzeHistoryGCPComputeNetworkPeeringClient) DeleteOne(_m *BronzeHistor
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeNetworkPeeringClient) DeleteOneID(id int) *BronzeHistoryGCPComputeNetworkPeeringDeleteOne {
+func (c *BronzeHistoryGCPComputeNetworkPeeringClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeNetworkPeeringDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputenetworkpeering.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -37412,12 +37412,12 @@ func (c *BronzeHistoryGCPComputeNetworkPeeringClient) Query() *BronzeHistoryGCPC
 }
 
 // Get returns a BronzeHistoryGCPComputeNetworkPeering entity by its id.
-func (c *BronzeHistoryGCPComputeNetworkPeeringClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeNetworkPeering, error) {
+func (c *BronzeHistoryGCPComputeNetworkPeeringClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeNetworkPeering, error) {
 	return c.Query().Where(bronzehistorygcpcomputenetworkpeering.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeNetworkPeeringClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeNetworkPeering {
+func (c *BronzeHistoryGCPComputeNetworkPeeringClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeNetworkPeering {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -37511,7 +37511,7 @@ func (c *BronzeHistoryGCPComputePacketMirroringClient) UpdateOne(_m *BronzeHisto
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputePacketMirroringClient) UpdateOneID(id int) *BronzeHistoryGCPComputePacketMirroringUpdateOne {
+func (c *BronzeHistoryGCPComputePacketMirroringClient) UpdateOneID(id uint) *BronzeHistoryGCPComputePacketMirroringUpdateOne {
 	mutation := newBronzeHistoryGCPComputePacketMirroringMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputePacketMirroringID(id))
 	return &BronzeHistoryGCPComputePacketMirroringUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -37528,7 +37528,7 @@ func (c *BronzeHistoryGCPComputePacketMirroringClient) DeleteOne(_m *BronzeHisto
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputePacketMirroringClient) DeleteOneID(id int) *BronzeHistoryGCPComputePacketMirroringDeleteOne {
+func (c *BronzeHistoryGCPComputePacketMirroringClient) DeleteOneID(id uint) *BronzeHistoryGCPComputePacketMirroringDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputepacketmirroring.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -37545,12 +37545,12 @@ func (c *BronzeHistoryGCPComputePacketMirroringClient) Query() *BronzeHistoryGCP
 }
 
 // Get returns a BronzeHistoryGCPComputePacketMirroring entity by its id.
-func (c *BronzeHistoryGCPComputePacketMirroringClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputePacketMirroring, error) {
+func (c *BronzeHistoryGCPComputePacketMirroringClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputePacketMirroring, error) {
 	return c.Query().Where(bronzehistorygcpcomputepacketmirroring.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputePacketMirroringClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputePacketMirroring {
+func (c *BronzeHistoryGCPComputePacketMirroringClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputePacketMirroring {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -37644,7 +37644,7 @@ func (c *BronzeHistoryGCPComputeProjectMetadataClient) UpdateOne(_m *BronzeHisto
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeProjectMetadataClient) UpdateOneID(id int) *BronzeHistoryGCPComputeProjectMetadataUpdateOne {
+func (c *BronzeHistoryGCPComputeProjectMetadataClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeProjectMetadataUpdateOne {
 	mutation := newBronzeHistoryGCPComputeProjectMetadataMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeProjectMetadataID(id))
 	return &BronzeHistoryGCPComputeProjectMetadataUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -37661,7 +37661,7 @@ func (c *BronzeHistoryGCPComputeProjectMetadataClient) DeleteOne(_m *BronzeHisto
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeProjectMetadataClient) DeleteOneID(id int) *BronzeHistoryGCPComputeProjectMetadataDeleteOne {
+func (c *BronzeHistoryGCPComputeProjectMetadataClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeProjectMetadataDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeprojectmetadata.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -37678,12 +37678,12 @@ func (c *BronzeHistoryGCPComputeProjectMetadataClient) Query() *BronzeHistoryGCP
 }
 
 // Get returns a BronzeHistoryGCPComputeProjectMetadata entity by its id.
-func (c *BronzeHistoryGCPComputeProjectMetadataClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeProjectMetadata, error) {
+func (c *BronzeHistoryGCPComputeProjectMetadataClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeProjectMetadata, error) {
 	return c.Query().Where(bronzehistorygcpcomputeprojectmetadata.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeProjectMetadataClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeProjectMetadata {
+func (c *BronzeHistoryGCPComputeProjectMetadataClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeProjectMetadata {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -37777,7 +37777,7 @@ func (c *BronzeHistoryGCPComputeProjectMetadataItemClient) UpdateOne(_m *BronzeH
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeProjectMetadataItemClient) UpdateOneID(id int) *BronzeHistoryGCPComputeProjectMetadataItemUpdateOne {
+func (c *BronzeHistoryGCPComputeProjectMetadataItemClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeProjectMetadataItemUpdateOne {
 	mutation := newBronzeHistoryGCPComputeProjectMetadataItemMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeProjectMetadataItemID(id))
 	return &BronzeHistoryGCPComputeProjectMetadataItemUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -37794,7 +37794,7 @@ func (c *BronzeHistoryGCPComputeProjectMetadataItemClient) DeleteOne(_m *BronzeH
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeProjectMetadataItemClient) DeleteOneID(id int) *BronzeHistoryGCPComputeProjectMetadataItemDeleteOne {
+func (c *BronzeHistoryGCPComputeProjectMetadataItemClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeProjectMetadataItemDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeprojectmetadataitem.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -37811,12 +37811,12 @@ func (c *BronzeHistoryGCPComputeProjectMetadataItemClient) Query() *BronzeHistor
 }
 
 // Get returns a BronzeHistoryGCPComputeProjectMetadataItem entity by its id.
-func (c *BronzeHistoryGCPComputeProjectMetadataItemClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeProjectMetadataItem, error) {
+func (c *BronzeHistoryGCPComputeProjectMetadataItemClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeProjectMetadataItem, error) {
 	return c.Query().Where(bronzehistorygcpcomputeprojectmetadataitem.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeProjectMetadataItemClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeProjectMetadataItem {
+func (c *BronzeHistoryGCPComputeProjectMetadataItemClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeProjectMetadataItem {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -37910,7 +37910,7 @@ func (c *BronzeHistoryGCPComputeRouterClient) UpdateOne(_m *BronzeHistoryGCPComp
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeRouterClient) UpdateOneID(id int) *BronzeHistoryGCPComputeRouterUpdateOne {
+func (c *BronzeHistoryGCPComputeRouterClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeRouterUpdateOne {
 	mutation := newBronzeHistoryGCPComputeRouterMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeRouterID(id))
 	return &BronzeHistoryGCPComputeRouterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -37927,7 +37927,7 @@ func (c *BronzeHistoryGCPComputeRouterClient) DeleteOne(_m *BronzeHistoryGCPComp
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeRouterClient) DeleteOneID(id int) *BronzeHistoryGCPComputeRouterDeleteOne {
+func (c *BronzeHistoryGCPComputeRouterClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeRouterDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputerouter.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -37944,12 +37944,12 @@ func (c *BronzeHistoryGCPComputeRouterClient) Query() *BronzeHistoryGCPComputeRo
 }
 
 // Get returns a BronzeHistoryGCPComputeRouter entity by its id.
-func (c *BronzeHistoryGCPComputeRouterClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeRouter, error) {
+func (c *BronzeHistoryGCPComputeRouterClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeRouter, error) {
 	return c.Query().Where(bronzehistorygcpcomputerouter.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeRouterClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeRouter {
+func (c *BronzeHistoryGCPComputeRouterClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeRouter {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -38043,7 +38043,7 @@ func (c *BronzeHistoryGCPComputeSecurityPolicyClient) UpdateOne(_m *BronzeHistor
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeSecurityPolicyClient) UpdateOneID(id int) *BronzeHistoryGCPComputeSecurityPolicyUpdateOne {
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeSecurityPolicyUpdateOne {
 	mutation := newBronzeHistoryGCPComputeSecurityPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeSecurityPolicyID(id))
 	return &BronzeHistoryGCPComputeSecurityPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -38060,7 +38060,7 @@ func (c *BronzeHistoryGCPComputeSecurityPolicyClient) DeleteOne(_m *BronzeHistor
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeSecurityPolicyClient) DeleteOneID(id int) *BronzeHistoryGCPComputeSecurityPolicyDeleteOne {
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeSecurityPolicyDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputesecuritypolicy.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -38077,12 +38077,12 @@ func (c *BronzeHistoryGCPComputeSecurityPolicyClient) Query() *BronzeHistoryGCPC
 }
 
 // Get returns a BronzeHistoryGCPComputeSecurityPolicy entity by its id.
-func (c *BronzeHistoryGCPComputeSecurityPolicyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeSecurityPolicy, error) {
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeSecurityPolicy, error) {
 	return c.Query().Where(bronzehistorygcpcomputesecuritypolicy.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeSecurityPolicyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeSecurityPolicy {
+func (c *BronzeHistoryGCPComputeSecurityPolicyClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeSecurityPolicy {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -38176,7 +38176,7 @@ func (c *BronzeHistoryGCPComputeSnapshotClient) UpdateOne(_m *BronzeHistoryGCPCo
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeSnapshotClient) UpdateOneID(id int) *BronzeHistoryGCPComputeSnapshotUpdateOne {
+func (c *BronzeHistoryGCPComputeSnapshotClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeSnapshotUpdateOne {
 	mutation := newBronzeHistoryGCPComputeSnapshotMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeSnapshotID(id))
 	return &BronzeHistoryGCPComputeSnapshotUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -38193,7 +38193,7 @@ func (c *BronzeHistoryGCPComputeSnapshotClient) DeleteOne(_m *BronzeHistoryGCPCo
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeSnapshotClient) DeleteOneID(id int) *BronzeHistoryGCPComputeSnapshotDeleteOne {
+func (c *BronzeHistoryGCPComputeSnapshotClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeSnapshotDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputesnapshot.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -38210,12 +38210,12 @@ func (c *BronzeHistoryGCPComputeSnapshotClient) Query() *BronzeHistoryGCPCompute
 }
 
 // Get returns a BronzeHistoryGCPComputeSnapshot entity by its id.
-func (c *BronzeHistoryGCPComputeSnapshotClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeSnapshot, error) {
+func (c *BronzeHistoryGCPComputeSnapshotClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeSnapshot, error) {
 	return c.Query().Where(bronzehistorygcpcomputesnapshot.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeSnapshotClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeSnapshot {
+func (c *BronzeHistoryGCPComputeSnapshotClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeSnapshot {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -38309,7 +38309,7 @@ func (c *BronzeHistoryGCPComputeSnapshotLabelClient) UpdateOne(_m *BronzeHistory
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeSnapshotLabelClient) UpdateOneID(id int) *BronzeHistoryGCPComputeSnapshotLabelUpdateOne {
+func (c *BronzeHistoryGCPComputeSnapshotLabelClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeSnapshotLabelUpdateOne {
 	mutation := newBronzeHistoryGCPComputeSnapshotLabelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeSnapshotLabelID(id))
 	return &BronzeHistoryGCPComputeSnapshotLabelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -38326,7 +38326,7 @@ func (c *BronzeHistoryGCPComputeSnapshotLabelClient) DeleteOne(_m *BronzeHistory
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeSnapshotLabelClient) DeleteOneID(id int) *BronzeHistoryGCPComputeSnapshotLabelDeleteOne {
+func (c *BronzeHistoryGCPComputeSnapshotLabelClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeSnapshotLabelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputesnapshotlabel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -38343,12 +38343,12 @@ func (c *BronzeHistoryGCPComputeSnapshotLabelClient) Query() *BronzeHistoryGCPCo
 }
 
 // Get returns a BronzeHistoryGCPComputeSnapshotLabel entity by its id.
-func (c *BronzeHistoryGCPComputeSnapshotLabelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeSnapshotLabel, error) {
+func (c *BronzeHistoryGCPComputeSnapshotLabelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeSnapshotLabel, error) {
 	return c.Query().Where(bronzehistorygcpcomputesnapshotlabel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeSnapshotLabelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeSnapshotLabel {
+func (c *BronzeHistoryGCPComputeSnapshotLabelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeSnapshotLabel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -38442,7 +38442,7 @@ func (c *BronzeHistoryGCPComputeSnapshotLicenseClient) UpdateOne(_m *BronzeHisto
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeSnapshotLicenseClient) UpdateOneID(id int) *BronzeHistoryGCPComputeSnapshotLicenseUpdateOne {
+func (c *BronzeHistoryGCPComputeSnapshotLicenseClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeSnapshotLicenseUpdateOne {
 	mutation := newBronzeHistoryGCPComputeSnapshotLicenseMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeSnapshotLicenseID(id))
 	return &BronzeHistoryGCPComputeSnapshotLicenseUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -38459,7 +38459,7 @@ func (c *BronzeHistoryGCPComputeSnapshotLicenseClient) DeleteOne(_m *BronzeHisto
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeSnapshotLicenseClient) DeleteOneID(id int) *BronzeHistoryGCPComputeSnapshotLicenseDeleteOne {
+func (c *BronzeHistoryGCPComputeSnapshotLicenseClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeSnapshotLicenseDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputesnapshotlicense.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -38476,12 +38476,12 @@ func (c *BronzeHistoryGCPComputeSnapshotLicenseClient) Query() *BronzeHistoryGCP
 }
 
 // Get returns a BronzeHistoryGCPComputeSnapshotLicense entity by its id.
-func (c *BronzeHistoryGCPComputeSnapshotLicenseClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeSnapshotLicense, error) {
+func (c *BronzeHistoryGCPComputeSnapshotLicenseClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeSnapshotLicense, error) {
 	return c.Query().Where(bronzehistorygcpcomputesnapshotlicense.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeSnapshotLicenseClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeSnapshotLicense {
+func (c *BronzeHistoryGCPComputeSnapshotLicenseClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeSnapshotLicense {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -38575,7 +38575,7 @@ func (c *BronzeHistoryGCPComputeSslPolicyClient) UpdateOne(_m *BronzeHistoryGCPC
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeSslPolicyClient) UpdateOneID(id int) *BronzeHistoryGCPComputeSslPolicyUpdateOne {
+func (c *BronzeHistoryGCPComputeSslPolicyClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeSslPolicyUpdateOne {
 	mutation := newBronzeHistoryGCPComputeSslPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeSslPolicyID(id))
 	return &BronzeHistoryGCPComputeSslPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -38592,7 +38592,7 @@ func (c *BronzeHistoryGCPComputeSslPolicyClient) DeleteOne(_m *BronzeHistoryGCPC
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeSslPolicyClient) DeleteOneID(id int) *BronzeHistoryGCPComputeSslPolicyDeleteOne {
+func (c *BronzeHistoryGCPComputeSslPolicyClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeSslPolicyDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputesslpolicy.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -38609,12 +38609,12 @@ func (c *BronzeHistoryGCPComputeSslPolicyClient) Query() *BronzeHistoryGCPComput
 }
 
 // Get returns a BronzeHistoryGCPComputeSslPolicy entity by its id.
-func (c *BronzeHistoryGCPComputeSslPolicyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeSslPolicy, error) {
+func (c *BronzeHistoryGCPComputeSslPolicyClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeSslPolicy, error) {
 	return c.Query().Where(bronzehistorygcpcomputesslpolicy.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeSslPolicyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeSslPolicy {
+func (c *BronzeHistoryGCPComputeSslPolicyClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeSslPolicy {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -38708,7 +38708,7 @@ func (c *BronzeHistoryGCPComputeSubnetworkClient) UpdateOne(_m *BronzeHistoryGCP
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeSubnetworkClient) UpdateOneID(id int) *BronzeHistoryGCPComputeSubnetworkUpdateOne {
+func (c *BronzeHistoryGCPComputeSubnetworkClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeSubnetworkUpdateOne {
 	mutation := newBronzeHistoryGCPComputeSubnetworkMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeSubnetworkID(id))
 	return &BronzeHistoryGCPComputeSubnetworkUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -38725,7 +38725,7 @@ func (c *BronzeHistoryGCPComputeSubnetworkClient) DeleteOne(_m *BronzeHistoryGCP
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeSubnetworkClient) DeleteOneID(id int) *BronzeHistoryGCPComputeSubnetworkDeleteOne {
+func (c *BronzeHistoryGCPComputeSubnetworkClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeSubnetworkDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputesubnetwork.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -38742,12 +38742,12 @@ func (c *BronzeHistoryGCPComputeSubnetworkClient) Query() *BronzeHistoryGCPCompu
 }
 
 // Get returns a BronzeHistoryGCPComputeSubnetwork entity by its id.
-func (c *BronzeHistoryGCPComputeSubnetworkClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeSubnetwork, error) {
+func (c *BronzeHistoryGCPComputeSubnetworkClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeSubnetwork, error) {
 	return c.Query().Where(bronzehistorygcpcomputesubnetwork.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeSubnetworkClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeSubnetwork {
+func (c *BronzeHistoryGCPComputeSubnetworkClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeSubnetwork {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -38841,7 +38841,7 @@ func (c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeClient) UpdateOne(_m *Br
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeClient) UpdateOneID(id int) *BronzeHistoryGCPComputeSubnetworkSecondaryRangeUpdateOne {
+func (c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeSubnetworkSecondaryRangeUpdateOne {
 	mutation := newBronzeHistoryGCPComputeSubnetworkSecondaryRangeMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeSubnetworkSecondaryRangeID(id))
 	return &BronzeHistoryGCPComputeSubnetworkSecondaryRangeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -38858,7 +38858,7 @@ func (c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeClient) DeleteOne(_m *Br
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeClient) DeleteOneID(id int) *BronzeHistoryGCPComputeSubnetworkSecondaryRangeDeleteOne {
+func (c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeSubnetworkSecondaryRangeDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputesubnetworksecondaryrange.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -38875,12 +38875,12 @@ func (c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeClient) Query() *BronzeH
 }
 
 // Get returns a BronzeHistoryGCPComputeSubnetworkSecondaryRange entity by its id.
-func (c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeSubnetworkSecondaryRange, error) {
+func (c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeSubnetworkSecondaryRange, error) {
 	return c.Query().Where(bronzehistorygcpcomputesubnetworksecondaryrange.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeSubnetworkSecondaryRange {
+func (c *BronzeHistoryGCPComputeSubnetworkSecondaryRangeClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeSubnetworkSecondaryRange {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -38974,7 +38974,7 @@ func (c *BronzeHistoryGCPComputeTargetHttpProxyClient) UpdateOne(_m *BronzeHisto
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeTargetHttpProxyClient) UpdateOneID(id int) *BronzeHistoryGCPComputeTargetHttpProxyUpdateOne {
+func (c *BronzeHistoryGCPComputeTargetHttpProxyClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeTargetHttpProxyUpdateOne {
 	mutation := newBronzeHistoryGCPComputeTargetHttpProxyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeTargetHttpProxyID(id))
 	return &BronzeHistoryGCPComputeTargetHttpProxyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -38991,7 +38991,7 @@ func (c *BronzeHistoryGCPComputeTargetHttpProxyClient) DeleteOne(_m *BronzeHisto
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeTargetHttpProxyClient) DeleteOneID(id int) *BronzeHistoryGCPComputeTargetHttpProxyDeleteOne {
+func (c *BronzeHistoryGCPComputeTargetHttpProxyClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeTargetHttpProxyDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputetargethttpproxy.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -39008,12 +39008,12 @@ func (c *BronzeHistoryGCPComputeTargetHttpProxyClient) Query() *BronzeHistoryGCP
 }
 
 // Get returns a BronzeHistoryGCPComputeTargetHttpProxy entity by its id.
-func (c *BronzeHistoryGCPComputeTargetHttpProxyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeTargetHttpProxy, error) {
+func (c *BronzeHistoryGCPComputeTargetHttpProxyClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeTargetHttpProxy, error) {
 	return c.Query().Where(bronzehistorygcpcomputetargethttpproxy.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeTargetHttpProxyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeTargetHttpProxy {
+func (c *BronzeHistoryGCPComputeTargetHttpProxyClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeTargetHttpProxy {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -39107,7 +39107,7 @@ func (c *BronzeHistoryGCPComputeTargetHttpsProxyClient) UpdateOne(_m *BronzeHist
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeTargetHttpsProxyClient) UpdateOneID(id int) *BronzeHistoryGCPComputeTargetHttpsProxyUpdateOne {
+func (c *BronzeHistoryGCPComputeTargetHttpsProxyClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeTargetHttpsProxyUpdateOne {
 	mutation := newBronzeHistoryGCPComputeTargetHttpsProxyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeTargetHttpsProxyID(id))
 	return &BronzeHistoryGCPComputeTargetHttpsProxyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -39124,7 +39124,7 @@ func (c *BronzeHistoryGCPComputeTargetHttpsProxyClient) DeleteOne(_m *BronzeHist
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeTargetHttpsProxyClient) DeleteOneID(id int) *BronzeHistoryGCPComputeTargetHttpsProxyDeleteOne {
+func (c *BronzeHistoryGCPComputeTargetHttpsProxyClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeTargetHttpsProxyDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputetargethttpsproxy.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -39141,12 +39141,12 @@ func (c *BronzeHistoryGCPComputeTargetHttpsProxyClient) Query() *BronzeHistoryGC
 }
 
 // Get returns a BronzeHistoryGCPComputeTargetHttpsProxy entity by its id.
-func (c *BronzeHistoryGCPComputeTargetHttpsProxyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeTargetHttpsProxy, error) {
+func (c *BronzeHistoryGCPComputeTargetHttpsProxyClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeTargetHttpsProxy, error) {
 	return c.Query().Where(bronzehistorygcpcomputetargethttpsproxy.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeTargetHttpsProxyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeTargetHttpsProxy {
+func (c *BronzeHistoryGCPComputeTargetHttpsProxyClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeTargetHttpsProxy {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -39240,7 +39240,7 @@ func (c *BronzeHistoryGCPComputeTargetInstanceClient) UpdateOne(_m *BronzeHistor
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeTargetInstanceClient) UpdateOneID(id int) *BronzeHistoryGCPComputeTargetInstanceUpdateOne {
+func (c *BronzeHistoryGCPComputeTargetInstanceClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeTargetInstanceUpdateOne {
 	mutation := newBronzeHistoryGCPComputeTargetInstanceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeTargetInstanceID(id))
 	return &BronzeHistoryGCPComputeTargetInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -39257,7 +39257,7 @@ func (c *BronzeHistoryGCPComputeTargetInstanceClient) DeleteOne(_m *BronzeHistor
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeTargetInstanceClient) DeleteOneID(id int) *BronzeHistoryGCPComputeTargetInstanceDeleteOne {
+func (c *BronzeHistoryGCPComputeTargetInstanceClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeTargetInstanceDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputetargetinstance.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -39274,12 +39274,12 @@ func (c *BronzeHistoryGCPComputeTargetInstanceClient) Query() *BronzeHistoryGCPC
 }
 
 // Get returns a BronzeHistoryGCPComputeTargetInstance entity by its id.
-func (c *BronzeHistoryGCPComputeTargetInstanceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeTargetInstance, error) {
+func (c *BronzeHistoryGCPComputeTargetInstanceClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeTargetInstance, error) {
 	return c.Query().Where(bronzehistorygcpcomputetargetinstance.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeTargetInstanceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeTargetInstance {
+func (c *BronzeHistoryGCPComputeTargetInstanceClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeTargetInstance {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -39373,7 +39373,7 @@ func (c *BronzeHistoryGCPComputeTargetPoolClient) UpdateOne(_m *BronzeHistoryGCP
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeTargetPoolClient) UpdateOneID(id int) *BronzeHistoryGCPComputeTargetPoolUpdateOne {
+func (c *BronzeHistoryGCPComputeTargetPoolClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeTargetPoolUpdateOne {
 	mutation := newBronzeHistoryGCPComputeTargetPoolMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeTargetPoolID(id))
 	return &BronzeHistoryGCPComputeTargetPoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -39390,7 +39390,7 @@ func (c *BronzeHistoryGCPComputeTargetPoolClient) DeleteOne(_m *BronzeHistoryGCP
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeTargetPoolClient) DeleteOneID(id int) *BronzeHistoryGCPComputeTargetPoolDeleteOne {
+func (c *BronzeHistoryGCPComputeTargetPoolClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeTargetPoolDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputetargetpool.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -39407,12 +39407,12 @@ func (c *BronzeHistoryGCPComputeTargetPoolClient) Query() *BronzeHistoryGCPCompu
 }
 
 // Get returns a BronzeHistoryGCPComputeTargetPool entity by its id.
-func (c *BronzeHistoryGCPComputeTargetPoolClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeTargetPool, error) {
+func (c *BronzeHistoryGCPComputeTargetPoolClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeTargetPool, error) {
 	return c.Query().Where(bronzehistorygcpcomputetargetpool.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeTargetPoolClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeTargetPool {
+func (c *BronzeHistoryGCPComputeTargetPoolClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeTargetPool {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -39506,7 +39506,7 @@ func (c *BronzeHistoryGCPComputeTargetSslProxyClient) UpdateOne(_m *BronzeHistor
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeTargetSslProxyClient) UpdateOneID(id int) *BronzeHistoryGCPComputeTargetSslProxyUpdateOne {
+func (c *BronzeHistoryGCPComputeTargetSslProxyClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeTargetSslProxyUpdateOne {
 	mutation := newBronzeHistoryGCPComputeTargetSslProxyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeTargetSslProxyID(id))
 	return &BronzeHistoryGCPComputeTargetSslProxyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -39523,7 +39523,7 @@ func (c *BronzeHistoryGCPComputeTargetSslProxyClient) DeleteOne(_m *BronzeHistor
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeTargetSslProxyClient) DeleteOneID(id int) *BronzeHistoryGCPComputeTargetSslProxyDeleteOne {
+func (c *BronzeHistoryGCPComputeTargetSslProxyClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeTargetSslProxyDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputetargetsslproxy.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -39540,12 +39540,12 @@ func (c *BronzeHistoryGCPComputeTargetSslProxyClient) Query() *BronzeHistoryGCPC
 }
 
 // Get returns a BronzeHistoryGCPComputeTargetSslProxy entity by its id.
-func (c *BronzeHistoryGCPComputeTargetSslProxyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeTargetSslProxy, error) {
+func (c *BronzeHistoryGCPComputeTargetSslProxyClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeTargetSslProxy, error) {
 	return c.Query().Where(bronzehistorygcpcomputetargetsslproxy.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeTargetSslProxyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeTargetSslProxy {
+func (c *BronzeHistoryGCPComputeTargetSslProxyClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeTargetSslProxy {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -39639,7 +39639,7 @@ func (c *BronzeHistoryGCPComputeTargetTcpProxyClient) UpdateOne(_m *BronzeHistor
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeTargetTcpProxyClient) UpdateOneID(id int) *BronzeHistoryGCPComputeTargetTcpProxyUpdateOne {
+func (c *BronzeHistoryGCPComputeTargetTcpProxyClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeTargetTcpProxyUpdateOne {
 	mutation := newBronzeHistoryGCPComputeTargetTcpProxyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeTargetTcpProxyID(id))
 	return &BronzeHistoryGCPComputeTargetTcpProxyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -39656,7 +39656,7 @@ func (c *BronzeHistoryGCPComputeTargetTcpProxyClient) DeleteOne(_m *BronzeHistor
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeTargetTcpProxyClient) DeleteOneID(id int) *BronzeHistoryGCPComputeTargetTcpProxyDeleteOne {
+func (c *BronzeHistoryGCPComputeTargetTcpProxyClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeTargetTcpProxyDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputetargettcpproxy.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -39673,12 +39673,12 @@ func (c *BronzeHistoryGCPComputeTargetTcpProxyClient) Query() *BronzeHistoryGCPC
 }
 
 // Get returns a BronzeHistoryGCPComputeTargetTcpProxy entity by its id.
-func (c *BronzeHistoryGCPComputeTargetTcpProxyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeTargetTcpProxy, error) {
+func (c *BronzeHistoryGCPComputeTargetTcpProxyClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeTargetTcpProxy, error) {
 	return c.Query().Where(bronzehistorygcpcomputetargettcpproxy.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeTargetTcpProxyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeTargetTcpProxy {
+func (c *BronzeHistoryGCPComputeTargetTcpProxyClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeTargetTcpProxy {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -39772,7 +39772,7 @@ func (c *BronzeHistoryGCPComputeUrlMapClient) UpdateOne(_m *BronzeHistoryGCPComp
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPComputeUrlMapClient) UpdateOneID(id int) *BronzeHistoryGCPComputeUrlMapUpdateOne {
+func (c *BronzeHistoryGCPComputeUrlMapClient) UpdateOneID(id uint) *BronzeHistoryGCPComputeUrlMapUpdateOne {
 	mutation := newBronzeHistoryGCPComputeUrlMapMutation(c.config, OpUpdateOne, withBronzeHistoryGCPComputeUrlMapID(id))
 	return &BronzeHistoryGCPComputeUrlMapUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -39789,7 +39789,7 @@ func (c *BronzeHistoryGCPComputeUrlMapClient) DeleteOne(_m *BronzeHistoryGCPComp
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPComputeUrlMapClient) DeleteOneID(id int) *BronzeHistoryGCPComputeUrlMapDeleteOne {
+func (c *BronzeHistoryGCPComputeUrlMapClient) DeleteOneID(id uint) *BronzeHistoryGCPComputeUrlMapDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcomputeurlmap.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -39806,12 +39806,12 @@ func (c *BronzeHistoryGCPComputeUrlMapClient) Query() *BronzeHistoryGCPComputeUr
 }
 
 // Get returns a BronzeHistoryGCPComputeUrlMap entity by its id.
-func (c *BronzeHistoryGCPComputeUrlMapClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPComputeUrlMap, error) {
+func (c *BronzeHistoryGCPComputeUrlMapClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPComputeUrlMap, error) {
 	return c.Query().Where(bronzehistorygcpcomputeurlmap.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPComputeUrlMapClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPComputeUrlMap {
+func (c *BronzeHistoryGCPComputeUrlMapClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPComputeUrlMap {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -39905,7 +39905,7 @@ func (c *BronzeHistoryGCPContainerAnalysisNoteClient) UpdateOne(_m *BronzeHistor
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPContainerAnalysisNoteClient) UpdateOneID(id int) *BronzeHistoryGCPContainerAnalysisNoteUpdateOne {
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) UpdateOneID(id uint) *BronzeHistoryGCPContainerAnalysisNoteUpdateOne {
 	mutation := newBronzeHistoryGCPContainerAnalysisNoteMutation(c.config, OpUpdateOne, withBronzeHistoryGCPContainerAnalysisNoteID(id))
 	return &BronzeHistoryGCPContainerAnalysisNoteUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -39922,7 +39922,7 @@ func (c *BronzeHistoryGCPContainerAnalysisNoteClient) DeleteOne(_m *BronzeHistor
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPContainerAnalysisNoteClient) DeleteOneID(id int) *BronzeHistoryGCPContainerAnalysisNoteDeleteOne {
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) DeleteOneID(id uint) *BronzeHistoryGCPContainerAnalysisNoteDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcontaineranalysisnote.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -39939,12 +39939,12 @@ func (c *BronzeHistoryGCPContainerAnalysisNoteClient) Query() *BronzeHistoryGCPC
 }
 
 // Get returns a BronzeHistoryGCPContainerAnalysisNote entity by its id.
-func (c *BronzeHistoryGCPContainerAnalysisNoteClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPContainerAnalysisNote, error) {
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPContainerAnalysisNote, error) {
 	return c.Query().Where(bronzehistorygcpcontaineranalysisnote.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPContainerAnalysisNoteClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPContainerAnalysisNote {
+func (c *BronzeHistoryGCPContainerAnalysisNoteClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPContainerAnalysisNote {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -40038,7 +40038,7 @@ func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) UpdateOne(_m *Bronze
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) UpdateOneID(id int) *BronzeHistoryGCPContainerAnalysisOccurrenceUpdateOne {
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) UpdateOneID(id uint) *BronzeHistoryGCPContainerAnalysisOccurrenceUpdateOne {
 	mutation := newBronzeHistoryGCPContainerAnalysisOccurrenceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPContainerAnalysisOccurrenceID(id))
 	return &BronzeHistoryGCPContainerAnalysisOccurrenceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -40055,7 +40055,7 @@ func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) DeleteOne(_m *Bronze
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) DeleteOneID(id int) *BronzeHistoryGCPContainerAnalysisOccurrenceDeleteOne {
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) DeleteOneID(id uint) *BronzeHistoryGCPContainerAnalysisOccurrenceDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcontaineranalysisoccurrence.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -40072,12 +40072,12 @@ func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) Query() *BronzeHisto
 }
 
 // Get returns a BronzeHistoryGCPContainerAnalysisOccurrence entity by its id.
-func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPContainerAnalysisOccurrence, error) {
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPContainerAnalysisOccurrence, error) {
 	return c.Query().Where(bronzehistorygcpcontaineranalysisoccurrence.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPContainerAnalysisOccurrence {
+func (c *BronzeHistoryGCPContainerAnalysisOccurrenceClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPContainerAnalysisOccurrence {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -40171,7 +40171,7 @@ func (c *BronzeHistoryGCPContainerClusterClient) UpdateOne(_m *BronzeHistoryGCPC
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPContainerClusterClient) UpdateOneID(id int) *BronzeHistoryGCPContainerClusterUpdateOne {
+func (c *BronzeHistoryGCPContainerClusterClient) UpdateOneID(id uint) *BronzeHistoryGCPContainerClusterUpdateOne {
 	mutation := newBronzeHistoryGCPContainerClusterMutation(c.config, OpUpdateOne, withBronzeHistoryGCPContainerClusterID(id))
 	return &BronzeHistoryGCPContainerClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -40188,7 +40188,7 @@ func (c *BronzeHistoryGCPContainerClusterClient) DeleteOne(_m *BronzeHistoryGCPC
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPContainerClusterClient) DeleteOneID(id int) *BronzeHistoryGCPContainerClusterDeleteOne {
+func (c *BronzeHistoryGCPContainerClusterClient) DeleteOneID(id uint) *BronzeHistoryGCPContainerClusterDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcontainercluster.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -40205,12 +40205,12 @@ func (c *BronzeHistoryGCPContainerClusterClient) Query() *BronzeHistoryGCPContai
 }
 
 // Get returns a BronzeHistoryGCPContainerCluster entity by its id.
-func (c *BronzeHistoryGCPContainerClusterClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPContainerCluster, error) {
+func (c *BronzeHistoryGCPContainerClusterClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPContainerCluster, error) {
 	return c.Query().Where(bronzehistorygcpcontainercluster.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPContainerClusterClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPContainerCluster {
+func (c *BronzeHistoryGCPContainerClusterClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPContainerCluster {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -40304,7 +40304,7 @@ func (c *BronzeHistoryGCPContainerClusterAddonClient) UpdateOne(_m *BronzeHistor
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPContainerClusterAddonClient) UpdateOneID(id int) *BronzeHistoryGCPContainerClusterAddonUpdateOne {
+func (c *BronzeHistoryGCPContainerClusterAddonClient) UpdateOneID(id uint) *BronzeHistoryGCPContainerClusterAddonUpdateOne {
 	mutation := newBronzeHistoryGCPContainerClusterAddonMutation(c.config, OpUpdateOne, withBronzeHistoryGCPContainerClusterAddonID(id))
 	return &BronzeHistoryGCPContainerClusterAddonUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -40321,7 +40321,7 @@ func (c *BronzeHistoryGCPContainerClusterAddonClient) DeleteOne(_m *BronzeHistor
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPContainerClusterAddonClient) DeleteOneID(id int) *BronzeHistoryGCPContainerClusterAddonDeleteOne {
+func (c *BronzeHistoryGCPContainerClusterAddonClient) DeleteOneID(id uint) *BronzeHistoryGCPContainerClusterAddonDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcontainerclusteraddon.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -40338,12 +40338,12 @@ func (c *BronzeHistoryGCPContainerClusterAddonClient) Query() *BronzeHistoryGCPC
 }
 
 // Get returns a BronzeHistoryGCPContainerClusterAddon entity by its id.
-func (c *BronzeHistoryGCPContainerClusterAddonClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPContainerClusterAddon, error) {
+func (c *BronzeHistoryGCPContainerClusterAddonClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPContainerClusterAddon, error) {
 	return c.Query().Where(bronzehistorygcpcontainerclusteraddon.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPContainerClusterAddonClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPContainerClusterAddon {
+func (c *BronzeHistoryGCPContainerClusterAddonClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPContainerClusterAddon {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -40437,7 +40437,7 @@ func (c *BronzeHistoryGCPContainerClusterConditionClient) UpdateOne(_m *BronzeHi
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPContainerClusterConditionClient) UpdateOneID(id int) *BronzeHistoryGCPContainerClusterConditionUpdateOne {
+func (c *BronzeHistoryGCPContainerClusterConditionClient) UpdateOneID(id uint) *BronzeHistoryGCPContainerClusterConditionUpdateOne {
 	mutation := newBronzeHistoryGCPContainerClusterConditionMutation(c.config, OpUpdateOne, withBronzeHistoryGCPContainerClusterConditionID(id))
 	return &BronzeHistoryGCPContainerClusterConditionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -40454,7 +40454,7 @@ func (c *BronzeHistoryGCPContainerClusterConditionClient) DeleteOne(_m *BronzeHi
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPContainerClusterConditionClient) DeleteOneID(id int) *BronzeHistoryGCPContainerClusterConditionDeleteOne {
+func (c *BronzeHistoryGCPContainerClusterConditionClient) DeleteOneID(id uint) *BronzeHistoryGCPContainerClusterConditionDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcontainerclustercondition.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -40471,12 +40471,12 @@ func (c *BronzeHistoryGCPContainerClusterConditionClient) Query() *BronzeHistory
 }
 
 // Get returns a BronzeHistoryGCPContainerClusterCondition entity by its id.
-func (c *BronzeHistoryGCPContainerClusterConditionClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPContainerClusterCondition, error) {
+func (c *BronzeHistoryGCPContainerClusterConditionClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPContainerClusterCondition, error) {
 	return c.Query().Where(bronzehistorygcpcontainerclustercondition.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPContainerClusterConditionClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPContainerClusterCondition {
+func (c *BronzeHistoryGCPContainerClusterConditionClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPContainerClusterCondition {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -40570,7 +40570,7 @@ func (c *BronzeHistoryGCPContainerClusterLabelClient) UpdateOne(_m *BronzeHistor
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPContainerClusterLabelClient) UpdateOneID(id int) *BronzeHistoryGCPContainerClusterLabelUpdateOne {
+func (c *BronzeHistoryGCPContainerClusterLabelClient) UpdateOneID(id uint) *BronzeHistoryGCPContainerClusterLabelUpdateOne {
 	mutation := newBronzeHistoryGCPContainerClusterLabelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPContainerClusterLabelID(id))
 	return &BronzeHistoryGCPContainerClusterLabelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -40587,7 +40587,7 @@ func (c *BronzeHistoryGCPContainerClusterLabelClient) DeleteOne(_m *BronzeHistor
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPContainerClusterLabelClient) DeleteOneID(id int) *BronzeHistoryGCPContainerClusterLabelDeleteOne {
+func (c *BronzeHistoryGCPContainerClusterLabelClient) DeleteOneID(id uint) *BronzeHistoryGCPContainerClusterLabelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcontainerclusterlabel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -40604,12 +40604,12 @@ func (c *BronzeHistoryGCPContainerClusterLabelClient) Query() *BronzeHistoryGCPC
 }
 
 // Get returns a BronzeHistoryGCPContainerClusterLabel entity by its id.
-func (c *BronzeHistoryGCPContainerClusterLabelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPContainerClusterLabel, error) {
+func (c *BronzeHistoryGCPContainerClusterLabelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPContainerClusterLabel, error) {
 	return c.Query().Where(bronzehistorygcpcontainerclusterlabel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPContainerClusterLabelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPContainerClusterLabel {
+func (c *BronzeHistoryGCPContainerClusterLabelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPContainerClusterLabel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -40703,7 +40703,7 @@ func (c *BronzeHistoryGCPContainerClusterNodePoolClient) UpdateOne(_m *BronzeHis
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPContainerClusterNodePoolClient) UpdateOneID(id int) *BronzeHistoryGCPContainerClusterNodePoolUpdateOne {
+func (c *BronzeHistoryGCPContainerClusterNodePoolClient) UpdateOneID(id uint) *BronzeHistoryGCPContainerClusterNodePoolUpdateOne {
 	mutation := newBronzeHistoryGCPContainerClusterNodePoolMutation(c.config, OpUpdateOne, withBronzeHistoryGCPContainerClusterNodePoolID(id))
 	return &BronzeHistoryGCPContainerClusterNodePoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -40720,7 +40720,7 @@ func (c *BronzeHistoryGCPContainerClusterNodePoolClient) DeleteOne(_m *BronzeHis
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPContainerClusterNodePoolClient) DeleteOneID(id int) *BronzeHistoryGCPContainerClusterNodePoolDeleteOne {
+func (c *BronzeHistoryGCPContainerClusterNodePoolClient) DeleteOneID(id uint) *BronzeHistoryGCPContainerClusterNodePoolDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpcontainerclusternodepool.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -40737,12 +40737,12 @@ func (c *BronzeHistoryGCPContainerClusterNodePoolClient) Query() *BronzeHistoryG
 }
 
 // Get returns a BronzeHistoryGCPContainerClusterNodePool entity by its id.
-func (c *BronzeHistoryGCPContainerClusterNodePoolClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPContainerClusterNodePool, error) {
+func (c *BronzeHistoryGCPContainerClusterNodePoolClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPContainerClusterNodePool, error) {
 	return c.Query().Where(bronzehistorygcpcontainerclusternodepool.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPContainerClusterNodePoolClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPContainerClusterNodePool {
+func (c *BronzeHistoryGCPContainerClusterNodePoolClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPContainerClusterNodePool {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -40836,7 +40836,7 @@ func (c *BronzeHistoryGCPDNSManagedZoneClient) UpdateOne(_m *BronzeHistoryGCPDNS
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPDNSManagedZoneClient) UpdateOneID(id int) *BronzeHistoryGCPDNSManagedZoneUpdateOne {
+func (c *BronzeHistoryGCPDNSManagedZoneClient) UpdateOneID(id uint) *BronzeHistoryGCPDNSManagedZoneUpdateOne {
 	mutation := newBronzeHistoryGCPDNSManagedZoneMutation(c.config, OpUpdateOne, withBronzeHistoryGCPDNSManagedZoneID(id))
 	return &BronzeHistoryGCPDNSManagedZoneUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -40853,7 +40853,7 @@ func (c *BronzeHistoryGCPDNSManagedZoneClient) DeleteOne(_m *BronzeHistoryGCPDNS
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPDNSManagedZoneClient) DeleteOneID(id int) *BronzeHistoryGCPDNSManagedZoneDeleteOne {
+func (c *BronzeHistoryGCPDNSManagedZoneClient) DeleteOneID(id uint) *BronzeHistoryGCPDNSManagedZoneDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpdnsmanagedzone.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -40870,12 +40870,12 @@ func (c *BronzeHistoryGCPDNSManagedZoneClient) Query() *BronzeHistoryGCPDNSManag
 }
 
 // Get returns a BronzeHistoryGCPDNSManagedZone entity by its id.
-func (c *BronzeHistoryGCPDNSManagedZoneClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPDNSManagedZone, error) {
+func (c *BronzeHistoryGCPDNSManagedZoneClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPDNSManagedZone, error) {
 	return c.Query().Where(bronzehistorygcpdnsmanagedzone.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPDNSManagedZoneClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPDNSManagedZone {
+func (c *BronzeHistoryGCPDNSManagedZoneClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPDNSManagedZone {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -40969,7 +40969,7 @@ func (c *BronzeHistoryGCPDNSManagedZoneLabelClient) UpdateOne(_m *BronzeHistoryG
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPDNSManagedZoneLabelClient) UpdateOneID(id int) *BronzeHistoryGCPDNSManagedZoneLabelUpdateOne {
+func (c *BronzeHistoryGCPDNSManagedZoneLabelClient) UpdateOneID(id uint) *BronzeHistoryGCPDNSManagedZoneLabelUpdateOne {
 	mutation := newBronzeHistoryGCPDNSManagedZoneLabelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPDNSManagedZoneLabelID(id))
 	return &BronzeHistoryGCPDNSManagedZoneLabelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -40986,7 +40986,7 @@ func (c *BronzeHistoryGCPDNSManagedZoneLabelClient) DeleteOne(_m *BronzeHistoryG
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPDNSManagedZoneLabelClient) DeleteOneID(id int) *BronzeHistoryGCPDNSManagedZoneLabelDeleteOne {
+func (c *BronzeHistoryGCPDNSManagedZoneLabelClient) DeleteOneID(id uint) *BronzeHistoryGCPDNSManagedZoneLabelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpdnsmanagedzonelabel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -41003,12 +41003,12 @@ func (c *BronzeHistoryGCPDNSManagedZoneLabelClient) Query() *BronzeHistoryGCPDNS
 }
 
 // Get returns a BronzeHistoryGCPDNSManagedZoneLabel entity by its id.
-func (c *BronzeHistoryGCPDNSManagedZoneLabelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPDNSManagedZoneLabel, error) {
+func (c *BronzeHistoryGCPDNSManagedZoneLabelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPDNSManagedZoneLabel, error) {
 	return c.Query().Where(bronzehistorygcpdnsmanagedzonelabel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPDNSManagedZoneLabelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPDNSManagedZoneLabel {
+func (c *BronzeHistoryGCPDNSManagedZoneLabelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPDNSManagedZoneLabel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -41102,7 +41102,7 @@ func (c *BronzeHistoryGCPDNSPolicyClient) UpdateOne(_m *BronzeHistoryGCPDNSPolic
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPDNSPolicyClient) UpdateOneID(id int) *BronzeHistoryGCPDNSPolicyUpdateOne {
+func (c *BronzeHistoryGCPDNSPolicyClient) UpdateOneID(id uint) *BronzeHistoryGCPDNSPolicyUpdateOne {
 	mutation := newBronzeHistoryGCPDNSPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPDNSPolicyID(id))
 	return &BronzeHistoryGCPDNSPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -41119,7 +41119,7 @@ func (c *BronzeHistoryGCPDNSPolicyClient) DeleteOne(_m *BronzeHistoryGCPDNSPolic
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPDNSPolicyClient) DeleteOneID(id int) *BronzeHistoryGCPDNSPolicyDeleteOne {
+func (c *BronzeHistoryGCPDNSPolicyClient) DeleteOneID(id uint) *BronzeHistoryGCPDNSPolicyDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpdnspolicy.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -41136,12 +41136,12 @@ func (c *BronzeHistoryGCPDNSPolicyClient) Query() *BronzeHistoryGCPDNSPolicyQuer
 }
 
 // Get returns a BronzeHistoryGCPDNSPolicy entity by its id.
-func (c *BronzeHistoryGCPDNSPolicyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPDNSPolicy, error) {
+func (c *BronzeHistoryGCPDNSPolicyClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPDNSPolicy, error) {
 	return c.Query().Where(bronzehistorygcpdnspolicy.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPDNSPolicyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPDNSPolicy {
+func (c *BronzeHistoryGCPDNSPolicyClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPDNSPolicy {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -41235,7 +41235,7 @@ func (c *BronzeHistoryGCPDataprocClusterClient) UpdateOne(_m *BronzeHistoryGCPDa
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPDataprocClusterClient) UpdateOneID(id int) *BronzeHistoryGCPDataprocClusterUpdateOne {
+func (c *BronzeHistoryGCPDataprocClusterClient) UpdateOneID(id uint) *BronzeHistoryGCPDataprocClusterUpdateOne {
 	mutation := newBronzeHistoryGCPDataprocClusterMutation(c.config, OpUpdateOne, withBronzeHistoryGCPDataprocClusterID(id))
 	return &BronzeHistoryGCPDataprocClusterUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -41252,7 +41252,7 @@ func (c *BronzeHistoryGCPDataprocClusterClient) DeleteOne(_m *BronzeHistoryGCPDa
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPDataprocClusterClient) DeleteOneID(id int) *BronzeHistoryGCPDataprocClusterDeleteOne {
+func (c *BronzeHistoryGCPDataprocClusterClient) DeleteOneID(id uint) *BronzeHistoryGCPDataprocClusterDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpdataproccluster.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -41269,12 +41269,12 @@ func (c *BronzeHistoryGCPDataprocClusterClient) Query() *BronzeHistoryGCPDatapro
 }
 
 // Get returns a BronzeHistoryGCPDataprocCluster entity by its id.
-func (c *BronzeHistoryGCPDataprocClusterClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPDataprocCluster, error) {
+func (c *BronzeHistoryGCPDataprocClusterClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPDataprocCluster, error) {
 	return c.Query().Where(bronzehistorygcpdataproccluster.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPDataprocClusterClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPDataprocCluster {
+func (c *BronzeHistoryGCPDataprocClusterClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPDataprocCluster {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -41368,7 +41368,7 @@ func (c *BronzeHistoryGCPFilestoreInstanceClient) UpdateOne(_m *BronzeHistoryGCP
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPFilestoreInstanceClient) UpdateOneID(id int) *BronzeHistoryGCPFilestoreInstanceUpdateOne {
+func (c *BronzeHistoryGCPFilestoreInstanceClient) UpdateOneID(id uint) *BronzeHistoryGCPFilestoreInstanceUpdateOne {
 	mutation := newBronzeHistoryGCPFilestoreInstanceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPFilestoreInstanceID(id))
 	return &BronzeHistoryGCPFilestoreInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -41385,7 +41385,7 @@ func (c *BronzeHistoryGCPFilestoreInstanceClient) DeleteOne(_m *BronzeHistoryGCP
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPFilestoreInstanceClient) DeleteOneID(id int) *BronzeHistoryGCPFilestoreInstanceDeleteOne {
+func (c *BronzeHistoryGCPFilestoreInstanceClient) DeleteOneID(id uint) *BronzeHistoryGCPFilestoreInstanceDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpfilestoreinstance.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -41402,12 +41402,12 @@ func (c *BronzeHistoryGCPFilestoreInstanceClient) Query() *BronzeHistoryGCPFiles
 }
 
 // Get returns a BronzeHistoryGCPFilestoreInstance entity by its id.
-func (c *BronzeHistoryGCPFilestoreInstanceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPFilestoreInstance, error) {
+func (c *BronzeHistoryGCPFilestoreInstanceClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPFilestoreInstance, error) {
 	return c.Query().Where(bronzehistorygcpfilestoreinstance.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPFilestoreInstanceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPFilestoreInstance {
+func (c *BronzeHistoryGCPFilestoreInstanceClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPFilestoreInstance {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -41501,7 +41501,7 @@ func (c *BronzeHistoryGCPFolderClient) UpdateOne(_m *BronzeHistoryGCPFolder) *Br
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPFolderClient) UpdateOneID(id int) *BronzeHistoryGCPFolderUpdateOne {
+func (c *BronzeHistoryGCPFolderClient) UpdateOneID(id uint) *BronzeHistoryGCPFolderUpdateOne {
 	mutation := newBronzeHistoryGCPFolderMutation(c.config, OpUpdateOne, withBronzeHistoryGCPFolderID(id))
 	return &BronzeHistoryGCPFolderUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -41518,7 +41518,7 @@ func (c *BronzeHistoryGCPFolderClient) DeleteOne(_m *BronzeHistoryGCPFolder) *Br
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPFolderClient) DeleteOneID(id int) *BronzeHistoryGCPFolderDeleteOne {
+func (c *BronzeHistoryGCPFolderClient) DeleteOneID(id uint) *BronzeHistoryGCPFolderDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpfolder.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -41535,12 +41535,12 @@ func (c *BronzeHistoryGCPFolderClient) Query() *BronzeHistoryGCPFolderQuery {
 }
 
 // Get returns a BronzeHistoryGCPFolder entity by its id.
-func (c *BronzeHistoryGCPFolderClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPFolder, error) {
+func (c *BronzeHistoryGCPFolderClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPFolder, error) {
 	return c.Query().Where(bronzehistorygcpfolder.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPFolderClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPFolder {
+func (c *BronzeHistoryGCPFolderClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPFolder {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -41634,7 +41634,7 @@ func (c *BronzeHistoryGCPFolderIamPolicyClient) UpdateOne(_m *BronzeHistoryGCPFo
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPFolderIamPolicyClient) UpdateOneID(id int) *BronzeHistoryGCPFolderIamPolicyUpdateOne {
+func (c *BronzeHistoryGCPFolderIamPolicyClient) UpdateOneID(id uint) *BronzeHistoryGCPFolderIamPolicyUpdateOne {
 	mutation := newBronzeHistoryGCPFolderIamPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPFolderIamPolicyID(id))
 	return &BronzeHistoryGCPFolderIamPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -41651,7 +41651,7 @@ func (c *BronzeHistoryGCPFolderIamPolicyClient) DeleteOne(_m *BronzeHistoryGCPFo
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPFolderIamPolicyClient) DeleteOneID(id int) *BronzeHistoryGCPFolderIamPolicyDeleteOne {
+func (c *BronzeHistoryGCPFolderIamPolicyClient) DeleteOneID(id uint) *BronzeHistoryGCPFolderIamPolicyDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpfolderiampolicy.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -41668,12 +41668,12 @@ func (c *BronzeHistoryGCPFolderIamPolicyClient) Query() *BronzeHistoryGCPFolderI
 }
 
 // Get returns a BronzeHistoryGCPFolderIamPolicy entity by its id.
-func (c *BronzeHistoryGCPFolderIamPolicyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPFolderIamPolicy, error) {
+func (c *BronzeHistoryGCPFolderIamPolicyClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPFolderIamPolicy, error) {
 	return c.Query().Where(bronzehistorygcpfolderiampolicy.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPFolderIamPolicyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPFolderIamPolicy {
+func (c *BronzeHistoryGCPFolderIamPolicyClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPFolderIamPolicy {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -41767,7 +41767,7 @@ func (c *BronzeHistoryGCPFolderIamPolicyBindingClient) UpdateOne(_m *BronzeHisto
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPFolderIamPolicyBindingClient) UpdateOneID(id int) *BronzeHistoryGCPFolderIamPolicyBindingUpdateOne {
+func (c *BronzeHistoryGCPFolderIamPolicyBindingClient) UpdateOneID(id uint) *BronzeHistoryGCPFolderIamPolicyBindingUpdateOne {
 	mutation := newBronzeHistoryGCPFolderIamPolicyBindingMutation(c.config, OpUpdateOne, withBronzeHistoryGCPFolderIamPolicyBindingID(id))
 	return &BronzeHistoryGCPFolderIamPolicyBindingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -41784,7 +41784,7 @@ func (c *BronzeHistoryGCPFolderIamPolicyBindingClient) DeleteOne(_m *BronzeHisto
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPFolderIamPolicyBindingClient) DeleteOneID(id int) *BronzeHistoryGCPFolderIamPolicyBindingDeleteOne {
+func (c *BronzeHistoryGCPFolderIamPolicyBindingClient) DeleteOneID(id uint) *BronzeHistoryGCPFolderIamPolicyBindingDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpfolderiampolicybinding.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -41801,12 +41801,12 @@ func (c *BronzeHistoryGCPFolderIamPolicyBindingClient) Query() *BronzeHistoryGCP
 }
 
 // Get returns a BronzeHistoryGCPFolderIamPolicyBinding entity by its id.
-func (c *BronzeHistoryGCPFolderIamPolicyBindingClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPFolderIamPolicyBinding, error) {
+func (c *BronzeHistoryGCPFolderIamPolicyBindingClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPFolderIamPolicyBinding, error) {
 	return c.Query().Where(bronzehistorygcpfolderiampolicybinding.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPFolderIamPolicyBindingClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPFolderIamPolicyBinding {
+func (c *BronzeHistoryGCPFolderIamPolicyBindingClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPFolderIamPolicyBinding {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -41900,7 +41900,7 @@ func (c *BronzeHistoryGCPFolderLabelClient) UpdateOne(_m *BronzeHistoryGCPFolder
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPFolderLabelClient) UpdateOneID(id int) *BronzeHistoryGCPFolderLabelUpdateOne {
+func (c *BronzeHistoryGCPFolderLabelClient) UpdateOneID(id uint) *BronzeHistoryGCPFolderLabelUpdateOne {
 	mutation := newBronzeHistoryGCPFolderLabelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPFolderLabelID(id))
 	return &BronzeHistoryGCPFolderLabelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -41917,7 +41917,7 @@ func (c *BronzeHistoryGCPFolderLabelClient) DeleteOne(_m *BronzeHistoryGCPFolder
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPFolderLabelClient) DeleteOneID(id int) *BronzeHistoryGCPFolderLabelDeleteOne {
+func (c *BronzeHistoryGCPFolderLabelClient) DeleteOneID(id uint) *BronzeHistoryGCPFolderLabelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpfolderlabel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -41934,12 +41934,12 @@ func (c *BronzeHistoryGCPFolderLabelClient) Query() *BronzeHistoryGCPFolderLabel
 }
 
 // Get returns a BronzeHistoryGCPFolderLabel entity by its id.
-func (c *BronzeHistoryGCPFolderLabelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPFolderLabel, error) {
+func (c *BronzeHistoryGCPFolderLabelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPFolderLabel, error) {
 	return c.Query().Where(bronzehistorygcpfolderlabel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPFolderLabelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPFolderLabel {
+func (c *BronzeHistoryGCPFolderLabelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPFolderLabel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -42033,7 +42033,7 @@ func (c *BronzeHistoryGCPIAMServiceAccountClient) UpdateOne(_m *BronzeHistoryGCP
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPIAMServiceAccountClient) UpdateOneID(id int) *BronzeHistoryGCPIAMServiceAccountUpdateOne {
+func (c *BronzeHistoryGCPIAMServiceAccountClient) UpdateOneID(id uint) *BronzeHistoryGCPIAMServiceAccountUpdateOne {
 	mutation := newBronzeHistoryGCPIAMServiceAccountMutation(c.config, OpUpdateOne, withBronzeHistoryGCPIAMServiceAccountID(id))
 	return &BronzeHistoryGCPIAMServiceAccountUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -42050,7 +42050,7 @@ func (c *BronzeHistoryGCPIAMServiceAccountClient) DeleteOne(_m *BronzeHistoryGCP
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPIAMServiceAccountClient) DeleteOneID(id int) *BronzeHistoryGCPIAMServiceAccountDeleteOne {
+func (c *BronzeHistoryGCPIAMServiceAccountClient) DeleteOneID(id uint) *BronzeHistoryGCPIAMServiceAccountDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpiamserviceaccount.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -42067,12 +42067,12 @@ func (c *BronzeHistoryGCPIAMServiceAccountClient) Query() *BronzeHistoryGCPIAMSe
 }
 
 // Get returns a BronzeHistoryGCPIAMServiceAccount entity by its id.
-func (c *BronzeHistoryGCPIAMServiceAccountClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPIAMServiceAccount, error) {
+func (c *BronzeHistoryGCPIAMServiceAccountClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPIAMServiceAccount, error) {
 	return c.Query().Where(bronzehistorygcpiamserviceaccount.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPIAMServiceAccountClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPIAMServiceAccount {
+func (c *BronzeHistoryGCPIAMServiceAccountClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPIAMServiceAccount {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -42166,7 +42166,7 @@ func (c *BronzeHistoryGCPIAMServiceAccountKeyClient) UpdateOne(_m *BronzeHistory
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPIAMServiceAccountKeyClient) UpdateOneID(id int) *BronzeHistoryGCPIAMServiceAccountKeyUpdateOne {
+func (c *BronzeHistoryGCPIAMServiceAccountKeyClient) UpdateOneID(id uint) *BronzeHistoryGCPIAMServiceAccountKeyUpdateOne {
 	mutation := newBronzeHistoryGCPIAMServiceAccountKeyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPIAMServiceAccountKeyID(id))
 	return &BronzeHistoryGCPIAMServiceAccountKeyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -42183,7 +42183,7 @@ func (c *BronzeHistoryGCPIAMServiceAccountKeyClient) DeleteOne(_m *BronzeHistory
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPIAMServiceAccountKeyClient) DeleteOneID(id int) *BronzeHistoryGCPIAMServiceAccountKeyDeleteOne {
+func (c *BronzeHistoryGCPIAMServiceAccountKeyClient) DeleteOneID(id uint) *BronzeHistoryGCPIAMServiceAccountKeyDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpiamserviceaccountkey.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -42200,12 +42200,12 @@ func (c *BronzeHistoryGCPIAMServiceAccountKeyClient) Query() *BronzeHistoryGCPIA
 }
 
 // Get returns a BronzeHistoryGCPIAMServiceAccountKey entity by its id.
-func (c *BronzeHistoryGCPIAMServiceAccountKeyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPIAMServiceAccountKey, error) {
+func (c *BronzeHistoryGCPIAMServiceAccountKeyClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPIAMServiceAccountKey, error) {
 	return c.Query().Where(bronzehistorygcpiamserviceaccountkey.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPIAMServiceAccountKeyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPIAMServiceAccountKey {
+func (c *BronzeHistoryGCPIAMServiceAccountKeyClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPIAMServiceAccountKey {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -42299,7 +42299,7 @@ func (c *BronzeHistoryGCPIAPIAMPolicyClient) UpdateOne(_m *BronzeHistoryGCPIAPIA
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPIAPIAMPolicyClient) UpdateOneID(id int) *BronzeHistoryGCPIAPIAMPolicyUpdateOne {
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) UpdateOneID(id uint) *BronzeHistoryGCPIAPIAMPolicyUpdateOne {
 	mutation := newBronzeHistoryGCPIAPIAMPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPIAPIAMPolicyID(id))
 	return &BronzeHistoryGCPIAPIAMPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -42316,7 +42316,7 @@ func (c *BronzeHistoryGCPIAPIAMPolicyClient) DeleteOne(_m *BronzeHistoryGCPIAPIA
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPIAPIAMPolicyClient) DeleteOneID(id int) *BronzeHistoryGCPIAPIAMPolicyDeleteOne {
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) DeleteOneID(id uint) *BronzeHistoryGCPIAPIAMPolicyDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpiapiampolicy.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -42333,12 +42333,12 @@ func (c *BronzeHistoryGCPIAPIAMPolicyClient) Query() *BronzeHistoryGCPIAPIAMPoli
 }
 
 // Get returns a BronzeHistoryGCPIAPIAMPolicy entity by its id.
-func (c *BronzeHistoryGCPIAPIAMPolicyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPIAPIAMPolicy, error) {
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPIAPIAMPolicy, error) {
 	return c.Query().Where(bronzehistorygcpiapiampolicy.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPIAPIAMPolicyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPIAPIAMPolicy {
+func (c *BronzeHistoryGCPIAPIAMPolicyClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPIAPIAMPolicy {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -42432,7 +42432,7 @@ func (c *BronzeHistoryGCPIAPSettingsClient) UpdateOne(_m *BronzeHistoryGCPIAPSet
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPIAPSettingsClient) UpdateOneID(id int) *BronzeHistoryGCPIAPSettingsUpdateOne {
+func (c *BronzeHistoryGCPIAPSettingsClient) UpdateOneID(id uint) *BronzeHistoryGCPIAPSettingsUpdateOne {
 	mutation := newBronzeHistoryGCPIAPSettingsMutation(c.config, OpUpdateOne, withBronzeHistoryGCPIAPSettingsID(id))
 	return &BronzeHistoryGCPIAPSettingsUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -42449,7 +42449,7 @@ func (c *BronzeHistoryGCPIAPSettingsClient) DeleteOne(_m *BronzeHistoryGCPIAPSet
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPIAPSettingsClient) DeleteOneID(id int) *BronzeHistoryGCPIAPSettingsDeleteOne {
+func (c *BronzeHistoryGCPIAPSettingsClient) DeleteOneID(id uint) *BronzeHistoryGCPIAPSettingsDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpiapsettings.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -42466,12 +42466,12 @@ func (c *BronzeHistoryGCPIAPSettingsClient) Query() *BronzeHistoryGCPIAPSettings
 }
 
 // Get returns a BronzeHistoryGCPIAPSettings entity by its id.
-func (c *BronzeHistoryGCPIAPSettingsClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPIAPSettings, error) {
+func (c *BronzeHistoryGCPIAPSettingsClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPIAPSettings, error) {
 	return c.Query().Where(bronzehistorygcpiapsettings.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPIAPSettingsClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPIAPSettings {
+func (c *BronzeHistoryGCPIAPSettingsClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPIAPSettings {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -42565,7 +42565,7 @@ func (c *BronzeHistoryGCPKMSCryptoKeyClient) UpdateOne(_m *BronzeHistoryGCPKMSCr
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPKMSCryptoKeyClient) UpdateOneID(id int) *BronzeHistoryGCPKMSCryptoKeyUpdateOne {
+func (c *BronzeHistoryGCPKMSCryptoKeyClient) UpdateOneID(id uint) *BronzeHistoryGCPKMSCryptoKeyUpdateOne {
 	mutation := newBronzeHistoryGCPKMSCryptoKeyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPKMSCryptoKeyID(id))
 	return &BronzeHistoryGCPKMSCryptoKeyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -42582,7 +42582,7 @@ func (c *BronzeHistoryGCPKMSCryptoKeyClient) DeleteOne(_m *BronzeHistoryGCPKMSCr
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPKMSCryptoKeyClient) DeleteOneID(id int) *BronzeHistoryGCPKMSCryptoKeyDeleteOne {
+func (c *BronzeHistoryGCPKMSCryptoKeyClient) DeleteOneID(id uint) *BronzeHistoryGCPKMSCryptoKeyDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpkmscryptokey.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -42599,12 +42599,12 @@ func (c *BronzeHistoryGCPKMSCryptoKeyClient) Query() *BronzeHistoryGCPKMSCryptoK
 }
 
 // Get returns a BronzeHistoryGCPKMSCryptoKey entity by its id.
-func (c *BronzeHistoryGCPKMSCryptoKeyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPKMSCryptoKey, error) {
+func (c *BronzeHistoryGCPKMSCryptoKeyClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPKMSCryptoKey, error) {
 	return c.Query().Where(bronzehistorygcpkmscryptokey.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPKMSCryptoKeyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPKMSCryptoKey {
+func (c *BronzeHistoryGCPKMSCryptoKeyClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPKMSCryptoKey {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -42698,7 +42698,7 @@ func (c *BronzeHistoryGCPKMSKeyRingClient) UpdateOne(_m *BronzeHistoryGCPKMSKeyR
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPKMSKeyRingClient) UpdateOneID(id int) *BronzeHistoryGCPKMSKeyRingUpdateOne {
+func (c *BronzeHistoryGCPKMSKeyRingClient) UpdateOneID(id uint) *BronzeHistoryGCPKMSKeyRingUpdateOne {
 	mutation := newBronzeHistoryGCPKMSKeyRingMutation(c.config, OpUpdateOne, withBronzeHistoryGCPKMSKeyRingID(id))
 	return &BronzeHistoryGCPKMSKeyRingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -42715,7 +42715,7 @@ func (c *BronzeHistoryGCPKMSKeyRingClient) DeleteOne(_m *BronzeHistoryGCPKMSKeyR
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPKMSKeyRingClient) DeleteOneID(id int) *BronzeHistoryGCPKMSKeyRingDeleteOne {
+func (c *BronzeHistoryGCPKMSKeyRingClient) DeleteOneID(id uint) *BronzeHistoryGCPKMSKeyRingDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpkmskeyring.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -42732,12 +42732,12 @@ func (c *BronzeHistoryGCPKMSKeyRingClient) Query() *BronzeHistoryGCPKMSKeyRingQu
 }
 
 // Get returns a BronzeHistoryGCPKMSKeyRing entity by its id.
-func (c *BronzeHistoryGCPKMSKeyRingClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPKMSKeyRing, error) {
+func (c *BronzeHistoryGCPKMSKeyRingClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPKMSKeyRing, error) {
 	return c.Query().Where(bronzehistorygcpkmskeyring.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPKMSKeyRingClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPKMSKeyRing {
+func (c *BronzeHistoryGCPKMSKeyRingClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPKMSKeyRing {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -42831,7 +42831,7 @@ func (c *BronzeHistoryGCPLoggingBucketClient) UpdateOne(_m *BronzeHistoryGCPLogg
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPLoggingBucketClient) UpdateOneID(id int) *BronzeHistoryGCPLoggingBucketUpdateOne {
+func (c *BronzeHistoryGCPLoggingBucketClient) UpdateOneID(id uint) *BronzeHistoryGCPLoggingBucketUpdateOne {
 	mutation := newBronzeHistoryGCPLoggingBucketMutation(c.config, OpUpdateOne, withBronzeHistoryGCPLoggingBucketID(id))
 	return &BronzeHistoryGCPLoggingBucketUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -42848,7 +42848,7 @@ func (c *BronzeHistoryGCPLoggingBucketClient) DeleteOne(_m *BronzeHistoryGCPLogg
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPLoggingBucketClient) DeleteOneID(id int) *BronzeHistoryGCPLoggingBucketDeleteOne {
+func (c *BronzeHistoryGCPLoggingBucketClient) DeleteOneID(id uint) *BronzeHistoryGCPLoggingBucketDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcploggingbucket.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -42865,12 +42865,12 @@ func (c *BronzeHistoryGCPLoggingBucketClient) Query() *BronzeHistoryGCPLoggingBu
 }
 
 // Get returns a BronzeHistoryGCPLoggingBucket entity by its id.
-func (c *BronzeHistoryGCPLoggingBucketClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPLoggingBucket, error) {
+func (c *BronzeHistoryGCPLoggingBucketClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPLoggingBucket, error) {
 	return c.Query().Where(bronzehistorygcploggingbucket.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPLoggingBucketClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPLoggingBucket {
+func (c *BronzeHistoryGCPLoggingBucketClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPLoggingBucket {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -42964,7 +42964,7 @@ func (c *BronzeHistoryGCPLoggingLogExclusionClient) UpdateOne(_m *BronzeHistoryG
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPLoggingLogExclusionClient) UpdateOneID(id int) *BronzeHistoryGCPLoggingLogExclusionUpdateOne {
+func (c *BronzeHistoryGCPLoggingLogExclusionClient) UpdateOneID(id uint) *BronzeHistoryGCPLoggingLogExclusionUpdateOne {
 	mutation := newBronzeHistoryGCPLoggingLogExclusionMutation(c.config, OpUpdateOne, withBronzeHistoryGCPLoggingLogExclusionID(id))
 	return &BronzeHistoryGCPLoggingLogExclusionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -42981,7 +42981,7 @@ func (c *BronzeHistoryGCPLoggingLogExclusionClient) DeleteOne(_m *BronzeHistoryG
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPLoggingLogExclusionClient) DeleteOneID(id int) *BronzeHistoryGCPLoggingLogExclusionDeleteOne {
+func (c *BronzeHistoryGCPLoggingLogExclusionClient) DeleteOneID(id uint) *BronzeHistoryGCPLoggingLogExclusionDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcplogginglogexclusion.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -42998,12 +42998,12 @@ func (c *BronzeHistoryGCPLoggingLogExclusionClient) Query() *BronzeHistoryGCPLog
 }
 
 // Get returns a BronzeHistoryGCPLoggingLogExclusion entity by its id.
-func (c *BronzeHistoryGCPLoggingLogExclusionClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPLoggingLogExclusion, error) {
+func (c *BronzeHistoryGCPLoggingLogExclusionClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPLoggingLogExclusion, error) {
 	return c.Query().Where(bronzehistorygcplogginglogexclusion.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPLoggingLogExclusionClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPLoggingLogExclusion {
+func (c *BronzeHistoryGCPLoggingLogExclusionClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPLoggingLogExclusion {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -43097,7 +43097,7 @@ func (c *BronzeHistoryGCPLoggingLogMetricClient) UpdateOne(_m *BronzeHistoryGCPL
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPLoggingLogMetricClient) UpdateOneID(id int) *BronzeHistoryGCPLoggingLogMetricUpdateOne {
+func (c *BronzeHistoryGCPLoggingLogMetricClient) UpdateOneID(id uint) *BronzeHistoryGCPLoggingLogMetricUpdateOne {
 	mutation := newBronzeHistoryGCPLoggingLogMetricMutation(c.config, OpUpdateOne, withBronzeHistoryGCPLoggingLogMetricID(id))
 	return &BronzeHistoryGCPLoggingLogMetricUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -43114,7 +43114,7 @@ func (c *BronzeHistoryGCPLoggingLogMetricClient) DeleteOne(_m *BronzeHistoryGCPL
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPLoggingLogMetricClient) DeleteOneID(id int) *BronzeHistoryGCPLoggingLogMetricDeleteOne {
+func (c *BronzeHistoryGCPLoggingLogMetricClient) DeleteOneID(id uint) *BronzeHistoryGCPLoggingLogMetricDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcplogginglogmetric.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -43131,12 +43131,12 @@ func (c *BronzeHistoryGCPLoggingLogMetricClient) Query() *BronzeHistoryGCPLoggin
 }
 
 // Get returns a BronzeHistoryGCPLoggingLogMetric entity by its id.
-func (c *BronzeHistoryGCPLoggingLogMetricClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPLoggingLogMetric, error) {
+func (c *BronzeHistoryGCPLoggingLogMetricClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPLoggingLogMetric, error) {
 	return c.Query().Where(bronzehistorygcplogginglogmetric.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPLoggingLogMetricClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPLoggingLogMetric {
+func (c *BronzeHistoryGCPLoggingLogMetricClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPLoggingLogMetric {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -43230,7 +43230,7 @@ func (c *BronzeHistoryGCPLoggingSinkClient) UpdateOne(_m *BronzeHistoryGCPLoggin
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPLoggingSinkClient) UpdateOneID(id int) *BronzeHistoryGCPLoggingSinkUpdateOne {
+func (c *BronzeHistoryGCPLoggingSinkClient) UpdateOneID(id uint) *BronzeHistoryGCPLoggingSinkUpdateOne {
 	mutation := newBronzeHistoryGCPLoggingSinkMutation(c.config, OpUpdateOne, withBronzeHistoryGCPLoggingSinkID(id))
 	return &BronzeHistoryGCPLoggingSinkUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -43247,7 +43247,7 @@ func (c *BronzeHistoryGCPLoggingSinkClient) DeleteOne(_m *BronzeHistoryGCPLoggin
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPLoggingSinkClient) DeleteOneID(id int) *BronzeHistoryGCPLoggingSinkDeleteOne {
+func (c *BronzeHistoryGCPLoggingSinkClient) DeleteOneID(id uint) *BronzeHistoryGCPLoggingSinkDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcploggingsink.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -43264,12 +43264,12 @@ func (c *BronzeHistoryGCPLoggingSinkClient) Query() *BronzeHistoryGCPLoggingSink
 }
 
 // Get returns a BronzeHistoryGCPLoggingSink entity by its id.
-func (c *BronzeHistoryGCPLoggingSinkClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPLoggingSink, error) {
+func (c *BronzeHistoryGCPLoggingSinkClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPLoggingSink, error) {
 	return c.Query().Where(bronzehistorygcploggingsink.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPLoggingSinkClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPLoggingSink {
+func (c *BronzeHistoryGCPLoggingSinkClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPLoggingSink {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -43363,7 +43363,7 @@ func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) UpdateOne(_m *BronzeHistor
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) UpdateOneID(id int) *BronzeHistoryGCPMonitoringAlertPolicyUpdateOne {
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) UpdateOneID(id uint) *BronzeHistoryGCPMonitoringAlertPolicyUpdateOne {
 	mutation := newBronzeHistoryGCPMonitoringAlertPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPMonitoringAlertPolicyID(id))
 	return &BronzeHistoryGCPMonitoringAlertPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -43380,7 +43380,7 @@ func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) DeleteOne(_m *BronzeHistor
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) DeleteOneID(id int) *BronzeHistoryGCPMonitoringAlertPolicyDeleteOne {
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) DeleteOneID(id uint) *BronzeHistoryGCPMonitoringAlertPolicyDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpmonitoringalertpolicy.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -43397,12 +43397,12 @@ func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) Query() *BronzeHistoryGCPM
 }
 
 // Get returns a BronzeHistoryGCPMonitoringAlertPolicy entity by its id.
-func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPMonitoringAlertPolicy, error) {
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPMonitoringAlertPolicy, error) {
 	return c.Query().Where(bronzehistorygcpmonitoringalertpolicy.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPMonitoringAlertPolicy {
+func (c *BronzeHistoryGCPMonitoringAlertPolicyClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPMonitoringAlertPolicy {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -43496,7 +43496,7 @@ func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) UpdateOne(_m *Bronze
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) UpdateOneID(id int) *BronzeHistoryGCPMonitoringUptimeCheckConfigUpdateOne {
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) UpdateOneID(id uint) *BronzeHistoryGCPMonitoringUptimeCheckConfigUpdateOne {
 	mutation := newBronzeHistoryGCPMonitoringUptimeCheckConfigMutation(c.config, OpUpdateOne, withBronzeHistoryGCPMonitoringUptimeCheckConfigID(id))
 	return &BronzeHistoryGCPMonitoringUptimeCheckConfigUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -43513,7 +43513,7 @@ func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) DeleteOne(_m *Bronze
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) DeleteOneID(id int) *BronzeHistoryGCPMonitoringUptimeCheckConfigDeleteOne {
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) DeleteOneID(id uint) *BronzeHistoryGCPMonitoringUptimeCheckConfigDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpmonitoringuptimecheckconfig.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -43530,12 +43530,12 @@ func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) Query() *BronzeHisto
 }
 
 // Get returns a BronzeHistoryGCPMonitoringUptimeCheckConfig entity by its id.
-func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPMonitoringUptimeCheckConfig, error) {
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPMonitoringUptimeCheckConfig, error) {
 	return c.Query().Where(bronzehistorygcpmonitoringuptimecheckconfig.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPMonitoringUptimeCheckConfig {
+func (c *BronzeHistoryGCPMonitoringUptimeCheckConfigClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPMonitoringUptimeCheckConfig {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -43629,7 +43629,7 @@ func (c *BronzeHistoryGCPOrgIamPolicyClient) UpdateOne(_m *BronzeHistoryGCPOrgIa
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPOrgIamPolicyClient) UpdateOneID(id int) *BronzeHistoryGCPOrgIamPolicyUpdateOne {
+func (c *BronzeHistoryGCPOrgIamPolicyClient) UpdateOneID(id uint) *BronzeHistoryGCPOrgIamPolicyUpdateOne {
 	mutation := newBronzeHistoryGCPOrgIamPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPOrgIamPolicyID(id))
 	return &BronzeHistoryGCPOrgIamPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -43646,7 +43646,7 @@ func (c *BronzeHistoryGCPOrgIamPolicyClient) DeleteOne(_m *BronzeHistoryGCPOrgIa
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPOrgIamPolicyClient) DeleteOneID(id int) *BronzeHistoryGCPOrgIamPolicyDeleteOne {
+func (c *BronzeHistoryGCPOrgIamPolicyClient) DeleteOneID(id uint) *BronzeHistoryGCPOrgIamPolicyDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcporgiampolicy.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -43663,12 +43663,12 @@ func (c *BronzeHistoryGCPOrgIamPolicyClient) Query() *BronzeHistoryGCPOrgIamPoli
 }
 
 // Get returns a BronzeHistoryGCPOrgIamPolicy entity by its id.
-func (c *BronzeHistoryGCPOrgIamPolicyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPOrgIamPolicy, error) {
+func (c *BronzeHistoryGCPOrgIamPolicyClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPOrgIamPolicy, error) {
 	return c.Query().Where(bronzehistorygcporgiampolicy.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPOrgIamPolicyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPOrgIamPolicy {
+func (c *BronzeHistoryGCPOrgIamPolicyClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPOrgIamPolicy {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -43762,7 +43762,7 @@ func (c *BronzeHistoryGCPOrgIamPolicyBindingClient) UpdateOne(_m *BronzeHistoryG
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPOrgIamPolicyBindingClient) UpdateOneID(id int) *BronzeHistoryGCPOrgIamPolicyBindingUpdateOne {
+func (c *BronzeHistoryGCPOrgIamPolicyBindingClient) UpdateOneID(id uint) *BronzeHistoryGCPOrgIamPolicyBindingUpdateOne {
 	mutation := newBronzeHistoryGCPOrgIamPolicyBindingMutation(c.config, OpUpdateOne, withBronzeHistoryGCPOrgIamPolicyBindingID(id))
 	return &BronzeHistoryGCPOrgIamPolicyBindingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -43779,7 +43779,7 @@ func (c *BronzeHistoryGCPOrgIamPolicyBindingClient) DeleteOne(_m *BronzeHistoryG
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPOrgIamPolicyBindingClient) DeleteOneID(id int) *BronzeHistoryGCPOrgIamPolicyBindingDeleteOne {
+func (c *BronzeHistoryGCPOrgIamPolicyBindingClient) DeleteOneID(id uint) *BronzeHistoryGCPOrgIamPolicyBindingDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcporgiampolicybinding.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -43796,12 +43796,12 @@ func (c *BronzeHistoryGCPOrgIamPolicyBindingClient) Query() *BronzeHistoryGCPOrg
 }
 
 // Get returns a BronzeHistoryGCPOrgIamPolicyBinding entity by its id.
-func (c *BronzeHistoryGCPOrgIamPolicyBindingClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPOrgIamPolicyBinding, error) {
+func (c *BronzeHistoryGCPOrgIamPolicyBindingClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPOrgIamPolicyBinding, error) {
 	return c.Query().Where(bronzehistorygcporgiampolicybinding.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPOrgIamPolicyBindingClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPOrgIamPolicyBinding {
+func (c *BronzeHistoryGCPOrgIamPolicyBindingClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPOrgIamPolicyBinding {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -43895,7 +43895,7 @@ func (c *BronzeHistoryGCPOrgPolicyConstraintClient) UpdateOne(_m *BronzeHistoryG
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPOrgPolicyConstraintClient) UpdateOneID(id int) *BronzeHistoryGCPOrgPolicyConstraintUpdateOne {
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) UpdateOneID(id uint) *BronzeHistoryGCPOrgPolicyConstraintUpdateOne {
 	mutation := newBronzeHistoryGCPOrgPolicyConstraintMutation(c.config, OpUpdateOne, withBronzeHistoryGCPOrgPolicyConstraintID(id))
 	return &BronzeHistoryGCPOrgPolicyConstraintUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -43912,7 +43912,7 @@ func (c *BronzeHistoryGCPOrgPolicyConstraintClient) DeleteOne(_m *BronzeHistoryG
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPOrgPolicyConstraintClient) DeleteOneID(id int) *BronzeHistoryGCPOrgPolicyConstraintDeleteOne {
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) DeleteOneID(id uint) *BronzeHistoryGCPOrgPolicyConstraintDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcporgpolicyconstraint.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -43929,12 +43929,12 @@ func (c *BronzeHistoryGCPOrgPolicyConstraintClient) Query() *BronzeHistoryGCPOrg
 }
 
 // Get returns a BronzeHistoryGCPOrgPolicyConstraint entity by its id.
-func (c *BronzeHistoryGCPOrgPolicyConstraintClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPOrgPolicyConstraint, error) {
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPOrgPolicyConstraint, error) {
 	return c.Query().Where(bronzehistorygcporgpolicyconstraint.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPOrgPolicyConstraintClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPOrgPolicyConstraint {
+func (c *BronzeHistoryGCPOrgPolicyConstraintClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPOrgPolicyConstraint {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -44028,7 +44028,7 @@ func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) UpdateOne(_m *BronzeHi
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) UpdateOneID(id int) *BronzeHistoryGCPOrgPolicyCustomConstraintUpdateOne {
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) UpdateOneID(id uint) *BronzeHistoryGCPOrgPolicyCustomConstraintUpdateOne {
 	mutation := newBronzeHistoryGCPOrgPolicyCustomConstraintMutation(c.config, OpUpdateOne, withBronzeHistoryGCPOrgPolicyCustomConstraintID(id))
 	return &BronzeHistoryGCPOrgPolicyCustomConstraintUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -44045,7 +44045,7 @@ func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) DeleteOne(_m *BronzeHi
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) DeleteOneID(id int) *BronzeHistoryGCPOrgPolicyCustomConstraintDeleteOne {
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) DeleteOneID(id uint) *BronzeHistoryGCPOrgPolicyCustomConstraintDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcporgpolicycustomconstraint.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -44062,12 +44062,12 @@ func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) Query() *BronzeHistory
 }
 
 // Get returns a BronzeHistoryGCPOrgPolicyCustomConstraint entity by its id.
-func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPOrgPolicyCustomConstraint, error) {
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPOrgPolicyCustomConstraint, error) {
 	return c.Query().Where(bronzehistorygcporgpolicycustomconstraint.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPOrgPolicyCustomConstraint {
+func (c *BronzeHistoryGCPOrgPolicyCustomConstraintClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPOrgPolicyCustomConstraint {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -44161,7 +44161,7 @@ func (c *BronzeHistoryGCPOrgPolicyPolicyClient) UpdateOne(_m *BronzeHistoryGCPOr
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPOrgPolicyPolicyClient) UpdateOneID(id int) *BronzeHistoryGCPOrgPolicyPolicyUpdateOne {
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) UpdateOneID(id uint) *BronzeHistoryGCPOrgPolicyPolicyUpdateOne {
 	mutation := newBronzeHistoryGCPOrgPolicyPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPOrgPolicyPolicyID(id))
 	return &BronzeHistoryGCPOrgPolicyPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -44178,7 +44178,7 @@ func (c *BronzeHistoryGCPOrgPolicyPolicyClient) DeleteOne(_m *BronzeHistoryGCPOr
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPOrgPolicyPolicyClient) DeleteOneID(id int) *BronzeHistoryGCPOrgPolicyPolicyDeleteOne {
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) DeleteOneID(id uint) *BronzeHistoryGCPOrgPolicyPolicyDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcporgpolicypolicy.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -44195,12 +44195,12 @@ func (c *BronzeHistoryGCPOrgPolicyPolicyClient) Query() *BronzeHistoryGCPOrgPoli
 }
 
 // Get returns a BronzeHistoryGCPOrgPolicyPolicy entity by its id.
-func (c *BronzeHistoryGCPOrgPolicyPolicyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPOrgPolicyPolicy, error) {
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPOrgPolicyPolicy, error) {
 	return c.Query().Where(bronzehistorygcporgpolicypolicy.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPOrgPolicyPolicyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPOrgPolicyPolicy {
+func (c *BronzeHistoryGCPOrgPolicyPolicyClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPOrgPolicyPolicy {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -44294,7 +44294,7 @@ func (c *BronzeHistoryGCPOrganizationClient) UpdateOne(_m *BronzeHistoryGCPOrgan
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPOrganizationClient) UpdateOneID(id int) *BronzeHistoryGCPOrganizationUpdateOne {
+func (c *BronzeHistoryGCPOrganizationClient) UpdateOneID(id uint) *BronzeHistoryGCPOrganizationUpdateOne {
 	mutation := newBronzeHistoryGCPOrganizationMutation(c.config, OpUpdateOne, withBronzeHistoryGCPOrganizationID(id))
 	return &BronzeHistoryGCPOrganizationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -44311,7 +44311,7 @@ func (c *BronzeHistoryGCPOrganizationClient) DeleteOne(_m *BronzeHistoryGCPOrgan
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPOrganizationClient) DeleteOneID(id int) *BronzeHistoryGCPOrganizationDeleteOne {
+func (c *BronzeHistoryGCPOrganizationClient) DeleteOneID(id uint) *BronzeHistoryGCPOrganizationDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcporganization.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -44328,12 +44328,12 @@ func (c *BronzeHistoryGCPOrganizationClient) Query() *BronzeHistoryGCPOrganizati
 }
 
 // Get returns a BronzeHistoryGCPOrganization entity by its id.
-func (c *BronzeHistoryGCPOrganizationClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPOrganization, error) {
+func (c *BronzeHistoryGCPOrganizationClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPOrganization, error) {
 	return c.Query().Where(bronzehistorygcporganization.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPOrganizationClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPOrganization {
+func (c *BronzeHistoryGCPOrganizationClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPOrganization {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -44427,7 +44427,7 @@ func (c *BronzeHistoryGCPProjectClient) UpdateOne(_m *BronzeHistoryGCPProject) *
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPProjectClient) UpdateOneID(id int) *BronzeHistoryGCPProjectUpdateOne {
+func (c *BronzeHistoryGCPProjectClient) UpdateOneID(id uint) *BronzeHistoryGCPProjectUpdateOne {
 	mutation := newBronzeHistoryGCPProjectMutation(c.config, OpUpdateOne, withBronzeHistoryGCPProjectID(id))
 	return &BronzeHistoryGCPProjectUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -44444,7 +44444,7 @@ func (c *BronzeHistoryGCPProjectClient) DeleteOne(_m *BronzeHistoryGCPProject) *
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPProjectClient) DeleteOneID(id int) *BronzeHistoryGCPProjectDeleteOne {
+func (c *BronzeHistoryGCPProjectClient) DeleteOneID(id uint) *BronzeHistoryGCPProjectDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpproject.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -44461,12 +44461,12 @@ func (c *BronzeHistoryGCPProjectClient) Query() *BronzeHistoryGCPProjectQuery {
 }
 
 // Get returns a BronzeHistoryGCPProject entity by its id.
-func (c *BronzeHistoryGCPProjectClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPProject, error) {
+func (c *BronzeHistoryGCPProjectClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPProject, error) {
 	return c.Query().Where(bronzehistorygcpproject.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPProjectClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPProject {
+func (c *BronzeHistoryGCPProjectClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPProject {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -44560,7 +44560,7 @@ func (c *BronzeHistoryGCPProjectIamPolicyClient) UpdateOne(_m *BronzeHistoryGCPP
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPProjectIamPolicyClient) UpdateOneID(id int) *BronzeHistoryGCPProjectIamPolicyUpdateOne {
+func (c *BronzeHistoryGCPProjectIamPolicyClient) UpdateOneID(id uint) *BronzeHistoryGCPProjectIamPolicyUpdateOne {
 	mutation := newBronzeHistoryGCPProjectIamPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPProjectIamPolicyID(id))
 	return &BronzeHistoryGCPProjectIamPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -44577,7 +44577,7 @@ func (c *BronzeHistoryGCPProjectIamPolicyClient) DeleteOne(_m *BronzeHistoryGCPP
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPProjectIamPolicyClient) DeleteOneID(id int) *BronzeHistoryGCPProjectIamPolicyDeleteOne {
+func (c *BronzeHistoryGCPProjectIamPolicyClient) DeleteOneID(id uint) *BronzeHistoryGCPProjectIamPolicyDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpprojectiampolicy.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -44594,12 +44594,12 @@ func (c *BronzeHistoryGCPProjectIamPolicyClient) Query() *BronzeHistoryGCPProjec
 }
 
 // Get returns a BronzeHistoryGCPProjectIamPolicy entity by its id.
-func (c *BronzeHistoryGCPProjectIamPolicyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPProjectIamPolicy, error) {
+func (c *BronzeHistoryGCPProjectIamPolicyClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPProjectIamPolicy, error) {
 	return c.Query().Where(bronzehistorygcpprojectiampolicy.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPProjectIamPolicyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPProjectIamPolicy {
+func (c *BronzeHistoryGCPProjectIamPolicyClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPProjectIamPolicy {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -44693,7 +44693,7 @@ func (c *BronzeHistoryGCPProjectIamPolicyBindingClient) UpdateOne(_m *BronzeHist
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPProjectIamPolicyBindingClient) UpdateOneID(id int) *BronzeHistoryGCPProjectIamPolicyBindingUpdateOne {
+func (c *BronzeHistoryGCPProjectIamPolicyBindingClient) UpdateOneID(id uint) *BronzeHistoryGCPProjectIamPolicyBindingUpdateOne {
 	mutation := newBronzeHistoryGCPProjectIamPolicyBindingMutation(c.config, OpUpdateOne, withBronzeHistoryGCPProjectIamPolicyBindingID(id))
 	return &BronzeHistoryGCPProjectIamPolicyBindingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -44710,7 +44710,7 @@ func (c *BronzeHistoryGCPProjectIamPolicyBindingClient) DeleteOne(_m *BronzeHist
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPProjectIamPolicyBindingClient) DeleteOneID(id int) *BronzeHistoryGCPProjectIamPolicyBindingDeleteOne {
+func (c *BronzeHistoryGCPProjectIamPolicyBindingClient) DeleteOneID(id uint) *BronzeHistoryGCPProjectIamPolicyBindingDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpprojectiampolicybinding.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -44727,12 +44727,12 @@ func (c *BronzeHistoryGCPProjectIamPolicyBindingClient) Query() *BronzeHistoryGC
 }
 
 // Get returns a BronzeHistoryGCPProjectIamPolicyBinding entity by its id.
-func (c *BronzeHistoryGCPProjectIamPolicyBindingClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPProjectIamPolicyBinding, error) {
+func (c *BronzeHistoryGCPProjectIamPolicyBindingClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPProjectIamPolicyBinding, error) {
 	return c.Query().Where(bronzehistorygcpprojectiampolicybinding.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPProjectIamPolicyBindingClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPProjectIamPolicyBinding {
+func (c *BronzeHistoryGCPProjectIamPolicyBindingClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPProjectIamPolicyBinding {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -44826,7 +44826,7 @@ func (c *BronzeHistoryGCPProjectLabelClient) UpdateOne(_m *BronzeHistoryGCPProje
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPProjectLabelClient) UpdateOneID(id int) *BronzeHistoryGCPProjectLabelUpdateOne {
+func (c *BronzeHistoryGCPProjectLabelClient) UpdateOneID(id uint) *BronzeHistoryGCPProjectLabelUpdateOne {
 	mutation := newBronzeHistoryGCPProjectLabelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPProjectLabelID(id))
 	return &BronzeHistoryGCPProjectLabelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -44843,7 +44843,7 @@ func (c *BronzeHistoryGCPProjectLabelClient) DeleteOne(_m *BronzeHistoryGCPProje
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPProjectLabelClient) DeleteOneID(id int) *BronzeHistoryGCPProjectLabelDeleteOne {
+func (c *BronzeHistoryGCPProjectLabelClient) DeleteOneID(id uint) *BronzeHistoryGCPProjectLabelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpprojectlabel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -44860,12 +44860,12 @@ func (c *BronzeHistoryGCPProjectLabelClient) Query() *BronzeHistoryGCPProjectLab
 }
 
 // Get returns a BronzeHistoryGCPProjectLabel entity by its id.
-func (c *BronzeHistoryGCPProjectLabelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPProjectLabel, error) {
+func (c *BronzeHistoryGCPProjectLabelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPProjectLabel, error) {
 	return c.Query().Where(bronzehistorygcpprojectlabel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPProjectLabelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPProjectLabel {
+func (c *BronzeHistoryGCPProjectLabelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPProjectLabel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -44959,7 +44959,7 @@ func (c *BronzeHistoryGCPPubSubSubscriptionClient) UpdateOne(_m *BronzeHistoryGC
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPPubSubSubscriptionClient) UpdateOneID(id int) *BronzeHistoryGCPPubSubSubscriptionUpdateOne {
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) UpdateOneID(id uint) *BronzeHistoryGCPPubSubSubscriptionUpdateOne {
 	mutation := newBronzeHistoryGCPPubSubSubscriptionMutation(c.config, OpUpdateOne, withBronzeHistoryGCPPubSubSubscriptionID(id))
 	return &BronzeHistoryGCPPubSubSubscriptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -44976,7 +44976,7 @@ func (c *BronzeHistoryGCPPubSubSubscriptionClient) DeleteOne(_m *BronzeHistoryGC
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPPubSubSubscriptionClient) DeleteOneID(id int) *BronzeHistoryGCPPubSubSubscriptionDeleteOne {
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) DeleteOneID(id uint) *BronzeHistoryGCPPubSubSubscriptionDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcppubsubsubscription.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -44993,12 +44993,12 @@ func (c *BronzeHistoryGCPPubSubSubscriptionClient) Query() *BronzeHistoryGCPPubS
 }
 
 // Get returns a BronzeHistoryGCPPubSubSubscription entity by its id.
-func (c *BronzeHistoryGCPPubSubSubscriptionClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPPubSubSubscription, error) {
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPPubSubSubscription, error) {
 	return c.Query().Where(bronzehistorygcppubsubsubscription.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPPubSubSubscriptionClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPPubSubSubscription {
+func (c *BronzeHistoryGCPPubSubSubscriptionClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPPubSubSubscription {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -45092,7 +45092,7 @@ func (c *BronzeHistoryGCPPubSubTopicClient) UpdateOne(_m *BronzeHistoryGCPPubSub
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPPubSubTopicClient) UpdateOneID(id int) *BronzeHistoryGCPPubSubTopicUpdateOne {
+func (c *BronzeHistoryGCPPubSubTopicClient) UpdateOneID(id uint) *BronzeHistoryGCPPubSubTopicUpdateOne {
 	mutation := newBronzeHistoryGCPPubSubTopicMutation(c.config, OpUpdateOne, withBronzeHistoryGCPPubSubTopicID(id))
 	return &BronzeHistoryGCPPubSubTopicUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -45109,7 +45109,7 @@ func (c *BronzeHistoryGCPPubSubTopicClient) DeleteOne(_m *BronzeHistoryGCPPubSub
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPPubSubTopicClient) DeleteOneID(id int) *BronzeHistoryGCPPubSubTopicDeleteOne {
+func (c *BronzeHistoryGCPPubSubTopicClient) DeleteOneID(id uint) *BronzeHistoryGCPPubSubTopicDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcppubsubtopic.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -45126,12 +45126,12 @@ func (c *BronzeHistoryGCPPubSubTopicClient) Query() *BronzeHistoryGCPPubSubTopic
 }
 
 // Get returns a BronzeHistoryGCPPubSubTopic entity by its id.
-func (c *BronzeHistoryGCPPubSubTopicClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPPubSubTopic, error) {
+func (c *BronzeHistoryGCPPubSubTopicClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPPubSubTopic, error) {
 	return c.Query().Where(bronzehistorygcppubsubtopic.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPPubSubTopicClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPPubSubTopic {
+func (c *BronzeHistoryGCPPubSubTopicClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPPubSubTopic {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -45225,7 +45225,7 @@ func (c *BronzeHistoryGCPRedisInstanceClient) UpdateOne(_m *BronzeHistoryGCPRedi
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPRedisInstanceClient) UpdateOneID(id int) *BronzeHistoryGCPRedisInstanceUpdateOne {
+func (c *BronzeHistoryGCPRedisInstanceClient) UpdateOneID(id uint) *BronzeHistoryGCPRedisInstanceUpdateOne {
 	mutation := newBronzeHistoryGCPRedisInstanceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPRedisInstanceID(id))
 	return &BronzeHistoryGCPRedisInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -45242,7 +45242,7 @@ func (c *BronzeHistoryGCPRedisInstanceClient) DeleteOne(_m *BronzeHistoryGCPRedi
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPRedisInstanceClient) DeleteOneID(id int) *BronzeHistoryGCPRedisInstanceDeleteOne {
+func (c *BronzeHistoryGCPRedisInstanceClient) DeleteOneID(id uint) *BronzeHistoryGCPRedisInstanceDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpredisinstance.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -45259,12 +45259,12 @@ func (c *BronzeHistoryGCPRedisInstanceClient) Query() *BronzeHistoryGCPRedisInst
 }
 
 // Get returns a BronzeHistoryGCPRedisInstance entity by its id.
-func (c *BronzeHistoryGCPRedisInstanceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPRedisInstance, error) {
+func (c *BronzeHistoryGCPRedisInstanceClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPRedisInstance, error) {
 	return c.Query().Where(bronzehistorygcpredisinstance.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPRedisInstanceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPRedisInstance {
+func (c *BronzeHistoryGCPRedisInstanceClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPRedisInstance {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -45358,7 +45358,7 @@ func (c *BronzeHistoryGCPRunRevisionClient) UpdateOne(_m *BronzeHistoryGCPRunRev
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPRunRevisionClient) UpdateOneID(id int) *BronzeHistoryGCPRunRevisionUpdateOne {
+func (c *BronzeHistoryGCPRunRevisionClient) UpdateOneID(id uint) *BronzeHistoryGCPRunRevisionUpdateOne {
 	mutation := newBronzeHistoryGCPRunRevisionMutation(c.config, OpUpdateOne, withBronzeHistoryGCPRunRevisionID(id))
 	return &BronzeHistoryGCPRunRevisionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -45375,7 +45375,7 @@ func (c *BronzeHistoryGCPRunRevisionClient) DeleteOne(_m *BronzeHistoryGCPRunRev
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPRunRevisionClient) DeleteOneID(id int) *BronzeHistoryGCPRunRevisionDeleteOne {
+func (c *BronzeHistoryGCPRunRevisionClient) DeleteOneID(id uint) *BronzeHistoryGCPRunRevisionDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcprunrevision.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -45392,12 +45392,12 @@ func (c *BronzeHistoryGCPRunRevisionClient) Query() *BronzeHistoryGCPRunRevision
 }
 
 // Get returns a BronzeHistoryGCPRunRevision entity by its id.
-func (c *BronzeHistoryGCPRunRevisionClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPRunRevision, error) {
+func (c *BronzeHistoryGCPRunRevisionClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPRunRevision, error) {
 	return c.Query().Where(bronzehistorygcprunrevision.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPRunRevisionClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPRunRevision {
+func (c *BronzeHistoryGCPRunRevisionClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPRunRevision {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -45491,7 +45491,7 @@ func (c *BronzeHistoryGCPRunServiceClient) UpdateOne(_m *BronzeHistoryGCPRunServ
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPRunServiceClient) UpdateOneID(id int) *BronzeHistoryGCPRunServiceUpdateOne {
+func (c *BronzeHistoryGCPRunServiceClient) UpdateOneID(id uint) *BronzeHistoryGCPRunServiceUpdateOne {
 	mutation := newBronzeHistoryGCPRunServiceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPRunServiceID(id))
 	return &BronzeHistoryGCPRunServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -45508,7 +45508,7 @@ func (c *BronzeHistoryGCPRunServiceClient) DeleteOne(_m *BronzeHistoryGCPRunServ
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPRunServiceClient) DeleteOneID(id int) *BronzeHistoryGCPRunServiceDeleteOne {
+func (c *BronzeHistoryGCPRunServiceClient) DeleteOneID(id uint) *BronzeHistoryGCPRunServiceDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcprunservice.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -45525,12 +45525,12 @@ func (c *BronzeHistoryGCPRunServiceClient) Query() *BronzeHistoryGCPRunServiceQu
 }
 
 // Get returns a BronzeHistoryGCPRunService entity by its id.
-func (c *BronzeHistoryGCPRunServiceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPRunService, error) {
+func (c *BronzeHistoryGCPRunServiceClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPRunService, error) {
 	return c.Query().Where(bronzehistorygcprunservice.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPRunServiceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPRunService {
+func (c *BronzeHistoryGCPRunServiceClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPRunService {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -45624,7 +45624,7 @@ func (c *BronzeHistoryGCPSQLInstanceClient) UpdateOne(_m *BronzeHistoryGCPSQLIns
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPSQLInstanceClient) UpdateOneID(id int) *BronzeHistoryGCPSQLInstanceUpdateOne {
+func (c *BronzeHistoryGCPSQLInstanceClient) UpdateOneID(id uint) *BronzeHistoryGCPSQLInstanceUpdateOne {
 	mutation := newBronzeHistoryGCPSQLInstanceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPSQLInstanceID(id))
 	return &BronzeHistoryGCPSQLInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -45641,7 +45641,7 @@ func (c *BronzeHistoryGCPSQLInstanceClient) DeleteOne(_m *BronzeHistoryGCPSQLIns
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPSQLInstanceClient) DeleteOneID(id int) *BronzeHistoryGCPSQLInstanceDeleteOne {
+func (c *BronzeHistoryGCPSQLInstanceClient) DeleteOneID(id uint) *BronzeHistoryGCPSQLInstanceDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpsqlinstance.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -45658,12 +45658,12 @@ func (c *BronzeHistoryGCPSQLInstanceClient) Query() *BronzeHistoryGCPSQLInstance
 }
 
 // Get returns a BronzeHistoryGCPSQLInstance entity by its id.
-func (c *BronzeHistoryGCPSQLInstanceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPSQLInstance, error) {
+func (c *BronzeHistoryGCPSQLInstanceClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPSQLInstance, error) {
 	return c.Query().Where(bronzehistorygcpsqlinstance.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPSQLInstanceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPSQLInstance {
+func (c *BronzeHistoryGCPSQLInstanceClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPSQLInstance {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -45757,7 +45757,7 @@ func (c *BronzeHistoryGCPSQLInstanceLabelClient) UpdateOne(_m *BronzeHistoryGCPS
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPSQLInstanceLabelClient) UpdateOneID(id int) *BronzeHistoryGCPSQLInstanceLabelUpdateOne {
+func (c *BronzeHistoryGCPSQLInstanceLabelClient) UpdateOneID(id uint) *BronzeHistoryGCPSQLInstanceLabelUpdateOne {
 	mutation := newBronzeHistoryGCPSQLInstanceLabelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPSQLInstanceLabelID(id))
 	return &BronzeHistoryGCPSQLInstanceLabelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -45774,7 +45774,7 @@ func (c *BronzeHistoryGCPSQLInstanceLabelClient) DeleteOne(_m *BronzeHistoryGCPS
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPSQLInstanceLabelClient) DeleteOneID(id int) *BronzeHistoryGCPSQLInstanceLabelDeleteOne {
+func (c *BronzeHistoryGCPSQLInstanceLabelClient) DeleteOneID(id uint) *BronzeHistoryGCPSQLInstanceLabelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpsqlinstancelabel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -45791,12 +45791,12 @@ func (c *BronzeHistoryGCPSQLInstanceLabelClient) Query() *BronzeHistoryGCPSQLIns
 }
 
 // Get returns a BronzeHistoryGCPSQLInstanceLabel entity by its id.
-func (c *BronzeHistoryGCPSQLInstanceLabelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPSQLInstanceLabel, error) {
+func (c *BronzeHistoryGCPSQLInstanceLabelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPSQLInstanceLabel, error) {
 	return c.Query().Where(bronzehistorygcpsqlinstancelabel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPSQLInstanceLabelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPSQLInstanceLabel {
+func (c *BronzeHistoryGCPSQLInstanceLabelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPSQLInstanceLabel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -45890,7 +45890,7 @@ func (c *BronzeHistoryGCPSecretManagerSecretClient) UpdateOne(_m *BronzeHistoryG
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPSecretManagerSecretClient) UpdateOneID(id int) *BronzeHistoryGCPSecretManagerSecretUpdateOne {
+func (c *BronzeHistoryGCPSecretManagerSecretClient) UpdateOneID(id uint) *BronzeHistoryGCPSecretManagerSecretUpdateOne {
 	mutation := newBronzeHistoryGCPSecretManagerSecretMutation(c.config, OpUpdateOne, withBronzeHistoryGCPSecretManagerSecretID(id))
 	return &BronzeHistoryGCPSecretManagerSecretUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -45907,7 +45907,7 @@ func (c *BronzeHistoryGCPSecretManagerSecretClient) DeleteOne(_m *BronzeHistoryG
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPSecretManagerSecretClient) DeleteOneID(id int) *BronzeHistoryGCPSecretManagerSecretDeleteOne {
+func (c *BronzeHistoryGCPSecretManagerSecretClient) DeleteOneID(id uint) *BronzeHistoryGCPSecretManagerSecretDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpsecretmanagersecret.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -45924,12 +45924,12 @@ func (c *BronzeHistoryGCPSecretManagerSecretClient) Query() *BronzeHistoryGCPSec
 }
 
 // Get returns a BronzeHistoryGCPSecretManagerSecret entity by its id.
-func (c *BronzeHistoryGCPSecretManagerSecretClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPSecretManagerSecret, error) {
+func (c *BronzeHistoryGCPSecretManagerSecretClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPSecretManagerSecret, error) {
 	return c.Query().Where(bronzehistorygcpsecretmanagersecret.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPSecretManagerSecretClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPSecretManagerSecret {
+func (c *BronzeHistoryGCPSecretManagerSecretClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPSecretManagerSecret {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -46023,7 +46023,7 @@ func (c *BronzeHistoryGCPSecretManagerSecretLabelClient) UpdateOne(_m *BronzeHis
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPSecretManagerSecretLabelClient) UpdateOneID(id int) *BronzeHistoryGCPSecretManagerSecretLabelUpdateOne {
+func (c *BronzeHistoryGCPSecretManagerSecretLabelClient) UpdateOneID(id uint) *BronzeHistoryGCPSecretManagerSecretLabelUpdateOne {
 	mutation := newBronzeHistoryGCPSecretManagerSecretLabelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPSecretManagerSecretLabelID(id))
 	return &BronzeHistoryGCPSecretManagerSecretLabelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -46040,7 +46040,7 @@ func (c *BronzeHistoryGCPSecretManagerSecretLabelClient) DeleteOne(_m *BronzeHis
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPSecretManagerSecretLabelClient) DeleteOneID(id int) *BronzeHistoryGCPSecretManagerSecretLabelDeleteOne {
+func (c *BronzeHistoryGCPSecretManagerSecretLabelClient) DeleteOneID(id uint) *BronzeHistoryGCPSecretManagerSecretLabelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpsecretmanagersecretlabel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -46057,12 +46057,12 @@ func (c *BronzeHistoryGCPSecretManagerSecretLabelClient) Query() *BronzeHistoryG
 }
 
 // Get returns a BronzeHistoryGCPSecretManagerSecretLabel entity by its id.
-func (c *BronzeHistoryGCPSecretManagerSecretLabelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPSecretManagerSecretLabel, error) {
+func (c *BronzeHistoryGCPSecretManagerSecretLabelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPSecretManagerSecretLabel, error) {
 	return c.Query().Where(bronzehistorygcpsecretmanagersecretlabel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPSecretManagerSecretLabelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPSecretManagerSecretLabel {
+func (c *BronzeHistoryGCPSecretManagerSecretLabelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPSecretManagerSecretLabel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -46156,7 +46156,7 @@ func (c *BronzeHistoryGCPSecurityCenterFindingClient) UpdateOne(_m *BronzeHistor
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPSecurityCenterFindingClient) UpdateOneID(id int) *BronzeHistoryGCPSecurityCenterFindingUpdateOne {
+func (c *BronzeHistoryGCPSecurityCenterFindingClient) UpdateOneID(id uint) *BronzeHistoryGCPSecurityCenterFindingUpdateOne {
 	mutation := newBronzeHistoryGCPSecurityCenterFindingMutation(c.config, OpUpdateOne, withBronzeHistoryGCPSecurityCenterFindingID(id))
 	return &BronzeHistoryGCPSecurityCenterFindingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -46173,7 +46173,7 @@ func (c *BronzeHistoryGCPSecurityCenterFindingClient) DeleteOne(_m *BronzeHistor
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPSecurityCenterFindingClient) DeleteOneID(id int) *BronzeHistoryGCPSecurityCenterFindingDeleteOne {
+func (c *BronzeHistoryGCPSecurityCenterFindingClient) DeleteOneID(id uint) *BronzeHistoryGCPSecurityCenterFindingDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpsecuritycenterfinding.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -46190,12 +46190,12 @@ func (c *BronzeHistoryGCPSecurityCenterFindingClient) Query() *BronzeHistoryGCPS
 }
 
 // Get returns a BronzeHistoryGCPSecurityCenterFinding entity by its id.
-func (c *BronzeHistoryGCPSecurityCenterFindingClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPSecurityCenterFinding, error) {
+func (c *BronzeHistoryGCPSecurityCenterFindingClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPSecurityCenterFinding, error) {
 	return c.Query().Where(bronzehistorygcpsecuritycenterfinding.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPSecurityCenterFindingClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPSecurityCenterFinding {
+func (c *BronzeHistoryGCPSecurityCenterFindingClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPSecurityCenterFinding {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -46289,7 +46289,7 @@ func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) UpdateOne(_m *B
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) UpdateOneID(id int) *BronzeHistoryGCPSecurityCenterNotificationConfigUpdateOne {
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) UpdateOneID(id uint) *BronzeHistoryGCPSecurityCenterNotificationConfigUpdateOne {
 	mutation := newBronzeHistoryGCPSecurityCenterNotificationConfigMutation(c.config, OpUpdateOne, withBronzeHistoryGCPSecurityCenterNotificationConfigID(id))
 	return &BronzeHistoryGCPSecurityCenterNotificationConfigUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -46306,7 +46306,7 @@ func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) DeleteOne(_m *B
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) DeleteOneID(id int) *BronzeHistoryGCPSecurityCenterNotificationConfigDeleteOne {
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) DeleteOneID(id uint) *BronzeHistoryGCPSecurityCenterNotificationConfigDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpsecuritycenternotificationconfig.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -46323,12 +46323,12 @@ func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) Query() *Bronze
 }
 
 // Get returns a BronzeHistoryGCPSecurityCenterNotificationConfig entity by its id.
-func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPSecurityCenterNotificationConfig, error) {
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPSecurityCenterNotificationConfig, error) {
 	return c.Query().Where(bronzehistorygcpsecuritycenternotificationconfig.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPSecurityCenterNotificationConfig {
+func (c *BronzeHistoryGCPSecurityCenterNotificationConfigClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPSecurityCenterNotificationConfig {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -46422,7 +46422,7 @@ func (c *BronzeHistoryGCPSecurityCenterSourceClient) UpdateOne(_m *BronzeHistory
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPSecurityCenterSourceClient) UpdateOneID(id int) *BronzeHistoryGCPSecurityCenterSourceUpdateOne {
+func (c *BronzeHistoryGCPSecurityCenterSourceClient) UpdateOneID(id uint) *BronzeHistoryGCPSecurityCenterSourceUpdateOne {
 	mutation := newBronzeHistoryGCPSecurityCenterSourceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPSecurityCenterSourceID(id))
 	return &BronzeHistoryGCPSecurityCenterSourceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -46439,7 +46439,7 @@ func (c *BronzeHistoryGCPSecurityCenterSourceClient) DeleteOne(_m *BronzeHistory
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPSecurityCenterSourceClient) DeleteOneID(id int) *BronzeHistoryGCPSecurityCenterSourceDeleteOne {
+func (c *BronzeHistoryGCPSecurityCenterSourceClient) DeleteOneID(id uint) *BronzeHistoryGCPSecurityCenterSourceDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpsecuritycentersource.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -46456,12 +46456,12 @@ func (c *BronzeHistoryGCPSecurityCenterSourceClient) Query() *BronzeHistoryGCPSe
 }
 
 // Get returns a BronzeHistoryGCPSecurityCenterSource entity by its id.
-func (c *BronzeHistoryGCPSecurityCenterSourceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPSecurityCenterSource, error) {
+func (c *BronzeHistoryGCPSecurityCenterSourceClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPSecurityCenterSource, error) {
 	return c.Query().Where(bronzehistorygcpsecuritycentersource.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPSecurityCenterSourceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPSecurityCenterSource {
+func (c *BronzeHistoryGCPSecurityCenterSourceClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPSecurityCenterSource {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -46555,7 +46555,7 @@ func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) UpdateOne(_m *BronzeH
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) UpdateOneID(id int) *BronzeHistoryGCPServiceUsageEnabledServiceUpdateOne {
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) UpdateOneID(id uint) *BronzeHistoryGCPServiceUsageEnabledServiceUpdateOne {
 	mutation := newBronzeHistoryGCPServiceUsageEnabledServiceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPServiceUsageEnabledServiceID(id))
 	return &BronzeHistoryGCPServiceUsageEnabledServiceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -46572,7 +46572,7 @@ func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) DeleteOne(_m *BronzeH
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) DeleteOneID(id int) *BronzeHistoryGCPServiceUsageEnabledServiceDeleteOne {
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) DeleteOneID(id uint) *BronzeHistoryGCPServiceUsageEnabledServiceDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpserviceusageenabledservice.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -46589,12 +46589,12 @@ func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) Query() *BronzeHistor
 }
 
 // Get returns a BronzeHistoryGCPServiceUsageEnabledService entity by its id.
-func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPServiceUsageEnabledService, error) {
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPServiceUsageEnabledService, error) {
 	return c.Query().Where(bronzehistorygcpserviceusageenabledservice.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPServiceUsageEnabledService {
+func (c *BronzeHistoryGCPServiceUsageEnabledServiceClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPServiceUsageEnabledService {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -46688,7 +46688,7 @@ func (c *BronzeHistoryGCPSpannerDatabaseClient) UpdateOne(_m *BronzeHistoryGCPSp
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPSpannerDatabaseClient) UpdateOneID(id int) *BronzeHistoryGCPSpannerDatabaseUpdateOne {
+func (c *BronzeHistoryGCPSpannerDatabaseClient) UpdateOneID(id uint) *BronzeHistoryGCPSpannerDatabaseUpdateOne {
 	mutation := newBronzeHistoryGCPSpannerDatabaseMutation(c.config, OpUpdateOne, withBronzeHistoryGCPSpannerDatabaseID(id))
 	return &BronzeHistoryGCPSpannerDatabaseUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -46705,7 +46705,7 @@ func (c *BronzeHistoryGCPSpannerDatabaseClient) DeleteOne(_m *BronzeHistoryGCPSp
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPSpannerDatabaseClient) DeleteOneID(id int) *BronzeHistoryGCPSpannerDatabaseDeleteOne {
+func (c *BronzeHistoryGCPSpannerDatabaseClient) DeleteOneID(id uint) *BronzeHistoryGCPSpannerDatabaseDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpspannerdatabase.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -46722,12 +46722,12 @@ func (c *BronzeHistoryGCPSpannerDatabaseClient) Query() *BronzeHistoryGCPSpanner
 }
 
 // Get returns a BronzeHistoryGCPSpannerDatabase entity by its id.
-func (c *BronzeHistoryGCPSpannerDatabaseClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPSpannerDatabase, error) {
+func (c *BronzeHistoryGCPSpannerDatabaseClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPSpannerDatabase, error) {
 	return c.Query().Where(bronzehistorygcpspannerdatabase.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPSpannerDatabaseClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPSpannerDatabase {
+func (c *BronzeHistoryGCPSpannerDatabaseClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPSpannerDatabase {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -46821,7 +46821,7 @@ func (c *BronzeHistoryGCPSpannerInstanceClient) UpdateOne(_m *BronzeHistoryGCPSp
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPSpannerInstanceClient) UpdateOneID(id int) *BronzeHistoryGCPSpannerInstanceUpdateOne {
+func (c *BronzeHistoryGCPSpannerInstanceClient) UpdateOneID(id uint) *BronzeHistoryGCPSpannerInstanceUpdateOne {
 	mutation := newBronzeHistoryGCPSpannerInstanceMutation(c.config, OpUpdateOne, withBronzeHistoryGCPSpannerInstanceID(id))
 	return &BronzeHistoryGCPSpannerInstanceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -46838,7 +46838,7 @@ func (c *BronzeHistoryGCPSpannerInstanceClient) DeleteOne(_m *BronzeHistoryGCPSp
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPSpannerInstanceClient) DeleteOneID(id int) *BronzeHistoryGCPSpannerInstanceDeleteOne {
+func (c *BronzeHistoryGCPSpannerInstanceClient) DeleteOneID(id uint) *BronzeHistoryGCPSpannerInstanceDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpspannerinstance.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -46855,12 +46855,12 @@ func (c *BronzeHistoryGCPSpannerInstanceClient) Query() *BronzeHistoryGCPSpanner
 }
 
 // Get returns a BronzeHistoryGCPSpannerInstance entity by its id.
-func (c *BronzeHistoryGCPSpannerInstanceClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPSpannerInstance, error) {
+func (c *BronzeHistoryGCPSpannerInstanceClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPSpannerInstance, error) {
 	return c.Query().Where(bronzehistorygcpspannerinstance.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPSpannerInstanceClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPSpannerInstance {
+func (c *BronzeHistoryGCPSpannerInstanceClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPSpannerInstance {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -46954,7 +46954,7 @@ func (c *BronzeHistoryGCPStorageBucketClient) UpdateOne(_m *BronzeHistoryGCPStor
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPStorageBucketClient) UpdateOneID(id int) *BronzeHistoryGCPStorageBucketUpdateOne {
+func (c *BronzeHistoryGCPStorageBucketClient) UpdateOneID(id uint) *BronzeHistoryGCPStorageBucketUpdateOne {
 	mutation := newBronzeHistoryGCPStorageBucketMutation(c.config, OpUpdateOne, withBronzeHistoryGCPStorageBucketID(id))
 	return &BronzeHistoryGCPStorageBucketUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -46971,7 +46971,7 @@ func (c *BronzeHistoryGCPStorageBucketClient) DeleteOne(_m *BronzeHistoryGCPStor
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPStorageBucketClient) DeleteOneID(id int) *BronzeHistoryGCPStorageBucketDeleteOne {
+func (c *BronzeHistoryGCPStorageBucketClient) DeleteOneID(id uint) *BronzeHistoryGCPStorageBucketDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpstoragebucket.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -46988,12 +46988,12 @@ func (c *BronzeHistoryGCPStorageBucketClient) Query() *BronzeHistoryGCPStorageBu
 }
 
 // Get returns a BronzeHistoryGCPStorageBucket entity by its id.
-func (c *BronzeHistoryGCPStorageBucketClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPStorageBucket, error) {
+func (c *BronzeHistoryGCPStorageBucketClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPStorageBucket, error) {
 	return c.Query().Where(bronzehistorygcpstoragebucket.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPStorageBucketClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPStorageBucket {
+func (c *BronzeHistoryGCPStorageBucketClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPStorageBucket {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -47087,7 +47087,7 @@ func (c *BronzeHistoryGCPStorageBucketIamPolicyClient) UpdateOne(_m *BronzeHisto
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPStorageBucketIamPolicyClient) UpdateOneID(id int) *BronzeHistoryGCPStorageBucketIamPolicyUpdateOne {
+func (c *BronzeHistoryGCPStorageBucketIamPolicyClient) UpdateOneID(id uint) *BronzeHistoryGCPStorageBucketIamPolicyUpdateOne {
 	mutation := newBronzeHistoryGCPStorageBucketIamPolicyMutation(c.config, OpUpdateOne, withBronzeHistoryGCPStorageBucketIamPolicyID(id))
 	return &BronzeHistoryGCPStorageBucketIamPolicyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -47104,7 +47104,7 @@ func (c *BronzeHistoryGCPStorageBucketIamPolicyClient) DeleteOne(_m *BronzeHisto
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPStorageBucketIamPolicyClient) DeleteOneID(id int) *BronzeHistoryGCPStorageBucketIamPolicyDeleteOne {
+func (c *BronzeHistoryGCPStorageBucketIamPolicyClient) DeleteOneID(id uint) *BronzeHistoryGCPStorageBucketIamPolicyDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpstoragebucketiampolicy.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -47121,12 +47121,12 @@ func (c *BronzeHistoryGCPStorageBucketIamPolicyClient) Query() *BronzeHistoryGCP
 }
 
 // Get returns a BronzeHistoryGCPStorageBucketIamPolicy entity by its id.
-func (c *BronzeHistoryGCPStorageBucketIamPolicyClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPStorageBucketIamPolicy, error) {
+func (c *BronzeHistoryGCPStorageBucketIamPolicyClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPStorageBucketIamPolicy, error) {
 	return c.Query().Where(bronzehistorygcpstoragebucketiampolicy.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPStorageBucketIamPolicyClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPStorageBucketIamPolicy {
+func (c *BronzeHistoryGCPStorageBucketIamPolicyClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPStorageBucketIamPolicy {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -47220,7 +47220,7 @@ func (c *BronzeHistoryGCPStorageBucketIamPolicyBindingClient) UpdateOne(_m *Bron
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPStorageBucketIamPolicyBindingClient) UpdateOneID(id int) *BronzeHistoryGCPStorageBucketIamPolicyBindingUpdateOne {
+func (c *BronzeHistoryGCPStorageBucketIamPolicyBindingClient) UpdateOneID(id uint) *BronzeHistoryGCPStorageBucketIamPolicyBindingUpdateOne {
 	mutation := newBronzeHistoryGCPStorageBucketIamPolicyBindingMutation(c.config, OpUpdateOne, withBronzeHistoryGCPStorageBucketIamPolicyBindingID(id))
 	return &BronzeHistoryGCPStorageBucketIamPolicyBindingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -47237,7 +47237,7 @@ func (c *BronzeHistoryGCPStorageBucketIamPolicyBindingClient) DeleteOne(_m *Bron
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPStorageBucketIamPolicyBindingClient) DeleteOneID(id int) *BronzeHistoryGCPStorageBucketIamPolicyBindingDeleteOne {
+func (c *BronzeHistoryGCPStorageBucketIamPolicyBindingClient) DeleteOneID(id uint) *BronzeHistoryGCPStorageBucketIamPolicyBindingDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpstoragebucketiampolicybinding.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -47254,12 +47254,12 @@ func (c *BronzeHistoryGCPStorageBucketIamPolicyBindingClient) Query() *BronzeHis
 }
 
 // Get returns a BronzeHistoryGCPStorageBucketIamPolicyBinding entity by its id.
-func (c *BronzeHistoryGCPStorageBucketIamPolicyBindingClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPStorageBucketIamPolicyBinding, error) {
+func (c *BronzeHistoryGCPStorageBucketIamPolicyBindingClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPStorageBucketIamPolicyBinding, error) {
 	return c.Query().Where(bronzehistorygcpstoragebucketiampolicybinding.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPStorageBucketIamPolicyBindingClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPStorageBucketIamPolicyBinding {
+func (c *BronzeHistoryGCPStorageBucketIamPolicyBindingClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPStorageBucketIamPolicyBinding {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -47353,7 +47353,7 @@ func (c *BronzeHistoryGCPStorageBucketLabelClient) UpdateOne(_m *BronzeHistoryGC
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPStorageBucketLabelClient) UpdateOneID(id int) *BronzeHistoryGCPStorageBucketLabelUpdateOne {
+func (c *BronzeHistoryGCPStorageBucketLabelClient) UpdateOneID(id uint) *BronzeHistoryGCPStorageBucketLabelUpdateOne {
 	mutation := newBronzeHistoryGCPStorageBucketLabelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPStorageBucketLabelID(id))
 	return &BronzeHistoryGCPStorageBucketLabelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -47370,7 +47370,7 @@ func (c *BronzeHistoryGCPStorageBucketLabelClient) DeleteOne(_m *BronzeHistoryGC
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPStorageBucketLabelClient) DeleteOneID(id int) *BronzeHistoryGCPStorageBucketLabelDeleteOne {
+func (c *BronzeHistoryGCPStorageBucketLabelClient) DeleteOneID(id uint) *BronzeHistoryGCPStorageBucketLabelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpstoragebucketlabel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -47387,12 +47387,12 @@ func (c *BronzeHistoryGCPStorageBucketLabelClient) Query() *BronzeHistoryGCPStor
 }
 
 // Get returns a BronzeHistoryGCPStorageBucketLabel entity by its id.
-func (c *BronzeHistoryGCPStorageBucketLabelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPStorageBucketLabel, error) {
+func (c *BronzeHistoryGCPStorageBucketLabelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPStorageBucketLabel, error) {
 	return c.Query().Where(bronzehistorygcpstoragebucketlabel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPStorageBucketLabelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPStorageBucketLabel {
+func (c *BronzeHistoryGCPStorageBucketLabelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPStorageBucketLabel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -47486,7 +47486,7 @@ func (c *BronzeHistoryGCPVPCAccessConnectorClient) UpdateOne(_m *BronzeHistoryGC
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPVPCAccessConnectorClient) UpdateOneID(id int) *BronzeHistoryGCPVPCAccessConnectorUpdateOne {
+func (c *BronzeHistoryGCPVPCAccessConnectorClient) UpdateOneID(id uint) *BronzeHistoryGCPVPCAccessConnectorUpdateOne {
 	mutation := newBronzeHistoryGCPVPCAccessConnectorMutation(c.config, OpUpdateOne, withBronzeHistoryGCPVPCAccessConnectorID(id))
 	return &BronzeHistoryGCPVPCAccessConnectorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -47503,7 +47503,7 @@ func (c *BronzeHistoryGCPVPCAccessConnectorClient) DeleteOne(_m *BronzeHistoryGC
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPVPCAccessConnectorClient) DeleteOneID(id int) *BronzeHistoryGCPVPCAccessConnectorDeleteOne {
+func (c *BronzeHistoryGCPVPCAccessConnectorClient) DeleteOneID(id uint) *BronzeHistoryGCPVPCAccessConnectorDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpvpcaccessconnector.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -47520,12 +47520,12 @@ func (c *BronzeHistoryGCPVPCAccessConnectorClient) Query() *BronzeHistoryGCPVPCA
 }
 
 // Get returns a BronzeHistoryGCPVPCAccessConnector entity by its id.
-func (c *BronzeHistoryGCPVPCAccessConnectorClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPVPCAccessConnector, error) {
+func (c *BronzeHistoryGCPVPCAccessConnectorClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPVPCAccessConnector, error) {
 	return c.Query().Where(bronzehistorygcpvpcaccessconnector.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPVPCAccessConnectorClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPVPCAccessConnector {
+func (c *BronzeHistoryGCPVPCAccessConnectorClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPVPCAccessConnector {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -47619,7 +47619,7 @@ func (c *BronzeHistoryGCPVPNGatewayClient) UpdateOne(_m *BronzeHistoryGCPVPNGate
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPVPNGatewayClient) UpdateOneID(id int) *BronzeHistoryGCPVPNGatewayUpdateOne {
+func (c *BronzeHistoryGCPVPNGatewayClient) UpdateOneID(id uint) *BronzeHistoryGCPVPNGatewayUpdateOne {
 	mutation := newBronzeHistoryGCPVPNGatewayMutation(c.config, OpUpdateOne, withBronzeHistoryGCPVPNGatewayID(id))
 	return &BronzeHistoryGCPVPNGatewayUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -47636,7 +47636,7 @@ func (c *BronzeHistoryGCPVPNGatewayClient) DeleteOne(_m *BronzeHistoryGCPVPNGate
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPVPNGatewayClient) DeleteOneID(id int) *BronzeHistoryGCPVPNGatewayDeleteOne {
+func (c *BronzeHistoryGCPVPNGatewayClient) DeleteOneID(id uint) *BronzeHistoryGCPVPNGatewayDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpvpngateway.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -47653,12 +47653,12 @@ func (c *BronzeHistoryGCPVPNGatewayClient) Query() *BronzeHistoryGCPVPNGatewayQu
 }
 
 // Get returns a BronzeHistoryGCPVPNGateway entity by its id.
-func (c *BronzeHistoryGCPVPNGatewayClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPVPNGateway, error) {
+func (c *BronzeHistoryGCPVPNGatewayClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPVPNGateway, error) {
 	return c.Query().Where(bronzehistorygcpvpngateway.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPVPNGatewayClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPVPNGateway {
+func (c *BronzeHistoryGCPVPNGatewayClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPVPNGateway {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -47752,7 +47752,7 @@ func (c *BronzeHistoryGCPVPNGatewayLabelClient) UpdateOne(_m *BronzeHistoryGCPVP
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPVPNGatewayLabelClient) UpdateOneID(id int) *BronzeHistoryGCPVPNGatewayLabelUpdateOne {
+func (c *BronzeHistoryGCPVPNGatewayLabelClient) UpdateOneID(id uint) *BronzeHistoryGCPVPNGatewayLabelUpdateOne {
 	mutation := newBronzeHistoryGCPVPNGatewayLabelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPVPNGatewayLabelID(id))
 	return &BronzeHistoryGCPVPNGatewayLabelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -47769,7 +47769,7 @@ func (c *BronzeHistoryGCPVPNGatewayLabelClient) DeleteOne(_m *BronzeHistoryGCPVP
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPVPNGatewayLabelClient) DeleteOneID(id int) *BronzeHistoryGCPVPNGatewayLabelDeleteOne {
+func (c *BronzeHistoryGCPVPNGatewayLabelClient) DeleteOneID(id uint) *BronzeHistoryGCPVPNGatewayLabelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpvpngatewaylabel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -47786,12 +47786,12 @@ func (c *BronzeHistoryGCPVPNGatewayLabelClient) Query() *BronzeHistoryGCPVPNGate
 }
 
 // Get returns a BronzeHistoryGCPVPNGatewayLabel entity by its id.
-func (c *BronzeHistoryGCPVPNGatewayLabelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPVPNGatewayLabel, error) {
+func (c *BronzeHistoryGCPVPNGatewayLabelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPVPNGatewayLabel, error) {
 	return c.Query().Where(bronzehistorygcpvpngatewaylabel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPVPNGatewayLabelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPVPNGatewayLabel {
+func (c *BronzeHistoryGCPVPNGatewayLabelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPVPNGatewayLabel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -47885,7 +47885,7 @@ func (c *BronzeHistoryGCPVPNTargetGatewayClient) UpdateOne(_m *BronzeHistoryGCPV
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPVPNTargetGatewayClient) UpdateOneID(id int) *BronzeHistoryGCPVPNTargetGatewayUpdateOne {
+func (c *BronzeHistoryGCPVPNTargetGatewayClient) UpdateOneID(id uint) *BronzeHistoryGCPVPNTargetGatewayUpdateOne {
 	mutation := newBronzeHistoryGCPVPNTargetGatewayMutation(c.config, OpUpdateOne, withBronzeHistoryGCPVPNTargetGatewayID(id))
 	return &BronzeHistoryGCPVPNTargetGatewayUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -47902,7 +47902,7 @@ func (c *BronzeHistoryGCPVPNTargetGatewayClient) DeleteOne(_m *BronzeHistoryGCPV
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPVPNTargetGatewayClient) DeleteOneID(id int) *BronzeHistoryGCPVPNTargetGatewayDeleteOne {
+func (c *BronzeHistoryGCPVPNTargetGatewayClient) DeleteOneID(id uint) *BronzeHistoryGCPVPNTargetGatewayDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpvpntargetgateway.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -47919,12 +47919,12 @@ func (c *BronzeHistoryGCPVPNTargetGatewayClient) Query() *BronzeHistoryGCPVPNTar
 }
 
 // Get returns a BronzeHistoryGCPVPNTargetGateway entity by its id.
-func (c *BronzeHistoryGCPVPNTargetGatewayClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPVPNTargetGateway, error) {
+func (c *BronzeHistoryGCPVPNTargetGatewayClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPVPNTargetGateway, error) {
 	return c.Query().Where(bronzehistorygcpvpntargetgateway.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPVPNTargetGatewayClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPVPNTargetGateway {
+func (c *BronzeHistoryGCPVPNTargetGatewayClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPVPNTargetGateway {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -48018,7 +48018,7 @@ func (c *BronzeHistoryGCPVPNTargetGatewayLabelClient) UpdateOne(_m *BronzeHistor
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPVPNTargetGatewayLabelClient) UpdateOneID(id int) *BronzeHistoryGCPVPNTargetGatewayLabelUpdateOne {
+func (c *BronzeHistoryGCPVPNTargetGatewayLabelClient) UpdateOneID(id uint) *BronzeHistoryGCPVPNTargetGatewayLabelUpdateOne {
 	mutation := newBronzeHistoryGCPVPNTargetGatewayLabelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPVPNTargetGatewayLabelID(id))
 	return &BronzeHistoryGCPVPNTargetGatewayLabelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -48035,7 +48035,7 @@ func (c *BronzeHistoryGCPVPNTargetGatewayLabelClient) DeleteOne(_m *BronzeHistor
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPVPNTargetGatewayLabelClient) DeleteOneID(id int) *BronzeHistoryGCPVPNTargetGatewayLabelDeleteOne {
+func (c *BronzeHistoryGCPVPNTargetGatewayLabelClient) DeleteOneID(id uint) *BronzeHistoryGCPVPNTargetGatewayLabelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpvpntargetgatewaylabel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -48052,12 +48052,12 @@ func (c *BronzeHistoryGCPVPNTargetGatewayLabelClient) Query() *BronzeHistoryGCPV
 }
 
 // Get returns a BronzeHistoryGCPVPNTargetGatewayLabel entity by its id.
-func (c *BronzeHistoryGCPVPNTargetGatewayLabelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPVPNTargetGatewayLabel, error) {
+func (c *BronzeHistoryGCPVPNTargetGatewayLabelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPVPNTargetGatewayLabel, error) {
 	return c.Query().Where(bronzehistorygcpvpntargetgatewaylabel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPVPNTargetGatewayLabelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPVPNTargetGatewayLabel {
+func (c *BronzeHistoryGCPVPNTargetGatewayLabelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPVPNTargetGatewayLabel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -48151,7 +48151,7 @@ func (c *BronzeHistoryGCPVPNTunnelClient) UpdateOne(_m *BronzeHistoryGCPVPNTunne
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPVPNTunnelClient) UpdateOneID(id int) *BronzeHistoryGCPVPNTunnelUpdateOne {
+func (c *BronzeHistoryGCPVPNTunnelClient) UpdateOneID(id uint) *BronzeHistoryGCPVPNTunnelUpdateOne {
 	mutation := newBronzeHistoryGCPVPNTunnelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPVPNTunnelID(id))
 	return &BronzeHistoryGCPVPNTunnelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -48168,7 +48168,7 @@ func (c *BronzeHistoryGCPVPNTunnelClient) DeleteOne(_m *BronzeHistoryGCPVPNTunne
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPVPNTunnelClient) DeleteOneID(id int) *BronzeHistoryGCPVPNTunnelDeleteOne {
+func (c *BronzeHistoryGCPVPNTunnelClient) DeleteOneID(id uint) *BronzeHistoryGCPVPNTunnelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpvpntunnel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -48185,12 +48185,12 @@ func (c *BronzeHistoryGCPVPNTunnelClient) Query() *BronzeHistoryGCPVPNTunnelQuer
 }
 
 // Get returns a BronzeHistoryGCPVPNTunnel entity by its id.
-func (c *BronzeHistoryGCPVPNTunnelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPVPNTunnel, error) {
+func (c *BronzeHistoryGCPVPNTunnelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPVPNTunnel, error) {
 	return c.Query().Where(bronzehistorygcpvpntunnel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPVPNTunnelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPVPNTunnel {
+func (c *BronzeHistoryGCPVPNTunnelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPVPNTunnel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -48284,7 +48284,7 @@ func (c *BronzeHistoryGCPVPNTunnelLabelClient) UpdateOne(_m *BronzeHistoryGCPVPN
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGCPVPNTunnelLabelClient) UpdateOneID(id int) *BronzeHistoryGCPVPNTunnelLabelUpdateOne {
+func (c *BronzeHistoryGCPVPNTunnelLabelClient) UpdateOneID(id uint) *BronzeHistoryGCPVPNTunnelLabelUpdateOne {
 	mutation := newBronzeHistoryGCPVPNTunnelLabelMutation(c.config, OpUpdateOne, withBronzeHistoryGCPVPNTunnelLabelID(id))
 	return &BronzeHistoryGCPVPNTunnelLabelUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -48301,7 +48301,7 @@ func (c *BronzeHistoryGCPVPNTunnelLabelClient) DeleteOne(_m *BronzeHistoryGCPVPN
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGCPVPNTunnelLabelClient) DeleteOneID(id int) *BronzeHistoryGCPVPNTunnelLabelDeleteOne {
+func (c *BronzeHistoryGCPVPNTunnelLabelClient) DeleteOneID(id uint) *BronzeHistoryGCPVPNTunnelLabelDeleteOne {
 	builder := c.Delete().Where(bronzehistorygcpvpntunnellabel.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -48318,12 +48318,12 @@ func (c *BronzeHistoryGCPVPNTunnelLabelClient) Query() *BronzeHistoryGCPVPNTunne
 }
 
 // Get returns a BronzeHistoryGCPVPNTunnelLabel entity by its id.
-func (c *BronzeHistoryGCPVPNTunnelLabelClient) Get(ctx context.Context, id int) (*BronzeHistoryGCPVPNTunnelLabel, error) {
+func (c *BronzeHistoryGCPVPNTunnelLabelClient) Get(ctx context.Context, id uint) (*BronzeHistoryGCPVPNTunnelLabel, error) {
 	return c.Query().Where(bronzehistorygcpvpntunnellabel.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGCPVPNTunnelLabelClient) GetX(ctx context.Context, id int) *BronzeHistoryGCPVPNTunnelLabel {
+func (c *BronzeHistoryGCPVPNTunnelLabelClient) GetX(ctx context.Context, id uint) *BronzeHistoryGCPVPNTunnelLabel {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -48417,7 +48417,7 @@ func (c *BronzeHistoryGreenNodeComputeSSHKeyClient) UpdateOne(_m *BronzeHistoryG
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGreenNodeComputeSSHKeyClient) UpdateOneID(id int) *BronzeHistoryGreenNodeComputeSSHKeyUpdateOne {
+func (c *BronzeHistoryGreenNodeComputeSSHKeyClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeComputeSSHKeyUpdateOne {
 	mutation := newBronzeHistoryGreenNodeComputeSSHKeyMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeComputeSSHKeyID(id))
 	return &BronzeHistoryGreenNodeComputeSSHKeyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -48434,7 +48434,7 @@ func (c *BronzeHistoryGreenNodeComputeSSHKeyClient) DeleteOne(_m *BronzeHistoryG
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGreenNodeComputeSSHKeyClient) DeleteOneID(id int) *BronzeHistoryGreenNodeComputeSSHKeyDeleteOne {
+func (c *BronzeHistoryGreenNodeComputeSSHKeyClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeComputeSSHKeyDeleteOne {
 	builder := c.Delete().Where(bronzehistorygreennodecomputesshkey.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -48451,12 +48451,12 @@ func (c *BronzeHistoryGreenNodeComputeSSHKeyClient) Query() *BronzeHistoryGreenN
 }
 
 // Get returns a BronzeHistoryGreenNodeComputeSSHKey entity by its id.
-func (c *BronzeHistoryGreenNodeComputeSSHKeyClient) Get(ctx context.Context, id int) (*BronzeHistoryGreenNodeComputeSSHKey, error) {
+func (c *BronzeHistoryGreenNodeComputeSSHKeyClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeComputeSSHKey, error) {
 	return c.Query().Where(bronzehistorygreennodecomputesshkey.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGreenNodeComputeSSHKeyClient) GetX(ctx context.Context, id int) *BronzeHistoryGreenNodeComputeSSHKey {
+func (c *BronzeHistoryGreenNodeComputeSSHKeyClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeComputeSSHKey {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -48550,7 +48550,7 @@ func (c *BronzeHistoryGreenNodeComputeServerClient) UpdateOne(_m *BronzeHistoryG
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGreenNodeComputeServerClient) UpdateOneID(id int) *BronzeHistoryGreenNodeComputeServerUpdateOne {
+func (c *BronzeHistoryGreenNodeComputeServerClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeComputeServerUpdateOne {
 	mutation := newBronzeHistoryGreenNodeComputeServerMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeComputeServerID(id))
 	return &BronzeHistoryGreenNodeComputeServerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -48567,7 +48567,7 @@ func (c *BronzeHistoryGreenNodeComputeServerClient) DeleteOne(_m *BronzeHistoryG
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGreenNodeComputeServerClient) DeleteOneID(id int) *BronzeHistoryGreenNodeComputeServerDeleteOne {
+func (c *BronzeHistoryGreenNodeComputeServerClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeComputeServerDeleteOne {
 	builder := c.Delete().Where(bronzehistorygreennodecomputeserver.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -48584,12 +48584,12 @@ func (c *BronzeHistoryGreenNodeComputeServerClient) Query() *BronzeHistoryGreenN
 }
 
 // Get returns a BronzeHistoryGreenNodeComputeServer entity by its id.
-func (c *BronzeHistoryGreenNodeComputeServerClient) Get(ctx context.Context, id int) (*BronzeHistoryGreenNodeComputeServer, error) {
+func (c *BronzeHistoryGreenNodeComputeServerClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeComputeServer, error) {
 	return c.Query().Where(bronzehistorygreennodecomputeserver.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGreenNodeComputeServerClient) GetX(ctx context.Context, id int) *BronzeHistoryGreenNodeComputeServer {
+func (c *BronzeHistoryGreenNodeComputeServerClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeComputeServer {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -48683,7 +48683,7 @@ func (c *BronzeHistoryGreenNodeComputeServerGroupClient) UpdateOne(_m *BronzeHis
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGreenNodeComputeServerGroupClient) UpdateOneID(id int) *BronzeHistoryGreenNodeComputeServerGroupUpdateOne {
+func (c *BronzeHistoryGreenNodeComputeServerGroupClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeComputeServerGroupUpdateOne {
 	mutation := newBronzeHistoryGreenNodeComputeServerGroupMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeComputeServerGroupID(id))
 	return &BronzeHistoryGreenNodeComputeServerGroupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -48700,7 +48700,7 @@ func (c *BronzeHistoryGreenNodeComputeServerGroupClient) DeleteOne(_m *BronzeHis
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGreenNodeComputeServerGroupClient) DeleteOneID(id int) *BronzeHistoryGreenNodeComputeServerGroupDeleteOne {
+func (c *BronzeHistoryGreenNodeComputeServerGroupClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeComputeServerGroupDeleteOne {
 	builder := c.Delete().Where(bronzehistorygreennodecomputeservergroup.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -48717,12 +48717,12 @@ func (c *BronzeHistoryGreenNodeComputeServerGroupClient) Query() *BronzeHistoryG
 }
 
 // Get returns a BronzeHistoryGreenNodeComputeServerGroup entity by its id.
-func (c *BronzeHistoryGreenNodeComputeServerGroupClient) Get(ctx context.Context, id int) (*BronzeHistoryGreenNodeComputeServerGroup, error) {
+func (c *BronzeHistoryGreenNodeComputeServerGroupClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeComputeServerGroup, error) {
 	return c.Query().Where(bronzehistorygreennodecomputeservergroup.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGreenNodeComputeServerGroupClient) GetX(ctx context.Context, id int) *BronzeHistoryGreenNodeComputeServerGroup {
+func (c *BronzeHistoryGreenNodeComputeServerGroupClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeComputeServerGroup {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -48816,7 +48816,7 @@ func (c *BronzeHistoryGreenNodeComputeServerGroupMemberClient) UpdateOne(_m *Bro
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGreenNodeComputeServerGroupMemberClient) UpdateOneID(id int) *BronzeHistoryGreenNodeComputeServerGroupMemberUpdateOne {
+func (c *BronzeHistoryGreenNodeComputeServerGroupMemberClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeComputeServerGroupMemberUpdateOne {
 	mutation := newBronzeHistoryGreenNodeComputeServerGroupMemberMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeComputeServerGroupMemberID(id))
 	return &BronzeHistoryGreenNodeComputeServerGroupMemberUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -48833,7 +48833,7 @@ func (c *BronzeHistoryGreenNodeComputeServerGroupMemberClient) DeleteOne(_m *Bro
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGreenNodeComputeServerGroupMemberClient) DeleteOneID(id int) *BronzeHistoryGreenNodeComputeServerGroupMemberDeleteOne {
+func (c *BronzeHistoryGreenNodeComputeServerGroupMemberClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeComputeServerGroupMemberDeleteOne {
 	builder := c.Delete().Where(bronzehistorygreennodecomputeservergroupmember.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -48850,12 +48850,12 @@ func (c *BronzeHistoryGreenNodeComputeServerGroupMemberClient) Query() *BronzeHi
 }
 
 // Get returns a BronzeHistoryGreenNodeComputeServerGroupMember entity by its id.
-func (c *BronzeHistoryGreenNodeComputeServerGroupMemberClient) Get(ctx context.Context, id int) (*BronzeHistoryGreenNodeComputeServerGroupMember, error) {
+func (c *BronzeHistoryGreenNodeComputeServerGroupMemberClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeComputeServerGroupMember, error) {
 	return c.Query().Where(bronzehistorygreennodecomputeservergroupmember.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGreenNodeComputeServerGroupMemberClient) GetX(ctx context.Context, id int) *BronzeHistoryGreenNodeComputeServerGroupMember {
+func (c *BronzeHistoryGreenNodeComputeServerGroupMemberClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeComputeServerGroupMember {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -48949,7 +48949,7 @@ func (c *BronzeHistoryGreenNodeComputeServerSecGroupClient) UpdateOne(_m *Bronze
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGreenNodeComputeServerSecGroupClient) UpdateOneID(id int) *BronzeHistoryGreenNodeComputeServerSecGroupUpdateOne {
+func (c *BronzeHistoryGreenNodeComputeServerSecGroupClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeComputeServerSecGroupUpdateOne {
 	mutation := newBronzeHistoryGreenNodeComputeServerSecGroupMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeComputeServerSecGroupID(id))
 	return &BronzeHistoryGreenNodeComputeServerSecGroupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -48966,7 +48966,7 @@ func (c *BronzeHistoryGreenNodeComputeServerSecGroupClient) DeleteOne(_m *Bronze
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGreenNodeComputeServerSecGroupClient) DeleteOneID(id int) *BronzeHistoryGreenNodeComputeServerSecGroupDeleteOne {
+func (c *BronzeHistoryGreenNodeComputeServerSecGroupClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeComputeServerSecGroupDeleteOne {
 	builder := c.Delete().Where(bronzehistorygreennodecomputeserversecgroup.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -48983,12 +48983,12 @@ func (c *BronzeHistoryGreenNodeComputeServerSecGroupClient) Query() *BronzeHisto
 }
 
 // Get returns a BronzeHistoryGreenNodeComputeServerSecGroup entity by its id.
-func (c *BronzeHistoryGreenNodeComputeServerSecGroupClient) Get(ctx context.Context, id int) (*BronzeHistoryGreenNodeComputeServerSecGroup, error) {
+func (c *BronzeHistoryGreenNodeComputeServerSecGroupClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeComputeServerSecGroup, error) {
 	return c.Query().Where(bronzehistorygreennodecomputeserversecgroup.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGreenNodeComputeServerSecGroupClient) GetX(ctx context.Context, id int) *BronzeHistoryGreenNodeComputeServerSecGroup {
+func (c *BronzeHistoryGreenNodeComputeServerSecGroupClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeComputeServerSecGroup {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -49082,7 +49082,7 @@ func (c *BronzeHistoryGreenNodePortalQuotaClient) UpdateOne(_m *BronzeHistoryGre
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGreenNodePortalQuotaClient) UpdateOneID(id int) *BronzeHistoryGreenNodePortalQuotaUpdateOne {
+func (c *BronzeHistoryGreenNodePortalQuotaClient) UpdateOneID(id uint) *BronzeHistoryGreenNodePortalQuotaUpdateOne {
 	mutation := newBronzeHistoryGreenNodePortalQuotaMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodePortalQuotaID(id))
 	return &BronzeHistoryGreenNodePortalQuotaUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -49099,7 +49099,7 @@ func (c *BronzeHistoryGreenNodePortalQuotaClient) DeleteOne(_m *BronzeHistoryGre
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGreenNodePortalQuotaClient) DeleteOneID(id int) *BronzeHistoryGreenNodePortalQuotaDeleteOne {
+func (c *BronzeHistoryGreenNodePortalQuotaClient) DeleteOneID(id uint) *BronzeHistoryGreenNodePortalQuotaDeleteOne {
 	builder := c.Delete().Where(bronzehistorygreennodeportalquota.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -49116,12 +49116,12 @@ func (c *BronzeHistoryGreenNodePortalQuotaClient) Query() *BronzeHistoryGreenNod
 }
 
 // Get returns a BronzeHistoryGreenNodePortalQuota entity by its id.
-func (c *BronzeHistoryGreenNodePortalQuotaClient) Get(ctx context.Context, id int) (*BronzeHistoryGreenNodePortalQuota, error) {
+func (c *BronzeHistoryGreenNodePortalQuotaClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodePortalQuota, error) {
 	return c.Query().Where(bronzehistorygreennodeportalquota.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGreenNodePortalQuotaClient) GetX(ctx context.Context, id int) *BronzeHistoryGreenNodePortalQuota {
+func (c *BronzeHistoryGreenNodePortalQuotaClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodePortalQuota {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -49215,7 +49215,7 @@ func (c *BronzeHistoryGreenNodePortalRegionClient) UpdateOne(_m *BronzeHistoryGr
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryGreenNodePortalRegionClient) UpdateOneID(id int) *BronzeHistoryGreenNodePortalRegionUpdateOne {
+func (c *BronzeHistoryGreenNodePortalRegionClient) UpdateOneID(id uint) *BronzeHistoryGreenNodePortalRegionUpdateOne {
 	mutation := newBronzeHistoryGreenNodePortalRegionMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodePortalRegionID(id))
 	return &BronzeHistoryGreenNodePortalRegionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -49232,7 +49232,7 @@ func (c *BronzeHistoryGreenNodePortalRegionClient) DeleteOne(_m *BronzeHistoryGr
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryGreenNodePortalRegionClient) DeleteOneID(id int) *BronzeHistoryGreenNodePortalRegionDeleteOne {
+func (c *BronzeHistoryGreenNodePortalRegionClient) DeleteOneID(id uint) *BronzeHistoryGreenNodePortalRegionDeleteOne {
 	builder := c.Delete().Where(bronzehistorygreennodeportalregion.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -49249,12 +49249,12 @@ func (c *BronzeHistoryGreenNodePortalRegionClient) Query() *BronzeHistoryGreenNo
 }
 
 // Get returns a BronzeHistoryGreenNodePortalRegion entity by its id.
-func (c *BronzeHistoryGreenNodePortalRegionClient) Get(ctx context.Context, id int) (*BronzeHistoryGreenNodePortalRegion, error) {
+func (c *BronzeHistoryGreenNodePortalRegionClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodePortalRegion, error) {
 	return c.Query().Where(bronzehistorygreennodeportalregion.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryGreenNodePortalRegionClient) GetX(ctx context.Context, id int) *BronzeHistoryGreenNodePortalRegion {
+func (c *BronzeHistoryGreenNodePortalRegionClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodePortalRegion {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -49348,7 +49348,7 @@ func (c *BronzeHistoryS1AccountClient) UpdateOne(_m *BronzeHistoryS1Account) *Br
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryS1AccountClient) UpdateOneID(id int) *BronzeHistoryS1AccountUpdateOne {
+func (c *BronzeHistoryS1AccountClient) UpdateOneID(id uint) *BronzeHistoryS1AccountUpdateOne {
 	mutation := newBronzeHistoryS1AccountMutation(c.config, OpUpdateOne, withBronzeHistoryS1AccountID(id))
 	return &BronzeHistoryS1AccountUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -49365,7 +49365,7 @@ func (c *BronzeHistoryS1AccountClient) DeleteOne(_m *BronzeHistoryS1Account) *Br
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryS1AccountClient) DeleteOneID(id int) *BronzeHistoryS1AccountDeleteOne {
+func (c *BronzeHistoryS1AccountClient) DeleteOneID(id uint) *BronzeHistoryS1AccountDeleteOne {
 	builder := c.Delete().Where(bronzehistorys1account.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -49382,12 +49382,12 @@ func (c *BronzeHistoryS1AccountClient) Query() *BronzeHistoryS1AccountQuery {
 }
 
 // Get returns a BronzeHistoryS1Account entity by its id.
-func (c *BronzeHistoryS1AccountClient) Get(ctx context.Context, id int) (*BronzeHistoryS1Account, error) {
+func (c *BronzeHistoryS1AccountClient) Get(ctx context.Context, id uint) (*BronzeHistoryS1Account, error) {
 	return c.Query().Where(bronzehistorys1account.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryS1AccountClient) GetX(ctx context.Context, id int) *BronzeHistoryS1Account {
+func (c *BronzeHistoryS1AccountClient) GetX(ctx context.Context, id uint) *BronzeHistoryS1Account {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -49481,7 +49481,7 @@ func (c *BronzeHistoryS1AgentClient) UpdateOne(_m *BronzeHistoryS1Agent) *Bronze
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryS1AgentClient) UpdateOneID(id int) *BronzeHistoryS1AgentUpdateOne {
+func (c *BronzeHistoryS1AgentClient) UpdateOneID(id uint) *BronzeHistoryS1AgentUpdateOne {
 	mutation := newBronzeHistoryS1AgentMutation(c.config, OpUpdateOne, withBronzeHistoryS1AgentID(id))
 	return &BronzeHistoryS1AgentUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -49498,7 +49498,7 @@ func (c *BronzeHistoryS1AgentClient) DeleteOne(_m *BronzeHistoryS1Agent) *Bronze
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryS1AgentClient) DeleteOneID(id int) *BronzeHistoryS1AgentDeleteOne {
+func (c *BronzeHistoryS1AgentClient) DeleteOneID(id uint) *BronzeHistoryS1AgentDeleteOne {
 	builder := c.Delete().Where(bronzehistorys1agent.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -49515,12 +49515,12 @@ func (c *BronzeHistoryS1AgentClient) Query() *BronzeHistoryS1AgentQuery {
 }
 
 // Get returns a BronzeHistoryS1Agent entity by its id.
-func (c *BronzeHistoryS1AgentClient) Get(ctx context.Context, id int) (*BronzeHistoryS1Agent, error) {
+func (c *BronzeHistoryS1AgentClient) Get(ctx context.Context, id uint) (*BronzeHistoryS1Agent, error) {
 	return c.Query().Where(bronzehistorys1agent.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryS1AgentClient) GetX(ctx context.Context, id int) *BronzeHistoryS1Agent {
+func (c *BronzeHistoryS1AgentClient) GetX(ctx context.Context, id uint) *BronzeHistoryS1Agent {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -49614,7 +49614,7 @@ func (c *BronzeHistoryS1AgentNICClient) UpdateOne(_m *BronzeHistoryS1AgentNIC) *
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryS1AgentNICClient) UpdateOneID(id int) *BronzeHistoryS1AgentNICUpdateOne {
+func (c *BronzeHistoryS1AgentNICClient) UpdateOneID(id uint) *BronzeHistoryS1AgentNICUpdateOne {
 	mutation := newBronzeHistoryS1AgentNICMutation(c.config, OpUpdateOne, withBronzeHistoryS1AgentNICID(id))
 	return &BronzeHistoryS1AgentNICUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -49631,7 +49631,7 @@ func (c *BronzeHistoryS1AgentNICClient) DeleteOne(_m *BronzeHistoryS1AgentNIC) *
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryS1AgentNICClient) DeleteOneID(id int) *BronzeHistoryS1AgentNICDeleteOne {
+func (c *BronzeHistoryS1AgentNICClient) DeleteOneID(id uint) *BronzeHistoryS1AgentNICDeleteOne {
 	builder := c.Delete().Where(bronzehistorys1agentnic.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -49648,12 +49648,12 @@ func (c *BronzeHistoryS1AgentNICClient) Query() *BronzeHistoryS1AgentNICQuery {
 }
 
 // Get returns a BronzeHistoryS1AgentNIC entity by its id.
-func (c *BronzeHistoryS1AgentNICClient) Get(ctx context.Context, id int) (*BronzeHistoryS1AgentNIC, error) {
+func (c *BronzeHistoryS1AgentNICClient) Get(ctx context.Context, id uint) (*BronzeHistoryS1AgentNIC, error) {
 	return c.Query().Where(bronzehistorys1agentnic.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryS1AgentNICClient) GetX(ctx context.Context, id int) *BronzeHistoryS1AgentNIC {
+func (c *BronzeHistoryS1AgentNICClient) GetX(ctx context.Context, id uint) *BronzeHistoryS1AgentNIC {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -49747,7 +49747,7 @@ func (c *BronzeHistoryS1AppClient) UpdateOne(_m *BronzeHistoryS1App) *BronzeHist
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryS1AppClient) UpdateOneID(id int) *BronzeHistoryS1AppUpdateOne {
+func (c *BronzeHistoryS1AppClient) UpdateOneID(id uint) *BronzeHistoryS1AppUpdateOne {
 	mutation := newBronzeHistoryS1AppMutation(c.config, OpUpdateOne, withBronzeHistoryS1AppID(id))
 	return &BronzeHistoryS1AppUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -49764,7 +49764,7 @@ func (c *BronzeHistoryS1AppClient) DeleteOne(_m *BronzeHistoryS1App) *BronzeHist
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryS1AppClient) DeleteOneID(id int) *BronzeHistoryS1AppDeleteOne {
+func (c *BronzeHistoryS1AppClient) DeleteOneID(id uint) *BronzeHistoryS1AppDeleteOne {
 	builder := c.Delete().Where(bronzehistorys1app.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -49781,12 +49781,12 @@ func (c *BronzeHistoryS1AppClient) Query() *BronzeHistoryS1AppQuery {
 }
 
 // Get returns a BronzeHistoryS1App entity by its id.
-func (c *BronzeHistoryS1AppClient) Get(ctx context.Context, id int) (*BronzeHistoryS1App, error) {
+func (c *BronzeHistoryS1AppClient) Get(ctx context.Context, id uint) (*BronzeHistoryS1App, error) {
 	return c.Query().Where(bronzehistorys1app.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryS1AppClient) GetX(ctx context.Context, id int) *BronzeHistoryS1App {
+func (c *BronzeHistoryS1AppClient) GetX(ctx context.Context, id uint) *BronzeHistoryS1App {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -49880,7 +49880,7 @@ func (c *BronzeHistoryS1GroupClient) UpdateOne(_m *BronzeHistoryS1Group) *Bronze
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryS1GroupClient) UpdateOneID(id int) *BronzeHistoryS1GroupUpdateOne {
+func (c *BronzeHistoryS1GroupClient) UpdateOneID(id uint) *BronzeHistoryS1GroupUpdateOne {
 	mutation := newBronzeHistoryS1GroupMutation(c.config, OpUpdateOne, withBronzeHistoryS1GroupID(id))
 	return &BronzeHistoryS1GroupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -49897,7 +49897,7 @@ func (c *BronzeHistoryS1GroupClient) DeleteOne(_m *BronzeHistoryS1Group) *Bronze
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryS1GroupClient) DeleteOneID(id int) *BronzeHistoryS1GroupDeleteOne {
+func (c *BronzeHistoryS1GroupClient) DeleteOneID(id uint) *BronzeHistoryS1GroupDeleteOne {
 	builder := c.Delete().Where(bronzehistorys1group.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -49914,12 +49914,12 @@ func (c *BronzeHistoryS1GroupClient) Query() *BronzeHistoryS1GroupQuery {
 }
 
 // Get returns a BronzeHistoryS1Group entity by its id.
-func (c *BronzeHistoryS1GroupClient) Get(ctx context.Context, id int) (*BronzeHistoryS1Group, error) {
+func (c *BronzeHistoryS1GroupClient) Get(ctx context.Context, id uint) (*BronzeHistoryS1Group, error) {
 	return c.Query().Where(bronzehistorys1group.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryS1GroupClient) GetX(ctx context.Context, id int) *BronzeHistoryS1Group {
+func (c *BronzeHistoryS1GroupClient) GetX(ctx context.Context, id uint) *BronzeHistoryS1Group {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -50013,7 +50013,7 @@ func (c *BronzeHistoryS1RangerDeviceClient) UpdateOne(_m *BronzeHistoryS1RangerD
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryS1RangerDeviceClient) UpdateOneID(id int) *BronzeHistoryS1RangerDeviceUpdateOne {
+func (c *BronzeHistoryS1RangerDeviceClient) UpdateOneID(id uint) *BronzeHistoryS1RangerDeviceUpdateOne {
 	mutation := newBronzeHistoryS1RangerDeviceMutation(c.config, OpUpdateOne, withBronzeHistoryS1RangerDeviceID(id))
 	return &BronzeHistoryS1RangerDeviceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -50030,7 +50030,7 @@ func (c *BronzeHistoryS1RangerDeviceClient) DeleteOne(_m *BronzeHistoryS1RangerD
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryS1RangerDeviceClient) DeleteOneID(id int) *BronzeHistoryS1RangerDeviceDeleteOne {
+func (c *BronzeHistoryS1RangerDeviceClient) DeleteOneID(id uint) *BronzeHistoryS1RangerDeviceDeleteOne {
 	builder := c.Delete().Where(bronzehistorys1rangerdevice.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -50047,12 +50047,12 @@ func (c *BronzeHistoryS1RangerDeviceClient) Query() *BronzeHistoryS1RangerDevice
 }
 
 // Get returns a BronzeHistoryS1RangerDevice entity by its id.
-func (c *BronzeHistoryS1RangerDeviceClient) Get(ctx context.Context, id int) (*BronzeHistoryS1RangerDevice, error) {
+func (c *BronzeHistoryS1RangerDeviceClient) Get(ctx context.Context, id uint) (*BronzeHistoryS1RangerDevice, error) {
 	return c.Query().Where(bronzehistorys1rangerdevice.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryS1RangerDeviceClient) GetX(ctx context.Context, id int) *BronzeHistoryS1RangerDevice {
+func (c *BronzeHistoryS1RangerDeviceClient) GetX(ctx context.Context, id uint) *BronzeHistoryS1RangerDevice {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -50146,7 +50146,7 @@ func (c *BronzeHistoryS1RangerGatewayClient) UpdateOne(_m *BronzeHistoryS1Ranger
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryS1RangerGatewayClient) UpdateOneID(id int) *BronzeHistoryS1RangerGatewayUpdateOne {
+func (c *BronzeHistoryS1RangerGatewayClient) UpdateOneID(id uint) *BronzeHistoryS1RangerGatewayUpdateOne {
 	mutation := newBronzeHistoryS1RangerGatewayMutation(c.config, OpUpdateOne, withBronzeHistoryS1RangerGatewayID(id))
 	return &BronzeHistoryS1RangerGatewayUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -50163,7 +50163,7 @@ func (c *BronzeHistoryS1RangerGatewayClient) DeleteOne(_m *BronzeHistoryS1Ranger
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryS1RangerGatewayClient) DeleteOneID(id int) *BronzeHistoryS1RangerGatewayDeleteOne {
+func (c *BronzeHistoryS1RangerGatewayClient) DeleteOneID(id uint) *BronzeHistoryS1RangerGatewayDeleteOne {
 	builder := c.Delete().Where(bronzehistorys1rangergateway.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -50180,12 +50180,12 @@ func (c *BronzeHistoryS1RangerGatewayClient) Query() *BronzeHistoryS1RangerGatew
 }
 
 // Get returns a BronzeHistoryS1RangerGateway entity by its id.
-func (c *BronzeHistoryS1RangerGatewayClient) Get(ctx context.Context, id int) (*BronzeHistoryS1RangerGateway, error) {
+func (c *BronzeHistoryS1RangerGatewayClient) Get(ctx context.Context, id uint) (*BronzeHistoryS1RangerGateway, error) {
 	return c.Query().Where(bronzehistorys1rangergateway.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryS1RangerGatewayClient) GetX(ctx context.Context, id int) *BronzeHistoryS1RangerGateway {
+func (c *BronzeHistoryS1RangerGatewayClient) GetX(ctx context.Context, id uint) *BronzeHistoryS1RangerGateway {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -50279,7 +50279,7 @@ func (c *BronzeHistoryS1RangerSettingClient) UpdateOne(_m *BronzeHistoryS1Ranger
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryS1RangerSettingClient) UpdateOneID(id int) *BronzeHistoryS1RangerSettingUpdateOne {
+func (c *BronzeHistoryS1RangerSettingClient) UpdateOneID(id uint) *BronzeHistoryS1RangerSettingUpdateOne {
 	mutation := newBronzeHistoryS1RangerSettingMutation(c.config, OpUpdateOne, withBronzeHistoryS1RangerSettingID(id))
 	return &BronzeHistoryS1RangerSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -50296,7 +50296,7 @@ func (c *BronzeHistoryS1RangerSettingClient) DeleteOne(_m *BronzeHistoryS1Ranger
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryS1RangerSettingClient) DeleteOneID(id int) *BronzeHistoryS1RangerSettingDeleteOne {
+func (c *BronzeHistoryS1RangerSettingClient) DeleteOneID(id uint) *BronzeHistoryS1RangerSettingDeleteOne {
 	builder := c.Delete().Where(bronzehistorys1rangersetting.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -50313,12 +50313,12 @@ func (c *BronzeHistoryS1RangerSettingClient) Query() *BronzeHistoryS1RangerSetti
 }
 
 // Get returns a BronzeHistoryS1RangerSetting entity by its id.
-func (c *BronzeHistoryS1RangerSettingClient) Get(ctx context.Context, id int) (*BronzeHistoryS1RangerSetting, error) {
+func (c *BronzeHistoryS1RangerSettingClient) Get(ctx context.Context, id uint) (*BronzeHistoryS1RangerSetting, error) {
 	return c.Query().Where(bronzehistorys1rangersetting.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryS1RangerSettingClient) GetX(ctx context.Context, id int) *BronzeHistoryS1RangerSetting {
+func (c *BronzeHistoryS1RangerSettingClient) GetX(ctx context.Context, id uint) *BronzeHistoryS1RangerSetting {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -50412,7 +50412,7 @@ func (c *BronzeHistoryS1SiteClient) UpdateOne(_m *BronzeHistoryS1Site) *BronzeHi
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryS1SiteClient) UpdateOneID(id int) *BronzeHistoryS1SiteUpdateOne {
+func (c *BronzeHistoryS1SiteClient) UpdateOneID(id uint) *BronzeHistoryS1SiteUpdateOne {
 	mutation := newBronzeHistoryS1SiteMutation(c.config, OpUpdateOne, withBronzeHistoryS1SiteID(id))
 	return &BronzeHistoryS1SiteUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -50429,7 +50429,7 @@ func (c *BronzeHistoryS1SiteClient) DeleteOne(_m *BronzeHistoryS1Site) *BronzeHi
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryS1SiteClient) DeleteOneID(id int) *BronzeHistoryS1SiteDeleteOne {
+func (c *BronzeHistoryS1SiteClient) DeleteOneID(id uint) *BronzeHistoryS1SiteDeleteOne {
 	builder := c.Delete().Where(bronzehistorys1site.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -50446,12 +50446,12 @@ func (c *BronzeHistoryS1SiteClient) Query() *BronzeHistoryS1SiteQuery {
 }
 
 // Get returns a BronzeHistoryS1Site entity by its id.
-func (c *BronzeHistoryS1SiteClient) Get(ctx context.Context, id int) (*BronzeHistoryS1Site, error) {
+func (c *BronzeHistoryS1SiteClient) Get(ctx context.Context, id uint) (*BronzeHistoryS1Site, error) {
 	return c.Query().Where(bronzehistorys1site.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryS1SiteClient) GetX(ctx context.Context, id int) *BronzeHistoryS1Site {
+func (c *BronzeHistoryS1SiteClient) GetX(ctx context.Context, id uint) *BronzeHistoryS1Site {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -50545,7 +50545,7 @@ func (c *BronzeHistoryS1ThreatClient) UpdateOne(_m *BronzeHistoryS1Threat) *Bron
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryS1ThreatClient) UpdateOneID(id int) *BronzeHistoryS1ThreatUpdateOne {
+func (c *BronzeHistoryS1ThreatClient) UpdateOneID(id uint) *BronzeHistoryS1ThreatUpdateOne {
 	mutation := newBronzeHistoryS1ThreatMutation(c.config, OpUpdateOne, withBronzeHistoryS1ThreatID(id))
 	return &BronzeHistoryS1ThreatUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -50562,7 +50562,7 @@ func (c *BronzeHistoryS1ThreatClient) DeleteOne(_m *BronzeHistoryS1Threat) *Bron
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryS1ThreatClient) DeleteOneID(id int) *BronzeHistoryS1ThreatDeleteOne {
+func (c *BronzeHistoryS1ThreatClient) DeleteOneID(id uint) *BronzeHistoryS1ThreatDeleteOne {
 	builder := c.Delete().Where(bronzehistorys1threat.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -50579,12 +50579,12 @@ func (c *BronzeHistoryS1ThreatClient) Query() *BronzeHistoryS1ThreatQuery {
 }
 
 // Get returns a BronzeHistoryS1Threat entity by its id.
-func (c *BronzeHistoryS1ThreatClient) Get(ctx context.Context, id int) (*BronzeHistoryS1Threat, error) {
+func (c *BronzeHistoryS1ThreatClient) Get(ctx context.Context, id uint) (*BronzeHistoryS1Threat, error) {
 	return c.Query().Where(bronzehistorys1threat.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryS1ThreatClient) GetX(ctx context.Context, id int) *BronzeHistoryS1Threat {
+func (c *BronzeHistoryS1ThreatClient) GetX(ctx context.Context, id uint) *BronzeHistoryS1Threat {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)

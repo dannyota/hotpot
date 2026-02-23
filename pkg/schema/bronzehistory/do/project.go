@@ -21,9 +21,7 @@ func (BronzeHistoryDOProject) Mixin() []ent.Mixin {
 
 func (BronzeHistoryDOProject) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze Project by resource_id"),

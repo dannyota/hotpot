@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGreenNodePortalQuotaQuery) FirstX(ctx context.Context) *B
 
 // FirstID returns the first BronzeHistoryGreenNodePortalQuota ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGreenNodePortalQuota ID was found.
-func (_q *BronzeHistoryGreenNodePortalQuotaQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGreenNodePortalQuotaQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGreenNodePortalQuotaQuery) FirstID(ctx context.Context) (
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGreenNodePortalQuotaQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGreenNodePortalQuotaQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGreenNodePortalQuotaQuery) OnlyX(ctx context.Context) *Br
 // OnlyID is like Only, but returns the only BronzeHistoryGreenNodePortalQuota ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGreenNodePortalQuota ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGreenNodePortalQuotaQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGreenNodePortalQuotaQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGreenNodePortalQuotaQuery) OnlyID(ctx context.Context) (i
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGreenNodePortalQuotaQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGreenNodePortalQuotaQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGreenNodePortalQuotaQuery) AllX(ctx context.Context) []*B
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGreenNodePortalQuota IDs.
-func (_q *BronzeHistoryGreenNodePortalQuotaQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGreenNodePortalQuotaQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGreenNodePortalQuotaQuery) IDs(ctx context.Context) (ids 
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGreenNodePortalQuotaQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGreenNodePortalQuotaQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGreenNodePortalQuotaQuery) sqlCount(ctx context.Context) 
 }
 
 func (_q *BronzeHistoryGreenNodePortalQuotaQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygreennodeportalquota.Table, bronzehistorygreennodeportalquota.Columns, sqlgraph.NewFieldSpec(bronzehistorygreennodeportalquota.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygreennodeportalquota.Table, bronzehistorygreennodeportalquota.Columns, sqlgraph.NewFieldSpec(bronzehistorygreennodeportalquota.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

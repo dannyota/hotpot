@@ -23,9 +23,7 @@ func (BronzeHistoryGCPSecretManagerSecret) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPSecretManagerSecret) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze secret by resource_id"),
@@ -78,9 +76,7 @@ type BronzeHistoryGCPSecretManagerSecretLabel struct {
 
 func (BronzeHistoryGCPSecretManagerSecretLabel) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("secret_history_id").
 			Comment("Links to parent BronzeHistoryGCPSecretManagerSecret"),
 		field.Time("valid_from").

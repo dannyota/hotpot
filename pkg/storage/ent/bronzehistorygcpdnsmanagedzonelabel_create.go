@@ -20,12 +20,6 @@ type BronzeHistoryGCPDNSManagedZoneLabelCreate struct {
 	hooks    []Hook
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPDNSManagedZoneLabelCreate) SetHistoryID(v uint) *BronzeHistoryGCPDNSManagedZoneLabelCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetManagedZoneHistoryID sets the "managed_zone_history_id" field.
 func (_c *BronzeHistoryGCPDNSManagedZoneLabelCreate) SetManagedZoneHistoryID(v uint) *BronzeHistoryGCPDNSManagedZoneLabelCreate {
 	_c.mutation.SetManagedZoneHistoryID(v)
@@ -64,6 +58,12 @@ func (_c *BronzeHistoryGCPDNSManagedZoneLabelCreate) SetValue(v string) *BronzeH
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPDNSManagedZoneLabelCreate) SetID(v uint) *BronzeHistoryGCPDNSManagedZoneLabelCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPDNSManagedZoneLabelMutation object of the builder.
 func (_c *BronzeHistoryGCPDNSManagedZoneLabelCreate) Mutation() *BronzeHistoryGCPDNSManagedZoneLabelMutation {
 	return _c.mutation
@@ -98,9 +98,6 @@ func (_c *BronzeHistoryGCPDNSManagedZoneLabelCreate) ExecX(ctx context.Context) 
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *BronzeHistoryGCPDNSManagedZoneLabelCreate) check() error {
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPDNSManagedZoneLabel.history_id"`)}
-	}
 	if _, ok := _c.mutation.ManagedZoneHistoryID(); !ok {
 		return &ValidationError{Name: "managed_zone_history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPDNSManagedZoneLabel.managed_zone_history_id"`)}
 	}
@@ -132,8 +129,10 @@ func (_c *BronzeHistoryGCPDNSManagedZoneLabelCreate) sqlSave(ctx context.Context
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -142,12 +141,12 @@ func (_c *BronzeHistoryGCPDNSManagedZoneLabelCreate) sqlSave(ctx context.Context
 func (_c *BronzeHistoryGCPDNSManagedZoneLabelCreate) createSpec() (*BronzeHistoryGCPDNSManagedZoneLabel, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPDNSManagedZoneLabel{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpdnsmanagedzonelabel.Table, sqlgraph.NewFieldSpec(bronzehistorygcpdnsmanagedzonelabel.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpdnsmanagedzonelabel.Table, sqlgraph.NewFieldSpec(bronzehistorygcpdnsmanagedzonelabel.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPDNSManagedZoneLabel
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpdnsmanagedzonelabel.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
 	}
 	if value, ok := _c.mutation.ManagedZoneHistoryID(); ok {
 		_spec.SetField(bronzehistorygcpdnsmanagedzonelabel.FieldManagedZoneHistoryID, field.TypeUint, value)
@@ -216,9 +215,9 @@ func (_c *BronzeHistoryGCPDNSManagedZoneLabelCreateBulk) Save(ctx context.Contex
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

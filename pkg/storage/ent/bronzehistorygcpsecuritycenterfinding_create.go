@@ -53,12 +53,6 @@ func (_c *BronzeHistoryGCPSecurityCenterFindingCreate) SetFirstCollectedAt(v tim
 	return _c
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPSecurityCenterFindingCreate) SetHistoryID(v uint) *BronzeHistoryGCPSecurityCenterFindingCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetResourceID sets the "resource_id" field.
 func (_c *BronzeHistoryGCPSecurityCenterFindingCreate) SetResourceID(v string) *BronzeHistoryGCPSecurityCenterFindingCreate {
 	_c.mutation.SetResourceID(v)
@@ -259,6 +253,12 @@ func (_c *BronzeHistoryGCPSecurityCenterFindingCreate) SetContacts(v json.RawMes
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPSecurityCenterFindingCreate) SetID(v uint) *BronzeHistoryGCPSecurityCenterFindingCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPSecurityCenterFindingMutation object of the builder.
 func (_c *BronzeHistoryGCPSecurityCenterFindingCreate) Mutation() *BronzeHistoryGCPSecurityCenterFindingMutation {
 	return _c.mutation
@@ -302,9 +302,6 @@ func (_c *BronzeHistoryGCPSecurityCenterFindingCreate) check() error {
 	if _, ok := _c.mutation.FirstCollectedAt(); !ok {
 		return &ValidationError{Name: "first_collected_at", err: errors.New(`ent: missing required field "BronzeHistoryGCPSecurityCenterFinding.first_collected_at"`)}
 	}
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPSecurityCenterFinding.history_id"`)}
-	}
 	if _, ok := _c.mutation.ResourceID(); !ok {
 		return &ValidationError{Name: "resource_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPSecurityCenterFinding.resource_id"`)}
 	}
@@ -343,8 +340,10 @@ func (_c *BronzeHistoryGCPSecurityCenterFindingCreate) sqlSave(ctx context.Conte
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -353,9 +352,13 @@ func (_c *BronzeHistoryGCPSecurityCenterFindingCreate) sqlSave(ctx context.Conte
 func (_c *BronzeHistoryGCPSecurityCenterFindingCreate) createSpec() (*BronzeHistoryGCPSecurityCenterFinding, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPSecurityCenterFinding{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpsecuritycenterfinding.Table, sqlgraph.NewFieldSpec(bronzehistorygcpsecuritycenterfinding.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpsecuritycenterfinding.Table, sqlgraph.NewFieldSpec(bronzehistorygcpsecuritycenterfinding.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPSecurityCenterFinding
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := _c.mutation.ValidFrom(); ok {
 		_spec.SetField(bronzehistorygcpsecuritycenterfinding.FieldValidFrom, field.TypeTime, value)
 		_node.ValidFrom = value
@@ -371,10 +374,6 @@ func (_c *BronzeHistoryGCPSecurityCenterFindingCreate) createSpec() (*BronzeHist
 	if value, ok := _c.mutation.FirstCollectedAt(); ok {
 		_spec.SetField(bronzehistorygcpsecuritycenterfinding.FieldFirstCollectedAt, field.TypeTime, value)
 		_node.FirstCollectedAt = value
-	}
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpsecuritycenterfinding.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
 	}
 	if value, ok := _c.mutation.ResourceID(); ok {
 		_spec.SetField(bronzehistorygcpsecuritycenterfinding.FieldResourceID, field.TypeString, value)
@@ -503,9 +502,9 @@ func (_c *BronzeHistoryGCPSecurityCenterFindingCreateBulk) Save(ctx context.Cont
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

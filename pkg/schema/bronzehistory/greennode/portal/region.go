@@ -21,9 +21,7 @@ func (BronzeHistoryGreenNodePortalRegion) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGreenNodePortalRegion) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty(),
 		field.String("name").

@@ -16,9 +16,7 @@ import (
 type BronzeHistoryGCPComputeImageLicense struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Links to parent BronzeHistoryGCPComputeImage
 	ImageHistoryID uint `json:"image_history_id,omitempty"`
 	// ValidFrom holds the value of the "valid_from" field.
@@ -35,7 +33,7 @@ func (*BronzeHistoryGCPComputeImageLicense) scanValues(columns []string) ([]any,
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case bronzehistorygcpcomputeimagelicense.FieldID, bronzehistorygcpcomputeimagelicense.FieldHistoryID, bronzehistorygcpcomputeimagelicense.FieldImageHistoryID:
+		case bronzehistorygcpcomputeimagelicense.FieldID, bronzehistorygcpcomputeimagelicense.FieldImageHistoryID:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorygcpcomputeimagelicense.FieldLicense:
 			values[i] = new(sql.NullString)
@@ -61,13 +59,7 @@ func (_m *BronzeHistoryGCPComputeImageLicense) assignValues(columns []string, va
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
-		case bronzehistorygcpcomputeimagelicense.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
-			}
+			_m.ID = uint(value.Int64)
 		case bronzehistorygcpcomputeimagelicense.FieldImageHistoryID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field image_history_id", values[i])
@@ -129,9 +121,6 @@ func (_m *BronzeHistoryGCPComputeImageLicense) String() string {
 	var builder strings.Builder
 	builder.WriteString("BronzeHistoryGCPComputeImageLicense(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
-	builder.WriteString(", ")
 	builder.WriteString("image_history_id=")
 	builder.WriteString(fmt.Sprintf("%v", _m.ImageHistoryID))
 	builder.WriteString(", ")

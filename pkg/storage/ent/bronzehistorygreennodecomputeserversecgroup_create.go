@@ -20,12 +20,6 @@ type BronzeHistoryGreenNodeComputeServerSecGroupCreate struct {
 	hooks    []Hook
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGreenNodeComputeServerSecGroupCreate) SetHistoryID(v uint) *BronzeHistoryGreenNodeComputeServerSecGroupCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetServerHistoryID sets the "server_history_id" field.
 func (_c *BronzeHistoryGreenNodeComputeServerSecGroupCreate) SetServerHistoryID(v uint) *BronzeHistoryGreenNodeComputeServerSecGroupCreate {
 	_c.mutation.SetServerHistoryID(v)
@@ -64,6 +58,12 @@ func (_c *BronzeHistoryGreenNodeComputeServerSecGroupCreate) SetName(v string) *
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGreenNodeComputeServerSecGroupCreate) SetID(v uint) *BronzeHistoryGreenNodeComputeServerSecGroupCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGreenNodeComputeServerSecGroupMutation object of the builder.
 func (_c *BronzeHistoryGreenNodeComputeServerSecGroupCreate) Mutation() *BronzeHistoryGreenNodeComputeServerSecGroupMutation {
 	return _c.mutation
@@ -98,9 +98,6 @@ func (_c *BronzeHistoryGreenNodeComputeServerSecGroupCreate) ExecX(ctx context.C
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *BronzeHistoryGreenNodeComputeServerSecGroupCreate) check() error {
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGreenNodeComputeServerSecGroup.history_id"`)}
-	}
 	if _, ok := _c.mutation.ServerHistoryID(); !ok {
 		return &ValidationError{Name: "server_history_id", err: errors.New(`ent: missing required field "BronzeHistoryGreenNodeComputeServerSecGroup.server_history_id"`)}
 	}
@@ -137,8 +134,10 @@ func (_c *BronzeHistoryGreenNodeComputeServerSecGroupCreate) sqlSave(ctx context
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -147,12 +146,12 @@ func (_c *BronzeHistoryGreenNodeComputeServerSecGroupCreate) sqlSave(ctx context
 func (_c *BronzeHistoryGreenNodeComputeServerSecGroupCreate) createSpec() (*BronzeHistoryGreenNodeComputeServerSecGroup, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGreenNodeComputeServerSecGroup{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygreennodecomputeserversecgroup.Table, sqlgraph.NewFieldSpec(bronzehistorygreennodecomputeserversecgroup.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygreennodecomputeserversecgroup.Table, sqlgraph.NewFieldSpec(bronzehistorygreennodecomputeserversecgroup.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGreenNodeComputeServerSecGroup
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygreennodecomputeserversecgroup.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
 	}
 	if value, ok := _c.mutation.ServerHistoryID(); ok {
 		_spec.SetField(bronzehistorygreennodecomputeserversecgroup.FieldServerHistoryID, field.TypeUint, value)
@@ -221,9 +220,9 @@ func (_c *BronzeHistoryGreenNodeComputeServerSecGroupCreateBulk) Save(ctx contex
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

@@ -41,7 +41,7 @@ func (_d *BronzeHistoryDOKubernetesClusterDelete) ExecX(ctx context.Context) int
 }
 
 func (_d *BronzeHistoryDOKubernetesClusterDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorydokubernetescluster.Table, sqlgraph.NewFieldSpec(bronzehistorydokubernetescluster.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorydokubernetescluster.Table, sqlgraph.NewFieldSpec(bronzehistorydokubernetescluster.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryDOKubernetesCluster
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

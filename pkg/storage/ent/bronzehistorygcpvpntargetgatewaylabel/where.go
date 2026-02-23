@@ -10,53 +10,48 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
+func ID(id uint) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
 	return predicate.BronzeHistoryGCPVPNTargetGatewayLabel(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
+func IDEQ(id uint) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
 	return predicate.BronzeHistoryGCPVPNTargetGatewayLabel(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
 	return predicate.BronzeHistoryGCPVPNTargetGatewayLabel(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
 	return predicate.BronzeHistoryGCPVPNTargetGatewayLabel(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
 	return predicate.BronzeHistoryGCPVPNTargetGatewayLabel(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
+func IDGT(id uint) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
 	return predicate.BronzeHistoryGCPVPNTargetGatewayLabel(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
+func IDGTE(id uint) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
 	return predicate.BronzeHistoryGCPVPNTargetGatewayLabel(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
+func IDLT(id uint) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
 	return predicate.BronzeHistoryGCPVPNTargetGatewayLabel(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
+func IDLTE(id uint) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
 	return predicate.BronzeHistoryGCPVPNTargetGatewayLabel(sql.FieldLTE(FieldID, id))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
-	return predicate.BronzeHistoryGCPVPNTargetGatewayLabel(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // TargetVpnGatewayHistoryID applies equality check predicate on the "target_vpn_gateway_history_id" field. It's identical to TargetVpnGatewayHistoryIDEQ.
@@ -82,46 +77,6 @@ func Key(v string) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
 // Value applies equality check predicate on the "value" field. It's identical to ValueEQ.
 func Value(v string) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
 	return predicate.BronzeHistoryGCPVPNTargetGatewayLabel(sql.FieldEQ(FieldValue, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
-	return predicate.BronzeHistoryGCPVPNTargetGatewayLabel(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
-	return predicate.BronzeHistoryGCPVPNTargetGatewayLabel(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
-	return predicate.BronzeHistoryGCPVPNTargetGatewayLabel(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
-	return predicate.BronzeHistoryGCPVPNTargetGatewayLabel(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
-	return predicate.BronzeHistoryGCPVPNTargetGatewayLabel(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
-	return predicate.BronzeHistoryGCPVPNTargetGatewayLabel(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
-	return predicate.BronzeHistoryGCPVPNTargetGatewayLabel(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPVPNTargetGatewayLabel {
-	return predicate.BronzeHistoryGCPVPNTargetGatewayLabel(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // TargetVpnGatewayHistoryIDEQ applies the EQ predicate on the "target_vpn_gateway_history_id" field.

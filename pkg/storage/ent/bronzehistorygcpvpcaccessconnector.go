@@ -17,7 +17,7 @@ import (
 type BronzeHistoryGCPVPCAccessConnector struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Start of validity period
 	ValidFrom time.Time `json:"valid_from,omitempty"`
 	// End of validity period (null = current)
@@ -26,8 +26,6 @@ type BronzeHistoryGCPVPCAccessConnector struct {
 	CollectedAt time.Time `json:"collected_at,omitempty"`
 	// Timestamp when this asset was first collected
 	FirstCollectedAt time.Time `json:"first_collected_at,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
 	// Link to bronze connector by resource_id
 	ResourceID string `json:"resource_id,omitempty"`
 	// Network holds the value of the "network" field.
@@ -64,7 +62,7 @@ func (*BronzeHistoryGCPVPCAccessConnector) scanValues(columns []string) ([]any, 
 		switch columns[i] {
 		case bronzehistorygcpvpcaccessconnector.FieldSubnetJSON, bronzehistorygcpvpcaccessconnector.FieldConnectedProjectsJSON:
 			values[i] = new([]byte)
-		case bronzehistorygcpvpcaccessconnector.FieldID, bronzehistorygcpvpcaccessconnector.FieldHistoryID, bronzehistorygcpvpcaccessconnector.FieldMinThroughput, bronzehistorygcpvpcaccessconnector.FieldMaxThroughput, bronzehistorygcpvpcaccessconnector.FieldMinInstances, bronzehistorygcpvpcaccessconnector.FieldMaxInstances:
+		case bronzehistorygcpvpcaccessconnector.FieldID, bronzehistorygcpvpcaccessconnector.FieldMinThroughput, bronzehistorygcpvpcaccessconnector.FieldMaxThroughput, bronzehistorygcpvpcaccessconnector.FieldMinInstances, bronzehistorygcpvpcaccessconnector.FieldMaxInstances:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorygcpvpcaccessconnector.FieldResourceID, bronzehistorygcpvpcaccessconnector.FieldNetwork, bronzehistorygcpvpcaccessconnector.FieldIPCidrRange, bronzehistorygcpvpcaccessconnector.FieldState, bronzehistorygcpvpcaccessconnector.FieldMachineType, bronzehistorygcpvpcaccessconnector.FieldRegion, bronzehistorygcpvpcaccessconnector.FieldProjectID:
 			values[i] = new(sql.NullString)
@@ -90,7 +88,7 @@ func (_m *BronzeHistoryGCPVPCAccessConnector) assignValues(columns []string, val
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
+			_m.ID = uint(value.Int64)
 		case bronzehistorygcpvpcaccessconnector.FieldValidFrom:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field valid_from", values[i])
@@ -115,12 +113,6 @@ func (_m *BronzeHistoryGCPVPCAccessConnector) assignValues(columns []string, val
 				return fmt.Errorf("unexpected type %T for field first_collected_at", values[i])
 			} else if value.Valid {
 				_m.FirstCollectedAt = value.Time
-			}
-		case bronzehistorygcpvpcaccessconnector.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
 			}
 		case bronzehistorygcpvpcaccessconnector.FieldResourceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -253,9 +245,6 @@ func (_m *BronzeHistoryGCPVPCAccessConnector) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("first_collected_at=")
 	builder.WriteString(_m.FirstCollectedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
 	builder.WriteString(", ")
 	builder.WriteString("resource_id=")
 	builder.WriteString(_m.ResourceID)

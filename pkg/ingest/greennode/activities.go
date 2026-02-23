@@ -3,6 +3,8 @@ package greennode
 import (
 	"context"
 	"fmt"
+	"log"
+	"time"
 
 	"danny.vn/greennode"
 	"danny.vn/greennode/auth"
@@ -17,11 +19,25 @@ import (
 type Activities struct {
 	configService *config.Service
 	limiter       ratelimit.Limiter
+	iamAuth       *auth.IAMUserAuth // shared across activities for token caching
 }
 
 // NewActivities creates a new Activities instance.
 func NewActivities(configService *config.Service, limiter ratelimit.Limiter) *Activities {
-	return &Activities{configService: configService, limiter: limiter}
+	a := &Activities{configService: configService, limiter: limiter}
+
+	if username := configService.GreenNodeUsername(); username != "" {
+		a.iamAuth = &auth.IAMUserAuth{
+			RootEmail: configService.GreenNodeRootEmail(),
+			Username:  username,
+			Password:  configService.GreenNodePassword(),
+		}
+		if totpSecret := configService.GreenNodeTOTPSecret(); totpSecret != "" {
+			a.iamAuth.TOTP = &auth.SecretTOTP{Secret: totpSecret}
+		}
+	}
+
+	return a
 }
 
 // DiscoverRegionsParams contains parameters for region discovery.
@@ -57,8 +73,11 @@ var DiscoverProjectsActivity = (*Activities).DiscoverProjects
 // If project_id is configured, it returns that single value.
 // Otherwise, it calls the Portal V1 API to list all accessible projects.
 func (a *Activities) DiscoverProjects(ctx context.Context, params DiscoverProjectsParams) (*DiscoverProjectsResult, error) {
+	log.Printf("[DiscoverProjects] start region=%s", params.Region)
+
 	// If project_id is explicitly configured, use it directly.
 	if pid := a.configService.GreenNodeProjectID(); pid != "" {
+		log.Printf("[DiscoverProjects] using configured project_id=%s", pid)
 		return &DiscoverProjectsResult{ProjectIDs: []string{pid}}, nil
 	}
 
@@ -67,32 +86,33 @@ func (a *Activities) DiscoverProjects(ctx context.Context, params DiscoverProjec
 		Region: params.Region,
 	}
 
-	if username := a.configService.GreenNodeUsername(); username != "" {
-		iamAuth := &auth.IAMUserAuth{
-			RootEmail: a.configService.GreenNodeRootEmail(),
-			Username:  username,
-			Password:  a.configService.GreenNodePassword(),
-		}
-		if totpSecret := a.configService.GreenNodeTOTPSecret(); totpSecret != "" {
-			iamAuth.TOTP = &auth.SecretTOTP{Secret: totpSecret}
-		}
-		cfg.IAMAuth = iamAuth
+	if a.iamAuth != nil {
+		log.Printf("[DiscoverProjects] using IAM auth (username=%s)", a.iamAuth.Username)
+		cfg.IAMAuth = a.iamAuth
 	} else {
+		log.Printf("[DiscoverProjects] using service account auth")
 		cfg.ClientID = a.configService.GreenNodeClientID()
 		cfg.ClientSecret = a.configService.GreenNodeClientSecret()
 	}
 
+	log.Printf("[DiscoverProjects] creating SDK client...")
+	step := time.Now()
 	sdk, err := greennode.NewClient(ctx, cfg,
 		option.WithTransport(ratelimit.NewRateLimitedTransport(a.limiter, nil)),
 	)
 	if err != nil {
 		return nil, fmt.Errorf("create greennode client: %w", err)
 	}
+	log.Printf("[DiscoverProjects] SDK client created (%v)", time.Since(step))
 
+	log.Printf("[DiscoverProjects] calling ListProjects...")
+	step = time.Now()
 	result, err := sdk.PortalV1.ListProjects(ctx, portalv1.NewListProjectsRequest())
 	if err != nil {
+		log.Printf("[DiscoverProjects] ListProjects failed (%v): %v", time.Since(step), err)
 		return nil, fmt.Errorf("list projects: %w", err)
 	}
+	log.Printf("[DiscoverProjects] ListProjects OK (%v) %d projects", time.Since(step), len(result.Items))
 
 	ids := make([]string, 0, len(result.Items))
 	for _, p := range result.Items {

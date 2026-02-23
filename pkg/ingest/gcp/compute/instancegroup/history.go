@@ -47,7 +47,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, groupDat
 	// Create named port history
 	for _, port := range groupData.NamedPorts {
 		_, err := tx.BronzeHistoryGCPComputeInstanceGroupNamedPort.Create().
-			SetGroupHistoryID(groupHistory.HistoryID).
+			SetGroupHistoryID(groupHistory.ID).
 			SetValidFrom(now).
 			SetName(port.Name).
 			SetPort(port.Port).
@@ -60,7 +60,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, groupDat
 	// Create member history
 	for _, member := range groupData.Members {
 		_, err := tx.BronzeHistoryGCPComputeInstanceGroupMember.Create().
-			SetGroupHistoryID(groupHistory.HistoryID).
+			SetGroupHistoryID(groupHistory.ID).
 			SetValidFrom(now).
 			SetInstanceURL(member.InstanceURL).
 			SetInstanceName(member.InstanceName).
@@ -90,7 +90,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 	// Close current instance group history if core fields changed
 	if diff.IsChanged {
 		// Close old children history first
-		if err := h.closeChildrenHistory(ctx, tx, currentHistory.HistoryID, now); err != nil {
+		if err := h.closeChildrenHistory(ctx, tx, currentHistory.ID, now); err != nil {
 			return err
 		}
 
@@ -124,11 +124,11 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		}
 
 		// Create new children history linked to new group history
-		return h.createChildrenHistory(ctx, tx, newHistory.HistoryID, new, now)
+		return h.createChildrenHistory(ctx, tx, newHistory.ID, new, now)
 	}
 
 	// Instance group unchanged, check children individually (granular tracking)
-	return h.updateChildrenHistory(ctx, tx, currentHistory.HistoryID, new, diff, now)
+	return h.updateChildrenHistory(ctx, tx, currentHistory.ID, new, diff, now)
 }
 
 // CloseHistory closes all history records for a deleted instance group.
@@ -156,7 +156,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	}
 
 	// Close all children history
-	return h.closeChildrenHistory(ctx, tx, currentHistory.HistoryID, now)
+	return h.closeChildrenHistory(ctx, tx, currentHistory.ID, now)
 }
 
 // createChildrenHistory creates history records for all children.

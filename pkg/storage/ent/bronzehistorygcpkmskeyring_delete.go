@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPKMSKeyRingDelete) ExecX(ctx context.Context) int {
 }
 
 func (_d *BronzeHistoryGCPKMSKeyRingDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpkmskeyring.Table, sqlgraph.NewFieldSpec(bronzehistorygcpkmskeyring.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpkmskeyring.Table, sqlgraph.NewFieldSpec(bronzehistorygcpkmskeyring.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPKMSKeyRing
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

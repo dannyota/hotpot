@@ -63,7 +63,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, instance
 	}
 
 	// Create children history with instance_history_id
-	return h.createChildrenHistory(ctx, tx, instHist.HistoryID, instanceData, now)
+	return h.createChildrenHistory(ctx, tx, instHist.ID, instanceData, now)
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
@@ -121,14 +121,14 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		}
 
 		// Close all children history and create new ones
-		if err := h.closeChildrenHistory(ctx, tx, currentHist.HistoryID, now); err != nil {
+		if err := h.closeChildrenHistory(ctx, tx, currentHist.ID, now); err != nil {
 			return fmt.Errorf("failed to close children history: %w", err)
 		}
-		return h.createChildrenHistory(ctx, tx, instHist.HistoryID, new, now)
+		return h.createChildrenHistory(ctx, tx, instHist.ID, new, now)
 	}
 
 	// Instance unchanged, check children individually (granular tracking)
-	return h.updateChildrenHistory(ctx, tx, currentHist.HistoryID, old, new, diff, now)
+	return h.updateChildrenHistory(ctx, tx, currentHist.ID, old, new, diff, now)
 }
 
 // CloseHistory closes history records for a deleted instance.
@@ -155,7 +155,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	}
 
 	// Close all children history
-	return h.closeChildrenHistory(ctx, tx, currentHist.HistoryID, now)
+	return h.closeChildrenHistory(ctx, tx, currentHist.ID, now)
 }
 
 // createChildrenHistory creates history records for all children.
@@ -190,7 +190,7 @@ func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, 
 		// Disk licenses
 		for _, licData := range diskData.Licenses {
 			_, err := tx.BronzeHistoryGCPComputeInstanceDiskLicense.Create().
-				SetDiskHistoryID(diskHist.HistoryID).
+				SetDiskHistoryID(diskHist.ID).
 				SetValidFrom(now).
 				SetLicense(licData.License).
 				Save(ctx)
@@ -220,7 +220,7 @@ func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, 
 		// Access configs
 		for _, acData := range nicData.AccessConfigs {
 			_, err := tx.BronzeHistoryGCPComputeInstanceNICAccessConfig.Create().
-				SetNicHistoryID(nicHist.HistoryID).
+				SetNicHistoryID(nicHist.ID).
 				SetValidFrom(now).
 				SetType(acData.Type).
 				SetName(acData.Name).
@@ -235,7 +235,7 @@ func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, 
 		// Alias ranges
 		for _, arData := range nicData.AliasIPRanges {
 			_, err := tx.BronzeHistoryGCPComputeInstanceNICAliasRange.Create().
-				SetNicHistoryID(nicHist.HistoryID).
+				SetNicHistoryID(nicHist.ID).
 				SetValidFrom(now).
 				SetIPCidrRange(arData.IPCidrRange).
 				SetSubnetworkRangeName(arData.SubnetworkRangeName).
@@ -378,7 +378,7 @@ func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, i
 	var diskHistIDs []uint
 	err = tx.BronzeHistoryGCPComputeInstanceDisk.Query().
 		Where(bronzehistorygcpcomputeinstancedisk.InstanceHistoryID(instanceHistoryID)).
-		Select(bronzehistorygcpcomputeinstancedisk.FieldHistoryID).
+		Select(bronzehistorygcpcomputeinstancedisk.FieldID).
 		Scan(ctx, &diskHistIDs)
 	if err != nil {
 		return fmt.Errorf("failed to get disk history IDs: %w", err)
@@ -401,7 +401,7 @@ func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, i
 	var nicHistIDs []uint
 	err = tx.BronzeHistoryGCPComputeInstanceNIC.Query().
 		Where(bronzehistorygcpcomputeinstancenic.InstanceHistoryID(instanceHistoryID)).
-		Select(bronzehistorygcpcomputeinstancenic.FieldHistoryID).
+		Select(bronzehistorygcpcomputeinstancenic.FieldID).
 		Scan(ctx, &nicHistIDs)
 	if err != nil {
 		return fmt.Errorf("failed to get NIC history IDs: %w", err)
@@ -486,7 +486,7 @@ func (h *HistoryService) updateDisksHistory(ctx context.Context, tx *ent.Tx, ins
 			bronzehistorygcpcomputeinstancedisk.InstanceHistoryID(instanceHistoryID),
 			bronzehistorygcpcomputeinstancedisk.ValidToIsNil(),
 		).
-		Select(bronzehistorygcpcomputeinstancedisk.FieldHistoryID).
+		Select(bronzehistorygcpcomputeinstancedisk.FieldID).
 		Scan(ctx, &oldDiskHistIDs)
 	if err != nil {
 		return fmt.Errorf("failed to get old disk history IDs: %w", err)
@@ -547,7 +547,7 @@ func (h *HistoryService) updateDisksHistory(ctx context.Context, tx *ent.Tx, ins
 
 		for _, licData := range diskData.Licenses {
 			_, err := tx.BronzeHistoryGCPComputeInstanceDiskLicense.Create().
-				SetDiskHistoryID(diskHist.HistoryID).
+				SetDiskHistoryID(diskHist.ID).
 				SetValidFrom(now).
 				SetLicense(licData.License).
 				Save(ctx)
@@ -568,7 +568,7 @@ func (h *HistoryService) updateNICsHistory(ctx context.Context, tx *ent.Tx, inst
 			bronzehistorygcpcomputeinstancenic.InstanceHistoryID(instanceHistoryID),
 			bronzehistorygcpcomputeinstancenic.ValidToIsNil(),
 		).
-		Select(bronzehistorygcpcomputeinstancenic.FieldHistoryID).
+		Select(bronzehistorygcpcomputeinstancenic.FieldID).
 		Scan(ctx, &oldNICHistIDs)
 	if err != nil {
 		return fmt.Errorf("failed to get old NIC history IDs: %w", err)
@@ -629,7 +629,7 @@ func (h *HistoryService) updateNICsHistory(ctx context.Context, tx *ent.Tx, inst
 
 		for _, acData := range nicData.AccessConfigs {
 			_, err := tx.BronzeHistoryGCPComputeInstanceNICAccessConfig.Create().
-				SetNicHistoryID(nicHist.HistoryID).
+				SetNicHistoryID(nicHist.ID).
 				SetValidFrom(now).
 				SetType(acData.Type).
 				SetName(acData.Name).
@@ -643,7 +643,7 @@ func (h *HistoryService) updateNICsHistory(ctx context.Context, tx *ent.Tx, inst
 
 		for _, arData := range nicData.AliasIPRanges {
 			_, err := tx.BronzeHistoryGCPComputeInstanceNICAliasRange.Create().
-				SetNicHistoryID(nicHist.HistoryID).
+				SetNicHistoryID(nicHist.ID).
 				SetValidFrom(now).
 				SetIPCidrRange(arData.IPCidrRange).
 				SetSubnetworkRangeName(arData.SubnetworkRangeName).

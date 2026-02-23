@@ -443,7 +443,7 @@ func (_u *BronzeHistoryGCPCloudFunctionsFunctionUpdate) sqlSave(ctx context.Cont
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcloudfunctionsfunction.Table, bronzehistorygcpcloudfunctionsfunction.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcloudfunctionsfunction.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcloudfunctionsfunction.Table, bronzehistorygcpcloudfunctionsfunction.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcloudfunctionsfunction.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -1025,7 +1025,7 @@ func (_u *BronzeHistoryGCPCloudFunctionsFunctionUpdateOne) sqlSave(ctx context.C
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcloudfunctionsfunction.Table, bronzehistorygcpcloudfunctionsfunction.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcloudfunctionsfunction.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcloudfunctionsfunction.Table, bronzehistorygcpcloudfunctionsfunction.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcloudfunctionsfunction.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPCloudFunctionsFunction.id" for update`)}

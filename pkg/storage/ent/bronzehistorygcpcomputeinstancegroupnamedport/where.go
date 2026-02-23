@@ -10,53 +10,48 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
+func ID(id uint) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
 	return predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
+func IDEQ(id uint) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
 	return predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
 	return predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
 	return predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
 	return predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
+func IDGT(id uint) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
 	return predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
+func IDGTE(id uint) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
 	return predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
+func IDLT(id uint) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
 	return predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
+func IDLTE(id uint) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
 	return predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort(sql.FieldLTE(FieldID, id))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
-	return predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // GroupHistoryID applies equality check predicate on the "group_history_id" field. It's identical to GroupHistoryIDEQ.
@@ -82,46 +77,6 @@ func Name(v string) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
 // Port applies equality check predicate on the "port" field. It's identical to PortEQ.
 func Port(v int32) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
 	return predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort(sql.FieldEQ(FieldPort, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
-	return predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
-	return predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
-	return predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
-	return predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
-	return predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
-	return predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
-	return predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort {
-	return predicate.BronzeHistoryGCPComputeInstanceGroupNamedPort(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // GroupHistoryIDEQ applies the EQ predicate on the "group_history_id" field.

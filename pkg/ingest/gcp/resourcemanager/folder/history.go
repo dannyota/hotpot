@@ -44,7 +44,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, folderDa
 	// Create label history
 	for _, label := range folderData.Labels {
 		_, err := tx.BronzeHistoryGCPFolderLabel.Create().
-			SetFolderHistoryID(folderHistory.HistoryID).
+			SetFolderHistoryID(folderHistory.ID).
 			SetValidFrom(now).
 			SetKey(label.Key).
 			SetValue(label.Value).
@@ -75,7 +75,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Close old label history first
 		_, err := tx.BronzeHistoryGCPFolderLabel.Update().
 			Where(
-				bronzehistorygcpfolderlabel.FolderHistoryID(currentHistory.HistoryID),
+				bronzehistorygcpfolderlabel.FolderHistoryID(currentHistory.ID),
 				bronzehistorygcpfolderlabel.ValidToIsNil(),
 			).
 			SetValidTo(now).
@@ -114,7 +114,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Create new label history linked to new folder history
 		for _, label := range new.Labels {
 			_, err := tx.BronzeHistoryGCPFolderLabel.Create().
-				SetFolderHistoryID(newHistory.HistoryID).
+				SetFolderHistoryID(newHistory.ID).
 				SetValidFrom(now).
 				SetKey(label.Key).
 				SetValue(label.Value).
@@ -127,7 +127,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		// Only labels changed - close old label history and create new ones
 		_, err := tx.BronzeHistoryGCPFolderLabel.Update().
 			Where(
-				bronzehistorygcpfolderlabel.FolderHistoryID(currentHistory.HistoryID),
+				bronzehistorygcpfolderlabel.FolderHistoryID(currentHistory.ID),
 				bronzehistorygcpfolderlabel.ValidToIsNil(),
 			).
 			SetValidTo(now).
@@ -138,7 +138,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 
 		for _, label := range new.Labels {
 			_, err := tx.BronzeHistoryGCPFolderLabel.Create().
-				SetFolderHistoryID(currentHistory.HistoryID).
+				SetFolderHistoryID(currentHistory.ID).
 				SetValidFrom(now).
 				SetKey(label.Key).
 				SetValue(label.Value).
@@ -179,7 +179,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, folderID 
 	// Close label history
 	_, err = tx.BronzeHistoryGCPFolderLabel.Update().
 		Where(
-			bronzehistorygcpfolderlabel.FolderHistoryID(currentHistory.HistoryID),
+			bronzehistorygcpfolderlabel.FolderHistoryID(currentHistory.ID),
 			bronzehistorygcpfolderlabel.ValidToIsNil(),
 		).
 		SetValidTo(now).

@@ -10,53 +10,48 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryS1AgentNIC {
+func ID(id uint) predicate.BronzeHistoryS1AgentNIC {
 	return predicate.BronzeHistoryS1AgentNIC(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryS1AgentNIC {
+func IDEQ(id uint) predicate.BronzeHistoryS1AgentNIC {
 	return predicate.BronzeHistoryS1AgentNIC(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryS1AgentNIC {
+func IDNEQ(id uint) predicate.BronzeHistoryS1AgentNIC {
 	return predicate.BronzeHistoryS1AgentNIC(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryS1AgentNIC {
+func IDIn(ids ...uint) predicate.BronzeHistoryS1AgentNIC {
 	return predicate.BronzeHistoryS1AgentNIC(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryS1AgentNIC {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryS1AgentNIC {
 	return predicate.BronzeHistoryS1AgentNIC(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryS1AgentNIC {
+func IDGT(id uint) predicate.BronzeHistoryS1AgentNIC {
 	return predicate.BronzeHistoryS1AgentNIC(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryS1AgentNIC {
+func IDGTE(id uint) predicate.BronzeHistoryS1AgentNIC {
 	return predicate.BronzeHistoryS1AgentNIC(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryS1AgentNIC {
+func IDLT(id uint) predicate.BronzeHistoryS1AgentNIC {
 	return predicate.BronzeHistoryS1AgentNIC(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryS1AgentNIC {
+func IDLTE(id uint) predicate.BronzeHistoryS1AgentNIC {
 	return predicate.BronzeHistoryS1AgentNIC(sql.FieldLTE(FieldID, id))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryS1AgentNIC {
-	return predicate.BronzeHistoryS1AgentNIC(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // AgentHistoryID applies equality check predicate on the "agent_history_id" field. It's identical to AgentHistoryIDEQ.
@@ -107,46 +102,6 @@ func GatewayIP(v string) predicate.BronzeHistoryS1AgentNIC {
 // GatewayMAC applies equality check predicate on the "gateway_mac" field. It's identical to GatewayMACEQ.
 func GatewayMAC(v string) predicate.BronzeHistoryS1AgentNIC {
 	return predicate.BronzeHistoryS1AgentNIC(sql.FieldEQ(FieldGatewayMAC, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryS1AgentNIC {
-	return predicate.BronzeHistoryS1AgentNIC(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryS1AgentNIC {
-	return predicate.BronzeHistoryS1AgentNIC(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryS1AgentNIC {
-	return predicate.BronzeHistoryS1AgentNIC(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryS1AgentNIC {
-	return predicate.BronzeHistoryS1AgentNIC(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryS1AgentNIC {
-	return predicate.BronzeHistoryS1AgentNIC(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryS1AgentNIC {
-	return predicate.BronzeHistoryS1AgentNIC(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryS1AgentNIC {
-	return predicate.BronzeHistoryS1AgentNIC(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryS1AgentNIC {
-	return predicate.BronzeHistoryS1AgentNIC(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // AgentHistoryIDEQ applies the EQ predicate on the "agent_history_id" field.

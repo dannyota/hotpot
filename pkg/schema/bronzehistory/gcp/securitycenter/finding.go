@@ -24,9 +24,7 @@ func (BronzeHistoryGCPSecurityCenterFinding) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPSecurityCenterFinding) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze SCC finding by resource_id"),

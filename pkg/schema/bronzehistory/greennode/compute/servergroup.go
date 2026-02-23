@@ -21,9 +21,7 @@ func (BronzeHistoryGreenNodeComputeServerGroup) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGreenNodeComputeServerGroup) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty(),
 		field.String("name").
@@ -63,9 +61,7 @@ type BronzeHistoryGreenNodeComputeServerGroupMember struct {
 
 func (BronzeHistoryGreenNodeComputeServerGroupMember) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("server_group_history_id").
 			Comment("Links to parent BronzeHistoryGreenNodeComputeServerGroup"),
 		field.Time("valid_from").

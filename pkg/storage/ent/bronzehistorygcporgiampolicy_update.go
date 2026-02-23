@@ -203,7 +203,7 @@ func (_u *BronzeHistoryGCPOrgIamPolicyUpdate) sqlSave(ctx context.Context) (_nod
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcporgiampolicy.Table, bronzehistorygcporgiampolicy.Columns, sqlgraph.NewFieldSpec(bronzehistorygcporgiampolicy.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcporgiampolicy.Table, bronzehistorygcporgiampolicy.Columns, sqlgraph.NewFieldSpec(bronzehistorygcporgiampolicy.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -453,7 +453,7 @@ func (_u *BronzeHistoryGCPOrgIamPolicyUpdateOne) sqlSave(ctx context.Context) (_
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcporgiampolicy.Table, bronzehistorygcporgiampolicy.Columns, sqlgraph.NewFieldSpec(bronzehistorygcporgiampolicy.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcporgiampolicy.Table, bronzehistorygcporgiampolicy.Columns, sqlgraph.NewFieldSpec(bronzehistorygcporgiampolicy.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPOrgIamPolicy.id" for update`)}

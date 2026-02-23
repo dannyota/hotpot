@@ -1,6 +1,7 @@
 package quota
 
 import (
+	"danny.vn/greennode/auth"
 	"go.temporal.io/sdk/worker"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
@@ -9,8 +10,8 @@ import (
 )
 
 // Register registers quota workflows and activities with the Temporal worker.
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
-	activities := NewActivities(configService, entClient, limiter)
+func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, iamAuth *auth.IAMUserAuth, limiter ratelimit.Limiter) {
+	activities := NewActivities(configService, entClient, iamAuth, limiter)
 	w.RegisterActivity(activities.IngestPortalQuotas)
 	w.RegisterWorkflow(GreenNodePortalQuotaWorkflow)
 }

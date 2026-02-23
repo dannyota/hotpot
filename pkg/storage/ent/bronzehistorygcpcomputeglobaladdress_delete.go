@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPComputeGlobalAddressDelete) ExecX(ctx context.Context)
 }
 
 func (_d *BronzeHistoryGCPComputeGlobalAddressDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputeglobaladdress.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeglobaladdress.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputeglobaladdress.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeglobaladdress.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPComputeGlobalAddress
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

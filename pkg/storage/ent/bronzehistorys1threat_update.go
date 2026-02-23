@@ -625,7 +625,7 @@ func (_u *BronzeHistoryS1ThreatUpdate) sqlSave(ctx context.Context) (_node int, 
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorys1threat.Table, bronzehistorys1threat.Columns, sqlgraph.NewFieldSpec(bronzehistorys1threat.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorys1threat.Table, bronzehistorys1threat.Columns, sqlgraph.NewFieldSpec(bronzehistorys1threat.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -1426,7 +1426,7 @@ func (_u *BronzeHistoryS1ThreatUpdateOne) sqlSave(ctx context.Context) (_node *B
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorys1threat.Table, bronzehistorys1threat.Columns, sqlgraph.NewFieldSpec(bronzehistorys1threat.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorys1threat.Table, bronzehistorys1threat.Columns, sqlgraph.NewFieldSpec(bronzehistorys1threat.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryS1Threat.id" for update`)}

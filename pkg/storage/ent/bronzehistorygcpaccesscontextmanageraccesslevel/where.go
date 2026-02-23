@@ -10,47 +10,47 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
+func ID(id uint) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
 	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
+func IDEQ(id uint) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
 	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
 	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
 	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
 	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
+func IDGT(id uint) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
 	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
+func IDGTE(id uint) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
 	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
+func IDLT(id uint) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
 	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
+func IDLTE(id uint) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
 	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldLTE(FieldID, id))
 }
 
@@ -72,11 +72,6 @@ func CollectedAt(v time.Time) predicate.BronzeHistoryGCPAccessContextManagerAcce
 // FirstCollectedAt applies equality check predicate on the "first_collected_at" field. It's identical to FirstCollectedAtEQ.
 func FirstCollectedAt(v time.Time) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
 	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldEQ(FieldFirstCollectedAt, v))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
-	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // ResourceID applies equality check predicate on the "resource_id" field. It's identical to ResourceIDEQ.
@@ -272,46 +267,6 @@ func FirstCollectedAtLT(v time.Time) predicate.BronzeHistoryGCPAccessContextMana
 // FirstCollectedAtLTE applies the LTE predicate on the "first_collected_at" field.
 func FirstCollectedAtLTE(v time.Time) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
 	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldLTE(FieldFirstCollectedAt, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
-	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
-	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
-	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
-	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
-	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
-	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
-	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPAccessContextManagerAccessLevel {
-	return predicate.BronzeHistoryGCPAccessContextManagerAccessLevel(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // ResourceIDEQ applies the EQ predicate on the "resource_id" field.

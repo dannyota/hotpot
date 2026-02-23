@@ -236,7 +236,7 @@ func (_u *BronzeHistoryGCPBinaryAuthorizationAttestorUpdate) sqlSave(ctx context
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpbinaryauthorizationattestor.Table, bronzehistorygcpbinaryauthorizationattestor.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpbinaryauthorizationattestor.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpbinaryauthorizationattestor.Table, bronzehistorygcpbinaryauthorizationattestor.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpbinaryauthorizationattestor.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -531,7 +531,7 @@ func (_u *BronzeHistoryGCPBinaryAuthorizationAttestorUpdateOne) sqlSave(ctx cont
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpbinaryauthorizationattestor.Table, bronzehistorygcpbinaryauthorizationattestor.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpbinaryauthorizationattestor.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpbinaryauthorizationattestor.Table, bronzehistorygcpbinaryauthorizationattestor.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpbinaryauthorizationattestor.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPBinaryAuthorizationAttestor.id" for update`)}

@@ -52,12 +52,6 @@ func (_c *BronzeHistoryGCPComputeGlobalForwardingRuleCreate) SetFirstCollectedAt
 	return _c
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPComputeGlobalForwardingRuleCreate) SetHistoryID(v uint) *BronzeHistoryGCPComputeGlobalForwardingRuleCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetResourceID sets the "resource_id" field.
 func (_c *BronzeHistoryGCPComputeGlobalForwardingRuleCreate) SetResourceID(v string) *BronzeHistoryGCPComputeGlobalForwardingRuleCreate {
 	_c.mutation.SetResourceID(v)
@@ -520,6 +514,12 @@ func (_c *BronzeHistoryGCPComputeGlobalForwardingRuleCreate) SetProjectID(v stri
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPComputeGlobalForwardingRuleCreate) SetID(v uint) *BronzeHistoryGCPComputeGlobalForwardingRuleCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPComputeGlobalForwardingRuleMutation object of the builder.
 func (_c *BronzeHistoryGCPComputeGlobalForwardingRuleCreate) Mutation() *BronzeHistoryGCPComputeGlobalForwardingRuleMutation {
 	return _c.mutation
@@ -588,9 +588,6 @@ func (_c *BronzeHistoryGCPComputeGlobalForwardingRuleCreate) check() error {
 	if _, ok := _c.mutation.FirstCollectedAt(); !ok {
 		return &ValidationError{Name: "first_collected_at", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeGlobalForwardingRule.first_collected_at"`)}
 	}
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeGlobalForwardingRule.history_id"`)}
-	}
 	if _, ok := _c.mutation.ResourceID(); !ok {
 		return &ValidationError{Name: "resource_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPComputeGlobalForwardingRule.resource_id"`)}
 	}
@@ -644,8 +641,10 @@ func (_c *BronzeHistoryGCPComputeGlobalForwardingRuleCreate) sqlSave(ctx context
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -654,9 +653,13 @@ func (_c *BronzeHistoryGCPComputeGlobalForwardingRuleCreate) sqlSave(ctx context
 func (_c *BronzeHistoryGCPComputeGlobalForwardingRuleCreate) createSpec() (*BronzeHistoryGCPComputeGlobalForwardingRule, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPComputeGlobalForwardingRule{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputeglobalforwardingrule.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeglobalforwardingrule.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcomputeglobalforwardingrule.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeglobalforwardingrule.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPComputeGlobalForwardingRule
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := _c.mutation.ValidFrom(); ok {
 		_spec.SetField(bronzehistorygcpcomputeglobalforwardingrule.FieldValidFrom, field.TypeTime, value)
 		_node.ValidFrom = value
@@ -672,10 +675,6 @@ func (_c *BronzeHistoryGCPComputeGlobalForwardingRuleCreate) createSpec() (*Bron
 	if value, ok := _c.mutation.FirstCollectedAt(); ok {
 		_spec.SetField(bronzehistorygcpcomputeglobalforwardingrule.FieldFirstCollectedAt, field.TypeTime, value)
 		_node.FirstCollectedAt = value
-	}
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpcomputeglobalforwardingrule.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
 	}
 	if value, ok := _c.mutation.ResourceID(); ok {
 		_spec.SetField(bronzehistorygcpcomputeglobalforwardingrule.FieldResourceID, field.TypeString, value)
@@ -873,9 +872,9 @@ func (_c *BronzeHistoryGCPComputeGlobalForwardingRuleCreateBulk) Save(ctx contex
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

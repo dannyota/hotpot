@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) FirstX(ctx context.Contex
 
 // FirstID returns the first BronzeHistoryGCPFolderIamPolicyBinding ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPFolderIamPolicyBinding ID was found.
-func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) FirstID(ctx context.Conte
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) OnlyX(ctx context.Context
 // OnlyID is like Only, but returns the only BronzeHistoryGCPFolderIamPolicyBinding ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPFolderIamPolicyBinding ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) OnlyID(ctx context.Contex
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) AllX(ctx context.Context)
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPFolderIamPolicyBinding IDs.
-func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) IDs(ctx context.Context) 
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -263,12 +263,12 @@ func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) Clone() *BronzeHistoryGCP
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		PolicyHistoryID uint `json:"policy_history_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPFolderIamPolicyBinding.Query().
-//		GroupBy(bronzehistorygcpfolderiampolicybinding.FieldHistoryID).
+//		GroupBy(bronzehistorygcpfolderiampolicybinding.FieldPolicyHistoryID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) GroupBy(field string, fields ...string) *BronzeHistoryGCPFolderIamPolicyBindingGroupBy {
@@ -286,11 +286,11 @@ func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) GroupBy(field string, fie
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		PolicyHistoryID uint `json:"policy_history_id,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPFolderIamPolicyBinding.Query().
-//		Select(bronzehistorygcpfolderiampolicybinding.FieldHistoryID).
+//		Select(bronzehistorygcpfolderiampolicybinding.FieldPolicyHistoryID).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) Select(fields ...string) *BronzeHistoryGCPFolderIamPolicyBindingSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) sqlCount(ctx context.Cont
 }
 
 func (_q *BronzeHistoryGCPFolderIamPolicyBindingQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpfolderiampolicybinding.Table, bronzehistorygcpfolderiampolicybinding.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpfolderiampolicybinding.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpfolderiampolicybinding.Table, bronzehistorygcpfolderiampolicybinding.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpfolderiampolicybinding.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

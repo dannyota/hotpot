@@ -10,47 +10,47 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryDODatabaseReplica {
+func ID(id uint) predicate.BronzeHistoryDODatabaseReplica {
 	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryDODatabaseReplica {
+func IDEQ(id uint) predicate.BronzeHistoryDODatabaseReplica {
 	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryDODatabaseReplica {
+func IDNEQ(id uint) predicate.BronzeHistoryDODatabaseReplica {
 	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryDODatabaseReplica {
+func IDIn(ids ...uint) predicate.BronzeHistoryDODatabaseReplica {
 	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryDODatabaseReplica {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryDODatabaseReplica {
 	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryDODatabaseReplica {
+func IDGT(id uint) predicate.BronzeHistoryDODatabaseReplica {
 	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryDODatabaseReplica {
+func IDGTE(id uint) predicate.BronzeHistoryDODatabaseReplica {
 	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryDODatabaseReplica {
+func IDLT(id uint) predicate.BronzeHistoryDODatabaseReplica {
 	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryDODatabaseReplica {
+func IDLTE(id uint) predicate.BronzeHistoryDODatabaseReplica {
 	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldLTE(FieldID, id))
 }
 
@@ -72,11 +72,6 @@ func CollectedAt(v time.Time) predicate.BronzeHistoryDODatabaseReplica {
 // FirstCollectedAt applies equality check predicate on the "first_collected_at" field. It's identical to FirstCollectedAtEQ.
 func FirstCollectedAt(v time.Time) predicate.BronzeHistoryDODatabaseReplica {
 	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldEQ(FieldFirstCollectedAt, v))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryDODatabaseReplica {
-	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // ResourceID applies equality check predicate on the "resource_id" field. It's identical to ResourceIDEQ.
@@ -292,46 +287,6 @@ func FirstCollectedAtLT(v time.Time) predicate.BronzeHistoryDODatabaseReplica {
 // FirstCollectedAtLTE applies the LTE predicate on the "first_collected_at" field.
 func FirstCollectedAtLTE(v time.Time) predicate.BronzeHistoryDODatabaseReplica {
 	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldLTE(FieldFirstCollectedAt, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryDODatabaseReplica {
-	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryDODatabaseReplica {
-	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryDODatabaseReplica {
-	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryDODatabaseReplica {
-	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryDODatabaseReplica {
-	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryDODatabaseReplica {
-	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryDODatabaseReplica {
-	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryDODatabaseReplica {
-	return predicate.BronzeHistoryDODatabaseReplica(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // ResourceIDEQ applies the EQ predicate on the "resource_id" field.

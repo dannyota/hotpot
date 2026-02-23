@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPComputeForwardingRuleLabelDelete) ExecX(ctx context.Co
 }
 
 func (_d *BronzeHistoryGCPComputeForwardingRuleLabelDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputeforwardingrulelabel.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeforwardingrulelabel.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputeforwardingrulelabel.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeforwardingrulelabel.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPComputeForwardingRuleLabel
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

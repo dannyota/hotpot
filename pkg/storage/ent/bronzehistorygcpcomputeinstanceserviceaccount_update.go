@@ -143,7 +143,7 @@ func (_u *BronzeHistoryGCPComputeInstanceServiceAccountUpdate) ExecX(ctx context
 }
 
 func (_u *BronzeHistoryGCPComputeInstanceServiceAccountUpdate) sqlSave(ctx context.Context) (_node int, err error) {
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstanceserviceaccount.Table, bronzehistorygcpcomputeinstanceserviceaccount.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstanceserviceaccount.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstanceserviceaccount.Table, bronzehistorygcpcomputeinstanceserviceaccount.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstanceserviceaccount.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -327,7 +327,7 @@ func (_u *BronzeHistoryGCPComputeInstanceServiceAccountUpdateOne) ExecX(ctx cont
 }
 
 func (_u *BronzeHistoryGCPComputeInstanceServiceAccountUpdateOne) sqlSave(ctx context.Context) (_node *BronzeHistoryGCPComputeInstanceServiceAccount, err error) {
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstanceserviceaccount.Table, bronzehistorygcpcomputeinstanceserviceaccount.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstanceserviceaccount.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpcomputeinstanceserviceaccount.Table, bronzehistorygcpcomputeinstanceserviceaccount.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstanceserviceaccount.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPComputeInstanceServiceAccount.id" for update`)}

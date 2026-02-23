@@ -10,53 +10,48 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPComputeInstanceNIC {
+func ID(id uint) predicate.BronzeHistoryGCPComputeInstanceNIC {
 	return predicate.BronzeHistoryGCPComputeInstanceNIC(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPComputeInstanceNIC {
+func IDEQ(id uint) predicate.BronzeHistoryGCPComputeInstanceNIC {
 	return predicate.BronzeHistoryGCPComputeInstanceNIC(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPComputeInstanceNIC {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPComputeInstanceNIC {
 	return predicate.BronzeHistoryGCPComputeInstanceNIC(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPComputeInstanceNIC {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPComputeInstanceNIC {
 	return predicate.BronzeHistoryGCPComputeInstanceNIC(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPComputeInstanceNIC {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPComputeInstanceNIC {
 	return predicate.BronzeHistoryGCPComputeInstanceNIC(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPComputeInstanceNIC {
+func IDGT(id uint) predicate.BronzeHistoryGCPComputeInstanceNIC {
 	return predicate.BronzeHistoryGCPComputeInstanceNIC(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPComputeInstanceNIC {
+func IDGTE(id uint) predicate.BronzeHistoryGCPComputeInstanceNIC {
 	return predicate.BronzeHistoryGCPComputeInstanceNIC(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPComputeInstanceNIC {
+func IDLT(id uint) predicate.BronzeHistoryGCPComputeInstanceNIC {
 	return predicate.BronzeHistoryGCPComputeInstanceNIC(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPComputeInstanceNIC {
+func IDLTE(id uint) predicate.BronzeHistoryGCPComputeInstanceNIC {
 	return predicate.BronzeHistoryGCPComputeInstanceNIC(sql.FieldLTE(FieldID, id))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPComputeInstanceNIC {
-	return predicate.BronzeHistoryGCPComputeInstanceNIC(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // InstanceHistoryID applies equality check predicate on the "instance_history_id" field. It's identical to InstanceHistoryIDEQ.
@@ -102,46 +97,6 @@ func StackType(v string) predicate.BronzeHistoryGCPComputeInstanceNIC {
 // NicType applies equality check predicate on the "nic_type" field. It's identical to NicTypeEQ.
 func NicType(v string) predicate.BronzeHistoryGCPComputeInstanceNIC {
 	return predicate.BronzeHistoryGCPComputeInstanceNIC(sql.FieldEQ(FieldNicType, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPComputeInstanceNIC {
-	return predicate.BronzeHistoryGCPComputeInstanceNIC(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPComputeInstanceNIC {
-	return predicate.BronzeHistoryGCPComputeInstanceNIC(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPComputeInstanceNIC {
-	return predicate.BronzeHistoryGCPComputeInstanceNIC(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPComputeInstanceNIC {
-	return predicate.BronzeHistoryGCPComputeInstanceNIC(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPComputeInstanceNIC {
-	return predicate.BronzeHistoryGCPComputeInstanceNIC(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPComputeInstanceNIC {
-	return predicate.BronzeHistoryGCPComputeInstanceNIC(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPComputeInstanceNIC {
-	return predicate.BronzeHistoryGCPComputeInstanceNIC(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPComputeInstanceNIC {
-	return predicate.BronzeHistoryGCPComputeInstanceNIC(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // InstanceHistoryIDEQ applies the EQ predicate on the "instance_history_id" field.

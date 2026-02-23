@@ -52,12 +52,6 @@ func (_c *BronzeHistoryDODatabasePoolCreate) SetFirstCollectedAt(v time.Time) *B
 	return _c
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryDODatabasePoolCreate) SetHistoryID(v uint) *BronzeHistoryDODatabasePoolCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetResourceID sets the "resource_id" field.
 func (_c *BronzeHistoryDODatabasePoolCreate) SetResourceID(v string) *BronzeHistoryDODatabasePoolCreate {
 	_c.mutation.SetResourceID(v)
@@ -132,6 +126,12 @@ func (_c *BronzeHistoryDODatabasePoolCreate) SetNillableMode(v *string) *BronzeH
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryDODatabasePoolCreate) SetID(v uint) *BronzeHistoryDODatabasePoolCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryDODatabasePoolMutation object of the builder.
 func (_c *BronzeHistoryDODatabasePoolCreate) Mutation() *BronzeHistoryDODatabasePoolMutation {
 	return _c.mutation
@@ -184,9 +184,6 @@ func (_c *BronzeHistoryDODatabasePoolCreate) check() error {
 	if _, ok := _c.mutation.FirstCollectedAt(); !ok {
 		return &ValidationError{Name: "first_collected_at", err: errors.New(`ent: missing required field "BronzeHistoryDODatabasePool.first_collected_at"`)}
 	}
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryDODatabasePool.history_id"`)}
-	}
 	if _, ok := _c.mutation.ResourceID(); !ok {
 		return &ValidationError{Name: "resource_id", err: errors.New(`ent: missing required field "BronzeHistoryDODatabasePool.resource_id"`)}
 	}
@@ -228,8 +225,10 @@ func (_c *BronzeHistoryDODatabasePoolCreate) sqlSave(ctx context.Context) (*Bron
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -238,9 +237,13 @@ func (_c *BronzeHistoryDODatabasePoolCreate) sqlSave(ctx context.Context) (*Bron
 func (_c *BronzeHistoryDODatabasePoolCreate) createSpec() (*BronzeHistoryDODatabasePool, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryDODatabasePool{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorydodatabasepool.Table, sqlgraph.NewFieldSpec(bronzehistorydodatabasepool.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorydodatabasepool.Table, sqlgraph.NewFieldSpec(bronzehistorydodatabasepool.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryDODatabasePool
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := _c.mutation.ValidFrom(); ok {
 		_spec.SetField(bronzehistorydodatabasepool.FieldValidFrom, field.TypeTime, value)
 		_node.ValidFrom = value
@@ -256,10 +259,6 @@ func (_c *BronzeHistoryDODatabasePoolCreate) createSpec() (*BronzeHistoryDODatab
 	if value, ok := _c.mutation.FirstCollectedAt(); ok {
 		_spec.SetField(bronzehistorydodatabasepool.FieldFirstCollectedAt, field.TypeTime, value)
 		_node.FirstCollectedAt = value
-	}
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorydodatabasepool.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
 	}
 	if value, ok := _c.mutation.ResourceID(); ok {
 		_spec.SetField(bronzehistorydodatabasepool.FieldResourceID, field.TypeString, value)
@@ -337,9 +336,9 @@ func (_c *BronzeHistoryDODatabasePoolCreateBulk) Save(ctx context.Context) ([]*B
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

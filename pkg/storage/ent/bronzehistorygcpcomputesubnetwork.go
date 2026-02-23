@@ -17,7 +17,7 @@ import (
 type BronzeHistoryGCPComputeSubnetwork struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Start of validity period
 	ValidFrom time.Time `json:"valid_from,omitempty"`
 	// End of validity period (null = current)
@@ -26,8 +26,6 @@ type BronzeHistoryGCPComputeSubnetwork struct {
 	CollectedAt time.Time `json:"collected_at,omitempty"`
 	// Timestamp when this asset was first collected
 	FirstCollectedAt time.Time `json:"first_collected_at,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
 	// Link to bronze subnetwork by resource_id
 	ResourceID string `json:"resource_id,omitempty"`
 	// Name holds the value of the "name" field.
@@ -80,7 +78,7 @@ func (*BronzeHistoryGCPComputeSubnetwork) scanValues(columns []string) ([]any, e
 			values[i] = new([]byte)
 		case bronzehistorygcpcomputesubnetwork.FieldPrivateIPGoogleAccess:
 			values[i] = new(sql.NullBool)
-		case bronzehistorygcpcomputesubnetwork.FieldID, bronzehistorygcpcomputesubnetwork.FieldHistoryID:
+		case bronzehistorygcpcomputesubnetwork.FieldID:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorygcpcomputesubnetwork.FieldResourceID, bronzehistorygcpcomputesubnetwork.FieldName, bronzehistorygcpcomputesubnetwork.FieldDescription, bronzehistorygcpcomputesubnetwork.FieldSelfLink, bronzehistorygcpcomputesubnetwork.FieldCreationTimestamp, bronzehistorygcpcomputesubnetwork.FieldNetwork, bronzehistorygcpcomputesubnetwork.FieldRegion, bronzehistorygcpcomputesubnetwork.FieldIPCidrRange, bronzehistorygcpcomputesubnetwork.FieldGatewayAddress, bronzehistorygcpcomputesubnetwork.FieldPurpose, bronzehistorygcpcomputesubnetwork.FieldRole, bronzehistorygcpcomputesubnetwork.FieldPrivateIpv6GoogleAccess, bronzehistorygcpcomputesubnetwork.FieldStackType, bronzehistorygcpcomputesubnetwork.FieldIpv6AccessType, bronzehistorygcpcomputesubnetwork.FieldInternalIpv6Prefix, bronzehistorygcpcomputesubnetwork.FieldExternalIpv6Prefix, bronzehistorygcpcomputesubnetwork.FieldFingerprint, bronzehistorygcpcomputesubnetwork.FieldProjectID:
 			values[i] = new(sql.NullString)
@@ -106,7 +104,7 @@ func (_m *BronzeHistoryGCPComputeSubnetwork) assignValues(columns []string, valu
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
+			_m.ID = uint(value.Int64)
 		case bronzehistorygcpcomputesubnetwork.FieldValidFrom:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field valid_from", values[i])
@@ -131,12 +129,6 @@ func (_m *BronzeHistoryGCPComputeSubnetwork) assignValues(columns []string, valu
 				return fmt.Errorf("unexpected type %T for field first_collected_at", values[i])
 			} else if value.Valid {
 				_m.FirstCollectedAt = value.Time
-			}
-		case bronzehistorygcpcomputesubnetwork.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
 			}
 		case bronzehistorygcpcomputesubnetwork.FieldResourceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -309,9 +301,6 @@ func (_m *BronzeHistoryGCPComputeSubnetwork) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("first_collected_at=")
 	builder.WriteString(_m.FirstCollectedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
 	builder.WriteString(", ")
 	builder.WriteString("resource_id=")
 	builder.WriteString(_m.ResourceID)

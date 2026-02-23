@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) FirstX(ctx context.Cont
 
 // FirstID returns the first BronzeHistoryGCPSecretManagerSecretLabel ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPSecretManagerSecretLabel ID was found.
-func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) FirstID(ctx context.Con
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) OnlyX(ctx context.Conte
 // OnlyID is like Only, but returns the only BronzeHistoryGCPSecretManagerSecretLabel ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPSecretManagerSecretLabel ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) OnlyID(ctx context.Cont
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) AllX(ctx context.Contex
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPSecretManagerSecretLabel IDs.
-func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) IDs(ctx context.Context
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -263,12 +263,12 @@ func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) Clone() *BronzeHistoryG
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		SecretHistoryID uint `json:"secret_history_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPSecretManagerSecretLabel.Query().
-//		GroupBy(bronzehistorygcpsecretmanagersecretlabel.FieldHistoryID).
+//		GroupBy(bronzehistorygcpsecretmanagersecretlabel.FieldSecretHistoryID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) GroupBy(field string, fields ...string) *BronzeHistoryGCPSecretManagerSecretLabelGroupBy {
@@ -286,11 +286,11 @@ func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) GroupBy(field string, f
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		SecretHistoryID uint `json:"secret_history_id,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPSecretManagerSecretLabel.Query().
-//		Select(bronzehistorygcpsecretmanagersecretlabel.FieldHistoryID).
+//		Select(bronzehistorygcpsecretmanagersecretlabel.FieldSecretHistoryID).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) Select(fields ...string) *BronzeHistoryGCPSecretManagerSecretLabelSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) sqlCount(ctx context.Co
 }
 
 func (_q *BronzeHistoryGCPSecretManagerSecretLabelQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpsecretmanagersecretlabel.Table, bronzehistorygcpsecretmanagersecretlabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpsecretmanagersecretlabel.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpsecretmanagersecretlabel.Table, bronzehistorygcpsecretmanagersecretlabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpsecretmanagersecretlabel.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

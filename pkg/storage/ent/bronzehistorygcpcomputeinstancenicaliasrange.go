@@ -16,9 +16,7 @@ import (
 type BronzeHistoryGCPComputeInstanceNICAliasRange struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Links to parent BronzeHistoryGCPComputeInstanceNIC
 	NicHistoryID uint `json:"nic_history_id,omitempty"`
 	// ValidFrom holds the value of the "valid_from" field.
@@ -37,7 +35,7 @@ func (*BronzeHistoryGCPComputeInstanceNICAliasRange) scanValues(columns []string
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case bronzehistorygcpcomputeinstancenicaliasrange.FieldID, bronzehistorygcpcomputeinstancenicaliasrange.FieldHistoryID, bronzehistorygcpcomputeinstancenicaliasrange.FieldNicHistoryID:
+		case bronzehistorygcpcomputeinstancenicaliasrange.FieldID, bronzehistorygcpcomputeinstancenicaliasrange.FieldNicHistoryID:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorygcpcomputeinstancenicaliasrange.FieldIPCidrRange, bronzehistorygcpcomputeinstancenicaliasrange.FieldSubnetworkRangeName:
 			values[i] = new(sql.NullString)
@@ -63,13 +61,7 @@ func (_m *BronzeHistoryGCPComputeInstanceNICAliasRange) assignValues(columns []s
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
-		case bronzehistorygcpcomputeinstancenicaliasrange.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
-			}
+			_m.ID = uint(value.Int64)
 		case bronzehistorygcpcomputeinstancenicaliasrange.FieldNicHistoryID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field nic_history_id", values[i])
@@ -137,9 +129,6 @@ func (_m *BronzeHistoryGCPComputeInstanceNICAliasRange) String() string {
 	var builder strings.Builder
 	builder.WriteString("BronzeHistoryGCPComputeInstanceNICAliasRange(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
-	builder.WriteString(", ")
 	builder.WriteString("nic_history_id=")
 	builder.WriteString(fmt.Sprintf("%v", _m.NicHistoryID))
 	builder.WriteString(", ")

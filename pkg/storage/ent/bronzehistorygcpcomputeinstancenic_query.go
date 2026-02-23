@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPComputeInstanceNICQuery) FirstX(ctx context.Context) *
 
 // FirstID returns the first BronzeHistoryGCPComputeInstanceNIC ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPComputeInstanceNIC ID was found.
-func (_q *BronzeHistoryGCPComputeInstanceNICQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeInstanceNICQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPComputeInstanceNICQuery) FirstID(ctx context.Context) 
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeInstanceNICQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeInstanceNICQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPComputeInstanceNICQuery) OnlyX(ctx context.Context) *B
 // OnlyID is like Only, but returns the only BronzeHistoryGCPComputeInstanceNIC ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPComputeInstanceNIC ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPComputeInstanceNICQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPComputeInstanceNICQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPComputeInstanceNICQuery) OnlyID(ctx context.Context) (
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeInstanceNICQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPComputeInstanceNICQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPComputeInstanceNICQuery) AllX(ctx context.Context) []*
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPComputeInstanceNIC IDs.
-func (_q *BronzeHistoryGCPComputeInstanceNICQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPComputeInstanceNICQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPComputeInstanceNICQuery) IDs(ctx context.Context) (ids
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPComputeInstanceNICQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPComputeInstanceNICQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -263,12 +263,12 @@ func (_q *BronzeHistoryGCPComputeInstanceNICQuery) Clone() *BronzeHistoryGCPComp
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		InstanceHistoryID uint `json:"instance_history_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeInstanceNIC.Query().
-//		GroupBy(bronzehistorygcpcomputeinstancenic.FieldHistoryID).
+//		GroupBy(bronzehistorygcpcomputeinstancenic.FieldInstanceHistoryID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeInstanceNICQuery) GroupBy(field string, fields ...string) *BronzeHistoryGCPComputeInstanceNICGroupBy {
@@ -286,11 +286,11 @@ func (_q *BronzeHistoryGCPComputeInstanceNICQuery) GroupBy(field string, fields 
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		InstanceHistoryID uint `json:"instance_history_id,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPComputeInstanceNIC.Query().
-//		Select(bronzehistorygcpcomputeinstancenic.FieldHistoryID).
+//		Select(bronzehistorygcpcomputeinstancenic.FieldInstanceHistoryID).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPComputeInstanceNICQuery) Select(fields ...string) *BronzeHistoryGCPComputeInstanceNICSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPComputeInstanceNICQuery) sqlCount(ctx context.Context)
 }
 
 func (_q *BronzeHistoryGCPComputeInstanceNICQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputeinstancenic.Table, bronzehistorygcpcomputeinstancenic.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancenic.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcomputeinstancenic.Table, bronzehistorygcpcomputeinstancenic.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancenic.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

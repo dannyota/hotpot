@@ -22,9 +22,7 @@ func (BronzeHistoryGCPComputeTargetInstance) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeTargetInstance) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze target instance by resource_id"),

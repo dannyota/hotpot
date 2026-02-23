@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPComputeImageLabelDelete) ExecX(ctx context.Context) in
 }
 
 func (_d *BronzeHistoryGCPComputeImageLabelDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputeimagelabel.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeimagelabel.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputeimagelabel.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeimagelabel.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPComputeImageLabel
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

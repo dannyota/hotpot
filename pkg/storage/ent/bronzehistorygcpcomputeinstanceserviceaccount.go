@@ -17,9 +17,7 @@ import (
 type BronzeHistoryGCPComputeInstanceServiceAccount struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Links to parent BronzeHistoryGCPComputeInstance
 	InstanceHistoryID uint `json:"instance_history_id,omitempty"`
 	// ValidFrom holds the value of the "valid_from" field.
@@ -40,7 +38,7 @@ func (*BronzeHistoryGCPComputeInstanceServiceAccount) scanValues(columns []strin
 		switch columns[i] {
 		case bronzehistorygcpcomputeinstanceserviceaccount.FieldScopesJSON:
 			values[i] = new([]byte)
-		case bronzehistorygcpcomputeinstanceserviceaccount.FieldID, bronzehistorygcpcomputeinstanceserviceaccount.FieldHistoryID, bronzehistorygcpcomputeinstanceserviceaccount.FieldInstanceHistoryID:
+		case bronzehistorygcpcomputeinstanceserviceaccount.FieldID, bronzehistorygcpcomputeinstanceserviceaccount.FieldInstanceHistoryID:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorygcpcomputeinstanceserviceaccount.FieldEmail:
 			values[i] = new(sql.NullString)
@@ -66,13 +64,7 @@ func (_m *BronzeHistoryGCPComputeInstanceServiceAccount) assignValues(columns []
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
-		case bronzehistorygcpcomputeinstanceserviceaccount.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
-			}
+			_m.ID = uint(value.Int64)
 		case bronzehistorygcpcomputeinstanceserviceaccount.FieldInstanceHistoryID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field instance_history_id", values[i])
@@ -142,9 +134,6 @@ func (_m *BronzeHistoryGCPComputeInstanceServiceAccount) String() string {
 	var builder strings.Builder
 	builder.WriteString("BronzeHistoryGCPComputeInstanceServiceAccount(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
-	builder.WriteString(", ")
 	builder.WriteString("instance_history_id=")
 	builder.WriteString(fmt.Sprintf("%v", _m.InstanceHistoryID))
 	builder.WriteString(", ")

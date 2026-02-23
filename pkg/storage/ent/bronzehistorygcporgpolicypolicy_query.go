@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) FirstX(ctx context.Context) *Bro
 
 // FirstID returns the first BronzeHistoryGCPOrgPolicyPolicy ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPOrgPolicyPolicy ID was found.
-func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) FirstID(ctx context.Context) (id
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) OnlyX(ctx context.Context) *Bron
 // OnlyID is like Only, but returns the only BronzeHistoryGCPOrgPolicyPolicy ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPOrgPolicyPolicy ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) OnlyID(ctx context.Context) (id 
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) AllX(ctx context.Context) []*Bro
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPOrgPolicyPolicy IDs.
-func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) IDs(ctx context.Context) (ids []
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) sqlCount(ctx context.Context) (i
 }
 
 func (_q *BronzeHistoryGCPOrgPolicyPolicyQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcporgpolicypolicy.Table, bronzehistorygcporgpolicypolicy.Columns, sqlgraph.NewFieldSpec(bronzehistorygcporgpolicypolicy.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcporgpolicypolicy.Table, bronzehistorygcporgpolicypolicy.Columns, sqlgraph.NewFieldSpec(bronzehistorygcporgpolicypolicy.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

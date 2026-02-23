@@ -137,7 +137,7 @@ func (_u *BronzeHistoryGCPFolderLabelUpdate) ExecX(ctx context.Context) {
 }
 
 func (_u *BronzeHistoryGCPFolderLabelUpdate) sqlSave(ctx context.Context) (_node int, err error) {
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpfolderlabel.Table, bronzehistorygcpfolderlabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpfolderlabel.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpfolderlabel.Table, bronzehistorygcpfolderlabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpfolderlabel.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -309,7 +309,7 @@ func (_u *BronzeHistoryGCPFolderLabelUpdateOne) ExecX(ctx context.Context) {
 }
 
 func (_u *BronzeHistoryGCPFolderLabelUpdateOne) sqlSave(ctx context.Context) (_node *BronzeHistoryGCPFolderLabel, err error) {
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpfolderlabel.Table, bronzehistorygcpfolderlabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpfolderlabel.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpfolderlabel.Table, bronzehistorygcpfolderlabel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpfolderlabel.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPFolderLabel.id" for update`)}

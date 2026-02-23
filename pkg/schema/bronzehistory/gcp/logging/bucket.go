@@ -24,9 +24,7 @@ func (BronzeHistoryGCPLoggingBucket) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPLoggingBucket) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze bucket by resource_id"),

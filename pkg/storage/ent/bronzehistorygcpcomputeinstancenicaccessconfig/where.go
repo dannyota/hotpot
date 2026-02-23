@@ -10,53 +10,48 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
+func ID(id uint) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
+func IDEQ(id uint) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
+func IDGT(id uint) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
+func IDGTE(id uint) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
+func IDLT(id uint) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
+func IDLTE(id uint) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig(sql.FieldLTE(FieldID, id))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
-	return predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // NicHistoryID applies equality check predicate on the "nic_history_id" field. It's identical to NicHistoryIDEQ.
@@ -92,46 +87,6 @@ func NatIP(v string) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
 // NetworkTier applies equality check predicate on the "network_tier" field. It's identical to NetworkTierEQ.
 func NetworkTier(v string) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
 	return predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig(sql.FieldEQ(FieldNetworkTier, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
-	return predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
-	return predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
-	return predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
-	return predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
-	return predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
-	return predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
-	return predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig {
-	return predicate.BronzeHistoryGCPComputeInstanceNICAccessConfig(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // NicHistoryIDEQ applies the EQ predicate on the "nic_history_id" field.

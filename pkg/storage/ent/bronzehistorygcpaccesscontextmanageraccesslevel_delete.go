@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPAccessContextManagerAccessLevelDelete) ExecX(ctx conte
 }
 
 func (_d *BronzeHistoryGCPAccessContextManagerAccessLevelDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpaccesscontextmanageraccesslevel.Table, sqlgraph.NewFieldSpec(bronzehistorygcpaccesscontextmanageraccesslevel.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpaccesscontextmanageraccesslevel.Table, sqlgraph.NewFieldSpec(bronzehistorygcpaccesscontextmanageraccesslevel.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPAccessContextManagerAccessLevel
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

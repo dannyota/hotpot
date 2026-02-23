@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPComputeFirewallDelete) ExecX(ctx context.Context) int 
 }
 
 func (_d *BronzeHistoryGCPComputeFirewallDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputefirewall.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputefirewall.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputefirewall.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputefirewall.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPComputeFirewall
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

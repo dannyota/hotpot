@@ -10,53 +10,48 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPComputeAddressLabel {
+func ID(id uint) predicate.BronzeHistoryGCPComputeAddressLabel {
 	return predicate.BronzeHistoryGCPComputeAddressLabel(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPComputeAddressLabel {
+func IDEQ(id uint) predicate.BronzeHistoryGCPComputeAddressLabel {
 	return predicate.BronzeHistoryGCPComputeAddressLabel(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPComputeAddressLabel {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPComputeAddressLabel {
 	return predicate.BronzeHistoryGCPComputeAddressLabel(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPComputeAddressLabel {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPComputeAddressLabel {
 	return predicate.BronzeHistoryGCPComputeAddressLabel(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPComputeAddressLabel {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPComputeAddressLabel {
 	return predicate.BronzeHistoryGCPComputeAddressLabel(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPComputeAddressLabel {
+func IDGT(id uint) predicate.BronzeHistoryGCPComputeAddressLabel {
 	return predicate.BronzeHistoryGCPComputeAddressLabel(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPComputeAddressLabel {
+func IDGTE(id uint) predicate.BronzeHistoryGCPComputeAddressLabel {
 	return predicate.BronzeHistoryGCPComputeAddressLabel(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPComputeAddressLabel {
+func IDLT(id uint) predicate.BronzeHistoryGCPComputeAddressLabel {
 	return predicate.BronzeHistoryGCPComputeAddressLabel(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPComputeAddressLabel {
+func IDLTE(id uint) predicate.BronzeHistoryGCPComputeAddressLabel {
 	return predicate.BronzeHistoryGCPComputeAddressLabel(sql.FieldLTE(FieldID, id))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPComputeAddressLabel {
-	return predicate.BronzeHistoryGCPComputeAddressLabel(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // AddressHistoryID applies equality check predicate on the "address_history_id" field. It's identical to AddressHistoryIDEQ.
@@ -82,46 +77,6 @@ func Key(v string) predicate.BronzeHistoryGCPComputeAddressLabel {
 // Value applies equality check predicate on the "value" field. It's identical to ValueEQ.
 func Value(v string) predicate.BronzeHistoryGCPComputeAddressLabel {
 	return predicate.BronzeHistoryGCPComputeAddressLabel(sql.FieldEQ(FieldValue, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPComputeAddressLabel {
-	return predicate.BronzeHistoryGCPComputeAddressLabel(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPComputeAddressLabel {
-	return predicate.BronzeHistoryGCPComputeAddressLabel(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPComputeAddressLabel {
-	return predicate.BronzeHistoryGCPComputeAddressLabel(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPComputeAddressLabel {
-	return predicate.BronzeHistoryGCPComputeAddressLabel(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPComputeAddressLabel {
-	return predicate.BronzeHistoryGCPComputeAddressLabel(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPComputeAddressLabel {
-	return predicate.BronzeHistoryGCPComputeAddressLabel(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPComputeAddressLabel {
-	return predicate.BronzeHistoryGCPComputeAddressLabel(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPComputeAddressLabel {
-	return predicate.BronzeHistoryGCPComputeAddressLabel(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // AddressHistoryIDEQ applies the EQ predicate on the "address_history_id" field.

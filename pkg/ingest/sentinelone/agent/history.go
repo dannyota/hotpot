@@ -29,7 +29,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Ag
 		return fmt.Errorf("create agent history: %w", err)
 	}
 
-	return h.createNICsHistory(ctx, tx, agentHist.HistoryID, data.NICs, now)
+	return h.createNICsHistory(ctx, tx, agentHist.ID, data.NICs, now)
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
@@ -57,18 +57,18 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 			return fmt.Errorf("create new agent history: %w", err)
 		}
 
-		if err := h.closeNICsHistory(ctx, tx, currentHist.HistoryID, now); err != nil {
+		if err := h.closeNICsHistory(ctx, tx, currentHist.ID, now); err != nil {
 			return fmt.Errorf("close NICs history: %w", err)
 		}
-		return h.createNICsHistory(ctx, tx, agentHist.HistoryID, new.NICs, now)
+		return h.createNICsHistory(ctx, tx, agentHist.ID, new.NICs, now)
 	}
 
 	// Agent unchanged, check children
 	if diff.NICsDiff.Changed {
-		if err := h.closeNICsHistory(ctx, tx, currentHist.HistoryID, now); err != nil {
+		if err := h.closeNICsHistory(ctx, tx, currentHist.ID, now); err != nil {
 			return err
 		}
-		return h.createNICsHistory(ctx, tx, currentHist.HistoryID, new.NICs, now)
+		return h.createNICsHistory(ctx, tx, currentHist.ID, new.NICs, now)
 	}
 
 	return nil
@@ -95,7 +95,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		return fmt.Errorf("close agent history: %w", err)
 	}
 
-	return h.closeNICsHistory(ctx, tx, currentHist.HistoryID, now)
+	return h.closeNICsHistory(ctx, tx, currentHist.ID, now)
 }
 
 func (h *HistoryService) buildAgentHistoryCreate(tx *ent.Tx, data *AgentData, firstCollectedAt time.Time, now time.Time) *ent.BronzeHistoryS1AgentCreate {

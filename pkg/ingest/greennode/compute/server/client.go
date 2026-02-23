@@ -19,21 +19,13 @@ type Client struct {
 }
 
 // NewClient creates a GreenNode client with rate limiting.
-func NewClient(ctx context.Context, configService *config.Service, limiter ratelimit.Limiter, region, projectID string) (*Client, error) {
+func NewClient(ctx context.Context, configService *config.Service, iamAuth *auth.IAMUserAuth, limiter ratelimit.Limiter, region, projectID string) (*Client, error) {
 	cfg := greennode.Config{
 		Region:    region,
 		ProjectID: projectID,
 	}
 
-	if username := configService.GreenNodeUsername(); username != "" {
-		iamAuth := &auth.IAMUserAuth{
-			RootEmail: configService.GreenNodeRootEmail(),
-			Username:  username,
-			Password:  configService.GreenNodePassword(),
-		}
-		if totpSecret := configService.GreenNodeTOTPSecret(); totpSecret != "" {
-			iamAuth.TOTP = &auth.SecretTOTP{Secret: totpSecret}
-		}
+	if iamAuth != nil {
 		cfg.IAMAuth = iamAuth
 	} else {
 		cfg.ClientID = configService.GreenNodeClientID()

@@ -41,7 +41,7 @@ func (_d *BronzeHistoryDODatabaseConfigDelete) ExecX(ctx context.Context) int {
 }
 
 func (_d *BronzeHistoryDODatabaseConfigDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorydodatabaseconfig.Table, sqlgraph.NewFieldSpec(bronzehistorydodatabaseconfig.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorydodatabaseconfig.Table, sqlgraph.NewFieldSpec(bronzehistorydodatabaseconfig.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryDODatabaseConfig
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

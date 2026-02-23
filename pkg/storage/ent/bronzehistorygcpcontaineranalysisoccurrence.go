@@ -17,7 +17,7 @@ import (
 type BronzeHistoryGCPContainerAnalysisOccurrence struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Start of validity period
 	ValidFrom time.Time `json:"valid_from,omitempty"`
 	// End of validity period (null = current)
@@ -26,8 +26,6 @@ type BronzeHistoryGCPContainerAnalysisOccurrence struct {
 	CollectedAt time.Time `json:"collected_at,omitempty"`
 	// Timestamp when this asset was first collected
 	FirstCollectedAt time.Time `json:"first_collected_at,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
 	// Link to bronze occurrence by resource_id
 	ResourceID string `json:"resource_id,omitempty"`
 	// ResourceURI holds the value of the "resource_uri" field.
@@ -78,7 +76,7 @@ func (*BronzeHistoryGCPContainerAnalysisOccurrence) scanValues(columns []string)
 		switch columns[i] {
 		case bronzehistorygcpcontaineranalysisoccurrence.FieldVulnerabilityJSON, bronzehistorygcpcontaineranalysisoccurrence.FieldBuildJSON, bronzehistorygcpcontaineranalysisoccurrence.FieldImageJSON, bronzehistorygcpcontaineranalysisoccurrence.FieldPackageJSON, bronzehistorygcpcontaineranalysisoccurrence.FieldDeploymentJSON, bronzehistorygcpcontaineranalysisoccurrence.FieldDiscoveryJSON, bronzehistorygcpcontaineranalysisoccurrence.FieldAttestationJSON, bronzehistorygcpcontaineranalysisoccurrence.FieldUpgradeJSON, bronzehistorygcpcontaineranalysisoccurrence.FieldComplianceJSON, bronzehistorygcpcontaineranalysisoccurrence.FieldDsseAttestationJSON, bronzehistorygcpcontaineranalysisoccurrence.FieldSbomReferenceJSON, bronzehistorygcpcontaineranalysisoccurrence.FieldEnvelopeJSON:
 			values[i] = new([]byte)
-		case bronzehistorygcpcontaineranalysisoccurrence.FieldID, bronzehistorygcpcontaineranalysisoccurrence.FieldHistoryID, bronzehistorygcpcontaineranalysisoccurrence.FieldKind:
+		case bronzehistorygcpcontaineranalysisoccurrence.FieldID, bronzehistorygcpcontaineranalysisoccurrence.FieldKind:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorygcpcontaineranalysisoccurrence.FieldResourceID, bronzehistorygcpcontaineranalysisoccurrence.FieldResourceURI, bronzehistorygcpcontaineranalysisoccurrence.FieldNoteName, bronzehistorygcpcontaineranalysisoccurrence.FieldRemediation, bronzehistorygcpcontaineranalysisoccurrence.FieldCreateTime, bronzehistorygcpcontaineranalysisoccurrence.FieldUpdateTime, bronzehistorygcpcontaineranalysisoccurrence.FieldProjectID:
 			values[i] = new(sql.NullString)
@@ -104,7 +102,7 @@ func (_m *BronzeHistoryGCPContainerAnalysisOccurrence) assignValues(columns []st
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
+			_m.ID = uint(value.Int64)
 		case bronzehistorygcpcontaineranalysisoccurrence.FieldValidFrom:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field valid_from", values[i])
@@ -129,12 +127,6 @@ func (_m *BronzeHistoryGCPContainerAnalysisOccurrence) assignValues(columns []st
 				return fmt.Errorf("unexpected type %T for field first_collected_at", values[i])
 			} else if value.Valid {
 				_m.FirstCollectedAt = value.Time
-			}
-		case bronzehistorygcpcontaineranalysisoccurrence.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
 			}
 		case bronzehistorygcpcontaineranalysisoccurrence.FieldResourceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -329,9 +321,6 @@ func (_m *BronzeHistoryGCPContainerAnalysisOccurrence) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("first_collected_at=")
 	builder.WriteString(_m.FirstCollectedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
 	builder.WriteString(", ")
 	builder.WriteString("resource_id=")
 	builder.WriteString(_m.ResourceID)

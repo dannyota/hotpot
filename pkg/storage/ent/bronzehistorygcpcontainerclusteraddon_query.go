@@ -83,8 +83,8 @@ func (_q *BronzeHistoryGCPContainerClusterAddonQuery) FirstX(ctx context.Context
 
 // FirstID returns the first BronzeHistoryGCPContainerClusterAddon ID from the query.
 // Returns a *NotFoundError when no BronzeHistoryGCPContainerClusterAddon ID was found.
-func (_q *BronzeHistoryGCPContainerClusterAddonQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPContainerClusterAddonQuery) FirstID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (_q *BronzeHistoryGCPContainerClusterAddonQuery) FirstID(ctx context.Contex
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPContainerClusterAddonQuery) FirstIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPContainerClusterAddonQuery) FirstIDX(ctx context.Context) uint {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (_q *BronzeHistoryGCPContainerClusterAddonQuery) OnlyX(ctx context.Context)
 // OnlyID is like Only, but returns the only BronzeHistoryGCPContainerClusterAddon ID in the query.
 // Returns a *NotSingularError when more than one BronzeHistoryGCPContainerClusterAddon ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *BronzeHistoryGCPContainerClusterAddonQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (_q *BronzeHistoryGCPContainerClusterAddonQuery) OnlyID(ctx context.Context) (id uint, err error) {
+	var ids []uint
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (_q *BronzeHistoryGCPContainerClusterAddonQuery) OnlyID(ctx context.Context
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *BronzeHistoryGCPContainerClusterAddonQuery) OnlyIDX(ctx context.Context) int {
+func (_q *BronzeHistoryGCPContainerClusterAddonQuery) OnlyIDX(ctx context.Context) uint {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -179,7 +179,7 @@ func (_q *BronzeHistoryGCPContainerClusterAddonQuery) AllX(ctx context.Context) 
 }
 
 // IDs executes the query and returns a list of BronzeHistoryGCPContainerClusterAddon IDs.
-func (_q *BronzeHistoryGCPContainerClusterAddonQuery) IDs(ctx context.Context) (ids []int, err error) {
+func (_q *BronzeHistoryGCPContainerClusterAddonQuery) IDs(ctx context.Context) (ids []uint, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -191,7 +191,7 @@ func (_q *BronzeHistoryGCPContainerClusterAddonQuery) IDs(ctx context.Context) (
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *BronzeHistoryGCPContainerClusterAddonQuery) IDsX(ctx context.Context) []int {
+func (_q *BronzeHistoryGCPContainerClusterAddonQuery) IDsX(ctx context.Context) []uint {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -263,12 +263,12 @@ func (_q *BronzeHistoryGCPContainerClusterAddonQuery) Clone() *BronzeHistoryGCPC
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		ClusterHistoryID uint `json:"cluster_history_id,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPContainerClusterAddon.Query().
-//		GroupBy(bronzehistorygcpcontainerclusteraddon.FieldHistoryID).
+//		GroupBy(bronzehistorygcpcontainerclusteraddon.FieldClusterHistoryID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPContainerClusterAddonQuery) GroupBy(field string, fields ...string) *BronzeHistoryGCPContainerClusterAddonGroupBy {
@@ -286,11 +286,11 @@ func (_q *BronzeHistoryGCPContainerClusterAddonQuery) GroupBy(field string, fiel
 // Example:
 //
 //	var v []struct {
-//		HistoryID uint `json:"history_id,omitempty"`
+//		ClusterHistoryID uint `json:"cluster_history_id,omitempty"`
 //	}
 //
 //	client.BronzeHistoryGCPContainerClusterAddon.Query().
-//		Select(bronzehistorygcpcontainerclusteraddon.FieldHistoryID).
+//		Select(bronzehistorygcpcontainerclusteraddon.FieldClusterHistoryID).
 //		Scan(ctx, &v)
 func (_q *BronzeHistoryGCPContainerClusterAddonQuery) Select(fields ...string) *BronzeHistoryGCPContainerClusterAddonSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -370,7 +370,7 @@ func (_q *BronzeHistoryGCPContainerClusterAddonQuery) sqlCount(ctx context.Conte
 }
 
 func (_q *BronzeHistoryGCPContainerClusterAddonQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcontainerclusteraddon.Table, bronzehistorygcpcontainerclusteraddon.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcontainerclusteraddon.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewQuerySpec(bronzehistorygcpcontainerclusteraddon.Table, bronzehistorygcpcontainerclusteraddon.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpcontainerclusteraddon.FieldID, field.TypeUint))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

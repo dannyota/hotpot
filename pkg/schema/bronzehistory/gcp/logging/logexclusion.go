@@ -22,9 +22,7 @@ func (BronzeHistoryGCPLoggingLogExclusion) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPLoggingLogExclusion) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze log exclusion by resource_id"),

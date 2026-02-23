@@ -41,7 +41,7 @@ func (_d *BronzeHistoryAWSEC2InstanceDelete) ExecX(ctx context.Context) int {
 }
 
 func (_d *BronzeHistoryAWSEC2InstanceDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistoryawsec2instance.Table, sqlgraph.NewFieldSpec(bronzehistoryawsec2instance.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistoryawsec2instance.Table, sqlgraph.NewFieldSpec(bronzehistoryawsec2instance.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryAWSEC2Instance
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

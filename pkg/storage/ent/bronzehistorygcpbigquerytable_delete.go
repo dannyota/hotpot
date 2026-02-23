@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPBigQueryTableDelete) ExecX(ctx context.Context) int {
 }
 
 func (_d *BronzeHistoryGCPBigQueryTableDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpbigquerytable.Table, sqlgraph.NewFieldSpec(bronzehistorygcpbigquerytable.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpbigquerytable.Table, sqlgraph.NewFieldSpec(bronzehistorygcpbigquerytable.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPBigQueryTable
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

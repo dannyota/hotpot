@@ -17,7 +17,7 @@ import (
 type BronzeHistoryGCPContainerCluster struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Start of validity period
 	ValidFrom time.Time `json:"valid_from,omitempty"`
 	// End of validity period (null = current)
@@ -26,8 +26,6 @@ type BronzeHistoryGCPContainerCluster struct {
 	CollectedAt time.Time `json:"collected_at,omitempty"`
 	// Timestamp when this asset was first collected
 	FirstCollectedAt time.Time `json:"first_collected_at,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
 	// Link to bronze cluster by resource_id
 	ResourceID string `json:"resource_id,omitempty"`
 	// Name holds the value of the "name" field.
@@ -132,7 +130,7 @@ func (*BronzeHistoryGCPContainerCluster) scanValues(columns []string) ([]any, er
 			values[i] = new([]byte)
 		case bronzehistorygcpcontainercluster.FieldEnableKubernetesAlpha, bronzehistorygcpcontainercluster.FieldEnableTpu:
 			values[i] = new(sql.NullBool)
-		case bronzehistorygcpcontainercluster.FieldID, bronzehistorygcpcontainercluster.FieldHistoryID, bronzehistorygcpcontainercluster.FieldCurrentNodeCount, bronzehistorygcpcontainercluster.FieldNodeIpv4CidrSize:
+		case bronzehistorygcpcontainercluster.FieldID, bronzehistorygcpcontainercluster.FieldCurrentNodeCount, bronzehistorygcpcontainercluster.FieldNodeIpv4CidrSize:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorygcpcontainercluster.FieldResourceID, bronzehistorygcpcontainercluster.FieldName, bronzehistorygcpcontainercluster.FieldLocation, bronzehistorygcpcontainercluster.FieldZone, bronzehistorygcpcontainercluster.FieldDescription, bronzehistorygcpcontainercluster.FieldInitialClusterVersion, bronzehistorygcpcontainercluster.FieldCurrentMasterVersion, bronzehistorygcpcontainercluster.FieldCurrentNodeVersion, bronzehistorygcpcontainercluster.FieldStatus, bronzehistorygcpcontainercluster.FieldStatusMessage, bronzehistorygcpcontainercluster.FieldNetwork, bronzehistorygcpcontainercluster.FieldSubnetwork, bronzehistorygcpcontainercluster.FieldClusterIpv4Cidr, bronzehistorygcpcontainercluster.FieldServicesIpv4Cidr, bronzehistorygcpcontainercluster.FieldEndpoint, bronzehistorygcpcontainercluster.FieldSelfLink, bronzehistorygcpcontainercluster.FieldCreateTime, bronzehistorygcpcontainercluster.FieldExpireTime, bronzehistorygcpcontainercluster.FieldEtag, bronzehistorygcpcontainercluster.FieldLabelFingerprint, bronzehistorygcpcontainercluster.FieldLoggingService, bronzehistorygcpcontainercluster.FieldMonitoringService, bronzehistorygcpcontainercluster.FieldTpuIpv4CidrBlock, bronzehistorygcpcontainercluster.FieldProjectID:
 			values[i] = new(sql.NullString)
@@ -158,7 +156,7 @@ func (_m *BronzeHistoryGCPContainerCluster) assignValues(columns []string, value
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
+			_m.ID = uint(value.Int64)
 		case bronzehistorygcpcontainercluster.FieldValidFrom:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field valid_from", values[i])
@@ -183,12 +181,6 @@ func (_m *BronzeHistoryGCPContainerCluster) assignValues(columns []string, value
 				return fmt.Errorf("unexpected type %T for field first_collected_at", values[i])
 			} else if value.Valid {
 				_m.FirstCollectedAt = value.Time
-			}
-		case bronzehistorygcpcontainercluster.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
 			}
 		case bronzehistorygcpcontainercluster.FieldResourceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -551,9 +543,6 @@ func (_m *BronzeHistoryGCPContainerCluster) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("first_collected_at=")
 	builder.WriteString(_m.FirstCollectedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
 	builder.WriteString(", ")
 	builder.WriteString("resource_id=")
 	builder.WriteString(_m.ResourceID)

@@ -53,12 +53,6 @@ func (_c *BronzeHistoryAWSEC2InstanceCreate) SetFirstCollectedAt(v time.Time) *B
 	return _c
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryAWSEC2InstanceCreate) SetHistoryID(v uint) *BronzeHistoryAWSEC2InstanceCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetResourceID sets the "resource_id" field.
 func (_c *BronzeHistoryAWSEC2InstanceCreate) SetResourceID(v string) *BronzeHistoryAWSEC2InstanceCreate {
 	_c.mutation.SetResourceID(v)
@@ -251,6 +245,12 @@ func (_c *BronzeHistoryAWSEC2InstanceCreate) SetRegion(v string) *BronzeHistoryA
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryAWSEC2InstanceCreate) SetID(v uint) *BronzeHistoryAWSEC2InstanceCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryAWSEC2InstanceMutation object of the builder.
 func (_c *BronzeHistoryAWSEC2InstanceCreate) Mutation() *BronzeHistoryAWSEC2InstanceMutation {
 	return _c.mutation
@@ -294,9 +294,6 @@ func (_c *BronzeHistoryAWSEC2InstanceCreate) check() error {
 	if _, ok := _c.mutation.FirstCollectedAt(); !ok {
 		return &ValidationError{Name: "first_collected_at", err: errors.New(`ent: missing required field "BronzeHistoryAWSEC2Instance.first_collected_at"`)}
 	}
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryAWSEC2Instance.history_id"`)}
-	}
 	if _, ok := _c.mutation.ResourceID(); !ok {
 		return &ValidationError{Name: "resource_id", err: errors.New(`ent: missing required field "BronzeHistoryAWSEC2Instance.resource_id"`)}
 	}
@@ -335,8 +332,10 @@ func (_c *BronzeHistoryAWSEC2InstanceCreate) sqlSave(ctx context.Context) (*Bron
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -345,9 +344,13 @@ func (_c *BronzeHistoryAWSEC2InstanceCreate) sqlSave(ctx context.Context) (*Bron
 func (_c *BronzeHistoryAWSEC2InstanceCreate) createSpec() (*BronzeHistoryAWSEC2Instance, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryAWSEC2Instance{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistoryawsec2instance.Table, sqlgraph.NewFieldSpec(bronzehistoryawsec2instance.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistoryawsec2instance.Table, sqlgraph.NewFieldSpec(bronzehistoryawsec2instance.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryAWSEC2Instance
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := _c.mutation.ValidFrom(); ok {
 		_spec.SetField(bronzehistoryawsec2instance.FieldValidFrom, field.TypeTime, value)
 		_node.ValidFrom = value
@@ -363,10 +366,6 @@ func (_c *BronzeHistoryAWSEC2InstanceCreate) createSpec() (*BronzeHistoryAWSEC2I
 	if value, ok := _c.mutation.FirstCollectedAt(); ok {
 		_spec.SetField(bronzehistoryawsec2instance.FieldFirstCollectedAt, field.TypeTime, value)
 		_node.FirstCollectedAt = value
-	}
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistoryawsec2instance.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
 	}
 	if value, ok := _c.mutation.ResourceID(); ok {
 		_spec.SetField(bronzehistoryawsec2instance.FieldResourceID, field.TypeString, value)
@@ -479,9 +478,9 @@ func (_c *BronzeHistoryAWSEC2InstanceCreateBulk) Save(ctx context.Context) ([]*B
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

@@ -52,12 +52,6 @@ func (_c *BronzeHistoryGCPProjectCreate) SetFirstCollectedAt(v time.Time) *Bronz
 	return _c
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPProjectCreate) SetHistoryID(v uint) *BronzeHistoryGCPProjectCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetProjectID sets the "project_id" field.
 func (_c *BronzeHistoryGCPProjectCreate) SetProjectID(v string) *BronzeHistoryGCPProjectCreate {
 	_c.mutation.SetProjectID(v)
@@ -168,6 +162,12 @@ func (_c *BronzeHistoryGCPProjectCreate) SetNillableEtag(v *string) *BronzeHisto
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPProjectCreate) SetID(v uint) *BronzeHistoryGCPProjectCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPProjectMutation object of the builder.
 func (_c *BronzeHistoryGCPProjectCreate) Mutation() *BronzeHistoryGCPProjectMutation {
 	return _c.mutation
@@ -211,9 +211,6 @@ func (_c *BronzeHistoryGCPProjectCreate) check() error {
 	if _, ok := _c.mutation.FirstCollectedAt(); !ok {
 		return &ValidationError{Name: "first_collected_at", err: errors.New(`ent: missing required field "BronzeHistoryGCPProject.first_collected_at"`)}
 	}
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPProject.history_id"`)}
-	}
 	if _, ok := _c.mutation.ProjectID(); !ok {
 		return &ValidationError{Name: "project_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPProject.project_id"`)}
 	}
@@ -244,8 +241,10 @@ func (_c *BronzeHistoryGCPProjectCreate) sqlSave(ctx context.Context) (*BronzeHi
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -254,9 +253,13 @@ func (_c *BronzeHistoryGCPProjectCreate) sqlSave(ctx context.Context) (*BronzeHi
 func (_c *BronzeHistoryGCPProjectCreate) createSpec() (*BronzeHistoryGCPProject, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPProject{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpproject.Table, sqlgraph.NewFieldSpec(bronzehistorygcpproject.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpproject.Table, sqlgraph.NewFieldSpec(bronzehistorygcpproject.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPProject
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := _c.mutation.ValidFrom(); ok {
 		_spec.SetField(bronzehistorygcpproject.FieldValidFrom, field.TypeTime, value)
 		_node.ValidFrom = value
@@ -272,10 +275,6 @@ func (_c *BronzeHistoryGCPProjectCreate) createSpec() (*BronzeHistoryGCPProject,
 	if value, ok := _c.mutation.FirstCollectedAt(); ok {
 		_spec.SetField(bronzehistorygcpproject.FieldFirstCollectedAt, field.TypeTime, value)
 		_node.FirstCollectedAt = value
-	}
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpproject.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
 	}
 	if value, ok := _c.mutation.ProjectID(); ok {
 		_spec.SetField(bronzehistorygcpproject.FieldProjectID, field.TypeString, value)
@@ -360,9 +359,9 @@ func (_c *BronzeHistoryGCPProjectCreateBulk) Save(ctx context.Context) ([]*Bronz
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

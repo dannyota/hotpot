@@ -23,9 +23,7 @@ func (BronzeHistoryGCPStorageBucket) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPStorageBucket) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze bucket by resource_id"),
@@ -98,9 +96,7 @@ type BronzeHistoryGCPStorageBucketLabel struct {
 
 func (BronzeHistoryGCPStorageBucketLabel) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("bucket_history_id").
 			Comment("Links to parent BronzeHistoryGCPStorageBucket"),
 		field.Time("valid_from").

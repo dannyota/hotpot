@@ -17,7 +17,7 @@ import (
 type BronzeHistoryGCPComputeInterconnect struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Start of validity period
 	ValidFrom time.Time `json:"valid_from,omitempty"`
 	// End of validity period (null = current)
@@ -26,8 +26,6 @@ type BronzeHistoryGCPComputeInterconnect struct {
 	CollectedAt time.Time `json:"collected_at,omitempty"`
 	// Timestamp when this asset was first collected
 	FirstCollectedAt time.Time `json:"first_collected_at,omitempty"`
-	// HistoryID holds the value of the "history_id" field.
-	HistoryID uint `json:"history_id,omitempty"`
 	// Link to bronze interconnect by resource_id
 	ResourceID string `json:"resource_id,omitempty"`
 	// Name holds the value of the "name" field.
@@ -82,7 +80,7 @@ func (*BronzeHistoryGCPComputeInterconnect) scanValues(columns []string) ([]any,
 			values[i] = new([]byte)
 		case bronzehistorygcpcomputeinterconnect.FieldAdminEnabled:
 			values[i] = new(sql.NullBool)
-		case bronzehistorygcpcomputeinterconnect.FieldID, bronzehistorygcpcomputeinterconnect.FieldHistoryID, bronzehistorygcpcomputeinterconnect.FieldProvisionedLinkCount, bronzehistorygcpcomputeinterconnect.FieldRequestedLinkCount:
+		case bronzehistorygcpcomputeinterconnect.FieldID, bronzehistorygcpcomputeinterconnect.FieldProvisionedLinkCount, bronzehistorygcpcomputeinterconnect.FieldRequestedLinkCount:
 			values[i] = new(sql.NullInt64)
 		case bronzehistorygcpcomputeinterconnect.FieldResourceID, bronzehistorygcpcomputeinterconnect.FieldName, bronzehistorygcpcomputeinterconnect.FieldDescription, bronzehistorygcpcomputeinterconnect.FieldSelfLink, bronzehistorygcpcomputeinterconnect.FieldLocation, bronzehistorygcpcomputeinterconnect.FieldInterconnectType, bronzehistorygcpcomputeinterconnect.FieldLinkType, bronzehistorygcpcomputeinterconnect.FieldOperationalStatus, bronzehistorygcpcomputeinterconnect.FieldPeerIPAddress, bronzehistorygcpcomputeinterconnect.FieldGoogleIPAddress, bronzehistorygcpcomputeinterconnect.FieldGoogleReferenceID, bronzehistorygcpcomputeinterconnect.FieldNocContactEmail, bronzehistorygcpcomputeinterconnect.FieldCustomerName, bronzehistorygcpcomputeinterconnect.FieldState, bronzehistorygcpcomputeinterconnect.FieldCreationTimestamp, bronzehistorygcpcomputeinterconnect.FieldProjectID:
 			values[i] = new(sql.NullString)
@@ -108,7 +106,7 @@ func (_m *BronzeHistoryGCPComputeInterconnect) assignValues(columns []string, va
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int(value.Int64)
+			_m.ID = uint(value.Int64)
 		case bronzehistorygcpcomputeinterconnect.FieldValidFrom:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field valid_from", values[i])
@@ -133,12 +131,6 @@ func (_m *BronzeHistoryGCPComputeInterconnect) assignValues(columns []string, va
 				return fmt.Errorf("unexpected type %T for field first_collected_at", values[i])
 			} else if value.Valid {
 				_m.FirstCollectedAt = value.Time
-			}
-		case bronzehistorygcpcomputeinterconnect.FieldHistoryID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field history_id", values[i])
-			} else if value.Valid {
-				_m.HistoryID = uint(value.Int64)
 			}
 		case bronzehistorygcpcomputeinterconnect.FieldResourceID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -319,9 +311,6 @@ func (_m *BronzeHistoryGCPComputeInterconnect) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("first_collected_at=")
 	builder.WriteString(_m.FirstCollectedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("history_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.HistoryID))
 	builder.WriteString(", ")
 	builder.WriteString("resource_id=")
 	builder.WriteString(_m.ResourceID)

@@ -23,9 +23,7 @@ func (BronzeHistoryDODatabaseUser) Mixin() []ent.Mixin {
 
 func (BronzeHistoryDODatabaseUser) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze DatabaseUser by resource_id"),

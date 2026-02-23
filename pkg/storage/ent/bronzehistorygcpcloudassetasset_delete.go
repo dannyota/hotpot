@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPCloudAssetAssetDelete) ExecX(ctx context.Context) int 
 }
 
 func (_d *BronzeHistoryGCPCloudAssetAssetDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcloudassetasset.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcloudassetasset.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcloudassetasset.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcloudassetasset.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPCloudAssetAsset
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

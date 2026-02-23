@@ -23,9 +23,7 @@ func (BronzeHistoryGCPPubSubSubscription) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPPubSubSubscription) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze subscription by resource_id"),

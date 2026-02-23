@@ -23,9 +23,7 @@ func (BronzeHistoryDOKubernetesCluster) Mixin() []ent.Mixin {
 
 func (BronzeHistoryDOKubernetesCluster) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze KubernetesCluster by resource_id"),

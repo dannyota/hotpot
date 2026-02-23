@@ -21,7 +21,7 @@ func (BronzeHistoryGCPComputeUrlMap) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeUrlMap) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").Unique().Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").NotEmpty().Comment("Link to bronze URL map by resource_id"),
 		field.String("name").NotEmpty(),
 		field.String("description").Optional(),

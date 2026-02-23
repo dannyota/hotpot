@@ -296,7 +296,7 @@ func (_u *BronzeHistoryGCPProjectUpdate) sqlSave(ctx context.Context) (_node int
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpproject.Table, bronzehistorygcpproject.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpproject.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpproject.Table, bronzehistorygcpproject.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpproject.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -666,7 +666,7 @@ func (_u *BronzeHistoryGCPProjectUpdateOne) sqlSave(ctx context.Context) (_node 
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpproject.Table, bronzehistorygcpproject.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpproject.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpproject.Table, bronzehistorygcpproject.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpproject.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPProject.id" for update`)}

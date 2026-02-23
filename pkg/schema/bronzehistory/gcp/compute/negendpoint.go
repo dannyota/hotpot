@@ -20,7 +20,7 @@ func (BronzeHistoryGCPComputeNegEndpoint) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPComputeNegEndpoint) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").Unique().Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").NotEmpty().Comment("Link to bronze NEG endpoint"),
 		field.String("instance").Optional(),
 		field.String("ip_address").Optional(),

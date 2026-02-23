@@ -10,53 +10,48 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPComputeFirewallAllowed {
+func ID(id uint) predicate.BronzeHistoryGCPComputeFirewallAllowed {
 	return predicate.BronzeHistoryGCPComputeFirewallAllowed(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPComputeFirewallAllowed {
+func IDEQ(id uint) predicate.BronzeHistoryGCPComputeFirewallAllowed {
 	return predicate.BronzeHistoryGCPComputeFirewallAllowed(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPComputeFirewallAllowed {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPComputeFirewallAllowed {
 	return predicate.BronzeHistoryGCPComputeFirewallAllowed(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPComputeFirewallAllowed {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPComputeFirewallAllowed {
 	return predicate.BronzeHistoryGCPComputeFirewallAllowed(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPComputeFirewallAllowed {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPComputeFirewallAllowed {
 	return predicate.BronzeHistoryGCPComputeFirewallAllowed(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPComputeFirewallAllowed {
+func IDGT(id uint) predicate.BronzeHistoryGCPComputeFirewallAllowed {
 	return predicate.BronzeHistoryGCPComputeFirewallAllowed(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPComputeFirewallAllowed {
+func IDGTE(id uint) predicate.BronzeHistoryGCPComputeFirewallAllowed {
 	return predicate.BronzeHistoryGCPComputeFirewallAllowed(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPComputeFirewallAllowed {
+func IDLT(id uint) predicate.BronzeHistoryGCPComputeFirewallAllowed {
 	return predicate.BronzeHistoryGCPComputeFirewallAllowed(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPComputeFirewallAllowed {
+func IDLTE(id uint) predicate.BronzeHistoryGCPComputeFirewallAllowed {
 	return predicate.BronzeHistoryGCPComputeFirewallAllowed(sql.FieldLTE(FieldID, id))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPComputeFirewallAllowed {
-	return predicate.BronzeHistoryGCPComputeFirewallAllowed(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // FirewallHistoryID applies equality check predicate on the "firewall_history_id" field. It's identical to FirewallHistoryIDEQ.
@@ -77,46 +72,6 @@ func ValidTo(v time.Time) predicate.BronzeHistoryGCPComputeFirewallAllowed {
 // IPProtocol applies equality check predicate on the "ip_protocol" field. It's identical to IPProtocolEQ.
 func IPProtocol(v string) predicate.BronzeHistoryGCPComputeFirewallAllowed {
 	return predicate.BronzeHistoryGCPComputeFirewallAllowed(sql.FieldEQ(FieldIPProtocol, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPComputeFirewallAllowed {
-	return predicate.BronzeHistoryGCPComputeFirewallAllowed(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPComputeFirewallAllowed {
-	return predicate.BronzeHistoryGCPComputeFirewallAllowed(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPComputeFirewallAllowed {
-	return predicate.BronzeHistoryGCPComputeFirewallAllowed(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPComputeFirewallAllowed {
-	return predicate.BronzeHistoryGCPComputeFirewallAllowed(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPComputeFirewallAllowed {
-	return predicate.BronzeHistoryGCPComputeFirewallAllowed(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPComputeFirewallAllowed {
-	return predicate.BronzeHistoryGCPComputeFirewallAllowed(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPComputeFirewallAllowed {
-	return predicate.BronzeHistoryGCPComputeFirewallAllowed(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPComputeFirewallAllowed {
-	return predicate.BronzeHistoryGCPComputeFirewallAllowed(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // FirewallHistoryIDEQ applies the EQ predicate on the "firewall_history_id" field.

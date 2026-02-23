@@ -24,9 +24,7 @@ func (BronzeHistoryGCPDNSManagedZone) Mixin() []ent.Mixin {
 
 func (BronzeHistoryGCPDNSManagedZone) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.String("resource_id").
 			NotEmpty().
 			Comment("Link to bronze managed zone by resource_id"),
@@ -84,9 +82,7 @@ type BronzeHistoryGCPDNSManagedZoneLabel struct {
 
 func (BronzeHistoryGCPDNSManagedZoneLabel) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint("history_id").
-			Unique().
-			Immutable(),
+		field.Uint("id").StorageKey("history_id"),
 		field.Uint("managed_zone_history_id").
 			Comment("Links to parent BronzeHistoryGCPDNSManagedZone"),
 		field.Time("valid_from").

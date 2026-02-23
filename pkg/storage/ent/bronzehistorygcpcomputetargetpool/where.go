@@ -10,47 +10,47 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPComputeTargetPool {
+func ID(id uint) predicate.BronzeHistoryGCPComputeTargetPool {
 	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPComputeTargetPool {
+func IDEQ(id uint) predicate.BronzeHistoryGCPComputeTargetPool {
 	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPComputeTargetPool {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPComputeTargetPool {
 	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPComputeTargetPool {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPComputeTargetPool {
 	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPComputeTargetPool {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPComputeTargetPool {
 	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPComputeTargetPool {
+func IDGT(id uint) predicate.BronzeHistoryGCPComputeTargetPool {
 	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPComputeTargetPool {
+func IDGTE(id uint) predicate.BronzeHistoryGCPComputeTargetPool {
 	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPComputeTargetPool {
+func IDLT(id uint) predicate.BronzeHistoryGCPComputeTargetPool {
 	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPComputeTargetPool {
+func IDLTE(id uint) predicate.BronzeHistoryGCPComputeTargetPool {
 	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldLTE(FieldID, id))
 }
 
@@ -72,11 +72,6 @@ func CollectedAt(v time.Time) predicate.BronzeHistoryGCPComputeTargetPool {
 // FirstCollectedAt applies equality check predicate on the "first_collected_at" field. It's identical to FirstCollectedAtEQ.
 func FirstCollectedAt(v time.Time) predicate.BronzeHistoryGCPComputeTargetPool {
 	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldEQ(FieldFirstCollectedAt, v))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPComputeTargetPool {
-	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // ResourceID applies equality check predicate on the "resource_id" field. It's identical to ResourceIDEQ.
@@ -302,46 +297,6 @@ func FirstCollectedAtLT(v time.Time) predicate.BronzeHistoryGCPComputeTargetPool
 // FirstCollectedAtLTE applies the LTE predicate on the "first_collected_at" field.
 func FirstCollectedAtLTE(v time.Time) predicate.BronzeHistoryGCPComputeTargetPool {
 	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldLTE(FieldFirstCollectedAt, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPComputeTargetPool {
-	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPComputeTargetPool {
-	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPComputeTargetPool {
-	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPComputeTargetPool {
-	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPComputeTargetPool {
-	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPComputeTargetPool {
-	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPComputeTargetPool {
-	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPComputeTargetPool {
-	return predicate.BronzeHistoryGCPComputeTargetPool(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // ResourceIDEQ applies the EQ predicate on the "resource_id" field.

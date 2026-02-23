@@ -253,7 +253,7 @@ func (_u *BronzeHistoryGCPAccessContextManagerAccessLevelUpdate) sqlSave(ctx con
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpaccesscontextmanageraccesslevel.Table, bronzehistorygcpaccesscontextmanageraccesslevel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpaccesscontextmanageraccesslevel.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpaccesscontextmanageraccesslevel.Table, bronzehistorygcpaccesscontextmanageraccesslevel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpaccesscontextmanageraccesslevel.FieldID, field.TypeUint))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -573,7 +573,7 @@ func (_u *BronzeHistoryGCPAccessContextManagerAccessLevelUpdateOne) sqlSave(ctx 
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpaccesscontextmanageraccesslevel.Table, bronzehistorygcpaccesscontextmanageraccesslevel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpaccesscontextmanageraccesslevel.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewUpdateSpec(bronzehistorygcpaccesscontextmanageraccesslevel.Table, bronzehistorygcpaccesscontextmanageraccesslevel.Columns, sqlgraph.NewFieldSpec(bronzehistorygcpaccesscontextmanageraccesslevel.FieldID, field.TypeUint))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "BronzeHistoryGCPAccessContextManagerAccessLevel.id" for update`)}

@@ -53,12 +53,6 @@ func (_c *BronzeHistoryGCPCloudAssetIAMPolicySearchCreate) SetFirstCollectedAt(v
 	return _c
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryGCPCloudAssetIAMPolicySearchCreate) SetHistoryID(v uint) *BronzeHistoryGCPCloudAssetIAMPolicySearchCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetResourceID sets the "resource_id" field.
 func (_c *BronzeHistoryGCPCloudAssetIAMPolicySearchCreate) SetResourceID(v string) *BronzeHistoryGCPCloudAssetIAMPolicySearchCreate {
 	_c.mutation.SetResourceID(v)
@@ -131,6 +125,12 @@ func (_c *BronzeHistoryGCPCloudAssetIAMPolicySearchCreate) SetExplanationJSON(v 
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryGCPCloudAssetIAMPolicySearchCreate) SetID(v uint) *BronzeHistoryGCPCloudAssetIAMPolicySearchCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryGCPCloudAssetIAMPolicySearchMutation object of the builder.
 func (_c *BronzeHistoryGCPCloudAssetIAMPolicySearchCreate) Mutation() *BronzeHistoryGCPCloudAssetIAMPolicySearchMutation {
 	return _c.mutation
@@ -174,9 +174,6 @@ func (_c *BronzeHistoryGCPCloudAssetIAMPolicySearchCreate) check() error {
 	if _, ok := _c.mutation.FirstCollectedAt(); !ok {
 		return &ValidationError{Name: "first_collected_at", err: errors.New(`ent: missing required field "BronzeHistoryGCPCloudAssetIAMPolicySearch.first_collected_at"`)}
 	}
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPCloudAssetIAMPolicySearch.history_id"`)}
-	}
 	if _, ok := _c.mutation.ResourceID(); !ok {
 		return &ValidationError{Name: "resource_id", err: errors.New(`ent: missing required field "BronzeHistoryGCPCloudAssetIAMPolicySearch.resource_id"`)}
 	}
@@ -207,8 +204,10 @@ func (_c *BronzeHistoryGCPCloudAssetIAMPolicySearchCreate) sqlSave(ctx context.C
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -217,9 +216,13 @@ func (_c *BronzeHistoryGCPCloudAssetIAMPolicySearchCreate) sqlSave(ctx context.C
 func (_c *BronzeHistoryGCPCloudAssetIAMPolicySearchCreate) createSpec() (*BronzeHistoryGCPCloudAssetIAMPolicySearch, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryGCPCloudAssetIAMPolicySearch{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcloudassetiampolicysearch.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcloudassetiampolicysearch.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorygcpcloudassetiampolicysearch.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcloudassetiampolicysearch.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryGCPCloudAssetIAMPolicySearch
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := _c.mutation.ValidFrom(); ok {
 		_spec.SetField(bronzehistorygcpcloudassetiampolicysearch.FieldValidFrom, field.TypeTime, value)
 		_node.ValidFrom = value
@@ -235,10 +238,6 @@ func (_c *BronzeHistoryGCPCloudAssetIAMPolicySearchCreate) createSpec() (*Bronze
 	if value, ok := _c.mutation.FirstCollectedAt(); ok {
 		_spec.SetField(bronzehistorygcpcloudassetiampolicysearch.FieldFirstCollectedAt, field.TypeTime, value)
 		_node.FirstCollectedAt = value
-	}
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorygcpcloudassetiampolicysearch.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
 	}
 	if value, ok := _c.mutation.ResourceID(); ok {
 		_spec.SetField(bronzehistorygcpcloudassetiampolicysearch.FieldResourceID, field.TypeString, value)
@@ -319,9 +318,9 @@ func (_c *BronzeHistoryGCPCloudAssetIAMPolicySearchCreateBulk) Save(ctx context.
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

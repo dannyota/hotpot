@@ -53,12 +53,6 @@ func (_c *BronzeHistoryS1RangerSettingCreate) SetFirstCollectedAt(v time.Time) *
 	return _c
 }
 
-// SetHistoryID sets the "history_id" field.
-func (_c *BronzeHistoryS1RangerSettingCreate) SetHistoryID(v uint) *BronzeHistoryS1RangerSettingCreate {
-	_c.mutation.SetHistoryID(v)
-	return _c
-}
-
 // SetResourceID sets the "resource_id" field.
 func (_c *BronzeHistoryS1RangerSettingCreate) SetResourceID(v string) *BronzeHistoryS1RangerSettingCreate {
 	_c.mutation.SetResourceID(v)
@@ -363,6 +357,12 @@ func (_c *BronzeHistoryS1RangerSettingCreate) SetRestrictionsJSON(v json.RawMess
 	return _c
 }
 
+// SetID sets the "id" field.
+func (_c *BronzeHistoryS1RangerSettingCreate) SetID(v uint) *BronzeHistoryS1RangerSettingCreate {
+	_c.mutation.SetID(v)
+	return _c
+}
+
 // Mutation returns the BronzeHistoryS1RangerSettingMutation object of the builder.
 func (_c *BronzeHistoryS1RangerSettingCreate) Mutation() *BronzeHistoryS1RangerSettingMutation {
 	return _c.mutation
@@ -467,9 +467,6 @@ func (_c *BronzeHistoryS1RangerSettingCreate) check() error {
 	if _, ok := _c.mutation.FirstCollectedAt(); !ok {
 		return &ValidationError{Name: "first_collected_at", err: errors.New(`ent: missing required field "BronzeHistoryS1RangerSetting.first_collected_at"`)}
 	}
-	if _, ok := _c.mutation.HistoryID(); !ok {
-		return &ValidationError{Name: "history_id", err: errors.New(`ent: missing required field "BronzeHistoryS1RangerSetting.history_id"`)}
-	}
 	if _, ok := _c.mutation.ResourceID(); !ok {
 		return &ValidationError{Name: "resource_id", err: errors.New(`ent: missing required field "BronzeHistoryS1RangerSetting.resource_id"`)}
 	}
@@ -534,8 +531,10 @@ func (_c *BronzeHistoryS1RangerSettingCreate) sqlSave(ctx context.Context) (*Bro
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = uint(id)
+	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
 	return _node, nil
@@ -544,9 +543,13 @@ func (_c *BronzeHistoryS1RangerSettingCreate) sqlSave(ctx context.Context) (*Bro
 func (_c *BronzeHistoryS1RangerSettingCreate) createSpec() (*BronzeHistoryS1RangerSetting, *sqlgraph.CreateSpec) {
 	var (
 		_node = &BronzeHistoryS1RangerSetting{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(bronzehistorys1rangersetting.Table, sqlgraph.NewFieldSpec(bronzehistorys1rangersetting.FieldID, field.TypeInt))
+		_spec = sqlgraph.NewCreateSpec(bronzehistorys1rangersetting.Table, sqlgraph.NewFieldSpec(bronzehistorys1rangersetting.FieldID, field.TypeUint))
 	)
 	_spec.Schema = _c.schemaConfig.BronzeHistoryS1RangerSetting
+	if id, ok := _c.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := _c.mutation.ValidFrom(); ok {
 		_spec.SetField(bronzehistorys1rangersetting.FieldValidFrom, field.TypeTime, value)
 		_node.ValidFrom = value
@@ -562,10 +565,6 @@ func (_c *BronzeHistoryS1RangerSettingCreate) createSpec() (*BronzeHistoryS1Rang
 	if value, ok := _c.mutation.FirstCollectedAt(); ok {
 		_spec.SetField(bronzehistorys1rangersetting.FieldFirstCollectedAt, field.TypeTime, value)
 		_node.FirstCollectedAt = value
-	}
-	if value, ok := _c.mutation.HistoryID(); ok {
-		_spec.SetField(bronzehistorys1rangersetting.FieldHistoryID, field.TypeUint, value)
-		_node.HistoryID = value
 	}
 	if value, ok := _c.mutation.ResourceID(); ok {
 		_spec.SetField(bronzehistorys1rangersetting.FieldResourceID, field.TypeString, value)
@@ -711,9 +710,9 @@ func (_c *BronzeHistoryS1RangerSettingCreateBulk) Save(ctx context.Context) ([]*
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = uint(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPComputeSubnetworkSecondaryRangeDelete) ExecX(ctx conte
 }
 
 func (_d *BronzeHistoryGCPComputeSubnetworkSecondaryRangeDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputesubnetworksecondaryrange.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesubnetworksecondaryrange.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputesubnetworksecondaryrange.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputesubnetworksecondaryrange.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPComputeSubnetworkSecondaryRange
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {

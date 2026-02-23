@@ -10,53 +10,48 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
+func ID(id uint) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
 	return predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
+func IDEQ(id uint) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
 	return predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
+func IDNEQ(id uint) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
 	return predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
+func IDIn(ids ...uint) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
 	return predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
+func IDNotIn(ids ...uint) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
 	return predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
+func IDGT(id uint) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
 	return predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
+func IDGTE(id uint) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
 	return predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
+func IDLT(id uint) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
 	return predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
+func IDLTE(id uint) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
 	return predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange(sql.FieldLTE(FieldID, id))
-}
-
-// HistoryID applies equality check predicate on the "history_id" field. It's identical to HistoryIDEQ.
-func HistoryID(v uint) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
-	return predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange(sql.FieldEQ(FieldHistoryID, v))
 }
 
 // SubnetworkHistoryID applies equality check predicate on the "subnetwork_history_id" field. It's identical to SubnetworkHistoryIDEQ.
@@ -82,46 +77,6 @@ func RangeName(v string) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRan
 // IPCidrRange applies equality check predicate on the "ip_cidr_range" field. It's identical to IPCidrRangeEQ.
 func IPCidrRange(v string) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
 	return predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange(sql.FieldEQ(FieldIPCidrRange, v))
-}
-
-// HistoryIDEQ applies the EQ predicate on the "history_id" field.
-func HistoryIDEQ(v uint) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
-	return predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange(sql.FieldEQ(FieldHistoryID, v))
-}
-
-// HistoryIDNEQ applies the NEQ predicate on the "history_id" field.
-func HistoryIDNEQ(v uint) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
-	return predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange(sql.FieldNEQ(FieldHistoryID, v))
-}
-
-// HistoryIDIn applies the In predicate on the "history_id" field.
-func HistoryIDIn(vs ...uint) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
-	return predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange(sql.FieldIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDNotIn applies the NotIn predicate on the "history_id" field.
-func HistoryIDNotIn(vs ...uint) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
-	return predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange(sql.FieldNotIn(FieldHistoryID, vs...))
-}
-
-// HistoryIDGT applies the GT predicate on the "history_id" field.
-func HistoryIDGT(v uint) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
-	return predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange(sql.FieldGT(FieldHistoryID, v))
-}
-
-// HistoryIDGTE applies the GTE predicate on the "history_id" field.
-func HistoryIDGTE(v uint) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
-	return predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange(sql.FieldGTE(FieldHistoryID, v))
-}
-
-// HistoryIDLT applies the LT predicate on the "history_id" field.
-func HistoryIDLT(v uint) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
-	return predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange(sql.FieldLT(FieldHistoryID, v))
-}
-
-// HistoryIDLTE applies the LTE predicate on the "history_id" field.
-func HistoryIDLTE(v uint) predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange {
-	return predicate.BronzeHistoryGCPComputeSubnetworkSecondaryRange(sql.FieldLTE(FieldHistoryID, v))
 }
 
 // SubnetworkHistoryIDEQ applies the EQ predicate on the "subnetwork_history_id" field.

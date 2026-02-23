@@ -41,7 +41,7 @@ func (_d *BronzeHistoryGCPComputeInstanceDiskLicenseDelete) ExecX(ctx context.Co
 }
 
 func (_d *BronzeHistoryGCPComputeInstanceDiskLicenseDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputeinstancedisklicense.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancedisklicense.FieldID, field.TypeInt))
+	_spec := sqlgraph.NewDeleteSpec(bronzehistorygcpcomputeinstancedisklicense.Table, sqlgraph.NewFieldSpec(bronzehistorygcpcomputeinstancedisklicense.FieldID, field.TypeUint))
 	_spec.Node.Schema = _d.schemaConfig.BronzeHistoryGCPComputeInstanceDiskLicense
 	ctx = internal.NewSchemaConfigContext(ctx, _d.schemaConfig)
 	if ps := _d.mutation.predicates; len(ps) > 0 {
