@@ -74,666 +74,6 @@ import (
 	bronzehistory_s1 "github.com/dannyota/hotpot/pkg/schema/bronzehistory/s1"
 )
 
-type BronzeHistoryAWSEC2Instance struct {
-	bronzehistory_aws_ec2.BronzeHistoryAWSEC2Instance
-}
-
-type BronzeHistoryAWSEC2InstanceTag struct {
-	bronzehistory_aws_ec2.BronzeHistoryAWSEC2InstanceTag
-}
-
-type BronzeHistoryDOAccount struct {
-	bronzehistory_do.BronzeHistoryDOAccount
-}
-
-type BronzeHistoryDODatabase struct {
-	bronzehistory_do.BronzeHistoryDODatabase
-}
-
-type BronzeHistoryDODatabaseBackup struct {
-	bronzehistory_do.BronzeHistoryDODatabaseBackup
-}
-
-type BronzeHistoryDODatabaseConfig struct {
-	bronzehistory_do.BronzeHistoryDODatabaseConfig
-}
-
-type BronzeHistoryDODatabaseFirewallRule struct {
-	bronzehistory_do.BronzeHistoryDODatabaseFirewallRule
-}
-
-type BronzeHistoryDODatabasePool struct {
-	bronzehistory_do.BronzeHistoryDODatabasePool
-}
-
-type BronzeHistoryDODatabaseReplica struct {
-	bronzehistory_do.BronzeHistoryDODatabaseReplica
-}
-
-type BronzeHistoryDODatabaseUser struct {
-	bronzehistory_do.BronzeHistoryDODatabaseUser
-}
-
-type BronzeHistoryDODomain struct {
-	bronzehistory_do.BronzeHistoryDODomain
-}
-
-type BronzeHistoryDODomainRecord struct {
-	bronzehistory_do.BronzeHistoryDODomainRecord
-}
-
-type BronzeHistoryDODroplet struct {
-	bronzehistory_do.BronzeHistoryDODroplet
-}
-
-type BronzeHistoryDOFirewall struct {
-	bronzehistory_do.BronzeHistoryDOFirewall
-}
-
-type BronzeHistoryDOKey struct {
-	bronzehistory_do.BronzeHistoryDOKey
-}
-
-type BronzeHistoryDOKubernetesCluster struct {
-	bronzehistory_do.BronzeHistoryDOKubernetesCluster
-}
-
-type BronzeHistoryDOKubernetesNodePool struct {
-	bronzehistory_do.BronzeHistoryDOKubernetesNodePool
-}
-
-type BronzeHistoryDOLoadBalancer struct {
-	bronzehistory_do.BronzeHistoryDOLoadBalancer
-}
-
-type BronzeHistoryDOProject struct {
-	bronzehistory_do.BronzeHistoryDOProject
-}
-
-type BronzeHistoryDOProjectResource struct {
-	bronzehistory_do.BronzeHistoryDOProjectResource
-}
-
-type BronzeHistoryDOVolume struct {
-	bronzehistory_do.BronzeHistoryDOVolume
-}
-
-type BronzeHistoryDOVpc struct {
-	bronzehistory_do.BronzeHistoryDOVpc
-}
-
-type BronzeHistoryGCPAccessContextManagerAccessLevel struct {
-	bronzehistory_gcp_accesscontextmanager.BronzeHistoryGCPAccessContextManagerAccessLevel
-}
-
-type BronzeHistoryGCPAccessContextManagerAccessPolicy struct {
-	bronzehistory_gcp_accesscontextmanager.BronzeHistoryGCPAccessContextManagerAccessPolicy
-}
-
-type BronzeHistoryGCPAccessContextManagerServicePerimeter struct {
-	bronzehistory_gcp_accesscontextmanager.BronzeHistoryGCPAccessContextManagerServicePerimeter
-}
-
-type BronzeHistoryGCPAlloyDBCluster struct {
-	bronzehistory_gcp_alloydb.BronzeHistoryGCPAlloyDBCluster
-}
-
-type BronzeHistoryGCPAppEngineApplication struct {
-	bronzehistory_gcp_appengine.BronzeHistoryGCPAppEngineApplication
-}
-
-type BronzeHistoryGCPAppEngineService struct {
-	bronzehistory_gcp_appengine.BronzeHistoryGCPAppEngineService
-}
-
-type BronzeHistoryGCPBigQueryDataset struct {
-	bronzehistory_gcp_bigquery.BronzeHistoryGCPBigQueryDataset
-}
-
-type BronzeHistoryGCPBigQueryTable struct {
-	bronzehistory_gcp_bigquery.BronzeHistoryGCPBigQueryTable
-}
-
-type BronzeHistoryGCPBigtableCluster struct {
-	bronzehistory_gcp_bigtable.BronzeHistoryGCPBigtableCluster
-}
-
-type BronzeHistoryGCPBigtableInstance struct {
-	bronzehistory_gcp_bigtable.BronzeHistoryGCPBigtableInstance
-}
-
-type BronzeHistoryGCPBinaryAuthorizationAttestor struct {
-	bronzehistory_gcp_binaryauthorization.BronzeHistoryGCPBinaryAuthorizationAttestor
-}
-
-type BronzeHistoryGCPBinaryAuthorizationPolicy struct {
-	bronzehistory_gcp_binaryauthorization.BronzeHistoryGCPBinaryAuthorizationPolicy
-}
-
-type BronzeHistoryGCPCloudAssetAsset struct {
-	bronzehistory_gcp_cloudasset.BronzeHistoryGCPCloudAssetAsset
-}
-
-type BronzeHistoryGCPCloudAssetIAMPolicySearch struct {
-	bronzehistory_gcp_cloudasset.BronzeHistoryGCPCloudAssetIAMPolicySearch
-}
-
-type BronzeHistoryGCPCloudAssetResourceSearch struct {
-	bronzehistory_gcp_cloudasset.BronzeHistoryGCPCloudAssetResourceSearch
-}
-
-type BronzeHistoryGCPCloudFunctionsFunction struct {
-	bronzehistory_gcp_cloudfunctions.BronzeHistoryGCPCloudFunctionsFunction
-}
-
-type BronzeHistoryGCPComputeAddress struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeAddress
-}
-
-type BronzeHistoryGCPComputeAddressLabel struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeAddressLabel
-}
-
-type BronzeHistoryGCPComputeGlobalAddress struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeGlobalAddress
-}
-
-type BronzeHistoryGCPComputeGlobalAddressLabel struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeGlobalAddressLabel
-}
-
-type BronzeHistoryGCPComputeBackendService struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeBackendService
-}
-
-type BronzeHistoryGCPComputeBackendServiceBackend struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeBackendServiceBackend
-}
-
-type BronzeHistoryGCPComputeDisk struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeDisk
-}
-
-type BronzeHistoryGCPComputeDiskLabel struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeDiskLabel
-}
-
-type BronzeHistoryGCPComputeDiskLicense struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeDiskLicense
-}
-
-type BronzeHistoryGCPComputeFirewall struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeFirewall
-}
-
-type BronzeHistoryGCPComputeFirewallAllowed struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeFirewallAllowed
-}
-
-type BronzeHistoryGCPComputeFirewallDenied struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeFirewallDenied
-}
-
-type BronzeHistoryGCPComputeForwardingRule struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeForwardingRule
-}
-
-type BronzeHistoryGCPComputeForwardingRuleLabel struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeForwardingRuleLabel
-}
-
-type BronzeHistoryGCPComputeGlobalForwardingRule struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeGlobalForwardingRule
-}
-
-type BronzeHistoryGCPComputeGlobalForwardingRuleLabel struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeGlobalForwardingRuleLabel
-}
-
-type BronzeHistoryGCPComputeHealthCheck struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeHealthCheck
-}
-
-type BronzeHistoryGCPComputeImage struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeImage
-}
-
-type BronzeHistoryGCPComputeImageLabel struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeImageLabel
-}
-
-type BronzeHistoryGCPComputeImageLicense struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeImageLicense
-}
-
-type BronzeHistoryGCPComputeInstance struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstance
-}
-
-type BronzeHistoryGCPComputeInstanceDisk struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceDisk
-}
-
-type BronzeHistoryGCPComputeInstanceDiskLicense struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceDiskLicense
-}
-
-type BronzeHistoryGCPComputeInstanceLabel struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceLabel
-}
-
-type BronzeHistoryGCPComputeInstanceMetadata struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceMetadata
-}
-
-type BronzeHistoryGCPComputeInstanceNIC struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceNIC
-}
-
-type BronzeHistoryGCPComputeInstanceNICAccessConfig struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceNICAccessConfig
-}
-
-type BronzeHistoryGCPComputeInstanceNICAliasRange struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceNICAliasRange
-}
-
-type BronzeHistoryGCPComputeInstanceServiceAccount struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceServiceAccount
-}
-
-type BronzeHistoryGCPComputeInstanceTag struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceTag
-}
-
-type BronzeHistoryGCPComputeInstanceGroup struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceGroup
-}
-
-type BronzeHistoryGCPComputeInstanceGroupNamedPort struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceGroupNamedPort
-}
-
-type BronzeHistoryGCPComputeInstanceGroupMember struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceGroupMember
-}
-
-type BronzeHistoryGCPComputeInterconnect struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInterconnect
-}
-
-type BronzeHistoryGCPComputeNeg struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeNeg
-}
-
-type BronzeHistoryGCPComputeNegEndpoint struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeNegEndpoint
-}
-
-type BronzeHistoryGCPComputeNetwork struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeNetwork
-}
-
-type BronzeHistoryGCPComputeNetworkPeering struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeNetworkPeering
-}
-
-type BronzeHistoryGCPComputePacketMirroring struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputePacketMirroring
-}
-
-type BronzeHistoryGCPComputeProjectMetadata struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeProjectMetadata
-}
-
-type BronzeHistoryGCPComputeProjectMetadataItem struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeProjectMetadataItem
-}
-
-type BronzeHistoryGCPComputeRouter struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeRouter
-}
-
-type BronzeHistoryGCPComputeSecurityPolicy struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeSecurityPolicy
-}
-
-type BronzeHistoryGCPComputeSnapshot struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeSnapshot
-}
-
-type BronzeHistoryGCPComputeSnapshotLabel struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeSnapshotLabel
-}
-
-type BronzeHistoryGCPComputeSnapshotLicense struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeSnapshotLicense
-}
-
-type BronzeHistoryGCPComputeSslPolicy struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeSslPolicy
-}
-
-type BronzeHistoryGCPComputeSubnetwork struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeSubnetwork
-}
-
-type BronzeHistoryGCPComputeSubnetworkSecondaryRange struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeSubnetworkSecondaryRange
-}
-
-type BronzeHistoryGCPComputeTargetHttpProxy struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeTargetHttpProxy
-}
-
-type BronzeHistoryGCPComputeTargetHttpsProxy struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeTargetHttpsProxy
-}
-
-type BronzeHistoryGCPComputeTargetInstance struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeTargetInstance
-}
-
-type BronzeHistoryGCPComputeTargetPool struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeTargetPool
-}
-
-type BronzeHistoryGCPComputeTargetSslProxy struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeTargetSslProxy
-}
-
-type BronzeHistoryGCPComputeTargetTcpProxy struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeTargetTcpProxy
-}
-
-type BronzeHistoryGCPComputeUrlMap struct {
-	bronzehistory_gcp_compute.BronzeHistoryGCPComputeUrlMap
-}
-
-type BronzeHistoryGCPContainerCluster struct {
-	bronzehistory_gcp_container.BronzeHistoryGCPContainerCluster
-}
-
-type BronzeHistoryGCPContainerClusterAddon struct {
-	bronzehistory_gcp_container.BronzeHistoryGCPContainerClusterAddon
-}
-
-type BronzeHistoryGCPContainerClusterCondition struct {
-	bronzehistory_gcp_container.BronzeHistoryGCPContainerClusterCondition
-}
-
-type BronzeHistoryGCPContainerClusterLabel struct {
-	bronzehistory_gcp_container.BronzeHistoryGCPContainerClusterLabel
-}
-
-type BronzeHistoryGCPContainerClusterNodePool struct {
-	bronzehistory_gcp_container.BronzeHistoryGCPContainerClusterNodePool
-}
-
-type BronzeHistoryGCPContainerAnalysisNote struct {
-	bronzehistory_gcp_containeranalysis.BronzeHistoryGCPContainerAnalysisNote
-}
-
-type BronzeHistoryGCPContainerAnalysisOccurrence struct {
-	bronzehistory_gcp_containeranalysis.BronzeHistoryGCPContainerAnalysisOccurrence
-}
-
-type BronzeHistoryGCPDataprocCluster struct {
-	bronzehistory_gcp_dataproc.BronzeHistoryGCPDataprocCluster
-}
-
-type BronzeHistoryGCPDNSPolicy struct {
-	bronzehistory_gcp_dns.BronzeHistoryGCPDNSPolicy
-}
-
-type BronzeHistoryGCPDNSManagedZone struct {
-	bronzehistory_gcp_dns.BronzeHistoryGCPDNSManagedZone
-}
-
-type BronzeHistoryGCPDNSManagedZoneLabel struct {
-	bronzehistory_gcp_dns.BronzeHistoryGCPDNSManagedZoneLabel
-}
-
-type BronzeHistoryGCPFilestoreInstance struct {
-	bronzehistory_gcp_filestore.BronzeHistoryGCPFilestoreInstance
-}
-
-type BronzeHistoryGCPIAMServiceAccount struct {
-	bronzehistory_gcp_iam.BronzeHistoryGCPIAMServiceAccount
-}
-
-type BronzeHistoryGCPIAMServiceAccountKey struct {
-	bronzehistory_gcp_iam.BronzeHistoryGCPIAMServiceAccountKey
-}
-
-type BronzeHistoryGCPIAPIAMPolicy struct {
-	bronzehistory_gcp_iap.BronzeHistoryGCPIAPIAMPolicy
-}
-
-type BronzeHistoryGCPIAPSettings struct {
-	bronzehistory_gcp_iap.BronzeHistoryGCPIAPSettings
-}
-
-type BronzeHistoryGCPKMSCryptoKey struct {
-	bronzehistory_gcp_kms.BronzeHistoryGCPKMSCryptoKey
-}
-
-type BronzeHistoryGCPKMSKeyRing struct {
-	bronzehistory_gcp_kms.BronzeHistoryGCPKMSKeyRing
-}
-
-type BronzeHistoryGCPLoggingBucket struct {
-	bronzehistory_gcp_logging.BronzeHistoryGCPLoggingBucket
-}
-
-type BronzeHistoryGCPLoggingLogExclusion struct {
-	bronzehistory_gcp_logging.BronzeHistoryGCPLoggingLogExclusion
-}
-
-type BronzeHistoryGCPLoggingLogMetric struct {
-	bronzehistory_gcp_logging.BronzeHistoryGCPLoggingLogMetric
-}
-
-type BronzeHistoryGCPLoggingSink struct {
-	bronzehistory_gcp_logging.BronzeHistoryGCPLoggingSink
-}
-
-type BronzeHistoryGCPMonitoringAlertPolicy struct {
-	bronzehistory_gcp_monitoring.BronzeHistoryGCPMonitoringAlertPolicy
-}
-
-type BronzeHistoryGCPMonitoringUptimeCheckConfig struct {
-	bronzehistory_gcp_monitoring.BronzeHistoryGCPMonitoringUptimeCheckConfig
-}
-
-type BronzeHistoryGCPOrgPolicyConstraint struct {
-	bronzehistory_gcp_orgpolicy.BronzeHistoryGCPOrgPolicyConstraint
-}
-
-type BronzeHistoryGCPOrgPolicyCustomConstraint struct {
-	bronzehistory_gcp_orgpolicy.BronzeHistoryGCPOrgPolicyCustomConstraint
-}
-
-type BronzeHistoryGCPOrgPolicyPolicy struct {
-	bronzehistory_gcp_orgpolicy.BronzeHistoryGCPOrgPolicyPolicy
-}
-
-type BronzeHistoryGCPPubSubSubscription struct {
-	bronzehistory_gcp_pubsub.BronzeHistoryGCPPubSubSubscription
-}
-
-type BronzeHistoryGCPPubSubTopic struct {
-	bronzehistory_gcp_pubsub.BronzeHistoryGCPPubSubTopic
-}
-
-type BronzeHistoryGCPRedisInstance struct {
-	bronzehistory_gcp_redis.BronzeHistoryGCPRedisInstance
-}
-
-type BronzeHistoryGCPFolder struct {
-	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPFolder
-}
-
-type BronzeHistoryGCPFolderLabel struct {
-	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPFolderLabel
-}
-
-type BronzeHistoryGCPFolderIamPolicy struct {
-	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPFolderIamPolicy
-}
-
-type BronzeHistoryGCPFolderIamPolicyBinding struct {
-	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPFolderIamPolicyBinding
-}
-
-type BronzeHistoryGCPOrganization struct {
-	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPOrganization
-}
-
-type BronzeHistoryGCPOrgIamPolicy struct {
-	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPOrgIamPolicy
-}
-
-type BronzeHistoryGCPOrgIamPolicyBinding struct {
-	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPOrgIamPolicyBinding
-}
-
-type BronzeHistoryGCPProject struct {
-	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPProject
-}
-
-type BronzeHistoryGCPProjectLabel struct {
-	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPProjectLabel
-}
-
-type BronzeHistoryGCPProjectIamPolicy struct {
-	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPProjectIamPolicy
-}
-
-type BronzeHistoryGCPProjectIamPolicyBinding struct {
-	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPProjectIamPolicyBinding
-}
-
-type BronzeHistoryGCPRunRevision struct {
-	bronzehistory_gcp_run.BronzeHistoryGCPRunRevision
-}
-
-type BronzeHistoryGCPRunService struct {
-	bronzehistory_gcp_run.BronzeHistoryGCPRunService
-}
-
-type BronzeHistoryGCPSecretManagerSecret struct {
-	bronzehistory_gcp_secretmanager.BronzeHistoryGCPSecretManagerSecret
-}
-
-type BronzeHistoryGCPSecretManagerSecretLabel struct {
-	bronzehistory_gcp_secretmanager.BronzeHistoryGCPSecretManagerSecretLabel
-}
-
-type BronzeHistoryGCPSecurityCenterFinding struct {
-	bronzehistory_gcp_securitycenter.BronzeHistoryGCPSecurityCenterFinding
-}
-
-type BronzeHistoryGCPSecurityCenterNotificationConfig struct {
-	bronzehistory_gcp_securitycenter.BronzeHistoryGCPSecurityCenterNotificationConfig
-}
-
-type BronzeHistoryGCPSecurityCenterSource struct {
-	bronzehistory_gcp_securitycenter.BronzeHistoryGCPSecurityCenterSource
-}
-
-type BronzeHistoryGCPServiceUsageEnabledService struct {
-	bronzehistory_gcp_serviceusage.BronzeHistoryGCPServiceUsageEnabledService
-}
-
-type BronzeHistoryGCPSpannerDatabase struct {
-	bronzehistory_gcp_spanner.BronzeHistoryGCPSpannerDatabase
-}
-
-type BronzeHistoryGCPSpannerInstance struct {
-	bronzehistory_gcp_spanner.BronzeHistoryGCPSpannerInstance
-}
-
-type BronzeHistoryGCPSQLInstance struct {
-	bronzehistory_gcp_sql.BronzeHistoryGCPSQLInstance
-}
-
-type BronzeHistoryGCPSQLInstanceLabel struct {
-	bronzehistory_gcp_sql.BronzeHistoryGCPSQLInstanceLabel
-}
-
-type BronzeHistoryGCPStorageBucket struct {
-	bronzehistory_gcp_storage.BronzeHistoryGCPStorageBucket
-}
-
-type BronzeHistoryGCPStorageBucketLabel struct {
-	bronzehistory_gcp_storage.BronzeHistoryGCPStorageBucketLabel
-}
-
-type BronzeHistoryGCPStorageBucketIamPolicy struct {
-	bronzehistory_gcp_storage.BronzeHistoryGCPStorageBucketIamPolicy
-}
-
-type BronzeHistoryGCPStorageBucketIamPolicyBinding struct {
-	bronzehistory_gcp_storage.BronzeHistoryGCPStorageBucketIamPolicyBinding
-}
-
-type BronzeHistoryGCPVPCAccessConnector struct {
-	bronzehistory_gcp_vpcaccess.BronzeHistoryGCPVPCAccessConnector
-}
-
-type BronzeHistoryGCPVPNGateway struct {
-	bronzehistory_gcp_vpn.BronzeHistoryGCPVPNGateway
-}
-
-type BronzeHistoryGCPVPNGatewayLabel struct {
-	bronzehistory_gcp_vpn.BronzeHistoryGCPVPNGatewayLabel
-}
-
-type BronzeHistoryGCPVPNTargetGateway struct {
-	bronzehistory_gcp_vpn.BronzeHistoryGCPVPNTargetGateway
-}
-
-type BronzeHistoryGCPVPNTargetGatewayLabel struct {
-	bronzehistory_gcp_vpn.BronzeHistoryGCPVPNTargetGatewayLabel
-}
-
-type BronzeHistoryGCPVPNTunnel struct {
-	bronzehistory_gcp_vpn.BronzeHistoryGCPVPNTunnel
-}
-
-type BronzeHistoryGCPVPNTunnelLabel struct {
-	bronzehistory_gcp_vpn.BronzeHistoryGCPVPNTunnelLabel
-}
-
-type BronzeHistoryS1Account struct {
-	bronzehistory_s1.BronzeHistoryS1Account
-}
-
-type BronzeHistoryS1Agent struct {
-	bronzehistory_s1.BronzeHistoryS1Agent
-}
-
-type BronzeHistoryS1AgentNIC struct {
-	bronzehistory_s1.BronzeHistoryS1AgentNIC
-}
-
-type BronzeHistoryS1App struct {
-	bronzehistory_s1.BronzeHistoryS1App
-}
-
-type BronzeHistoryS1Group struct {
-	bronzehistory_s1.BronzeHistoryS1Group
-}
-
-type BronzeHistoryS1Site struct {
-	bronzehistory_s1.BronzeHistoryS1Site
-}
-
-type BronzeHistoryS1Threat struct {
-	bronzehistory_s1.BronzeHistoryS1Threat
-}
-
 type BronzeAWSEC2Instance struct {
 	bronze_aws_ec2.BronzeAWSEC2Instance
 }
@@ -1386,10 +726,694 @@ type BronzeS1Group struct {
 	bronze_s1.BronzeS1Group
 }
 
+type BronzeS1RangerDevice struct {
+	bronze_s1.BronzeS1RangerDevice
+}
+
+type BronzeS1RangerGateway struct {
+	bronze_s1.BronzeS1RangerGateway
+}
+
+type BronzeS1RangerSetting struct {
+	bronze_s1.BronzeS1RangerSetting
+}
+
 type BronzeS1Site struct {
 	bronze_s1.BronzeS1Site
 }
 
 type BronzeS1Threat struct {
 	bronze_s1.BronzeS1Threat
+}
+
+type BronzeHistoryAWSEC2Instance struct {
+	bronzehistory_aws_ec2.BronzeHistoryAWSEC2Instance
+}
+
+type BronzeHistoryAWSEC2InstanceTag struct {
+	bronzehistory_aws_ec2.BronzeHistoryAWSEC2InstanceTag
+}
+
+type BronzeHistoryDOAccount struct {
+	bronzehistory_do.BronzeHistoryDOAccount
+}
+
+type BronzeHistoryDODatabase struct {
+	bronzehistory_do.BronzeHistoryDODatabase
+}
+
+type BronzeHistoryDODatabaseBackup struct {
+	bronzehistory_do.BronzeHistoryDODatabaseBackup
+}
+
+type BronzeHistoryDODatabaseConfig struct {
+	bronzehistory_do.BronzeHistoryDODatabaseConfig
+}
+
+type BronzeHistoryDODatabaseFirewallRule struct {
+	bronzehistory_do.BronzeHistoryDODatabaseFirewallRule
+}
+
+type BronzeHistoryDODatabasePool struct {
+	bronzehistory_do.BronzeHistoryDODatabasePool
+}
+
+type BronzeHistoryDODatabaseReplica struct {
+	bronzehistory_do.BronzeHistoryDODatabaseReplica
+}
+
+type BronzeHistoryDODatabaseUser struct {
+	bronzehistory_do.BronzeHistoryDODatabaseUser
+}
+
+type BronzeHistoryDODomain struct {
+	bronzehistory_do.BronzeHistoryDODomain
+}
+
+type BronzeHistoryDODomainRecord struct {
+	bronzehistory_do.BronzeHistoryDODomainRecord
+}
+
+type BronzeHistoryDODroplet struct {
+	bronzehistory_do.BronzeHistoryDODroplet
+}
+
+type BronzeHistoryDOFirewall struct {
+	bronzehistory_do.BronzeHistoryDOFirewall
+}
+
+type BronzeHistoryDOKey struct {
+	bronzehistory_do.BronzeHistoryDOKey
+}
+
+type BronzeHistoryDOKubernetesCluster struct {
+	bronzehistory_do.BronzeHistoryDOKubernetesCluster
+}
+
+type BronzeHistoryDOKubernetesNodePool struct {
+	bronzehistory_do.BronzeHistoryDOKubernetesNodePool
+}
+
+type BronzeHistoryDOLoadBalancer struct {
+	bronzehistory_do.BronzeHistoryDOLoadBalancer
+}
+
+type BronzeHistoryDOProject struct {
+	bronzehistory_do.BronzeHistoryDOProject
+}
+
+type BronzeHistoryDOProjectResource struct {
+	bronzehistory_do.BronzeHistoryDOProjectResource
+}
+
+type BronzeHistoryDOVolume struct {
+	bronzehistory_do.BronzeHistoryDOVolume
+}
+
+type BronzeHistoryDOVpc struct {
+	bronzehistory_do.BronzeHistoryDOVpc
+}
+
+type BronzeHistoryGCPAccessContextManagerAccessLevel struct {
+	bronzehistory_gcp_accesscontextmanager.BronzeHistoryGCPAccessContextManagerAccessLevel
+}
+
+type BronzeHistoryGCPAccessContextManagerAccessPolicy struct {
+	bronzehistory_gcp_accesscontextmanager.BronzeHistoryGCPAccessContextManagerAccessPolicy
+}
+
+type BronzeHistoryGCPAccessContextManagerServicePerimeter struct {
+	bronzehistory_gcp_accesscontextmanager.BronzeHistoryGCPAccessContextManagerServicePerimeter
+}
+
+type BronzeHistoryGCPAlloyDBCluster struct {
+	bronzehistory_gcp_alloydb.BronzeHistoryGCPAlloyDBCluster
+}
+
+type BronzeHistoryGCPAppEngineApplication struct {
+	bronzehistory_gcp_appengine.BronzeHistoryGCPAppEngineApplication
+}
+
+type BronzeHistoryGCPAppEngineService struct {
+	bronzehistory_gcp_appengine.BronzeHistoryGCPAppEngineService
+}
+
+type BronzeHistoryGCPBigQueryDataset struct {
+	bronzehistory_gcp_bigquery.BronzeHistoryGCPBigQueryDataset
+}
+
+type BronzeHistoryGCPBigQueryTable struct {
+	bronzehistory_gcp_bigquery.BronzeHistoryGCPBigQueryTable
+}
+
+type BronzeHistoryGCPBigtableCluster struct {
+	bronzehistory_gcp_bigtable.BronzeHistoryGCPBigtableCluster
+}
+
+type BronzeHistoryGCPBigtableInstance struct {
+	bronzehistory_gcp_bigtable.BronzeHistoryGCPBigtableInstance
+}
+
+type BronzeHistoryGCPBinaryAuthorizationAttestor struct {
+	bronzehistory_gcp_binaryauthorization.BronzeHistoryGCPBinaryAuthorizationAttestor
+}
+
+type BronzeHistoryGCPBinaryAuthorizationPolicy struct {
+	bronzehistory_gcp_binaryauthorization.BronzeHistoryGCPBinaryAuthorizationPolicy
+}
+
+type BronzeHistoryGCPCloudAssetAsset struct {
+	bronzehistory_gcp_cloudasset.BronzeHistoryGCPCloudAssetAsset
+}
+
+type BronzeHistoryGCPCloudAssetIAMPolicySearch struct {
+	bronzehistory_gcp_cloudasset.BronzeHistoryGCPCloudAssetIAMPolicySearch
+}
+
+type BronzeHistoryGCPCloudAssetResourceSearch struct {
+	bronzehistory_gcp_cloudasset.BronzeHistoryGCPCloudAssetResourceSearch
+}
+
+type BronzeHistoryGCPCloudFunctionsFunction struct {
+	bronzehistory_gcp_cloudfunctions.BronzeHistoryGCPCloudFunctionsFunction
+}
+
+type BronzeHistoryGCPComputeAddress struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeAddress
+}
+
+type BronzeHistoryGCPComputeAddressLabel struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeAddressLabel
+}
+
+type BronzeHistoryGCPComputeGlobalAddress struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeGlobalAddress
+}
+
+type BronzeHistoryGCPComputeGlobalAddressLabel struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeGlobalAddressLabel
+}
+
+type BronzeHistoryGCPComputeBackendService struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeBackendService
+}
+
+type BronzeHistoryGCPComputeBackendServiceBackend struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeBackendServiceBackend
+}
+
+type BronzeHistoryGCPComputeDisk struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeDisk
+}
+
+type BronzeHistoryGCPComputeDiskLabel struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeDiskLabel
+}
+
+type BronzeHistoryGCPComputeDiskLicense struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeDiskLicense
+}
+
+type BronzeHistoryGCPComputeFirewall struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeFirewall
+}
+
+type BronzeHistoryGCPComputeFirewallAllowed struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeFirewallAllowed
+}
+
+type BronzeHistoryGCPComputeFirewallDenied struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeFirewallDenied
+}
+
+type BronzeHistoryGCPComputeForwardingRule struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeForwardingRule
+}
+
+type BronzeHistoryGCPComputeForwardingRuleLabel struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeForwardingRuleLabel
+}
+
+type BronzeHistoryGCPComputeGlobalForwardingRule struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeGlobalForwardingRule
+}
+
+type BronzeHistoryGCPComputeGlobalForwardingRuleLabel struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeGlobalForwardingRuleLabel
+}
+
+type BronzeHistoryGCPComputeHealthCheck struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeHealthCheck
+}
+
+type BronzeHistoryGCPComputeImage struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeImage
+}
+
+type BronzeHistoryGCPComputeImageLabel struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeImageLabel
+}
+
+type BronzeHistoryGCPComputeImageLicense struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeImageLicense
+}
+
+type BronzeHistoryGCPComputeInstance struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstance
+}
+
+type BronzeHistoryGCPComputeInstanceDisk struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceDisk
+}
+
+type BronzeHistoryGCPComputeInstanceDiskLicense struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceDiskLicense
+}
+
+type BronzeHistoryGCPComputeInstanceLabel struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceLabel
+}
+
+type BronzeHistoryGCPComputeInstanceMetadata struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceMetadata
+}
+
+type BronzeHistoryGCPComputeInstanceNIC struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceNIC
+}
+
+type BronzeHistoryGCPComputeInstanceNICAccessConfig struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceNICAccessConfig
+}
+
+type BronzeHistoryGCPComputeInstanceNICAliasRange struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceNICAliasRange
+}
+
+type BronzeHistoryGCPComputeInstanceServiceAccount struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceServiceAccount
+}
+
+type BronzeHistoryGCPComputeInstanceTag struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceTag
+}
+
+type BronzeHistoryGCPComputeInstanceGroup struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceGroup
+}
+
+type BronzeHistoryGCPComputeInstanceGroupNamedPort struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceGroupNamedPort
+}
+
+type BronzeHistoryGCPComputeInstanceGroupMember struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInstanceGroupMember
+}
+
+type BronzeHistoryGCPComputeInterconnect struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeInterconnect
+}
+
+type BronzeHistoryGCPComputeNeg struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeNeg
+}
+
+type BronzeHistoryGCPComputeNegEndpoint struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeNegEndpoint
+}
+
+type BronzeHistoryGCPComputeNetwork struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeNetwork
+}
+
+type BronzeHistoryGCPComputeNetworkPeering struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeNetworkPeering
+}
+
+type BronzeHistoryGCPComputePacketMirroring struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputePacketMirroring
+}
+
+type BronzeHistoryGCPComputeProjectMetadata struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeProjectMetadata
+}
+
+type BronzeHistoryGCPComputeProjectMetadataItem struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeProjectMetadataItem
+}
+
+type BronzeHistoryGCPComputeRouter struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeRouter
+}
+
+type BronzeHistoryGCPComputeSecurityPolicy struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeSecurityPolicy
+}
+
+type BronzeHistoryGCPComputeSnapshot struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeSnapshot
+}
+
+type BronzeHistoryGCPComputeSnapshotLabel struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeSnapshotLabel
+}
+
+type BronzeHistoryGCPComputeSnapshotLicense struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeSnapshotLicense
+}
+
+type BronzeHistoryGCPComputeSslPolicy struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeSslPolicy
+}
+
+type BronzeHistoryGCPComputeSubnetwork struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeSubnetwork
+}
+
+type BronzeHistoryGCPComputeSubnetworkSecondaryRange struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeSubnetworkSecondaryRange
+}
+
+type BronzeHistoryGCPComputeTargetHttpProxy struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeTargetHttpProxy
+}
+
+type BronzeHistoryGCPComputeTargetHttpsProxy struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeTargetHttpsProxy
+}
+
+type BronzeHistoryGCPComputeTargetInstance struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeTargetInstance
+}
+
+type BronzeHistoryGCPComputeTargetPool struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeTargetPool
+}
+
+type BronzeHistoryGCPComputeTargetSslProxy struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeTargetSslProxy
+}
+
+type BronzeHistoryGCPComputeTargetTcpProxy struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeTargetTcpProxy
+}
+
+type BronzeHistoryGCPComputeUrlMap struct {
+	bronzehistory_gcp_compute.BronzeHistoryGCPComputeUrlMap
+}
+
+type BronzeHistoryGCPContainerCluster struct {
+	bronzehistory_gcp_container.BronzeHistoryGCPContainerCluster
+}
+
+type BronzeHistoryGCPContainerClusterAddon struct {
+	bronzehistory_gcp_container.BronzeHistoryGCPContainerClusterAddon
+}
+
+type BronzeHistoryGCPContainerClusterCondition struct {
+	bronzehistory_gcp_container.BronzeHistoryGCPContainerClusterCondition
+}
+
+type BronzeHistoryGCPContainerClusterLabel struct {
+	bronzehistory_gcp_container.BronzeHistoryGCPContainerClusterLabel
+}
+
+type BronzeHistoryGCPContainerClusterNodePool struct {
+	bronzehistory_gcp_container.BronzeHistoryGCPContainerClusterNodePool
+}
+
+type BronzeHistoryGCPContainerAnalysisNote struct {
+	bronzehistory_gcp_containeranalysis.BronzeHistoryGCPContainerAnalysisNote
+}
+
+type BronzeHistoryGCPContainerAnalysisOccurrence struct {
+	bronzehistory_gcp_containeranalysis.BronzeHistoryGCPContainerAnalysisOccurrence
+}
+
+type BronzeHistoryGCPDataprocCluster struct {
+	bronzehistory_gcp_dataproc.BronzeHistoryGCPDataprocCluster
+}
+
+type BronzeHistoryGCPDNSPolicy struct {
+	bronzehistory_gcp_dns.BronzeHistoryGCPDNSPolicy
+}
+
+type BronzeHistoryGCPDNSManagedZone struct {
+	bronzehistory_gcp_dns.BronzeHistoryGCPDNSManagedZone
+}
+
+type BronzeHistoryGCPDNSManagedZoneLabel struct {
+	bronzehistory_gcp_dns.BronzeHistoryGCPDNSManagedZoneLabel
+}
+
+type BronzeHistoryGCPFilestoreInstance struct {
+	bronzehistory_gcp_filestore.BronzeHistoryGCPFilestoreInstance
+}
+
+type BronzeHistoryGCPIAMServiceAccount struct {
+	bronzehistory_gcp_iam.BronzeHistoryGCPIAMServiceAccount
+}
+
+type BronzeHistoryGCPIAMServiceAccountKey struct {
+	bronzehistory_gcp_iam.BronzeHistoryGCPIAMServiceAccountKey
+}
+
+type BronzeHistoryGCPIAPIAMPolicy struct {
+	bronzehistory_gcp_iap.BronzeHistoryGCPIAPIAMPolicy
+}
+
+type BronzeHistoryGCPIAPSettings struct {
+	bronzehistory_gcp_iap.BronzeHistoryGCPIAPSettings
+}
+
+type BronzeHistoryGCPKMSCryptoKey struct {
+	bronzehistory_gcp_kms.BronzeHistoryGCPKMSCryptoKey
+}
+
+type BronzeHistoryGCPKMSKeyRing struct {
+	bronzehistory_gcp_kms.BronzeHistoryGCPKMSKeyRing
+}
+
+type BronzeHistoryGCPLoggingBucket struct {
+	bronzehistory_gcp_logging.BronzeHistoryGCPLoggingBucket
+}
+
+type BronzeHistoryGCPLoggingLogExclusion struct {
+	bronzehistory_gcp_logging.BronzeHistoryGCPLoggingLogExclusion
+}
+
+type BronzeHistoryGCPLoggingLogMetric struct {
+	bronzehistory_gcp_logging.BronzeHistoryGCPLoggingLogMetric
+}
+
+type BronzeHistoryGCPLoggingSink struct {
+	bronzehistory_gcp_logging.BronzeHistoryGCPLoggingSink
+}
+
+type BronzeHistoryGCPMonitoringAlertPolicy struct {
+	bronzehistory_gcp_monitoring.BronzeHistoryGCPMonitoringAlertPolicy
+}
+
+type BronzeHistoryGCPMonitoringUptimeCheckConfig struct {
+	bronzehistory_gcp_monitoring.BronzeHistoryGCPMonitoringUptimeCheckConfig
+}
+
+type BronzeHistoryGCPOrgPolicyConstraint struct {
+	bronzehistory_gcp_orgpolicy.BronzeHistoryGCPOrgPolicyConstraint
+}
+
+type BronzeHistoryGCPOrgPolicyCustomConstraint struct {
+	bronzehistory_gcp_orgpolicy.BronzeHistoryGCPOrgPolicyCustomConstraint
+}
+
+type BronzeHistoryGCPOrgPolicyPolicy struct {
+	bronzehistory_gcp_orgpolicy.BronzeHistoryGCPOrgPolicyPolicy
+}
+
+type BronzeHistoryGCPPubSubSubscription struct {
+	bronzehistory_gcp_pubsub.BronzeHistoryGCPPubSubSubscription
+}
+
+type BronzeHistoryGCPPubSubTopic struct {
+	bronzehistory_gcp_pubsub.BronzeHistoryGCPPubSubTopic
+}
+
+type BronzeHistoryGCPRedisInstance struct {
+	bronzehistory_gcp_redis.BronzeHistoryGCPRedisInstance
+}
+
+type BronzeHistoryGCPFolder struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPFolder
+}
+
+type BronzeHistoryGCPFolderLabel struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPFolderLabel
+}
+
+type BronzeHistoryGCPFolderIamPolicy struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPFolderIamPolicy
+}
+
+type BronzeHistoryGCPFolderIamPolicyBinding struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPFolderIamPolicyBinding
+}
+
+type BronzeHistoryGCPOrganization struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPOrganization
+}
+
+type BronzeHistoryGCPOrgIamPolicy struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPOrgIamPolicy
+}
+
+type BronzeHistoryGCPOrgIamPolicyBinding struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPOrgIamPolicyBinding
+}
+
+type BronzeHistoryGCPProject struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPProject
+}
+
+type BronzeHistoryGCPProjectLabel struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPProjectLabel
+}
+
+type BronzeHistoryGCPProjectIamPolicy struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPProjectIamPolicy
+}
+
+type BronzeHistoryGCPProjectIamPolicyBinding struct {
+	bronzehistory_gcp_resourcemanager.BronzeHistoryGCPProjectIamPolicyBinding
+}
+
+type BronzeHistoryGCPRunRevision struct {
+	bronzehistory_gcp_run.BronzeHistoryGCPRunRevision
+}
+
+type BronzeHistoryGCPRunService struct {
+	bronzehistory_gcp_run.BronzeHistoryGCPRunService
+}
+
+type BronzeHistoryGCPSecretManagerSecret struct {
+	bronzehistory_gcp_secretmanager.BronzeHistoryGCPSecretManagerSecret
+}
+
+type BronzeHistoryGCPSecretManagerSecretLabel struct {
+	bronzehistory_gcp_secretmanager.BronzeHistoryGCPSecretManagerSecretLabel
+}
+
+type BronzeHistoryGCPSecurityCenterFinding struct {
+	bronzehistory_gcp_securitycenter.BronzeHistoryGCPSecurityCenterFinding
+}
+
+type BronzeHistoryGCPSecurityCenterNotificationConfig struct {
+	bronzehistory_gcp_securitycenter.BronzeHistoryGCPSecurityCenterNotificationConfig
+}
+
+type BronzeHistoryGCPSecurityCenterSource struct {
+	bronzehistory_gcp_securitycenter.BronzeHistoryGCPSecurityCenterSource
+}
+
+type BronzeHistoryGCPServiceUsageEnabledService struct {
+	bronzehistory_gcp_serviceusage.BronzeHistoryGCPServiceUsageEnabledService
+}
+
+type BronzeHistoryGCPSpannerDatabase struct {
+	bronzehistory_gcp_spanner.BronzeHistoryGCPSpannerDatabase
+}
+
+type BronzeHistoryGCPSpannerInstance struct {
+	bronzehistory_gcp_spanner.BronzeHistoryGCPSpannerInstance
+}
+
+type BronzeHistoryGCPSQLInstance struct {
+	bronzehistory_gcp_sql.BronzeHistoryGCPSQLInstance
+}
+
+type BronzeHistoryGCPSQLInstanceLabel struct {
+	bronzehistory_gcp_sql.BronzeHistoryGCPSQLInstanceLabel
+}
+
+type BronzeHistoryGCPStorageBucket struct {
+	bronzehistory_gcp_storage.BronzeHistoryGCPStorageBucket
+}
+
+type BronzeHistoryGCPStorageBucketLabel struct {
+	bronzehistory_gcp_storage.BronzeHistoryGCPStorageBucketLabel
+}
+
+type BronzeHistoryGCPStorageBucketIamPolicy struct {
+	bronzehistory_gcp_storage.BronzeHistoryGCPStorageBucketIamPolicy
+}
+
+type BronzeHistoryGCPStorageBucketIamPolicyBinding struct {
+	bronzehistory_gcp_storage.BronzeHistoryGCPStorageBucketIamPolicyBinding
+}
+
+type BronzeHistoryGCPVPCAccessConnector struct {
+	bronzehistory_gcp_vpcaccess.BronzeHistoryGCPVPCAccessConnector
+}
+
+type BronzeHistoryGCPVPNGateway struct {
+	bronzehistory_gcp_vpn.BronzeHistoryGCPVPNGateway
+}
+
+type BronzeHistoryGCPVPNGatewayLabel struct {
+	bronzehistory_gcp_vpn.BronzeHistoryGCPVPNGatewayLabel
+}
+
+type BronzeHistoryGCPVPNTargetGateway struct {
+	bronzehistory_gcp_vpn.BronzeHistoryGCPVPNTargetGateway
+}
+
+type BronzeHistoryGCPVPNTargetGatewayLabel struct {
+	bronzehistory_gcp_vpn.BronzeHistoryGCPVPNTargetGatewayLabel
+}
+
+type BronzeHistoryGCPVPNTunnel struct {
+	bronzehistory_gcp_vpn.BronzeHistoryGCPVPNTunnel
+}
+
+type BronzeHistoryGCPVPNTunnelLabel struct {
+	bronzehistory_gcp_vpn.BronzeHistoryGCPVPNTunnelLabel
+}
+
+type BronzeHistoryS1Account struct {
+	bronzehistory_s1.BronzeHistoryS1Account
+}
+
+type BronzeHistoryS1Agent struct {
+	bronzehistory_s1.BronzeHistoryS1Agent
+}
+
+type BronzeHistoryS1AgentNIC struct {
+	bronzehistory_s1.BronzeHistoryS1AgentNIC
+}
+
+type BronzeHistoryS1App struct {
+	bronzehistory_s1.BronzeHistoryS1App
+}
+
+type BronzeHistoryS1Group struct {
+	bronzehistory_s1.BronzeHistoryS1Group
+}
+
+type BronzeHistoryS1RangerDevice struct {
+	bronzehistory_s1.BronzeHistoryS1RangerDevice
+}
+
+type BronzeHistoryS1RangerGateway struct {
+	bronzehistory_s1.BronzeHistoryS1RangerGateway
+}
+
+type BronzeHistoryS1RangerSetting struct {
+	bronzehistory_s1.BronzeHistoryS1RangerSetting
+}
+
+type BronzeHistoryS1Site struct {
+	bronzehistory_s1.BronzeHistoryS1Site
+}
+
+type BronzeHistoryS1Threat struct {
+	bronzehistory_s1.BronzeHistoryS1Threat
 }

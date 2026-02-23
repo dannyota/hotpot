@@ -969,6 +969,15 @@ type BronzeHistoryS1App func(*sql.Selector)
 // BronzeHistoryS1Group is the predicate function for bronzehistorys1group builders.
 type BronzeHistoryS1Group func(*sql.Selector)
 
+// BronzeHistoryS1RangerDevice is the predicate function for bronzehistorys1rangerdevice builders.
+type BronzeHistoryS1RangerDevice func(*sql.Selector)
+
+// BronzeHistoryS1RangerGateway is the predicate function for bronzehistorys1rangergateway builders.
+type BronzeHistoryS1RangerGateway func(*sql.Selector)
+
+// BronzeHistoryS1RangerSetting is the predicate function for bronzehistorys1rangersetting builders.
+type BronzeHistoryS1RangerSetting func(*sql.Selector)
+
 // BronzeHistoryS1Site is the predicate function for bronzehistorys1site builders.
 type BronzeHistoryS1Site func(*sql.Selector)
 
@@ -989,6 +998,15 @@ type BronzeS1App func(*sql.Selector)
 
 // BronzeS1Group is the predicate function for bronzes1group builders.
 type BronzeS1Group func(*sql.Selector)
+
+// BronzeS1RangerDevice is the predicate function for bronzes1rangerdevice builders.
+type BronzeS1RangerDevice func(*sql.Selector)
+
+// BronzeS1RangerGateway is the predicate function for bronzes1rangergateway builders.
+type BronzeS1RangerGateway func(*sql.Selector)
+
+// BronzeS1RangerSetting is the predicate function for bronzes1rangersetting builders.
+type BronzeS1RangerSetting func(*sql.Selector)
 
 // BronzeS1Site is the predicate function for bronzes1site builders.
 type BronzeS1Site func(*sql.Selector)

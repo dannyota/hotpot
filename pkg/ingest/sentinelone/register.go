@@ -9,6 +9,9 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/agent"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/app"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/group"
+	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_device"
+	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_gateway"
+	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_setting"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/site"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/threat"
 	"github.com/dannyota/hotpot/pkg/storage/ent"
@@ -30,6 +33,9 @@ func Register(w worker.Worker, configService *config.Service, entClient *ent.Cli
 	group.Register(w, configService, entClient, limiter)
 	site.Register(w, configService, entClient, limiter)
 	threat.Register(w, configService, entClient, limiter)
+	ranger_device.Register(w, configService, entClient, limiter)
+	ranger_gateway.Register(w, configService, entClient, limiter)
+	ranger_setting.Register(w, configService, entClient, limiter)
 
 	w.RegisterWorkflow(S1InventoryWorkflow)
 

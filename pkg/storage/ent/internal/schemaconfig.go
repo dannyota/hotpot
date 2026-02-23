@@ -328,6 +328,9 @@ type SchemaConfig struct {
 	BronzeHistoryS1AgentNIC                              string // BronzeHistoryS1AgentNIC table.
 	BronzeHistoryS1App                                   string // BronzeHistoryS1App table.
 	BronzeHistoryS1Group                                 string // BronzeHistoryS1Group table.
+	BronzeHistoryS1RangerDevice                          string // BronzeHistoryS1RangerDevice table.
+	BronzeHistoryS1RangerGateway                         string // BronzeHistoryS1RangerGateway table.
+	BronzeHistoryS1RangerSetting                         string // BronzeHistoryS1RangerSetting table.
 	BronzeHistoryS1Site                                  string // BronzeHistoryS1Site table.
 	BronzeHistoryS1Threat                                string // BronzeHistoryS1Threat table.
 	BronzeS1Account                                      string // BronzeS1Account table.
@@ -335,6 +338,9 @@ type SchemaConfig struct {
 	BronzeS1AgentNIC                                     string // BronzeS1AgentNIC table.
 	BronzeS1App                                          string // BronzeS1App table.
 	BronzeS1Group                                        string // BronzeS1Group table.
+	BronzeS1RangerDevice                                 string // BronzeS1RangerDevice table.
+	BronzeS1RangerGateway                                string // BronzeS1RangerGateway table.
+	BronzeS1RangerSetting                                string // BronzeS1RangerSetting table.
 	BronzeS1Site                                         string // BronzeS1Site table.
 	BronzeS1Threat                                       string // BronzeS1Threat table.
 }

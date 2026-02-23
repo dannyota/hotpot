@@ -305,12 +305,18 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1agent"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1app"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1group"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1rangerdevice"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1rangergateway"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1rangersetting"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1site"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1threat"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1account"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1agent"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1app"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1group"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangerdevice"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangergateway"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangersetting"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1site"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1threat"
 	"github.com/dannyota/hotpot/pkg/storage/ent/schema"
@@ -4416,6 +4422,136 @@ func init() {
 	bronzehistorys1groupDescTotalAgents := bronzehistorys1groupFields[8].Descriptor()
 	// bronzehistorys1group.DefaultTotalAgents holds the default value on creation for the total_agents field.
 	bronzehistorys1group.DefaultTotalAgents = bronzehistorys1groupDescTotalAgents.Default.(int)
+	bronzehistorys1rangerdeviceFields := schema.BronzeHistoryS1RangerDevice{}.Fields()
+	_ = bronzehistorys1rangerdeviceFields
+	// bronzehistorys1rangerdeviceDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorys1rangerdeviceDescResourceID := bronzehistorys1rangerdeviceFields[1].Descriptor()
+	// bronzehistorys1rangerdevice.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorys1rangerdevice.ResourceIDValidator = bronzehistorys1rangerdeviceDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorys1rangerdeviceDescHasIdentity is the schema descriptor for has_identity field.
+	bronzehistorys1rangerdeviceDescHasIdentity := bronzehistorys1rangerdeviceFields[22].Descriptor()
+	// bronzehistorys1rangerdevice.DefaultHasIdentity holds the default value on creation for the has_identity field.
+	bronzehistorys1rangerdevice.DefaultHasIdentity = bronzehistorys1rangerdeviceDescHasIdentity.Default.(bool)
+	// bronzehistorys1rangerdeviceDescHasUserLabel is the schema descriptor for has_user_label field.
+	bronzehistorys1rangerdeviceDescHasUserLabel := bronzehistorys1rangerdeviceFields[23].Descriptor()
+	// bronzehistorys1rangerdevice.DefaultHasUserLabel holds the default value on creation for the has_user_label field.
+	bronzehistorys1rangerdevice.DefaultHasUserLabel = bronzehistorys1rangerdeviceDescHasUserLabel.Default.(bool)
+	bronzehistorys1rangergatewayFields := schema.BronzeHistoryS1RangerGateway{}.Fields()
+	_ = bronzehistorys1rangergatewayFields
+	// bronzehistorys1rangergatewayDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorys1rangergatewayDescResourceID := bronzehistorys1rangergatewayFields[1].Descriptor()
+	// bronzehistorys1rangergateway.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorys1rangergateway.ResourceIDValidator = bronzehistorys1rangergatewayDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorys1rangergatewayDescAllowScan is the schema descriptor for allow_scan field.
+	bronzehistorys1rangergatewayDescAllowScan := bronzehistorys1rangergatewayFields[15].Descriptor()
+	// bronzehistorys1rangergateway.DefaultAllowScan holds the default value on creation for the allow_scan field.
+	bronzehistorys1rangergateway.DefaultAllowScan = bronzehistorys1rangergatewayDescAllowScan.Default.(bool)
+	// bronzehistorys1rangergatewayDescArchived is the schema descriptor for archived field.
+	bronzehistorys1rangergatewayDescArchived := bronzehistorys1rangergatewayFields[16].Descriptor()
+	// bronzehistorys1rangergateway.DefaultArchived holds the default value on creation for the archived field.
+	bronzehistorys1rangergateway.DefaultArchived = bronzehistorys1rangergatewayDescArchived.Default.(bool)
+	// bronzehistorys1rangergatewayDescNewNetwork is the schema descriptor for new_network field.
+	bronzehistorys1rangergatewayDescNewNetwork := bronzehistorys1rangergatewayFields[17].Descriptor()
+	// bronzehistorys1rangergateway.DefaultNewNetwork holds the default value on creation for the new_network field.
+	bronzehistorys1rangergateway.DefaultNewNetwork = bronzehistorys1rangergatewayDescNewNetwork.Default.(bool)
+	// bronzehistorys1rangergatewayDescInheritSettings is the schema descriptor for inherit_settings field.
+	bronzehistorys1rangergatewayDescInheritSettings := bronzehistorys1rangergatewayFields[18].Descriptor()
+	// bronzehistorys1rangergateway.DefaultInheritSettings holds the default value on creation for the inherit_settings field.
+	bronzehistorys1rangergateway.DefaultInheritSettings = bronzehistorys1rangergatewayDescInheritSettings.Default.(bool)
+	// bronzehistorys1rangergatewayDescTCPPortScan is the schema descriptor for tcp_port_scan field.
+	bronzehistorys1rangergatewayDescTCPPortScan := bronzehistorys1rangergatewayFields[19].Descriptor()
+	// bronzehistorys1rangergateway.DefaultTCPPortScan holds the default value on creation for the tcp_port_scan field.
+	bronzehistorys1rangergateway.DefaultTCPPortScan = bronzehistorys1rangergatewayDescTCPPortScan.Default.(bool)
+	// bronzehistorys1rangergatewayDescUDPPortScan is the schema descriptor for udp_port_scan field.
+	bronzehistorys1rangergatewayDescUDPPortScan := bronzehistorys1rangergatewayFields[20].Descriptor()
+	// bronzehistorys1rangergateway.DefaultUDPPortScan holds the default value on creation for the udp_port_scan field.
+	bronzehistorys1rangergateway.DefaultUDPPortScan = bronzehistorys1rangergatewayDescUDPPortScan.Default.(bool)
+	// bronzehistorys1rangergatewayDescIcmpScan is the schema descriptor for icmp_scan field.
+	bronzehistorys1rangergatewayDescIcmpScan := bronzehistorys1rangergatewayFields[21].Descriptor()
+	// bronzehistorys1rangergateway.DefaultIcmpScan holds the default value on creation for the icmp_scan field.
+	bronzehistorys1rangergateway.DefaultIcmpScan = bronzehistorys1rangergatewayDescIcmpScan.Default.(bool)
+	// bronzehistorys1rangergatewayDescSmbScan is the schema descriptor for smb_scan field.
+	bronzehistorys1rangergatewayDescSmbScan := bronzehistorys1rangergatewayFields[22].Descriptor()
+	// bronzehistorys1rangergateway.DefaultSmbScan holds the default value on creation for the smb_scan field.
+	bronzehistorys1rangergateway.DefaultSmbScan = bronzehistorys1rangergatewayDescSmbScan.Default.(bool)
+	// bronzehistorys1rangergatewayDescMdnsScan is the schema descriptor for mdns_scan field.
+	bronzehistorys1rangergatewayDescMdnsScan := bronzehistorys1rangergatewayFields[23].Descriptor()
+	// bronzehistorys1rangergateway.DefaultMdnsScan holds the default value on creation for the mdns_scan field.
+	bronzehistorys1rangergateway.DefaultMdnsScan = bronzehistorys1rangergatewayDescMdnsScan.Default.(bool)
+	// bronzehistorys1rangergatewayDescRdnsScan is the schema descriptor for rdns_scan field.
+	bronzehistorys1rangergatewayDescRdnsScan := bronzehistorys1rangergatewayFields[24].Descriptor()
+	// bronzehistorys1rangergateway.DefaultRdnsScan holds the default value on creation for the rdns_scan field.
+	bronzehistorys1rangergateway.DefaultRdnsScan = bronzehistorys1rangergatewayDescRdnsScan.Default.(bool)
+	// bronzehistorys1rangergatewayDescSnmpScan is the schema descriptor for snmp_scan field.
+	bronzehistorys1rangergatewayDescSnmpScan := bronzehistorys1rangergatewayFields[25].Descriptor()
+	// bronzehistorys1rangergateway.DefaultSnmpScan holds the default value on creation for the snmp_scan field.
+	bronzehistorys1rangergateway.DefaultSnmpScan = bronzehistorys1rangergatewayDescSnmpScan.Default.(bool)
+	// bronzehistorys1rangergatewayDescScanOnlyLocalSubnets is the schema descriptor for scan_only_local_subnets field.
+	bronzehistorys1rangergatewayDescScanOnlyLocalSubnets := bronzehistorys1rangergatewayFields[26].Descriptor()
+	// bronzehistorys1rangergateway.DefaultScanOnlyLocalSubnets holds the default value on creation for the scan_only_local_subnets field.
+	bronzehistorys1rangergateway.DefaultScanOnlyLocalSubnets = bronzehistorys1rangergatewayDescScanOnlyLocalSubnets.Default.(bool)
+	bronzehistorys1rangersettingFields := schema.BronzeHistoryS1RangerSetting{}.Fields()
+	_ = bronzehistorys1rangersettingFields
+	// bronzehistorys1rangersettingDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorys1rangersettingDescResourceID := bronzehistorys1rangersettingFields[1].Descriptor()
+	// bronzehistorys1rangersetting.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorys1rangersetting.ResourceIDValidator = bronzehistorys1rangersettingDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorys1rangersettingDescEnabled is the schema descriptor for enabled field.
+	bronzehistorys1rangersettingDescEnabled := bronzehistorys1rangersettingFields[4].Descriptor()
+	// bronzehistorys1rangersetting.DefaultEnabled holds the default value on creation for the enabled field.
+	bronzehistorys1rangersetting.DefaultEnabled = bronzehistorys1rangersettingDescEnabled.Default.(bool)
+	// bronzehistorys1rangersettingDescUsePeriodicSnapshots is the schema descriptor for use_periodic_snapshots field.
+	bronzehistorys1rangersettingDescUsePeriodicSnapshots := bronzehistorys1rangersettingFields[5].Descriptor()
+	// bronzehistorys1rangersetting.DefaultUsePeriodicSnapshots holds the default value on creation for the use_periodic_snapshots field.
+	bronzehistorys1rangersetting.DefaultUsePeriodicSnapshots = bronzehistorys1rangersettingDescUsePeriodicSnapshots.Default.(bool)
+	// bronzehistorys1rangersettingDescTCPPortScan is the schema descriptor for tcp_port_scan field.
+	bronzehistorys1rangersettingDescTCPPortScan := bronzehistorys1rangersettingFields[9].Descriptor()
+	// bronzehistorys1rangersetting.DefaultTCPPortScan holds the default value on creation for the tcp_port_scan field.
+	bronzehistorys1rangersetting.DefaultTCPPortScan = bronzehistorys1rangersettingDescTCPPortScan.Default.(bool)
+	// bronzehistorys1rangersettingDescUDPPortScan is the schema descriptor for udp_port_scan field.
+	bronzehistorys1rangersettingDescUDPPortScan := bronzehistorys1rangersettingFields[10].Descriptor()
+	// bronzehistorys1rangersetting.DefaultUDPPortScan holds the default value on creation for the udp_port_scan field.
+	bronzehistorys1rangersetting.DefaultUDPPortScan = bronzehistorys1rangersettingDescUDPPortScan.Default.(bool)
+	// bronzehistorys1rangersettingDescIcmpScan is the schema descriptor for icmp_scan field.
+	bronzehistorys1rangersettingDescIcmpScan := bronzehistorys1rangersettingFields[11].Descriptor()
+	// bronzehistorys1rangersetting.DefaultIcmpScan holds the default value on creation for the icmp_scan field.
+	bronzehistorys1rangersetting.DefaultIcmpScan = bronzehistorys1rangersettingDescIcmpScan.Default.(bool)
+	// bronzehistorys1rangersettingDescSmbScan is the schema descriptor for smb_scan field.
+	bronzehistorys1rangersettingDescSmbScan := bronzehistorys1rangersettingFields[12].Descriptor()
+	// bronzehistorys1rangersetting.DefaultSmbScan holds the default value on creation for the smb_scan field.
+	bronzehistorys1rangersetting.DefaultSmbScan = bronzehistorys1rangersettingDescSmbScan.Default.(bool)
+	// bronzehistorys1rangersettingDescMdnsScan is the schema descriptor for mdns_scan field.
+	bronzehistorys1rangersettingDescMdnsScan := bronzehistorys1rangersettingFields[13].Descriptor()
+	// bronzehistorys1rangersetting.DefaultMdnsScan holds the default value on creation for the mdns_scan field.
+	bronzehistorys1rangersetting.DefaultMdnsScan = bronzehistorys1rangersettingDescMdnsScan.Default.(bool)
+	// bronzehistorys1rangersettingDescRdnsScan is the schema descriptor for rdns_scan field.
+	bronzehistorys1rangersettingDescRdnsScan := bronzehistorys1rangersettingFields[14].Descriptor()
+	// bronzehistorys1rangersetting.DefaultRdnsScan holds the default value on creation for the rdns_scan field.
+	bronzehistorys1rangersetting.DefaultRdnsScan = bronzehistorys1rangersettingDescRdnsScan.Default.(bool)
+	// bronzehistorys1rangersettingDescSnmpScan is the schema descriptor for snmp_scan field.
+	bronzehistorys1rangersettingDescSnmpScan := bronzehistorys1rangersettingFields[15].Descriptor()
+	// bronzehistorys1rangersetting.DefaultSnmpScan holds the default value on creation for the snmp_scan field.
+	bronzehistorys1rangersetting.DefaultSnmpScan = bronzehistorys1rangersettingDescSnmpScan.Default.(bool)
+	// bronzehistorys1rangersettingDescMultiScanSsdp is the schema descriptor for multi_scan_ssdp field.
+	bronzehistorys1rangersettingDescMultiScanSsdp := bronzehistorys1rangersettingFields[16].Descriptor()
+	// bronzehistorys1rangersetting.DefaultMultiScanSsdp holds the default value on creation for the multi_scan_ssdp field.
+	bronzehistorys1rangersetting.DefaultMultiScanSsdp = bronzehistorys1rangersettingDescMultiScanSsdp.Default.(bool)
+	// bronzehistorys1rangersettingDescUseFullDNSScan is the schema descriptor for use_full_dns_scan field.
+	bronzehistorys1rangersettingDescUseFullDNSScan := bronzehistorys1rangersettingFields[17].Descriptor()
+	// bronzehistorys1rangersetting.DefaultUseFullDNSScan holds the default value on creation for the use_full_dns_scan field.
+	bronzehistorys1rangersetting.DefaultUseFullDNSScan = bronzehistorys1rangersettingDescUseFullDNSScan.Default.(bool)
+	// bronzehistorys1rangersettingDescScanOnlyLocalSubnets is the schema descriptor for scan_only_local_subnets field.
+	bronzehistorys1rangersettingDescScanOnlyLocalSubnets := bronzehistorys1rangersettingFields[18].Descriptor()
+	// bronzehistorys1rangersetting.DefaultScanOnlyLocalSubnets holds the default value on creation for the scan_only_local_subnets field.
+	bronzehistorys1rangersetting.DefaultScanOnlyLocalSubnets = bronzehistorys1rangersettingDescScanOnlyLocalSubnets.Default.(bool)
+	// bronzehistorys1rangersettingDescAutoEnableNetworks is the schema descriptor for auto_enable_networks field.
+	bronzehistorys1rangersettingDescAutoEnableNetworks := bronzehistorys1rangersettingFields[19].Descriptor()
+	// bronzehistorys1rangersetting.DefaultAutoEnableNetworks holds the default value on creation for the auto_enable_networks field.
+	bronzehistorys1rangersetting.DefaultAutoEnableNetworks = bronzehistorys1rangersettingDescAutoEnableNetworks.Default.(bool)
+	// bronzehistorys1rangersettingDescCombineDevices is the schema descriptor for combine_devices field.
+	bronzehistorys1rangersettingDescCombineDevices := bronzehistorys1rangersettingFields[20].Descriptor()
+	// bronzehistorys1rangersetting.DefaultCombineDevices holds the default value on creation for the combine_devices field.
+	bronzehistorys1rangersetting.DefaultCombineDevices = bronzehistorys1rangersettingDescCombineDevices.Default.(bool)
 	bronzehistorys1siteFields := schema.BronzeHistoryS1Site{}.Fields()
 	_ = bronzehistorys1siteFields
 	// bronzehistorys1siteDescResourceID is the schema descriptor for resource_id field.
@@ -4584,6 +4720,124 @@ func init() {
 	bronzes1groupDescTotalAgents := bronzes1groupFields[7].Descriptor()
 	// bronzes1group.DefaultTotalAgents holds the default value on creation for the total_agents field.
 	bronzes1group.DefaultTotalAgents = bronzes1groupDescTotalAgents.Default.(int)
+	bronzes1rangerdeviceFields := schema.BronzeS1RangerDevice{}.Fields()
+	_ = bronzes1rangerdeviceFields
+	// bronzes1rangerdeviceDescHasIdentity is the schema descriptor for has_identity field.
+	bronzes1rangerdeviceDescHasIdentity := bronzes1rangerdeviceFields[21].Descriptor()
+	// bronzes1rangerdevice.DefaultHasIdentity holds the default value on creation for the has_identity field.
+	bronzes1rangerdevice.DefaultHasIdentity = bronzes1rangerdeviceDescHasIdentity.Default.(bool)
+	// bronzes1rangerdeviceDescHasUserLabel is the schema descriptor for has_user_label field.
+	bronzes1rangerdeviceDescHasUserLabel := bronzes1rangerdeviceFields[22].Descriptor()
+	// bronzes1rangerdevice.DefaultHasUserLabel holds the default value on creation for the has_user_label field.
+	bronzes1rangerdevice.DefaultHasUserLabel = bronzes1rangerdeviceDescHasUserLabel.Default.(bool)
+	bronzes1rangergatewayFields := schema.BronzeS1RangerGateway{}.Fields()
+	_ = bronzes1rangergatewayFields
+	// bronzes1rangergatewayDescAllowScan is the schema descriptor for allow_scan field.
+	bronzes1rangergatewayDescAllowScan := bronzes1rangergatewayFields[14].Descriptor()
+	// bronzes1rangergateway.DefaultAllowScan holds the default value on creation for the allow_scan field.
+	bronzes1rangergateway.DefaultAllowScan = bronzes1rangergatewayDescAllowScan.Default.(bool)
+	// bronzes1rangergatewayDescArchived is the schema descriptor for archived field.
+	bronzes1rangergatewayDescArchived := bronzes1rangergatewayFields[15].Descriptor()
+	// bronzes1rangergateway.DefaultArchived holds the default value on creation for the archived field.
+	bronzes1rangergateway.DefaultArchived = bronzes1rangergatewayDescArchived.Default.(bool)
+	// bronzes1rangergatewayDescNewNetwork is the schema descriptor for new_network field.
+	bronzes1rangergatewayDescNewNetwork := bronzes1rangergatewayFields[16].Descriptor()
+	// bronzes1rangergateway.DefaultNewNetwork holds the default value on creation for the new_network field.
+	bronzes1rangergateway.DefaultNewNetwork = bronzes1rangergatewayDescNewNetwork.Default.(bool)
+	// bronzes1rangergatewayDescInheritSettings is the schema descriptor for inherit_settings field.
+	bronzes1rangergatewayDescInheritSettings := bronzes1rangergatewayFields[17].Descriptor()
+	// bronzes1rangergateway.DefaultInheritSettings holds the default value on creation for the inherit_settings field.
+	bronzes1rangergateway.DefaultInheritSettings = bronzes1rangergatewayDescInheritSettings.Default.(bool)
+	// bronzes1rangergatewayDescTCPPortScan is the schema descriptor for tcp_port_scan field.
+	bronzes1rangergatewayDescTCPPortScan := bronzes1rangergatewayFields[18].Descriptor()
+	// bronzes1rangergateway.DefaultTCPPortScan holds the default value on creation for the tcp_port_scan field.
+	bronzes1rangergateway.DefaultTCPPortScan = bronzes1rangergatewayDescTCPPortScan.Default.(bool)
+	// bronzes1rangergatewayDescUDPPortScan is the schema descriptor for udp_port_scan field.
+	bronzes1rangergatewayDescUDPPortScan := bronzes1rangergatewayFields[19].Descriptor()
+	// bronzes1rangergateway.DefaultUDPPortScan holds the default value on creation for the udp_port_scan field.
+	bronzes1rangergateway.DefaultUDPPortScan = bronzes1rangergatewayDescUDPPortScan.Default.(bool)
+	// bronzes1rangergatewayDescIcmpScan is the schema descriptor for icmp_scan field.
+	bronzes1rangergatewayDescIcmpScan := bronzes1rangergatewayFields[20].Descriptor()
+	// bronzes1rangergateway.DefaultIcmpScan holds the default value on creation for the icmp_scan field.
+	bronzes1rangergateway.DefaultIcmpScan = bronzes1rangergatewayDescIcmpScan.Default.(bool)
+	// bronzes1rangergatewayDescSmbScan is the schema descriptor for smb_scan field.
+	bronzes1rangergatewayDescSmbScan := bronzes1rangergatewayFields[21].Descriptor()
+	// bronzes1rangergateway.DefaultSmbScan holds the default value on creation for the smb_scan field.
+	bronzes1rangergateway.DefaultSmbScan = bronzes1rangergatewayDescSmbScan.Default.(bool)
+	// bronzes1rangergatewayDescMdnsScan is the schema descriptor for mdns_scan field.
+	bronzes1rangergatewayDescMdnsScan := bronzes1rangergatewayFields[22].Descriptor()
+	// bronzes1rangergateway.DefaultMdnsScan holds the default value on creation for the mdns_scan field.
+	bronzes1rangergateway.DefaultMdnsScan = bronzes1rangergatewayDescMdnsScan.Default.(bool)
+	// bronzes1rangergatewayDescRdnsScan is the schema descriptor for rdns_scan field.
+	bronzes1rangergatewayDescRdnsScan := bronzes1rangergatewayFields[23].Descriptor()
+	// bronzes1rangergateway.DefaultRdnsScan holds the default value on creation for the rdns_scan field.
+	bronzes1rangergateway.DefaultRdnsScan = bronzes1rangergatewayDescRdnsScan.Default.(bool)
+	// bronzes1rangergatewayDescSnmpScan is the schema descriptor for snmp_scan field.
+	bronzes1rangergatewayDescSnmpScan := bronzes1rangergatewayFields[24].Descriptor()
+	// bronzes1rangergateway.DefaultSnmpScan holds the default value on creation for the snmp_scan field.
+	bronzes1rangergateway.DefaultSnmpScan = bronzes1rangergatewayDescSnmpScan.Default.(bool)
+	// bronzes1rangergatewayDescScanOnlyLocalSubnets is the schema descriptor for scan_only_local_subnets field.
+	bronzes1rangergatewayDescScanOnlyLocalSubnets := bronzes1rangergatewayFields[25].Descriptor()
+	// bronzes1rangergateway.DefaultScanOnlyLocalSubnets holds the default value on creation for the scan_only_local_subnets field.
+	bronzes1rangergateway.DefaultScanOnlyLocalSubnets = bronzes1rangergatewayDescScanOnlyLocalSubnets.Default.(bool)
+	bronzes1rangersettingFields := schema.BronzeS1RangerSetting{}.Fields()
+	_ = bronzes1rangersettingFields
+	// bronzes1rangersettingDescEnabled is the schema descriptor for enabled field.
+	bronzes1rangersettingDescEnabled := bronzes1rangersettingFields[3].Descriptor()
+	// bronzes1rangersetting.DefaultEnabled holds the default value on creation for the enabled field.
+	bronzes1rangersetting.DefaultEnabled = bronzes1rangersettingDescEnabled.Default.(bool)
+	// bronzes1rangersettingDescUsePeriodicSnapshots is the schema descriptor for use_periodic_snapshots field.
+	bronzes1rangersettingDescUsePeriodicSnapshots := bronzes1rangersettingFields[4].Descriptor()
+	// bronzes1rangersetting.DefaultUsePeriodicSnapshots holds the default value on creation for the use_periodic_snapshots field.
+	bronzes1rangersetting.DefaultUsePeriodicSnapshots = bronzes1rangersettingDescUsePeriodicSnapshots.Default.(bool)
+	// bronzes1rangersettingDescTCPPortScan is the schema descriptor for tcp_port_scan field.
+	bronzes1rangersettingDescTCPPortScan := bronzes1rangersettingFields[8].Descriptor()
+	// bronzes1rangersetting.DefaultTCPPortScan holds the default value on creation for the tcp_port_scan field.
+	bronzes1rangersetting.DefaultTCPPortScan = bronzes1rangersettingDescTCPPortScan.Default.(bool)
+	// bronzes1rangersettingDescUDPPortScan is the schema descriptor for udp_port_scan field.
+	bronzes1rangersettingDescUDPPortScan := bronzes1rangersettingFields[9].Descriptor()
+	// bronzes1rangersetting.DefaultUDPPortScan holds the default value on creation for the udp_port_scan field.
+	bronzes1rangersetting.DefaultUDPPortScan = bronzes1rangersettingDescUDPPortScan.Default.(bool)
+	// bronzes1rangersettingDescIcmpScan is the schema descriptor for icmp_scan field.
+	bronzes1rangersettingDescIcmpScan := bronzes1rangersettingFields[10].Descriptor()
+	// bronzes1rangersetting.DefaultIcmpScan holds the default value on creation for the icmp_scan field.
+	bronzes1rangersetting.DefaultIcmpScan = bronzes1rangersettingDescIcmpScan.Default.(bool)
+	// bronzes1rangersettingDescSmbScan is the schema descriptor for smb_scan field.
+	bronzes1rangersettingDescSmbScan := bronzes1rangersettingFields[11].Descriptor()
+	// bronzes1rangersetting.DefaultSmbScan holds the default value on creation for the smb_scan field.
+	bronzes1rangersetting.DefaultSmbScan = bronzes1rangersettingDescSmbScan.Default.(bool)
+	// bronzes1rangersettingDescMdnsScan is the schema descriptor for mdns_scan field.
+	bronzes1rangersettingDescMdnsScan := bronzes1rangersettingFields[12].Descriptor()
+	// bronzes1rangersetting.DefaultMdnsScan holds the default value on creation for the mdns_scan field.
+	bronzes1rangersetting.DefaultMdnsScan = bronzes1rangersettingDescMdnsScan.Default.(bool)
+	// bronzes1rangersettingDescRdnsScan is the schema descriptor for rdns_scan field.
+	bronzes1rangersettingDescRdnsScan := bronzes1rangersettingFields[13].Descriptor()
+	// bronzes1rangersetting.DefaultRdnsScan holds the default value on creation for the rdns_scan field.
+	bronzes1rangersetting.DefaultRdnsScan = bronzes1rangersettingDescRdnsScan.Default.(bool)
+	// bronzes1rangersettingDescSnmpScan is the schema descriptor for snmp_scan field.
+	bronzes1rangersettingDescSnmpScan := bronzes1rangersettingFields[14].Descriptor()
+	// bronzes1rangersetting.DefaultSnmpScan holds the default value on creation for the snmp_scan field.
+	bronzes1rangersetting.DefaultSnmpScan = bronzes1rangersettingDescSnmpScan.Default.(bool)
+	// bronzes1rangersettingDescMultiScanSsdp is the schema descriptor for multi_scan_ssdp field.
+	bronzes1rangersettingDescMultiScanSsdp := bronzes1rangersettingFields[15].Descriptor()
+	// bronzes1rangersetting.DefaultMultiScanSsdp holds the default value on creation for the multi_scan_ssdp field.
+	bronzes1rangersetting.DefaultMultiScanSsdp = bronzes1rangersettingDescMultiScanSsdp.Default.(bool)
+	// bronzes1rangersettingDescUseFullDNSScan is the schema descriptor for use_full_dns_scan field.
+	bronzes1rangersettingDescUseFullDNSScan := bronzes1rangersettingFields[16].Descriptor()
+	// bronzes1rangersetting.DefaultUseFullDNSScan holds the default value on creation for the use_full_dns_scan field.
+	bronzes1rangersetting.DefaultUseFullDNSScan = bronzes1rangersettingDescUseFullDNSScan.Default.(bool)
+	// bronzes1rangersettingDescScanOnlyLocalSubnets is the schema descriptor for scan_only_local_subnets field.
+	bronzes1rangersettingDescScanOnlyLocalSubnets := bronzes1rangersettingFields[17].Descriptor()
+	// bronzes1rangersetting.DefaultScanOnlyLocalSubnets holds the default value on creation for the scan_only_local_subnets field.
+	bronzes1rangersetting.DefaultScanOnlyLocalSubnets = bronzes1rangersettingDescScanOnlyLocalSubnets.Default.(bool)
+	// bronzes1rangersettingDescAutoEnableNetworks is the schema descriptor for auto_enable_networks field.
+	bronzes1rangersettingDescAutoEnableNetworks := bronzes1rangersettingFields[18].Descriptor()
+	// bronzes1rangersetting.DefaultAutoEnableNetworks holds the default value on creation for the auto_enable_networks field.
+	bronzes1rangersetting.DefaultAutoEnableNetworks = bronzes1rangersettingDescAutoEnableNetworks.Default.(bool)
+	// bronzes1rangersettingDescCombineDevices is the schema descriptor for combine_devices field.
+	bronzes1rangersettingDescCombineDevices := bronzes1rangersettingFields[19].Descriptor()
+	// bronzes1rangersetting.DefaultCombineDevices holds the default value on creation for the combine_devices field.
+	bronzes1rangersetting.DefaultCombineDevices = bronzes1rangersettingDescCombineDevices.Default.(bool)
 	bronzes1siteFields := schema.BronzeS1Site{}.Fields()
 	_ = bronzes1siteFields
 	// bronzes1siteDescName is the schema descriptor for name field.

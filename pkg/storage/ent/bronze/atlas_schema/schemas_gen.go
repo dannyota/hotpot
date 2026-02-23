@@ -2649,6 +2649,54 @@ func (BronzeS1Group) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze"})
 }
 
+type BronzeS1RangerDevice struct {
+	bronze_s1.BronzeS1RangerDevice
+}
+
+func (BronzeS1RangerDevice) Annotations() []schema.Annotation {
+	anns := bronze_s1.BronzeS1RangerDevice{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeS1RangerGateway struct {
+	bronze_s1.BronzeS1RangerGateway
+}
+
+func (BronzeS1RangerGateway) Annotations() []schema.Annotation {
+	anns := bronze_s1.BronzeS1RangerGateway{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeS1RangerSetting struct {
+	bronze_s1.BronzeS1RangerSetting
+}
+
+func (BronzeS1RangerSetting) Annotations() []schema.Annotation {
+	anns := bronze_s1.BronzeS1RangerSetting{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
 type BronzeS1Site struct {
 	bronze_s1.BronzeS1Site
 }
