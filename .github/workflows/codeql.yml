@@ -36,9 +36,6 @@ jobs:
 
       - name: Build
         run: go build ./...
-        env:
-          GONOSUMCHECK: danny.vn/greennode
-          GONOSUMDB: danny.vn/greennode
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
