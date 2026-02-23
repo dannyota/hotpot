@@ -13675,6 +13675,207 @@ var (
 			},
 		},
 	}
+	// S1RangerDevicesHistoryColumns holds the columns for the "s1_ranger_devices_history" table.
+	S1RangerDevicesHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "local_ip", Type: field.TypeString, Nullable: true},
+		{Name: "external_ip", Type: field.TypeString, Nullable: true},
+		{Name: "mac_address", Type: field.TypeString, Nullable: true},
+		{Name: "os_type", Type: field.TypeString, Nullable: true},
+		{Name: "os_name", Type: field.TypeString, Nullable: true},
+		{Name: "os_version", Type: field.TypeString, Nullable: true},
+		{Name: "device_type", Type: field.TypeString, Nullable: true},
+		{Name: "device_function", Type: field.TypeString, Nullable: true},
+		{Name: "manufacturer", Type: field.TypeString, Nullable: true},
+		{Name: "managed_state", Type: field.TypeString, Nullable: true},
+		{Name: "agent_id", Type: field.TypeString, Nullable: true},
+		{Name: "first_seen", Type: field.TypeTime, Nullable: true},
+		{Name: "last_seen", Type: field.TypeTime, Nullable: true},
+		{Name: "subnet_address", Type: field.TypeString, Nullable: true},
+		{Name: "gateway_ip_address", Type: field.TypeString, Nullable: true},
+		{Name: "gateway_mac_address", Type: field.TypeString, Nullable: true},
+		{Name: "network_name", Type: field.TypeString, Nullable: true},
+		{Name: "domain", Type: field.TypeString, Nullable: true},
+		{Name: "site_name", Type: field.TypeString, Nullable: true},
+		{Name: "device_review", Type: field.TypeString, Nullable: true},
+		{Name: "has_identity", Type: field.TypeBool, Default: false},
+		{Name: "has_user_label", Type: field.TypeBool, Default: false},
+		{Name: "fingerprint_score", Type: field.TypeInt, Nullable: true},
+		{Name: "tcp_ports_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "udp_ports_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "hostnames_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "discovery_methods_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "networks_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "tags_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// S1RangerDevicesHistoryTable holds the schema information for the "s1_ranger_devices_history" table.
+	S1RangerDevicesHistoryTable = &schema.Table{
+		Name:       "s1_ranger_devices_history",
+		Columns:    S1RangerDevicesHistoryColumns,
+		PrimaryKey: []*schema.Column{S1RangerDevicesHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorys1rangerdevice_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerDevicesHistoryColumns[6], S1RangerDevicesHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorys1rangerdevice_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerDevicesHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorys1rangerdevice_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerDevicesHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorys1rangerdevice_managed_state",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerDevicesHistoryColumns[16]},
+			},
+			{
+				Name:    "bronzehistorys1rangerdevice_agent_id",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerDevicesHistoryColumns[17]},
+			},
+		},
+	}
+	// S1RangerGatewaysHistoryColumns holds the columns for the "s1_ranger_gateways_history" table.
+	S1RangerGatewaysHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "ip", Type: field.TypeString, Nullable: true},
+		{Name: "mac_address", Type: field.TypeString, Nullable: true},
+		{Name: "external_ip", Type: field.TypeString, Nullable: true},
+		{Name: "manufacturer", Type: field.TypeString, Nullable: true},
+		{Name: "network_name", Type: field.TypeString, Nullable: true},
+		{Name: "account_id", Type: field.TypeString, Nullable: true},
+		{Name: "account_name", Type: field.TypeString, Nullable: true},
+		{Name: "site_id", Type: field.TypeString, Nullable: true},
+		{Name: "number_of_agents", Type: field.TypeInt, Nullable: true},
+		{Name: "number_of_rangers", Type: field.TypeInt, Nullable: true},
+		{Name: "connected_rangers", Type: field.TypeInt, Nullable: true},
+		{Name: "total_agents", Type: field.TypeInt, Nullable: true},
+		{Name: "agent_percentage", Type: field.TypeFloat64, Nullable: true},
+		{Name: "allow_scan", Type: field.TypeBool, Default: false},
+		{Name: "archived", Type: field.TypeBool, Default: false},
+		{Name: "new_network", Type: field.TypeBool, Default: false},
+		{Name: "inherit_settings", Type: field.TypeBool, Default: false},
+		{Name: "tcp_port_scan", Type: field.TypeBool, Default: false},
+		{Name: "udp_port_scan", Type: field.TypeBool, Default: false},
+		{Name: "icmp_scan", Type: field.TypeBool, Default: false},
+		{Name: "smb_scan", Type: field.TypeBool, Default: false},
+		{Name: "mdns_scan", Type: field.TypeBool, Default: false},
+		{Name: "rdns_scan", Type: field.TypeBool, Default: false},
+		{Name: "snmp_scan", Type: field.TypeBool, Default: false},
+		{Name: "scan_only_local_subnets", Type: field.TypeBool, Default: false},
+		{Name: "created_at_api", Type: field.TypeTime, Nullable: true},
+		{Name: "expiry_date", Type: field.TypeTime, Nullable: true},
+		{Name: "tcp_ports_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "udp_ports_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "restrictions_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// S1RangerGatewaysHistoryTable holds the schema information for the "s1_ranger_gateways_history" table.
+	S1RangerGatewaysHistoryTable = &schema.Table{
+		Name:       "s1_ranger_gateways_history",
+		Columns:    S1RangerGatewaysHistoryColumns,
+		PrimaryKey: []*schema.Column{S1RangerGatewaysHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorys1rangergateway_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerGatewaysHistoryColumns[6], S1RangerGatewaysHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorys1rangergateway_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerGatewaysHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorys1rangergateway_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerGatewaysHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorys1rangergateway_account_id",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerGatewaysHistoryColumns[12]},
+			},
+		},
+	}
+	// S1RangerSettingsHistoryColumns holds the columns for the "s1_ranger_settings_history" table.
+	S1RangerSettingsHistoryColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "history_id", Type: field.TypeUint, Unique: true},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "account_id", Type: field.TypeString, Nullable: true},
+		{Name: "scope_id", Type: field.TypeString, Nullable: true},
+		{Name: "enabled", Type: field.TypeBool, Default: false},
+		{Name: "use_periodic_snapshots", Type: field.TypeBool, Default: false},
+		{Name: "snapshot_period", Type: field.TypeInt, Nullable: true},
+		{Name: "network_decommission_value", Type: field.TypeInt, Nullable: true},
+		{Name: "min_agents_in_network_to_scan", Type: field.TypeInt, Nullable: true},
+		{Name: "tcp_port_scan", Type: field.TypeBool, Default: false},
+		{Name: "udp_port_scan", Type: field.TypeBool, Default: false},
+		{Name: "icmp_scan", Type: field.TypeBool, Default: false},
+		{Name: "smb_scan", Type: field.TypeBool, Default: false},
+		{Name: "mdns_scan", Type: field.TypeBool, Default: false},
+		{Name: "rdns_scan", Type: field.TypeBool, Default: false},
+		{Name: "snmp_scan", Type: field.TypeBool, Default: false},
+		{Name: "multi_scan_ssdp", Type: field.TypeBool, Default: false},
+		{Name: "use_full_dns_scan", Type: field.TypeBool, Default: false},
+		{Name: "scan_only_local_subnets", Type: field.TypeBool, Default: false},
+		{Name: "auto_enable_networks", Type: field.TypeBool, Default: false},
+		{Name: "combine_devices", Type: field.TypeBool, Default: false},
+		{Name: "new_network_in_hours", Type: field.TypeInt, Nullable: true},
+		{Name: "tcp_ports_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "udp_ports_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "restrictions_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// S1RangerSettingsHistoryTable holds the schema information for the "s1_ranger_settings_history" table.
+	S1RangerSettingsHistoryTable = &schema.Table{
+		Name:       "s1_ranger_settings_history",
+		Columns:    S1RangerSettingsHistoryColumns,
+		PrimaryKey: []*schema.Column{S1RangerSettingsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorys1rangersetting_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerSettingsHistoryColumns[6], S1RangerSettingsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorys1rangersetting_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerSettingsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorys1rangersetting_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerSettingsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorys1rangersetting_account_id",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerSettingsHistoryColumns[7]},
+			},
+		},
+	}
 	// S1SitesHistoryColumns holds the columns for the "s1_sites_history" table.
 	S1SitesHistoryColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -14075,6 +14276,185 @@ var (
 				Name:    "bronzes1group_collected_at",
 				Unique:  false,
 				Columns: []*schema.Column{S1GroupsColumns[1]},
+			},
+		},
+	}
+	// S1RangerDevicesColumns holds the columns for the "s1_ranger_devices" table.
+	S1RangerDevicesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "local_ip", Type: field.TypeString, Nullable: true},
+		{Name: "external_ip", Type: field.TypeString, Nullable: true},
+		{Name: "mac_address", Type: field.TypeString, Nullable: true},
+		{Name: "os_type", Type: field.TypeString, Nullable: true},
+		{Name: "os_name", Type: field.TypeString, Nullable: true},
+		{Name: "os_version", Type: field.TypeString, Nullable: true},
+		{Name: "device_type", Type: field.TypeString, Nullable: true},
+		{Name: "device_function", Type: field.TypeString, Nullable: true},
+		{Name: "manufacturer", Type: field.TypeString, Nullable: true},
+		{Name: "managed_state", Type: field.TypeString, Nullable: true},
+		{Name: "agent_id", Type: field.TypeString, Nullable: true},
+		{Name: "first_seen", Type: field.TypeTime, Nullable: true},
+		{Name: "last_seen", Type: field.TypeTime, Nullable: true},
+		{Name: "subnet_address", Type: field.TypeString, Nullable: true},
+		{Name: "gateway_ip_address", Type: field.TypeString, Nullable: true},
+		{Name: "gateway_mac_address", Type: field.TypeString, Nullable: true},
+		{Name: "network_name", Type: field.TypeString, Nullable: true},
+		{Name: "domain", Type: field.TypeString, Nullable: true},
+		{Name: "site_name", Type: field.TypeString, Nullable: true},
+		{Name: "device_review", Type: field.TypeString, Nullable: true},
+		{Name: "has_identity", Type: field.TypeBool, Default: false},
+		{Name: "has_user_label", Type: field.TypeBool, Default: false},
+		{Name: "fingerprint_score", Type: field.TypeInt, Nullable: true},
+		{Name: "tcp_ports_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "udp_ports_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "hostnames_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "discovery_methods_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "networks_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "tags_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// S1RangerDevicesTable holds the schema information for the "s1_ranger_devices" table.
+	S1RangerDevicesTable = &schema.Table{
+		Name:       "s1_ranger_devices",
+		Columns:    S1RangerDevicesColumns,
+		PrimaryKey: []*schema.Column{S1RangerDevicesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzes1rangerdevice_managed_state",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerDevicesColumns[12]},
+			},
+			{
+				Name:    "bronzes1rangerdevice_agent_id",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerDevicesColumns[13]},
+			},
+			{
+				Name:    "bronzes1rangerdevice_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerDevicesColumns[1]},
+			},
+			{
+				Name:    "bronzes1rangerdevice_site_name",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerDevicesColumns[21]},
+			},
+			{
+				Name:    "bronzes1rangerdevice_network_name",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerDevicesColumns[19]},
+			},
+		},
+	}
+	// S1RangerGatewaysColumns holds the columns for the "s1_ranger_gateways" table.
+	S1RangerGatewaysColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "ip", Type: field.TypeString, Nullable: true},
+		{Name: "mac_address", Type: field.TypeString, Nullable: true},
+		{Name: "external_ip", Type: field.TypeString, Nullable: true},
+		{Name: "manufacturer", Type: field.TypeString, Nullable: true},
+		{Name: "network_name", Type: field.TypeString, Nullable: true},
+		{Name: "account_id", Type: field.TypeString, Nullable: true},
+		{Name: "account_name", Type: field.TypeString, Nullable: true},
+		{Name: "site_id", Type: field.TypeString, Nullable: true},
+		{Name: "number_of_agents", Type: field.TypeInt, Nullable: true},
+		{Name: "number_of_rangers", Type: field.TypeInt, Nullable: true},
+		{Name: "connected_rangers", Type: field.TypeInt, Nullable: true},
+		{Name: "total_agents", Type: field.TypeInt, Nullable: true},
+		{Name: "agent_percentage", Type: field.TypeFloat64, Nullable: true},
+		{Name: "allow_scan", Type: field.TypeBool, Default: false},
+		{Name: "archived", Type: field.TypeBool, Default: false},
+		{Name: "new_network", Type: field.TypeBool, Default: false},
+		{Name: "inherit_settings", Type: field.TypeBool, Default: false},
+		{Name: "tcp_port_scan", Type: field.TypeBool, Default: false},
+		{Name: "udp_port_scan", Type: field.TypeBool, Default: false},
+		{Name: "icmp_scan", Type: field.TypeBool, Default: false},
+		{Name: "smb_scan", Type: field.TypeBool, Default: false},
+		{Name: "mdns_scan", Type: field.TypeBool, Default: false},
+		{Name: "rdns_scan", Type: field.TypeBool, Default: false},
+		{Name: "snmp_scan", Type: field.TypeBool, Default: false},
+		{Name: "scan_only_local_subnets", Type: field.TypeBool, Default: false},
+		{Name: "created_at_api", Type: field.TypeTime, Nullable: true},
+		{Name: "expiry_date", Type: field.TypeTime, Nullable: true},
+		{Name: "tcp_ports_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "udp_ports_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "restrictions_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// S1RangerGatewaysTable holds the schema information for the "s1_ranger_gateways" table.
+	S1RangerGatewaysTable = &schema.Table{
+		Name:       "s1_ranger_gateways",
+		Columns:    S1RangerGatewaysColumns,
+		PrimaryKey: []*schema.Column{S1RangerGatewaysColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzes1rangergateway_account_id",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerGatewaysColumns[8]},
+			},
+			{
+				Name:    "bronzes1rangergateway_site_id",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerGatewaysColumns[10]},
+			},
+			{
+				Name:    "bronzes1rangergateway_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerGatewaysColumns[1]},
+			},
+			{
+				Name:    "bronzes1rangergateway_network_name",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerGatewaysColumns[7]},
+			},
+		},
+	}
+	// S1RangerSettingsColumns holds the columns for the "s1_ranger_settings" table.
+	S1RangerSettingsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "account_id", Type: field.TypeString, Nullable: true},
+		{Name: "scope_id", Type: field.TypeString, Nullable: true},
+		{Name: "enabled", Type: field.TypeBool, Default: false},
+		{Name: "use_periodic_snapshots", Type: field.TypeBool, Default: false},
+		{Name: "snapshot_period", Type: field.TypeInt, Nullable: true},
+		{Name: "network_decommission_value", Type: field.TypeInt, Nullable: true},
+		{Name: "min_agents_in_network_to_scan", Type: field.TypeInt, Nullable: true},
+		{Name: "tcp_port_scan", Type: field.TypeBool, Default: false},
+		{Name: "udp_port_scan", Type: field.TypeBool, Default: false},
+		{Name: "icmp_scan", Type: field.TypeBool, Default: false},
+		{Name: "smb_scan", Type: field.TypeBool, Default: false},
+		{Name: "mdns_scan", Type: field.TypeBool, Default: false},
+		{Name: "rdns_scan", Type: field.TypeBool, Default: false},
+		{Name: "snmp_scan", Type: field.TypeBool, Default: false},
+		{Name: "multi_scan_ssdp", Type: field.TypeBool, Default: false},
+		{Name: "use_full_dns_scan", Type: field.TypeBool, Default: false},
+		{Name: "scan_only_local_subnets", Type: field.TypeBool, Default: false},
+		{Name: "auto_enable_networks", Type: field.TypeBool, Default: false},
+		{Name: "combine_devices", Type: field.TypeBool, Default: false},
+		{Name: "new_network_in_hours", Type: field.TypeInt, Nullable: true},
+		{Name: "tcp_ports_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "udp_ports_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "restrictions_json", Type: field.TypeJSON, Nullable: true},
+	}
+	// S1RangerSettingsTable holds the schema information for the "s1_ranger_settings" table.
+	S1RangerSettingsTable = &schema.Table{
+		Name:       "s1_ranger_settings",
+		Columns:    S1RangerSettingsColumns,
+		PrimaryKey: []*schema.Column{S1RangerSettingsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzes1rangersetting_account_id",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerSettingsColumns[3]},
+			},
+			{
+				Name:    "bronzes1rangersetting_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{S1RangerSettingsColumns[1]},
 			},
 		},
 	}
@@ -14536,6 +14916,9 @@ var (
 		S1AgentNicsHistoryTable,
 		S1AppsHistoryTable,
 		S1GroupsHistoryTable,
+		S1RangerDevicesHistoryTable,
+		S1RangerGatewaysHistoryTable,
+		S1RangerSettingsHistoryTable,
 		S1SitesHistoryTable,
 		S1ThreatsHistoryTable,
 		S1AccountsTable,
@@ -14543,6 +14926,9 @@ var (
 		S1AgentNicsTable,
 		S1AppsTable,
 		S1GroupsTable,
+		S1RangerDevicesTable,
+		S1RangerGatewaysTable,
+		S1RangerSettingsTable,
 		S1SitesTable,
 		S1ThreatsTable,
 	}
@@ -15607,6 +15993,15 @@ func init() {
 	S1GroupsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "s1_groups_history",
 	}
+	S1RangerDevicesHistoryTable.Annotation = &entsql.Annotation{
+		Table: "s1_ranger_devices_history",
+	}
+	S1RangerGatewaysHistoryTable.Annotation = &entsql.Annotation{
+		Table: "s1_ranger_gateways_history",
+	}
+	S1RangerSettingsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "s1_ranger_settings_history",
+	}
 	S1SitesHistoryTable.Annotation = &entsql.Annotation{
 		Table: "s1_sites_history",
 	}
@@ -15628,6 +16023,15 @@ func init() {
 	}
 	S1GroupsTable.Annotation = &entsql.Annotation{
 		Table: "s1_groups",
+	}
+	S1RangerDevicesTable.Annotation = &entsql.Annotation{
+		Table: "s1_ranger_devices",
+	}
+	S1RangerGatewaysTable.Annotation = &entsql.Annotation{
+		Table: "s1_ranger_gateways",
+	}
+	S1RangerSettingsTable.Annotation = &entsql.Annotation{
+		Table: "s1_ranger_settings",
 	}
 	S1SitesTable.Annotation = &entsql.Annotation{
 		Table: "s1_sites",

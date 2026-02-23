@@ -682,6 +682,12 @@ type Tx struct {
 	BronzeHistoryS1App *BronzeHistoryS1AppClient
 	// BronzeHistoryS1Group is the client for interacting with the BronzeHistoryS1Group builders.
 	BronzeHistoryS1Group *BronzeHistoryS1GroupClient
+	// BronzeHistoryS1RangerDevice is the client for interacting with the BronzeHistoryS1RangerDevice builders.
+	BronzeHistoryS1RangerDevice *BronzeHistoryS1RangerDeviceClient
+	// BronzeHistoryS1RangerGateway is the client for interacting with the BronzeHistoryS1RangerGateway builders.
+	BronzeHistoryS1RangerGateway *BronzeHistoryS1RangerGatewayClient
+	// BronzeHistoryS1RangerSetting is the client for interacting with the BronzeHistoryS1RangerSetting builders.
+	BronzeHistoryS1RangerSetting *BronzeHistoryS1RangerSettingClient
 	// BronzeHistoryS1Site is the client for interacting with the BronzeHistoryS1Site builders.
 	BronzeHistoryS1Site *BronzeHistoryS1SiteClient
 	// BronzeHistoryS1Threat is the client for interacting with the BronzeHistoryS1Threat builders.
@@ -696,6 +702,12 @@ type Tx struct {
 	BronzeS1App *BronzeS1AppClient
 	// BronzeS1Group is the client for interacting with the BronzeS1Group builders.
 	BronzeS1Group *BronzeS1GroupClient
+	// BronzeS1RangerDevice is the client for interacting with the BronzeS1RangerDevice builders.
+	BronzeS1RangerDevice *BronzeS1RangerDeviceClient
+	// BronzeS1RangerGateway is the client for interacting with the BronzeS1RangerGateway builders.
+	BronzeS1RangerGateway *BronzeS1RangerGatewayClient
+	// BronzeS1RangerSetting is the client for interacting with the BronzeS1RangerSetting builders.
+	BronzeS1RangerSetting *BronzeS1RangerSettingClient
 	// BronzeS1Site is the client for interacting with the BronzeS1Site builders.
 	BronzeS1Site *BronzeS1SiteClient
 	// BronzeS1Threat is the client for interacting with the BronzeS1Threat builders.
@@ -1166,6 +1178,9 @@ func (tx *Tx) init() {
 	tx.BronzeHistoryS1AgentNIC = NewBronzeHistoryS1AgentNICClient(tx.config)
 	tx.BronzeHistoryS1App = NewBronzeHistoryS1AppClient(tx.config)
 	tx.BronzeHistoryS1Group = NewBronzeHistoryS1GroupClient(tx.config)
+	tx.BronzeHistoryS1RangerDevice = NewBronzeHistoryS1RangerDeviceClient(tx.config)
+	tx.BronzeHistoryS1RangerGateway = NewBronzeHistoryS1RangerGatewayClient(tx.config)
+	tx.BronzeHistoryS1RangerSetting = NewBronzeHistoryS1RangerSettingClient(tx.config)
 	tx.BronzeHistoryS1Site = NewBronzeHistoryS1SiteClient(tx.config)
 	tx.BronzeHistoryS1Threat = NewBronzeHistoryS1ThreatClient(tx.config)
 	tx.BronzeS1Account = NewBronzeS1AccountClient(tx.config)
@@ -1173,6 +1188,9 @@ func (tx *Tx) init() {
 	tx.BronzeS1AgentNIC = NewBronzeS1AgentNICClient(tx.config)
 	tx.BronzeS1App = NewBronzeS1AppClient(tx.config)
 	tx.BronzeS1Group = NewBronzeS1GroupClient(tx.config)
+	tx.BronzeS1RangerDevice = NewBronzeS1RangerDeviceClient(tx.config)
+	tx.BronzeS1RangerGateway = NewBronzeS1RangerGatewayClient(tx.config)
+	tx.BronzeS1RangerSetting = NewBronzeS1RangerSettingClient(tx.config)
 	tx.BronzeS1Site = NewBronzeS1SiteClient(tx.config)
 	tx.BronzeS1Threat = NewBronzeS1ThreatClient(tx.config)
 }

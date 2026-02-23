@@ -2763,6 +2763,54 @@ func (BronzeHistoryS1Group) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze_history"})
 }
 
+type BronzeHistoryS1RangerDevice struct {
+	bronzehistory_s1.BronzeHistoryS1RangerDevice
+}
+
+func (BronzeHistoryS1RangerDevice) Annotations() []schema.Annotation {
+	anns := bronzehistory_s1.BronzeHistoryS1RangerDevice{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryS1RangerGateway struct {
+	bronzehistory_s1.BronzeHistoryS1RangerGateway
+}
+
+func (BronzeHistoryS1RangerGateway) Annotations() []schema.Annotation {
+	anns := bronzehistory_s1.BronzeHistoryS1RangerGateway{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
+type BronzeHistoryS1RangerSetting struct {
+	bronzehistory_s1.BronzeHistoryS1RangerSetting
+}
+
+func (BronzeHistoryS1RangerSetting) Annotations() []schema.Annotation {
+	anns := bronzehistory_s1.BronzeHistoryS1RangerSetting{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
 type BronzeHistoryS1Site struct {
 	bronzehistory_s1.BronzeHistoryS1Site
 }

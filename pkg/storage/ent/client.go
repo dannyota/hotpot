@@ -350,6 +350,9 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1agentnic"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1app"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1group"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1rangerdevice"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1rangergateway"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1rangersetting"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1site"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1threat"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1account"
@@ -357,6 +360,9 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1agentnic"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1app"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1group"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangerdevice"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangergateway"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangersetting"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1site"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1threat"
 
@@ -1038,6 +1044,12 @@ type Client struct {
 	BronzeHistoryS1App *BronzeHistoryS1AppClient
 	// BronzeHistoryS1Group is the client for interacting with the BronzeHistoryS1Group builders.
 	BronzeHistoryS1Group *BronzeHistoryS1GroupClient
+	// BronzeHistoryS1RangerDevice is the client for interacting with the BronzeHistoryS1RangerDevice builders.
+	BronzeHistoryS1RangerDevice *BronzeHistoryS1RangerDeviceClient
+	// BronzeHistoryS1RangerGateway is the client for interacting with the BronzeHistoryS1RangerGateway builders.
+	BronzeHistoryS1RangerGateway *BronzeHistoryS1RangerGatewayClient
+	// BronzeHistoryS1RangerSetting is the client for interacting with the BronzeHistoryS1RangerSetting builders.
+	BronzeHistoryS1RangerSetting *BronzeHistoryS1RangerSettingClient
 	// BronzeHistoryS1Site is the client for interacting with the BronzeHistoryS1Site builders.
 	BronzeHistoryS1Site *BronzeHistoryS1SiteClient
 	// BronzeHistoryS1Threat is the client for interacting with the BronzeHistoryS1Threat builders.
@@ -1052,6 +1064,12 @@ type Client struct {
 	BronzeS1App *BronzeS1AppClient
 	// BronzeS1Group is the client for interacting with the BronzeS1Group builders.
 	BronzeS1Group *BronzeS1GroupClient
+	// BronzeS1RangerDevice is the client for interacting with the BronzeS1RangerDevice builders.
+	BronzeS1RangerDevice *BronzeS1RangerDeviceClient
+	// BronzeS1RangerGateway is the client for interacting with the BronzeS1RangerGateway builders.
+	BronzeS1RangerGateway *BronzeS1RangerGatewayClient
+	// BronzeS1RangerSetting is the client for interacting with the BronzeS1RangerSetting builders.
+	BronzeS1RangerSetting *BronzeS1RangerSettingClient
 	// BronzeS1Site is the client for interacting with the BronzeS1Site builders.
 	BronzeS1Site *BronzeS1SiteClient
 	// BronzeS1Threat is the client for interacting with the BronzeS1Threat builders.
@@ -1402,6 +1420,9 @@ func (c *Client) init() {
 	c.BronzeHistoryS1AgentNIC = NewBronzeHistoryS1AgentNICClient(c.config)
 	c.BronzeHistoryS1App = NewBronzeHistoryS1AppClient(c.config)
 	c.BronzeHistoryS1Group = NewBronzeHistoryS1GroupClient(c.config)
+	c.BronzeHistoryS1RangerDevice = NewBronzeHistoryS1RangerDeviceClient(c.config)
+	c.BronzeHistoryS1RangerGateway = NewBronzeHistoryS1RangerGatewayClient(c.config)
+	c.BronzeHistoryS1RangerSetting = NewBronzeHistoryS1RangerSettingClient(c.config)
 	c.BronzeHistoryS1Site = NewBronzeHistoryS1SiteClient(c.config)
 	c.BronzeHistoryS1Threat = NewBronzeHistoryS1ThreatClient(c.config)
 	c.BronzeS1Account = NewBronzeS1AccountClient(c.config)
@@ -1409,6 +1430,9 @@ func (c *Client) init() {
 	c.BronzeS1AgentNIC = NewBronzeS1AgentNICClient(c.config)
 	c.BronzeS1App = NewBronzeS1AppClient(c.config)
 	c.BronzeS1Group = NewBronzeS1GroupClient(c.config)
+	c.BronzeS1RangerDevice = NewBronzeS1RangerDeviceClient(c.config)
+	c.BronzeS1RangerGateway = NewBronzeS1RangerGatewayClient(c.config)
+	c.BronzeS1RangerSetting = NewBronzeS1RangerSettingClient(c.config)
 	c.BronzeS1Site = NewBronzeS1SiteClient(c.config)
 	c.BronzeS1Threat = NewBronzeS1ThreatClient(c.config)
 }
@@ -1840,6 +1864,9 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		BronzeHistoryS1AgentNIC:                              NewBronzeHistoryS1AgentNICClient(cfg),
 		BronzeHistoryS1App:                                   NewBronzeHistoryS1AppClient(cfg),
 		BronzeHistoryS1Group:                                 NewBronzeHistoryS1GroupClient(cfg),
+		BronzeHistoryS1RangerDevice:                          NewBronzeHistoryS1RangerDeviceClient(cfg),
+		BronzeHistoryS1RangerGateway:                         NewBronzeHistoryS1RangerGatewayClient(cfg),
+		BronzeHistoryS1RangerSetting:                         NewBronzeHistoryS1RangerSettingClient(cfg),
 		BronzeHistoryS1Site:                                  NewBronzeHistoryS1SiteClient(cfg),
 		BronzeHistoryS1Threat:                                NewBronzeHistoryS1ThreatClient(cfg),
 		BronzeS1Account:                                      NewBronzeS1AccountClient(cfg),
@@ -1847,6 +1874,9 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		BronzeS1AgentNIC:                                     NewBronzeS1AgentNICClient(cfg),
 		BronzeS1App:                                          NewBronzeS1AppClient(cfg),
 		BronzeS1Group:                                        NewBronzeS1GroupClient(cfg),
+		BronzeS1RangerDevice:                                 NewBronzeS1RangerDeviceClient(cfg),
+		BronzeS1RangerGateway:                                NewBronzeS1RangerGatewayClient(cfg),
+		BronzeS1RangerSetting:                                NewBronzeS1RangerSettingClient(cfg),
 		BronzeS1Site:                                         NewBronzeS1SiteClient(cfg),
 		BronzeS1Threat:                                       NewBronzeS1ThreatClient(cfg),
 	}, nil
@@ -2203,6 +2233,9 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		BronzeHistoryS1AgentNIC:                              NewBronzeHistoryS1AgentNICClient(cfg),
 		BronzeHistoryS1App:                                   NewBronzeHistoryS1AppClient(cfg),
 		BronzeHistoryS1Group:                                 NewBronzeHistoryS1GroupClient(cfg),
+		BronzeHistoryS1RangerDevice:                          NewBronzeHistoryS1RangerDeviceClient(cfg),
+		BronzeHistoryS1RangerGateway:                         NewBronzeHistoryS1RangerGatewayClient(cfg),
+		BronzeHistoryS1RangerSetting:                         NewBronzeHistoryS1RangerSettingClient(cfg),
 		BronzeHistoryS1Site:                                  NewBronzeHistoryS1SiteClient(cfg),
 		BronzeHistoryS1Threat:                                NewBronzeHistoryS1ThreatClient(cfg),
 		BronzeS1Account:                                      NewBronzeS1AccountClient(cfg),
@@ -2210,6 +2243,9 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		BronzeS1AgentNIC:                                     NewBronzeS1AgentNICClient(cfg),
 		BronzeS1App:                                          NewBronzeS1AppClient(cfg),
 		BronzeS1Group:                                        NewBronzeS1GroupClient(cfg),
+		BronzeS1RangerDevice:                                 NewBronzeS1RangerDeviceClient(cfg),
+		BronzeS1RangerGateway:                                NewBronzeS1RangerGatewayClient(cfg),
+		BronzeS1RangerSetting:                                NewBronzeS1RangerSettingClient(cfg),
 		BronzeS1Site:                                         NewBronzeS1SiteClient(cfg),
 		BronzeS1Threat:                                       NewBronzeS1ThreatClient(cfg),
 	}, nil
@@ -2427,10 +2463,12 @@ func (c *Client) Use(hooks ...Hook) {
 		c.BronzeHistoryGreenNodeComputeServerSecGroup,
 		c.BronzeHistoryGreenNodePortalQuota, c.BronzeHistoryGreenNodePortalRegion,
 		c.BronzeHistoryS1Account, c.BronzeHistoryS1Agent, c.BronzeHistoryS1AgentNIC,
-		c.BronzeHistoryS1App, c.BronzeHistoryS1Group, c.BronzeHistoryS1Site,
-		c.BronzeHistoryS1Threat, c.BronzeS1Account, c.BronzeS1Agent,
-		c.BronzeS1AgentNIC, c.BronzeS1App, c.BronzeS1Group, c.BronzeS1Site,
-		c.BronzeS1Threat,
+		c.BronzeHistoryS1App, c.BronzeHistoryS1Group, c.BronzeHistoryS1RangerDevice,
+		c.BronzeHistoryS1RangerGateway, c.BronzeHistoryS1RangerSetting,
+		c.BronzeHistoryS1Site, c.BronzeHistoryS1Threat, c.BronzeS1Account,
+		c.BronzeS1Agent, c.BronzeS1AgentNIC, c.BronzeS1App, c.BronzeS1Group,
+		c.BronzeS1RangerDevice, c.BronzeS1RangerGateway, c.BronzeS1RangerSetting,
+		c.BronzeS1Site, c.BronzeS1Threat,
 	} {
 		n.Use(hooks...)
 	}
@@ -2626,10 +2664,12 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.BronzeHistoryGreenNodeComputeServerSecGroup,
 		c.BronzeHistoryGreenNodePortalQuota, c.BronzeHistoryGreenNodePortalRegion,
 		c.BronzeHistoryS1Account, c.BronzeHistoryS1Agent, c.BronzeHistoryS1AgentNIC,
-		c.BronzeHistoryS1App, c.BronzeHistoryS1Group, c.BronzeHistoryS1Site,
-		c.BronzeHistoryS1Threat, c.BronzeS1Account, c.BronzeS1Agent,
-		c.BronzeS1AgentNIC, c.BronzeS1App, c.BronzeS1Group, c.BronzeS1Site,
-		c.BronzeS1Threat,
+		c.BronzeHistoryS1App, c.BronzeHistoryS1Group, c.BronzeHistoryS1RangerDevice,
+		c.BronzeHistoryS1RangerGateway, c.BronzeHistoryS1RangerSetting,
+		c.BronzeHistoryS1Site, c.BronzeHistoryS1Threat, c.BronzeS1Account,
+		c.BronzeS1Agent, c.BronzeS1AgentNIC, c.BronzeS1App, c.BronzeS1Group,
+		c.BronzeS1RangerDevice, c.BronzeS1RangerGateway, c.BronzeS1RangerSetting,
+		c.BronzeS1Site, c.BronzeS1Threat,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -3308,6 +3348,12 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeHistoryS1App.mutate(ctx, m)
 	case *BronzeHistoryS1GroupMutation:
 		return c.BronzeHistoryS1Group.mutate(ctx, m)
+	case *BronzeHistoryS1RangerDeviceMutation:
+		return c.BronzeHistoryS1RangerDevice.mutate(ctx, m)
+	case *BronzeHistoryS1RangerGatewayMutation:
+		return c.BronzeHistoryS1RangerGateway.mutate(ctx, m)
+	case *BronzeHistoryS1RangerSettingMutation:
+		return c.BronzeHistoryS1RangerSetting.mutate(ctx, m)
 	case *BronzeHistoryS1SiteMutation:
 		return c.BronzeHistoryS1Site.mutate(ctx, m)
 	case *BronzeHistoryS1ThreatMutation:
@@ -3322,6 +3368,12 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeS1App.mutate(ctx, m)
 	case *BronzeS1GroupMutation:
 		return c.BronzeS1Group.mutate(ctx, m)
+	case *BronzeS1RangerDeviceMutation:
+		return c.BronzeS1RangerDevice.mutate(ctx, m)
+	case *BronzeS1RangerGatewayMutation:
+		return c.BronzeS1RangerGateway.mutate(ctx, m)
+	case *BronzeS1RangerSettingMutation:
+		return c.BronzeS1RangerSetting.mutate(ctx, m)
 	case *BronzeS1SiteMutation:
 		return c.BronzeS1Site.mutate(ctx, m)
 	case *BronzeS1ThreatMutation:
@@ -49900,6 +49952,405 @@ func (c *BronzeHistoryS1GroupClient) mutate(ctx context.Context, m *BronzeHistor
 	}
 }
 
+// BronzeHistoryS1RangerDeviceClient is a client for the BronzeHistoryS1RangerDevice schema.
+type BronzeHistoryS1RangerDeviceClient struct {
+	config
+}
+
+// NewBronzeHistoryS1RangerDeviceClient returns a client for the BronzeHistoryS1RangerDevice from the given config.
+func NewBronzeHistoryS1RangerDeviceClient(c config) *BronzeHistoryS1RangerDeviceClient {
+	return &BronzeHistoryS1RangerDeviceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorys1rangerdevice.Hooks(f(g(h())))`.
+func (c *BronzeHistoryS1RangerDeviceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryS1RangerDevice = append(c.hooks.BronzeHistoryS1RangerDevice, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorys1rangerdevice.Intercept(f(g(h())))`.
+func (c *BronzeHistoryS1RangerDeviceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryS1RangerDevice = append(c.inters.BronzeHistoryS1RangerDevice, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryS1RangerDevice entity.
+func (c *BronzeHistoryS1RangerDeviceClient) Create() *BronzeHistoryS1RangerDeviceCreate {
+	mutation := newBronzeHistoryS1RangerDeviceMutation(c.config, OpCreate)
+	return &BronzeHistoryS1RangerDeviceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryS1RangerDevice entities.
+func (c *BronzeHistoryS1RangerDeviceClient) CreateBulk(builders ...*BronzeHistoryS1RangerDeviceCreate) *BronzeHistoryS1RangerDeviceCreateBulk {
+	return &BronzeHistoryS1RangerDeviceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryS1RangerDeviceClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryS1RangerDeviceCreate, int)) *BronzeHistoryS1RangerDeviceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryS1RangerDeviceCreateBulk{err: fmt.Errorf("calling to BronzeHistoryS1RangerDeviceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryS1RangerDeviceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryS1RangerDeviceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryS1RangerDevice.
+func (c *BronzeHistoryS1RangerDeviceClient) Update() *BronzeHistoryS1RangerDeviceUpdate {
+	mutation := newBronzeHistoryS1RangerDeviceMutation(c.config, OpUpdate)
+	return &BronzeHistoryS1RangerDeviceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryS1RangerDeviceClient) UpdateOne(_m *BronzeHistoryS1RangerDevice) *BronzeHistoryS1RangerDeviceUpdateOne {
+	mutation := newBronzeHistoryS1RangerDeviceMutation(c.config, OpUpdateOne, withBronzeHistoryS1RangerDevice(_m))
+	return &BronzeHistoryS1RangerDeviceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryS1RangerDeviceClient) UpdateOneID(id int) *BronzeHistoryS1RangerDeviceUpdateOne {
+	mutation := newBronzeHistoryS1RangerDeviceMutation(c.config, OpUpdateOne, withBronzeHistoryS1RangerDeviceID(id))
+	return &BronzeHistoryS1RangerDeviceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryS1RangerDevice.
+func (c *BronzeHistoryS1RangerDeviceClient) Delete() *BronzeHistoryS1RangerDeviceDelete {
+	mutation := newBronzeHistoryS1RangerDeviceMutation(c.config, OpDelete)
+	return &BronzeHistoryS1RangerDeviceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryS1RangerDeviceClient) DeleteOne(_m *BronzeHistoryS1RangerDevice) *BronzeHistoryS1RangerDeviceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryS1RangerDeviceClient) DeleteOneID(id int) *BronzeHistoryS1RangerDeviceDeleteOne {
+	builder := c.Delete().Where(bronzehistorys1rangerdevice.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryS1RangerDeviceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryS1RangerDevice.
+func (c *BronzeHistoryS1RangerDeviceClient) Query() *BronzeHistoryS1RangerDeviceQuery {
+	return &BronzeHistoryS1RangerDeviceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryS1RangerDevice},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryS1RangerDevice entity by its id.
+func (c *BronzeHistoryS1RangerDeviceClient) Get(ctx context.Context, id int) (*BronzeHistoryS1RangerDevice, error) {
+	return c.Query().Where(bronzehistorys1rangerdevice.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryS1RangerDeviceClient) GetX(ctx context.Context, id int) *BronzeHistoryS1RangerDevice {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryS1RangerDeviceClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryS1RangerDevice
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryS1RangerDeviceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryS1RangerDevice
+}
+
+func (c *BronzeHistoryS1RangerDeviceClient) mutate(ctx context.Context, m *BronzeHistoryS1RangerDeviceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryS1RangerDeviceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryS1RangerDeviceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryS1RangerDeviceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryS1RangerDeviceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryS1RangerDevice mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryS1RangerGatewayClient is a client for the BronzeHistoryS1RangerGateway schema.
+type BronzeHistoryS1RangerGatewayClient struct {
+	config
+}
+
+// NewBronzeHistoryS1RangerGatewayClient returns a client for the BronzeHistoryS1RangerGateway from the given config.
+func NewBronzeHistoryS1RangerGatewayClient(c config) *BronzeHistoryS1RangerGatewayClient {
+	return &BronzeHistoryS1RangerGatewayClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorys1rangergateway.Hooks(f(g(h())))`.
+func (c *BronzeHistoryS1RangerGatewayClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryS1RangerGateway = append(c.hooks.BronzeHistoryS1RangerGateway, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorys1rangergateway.Intercept(f(g(h())))`.
+func (c *BronzeHistoryS1RangerGatewayClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryS1RangerGateway = append(c.inters.BronzeHistoryS1RangerGateway, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryS1RangerGateway entity.
+func (c *BronzeHistoryS1RangerGatewayClient) Create() *BronzeHistoryS1RangerGatewayCreate {
+	mutation := newBronzeHistoryS1RangerGatewayMutation(c.config, OpCreate)
+	return &BronzeHistoryS1RangerGatewayCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryS1RangerGateway entities.
+func (c *BronzeHistoryS1RangerGatewayClient) CreateBulk(builders ...*BronzeHistoryS1RangerGatewayCreate) *BronzeHistoryS1RangerGatewayCreateBulk {
+	return &BronzeHistoryS1RangerGatewayCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryS1RangerGatewayClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryS1RangerGatewayCreate, int)) *BronzeHistoryS1RangerGatewayCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryS1RangerGatewayCreateBulk{err: fmt.Errorf("calling to BronzeHistoryS1RangerGatewayClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryS1RangerGatewayCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryS1RangerGatewayCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryS1RangerGateway.
+func (c *BronzeHistoryS1RangerGatewayClient) Update() *BronzeHistoryS1RangerGatewayUpdate {
+	mutation := newBronzeHistoryS1RangerGatewayMutation(c.config, OpUpdate)
+	return &BronzeHistoryS1RangerGatewayUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryS1RangerGatewayClient) UpdateOne(_m *BronzeHistoryS1RangerGateway) *BronzeHistoryS1RangerGatewayUpdateOne {
+	mutation := newBronzeHistoryS1RangerGatewayMutation(c.config, OpUpdateOne, withBronzeHistoryS1RangerGateway(_m))
+	return &BronzeHistoryS1RangerGatewayUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryS1RangerGatewayClient) UpdateOneID(id int) *BronzeHistoryS1RangerGatewayUpdateOne {
+	mutation := newBronzeHistoryS1RangerGatewayMutation(c.config, OpUpdateOne, withBronzeHistoryS1RangerGatewayID(id))
+	return &BronzeHistoryS1RangerGatewayUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryS1RangerGateway.
+func (c *BronzeHistoryS1RangerGatewayClient) Delete() *BronzeHistoryS1RangerGatewayDelete {
+	mutation := newBronzeHistoryS1RangerGatewayMutation(c.config, OpDelete)
+	return &BronzeHistoryS1RangerGatewayDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryS1RangerGatewayClient) DeleteOne(_m *BronzeHistoryS1RangerGateway) *BronzeHistoryS1RangerGatewayDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryS1RangerGatewayClient) DeleteOneID(id int) *BronzeHistoryS1RangerGatewayDeleteOne {
+	builder := c.Delete().Where(bronzehistorys1rangergateway.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryS1RangerGatewayDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryS1RangerGateway.
+func (c *BronzeHistoryS1RangerGatewayClient) Query() *BronzeHistoryS1RangerGatewayQuery {
+	return &BronzeHistoryS1RangerGatewayQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryS1RangerGateway},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryS1RangerGateway entity by its id.
+func (c *BronzeHistoryS1RangerGatewayClient) Get(ctx context.Context, id int) (*BronzeHistoryS1RangerGateway, error) {
+	return c.Query().Where(bronzehistorys1rangergateway.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryS1RangerGatewayClient) GetX(ctx context.Context, id int) *BronzeHistoryS1RangerGateway {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryS1RangerGatewayClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryS1RangerGateway
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryS1RangerGatewayClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryS1RangerGateway
+}
+
+func (c *BronzeHistoryS1RangerGatewayClient) mutate(ctx context.Context, m *BronzeHistoryS1RangerGatewayMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryS1RangerGatewayCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryS1RangerGatewayUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryS1RangerGatewayUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryS1RangerGatewayDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryS1RangerGateway mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryS1RangerSettingClient is a client for the BronzeHistoryS1RangerSetting schema.
+type BronzeHistoryS1RangerSettingClient struct {
+	config
+}
+
+// NewBronzeHistoryS1RangerSettingClient returns a client for the BronzeHistoryS1RangerSetting from the given config.
+func NewBronzeHistoryS1RangerSettingClient(c config) *BronzeHistoryS1RangerSettingClient {
+	return &BronzeHistoryS1RangerSettingClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorys1rangersetting.Hooks(f(g(h())))`.
+func (c *BronzeHistoryS1RangerSettingClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryS1RangerSetting = append(c.hooks.BronzeHistoryS1RangerSetting, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorys1rangersetting.Intercept(f(g(h())))`.
+func (c *BronzeHistoryS1RangerSettingClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryS1RangerSetting = append(c.inters.BronzeHistoryS1RangerSetting, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryS1RangerSetting entity.
+func (c *BronzeHistoryS1RangerSettingClient) Create() *BronzeHistoryS1RangerSettingCreate {
+	mutation := newBronzeHistoryS1RangerSettingMutation(c.config, OpCreate)
+	return &BronzeHistoryS1RangerSettingCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryS1RangerSetting entities.
+func (c *BronzeHistoryS1RangerSettingClient) CreateBulk(builders ...*BronzeHistoryS1RangerSettingCreate) *BronzeHistoryS1RangerSettingCreateBulk {
+	return &BronzeHistoryS1RangerSettingCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryS1RangerSettingClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryS1RangerSettingCreate, int)) *BronzeHistoryS1RangerSettingCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryS1RangerSettingCreateBulk{err: fmt.Errorf("calling to BronzeHistoryS1RangerSettingClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryS1RangerSettingCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryS1RangerSettingCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryS1RangerSetting.
+func (c *BronzeHistoryS1RangerSettingClient) Update() *BronzeHistoryS1RangerSettingUpdate {
+	mutation := newBronzeHistoryS1RangerSettingMutation(c.config, OpUpdate)
+	return &BronzeHistoryS1RangerSettingUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryS1RangerSettingClient) UpdateOne(_m *BronzeHistoryS1RangerSetting) *BronzeHistoryS1RangerSettingUpdateOne {
+	mutation := newBronzeHistoryS1RangerSettingMutation(c.config, OpUpdateOne, withBronzeHistoryS1RangerSetting(_m))
+	return &BronzeHistoryS1RangerSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryS1RangerSettingClient) UpdateOneID(id int) *BronzeHistoryS1RangerSettingUpdateOne {
+	mutation := newBronzeHistoryS1RangerSettingMutation(c.config, OpUpdateOne, withBronzeHistoryS1RangerSettingID(id))
+	return &BronzeHistoryS1RangerSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryS1RangerSetting.
+func (c *BronzeHistoryS1RangerSettingClient) Delete() *BronzeHistoryS1RangerSettingDelete {
+	mutation := newBronzeHistoryS1RangerSettingMutation(c.config, OpDelete)
+	return &BronzeHistoryS1RangerSettingDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryS1RangerSettingClient) DeleteOne(_m *BronzeHistoryS1RangerSetting) *BronzeHistoryS1RangerSettingDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryS1RangerSettingClient) DeleteOneID(id int) *BronzeHistoryS1RangerSettingDeleteOne {
+	builder := c.Delete().Where(bronzehistorys1rangersetting.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryS1RangerSettingDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryS1RangerSetting.
+func (c *BronzeHistoryS1RangerSettingClient) Query() *BronzeHistoryS1RangerSettingQuery {
+	return &BronzeHistoryS1RangerSettingQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryS1RangerSetting},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryS1RangerSetting entity by its id.
+func (c *BronzeHistoryS1RangerSettingClient) Get(ctx context.Context, id int) (*BronzeHistoryS1RangerSetting, error) {
+	return c.Query().Where(bronzehistorys1rangersetting.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryS1RangerSettingClient) GetX(ctx context.Context, id int) *BronzeHistoryS1RangerSetting {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryS1RangerSettingClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryS1RangerSetting
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryS1RangerSettingClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryS1RangerSetting
+}
+
+func (c *BronzeHistoryS1RangerSettingClient) mutate(ctx context.Context, m *BronzeHistoryS1RangerSettingMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryS1RangerSettingCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryS1RangerSettingUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryS1RangerSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryS1RangerSettingDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryS1RangerSetting mutation op: %q", m.Op())
+	}
+}
+
 // BronzeHistoryS1SiteClient is a client for the BronzeHistoryS1Site schema.
 type BronzeHistoryS1SiteClient struct {
 	config
@@ -50869,6 +51320,405 @@ func (c *BronzeS1GroupClient) mutate(ctx context.Context, m *BronzeS1GroupMutati
 	}
 }
 
+// BronzeS1RangerDeviceClient is a client for the BronzeS1RangerDevice schema.
+type BronzeS1RangerDeviceClient struct {
+	config
+}
+
+// NewBronzeS1RangerDeviceClient returns a client for the BronzeS1RangerDevice from the given config.
+func NewBronzeS1RangerDeviceClient(c config) *BronzeS1RangerDeviceClient {
+	return &BronzeS1RangerDeviceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzes1rangerdevice.Hooks(f(g(h())))`.
+func (c *BronzeS1RangerDeviceClient) Use(hooks ...Hook) {
+	c.hooks.BronzeS1RangerDevice = append(c.hooks.BronzeS1RangerDevice, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzes1rangerdevice.Intercept(f(g(h())))`.
+func (c *BronzeS1RangerDeviceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeS1RangerDevice = append(c.inters.BronzeS1RangerDevice, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeS1RangerDevice entity.
+func (c *BronzeS1RangerDeviceClient) Create() *BronzeS1RangerDeviceCreate {
+	mutation := newBronzeS1RangerDeviceMutation(c.config, OpCreate)
+	return &BronzeS1RangerDeviceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeS1RangerDevice entities.
+func (c *BronzeS1RangerDeviceClient) CreateBulk(builders ...*BronzeS1RangerDeviceCreate) *BronzeS1RangerDeviceCreateBulk {
+	return &BronzeS1RangerDeviceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeS1RangerDeviceClient) MapCreateBulk(slice any, setFunc func(*BronzeS1RangerDeviceCreate, int)) *BronzeS1RangerDeviceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeS1RangerDeviceCreateBulk{err: fmt.Errorf("calling to BronzeS1RangerDeviceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeS1RangerDeviceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeS1RangerDeviceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeS1RangerDevice.
+func (c *BronzeS1RangerDeviceClient) Update() *BronzeS1RangerDeviceUpdate {
+	mutation := newBronzeS1RangerDeviceMutation(c.config, OpUpdate)
+	return &BronzeS1RangerDeviceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeS1RangerDeviceClient) UpdateOne(_m *BronzeS1RangerDevice) *BronzeS1RangerDeviceUpdateOne {
+	mutation := newBronzeS1RangerDeviceMutation(c.config, OpUpdateOne, withBronzeS1RangerDevice(_m))
+	return &BronzeS1RangerDeviceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeS1RangerDeviceClient) UpdateOneID(id string) *BronzeS1RangerDeviceUpdateOne {
+	mutation := newBronzeS1RangerDeviceMutation(c.config, OpUpdateOne, withBronzeS1RangerDeviceID(id))
+	return &BronzeS1RangerDeviceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeS1RangerDevice.
+func (c *BronzeS1RangerDeviceClient) Delete() *BronzeS1RangerDeviceDelete {
+	mutation := newBronzeS1RangerDeviceMutation(c.config, OpDelete)
+	return &BronzeS1RangerDeviceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeS1RangerDeviceClient) DeleteOne(_m *BronzeS1RangerDevice) *BronzeS1RangerDeviceDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeS1RangerDeviceClient) DeleteOneID(id string) *BronzeS1RangerDeviceDeleteOne {
+	builder := c.Delete().Where(bronzes1rangerdevice.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeS1RangerDeviceDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeS1RangerDevice.
+func (c *BronzeS1RangerDeviceClient) Query() *BronzeS1RangerDeviceQuery {
+	return &BronzeS1RangerDeviceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeS1RangerDevice},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeS1RangerDevice entity by its id.
+func (c *BronzeS1RangerDeviceClient) Get(ctx context.Context, id string) (*BronzeS1RangerDevice, error) {
+	return c.Query().Where(bronzes1rangerdevice.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeS1RangerDeviceClient) GetX(ctx context.Context, id string) *BronzeS1RangerDevice {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeS1RangerDeviceClient) Hooks() []Hook {
+	return c.hooks.BronzeS1RangerDevice
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeS1RangerDeviceClient) Interceptors() []Interceptor {
+	return c.inters.BronzeS1RangerDevice
+}
+
+func (c *BronzeS1RangerDeviceClient) mutate(ctx context.Context, m *BronzeS1RangerDeviceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeS1RangerDeviceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeS1RangerDeviceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeS1RangerDeviceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeS1RangerDeviceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeS1RangerDevice mutation op: %q", m.Op())
+	}
+}
+
+// BronzeS1RangerGatewayClient is a client for the BronzeS1RangerGateway schema.
+type BronzeS1RangerGatewayClient struct {
+	config
+}
+
+// NewBronzeS1RangerGatewayClient returns a client for the BronzeS1RangerGateway from the given config.
+func NewBronzeS1RangerGatewayClient(c config) *BronzeS1RangerGatewayClient {
+	return &BronzeS1RangerGatewayClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzes1rangergateway.Hooks(f(g(h())))`.
+func (c *BronzeS1RangerGatewayClient) Use(hooks ...Hook) {
+	c.hooks.BronzeS1RangerGateway = append(c.hooks.BronzeS1RangerGateway, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzes1rangergateway.Intercept(f(g(h())))`.
+func (c *BronzeS1RangerGatewayClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeS1RangerGateway = append(c.inters.BronzeS1RangerGateway, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeS1RangerGateway entity.
+func (c *BronzeS1RangerGatewayClient) Create() *BronzeS1RangerGatewayCreate {
+	mutation := newBronzeS1RangerGatewayMutation(c.config, OpCreate)
+	return &BronzeS1RangerGatewayCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeS1RangerGateway entities.
+func (c *BronzeS1RangerGatewayClient) CreateBulk(builders ...*BronzeS1RangerGatewayCreate) *BronzeS1RangerGatewayCreateBulk {
+	return &BronzeS1RangerGatewayCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeS1RangerGatewayClient) MapCreateBulk(slice any, setFunc func(*BronzeS1RangerGatewayCreate, int)) *BronzeS1RangerGatewayCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeS1RangerGatewayCreateBulk{err: fmt.Errorf("calling to BronzeS1RangerGatewayClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeS1RangerGatewayCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeS1RangerGatewayCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeS1RangerGateway.
+func (c *BronzeS1RangerGatewayClient) Update() *BronzeS1RangerGatewayUpdate {
+	mutation := newBronzeS1RangerGatewayMutation(c.config, OpUpdate)
+	return &BronzeS1RangerGatewayUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeS1RangerGatewayClient) UpdateOne(_m *BronzeS1RangerGateway) *BronzeS1RangerGatewayUpdateOne {
+	mutation := newBronzeS1RangerGatewayMutation(c.config, OpUpdateOne, withBronzeS1RangerGateway(_m))
+	return &BronzeS1RangerGatewayUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeS1RangerGatewayClient) UpdateOneID(id string) *BronzeS1RangerGatewayUpdateOne {
+	mutation := newBronzeS1RangerGatewayMutation(c.config, OpUpdateOne, withBronzeS1RangerGatewayID(id))
+	return &BronzeS1RangerGatewayUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeS1RangerGateway.
+func (c *BronzeS1RangerGatewayClient) Delete() *BronzeS1RangerGatewayDelete {
+	mutation := newBronzeS1RangerGatewayMutation(c.config, OpDelete)
+	return &BronzeS1RangerGatewayDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeS1RangerGatewayClient) DeleteOne(_m *BronzeS1RangerGateway) *BronzeS1RangerGatewayDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeS1RangerGatewayClient) DeleteOneID(id string) *BronzeS1RangerGatewayDeleteOne {
+	builder := c.Delete().Where(bronzes1rangergateway.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeS1RangerGatewayDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeS1RangerGateway.
+func (c *BronzeS1RangerGatewayClient) Query() *BronzeS1RangerGatewayQuery {
+	return &BronzeS1RangerGatewayQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeS1RangerGateway},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeS1RangerGateway entity by its id.
+func (c *BronzeS1RangerGatewayClient) Get(ctx context.Context, id string) (*BronzeS1RangerGateway, error) {
+	return c.Query().Where(bronzes1rangergateway.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeS1RangerGatewayClient) GetX(ctx context.Context, id string) *BronzeS1RangerGateway {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeS1RangerGatewayClient) Hooks() []Hook {
+	return c.hooks.BronzeS1RangerGateway
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeS1RangerGatewayClient) Interceptors() []Interceptor {
+	return c.inters.BronzeS1RangerGateway
+}
+
+func (c *BronzeS1RangerGatewayClient) mutate(ctx context.Context, m *BronzeS1RangerGatewayMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeS1RangerGatewayCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeS1RangerGatewayUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeS1RangerGatewayUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeS1RangerGatewayDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeS1RangerGateway mutation op: %q", m.Op())
+	}
+}
+
+// BronzeS1RangerSettingClient is a client for the BronzeS1RangerSetting schema.
+type BronzeS1RangerSettingClient struct {
+	config
+}
+
+// NewBronzeS1RangerSettingClient returns a client for the BronzeS1RangerSetting from the given config.
+func NewBronzeS1RangerSettingClient(c config) *BronzeS1RangerSettingClient {
+	return &BronzeS1RangerSettingClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzes1rangersetting.Hooks(f(g(h())))`.
+func (c *BronzeS1RangerSettingClient) Use(hooks ...Hook) {
+	c.hooks.BronzeS1RangerSetting = append(c.hooks.BronzeS1RangerSetting, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzes1rangersetting.Intercept(f(g(h())))`.
+func (c *BronzeS1RangerSettingClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeS1RangerSetting = append(c.inters.BronzeS1RangerSetting, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeS1RangerSetting entity.
+func (c *BronzeS1RangerSettingClient) Create() *BronzeS1RangerSettingCreate {
+	mutation := newBronzeS1RangerSettingMutation(c.config, OpCreate)
+	return &BronzeS1RangerSettingCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeS1RangerSetting entities.
+func (c *BronzeS1RangerSettingClient) CreateBulk(builders ...*BronzeS1RangerSettingCreate) *BronzeS1RangerSettingCreateBulk {
+	return &BronzeS1RangerSettingCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeS1RangerSettingClient) MapCreateBulk(slice any, setFunc func(*BronzeS1RangerSettingCreate, int)) *BronzeS1RangerSettingCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeS1RangerSettingCreateBulk{err: fmt.Errorf("calling to BronzeS1RangerSettingClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeS1RangerSettingCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeS1RangerSettingCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeS1RangerSetting.
+func (c *BronzeS1RangerSettingClient) Update() *BronzeS1RangerSettingUpdate {
+	mutation := newBronzeS1RangerSettingMutation(c.config, OpUpdate)
+	return &BronzeS1RangerSettingUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeS1RangerSettingClient) UpdateOne(_m *BronzeS1RangerSetting) *BronzeS1RangerSettingUpdateOne {
+	mutation := newBronzeS1RangerSettingMutation(c.config, OpUpdateOne, withBronzeS1RangerSetting(_m))
+	return &BronzeS1RangerSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeS1RangerSettingClient) UpdateOneID(id string) *BronzeS1RangerSettingUpdateOne {
+	mutation := newBronzeS1RangerSettingMutation(c.config, OpUpdateOne, withBronzeS1RangerSettingID(id))
+	return &BronzeS1RangerSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeS1RangerSetting.
+func (c *BronzeS1RangerSettingClient) Delete() *BronzeS1RangerSettingDelete {
+	mutation := newBronzeS1RangerSettingMutation(c.config, OpDelete)
+	return &BronzeS1RangerSettingDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeS1RangerSettingClient) DeleteOne(_m *BronzeS1RangerSetting) *BronzeS1RangerSettingDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeS1RangerSettingClient) DeleteOneID(id string) *BronzeS1RangerSettingDeleteOne {
+	builder := c.Delete().Where(bronzes1rangersetting.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeS1RangerSettingDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeS1RangerSetting.
+func (c *BronzeS1RangerSettingClient) Query() *BronzeS1RangerSettingQuery {
+	return &BronzeS1RangerSettingQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeS1RangerSetting},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeS1RangerSetting entity by its id.
+func (c *BronzeS1RangerSettingClient) Get(ctx context.Context, id string) (*BronzeS1RangerSetting, error) {
+	return c.Query().Where(bronzes1rangersetting.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeS1RangerSettingClient) GetX(ctx context.Context, id string) *BronzeS1RangerSetting {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeS1RangerSettingClient) Hooks() []Hook {
+	return c.hooks.BronzeS1RangerSetting
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeS1RangerSettingClient) Interceptors() []Interceptor {
+	return c.inters.BronzeS1RangerSetting
+}
+
+func (c *BronzeS1RangerSettingClient) mutate(ctx context.Context, m *BronzeS1RangerSettingMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeS1RangerSettingCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeS1RangerSettingUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeS1RangerSettingUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeS1RangerSettingDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeS1RangerSetting mutation op: %q", m.Op())
+	}
+}
+
 // BronzeS1SiteClient is a client for the BronzeS1Site schema.
 type BronzeS1SiteClient struct {
 	config
@@ -51310,9 +52160,12 @@ type (
 		BronzeHistoryGreenNodeComputeServerSecGroup, BronzeHistoryGreenNodePortalQuota,
 		BronzeHistoryGreenNodePortalRegion, BronzeHistoryS1Account,
 		BronzeHistoryS1Agent, BronzeHistoryS1AgentNIC, BronzeHistoryS1App,
-		BronzeHistoryS1Group, BronzeHistoryS1Site, BronzeHistoryS1Threat,
-		BronzeS1Account, BronzeS1Agent, BronzeS1AgentNIC, BronzeS1App, BronzeS1Group,
-		BronzeS1Site, BronzeS1Threat []ent.Hook
+		BronzeHistoryS1Group, BronzeHistoryS1RangerDevice,
+		BronzeHistoryS1RangerGateway, BronzeHistoryS1RangerSetting,
+		BronzeHistoryS1Site, BronzeHistoryS1Threat, BronzeS1Account, BronzeS1Agent,
+		BronzeS1AgentNIC, BronzeS1App, BronzeS1Group, BronzeS1RangerDevice,
+		BronzeS1RangerGateway, BronzeS1RangerSetting, BronzeS1Site,
+		BronzeS1Threat []ent.Hook
 	}
 	inters struct {
 		BronzeAWSEC2Instance, BronzeAWSEC2InstanceTag, BronzeDOAccount,
@@ -51487,9 +52340,12 @@ type (
 		BronzeHistoryGreenNodeComputeServerSecGroup, BronzeHistoryGreenNodePortalQuota,
 		BronzeHistoryGreenNodePortalRegion, BronzeHistoryS1Account,
 		BronzeHistoryS1Agent, BronzeHistoryS1AgentNIC, BronzeHistoryS1App,
-		BronzeHistoryS1Group, BronzeHistoryS1Site, BronzeHistoryS1Threat,
-		BronzeS1Account, BronzeS1Agent, BronzeS1AgentNIC, BronzeS1App, BronzeS1Group,
-		BronzeS1Site, BronzeS1Threat []ent.Interceptor
+		BronzeHistoryS1Group, BronzeHistoryS1RangerDevice,
+		BronzeHistoryS1RangerGateway, BronzeHistoryS1RangerSetting,
+		BronzeHistoryS1Site, BronzeHistoryS1Threat, BronzeS1Account, BronzeS1Agent,
+		BronzeS1AgentNIC, BronzeS1App, BronzeS1Group, BronzeS1RangerDevice,
+		BronzeS1RangerGateway, BronzeS1RangerSetting, BronzeS1Site,
+		BronzeS1Threat []ent.Interceptor
 	}
 )
 

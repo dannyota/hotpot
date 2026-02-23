@@ -4029,6 +4029,42 @@ func (f BronzeHistoryS1GroupFunc) Mutate(ctx context.Context, m ent.Mutation) (e
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryS1GroupMutation", m)
 }
 
+// The BronzeHistoryS1RangerDeviceFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryS1RangerDevice mutator.
+type BronzeHistoryS1RangerDeviceFunc func(context.Context, *ent.BronzeHistoryS1RangerDeviceMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryS1RangerDeviceFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryS1RangerDeviceMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryS1RangerDeviceMutation", m)
+}
+
+// The BronzeHistoryS1RangerGatewayFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryS1RangerGateway mutator.
+type BronzeHistoryS1RangerGatewayFunc func(context.Context, *ent.BronzeHistoryS1RangerGatewayMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryS1RangerGatewayFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryS1RangerGatewayMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryS1RangerGatewayMutation", m)
+}
+
+// The BronzeHistoryS1RangerSettingFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryS1RangerSetting mutator.
+type BronzeHistoryS1RangerSettingFunc func(context.Context, *ent.BronzeHistoryS1RangerSettingMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryS1RangerSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryS1RangerSettingMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryS1RangerSettingMutation", m)
+}
+
 // The BronzeHistoryS1SiteFunc type is an adapter to allow the use of ordinary
 // function as BronzeHistoryS1Site mutator.
 type BronzeHistoryS1SiteFunc func(context.Context, *ent.BronzeHistoryS1SiteMutation) (ent.Value, error)
@@ -4111,6 +4147,42 @@ func (f BronzeS1GroupFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Valu
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeS1GroupMutation", m)
+}
+
+// The BronzeS1RangerDeviceFunc type is an adapter to allow the use of ordinary
+// function as BronzeS1RangerDevice mutator.
+type BronzeS1RangerDeviceFunc func(context.Context, *ent.BronzeS1RangerDeviceMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeS1RangerDeviceFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeS1RangerDeviceMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeS1RangerDeviceMutation", m)
+}
+
+// The BronzeS1RangerGatewayFunc type is an adapter to allow the use of ordinary
+// function as BronzeS1RangerGateway mutator.
+type BronzeS1RangerGatewayFunc func(context.Context, *ent.BronzeS1RangerGatewayMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeS1RangerGatewayFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeS1RangerGatewayMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeS1RangerGatewayMutation", m)
+}
+
+// The BronzeS1RangerSettingFunc type is an adapter to allow the use of ordinary
+// function as BronzeS1RangerSetting mutator.
+type BronzeS1RangerSettingFunc func(context.Context, *ent.BronzeS1RangerSettingMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeS1RangerSettingFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeS1RangerSettingMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeS1RangerSettingMutation", m)
 }
 
 // The BronzeS1SiteFunc type is an adapter to allow the use of ordinary

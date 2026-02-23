@@ -10,18 +10,24 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/agent"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/app"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/group"
+	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_device"
+	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_gateway"
+	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_setting"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/site"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/threat"
 )
 
 // S1InventoryWorkflowResult contains the result of SentinelOne inventory collection.
 type S1InventoryWorkflowResult struct {
-	AccountCount int
-	AgentCount   int
-	AppCount     int
-	GroupCount   int
-	SiteCount    int
-	ThreatCount  int
+	AccountCount       int
+	AgentCount         int
+	AppCount           int
+	GroupCount         int
+	SiteCount          int
+	ThreatCount        int
+	RangerDeviceCount  int
+	RangerGatewayCount int
+	RangerSettingCount int
 }
 
 // S1InventoryWorkflow orchestrates SentinelOne inventory collection.
@@ -96,6 +102,33 @@ func S1InventoryWorkflow(ctx workflow.Context) (*S1InventoryWorkflowResult, erro
 		result.AppCount = appResult.AppCount
 	}
 
+	// Execute ranger device workflow
+	var rangerDeviceResult ranger_device.S1RangerDeviceWorkflowResult
+	err = workflow.ExecuteChildWorkflow(ctx, ranger_device.S1RangerDeviceWorkflow).Get(ctx, &rangerDeviceResult)
+	if err != nil {
+		logger.Error("Failed to execute S1RangerDeviceWorkflow", "error", err)
+	} else {
+		result.RangerDeviceCount = rangerDeviceResult.DeviceCount
+	}
+
+	// Execute ranger gateway workflow
+	var rangerGatewayResult ranger_gateway.S1RangerGatewayWorkflowResult
+	err = workflow.ExecuteChildWorkflow(ctx, ranger_gateway.S1RangerGatewayWorkflow).Get(ctx, &rangerGatewayResult)
+	if err != nil {
+		logger.Error("Failed to execute S1RangerGatewayWorkflow", "error", err)
+	} else {
+		result.RangerGatewayCount = rangerGatewayResult.GatewayCount
+	}
+
+	// Execute ranger setting workflow
+	var rangerSettingResult ranger_setting.S1RangerSettingWorkflowResult
+	err = workflow.ExecuteChildWorkflow(ctx, ranger_setting.S1RangerSettingWorkflow).Get(ctx, &rangerSettingResult)
+	if err != nil {
+		logger.Error("Failed to execute S1RangerSettingWorkflow", "error", err)
+	} else {
+		result.RangerSettingCount = rangerSettingResult.SettingCount
+	}
+
 	logger.Info("Completed S1InventoryWorkflow",
 		"accounts", result.AccountCount,
 		"agents", result.AgentCount,
@@ -103,6 +136,9 @@ func S1InventoryWorkflow(ctx workflow.Context) (*S1InventoryWorkflowResult, erro
 		"groups", result.GroupCount,
 		"sites", result.SiteCount,
 		"threats", result.ThreatCount,
+		"rangerDevices", result.RangerDeviceCount,
+		"rangerGateways", result.RangerGatewayCount,
+		"rangerSettings", result.RangerSettingCount,
 	)
 
 	return result, nil

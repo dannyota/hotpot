@@ -347,6 +347,9 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1agentnic"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1app"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1group"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1rangerdevice"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1rangergateway"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1rangersetting"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1site"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1threat"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1account"
@@ -354,6 +357,9 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1agentnic"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1app"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1group"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangerdevice"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangergateway"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangersetting"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1site"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1threat"
 )
@@ -751,6 +757,9 @@ func checkColumn(t, c string) error {
 			bronzehistorys1agentnic.Table:                              bronzehistorys1agentnic.ValidColumn,
 			bronzehistorys1app.Table:                                   bronzehistorys1app.ValidColumn,
 			bronzehistorys1group.Table:                                 bronzehistorys1group.ValidColumn,
+			bronzehistorys1rangerdevice.Table:                          bronzehistorys1rangerdevice.ValidColumn,
+			bronzehistorys1rangergateway.Table:                         bronzehistorys1rangergateway.ValidColumn,
+			bronzehistorys1rangersetting.Table:                         bronzehistorys1rangersetting.ValidColumn,
 			bronzehistorys1site.Table:                                  bronzehistorys1site.ValidColumn,
 			bronzehistorys1threat.Table:                                bronzehistorys1threat.ValidColumn,
 			bronzes1account.Table:                                      bronzes1account.ValidColumn,
@@ -758,6 +767,9 @@ func checkColumn(t, c string) error {
 			bronzes1agentnic.Table:                                     bronzes1agentnic.ValidColumn,
 			bronzes1app.Table:                                          bronzes1app.ValidColumn,
 			bronzes1group.Table:                                        bronzes1group.ValidColumn,
+			bronzes1rangerdevice.Table:                                 bronzes1rangerdevice.ValidColumn,
+			bronzes1rangergateway.Table:                                bronzes1rangergateway.ValidColumn,
+			bronzes1rangersetting.Table:                                bronzes1rangersetting.ValidColumn,
 			bronzes1site.Table:                                         bronzes1site.ValidColumn,
 			bronzes1threat.Table:                                       bronzes1threat.ValidColumn,
 		})
