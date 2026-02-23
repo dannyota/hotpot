@@ -19,5 +19,7 @@ func init() {
 		Register: func(w worker.Worker, cs *config.Service, ec *ent.Client) io.Closer {
 			return Register(w, cs, ec)
 		},
+		Workflow:     AWSInventoryWorkflow,
+		WorkflowArgs: []interface{}{AWSInventoryWorkflowParams{}},
 	})
 }

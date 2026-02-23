@@ -9,7 +9,8 @@ import (
 
 // GreenNodePortalWorkflowParams contains parameters for the portal workflow.
 type GreenNodePortalWorkflowParams struct {
-	Region string
+	ProjectID string
+	Region    string
 }
 
 // GreenNodePortalWorkflowResult contains the result of the portal workflow.
@@ -31,7 +32,8 @@ func GreenNodePortalWorkflow(ctx workflow.Context, params GreenNodePortalWorkflo
 	// Regions
 	var regionResult region.GreenNodePortalRegionWorkflowResult
 	err := workflow.ExecuteChildWorkflow(childCtx, region.GreenNodePortalRegionWorkflow, region.GreenNodePortalRegionWorkflowParams{
-		Region: params.Region,
+		ProjectID: params.ProjectID,
+		Region:    params.Region,
 	}).Get(ctx, &regionResult)
 	if err != nil {
 		logger.Error("Failed to ingest regions", "error", err)
@@ -42,7 +44,8 @@ func GreenNodePortalWorkflow(ctx workflow.Context, params GreenNodePortalWorkflo
 	// Quotas
 	var quotaResult quota.GreenNodePortalQuotaWorkflowResult
 	err = workflow.ExecuteChildWorkflow(childCtx, quota.GreenNodePortalQuotaWorkflow, quota.GreenNodePortalQuotaWorkflowParams{
-		Region: params.Region,
+		ProjectID: params.ProjectID,
+		Region:    params.Region,
 	}).Get(ctx, &quotaResult)
 	if err != nil {
 		logger.Error("Failed to ingest quotas", "error", err)

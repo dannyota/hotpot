@@ -47,7 +47,7 @@ func (a *Activities) IngestComputeServerGroups(ctx context.Context, params Inges
 	logger := activity.GetLogger(ctx)
 	logger.Info("Starting GreenNode server group ingestion", "projectID", params.ProjectID, "region", params.Region)
 
-	client, err := NewClient(ctx, a.configService, a.limiter, params.Region)
+	client, err := NewClient(ctx, a.configService, a.limiter, params.Region, params.ProjectID)
 	if err != nil {
 		return nil, fmt.Errorf("create client: %w", err)
 	}

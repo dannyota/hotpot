@@ -19,10 +19,10 @@ type Client struct {
 }
 
 // NewClient creates a GreenNode client with rate limiting.
-func NewClient(ctx context.Context, configService *config.Service, limiter ratelimit.Limiter, region string) (*Client, error) {
+func NewClient(ctx context.Context, configService *config.Service, limiter ratelimit.Limiter, region, projectID string) (*Client, error) {
 	cfg := greennode.Config{
 		Region:    region,
-		ProjectID: configService.GreenNodeProjectID(),
+		ProjectID: projectID,
 	}
 
 	if username := configService.GreenNodeUsername(); username != "" {

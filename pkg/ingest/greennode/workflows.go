@@ -29,7 +29,6 @@ func GreenNodeInventoryWorkflow(ctx workflow.Context) (*GreenNodeInventoryWorkfl
 
 	result := &GreenNodeInventoryWorkflowResult{}
 
-	// Discover configured regions
 	activityOpts := workflow.ActivityOptions{
 		StartToCloseTimeout: time.Minute,
 		RetryPolicy: &temporal.RetryPolicy{
@@ -38,6 +37,7 @@ func GreenNodeInventoryWorkflow(ctx workflow.Context) (*GreenNodeInventoryWorkfl
 	}
 	activityCtx := workflow.WithActivityOptions(ctx, activityOpts)
 
+	// Discover configured regions
 	var discoverResult DiscoverRegionsResult
 	err := workflow.ExecuteActivity(activityCtx, DiscoverRegionsActivity, DiscoverRegionsParams{}).Get(ctx, &discoverResult)
 	if err != nil {
@@ -50,14 +50,36 @@ func GreenNodeInventoryWorkflow(ctx workflow.Context) (*GreenNodeInventoryWorkfl
 		return result, nil
 	}
 
+	firstRegion := discoverResult.Regions[0]
+
+	// Discover projects (from config or via Portal V1 API)
+	var projectsResult DiscoverProjectsResult
+	err = workflow.ExecuteActivity(activityCtx, DiscoverProjectsActivity, DiscoverProjectsParams{
+		Region: firstRegion,
+	}).Get(ctx, &projectsResult)
+	if err != nil {
+		logger.Error("Failed to discover projects", "error", err)
+		return nil, err
+	}
+
+	if len(projectsResult.ProjectIDs) == 0 {
+		logger.Warn("No GreenNode projects discovered")
+		return result, nil
+	}
+
+	logger.Info("Discovered projects", "count", len(projectsResult.ProjectIDs), "projectIDs", projectsResult.ProjectIDs)
+
 	childOpts := workflow.ChildWorkflowOptions{}
 	childCtx := workflow.WithChildOptions(ctx, childOpts)
 
-	// Portal (regions + quotas) - run once using first region for API endpoint
-	firstRegion := discoverResult.Regions[0]
+	// Use first project for portal (regions + quotas are project-scoped)
+	firstProjectID := projectsResult.ProjectIDs[0]
+
+	// Portal (regions + quotas) - run once using first region and first project
 	var portalResult portal.GreenNodePortalWorkflowResult
 	err = workflow.ExecuteChildWorkflow(childCtx, portal.GreenNodePortalWorkflow, portal.GreenNodePortalWorkflowParams{
-		Region: firstRegion,
+		ProjectID: firstProjectID,
+		Region:    firstRegion,
 	}).Get(ctx, &portalResult)
 	if err != nil {
 		logger.Error("Failed portal ingestion", "error", err)
@@ -66,18 +88,21 @@ func GreenNodeInventoryWorkflow(ctx workflow.Context) (*GreenNodeInventoryWorkfl
 		result.QuotaCount = portalResult.QuotaCount
 	}
 
-	// Compute - run per region
-	for _, region := range discoverResult.Regions {
-		var computeResult compute.GreenNodeComputeWorkflowResult
-		err = workflow.ExecuteChildWorkflow(childCtx, compute.GreenNodeComputeWorkflow, compute.GreenNodeComputeWorkflowParams{
-			Region: region,
-		}).Get(ctx, &computeResult)
-		if err != nil {
-			logger.Error("Failed compute ingestion", "error", err, "region", region)
-		} else {
-			result.ServerCount += computeResult.ServerCount
-			result.SSHKeyCount += computeResult.SSHKeyCount
-			result.ServerGroupCount += computeResult.ServerGroupCount
+	// Compute - run per (project, region)
+	for _, projectID := range projectsResult.ProjectIDs {
+		for _, region := range discoverResult.Regions {
+			var computeResult compute.GreenNodeComputeWorkflowResult
+			err = workflow.ExecuteChildWorkflow(childCtx, compute.GreenNodeComputeWorkflow, compute.GreenNodeComputeWorkflowParams{
+				ProjectID: projectID,
+				Region:    region,
+			}).Get(ctx, &computeResult)
+			if err != nil {
+				logger.Error("Failed compute ingestion", "error", err, "projectID", projectID, "region", region)
+			} else {
+				result.ServerCount += computeResult.ServerCount
+				result.SSHKeyCount += computeResult.SSHKeyCount
+				result.ServerGroupCount += computeResult.ServerGroupCount
+			}
 		}
 	}
 

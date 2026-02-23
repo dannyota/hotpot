@@ -20,8 +20,9 @@ func Register(w worker.Worker, configService *config.Service, entClient *ent.Cli
 	})
 	limiter := rateLimitSvc.Limiter()
 
-	activities := NewActivities(configService)
+	activities := NewActivities(configService, limiter)
 	w.RegisterActivity(activities.DiscoverRegions)
+	w.RegisterActivity(activities.DiscoverProjects)
 
 	portal.Register(w, configService, entClient, limiter)
 	compute.Register(w, configService, entClient, limiter)

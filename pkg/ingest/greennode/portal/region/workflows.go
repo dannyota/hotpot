@@ -9,7 +9,8 @@ import (
 
 // GreenNodePortalRegionWorkflowParams contains parameters for the region workflow.
 type GreenNodePortalRegionWorkflowParams struct {
-	Region string
+	ProjectID string
+	Region    string
 }
 
 // GreenNodePortalRegionWorkflowResult contains the result of the region workflow.
@@ -36,7 +37,8 @@ func GreenNodePortalRegionWorkflow(ctx workflow.Context, params GreenNodePortalR
 
 	var result IngestPortalRegionsResult
 	err := workflow.ExecuteActivity(activityCtx, IngestPortalRegionsActivity, IngestPortalRegionsParams{
-		Region: params.Region,
+		ProjectID: params.ProjectID,
+		Region:    params.Region,
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest regions", "error", err)

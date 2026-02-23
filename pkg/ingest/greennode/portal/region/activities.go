@@ -47,7 +47,7 @@ func (a *Activities) IngestPortalRegions(ctx context.Context, params IngestPorta
 	logger := activity.GetLogger(ctx)
 	logger.Info("Starting GreenNode region ingestion", "projectID", params.ProjectID, "region", params.Region)
 
-	client, err := NewClient(ctx, a.configService, a.limiter, params.Region)
+	client, err := NewClient(ctx, a.configService, a.limiter, params.Region, params.ProjectID)
 	if err != nil {
 		return nil, fmt.Errorf("create client: %w", err)
 	}

@@ -47,7 +47,7 @@ func (a *Activities) IngestPortalQuotas(ctx context.Context, params IngestPortal
 	logger := activity.GetLogger(ctx)
 	logger.Info("Starting GreenNode quota ingestion", "projectID", params.ProjectID, "region", params.Region)
 
-	client, err := NewClient(ctx, a.configService, a.limiter, params.Region)
+	client, err := NewClient(ctx, a.configService, a.limiter, params.Region, params.ProjectID)
 	if err != nil {
 		return nil, fmt.Errorf("create client: %w", err)
 	}

@@ -18,6 +18,13 @@ type ProviderRegistration struct {
 	Enabled            func(*config.Service) bool
 	RateLimitPerMinute func(*config.Service) int
 	Register           func(worker.Worker, *config.Service, *ent.Client) io.Closer
+
+	// Workflow is the top-level inventory workflow function for scheduling.
+	Workflow interface{}
+
+	// WorkflowArgs are the default arguments passed to the workflow.
+	// Nil for workflows that only take workflow.Context.
+	WorkflowArgs []interface{}
 }
 
 var (

@@ -9,7 +9,8 @@ import (
 
 // GreenNodePortalQuotaWorkflowParams contains parameters for the quota workflow.
 type GreenNodePortalQuotaWorkflowParams struct {
-	Region string
+	ProjectID string
+	Region    string
 }
 
 // GreenNodePortalQuotaWorkflowResult contains the result of the quota workflow.
@@ -36,7 +37,8 @@ func GreenNodePortalQuotaWorkflow(ctx workflow.Context, params GreenNodePortalQu
 
 	var result IngestPortalQuotasResult
 	err := workflow.ExecuteActivity(activityCtx, IngestPortalQuotasActivity, IngestPortalQuotasParams{
-		Region: params.Region,
+		ProjectID: params.ProjectID,
+		Region:    params.Region,
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest quotas", "error", err)

@@ -31,6 +31,9 @@ func Run(ctx context.Context, configService *config.Service, entClient *ent.Clie
 	}
 	defer temporalClient.Close()
 
+	// Create paused daily schedules for enabled providers.
+	ensureSchedules(ctx, temporalClient, allProviders, configService)
+
 	// Convert context cancellation to interrupt channel for Temporal worker
 	interruptCh := make(chan any)
 	go func() {
