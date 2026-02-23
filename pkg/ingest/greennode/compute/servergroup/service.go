@@ -34,7 +34,7 @@ type IngestResult struct {
 }
 
 // Ingest fetches server groups from GreenNode and stores them in the bronze layer.
-func (s *Service) Ingest(ctx context.Context, projectID string) (*IngestResult, error) {
+func (s *Service) Ingest(ctx context.Context, projectID, region string) (*IngestResult, error) {
 	startTime := time.Now()
 	collectedAt := startTime
 
@@ -45,7 +45,7 @@ func (s *Service) Ingest(ctx context.Context, projectID string) (*IngestResult, 
 
 	dataList := make([]*ServerGroupData, 0, len(groups))
 	for _, sg := range groups {
-		dataList = append(dataList, ConvertServerGroup(sg, projectID, collectedAt))
+		dataList = append(dataList, ConvertServerGroup(sg, projectID, region, collectedAt))
 	}
 
 	if err := s.saveServerGroups(ctx, dataList); err != nil {
@@ -114,6 +114,7 @@ func (s *Service) saveServerGroups(ctx context.Context, groups []*ServerGroupDat
 				SetDescription(data.Description).
 				SetPolicyID(data.PolicyID).
 				SetPolicyName(data.PolicyName).
+				SetRegion(data.Region).
 				SetProjectID(data.ProjectID).
 				SetCollectedAt(data.CollectedAt).
 				SetFirstCollectedAt(data.CollectedAt).
@@ -128,6 +129,7 @@ func (s *Service) saveServerGroups(ctx context.Context, groups []*ServerGroupDat
 				SetDescription(data.Description).
 				SetPolicyID(data.PolicyID).
 				SetPolicyName(data.PolicyName).
+				SetRegion(data.Region).
 				SetCollectedAt(data.CollectedAt).
 				Save(ctx)
 			if err != nil {
@@ -184,8 +186,8 @@ func (s *Service) createGroupChildren(ctx context.Context, tx *ent.Tx, group *en
 	return nil
 }
 
-// DeleteStaleServerGroups removes server groups not collected in the latest run.
-func (s *Service) DeleteStaleServerGroups(ctx context.Context, projectID string, collectedAt time.Time) error {
+// DeleteStaleServerGroups removes server groups not collected in the latest run for the given region.
+func (s *Service) DeleteStaleServerGroups(ctx context.Context, projectID, region string, collectedAt time.Time) error {
 	now := time.Now()
 
 	tx, err := s.entClient.Tx(ctx)
@@ -202,6 +204,7 @@ func (s *Service) DeleteStaleServerGroups(ctx context.Context, projectID string,
 	stale, err := tx.BronzeGreenNodeComputeServerGroup.Query().
 		Where(
 			bronzegreennodecomputeservergroup.ProjectID(projectID),
+			bronzegreennodecomputeservergroup.Region(region),
 			bronzegreennodecomputeservergroup.CollectedAtLT(collectedAt),
 		).
 		All(ctx)

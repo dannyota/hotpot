@@ -85,8 +85,8 @@ type GreenNodeConfig struct {
 	// Enabled controls whether GreenNode ingestion runs and tables are created.
 	Enabled bool `yaml:"enabled"`
 
-	// Region is the GreenNode region (e.g., "hcm-3", "han-1").
-	Region string `yaml:"region"`
+	// Regions is the list of GreenNode regions to ingest (e.g., ["hcm-3", "han-1"]).
+	Regions []string `yaml:"regions"`
 
 	// ClientID is the service account client ID for OAuth2 authentication.
 	ClientID string `yaml:"client_id"`

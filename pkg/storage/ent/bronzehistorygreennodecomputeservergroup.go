@@ -37,6 +37,8 @@ type BronzeHistoryGreenNodeComputeServerGroup struct {
 	PolicyID string `json:"policy_id,omitempty"`
 	// PolicyName holds the value of the "policy_name" field.
 	PolicyName string `json:"policy_name,omitempty"`
+	// Region holds the value of the "region" field.
+	Region string `json:"region,omitempty"`
 	// ProjectID holds the value of the "project_id" field.
 	ProjectID    string `json:"project_id,omitempty"`
 	selectValues sql.SelectValues
@@ -49,7 +51,7 @@ func (*BronzeHistoryGreenNodeComputeServerGroup) scanValues(columns []string) ([
 		switch columns[i] {
 		case bronzehistorygreennodecomputeservergroup.FieldID, bronzehistorygreennodecomputeservergroup.FieldHistoryID:
 			values[i] = new(sql.NullInt64)
-		case bronzehistorygreennodecomputeservergroup.FieldResourceID, bronzehistorygreennodecomputeservergroup.FieldName, bronzehistorygreennodecomputeservergroup.FieldDescription, bronzehistorygreennodecomputeservergroup.FieldPolicyID, bronzehistorygreennodecomputeservergroup.FieldPolicyName, bronzehistorygreennodecomputeservergroup.FieldProjectID:
+		case bronzehistorygreennodecomputeservergroup.FieldResourceID, bronzehistorygreennodecomputeservergroup.FieldName, bronzehistorygreennodecomputeservergroup.FieldDescription, bronzehistorygreennodecomputeservergroup.FieldPolicyID, bronzehistorygreennodecomputeservergroup.FieldPolicyName, bronzehistorygreennodecomputeservergroup.FieldRegion, bronzehistorygreennodecomputeservergroup.FieldProjectID:
 			values[i] = new(sql.NullString)
 		case bronzehistorygreennodecomputeservergroup.FieldValidFrom, bronzehistorygreennodecomputeservergroup.FieldValidTo, bronzehistorygreennodecomputeservergroup.FieldCollectedAt, bronzehistorygreennodecomputeservergroup.FieldFirstCollectedAt:
 			values[i] = new(sql.NullTime)
@@ -135,6 +137,12 @@ func (_m *BronzeHistoryGreenNodeComputeServerGroup) assignValues(columns []strin
 			} else if value.Valid {
 				_m.PolicyName = value.String
 			}
+		case bronzehistorygreennodecomputeservergroup.FieldRegion:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field region", values[i])
+			} else if value.Valid {
+				_m.Region = value.String
+			}
 		case bronzehistorygreennodecomputeservergroup.FieldProjectID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field project_id", values[i])
@@ -208,6 +216,9 @@ func (_m *BronzeHistoryGreenNodeComputeServerGroup) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("policy_name=")
 	builder.WriteString(_m.PolicyName)
+	builder.WriteString(", ")
+	builder.WriteString("region=")
+	builder.WriteString(_m.Region)
 	builder.WriteString(", ")
 	builder.WriteString("project_id=")
 	builder.WriteString(_m.ProjectID)

@@ -30,6 +30,8 @@ type BronzeGreenNodeComputeSSHKey struct {
 	PubKey string `json:"pub_key,omitempty"`
 	// Status holds the value of the "status" field.
 	Status string `json:"status,omitempty"`
+	// GreenNode region (e.g. hcm-3, han-1)
+	Region string `json:"region,omitempty"`
 	// ProjectID holds the value of the "project_id" field.
 	ProjectID    string `json:"project_id,omitempty"`
 	selectValues sql.SelectValues
@@ -40,7 +42,7 @@ func (*BronzeGreenNodeComputeSSHKey) scanValues(columns []string) ([]any, error)
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case bronzegreennodecomputesshkey.FieldID, bronzegreennodecomputesshkey.FieldName, bronzegreennodecomputesshkey.FieldCreatedAtAPI, bronzegreennodecomputesshkey.FieldPubKey, bronzegreennodecomputesshkey.FieldStatus, bronzegreennodecomputesshkey.FieldProjectID:
+		case bronzegreennodecomputesshkey.FieldID, bronzegreennodecomputesshkey.FieldName, bronzegreennodecomputesshkey.FieldCreatedAtAPI, bronzegreennodecomputesshkey.FieldPubKey, bronzegreennodecomputesshkey.FieldStatus, bronzegreennodecomputesshkey.FieldRegion, bronzegreennodecomputesshkey.FieldProjectID:
 			values[i] = new(sql.NullString)
 		case bronzegreennodecomputesshkey.FieldCollectedAt, bronzegreennodecomputesshkey.FieldFirstCollectedAt:
 			values[i] = new(sql.NullTime)
@@ -101,6 +103,12 @@ func (_m *BronzeGreenNodeComputeSSHKey) assignValues(columns []string, values []
 			} else if value.Valid {
 				_m.Status = value.String
 			}
+		case bronzegreennodecomputesshkey.FieldRegion:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field region", values[i])
+			} else if value.Valid {
+				_m.Region = value.String
+			}
 		case bronzegreennodecomputesshkey.FieldProjectID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field project_id", values[i])
@@ -160,6 +168,9 @@ func (_m *BronzeGreenNodeComputeSSHKey) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("status=")
 	builder.WriteString(_m.Status)
+	builder.WriteString(", ")
+	builder.WriteString("region=")
+	builder.WriteString(_m.Region)
 	builder.WriteString(", ")
 	builder.WriteString("project_id=")
 	builder.WriteString(_m.ProjectID)

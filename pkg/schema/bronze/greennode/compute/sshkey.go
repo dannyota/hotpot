@@ -37,6 +37,9 @@ func (BronzeGreenNodeComputeSSHKey) Fields() []ent.Field {
 			Optional(),
 		field.String("status").
 			Optional(),
+		field.String("region").
+			NotEmpty().
+			Comment("GreenNode region (e.g. hcm-3, han-1)"),
 		field.String("project_id").
 			NotEmpty(),
 	}
@@ -45,6 +48,7 @@ func (BronzeGreenNodeComputeSSHKey) Fields() []ent.Field {
 func (BronzeGreenNodeComputeSSHKey) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("project_id"),
+		index.Fields("region"),
 		index.Fields("collected_at"),
 	}
 }

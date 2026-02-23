@@ -34,6 +34,8 @@ func (BronzeHistoryGreenNodePortalQuota) Fields() []ent.Field {
 			Optional(),
 		field.Int("limit_value"),
 		field.Int("used_value"),
+		field.String("region").
+			NotEmpty(),
 		field.String("project_id").
 			NotEmpty(),
 	}

@@ -34,7 +34,7 @@ type IngestResult struct {
 }
 
 // Ingest fetches servers from GreenNode and stores them in the bronze layer.
-func (s *Service) Ingest(ctx context.Context, projectID string) (*IngestResult, error) {
+func (s *Service) Ingest(ctx context.Context, projectID, region string) (*IngestResult, error) {
 	startTime := time.Now()
 	collectedAt := startTime
 
@@ -45,7 +45,7 @@ func (s *Service) Ingest(ctx context.Context, projectID string) (*IngestResult, 
 
 	serverDataList := make([]*ServerData, 0, len(servers))
 	for _, srv := range servers {
-		data, err := ConvertServer(srv, projectID, collectedAt)
+		data, err := ConvertServer(srv, projectID, region, collectedAt)
 		if err != nil {
 			return nil, fmt.Errorf("convert server: %w", err)
 		}
@@ -139,6 +139,7 @@ func (s *Service) saveServers(ctx context.Context, servers []*ServerData) error 
 				SetFlavorMemory(data.FlavorMemory).
 				SetFlavorGpu(data.FlavorGPU).
 				SetFlavorBandwidth(data.FlavorBandwidth).
+				SetRegion(data.Region).
 				SetProjectID(data.ProjectID).
 				SetCollectedAt(data.CollectedAt).
 				SetFirstCollectedAt(data.CollectedAt)
@@ -179,6 +180,7 @@ func (s *Service) saveServers(ctx context.Context, servers []*ServerData) error 
 				SetFlavorMemory(data.FlavorMemory).
 				SetFlavorGpu(data.FlavorGPU).
 				SetFlavorBandwidth(data.FlavorBandwidth).
+				SetRegion(data.Region).
 				SetProjectID(data.ProjectID).
 				SetCollectedAt(data.CollectedAt)
 
@@ -242,8 +244,8 @@ func (s *Service) createServerChildren(ctx context.Context, tx *ent.Tx, server *
 	return nil
 }
 
-// DeleteStaleServers removes servers not collected in the latest run.
-func (s *Service) DeleteStaleServers(ctx context.Context, projectID string, collectedAt time.Time) error {
+// DeleteStaleServers removes servers not collected in the latest run for the given region.
+func (s *Service) DeleteStaleServers(ctx context.Context, projectID, region string, collectedAt time.Time) error {
 	now := time.Now()
 
 	tx, err := s.entClient.Tx(ctx)
@@ -260,6 +262,7 @@ func (s *Service) DeleteStaleServers(ctx context.Context, projectID string, coll
 	stale, err := tx.BronzeGreenNodeComputeServer.Query().
 		Where(
 			bronzegreennodecomputeserver.ProjectID(projectID),
+			bronzegreennodecomputeserver.Region(region),
 			bronzegreennodecomputeserver.CollectedAtLT(collectedAt),
 		).
 		All(ctx)

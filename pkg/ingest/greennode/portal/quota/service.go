@@ -33,7 +33,7 @@ type IngestResult struct {
 }
 
 // Ingest fetches quotas from GreenNode and stores them in the bronze layer.
-func (s *Service) Ingest(ctx context.Context, projectID string) (*IngestResult, error) {
+func (s *Service) Ingest(ctx context.Context, projectID, region string) (*IngestResult, error) {
 	startTime := time.Now()
 	collectedAt := startTime
 
@@ -44,7 +44,7 @@ func (s *Service) Ingest(ctx context.Context, projectID string) (*IngestResult, 
 
 	dataList := make([]*QuotaData, 0, len(quotas))
 	for _, q := range quotas {
-		dataList = append(dataList, ConvertQuota(q, projectID, collectedAt))
+		dataList = append(dataList, ConvertQuota(q, projectID, region, collectedAt))
 	}
 
 	if err := s.saveQuotas(ctx, dataList); err != nil {
@@ -105,6 +105,7 @@ func (s *Service) saveQuotas(ctx context.Context, quotas []*QuotaData) error {
 				SetType(data.Type).
 				SetLimitValue(data.LimitValue).
 				SetUsedValue(data.UsedValue).
+				SetRegion(data.Region).
 				SetProjectID(data.ProjectID).
 				SetCollectedAt(data.CollectedAt).
 				SetFirstCollectedAt(data.CollectedAt).
@@ -125,6 +126,7 @@ func (s *Service) saveQuotas(ctx context.Context, quotas []*QuotaData) error {
 				SetType(data.Type).
 				SetLimitValue(data.LimitValue).
 				SetUsedValue(data.UsedValue).
+				SetRegion(data.Region).
 				SetCollectedAt(data.CollectedAt).
 				Save(ctx)
 			if err != nil {
@@ -145,8 +147,8 @@ func (s *Service) saveQuotas(ctx context.Context, quotas []*QuotaData) error {
 	return nil
 }
 
-// DeleteStaleQuotas removes quotas not collected in the latest run.
-func (s *Service) DeleteStaleQuotas(ctx context.Context, projectID string, collectedAt time.Time) error {
+// DeleteStaleQuotas removes quotas not collected in the latest run for the given region.
+func (s *Service) DeleteStaleQuotas(ctx context.Context, projectID, region string, collectedAt time.Time) error {
 	now := time.Now()
 
 	tx, err := s.entClient.Tx(ctx)
@@ -163,6 +165,7 @@ func (s *Service) DeleteStaleQuotas(ctx context.Context, projectID string, colle
 	stale, err := tx.BronzeGreenNodePortalQuota.Query().
 		Where(
 			bronzegreennodeportalquota.ProjectID(projectID),
+			bronzegreennodeportalquota.Region(region),
 			bronzegreennodeportalquota.CollectedAtLT(collectedAt),
 		).
 		All(ctx)

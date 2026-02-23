@@ -31,6 +31,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Qu
 		SetType(data.Type).
 		SetLimitValue(data.LimitValue).
 		SetUsedValue(data.UsedValue).
+		SetRegion(data.Region).
 		SetProjectID(data.ProjectID).
 		Save(ctx)
 	if err != nil {
@@ -67,6 +68,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		SetType(new.Type).
 		SetLimitValue(new.LimitValue).
 		SetUsedValue(new.UsedValue).
+		SetRegion(new.Region).
 		SetProjectID(new.ProjectID).
 		Save(ctx)
 	if err != nil {

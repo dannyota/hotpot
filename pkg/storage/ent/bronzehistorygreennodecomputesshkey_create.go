@@ -112,6 +112,12 @@ func (_c *BronzeHistoryGreenNodeComputeSSHKeyCreate) SetNillableStatus(v *string
 	return _c
 }
 
+// SetRegion sets the "region" field.
+func (_c *BronzeHistoryGreenNodeComputeSSHKeyCreate) SetRegion(v string) *BronzeHistoryGreenNodeComputeSSHKeyCreate {
+	_c.mutation.SetRegion(v)
+	return _c
+}
+
 // SetProjectID sets the "project_id" field.
 func (_c *BronzeHistoryGreenNodeComputeSSHKeyCreate) SetProjectID(v string) *BronzeHistoryGreenNodeComputeSSHKeyCreate {
 	_c.mutation.SetProjectID(v)
@@ -178,6 +184,14 @@ func (_c *BronzeHistoryGreenNodeComputeSSHKeyCreate) check() error {
 	if v, ok := _c.mutation.Name(); ok {
 		if err := bronzehistorygreennodecomputesshkey.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "BronzeHistoryGreenNodeComputeSSHKey.name": %w`, err)}
+		}
+	}
+	if _, ok := _c.mutation.Region(); !ok {
+		return &ValidationError{Name: "region", err: errors.New(`ent: missing required field "BronzeHistoryGreenNodeComputeSSHKey.region"`)}
+	}
+	if v, ok := _c.mutation.Region(); ok {
+		if err := bronzehistorygreennodecomputesshkey.RegionValidator(v); err != nil {
+			return &ValidationError{Name: "region", err: fmt.Errorf(`ent: validator failed for field "BronzeHistoryGreenNodeComputeSSHKey.region": %w`, err)}
 		}
 	}
 	if _, ok := _c.mutation.ProjectID(); !ok {
@@ -254,6 +268,10 @@ func (_c *BronzeHistoryGreenNodeComputeSSHKeyCreate) createSpec() (*BronzeHistor
 	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(bronzehistorygreennodecomputesshkey.FieldStatus, field.TypeString, value)
 		_node.Status = value
+	}
+	if value, ok := _c.mutation.Region(); ok {
+		_spec.SetField(bronzehistorygreennodecomputesshkey.FieldRegion, field.TypeString, value)
+		_node.Region = value
 	}
 	if value, ok := _c.mutation.ProjectID(); ok {
 		_spec.SetField(bronzehistorygreennodecomputesshkey.FieldProjectID, field.TypeString, value)

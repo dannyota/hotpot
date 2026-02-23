@@ -15,19 +15,21 @@ type QuotaData struct {
 	Type        string
 	LimitValue  int
 	UsedValue   int
+	Region      string
 	ProjectID   string
 	CollectedAt time.Time
 }
 
 // ConvertQuota converts a GreenNode SDK Quota to QuotaData.
-func ConvertQuota(q *portalv2.Quota, projectID string, collectedAt time.Time) *QuotaData {
+func ConvertQuota(q *portalv2.Quota, projectID, region string, collectedAt time.Time) *QuotaData {
 	return &QuotaData{
-		ID:          fmt.Sprintf("%s:%s", projectID, q.Name),
+		ID:          fmt.Sprintf("%s:%s:%s", projectID, region, q.Name),
 		Name:        q.Name,
 		Description: q.Description,
 		Type:        q.Type,
 		LimitValue:  q.Limit,
 		UsedValue:   q.Used,
+		Region:      region,
 		ProjectID:   projectID,
 		CollectedAt: collectedAt,
 	}

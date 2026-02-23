@@ -139,6 +139,20 @@ func (_u *BronzeGreenNodePortalQuotaUpdate) AddUsedValue(v int) *BronzeGreenNode
 	return _u
 }
 
+// SetRegion sets the "region" field.
+func (_u *BronzeGreenNodePortalQuotaUpdate) SetRegion(v string) *BronzeGreenNodePortalQuotaUpdate {
+	_u.mutation.SetRegion(v)
+	return _u
+}
+
+// SetNillableRegion sets the "region" field if the given value is not nil.
+func (_u *BronzeGreenNodePortalQuotaUpdate) SetNillableRegion(v *string) *BronzeGreenNodePortalQuotaUpdate {
+	if v != nil {
+		_u.SetRegion(*v)
+	}
+	return _u
+}
+
 // SetProjectID sets the "project_id" field.
 func (_u *BronzeGreenNodePortalQuotaUpdate) SetProjectID(v string) *BronzeGreenNodePortalQuotaUpdate {
 	_u.mutation.SetProjectID(v)
@@ -192,6 +206,11 @@ func (_u *BronzeGreenNodePortalQuotaUpdate) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "BronzeGreenNodePortalQuota.name": %w`, err)}
 		}
 	}
+	if v, ok := _u.mutation.Region(); ok {
+		if err := bronzegreennodeportalquota.RegionValidator(v); err != nil {
+			return &ValidationError{Name: "region", err: fmt.Errorf(`ent: validator failed for field "BronzeGreenNodePortalQuota.region": %w`, err)}
+		}
+	}
 	if v, ok := _u.mutation.ProjectID(); ok {
 		if err := bronzegreennodeportalquota.ProjectIDValidator(v); err != nil {
 			return &ValidationError{Name: "project_id", err: fmt.Errorf(`ent: validator failed for field "BronzeGreenNodePortalQuota.project_id": %w`, err)}
@@ -241,6 +260,9 @@ func (_u *BronzeGreenNodePortalQuotaUpdate) sqlSave(ctx context.Context) (_node 
 	}
 	if value, ok := _u.mutation.AddedUsedValue(); ok {
 		_spec.AddField(bronzegreennodeportalquota.FieldUsedValue, field.TypeInt, value)
+	}
+	if value, ok := _u.mutation.Region(); ok {
+		_spec.SetField(bronzegreennodeportalquota.FieldRegion, field.TypeString, value)
 	}
 	if value, ok := _u.mutation.ProjectID(); ok {
 		_spec.SetField(bronzegreennodeportalquota.FieldProjectID, field.TypeString, value)
@@ -377,6 +399,20 @@ func (_u *BronzeGreenNodePortalQuotaUpdateOne) AddUsedValue(v int) *BronzeGreenN
 	return _u
 }
 
+// SetRegion sets the "region" field.
+func (_u *BronzeGreenNodePortalQuotaUpdateOne) SetRegion(v string) *BronzeGreenNodePortalQuotaUpdateOne {
+	_u.mutation.SetRegion(v)
+	return _u
+}
+
+// SetNillableRegion sets the "region" field if the given value is not nil.
+func (_u *BronzeGreenNodePortalQuotaUpdateOne) SetNillableRegion(v *string) *BronzeGreenNodePortalQuotaUpdateOne {
+	if v != nil {
+		_u.SetRegion(*v)
+	}
+	return _u
+}
+
 // SetProjectID sets the "project_id" field.
 func (_u *BronzeGreenNodePortalQuotaUpdateOne) SetProjectID(v string) *BronzeGreenNodePortalQuotaUpdateOne {
 	_u.mutation.SetProjectID(v)
@@ -441,6 +477,11 @@ func (_u *BronzeGreenNodePortalQuotaUpdateOne) check() error {
 	if v, ok := _u.mutation.Name(); ok {
 		if err := bronzegreennodeportalquota.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "BronzeGreenNodePortalQuota.name": %w`, err)}
+		}
+	}
+	if v, ok := _u.mutation.Region(); ok {
+		if err := bronzegreennodeportalquota.RegionValidator(v); err != nil {
+			return &ValidationError{Name: "region", err: fmt.Errorf(`ent: validator failed for field "BronzeGreenNodePortalQuota.region": %w`, err)}
 		}
 	}
 	if v, ok := _u.mutation.ProjectID(); ok {
@@ -509,6 +550,9 @@ func (_u *BronzeGreenNodePortalQuotaUpdateOne) sqlSave(ctx context.Context) (_no
 	}
 	if value, ok := _u.mutation.AddedUsedValue(); ok {
 		_spec.AddField(bronzegreennodeportalquota.FieldUsedValue, field.TypeInt, value)
+	}
+	if value, ok := _u.mutation.Region(); ok {
+		_spec.SetField(bronzegreennodeportalquota.FieldRegion, field.TypeString, value)
 	}
 	if value, ok := _u.mutation.ProjectID(); ok {
 		_spec.SetField(bronzegreennodeportalquota.FieldProjectID, field.TypeString, value)

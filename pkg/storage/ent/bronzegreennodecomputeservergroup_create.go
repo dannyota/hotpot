@@ -81,6 +81,12 @@ func (_c *BronzeGreenNodeComputeServerGroupCreate) SetNillablePolicyName(v *stri
 	return _c
 }
 
+// SetRegion sets the "region" field.
+func (_c *BronzeGreenNodeComputeServerGroupCreate) SetRegion(v string) *BronzeGreenNodeComputeServerGroupCreate {
+	_c.mutation.SetRegion(v)
+	return _c
+}
+
 // SetProjectID sets the "project_id" field.
 func (_c *BronzeGreenNodeComputeServerGroupCreate) SetProjectID(v string) *BronzeGreenNodeComputeServerGroupCreate {
 	_c.mutation.SetProjectID(v)
@@ -156,6 +162,14 @@ func (_c *BronzeGreenNodeComputeServerGroupCreate) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "BronzeGreenNodeComputeServerGroup.name": %w`, err)}
 		}
 	}
+	if _, ok := _c.mutation.Region(); !ok {
+		return &ValidationError{Name: "region", err: errors.New(`ent: missing required field "BronzeGreenNodeComputeServerGroup.region"`)}
+	}
+	if v, ok := _c.mutation.Region(); ok {
+		if err := bronzegreennodecomputeservergroup.RegionValidator(v); err != nil {
+			return &ValidationError{Name: "region", err: fmt.Errorf(`ent: validator failed for field "BronzeGreenNodeComputeServerGroup.region": %w`, err)}
+		}
+	}
 	if _, ok := _c.mutation.ProjectID(); !ok {
 		return &ValidationError{Name: "project_id", err: errors.New(`ent: missing required field "BronzeGreenNodeComputeServerGroup.project_id"`)}
 	}
@@ -223,6 +237,10 @@ func (_c *BronzeGreenNodeComputeServerGroupCreate) createSpec() (*BronzeGreenNod
 	if value, ok := _c.mutation.PolicyName(); ok {
 		_spec.SetField(bronzegreennodecomputeservergroup.FieldPolicyName, field.TypeString, value)
 		_node.PolicyName = value
+	}
+	if value, ok := _c.mutation.Region(); ok {
+		_spec.SetField(bronzegreennodecomputeservergroup.FieldRegion, field.TypeString, value)
+		_node.Region = value
 	}
 	if value, ok := _c.mutation.ProjectID(); ok {
 		_spec.SetField(bronzegreennodecomputeservergroup.FieldProjectID, field.TypeString, value)

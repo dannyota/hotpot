@@ -31,6 +31,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Se
 		SetDescription(data.Description).
 		SetPolicyID(data.PolicyID).
 		SetPolicyName(data.PolicyName).
+		SetRegion(data.Region).
 		SetProjectID(data.ProjectID).
 		Save(ctx)
 	if err != nil {
@@ -67,6 +68,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 			SetDescription(new.Description).
 			SetPolicyID(new.PolicyID).
 			SetPolicyName(new.PolicyName).
+			SetRegion(new.Region).
 			SetProjectID(new.ProjectID).
 			Save(ctx)
 		if err != nil {

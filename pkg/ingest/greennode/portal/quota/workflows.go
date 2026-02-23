@@ -7,6 +7,11 @@ import (
 	"go.temporal.io/sdk/workflow"
 )
 
+// GreenNodePortalQuotaWorkflowParams contains parameters for the quota workflow.
+type GreenNodePortalQuotaWorkflowParams struct {
+	Region string
+}
+
 // GreenNodePortalQuotaWorkflowResult contains the result of the quota workflow.
 type GreenNodePortalQuotaWorkflowResult struct {
 	QuotaCount     int
@@ -14,9 +19,9 @@ type GreenNodePortalQuotaWorkflowResult struct {
 }
 
 // GreenNodePortalQuotaWorkflow ingests GreenNode quotas.
-func GreenNodePortalQuotaWorkflow(ctx workflow.Context) (*GreenNodePortalQuotaWorkflowResult, error) {
+func GreenNodePortalQuotaWorkflow(ctx workflow.Context, params GreenNodePortalQuotaWorkflowParams) (*GreenNodePortalQuotaWorkflowResult, error) {
 	logger := workflow.GetLogger(ctx)
-	logger.Info("Starting GreenNodePortalQuotaWorkflow")
+	logger.Info("Starting GreenNodePortalQuotaWorkflow", "region", params.Region)
 
 	activityOpts := workflow.ActivityOptions{
 		StartToCloseTimeout: 10 * time.Minute,
@@ -30,7 +35,9 @@ func GreenNodePortalQuotaWorkflow(ctx workflow.Context) (*GreenNodePortalQuotaWo
 	activityCtx := workflow.WithActivityOptions(ctx, activityOpts)
 
 	var result IngestPortalQuotasResult
-	err := workflow.ExecuteActivity(activityCtx, IngestPortalQuotasActivity, IngestPortalQuotasParams{}).Get(ctx, &result)
+	err := workflow.ExecuteActivity(activityCtx, IngestPortalQuotasActivity, IngestPortalQuotasParams{
+		Region: params.Region,
+	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest quotas", "error", err)
 		return nil, err

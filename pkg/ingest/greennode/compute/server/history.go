@@ -128,6 +128,7 @@ func (h *HistoryService) createServerHistory(ctx context.Context, tx *ent.Tx, da
 		SetFlavorMemory(data.FlavorMemory).
 		SetFlavorGpu(data.FlavorGPU).
 		SetFlavorBandwidth(data.FlavorBandwidth).
+		SetRegion(data.Region).
 		SetProjectID(data.ProjectID)
 
 	if data.InterfacesJSON != nil {

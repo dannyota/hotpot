@@ -201,6 +201,11 @@ func FlavorBandwidth(v int64) predicate.BronzeGreenNodeComputeServer {
 	return predicate.BronzeGreenNodeComputeServer(sql.FieldEQ(FieldFlavorBandwidth, v))
 }
 
+// Region applies equality check predicate on the "region" field. It's identical to RegionEQ.
+func Region(v string) predicate.BronzeGreenNodeComputeServer {
+	return predicate.BronzeGreenNodeComputeServer(sql.FieldEQ(FieldRegion, v))
+}
+
 // ProjectID applies equality check predicate on the "project_id" field. It's identical to ProjectIDEQ.
 func ProjectID(v string) predicate.BronzeGreenNodeComputeServer {
 	return predicate.BronzeGreenNodeComputeServer(sql.FieldEQ(FieldProjectID, v))
@@ -1864,6 +1869,71 @@ func InterfacesJSONIsNil() predicate.BronzeGreenNodeComputeServer {
 // InterfacesJSONNotNil applies the NotNil predicate on the "interfaces_json" field.
 func InterfacesJSONNotNil() predicate.BronzeGreenNodeComputeServer {
 	return predicate.BronzeGreenNodeComputeServer(sql.FieldNotNull(FieldInterfacesJSON))
+}
+
+// RegionEQ applies the EQ predicate on the "region" field.
+func RegionEQ(v string) predicate.BronzeGreenNodeComputeServer {
+	return predicate.BronzeGreenNodeComputeServer(sql.FieldEQ(FieldRegion, v))
+}
+
+// RegionNEQ applies the NEQ predicate on the "region" field.
+func RegionNEQ(v string) predicate.BronzeGreenNodeComputeServer {
+	return predicate.BronzeGreenNodeComputeServer(sql.FieldNEQ(FieldRegion, v))
+}
+
+// RegionIn applies the In predicate on the "region" field.
+func RegionIn(vs ...string) predicate.BronzeGreenNodeComputeServer {
+	return predicate.BronzeGreenNodeComputeServer(sql.FieldIn(FieldRegion, vs...))
+}
+
+// RegionNotIn applies the NotIn predicate on the "region" field.
+func RegionNotIn(vs ...string) predicate.BronzeGreenNodeComputeServer {
+	return predicate.BronzeGreenNodeComputeServer(sql.FieldNotIn(FieldRegion, vs...))
+}
+
+// RegionGT applies the GT predicate on the "region" field.
+func RegionGT(v string) predicate.BronzeGreenNodeComputeServer {
+	return predicate.BronzeGreenNodeComputeServer(sql.FieldGT(FieldRegion, v))
+}
+
+// RegionGTE applies the GTE predicate on the "region" field.
+func RegionGTE(v string) predicate.BronzeGreenNodeComputeServer {
+	return predicate.BronzeGreenNodeComputeServer(sql.FieldGTE(FieldRegion, v))
+}
+
+// RegionLT applies the LT predicate on the "region" field.
+func RegionLT(v string) predicate.BronzeGreenNodeComputeServer {
+	return predicate.BronzeGreenNodeComputeServer(sql.FieldLT(FieldRegion, v))
+}
+
+// RegionLTE applies the LTE predicate on the "region" field.
+func RegionLTE(v string) predicate.BronzeGreenNodeComputeServer {
+	return predicate.BronzeGreenNodeComputeServer(sql.FieldLTE(FieldRegion, v))
+}
+
+// RegionContains applies the Contains predicate on the "region" field.
+func RegionContains(v string) predicate.BronzeGreenNodeComputeServer {
+	return predicate.BronzeGreenNodeComputeServer(sql.FieldContains(FieldRegion, v))
+}
+
+// RegionHasPrefix applies the HasPrefix predicate on the "region" field.
+func RegionHasPrefix(v string) predicate.BronzeGreenNodeComputeServer {
+	return predicate.BronzeGreenNodeComputeServer(sql.FieldHasPrefix(FieldRegion, v))
+}
+
+// RegionHasSuffix applies the HasSuffix predicate on the "region" field.
+func RegionHasSuffix(v string) predicate.BronzeGreenNodeComputeServer {
+	return predicate.BronzeGreenNodeComputeServer(sql.FieldHasSuffix(FieldRegion, v))
+}
+
+// RegionEqualFold applies the EqualFold predicate on the "region" field.
+func RegionEqualFold(v string) predicate.BronzeGreenNodeComputeServer {
+	return predicate.BronzeGreenNodeComputeServer(sql.FieldEqualFold(FieldRegion, v))
+}
+
+// RegionContainsFold applies the ContainsFold predicate on the "region" field.
+func RegionContainsFold(v string) predicate.BronzeGreenNodeComputeServer {
+	return predicate.BronzeGreenNodeComputeServer(sql.FieldContainsFold(FieldRegion, v))
 }
 
 // ProjectIDEQ applies the EQ predicate on the "project_id" field.

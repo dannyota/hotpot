@@ -30,6 +30,7 @@ func NewActivities(configService *config.Service, entClient *ent.Client, limiter
 // IngestComputeSSHKeysParams contains parameters for the ingest activity.
 type IngestComputeSSHKeysParams struct {
 	ProjectID string
+	Region    string
 }
 
 // IngestComputeSSHKeysResult contains the result of the ingest activity.
@@ -44,20 +45,20 @@ var IngestComputeSSHKeysActivity = (*Activities).IngestComputeSSHKeys
 // IngestComputeSSHKeys is a Temporal activity that ingests GreenNode SSH keys.
 func (a *Activities) IngestComputeSSHKeys(ctx context.Context, params IngestComputeSSHKeysParams) (*IngestComputeSSHKeysResult, error) {
 	logger := activity.GetLogger(ctx)
-	logger.Info("Starting GreenNode SSH key ingestion", "projectID", params.ProjectID)
+	logger.Info("Starting GreenNode SSH key ingestion", "projectID", params.ProjectID, "region", params.Region)
 
-	client, err := NewClient(ctx, a.configService, a.limiter)
+	client, err := NewClient(ctx, a.configService, a.limiter, params.Region)
 	if err != nil {
 		return nil, fmt.Errorf("create client: %w", err)
 	}
 
 	service := NewService(client, a.entClient)
-	result, err := service.Ingest(ctx, params.ProjectID)
+	result, err := service.Ingest(ctx, params.ProjectID, params.Region)
 	if err != nil {
 		return nil, fmt.Errorf("ingest ssh keys: %w", err)
 	}
 
-	if err := service.DeleteStaleSSHKeys(ctx, params.ProjectID, result.CollectedAt); err != nil {
+	if err := service.DeleteStaleSSHKeys(ctx, params.ProjectID, params.Region, result.CollectedAt); err != nil {
 		logger.Warn("Failed to delete stale ssh keys", "error", err)
 	}
 

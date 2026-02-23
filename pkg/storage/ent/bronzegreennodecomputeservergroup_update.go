@@ -118,6 +118,20 @@ func (_u *BronzeGreenNodeComputeServerGroupUpdate) ClearPolicyName() *BronzeGree
 	return _u
 }
 
+// SetRegion sets the "region" field.
+func (_u *BronzeGreenNodeComputeServerGroupUpdate) SetRegion(v string) *BronzeGreenNodeComputeServerGroupUpdate {
+	_u.mutation.SetRegion(v)
+	return _u
+}
+
+// SetNillableRegion sets the "region" field if the given value is not nil.
+func (_u *BronzeGreenNodeComputeServerGroupUpdate) SetNillableRegion(v *string) *BronzeGreenNodeComputeServerGroupUpdate {
+	if v != nil {
+		_u.SetRegion(*v)
+	}
+	return _u
+}
+
 // SetProjectID sets the "project_id" field.
 func (_u *BronzeGreenNodeComputeServerGroupUpdate) SetProjectID(v string) *BronzeGreenNodeComputeServerGroupUpdate {
 	_u.mutation.SetProjectID(v)
@@ -207,6 +221,11 @@ func (_u *BronzeGreenNodeComputeServerGroupUpdate) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "BronzeGreenNodeComputeServerGroup.name": %w`, err)}
 		}
 	}
+	if v, ok := _u.mutation.Region(); ok {
+		if err := bronzegreennodecomputeservergroup.RegionValidator(v); err != nil {
+			return &ValidationError{Name: "region", err: fmt.Errorf(`ent: validator failed for field "BronzeGreenNodeComputeServerGroup.region": %w`, err)}
+		}
+	}
 	if v, ok := _u.mutation.ProjectID(); ok {
 		if err := bronzegreennodecomputeservergroup.ProjectIDValidator(v); err != nil {
 			return &ValidationError{Name: "project_id", err: fmt.Errorf(`ent: validator failed for field "BronzeGreenNodeComputeServerGroup.project_id": %w`, err)}
@@ -250,6 +269,9 @@ func (_u *BronzeGreenNodeComputeServerGroupUpdate) sqlSave(ctx context.Context) 
 	}
 	if _u.mutation.PolicyNameCleared() {
 		_spec.ClearField(bronzegreennodecomputeservergroup.FieldPolicyName, field.TypeString)
+	}
+	if value, ok := _u.mutation.Region(); ok {
+		_spec.SetField(bronzegreennodecomputeservergroup.FieldRegion, field.TypeString, value)
 	}
 	if value, ok := _u.mutation.ProjectID(); ok {
 		_spec.SetField(bronzegreennodecomputeservergroup.FieldProjectID, field.TypeString, value)
@@ -412,6 +434,20 @@ func (_u *BronzeGreenNodeComputeServerGroupUpdateOne) ClearPolicyName() *BronzeG
 	return _u
 }
 
+// SetRegion sets the "region" field.
+func (_u *BronzeGreenNodeComputeServerGroupUpdateOne) SetRegion(v string) *BronzeGreenNodeComputeServerGroupUpdateOne {
+	_u.mutation.SetRegion(v)
+	return _u
+}
+
+// SetNillableRegion sets the "region" field if the given value is not nil.
+func (_u *BronzeGreenNodeComputeServerGroupUpdateOne) SetNillableRegion(v *string) *BronzeGreenNodeComputeServerGroupUpdateOne {
+	if v != nil {
+		_u.SetRegion(*v)
+	}
+	return _u
+}
+
 // SetProjectID sets the "project_id" field.
 func (_u *BronzeGreenNodeComputeServerGroupUpdateOne) SetProjectID(v string) *BronzeGreenNodeComputeServerGroupUpdateOne {
 	_u.mutation.SetProjectID(v)
@@ -514,6 +550,11 @@ func (_u *BronzeGreenNodeComputeServerGroupUpdateOne) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "BronzeGreenNodeComputeServerGroup.name": %w`, err)}
 		}
 	}
+	if v, ok := _u.mutation.Region(); ok {
+		if err := bronzegreennodecomputeservergroup.RegionValidator(v); err != nil {
+			return &ValidationError{Name: "region", err: fmt.Errorf(`ent: validator failed for field "BronzeGreenNodeComputeServerGroup.region": %w`, err)}
+		}
+	}
 	if v, ok := _u.mutation.ProjectID(); ok {
 		if err := bronzegreennodecomputeservergroup.ProjectIDValidator(v); err != nil {
 			return &ValidationError{Name: "project_id", err: fmt.Errorf(`ent: validator failed for field "BronzeGreenNodeComputeServerGroup.project_id": %w`, err)}
@@ -574,6 +615,9 @@ func (_u *BronzeGreenNodeComputeServerGroupUpdateOne) sqlSave(ctx context.Contex
 	}
 	if _u.mutation.PolicyNameCleared() {
 		_spec.ClearField(bronzegreennodecomputeservergroup.FieldPolicyName, field.TypeString)
+	}
+	if value, ok := _u.mutation.Region(); ok {
+		_spec.SetField(bronzegreennodecomputeservergroup.FieldRegion, field.TypeString, value)
 	}
 	if value, ok := _u.mutation.ProjectID(); ok {
 		_spec.SetField(bronzegreennodecomputeservergroup.FieldProjectID, field.TypeString, value)

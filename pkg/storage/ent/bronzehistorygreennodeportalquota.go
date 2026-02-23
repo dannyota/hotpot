@@ -39,6 +39,8 @@ type BronzeHistoryGreenNodePortalQuota struct {
 	LimitValue int `json:"limit_value,omitempty"`
 	// UsedValue holds the value of the "used_value" field.
 	UsedValue int `json:"used_value,omitempty"`
+	// Region holds the value of the "region" field.
+	Region string `json:"region,omitempty"`
 	// ProjectID holds the value of the "project_id" field.
 	ProjectID    string `json:"project_id,omitempty"`
 	selectValues sql.SelectValues
@@ -51,7 +53,7 @@ func (*BronzeHistoryGreenNodePortalQuota) scanValues(columns []string) ([]any, e
 		switch columns[i] {
 		case bronzehistorygreennodeportalquota.FieldID, bronzehistorygreennodeportalquota.FieldHistoryID, bronzehistorygreennodeportalquota.FieldLimitValue, bronzehistorygreennodeportalquota.FieldUsedValue:
 			values[i] = new(sql.NullInt64)
-		case bronzehistorygreennodeportalquota.FieldResourceID, bronzehistorygreennodeportalquota.FieldName, bronzehistorygreennodeportalquota.FieldDescription, bronzehistorygreennodeportalquota.FieldType, bronzehistorygreennodeportalquota.FieldProjectID:
+		case bronzehistorygreennodeportalquota.FieldResourceID, bronzehistorygreennodeportalquota.FieldName, bronzehistorygreennodeportalquota.FieldDescription, bronzehistorygreennodeportalquota.FieldType, bronzehistorygreennodeportalquota.FieldRegion, bronzehistorygreennodeportalquota.FieldProjectID:
 			values[i] = new(sql.NullString)
 		case bronzehistorygreennodeportalquota.FieldValidFrom, bronzehistorygreennodeportalquota.FieldValidTo, bronzehistorygreennodeportalquota.FieldCollectedAt, bronzehistorygreennodeportalquota.FieldFirstCollectedAt:
 			values[i] = new(sql.NullTime)
@@ -143,6 +145,12 @@ func (_m *BronzeHistoryGreenNodePortalQuota) assignValues(columns []string, valu
 			} else if value.Valid {
 				_m.UsedValue = int(value.Int64)
 			}
+		case bronzehistorygreennodeportalquota.FieldRegion:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field region", values[i])
+			} else if value.Valid {
+				_m.Region = value.String
+			}
 		case bronzehistorygreennodeportalquota.FieldProjectID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field project_id", values[i])
@@ -219,6 +227,9 @@ func (_m *BronzeHistoryGreenNodePortalQuota) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("used_value=")
 	builder.WriteString(fmt.Sprintf("%v", _m.UsedValue))
+	builder.WriteString(", ")
+	builder.WriteString("region=")
+	builder.WriteString(_m.Region)
 	builder.WriteString(", ")
 	builder.WriteString("project_id=")
 	builder.WriteString(_m.ProjectID)

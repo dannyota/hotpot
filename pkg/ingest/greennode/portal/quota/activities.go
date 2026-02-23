@@ -30,6 +30,7 @@ func NewActivities(configService *config.Service, entClient *ent.Client, limiter
 // IngestPortalQuotasParams contains parameters for the ingest activity.
 type IngestPortalQuotasParams struct {
 	ProjectID string
+	Region    string
 }
 
 // IngestPortalQuotasResult contains the result of the ingest activity.
@@ -44,20 +45,20 @@ var IngestPortalQuotasActivity = (*Activities).IngestPortalQuotas
 // IngestPortalQuotas is a Temporal activity that ingests GreenNode quotas.
 func (a *Activities) IngestPortalQuotas(ctx context.Context, params IngestPortalQuotasParams) (*IngestPortalQuotasResult, error) {
 	logger := activity.GetLogger(ctx)
-	logger.Info("Starting GreenNode quota ingestion", "projectID", params.ProjectID)
+	logger.Info("Starting GreenNode quota ingestion", "projectID", params.ProjectID, "region", params.Region)
 
-	client, err := NewClient(ctx, a.configService, a.limiter)
+	client, err := NewClient(ctx, a.configService, a.limiter, params.Region)
 	if err != nil {
 		return nil, fmt.Errorf("create client: %w", err)
 	}
 
 	service := NewService(client, a.entClient)
-	result, err := service.Ingest(ctx, params.ProjectID)
+	result, err := service.Ingest(ctx, params.ProjectID, params.Region)
 	if err != nil {
 		return nil, fmt.Errorf("ingest quotas: %w", err)
 	}
 
-	if err := service.DeleteStaleQuotas(ctx, params.ProjectID, result.CollectedAt); err != nil {
+	if err := service.DeleteStaleQuotas(ctx, params.ProjectID, params.Region, result.CollectedAt); err != nil {
 		logger.Warn("Failed to delete stale quotas", "error", err)
 	}
 

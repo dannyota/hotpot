@@ -34,6 +34,8 @@ func (BronzeHistoryGreenNodeComputeSSHKey) Fields() []ent.Field {
 			Optional(),
 		field.String("status").
 			Optional(),
+		field.String("region").
+			NotEmpty(),
 		field.String("project_id").
 			NotEmpty(),
 	}

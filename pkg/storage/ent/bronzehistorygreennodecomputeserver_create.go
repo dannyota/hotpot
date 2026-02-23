@@ -413,6 +413,12 @@ func (_c *BronzeHistoryGreenNodeComputeServerCreate) SetInterfacesJSON(v json.Ra
 	return _c
 }
 
+// SetRegion sets the "region" field.
+func (_c *BronzeHistoryGreenNodeComputeServerCreate) SetRegion(v string) *BronzeHistoryGreenNodeComputeServerCreate {
+	_c.mutation.SetRegion(v)
+	return _c
+}
+
 // SetProjectID sets the "project_id" field.
 func (_c *BronzeHistoryGreenNodeComputeServerCreate) SetProjectID(v string) *BronzeHistoryGreenNodeComputeServerCreate {
 	_c.mutation.SetProjectID(v)
@@ -506,6 +512,14 @@ func (_c *BronzeHistoryGreenNodeComputeServerCreate) check() error {
 	}
 	if _, ok := _c.mutation.StopBeforeMigrate(); !ok {
 		return &ValidationError{Name: "stop_before_migrate", err: errors.New(`ent: missing required field "BronzeHistoryGreenNodeComputeServer.stop_before_migrate"`)}
+	}
+	if _, ok := _c.mutation.Region(); !ok {
+		return &ValidationError{Name: "region", err: errors.New(`ent: missing required field "BronzeHistoryGreenNodeComputeServer.region"`)}
+	}
+	if v, ok := _c.mutation.Region(); ok {
+		if err := bronzehistorygreennodecomputeserver.RegionValidator(v); err != nil {
+			return &ValidationError{Name: "region", err: fmt.Errorf(`ent: validator failed for field "BronzeHistoryGreenNodeComputeServer.region": %w`, err)}
+		}
 	}
 	if _, ok := _c.mutation.ProjectID(); !ok {
 		return &ValidationError{Name: "project_id", err: errors.New(`ent: missing required field "BronzeHistoryGreenNodeComputeServer.project_id"`)}
@@ -669,6 +683,10 @@ func (_c *BronzeHistoryGreenNodeComputeServerCreate) createSpec() (*BronzeHistor
 	if value, ok := _c.mutation.InterfacesJSON(); ok {
 		_spec.SetField(bronzehistorygreennodecomputeserver.FieldInterfacesJSON, field.TypeJSON, value)
 		_node.InterfacesJSON = value
+	}
+	if value, ok := _c.mutation.Region(); ok {
+		_spec.SetField(bronzehistorygreennodecomputeserver.FieldRegion, field.TypeString, value)
+		_node.Region = value
 	}
 	if value, ok := _c.mutation.ProjectID(); ok {
 		_spec.SetField(bronzehistorygreennodecomputeserver.FieldProjectID, field.TypeString, value)

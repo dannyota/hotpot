@@ -75,6 +75,8 @@ type BronzeGreenNodeComputeServer struct {
 	FlavorBandwidth int64 `json:"flavor_bandwidth,omitempty"`
 	// InterfacesJSON holds the value of the "interfaces_json" field.
 	InterfacesJSON json.RawMessage `json:"interfaces_json,omitempty"`
+	// GreenNode region (e.g. hcm-3, han-1)
+	Region string `json:"region,omitempty"`
 	// ProjectID holds the value of the "project_id" field.
 	ProjectID string `json:"project_id,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
@@ -112,7 +114,7 @@ func (*BronzeGreenNodeComputeServer) scanValues(columns []string) ([]any, error)
 			values[i] = new(sql.NullBool)
 		case bronzegreennodecomputeserver.FieldFlavorCPU, bronzegreennodecomputeserver.FieldFlavorMemory, bronzegreennodecomputeserver.FieldFlavorGpu, bronzegreennodecomputeserver.FieldFlavorBandwidth:
 			values[i] = new(sql.NullInt64)
-		case bronzegreennodecomputeserver.FieldID, bronzegreennodecomputeserver.FieldName, bronzegreennodecomputeserver.FieldStatus, bronzegreennodecomputeserver.FieldLocation, bronzegreennodecomputeserver.FieldZoneID, bronzegreennodecomputeserver.FieldCreatedAtAPI, bronzegreennodecomputeserver.FieldBootVolumeID, bronzegreennodecomputeserver.FieldMetadata, bronzegreennodecomputeserver.FieldMigrateState, bronzegreennodecomputeserver.FieldProduct, bronzegreennodecomputeserver.FieldServerGroupID, bronzegreennodecomputeserver.FieldServerGroupName, bronzegreennodecomputeserver.FieldSSHKeyName, bronzegreennodecomputeserver.FieldUser, bronzegreennodecomputeserver.FieldImageID, bronzegreennodecomputeserver.FieldImageType, bronzegreennodecomputeserver.FieldImageVersion, bronzegreennodecomputeserver.FieldFlavorID, bronzegreennodecomputeserver.FieldFlavorName, bronzegreennodecomputeserver.FieldProjectID:
+		case bronzegreennodecomputeserver.FieldID, bronzegreennodecomputeserver.FieldName, bronzegreennodecomputeserver.FieldStatus, bronzegreennodecomputeserver.FieldLocation, bronzegreennodecomputeserver.FieldZoneID, bronzegreennodecomputeserver.FieldCreatedAtAPI, bronzegreennodecomputeserver.FieldBootVolumeID, bronzegreennodecomputeserver.FieldMetadata, bronzegreennodecomputeserver.FieldMigrateState, bronzegreennodecomputeserver.FieldProduct, bronzegreennodecomputeserver.FieldServerGroupID, bronzegreennodecomputeserver.FieldServerGroupName, bronzegreennodecomputeserver.FieldSSHKeyName, bronzegreennodecomputeserver.FieldUser, bronzegreennodecomputeserver.FieldImageID, bronzegreennodecomputeserver.FieldImageType, bronzegreennodecomputeserver.FieldImageVersion, bronzegreennodecomputeserver.FieldFlavorID, bronzegreennodecomputeserver.FieldFlavorName, bronzegreennodecomputeserver.FieldRegion, bronzegreennodecomputeserver.FieldProjectID:
 			values[i] = new(sql.NullString)
 		case bronzegreennodecomputeserver.FieldCollectedAt, bronzegreennodecomputeserver.FieldFirstCollectedAt:
 			values[i] = new(sql.NullTime)
@@ -307,6 +309,12 @@ func (_m *BronzeGreenNodeComputeServer) assignValues(columns []string, values []
 					return fmt.Errorf("unmarshal field interfaces_json: %w", err)
 				}
 			}
+		case bronzegreennodecomputeserver.FieldRegion:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field region", values[i])
+			} else if value.Valid {
+				_m.Region = value.String
+			}
 		case bronzegreennodecomputeserver.FieldProjectID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field project_id", values[i])
@@ -437,6 +445,9 @@ func (_m *BronzeGreenNodeComputeServer) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("interfaces_json=")
 	builder.WriteString(fmt.Sprintf("%v", _m.InterfacesJSON))
+	builder.WriteString(", ")
+	builder.WriteString("region=")
+	builder.WriteString(_m.Region)
 	builder.WriteString(", ")
 	builder.WriteString("project_id=")
 	builder.WriteString(_m.ProjectID)

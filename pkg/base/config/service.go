@@ -348,14 +348,16 @@ func (s *Service) GreenNodeEnabled() bool {
 	return s.config != nil && s.config.GreenNode.Enabled
 }
 
-// GreenNodeRegion returns the GreenNode region (e.g., "hcm-3").
-func (s *Service) GreenNodeRegion() string {
+// GreenNodeRegions returns the configured GreenNode regions (e.g., ["hcm-3", "han-1"]).
+func (s *Service) GreenNodeRegions() []string {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
-	if s.config == nil {
-		return ""
+	if s.config == nil || len(s.config.GreenNode.Regions) == 0 {
+		return nil
 	}
-	return s.config.GreenNode.Region
+	result := make([]string, len(s.config.GreenNode.Regions))
+	copy(result, s.config.GreenNode.Regions)
+	return result
 }
 
 // GreenNodeClientID returns the GreenNode service account client ID.

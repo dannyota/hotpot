@@ -68,6 +68,8 @@ const (
 	FieldFlavorBandwidth = "flavor_bandwidth"
 	// FieldInterfacesJSON holds the string denoting the interfaces_json field in the database.
 	FieldInterfacesJSON = "interfaces_json"
+	// FieldRegion holds the string denoting the region field in the database.
+	FieldRegion = "region"
 	// FieldProjectID holds the string denoting the project_id field in the database.
 	FieldProjectID = "project_id"
 	// EdgeSecGroups holds the string denoting the sec_groups edge name in mutations.
@@ -116,6 +118,7 @@ var Columns = []string{
 	FieldFlavorGpu,
 	FieldFlavorBandwidth,
 	FieldInterfacesJSON,
+	FieldRegion,
 	FieldProjectID,
 }
 
@@ -138,6 +141,8 @@ var (
 	DefaultLicence bool
 	// DefaultStopBeforeMigrate holds the default value on creation for the "stop_before_migrate" field.
 	DefaultStopBeforeMigrate bool
+	// RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	RegionValidator func(string) error
 	// ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
 	ProjectIDValidator func(string) error
 )
@@ -283,6 +288,11 @@ func ByFlavorGpu(opts ...sql.OrderTermOption) OrderOption {
 // ByFlavorBandwidth orders the results by the flavor_bandwidth field.
 func ByFlavorBandwidth(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldFlavorBandwidth, opts...).ToFunc()
+}
+
+// ByRegion orders the results by the region field.
+func ByRegion(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRegion, opts...).ToFunc()
 }
 
 // ByProjectID orders the results by the project_id field.

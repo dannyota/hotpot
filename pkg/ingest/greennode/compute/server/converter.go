@@ -37,6 +37,7 @@ type ServerData struct {
 	FlavorGPU        int64
 	FlavorBandwidth  int64
 	InterfacesJSON   json.RawMessage
+	Region           string
 	ProjectID        string
 	CollectedAt      time.Time
 
@@ -50,7 +51,7 @@ type SecGroupData struct {
 }
 
 // ConvertServer converts a GreenNode SDK Server to ServerData.
-func ConvertServer(s *computev2.Server, projectID string, collectedAt time.Time) (*ServerData, error) {
+func ConvertServer(s *computev2.Server, projectID, region string, collectedAt time.Time) (*ServerData, error) {
 	data := &ServerData{
 		ID:                s.Uuid,
 		Name:              s.Name,
@@ -78,6 +79,7 @@ func ConvertServer(s *computev2.Server, projectID string, collectedAt time.Time)
 		FlavorMemory:      s.Flavor.Memory,
 		FlavorGPU:         s.Flavor.Gpu,
 		FlavorBandwidth:   s.Flavor.Bandwidth,
+		Region:            region,
 		ProjectID:         projectID,
 		CollectedAt:       collectedAt,
 	}

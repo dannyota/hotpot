@@ -568,6 +568,20 @@ func (_u *BronzeGreenNodeComputeServerUpdate) ClearInterfacesJSON() *BronzeGreen
 	return _u
 }
 
+// SetRegion sets the "region" field.
+func (_u *BronzeGreenNodeComputeServerUpdate) SetRegion(v string) *BronzeGreenNodeComputeServerUpdate {
+	_u.mutation.SetRegion(v)
+	return _u
+}
+
+// SetNillableRegion sets the "region" field if the given value is not nil.
+func (_u *BronzeGreenNodeComputeServerUpdate) SetNillableRegion(v *string) *BronzeGreenNodeComputeServerUpdate {
+	if v != nil {
+		_u.SetRegion(*v)
+	}
+	return _u
+}
+
 // SetProjectID sets the "project_id" field.
 func (_u *BronzeGreenNodeComputeServerUpdate) SetProjectID(v string) *BronzeGreenNodeComputeServerUpdate {
 	_u.mutation.SetProjectID(v)
@@ -655,6 +669,11 @@ func (_u *BronzeGreenNodeComputeServerUpdate) check() error {
 	if v, ok := _u.mutation.Name(); ok {
 		if err := bronzegreennodecomputeserver.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "BronzeGreenNodeComputeServer.name": %w`, err)}
+		}
+	}
+	if v, ok := _u.mutation.Region(); ok {
+		if err := bronzegreennodecomputeserver.RegionValidator(v); err != nil {
+			return &ValidationError{Name: "region", err: fmt.Errorf(`ent: validator failed for field "BronzeGreenNodeComputeServer.region": %w`, err)}
 		}
 	}
 	if v, ok := _u.mutation.ProjectID(); ok {
@@ -840,6 +859,9 @@ func (_u *BronzeGreenNodeComputeServerUpdate) sqlSave(ctx context.Context) (_nod
 	}
 	if _u.mutation.InterfacesJSONCleared() {
 		_spec.ClearField(bronzegreennodecomputeserver.FieldInterfacesJSON, field.TypeJSON)
+	}
+	if value, ok := _u.mutation.Region(); ok {
+		_spec.SetField(bronzegreennodecomputeserver.FieldRegion, field.TypeString, value)
 	}
 	if value, ok := _u.mutation.ProjectID(); ok {
 		_spec.SetField(bronzegreennodecomputeserver.FieldProjectID, field.TypeString, value)
@@ -1450,6 +1472,20 @@ func (_u *BronzeGreenNodeComputeServerUpdateOne) ClearInterfacesJSON() *BronzeGr
 	return _u
 }
 
+// SetRegion sets the "region" field.
+func (_u *BronzeGreenNodeComputeServerUpdateOne) SetRegion(v string) *BronzeGreenNodeComputeServerUpdateOne {
+	_u.mutation.SetRegion(v)
+	return _u
+}
+
+// SetNillableRegion sets the "region" field if the given value is not nil.
+func (_u *BronzeGreenNodeComputeServerUpdateOne) SetNillableRegion(v *string) *BronzeGreenNodeComputeServerUpdateOne {
+	if v != nil {
+		_u.SetRegion(*v)
+	}
+	return _u
+}
+
 // SetProjectID sets the "project_id" field.
 func (_u *BronzeGreenNodeComputeServerUpdateOne) SetProjectID(v string) *BronzeGreenNodeComputeServerUpdateOne {
 	_u.mutation.SetProjectID(v)
@@ -1550,6 +1586,11 @@ func (_u *BronzeGreenNodeComputeServerUpdateOne) check() error {
 	if v, ok := _u.mutation.Name(); ok {
 		if err := bronzegreennodecomputeserver.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "BronzeGreenNodeComputeServer.name": %w`, err)}
+		}
+	}
+	if v, ok := _u.mutation.Region(); ok {
+		if err := bronzegreennodecomputeserver.RegionValidator(v); err != nil {
+			return &ValidationError{Name: "region", err: fmt.Errorf(`ent: validator failed for field "BronzeGreenNodeComputeServer.region": %w`, err)}
 		}
 	}
 	if v, ok := _u.mutation.ProjectID(); ok {
@@ -1752,6 +1793,9 @@ func (_u *BronzeGreenNodeComputeServerUpdateOne) sqlSave(ctx context.Context) (_
 	}
 	if _u.mutation.InterfacesJSONCleared() {
 		_spec.ClearField(bronzegreennodecomputeserver.FieldInterfacesJSON, field.TypeJSON)
+	}
+	if value, ok := _u.mutation.Region(); ok {
+		_spec.SetField(bronzegreennodecomputeserver.FieldRegion, field.TypeString, value)
 	}
 	if value, ok := _u.mutation.ProjectID(); ok {
 		_spec.SetField(bronzegreennodecomputeserver.FieldProjectID, field.TypeString, value)

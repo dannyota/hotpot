@@ -78,6 +78,12 @@ func (_c *BronzeGreenNodePortalQuotaCreate) SetUsedValue(v int) *BronzeGreenNode
 	return _c
 }
 
+// SetRegion sets the "region" field.
+func (_c *BronzeGreenNodePortalQuotaCreate) SetRegion(v string) *BronzeGreenNodePortalQuotaCreate {
+	_c.mutation.SetRegion(v)
+	return _c
+}
+
 // SetProjectID sets the "project_id" field.
 func (_c *BronzeGreenNodePortalQuotaCreate) SetProjectID(v string) *BronzeGreenNodePortalQuotaCreate {
 	_c.mutation.SetProjectID(v)
@@ -143,6 +149,14 @@ func (_c *BronzeGreenNodePortalQuotaCreate) check() error {
 	}
 	if _, ok := _c.mutation.UsedValue(); !ok {
 		return &ValidationError{Name: "used_value", err: errors.New(`ent: missing required field "BronzeGreenNodePortalQuota.used_value"`)}
+	}
+	if _, ok := _c.mutation.Region(); !ok {
+		return &ValidationError{Name: "region", err: errors.New(`ent: missing required field "BronzeGreenNodePortalQuota.region"`)}
+	}
+	if v, ok := _c.mutation.Region(); ok {
+		if err := bronzegreennodeportalquota.RegionValidator(v); err != nil {
+			return &ValidationError{Name: "region", err: fmt.Errorf(`ent: validator failed for field "BronzeGreenNodePortalQuota.region": %w`, err)}
+		}
 	}
 	if _, ok := _c.mutation.ProjectID(); !ok {
 		return &ValidationError{Name: "project_id", err: errors.New(`ent: missing required field "BronzeGreenNodePortalQuota.project_id"`)}
@@ -215,6 +229,10 @@ func (_c *BronzeGreenNodePortalQuotaCreate) createSpec() (*BronzeGreenNodePortal
 	if value, ok := _c.mutation.UsedValue(); ok {
 		_spec.SetField(bronzegreennodeportalquota.FieldUsedValue, field.TypeInt, value)
 		_node.UsedValue = value
+	}
+	if value, ok := _c.mutation.Region(); ok {
+		_spec.SetField(bronzegreennodeportalquota.FieldRegion, field.TypeString, value)
+		_node.Region = value
 	}
 	if value, ok := _c.mutation.ProjectID(); ok {
 		_spec.SetField(bronzegreennodeportalquota.FieldProjectID, field.TypeString, value)

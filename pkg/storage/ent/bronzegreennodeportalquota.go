@@ -32,6 +32,8 @@ type BronzeGreenNodePortalQuota struct {
 	LimitValue int `json:"limit_value,omitempty"`
 	// Currently used value
 	UsedValue int `json:"used_value,omitempty"`
+	// GreenNode region (e.g. hcm-3, han-1)
+	Region string `json:"region,omitempty"`
 	// ProjectID holds the value of the "project_id" field.
 	ProjectID    string `json:"project_id,omitempty"`
 	selectValues sql.SelectValues
@@ -44,7 +46,7 @@ func (*BronzeGreenNodePortalQuota) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case bronzegreennodeportalquota.FieldLimitValue, bronzegreennodeportalquota.FieldUsedValue:
 			values[i] = new(sql.NullInt64)
-		case bronzegreennodeportalquota.FieldID, bronzegreennodeportalquota.FieldName, bronzegreennodeportalquota.FieldDescription, bronzegreennodeportalquota.FieldType, bronzegreennodeportalquota.FieldProjectID:
+		case bronzegreennodeportalquota.FieldID, bronzegreennodeportalquota.FieldName, bronzegreennodeportalquota.FieldDescription, bronzegreennodeportalquota.FieldType, bronzegreennodeportalquota.FieldRegion, bronzegreennodeportalquota.FieldProjectID:
 			values[i] = new(sql.NullString)
 		case bronzegreennodeportalquota.FieldCollectedAt, bronzegreennodeportalquota.FieldFirstCollectedAt:
 			values[i] = new(sql.NullTime)
@@ -111,6 +113,12 @@ func (_m *BronzeGreenNodePortalQuota) assignValues(columns []string, values []an
 			} else if value.Valid {
 				_m.UsedValue = int(value.Int64)
 			}
+		case bronzegreennodeportalquota.FieldRegion:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field region", values[i])
+			} else if value.Valid {
+				_m.Region = value.String
+			}
 		case bronzegreennodeportalquota.FieldProjectID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field project_id", values[i])
@@ -173,6 +181,9 @@ func (_m *BronzeGreenNodePortalQuota) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("used_value=")
 	builder.WriteString(fmt.Sprintf("%v", _m.UsedValue))
+	builder.WriteString(", ")
+	builder.WriteString("region=")
+	builder.WriteString(_m.Region)
 	builder.WriteString(", ")
 	builder.WriteString("project_id=")
 	builder.WriteString(_m.ProjectID)

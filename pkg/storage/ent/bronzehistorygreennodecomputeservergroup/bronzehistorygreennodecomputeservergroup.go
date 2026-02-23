@@ -31,6 +31,8 @@ const (
 	FieldPolicyID = "policy_id"
 	// FieldPolicyName holds the string denoting the policy_name field in the database.
 	FieldPolicyName = "policy_name"
+	// FieldRegion holds the string denoting the region field in the database.
+	FieldRegion = "region"
 	// FieldProjectID holds the string denoting the project_id field in the database.
 	FieldProjectID = "project_id"
 	// Table holds the table name of the bronzehistorygreennodecomputeservergroup in the database.
@@ -50,6 +52,7 @@ var Columns = []string{
 	FieldDescription,
 	FieldPolicyID,
 	FieldPolicyName,
+	FieldRegion,
 	FieldProjectID,
 }
 
@@ -68,6 +71,8 @@ var (
 	ResourceIDValidator func(string) error
 	// NameValidator is a validator for the "name" field. It is called by the builders before save.
 	NameValidator func(string) error
+	// RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	RegionValidator func(string) error
 	// ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
 	ProjectIDValidator func(string) error
 )
@@ -128,6 +133,11 @@ func ByPolicyID(opts ...sql.OrderTermOption) OrderOption {
 // ByPolicyName orders the results by the policy_name field.
 func ByPolicyName(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldPolicyName, opts...).ToFunc()
+}
+
+// ByRegion orders the results by the region field.
+func ByRegion(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRegion, opts...).ToFunc()
 }
 
 // ByProjectID orders the results by the project_id field.

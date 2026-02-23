@@ -39,6 +39,9 @@ func (BronzeGreenNodePortalQuota) Fields() []ent.Field {
 			Comment("Maximum allowed value"),
 		field.Int("used_value").
 			Comment("Currently used value"),
+		field.String("region").
+			NotEmpty().
+			Comment("GreenNode region (e.g. hcm-3, han-1)"),
 		field.String("project_id").
 			NotEmpty(),
 	}
@@ -47,6 +50,7 @@ func (BronzeGreenNodePortalQuota) Fields() []ent.Field {
 func (BronzeGreenNodePortalQuota) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("project_id"),
+		index.Fields("region"),
 		index.Fields("collected_at"),
 	}
 }

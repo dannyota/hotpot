@@ -10,6 +10,7 @@ import (
 // GreenNodeComputeSSHKeyWorkflowParams contains parameters for the SSH key workflow.
 type GreenNodeComputeSSHKeyWorkflowParams struct {
 	ProjectID string
+	Region    string
 }
 
 // GreenNodeComputeSSHKeyWorkflowResult contains the result of the SSH key workflow.
@@ -21,7 +22,7 @@ type GreenNodeComputeSSHKeyWorkflowResult struct {
 // GreenNodeComputeSSHKeyWorkflow ingests GreenNode SSH keys.
 func GreenNodeComputeSSHKeyWorkflow(ctx workflow.Context, params GreenNodeComputeSSHKeyWorkflowParams) (*GreenNodeComputeSSHKeyWorkflowResult, error) {
 	logger := workflow.GetLogger(ctx)
-	logger.Info("Starting GreenNodeComputeSSHKeyWorkflow", "projectID", params.ProjectID)
+	logger.Info("Starting GreenNodeComputeSSHKeyWorkflow", "projectID", params.ProjectID, "region", params.Region)
 
 	activityOpts := workflow.ActivityOptions{
 		StartToCloseTimeout: 10 * time.Minute,
@@ -37,6 +38,7 @@ func GreenNodeComputeSSHKeyWorkflow(ctx workflow.Context, params GreenNodeComput
 	var result IngestComputeSSHKeysResult
 	err := workflow.ExecuteActivity(activityCtx, IngestComputeSSHKeysActivity, IngestComputeSSHKeysParams{
 		ProjectID: params.ProjectID,
+		Region:    params.Region,
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest SSH keys", "error", err)

@@ -165,6 +165,20 @@ func (_u *BronzeHistoryGreenNodeComputeSSHKeyUpdate) ClearStatus() *BronzeHistor
 	return _u
 }
 
+// SetRegion sets the "region" field.
+func (_u *BronzeHistoryGreenNodeComputeSSHKeyUpdate) SetRegion(v string) *BronzeHistoryGreenNodeComputeSSHKeyUpdate {
+	_u.mutation.SetRegion(v)
+	return _u
+}
+
+// SetNillableRegion sets the "region" field if the given value is not nil.
+func (_u *BronzeHistoryGreenNodeComputeSSHKeyUpdate) SetNillableRegion(v *string) *BronzeHistoryGreenNodeComputeSSHKeyUpdate {
+	if v != nil {
+		_u.SetRegion(*v)
+	}
+	return _u
+}
+
 // SetProjectID sets the "project_id" field.
 func (_u *BronzeHistoryGreenNodeComputeSSHKeyUpdate) SetProjectID(v string) *BronzeHistoryGreenNodeComputeSSHKeyUpdate {
 	_u.mutation.SetProjectID(v)
@@ -223,6 +237,11 @@ func (_u *BronzeHistoryGreenNodeComputeSSHKeyUpdate) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "BronzeHistoryGreenNodeComputeSSHKey.name": %w`, err)}
 		}
 	}
+	if v, ok := _u.mutation.Region(); ok {
+		if err := bronzehistorygreennodecomputesshkey.RegionValidator(v); err != nil {
+			return &ValidationError{Name: "region", err: fmt.Errorf(`ent: validator failed for field "BronzeHistoryGreenNodeComputeSSHKey.region": %w`, err)}
+		}
+	}
 	if v, ok := _u.mutation.ProjectID(); ok {
 		if err := bronzehistorygreennodecomputesshkey.ProjectIDValidator(v); err != nil {
 			return &ValidationError{Name: "project_id", err: fmt.Errorf(`ent: validator failed for field "BronzeHistoryGreenNodeComputeSSHKey.project_id": %w`, err)}
@@ -278,6 +297,9 @@ func (_u *BronzeHistoryGreenNodeComputeSSHKeyUpdate) sqlSave(ctx context.Context
 	}
 	if _u.mutation.StatusCleared() {
 		_spec.ClearField(bronzehistorygreennodecomputesshkey.FieldStatus, field.TypeString)
+	}
+	if value, ok := _u.mutation.Region(); ok {
+		_spec.SetField(bronzehistorygreennodecomputesshkey.FieldRegion, field.TypeString, value)
 	}
 	if value, ok := _u.mutation.ProjectID(); ok {
 		_spec.SetField(bronzehistorygreennodecomputesshkey.FieldProjectID, field.TypeString, value)
@@ -440,6 +462,20 @@ func (_u *BronzeHistoryGreenNodeComputeSSHKeyUpdateOne) ClearStatus() *BronzeHis
 	return _u
 }
 
+// SetRegion sets the "region" field.
+func (_u *BronzeHistoryGreenNodeComputeSSHKeyUpdateOne) SetRegion(v string) *BronzeHistoryGreenNodeComputeSSHKeyUpdateOne {
+	_u.mutation.SetRegion(v)
+	return _u
+}
+
+// SetNillableRegion sets the "region" field if the given value is not nil.
+func (_u *BronzeHistoryGreenNodeComputeSSHKeyUpdateOne) SetNillableRegion(v *string) *BronzeHistoryGreenNodeComputeSSHKeyUpdateOne {
+	if v != nil {
+		_u.SetRegion(*v)
+	}
+	return _u
+}
+
 // SetProjectID sets the "project_id" field.
 func (_u *BronzeHistoryGreenNodeComputeSSHKeyUpdateOne) SetProjectID(v string) *BronzeHistoryGreenNodeComputeSSHKeyUpdateOne {
 	_u.mutation.SetProjectID(v)
@@ -509,6 +545,11 @@ func (_u *BronzeHistoryGreenNodeComputeSSHKeyUpdateOne) check() error {
 	if v, ok := _u.mutation.Name(); ok {
 		if err := bronzehistorygreennodecomputesshkey.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "BronzeHistoryGreenNodeComputeSSHKey.name": %w`, err)}
+		}
+	}
+	if v, ok := _u.mutation.Region(); ok {
+		if err := bronzehistorygreennodecomputesshkey.RegionValidator(v); err != nil {
+			return &ValidationError{Name: "region", err: fmt.Errorf(`ent: validator failed for field "BronzeHistoryGreenNodeComputeSSHKey.region": %w`, err)}
 		}
 	}
 	if v, ok := _u.mutation.ProjectID(); ok {
@@ -583,6 +624,9 @@ func (_u *BronzeHistoryGreenNodeComputeSSHKeyUpdateOne) sqlSave(ctx context.Cont
 	}
 	if _u.mutation.StatusCleared() {
 		_spec.ClearField(bronzehistorygreennodecomputesshkey.FieldStatus, field.TypeString)
+	}
+	if value, ok := _u.mutation.Region(); ok {
+		_spec.SetField(bronzehistorygreennodecomputesshkey.FieldRegion, field.TypeString, value)
 	}
 	if value, ok := _u.mutation.ProjectID(); ok {
 		_spec.SetField(bronzehistorygreennodecomputesshkey.FieldProjectID, field.TypeString, value)

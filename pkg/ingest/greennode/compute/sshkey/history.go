@@ -30,6 +30,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *SS
 		SetCreatedAtAPI(data.CreatedAtAPI).
 		SetPubKey(data.PubKey).
 		SetStatus(data.Status).
+		SetRegion(data.Region).
 		SetProjectID(data.ProjectID).
 		Save(ctx)
 	if err != nil {
@@ -65,6 +66,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 		SetCreatedAtAPI(new.CreatedAtAPI).
 		SetPubKey(new.PubKey).
 		SetStatus(new.Status).
+		SetRegion(new.Region).
 		SetProjectID(new.ProjectID).
 		Save(ctx)
 	if err != nil {

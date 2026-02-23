@@ -30,6 +30,8 @@ type BronzeGreenNodeComputeServerGroup struct {
 	PolicyID string `json:"policy_id,omitempty"`
 	// PolicyName holds the value of the "policy_name" field.
 	PolicyName string `json:"policy_name,omitempty"`
+	// GreenNode region (e.g. hcm-3, han-1)
+	Region string `json:"region,omitempty"`
 	// ProjectID holds the value of the "project_id" field.
 	ProjectID string `json:"project_id,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
@@ -61,7 +63,7 @@ func (*BronzeGreenNodeComputeServerGroup) scanValues(columns []string) ([]any, e
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case bronzegreennodecomputeservergroup.FieldID, bronzegreennodecomputeservergroup.FieldName, bronzegreennodecomputeservergroup.FieldDescription, bronzegreennodecomputeservergroup.FieldPolicyID, bronzegreennodecomputeservergroup.FieldPolicyName, bronzegreennodecomputeservergroup.FieldProjectID:
+		case bronzegreennodecomputeservergroup.FieldID, bronzegreennodecomputeservergroup.FieldName, bronzegreennodecomputeservergroup.FieldDescription, bronzegreennodecomputeservergroup.FieldPolicyID, bronzegreennodecomputeservergroup.FieldPolicyName, bronzegreennodecomputeservergroup.FieldRegion, bronzegreennodecomputeservergroup.FieldProjectID:
 			values[i] = new(sql.NullString)
 		case bronzegreennodecomputeservergroup.FieldCollectedAt, bronzegreennodecomputeservergroup.FieldFirstCollectedAt:
 			values[i] = new(sql.NullTime)
@@ -121,6 +123,12 @@ func (_m *BronzeGreenNodeComputeServerGroup) assignValues(columns []string, valu
 				return fmt.Errorf("unexpected type %T for field policy_name", values[i])
 			} else if value.Valid {
 				_m.PolicyName = value.String
+			}
+		case bronzegreennodecomputeservergroup.FieldRegion:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field region", values[i])
+			} else if value.Valid {
+				_m.Region = value.String
 			}
 		case bronzegreennodecomputeservergroup.FieldProjectID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -186,6 +194,9 @@ func (_m *BronzeGreenNodeComputeServerGroup) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("policy_name=")
 	builder.WriteString(_m.PolicyName)
+	builder.WriteString(", ")
+	builder.WriteString("region=")
+	builder.WriteString(_m.Region)
 	builder.WriteString(", ")
 	builder.WriteString("project_id=")
 	builder.WriteString(_m.ProjectID)

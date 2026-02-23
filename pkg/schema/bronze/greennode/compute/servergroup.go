@@ -37,6 +37,9 @@ func (BronzeGreenNodeComputeServerGroup) Fields() []ent.Field {
 			Optional(),
 		field.String("policy_name").
 			Optional(),
+		field.String("region").
+			NotEmpty().
+			Comment("GreenNode region (e.g. hcm-3, han-1)"),
 		field.String("project_id").
 			NotEmpty(),
 	}
@@ -51,6 +54,7 @@ func (BronzeGreenNodeComputeServerGroup) Edges() []ent.Edge {
 func (BronzeGreenNodeComputeServerGroup) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("project_id"),
+		index.Fields("region"),
 		index.Fields("collected_at"),
 	}
 }

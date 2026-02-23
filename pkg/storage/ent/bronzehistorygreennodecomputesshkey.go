@@ -37,6 +37,8 @@ type BronzeHistoryGreenNodeComputeSSHKey struct {
 	PubKey string `json:"pub_key,omitempty"`
 	// Status holds the value of the "status" field.
 	Status string `json:"status,omitempty"`
+	// Region holds the value of the "region" field.
+	Region string `json:"region,omitempty"`
 	// ProjectID holds the value of the "project_id" field.
 	ProjectID    string `json:"project_id,omitempty"`
 	selectValues sql.SelectValues
@@ -49,7 +51,7 @@ func (*BronzeHistoryGreenNodeComputeSSHKey) scanValues(columns []string) ([]any,
 		switch columns[i] {
 		case bronzehistorygreennodecomputesshkey.FieldID, bronzehistorygreennodecomputesshkey.FieldHistoryID:
 			values[i] = new(sql.NullInt64)
-		case bronzehistorygreennodecomputesshkey.FieldResourceID, bronzehistorygreennodecomputesshkey.FieldName, bronzehistorygreennodecomputesshkey.FieldCreatedAtAPI, bronzehistorygreennodecomputesshkey.FieldPubKey, bronzehistorygreennodecomputesshkey.FieldStatus, bronzehistorygreennodecomputesshkey.FieldProjectID:
+		case bronzehistorygreennodecomputesshkey.FieldResourceID, bronzehistorygreennodecomputesshkey.FieldName, bronzehistorygreennodecomputesshkey.FieldCreatedAtAPI, bronzehistorygreennodecomputesshkey.FieldPubKey, bronzehistorygreennodecomputesshkey.FieldStatus, bronzehistorygreennodecomputesshkey.FieldRegion, bronzehistorygreennodecomputesshkey.FieldProjectID:
 			values[i] = new(sql.NullString)
 		case bronzehistorygreennodecomputesshkey.FieldValidFrom, bronzehistorygreennodecomputesshkey.FieldValidTo, bronzehistorygreennodecomputesshkey.FieldCollectedAt, bronzehistorygreennodecomputesshkey.FieldFirstCollectedAt:
 			values[i] = new(sql.NullTime)
@@ -135,6 +137,12 @@ func (_m *BronzeHistoryGreenNodeComputeSSHKey) assignValues(columns []string, va
 			} else if value.Valid {
 				_m.Status = value.String
 			}
+		case bronzehistorygreennodecomputesshkey.FieldRegion:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field region", values[i])
+			} else if value.Valid {
+				_m.Region = value.String
+			}
 		case bronzehistorygreennodecomputesshkey.FieldProjectID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field project_id", values[i])
@@ -208,6 +216,9 @@ func (_m *BronzeHistoryGreenNodeComputeSSHKey) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("status=")
 	builder.WriteString(_m.Status)
+	builder.WriteString(", ")
+	builder.WriteString("region=")
+	builder.WriteString(_m.Region)
 	builder.WriteString(", ")
 	builder.WriteString("project_id=")
 	builder.WriteString(_m.ProjectID)

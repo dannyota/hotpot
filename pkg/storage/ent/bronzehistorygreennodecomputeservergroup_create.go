@@ -112,6 +112,12 @@ func (_c *BronzeHistoryGreenNodeComputeServerGroupCreate) SetNillablePolicyName(
 	return _c
 }
 
+// SetRegion sets the "region" field.
+func (_c *BronzeHistoryGreenNodeComputeServerGroupCreate) SetRegion(v string) *BronzeHistoryGreenNodeComputeServerGroupCreate {
+	_c.mutation.SetRegion(v)
+	return _c
+}
+
 // SetProjectID sets the "project_id" field.
 func (_c *BronzeHistoryGreenNodeComputeServerGroupCreate) SetProjectID(v string) *BronzeHistoryGreenNodeComputeServerGroupCreate {
 	_c.mutation.SetProjectID(v)
@@ -178,6 +184,14 @@ func (_c *BronzeHistoryGreenNodeComputeServerGroupCreate) check() error {
 	if v, ok := _c.mutation.Name(); ok {
 		if err := bronzehistorygreennodecomputeservergroup.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "BronzeHistoryGreenNodeComputeServerGroup.name": %w`, err)}
+		}
+	}
+	if _, ok := _c.mutation.Region(); !ok {
+		return &ValidationError{Name: "region", err: errors.New(`ent: missing required field "BronzeHistoryGreenNodeComputeServerGroup.region"`)}
+	}
+	if v, ok := _c.mutation.Region(); ok {
+		if err := bronzehistorygreennodecomputeservergroup.RegionValidator(v); err != nil {
+			return &ValidationError{Name: "region", err: fmt.Errorf(`ent: validator failed for field "BronzeHistoryGreenNodeComputeServerGroup.region": %w`, err)}
 		}
 	}
 	if _, ok := _c.mutation.ProjectID(); !ok {
@@ -254,6 +268,10 @@ func (_c *BronzeHistoryGreenNodeComputeServerGroupCreate) createSpec() (*BronzeH
 	if value, ok := _c.mutation.PolicyName(); ok {
 		_spec.SetField(bronzehistorygreennodecomputeservergroup.FieldPolicyName, field.TypeString, value)
 		_node.PolicyName = value
+	}
+	if value, ok := _c.mutation.Region(); ok {
+		_spec.SetField(bronzehistorygreennodecomputeservergroup.FieldRegion, field.TypeString, value)
+		_node.Region = value
 	}
 	if value, ok := _c.mutation.ProjectID(); ok {
 		_spec.SetField(bronzehistorygreennodecomputeservergroup.FieldProjectID, field.TypeString, value)

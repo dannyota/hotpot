@@ -109,6 +109,11 @@ func UsedValue(v int) predicate.BronzeHistoryGreenNodePortalQuota {
 	return predicate.BronzeHistoryGreenNodePortalQuota(sql.FieldEQ(FieldUsedValue, v))
 }
 
+// Region applies equality check predicate on the "region" field. It's identical to RegionEQ.
+func Region(v string) predicate.BronzeHistoryGreenNodePortalQuota {
+	return predicate.BronzeHistoryGreenNodePortalQuota(sql.FieldEQ(FieldRegion, v))
+}
+
 // ProjectID applies equality check predicate on the "project_id" field. It's identical to ProjectIDEQ.
 func ProjectID(v string) predicate.BronzeHistoryGreenNodePortalQuota {
 	return predicate.BronzeHistoryGreenNodePortalQuota(sql.FieldEQ(FieldProjectID, v))
@@ -682,6 +687,71 @@ func UsedValueLT(v int) predicate.BronzeHistoryGreenNodePortalQuota {
 // UsedValueLTE applies the LTE predicate on the "used_value" field.
 func UsedValueLTE(v int) predicate.BronzeHistoryGreenNodePortalQuota {
 	return predicate.BronzeHistoryGreenNodePortalQuota(sql.FieldLTE(FieldUsedValue, v))
+}
+
+// RegionEQ applies the EQ predicate on the "region" field.
+func RegionEQ(v string) predicate.BronzeHistoryGreenNodePortalQuota {
+	return predicate.BronzeHistoryGreenNodePortalQuota(sql.FieldEQ(FieldRegion, v))
+}
+
+// RegionNEQ applies the NEQ predicate on the "region" field.
+func RegionNEQ(v string) predicate.BronzeHistoryGreenNodePortalQuota {
+	return predicate.BronzeHistoryGreenNodePortalQuota(sql.FieldNEQ(FieldRegion, v))
+}
+
+// RegionIn applies the In predicate on the "region" field.
+func RegionIn(vs ...string) predicate.BronzeHistoryGreenNodePortalQuota {
+	return predicate.BronzeHistoryGreenNodePortalQuota(sql.FieldIn(FieldRegion, vs...))
+}
+
+// RegionNotIn applies the NotIn predicate on the "region" field.
+func RegionNotIn(vs ...string) predicate.BronzeHistoryGreenNodePortalQuota {
+	return predicate.BronzeHistoryGreenNodePortalQuota(sql.FieldNotIn(FieldRegion, vs...))
+}
+
+// RegionGT applies the GT predicate on the "region" field.
+func RegionGT(v string) predicate.BronzeHistoryGreenNodePortalQuota {
+	return predicate.BronzeHistoryGreenNodePortalQuota(sql.FieldGT(FieldRegion, v))
+}
+
+// RegionGTE applies the GTE predicate on the "region" field.
+func RegionGTE(v string) predicate.BronzeHistoryGreenNodePortalQuota {
+	return predicate.BronzeHistoryGreenNodePortalQuota(sql.FieldGTE(FieldRegion, v))
+}
+
+// RegionLT applies the LT predicate on the "region" field.
+func RegionLT(v string) predicate.BronzeHistoryGreenNodePortalQuota {
+	return predicate.BronzeHistoryGreenNodePortalQuota(sql.FieldLT(FieldRegion, v))
+}
+
+// RegionLTE applies the LTE predicate on the "region" field.
+func RegionLTE(v string) predicate.BronzeHistoryGreenNodePortalQuota {
+	return predicate.BronzeHistoryGreenNodePortalQuota(sql.FieldLTE(FieldRegion, v))
+}
+
+// RegionContains applies the Contains predicate on the "region" field.
+func RegionContains(v string) predicate.BronzeHistoryGreenNodePortalQuota {
+	return predicate.BronzeHistoryGreenNodePortalQuota(sql.FieldContains(FieldRegion, v))
+}
+
+// RegionHasPrefix applies the HasPrefix predicate on the "region" field.
+func RegionHasPrefix(v string) predicate.BronzeHistoryGreenNodePortalQuota {
+	return predicate.BronzeHistoryGreenNodePortalQuota(sql.FieldHasPrefix(FieldRegion, v))
+}
+
+// RegionHasSuffix applies the HasSuffix predicate on the "region" field.
+func RegionHasSuffix(v string) predicate.BronzeHistoryGreenNodePortalQuota {
+	return predicate.BronzeHistoryGreenNodePortalQuota(sql.FieldHasSuffix(FieldRegion, v))
+}
+
+// RegionEqualFold applies the EqualFold predicate on the "region" field.
+func RegionEqualFold(v string) predicate.BronzeHistoryGreenNodePortalQuota {
+	return predicate.BronzeHistoryGreenNodePortalQuota(sql.FieldEqualFold(FieldRegion, v))
+}
+
+// RegionContainsFold applies the ContainsFold predicate on the "region" field.
+func RegionContainsFold(v string) predicate.BronzeHistoryGreenNodePortalQuota {
+	return predicate.BronzeHistoryGreenNodePortalQuota(sql.FieldContainsFold(FieldRegion, v))
 }
 
 // ProjectIDEQ applies the EQ predicate on the "project_id" field.

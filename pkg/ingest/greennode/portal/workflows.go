@@ -7,6 +7,11 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/greennode/portal/region"
 )
 
+// GreenNodePortalWorkflowParams contains parameters for the portal workflow.
+type GreenNodePortalWorkflowParams struct {
+	Region string
+}
+
 // GreenNodePortalWorkflowResult contains the result of the portal workflow.
 type GreenNodePortalWorkflowResult struct {
 	RegionCount int
@@ -14,9 +19,9 @@ type GreenNodePortalWorkflowResult struct {
 }
 
 // GreenNodePortalWorkflow orchestrates GreenNode portal ingestion.
-func GreenNodePortalWorkflow(ctx workflow.Context) (*GreenNodePortalWorkflowResult, error) {
+func GreenNodePortalWorkflow(ctx workflow.Context, params GreenNodePortalWorkflowParams) (*GreenNodePortalWorkflowResult, error) {
 	logger := workflow.GetLogger(ctx)
-	logger.Info("Starting GreenNodePortalWorkflow")
+	logger.Info("Starting GreenNodePortalWorkflow", "region", params.Region)
 
 	result := &GreenNodePortalWorkflowResult{}
 
@@ -25,7 +30,9 @@ func GreenNodePortalWorkflow(ctx workflow.Context) (*GreenNodePortalWorkflowResu
 
 	// Regions
 	var regionResult region.GreenNodePortalRegionWorkflowResult
-	err := workflow.ExecuteChildWorkflow(childCtx, region.GreenNodePortalRegionWorkflow).Get(ctx, &regionResult)
+	err := workflow.ExecuteChildWorkflow(childCtx, region.GreenNodePortalRegionWorkflow, region.GreenNodePortalRegionWorkflowParams{
+		Region: params.Region,
+	}).Get(ctx, &regionResult)
 	if err != nil {
 		logger.Error("Failed to ingest regions", "error", err)
 	} else {
@@ -34,7 +41,9 @@ func GreenNodePortalWorkflow(ctx workflow.Context) (*GreenNodePortalWorkflowResu
 
 	// Quotas
 	var quotaResult quota.GreenNodePortalQuotaWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, quota.GreenNodePortalQuotaWorkflow).Get(ctx, &quotaResult)
+	err = workflow.ExecuteChildWorkflow(childCtx, quota.GreenNodePortalQuotaWorkflow, quota.GreenNodePortalQuotaWorkflowParams{
+		Region: params.Region,
+	}).Get(ctx, &quotaResult)
 	if err != nil {
 		logger.Error("Failed to ingest quotas", "error", err)
 	} else {

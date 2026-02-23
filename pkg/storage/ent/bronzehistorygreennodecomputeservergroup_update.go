@@ -165,6 +165,20 @@ func (_u *BronzeHistoryGreenNodeComputeServerGroupUpdate) ClearPolicyName() *Bro
 	return _u
 }
 
+// SetRegion sets the "region" field.
+func (_u *BronzeHistoryGreenNodeComputeServerGroupUpdate) SetRegion(v string) *BronzeHistoryGreenNodeComputeServerGroupUpdate {
+	_u.mutation.SetRegion(v)
+	return _u
+}
+
+// SetNillableRegion sets the "region" field if the given value is not nil.
+func (_u *BronzeHistoryGreenNodeComputeServerGroupUpdate) SetNillableRegion(v *string) *BronzeHistoryGreenNodeComputeServerGroupUpdate {
+	if v != nil {
+		_u.SetRegion(*v)
+	}
+	return _u
+}
+
 // SetProjectID sets the "project_id" field.
 func (_u *BronzeHistoryGreenNodeComputeServerGroupUpdate) SetProjectID(v string) *BronzeHistoryGreenNodeComputeServerGroupUpdate {
 	_u.mutation.SetProjectID(v)
@@ -223,6 +237,11 @@ func (_u *BronzeHistoryGreenNodeComputeServerGroupUpdate) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "BronzeHistoryGreenNodeComputeServerGroup.name": %w`, err)}
 		}
 	}
+	if v, ok := _u.mutation.Region(); ok {
+		if err := bronzehistorygreennodecomputeservergroup.RegionValidator(v); err != nil {
+			return &ValidationError{Name: "region", err: fmt.Errorf(`ent: validator failed for field "BronzeHistoryGreenNodeComputeServerGroup.region": %w`, err)}
+		}
+	}
 	if v, ok := _u.mutation.ProjectID(); ok {
 		if err := bronzehistorygreennodecomputeservergroup.ProjectIDValidator(v); err != nil {
 			return &ValidationError{Name: "project_id", err: fmt.Errorf(`ent: validator failed for field "BronzeHistoryGreenNodeComputeServerGroup.project_id": %w`, err)}
@@ -278,6 +297,9 @@ func (_u *BronzeHistoryGreenNodeComputeServerGroupUpdate) sqlSave(ctx context.Co
 	}
 	if _u.mutation.PolicyNameCleared() {
 		_spec.ClearField(bronzehistorygreennodecomputeservergroup.FieldPolicyName, field.TypeString)
+	}
+	if value, ok := _u.mutation.Region(); ok {
+		_spec.SetField(bronzehistorygreennodecomputeservergroup.FieldRegion, field.TypeString, value)
 	}
 	if value, ok := _u.mutation.ProjectID(); ok {
 		_spec.SetField(bronzehistorygreennodecomputeservergroup.FieldProjectID, field.TypeString, value)
@@ -440,6 +462,20 @@ func (_u *BronzeHistoryGreenNodeComputeServerGroupUpdateOne) ClearPolicyName() *
 	return _u
 }
 
+// SetRegion sets the "region" field.
+func (_u *BronzeHistoryGreenNodeComputeServerGroupUpdateOne) SetRegion(v string) *BronzeHistoryGreenNodeComputeServerGroupUpdateOne {
+	_u.mutation.SetRegion(v)
+	return _u
+}
+
+// SetNillableRegion sets the "region" field if the given value is not nil.
+func (_u *BronzeHistoryGreenNodeComputeServerGroupUpdateOne) SetNillableRegion(v *string) *BronzeHistoryGreenNodeComputeServerGroupUpdateOne {
+	if v != nil {
+		_u.SetRegion(*v)
+	}
+	return _u
+}
+
 // SetProjectID sets the "project_id" field.
 func (_u *BronzeHistoryGreenNodeComputeServerGroupUpdateOne) SetProjectID(v string) *BronzeHistoryGreenNodeComputeServerGroupUpdateOne {
 	_u.mutation.SetProjectID(v)
@@ -509,6 +545,11 @@ func (_u *BronzeHistoryGreenNodeComputeServerGroupUpdateOne) check() error {
 	if v, ok := _u.mutation.Name(); ok {
 		if err := bronzehistorygreennodecomputeservergroup.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "BronzeHistoryGreenNodeComputeServerGroup.name": %w`, err)}
+		}
+	}
+	if v, ok := _u.mutation.Region(); ok {
+		if err := bronzehistorygreennodecomputeservergroup.RegionValidator(v); err != nil {
+			return &ValidationError{Name: "region", err: fmt.Errorf(`ent: validator failed for field "BronzeHistoryGreenNodeComputeServerGroup.region": %w`, err)}
 		}
 	}
 	if v, ok := _u.mutation.ProjectID(); ok {
@@ -583,6 +624,9 @@ func (_u *BronzeHistoryGreenNodeComputeServerGroupUpdateOne) sqlSave(ctx context
 	}
 	if _u.mutation.PolicyNameCleared() {
 		_spec.ClearField(bronzehistorygreennodecomputeservergroup.FieldPolicyName, field.TypeString)
+	}
+	if value, ok := _u.mutation.Region(); ok {
+		_spec.SetField(bronzehistorygreennodecomputeservergroup.FieldRegion, field.TypeString, value)
 	}
 	if value, ok := _u.mutation.ProjectID(); ok {
 		_spec.SetField(bronzehistorygreennodecomputeservergroup.FieldProjectID, field.TypeString, value)

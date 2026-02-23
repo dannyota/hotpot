@@ -30,6 +30,7 @@ func NewActivities(configService *config.Service, entClient *ent.Client, limiter
 // IngestPortalRegionsParams contains parameters for the ingest activity.
 type IngestPortalRegionsParams struct {
 	ProjectID string
+	Region    string
 }
 
 // IngestPortalRegionsResult contains the result of the ingest activity.
@@ -44,9 +45,9 @@ var IngestPortalRegionsActivity = (*Activities).IngestPortalRegions
 // IngestPortalRegions is a Temporal activity that ingests GreenNode regions.
 func (a *Activities) IngestPortalRegions(ctx context.Context, params IngestPortalRegionsParams) (*IngestPortalRegionsResult, error) {
 	logger := activity.GetLogger(ctx)
-	logger.Info("Starting GreenNode region ingestion", "projectID", params.ProjectID)
+	logger.Info("Starting GreenNode region ingestion", "projectID", params.ProjectID, "region", params.Region)
 
-	client, err := NewClient(ctx, a.configService, a.limiter)
+	client, err := NewClient(ctx, a.configService, a.limiter, params.Region)
 	if err != nil {
 		return nil, fmt.Errorf("create client: %w", err)
 	}

@@ -1,6 +1,9 @@
 package greennode
 
 import (
+	"time"
+
+	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
 	"github.com/dannyota/hotpot/pkg/ingest/greennode/compute"
@@ -26,12 +29,36 @@ func GreenNodeInventoryWorkflow(ctx workflow.Context) (*GreenNodeInventoryWorkfl
 
 	result := &GreenNodeInventoryWorkflowResult{}
 
+	// Discover configured regions
+	activityOpts := workflow.ActivityOptions{
+		StartToCloseTimeout: time.Minute,
+		RetryPolicy: &temporal.RetryPolicy{
+			MaximumAttempts: 3,
+		},
+	}
+	activityCtx := workflow.WithActivityOptions(ctx, activityOpts)
+
+	var discoverResult DiscoverRegionsResult
+	err := workflow.ExecuteActivity(activityCtx, DiscoverRegionsActivity, DiscoverRegionsParams{}).Get(ctx, &discoverResult)
+	if err != nil {
+		logger.Error("Failed to discover regions", "error", err)
+		return nil, err
+	}
+
+	if len(discoverResult.Regions) == 0 {
+		logger.Warn("No GreenNode regions configured")
+		return result, nil
+	}
+
 	childOpts := workflow.ChildWorkflowOptions{}
 	childCtx := workflow.WithChildOptions(ctx, childOpts)
 
-	// Portal (regions, quotas)
+	// Portal (regions + quotas) - run once using first region for API endpoint
+	firstRegion := discoverResult.Regions[0]
 	var portalResult portal.GreenNodePortalWorkflowResult
-	err := workflow.ExecuteChildWorkflow(childCtx, portal.GreenNodePortalWorkflow).Get(ctx, &portalResult)
+	err = workflow.ExecuteChildWorkflow(childCtx, portal.GreenNodePortalWorkflow, portal.GreenNodePortalWorkflowParams{
+		Region: firstRegion,
+	}).Get(ctx, &portalResult)
 	if err != nil {
 		logger.Error("Failed portal ingestion", "error", err)
 	} else {
@@ -39,17 +66,19 @@ func GreenNodeInventoryWorkflow(ctx workflow.Context) (*GreenNodeInventoryWorkfl
 		result.QuotaCount = portalResult.QuotaCount
 	}
 
-	// Compute (servers, SSH keys, server groups)
-	var computeResult compute.GreenNodeComputeWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, compute.GreenNodeComputeWorkflow, compute.GreenNodeComputeWorkflowParams{
-		ProjectID: "", // Set by config at activity level
-	}).Get(ctx, &computeResult)
-	if err != nil {
-		logger.Error("Failed compute ingestion", "error", err)
-	} else {
-		result.ServerCount = computeResult.ServerCount
-		result.SSHKeyCount = computeResult.SSHKeyCount
-		result.ServerGroupCount = computeResult.ServerGroupCount
+	// Compute - run per region
+	for _, region := range discoverResult.Regions {
+		var computeResult compute.GreenNodeComputeWorkflowResult
+		err = workflow.ExecuteChildWorkflow(childCtx, compute.GreenNodeComputeWorkflow, compute.GreenNodeComputeWorkflowParams{
+			Region: region,
+		}).Get(ctx, &computeResult)
+		if err != nil {
+			logger.Error("Failed compute ingestion", "error", err, "region", region)
+		} else {
+			result.ServerCount += computeResult.ServerCount
+			result.SSHKeyCount += computeResult.SSHKeyCount
+			result.ServerGroupCount += computeResult.ServerGroupCount
+		}
 	}
 
 	logger.Info("Completed GreenNodeInventoryWorkflow",

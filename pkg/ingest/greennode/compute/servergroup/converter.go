@@ -13,6 +13,7 @@ type ServerGroupData struct {
 	Description string
 	PolicyID    string
 	PolicyName  string
+	Region      string
 	ProjectID   string
 	CollectedAt time.Time
 
@@ -26,13 +27,14 @@ type MemberData struct {
 }
 
 // ConvertServerGroup converts a GreenNode SDK ServerGroup to ServerGroupData.
-func ConvertServerGroup(sg *computev2.ServerGroup, projectID string, collectedAt time.Time) *ServerGroupData {
+func ConvertServerGroup(sg *computev2.ServerGroup, projectID, region string, collectedAt time.Time) *ServerGroupData {
 	data := &ServerGroupData{
 		ID:          sg.UUID,
 		Name:        sg.Name,
 		Description: sg.Description,
 		PolicyID:    sg.PolicyID,
 		PolicyName:  sg.PolicyName,
+		Region:      region,
 		ProjectID:   projectID,
 		CollectedAt: collectedAt,
 	}

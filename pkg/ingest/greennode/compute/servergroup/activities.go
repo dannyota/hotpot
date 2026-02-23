@@ -30,6 +30,7 @@ func NewActivities(configService *config.Service, entClient *ent.Client, limiter
 // IngestComputeServerGroupsParams contains parameters for the ingest activity.
 type IngestComputeServerGroupsParams struct {
 	ProjectID string
+	Region    string
 }
 
 // IngestComputeServerGroupsResult contains the result of the ingest activity.
@@ -44,20 +45,20 @@ var IngestComputeServerGroupsActivity = (*Activities).IngestComputeServerGroups
 // IngestComputeServerGroups is a Temporal activity that ingests GreenNode server groups.
 func (a *Activities) IngestComputeServerGroups(ctx context.Context, params IngestComputeServerGroupsParams) (*IngestComputeServerGroupsResult, error) {
 	logger := activity.GetLogger(ctx)
-	logger.Info("Starting GreenNode server group ingestion", "projectID", params.ProjectID)
+	logger.Info("Starting GreenNode server group ingestion", "projectID", params.ProjectID, "region", params.Region)
 
-	client, err := NewClient(ctx, a.configService, a.limiter)
+	client, err := NewClient(ctx, a.configService, a.limiter, params.Region)
 	if err != nil {
 		return nil, fmt.Errorf("create client: %w", err)
 	}
 
 	service := NewService(client, a.entClient)
-	result, err := service.Ingest(ctx, params.ProjectID)
+	result, err := service.Ingest(ctx, params.ProjectID, params.Region)
 	if err != nil {
 		return nil, fmt.Errorf("ingest server groups: %w", err)
 	}
 
-	if err := service.DeleteStaleServerGroups(ctx, params.ProjectID, result.CollectedAt); err != nil {
+	if err := service.DeleteStaleServerGroups(ctx, params.ProjectID, params.Region, result.CollectedAt); err != nil {
 		logger.Warn("Failed to delete stale server groups", "error", err)
 	}
 

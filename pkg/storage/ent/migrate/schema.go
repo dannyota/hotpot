@@ -5558,6 +5558,7 @@ var (
 		{Name: "created_at_api", Type: field.TypeString, Nullable: true},
 		{Name: "pub_key", Type: field.TypeString, Nullable: true},
 		{Name: "status", Type: field.TypeString, Nullable: true},
+		{Name: "region", Type: field.TypeString},
 		{Name: "project_id", Type: field.TypeString},
 	}
 	// GreennodeComputeSSHKeysTable holds the schema information for the "greennode_compute_ssh_keys" table.
@@ -5568,6 +5569,11 @@ var (
 		Indexes: []*schema.Index{
 			{
 				Name:    "bronzegreennodecomputesshkey_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeSSHKeysColumns[8]},
+			},
+			{
+				Name:    "bronzegreennodecomputesshkey_region",
 				Unique:  false,
 				Columns: []*schema.Column{GreennodeComputeSSHKeysColumns[7]},
 			},
@@ -5609,6 +5615,7 @@ var (
 		{Name: "flavor_gpu", Type: field.TypeInt64, Nullable: true},
 		{Name: "flavor_bandwidth", Type: field.TypeInt64, Nullable: true},
 		{Name: "interfaces_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "region", Type: field.TypeString},
 		{Name: "project_id", Type: field.TypeString},
 	}
 	// GreennodeComputeServersTable holds the schema information for the "greennode_compute_servers" table.
@@ -5624,6 +5631,11 @@ var (
 			},
 			{
 				Name:    "bronzegreennodecomputeserver_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServersColumns[30]},
+			},
+			{
+				Name:    "bronzegreennodecomputeserver_region",
 				Unique:  false,
 				Columns: []*schema.Column{GreennodeComputeServersColumns[29]},
 			},
@@ -5643,6 +5655,7 @@ var (
 		{Name: "description", Type: field.TypeString, Nullable: true},
 		{Name: "policy_id", Type: field.TypeString, Nullable: true},
 		{Name: "policy_name", Type: field.TypeString, Nullable: true},
+		{Name: "region", Type: field.TypeString},
 		{Name: "project_id", Type: field.TypeString},
 	}
 	// GreennodeComputeServerGroupsTable holds the schema information for the "greennode_compute_server_groups" table.
@@ -5653,6 +5666,11 @@ var (
 		Indexes: []*schema.Index{
 			{
 				Name:    "bronzegreennodecomputeservergroup_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodeComputeServerGroupsColumns[8]},
+			},
+			{
+				Name:    "bronzegreennodecomputeservergroup_region",
 				Unique:  false,
 				Columns: []*schema.Column{GreennodeComputeServerGroupsColumns[7]},
 			},
@@ -5715,6 +5733,7 @@ var (
 		{Name: "type", Type: field.TypeString, Nullable: true},
 		{Name: "limit_value", Type: field.TypeInt},
 		{Name: "used_value", Type: field.TypeInt},
+		{Name: "region", Type: field.TypeString},
 		{Name: "project_id", Type: field.TypeString},
 	}
 	// GreennodePortalQuotasTable holds the schema information for the "greennode_portal_quotas" table.
@@ -5725,6 +5744,11 @@ var (
 		Indexes: []*schema.Index{
 			{
 				Name:    "bronzegreennodeportalquota_project_id",
+				Unique:  false,
+				Columns: []*schema.Column{GreennodePortalQuotasColumns[9]},
+			},
+			{
+				Name:    "bronzegreennodeportalquota_region",
 				Unique:  false,
 				Columns: []*schema.Column{GreennodePortalQuotasColumns[8]},
 			},
@@ -13089,6 +13113,7 @@ var (
 		{Name: "created_at_api", Type: field.TypeString, Nullable: true},
 		{Name: "pub_key", Type: field.TypeString, Nullable: true},
 		{Name: "status", Type: field.TypeString, Nullable: true},
+		{Name: "region", Type: field.TypeString},
 		{Name: "project_id", Type: field.TypeString},
 	}
 	// GreennodeComputeSSHKeysHistoryTable holds the schema information for the "greennode_compute_ssh_keys_history" table.
@@ -13115,7 +13140,7 @@ var (
 			{
 				Name:    "bronzehistorygreennodecomputesshkey_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeComputeSSHKeysHistoryColumns[11]},
+				Columns: []*schema.Column{GreennodeComputeSSHKeysHistoryColumns[12]},
 			},
 		},
 	}
@@ -13154,6 +13179,7 @@ var (
 		{Name: "flavor_gpu", Type: field.TypeInt64, Nullable: true},
 		{Name: "flavor_bandwidth", Type: field.TypeInt64, Nullable: true},
 		{Name: "interfaces_json", Type: field.TypeJSON, Nullable: true},
+		{Name: "region", Type: field.TypeString},
 		{Name: "project_id", Type: field.TypeString},
 	}
 	// GreennodeComputeServersHistoryTable holds the schema information for the "greennode_compute_servers_history" table.
@@ -13180,7 +13206,7 @@ var (
 			{
 				Name:    "bronzehistorygreennodecomputeserver_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeComputeServersHistoryColumns[33]},
+				Columns: []*schema.Column{GreennodeComputeServersHistoryColumns[34]},
 			},
 		},
 	}
@@ -13197,6 +13223,7 @@ var (
 		{Name: "description", Type: field.TypeString, Nullable: true},
 		{Name: "policy_id", Type: field.TypeString, Nullable: true},
 		{Name: "policy_name", Type: field.TypeString, Nullable: true},
+		{Name: "region", Type: field.TypeString},
 		{Name: "project_id", Type: field.TypeString},
 	}
 	// GreennodeComputeServerGroupsHistoryTable holds the schema information for the "greennode_compute_server_groups_history" table.
@@ -13223,7 +13250,7 @@ var (
 			{
 				Name:    "bronzehistorygreennodecomputeservergroup_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeComputeServerGroupsHistoryColumns[11]},
+				Columns: []*schema.Column{GreennodeComputeServerGroupsHistoryColumns[12]},
 			},
 		},
 	}
@@ -13307,6 +13334,7 @@ var (
 		{Name: "type", Type: field.TypeString, Nullable: true},
 		{Name: "limit_value", Type: field.TypeInt},
 		{Name: "used_value", Type: field.TypeInt},
+		{Name: "region", Type: field.TypeString},
 		{Name: "project_id", Type: field.TypeString},
 	}
 	// GreennodePortalQuotasHistoryTable holds the schema information for the "greennode_portal_quotas_history" table.
@@ -13333,7 +13361,7 @@ var (
 			{
 				Name:    "bronzehistorygreennodeportalquota_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodePortalQuotasHistoryColumns[12]},
+				Columns: []*schema.Column{GreennodePortalQuotasHistoryColumns[13]},
 			},
 		},
 	}

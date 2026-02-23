@@ -10,6 +10,7 @@ import (
 // GreenNodeComputeServerWorkflowParams contains parameters for the server workflow.
 type GreenNodeComputeServerWorkflowParams struct {
 	ProjectID string
+	Region    string
 }
 
 // GreenNodeComputeServerWorkflowResult contains the result of the server workflow.
@@ -21,7 +22,7 @@ type GreenNodeComputeServerWorkflowResult struct {
 // GreenNodeComputeServerWorkflow ingests GreenNode servers.
 func GreenNodeComputeServerWorkflow(ctx workflow.Context, params GreenNodeComputeServerWorkflowParams) (*GreenNodeComputeServerWorkflowResult, error) {
 	logger := workflow.GetLogger(ctx)
-	logger.Info("Starting GreenNodeComputeServerWorkflow", "projectID", params.ProjectID)
+	logger.Info("Starting GreenNodeComputeServerWorkflow", "projectID", params.ProjectID, "region", params.Region)
 
 	activityOpts := workflow.ActivityOptions{
 		StartToCloseTimeout: 10 * time.Minute,
@@ -37,6 +38,7 @@ func GreenNodeComputeServerWorkflow(ctx workflow.Context, params GreenNodeComput
 	var result IngestComputeServersResult
 	err := workflow.ExecuteActivity(activityCtx, IngestComputeServersActivity, IngestComputeServersParams{
 		ProjectID: params.ProjectID,
+		Region:    params.Region,
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest servers", "error", err)

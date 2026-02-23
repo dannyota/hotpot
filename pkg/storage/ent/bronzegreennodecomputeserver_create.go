@@ -382,6 +382,12 @@ func (_c *BronzeGreenNodeComputeServerCreate) SetInterfacesJSON(v json.RawMessag
 	return _c
 }
 
+// SetRegion sets the "region" field.
+func (_c *BronzeGreenNodeComputeServerCreate) SetRegion(v string) *BronzeGreenNodeComputeServerCreate {
+	_c.mutation.SetRegion(v)
+	return _c
+}
+
 // SetProjectID sets the "project_id" field.
 func (_c *BronzeGreenNodeComputeServerCreate) SetProjectID(v string) *BronzeGreenNodeComputeServerCreate {
 	_c.mutation.SetProjectID(v)
@@ -482,6 +488,14 @@ func (_c *BronzeGreenNodeComputeServerCreate) check() error {
 	}
 	if _, ok := _c.mutation.StopBeforeMigrate(); !ok {
 		return &ValidationError{Name: "stop_before_migrate", err: errors.New(`ent: missing required field "BronzeGreenNodeComputeServer.stop_before_migrate"`)}
+	}
+	if _, ok := _c.mutation.Region(); !ok {
+		return &ValidationError{Name: "region", err: errors.New(`ent: missing required field "BronzeGreenNodeComputeServer.region"`)}
+	}
+	if v, ok := _c.mutation.Region(); ok {
+		if err := bronzegreennodecomputeserver.RegionValidator(v); err != nil {
+			return &ValidationError{Name: "region", err: fmt.Errorf(`ent: validator failed for field "BronzeGreenNodeComputeServer.region": %w`, err)}
+		}
 	}
 	if _, ok := _c.mutation.ProjectID(); !ok {
 		return &ValidationError{Name: "project_id", err: errors.New(`ent: missing required field "BronzeGreenNodeComputeServer.project_id"`)}
@@ -638,6 +652,10 @@ func (_c *BronzeGreenNodeComputeServerCreate) createSpec() (*BronzeGreenNodeComp
 	if value, ok := _c.mutation.InterfacesJSON(); ok {
 		_spec.SetField(bronzegreennodecomputeserver.FieldInterfacesJSON, field.TypeJSON, value)
 		_node.InterfacesJSON = value
+	}
+	if value, ok := _c.mutation.Region(); ok {
+		_spec.SetField(bronzegreennodecomputeserver.FieldRegion, field.TypeString, value)
+		_node.Region = value
 	}
 	if value, ok := _c.mutation.ProjectID(); ok {
 		_spec.SetField(bronzegreennodecomputeserver.FieldProjectID, field.TypeString, value)

@@ -34,6 +34,8 @@ func (BronzeHistoryGreenNodeComputeServerGroup) Fields() []ent.Field {
 			Optional(),
 		field.String("policy_name").
 			Optional(),
+		field.String("region").
+			NotEmpty(),
 		field.String("project_id").
 			NotEmpty(),
 	}

@@ -88,6 +88,8 @@ func (BronzeHistoryGreenNodeComputeServer) Fields() []ent.Field {
 			Optional(),
 
 		// Collection metadata
+		field.String("region").
+			NotEmpty(),
 		field.String("project_id").
 			NotEmpty(),
 	}

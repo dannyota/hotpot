@@ -33,7 +33,7 @@ type IngestResult struct {
 }
 
 // Ingest fetches SSH keys from GreenNode and stores them in the bronze layer.
-func (s *Service) Ingest(ctx context.Context, projectID string) (*IngestResult, error) {
+func (s *Service) Ingest(ctx context.Context, projectID, region string) (*IngestResult, error) {
 	startTime := time.Now()
 	collectedAt := startTime
 
@@ -44,7 +44,7 @@ func (s *Service) Ingest(ctx context.Context, projectID string) (*IngestResult, 
 
 	keyDataList := make([]*SSHKeyData, 0, len(keys))
 	for _, k := range keys {
-		keyDataList = append(keyDataList, ConvertSSHKey(k, projectID, collectedAt))
+		keyDataList = append(keyDataList, ConvertSSHKey(k, projectID, region, collectedAt))
 	}
 
 	if err := s.saveSSHKeys(ctx, keyDataList); err != nil {
@@ -104,6 +104,7 @@ func (s *Service) saveSSHKeys(ctx context.Context, keys []*SSHKeyData) error {
 				SetCreatedAtAPI(data.CreatedAtAPI).
 				SetPubKey(data.PubKey).
 				SetStatus(data.Status).
+				SetRegion(data.Region).
 				SetProjectID(data.ProjectID).
 				SetCollectedAt(data.CollectedAt).
 				SetFirstCollectedAt(data.CollectedAt).
@@ -123,6 +124,7 @@ func (s *Service) saveSSHKeys(ctx context.Context, keys []*SSHKeyData) error {
 				SetCreatedAtAPI(data.CreatedAtAPI).
 				SetPubKey(data.PubKey).
 				SetStatus(data.Status).
+				SetRegion(data.Region).
 				SetCollectedAt(data.CollectedAt).
 				Save(ctx)
 			if err != nil {
@@ -143,8 +145,8 @@ func (s *Service) saveSSHKeys(ctx context.Context, keys []*SSHKeyData) error {
 	return nil
 }
 
-// DeleteStaleSSHKeys removes SSH keys not collected in the latest run.
-func (s *Service) DeleteStaleSSHKeys(ctx context.Context, projectID string, collectedAt time.Time) error {
+// DeleteStaleSSHKeys removes SSH keys not collected in the latest run for the given region.
+func (s *Service) DeleteStaleSSHKeys(ctx context.Context, projectID, region string, collectedAt time.Time) error {
 	now := time.Now()
 
 	tx, err := s.entClient.Tx(ctx)
@@ -161,6 +163,7 @@ func (s *Service) DeleteStaleSSHKeys(ctx context.Context, projectID string, coll
 	stale, err := tx.BronzeGreenNodeComputeSSHKey.Query().
 		Where(
 			bronzegreennodecomputesshkey.ProjectID(projectID),
+			bronzegreennodecomputesshkey.Region(region),
 			bronzegreennodecomputesshkey.CollectedAtLT(collectedAt),
 		).
 		All(ctx)

@@ -96,6 +96,11 @@ func PolicyName(v string) predicate.BronzeGreenNodeComputeServerGroup {
 	return predicate.BronzeGreenNodeComputeServerGroup(sql.FieldEQ(FieldPolicyName, v))
 }
 
+// Region applies equality check predicate on the "region" field. It's identical to RegionEQ.
+func Region(v string) predicate.BronzeGreenNodeComputeServerGroup {
+	return predicate.BronzeGreenNodeComputeServerGroup(sql.FieldEQ(FieldRegion, v))
+}
+
 // ProjectID applies equality check predicate on the "project_id" field. It's identical to ProjectIDEQ.
 func ProjectID(v string) predicate.BronzeGreenNodeComputeServerGroup {
 	return predicate.BronzeGreenNodeComputeServerGroup(sql.FieldEQ(FieldProjectID, v))
@@ -469,6 +474,71 @@ func PolicyNameEqualFold(v string) predicate.BronzeGreenNodeComputeServerGroup {
 // PolicyNameContainsFold applies the ContainsFold predicate on the "policy_name" field.
 func PolicyNameContainsFold(v string) predicate.BronzeGreenNodeComputeServerGroup {
 	return predicate.BronzeGreenNodeComputeServerGroup(sql.FieldContainsFold(FieldPolicyName, v))
+}
+
+// RegionEQ applies the EQ predicate on the "region" field.
+func RegionEQ(v string) predicate.BronzeGreenNodeComputeServerGroup {
+	return predicate.BronzeGreenNodeComputeServerGroup(sql.FieldEQ(FieldRegion, v))
+}
+
+// RegionNEQ applies the NEQ predicate on the "region" field.
+func RegionNEQ(v string) predicate.BronzeGreenNodeComputeServerGroup {
+	return predicate.BronzeGreenNodeComputeServerGroup(sql.FieldNEQ(FieldRegion, v))
+}
+
+// RegionIn applies the In predicate on the "region" field.
+func RegionIn(vs ...string) predicate.BronzeGreenNodeComputeServerGroup {
+	return predicate.BronzeGreenNodeComputeServerGroup(sql.FieldIn(FieldRegion, vs...))
+}
+
+// RegionNotIn applies the NotIn predicate on the "region" field.
+func RegionNotIn(vs ...string) predicate.BronzeGreenNodeComputeServerGroup {
+	return predicate.BronzeGreenNodeComputeServerGroup(sql.FieldNotIn(FieldRegion, vs...))
+}
+
+// RegionGT applies the GT predicate on the "region" field.
+func RegionGT(v string) predicate.BronzeGreenNodeComputeServerGroup {
+	return predicate.BronzeGreenNodeComputeServerGroup(sql.FieldGT(FieldRegion, v))
+}
+
+// RegionGTE applies the GTE predicate on the "region" field.
+func RegionGTE(v string) predicate.BronzeGreenNodeComputeServerGroup {
+	return predicate.BronzeGreenNodeComputeServerGroup(sql.FieldGTE(FieldRegion, v))
+}
+
+// RegionLT applies the LT predicate on the "region" field.
+func RegionLT(v string) predicate.BronzeGreenNodeComputeServerGroup {
+	return predicate.BronzeGreenNodeComputeServerGroup(sql.FieldLT(FieldRegion, v))
+}
+
+// RegionLTE applies the LTE predicate on the "region" field.
+func RegionLTE(v string) predicate.BronzeGreenNodeComputeServerGroup {
+	return predicate.BronzeGreenNodeComputeServerGroup(sql.FieldLTE(FieldRegion, v))
+}
+
+// RegionContains applies the Contains predicate on the "region" field.
+func RegionContains(v string) predicate.BronzeGreenNodeComputeServerGroup {
+	return predicate.BronzeGreenNodeComputeServerGroup(sql.FieldContains(FieldRegion, v))
+}
+
+// RegionHasPrefix applies the HasPrefix predicate on the "region" field.
+func RegionHasPrefix(v string) predicate.BronzeGreenNodeComputeServerGroup {
+	return predicate.BronzeGreenNodeComputeServerGroup(sql.FieldHasPrefix(FieldRegion, v))
+}
+
+// RegionHasSuffix applies the HasSuffix predicate on the "region" field.
+func RegionHasSuffix(v string) predicate.BronzeGreenNodeComputeServerGroup {
+	return predicate.BronzeGreenNodeComputeServerGroup(sql.FieldHasSuffix(FieldRegion, v))
+}
+
+// RegionEqualFold applies the EqualFold predicate on the "region" field.
+func RegionEqualFold(v string) predicate.BronzeGreenNodeComputeServerGroup {
+	return predicate.BronzeGreenNodeComputeServerGroup(sql.FieldEqualFold(FieldRegion, v))
+}
+
+// RegionContainsFold applies the ContainsFold predicate on the "region" field.
+func RegionContainsFold(v string) predicate.BronzeGreenNodeComputeServerGroup {
+	return predicate.BronzeGreenNodeComputeServerGroup(sql.FieldContainsFold(FieldRegion, v))
 }
 
 // ProjectIDEQ applies the EQ predicate on the "project_id" field.

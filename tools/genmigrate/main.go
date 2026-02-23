@@ -138,27 +138,30 @@ func buildDiffConfig(schemaDir, dbURL string, providers []string) string {
 	var b strings.Builder
 	for _, layer := range layerOrder {
 		// Collect per-provider atlas_schema dirs that exist for this layer.
-		var srcs []string
+		var providerDirs []string
 		for _, provider := range providers {
 			dir := filepath.Join(schemaDir, layer, "atlas_schema", provider)
 			if _, err := os.Stat(dir); err == nil {
-				srcs = append(srcs, fmt.Sprintf("\"ent://%s\"", dir))
+				providerDirs = append(providerDirs, dir)
 			}
 		}
-		if len(srcs) == 0 {
+		if len(providerDirs) == 0 {
 			continue
 		}
 
-		fmt.Fprintf(&b, "env %q {\n", layer)
-		if len(srcs) == 1 {
-			fmt.Fprintf(&b, "  src = %s\n", srcs[0])
+		// Atlas only supports a single ent:// URL. When multiple providers
+		// are enabled, use the combined per-layer atlas_schema dir (which
+		// entcgen generates with all providers' schemas merged).
+		var src string
+		if len(providerDirs) == 1 {
+			src = fmt.Sprintf("\"ent://%s\"", providerDirs[0])
 		} else {
-			fmt.Fprintf(&b, "  src = [\n")
-			for _, src := range srcs {
-				fmt.Fprintf(&b, "    %s,\n", src)
-			}
-			fmt.Fprintf(&b, "  ]\n")
+			combined := filepath.Join(schemaDir, layer, "atlas_schema")
+			src = fmt.Sprintf("\"ent://%s\"", combined)
 		}
+
+		fmt.Fprintf(&b, "env %q {\n", layer)
+		fmt.Fprintf(&b, "  src = %s\n", src)
 		fmt.Fprintf(&b, "  dev = %q\n", dbURL)
 		fmt.Fprintf(&b, "  url = %q\n", dbURL)
 		fmt.Fprintf(&b, "  migration {\n    dir = \"file://%s\"\n  }\n", layer)

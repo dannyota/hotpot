@@ -11,6 +11,7 @@ import (
 // GreenNodeComputeWorkflowParams contains parameters for the compute workflow.
 type GreenNodeComputeWorkflowParams struct {
 	ProjectID string
+	Region    string
 }
 
 // GreenNodeComputeWorkflowResult contains the result of the compute workflow.
@@ -23,7 +24,7 @@ type GreenNodeComputeWorkflowResult struct {
 // GreenNodeComputeWorkflow orchestrates GreenNode compute ingestion.
 func GreenNodeComputeWorkflow(ctx workflow.Context, params GreenNodeComputeWorkflowParams) (*GreenNodeComputeWorkflowResult, error) {
 	logger := workflow.GetLogger(ctx)
-	logger.Info("Starting GreenNodeComputeWorkflow", "projectID", params.ProjectID)
+	logger.Info("Starting GreenNodeComputeWorkflow", "projectID", params.ProjectID, "region", params.Region)
 
 	result := &GreenNodeComputeWorkflowResult{}
 
@@ -34,6 +35,7 @@ func GreenNodeComputeWorkflow(ctx workflow.Context, params GreenNodeComputeWorkf
 	var serverResult server.GreenNodeComputeServerWorkflowResult
 	err := workflow.ExecuteChildWorkflow(childCtx, server.GreenNodeComputeServerWorkflow, server.GreenNodeComputeServerWorkflowParams{
 		ProjectID: params.ProjectID,
+		Region:    params.Region,
 	}).Get(ctx, &serverResult)
 	if err != nil {
 		logger.Error("Failed to ingest servers", "error", err)
@@ -45,6 +47,7 @@ func GreenNodeComputeWorkflow(ctx workflow.Context, params GreenNodeComputeWorkf
 	var sshKeyResult sshkey.GreenNodeComputeSSHKeyWorkflowResult
 	err = workflow.ExecuteChildWorkflow(childCtx, sshkey.GreenNodeComputeSSHKeyWorkflow, sshkey.GreenNodeComputeSSHKeyWorkflowParams{
 		ProjectID: params.ProjectID,
+		Region:    params.Region,
 	}).Get(ctx, &sshKeyResult)
 	if err != nil {
 		logger.Error("Failed to ingest SSH keys", "error", err)
@@ -56,6 +59,7 @@ func GreenNodeComputeWorkflow(ctx workflow.Context, params GreenNodeComputeWorkf
 	var sgResult servergroup.GreenNodeComputeServerGroupWorkflowResult
 	err = workflow.ExecuteChildWorkflow(childCtx, servergroup.GreenNodeComputeServerGroupWorkflow, servergroup.GreenNodeComputeServerGroupWorkflowParams{
 		ProjectID: params.ProjectID,
+		Region:    params.Region,
 	}).Get(ctx, &sgResult)
 	if err != nil {
 		logger.Error("Failed to ingest server groups", "error", err)

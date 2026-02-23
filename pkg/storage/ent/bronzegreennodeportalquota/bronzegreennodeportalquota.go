@@ -25,6 +25,8 @@ const (
 	FieldLimitValue = "limit_value"
 	// FieldUsedValue holds the string denoting the used_value field in the database.
 	FieldUsedValue = "used_value"
+	// FieldRegion holds the string denoting the region field in the database.
+	FieldRegion = "region"
 	// FieldProjectID holds the string denoting the project_id field in the database.
 	FieldProjectID = "project_id"
 	// Table holds the table name of the bronzegreennodeportalquota in the database.
@@ -41,6 +43,7 @@ var Columns = []string{
 	FieldType,
 	FieldLimitValue,
 	FieldUsedValue,
+	FieldRegion,
 	FieldProjectID,
 }
 
@@ -57,6 +60,8 @@ func ValidColumn(column string) bool {
 var (
 	// NameValidator is a validator for the "name" field. It is called by the builders before save.
 	NameValidator func(string) error
+	// RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	RegionValidator func(string) error
 	// ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
 	ProjectIDValidator func(string) error
 )
@@ -102,6 +107,11 @@ func ByLimitValue(opts ...sql.OrderTermOption) OrderOption {
 // ByUsedValue orders the results by the used_value field.
 func ByUsedValue(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUsedValue, opts...).ToFunc()
+}
+
+// ByRegion orders the results by the region field.
+func ByRegion(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRegion, opts...).ToFunc()
 }
 
 // ByProjectID orders the results by the project_id field.

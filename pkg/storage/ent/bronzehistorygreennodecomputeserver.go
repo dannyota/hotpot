@@ -82,6 +82,8 @@ type BronzeHistoryGreenNodeComputeServer struct {
 	FlavorBandwidth int64 `json:"flavor_bandwidth,omitempty"`
 	// InterfacesJSON holds the value of the "interfaces_json" field.
 	InterfacesJSON json.RawMessage `json:"interfaces_json,omitempty"`
+	// Region holds the value of the "region" field.
+	Region string `json:"region,omitempty"`
 	// ProjectID holds the value of the "project_id" field.
 	ProjectID    string `json:"project_id,omitempty"`
 	selectValues sql.SelectValues
@@ -98,7 +100,7 @@ func (*BronzeHistoryGreenNodeComputeServer) scanValues(columns []string) ([]any,
 			values[i] = new(sql.NullBool)
 		case bronzehistorygreennodecomputeserver.FieldID, bronzehistorygreennodecomputeserver.FieldHistoryID, bronzehistorygreennodecomputeserver.FieldFlavorCPU, bronzehistorygreennodecomputeserver.FieldFlavorMemory, bronzehistorygreennodecomputeserver.FieldFlavorGpu, bronzehistorygreennodecomputeserver.FieldFlavorBandwidth:
 			values[i] = new(sql.NullInt64)
-		case bronzehistorygreennodecomputeserver.FieldResourceID, bronzehistorygreennodecomputeserver.FieldName, bronzehistorygreennodecomputeserver.FieldStatus, bronzehistorygreennodecomputeserver.FieldLocation, bronzehistorygreennodecomputeserver.FieldZoneID, bronzehistorygreennodecomputeserver.FieldCreatedAtAPI, bronzehistorygreennodecomputeserver.FieldBootVolumeID, bronzehistorygreennodecomputeserver.FieldMetadata, bronzehistorygreennodecomputeserver.FieldMigrateState, bronzehistorygreennodecomputeserver.FieldProduct, bronzehistorygreennodecomputeserver.FieldServerGroupID, bronzehistorygreennodecomputeserver.FieldServerGroupName, bronzehistorygreennodecomputeserver.FieldSSHKeyName, bronzehistorygreennodecomputeserver.FieldUser, bronzehistorygreennodecomputeserver.FieldImageID, bronzehistorygreennodecomputeserver.FieldImageType, bronzehistorygreennodecomputeserver.FieldImageVersion, bronzehistorygreennodecomputeserver.FieldFlavorID, bronzehistorygreennodecomputeserver.FieldFlavorName, bronzehistorygreennodecomputeserver.FieldProjectID:
+		case bronzehistorygreennodecomputeserver.FieldResourceID, bronzehistorygreennodecomputeserver.FieldName, bronzehistorygreennodecomputeserver.FieldStatus, bronzehistorygreennodecomputeserver.FieldLocation, bronzehistorygreennodecomputeserver.FieldZoneID, bronzehistorygreennodecomputeserver.FieldCreatedAtAPI, bronzehistorygreennodecomputeserver.FieldBootVolumeID, bronzehistorygreennodecomputeserver.FieldMetadata, bronzehistorygreennodecomputeserver.FieldMigrateState, bronzehistorygreennodecomputeserver.FieldProduct, bronzehistorygreennodecomputeserver.FieldServerGroupID, bronzehistorygreennodecomputeserver.FieldServerGroupName, bronzehistorygreennodecomputeserver.FieldSSHKeyName, bronzehistorygreennodecomputeserver.FieldUser, bronzehistorygreennodecomputeserver.FieldImageID, bronzehistorygreennodecomputeserver.FieldImageType, bronzehistorygreennodecomputeserver.FieldImageVersion, bronzehistorygreennodecomputeserver.FieldFlavorID, bronzehistorygreennodecomputeserver.FieldFlavorName, bronzehistorygreennodecomputeserver.FieldRegion, bronzehistorygreennodecomputeserver.FieldProjectID:
 			values[i] = new(sql.NullString)
 		case bronzehistorygreennodecomputeserver.FieldValidFrom, bronzehistorygreennodecomputeserver.FieldValidTo, bronzehistorygreennodecomputeserver.FieldCollectedAt, bronzehistorygreennodecomputeserver.FieldFirstCollectedAt:
 			values[i] = new(sql.NullTime)
@@ -318,6 +320,12 @@ func (_m *BronzeHistoryGreenNodeComputeServer) assignValues(columns []string, va
 					return fmt.Errorf("unmarshal field interfaces_json: %w", err)
 				}
 			}
+		case bronzehistorygreennodecomputeserver.FieldRegion:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field region", values[i])
+			} else if value.Valid {
+				_m.Region = value.String
+			}
 		case bronzehistorygreennodecomputeserver.FieldProjectID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field project_id", values[i])
@@ -457,6 +465,9 @@ func (_m *BronzeHistoryGreenNodeComputeServer) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("interfaces_json=")
 	builder.WriteString(fmt.Sprintf("%v", _m.InterfacesJSON))
+	builder.WriteString(", ")
+	builder.WriteString("region=")
+	builder.WriteString(_m.Region)
 	builder.WriteString(", ")
 	builder.WriteString("project_id=")
 	builder.WriteString(_m.ProjectID)
