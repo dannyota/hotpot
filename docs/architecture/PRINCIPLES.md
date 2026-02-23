@@ -45,7 +45,7 @@ Use PostgreSQL schemas to separate layers:
 
 ```sql
 bronze.gcp_instances      -- Raw data from GCP API
-bronze.vng_servers        -- Raw data from VNG API
+bronze.greennode_servers   -- Raw data from GreenNode API
 silver.assets             -- Unified asset model
 silver.vulnerabilities    -- Unified vuln model
 gold.compliance           -- Compliance results

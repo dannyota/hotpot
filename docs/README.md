@@ -43,6 +43,7 @@ New to Hotpot? Read these in order:
 |----------|-------------|
 | [AGENT](./features/AGENT.md) | AI-powered text-to-SQL query interface (WrenAI) |
 | [GCP](./features/GCP.md) | Google Cloud Platform integration |
+| [GreenNode](./features/GREENNODE.md) | GreenNode (formerly VNG Cloud) integration |
 
 ## 📋 Reference
 

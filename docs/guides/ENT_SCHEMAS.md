@@ -35,7 +35,7 @@ type GCPComputeInstance struct {  // DON'T DO THIS
 
 **Pattern**: `{Layer}{Provider}{Service}{Resource}`
 - Layer: `Bronze`, `BronzeHistory`, `Silver`, `Gold`
-- Provider: `GCP`, `AWS`, `Azure`, `VNG`
+- Provider: `GCP`, `AWS`, `Azure`, `GreenNode`
 - Service: `Compute`, `Networking`, `IAM`, `Container`
 - Resource: `Instance`, `Disk`, `Network`, `Cluster`
 

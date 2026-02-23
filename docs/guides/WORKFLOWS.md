@@ -92,6 +92,6 @@ Caller ─► ExecuteWorkflow(InstanceWorkflow, {ProjectID: "a"})
 | Provider | Queue |
 |----------|-------|
 | GCP | `hotpot-ingest-gcp` |
-| VNG Cloud | `hotpot-ingest-vng` (future) |
+| GreenNode | `hotpot-ingest-greennode` (future) |
 | SentinelOne | `hotpot-ingest-s1` (future) |
 | Fortinet | `hotpot-ingest-fortinet` (future) |

@@ -58,15 +58,15 @@ Agent analyzes security findings from the Detect layer:
 
 | Use Case | Description | Sources |
 |----------|-------------|---------|
-| VM without Firewall | Compute instances not associated with any firewall rules | GCP, VNGCloud |
+| VM without Firewall | Compute instances not associated with any firewall rules | GCP, GreenNode |
 | Asset without EDR | Servers or endpoints missing SentinelOne agent installation | GCP, SentinelOne |
-| Public IP Exposure | VMs with public IPs but no WAF or firewall protection | GCP, VNGCloud |
+| Public IP Exposure | VMs with public IPs but no WAF or firewall protection | GCP, GreenNode |
 | Unpatched Critical CVE | Assets with CVSS 9+ vulnerabilities not remediated within 7 days | Tenable |
 | Orphan Firewall Rules | Firewall rules pointing to deleted or non-existent resources | Fortinet, GCP |
 | Shadow IT | Assets discovered in environment but not registered in CMDB | All |
 | Stale Service Accounts | GCP service accounts with no activity in the last 90 days | GCP IAM |
 | Overly Permissive Rules | Firewall rules allowing 0.0.0.0/0 on sensitive ports (SSH, RDP, DB) | Fortinet, GCP |
-| Missing Encryption | Disks or storage buckets without encryption enabled | GCP, VNGCloud |
+| Missing Encryption | Disks or storage buckets without encryption enabled | GCP, GreenNode |
 
 ## 🔒 Security
 

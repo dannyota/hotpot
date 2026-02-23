@@ -9,7 +9,7 @@
 | **Silver** | Normalized layer, unified data models |
 | **Gold** | Analytics layer, alerts and compliance results |
 | **Layer** | One stage in the medallion pipeline (ingest/normalize/detect) |
-| **Provider** | External data source (GCP, VNGCloud, SentinelOne, etc.) |
+| **Provider** | External data source (GCP, GreenNode, SentinelOne, etc.) |
 
 ## 📦 Package Names
 
@@ -27,7 +27,7 @@
 | Abbreviation | Full Name | Type |
 |--------------|-----------|------|
 | **GCP** | Google Cloud Platform | Cloud inventory |
-| **VNG** | VNGCloud | Cloud inventory |
+| **GreenNode** | GreenNode (formerly VNG Cloud) | Cloud inventory |
 | **S1** | SentinelOne | EDR/Endpoint security |
 | **SCC** | Security Command Center (GCP) | Vulnerability scanner |
 

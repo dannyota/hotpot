@@ -1,8 +1,8 @@
-# VNG Cloud
+# GreenNode
 
-VNG Cloud resource ingestion coverage in the bronze layer.
+GreenNode (formerly VNG Cloud) resource ingestion coverage in the bronze layer.
 
-VNG Cloud wraps OpenStack services behind proprietary API gateways. No standard OpenStack APIs are exposed — all endpoints use custom REST with VNG Cloud-specific conventions.
+GreenNode wraps OpenStack services behind proprietary API gateways. No standard OpenStack APIs are exposed — all endpoints use custom REST with GreenNode-specific conventions.
 
 ## Auth
 
@@ -195,7 +195,7 @@ Uses different host pattern. Note: `lstData` wrapper (not `listData`).
 
 ## References
 
-- [VNG Cloud API Docs](https://docs.api.vngcloud.vn/)
-- [VNG Cloud Help Center](https://docs.vngcloud.vn/)
+- [GreenNode API Docs](https://docs.api.vngcloud.vn/)
+- [GreenNode Help Center](https://docs.vngcloud.vn/)
 - [Terraform Provider](https://registry.terraform.io/providers/vngcloud/vngcloud/latest/docs) (52 resources)
-- [Go SDK](https://github.com/vngcloud/vngcloud-go-sdk) (v2.18.4)
+- Go SDK: `danny.vn/greennode`

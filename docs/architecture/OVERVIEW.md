@@ -5,7 +5,7 @@ Hotpot follows the **Medallion Data Architecture** pattern, designed as independ
 ```mermaid
 flowchart TD
     subgraph Sources["External Sources"]
-        GCP[GCP] ~~~ VNG[VNGCloud]
+        GCP[GCP] ~~~ GN[GreenNode]
         S1[SentinelOne] ~~~ OTHER[Others...]
     end
 
@@ -85,7 +85,7 @@ hotpot/
 │   ├── ingest/                 # Bronze: data collection
 │   │   ├── run.go
 │   │   ├── gcp/
-│   │   ├── vngcloud/
+│   │   ├── greennode/
 │   │   └── sentinelone/
 │   │
 │   ├── normalize/              # Silver: transformation
@@ -124,7 +124,7 @@ cmd/migrate/main.go     →  imports pkg/migrate  →  calls migrate.Run()
 | Service | Task Queue | Purpose |
 |---------|------------|---------|
 | ingest | `hotpot-ingest-gcp` | GCP inventory collection |
-| ingest | `hotpot-ingest-vng` | VNGCloud collection |
+| ingest | `hotpot-ingest-greennode` | GreenNode collection |
 | ingest | `hotpot-ingest-s1` | SentinelOne collection |
 | ingest | `hotpot-ingest-fortinet` | Fortinet collection |
 | normalize | `hotpot-normalize` | Data normalization |
@@ -135,7 +135,7 @@ cmd/migrate/main.go     →  imports pkg/migrate  →  calls migrate.Run()
 ```mermaid
 flowchart LR
     subgraph Sources["APIs"]
-        GCP[GCP] ~~~ VNG[VNG]
+        GCP[GCP] ~~~ GN[GreenNode]
         S1[S1] ~~~ OTHER[...]
     end
 
@@ -236,7 +236,7 @@ pkg/ingest/
 │           ├── activities.go   # Temporal activities (creates client)
 │           ├── workflows.go    # InstanceWorkflow
 │           └── register.go     # Register instance activities
-├── vngcloud/
+├── greennode/
 │   └── ...
 └── sentinelone/
     └── ...
