@@ -140,14 +140,14 @@ func (a *Activities) IngestComputeInstances(ctx context.Context, params IngestCo
 func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
     activities := NewActivities(configService, entClient, limiter)
     w.RegisterActivity(activities.IngestComputeInstances)
-    w.RegisterWorkflow(InstanceWorkflow)
+    w.RegisterWorkflow(GCPComputeInstanceWorkflow)
 }
 ```
 
 ## 🔄 Workflow Calling
 
 ```go
-func InstanceWorkflow(ctx workflow.Context, params InstanceWorkflowParams) (*InstanceWorkflowResult, error) {
+func GCPComputeInstanceWorkflow(ctx workflow.Context, params GCPComputeInstanceWorkflowParams) (*GCPComputeInstanceWorkflowResult, error) {
     activityOpts := workflow.ActivityOptions{
         StartToCloseTimeout: 10 * time.Minute,
         RetryPolicy: &temporal.RetryPolicy{
@@ -164,7 +164,107 @@ func InstanceWorkflow(ctx workflow.Context, params InstanceWorkflowParams) (*Ins
         ProjectID: params.ProjectID,
     }).Get(ctx, &result)
 
-    return &InstanceWorkflowResult{...}, err
+    return &GCPComputeInstanceWorkflowResult{
+        ProjectID:      result.ProjectID,
+        InstanceCount:  result.InstanceCount,
+        DurationMillis: result.DurationMillis,
+    }, err
+}
+```
+
+## 🔗 Workflow Wiring
+
+Workflows form a 3-level hierarchy. Each level has `register.go` (wires children) and `workflows.go` (orchestrates children).
+
+```
+Provider (gcp/)
+├── register.go        → creates rate limiter, calls service Register()
+├── workflows.go       → GCPInventoryWorkflow (loops projects × services)
+│
+├── Service (compute/)
+│   ├── register.go    → calls resource Register()
+│   ├── workflows.go   → GCPComputeWorkflow (fans out resource workflows)
+│   │
+│   ├── Resource (instance/)
+│   │   ├── register.go    → registers activities + workflow
+│   │   └── workflows.go   → executes activity
+│   └── Resource (disk/)
+│       ├── register.go
+│       └── workflows.go
+│
+└── Service (container/)
+    ├── register.go
+    └── workflows.go
+```
+
+### Level 1: Provider Register
+
+Creates a shared rate limiter, passes it to all services:
+
+```go
+// pkg/ingest/gcp/register.go
+func Register(w worker.Worker, configService *config.Service, entClient *ent.Client) *ratelimit.Service {
+    rateLimitSvc := ratelimit.NewService(ratelimit.ServiceOptions{
+        RedisConfig: configService.RedisConfig(),
+        KeyPrefix:   "ratelimit:gcp",
+        ReqPerMin:   configService.GCPRateLimitPerMinute(),
+    })
+    limiter := rateLimitSvc.Limiter()
+
+    compute.Register(w, configService, entClient, limiter)
+    container.Register(w, configService, entClient, limiter)
+    // ... more services
+
+    w.RegisterWorkflow(GCPInventoryWorkflow)
+    return rateLimitSvc // caller defers Close()
+}
+```
+
+### Level 2: Service Register
+
+Calls resource-level Register, registers service workflow:
+
+```go
+// pkg/ingest/gcp/compute/register.go
+func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
+    instance.Register(w, configService, entClient, limiter)
+    disk.Register(w, configService, entClient, limiter)
+    network.Register(w, configService, entClient, limiter)
+
+    w.RegisterWorkflow(GCPComputeWorkflow)
+}
+```
+
+### Level 3: Resource Register
+
+Registers activities and workflow:
+
+```go
+// pkg/ingest/gcp/compute/instance/register.go
+func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
+    activities := NewActivities(configService, entClient, limiter)
+    w.RegisterActivity(activities.IngestComputeInstances)
+    w.RegisterWorkflow(GCPComputeInstanceWorkflow)
+}
+```
+
+### Service Workflow (orchestrates resources)
+
+```go
+// pkg/ingest/gcp/compute/workflows.go
+func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (*GCPComputeWorkflowResult, error) {
+    childOpts := workflow.ChildWorkflowOptions{
+        WorkflowExecutionTimeout: 30 * time.Minute,
+        RetryPolicy: &temporal.RetryPolicy{...},
+    }
+    childCtx := workflow.WithChildOptions(ctx, childOpts)
+
+    var instanceResult instance.GCPComputeInstanceWorkflowResult
+    err := workflow.ExecuteChildWorkflow(childCtx, instance.GCPComputeInstanceWorkflow,
+        instance.GCPComputeInstanceWorkflowParams{ProjectID: params.ProjectID},
+    ).Get(ctx, &instanceResult)
+
+    // ... execute more resource workflows, aggregate results
 }
 ```
 
@@ -185,8 +285,9 @@ New resource implementation:
 | 9 | `activities.go` | Add createClient, Params/Result structs, activity var, method |
 | 10 | `workflows.go` | Create workflow with activity execution |
 | 11 | `register.go` | Register activities + workflow with worker |
-| 12 | parent `register.go` | Import and call `Register()` |
-| 13 | parent `workflows.go` | Add child workflow execution |
+| 12 | parent `register.go` | Import and call child `Register()` |
+| 13 | parent `workflows.go` | Add `ExecuteChildWorkflow` for new resource |
+| 14 | parent workflow result | Add new resource counts to aggregated result |
 
 See [ENT_SCHEMAS.md](ENT_SCHEMAS.md) for ent schema patterns.
 

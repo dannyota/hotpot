@@ -90,6 +90,7 @@ func (BronzeGCPComputeInstance) Fields() []ent.Field {
         // Primary key - use resource_id from API
         field.String("id").
             StorageKey("resource_id").
+            Unique().
             Immutable(),
 
         // String fields
@@ -164,6 +165,17 @@ func (BronzeGCPComputeInstanceLabel) Annotations() []schema.Annotation {
 
 ## 📜 Bronze History Schema Pattern
 
+Two mixins handle temporal fields:
+
+| Mixin | Package | Fields | Used by |
+|-------|---------|--------|---------|
+| Bronze `Timestamp` | `pkg/schema/bronze/mixin/` | `collected_at`, `first_collected_at` | Bronze schemas |
+| History `Timestamp` | `pkg/schema/bronzehistory/mixin/` | `valid_from`, `valid_to`, `collected_at`, `first_collected_at` | Parent history schemas |
+
+⚠️ **Parent** history schemas use `historymixin.Timestamp{}`. **Child** history schemas do NOT — they define temporal fields explicitly alongside `{parent}_history_id`.
+
+### Parent History (uses mixin)
+
 ```go
 package compute
 
@@ -175,6 +187,8 @@ import (
     "entgo.io/ent/schema"
     "entgo.io/ent/schema/field"
     "entgo.io/ent/schema/index"
+
+    historymixin "hotpot/pkg/schema/bronzehistory/mixin"
 )
 
 // BronzeHistoryGCPComputeInstance - historical snapshots
@@ -182,15 +196,18 @@ type BronzeHistoryGCPComputeInstance struct {
     ent.Schema
 }
 
-// NO Mixin() - history has explicit collected_at field
+// Parent history uses historymixin.Timestamp{}
+func (BronzeHistoryGCPComputeInstance) Mixin() []ent.Mixin {
+    return []ent.Mixin{historymixin.Timestamp{}}
+}
 
 func (BronzeHistoryGCPComputeInstance) Fields() []ent.Field {
     return []ent.Field{
         // History PK (auto-increment, stored as "history_id" column)
         field.Uint("id").StorageKey("history_id"),
         field.String("resource_id").NotEmpty(),
-        field.Time("valid_from").Immutable(),
-        field.Time("valid_to").Optional().Nillable(),
+
+        // valid_from, valid_to, collected_at, first_collected_at come from mixin
 
         // All fields from bronze (copy them all)
         field.String("name").NotEmpty(),
@@ -201,7 +218,6 @@ func (BronzeHistoryGCPComputeInstance) Fields() []ent.Field {
 
         // Collection metadata
         field.String("project_id").NotEmpty(),
-        field.Time("collected_at"),  // Explicit in history
     }
 }
 
@@ -221,11 +237,17 @@ func (BronzeHistoryGCPComputeInstance) Annotations() []schema.Annotation {
         entsql.Annotation{Table: "gcp_compute_instances_history"},
     }
 }
+```
 
+### Child History (no mixin, explicit fields)
+
+```go
 // BronzeHistoryGCPComputeInstanceLabel - child history
 type BronzeHistoryGCPComputeInstanceLabel struct {
     ent.Schema
 }
+
+// NO Mixin() - child history defines temporal fields explicitly
 
 func (BronzeHistoryGCPComputeInstanceLabel) Fields() []ent.Field {
     return []ent.Field{
@@ -321,22 +343,25 @@ func (BronzeGCPComputeInstanceLabel) Fields() []ent.Field {
 
 Let ent manage foreign keys through edges automatically.
 
-### ❌ Using mixin in history schemas
+### ❌ Wrong mixin in history schemas
 
 ```go
-// WRONG
-type BronzeHistoryGCPComputeInstance struct {
-    ent.Schema
-}
-
+// WRONG - using bronze mixin in history
 func (BronzeHistoryGCPComputeInstance) Mixin() []ent.Mixin {
     return []ent.Mixin{
-        mixin.Timestamp{},  // ❌ DON'T - causes duplicate collected_at
+        bronzemixin.Timestamp{},  // ❌ DON'T - wrong mixin, missing temporal fields
+    }
+}
+
+// WRONG - using mixin in child history
+func (BronzeHistoryGCPComputeInstanceLabel) Mixin() []ent.Mixin {
+    return []ent.Mixin{
+        historymixin.Timestamp{},  // ❌ DON'T - child needs explicit parent_history_id
     }
 }
 ```
 
-History schemas should have explicit `collected_at` field.
+Parent history uses `historymixin.Timestamp{}`. Child history defines fields explicitly (no mixin).
 
 ### ❌ Adding entsql.Schema() annotation
 
@@ -385,7 +410,7 @@ cd pkg/storage
 go generate
 ```
 
-This runs `entc.go` which:
+This runs `tools/entcgen/main.go` which:
 1. Discovers all schemas in `pkg/schema/`
 2. Generates wrapper structs
 3. Runs ent code generation
