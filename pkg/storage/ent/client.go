@@ -178,8 +178,28 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputeservergroupmember"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputeserversecgroup"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputesshkey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodednshostedzone"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodednsrecord"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbgloballistener"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbgloballoadbalancer"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbglobalpackage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbglobalpool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbglobalregion"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeloadbalancercertificate"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeloadbalancerlb"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeloadbalancerlistener"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeloadbalancerpackage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeloadbalancerpool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodenetworkendpoint"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodenetworksecgroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodenetworksecgrouprule"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeportalquota"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeportalregion"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeportalzone"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodevolumeblockvolume"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodevolumesnapshot"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodevolumevolumetype"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodevolumevolumetypezone"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instancetag"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoaccount"
@@ -343,8 +363,28 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputeservergroupmember"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputeserversecgroup"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputesshkey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodednshostedzone"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodednsrecord"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeglbgloballistener"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeglbgloballoadbalancer"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeglbglobalpackage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeglbglobalpool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeglbglobalregion"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeloadbalancercertificate"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeloadbalancerlb"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeloadbalancerlistener"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeloadbalancerpackage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeloadbalancerpool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodenetworkendpoint"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodenetworksecgroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodenetworksecgrouprule"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeportalquota"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeportalregion"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeportalzone"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodevolumeblockvolume"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodevolumesnapshot"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodevolumevolumetype"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodevolumevolumetypezone"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1account"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1agent"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1agentnic"
@@ -700,10 +740,50 @@ type Client struct {
 	BronzeGreenNodeComputeServerGroupMember *BronzeGreenNodeComputeServerGroupMemberClient
 	// BronzeGreenNodeComputeServerSecGroup is the client for interacting with the BronzeGreenNodeComputeServerSecGroup builders.
 	BronzeGreenNodeComputeServerSecGroup *BronzeGreenNodeComputeServerSecGroupClient
+	// BronzeGreenNodeDNSHostedZone is the client for interacting with the BronzeGreenNodeDNSHostedZone builders.
+	BronzeGreenNodeDNSHostedZone *BronzeGreenNodeDNSHostedZoneClient
+	// BronzeGreenNodeDNSRecord is the client for interacting with the BronzeGreenNodeDNSRecord builders.
+	BronzeGreenNodeDNSRecord *BronzeGreenNodeDNSRecordClient
+	// BronzeGreenNodeGLBGlobalListener is the client for interacting with the BronzeGreenNodeGLBGlobalListener builders.
+	BronzeGreenNodeGLBGlobalListener *BronzeGreenNodeGLBGlobalListenerClient
+	// BronzeGreenNodeGLBGlobalLoadBalancer is the client for interacting with the BronzeGreenNodeGLBGlobalLoadBalancer builders.
+	BronzeGreenNodeGLBGlobalLoadBalancer *BronzeGreenNodeGLBGlobalLoadBalancerClient
+	// BronzeGreenNodeGLBGlobalPackage is the client for interacting with the BronzeGreenNodeGLBGlobalPackage builders.
+	BronzeGreenNodeGLBGlobalPackage *BronzeGreenNodeGLBGlobalPackageClient
+	// BronzeGreenNodeGLBGlobalPool is the client for interacting with the BronzeGreenNodeGLBGlobalPool builders.
+	BronzeGreenNodeGLBGlobalPool *BronzeGreenNodeGLBGlobalPoolClient
+	// BronzeGreenNodeGLBGlobalRegion is the client for interacting with the BronzeGreenNodeGLBGlobalRegion builders.
+	BronzeGreenNodeGLBGlobalRegion *BronzeGreenNodeGLBGlobalRegionClient
+	// BronzeGreenNodeLoadBalancerCertificate is the client for interacting with the BronzeGreenNodeLoadBalancerCertificate builders.
+	BronzeGreenNodeLoadBalancerCertificate *BronzeGreenNodeLoadBalancerCertificateClient
+	// BronzeGreenNodeLoadBalancerLB is the client for interacting with the BronzeGreenNodeLoadBalancerLB builders.
+	BronzeGreenNodeLoadBalancerLB *BronzeGreenNodeLoadBalancerLBClient
+	// BronzeGreenNodeLoadBalancerListener is the client for interacting with the BronzeGreenNodeLoadBalancerListener builders.
+	BronzeGreenNodeLoadBalancerListener *BronzeGreenNodeLoadBalancerListenerClient
+	// BronzeGreenNodeLoadBalancerPackage is the client for interacting with the BronzeGreenNodeLoadBalancerPackage builders.
+	BronzeGreenNodeLoadBalancerPackage *BronzeGreenNodeLoadBalancerPackageClient
+	// BronzeGreenNodeLoadBalancerPool is the client for interacting with the BronzeGreenNodeLoadBalancerPool builders.
+	BronzeGreenNodeLoadBalancerPool *BronzeGreenNodeLoadBalancerPoolClient
+	// BronzeGreenNodeNetworkEndpoint is the client for interacting with the BronzeGreenNodeNetworkEndpoint builders.
+	BronzeGreenNodeNetworkEndpoint *BronzeGreenNodeNetworkEndpointClient
+	// BronzeGreenNodeNetworkSecgroup is the client for interacting with the BronzeGreenNodeNetworkSecgroup builders.
+	BronzeGreenNodeNetworkSecgroup *BronzeGreenNodeNetworkSecgroupClient
+	// BronzeGreenNodeNetworkSecgroupRule is the client for interacting with the BronzeGreenNodeNetworkSecgroupRule builders.
+	BronzeGreenNodeNetworkSecgroupRule *BronzeGreenNodeNetworkSecgroupRuleClient
 	// BronzeGreenNodePortalQuota is the client for interacting with the BronzeGreenNodePortalQuota builders.
 	BronzeGreenNodePortalQuota *BronzeGreenNodePortalQuotaClient
 	// BronzeGreenNodePortalRegion is the client for interacting with the BronzeGreenNodePortalRegion builders.
 	BronzeGreenNodePortalRegion *BronzeGreenNodePortalRegionClient
+	// BronzeGreenNodePortalZone is the client for interacting with the BronzeGreenNodePortalZone builders.
+	BronzeGreenNodePortalZone *BronzeGreenNodePortalZoneClient
+	// BronzeGreenNodeVolumeBlockVolume is the client for interacting with the BronzeGreenNodeVolumeBlockVolume builders.
+	BronzeGreenNodeVolumeBlockVolume *BronzeGreenNodeVolumeBlockVolumeClient
+	// BronzeGreenNodeVolumeSnapshot is the client for interacting with the BronzeGreenNodeVolumeSnapshot builders.
+	BronzeGreenNodeVolumeSnapshot *BronzeGreenNodeVolumeSnapshotClient
+	// BronzeGreenNodeVolumeVolumeType is the client for interacting with the BronzeGreenNodeVolumeVolumeType builders.
+	BronzeGreenNodeVolumeVolumeType *BronzeGreenNodeVolumeVolumeTypeClient
+	// BronzeGreenNodeVolumeVolumeTypeZone is the client for interacting with the BronzeGreenNodeVolumeVolumeTypeZone builders.
+	BronzeGreenNodeVolumeVolumeTypeZone *BronzeGreenNodeVolumeVolumeTypeZoneClient
 	// BronzeHistoryAWSEC2Instance is the client for interacting with the BronzeHistoryAWSEC2Instance builders.
 	BronzeHistoryAWSEC2Instance *BronzeHistoryAWSEC2InstanceClient
 	// BronzeHistoryAWSEC2InstanceTag is the client for interacting with the BronzeHistoryAWSEC2InstanceTag builders.
@@ -1030,10 +1110,50 @@ type Client struct {
 	BronzeHistoryGreenNodeComputeServerGroupMember *BronzeHistoryGreenNodeComputeServerGroupMemberClient
 	// BronzeHistoryGreenNodeComputeServerSecGroup is the client for interacting with the BronzeHistoryGreenNodeComputeServerSecGroup builders.
 	BronzeHistoryGreenNodeComputeServerSecGroup *BronzeHistoryGreenNodeComputeServerSecGroupClient
+	// BronzeHistoryGreenNodeDNSHostedZone is the client for interacting with the BronzeHistoryGreenNodeDNSHostedZone builders.
+	BronzeHistoryGreenNodeDNSHostedZone *BronzeHistoryGreenNodeDNSHostedZoneClient
+	// BronzeHistoryGreenNodeDNSRecord is the client for interacting with the BronzeHistoryGreenNodeDNSRecord builders.
+	BronzeHistoryGreenNodeDNSRecord *BronzeHistoryGreenNodeDNSRecordClient
+	// BronzeHistoryGreenNodeGLBGlobalListener is the client for interacting with the BronzeHistoryGreenNodeGLBGlobalListener builders.
+	BronzeHistoryGreenNodeGLBGlobalListener *BronzeHistoryGreenNodeGLBGlobalListenerClient
+	// BronzeHistoryGreenNodeGLBGlobalLoadBalancer is the client for interacting with the BronzeHistoryGreenNodeGLBGlobalLoadBalancer builders.
+	BronzeHistoryGreenNodeGLBGlobalLoadBalancer *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient
+	// BronzeHistoryGreenNodeGLBGlobalPackage is the client for interacting with the BronzeHistoryGreenNodeGLBGlobalPackage builders.
+	BronzeHistoryGreenNodeGLBGlobalPackage *BronzeHistoryGreenNodeGLBGlobalPackageClient
+	// BronzeHistoryGreenNodeGLBGlobalPool is the client for interacting with the BronzeHistoryGreenNodeGLBGlobalPool builders.
+	BronzeHistoryGreenNodeGLBGlobalPool *BronzeHistoryGreenNodeGLBGlobalPoolClient
+	// BronzeHistoryGreenNodeGLBGlobalRegion is the client for interacting with the BronzeHistoryGreenNodeGLBGlobalRegion builders.
+	BronzeHistoryGreenNodeGLBGlobalRegion *BronzeHistoryGreenNodeGLBGlobalRegionClient
+	// BronzeHistoryGreenNodeLoadBalancerCertificate is the client for interacting with the BronzeHistoryGreenNodeLoadBalancerCertificate builders.
+	BronzeHistoryGreenNodeLoadBalancerCertificate *BronzeHistoryGreenNodeLoadBalancerCertificateClient
+	// BronzeHistoryGreenNodeLoadBalancerLB is the client for interacting with the BronzeHistoryGreenNodeLoadBalancerLB builders.
+	BronzeHistoryGreenNodeLoadBalancerLB *BronzeHistoryGreenNodeLoadBalancerLBClient
+	// BronzeHistoryGreenNodeLoadBalancerListener is the client for interacting with the BronzeHistoryGreenNodeLoadBalancerListener builders.
+	BronzeHistoryGreenNodeLoadBalancerListener *BronzeHistoryGreenNodeLoadBalancerListenerClient
+	// BronzeHistoryGreenNodeLoadBalancerPackage is the client for interacting with the BronzeHistoryGreenNodeLoadBalancerPackage builders.
+	BronzeHistoryGreenNodeLoadBalancerPackage *BronzeHistoryGreenNodeLoadBalancerPackageClient
+	// BronzeHistoryGreenNodeLoadBalancerPool is the client for interacting with the BronzeHistoryGreenNodeLoadBalancerPool builders.
+	BronzeHistoryGreenNodeLoadBalancerPool *BronzeHistoryGreenNodeLoadBalancerPoolClient
+	// BronzeHistoryGreenNodeNetworkEndpoint is the client for interacting with the BronzeHistoryGreenNodeNetworkEndpoint builders.
+	BronzeHistoryGreenNodeNetworkEndpoint *BronzeHistoryGreenNodeNetworkEndpointClient
+	// BronzeHistoryGreenNodeNetworkSecgroup is the client for interacting with the BronzeHistoryGreenNodeNetworkSecgroup builders.
+	BronzeHistoryGreenNodeNetworkSecgroup *BronzeHistoryGreenNodeNetworkSecgroupClient
+	// BronzeHistoryGreenNodeNetworkSecgroupRule is the client for interacting with the BronzeHistoryGreenNodeNetworkSecgroupRule builders.
+	BronzeHistoryGreenNodeNetworkSecgroupRule *BronzeHistoryGreenNodeNetworkSecgroupRuleClient
 	// BronzeHistoryGreenNodePortalQuota is the client for interacting with the BronzeHistoryGreenNodePortalQuota builders.
 	BronzeHistoryGreenNodePortalQuota *BronzeHistoryGreenNodePortalQuotaClient
 	// BronzeHistoryGreenNodePortalRegion is the client for interacting with the BronzeHistoryGreenNodePortalRegion builders.
 	BronzeHistoryGreenNodePortalRegion *BronzeHistoryGreenNodePortalRegionClient
+	// BronzeHistoryGreenNodePortalZone is the client for interacting with the BronzeHistoryGreenNodePortalZone builders.
+	BronzeHistoryGreenNodePortalZone *BronzeHistoryGreenNodePortalZoneClient
+	// BronzeHistoryGreenNodeVolumeBlockVolume is the client for interacting with the BronzeHistoryGreenNodeVolumeBlockVolume builders.
+	BronzeHistoryGreenNodeVolumeBlockVolume *BronzeHistoryGreenNodeVolumeBlockVolumeClient
+	// BronzeHistoryGreenNodeVolumeSnapshot is the client for interacting with the BronzeHistoryGreenNodeVolumeSnapshot builders.
+	BronzeHistoryGreenNodeVolumeSnapshot *BronzeHistoryGreenNodeVolumeSnapshotClient
+	// BronzeHistoryGreenNodeVolumeVolumeType is the client for interacting with the BronzeHistoryGreenNodeVolumeVolumeType builders.
+	BronzeHistoryGreenNodeVolumeVolumeType *BronzeHistoryGreenNodeVolumeVolumeTypeClient
+	// BronzeHistoryGreenNodeVolumeVolumeTypeZone is the client for interacting with the BronzeHistoryGreenNodeVolumeVolumeTypeZone builders.
+	BronzeHistoryGreenNodeVolumeVolumeTypeZone *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient
 	// BronzeHistoryS1Account is the client for interacting with the BronzeHistoryS1Account builders.
 	BronzeHistoryS1Account *BronzeHistoryS1AccountClient
 	// BronzeHistoryS1Agent is the client for interacting with the BronzeHistoryS1Agent builders.
@@ -1248,8 +1368,28 @@ func (c *Client) init() {
 	c.BronzeGreenNodeComputeServerGroup = NewBronzeGreenNodeComputeServerGroupClient(c.config)
 	c.BronzeGreenNodeComputeServerGroupMember = NewBronzeGreenNodeComputeServerGroupMemberClient(c.config)
 	c.BronzeGreenNodeComputeServerSecGroup = NewBronzeGreenNodeComputeServerSecGroupClient(c.config)
+	c.BronzeGreenNodeDNSHostedZone = NewBronzeGreenNodeDNSHostedZoneClient(c.config)
+	c.BronzeGreenNodeDNSRecord = NewBronzeGreenNodeDNSRecordClient(c.config)
+	c.BronzeGreenNodeGLBGlobalListener = NewBronzeGreenNodeGLBGlobalListenerClient(c.config)
+	c.BronzeGreenNodeGLBGlobalLoadBalancer = NewBronzeGreenNodeGLBGlobalLoadBalancerClient(c.config)
+	c.BronzeGreenNodeGLBGlobalPackage = NewBronzeGreenNodeGLBGlobalPackageClient(c.config)
+	c.BronzeGreenNodeGLBGlobalPool = NewBronzeGreenNodeGLBGlobalPoolClient(c.config)
+	c.BronzeGreenNodeGLBGlobalRegion = NewBronzeGreenNodeGLBGlobalRegionClient(c.config)
+	c.BronzeGreenNodeLoadBalancerCertificate = NewBronzeGreenNodeLoadBalancerCertificateClient(c.config)
+	c.BronzeGreenNodeLoadBalancerLB = NewBronzeGreenNodeLoadBalancerLBClient(c.config)
+	c.BronzeGreenNodeLoadBalancerListener = NewBronzeGreenNodeLoadBalancerListenerClient(c.config)
+	c.BronzeGreenNodeLoadBalancerPackage = NewBronzeGreenNodeLoadBalancerPackageClient(c.config)
+	c.BronzeGreenNodeLoadBalancerPool = NewBronzeGreenNodeLoadBalancerPoolClient(c.config)
+	c.BronzeGreenNodeNetworkEndpoint = NewBronzeGreenNodeNetworkEndpointClient(c.config)
+	c.BronzeGreenNodeNetworkSecgroup = NewBronzeGreenNodeNetworkSecgroupClient(c.config)
+	c.BronzeGreenNodeNetworkSecgroupRule = NewBronzeGreenNodeNetworkSecgroupRuleClient(c.config)
 	c.BronzeGreenNodePortalQuota = NewBronzeGreenNodePortalQuotaClient(c.config)
 	c.BronzeGreenNodePortalRegion = NewBronzeGreenNodePortalRegionClient(c.config)
+	c.BronzeGreenNodePortalZone = NewBronzeGreenNodePortalZoneClient(c.config)
+	c.BronzeGreenNodeVolumeBlockVolume = NewBronzeGreenNodeVolumeBlockVolumeClient(c.config)
+	c.BronzeGreenNodeVolumeSnapshot = NewBronzeGreenNodeVolumeSnapshotClient(c.config)
+	c.BronzeGreenNodeVolumeVolumeType = NewBronzeGreenNodeVolumeVolumeTypeClient(c.config)
+	c.BronzeGreenNodeVolumeVolumeTypeZone = NewBronzeGreenNodeVolumeVolumeTypeZoneClient(c.config)
 	c.BronzeHistoryAWSEC2Instance = NewBronzeHistoryAWSEC2InstanceClient(c.config)
 	c.BronzeHistoryAWSEC2InstanceTag = NewBronzeHistoryAWSEC2InstanceTagClient(c.config)
 	c.BronzeHistoryDOAccount = NewBronzeHistoryDOAccountClient(c.config)
@@ -1413,8 +1553,28 @@ func (c *Client) init() {
 	c.BronzeHistoryGreenNodeComputeServerGroup = NewBronzeHistoryGreenNodeComputeServerGroupClient(c.config)
 	c.BronzeHistoryGreenNodeComputeServerGroupMember = NewBronzeHistoryGreenNodeComputeServerGroupMemberClient(c.config)
 	c.BronzeHistoryGreenNodeComputeServerSecGroup = NewBronzeHistoryGreenNodeComputeServerSecGroupClient(c.config)
+	c.BronzeHistoryGreenNodeDNSHostedZone = NewBronzeHistoryGreenNodeDNSHostedZoneClient(c.config)
+	c.BronzeHistoryGreenNodeDNSRecord = NewBronzeHistoryGreenNodeDNSRecordClient(c.config)
+	c.BronzeHistoryGreenNodeGLBGlobalListener = NewBronzeHistoryGreenNodeGLBGlobalListenerClient(c.config)
+	c.BronzeHistoryGreenNodeGLBGlobalLoadBalancer = NewBronzeHistoryGreenNodeGLBGlobalLoadBalancerClient(c.config)
+	c.BronzeHistoryGreenNodeGLBGlobalPackage = NewBronzeHistoryGreenNodeGLBGlobalPackageClient(c.config)
+	c.BronzeHistoryGreenNodeGLBGlobalPool = NewBronzeHistoryGreenNodeGLBGlobalPoolClient(c.config)
+	c.BronzeHistoryGreenNodeGLBGlobalRegion = NewBronzeHistoryGreenNodeGLBGlobalRegionClient(c.config)
+	c.BronzeHistoryGreenNodeLoadBalancerCertificate = NewBronzeHistoryGreenNodeLoadBalancerCertificateClient(c.config)
+	c.BronzeHistoryGreenNodeLoadBalancerLB = NewBronzeHistoryGreenNodeLoadBalancerLBClient(c.config)
+	c.BronzeHistoryGreenNodeLoadBalancerListener = NewBronzeHistoryGreenNodeLoadBalancerListenerClient(c.config)
+	c.BronzeHistoryGreenNodeLoadBalancerPackage = NewBronzeHistoryGreenNodeLoadBalancerPackageClient(c.config)
+	c.BronzeHistoryGreenNodeLoadBalancerPool = NewBronzeHistoryGreenNodeLoadBalancerPoolClient(c.config)
+	c.BronzeHistoryGreenNodeNetworkEndpoint = NewBronzeHistoryGreenNodeNetworkEndpointClient(c.config)
+	c.BronzeHistoryGreenNodeNetworkSecgroup = NewBronzeHistoryGreenNodeNetworkSecgroupClient(c.config)
+	c.BronzeHistoryGreenNodeNetworkSecgroupRule = NewBronzeHistoryGreenNodeNetworkSecgroupRuleClient(c.config)
 	c.BronzeHistoryGreenNodePortalQuota = NewBronzeHistoryGreenNodePortalQuotaClient(c.config)
 	c.BronzeHistoryGreenNodePortalRegion = NewBronzeHistoryGreenNodePortalRegionClient(c.config)
+	c.BronzeHistoryGreenNodePortalZone = NewBronzeHistoryGreenNodePortalZoneClient(c.config)
+	c.BronzeHistoryGreenNodeVolumeBlockVolume = NewBronzeHistoryGreenNodeVolumeBlockVolumeClient(c.config)
+	c.BronzeHistoryGreenNodeVolumeSnapshot = NewBronzeHistoryGreenNodeVolumeSnapshotClient(c.config)
+	c.BronzeHistoryGreenNodeVolumeVolumeType = NewBronzeHistoryGreenNodeVolumeVolumeTypeClient(c.config)
+	c.BronzeHistoryGreenNodeVolumeVolumeTypeZone = NewBronzeHistoryGreenNodeVolumeVolumeTypeZoneClient(c.config)
 	c.BronzeHistoryS1Account = NewBronzeHistoryS1AccountClient(c.config)
 	c.BronzeHistoryS1Agent = NewBronzeHistoryS1AgentClient(c.config)
 	c.BronzeHistoryS1AgentNIC = NewBronzeHistoryS1AgentNICClient(c.config)
@@ -1692,8 +1852,28 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		BronzeGreenNodeComputeServerGroup:                    NewBronzeGreenNodeComputeServerGroupClient(cfg),
 		BronzeGreenNodeComputeServerGroupMember:              NewBronzeGreenNodeComputeServerGroupMemberClient(cfg),
 		BronzeGreenNodeComputeServerSecGroup:                 NewBronzeGreenNodeComputeServerSecGroupClient(cfg),
+		BronzeGreenNodeDNSHostedZone:                         NewBronzeGreenNodeDNSHostedZoneClient(cfg),
+		BronzeGreenNodeDNSRecord:                             NewBronzeGreenNodeDNSRecordClient(cfg),
+		BronzeGreenNodeGLBGlobalListener:                     NewBronzeGreenNodeGLBGlobalListenerClient(cfg),
+		BronzeGreenNodeGLBGlobalLoadBalancer:                 NewBronzeGreenNodeGLBGlobalLoadBalancerClient(cfg),
+		BronzeGreenNodeGLBGlobalPackage:                      NewBronzeGreenNodeGLBGlobalPackageClient(cfg),
+		BronzeGreenNodeGLBGlobalPool:                         NewBronzeGreenNodeGLBGlobalPoolClient(cfg),
+		BronzeGreenNodeGLBGlobalRegion:                       NewBronzeGreenNodeGLBGlobalRegionClient(cfg),
+		BronzeGreenNodeLoadBalancerCertificate:               NewBronzeGreenNodeLoadBalancerCertificateClient(cfg),
+		BronzeGreenNodeLoadBalancerLB:                        NewBronzeGreenNodeLoadBalancerLBClient(cfg),
+		BronzeGreenNodeLoadBalancerListener:                  NewBronzeGreenNodeLoadBalancerListenerClient(cfg),
+		BronzeGreenNodeLoadBalancerPackage:                   NewBronzeGreenNodeLoadBalancerPackageClient(cfg),
+		BronzeGreenNodeLoadBalancerPool:                      NewBronzeGreenNodeLoadBalancerPoolClient(cfg),
+		BronzeGreenNodeNetworkEndpoint:                       NewBronzeGreenNodeNetworkEndpointClient(cfg),
+		BronzeGreenNodeNetworkSecgroup:                       NewBronzeGreenNodeNetworkSecgroupClient(cfg),
+		BronzeGreenNodeNetworkSecgroupRule:                   NewBronzeGreenNodeNetworkSecgroupRuleClient(cfg),
 		BronzeGreenNodePortalQuota:                           NewBronzeGreenNodePortalQuotaClient(cfg),
 		BronzeGreenNodePortalRegion:                          NewBronzeGreenNodePortalRegionClient(cfg),
+		BronzeGreenNodePortalZone:                            NewBronzeGreenNodePortalZoneClient(cfg),
+		BronzeGreenNodeVolumeBlockVolume:                     NewBronzeGreenNodeVolumeBlockVolumeClient(cfg),
+		BronzeGreenNodeVolumeSnapshot:                        NewBronzeGreenNodeVolumeSnapshotClient(cfg),
+		BronzeGreenNodeVolumeVolumeType:                      NewBronzeGreenNodeVolumeVolumeTypeClient(cfg),
+		BronzeGreenNodeVolumeVolumeTypeZone:                  NewBronzeGreenNodeVolumeVolumeTypeZoneClient(cfg),
 		BronzeHistoryAWSEC2Instance:                          NewBronzeHistoryAWSEC2InstanceClient(cfg),
 		BronzeHistoryAWSEC2InstanceTag:                       NewBronzeHistoryAWSEC2InstanceTagClient(cfg),
 		BronzeHistoryDOAccount:                               NewBronzeHistoryDOAccountClient(cfg),
@@ -1857,8 +2037,28 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		BronzeHistoryGreenNodeComputeServerGroup:             NewBronzeHistoryGreenNodeComputeServerGroupClient(cfg),
 		BronzeHistoryGreenNodeComputeServerGroupMember:       NewBronzeHistoryGreenNodeComputeServerGroupMemberClient(cfg),
 		BronzeHistoryGreenNodeComputeServerSecGroup:          NewBronzeHistoryGreenNodeComputeServerSecGroupClient(cfg),
+		BronzeHistoryGreenNodeDNSHostedZone:                  NewBronzeHistoryGreenNodeDNSHostedZoneClient(cfg),
+		BronzeHistoryGreenNodeDNSRecord:                      NewBronzeHistoryGreenNodeDNSRecordClient(cfg),
+		BronzeHistoryGreenNodeGLBGlobalListener:              NewBronzeHistoryGreenNodeGLBGlobalListenerClient(cfg),
+		BronzeHistoryGreenNodeGLBGlobalLoadBalancer:          NewBronzeHistoryGreenNodeGLBGlobalLoadBalancerClient(cfg),
+		BronzeHistoryGreenNodeGLBGlobalPackage:               NewBronzeHistoryGreenNodeGLBGlobalPackageClient(cfg),
+		BronzeHistoryGreenNodeGLBGlobalPool:                  NewBronzeHistoryGreenNodeGLBGlobalPoolClient(cfg),
+		BronzeHistoryGreenNodeGLBGlobalRegion:                NewBronzeHistoryGreenNodeGLBGlobalRegionClient(cfg),
+		BronzeHistoryGreenNodeLoadBalancerCertificate:        NewBronzeHistoryGreenNodeLoadBalancerCertificateClient(cfg),
+		BronzeHistoryGreenNodeLoadBalancerLB:                 NewBronzeHistoryGreenNodeLoadBalancerLBClient(cfg),
+		BronzeHistoryGreenNodeLoadBalancerListener:           NewBronzeHistoryGreenNodeLoadBalancerListenerClient(cfg),
+		BronzeHistoryGreenNodeLoadBalancerPackage:            NewBronzeHistoryGreenNodeLoadBalancerPackageClient(cfg),
+		BronzeHistoryGreenNodeLoadBalancerPool:               NewBronzeHistoryGreenNodeLoadBalancerPoolClient(cfg),
+		BronzeHistoryGreenNodeNetworkEndpoint:                NewBronzeHistoryGreenNodeNetworkEndpointClient(cfg),
+		BronzeHistoryGreenNodeNetworkSecgroup:                NewBronzeHistoryGreenNodeNetworkSecgroupClient(cfg),
+		BronzeHistoryGreenNodeNetworkSecgroupRule:            NewBronzeHistoryGreenNodeNetworkSecgroupRuleClient(cfg),
 		BronzeHistoryGreenNodePortalQuota:                    NewBronzeHistoryGreenNodePortalQuotaClient(cfg),
 		BronzeHistoryGreenNodePortalRegion:                   NewBronzeHistoryGreenNodePortalRegionClient(cfg),
+		BronzeHistoryGreenNodePortalZone:                     NewBronzeHistoryGreenNodePortalZoneClient(cfg),
+		BronzeHistoryGreenNodeVolumeBlockVolume:              NewBronzeHistoryGreenNodeVolumeBlockVolumeClient(cfg),
+		BronzeHistoryGreenNodeVolumeSnapshot:                 NewBronzeHistoryGreenNodeVolumeSnapshotClient(cfg),
+		BronzeHistoryGreenNodeVolumeVolumeType:               NewBronzeHistoryGreenNodeVolumeVolumeTypeClient(cfg),
+		BronzeHistoryGreenNodeVolumeVolumeTypeZone:           NewBronzeHistoryGreenNodeVolumeVolumeTypeZoneClient(cfg),
 		BronzeHistoryS1Account:                               NewBronzeHistoryS1AccountClient(cfg),
 		BronzeHistoryS1Agent:                                 NewBronzeHistoryS1AgentClient(cfg),
 		BronzeHistoryS1AgentNIC:                              NewBronzeHistoryS1AgentNICClient(cfg),
@@ -2061,8 +2261,28 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		BronzeGreenNodeComputeServerGroup:                    NewBronzeGreenNodeComputeServerGroupClient(cfg),
 		BronzeGreenNodeComputeServerGroupMember:              NewBronzeGreenNodeComputeServerGroupMemberClient(cfg),
 		BronzeGreenNodeComputeServerSecGroup:                 NewBronzeGreenNodeComputeServerSecGroupClient(cfg),
+		BronzeGreenNodeDNSHostedZone:                         NewBronzeGreenNodeDNSHostedZoneClient(cfg),
+		BronzeGreenNodeDNSRecord:                             NewBronzeGreenNodeDNSRecordClient(cfg),
+		BronzeGreenNodeGLBGlobalListener:                     NewBronzeGreenNodeGLBGlobalListenerClient(cfg),
+		BronzeGreenNodeGLBGlobalLoadBalancer:                 NewBronzeGreenNodeGLBGlobalLoadBalancerClient(cfg),
+		BronzeGreenNodeGLBGlobalPackage:                      NewBronzeGreenNodeGLBGlobalPackageClient(cfg),
+		BronzeGreenNodeGLBGlobalPool:                         NewBronzeGreenNodeGLBGlobalPoolClient(cfg),
+		BronzeGreenNodeGLBGlobalRegion:                       NewBronzeGreenNodeGLBGlobalRegionClient(cfg),
+		BronzeGreenNodeLoadBalancerCertificate:               NewBronzeGreenNodeLoadBalancerCertificateClient(cfg),
+		BronzeGreenNodeLoadBalancerLB:                        NewBronzeGreenNodeLoadBalancerLBClient(cfg),
+		BronzeGreenNodeLoadBalancerListener:                  NewBronzeGreenNodeLoadBalancerListenerClient(cfg),
+		BronzeGreenNodeLoadBalancerPackage:                   NewBronzeGreenNodeLoadBalancerPackageClient(cfg),
+		BronzeGreenNodeLoadBalancerPool:                      NewBronzeGreenNodeLoadBalancerPoolClient(cfg),
+		BronzeGreenNodeNetworkEndpoint:                       NewBronzeGreenNodeNetworkEndpointClient(cfg),
+		BronzeGreenNodeNetworkSecgroup:                       NewBronzeGreenNodeNetworkSecgroupClient(cfg),
+		BronzeGreenNodeNetworkSecgroupRule:                   NewBronzeGreenNodeNetworkSecgroupRuleClient(cfg),
 		BronzeGreenNodePortalQuota:                           NewBronzeGreenNodePortalQuotaClient(cfg),
 		BronzeGreenNodePortalRegion:                          NewBronzeGreenNodePortalRegionClient(cfg),
+		BronzeGreenNodePortalZone:                            NewBronzeGreenNodePortalZoneClient(cfg),
+		BronzeGreenNodeVolumeBlockVolume:                     NewBronzeGreenNodeVolumeBlockVolumeClient(cfg),
+		BronzeGreenNodeVolumeSnapshot:                        NewBronzeGreenNodeVolumeSnapshotClient(cfg),
+		BronzeGreenNodeVolumeVolumeType:                      NewBronzeGreenNodeVolumeVolumeTypeClient(cfg),
+		BronzeGreenNodeVolumeVolumeTypeZone:                  NewBronzeGreenNodeVolumeVolumeTypeZoneClient(cfg),
 		BronzeHistoryAWSEC2Instance:                          NewBronzeHistoryAWSEC2InstanceClient(cfg),
 		BronzeHistoryAWSEC2InstanceTag:                       NewBronzeHistoryAWSEC2InstanceTagClient(cfg),
 		BronzeHistoryDOAccount:                               NewBronzeHistoryDOAccountClient(cfg),
@@ -2226,8 +2446,28 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		BronzeHistoryGreenNodeComputeServerGroup:             NewBronzeHistoryGreenNodeComputeServerGroupClient(cfg),
 		BronzeHistoryGreenNodeComputeServerGroupMember:       NewBronzeHistoryGreenNodeComputeServerGroupMemberClient(cfg),
 		BronzeHistoryGreenNodeComputeServerSecGroup:          NewBronzeHistoryGreenNodeComputeServerSecGroupClient(cfg),
+		BronzeHistoryGreenNodeDNSHostedZone:                  NewBronzeHistoryGreenNodeDNSHostedZoneClient(cfg),
+		BronzeHistoryGreenNodeDNSRecord:                      NewBronzeHistoryGreenNodeDNSRecordClient(cfg),
+		BronzeHistoryGreenNodeGLBGlobalListener:              NewBronzeHistoryGreenNodeGLBGlobalListenerClient(cfg),
+		BronzeHistoryGreenNodeGLBGlobalLoadBalancer:          NewBronzeHistoryGreenNodeGLBGlobalLoadBalancerClient(cfg),
+		BronzeHistoryGreenNodeGLBGlobalPackage:               NewBronzeHistoryGreenNodeGLBGlobalPackageClient(cfg),
+		BronzeHistoryGreenNodeGLBGlobalPool:                  NewBronzeHistoryGreenNodeGLBGlobalPoolClient(cfg),
+		BronzeHistoryGreenNodeGLBGlobalRegion:                NewBronzeHistoryGreenNodeGLBGlobalRegionClient(cfg),
+		BronzeHistoryGreenNodeLoadBalancerCertificate:        NewBronzeHistoryGreenNodeLoadBalancerCertificateClient(cfg),
+		BronzeHistoryGreenNodeLoadBalancerLB:                 NewBronzeHistoryGreenNodeLoadBalancerLBClient(cfg),
+		BronzeHistoryGreenNodeLoadBalancerListener:           NewBronzeHistoryGreenNodeLoadBalancerListenerClient(cfg),
+		BronzeHistoryGreenNodeLoadBalancerPackage:            NewBronzeHistoryGreenNodeLoadBalancerPackageClient(cfg),
+		BronzeHistoryGreenNodeLoadBalancerPool:               NewBronzeHistoryGreenNodeLoadBalancerPoolClient(cfg),
+		BronzeHistoryGreenNodeNetworkEndpoint:                NewBronzeHistoryGreenNodeNetworkEndpointClient(cfg),
+		BronzeHistoryGreenNodeNetworkSecgroup:                NewBronzeHistoryGreenNodeNetworkSecgroupClient(cfg),
+		BronzeHistoryGreenNodeNetworkSecgroupRule:            NewBronzeHistoryGreenNodeNetworkSecgroupRuleClient(cfg),
 		BronzeHistoryGreenNodePortalQuota:                    NewBronzeHistoryGreenNodePortalQuotaClient(cfg),
 		BronzeHistoryGreenNodePortalRegion:                   NewBronzeHistoryGreenNodePortalRegionClient(cfg),
+		BronzeHistoryGreenNodePortalZone:                     NewBronzeHistoryGreenNodePortalZoneClient(cfg),
+		BronzeHistoryGreenNodeVolumeBlockVolume:              NewBronzeHistoryGreenNodeVolumeBlockVolumeClient(cfg),
+		BronzeHistoryGreenNodeVolumeSnapshot:                 NewBronzeHistoryGreenNodeVolumeSnapshotClient(cfg),
+		BronzeHistoryGreenNodeVolumeVolumeType:               NewBronzeHistoryGreenNodeVolumeVolumeTypeClient(cfg),
+		BronzeHistoryGreenNodeVolumeVolumeTypeZone:           NewBronzeHistoryGreenNodeVolumeVolumeTypeZoneClient(cfg),
 		BronzeHistoryS1Account:                               NewBronzeHistoryS1AccountClient(cfg),
 		BronzeHistoryS1Agent:                                 NewBronzeHistoryS1AgentClient(cfg),
 		BronzeHistoryS1AgentNIC:                              NewBronzeHistoryS1AgentNICClient(cfg),
@@ -2355,8 +2595,18 @@ func (c *Client) Use(hooks ...Hook) {
 		c.BronzeGCPVPNTunnelLabel, c.BronzeGreenNodeComputeSSHKey,
 		c.BronzeGreenNodeComputeServer, c.BronzeGreenNodeComputeServerGroup,
 		c.BronzeGreenNodeComputeServerGroupMember,
-		c.BronzeGreenNodeComputeServerSecGroup, c.BronzeGreenNodePortalQuota,
-		c.BronzeGreenNodePortalRegion, c.BronzeHistoryAWSEC2Instance,
+		c.BronzeGreenNodeComputeServerSecGroup, c.BronzeGreenNodeDNSHostedZone,
+		c.BronzeGreenNodeDNSRecord, c.BronzeGreenNodeGLBGlobalListener,
+		c.BronzeGreenNodeGLBGlobalLoadBalancer, c.BronzeGreenNodeGLBGlobalPackage,
+		c.BronzeGreenNodeGLBGlobalPool, c.BronzeGreenNodeGLBGlobalRegion,
+		c.BronzeGreenNodeLoadBalancerCertificate, c.BronzeGreenNodeLoadBalancerLB,
+		c.BronzeGreenNodeLoadBalancerListener, c.BronzeGreenNodeLoadBalancerPackage,
+		c.BronzeGreenNodeLoadBalancerPool, c.BronzeGreenNodeNetworkEndpoint,
+		c.BronzeGreenNodeNetworkSecgroup, c.BronzeGreenNodeNetworkSecgroupRule,
+		c.BronzeGreenNodePortalQuota, c.BronzeGreenNodePortalRegion,
+		c.BronzeGreenNodePortalZone, c.BronzeGreenNodeVolumeBlockVolume,
+		c.BronzeGreenNodeVolumeSnapshot, c.BronzeGreenNodeVolumeVolumeType,
+		c.BronzeGreenNodeVolumeVolumeTypeZone, c.BronzeHistoryAWSEC2Instance,
 		c.BronzeHistoryAWSEC2InstanceTag, c.BronzeHistoryDOAccount,
 		c.BronzeHistoryDODatabase, c.BronzeHistoryDODatabaseBackup,
 		c.BronzeHistoryDODatabaseConfig, c.BronzeHistoryDODatabaseFirewallRule,
@@ -2461,9 +2711,26 @@ func (c *Client) Use(hooks ...Hook) {
 		c.BronzeHistoryGreenNodeComputeServerGroup,
 		c.BronzeHistoryGreenNodeComputeServerGroupMember,
 		c.BronzeHistoryGreenNodeComputeServerSecGroup,
+		c.BronzeHistoryGreenNodeDNSHostedZone, c.BronzeHistoryGreenNodeDNSRecord,
+		c.BronzeHistoryGreenNodeGLBGlobalListener,
+		c.BronzeHistoryGreenNodeGLBGlobalLoadBalancer,
+		c.BronzeHistoryGreenNodeGLBGlobalPackage,
+		c.BronzeHistoryGreenNodeGLBGlobalPool, c.BronzeHistoryGreenNodeGLBGlobalRegion,
+		c.BronzeHistoryGreenNodeLoadBalancerCertificate,
+		c.BronzeHistoryGreenNodeLoadBalancerLB,
+		c.BronzeHistoryGreenNodeLoadBalancerListener,
+		c.BronzeHistoryGreenNodeLoadBalancerPackage,
+		c.BronzeHistoryGreenNodeLoadBalancerPool,
+		c.BronzeHistoryGreenNodeNetworkEndpoint,
+		c.BronzeHistoryGreenNodeNetworkSecgroup,
+		c.BronzeHistoryGreenNodeNetworkSecgroupRule,
 		c.BronzeHistoryGreenNodePortalQuota, c.BronzeHistoryGreenNodePortalRegion,
-		c.BronzeHistoryS1Account, c.BronzeHistoryS1Agent, c.BronzeHistoryS1AgentNIC,
-		c.BronzeHistoryS1App, c.BronzeHistoryS1Group, c.BronzeHistoryS1RangerDevice,
+		c.BronzeHistoryGreenNodePortalZone, c.BronzeHistoryGreenNodeVolumeBlockVolume,
+		c.BronzeHistoryGreenNodeVolumeSnapshot,
+		c.BronzeHistoryGreenNodeVolumeVolumeType,
+		c.BronzeHistoryGreenNodeVolumeVolumeTypeZone, c.BronzeHistoryS1Account,
+		c.BronzeHistoryS1Agent, c.BronzeHistoryS1AgentNIC, c.BronzeHistoryS1App,
+		c.BronzeHistoryS1Group, c.BronzeHistoryS1RangerDevice,
 		c.BronzeHistoryS1RangerGateway, c.BronzeHistoryS1RangerSetting,
 		c.BronzeHistoryS1Site, c.BronzeHistoryS1Threat, c.BronzeS1Account,
 		c.BronzeS1Agent, c.BronzeS1AgentNIC, c.BronzeS1App, c.BronzeS1Group,
@@ -2556,8 +2823,18 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.BronzeGCPVPNTunnelLabel, c.BronzeGreenNodeComputeSSHKey,
 		c.BronzeGreenNodeComputeServer, c.BronzeGreenNodeComputeServerGroup,
 		c.BronzeGreenNodeComputeServerGroupMember,
-		c.BronzeGreenNodeComputeServerSecGroup, c.BronzeGreenNodePortalQuota,
-		c.BronzeGreenNodePortalRegion, c.BronzeHistoryAWSEC2Instance,
+		c.BronzeGreenNodeComputeServerSecGroup, c.BronzeGreenNodeDNSHostedZone,
+		c.BronzeGreenNodeDNSRecord, c.BronzeGreenNodeGLBGlobalListener,
+		c.BronzeGreenNodeGLBGlobalLoadBalancer, c.BronzeGreenNodeGLBGlobalPackage,
+		c.BronzeGreenNodeGLBGlobalPool, c.BronzeGreenNodeGLBGlobalRegion,
+		c.BronzeGreenNodeLoadBalancerCertificate, c.BronzeGreenNodeLoadBalancerLB,
+		c.BronzeGreenNodeLoadBalancerListener, c.BronzeGreenNodeLoadBalancerPackage,
+		c.BronzeGreenNodeLoadBalancerPool, c.BronzeGreenNodeNetworkEndpoint,
+		c.BronzeGreenNodeNetworkSecgroup, c.BronzeGreenNodeNetworkSecgroupRule,
+		c.BronzeGreenNodePortalQuota, c.BronzeGreenNodePortalRegion,
+		c.BronzeGreenNodePortalZone, c.BronzeGreenNodeVolumeBlockVolume,
+		c.BronzeGreenNodeVolumeSnapshot, c.BronzeGreenNodeVolumeVolumeType,
+		c.BronzeGreenNodeVolumeVolumeTypeZone, c.BronzeHistoryAWSEC2Instance,
 		c.BronzeHistoryAWSEC2InstanceTag, c.BronzeHistoryDOAccount,
 		c.BronzeHistoryDODatabase, c.BronzeHistoryDODatabaseBackup,
 		c.BronzeHistoryDODatabaseConfig, c.BronzeHistoryDODatabaseFirewallRule,
@@ -2662,9 +2939,26 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.BronzeHistoryGreenNodeComputeServerGroup,
 		c.BronzeHistoryGreenNodeComputeServerGroupMember,
 		c.BronzeHistoryGreenNodeComputeServerSecGroup,
+		c.BronzeHistoryGreenNodeDNSHostedZone, c.BronzeHistoryGreenNodeDNSRecord,
+		c.BronzeHistoryGreenNodeGLBGlobalListener,
+		c.BronzeHistoryGreenNodeGLBGlobalLoadBalancer,
+		c.BronzeHistoryGreenNodeGLBGlobalPackage,
+		c.BronzeHistoryGreenNodeGLBGlobalPool, c.BronzeHistoryGreenNodeGLBGlobalRegion,
+		c.BronzeHistoryGreenNodeLoadBalancerCertificate,
+		c.BronzeHistoryGreenNodeLoadBalancerLB,
+		c.BronzeHistoryGreenNodeLoadBalancerListener,
+		c.BronzeHistoryGreenNodeLoadBalancerPackage,
+		c.BronzeHistoryGreenNodeLoadBalancerPool,
+		c.BronzeHistoryGreenNodeNetworkEndpoint,
+		c.BronzeHistoryGreenNodeNetworkSecgroup,
+		c.BronzeHistoryGreenNodeNetworkSecgroupRule,
 		c.BronzeHistoryGreenNodePortalQuota, c.BronzeHistoryGreenNodePortalRegion,
-		c.BronzeHistoryS1Account, c.BronzeHistoryS1Agent, c.BronzeHistoryS1AgentNIC,
-		c.BronzeHistoryS1App, c.BronzeHistoryS1Group, c.BronzeHistoryS1RangerDevice,
+		c.BronzeHistoryGreenNodePortalZone, c.BronzeHistoryGreenNodeVolumeBlockVolume,
+		c.BronzeHistoryGreenNodeVolumeSnapshot,
+		c.BronzeHistoryGreenNodeVolumeVolumeType,
+		c.BronzeHistoryGreenNodeVolumeVolumeTypeZone, c.BronzeHistoryS1Account,
+		c.BronzeHistoryS1Agent, c.BronzeHistoryS1AgentNIC, c.BronzeHistoryS1App,
+		c.BronzeHistoryS1Group, c.BronzeHistoryS1RangerDevice,
 		c.BronzeHistoryS1RangerGateway, c.BronzeHistoryS1RangerSetting,
 		c.BronzeHistoryS1Site, c.BronzeHistoryS1Threat, c.BronzeS1Account,
 		c.BronzeS1Agent, c.BronzeS1AgentNIC, c.BronzeS1App, c.BronzeS1Group,
@@ -3004,10 +3298,50 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeGreenNodeComputeServerGroupMember.mutate(ctx, m)
 	case *BronzeGreenNodeComputeServerSecGroupMutation:
 		return c.BronzeGreenNodeComputeServerSecGroup.mutate(ctx, m)
+	case *BronzeGreenNodeDNSHostedZoneMutation:
+		return c.BronzeGreenNodeDNSHostedZone.mutate(ctx, m)
+	case *BronzeGreenNodeDNSRecordMutation:
+		return c.BronzeGreenNodeDNSRecord.mutate(ctx, m)
+	case *BronzeGreenNodeGLBGlobalListenerMutation:
+		return c.BronzeGreenNodeGLBGlobalListener.mutate(ctx, m)
+	case *BronzeGreenNodeGLBGlobalLoadBalancerMutation:
+		return c.BronzeGreenNodeGLBGlobalLoadBalancer.mutate(ctx, m)
+	case *BronzeGreenNodeGLBGlobalPackageMutation:
+		return c.BronzeGreenNodeGLBGlobalPackage.mutate(ctx, m)
+	case *BronzeGreenNodeGLBGlobalPoolMutation:
+		return c.BronzeGreenNodeGLBGlobalPool.mutate(ctx, m)
+	case *BronzeGreenNodeGLBGlobalRegionMutation:
+		return c.BronzeGreenNodeGLBGlobalRegion.mutate(ctx, m)
+	case *BronzeGreenNodeLoadBalancerCertificateMutation:
+		return c.BronzeGreenNodeLoadBalancerCertificate.mutate(ctx, m)
+	case *BronzeGreenNodeLoadBalancerLBMutation:
+		return c.BronzeGreenNodeLoadBalancerLB.mutate(ctx, m)
+	case *BronzeGreenNodeLoadBalancerListenerMutation:
+		return c.BronzeGreenNodeLoadBalancerListener.mutate(ctx, m)
+	case *BronzeGreenNodeLoadBalancerPackageMutation:
+		return c.BronzeGreenNodeLoadBalancerPackage.mutate(ctx, m)
+	case *BronzeGreenNodeLoadBalancerPoolMutation:
+		return c.BronzeGreenNodeLoadBalancerPool.mutate(ctx, m)
+	case *BronzeGreenNodeNetworkEndpointMutation:
+		return c.BronzeGreenNodeNetworkEndpoint.mutate(ctx, m)
+	case *BronzeGreenNodeNetworkSecgroupMutation:
+		return c.BronzeGreenNodeNetworkSecgroup.mutate(ctx, m)
+	case *BronzeGreenNodeNetworkSecgroupRuleMutation:
+		return c.BronzeGreenNodeNetworkSecgroupRule.mutate(ctx, m)
 	case *BronzeGreenNodePortalQuotaMutation:
 		return c.BronzeGreenNodePortalQuota.mutate(ctx, m)
 	case *BronzeGreenNodePortalRegionMutation:
 		return c.BronzeGreenNodePortalRegion.mutate(ctx, m)
+	case *BronzeGreenNodePortalZoneMutation:
+		return c.BronzeGreenNodePortalZone.mutate(ctx, m)
+	case *BronzeGreenNodeVolumeBlockVolumeMutation:
+		return c.BronzeGreenNodeVolumeBlockVolume.mutate(ctx, m)
+	case *BronzeGreenNodeVolumeSnapshotMutation:
+		return c.BronzeGreenNodeVolumeSnapshot.mutate(ctx, m)
+	case *BronzeGreenNodeVolumeVolumeTypeMutation:
+		return c.BronzeGreenNodeVolumeVolumeType.mutate(ctx, m)
+	case *BronzeGreenNodeVolumeVolumeTypeZoneMutation:
+		return c.BronzeGreenNodeVolumeVolumeTypeZone.mutate(ctx, m)
 	case *BronzeHistoryAWSEC2InstanceMutation:
 		return c.BronzeHistoryAWSEC2Instance.mutate(ctx, m)
 	case *BronzeHistoryAWSEC2InstanceTagMutation:
@@ -3334,10 +3668,50 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeHistoryGreenNodeComputeServerGroupMember.mutate(ctx, m)
 	case *BronzeHistoryGreenNodeComputeServerSecGroupMutation:
 		return c.BronzeHistoryGreenNodeComputeServerSecGroup.mutate(ctx, m)
+	case *BronzeHistoryGreenNodeDNSHostedZoneMutation:
+		return c.BronzeHistoryGreenNodeDNSHostedZone.mutate(ctx, m)
+	case *BronzeHistoryGreenNodeDNSRecordMutation:
+		return c.BronzeHistoryGreenNodeDNSRecord.mutate(ctx, m)
+	case *BronzeHistoryGreenNodeGLBGlobalListenerMutation:
+		return c.BronzeHistoryGreenNodeGLBGlobalListener.mutate(ctx, m)
+	case *BronzeHistoryGreenNodeGLBGlobalLoadBalancerMutation:
+		return c.BronzeHistoryGreenNodeGLBGlobalLoadBalancer.mutate(ctx, m)
+	case *BronzeHistoryGreenNodeGLBGlobalPackageMutation:
+		return c.BronzeHistoryGreenNodeGLBGlobalPackage.mutate(ctx, m)
+	case *BronzeHistoryGreenNodeGLBGlobalPoolMutation:
+		return c.BronzeHistoryGreenNodeGLBGlobalPool.mutate(ctx, m)
+	case *BronzeHistoryGreenNodeGLBGlobalRegionMutation:
+		return c.BronzeHistoryGreenNodeGLBGlobalRegion.mutate(ctx, m)
+	case *BronzeHistoryGreenNodeLoadBalancerCertificateMutation:
+		return c.BronzeHistoryGreenNodeLoadBalancerCertificate.mutate(ctx, m)
+	case *BronzeHistoryGreenNodeLoadBalancerLBMutation:
+		return c.BronzeHistoryGreenNodeLoadBalancerLB.mutate(ctx, m)
+	case *BronzeHistoryGreenNodeLoadBalancerListenerMutation:
+		return c.BronzeHistoryGreenNodeLoadBalancerListener.mutate(ctx, m)
+	case *BronzeHistoryGreenNodeLoadBalancerPackageMutation:
+		return c.BronzeHistoryGreenNodeLoadBalancerPackage.mutate(ctx, m)
+	case *BronzeHistoryGreenNodeLoadBalancerPoolMutation:
+		return c.BronzeHistoryGreenNodeLoadBalancerPool.mutate(ctx, m)
+	case *BronzeHistoryGreenNodeNetworkEndpointMutation:
+		return c.BronzeHistoryGreenNodeNetworkEndpoint.mutate(ctx, m)
+	case *BronzeHistoryGreenNodeNetworkSecgroupMutation:
+		return c.BronzeHistoryGreenNodeNetworkSecgroup.mutate(ctx, m)
+	case *BronzeHistoryGreenNodeNetworkSecgroupRuleMutation:
+		return c.BronzeHistoryGreenNodeNetworkSecgroupRule.mutate(ctx, m)
 	case *BronzeHistoryGreenNodePortalQuotaMutation:
 		return c.BronzeHistoryGreenNodePortalQuota.mutate(ctx, m)
 	case *BronzeHistoryGreenNodePortalRegionMutation:
 		return c.BronzeHistoryGreenNodePortalRegion.mutate(ctx, m)
+	case *BronzeHistoryGreenNodePortalZoneMutation:
+		return c.BronzeHistoryGreenNodePortalZone.mutate(ctx, m)
+	case *BronzeHistoryGreenNodeVolumeBlockVolumeMutation:
+		return c.BronzeHistoryGreenNodeVolumeBlockVolume.mutate(ctx, m)
+	case *BronzeHistoryGreenNodeVolumeSnapshotMutation:
+		return c.BronzeHistoryGreenNodeVolumeSnapshot.mutate(ctx, m)
+	case *BronzeHistoryGreenNodeVolumeVolumeTypeMutation:
+		return c.BronzeHistoryGreenNodeVolumeVolumeType.mutate(ctx, m)
+	case *BronzeHistoryGreenNodeVolumeVolumeTypeZoneMutation:
+		return c.BronzeHistoryGreenNodeVolumeVolumeTypeZone.mutate(ctx, m)
 	case *BronzeHistoryS1AccountMutation:
 		return c.BronzeHistoryS1Account.mutate(ctx, m)
 	case *BronzeHistoryS1AgentMutation:
@@ -27076,6 +27450,2229 @@ func (c *BronzeGreenNodeComputeServerSecGroupClient) mutate(ctx context.Context,
 	}
 }
 
+// BronzeGreenNodeDNSHostedZoneClient is a client for the BronzeGreenNodeDNSHostedZone schema.
+type BronzeGreenNodeDNSHostedZoneClient struct {
+	config
+}
+
+// NewBronzeGreenNodeDNSHostedZoneClient returns a client for the BronzeGreenNodeDNSHostedZone from the given config.
+func NewBronzeGreenNodeDNSHostedZoneClient(c config) *BronzeGreenNodeDNSHostedZoneClient {
+	return &BronzeGreenNodeDNSHostedZoneClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodednshostedzone.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodeDNSHostedZoneClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodeDNSHostedZone = append(c.hooks.BronzeGreenNodeDNSHostedZone, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodednshostedzone.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodeDNSHostedZoneClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodeDNSHostedZone = append(c.inters.BronzeGreenNodeDNSHostedZone, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodeDNSHostedZone entity.
+func (c *BronzeGreenNodeDNSHostedZoneClient) Create() *BronzeGreenNodeDNSHostedZoneCreate {
+	mutation := newBronzeGreenNodeDNSHostedZoneMutation(c.config, OpCreate)
+	return &BronzeGreenNodeDNSHostedZoneCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodeDNSHostedZone entities.
+func (c *BronzeGreenNodeDNSHostedZoneClient) CreateBulk(builders ...*BronzeGreenNodeDNSHostedZoneCreate) *BronzeGreenNodeDNSHostedZoneCreateBulk {
+	return &BronzeGreenNodeDNSHostedZoneCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodeDNSHostedZoneClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodeDNSHostedZoneCreate, int)) *BronzeGreenNodeDNSHostedZoneCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodeDNSHostedZoneCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodeDNSHostedZoneClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodeDNSHostedZoneCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodeDNSHostedZoneCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodeDNSHostedZone.
+func (c *BronzeGreenNodeDNSHostedZoneClient) Update() *BronzeGreenNodeDNSHostedZoneUpdate {
+	mutation := newBronzeGreenNodeDNSHostedZoneMutation(c.config, OpUpdate)
+	return &BronzeGreenNodeDNSHostedZoneUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodeDNSHostedZoneClient) UpdateOne(_m *BronzeGreenNodeDNSHostedZone) *BronzeGreenNodeDNSHostedZoneUpdateOne {
+	mutation := newBronzeGreenNodeDNSHostedZoneMutation(c.config, OpUpdateOne, withBronzeGreenNodeDNSHostedZone(_m))
+	return &BronzeGreenNodeDNSHostedZoneUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodeDNSHostedZoneClient) UpdateOneID(id string) *BronzeGreenNodeDNSHostedZoneUpdateOne {
+	mutation := newBronzeGreenNodeDNSHostedZoneMutation(c.config, OpUpdateOne, withBronzeGreenNodeDNSHostedZoneID(id))
+	return &BronzeGreenNodeDNSHostedZoneUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodeDNSHostedZone.
+func (c *BronzeGreenNodeDNSHostedZoneClient) Delete() *BronzeGreenNodeDNSHostedZoneDelete {
+	mutation := newBronzeGreenNodeDNSHostedZoneMutation(c.config, OpDelete)
+	return &BronzeGreenNodeDNSHostedZoneDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodeDNSHostedZoneClient) DeleteOne(_m *BronzeGreenNodeDNSHostedZone) *BronzeGreenNodeDNSHostedZoneDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodeDNSHostedZoneClient) DeleteOneID(id string) *BronzeGreenNodeDNSHostedZoneDeleteOne {
+	builder := c.Delete().Where(bronzegreennodednshostedzone.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodeDNSHostedZoneDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodeDNSHostedZone.
+func (c *BronzeGreenNodeDNSHostedZoneClient) Query() *BronzeGreenNodeDNSHostedZoneQuery {
+	return &BronzeGreenNodeDNSHostedZoneQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodeDNSHostedZone},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodeDNSHostedZone entity by its id.
+func (c *BronzeGreenNodeDNSHostedZoneClient) Get(ctx context.Context, id string) (*BronzeGreenNodeDNSHostedZone, error) {
+	return c.Query().Where(bronzegreennodednshostedzone.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodeDNSHostedZoneClient) GetX(ctx context.Context, id string) *BronzeGreenNodeDNSHostedZone {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryRecords queries the records edge of a BronzeGreenNodeDNSHostedZone.
+func (c *BronzeGreenNodeDNSHostedZoneClient) QueryRecords(_m *BronzeGreenNodeDNSHostedZone) *BronzeGreenNodeDNSRecordQuery {
+	query := (&BronzeGreenNodeDNSRecordClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegreennodednshostedzone.Table, bronzegreennodednshostedzone.FieldID, id),
+			sqlgraph.To(bronzegreennodednsrecord.Table, bronzegreennodednsrecord.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, bronzegreennodednshostedzone.RecordsTable, bronzegreennodednshostedzone.RecordsColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGreenNodeDNSRecord
+		step.Edge.Schema = schemaConfig.BronzeGreenNodeDNSRecord
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodeDNSHostedZoneClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodeDNSHostedZone
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodeDNSHostedZoneClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodeDNSHostedZone
+}
+
+func (c *BronzeGreenNodeDNSHostedZoneClient) mutate(ctx context.Context, m *BronzeGreenNodeDNSHostedZoneMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodeDNSHostedZoneCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodeDNSHostedZoneUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodeDNSHostedZoneUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodeDNSHostedZoneDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodeDNSHostedZone mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGreenNodeDNSRecordClient is a client for the BronzeGreenNodeDNSRecord schema.
+type BronzeGreenNodeDNSRecordClient struct {
+	config
+}
+
+// NewBronzeGreenNodeDNSRecordClient returns a client for the BronzeGreenNodeDNSRecord from the given config.
+func NewBronzeGreenNodeDNSRecordClient(c config) *BronzeGreenNodeDNSRecordClient {
+	return &BronzeGreenNodeDNSRecordClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodednsrecord.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodeDNSRecordClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodeDNSRecord = append(c.hooks.BronzeGreenNodeDNSRecord, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodednsrecord.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodeDNSRecordClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodeDNSRecord = append(c.inters.BronzeGreenNodeDNSRecord, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodeDNSRecord entity.
+func (c *BronzeGreenNodeDNSRecordClient) Create() *BronzeGreenNodeDNSRecordCreate {
+	mutation := newBronzeGreenNodeDNSRecordMutation(c.config, OpCreate)
+	return &BronzeGreenNodeDNSRecordCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodeDNSRecord entities.
+func (c *BronzeGreenNodeDNSRecordClient) CreateBulk(builders ...*BronzeGreenNodeDNSRecordCreate) *BronzeGreenNodeDNSRecordCreateBulk {
+	return &BronzeGreenNodeDNSRecordCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodeDNSRecordClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodeDNSRecordCreate, int)) *BronzeGreenNodeDNSRecordCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodeDNSRecordCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodeDNSRecordClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodeDNSRecordCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodeDNSRecordCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodeDNSRecord.
+func (c *BronzeGreenNodeDNSRecordClient) Update() *BronzeGreenNodeDNSRecordUpdate {
+	mutation := newBronzeGreenNodeDNSRecordMutation(c.config, OpUpdate)
+	return &BronzeGreenNodeDNSRecordUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodeDNSRecordClient) UpdateOne(_m *BronzeGreenNodeDNSRecord) *BronzeGreenNodeDNSRecordUpdateOne {
+	mutation := newBronzeGreenNodeDNSRecordMutation(c.config, OpUpdateOne, withBronzeGreenNodeDNSRecord(_m))
+	return &BronzeGreenNodeDNSRecordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodeDNSRecordClient) UpdateOneID(id int) *BronzeGreenNodeDNSRecordUpdateOne {
+	mutation := newBronzeGreenNodeDNSRecordMutation(c.config, OpUpdateOne, withBronzeGreenNodeDNSRecordID(id))
+	return &BronzeGreenNodeDNSRecordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodeDNSRecord.
+func (c *BronzeGreenNodeDNSRecordClient) Delete() *BronzeGreenNodeDNSRecordDelete {
+	mutation := newBronzeGreenNodeDNSRecordMutation(c.config, OpDelete)
+	return &BronzeGreenNodeDNSRecordDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodeDNSRecordClient) DeleteOne(_m *BronzeGreenNodeDNSRecord) *BronzeGreenNodeDNSRecordDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodeDNSRecordClient) DeleteOneID(id int) *BronzeGreenNodeDNSRecordDeleteOne {
+	builder := c.Delete().Where(bronzegreennodednsrecord.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodeDNSRecordDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodeDNSRecord.
+func (c *BronzeGreenNodeDNSRecordClient) Query() *BronzeGreenNodeDNSRecordQuery {
+	return &BronzeGreenNodeDNSRecordQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodeDNSRecord},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodeDNSRecord entity by its id.
+func (c *BronzeGreenNodeDNSRecordClient) Get(ctx context.Context, id int) (*BronzeGreenNodeDNSRecord, error) {
+	return c.Query().Where(bronzegreennodednsrecord.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodeDNSRecordClient) GetX(ctx context.Context, id int) *BronzeGreenNodeDNSRecord {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryHostedZone queries the hosted_zone edge of a BronzeGreenNodeDNSRecord.
+func (c *BronzeGreenNodeDNSRecordClient) QueryHostedZone(_m *BronzeGreenNodeDNSRecord) *BronzeGreenNodeDNSHostedZoneQuery {
+	query := (&BronzeGreenNodeDNSHostedZoneClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegreennodednsrecord.Table, bronzegreennodednsrecord.FieldID, id),
+			sqlgraph.To(bronzegreennodednshostedzone.Table, bronzegreennodednshostedzone.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, bronzegreennodednsrecord.HostedZoneTable, bronzegreennodednsrecord.HostedZoneColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGreenNodeDNSHostedZone
+		step.Edge.Schema = schemaConfig.BronzeGreenNodeDNSRecord
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodeDNSRecordClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodeDNSRecord
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodeDNSRecordClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodeDNSRecord
+}
+
+func (c *BronzeGreenNodeDNSRecordClient) mutate(ctx context.Context, m *BronzeGreenNodeDNSRecordMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodeDNSRecordCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodeDNSRecordUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodeDNSRecordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodeDNSRecordDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodeDNSRecord mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGreenNodeGLBGlobalListenerClient is a client for the BronzeGreenNodeGLBGlobalListener schema.
+type BronzeGreenNodeGLBGlobalListenerClient struct {
+	config
+}
+
+// NewBronzeGreenNodeGLBGlobalListenerClient returns a client for the BronzeGreenNodeGLBGlobalListener from the given config.
+func NewBronzeGreenNodeGLBGlobalListenerClient(c config) *BronzeGreenNodeGLBGlobalListenerClient {
+	return &BronzeGreenNodeGLBGlobalListenerClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodeglbgloballistener.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodeGLBGlobalListenerClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodeGLBGlobalListener = append(c.hooks.BronzeGreenNodeGLBGlobalListener, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodeglbgloballistener.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodeGLBGlobalListenerClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodeGLBGlobalListener = append(c.inters.BronzeGreenNodeGLBGlobalListener, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodeGLBGlobalListener entity.
+func (c *BronzeGreenNodeGLBGlobalListenerClient) Create() *BronzeGreenNodeGLBGlobalListenerCreate {
+	mutation := newBronzeGreenNodeGLBGlobalListenerMutation(c.config, OpCreate)
+	return &BronzeGreenNodeGLBGlobalListenerCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodeGLBGlobalListener entities.
+func (c *BronzeGreenNodeGLBGlobalListenerClient) CreateBulk(builders ...*BronzeGreenNodeGLBGlobalListenerCreate) *BronzeGreenNodeGLBGlobalListenerCreateBulk {
+	return &BronzeGreenNodeGLBGlobalListenerCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodeGLBGlobalListenerClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodeGLBGlobalListenerCreate, int)) *BronzeGreenNodeGLBGlobalListenerCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodeGLBGlobalListenerCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodeGLBGlobalListenerClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodeGLBGlobalListenerCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodeGLBGlobalListenerCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodeGLBGlobalListener.
+func (c *BronzeGreenNodeGLBGlobalListenerClient) Update() *BronzeGreenNodeGLBGlobalListenerUpdate {
+	mutation := newBronzeGreenNodeGLBGlobalListenerMutation(c.config, OpUpdate)
+	return &BronzeGreenNodeGLBGlobalListenerUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodeGLBGlobalListenerClient) UpdateOne(_m *BronzeGreenNodeGLBGlobalListener) *BronzeGreenNodeGLBGlobalListenerUpdateOne {
+	mutation := newBronzeGreenNodeGLBGlobalListenerMutation(c.config, OpUpdateOne, withBronzeGreenNodeGLBGlobalListener(_m))
+	return &BronzeGreenNodeGLBGlobalListenerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodeGLBGlobalListenerClient) UpdateOneID(id int) *BronzeGreenNodeGLBGlobalListenerUpdateOne {
+	mutation := newBronzeGreenNodeGLBGlobalListenerMutation(c.config, OpUpdateOne, withBronzeGreenNodeGLBGlobalListenerID(id))
+	return &BronzeGreenNodeGLBGlobalListenerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodeGLBGlobalListener.
+func (c *BronzeGreenNodeGLBGlobalListenerClient) Delete() *BronzeGreenNodeGLBGlobalListenerDelete {
+	mutation := newBronzeGreenNodeGLBGlobalListenerMutation(c.config, OpDelete)
+	return &BronzeGreenNodeGLBGlobalListenerDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodeGLBGlobalListenerClient) DeleteOne(_m *BronzeGreenNodeGLBGlobalListener) *BronzeGreenNodeGLBGlobalListenerDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodeGLBGlobalListenerClient) DeleteOneID(id int) *BronzeGreenNodeGLBGlobalListenerDeleteOne {
+	builder := c.Delete().Where(bronzegreennodeglbgloballistener.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodeGLBGlobalListenerDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodeGLBGlobalListener.
+func (c *BronzeGreenNodeGLBGlobalListenerClient) Query() *BronzeGreenNodeGLBGlobalListenerQuery {
+	return &BronzeGreenNodeGLBGlobalListenerQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodeGLBGlobalListener},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodeGLBGlobalListener entity by its id.
+func (c *BronzeGreenNodeGLBGlobalListenerClient) Get(ctx context.Context, id int) (*BronzeGreenNodeGLBGlobalListener, error) {
+	return c.Query().Where(bronzegreennodeglbgloballistener.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodeGLBGlobalListenerClient) GetX(ctx context.Context, id int) *BronzeGreenNodeGLBGlobalListener {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryGlb queries the glb edge of a BronzeGreenNodeGLBGlobalListener.
+func (c *BronzeGreenNodeGLBGlobalListenerClient) QueryGlb(_m *BronzeGreenNodeGLBGlobalListener) *BronzeGreenNodeGLBGlobalLoadBalancerQuery {
+	query := (&BronzeGreenNodeGLBGlobalLoadBalancerClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegreennodeglbgloballistener.Table, bronzegreennodeglbgloballistener.FieldID, id),
+			sqlgraph.To(bronzegreennodeglbgloballoadbalancer.Table, bronzegreennodeglbgloballoadbalancer.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, bronzegreennodeglbgloballistener.GlbTable, bronzegreennodeglbgloballistener.GlbColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGreenNodeGLBGlobalLoadBalancer
+		step.Edge.Schema = schemaConfig.BronzeGreenNodeGLBGlobalListener
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodeGLBGlobalListenerClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodeGLBGlobalListener
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodeGLBGlobalListenerClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodeGLBGlobalListener
+}
+
+func (c *BronzeGreenNodeGLBGlobalListenerClient) mutate(ctx context.Context, m *BronzeGreenNodeGLBGlobalListenerMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodeGLBGlobalListenerCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodeGLBGlobalListenerUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodeGLBGlobalListenerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodeGLBGlobalListenerDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodeGLBGlobalListener mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGreenNodeGLBGlobalLoadBalancerClient is a client for the BronzeGreenNodeGLBGlobalLoadBalancer schema.
+type BronzeGreenNodeGLBGlobalLoadBalancerClient struct {
+	config
+}
+
+// NewBronzeGreenNodeGLBGlobalLoadBalancerClient returns a client for the BronzeGreenNodeGLBGlobalLoadBalancer from the given config.
+func NewBronzeGreenNodeGLBGlobalLoadBalancerClient(c config) *BronzeGreenNodeGLBGlobalLoadBalancerClient {
+	return &BronzeGreenNodeGLBGlobalLoadBalancerClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodeglbgloballoadbalancer.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodeGLBGlobalLoadBalancerClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodeGLBGlobalLoadBalancer = append(c.hooks.BronzeGreenNodeGLBGlobalLoadBalancer, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodeglbgloballoadbalancer.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodeGLBGlobalLoadBalancerClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodeGLBGlobalLoadBalancer = append(c.inters.BronzeGreenNodeGLBGlobalLoadBalancer, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodeGLBGlobalLoadBalancer entity.
+func (c *BronzeGreenNodeGLBGlobalLoadBalancerClient) Create() *BronzeGreenNodeGLBGlobalLoadBalancerCreate {
+	mutation := newBronzeGreenNodeGLBGlobalLoadBalancerMutation(c.config, OpCreate)
+	return &BronzeGreenNodeGLBGlobalLoadBalancerCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodeGLBGlobalLoadBalancer entities.
+func (c *BronzeGreenNodeGLBGlobalLoadBalancerClient) CreateBulk(builders ...*BronzeGreenNodeGLBGlobalLoadBalancerCreate) *BronzeGreenNodeGLBGlobalLoadBalancerCreateBulk {
+	return &BronzeGreenNodeGLBGlobalLoadBalancerCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodeGLBGlobalLoadBalancerClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodeGLBGlobalLoadBalancerCreate, int)) *BronzeGreenNodeGLBGlobalLoadBalancerCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodeGLBGlobalLoadBalancerCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodeGLBGlobalLoadBalancerClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodeGLBGlobalLoadBalancerCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodeGLBGlobalLoadBalancerCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodeGLBGlobalLoadBalancer.
+func (c *BronzeGreenNodeGLBGlobalLoadBalancerClient) Update() *BronzeGreenNodeGLBGlobalLoadBalancerUpdate {
+	mutation := newBronzeGreenNodeGLBGlobalLoadBalancerMutation(c.config, OpUpdate)
+	return &BronzeGreenNodeGLBGlobalLoadBalancerUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodeGLBGlobalLoadBalancerClient) UpdateOne(_m *BronzeGreenNodeGLBGlobalLoadBalancer) *BronzeGreenNodeGLBGlobalLoadBalancerUpdateOne {
+	mutation := newBronzeGreenNodeGLBGlobalLoadBalancerMutation(c.config, OpUpdateOne, withBronzeGreenNodeGLBGlobalLoadBalancer(_m))
+	return &BronzeGreenNodeGLBGlobalLoadBalancerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodeGLBGlobalLoadBalancerClient) UpdateOneID(id string) *BronzeGreenNodeGLBGlobalLoadBalancerUpdateOne {
+	mutation := newBronzeGreenNodeGLBGlobalLoadBalancerMutation(c.config, OpUpdateOne, withBronzeGreenNodeGLBGlobalLoadBalancerID(id))
+	return &BronzeGreenNodeGLBGlobalLoadBalancerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodeGLBGlobalLoadBalancer.
+func (c *BronzeGreenNodeGLBGlobalLoadBalancerClient) Delete() *BronzeGreenNodeGLBGlobalLoadBalancerDelete {
+	mutation := newBronzeGreenNodeGLBGlobalLoadBalancerMutation(c.config, OpDelete)
+	return &BronzeGreenNodeGLBGlobalLoadBalancerDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodeGLBGlobalLoadBalancerClient) DeleteOne(_m *BronzeGreenNodeGLBGlobalLoadBalancer) *BronzeGreenNodeGLBGlobalLoadBalancerDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodeGLBGlobalLoadBalancerClient) DeleteOneID(id string) *BronzeGreenNodeGLBGlobalLoadBalancerDeleteOne {
+	builder := c.Delete().Where(bronzegreennodeglbgloballoadbalancer.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodeGLBGlobalLoadBalancerDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodeGLBGlobalLoadBalancer.
+func (c *BronzeGreenNodeGLBGlobalLoadBalancerClient) Query() *BronzeGreenNodeGLBGlobalLoadBalancerQuery {
+	return &BronzeGreenNodeGLBGlobalLoadBalancerQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodeGLBGlobalLoadBalancer},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodeGLBGlobalLoadBalancer entity by its id.
+func (c *BronzeGreenNodeGLBGlobalLoadBalancerClient) Get(ctx context.Context, id string) (*BronzeGreenNodeGLBGlobalLoadBalancer, error) {
+	return c.Query().Where(bronzegreennodeglbgloballoadbalancer.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodeGLBGlobalLoadBalancerClient) GetX(ctx context.Context, id string) *BronzeGreenNodeGLBGlobalLoadBalancer {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryListeners queries the listeners edge of a BronzeGreenNodeGLBGlobalLoadBalancer.
+func (c *BronzeGreenNodeGLBGlobalLoadBalancerClient) QueryListeners(_m *BronzeGreenNodeGLBGlobalLoadBalancer) *BronzeGreenNodeGLBGlobalListenerQuery {
+	query := (&BronzeGreenNodeGLBGlobalListenerClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegreennodeglbgloballoadbalancer.Table, bronzegreennodeglbgloballoadbalancer.FieldID, id),
+			sqlgraph.To(bronzegreennodeglbgloballistener.Table, bronzegreennodeglbgloballistener.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, bronzegreennodeglbgloballoadbalancer.ListenersTable, bronzegreennodeglbgloballoadbalancer.ListenersColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGreenNodeGLBGlobalListener
+		step.Edge.Schema = schemaConfig.BronzeGreenNodeGLBGlobalListener
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryPools queries the pools edge of a BronzeGreenNodeGLBGlobalLoadBalancer.
+func (c *BronzeGreenNodeGLBGlobalLoadBalancerClient) QueryPools(_m *BronzeGreenNodeGLBGlobalLoadBalancer) *BronzeGreenNodeGLBGlobalPoolQuery {
+	query := (&BronzeGreenNodeGLBGlobalPoolClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegreennodeglbgloballoadbalancer.Table, bronzegreennodeglbgloballoadbalancer.FieldID, id),
+			sqlgraph.To(bronzegreennodeglbglobalpool.Table, bronzegreennodeglbglobalpool.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, bronzegreennodeglbgloballoadbalancer.PoolsTable, bronzegreennodeglbgloballoadbalancer.PoolsColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGreenNodeGLBGlobalPool
+		step.Edge.Schema = schemaConfig.BronzeGreenNodeGLBGlobalPool
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodeGLBGlobalLoadBalancerClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodeGLBGlobalLoadBalancer
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodeGLBGlobalLoadBalancerClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodeGLBGlobalLoadBalancer
+}
+
+func (c *BronzeGreenNodeGLBGlobalLoadBalancerClient) mutate(ctx context.Context, m *BronzeGreenNodeGLBGlobalLoadBalancerMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodeGLBGlobalLoadBalancerCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodeGLBGlobalLoadBalancerUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodeGLBGlobalLoadBalancerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodeGLBGlobalLoadBalancerDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodeGLBGlobalLoadBalancer mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGreenNodeGLBGlobalPackageClient is a client for the BronzeGreenNodeGLBGlobalPackage schema.
+type BronzeGreenNodeGLBGlobalPackageClient struct {
+	config
+}
+
+// NewBronzeGreenNodeGLBGlobalPackageClient returns a client for the BronzeGreenNodeGLBGlobalPackage from the given config.
+func NewBronzeGreenNodeGLBGlobalPackageClient(c config) *BronzeGreenNodeGLBGlobalPackageClient {
+	return &BronzeGreenNodeGLBGlobalPackageClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodeglbglobalpackage.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodeGLBGlobalPackageClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodeGLBGlobalPackage = append(c.hooks.BronzeGreenNodeGLBGlobalPackage, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodeglbglobalpackage.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodeGLBGlobalPackageClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodeGLBGlobalPackage = append(c.inters.BronzeGreenNodeGLBGlobalPackage, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodeGLBGlobalPackage entity.
+func (c *BronzeGreenNodeGLBGlobalPackageClient) Create() *BronzeGreenNodeGLBGlobalPackageCreate {
+	mutation := newBronzeGreenNodeGLBGlobalPackageMutation(c.config, OpCreate)
+	return &BronzeGreenNodeGLBGlobalPackageCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodeGLBGlobalPackage entities.
+func (c *BronzeGreenNodeGLBGlobalPackageClient) CreateBulk(builders ...*BronzeGreenNodeGLBGlobalPackageCreate) *BronzeGreenNodeGLBGlobalPackageCreateBulk {
+	return &BronzeGreenNodeGLBGlobalPackageCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodeGLBGlobalPackageClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodeGLBGlobalPackageCreate, int)) *BronzeGreenNodeGLBGlobalPackageCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodeGLBGlobalPackageCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodeGLBGlobalPackageClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodeGLBGlobalPackageCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodeGLBGlobalPackageCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodeGLBGlobalPackage.
+func (c *BronzeGreenNodeGLBGlobalPackageClient) Update() *BronzeGreenNodeGLBGlobalPackageUpdate {
+	mutation := newBronzeGreenNodeGLBGlobalPackageMutation(c.config, OpUpdate)
+	return &BronzeGreenNodeGLBGlobalPackageUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodeGLBGlobalPackageClient) UpdateOne(_m *BronzeGreenNodeGLBGlobalPackage) *BronzeGreenNodeGLBGlobalPackageUpdateOne {
+	mutation := newBronzeGreenNodeGLBGlobalPackageMutation(c.config, OpUpdateOne, withBronzeGreenNodeGLBGlobalPackage(_m))
+	return &BronzeGreenNodeGLBGlobalPackageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodeGLBGlobalPackageClient) UpdateOneID(id string) *BronzeGreenNodeGLBGlobalPackageUpdateOne {
+	mutation := newBronzeGreenNodeGLBGlobalPackageMutation(c.config, OpUpdateOne, withBronzeGreenNodeGLBGlobalPackageID(id))
+	return &BronzeGreenNodeGLBGlobalPackageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodeGLBGlobalPackage.
+func (c *BronzeGreenNodeGLBGlobalPackageClient) Delete() *BronzeGreenNodeGLBGlobalPackageDelete {
+	mutation := newBronzeGreenNodeGLBGlobalPackageMutation(c.config, OpDelete)
+	return &BronzeGreenNodeGLBGlobalPackageDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodeGLBGlobalPackageClient) DeleteOne(_m *BronzeGreenNodeGLBGlobalPackage) *BronzeGreenNodeGLBGlobalPackageDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodeGLBGlobalPackageClient) DeleteOneID(id string) *BronzeGreenNodeGLBGlobalPackageDeleteOne {
+	builder := c.Delete().Where(bronzegreennodeglbglobalpackage.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodeGLBGlobalPackageDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodeGLBGlobalPackage.
+func (c *BronzeGreenNodeGLBGlobalPackageClient) Query() *BronzeGreenNodeGLBGlobalPackageQuery {
+	return &BronzeGreenNodeGLBGlobalPackageQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodeGLBGlobalPackage},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodeGLBGlobalPackage entity by its id.
+func (c *BronzeGreenNodeGLBGlobalPackageClient) Get(ctx context.Context, id string) (*BronzeGreenNodeGLBGlobalPackage, error) {
+	return c.Query().Where(bronzegreennodeglbglobalpackage.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodeGLBGlobalPackageClient) GetX(ctx context.Context, id string) *BronzeGreenNodeGLBGlobalPackage {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodeGLBGlobalPackageClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodeGLBGlobalPackage
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodeGLBGlobalPackageClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodeGLBGlobalPackage
+}
+
+func (c *BronzeGreenNodeGLBGlobalPackageClient) mutate(ctx context.Context, m *BronzeGreenNodeGLBGlobalPackageMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodeGLBGlobalPackageCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodeGLBGlobalPackageUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodeGLBGlobalPackageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodeGLBGlobalPackageDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodeGLBGlobalPackage mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGreenNodeGLBGlobalPoolClient is a client for the BronzeGreenNodeGLBGlobalPool schema.
+type BronzeGreenNodeGLBGlobalPoolClient struct {
+	config
+}
+
+// NewBronzeGreenNodeGLBGlobalPoolClient returns a client for the BronzeGreenNodeGLBGlobalPool from the given config.
+func NewBronzeGreenNodeGLBGlobalPoolClient(c config) *BronzeGreenNodeGLBGlobalPoolClient {
+	return &BronzeGreenNodeGLBGlobalPoolClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodeglbglobalpool.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodeGLBGlobalPoolClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodeGLBGlobalPool = append(c.hooks.BronzeGreenNodeGLBGlobalPool, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodeglbglobalpool.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodeGLBGlobalPoolClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodeGLBGlobalPool = append(c.inters.BronzeGreenNodeGLBGlobalPool, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodeGLBGlobalPool entity.
+func (c *BronzeGreenNodeGLBGlobalPoolClient) Create() *BronzeGreenNodeGLBGlobalPoolCreate {
+	mutation := newBronzeGreenNodeGLBGlobalPoolMutation(c.config, OpCreate)
+	return &BronzeGreenNodeGLBGlobalPoolCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodeGLBGlobalPool entities.
+func (c *BronzeGreenNodeGLBGlobalPoolClient) CreateBulk(builders ...*BronzeGreenNodeGLBGlobalPoolCreate) *BronzeGreenNodeGLBGlobalPoolCreateBulk {
+	return &BronzeGreenNodeGLBGlobalPoolCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodeGLBGlobalPoolClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodeGLBGlobalPoolCreate, int)) *BronzeGreenNodeGLBGlobalPoolCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodeGLBGlobalPoolCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodeGLBGlobalPoolClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodeGLBGlobalPoolCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodeGLBGlobalPoolCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodeGLBGlobalPool.
+func (c *BronzeGreenNodeGLBGlobalPoolClient) Update() *BronzeGreenNodeGLBGlobalPoolUpdate {
+	mutation := newBronzeGreenNodeGLBGlobalPoolMutation(c.config, OpUpdate)
+	return &BronzeGreenNodeGLBGlobalPoolUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodeGLBGlobalPoolClient) UpdateOne(_m *BronzeGreenNodeGLBGlobalPool) *BronzeGreenNodeGLBGlobalPoolUpdateOne {
+	mutation := newBronzeGreenNodeGLBGlobalPoolMutation(c.config, OpUpdateOne, withBronzeGreenNodeGLBGlobalPool(_m))
+	return &BronzeGreenNodeGLBGlobalPoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodeGLBGlobalPoolClient) UpdateOneID(id int) *BronzeGreenNodeGLBGlobalPoolUpdateOne {
+	mutation := newBronzeGreenNodeGLBGlobalPoolMutation(c.config, OpUpdateOne, withBronzeGreenNodeGLBGlobalPoolID(id))
+	return &BronzeGreenNodeGLBGlobalPoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodeGLBGlobalPool.
+func (c *BronzeGreenNodeGLBGlobalPoolClient) Delete() *BronzeGreenNodeGLBGlobalPoolDelete {
+	mutation := newBronzeGreenNodeGLBGlobalPoolMutation(c.config, OpDelete)
+	return &BronzeGreenNodeGLBGlobalPoolDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodeGLBGlobalPoolClient) DeleteOne(_m *BronzeGreenNodeGLBGlobalPool) *BronzeGreenNodeGLBGlobalPoolDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodeGLBGlobalPoolClient) DeleteOneID(id int) *BronzeGreenNodeGLBGlobalPoolDeleteOne {
+	builder := c.Delete().Where(bronzegreennodeglbglobalpool.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodeGLBGlobalPoolDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodeGLBGlobalPool.
+func (c *BronzeGreenNodeGLBGlobalPoolClient) Query() *BronzeGreenNodeGLBGlobalPoolQuery {
+	return &BronzeGreenNodeGLBGlobalPoolQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodeGLBGlobalPool},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodeGLBGlobalPool entity by its id.
+func (c *BronzeGreenNodeGLBGlobalPoolClient) Get(ctx context.Context, id int) (*BronzeGreenNodeGLBGlobalPool, error) {
+	return c.Query().Where(bronzegreennodeglbglobalpool.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodeGLBGlobalPoolClient) GetX(ctx context.Context, id int) *BronzeGreenNodeGLBGlobalPool {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryGlb queries the glb edge of a BronzeGreenNodeGLBGlobalPool.
+func (c *BronzeGreenNodeGLBGlobalPoolClient) QueryGlb(_m *BronzeGreenNodeGLBGlobalPool) *BronzeGreenNodeGLBGlobalLoadBalancerQuery {
+	query := (&BronzeGreenNodeGLBGlobalLoadBalancerClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegreennodeglbglobalpool.Table, bronzegreennodeglbglobalpool.FieldID, id),
+			sqlgraph.To(bronzegreennodeglbgloballoadbalancer.Table, bronzegreennodeglbgloballoadbalancer.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, bronzegreennodeglbglobalpool.GlbTable, bronzegreennodeglbglobalpool.GlbColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGreenNodeGLBGlobalLoadBalancer
+		step.Edge.Schema = schemaConfig.BronzeGreenNodeGLBGlobalPool
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodeGLBGlobalPoolClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodeGLBGlobalPool
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodeGLBGlobalPoolClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodeGLBGlobalPool
+}
+
+func (c *BronzeGreenNodeGLBGlobalPoolClient) mutate(ctx context.Context, m *BronzeGreenNodeGLBGlobalPoolMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodeGLBGlobalPoolCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodeGLBGlobalPoolUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodeGLBGlobalPoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodeGLBGlobalPoolDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodeGLBGlobalPool mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGreenNodeGLBGlobalRegionClient is a client for the BronzeGreenNodeGLBGlobalRegion schema.
+type BronzeGreenNodeGLBGlobalRegionClient struct {
+	config
+}
+
+// NewBronzeGreenNodeGLBGlobalRegionClient returns a client for the BronzeGreenNodeGLBGlobalRegion from the given config.
+func NewBronzeGreenNodeGLBGlobalRegionClient(c config) *BronzeGreenNodeGLBGlobalRegionClient {
+	return &BronzeGreenNodeGLBGlobalRegionClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodeglbglobalregion.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodeGLBGlobalRegionClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodeGLBGlobalRegion = append(c.hooks.BronzeGreenNodeGLBGlobalRegion, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodeglbglobalregion.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodeGLBGlobalRegionClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodeGLBGlobalRegion = append(c.inters.BronzeGreenNodeGLBGlobalRegion, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodeGLBGlobalRegion entity.
+func (c *BronzeGreenNodeGLBGlobalRegionClient) Create() *BronzeGreenNodeGLBGlobalRegionCreate {
+	mutation := newBronzeGreenNodeGLBGlobalRegionMutation(c.config, OpCreate)
+	return &BronzeGreenNodeGLBGlobalRegionCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodeGLBGlobalRegion entities.
+func (c *BronzeGreenNodeGLBGlobalRegionClient) CreateBulk(builders ...*BronzeGreenNodeGLBGlobalRegionCreate) *BronzeGreenNodeGLBGlobalRegionCreateBulk {
+	return &BronzeGreenNodeGLBGlobalRegionCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodeGLBGlobalRegionClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodeGLBGlobalRegionCreate, int)) *BronzeGreenNodeGLBGlobalRegionCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodeGLBGlobalRegionCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodeGLBGlobalRegionClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodeGLBGlobalRegionCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodeGLBGlobalRegionCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodeGLBGlobalRegion.
+func (c *BronzeGreenNodeGLBGlobalRegionClient) Update() *BronzeGreenNodeGLBGlobalRegionUpdate {
+	mutation := newBronzeGreenNodeGLBGlobalRegionMutation(c.config, OpUpdate)
+	return &BronzeGreenNodeGLBGlobalRegionUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodeGLBGlobalRegionClient) UpdateOne(_m *BronzeGreenNodeGLBGlobalRegion) *BronzeGreenNodeGLBGlobalRegionUpdateOne {
+	mutation := newBronzeGreenNodeGLBGlobalRegionMutation(c.config, OpUpdateOne, withBronzeGreenNodeGLBGlobalRegion(_m))
+	return &BronzeGreenNodeGLBGlobalRegionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodeGLBGlobalRegionClient) UpdateOneID(id string) *BronzeGreenNodeGLBGlobalRegionUpdateOne {
+	mutation := newBronzeGreenNodeGLBGlobalRegionMutation(c.config, OpUpdateOne, withBronzeGreenNodeGLBGlobalRegionID(id))
+	return &BronzeGreenNodeGLBGlobalRegionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodeGLBGlobalRegion.
+func (c *BronzeGreenNodeGLBGlobalRegionClient) Delete() *BronzeGreenNodeGLBGlobalRegionDelete {
+	mutation := newBronzeGreenNodeGLBGlobalRegionMutation(c.config, OpDelete)
+	return &BronzeGreenNodeGLBGlobalRegionDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodeGLBGlobalRegionClient) DeleteOne(_m *BronzeGreenNodeGLBGlobalRegion) *BronzeGreenNodeGLBGlobalRegionDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodeGLBGlobalRegionClient) DeleteOneID(id string) *BronzeGreenNodeGLBGlobalRegionDeleteOne {
+	builder := c.Delete().Where(bronzegreennodeglbglobalregion.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodeGLBGlobalRegionDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodeGLBGlobalRegion.
+func (c *BronzeGreenNodeGLBGlobalRegionClient) Query() *BronzeGreenNodeGLBGlobalRegionQuery {
+	return &BronzeGreenNodeGLBGlobalRegionQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodeGLBGlobalRegion},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodeGLBGlobalRegion entity by its id.
+func (c *BronzeGreenNodeGLBGlobalRegionClient) Get(ctx context.Context, id string) (*BronzeGreenNodeGLBGlobalRegion, error) {
+	return c.Query().Where(bronzegreennodeglbglobalregion.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodeGLBGlobalRegionClient) GetX(ctx context.Context, id string) *BronzeGreenNodeGLBGlobalRegion {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodeGLBGlobalRegionClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodeGLBGlobalRegion
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodeGLBGlobalRegionClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodeGLBGlobalRegion
+}
+
+func (c *BronzeGreenNodeGLBGlobalRegionClient) mutate(ctx context.Context, m *BronzeGreenNodeGLBGlobalRegionMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodeGLBGlobalRegionCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodeGLBGlobalRegionUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodeGLBGlobalRegionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodeGLBGlobalRegionDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodeGLBGlobalRegion mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGreenNodeLoadBalancerCertificateClient is a client for the BronzeGreenNodeLoadBalancerCertificate schema.
+type BronzeGreenNodeLoadBalancerCertificateClient struct {
+	config
+}
+
+// NewBronzeGreenNodeLoadBalancerCertificateClient returns a client for the BronzeGreenNodeLoadBalancerCertificate from the given config.
+func NewBronzeGreenNodeLoadBalancerCertificateClient(c config) *BronzeGreenNodeLoadBalancerCertificateClient {
+	return &BronzeGreenNodeLoadBalancerCertificateClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodeloadbalancercertificate.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodeLoadBalancerCertificateClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodeLoadBalancerCertificate = append(c.hooks.BronzeGreenNodeLoadBalancerCertificate, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodeloadbalancercertificate.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodeLoadBalancerCertificateClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodeLoadBalancerCertificate = append(c.inters.BronzeGreenNodeLoadBalancerCertificate, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodeLoadBalancerCertificate entity.
+func (c *BronzeGreenNodeLoadBalancerCertificateClient) Create() *BronzeGreenNodeLoadBalancerCertificateCreate {
+	mutation := newBronzeGreenNodeLoadBalancerCertificateMutation(c.config, OpCreate)
+	return &BronzeGreenNodeLoadBalancerCertificateCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodeLoadBalancerCertificate entities.
+func (c *BronzeGreenNodeLoadBalancerCertificateClient) CreateBulk(builders ...*BronzeGreenNodeLoadBalancerCertificateCreate) *BronzeGreenNodeLoadBalancerCertificateCreateBulk {
+	return &BronzeGreenNodeLoadBalancerCertificateCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodeLoadBalancerCertificateClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodeLoadBalancerCertificateCreate, int)) *BronzeGreenNodeLoadBalancerCertificateCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodeLoadBalancerCertificateCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodeLoadBalancerCertificateClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodeLoadBalancerCertificateCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodeLoadBalancerCertificateCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodeLoadBalancerCertificate.
+func (c *BronzeGreenNodeLoadBalancerCertificateClient) Update() *BronzeGreenNodeLoadBalancerCertificateUpdate {
+	mutation := newBronzeGreenNodeLoadBalancerCertificateMutation(c.config, OpUpdate)
+	return &BronzeGreenNodeLoadBalancerCertificateUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodeLoadBalancerCertificateClient) UpdateOne(_m *BronzeGreenNodeLoadBalancerCertificate) *BronzeGreenNodeLoadBalancerCertificateUpdateOne {
+	mutation := newBronzeGreenNodeLoadBalancerCertificateMutation(c.config, OpUpdateOne, withBronzeGreenNodeLoadBalancerCertificate(_m))
+	return &BronzeGreenNodeLoadBalancerCertificateUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodeLoadBalancerCertificateClient) UpdateOneID(id string) *BronzeGreenNodeLoadBalancerCertificateUpdateOne {
+	mutation := newBronzeGreenNodeLoadBalancerCertificateMutation(c.config, OpUpdateOne, withBronzeGreenNodeLoadBalancerCertificateID(id))
+	return &BronzeGreenNodeLoadBalancerCertificateUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodeLoadBalancerCertificate.
+func (c *BronzeGreenNodeLoadBalancerCertificateClient) Delete() *BronzeGreenNodeLoadBalancerCertificateDelete {
+	mutation := newBronzeGreenNodeLoadBalancerCertificateMutation(c.config, OpDelete)
+	return &BronzeGreenNodeLoadBalancerCertificateDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodeLoadBalancerCertificateClient) DeleteOne(_m *BronzeGreenNodeLoadBalancerCertificate) *BronzeGreenNodeLoadBalancerCertificateDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodeLoadBalancerCertificateClient) DeleteOneID(id string) *BronzeGreenNodeLoadBalancerCertificateDeleteOne {
+	builder := c.Delete().Where(bronzegreennodeloadbalancercertificate.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodeLoadBalancerCertificateDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodeLoadBalancerCertificate.
+func (c *BronzeGreenNodeLoadBalancerCertificateClient) Query() *BronzeGreenNodeLoadBalancerCertificateQuery {
+	return &BronzeGreenNodeLoadBalancerCertificateQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodeLoadBalancerCertificate},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodeLoadBalancerCertificate entity by its id.
+func (c *BronzeGreenNodeLoadBalancerCertificateClient) Get(ctx context.Context, id string) (*BronzeGreenNodeLoadBalancerCertificate, error) {
+	return c.Query().Where(bronzegreennodeloadbalancercertificate.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodeLoadBalancerCertificateClient) GetX(ctx context.Context, id string) *BronzeGreenNodeLoadBalancerCertificate {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodeLoadBalancerCertificateClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodeLoadBalancerCertificate
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodeLoadBalancerCertificateClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodeLoadBalancerCertificate
+}
+
+func (c *BronzeGreenNodeLoadBalancerCertificateClient) mutate(ctx context.Context, m *BronzeGreenNodeLoadBalancerCertificateMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodeLoadBalancerCertificateCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodeLoadBalancerCertificateUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodeLoadBalancerCertificateUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodeLoadBalancerCertificateDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodeLoadBalancerCertificate mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGreenNodeLoadBalancerLBClient is a client for the BronzeGreenNodeLoadBalancerLB schema.
+type BronzeGreenNodeLoadBalancerLBClient struct {
+	config
+}
+
+// NewBronzeGreenNodeLoadBalancerLBClient returns a client for the BronzeGreenNodeLoadBalancerLB from the given config.
+func NewBronzeGreenNodeLoadBalancerLBClient(c config) *BronzeGreenNodeLoadBalancerLBClient {
+	return &BronzeGreenNodeLoadBalancerLBClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodeloadbalancerlb.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodeLoadBalancerLBClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodeLoadBalancerLB = append(c.hooks.BronzeGreenNodeLoadBalancerLB, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodeloadbalancerlb.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodeLoadBalancerLBClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodeLoadBalancerLB = append(c.inters.BronzeGreenNodeLoadBalancerLB, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodeLoadBalancerLB entity.
+func (c *BronzeGreenNodeLoadBalancerLBClient) Create() *BronzeGreenNodeLoadBalancerLBCreate {
+	mutation := newBronzeGreenNodeLoadBalancerLBMutation(c.config, OpCreate)
+	return &BronzeGreenNodeLoadBalancerLBCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodeLoadBalancerLB entities.
+func (c *BronzeGreenNodeLoadBalancerLBClient) CreateBulk(builders ...*BronzeGreenNodeLoadBalancerLBCreate) *BronzeGreenNodeLoadBalancerLBCreateBulk {
+	return &BronzeGreenNodeLoadBalancerLBCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodeLoadBalancerLBClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodeLoadBalancerLBCreate, int)) *BronzeGreenNodeLoadBalancerLBCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodeLoadBalancerLBCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodeLoadBalancerLBClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodeLoadBalancerLBCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodeLoadBalancerLBCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodeLoadBalancerLB.
+func (c *BronzeGreenNodeLoadBalancerLBClient) Update() *BronzeGreenNodeLoadBalancerLBUpdate {
+	mutation := newBronzeGreenNodeLoadBalancerLBMutation(c.config, OpUpdate)
+	return &BronzeGreenNodeLoadBalancerLBUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodeLoadBalancerLBClient) UpdateOne(_m *BronzeGreenNodeLoadBalancerLB) *BronzeGreenNodeLoadBalancerLBUpdateOne {
+	mutation := newBronzeGreenNodeLoadBalancerLBMutation(c.config, OpUpdateOne, withBronzeGreenNodeLoadBalancerLB(_m))
+	return &BronzeGreenNodeLoadBalancerLBUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodeLoadBalancerLBClient) UpdateOneID(id string) *BronzeGreenNodeLoadBalancerLBUpdateOne {
+	mutation := newBronzeGreenNodeLoadBalancerLBMutation(c.config, OpUpdateOne, withBronzeGreenNodeLoadBalancerLBID(id))
+	return &BronzeGreenNodeLoadBalancerLBUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodeLoadBalancerLB.
+func (c *BronzeGreenNodeLoadBalancerLBClient) Delete() *BronzeGreenNodeLoadBalancerLBDelete {
+	mutation := newBronzeGreenNodeLoadBalancerLBMutation(c.config, OpDelete)
+	return &BronzeGreenNodeLoadBalancerLBDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodeLoadBalancerLBClient) DeleteOne(_m *BronzeGreenNodeLoadBalancerLB) *BronzeGreenNodeLoadBalancerLBDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodeLoadBalancerLBClient) DeleteOneID(id string) *BronzeGreenNodeLoadBalancerLBDeleteOne {
+	builder := c.Delete().Where(bronzegreennodeloadbalancerlb.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodeLoadBalancerLBDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodeLoadBalancerLB.
+func (c *BronzeGreenNodeLoadBalancerLBClient) Query() *BronzeGreenNodeLoadBalancerLBQuery {
+	return &BronzeGreenNodeLoadBalancerLBQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodeLoadBalancerLB},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodeLoadBalancerLB entity by its id.
+func (c *BronzeGreenNodeLoadBalancerLBClient) Get(ctx context.Context, id string) (*BronzeGreenNodeLoadBalancerLB, error) {
+	return c.Query().Where(bronzegreennodeloadbalancerlb.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodeLoadBalancerLBClient) GetX(ctx context.Context, id string) *BronzeGreenNodeLoadBalancerLB {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryListeners queries the listeners edge of a BronzeGreenNodeLoadBalancerLB.
+func (c *BronzeGreenNodeLoadBalancerLBClient) QueryListeners(_m *BronzeGreenNodeLoadBalancerLB) *BronzeGreenNodeLoadBalancerListenerQuery {
+	query := (&BronzeGreenNodeLoadBalancerListenerClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegreennodeloadbalancerlb.Table, bronzegreennodeloadbalancerlb.FieldID, id),
+			sqlgraph.To(bronzegreennodeloadbalancerlistener.Table, bronzegreennodeloadbalancerlistener.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, bronzegreennodeloadbalancerlb.ListenersTable, bronzegreennodeloadbalancerlb.ListenersColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGreenNodeLoadBalancerListener
+		step.Edge.Schema = schemaConfig.BronzeGreenNodeLoadBalancerListener
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryPools queries the pools edge of a BronzeGreenNodeLoadBalancerLB.
+func (c *BronzeGreenNodeLoadBalancerLBClient) QueryPools(_m *BronzeGreenNodeLoadBalancerLB) *BronzeGreenNodeLoadBalancerPoolQuery {
+	query := (&BronzeGreenNodeLoadBalancerPoolClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegreennodeloadbalancerlb.Table, bronzegreennodeloadbalancerlb.FieldID, id),
+			sqlgraph.To(bronzegreennodeloadbalancerpool.Table, bronzegreennodeloadbalancerpool.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, bronzegreennodeloadbalancerlb.PoolsTable, bronzegreennodeloadbalancerlb.PoolsColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGreenNodeLoadBalancerPool
+		step.Edge.Schema = schemaConfig.BronzeGreenNodeLoadBalancerPool
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodeLoadBalancerLBClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodeLoadBalancerLB
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodeLoadBalancerLBClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodeLoadBalancerLB
+}
+
+func (c *BronzeGreenNodeLoadBalancerLBClient) mutate(ctx context.Context, m *BronzeGreenNodeLoadBalancerLBMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodeLoadBalancerLBCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodeLoadBalancerLBUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodeLoadBalancerLBUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodeLoadBalancerLBDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodeLoadBalancerLB mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGreenNodeLoadBalancerListenerClient is a client for the BronzeGreenNodeLoadBalancerListener schema.
+type BronzeGreenNodeLoadBalancerListenerClient struct {
+	config
+}
+
+// NewBronzeGreenNodeLoadBalancerListenerClient returns a client for the BronzeGreenNodeLoadBalancerListener from the given config.
+func NewBronzeGreenNodeLoadBalancerListenerClient(c config) *BronzeGreenNodeLoadBalancerListenerClient {
+	return &BronzeGreenNodeLoadBalancerListenerClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodeloadbalancerlistener.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodeLoadBalancerListenerClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodeLoadBalancerListener = append(c.hooks.BronzeGreenNodeLoadBalancerListener, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodeloadbalancerlistener.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodeLoadBalancerListenerClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodeLoadBalancerListener = append(c.inters.BronzeGreenNodeLoadBalancerListener, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodeLoadBalancerListener entity.
+func (c *BronzeGreenNodeLoadBalancerListenerClient) Create() *BronzeGreenNodeLoadBalancerListenerCreate {
+	mutation := newBronzeGreenNodeLoadBalancerListenerMutation(c.config, OpCreate)
+	return &BronzeGreenNodeLoadBalancerListenerCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodeLoadBalancerListener entities.
+func (c *BronzeGreenNodeLoadBalancerListenerClient) CreateBulk(builders ...*BronzeGreenNodeLoadBalancerListenerCreate) *BronzeGreenNodeLoadBalancerListenerCreateBulk {
+	return &BronzeGreenNodeLoadBalancerListenerCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodeLoadBalancerListenerClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodeLoadBalancerListenerCreate, int)) *BronzeGreenNodeLoadBalancerListenerCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodeLoadBalancerListenerCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodeLoadBalancerListenerClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodeLoadBalancerListenerCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodeLoadBalancerListenerCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodeLoadBalancerListener.
+func (c *BronzeGreenNodeLoadBalancerListenerClient) Update() *BronzeGreenNodeLoadBalancerListenerUpdate {
+	mutation := newBronzeGreenNodeLoadBalancerListenerMutation(c.config, OpUpdate)
+	return &BronzeGreenNodeLoadBalancerListenerUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodeLoadBalancerListenerClient) UpdateOne(_m *BronzeGreenNodeLoadBalancerListener) *BronzeGreenNodeLoadBalancerListenerUpdateOne {
+	mutation := newBronzeGreenNodeLoadBalancerListenerMutation(c.config, OpUpdateOne, withBronzeGreenNodeLoadBalancerListener(_m))
+	return &BronzeGreenNodeLoadBalancerListenerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodeLoadBalancerListenerClient) UpdateOneID(id int) *BronzeGreenNodeLoadBalancerListenerUpdateOne {
+	mutation := newBronzeGreenNodeLoadBalancerListenerMutation(c.config, OpUpdateOne, withBronzeGreenNodeLoadBalancerListenerID(id))
+	return &BronzeGreenNodeLoadBalancerListenerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodeLoadBalancerListener.
+func (c *BronzeGreenNodeLoadBalancerListenerClient) Delete() *BronzeGreenNodeLoadBalancerListenerDelete {
+	mutation := newBronzeGreenNodeLoadBalancerListenerMutation(c.config, OpDelete)
+	return &BronzeGreenNodeLoadBalancerListenerDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodeLoadBalancerListenerClient) DeleteOne(_m *BronzeGreenNodeLoadBalancerListener) *BronzeGreenNodeLoadBalancerListenerDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodeLoadBalancerListenerClient) DeleteOneID(id int) *BronzeGreenNodeLoadBalancerListenerDeleteOne {
+	builder := c.Delete().Where(bronzegreennodeloadbalancerlistener.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodeLoadBalancerListenerDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodeLoadBalancerListener.
+func (c *BronzeGreenNodeLoadBalancerListenerClient) Query() *BronzeGreenNodeLoadBalancerListenerQuery {
+	return &BronzeGreenNodeLoadBalancerListenerQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodeLoadBalancerListener},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodeLoadBalancerListener entity by its id.
+func (c *BronzeGreenNodeLoadBalancerListenerClient) Get(ctx context.Context, id int) (*BronzeGreenNodeLoadBalancerListener, error) {
+	return c.Query().Where(bronzegreennodeloadbalancerlistener.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodeLoadBalancerListenerClient) GetX(ctx context.Context, id int) *BronzeGreenNodeLoadBalancerListener {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryLb queries the lb edge of a BronzeGreenNodeLoadBalancerListener.
+func (c *BronzeGreenNodeLoadBalancerListenerClient) QueryLb(_m *BronzeGreenNodeLoadBalancerListener) *BronzeGreenNodeLoadBalancerLBQuery {
+	query := (&BronzeGreenNodeLoadBalancerLBClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegreennodeloadbalancerlistener.Table, bronzegreennodeloadbalancerlistener.FieldID, id),
+			sqlgraph.To(bronzegreennodeloadbalancerlb.Table, bronzegreennodeloadbalancerlb.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, bronzegreennodeloadbalancerlistener.LbTable, bronzegreennodeloadbalancerlistener.LbColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGreenNodeLoadBalancerLB
+		step.Edge.Schema = schemaConfig.BronzeGreenNodeLoadBalancerListener
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodeLoadBalancerListenerClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodeLoadBalancerListener
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodeLoadBalancerListenerClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodeLoadBalancerListener
+}
+
+func (c *BronzeGreenNodeLoadBalancerListenerClient) mutate(ctx context.Context, m *BronzeGreenNodeLoadBalancerListenerMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodeLoadBalancerListenerCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodeLoadBalancerListenerUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodeLoadBalancerListenerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodeLoadBalancerListenerDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodeLoadBalancerListener mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGreenNodeLoadBalancerPackageClient is a client for the BronzeGreenNodeLoadBalancerPackage schema.
+type BronzeGreenNodeLoadBalancerPackageClient struct {
+	config
+}
+
+// NewBronzeGreenNodeLoadBalancerPackageClient returns a client for the BronzeGreenNodeLoadBalancerPackage from the given config.
+func NewBronzeGreenNodeLoadBalancerPackageClient(c config) *BronzeGreenNodeLoadBalancerPackageClient {
+	return &BronzeGreenNodeLoadBalancerPackageClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodeloadbalancerpackage.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodeLoadBalancerPackageClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodeLoadBalancerPackage = append(c.hooks.BronzeGreenNodeLoadBalancerPackage, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodeloadbalancerpackage.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodeLoadBalancerPackageClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodeLoadBalancerPackage = append(c.inters.BronzeGreenNodeLoadBalancerPackage, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodeLoadBalancerPackage entity.
+func (c *BronzeGreenNodeLoadBalancerPackageClient) Create() *BronzeGreenNodeLoadBalancerPackageCreate {
+	mutation := newBronzeGreenNodeLoadBalancerPackageMutation(c.config, OpCreate)
+	return &BronzeGreenNodeLoadBalancerPackageCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodeLoadBalancerPackage entities.
+func (c *BronzeGreenNodeLoadBalancerPackageClient) CreateBulk(builders ...*BronzeGreenNodeLoadBalancerPackageCreate) *BronzeGreenNodeLoadBalancerPackageCreateBulk {
+	return &BronzeGreenNodeLoadBalancerPackageCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodeLoadBalancerPackageClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodeLoadBalancerPackageCreate, int)) *BronzeGreenNodeLoadBalancerPackageCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodeLoadBalancerPackageCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodeLoadBalancerPackageClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodeLoadBalancerPackageCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodeLoadBalancerPackageCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodeLoadBalancerPackage.
+func (c *BronzeGreenNodeLoadBalancerPackageClient) Update() *BronzeGreenNodeLoadBalancerPackageUpdate {
+	mutation := newBronzeGreenNodeLoadBalancerPackageMutation(c.config, OpUpdate)
+	return &BronzeGreenNodeLoadBalancerPackageUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodeLoadBalancerPackageClient) UpdateOne(_m *BronzeGreenNodeLoadBalancerPackage) *BronzeGreenNodeLoadBalancerPackageUpdateOne {
+	mutation := newBronzeGreenNodeLoadBalancerPackageMutation(c.config, OpUpdateOne, withBronzeGreenNodeLoadBalancerPackage(_m))
+	return &BronzeGreenNodeLoadBalancerPackageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodeLoadBalancerPackageClient) UpdateOneID(id string) *BronzeGreenNodeLoadBalancerPackageUpdateOne {
+	mutation := newBronzeGreenNodeLoadBalancerPackageMutation(c.config, OpUpdateOne, withBronzeGreenNodeLoadBalancerPackageID(id))
+	return &BronzeGreenNodeLoadBalancerPackageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodeLoadBalancerPackage.
+func (c *BronzeGreenNodeLoadBalancerPackageClient) Delete() *BronzeGreenNodeLoadBalancerPackageDelete {
+	mutation := newBronzeGreenNodeLoadBalancerPackageMutation(c.config, OpDelete)
+	return &BronzeGreenNodeLoadBalancerPackageDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodeLoadBalancerPackageClient) DeleteOne(_m *BronzeGreenNodeLoadBalancerPackage) *BronzeGreenNodeLoadBalancerPackageDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodeLoadBalancerPackageClient) DeleteOneID(id string) *BronzeGreenNodeLoadBalancerPackageDeleteOne {
+	builder := c.Delete().Where(bronzegreennodeloadbalancerpackage.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodeLoadBalancerPackageDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodeLoadBalancerPackage.
+func (c *BronzeGreenNodeLoadBalancerPackageClient) Query() *BronzeGreenNodeLoadBalancerPackageQuery {
+	return &BronzeGreenNodeLoadBalancerPackageQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodeLoadBalancerPackage},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodeLoadBalancerPackage entity by its id.
+func (c *BronzeGreenNodeLoadBalancerPackageClient) Get(ctx context.Context, id string) (*BronzeGreenNodeLoadBalancerPackage, error) {
+	return c.Query().Where(bronzegreennodeloadbalancerpackage.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodeLoadBalancerPackageClient) GetX(ctx context.Context, id string) *BronzeGreenNodeLoadBalancerPackage {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodeLoadBalancerPackageClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodeLoadBalancerPackage
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodeLoadBalancerPackageClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodeLoadBalancerPackage
+}
+
+func (c *BronzeGreenNodeLoadBalancerPackageClient) mutate(ctx context.Context, m *BronzeGreenNodeLoadBalancerPackageMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodeLoadBalancerPackageCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodeLoadBalancerPackageUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodeLoadBalancerPackageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodeLoadBalancerPackageDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodeLoadBalancerPackage mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGreenNodeLoadBalancerPoolClient is a client for the BronzeGreenNodeLoadBalancerPool schema.
+type BronzeGreenNodeLoadBalancerPoolClient struct {
+	config
+}
+
+// NewBronzeGreenNodeLoadBalancerPoolClient returns a client for the BronzeGreenNodeLoadBalancerPool from the given config.
+func NewBronzeGreenNodeLoadBalancerPoolClient(c config) *BronzeGreenNodeLoadBalancerPoolClient {
+	return &BronzeGreenNodeLoadBalancerPoolClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodeloadbalancerpool.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodeLoadBalancerPoolClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodeLoadBalancerPool = append(c.hooks.BronzeGreenNodeLoadBalancerPool, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodeloadbalancerpool.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodeLoadBalancerPoolClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodeLoadBalancerPool = append(c.inters.BronzeGreenNodeLoadBalancerPool, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodeLoadBalancerPool entity.
+func (c *BronzeGreenNodeLoadBalancerPoolClient) Create() *BronzeGreenNodeLoadBalancerPoolCreate {
+	mutation := newBronzeGreenNodeLoadBalancerPoolMutation(c.config, OpCreate)
+	return &BronzeGreenNodeLoadBalancerPoolCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodeLoadBalancerPool entities.
+func (c *BronzeGreenNodeLoadBalancerPoolClient) CreateBulk(builders ...*BronzeGreenNodeLoadBalancerPoolCreate) *BronzeGreenNodeLoadBalancerPoolCreateBulk {
+	return &BronzeGreenNodeLoadBalancerPoolCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodeLoadBalancerPoolClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodeLoadBalancerPoolCreate, int)) *BronzeGreenNodeLoadBalancerPoolCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodeLoadBalancerPoolCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodeLoadBalancerPoolClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodeLoadBalancerPoolCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodeLoadBalancerPoolCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodeLoadBalancerPool.
+func (c *BronzeGreenNodeLoadBalancerPoolClient) Update() *BronzeGreenNodeLoadBalancerPoolUpdate {
+	mutation := newBronzeGreenNodeLoadBalancerPoolMutation(c.config, OpUpdate)
+	return &BronzeGreenNodeLoadBalancerPoolUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodeLoadBalancerPoolClient) UpdateOne(_m *BronzeGreenNodeLoadBalancerPool) *BronzeGreenNodeLoadBalancerPoolUpdateOne {
+	mutation := newBronzeGreenNodeLoadBalancerPoolMutation(c.config, OpUpdateOne, withBronzeGreenNodeLoadBalancerPool(_m))
+	return &BronzeGreenNodeLoadBalancerPoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodeLoadBalancerPoolClient) UpdateOneID(id int) *BronzeGreenNodeLoadBalancerPoolUpdateOne {
+	mutation := newBronzeGreenNodeLoadBalancerPoolMutation(c.config, OpUpdateOne, withBronzeGreenNodeLoadBalancerPoolID(id))
+	return &BronzeGreenNodeLoadBalancerPoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodeLoadBalancerPool.
+func (c *BronzeGreenNodeLoadBalancerPoolClient) Delete() *BronzeGreenNodeLoadBalancerPoolDelete {
+	mutation := newBronzeGreenNodeLoadBalancerPoolMutation(c.config, OpDelete)
+	return &BronzeGreenNodeLoadBalancerPoolDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodeLoadBalancerPoolClient) DeleteOne(_m *BronzeGreenNodeLoadBalancerPool) *BronzeGreenNodeLoadBalancerPoolDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodeLoadBalancerPoolClient) DeleteOneID(id int) *BronzeGreenNodeLoadBalancerPoolDeleteOne {
+	builder := c.Delete().Where(bronzegreennodeloadbalancerpool.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodeLoadBalancerPoolDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodeLoadBalancerPool.
+func (c *BronzeGreenNodeLoadBalancerPoolClient) Query() *BronzeGreenNodeLoadBalancerPoolQuery {
+	return &BronzeGreenNodeLoadBalancerPoolQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodeLoadBalancerPool},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodeLoadBalancerPool entity by its id.
+func (c *BronzeGreenNodeLoadBalancerPoolClient) Get(ctx context.Context, id int) (*BronzeGreenNodeLoadBalancerPool, error) {
+	return c.Query().Where(bronzegreennodeloadbalancerpool.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodeLoadBalancerPoolClient) GetX(ctx context.Context, id int) *BronzeGreenNodeLoadBalancerPool {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryLb queries the lb edge of a BronzeGreenNodeLoadBalancerPool.
+func (c *BronzeGreenNodeLoadBalancerPoolClient) QueryLb(_m *BronzeGreenNodeLoadBalancerPool) *BronzeGreenNodeLoadBalancerLBQuery {
+	query := (&BronzeGreenNodeLoadBalancerLBClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegreennodeloadbalancerpool.Table, bronzegreennodeloadbalancerpool.FieldID, id),
+			sqlgraph.To(bronzegreennodeloadbalancerlb.Table, bronzegreennodeloadbalancerlb.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, bronzegreennodeloadbalancerpool.LbTable, bronzegreennodeloadbalancerpool.LbColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGreenNodeLoadBalancerLB
+		step.Edge.Schema = schemaConfig.BronzeGreenNodeLoadBalancerPool
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodeLoadBalancerPoolClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodeLoadBalancerPool
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodeLoadBalancerPoolClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodeLoadBalancerPool
+}
+
+func (c *BronzeGreenNodeLoadBalancerPoolClient) mutate(ctx context.Context, m *BronzeGreenNodeLoadBalancerPoolMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodeLoadBalancerPoolCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodeLoadBalancerPoolUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodeLoadBalancerPoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodeLoadBalancerPoolDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodeLoadBalancerPool mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGreenNodeNetworkEndpointClient is a client for the BronzeGreenNodeNetworkEndpoint schema.
+type BronzeGreenNodeNetworkEndpointClient struct {
+	config
+}
+
+// NewBronzeGreenNodeNetworkEndpointClient returns a client for the BronzeGreenNodeNetworkEndpoint from the given config.
+func NewBronzeGreenNodeNetworkEndpointClient(c config) *BronzeGreenNodeNetworkEndpointClient {
+	return &BronzeGreenNodeNetworkEndpointClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodenetworkendpoint.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodeNetworkEndpointClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodeNetworkEndpoint = append(c.hooks.BronzeGreenNodeNetworkEndpoint, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodenetworkendpoint.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodeNetworkEndpointClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodeNetworkEndpoint = append(c.inters.BronzeGreenNodeNetworkEndpoint, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodeNetworkEndpoint entity.
+func (c *BronzeGreenNodeNetworkEndpointClient) Create() *BronzeGreenNodeNetworkEndpointCreate {
+	mutation := newBronzeGreenNodeNetworkEndpointMutation(c.config, OpCreate)
+	return &BronzeGreenNodeNetworkEndpointCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodeNetworkEndpoint entities.
+func (c *BronzeGreenNodeNetworkEndpointClient) CreateBulk(builders ...*BronzeGreenNodeNetworkEndpointCreate) *BronzeGreenNodeNetworkEndpointCreateBulk {
+	return &BronzeGreenNodeNetworkEndpointCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodeNetworkEndpointClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodeNetworkEndpointCreate, int)) *BronzeGreenNodeNetworkEndpointCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodeNetworkEndpointCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodeNetworkEndpointClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodeNetworkEndpointCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodeNetworkEndpointCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodeNetworkEndpoint.
+func (c *BronzeGreenNodeNetworkEndpointClient) Update() *BronzeGreenNodeNetworkEndpointUpdate {
+	mutation := newBronzeGreenNodeNetworkEndpointMutation(c.config, OpUpdate)
+	return &BronzeGreenNodeNetworkEndpointUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodeNetworkEndpointClient) UpdateOne(_m *BronzeGreenNodeNetworkEndpoint) *BronzeGreenNodeNetworkEndpointUpdateOne {
+	mutation := newBronzeGreenNodeNetworkEndpointMutation(c.config, OpUpdateOne, withBronzeGreenNodeNetworkEndpoint(_m))
+	return &BronzeGreenNodeNetworkEndpointUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodeNetworkEndpointClient) UpdateOneID(id string) *BronzeGreenNodeNetworkEndpointUpdateOne {
+	mutation := newBronzeGreenNodeNetworkEndpointMutation(c.config, OpUpdateOne, withBronzeGreenNodeNetworkEndpointID(id))
+	return &BronzeGreenNodeNetworkEndpointUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodeNetworkEndpoint.
+func (c *BronzeGreenNodeNetworkEndpointClient) Delete() *BronzeGreenNodeNetworkEndpointDelete {
+	mutation := newBronzeGreenNodeNetworkEndpointMutation(c.config, OpDelete)
+	return &BronzeGreenNodeNetworkEndpointDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodeNetworkEndpointClient) DeleteOne(_m *BronzeGreenNodeNetworkEndpoint) *BronzeGreenNodeNetworkEndpointDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodeNetworkEndpointClient) DeleteOneID(id string) *BronzeGreenNodeNetworkEndpointDeleteOne {
+	builder := c.Delete().Where(bronzegreennodenetworkendpoint.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodeNetworkEndpointDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodeNetworkEndpoint.
+func (c *BronzeGreenNodeNetworkEndpointClient) Query() *BronzeGreenNodeNetworkEndpointQuery {
+	return &BronzeGreenNodeNetworkEndpointQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodeNetworkEndpoint},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodeNetworkEndpoint entity by its id.
+func (c *BronzeGreenNodeNetworkEndpointClient) Get(ctx context.Context, id string) (*BronzeGreenNodeNetworkEndpoint, error) {
+	return c.Query().Where(bronzegreennodenetworkendpoint.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodeNetworkEndpointClient) GetX(ctx context.Context, id string) *BronzeGreenNodeNetworkEndpoint {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodeNetworkEndpointClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodeNetworkEndpoint
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodeNetworkEndpointClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodeNetworkEndpoint
+}
+
+func (c *BronzeGreenNodeNetworkEndpointClient) mutate(ctx context.Context, m *BronzeGreenNodeNetworkEndpointMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodeNetworkEndpointCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodeNetworkEndpointUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodeNetworkEndpointUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodeNetworkEndpointDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodeNetworkEndpoint mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGreenNodeNetworkSecgroupClient is a client for the BronzeGreenNodeNetworkSecgroup schema.
+type BronzeGreenNodeNetworkSecgroupClient struct {
+	config
+}
+
+// NewBronzeGreenNodeNetworkSecgroupClient returns a client for the BronzeGreenNodeNetworkSecgroup from the given config.
+func NewBronzeGreenNodeNetworkSecgroupClient(c config) *BronzeGreenNodeNetworkSecgroupClient {
+	return &BronzeGreenNodeNetworkSecgroupClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodenetworksecgroup.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodeNetworkSecgroupClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodeNetworkSecgroup = append(c.hooks.BronzeGreenNodeNetworkSecgroup, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodenetworksecgroup.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodeNetworkSecgroupClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodeNetworkSecgroup = append(c.inters.BronzeGreenNodeNetworkSecgroup, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodeNetworkSecgroup entity.
+func (c *BronzeGreenNodeNetworkSecgroupClient) Create() *BronzeGreenNodeNetworkSecgroupCreate {
+	mutation := newBronzeGreenNodeNetworkSecgroupMutation(c.config, OpCreate)
+	return &BronzeGreenNodeNetworkSecgroupCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodeNetworkSecgroup entities.
+func (c *BronzeGreenNodeNetworkSecgroupClient) CreateBulk(builders ...*BronzeGreenNodeNetworkSecgroupCreate) *BronzeGreenNodeNetworkSecgroupCreateBulk {
+	return &BronzeGreenNodeNetworkSecgroupCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodeNetworkSecgroupClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodeNetworkSecgroupCreate, int)) *BronzeGreenNodeNetworkSecgroupCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodeNetworkSecgroupCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodeNetworkSecgroupClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodeNetworkSecgroupCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodeNetworkSecgroupCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodeNetworkSecgroup.
+func (c *BronzeGreenNodeNetworkSecgroupClient) Update() *BronzeGreenNodeNetworkSecgroupUpdate {
+	mutation := newBronzeGreenNodeNetworkSecgroupMutation(c.config, OpUpdate)
+	return &BronzeGreenNodeNetworkSecgroupUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodeNetworkSecgroupClient) UpdateOne(_m *BronzeGreenNodeNetworkSecgroup) *BronzeGreenNodeNetworkSecgroupUpdateOne {
+	mutation := newBronzeGreenNodeNetworkSecgroupMutation(c.config, OpUpdateOne, withBronzeGreenNodeNetworkSecgroup(_m))
+	return &BronzeGreenNodeNetworkSecgroupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodeNetworkSecgroupClient) UpdateOneID(id string) *BronzeGreenNodeNetworkSecgroupUpdateOne {
+	mutation := newBronzeGreenNodeNetworkSecgroupMutation(c.config, OpUpdateOne, withBronzeGreenNodeNetworkSecgroupID(id))
+	return &BronzeGreenNodeNetworkSecgroupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodeNetworkSecgroup.
+func (c *BronzeGreenNodeNetworkSecgroupClient) Delete() *BronzeGreenNodeNetworkSecgroupDelete {
+	mutation := newBronzeGreenNodeNetworkSecgroupMutation(c.config, OpDelete)
+	return &BronzeGreenNodeNetworkSecgroupDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodeNetworkSecgroupClient) DeleteOne(_m *BronzeGreenNodeNetworkSecgroup) *BronzeGreenNodeNetworkSecgroupDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodeNetworkSecgroupClient) DeleteOneID(id string) *BronzeGreenNodeNetworkSecgroupDeleteOne {
+	builder := c.Delete().Where(bronzegreennodenetworksecgroup.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodeNetworkSecgroupDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodeNetworkSecgroup.
+func (c *BronzeGreenNodeNetworkSecgroupClient) Query() *BronzeGreenNodeNetworkSecgroupQuery {
+	return &BronzeGreenNodeNetworkSecgroupQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodeNetworkSecgroup},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodeNetworkSecgroup entity by its id.
+func (c *BronzeGreenNodeNetworkSecgroupClient) Get(ctx context.Context, id string) (*BronzeGreenNodeNetworkSecgroup, error) {
+	return c.Query().Where(bronzegreennodenetworksecgroup.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodeNetworkSecgroupClient) GetX(ctx context.Context, id string) *BronzeGreenNodeNetworkSecgroup {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryRules queries the rules edge of a BronzeGreenNodeNetworkSecgroup.
+func (c *BronzeGreenNodeNetworkSecgroupClient) QueryRules(_m *BronzeGreenNodeNetworkSecgroup) *BronzeGreenNodeNetworkSecgroupRuleQuery {
+	query := (&BronzeGreenNodeNetworkSecgroupRuleClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegreennodenetworksecgroup.Table, bronzegreennodenetworksecgroup.FieldID, id),
+			sqlgraph.To(bronzegreennodenetworksecgrouprule.Table, bronzegreennodenetworksecgrouprule.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, bronzegreennodenetworksecgroup.RulesTable, bronzegreennodenetworksecgroup.RulesColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGreenNodeNetworkSecgroupRule
+		step.Edge.Schema = schemaConfig.BronzeGreenNodeNetworkSecgroupRule
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodeNetworkSecgroupClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodeNetworkSecgroup
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodeNetworkSecgroupClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodeNetworkSecgroup
+}
+
+func (c *BronzeGreenNodeNetworkSecgroupClient) mutate(ctx context.Context, m *BronzeGreenNodeNetworkSecgroupMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodeNetworkSecgroupCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodeNetworkSecgroupUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodeNetworkSecgroupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodeNetworkSecgroupDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodeNetworkSecgroup mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGreenNodeNetworkSecgroupRuleClient is a client for the BronzeGreenNodeNetworkSecgroupRule schema.
+type BronzeGreenNodeNetworkSecgroupRuleClient struct {
+	config
+}
+
+// NewBronzeGreenNodeNetworkSecgroupRuleClient returns a client for the BronzeGreenNodeNetworkSecgroupRule from the given config.
+func NewBronzeGreenNodeNetworkSecgroupRuleClient(c config) *BronzeGreenNodeNetworkSecgroupRuleClient {
+	return &BronzeGreenNodeNetworkSecgroupRuleClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodenetworksecgrouprule.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodeNetworkSecgroupRuleClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodeNetworkSecgroupRule = append(c.hooks.BronzeGreenNodeNetworkSecgroupRule, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodenetworksecgrouprule.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodeNetworkSecgroupRuleClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodeNetworkSecgroupRule = append(c.inters.BronzeGreenNodeNetworkSecgroupRule, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodeNetworkSecgroupRule entity.
+func (c *BronzeGreenNodeNetworkSecgroupRuleClient) Create() *BronzeGreenNodeNetworkSecgroupRuleCreate {
+	mutation := newBronzeGreenNodeNetworkSecgroupRuleMutation(c.config, OpCreate)
+	return &BronzeGreenNodeNetworkSecgroupRuleCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodeNetworkSecgroupRule entities.
+func (c *BronzeGreenNodeNetworkSecgroupRuleClient) CreateBulk(builders ...*BronzeGreenNodeNetworkSecgroupRuleCreate) *BronzeGreenNodeNetworkSecgroupRuleCreateBulk {
+	return &BronzeGreenNodeNetworkSecgroupRuleCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodeNetworkSecgroupRuleClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodeNetworkSecgroupRuleCreate, int)) *BronzeGreenNodeNetworkSecgroupRuleCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodeNetworkSecgroupRuleCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodeNetworkSecgroupRuleClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodeNetworkSecgroupRuleCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodeNetworkSecgroupRuleCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodeNetworkSecgroupRule.
+func (c *BronzeGreenNodeNetworkSecgroupRuleClient) Update() *BronzeGreenNodeNetworkSecgroupRuleUpdate {
+	mutation := newBronzeGreenNodeNetworkSecgroupRuleMutation(c.config, OpUpdate)
+	return &BronzeGreenNodeNetworkSecgroupRuleUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodeNetworkSecgroupRuleClient) UpdateOne(_m *BronzeGreenNodeNetworkSecgroupRule) *BronzeGreenNodeNetworkSecgroupRuleUpdateOne {
+	mutation := newBronzeGreenNodeNetworkSecgroupRuleMutation(c.config, OpUpdateOne, withBronzeGreenNodeNetworkSecgroupRule(_m))
+	return &BronzeGreenNodeNetworkSecgroupRuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodeNetworkSecgroupRuleClient) UpdateOneID(id int) *BronzeGreenNodeNetworkSecgroupRuleUpdateOne {
+	mutation := newBronzeGreenNodeNetworkSecgroupRuleMutation(c.config, OpUpdateOne, withBronzeGreenNodeNetworkSecgroupRuleID(id))
+	return &BronzeGreenNodeNetworkSecgroupRuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodeNetworkSecgroupRule.
+func (c *BronzeGreenNodeNetworkSecgroupRuleClient) Delete() *BronzeGreenNodeNetworkSecgroupRuleDelete {
+	mutation := newBronzeGreenNodeNetworkSecgroupRuleMutation(c.config, OpDelete)
+	return &BronzeGreenNodeNetworkSecgroupRuleDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodeNetworkSecgroupRuleClient) DeleteOne(_m *BronzeGreenNodeNetworkSecgroupRule) *BronzeGreenNodeNetworkSecgroupRuleDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodeNetworkSecgroupRuleClient) DeleteOneID(id int) *BronzeGreenNodeNetworkSecgroupRuleDeleteOne {
+	builder := c.Delete().Where(bronzegreennodenetworksecgrouprule.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodeNetworkSecgroupRuleDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodeNetworkSecgroupRule.
+func (c *BronzeGreenNodeNetworkSecgroupRuleClient) Query() *BronzeGreenNodeNetworkSecgroupRuleQuery {
+	return &BronzeGreenNodeNetworkSecgroupRuleQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodeNetworkSecgroupRule},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodeNetworkSecgroupRule entity by its id.
+func (c *BronzeGreenNodeNetworkSecgroupRuleClient) Get(ctx context.Context, id int) (*BronzeGreenNodeNetworkSecgroupRule, error) {
+	return c.Query().Where(bronzegreennodenetworksecgrouprule.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodeNetworkSecgroupRuleClient) GetX(ctx context.Context, id int) *BronzeGreenNodeNetworkSecgroupRule {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QuerySecgroup queries the secgroup edge of a BronzeGreenNodeNetworkSecgroupRule.
+func (c *BronzeGreenNodeNetworkSecgroupRuleClient) QuerySecgroup(_m *BronzeGreenNodeNetworkSecgroupRule) *BronzeGreenNodeNetworkSecgroupQuery {
+	query := (&BronzeGreenNodeNetworkSecgroupClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegreennodenetworksecgrouprule.Table, bronzegreennodenetworksecgrouprule.FieldID, id),
+			sqlgraph.To(bronzegreennodenetworksecgroup.Table, bronzegreennodenetworksecgroup.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, bronzegreennodenetworksecgrouprule.SecgroupTable, bronzegreennodenetworksecgrouprule.SecgroupColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGreenNodeNetworkSecgroup
+		step.Edge.Schema = schemaConfig.BronzeGreenNodeNetworkSecgroupRule
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodeNetworkSecgroupRuleClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodeNetworkSecgroupRule
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodeNetworkSecgroupRuleClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodeNetworkSecgroupRule
+}
+
+func (c *BronzeGreenNodeNetworkSecgroupRuleClient) mutate(ctx context.Context, m *BronzeGreenNodeNetworkSecgroupRuleMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodeNetworkSecgroupRuleCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodeNetworkSecgroupRuleUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodeNetworkSecgroupRuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodeNetworkSecgroupRuleDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodeNetworkSecgroupRule mutation op: %q", m.Op())
+	}
+}
+
 // BronzeGreenNodePortalQuotaClient is a client for the BronzeGreenNodePortalQuota schema.
 type BronzeGreenNodePortalQuotaClient struct {
 	config
@@ -27339,6 +29936,709 @@ func (c *BronzeGreenNodePortalRegionClient) mutate(ctx context.Context, m *Bronz
 		return (&BronzeGreenNodePortalRegionDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown BronzeGreenNodePortalRegion mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGreenNodePortalZoneClient is a client for the BronzeGreenNodePortalZone schema.
+type BronzeGreenNodePortalZoneClient struct {
+	config
+}
+
+// NewBronzeGreenNodePortalZoneClient returns a client for the BronzeGreenNodePortalZone from the given config.
+func NewBronzeGreenNodePortalZoneClient(c config) *BronzeGreenNodePortalZoneClient {
+	return &BronzeGreenNodePortalZoneClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodeportalzone.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodePortalZoneClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodePortalZone = append(c.hooks.BronzeGreenNodePortalZone, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodeportalzone.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodePortalZoneClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodePortalZone = append(c.inters.BronzeGreenNodePortalZone, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodePortalZone entity.
+func (c *BronzeGreenNodePortalZoneClient) Create() *BronzeGreenNodePortalZoneCreate {
+	mutation := newBronzeGreenNodePortalZoneMutation(c.config, OpCreate)
+	return &BronzeGreenNodePortalZoneCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodePortalZone entities.
+func (c *BronzeGreenNodePortalZoneClient) CreateBulk(builders ...*BronzeGreenNodePortalZoneCreate) *BronzeGreenNodePortalZoneCreateBulk {
+	return &BronzeGreenNodePortalZoneCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodePortalZoneClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodePortalZoneCreate, int)) *BronzeGreenNodePortalZoneCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodePortalZoneCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodePortalZoneClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodePortalZoneCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodePortalZoneCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodePortalZone.
+func (c *BronzeGreenNodePortalZoneClient) Update() *BronzeGreenNodePortalZoneUpdate {
+	mutation := newBronzeGreenNodePortalZoneMutation(c.config, OpUpdate)
+	return &BronzeGreenNodePortalZoneUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodePortalZoneClient) UpdateOne(_m *BronzeGreenNodePortalZone) *BronzeGreenNodePortalZoneUpdateOne {
+	mutation := newBronzeGreenNodePortalZoneMutation(c.config, OpUpdateOne, withBronzeGreenNodePortalZone(_m))
+	return &BronzeGreenNodePortalZoneUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodePortalZoneClient) UpdateOneID(id string) *BronzeGreenNodePortalZoneUpdateOne {
+	mutation := newBronzeGreenNodePortalZoneMutation(c.config, OpUpdateOne, withBronzeGreenNodePortalZoneID(id))
+	return &BronzeGreenNodePortalZoneUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodePortalZone.
+func (c *BronzeGreenNodePortalZoneClient) Delete() *BronzeGreenNodePortalZoneDelete {
+	mutation := newBronzeGreenNodePortalZoneMutation(c.config, OpDelete)
+	return &BronzeGreenNodePortalZoneDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodePortalZoneClient) DeleteOne(_m *BronzeGreenNodePortalZone) *BronzeGreenNodePortalZoneDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodePortalZoneClient) DeleteOneID(id string) *BronzeGreenNodePortalZoneDeleteOne {
+	builder := c.Delete().Where(bronzegreennodeportalzone.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodePortalZoneDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodePortalZone.
+func (c *BronzeGreenNodePortalZoneClient) Query() *BronzeGreenNodePortalZoneQuery {
+	return &BronzeGreenNodePortalZoneQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodePortalZone},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodePortalZone entity by its id.
+func (c *BronzeGreenNodePortalZoneClient) Get(ctx context.Context, id string) (*BronzeGreenNodePortalZone, error) {
+	return c.Query().Where(bronzegreennodeportalzone.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodePortalZoneClient) GetX(ctx context.Context, id string) *BronzeGreenNodePortalZone {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodePortalZoneClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodePortalZone
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodePortalZoneClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodePortalZone
+}
+
+func (c *BronzeGreenNodePortalZoneClient) mutate(ctx context.Context, m *BronzeGreenNodePortalZoneMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodePortalZoneCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodePortalZoneUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodePortalZoneUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodePortalZoneDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodePortalZone mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGreenNodeVolumeBlockVolumeClient is a client for the BronzeGreenNodeVolumeBlockVolume schema.
+type BronzeGreenNodeVolumeBlockVolumeClient struct {
+	config
+}
+
+// NewBronzeGreenNodeVolumeBlockVolumeClient returns a client for the BronzeGreenNodeVolumeBlockVolume from the given config.
+func NewBronzeGreenNodeVolumeBlockVolumeClient(c config) *BronzeGreenNodeVolumeBlockVolumeClient {
+	return &BronzeGreenNodeVolumeBlockVolumeClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodevolumeblockvolume.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodeVolumeBlockVolumeClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodeVolumeBlockVolume = append(c.hooks.BronzeGreenNodeVolumeBlockVolume, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodevolumeblockvolume.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodeVolumeBlockVolumeClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodeVolumeBlockVolume = append(c.inters.BronzeGreenNodeVolumeBlockVolume, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodeVolumeBlockVolume entity.
+func (c *BronzeGreenNodeVolumeBlockVolumeClient) Create() *BronzeGreenNodeVolumeBlockVolumeCreate {
+	mutation := newBronzeGreenNodeVolumeBlockVolumeMutation(c.config, OpCreate)
+	return &BronzeGreenNodeVolumeBlockVolumeCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodeVolumeBlockVolume entities.
+func (c *BronzeGreenNodeVolumeBlockVolumeClient) CreateBulk(builders ...*BronzeGreenNodeVolumeBlockVolumeCreate) *BronzeGreenNodeVolumeBlockVolumeCreateBulk {
+	return &BronzeGreenNodeVolumeBlockVolumeCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodeVolumeBlockVolumeClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodeVolumeBlockVolumeCreate, int)) *BronzeGreenNodeVolumeBlockVolumeCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodeVolumeBlockVolumeCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodeVolumeBlockVolumeClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodeVolumeBlockVolumeCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodeVolumeBlockVolumeCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodeVolumeBlockVolume.
+func (c *BronzeGreenNodeVolumeBlockVolumeClient) Update() *BronzeGreenNodeVolumeBlockVolumeUpdate {
+	mutation := newBronzeGreenNodeVolumeBlockVolumeMutation(c.config, OpUpdate)
+	return &BronzeGreenNodeVolumeBlockVolumeUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodeVolumeBlockVolumeClient) UpdateOne(_m *BronzeGreenNodeVolumeBlockVolume) *BronzeGreenNodeVolumeBlockVolumeUpdateOne {
+	mutation := newBronzeGreenNodeVolumeBlockVolumeMutation(c.config, OpUpdateOne, withBronzeGreenNodeVolumeBlockVolume(_m))
+	return &BronzeGreenNodeVolumeBlockVolumeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodeVolumeBlockVolumeClient) UpdateOneID(id string) *BronzeGreenNodeVolumeBlockVolumeUpdateOne {
+	mutation := newBronzeGreenNodeVolumeBlockVolumeMutation(c.config, OpUpdateOne, withBronzeGreenNodeVolumeBlockVolumeID(id))
+	return &BronzeGreenNodeVolumeBlockVolumeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodeVolumeBlockVolume.
+func (c *BronzeGreenNodeVolumeBlockVolumeClient) Delete() *BronzeGreenNodeVolumeBlockVolumeDelete {
+	mutation := newBronzeGreenNodeVolumeBlockVolumeMutation(c.config, OpDelete)
+	return &BronzeGreenNodeVolumeBlockVolumeDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodeVolumeBlockVolumeClient) DeleteOne(_m *BronzeGreenNodeVolumeBlockVolume) *BronzeGreenNodeVolumeBlockVolumeDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodeVolumeBlockVolumeClient) DeleteOneID(id string) *BronzeGreenNodeVolumeBlockVolumeDeleteOne {
+	builder := c.Delete().Where(bronzegreennodevolumeblockvolume.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodeVolumeBlockVolumeDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodeVolumeBlockVolume.
+func (c *BronzeGreenNodeVolumeBlockVolumeClient) Query() *BronzeGreenNodeVolumeBlockVolumeQuery {
+	return &BronzeGreenNodeVolumeBlockVolumeQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodeVolumeBlockVolume},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodeVolumeBlockVolume entity by its id.
+func (c *BronzeGreenNodeVolumeBlockVolumeClient) Get(ctx context.Context, id string) (*BronzeGreenNodeVolumeBlockVolume, error) {
+	return c.Query().Where(bronzegreennodevolumeblockvolume.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodeVolumeBlockVolumeClient) GetX(ctx context.Context, id string) *BronzeGreenNodeVolumeBlockVolume {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QuerySnapshots queries the snapshots edge of a BronzeGreenNodeVolumeBlockVolume.
+func (c *BronzeGreenNodeVolumeBlockVolumeClient) QuerySnapshots(_m *BronzeGreenNodeVolumeBlockVolume) *BronzeGreenNodeVolumeSnapshotQuery {
+	query := (&BronzeGreenNodeVolumeSnapshotClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegreennodevolumeblockvolume.Table, bronzegreennodevolumeblockvolume.FieldID, id),
+			sqlgraph.To(bronzegreennodevolumesnapshot.Table, bronzegreennodevolumesnapshot.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, bronzegreennodevolumeblockvolume.SnapshotsTable, bronzegreennodevolumeblockvolume.SnapshotsColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGreenNodeVolumeSnapshot
+		step.Edge.Schema = schemaConfig.BronzeGreenNodeVolumeSnapshot
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodeVolumeBlockVolumeClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodeVolumeBlockVolume
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodeVolumeBlockVolumeClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodeVolumeBlockVolume
+}
+
+func (c *BronzeGreenNodeVolumeBlockVolumeClient) mutate(ctx context.Context, m *BronzeGreenNodeVolumeBlockVolumeMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodeVolumeBlockVolumeCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodeVolumeBlockVolumeUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodeVolumeBlockVolumeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodeVolumeBlockVolumeDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodeVolumeBlockVolume mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGreenNodeVolumeSnapshotClient is a client for the BronzeGreenNodeVolumeSnapshot schema.
+type BronzeGreenNodeVolumeSnapshotClient struct {
+	config
+}
+
+// NewBronzeGreenNodeVolumeSnapshotClient returns a client for the BronzeGreenNodeVolumeSnapshot from the given config.
+func NewBronzeGreenNodeVolumeSnapshotClient(c config) *BronzeGreenNodeVolumeSnapshotClient {
+	return &BronzeGreenNodeVolumeSnapshotClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodevolumesnapshot.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodeVolumeSnapshotClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodeVolumeSnapshot = append(c.hooks.BronzeGreenNodeVolumeSnapshot, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodevolumesnapshot.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodeVolumeSnapshotClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodeVolumeSnapshot = append(c.inters.BronzeGreenNodeVolumeSnapshot, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodeVolumeSnapshot entity.
+func (c *BronzeGreenNodeVolumeSnapshotClient) Create() *BronzeGreenNodeVolumeSnapshotCreate {
+	mutation := newBronzeGreenNodeVolumeSnapshotMutation(c.config, OpCreate)
+	return &BronzeGreenNodeVolumeSnapshotCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodeVolumeSnapshot entities.
+func (c *BronzeGreenNodeVolumeSnapshotClient) CreateBulk(builders ...*BronzeGreenNodeVolumeSnapshotCreate) *BronzeGreenNodeVolumeSnapshotCreateBulk {
+	return &BronzeGreenNodeVolumeSnapshotCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodeVolumeSnapshotClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodeVolumeSnapshotCreate, int)) *BronzeGreenNodeVolumeSnapshotCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodeVolumeSnapshotCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodeVolumeSnapshotClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodeVolumeSnapshotCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodeVolumeSnapshotCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodeVolumeSnapshot.
+func (c *BronzeGreenNodeVolumeSnapshotClient) Update() *BronzeGreenNodeVolumeSnapshotUpdate {
+	mutation := newBronzeGreenNodeVolumeSnapshotMutation(c.config, OpUpdate)
+	return &BronzeGreenNodeVolumeSnapshotUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodeVolumeSnapshotClient) UpdateOne(_m *BronzeGreenNodeVolumeSnapshot) *BronzeGreenNodeVolumeSnapshotUpdateOne {
+	mutation := newBronzeGreenNodeVolumeSnapshotMutation(c.config, OpUpdateOne, withBronzeGreenNodeVolumeSnapshot(_m))
+	return &BronzeGreenNodeVolumeSnapshotUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodeVolumeSnapshotClient) UpdateOneID(id int) *BronzeGreenNodeVolumeSnapshotUpdateOne {
+	mutation := newBronzeGreenNodeVolumeSnapshotMutation(c.config, OpUpdateOne, withBronzeGreenNodeVolumeSnapshotID(id))
+	return &BronzeGreenNodeVolumeSnapshotUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodeVolumeSnapshot.
+func (c *BronzeGreenNodeVolumeSnapshotClient) Delete() *BronzeGreenNodeVolumeSnapshotDelete {
+	mutation := newBronzeGreenNodeVolumeSnapshotMutation(c.config, OpDelete)
+	return &BronzeGreenNodeVolumeSnapshotDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodeVolumeSnapshotClient) DeleteOne(_m *BronzeGreenNodeVolumeSnapshot) *BronzeGreenNodeVolumeSnapshotDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodeVolumeSnapshotClient) DeleteOneID(id int) *BronzeGreenNodeVolumeSnapshotDeleteOne {
+	builder := c.Delete().Where(bronzegreennodevolumesnapshot.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodeVolumeSnapshotDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodeVolumeSnapshot.
+func (c *BronzeGreenNodeVolumeSnapshotClient) Query() *BronzeGreenNodeVolumeSnapshotQuery {
+	return &BronzeGreenNodeVolumeSnapshotQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodeVolumeSnapshot},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodeVolumeSnapshot entity by its id.
+func (c *BronzeGreenNodeVolumeSnapshotClient) Get(ctx context.Context, id int) (*BronzeGreenNodeVolumeSnapshot, error) {
+	return c.Query().Where(bronzegreennodevolumesnapshot.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodeVolumeSnapshotClient) GetX(ctx context.Context, id int) *BronzeGreenNodeVolumeSnapshot {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryBlockVolume queries the block_volume edge of a BronzeGreenNodeVolumeSnapshot.
+func (c *BronzeGreenNodeVolumeSnapshotClient) QueryBlockVolume(_m *BronzeGreenNodeVolumeSnapshot) *BronzeGreenNodeVolumeBlockVolumeQuery {
+	query := (&BronzeGreenNodeVolumeBlockVolumeClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bronzegreennodevolumesnapshot.Table, bronzegreennodevolumesnapshot.FieldID, id),
+			sqlgraph.To(bronzegreennodevolumeblockvolume.Table, bronzegreennodevolumeblockvolume.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, bronzegreennodevolumesnapshot.BlockVolumeTable, bronzegreennodevolumesnapshot.BlockVolumeColumn),
+		)
+		schemaConfig := _m.schemaConfig
+		step.To.Schema = schemaConfig.BronzeGreenNodeVolumeBlockVolume
+		step.Edge.Schema = schemaConfig.BronzeGreenNodeVolumeSnapshot
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodeVolumeSnapshotClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodeVolumeSnapshot
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodeVolumeSnapshotClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodeVolumeSnapshot
+}
+
+func (c *BronzeGreenNodeVolumeSnapshotClient) mutate(ctx context.Context, m *BronzeGreenNodeVolumeSnapshotMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodeVolumeSnapshotCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodeVolumeSnapshotUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodeVolumeSnapshotUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodeVolumeSnapshotDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodeVolumeSnapshot mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGreenNodeVolumeVolumeTypeClient is a client for the BronzeGreenNodeVolumeVolumeType schema.
+type BronzeGreenNodeVolumeVolumeTypeClient struct {
+	config
+}
+
+// NewBronzeGreenNodeVolumeVolumeTypeClient returns a client for the BronzeGreenNodeVolumeVolumeType from the given config.
+func NewBronzeGreenNodeVolumeVolumeTypeClient(c config) *BronzeGreenNodeVolumeVolumeTypeClient {
+	return &BronzeGreenNodeVolumeVolumeTypeClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodevolumevolumetype.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodeVolumeVolumeTypeClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodeVolumeVolumeType = append(c.hooks.BronzeGreenNodeVolumeVolumeType, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodevolumevolumetype.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodeVolumeVolumeTypeClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodeVolumeVolumeType = append(c.inters.BronzeGreenNodeVolumeVolumeType, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodeVolumeVolumeType entity.
+func (c *BronzeGreenNodeVolumeVolumeTypeClient) Create() *BronzeGreenNodeVolumeVolumeTypeCreate {
+	mutation := newBronzeGreenNodeVolumeVolumeTypeMutation(c.config, OpCreate)
+	return &BronzeGreenNodeVolumeVolumeTypeCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodeVolumeVolumeType entities.
+func (c *BronzeGreenNodeVolumeVolumeTypeClient) CreateBulk(builders ...*BronzeGreenNodeVolumeVolumeTypeCreate) *BronzeGreenNodeVolumeVolumeTypeCreateBulk {
+	return &BronzeGreenNodeVolumeVolumeTypeCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodeVolumeVolumeTypeClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodeVolumeVolumeTypeCreate, int)) *BronzeGreenNodeVolumeVolumeTypeCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodeVolumeVolumeTypeCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodeVolumeVolumeTypeClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodeVolumeVolumeTypeCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodeVolumeVolumeTypeCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodeVolumeVolumeType.
+func (c *BronzeGreenNodeVolumeVolumeTypeClient) Update() *BronzeGreenNodeVolumeVolumeTypeUpdate {
+	mutation := newBronzeGreenNodeVolumeVolumeTypeMutation(c.config, OpUpdate)
+	return &BronzeGreenNodeVolumeVolumeTypeUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodeVolumeVolumeTypeClient) UpdateOne(_m *BronzeGreenNodeVolumeVolumeType) *BronzeGreenNodeVolumeVolumeTypeUpdateOne {
+	mutation := newBronzeGreenNodeVolumeVolumeTypeMutation(c.config, OpUpdateOne, withBronzeGreenNodeVolumeVolumeType(_m))
+	return &BronzeGreenNodeVolumeVolumeTypeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodeVolumeVolumeTypeClient) UpdateOneID(id string) *BronzeGreenNodeVolumeVolumeTypeUpdateOne {
+	mutation := newBronzeGreenNodeVolumeVolumeTypeMutation(c.config, OpUpdateOne, withBronzeGreenNodeVolumeVolumeTypeID(id))
+	return &BronzeGreenNodeVolumeVolumeTypeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodeVolumeVolumeType.
+func (c *BronzeGreenNodeVolumeVolumeTypeClient) Delete() *BronzeGreenNodeVolumeVolumeTypeDelete {
+	mutation := newBronzeGreenNodeVolumeVolumeTypeMutation(c.config, OpDelete)
+	return &BronzeGreenNodeVolumeVolumeTypeDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodeVolumeVolumeTypeClient) DeleteOne(_m *BronzeGreenNodeVolumeVolumeType) *BronzeGreenNodeVolumeVolumeTypeDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodeVolumeVolumeTypeClient) DeleteOneID(id string) *BronzeGreenNodeVolumeVolumeTypeDeleteOne {
+	builder := c.Delete().Where(bronzegreennodevolumevolumetype.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodeVolumeVolumeTypeDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodeVolumeVolumeType.
+func (c *BronzeGreenNodeVolumeVolumeTypeClient) Query() *BronzeGreenNodeVolumeVolumeTypeQuery {
+	return &BronzeGreenNodeVolumeVolumeTypeQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodeVolumeVolumeType},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodeVolumeVolumeType entity by its id.
+func (c *BronzeGreenNodeVolumeVolumeTypeClient) Get(ctx context.Context, id string) (*BronzeGreenNodeVolumeVolumeType, error) {
+	return c.Query().Where(bronzegreennodevolumevolumetype.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodeVolumeVolumeTypeClient) GetX(ctx context.Context, id string) *BronzeGreenNodeVolumeVolumeType {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodeVolumeVolumeTypeClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodeVolumeVolumeType
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodeVolumeVolumeTypeClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodeVolumeVolumeType
+}
+
+func (c *BronzeGreenNodeVolumeVolumeTypeClient) mutate(ctx context.Context, m *BronzeGreenNodeVolumeVolumeTypeMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodeVolumeVolumeTypeCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodeVolumeVolumeTypeUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodeVolumeVolumeTypeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodeVolumeVolumeTypeDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodeVolumeVolumeType mutation op: %q", m.Op())
+	}
+}
+
+// BronzeGreenNodeVolumeVolumeTypeZoneClient is a client for the BronzeGreenNodeVolumeVolumeTypeZone schema.
+type BronzeGreenNodeVolumeVolumeTypeZoneClient struct {
+	config
+}
+
+// NewBronzeGreenNodeVolumeVolumeTypeZoneClient returns a client for the BronzeGreenNodeVolumeVolumeTypeZone from the given config.
+func NewBronzeGreenNodeVolumeVolumeTypeZoneClient(c config) *BronzeGreenNodeVolumeVolumeTypeZoneClient {
+	return &BronzeGreenNodeVolumeVolumeTypeZoneClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzegreennodevolumevolumetypezone.Hooks(f(g(h())))`.
+func (c *BronzeGreenNodeVolumeVolumeTypeZoneClient) Use(hooks ...Hook) {
+	c.hooks.BronzeGreenNodeVolumeVolumeTypeZone = append(c.hooks.BronzeGreenNodeVolumeVolumeTypeZone, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzegreennodevolumevolumetypezone.Intercept(f(g(h())))`.
+func (c *BronzeGreenNodeVolumeVolumeTypeZoneClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeGreenNodeVolumeVolumeTypeZone = append(c.inters.BronzeGreenNodeVolumeVolumeTypeZone, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeGreenNodeVolumeVolumeTypeZone entity.
+func (c *BronzeGreenNodeVolumeVolumeTypeZoneClient) Create() *BronzeGreenNodeVolumeVolumeTypeZoneCreate {
+	mutation := newBronzeGreenNodeVolumeVolumeTypeZoneMutation(c.config, OpCreate)
+	return &BronzeGreenNodeVolumeVolumeTypeZoneCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeGreenNodeVolumeVolumeTypeZone entities.
+func (c *BronzeGreenNodeVolumeVolumeTypeZoneClient) CreateBulk(builders ...*BronzeGreenNodeVolumeVolumeTypeZoneCreate) *BronzeGreenNodeVolumeVolumeTypeZoneCreateBulk {
+	return &BronzeGreenNodeVolumeVolumeTypeZoneCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeGreenNodeVolumeVolumeTypeZoneClient) MapCreateBulk(slice any, setFunc func(*BronzeGreenNodeVolumeVolumeTypeZoneCreate, int)) *BronzeGreenNodeVolumeVolumeTypeZoneCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeGreenNodeVolumeVolumeTypeZoneCreateBulk{err: fmt.Errorf("calling to BronzeGreenNodeVolumeVolumeTypeZoneClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeGreenNodeVolumeVolumeTypeZoneCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeGreenNodeVolumeVolumeTypeZoneCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeGreenNodeVolumeVolumeTypeZone.
+func (c *BronzeGreenNodeVolumeVolumeTypeZoneClient) Update() *BronzeGreenNodeVolumeVolumeTypeZoneUpdate {
+	mutation := newBronzeGreenNodeVolumeVolumeTypeZoneMutation(c.config, OpUpdate)
+	return &BronzeGreenNodeVolumeVolumeTypeZoneUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeGreenNodeVolumeVolumeTypeZoneClient) UpdateOne(_m *BronzeGreenNodeVolumeVolumeTypeZone) *BronzeGreenNodeVolumeVolumeTypeZoneUpdateOne {
+	mutation := newBronzeGreenNodeVolumeVolumeTypeZoneMutation(c.config, OpUpdateOne, withBronzeGreenNodeVolumeVolumeTypeZone(_m))
+	return &BronzeGreenNodeVolumeVolumeTypeZoneUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeGreenNodeVolumeVolumeTypeZoneClient) UpdateOneID(id string) *BronzeGreenNodeVolumeVolumeTypeZoneUpdateOne {
+	mutation := newBronzeGreenNodeVolumeVolumeTypeZoneMutation(c.config, OpUpdateOne, withBronzeGreenNodeVolumeVolumeTypeZoneID(id))
+	return &BronzeGreenNodeVolumeVolumeTypeZoneUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeGreenNodeVolumeVolumeTypeZone.
+func (c *BronzeGreenNodeVolumeVolumeTypeZoneClient) Delete() *BronzeGreenNodeVolumeVolumeTypeZoneDelete {
+	mutation := newBronzeGreenNodeVolumeVolumeTypeZoneMutation(c.config, OpDelete)
+	return &BronzeGreenNodeVolumeVolumeTypeZoneDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeGreenNodeVolumeVolumeTypeZoneClient) DeleteOne(_m *BronzeGreenNodeVolumeVolumeTypeZone) *BronzeGreenNodeVolumeVolumeTypeZoneDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeGreenNodeVolumeVolumeTypeZoneClient) DeleteOneID(id string) *BronzeGreenNodeVolumeVolumeTypeZoneDeleteOne {
+	builder := c.Delete().Where(bronzegreennodevolumevolumetypezone.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeGreenNodeVolumeVolumeTypeZoneDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeGreenNodeVolumeVolumeTypeZone.
+func (c *BronzeGreenNodeVolumeVolumeTypeZoneClient) Query() *BronzeGreenNodeVolumeVolumeTypeZoneQuery {
+	return &BronzeGreenNodeVolumeVolumeTypeZoneQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeGreenNodeVolumeVolumeTypeZone},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeGreenNodeVolumeVolumeTypeZone entity by its id.
+func (c *BronzeGreenNodeVolumeVolumeTypeZoneClient) Get(ctx context.Context, id string) (*BronzeGreenNodeVolumeVolumeTypeZone, error) {
+	return c.Query().Where(bronzegreennodevolumevolumetypezone.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeGreenNodeVolumeVolumeTypeZoneClient) GetX(ctx context.Context, id string) *BronzeGreenNodeVolumeVolumeTypeZone {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeGreenNodeVolumeVolumeTypeZoneClient) Hooks() []Hook {
+	return c.hooks.BronzeGreenNodeVolumeVolumeTypeZone
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeGreenNodeVolumeVolumeTypeZoneClient) Interceptors() []Interceptor {
+	return c.inters.BronzeGreenNodeVolumeVolumeTypeZone
+}
+
+func (c *BronzeGreenNodeVolumeVolumeTypeZoneClient) mutate(ctx context.Context, m *BronzeGreenNodeVolumeVolumeTypeZoneMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeGreenNodeVolumeVolumeTypeZoneCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeGreenNodeVolumeVolumeTypeZoneUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeGreenNodeVolumeVolumeTypeZoneUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeGreenNodeVolumeVolumeTypeZoneDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeGreenNodeVolumeVolumeTypeZone mutation op: %q", m.Op())
 	}
 }
 
@@ -49021,6 +52321,2001 @@ func (c *BronzeHistoryGreenNodeComputeServerSecGroupClient) mutate(ctx context.C
 	}
 }
 
+// BronzeHistoryGreenNodeDNSHostedZoneClient is a client for the BronzeHistoryGreenNodeDNSHostedZone schema.
+type BronzeHistoryGreenNodeDNSHostedZoneClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodeDNSHostedZoneClient returns a client for the BronzeHistoryGreenNodeDNSHostedZone from the given config.
+func NewBronzeHistoryGreenNodeDNSHostedZoneClient(c config) *BronzeHistoryGreenNodeDNSHostedZoneClient {
+	return &BronzeHistoryGreenNodeDNSHostedZoneClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodednshostedzone.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeDNSHostedZoneClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodeDNSHostedZone = append(c.hooks.BronzeHistoryGreenNodeDNSHostedZone, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodednshostedzone.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeDNSHostedZoneClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodeDNSHostedZone = append(c.inters.BronzeHistoryGreenNodeDNSHostedZone, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodeDNSHostedZone entity.
+func (c *BronzeHistoryGreenNodeDNSHostedZoneClient) Create() *BronzeHistoryGreenNodeDNSHostedZoneCreate {
+	mutation := newBronzeHistoryGreenNodeDNSHostedZoneMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodeDNSHostedZoneCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodeDNSHostedZone entities.
+func (c *BronzeHistoryGreenNodeDNSHostedZoneClient) CreateBulk(builders ...*BronzeHistoryGreenNodeDNSHostedZoneCreate) *BronzeHistoryGreenNodeDNSHostedZoneCreateBulk {
+	return &BronzeHistoryGreenNodeDNSHostedZoneCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodeDNSHostedZoneClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodeDNSHostedZoneCreate, int)) *BronzeHistoryGreenNodeDNSHostedZoneCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodeDNSHostedZoneCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodeDNSHostedZoneClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodeDNSHostedZoneCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodeDNSHostedZoneCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodeDNSHostedZone.
+func (c *BronzeHistoryGreenNodeDNSHostedZoneClient) Update() *BronzeHistoryGreenNodeDNSHostedZoneUpdate {
+	mutation := newBronzeHistoryGreenNodeDNSHostedZoneMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodeDNSHostedZoneUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodeDNSHostedZoneClient) UpdateOne(_m *BronzeHistoryGreenNodeDNSHostedZone) *BronzeHistoryGreenNodeDNSHostedZoneUpdateOne {
+	mutation := newBronzeHistoryGreenNodeDNSHostedZoneMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeDNSHostedZone(_m))
+	return &BronzeHistoryGreenNodeDNSHostedZoneUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodeDNSHostedZoneClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeDNSHostedZoneUpdateOne {
+	mutation := newBronzeHistoryGreenNodeDNSHostedZoneMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeDNSHostedZoneID(id))
+	return &BronzeHistoryGreenNodeDNSHostedZoneUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodeDNSHostedZone.
+func (c *BronzeHistoryGreenNodeDNSHostedZoneClient) Delete() *BronzeHistoryGreenNodeDNSHostedZoneDelete {
+	mutation := newBronzeHistoryGreenNodeDNSHostedZoneMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodeDNSHostedZoneDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodeDNSHostedZoneClient) DeleteOne(_m *BronzeHistoryGreenNodeDNSHostedZone) *BronzeHistoryGreenNodeDNSHostedZoneDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodeDNSHostedZoneClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeDNSHostedZoneDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodednshostedzone.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodeDNSHostedZoneDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodeDNSHostedZone.
+func (c *BronzeHistoryGreenNodeDNSHostedZoneClient) Query() *BronzeHistoryGreenNodeDNSHostedZoneQuery {
+	return &BronzeHistoryGreenNodeDNSHostedZoneQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodeDNSHostedZone},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodeDNSHostedZone entity by its id.
+func (c *BronzeHistoryGreenNodeDNSHostedZoneClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeDNSHostedZone, error) {
+	return c.Query().Where(bronzehistorygreennodednshostedzone.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodeDNSHostedZoneClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeDNSHostedZone {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodeDNSHostedZoneClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodeDNSHostedZone
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodeDNSHostedZoneClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodeDNSHostedZone
+}
+
+func (c *BronzeHistoryGreenNodeDNSHostedZoneClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodeDNSHostedZoneMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodeDNSHostedZoneCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodeDNSHostedZoneUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodeDNSHostedZoneUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodeDNSHostedZoneDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodeDNSHostedZone mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGreenNodeDNSRecordClient is a client for the BronzeHistoryGreenNodeDNSRecord schema.
+type BronzeHistoryGreenNodeDNSRecordClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodeDNSRecordClient returns a client for the BronzeHistoryGreenNodeDNSRecord from the given config.
+func NewBronzeHistoryGreenNodeDNSRecordClient(c config) *BronzeHistoryGreenNodeDNSRecordClient {
+	return &BronzeHistoryGreenNodeDNSRecordClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodednsrecord.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeDNSRecordClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodeDNSRecord = append(c.hooks.BronzeHistoryGreenNodeDNSRecord, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodednsrecord.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeDNSRecordClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodeDNSRecord = append(c.inters.BronzeHistoryGreenNodeDNSRecord, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodeDNSRecord entity.
+func (c *BronzeHistoryGreenNodeDNSRecordClient) Create() *BronzeHistoryGreenNodeDNSRecordCreate {
+	mutation := newBronzeHistoryGreenNodeDNSRecordMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodeDNSRecordCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodeDNSRecord entities.
+func (c *BronzeHistoryGreenNodeDNSRecordClient) CreateBulk(builders ...*BronzeHistoryGreenNodeDNSRecordCreate) *BronzeHistoryGreenNodeDNSRecordCreateBulk {
+	return &BronzeHistoryGreenNodeDNSRecordCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodeDNSRecordClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodeDNSRecordCreate, int)) *BronzeHistoryGreenNodeDNSRecordCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodeDNSRecordCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodeDNSRecordClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodeDNSRecordCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodeDNSRecordCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodeDNSRecord.
+func (c *BronzeHistoryGreenNodeDNSRecordClient) Update() *BronzeHistoryGreenNodeDNSRecordUpdate {
+	mutation := newBronzeHistoryGreenNodeDNSRecordMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodeDNSRecordUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodeDNSRecordClient) UpdateOne(_m *BronzeHistoryGreenNodeDNSRecord) *BronzeHistoryGreenNodeDNSRecordUpdateOne {
+	mutation := newBronzeHistoryGreenNodeDNSRecordMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeDNSRecord(_m))
+	return &BronzeHistoryGreenNodeDNSRecordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodeDNSRecordClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeDNSRecordUpdateOne {
+	mutation := newBronzeHistoryGreenNodeDNSRecordMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeDNSRecordID(id))
+	return &BronzeHistoryGreenNodeDNSRecordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodeDNSRecord.
+func (c *BronzeHistoryGreenNodeDNSRecordClient) Delete() *BronzeHistoryGreenNodeDNSRecordDelete {
+	mutation := newBronzeHistoryGreenNodeDNSRecordMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodeDNSRecordDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodeDNSRecordClient) DeleteOne(_m *BronzeHistoryGreenNodeDNSRecord) *BronzeHistoryGreenNodeDNSRecordDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodeDNSRecordClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeDNSRecordDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodednsrecord.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodeDNSRecordDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodeDNSRecord.
+func (c *BronzeHistoryGreenNodeDNSRecordClient) Query() *BronzeHistoryGreenNodeDNSRecordQuery {
+	return &BronzeHistoryGreenNodeDNSRecordQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodeDNSRecord},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodeDNSRecord entity by its id.
+func (c *BronzeHistoryGreenNodeDNSRecordClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeDNSRecord, error) {
+	return c.Query().Where(bronzehistorygreennodednsrecord.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodeDNSRecordClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeDNSRecord {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodeDNSRecordClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodeDNSRecord
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodeDNSRecordClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodeDNSRecord
+}
+
+func (c *BronzeHistoryGreenNodeDNSRecordClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodeDNSRecordMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodeDNSRecordCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodeDNSRecordUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodeDNSRecordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodeDNSRecordDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodeDNSRecord mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGreenNodeGLBGlobalListenerClient is a client for the BronzeHistoryGreenNodeGLBGlobalListener schema.
+type BronzeHistoryGreenNodeGLBGlobalListenerClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodeGLBGlobalListenerClient returns a client for the BronzeHistoryGreenNodeGLBGlobalListener from the given config.
+func NewBronzeHistoryGreenNodeGLBGlobalListenerClient(c config) *BronzeHistoryGreenNodeGLBGlobalListenerClient {
+	return &BronzeHistoryGreenNodeGLBGlobalListenerClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodeglbgloballistener.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeGLBGlobalListenerClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodeGLBGlobalListener = append(c.hooks.BronzeHistoryGreenNodeGLBGlobalListener, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodeglbgloballistener.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeGLBGlobalListenerClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodeGLBGlobalListener = append(c.inters.BronzeHistoryGreenNodeGLBGlobalListener, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodeGLBGlobalListener entity.
+func (c *BronzeHistoryGreenNodeGLBGlobalListenerClient) Create() *BronzeHistoryGreenNodeGLBGlobalListenerCreate {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalListenerMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodeGLBGlobalListenerCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodeGLBGlobalListener entities.
+func (c *BronzeHistoryGreenNodeGLBGlobalListenerClient) CreateBulk(builders ...*BronzeHistoryGreenNodeGLBGlobalListenerCreate) *BronzeHistoryGreenNodeGLBGlobalListenerCreateBulk {
+	return &BronzeHistoryGreenNodeGLBGlobalListenerCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodeGLBGlobalListenerClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodeGLBGlobalListenerCreate, int)) *BronzeHistoryGreenNodeGLBGlobalListenerCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodeGLBGlobalListenerCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodeGLBGlobalListenerClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodeGLBGlobalListenerCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodeGLBGlobalListenerCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodeGLBGlobalListener.
+func (c *BronzeHistoryGreenNodeGLBGlobalListenerClient) Update() *BronzeHistoryGreenNodeGLBGlobalListenerUpdate {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalListenerMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodeGLBGlobalListenerUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodeGLBGlobalListenerClient) UpdateOne(_m *BronzeHistoryGreenNodeGLBGlobalListener) *BronzeHistoryGreenNodeGLBGlobalListenerUpdateOne {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalListenerMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeGLBGlobalListener(_m))
+	return &BronzeHistoryGreenNodeGLBGlobalListenerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodeGLBGlobalListenerClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeGLBGlobalListenerUpdateOne {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalListenerMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeGLBGlobalListenerID(id))
+	return &BronzeHistoryGreenNodeGLBGlobalListenerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodeGLBGlobalListener.
+func (c *BronzeHistoryGreenNodeGLBGlobalListenerClient) Delete() *BronzeHistoryGreenNodeGLBGlobalListenerDelete {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalListenerMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodeGLBGlobalListenerDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodeGLBGlobalListenerClient) DeleteOne(_m *BronzeHistoryGreenNodeGLBGlobalListener) *BronzeHistoryGreenNodeGLBGlobalListenerDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodeGLBGlobalListenerClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeGLBGlobalListenerDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodeglbgloballistener.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodeGLBGlobalListenerDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodeGLBGlobalListener.
+func (c *BronzeHistoryGreenNodeGLBGlobalListenerClient) Query() *BronzeHistoryGreenNodeGLBGlobalListenerQuery {
+	return &BronzeHistoryGreenNodeGLBGlobalListenerQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodeGLBGlobalListener},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodeGLBGlobalListener entity by its id.
+func (c *BronzeHistoryGreenNodeGLBGlobalListenerClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeGLBGlobalListener, error) {
+	return c.Query().Where(bronzehistorygreennodeglbgloballistener.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodeGLBGlobalListenerClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeGLBGlobalListener {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodeGLBGlobalListenerClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodeGLBGlobalListener
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodeGLBGlobalListenerClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodeGLBGlobalListener
+}
+
+func (c *BronzeHistoryGreenNodeGLBGlobalListenerClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodeGLBGlobalListenerMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodeGLBGlobalListenerCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodeGLBGlobalListenerUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodeGLBGlobalListenerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodeGLBGlobalListenerDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodeGLBGlobalListener mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient is a client for the BronzeHistoryGreenNodeGLBGlobalLoadBalancer schema.
+type BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodeGLBGlobalLoadBalancerClient returns a client for the BronzeHistoryGreenNodeGLBGlobalLoadBalancer from the given config.
+func NewBronzeHistoryGreenNodeGLBGlobalLoadBalancerClient(c config) *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient {
+	return &BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodeglbgloballoadbalancer.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodeGLBGlobalLoadBalancer = append(c.hooks.BronzeHistoryGreenNodeGLBGlobalLoadBalancer, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodeglbgloballoadbalancer.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodeGLBGlobalLoadBalancer = append(c.inters.BronzeHistoryGreenNodeGLBGlobalLoadBalancer, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodeGLBGlobalLoadBalancer entity.
+func (c *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient) Create() *BronzeHistoryGreenNodeGLBGlobalLoadBalancerCreate {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalLoadBalancerMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodeGLBGlobalLoadBalancerCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodeGLBGlobalLoadBalancer entities.
+func (c *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient) CreateBulk(builders ...*BronzeHistoryGreenNodeGLBGlobalLoadBalancerCreate) *BronzeHistoryGreenNodeGLBGlobalLoadBalancerCreateBulk {
+	return &BronzeHistoryGreenNodeGLBGlobalLoadBalancerCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodeGLBGlobalLoadBalancerCreate, int)) *BronzeHistoryGreenNodeGLBGlobalLoadBalancerCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodeGLBGlobalLoadBalancerCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodeGLBGlobalLoadBalancerCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodeGLBGlobalLoadBalancerCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodeGLBGlobalLoadBalancer.
+func (c *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient) Update() *BronzeHistoryGreenNodeGLBGlobalLoadBalancerUpdate {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalLoadBalancerMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodeGLBGlobalLoadBalancerUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient) UpdateOne(_m *BronzeHistoryGreenNodeGLBGlobalLoadBalancer) *BronzeHistoryGreenNodeGLBGlobalLoadBalancerUpdateOne {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalLoadBalancerMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeGLBGlobalLoadBalancer(_m))
+	return &BronzeHistoryGreenNodeGLBGlobalLoadBalancerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeGLBGlobalLoadBalancerUpdateOne {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalLoadBalancerMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeGLBGlobalLoadBalancerID(id))
+	return &BronzeHistoryGreenNodeGLBGlobalLoadBalancerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodeGLBGlobalLoadBalancer.
+func (c *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient) Delete() *BronzeHistoryGreenNodeGLBGlobalLoadBalancerDelete {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalLoadBalancerMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodeGLBGlobalLoadBalancerDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient) DeleteOne(_m *BronzeHistoryGreenNodeGLBGlobalLoadBalancer) *BronzeHistoryGreenNodeGLBGlobalLoadBalancerDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeGLBGlobalLoadBalancerDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodeglbgloballoadbalancer.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodeGLBGlobalLoadBalancerDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodeGLBGlobalLoadBalancer.
+func (c *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient) Query() *BronzeHistoryGreenNodeGLBGlobalLoadBalancerQuery {
+	return &BronzeHistoryGreenNodeGLBGlobalLoadBalancerQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodeGLBGlobalLoadBalancer},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodeGLBGlobalLoadBalancer entity by its id.
+func (c *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeGLBGlobalLoadBalancer, error) {
+	return c.Query().Where(bronzehistorygreennodeglbgloballoadbalancer.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeGLBGlobalLoadBalancer {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodeGLBGlobalLoadBalancer
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodeGLBGlobalLoadBalancer
+}
+
+func (c *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodeGLBGlobalLoadBalancerMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodeGLBGlobalLoadBalancerCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodeGLBGlobalLoadBalancerUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodeGLBGlobalLoadBalancerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodeGLBGlobalLoadBalancerDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodeGLBGlobalLoadBalancer mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGreenNodeGLBGlobalPackageClient is a client for the BronzeHistoryGreenNodeGLBGlobalPackage schema.
+type BronzeHistoryGreenNodeGLBGlobalPackageClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodeGLBGlobalPackageClient returns a client for the BronzeHistoryGreenNodeGLBGlobalPackage from the given config.
+func NewBronzeHistoryGreenNodeGLBGlobalPackageClient(c config) *BronzeHistoryGreenNodeGLBGlobalPackageClient {
+	return &BronzeHistoryGreenNodeGLBGlobalPackageClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodeglbglobalpackage.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeGLBGlobalPackageClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodeGLBGlobalPackage = append(c.hooks.BronzeHistoryGreenNodeGLBGlobalPackage, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodeglbglobalpackage.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeGLBGlobalPackageClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodeGLBGlobalPackage = append(c.inters.BronzeHistoryGreenNodeGLBGlobalPackage, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodeGLBGlobalPackage entity.
+func (c *BronzeHistoryGreenNodeGLBGlobalPackageClient) Create() *BronzeHistoryGreenNodeGLBGlobalPackageCreate {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalPackageMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodeGLBGlobalPackageCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodeGLBGlobalPackage entities.
+func (c *BronzeHistoryGreenNodeGLBGlobalPackageClient) CreateBulk(builders ...*BronzeHistoryGreenNodeGLBGlobalPackageCreate) *BronzeHistoryGreenNodeGLBGlobalPackageCreateBulk {
+	return &BronzeHistoryGreenNodeGLBGlobalPackageCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodeGLBGlobalPackageClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodeGLBGlobalPackageCreate, int)) *BronzeHistoryGreenNodeGLBGlobalPackageCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodeGLBGlobalPackageCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodeGLBGlobalPackageClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodeGLBGlobalPackageCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodeGLBGlobalPackageCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodeGLBGlobalPackage.
+func (c *BronzeHistoryGreenNodeGLBGlobalPackageClient) Update() *BronzeHistoryGreenNodeGLBGlobalPackageUpdate {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalPackageMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodeGLBGlobalPackageUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodeGLBGlobalPackageClient) UpdateOne(_m *BronzeHistoryGreenNodeGLBGlobalPackage) *BronzeHistoryGreenNodeGLBGlobalPackageUpdateOne {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalPackageMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeGLBGlobalPackage(_m))
+	return &BronzeHistoryGreenNodeGLBGlobalPackageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodeGLBGlobalPackageClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeGLBGlobalPackageUpdateOne {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalPackageMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeGLBGlobalPackageID(id))
+	return &BronzeHistoryGreenNodeGLBGlobalPackageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodeGLBGlobalPackage.
+func (c *BronzeHistoryGreenNodeGLBGlobalPackageClient) Delete() *BronzeHistoryGreenNodeGLBGlobalPackageDelete {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalPackageMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodeGLBGlobalPackageDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodeGLBGlobalPackageClient) DeleteOne(_m *BronzeHistoryGreenNodeGLBGlobalPackage) *BronzeHistoryGreenNodeGLBGlobalPackageDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodeGLBGlobalPackageClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeGLBGlobalPackageDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodeglbglobalpackage.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodeGLBGlobalPackageDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodeGLBGlobalPackage.
+func (c *BronzeHistoryGreenNodeGLBGlobalPackageClient) Query() *BronzeHistoryGreenNodeGLBGlobalPackageQuery {
+	return &BronzeHistoryGreenNodeGLBGlobalPackageQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodeGLBGlobalPackage},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodeGLBGlobalPackage entity by its id.
+func (c *BronzeHistoryGreenNodeGLBGlobalPackageClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeGLBGlobalPackage, error) {
+	return c.Query().Where(bronzehistorygreennodeglbglobalpackage.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodeGLBGlobalPackageClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeGLBGlobalPackage {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodeGLBGlobalPackageClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodeGLBGlobalPackage
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodeGLBGlobalPackageClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodeGLBGlobalPackage
+}
+
+func (c *BronzeHistoryGreenNodeGLBGlobalPackageClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodeGLBGlobalPackageMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodeGLBGlobalPackageCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodeGLBGlobalPackageUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodeGLBGlobalPackageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodeGLBGlobalPackageDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodeGLBGlobalPackage mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGreenNodeGLBGlobalPoolClient is a client for the BronzeHistoryGreenNodeGLBGlobalPool schema.
+type BronzeHistoryGreenNodeGLBGlobalPoolClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodeGLBGlobalPoolClient returns a client for the BronzeHistoryGreenNodeGLBGlobalPool from the given config.
+func NewBronzeHistoryGreenNodeGLBGlobalPoolClient(c config) *BronzeHistoryGreenNodeGLBGlobalPoolClient {
+	return &BronzeHistoryGreenNodeGLBGlobalPoolClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodeglbglobalpool.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeGLBGlobalPoolClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodeGLBGlobalPool = append(c.hooks.BronzeHistoryGreenNodeGLBGlobalPool, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodeglbglobalpool.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeGLBGlobalPoolClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodeGLBGlobalPool = append(c.inters.BronzeHistoryGreenNodeGLBGlobalPool, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodeGLBGlobalPool entity.
+func (c *BronzeHistoryGreenNodeGLBGlobalPoolClient) Create() *BronzeHistoryGreenNodeGLBGlobalPoolCreate {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalPoolMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodeGLBGlobalPoolCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodeGLBGlobalPool entities.
+func (c *BronzeHistoryGreenNodeGLBGlobalPoolClient) CreateBulk(builders ...*BronzeHistoryGreenNodeGLBGlobalPoolCreate) *BronzeHistoryGreenNodeGLBGlobalPoolCreateBulk {
+	return &BronzeHistoryGreenNodeGLBGlobalPoolCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodeGLBGlobalPoolClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodeGLBGlobalPoolCreate, int)) *BronzeHistoryGreenNodeGLBGlobalPoolCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodeGLBGlobalPoolCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodeGLBGlobalPoolClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodeGLBGlobalPoolCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodeGLBGlobalPoolCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodeGLBGlobalPool.
+func (c *BronzeHistoryGreenNodeGLBGlobalPoolClient) Update() *BronzeHistoryGreenNodeGLBGlobalPoolUpdate {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalPoolMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodeGLBGlobalPoolUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodeGLBGlobalPoolClient) UpdateOne(_m *BronzeHistoryGreenNodeGLBGlobalPool) *BronzeHistoryGreenNodeGLBGlobalPoolUpdateOne {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalPoolMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeGLBGlobalPool(_m))
+	return &BronzeHistoryGreenNodeGLBGlobalPoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodeGLBGlobalPoolClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeGLBGlobalPoolUpdateOne {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalPoolMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeGLBGlobalPoolID(id))
+	return &BronzeHistoryGreenNodeGLBGlobalPoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodeGLBGlobalPool.
+func (c *BronzeHistoryGreenNodeGLBGlobalPoolClient) Delete() *BronzeHistoryGreenNodeGLBGlobalPoolDelete {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalPoolMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodeGLBGlobalPoolDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodeGLBGlobalPoolClient) DeleteOne(_m *BronzeHistoryGreenNodeGLBGlobalPool) *BronzeHistoryGreenNodeGLBGlobalPoolDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodeGLBGlobalPoolClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeGLBGlobalPoolDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodeglbglobalpool.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodeGLBGlobalPoolDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodeGLBGlobalPool.
+func (c *BronzeHistoryGreenNodeGLBGlobalPoolClient) Query() *BronzeHistoryGreenNodeGLBGlobalPoolQuery {
+	return &BronzeHistoryGreenNodeGLBGlobalPoolQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodeGLBGlobalPool},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodeGLBGlobalPool entity by its id.
+func (c *BronzeHistoryGreenNodeGLBGlobalPoolClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeGLBGlobalPool, error) {
+	return c.Query().Where(bronzehistorygreennodeglbglobalpool.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodeGLBGlobalPoolClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeGLBGlobalPool {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodeGLBGlobalPoolClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodeGLBGlobalPool
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodeGLBGlobalPoolClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodeGLBGlobalPool
+}
+
+func (c *BronzeHistoryGreenNodeGLBGlobalPoolClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodeGLBGlobalPoolMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodeGLBGlobalPoolCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodeGLBGlobalPoolUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodeGLBGlobalPoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodeGLBGlobalPoolDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodeGLBGlobalPool mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGreenNodeGLBGlobalRegionClient is a client for the BronzeHistoryGreenNodeGLBGlobalRegion schema.
+type BronzeHistoryGreenNodeGLBGlobalRegionClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodeGLBGlobalRegionClient returns a client for the BronzeHistoryGreenNodeGLBGlobalRegion from the given config.
+func NewBronzeHistoryGreenNodeGLBGlobalRegionClient(c config) *BronzeHistoryGreenNodeGLBGlobalRegionClient {
+	return &BronzeHistoryGreenNodeGLBGlobalRegionClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodeglbglobalregion.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeGLBGlobalRegionClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodeGLBGlobalRegion = append(c.hooks.BronzeHistoryGreenNodeGLBGlobalRegion, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodeglbglobalregion.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeGLBGlobalRegionClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodeGLBGlobalRegion = append(c.inters.BronzeHistoryGreenNodeGLBGlobalRegion, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodeGLBGlobalRegion entity.
+func (c *BronzeHistoryGreenNodeGLBGlobalRegionClient) Create() *BronzeHistoryGreenNodeGLBGlobalRegionCreate {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalRegionMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodeGLBGlobalRegionCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodeGLBGlobalRegion entities.
+func (c *BronzeHistoryGreenNodeGLBGlobalRegionClient) CreateBulk(builders ...*BronzeHistoryGreenNodeGLBGlobalRegionCreate) *BronzeHistoryGreenNodeGLBGlobalRegionCreateBulk {
+	return &BronzeHistoryGreenNodeGLBGlobalRegionCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodeGLBGlobalRegionClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodeGLBGlobalRegionCreate, int)) *BronzeHistoryGreenNodeGLBGlobalRegionCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodeGLBGlobalRegionCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodeGLBGlobalRegionClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodeGLBGlobalRegionCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodeGLBGlobalRegionCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodeGLBGlobalRegion.
+func (c *BronzeHistoryGreenNodeGLBGlobalRegionClient) Update() *BronzeHistoryGreenNodeGLBGlobalRegionUpdate {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalRegionMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodeGLBGlobalRegionUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodeGLBGlobalRegionClient) UpdateOne(_m *BronzeHistoryGreenNodeGLBGlobalRegion) *BronzeHistoryGreenNodeGLBGlobalRegionUpdateOne {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalRegionMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeGLBGlobalRegion(_m))
+	return &BronzeHistoryGreenNodeGLBGlobalRegionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodeGLBGlobalRegionClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeGLBGlobalRegionUpdateOne {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalRegionMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeGLBGlobalRegionID(id))
+	return &BronzeHistoryGreenNodeGLBGlobalRegionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodeGLBGlobalRegion.
+func (c *BronzeHistoryGreenNodeGLBGlobalRegionClient) Delete() *BronzeHistoryGreenNodeGLBGlobalRegionDelete {
+	mutation := newBronzeHistoryGreenNodeGLBGlobalRegionMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodeGLBGlobalRegionDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodeGLBGlobalRegionClient) DeleteOne(_m *BronzeHistoryGreenNodeGLBGlobalRegion) *BronzeHistoryGreenNodeGLBGlobalRegionDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodeGLBGlobalRegionClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeGLBGlobalRegionDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodeglbglobalregion.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodeGLBGlobalRegionDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodeGLBGlobalRegion.
+func (c *BronzeHistoryGreenNodeGLBGlobalRegionClient) Query() *BronzeHistoryGreenNodeGLBGlobalRegionQuery {
+	return &BronzeHistoryGreenNodeGLBGlobalRegionQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodeGLBGlobalRegion},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodeGLBGlobalRegion entity by its id.
+func (c *BronzeHistoryGreenNodeGLBGlobalRegionClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeGLBGlobalRegion, error) {
+	return c.Query().Where(bronzehistorygreennodeglbglobalregion.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodeGLBGlobalRegionClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeGLBGlobalRegion {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodeGLBGlobalRegionClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodeGLBGlobalRegion
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodeGLBGlobalRegionClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodeGLBGlobalRegion
+}
+
+func (c *BronzeHistoryGreenNodeGLBGlobalRegionClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodeGLBGlobalRegionMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodeGLBGlobalRegionCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodeGLBGlobalRegionUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodeGLBGlobalRegionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodeGLBGlobalRegionDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodeGLBGlobalRegion mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGreenNodeLoadBalancerCertificateClient is a client for the BronzeHistoryGreenNodeLoadBalancerCertificate schema.
+type BronzeHistoryGreenNodeLoadBalancerCertificateClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodeLoadBalancerCertificateClient returns a client for the BronzeHistoryGreenNodeLoadBalancerCertificate from the given config.
+func NewBronzeHistoryGreenNodeLoadBalancerCertificateClient(c config) *BronzeHistoryGreenNodeLoadBalancerCertificateClient {
+	return &BronzeHistoryGreenNodeLoadBalancerCertificateClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodeloadbalancercertificate.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeLoadBalancerCertificateClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodeLoadBalancerCertificate = append(c.hooks.BronzeHistoryGreenNodeLoadBalancerCertificate, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodeloadbalancercertificate.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeLoadBalancerCertificateClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodeLoadBalancerCertificate = append(c.inters.BronzeHistoryGreenNodeLoadBalancerCertificate, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodeLoadBalancerCertificate entity.
+func (c *BronzeHistoryGreenNodeLoadBalancerCertificateClient) Create() *BronzeHistoryGreenNodeLoadBalancerCertificateCreate {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerCertificateMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodeLoadBalancerCertificateCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodeLoadBalancerCertificate entities.
+func (c *BronzeHistoryGreenNodeLoadBalancerCertificateClient) CreateBulk(builders ...*BronzeHistoryGreenNodeLoadBalancerCertificateCreate) *BronzeHistoryGreenNodeLoadBalancerCertificateCreateBulk {
+	return &BronzeHistoryGreenNodeLoadBalancerCertificateCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodeLoadBalancerCertificateClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodeLoadBalancerCertificateCreate, int)) *BronzeHistoryGreenNodeLoadBalancerCertificateCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodeLoadBalancerCertificateCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodeLoadBalancerCertificateClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodeLoadBalancerCertificateCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodeLoadBalancerCertificateCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodeLoadBalancerCertificate.
+func (c *BronzeHistoryGreenNodeLoadBalancerCertificateClient) Update() *BronzeHistoryGreenNodeLoadBalancerCertificateUpdate {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerCertificateMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodeLoadBalancerCertificateUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodeLoadBalancerCertificateClient) UpdateOne(_m *BronzeHistoryGreenNodeLoadBalancerCertificate) *BronzeHistoryGreenNodeLoadBalancerCertificateUpdateOne {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerCertificateMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeLoadBalancerCertificate(_m))
+	return &BronzeHistoryGreenNodeLoadBalancerCertificateUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodeLoadBalancerCertificateClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeLoadBalancerCertificateUpdateOne {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerCertificateMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeLoadBalancerCertificateID(id))
+	return &BronzeHistoryGreenNodeLoadBalancerCertificateUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodeLoadBalancerCertificate.
+func (c *BronzeHistoryGreenNodeLoadBalancerCertificateClient) Delete() *BronzeHistoryGreenNodeLoadBalancerCertificateDelete {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerCertificateMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodeLoadBalancerCertificateDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodeLoadBalancerCertificateClient) DeleteOne(_m *BronzeHistoryGreenNodeLoadBalancerCertificate) *BronzeHistoryGreenNodeLoadBalancerCertificateDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodeLoadBalancerCertificateClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeLoadBalancerCertificateDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodeloadbalancercertificate.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodeLoadBalancerCertificateDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodeLoadBalancerCertificate.
+func (c *BronzeHistoryGreenNodeLoadBalancerCertificateClient) Query() *BronzeHistoryGreenNodeLoadBalancerCertificateQuery {
+	return &BronzeHistoryGreenNodeLoadBalancerCertificateQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodeLoadBalancerCertificate},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodeLoadBalancerCertificate entity by its id.
+func (c *BronzeHistoryGreenNodeLoadBalancerCertificateClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeLoadBalancerCertificate, error) {
+	return c.Query().Where(bronzehistorygreennodeloadbalancercertificate.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodeLoadBalancerCertificateClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeLoadBalancerCertificate {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodeLoadBalancerCertificateClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodeLoadBalancerCertificate
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodeLoadBalancerCertificateClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodeLoadBalancerCertificate
+}
+
+func (c *BronzeHistoryGreenNodeLoadBalancerCertificateClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodeLoadBalancerCertificateMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodeLoadBalancerCertificateCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodeLoadBalancerCertificateUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodeLoadBalancerCertificateUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodeLoadBalancerCertificateDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodeLoadBalancerCertificate mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGreenNodeLoadBalancerLBClient is a client for the BronzeHistoryGreenNodeLoadBalancerLB schema.
+type BronzeHistoryGreenNodeLoadBalancerLBClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodeLoadBalancerLBClient returns a client for the BronzeHistoryGreenNodeLoadBalancerLB from the given config.
+func NewBronzeHistoryGreenNodeLoadBalancerLBClient(c config) *BronzeHistoryGreenNodeLoadBalancerLBClient {
+	return &BronzeHistoryGreenNodeLoadBalancerLBClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodeloadbalancerlb.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeLoadBalancerLBClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodeLoadBalancerLB = append(c.hooks.BronzeHistoryGreenNodeLoadBalancerLB, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodeloadbalancerlb.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeLoadBalancerLBClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodeLoadBalancerLB = append(c.inters.BronzeHistoryGreenNodeLoadBalancerLB, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodeLoadBalancerLB entity.
+func (c *BronzeHistoryGreenNodeLoadBalancerLBClient) Create() *BronzeHistoryGreenNodeLoadBalancerLBCreate {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerLBMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodeLoadBalancerLBCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodeLoadBalancerLB entities.
+func (c *BronzeHistoryGreenNodeLoadBalancerLBClient) CreateBulk(builders ...*BronzeHistoryGreenNodeLoadBalancerLBCreate) *BronzeHistoryGreenNodeLoadBalancerLBCreateBulk {
+	return &BronzeHistoryGreenNodeLoadBalancerLBCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodeLoadBalancerLBClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodeLoadBalancerLBCreate, int)) *BronzeHistoryGreenNodeLoadBalancerLBCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodeLoadBalancerLBCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodeLoadBalancerLBClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodeLoadBalancerLBCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodeLoadBalancerLBCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodeLoadBalancerLB.
+func (c *BronzeHistoryGreenNodeLoadBalancerLBClient) Update() *BronzeHistoryGreenNodeLoadBalancerLBUpdate {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerLBMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodeLoadBalancerLBUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodeLoadBalancerLBClient) UpdateOne(_m *BronzeHistoryGreenNodeLoadBalancerLB) *BronzeHistoryGreenNodeLoadBalancerLBUpdateOne {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerLBMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeLoadBalancerLB(_m))
+	return &BronzeHistoryGreenNodeLoadBalancerLBUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodeLoadBalancerLBClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeLoadBalancerLBUpdateOne {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerLBMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeLoadBalancerLBID(id))
+	return &BronzeHistoryGreenNodeLoadBalancerLBUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodeLoadBalancerLB.
+func (c *BronzeHistoryGreenNodeLoadBalancerLBClient) Delete() *BronzeHistoryGreenNodeLoadBalancerLBDelete {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerLBMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodeLoadBalancerLBDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodeLoadBalancerLBClient) DeleteOne(_m *BronzeHistoryGreenNodeLoadBalancerLB) *BronzeHistoryGreenNodeLoadBalancerLBDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodeLoadBalancerLBClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeLoadBalancerLBDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodeloadbalancerlb.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodeLoadBalancerLBDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodeLoadBalancerLB.
+func (c *BronzeHistoryGreenNodeLoadBalancerLBClient) Query() *BronzeHistoryGreenNodeLoadBalancerLBQuery {
+	return &BronzeHistoryGreenNodeLoadBalancerLBQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodeLoadBalancerLB},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodeLoadBalancerLB entity by its id.
+func (c *BronzeHistoryGreenNodeLoadBalancerLBClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeLoadBalancerLB, error) {
+	return c.Query().Where(bronzehistorygreennodeloadbalancerlb.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodeLoadBalancerLBClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeLoadBalancerLB {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodeLoadBalancerLBClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodeLoadBalancerLB
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodeLoadBalancerLBClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodeLoadBalancerLB
+}
+
+func (c *BronzeHistoryGreenNodeLoadBalancerLBClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodeLoadBalancerLBMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodeLoadBalancerLBCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodeLoadBalancerLBUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodeLoadBalancerLBUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodeLoadBalancerLBDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodeLoadBalancerLB mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGreenNodeLoadBalancerListenerClient is a client for the BronzeHistoryGreenNodeLoadBalancerListener schema.
+type BronzeHistoryGreenNodeLoadBalancerListenerClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodeLoadBalancerListenerClient returns a client for the BronzeHistoryGreenNodeLoadBalancerListener from the given config.
+func NewBronzeHistoryGreenNodeLoadBalancerListenerClient(c config) *BronzeHistoryGreenNodeLoadBalancerListenerClient {
+	return &BronzeHistoryGreenNodeLoadBalancerListenerClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodeloadbalancerlistener.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeLoadBalancerListenerClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodeLoadBalancerListener = append(c.hooks.BronzeHistoryGreenNodeLoadBalancerListener, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodeloadbalancerlistener.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeLoadBalancerListenerClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodeLoadBalancerListener = append(c.inters.BronzeHistoryGreenNodeLoadBalancerListener, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodeLoadBalancerListener entity.
+func (c *BronzeHistoryGreenNodeLoadBalancerListenerClient) Create() *BronzeHistoryGreenNodeLoadBalancerListenerCreate {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerListenerMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodeLoadBalancerListenerCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodeLoadBalancerListener entities.
+func (c *BronzeHistoryGreenNodeLoadBalancerListenerClient) CreateBulk(builders ...*BronzeHistoryGreenNodeLoadBalancerListenerCreate) *BronzeHistoryGreenNodeLoadBalancerListenerCreateBulk {
+	return &BronzeHistoryGreenNodeLoadBalancerListenerCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodeLoadBalancerListenerClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodeLoadBalancerListenerCreate, int)) *BronzeHistoryGreenNodeLoadBalancerListenerCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodeLoadBalancerListenerCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodeLoadBalancerListenerClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodeLoadBalancerListenerCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodeLoadBalancerListenerCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodeLoadBalancerListener.
+func (c *BronzeHistoryGreenNodeLoadBalancerListenerClient) Update() *BronzeHistoryGreenNodeLoadBalancerListenerUpdate {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerListenerMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodeLoadBalancerListenerUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodeLoadBalancerListenerClient) UpdateOne(_m *BronzeHistoryGreenNodeLoadBalancerListener) *BronzeHistoryGreenNodeLoadBalancerListenerUpdateOne {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerListenerMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeLoadBalancerListener(_m))
+	return &BronzeHistoryGreenNodeLoadBalancerListenerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodeLoadBalancerListenerClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeLoadBalancerListenerUpdateOne {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerListenerMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeLoadBalancerListenerID(id))
+	return &BronzeHistoryGreenNodeLoadBalancerListenerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodeLoadBalancerListener.
+func (c *BronzeHistoryGreenNodeLoadBalancerListenerClient) Delete() *BronzeHistoryGreenNodeLoadBalancerListenerDelete {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerListenerMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodeLoadBalancerListenerDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodeLoadBalancerListenerClient) DeleteOne(_m *BronzeHistoryGreenNodeLoadBalancerListener) *BronzeHistoryGreenNodeLoadBalancerListenerDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodeLoadBalancerListenerClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeLoadBalancerListenerDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodeloadbalancerlistener.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodeLoadBalancerListenerDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodeLoadBalancerListener.
+func (c *BronzeHistoryGreenNodeLoadBalancerListenerClient) Query() *BronzeHistoryGreenNodeLoadBalancerListenerQuery {
+	return &BronzeHistoryGreenNodeLoadBalancerListenerQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodeLoadBalancerListener},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodeLoadBalancerListener entity by its id.
+func (c *BronzeHistoryGreenNodeLoadBalancerListenerClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeLoadBalancerListener, error) {
+	return c.Query().Where(bronzehistorygreennodeloadbalancerlistener.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodeLoadBalancerListenerClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeLoadBalancerListener {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodeLoadBalancerListenerClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodeLoadBalancerListener
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodeLoadBalancerListenerClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodeLoadBalancerListener
+}
+
+func (c *BronzeHistoryGreenNodeLoadBalancerListenerClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodeLoadBalancerListenerMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodeLoadBalancerListenerCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodeLoadBalancerListenerUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodeLoadBalancerListenerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodeLoadBalancerListenerDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodeLoadBalancerListener mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGreenNodeLoadBalancerPackageClient is a client for the BronzeHistoryGreenNodeLoadBalancerPackage schema.
+type BronzeHistoryGreenNodeLoadBalancerPackageClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodeLoadBalancerPackageClient returns a client for the BronzeHistoryGreenNodeLoadBalancerPackage from the given config.
+func NewBronzeHistoryGreenNodeLoadBalancerPackageClient(c config) *BronzeHistoryGreenNodeLoadBalancerPackageClient {
+	return &BronzeHistoryGreenNodeLoadBalancerPackageClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodeloadbalancerpackage.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeLoadBalancerPackageClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodeLoadBalancerPackage = append(c.hooks.BronzeHistoryGreenNodeLoadBalancerPackage, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodeloadbalancerpackage.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeLoadBalancerPackageClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodeLoadBalancerPackage = append(c.inters.BronzeHistoryGreenNodeLoadBalancerPackage, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodeLoadBalancerPackage entity.
+func (c *BronzeHistoryGreenNodeLoadBalancerPackageClient) Create() *BronzeHistoryGreenNodeLoadBalancerPackageCreate {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerPackageMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodeLoadBalancerPackageCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodeLoadBalancerPackage entities.
+func (c *BronzeHistoryGreenNodeLoadBalancerPackageClient) CreateBulk(builders ...*BronzeHistoryGreenNodeLoadBalancerPackageCreate) *BronzeHistoryGreenNodeLoadBalancerPackageCreateBulk {
+	return &BronzeHistoryGreenNodeLoadBalancerPackageCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodeLoadBalancerPackageClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodeLoadBalancerPackageCreate, int)) *BronzeHistoryGreenNodeLoadBalancerPackageCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodeLoadBalancerPackageCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodeLoadBalancerPackageClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodeLoadBalancerPackageCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodeLoadBalancerPackageCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodeLoadBalancerPackage.
+func (c *BronzeHistoryGreenNodeLoadBalancerPackageClient) Update() *BronzeHistoryGreenNodeLoadBalancerPackageUpdate {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerPackageMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodeLoadBalancerPackageUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodeLoadBalancerPackageClient) UpdateOne(_m *BronzeHistoryGreenNodeLoadBalancerPackage) *BronzeHistoryGreenNodeLoadBalancerPackageUpdateOne {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerPackageMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeLoadBalancerPackage(_m))
+	return &BronzeHistoryGreenNodeLoadBalancerPackageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodeLoadBalancerPackageClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeLoadBalancerPackageUpdateOne {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerPackageMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeLoadBalancerPackageID(id))
+	return &BronzeHistoryGreenNodeLoadBalancerPackageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodeLoadBalancerPackage.
+func (c *BronzeHistoryGreenNodeLoadBalancerPackageClient) Delete() *BronzeHistoryGreenNodeLoadBalancerPackageDelete {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerPackageMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodeLoadBalancerPackageDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodeLoadBalancerPackageClient) DeleteOne(_m *BronzeHistoryGreenNodeLoadBalancerPackage) *BronzeHistoryGreenNodeLoadBalancerPackageDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodeLoadBalancerPackageClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeLoadBalancerPackageDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodeloadbalancerpackage.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodeLoadBalancerPackageDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodeLoadBalancerPackage.
+func (c *BronzeHistoryGreenNodeLoadBalancerPackageClient) Query() *BronzeHistoryGreenNodeLoadBalancerPackageQuery {
+	return &BronzeHistoryGreenNodeLoadBalancerPackageQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodeLoadBalancerPackage},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodeLoadBalancerPackage entity by its id.
+func (c *BronzeHistoryGreenNodeLoadBalancerPackageClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeLoadBalancerPackage, error) {
+	return c.Query().Where(bronzehistorygreennodeloadbalancerpackage.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodeLoadBalancerPackageClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeLoadBalancerPackage {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodeLoadBalancerPackageClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodeLoadBalancerPackage
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodeLoadBalancerPackageClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodeLoadBalancerPackage
+}
+
+func (c *BronzeHistoryGreenNodeLoadBalancerPackageClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodeLoadBalancerPackageMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodeLoadBalancerPackageCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodeLoadBalancerPackageUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodeLoadBalancerPackageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodeLoadBalancerPackageDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodeLoadBalancerPackage mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGreenNodeLoadBalancerPoolClient is a client for the BronzeHistoryGreenNodeLoadBalancerPool schema.
+type BronzeHistoryGreenNodeLoadBalancerPoolClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodeLoadBalancerPoolClient returns a client for the BronzeHistoryGreenNodeLoadBalancerPool from the given config.
+func NewBronzeHistoryGreenNodeLoadBalancerPoolClient(c config) *BronzeHistoryGreenNodeLoadBalancerPoolClient {
+	return &BronzeHistoryGreenNodeLoadBalancerPoolClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodeloadbalancerpool.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeLoadBalancerPoolClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodeLoadBalancerPool = append(c.hooks.BronzeHistoryGreenNodeLoadBalancerPool, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodeloadbalancerpool.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeLoadBalancerPoolClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodeLoadBalancerPool = append(c.inters.BronzeHistoryGreenNodeLoadBalancerPool, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodeLoadBalancerPool entity.
+func (c *BronzeHistoryGreenNodeLoadBalancerPoolClient) Create() *BronzeHistoryGreenNodeLoadBalancerPoolCreate {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerPoolMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodeLoadBalancerPoolCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodeLoadBalancerPool entities.
+func (c *BronzeHistoryGreenNodeLoadBalancerPoolClient) CreateBulk(builders ...*BronzeHistoryGreenNodeLoadBalancerPoolCreate) *BronzeHistoryGreenNodeLoadBalancerPoolCreateBulk {
+	return &BronzeHistoryGreenNodeLoadBalancerPoolCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodeLoadBalancerPoolClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodeLoadBalancerPoolCreate, int)) *BronzeHistoryGreenNodeLoadBalancerPoolCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodeLoadBalancerPoolCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodeLoadBalancerPoolClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodeLoadBalancerPoolCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodeLoadBalancerPoolCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodeLoadBalancerPool.
+func (c *BronzeHistoryGreenNodeLoadBalancerPoolClient) Update() *BronzeHistoryGreenNodeLoadBalancerPoolUpdate {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerPoolMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodeLoadBalancerPoolUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodeLoadBalancerPoolClient) UpdateOne(_m *BronzeHistoryGreenNodeLoadBalancerPool) *BronzeHistoryGreenNodeLoadBalancerPoolUpdateOne {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerPoolMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeLoadBalancerPool(_m))
+	return &BronzeHistoryGreenNodeLoadBalancerPoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodeLoadBalancerPoolClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeLoadBalancerPoolUpdateOne {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerPoolMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeLoadBalancerPoolID(id))
+	return &BronzeHistoryGreenNodeLoadBalancerPoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodeLoadBalancerPool.
+func (c *BronzeHistoryGreenNodeLoadBalancerPoolClient) Delete() *BronzeHistoryGreenNodeLoadBalancerPoolDelete {
+	mutation := newBronzeHistoryGreenNodeLoadBalancerPoolMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodeLoadBalancerPoolDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodeLoadBalancerPoolClient) DeleteOne(_m *BronzeHistoryGreenNodeLoadBalancerPool) *BronzeHistoryGreenNodeLoadBalancerPoolDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodeLoadBalancerPoolClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeLoadBalancerPoolDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodeloadbalancerpool.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodeLoadBalancerPoolDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodeLoadBalancerPool.
+func (c *BronzeHistoryGreenNodeLoadBalancerPoolClient) Query() *BronzeHistoryGreenNodeLoadBalancerPoolQuery {
+	return &BronzeHistoryGreenNodeLoadBalancerPoolQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodeLoadBalancerPool},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodeLoadBalancerPool entity by its id.
+func (c *BronzeHistoryGreenNodeLoadBalancerPoolClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeLoadBalancerPool, error) {
+	return c.Query().Where(bronzehistorygreennodeloadbalancerpool.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodeLoadBalancerPoolClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeLoadBalancerPool {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodeLoadBalancerPoolClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodeLoadBalancerPool
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodeLoadBalancerPoolClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodeLoadBalancerPool
+}
+
+func (c *BronzeHistoryGreenNodeLoadBalancerPoolClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodeLoadBalancerPoolMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodeLoadBalancerPoolCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodeLoadBalancerPoolUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodeLoadBalancerPoolUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodeLoadBalancerPoolDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodeLoadBalancerPool mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGreenNodeNetworkEndpointClient is a client for the BronzeHistoryGreenNodeNetworkEndpoint schema.
+type BronzeHistoryGreenNodeNetworkEndpointClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodeNetworkEndpointClient returns a client for the BronzeHistoryGreenNodeNetworkEndpoint from the given config.
+func NewBronzeHistoryGreenNodeNetworkEndpointClient(c config) *BronzeHistoryGreenNodeNetworkEndpointClient {
+	return &BronzeHistoryGreenNodeNetworkEndpointClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodenetworkendpoint.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeNetworkEndpointClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodeNetworkEndpoint = append(c.hooks.BronzeHistoryGreenNodeNetworkEndpoint, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodenetworkendpoint.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeNetworkEndpointClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodeNetworkEndpoint = append(c.inters.BronzeHistoryGreenNodeNetworkEndpoint, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodeNetworkEndpoint entity.
+func (c *BronzeHistoryGreenNodeNetworkEndpointClient) Create() *BronzeHistoryGreenNodeNetworkEndpointCreate {
+	mutation := newBronzeHistoryGreenNodeNetworkEndpointMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodeNetworkEndpointCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodeNetworkEndpoint entities.
+func (c *BronzeHistoryGreenNodeNetworkEndpointClient) CreateBulk(builders ...*BronzeHistoryGreenNodeNetworkEndpointCreate) *BronzeHistoryGreenNodeNetworkEndpointCreateBulk {
+	return &BronzeHistoryGreenNodeNetworkEndpointCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodeNetworkEndpointClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodeNetworkEndpointCreate, int)) *BronzeHistoryGreenNodeNetworkEndpointCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodeNetworkEndpointCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodeNetworkEndpointClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodeNetworkEndpointCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodeNetworkEndpointCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodeNetworkEndpoint.
+func (c *BronzeHistoryGreenNodeNetworkEndpointClient) Update() *BronzeHistoryGreenNodeNetworkEndpointUpdate {
+	mutation := newBronzeHistoryGreenNodeNetworkEndpointMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodeNetworkEndpointUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodeNetworkEndpointClient) UpdateOne(_m *BronzeHistoryGreenNodeNetworkEndpoint) *BronzeHistoryGreenNodeNetworkEndpointUpdateOne {
+	mutation := newBronzeHistoryGreenNodeNetworkEndpointMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeNetworkEndpoint(_m))
+	return &BronzeHistoryGreenNodeNetworkEndpointUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodeNetworkEndpointClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeNetworkEndpointUpdateOne {
+	mutation := newBronzeHistoryGreenNodeNetworkEndpointMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeNetworkEndpointID(id))
+	return &BronzeHistoryGreenNodeNetworkEndpointUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodeNetworkEndpoint.
+func (c *BronzeHistoryGreenNodeNetworkEndpointClient) Delete() *BronzeHistoryGreenNodeNetworkEndpointDelete {
+	mutation := newBronzeHistoryGreenNodeNetworkEndpointMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodeNetworkEndpointDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodeNetworkEndpointClient) DeleteOne(_m *BronzeHistoryGreenNodeNetworkEndpoint) *BronzeHistoryGreenNodeNetworkEndpointDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodeNetworkEndpointClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeNetworkEndpointDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodenetworkendpoint.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodeNetworkEndpointDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodeNetworkEndpoint.
+func (c *BronzeHistoryGreenNodeNetworkEndpointClient) Query() *BronzeHistoryGreenNodeNetworkEndpointQuery {
+	return &BronzeHistoryGreenNodeNetworkEndpointQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodeNetworkEndpoint},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodeNetworkEndpoint entity by its id.
+func (c *BronzeHistoryGreenNodeNetworkEndpointClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeNetworkEndpoint, error) {
+	return c.Query().Where(bronzehistorygreennodenetworkendpoint.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodeNetworkEndpointClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeNetworkEndpoint {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodeNetworkEndpointClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodeNetworkEndpoint
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodeNetworkEndpointClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodeNetworkEndpoint
+}
+
+func (c *BronzeHistoryGreenNodeNetworkEndpointClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodeNetworkEndpointMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodeNetworkEndpointCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodeNetworkEndpointUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodeNetworkEndpointUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodeNetworkEndpointDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodeNetworkEndpoint mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGreenNodeNetworkSecgroupClient is a client for the BronzeHistoryGreenNodeNetworkSecgroup schema.
+type BronzeHistoryGreenNodeNetworkSecgroupClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodeNetworkSecgroupClient returns a client for the BronzeHistoryGreenNodeNetworkSecgroup from the given config.
+func NewBronzeHistoryGreenNodeNetworkSecgroupClient(c config) *BronzeHistoryGreenNodeNetworkSecgroupClient {
+	return &BronzeHistoryGreenNodeNetworkSecgroupClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodenetworksecgroup.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodeNetworkSecgroup = append(c.hooks.BronzeHistoryGreenNodeNetworkSecgroup, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodenetworksecgroup.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodeNetworkSecgroup = append(c.inters.BronzeHistoryGreenNodeNetworkSecgroup, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodeNetworkSecgroup entity.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupClient) Create() *BronzeHistoryGreenNodeNetworkSecgroupCreate {
+	mutation := newBronzeHistoryGreenNodeNetworkSecgroupMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodeNetworkSecgroupCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodeNetworkSecgroup entities.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupClient) CreateBulk(builders ...*BronzeHistoryGreenNodeNetworkSecgroupCreate) *BronzeHistoryGreenNodeNetworkSecgroupCreateBulk {
+	return &BronzeHistoryGreenNodeNetworkSecgroupCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodeNetworkSecgroupCreate, int)) *BronzeHistoryGreenNodeNetworkSecgroupCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodeNetworkSecgroupCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodeNetworkSecgroupClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodeNetworkSecgroupCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodeNetworkSecgroupCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodeNetworkSecgroup.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupClient) Update() *BronzeHistoryGreenNodeNetworkSecgroupUpdate {
+	mutation := newBronzeHistoryGreenNodeNetworkSecgroupMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodeNetworkSecgroupUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupClient) UpdateOne(_m *BronzeHistoryGreenNodeNetworkSecgroup) *BronzeHistoryGreenNodeNetworkSecgroupUpdateOne {
+	mutation := newBronzeHistoryGreenNodeNetworkSecgroupMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeNetworkSecgroup(_m))
+	return &BronzeHistoryGreenNodeNetworkSecgroupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeNetworkSecgroupUpdateOne {
+	mutation := newBronzeHistoryGreenNodeNetworkSecgroupMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeNetworkSecgroupID(id))
+	return &BronzeHistoryGreenNodeNetworkSecgroupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodeNetworkSecgroup.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupClient) Delete() *BronzeHistoryGreenNodeNetworkSecgroupDelete {
+	mutation := newBronzeHistoryGreenNodeNetworkSecgroupMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodeNetworkSecgroupDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupClient) DeleteOne(_m *BronzeHistoryGreenNodeNetworkSecgroup) *BronzeHistoryGreenNodeNetworkSecgroupDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeNetworkSecgroupDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodenetworksecgroup.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodeNetworkSecgroupDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodeNetworkSecgroup.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupClient) Query() *BronzeHistoryGreenNodeNetworkSecgroupQuery {
+	return &BronzeHistoryGreenNodeNetworkSecgroupQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodeNetworkSecgroup},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodeNetworkSecgroup entity by its id.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeNetworkSecgroup, error) {
+	return c.Query().Where(bronzehistorygreennodenetworksecgroup.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeNetworkSecgroup {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodeNetworkSecgroup
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodeNetworkSecgroup
+}
+
+func (c *BronzeHistoryGreenNodeNetworkSecgroupClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodeNetworkSecgroupMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodeNetworkSecgroupCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodeNetworkSecgroupUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodeNetworkSecgroupUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodeNetworkSecgroupDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodeNetworkSecgroup mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGreenNodeNetworkSecgroupRuleClient is a client for the BronzeHistoryGreenNodeNetworkSecgroupRule schema.
+type BronzeHistoryGreenNodeNetworkSecgroupRuleClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodeNetworkSecgroupRuleClient returns a client for the BronzeHistoryGreenNodeNetworkSecgroupRule from the given config.
+func NewBronzeHistoryGreenNodeNetworkSecgroupRuleClient(c config) *BronzeHistoryGreenNodeNetworkSecgroupRuleClient {
+	return &BronzeHistoryGreenNodeNetworkSecgroupRuleClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodenetworksecgrouprule.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupRuleClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodeNetworkSecgroupRule = append(c.hooks.BronzeHistoryGreenNodeNetworkSecgroupRule, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodenetworksecgrouprule.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupRuleClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodeNetworkSecgroupRule = append(c.inters.BronzeHistoryGreenNodeNetworkSecgroupRule, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodeNetworkSecgroupRule entity.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupRuleClient) Create() *BronzeHistoryGreenNodeNetworkSecgroupRuleCreate {
+	mutation := newBronzeHistoryGreenNodeNetworkSecgroupRuleMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodeNetworkSecgroupRuleCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodeNetworkSecgroupRule entities.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupRuleClient) CreateBulk(builders ...*BronzeHistoryGreenNodeNetworkSecgroupRuleCreate) *BronzeHistoryGreenNodeNetworkSecgroupRuleCreateBulk {
+	return &BronzeHistoryGreenNodeNetworkSecgroupRuleCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupRuleClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodeNetworkSecgroupRuleCreate, int)) *BronzeHistoryGreenNodeNetworkSecgroupRuleCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodeNetworkSecgroupRuleCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodeNetworkSecgroupRuleClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodeNetworkSecgroupRuleCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodeNetworkSecgroupRuleCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodeNetworkSecgroupRule.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupRuleClient) Update() *BronzeHistoryGreenNodeNetworkSecgroupRuleUpdate {
+	mutation := newBronzeHistoryGreenNodeNetworkSecgroupRuleMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodeNetworkSecgroupRuleUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupRuleClient) UpdateOne(_m *BronzeHistoryGreenNodeNetworkSecgroupRule) *BronzeHistoryGreenNodeNetworkSecgroupRuleUpdateOne {
+	mutation := newBronzeHistoryGreenNodeNetworkSecgroupRuleMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeNetworkSecgroupRule(_m))
+	return &BronzeHistoryGreenNodeNetworkSecgroupRuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupRuleClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeNetworkSecgroupRuleUpdateOne {
+	mutation := newBronzeHistoryGreenNodeNetworkSecgroupRuleMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeNetworkSecgroupRuleID(id))
+	return &BronzeHistoryGreenNodeNetworkSecgroupRuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodeNetworkSecgroupRule.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupRuleClient) Delete() *BronzeHistoryGreenNodeNetworkSecgroupRuleDelete {
+	mutation := newBronzeHistoryGreenNodeNetworkSecgroupRuleMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodeNetworkSecgroupRuleDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupRuleClient) DeleteOne(_m *BronzeHistoryGreenNodeNetworkSecgroupRule) *BronzeHistoryGreenNodeNetworkSecgroupRuleDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupRuleClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeNetworkSecgroupRuleDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodenetworksecgrouprule.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodeNetworkSecgroupRuleDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodeNetworkSecgroupRule.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupRuleClient) Query() *BronzeHistoryGreenNodeNetworkSecgroupRuleQuery {
+	return &BronzeHistoryGreenNodeNetworkSecgroupRuleQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodeNetworkSecgroupRule},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodeNetworkSecgroupRule entity by its id.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupRuleClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeNetworkSecgroupRule, error) {
+	return c.Query().Where(bronzehistorygreennodenetworksecgrouprule.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupRuleClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeNetworkSecgroupRule {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupRuleClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodeNetworkSecgroupRule
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodeNetworkSecgroupRuleClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodeNetworkSecgroupRule
+}
+
+func (c *BronzeHistoryGreenNodeNetworkSecgroupRuleClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodeNetworkSecgroupRuleMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodeNetworkSecgroupRuleCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodeNetworkSecgroupRuleUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodeNetworkSecgroupRuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodeNetworkSecgroupRuleDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodeNetworkSecgroupRule mutation op: %q", m.Op())
+	}
+}
+
 // BronzeHistoryGreenNodePortalQuotaClient is a client for the BronzeHistoryGreenNodePortalQuota schema.
 type BronzeHistoryGreenNodePortalQuotaClient struct {
 	config
@@ -49284,6 +54579,671 @@ func (c *BronzeHistoryGreenNodePortalRegionClient) mutate(ctx context.Context, m
 		return (&BronzeHistoryGreenNodePortalRegionDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodePortalRegion mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGreenNodePortalZoneClient is a client for the BronzeHistoryGreenNodePortalZone schema.
+type BronzeHistoryGreenNodePortalZoneClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodePortalZoneClient returns a client for the BronzeHistoryGreenNodePortalZone from the given config.
+func NewBronzeHistoryGreenNodePortalZoneClient(c config) *BronzeHistoryGreenNodePortalZoneClient {
+	return &BronzeHistoryGreenNodePortalZoneClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodeportalzone.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodePortalZoneClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodePortalZone = append(c.hooks.BronzeHistoryGreenNodePortalZone, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodeportalzone.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodePortalZoneClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodePortalZone = append(c.inters.BronzeHistoryGreenNodePortalZone, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodePortalZone entity.
+func (c *BronzeHistoryGreenNodePortalZoneClient) Create() *BronzeHistoryGreenNodePortalZoneCreate {
+	mutation := newBronzeHistoryGreenNodePortalZoneMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodePortalZoneCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodePortalZone entities.
+func (c *BronzeHistoryGreenNodePortalZoneClient) CreateBulk(builders ...*BronzeHistoryGreenNodePortalZoneCreate) *BronzeHistoryGreenNodePortalZoneCreateBulk {
+	return &BronzeHistoryGreenNodePortalZoneCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodePortalZoneClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodePortalZoneCreate, int)) *BronzeHistoryGreenNodePortalZoneCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodePortalZoneCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodePortalZoneClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodePortalZoneCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodePortalZoneCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodePortalZone.
+func (c *BronzeHistoryGreenNodePortalZoneClient) Update() *BronzeHistoryGreenNodePortalZoneUpdate {
+	mutation := newBronzeHistoryGreenNodePortalZoneMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodePortalZoneUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodePortalZoneClient) UpdateOne(_m *BronzeHistoryGreenNodePortalZone) *BronzeHistoryGreenNodePortalZoneUpdateOne {
+	mutation := newBronzeHistoryGreenNodePortalZoneMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodePortalZone(_m))
+	return &BronzeHistoryGreenNodePortalZoneUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodePortalZoneClient) UpdateOneID(id uint) *BronzeHistoryGreenNodePortalZoneUpdateOne {
+	mutation := newBronzeHistoryGreenNodePortalZoneMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodePortalZoneID(id))
+	return &BronzeHistoryGreenNodePortalZoneUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodePortalZone.
+func (c *BronzeHistoryGreenNodePortalZoneClient) Delete() *BronzeHistoryGreenNodePortalZoneDelete {
+	mutation := newBronzeHistoryGreenNodePortalZoneMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodePortalZoneDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodePortalZoneClient) DeleteOne(_m *BronzeHistoryGreenNodePortalZone) *BronzeHistoryGreenNodePortalZoneDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodePortalZoneClient) DeleteOneID(id uint) *BronzeHistoryGreenNodePortalZoneDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodeportalzone.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodePortalZoneDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodePortalZone.
+func (c *BronzeHistoryGreenNodePortalZoneClient) Query() *BronzeHistoryGreenNodePortalZoneQuery {
+	return &BronzeHistoryGreenNodePortalZoneQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodePortalZone},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodePortalZone entity by its id.
+func (c *BronzeHistoryGreenNodePortalZoneClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodePortalZone, error) {
+	return c.Query().Where(bronzehistorygreennodeportalzone.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodePortalZoneClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodePortalZone {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodePortalZoneClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodePortalZone
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodePortalZoneClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodePortalZone
+}
+
+func (c *BronzeHistoryGreenNodePortalZoneClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodePortalZoneMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodePortalZoneCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodePortalZoneUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodePortalZoneUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodePortalZoneDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodePortalZone mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGreenNodeVolumeBlockVolumeClient is a client for the BronzeHistoryGreenNodeVolumeBlockVolume schema.
+type BronzeHistoryGreenNodeVolumeBlockVolumeClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodeVolumeBlockVolumeClient returns a client for the BronzeHistoryGreenNodeVolumeBlockVolume from the given config.
+func NewBronzeHistoryGreenNodeVolumeBlockVolumeClient(c config) *BronzeHistoryGreenNodeVolumeBlockVolumeClient {
+	return &BronzeHistoryGreenNodeVolumeBlockVolumeClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodevolumeblockvolume.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeVolumeBlockVolumeClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodeVolumeBlockVolume = append(c.hooks.BronzeHistoryGreenNodeVolumeBlockVolume, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodevolumeblockvolume.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeVolumeBlockVolumeClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodeVolumeBlockVolume = append(c.inters.BronzeHistoryGreenNodeVolumeBlockVolume, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodeVolumeBlockVolume entity.
+func (c *BronzeHistoryGreenNodeVolumeBlockVolumeClient) Create() *BronzeHistoryGreenNodeVolumeBlockVolumeCreate {
+	mutation := newBronzeHistoryGreenNodeVolumeBlockVolumeMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodeVolumeBlockVolumeCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodeVolumeBlockVolume entities.
+func (c *BronzeHistoryGreenNodeVolumeBlockVolumeClient) CreateBulk(builders ...*BronzeHistoryGreenNodeVolumeBlockVolumeCreate) *BronzeHistoryGreenNodeVolumeBlockVolumeCreateBulk {
+	return &BronzeHistoryGreenNodeVolumeBlockVolumeCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodeVolumeBlockVolumeClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodeVolumeBlockVolumeCreate, int)) *BronzeHistoryGreenNodeVolumeBlockVolumeCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodeVolumeBlockVolumeCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodeVolumeBlockVolumeClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodeVolumeBlockVolumeCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodeVolumeBlockVolumeCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodeVolumeBlockVolume.
+func (c *BronzeHistoryGreenNodeVolumeBlockVolumeClient) Update() *BronzeHistoryGreenNodeVolumeBlockVolumeUpdate {
+	mutation := newBronzeHistoryGreenNodeVolumeBlockVolumeMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodeVolumeBlockVolumeUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodeVolumeBlockVolumeClient) UpdateOne(_m *BronzeHistoryGreenNodeVolumeBlockVolume) *BronzeHistoryGreenNodeVolumeBlockVolumeUpdateOne {
+	mutation := newBronzeHistoryGreenNodeVolumeBlockVolumeMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeVolumeBlockVolume(_m))
+	return &BronzeHistoryGreenNodeVolumeBlockVolumeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodeVolumeBlockVolumeClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeVolumeBlockVolumeUpdateOne {
+	mutation := newBronzeHistoryGreenNodeVolumeBlockVolumeMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeVolumeBlockVolumeID(id))
+	return &BronzeHistoryGreenNodeVolumeBlockVolumeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodeVolumeBlockVolume.
+func (c *BronzeHistoryGreenNodeVolumeBlockVolumeClient) Delete() *BronzeHistoryGreenNodeVolumeBlockVolumeDelete {
+	mutation := newBronzeHistoryGreenNodeVolumeBlockVolumeMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodeVolumeBlockVolumeDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodeVolumeBlockVolumeClient) DeleteOne(_m *BronzeHistoryGreenNodeVolumeBlockVolume) *BronzeHistoryGreenNodeVolumeBlockVolumeDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodeVolumeBlockVolumeClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeVolumeBlockVolumeDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodevolumeblockvolume.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodeVolumeBlockVolumeDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodeVolumeBlockVolume.
+func (c *BronzeHistoryGreenNodeVolumeBlockVolumeClient) Query() *BronzeHistoryGreenNodeVolumeBlockVolumeQuery {
+	return &BronzeHistoryGreenNodeVolumeBlockVolumeQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodeVolumeBlockVolume},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodeVolumeBlockVolume entity by its id.
+func (c *BronzeHistoryGreenNodeVolumeBlockVolumeClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeVolumeBlockVolume, error) {
+	return c.Query().Where(bronzehistorygreennodevolumeblockvolume.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodeVolumeBlockVolumeClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeVolumeBlockVolume {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodeVolumeBlockVolumeClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodeVolumeBlockVolume
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodeVolumeBlockVolumeClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodeVolumeBlockVolume
+}
+
+func (c *BronzeHistoryGreenNodeVolumeBlockVolumeClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodeVolumeBlockVolumeMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodeVolumeBlockVolumeCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodeVolumeBlockVolumeUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodeVolumeBlockVolumeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodeVolumeBlockVolumeDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodeVolumeBlockVolume mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGreenNodeVolumeSnapshotClient is a client for the BronzeHistoryGreenNodeVolumeSnapshot schema.
+type BronzeHistoryGreenNodeVolumeSnapshotClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodeVolumeSnapshotClient returns a client for the BronzeHistoryGreenNodeVolumeSnapshot from the given config.
+func NewBronzeHistoryGreenNodeVolumeSnapshotClient(c config) *BronzeHistoryGreenNodeVolumeSnapshotClient {
+	return &BronzeHistoryGreenNodeVolumeSnapshotClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodevolumesnapshot.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeVolumeSnapshotClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodeVolumeSnapshot = append(c.hooks.BronzeHistoryGreenNodeVolumeSnapshot, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodevolumesnapshot.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeVolumeSnapshotClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodeVolumeSnapshot = append(c.inters.BronzeHistoryGreenNodeVolumeSnapshot, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodeVolumeSnapshot entity.
+func (c *BronzeHistoryGreenNodeVolumeSnapshotClient) Create() *BronzeHistoryGreenNodeVolumeSnapshotCreate {
+	mutation := newBronzeHistoryGreenNodeVolumeSnapshotMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodeVolumeSnapshotCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodeVolumeSnapshot entities.
+func (c *BronzeHistoryGreenNodeVolumeSnapshotClient) CreateBulk(builders ...*BronzeHistoryGreenNodeVolumeSnapshotCreate) *BronzeHistoryGreenNodeVolumeSnapshotCreateBulk {
+	return &BronzeHistoryGreenNodeVolumeSnapshotCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodeVolumeSnapshotClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodeVolumeSnapshotCreate, int)) *BronzeHistoryGreenNodeVolumeSnapshotCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodeVolumeSnapshotCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodeVolumeSnapshotClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodeVolumeSnapshotCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodeVolumeSnapshotCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodeVolumeSnapshot.
+func (c *BronzeHistoryGreenNodeVolumeSnapshotClient) Update() *BronzeHistoryGreenNodeVolumeSnapshotUpdate {
+	mutation := newBronzeHistoryGreenNodeVolumeSnapshotMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodeVolumeSnapshotUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodeVolumeSnapshotClient) UpdateOne(_m *BronzeHistoryGreenNodeVolumeSnapshot) *BronzeHistoryGreenNodeVolumeSnapshotUpdateOne {
+	mutation := newBronzeHistoryGreenNodeVolumeSnapshotMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeVolumeSnapshot(_m))
+	return &BronzeHistoryGreenNodeVolumeSnapshotUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodeVolumeSnapshotClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeVolumeSnapshotUpdateOne {
+	mutation := newBronzeHistoryGreenNodeVolumeSnapshotMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeVolumeSnapshotID(id))
+	return &BronzeHistoryGreenNodeVolumeSnapshotUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodeVolumeSnapshot.
+func (c *BronzeHistoryGreenNodeVolumeSnapshotClient) Delete() *BronzeHistoryGreenNodeVolumeSnapshotDelete {
+	mutation := newBronzeHistoryGreenNodeVolumeSnapshotMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodeVolumeSnapshotDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodeVolumeSnapshotClient) DeleteOne(_m *BronzeHistoryGreenNodeVolumeSnapshot) *BronzeHistoryGreenNodeVolumeSnapshotDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodeVolumeSnapshotClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeVolumeSnapshotDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodevolumesnapshot.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodeVolumeSnapshotDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodeVolumeSnapshot.
+func (c *BronzeHistoryGreenNodeVolumeSnapshotClient) Query() *BronzeHistoryGreenNodeVolumeSnapshotQuery {
+	return &BronzeHistoryGreenNodeVolumeSnapshotQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodeVolumeSnapshot},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodeVolumeSnapshot entity by its id.
+func (c *BronzeHistoryGreenNodeVolumeSnapshotClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeVolumeSnapshot, error) {
+	return c.Query().Where(bronzehistorygreennodevolumesnapshot.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodeVolumeSnapshotClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeVolumeSnapshot {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodeVolumeSnapshotClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodeVolumeSnapshot
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodeVolumeSnapshotClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodeVolumeSnapshot
+}
+
+func (c *BronzeHistoryGreenNodeVolumeSnapshotClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodeVolumeSnapshotMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodeVolumeSnapshotCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodeVolumeSnapshotUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodeVolumeSnapshotUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodeVolumeSnapshotDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodeVolumeSnapshot mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGreenNodeVolumeVolumeTypeClient is a client for the BronzeHistoryGreenNodeVolumeVolumeType schema.
+type BronzeHistoryGreenNodeVolumeVolumeTypeClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodeVolumeVolumeTypeClient returns a client for the BronzeHistoryGreenNodeVolumeVolumeType from the given config.
+func NewBronzeHistoryGreenNodeVolumeVolumeTypeClient(c config) *BronzeHistoryGreenNodeVolumeVolumeTypeClient {
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodevolumevolumetype.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodeVolumeVolumeType = append(c.hooks.BronzeHistoryGreenNodeVolumeVolumeType, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodevolumevolumetype.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodeVolumeVolumeType = append(c.inters.BronzeHistoryGreenNodeVolumeVolumeType, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodeVolumeVolumeType entity.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeClient) Create() *BronzeHistoryGreenNodeVolumeVolumeTypeCreate {
+	mutation := newBronzeHistoryGreenNodeVolumeVolumeTypeMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodeVolumeVolumeType entities.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeClient) CreateBulk(builders ...*BronzeHistoryGreenNodeVolumeVolumeTypeCreate) *BronzeHistoryGreenNodeVolumeVolumeTypeCreateBulk {
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodeVolumeVolumeTypeCreate, int)) *BronzeHistoryGreenNodeVolumeVolumeTypeCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodeVolumeVolumeTypeCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodeVolumeVolumeTypeClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodeVolumeVolumeTypeCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodeVolumeVolumeType.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeClient) Update() *BronzeHistoryGreenNodeVolumeVolumeTypeUpdate {
+	mutation := newBronzeHistoryGreenNodeVolumeVolumeTypeMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeClient) UpdateOne(_m *BronzeHistoryGreenNodeVolumeVolumeType) *BronzeHistoryGreenNodeVolumeVolumeTypeUpdateOne {
+	mutation := newBronzeHistoryGreenNodeVolumeVolumeTypeMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeVolumeVolumeType(_m))
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeVolumeVolumeTypeUpdateOne {
+	mutation := newBronzeHistoryGreenNodeVolumeVolumeTypeMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeVolumeVolumeTypeID(id))
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodeVolumeVolumeType.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeClient) Delete() *BronzeHistoryGreenNodeVolumeVolumeTypeDelete {
+	mutation := newBronzeHistoryGreenNodeVolumeVolumeTypeMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeClient) DeleteOne(_m *BronzeHistoryGreenNodeVolumeVolumeType) *BronzeHistoryGreenNodeVolumeVolumeTypeDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeVolumeVolumeTypeDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodevolumevolumetype.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodeVolumeVolumeType.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeClient) Query() *BronzeHistoryGreenNodeVolumeVolumeTypeQuery {
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodeVolumeVolumeType},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodeVolumeVolumeType entity by its id.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeVolumeVolumeType, error) {
+	return c.Query().Where(bronzehistorygreennodevolumevolumetype.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeVolumeVolumeType {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodeVolumeVolumeType
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodeVolumeVolumeType
+}
+
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodeVolumeVolumeTypeMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodeVolumeVolumeTypeCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodeVolumeVolumeTypeUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodeVolumeVolumeTypeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodeVolumeVolumeTypeDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodeVolumeVolumeType mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient is a client for the BronzeHistoryGreenNodeVolumeVolumeTypeZone schema.
+type BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient struct {
+	config
+}
+
+// NewBronzeHistoryGreenNodeVolumeVolumeTypeZoneClient returns a client for the BronzeHistoryGreenNodeVolumeVolumeTypeZone from the given config.
+func NewBronzeHistoryGreenNodeVolumeVolumeTypeZoneClient(c config) *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient {
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorygreennodevolumevolumetypezone.Hooks(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryGreenNodeVolumeVolumeTypeZone = append(c.hooks.BronzeHistoryGreenNodeVolumeVolumeTypeZone, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorygreennodevolumevolumetypezone.Intercept(f(g(h())))`.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryGreenNodeVolumeVolumeTypeZone = append(c.inters.BronzeHistoryGreenNodeVolumeVolumeTypeZone, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryGreenNodeVolumeVolumeTypeZone entity.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient) Create() *BronzeHistoryGreenNodeVolumeVolumeTypeZoneCreate {
+	mutation := newBronzeHistoryGreenNodeVolumeVolumeTypeZoneMutation(c.config, OpCreate)
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeZoneCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryGreenNodeVolumeVolumeTypeZone entities.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient) CreateBulk(builders ...*BronzeHistoryGreenNodeVolumeVolumeTypeZoneCreate) *BronzeHistoryGreenNodeVolumeVolumeTypeZoneCreateBulk {
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeZoneCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryGreenNodeVolumeVolumeTypeZoneCreate, int)) *BronzeHistoryGreenNodeVolumeVolumeTypeZoneCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryGreenNodeVolumeVolumeTypeZoneCreateBulk{err: fmt.Errorf("calling to BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryGreenNodeVolumeVolumeTypeZoneCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeZoneCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryGreenNodeVolumeVolumeTypeZone.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient) Update() *BronzeHistoryGreenNodeVolumeVolumeTypeZoneUpdate {
+	mutation := newBronzeHistoryGreenNodeVolumeVolumeTypeZoneMutation(c.config, OpUpdate)
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeZoneUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient) UpdateOne(_m *BronzeHistoryGreenNodeVolumeVolumeTypeZone) *BronzeHistoryGreenNodeVolumeVolumeTypeZoneUpdateOne {
+	mutation := newBronzeHistoryGreenNodeVolumeVolumeTypeZoneMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeVolumeVolumeTypeZone(_m))
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeZoneUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient) UpdateOneID(id uint) *BronzeHistoryGreenNodeVolumeVolumeTypeZoneUpdateOne {
+	mutation := newBronzeHistoryGreenNodeVolumeVolumeTypeZoneMutation(c.config, OpUpdateOne, withBronzeHistoryGreenNodeVolumeVolumeTypeZoneID(id))
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeZoneUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryGreenNodeVolumeVolumeTypeZone.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient) Delete() *BronzeHistoryGreenNodeVolumeVolumeTypeZoneDelete {
+	mutation := newBronzeHistoryGreenNodeVolumeVolumeTypeZoneMutation(c.config, OpDelete)
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeZoneDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient) DeleteOne(_m *BronzeHistoryGreenNodeVolumeVolumeTypeZone) *BronzeHistoryGreenNodeVolumeVolumeTypeZoneDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient) DeleteOneID(id uint) *BronzeHistoryGreenNodeVolumeVolumeTypeZoneDeleteOne {
+	builder := c.Delete().Where(bronzehistorygreennodevolumevolumetypezone.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeZoneDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryGreenNodeVolumeVolumeTypeZone.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient) Query() *BronzeHistoryGreenNodeVolumeVolumeTypeZoneQuery {
+	return &BronzeHistoryGreenNodeVolumeVolumeTypeZoneQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryGreenNodeVolumeVolumeTypeZone},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryGreenNodeVolumeVolumeTypeZone entity by its id.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient) Get(ctx context.Context, id uint) (*BronzeHistoryGreenNodeVolumeVolumeTypeZone, error) {
+	return c.Query().Where(bronzehistorygreennodevolumevolumetypezone.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient) GetX(ctx context.Context, id uint) *BronzeHistoryGreenNodeVolumeVolumeTypeZone {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryGreenNodeVolumeVolumeTypeZone
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryGreenNodeVolumeVolumeTypeZone
+}
+
+func (c *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient) mutate(ctx context.Context, m *BronzeHistoryGreenNodeVolumeVolumeTypeZoneMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryGreenNodeVolumeVolumeTypeZoneCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryGreenNodeVolumeVolumeTypeZoneUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryGreenNodeVolumeVolumeTypeZoneUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryGreenNodeVolumeVolumeTypeZoneDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryGreenNodeVolumeVolumeTypeZone mutation op: %q", m.Op())
 	}
 }
 
@@ -52060,8 +58020,18 @@ type (
 		BronzeGCPVPNTargetGatewayLabel, BronzeGCPVPNTunnel, BronzeGCPVPNTunnelLabel,
 		BronzeGreenNodeComputeSSHKey, BronzeGreenNodeComputeServer,
 		BronzeGreenNodeComputeServerGroup, BronzeGreenNodeComputeServerGroupMember,
-		BronzeGreenNodeComputeServerSecGroup, BronzeGreenNodePortalQuota,
-		BronzeGreenNodePortalRegion, BronzeHistoryAWSEC2Instance,
+		BronzeGreenNodeComputeServerSecGroup, BronzeGreenNodeDNSHostedZone,
+		BronzeGreenNodeDNSRecord, BronzeGreenNodeGLBGlobalListener,
+		BronzeGreenNodeGLBGlobalLoadBalancer, BronzeGreenNodeGLBGlobalPackage,
+		BronzeGreenNodeGLBGlobalPool, BronzeGreenNodeGLBGlobalRegion,
+		BronzeGreenNodeLoadBalancerCertificate, BronzeGreenNodeLoadBalancerLB,
+		BronzeGreenNodeLoadBalancerListener, BronzeGreenNodeLoadBalancerPackage,
+		BronzeGreenNodeLoadBalancerPool, BronzeGreenNodeNetworkEndpoint,
+		BronzeGreenNodeNetworkSecgroup, BronzeGreenNodeNetworkSecgroupRule,
+		BronzeGreenNodePortalQuota, BronzeGreenNodePortalRegion,
+		BronzeGreenNodePortalZone, BronzeGreenNodeVolumeBlockVolume,
+		BronzeGreenNodeVolumeSnapshot, BronzeGreenNodeVolumeVolumeType,
+		BronzeGreenNodeVolumeVolumeTypeZone, BronzeHistoryAWSEC2Instance,
 		BronzeHistoryAWSEC2InstanceTag, BronzeHistoryDOAccount,
 		BronzeHistoryDODatabase, BronzeHistoryDODatabaseBackup,
 		BronzeHistoryDODatabaseConfig, BronzeHistoryDODatabaseFirewallRule,
@@ -52157,8 +58127,23 @@ type (
 		BronzeHistoryGreenNodeComputeSSHKey, BronzeHistoryGreenNodeComputeServer,
 		BronzeHistoryGreenNodeComputeServerGroup,
 		BronzeHistoryGreenNodeComputeServerGroupMember,
-		BronzeHistoryGreenNodeComputeServerSecGroup, BronzeHistoryGreenNodePortalQuota,
-		BronzeHistoryGreenNodePortalRegion, BronzeHistoryS1Account,
+		BronzeHistoryGreenNodeComputeServerSecGroup,
+		BronzeHistoryGreenNodeDNSHostedZone, BronzeHistoryGreenNodeDNSRecord,
+		BronzeHistoryGreenNodeGLBGlobalListener,
+		BronzeHistoryGreenNodeGLBGlobalLoadBalancer,
+		BronzeHistoryGreenNodeGLBGlobalPackage, BronzeHistoryGreenNodeGLBGlobalPool,
+		BronzeHistoryGreenNodeGLBGlobalRegion,
+		BronzeHistoryGreenNodeLoadBalancerCertificate,
+		BronzeHistoryGreenNodeLoadBalancerLB,
+		BronzeHistoryGreenNodeLoadBalancerListener,
+		BronzeHistoryGreenNodeLoadBalancerPackage,
+		BronzeHistoryGreenNodeLoadBalancerPool, BronzeHistoryGreenNodeNetworkEndpoint,
+		BronzeHistoryGreenNodeNetworkSecgroup,
+		BronzeHistoryGreenNodeNetworkSecgroupRule, BronzeHistoryGreenNodePortalQuota,
+		BronzeHistoryGreenNodePortalRegion, BronzeHistoryGreenNodePortalZone,
+		BronzeHistoryGreenNodeVolumeBlockVolume, BronzeHistoryGreenNodeVolumeSnapshot,
+		BronzeHistoryGreenNodeVolumeVolumeType,
+		BronzeHistoryGreenNodeVolumeVolumeTypeZone, BronzeHistoryS1Account,
 		BronzeHistoryS1Agent, BronzeHistoryS1AgentNIC, BronzeHistoryS1App,
 		BronzeHistoryS1Group, BronzeHistoryS1RangerDevice,
 		BronzeHistoryS1RangerGateway, BronzeHistoryS1RangerSetting,
@@ -52240,8 +58225,18 @@ type (
 		BronzeGCPVPNTargetGatewayLabel, BronzeGCPVPNTunnel, BronzeGCPVPNTunnelLabel,
 		BronzeGreenNodeComputeSSHKey, BronzeGreenNodeComputeServer,
 		BronzeGreenNodeComputeServerGroup, BronzeGreenNodeComputeServerGroupMember,
-		BronzeGreenNodeComputeServerSecGroup, BronzeGreenNodePortalQuota,
-		BronzeGreenNodePortalRegion, BronzeHistoryAWSEC2Instance,
+		BronzeGreenNodeComputeServerSecGroup, BronzeGreenNodeDNSHostedZone,
+		BronzeGreenNodeDNSRecord, BronzeGreenNodeGLBGlobalListener,
+		BronzeGreenNodeGLBGlobalLoadBalancer, BronzeGreenNodeGLBGlobalPackage,
+		BronzeGreenNodeGLBGlobalPool, BronzeGreenNodeGLBGlobalRegion,
+		BronzeGreenNodeLoadBalancerCertificate, BronzeGreenNodeLoadBalancerLB,
+		BronzeGreenNodeLoadBalancerListener, BronzeGreenNodeLoadBalancerPackage,
+		BronzeGreenNodeLoadBalancerPool, BronzeGreenNodeNetworkEndpoint,
+		BronzeGreenNodeNetworkSecgroup, BronzeGreenNodeNetworkSecgroupRule,
+		BronzeGreenNodePortalQuota, BronzeGreenNodePortalRegion,
+		BronzeGreenNodePortalZone, BronzeGreenNodeVolumeBlockVolume,
+		BronzeGreenNodeVolumeSnapshot, BronzeGreenNodeVolumeVolumeType,
+		BronzeGreenNodeVolumeVolumeTypeZone, BronzeHistoryAWSEC2Instance,
 		BronzeHistoryAWSEC2InstanceTag, BronzeHistoryDOAccount,
 		BronzeHistoryDODatabase, BronzeHistoryDODatabaseBackup,
 		BronzeHistoryDODatabaseConfig, BronzeHistoryDODatabaseFirewallRule,
@@ -52337,8 +58332,23 @@ type (
 		BronzeHistoryGreenNodeComputeSSHKey, BronzeHistoryGreenNodeComputeServer,
 		BronzeHistoryGreenNodeComputeServerGroup,
 		BronzeHistoryGreenNodeComputeServerGroupMember,
-		BronzeHistoryGreenNodeComputeServerSecGroup, BronzeHistoryGreenNodePortalQuota,
-		BronzeHistoryGreenNodePortalRegion, BronzeHistoryS1Account,
+		BronzeHistoryGreenNodeComputeServerSecGroup,
+		BronzeHistoryGreenNodeDNSHostedZone, BronzeHistoryGreenNodeDNSRecord,
+		BronzeHistoryGreenNodeGLBGlobalListener,
+		BronzeHistoryGreenNodeGLBGlobalLoadBalancer,
+		BronzeHistoryGreenNodeGLBGlobalPackage, BronzeHistoryGreenNodeGLBGlobalPool,
+		BronzeHistoryGreenNodeGLBGlobalRegion,
+		BronzeHistoryGreenNodeLoadBalancerCertificate,
+		BronzeHistoryGreenNodeLoadBalancerLB,
+		BronzeHistoryGreenNodeLoadBalancerListener,
+		BronzeHistoryGreenNodeLoadBalancerPackage,
+		BronzeHistoryGreenNodeLoadBalancerPool, BronzeHistoryGreenNodeNetworkEndpoint,
+		BronzeHistoryGreenNodeNetworkSecgroup,
+		BronzeHistoryGreenNodeNetworkSecgroupRule, BronzeHistoryGreenNodePortalQuota,
+		BronzeHistoryGreenNodePortalRegion, BronzeHistoryGreenNodePortalZone,
+		BronzeHistoryGreenNodeVolumeBlockVolume, BronzeHistoryGreenNodeVolumeSnapshot,
+		BronzeHistoryGreenNodeVolumeVolumeType,
+		BronzeHistoryGreenNodeVolumeVolumeTypeZone, BronzeHistoryS1Account,
 		BronzeHistoryS1Agent, BronzeHistoryS1AgentNIC, BronzeHistoryS1App,
 		BronzeHistoryS1Group, BronzeHistoryS1RangerDevice,
 		BronzeHistoryS1RangerGateway, BronzeHistoryS1RangerSetting,

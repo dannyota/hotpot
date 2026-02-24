@@ -6,7 +6,12 @@ import (
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
 	"github.com/dannyota/hotpot/pkg/ingest/greennode/compute"
+	"github.com/dannyota/hotpot/pkg/ingest/greennode/dns"
+	"github.com/dannyota/hotpot/pkg/ingest/greennode/glb"
+	"github.com/dannyota/hotpot/pkg/ingest/greennode/loadbalancer"
+	"github.com/dannyota/hotpot/pkg/ingest/greennode/network"
 	"github.com/dannyota/hotpot/pkg/ingest/greennode/portal"
+	"github.com/dannyota/hotpot/pkg/ingest/greennode/volume"
 	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
@@ -26,6 +31,11 @@ func Register(w worker.Worker, configService *config.Service, entClient *ent.Cli
 
 	portal.Register(w, configService, entClient, activities.iamAuth, limiter)
 	compute.Register(w, configService, entClient, activities.iamAuth, limiter)
+	network.Register(w, configService, entClient, activities.iamAuth, limiter)
+	volume.Register(w, configService, entClient, activities.iamAuth, limiter)
+	loadbalancer.Register(w, configService, entClient, activities.iamAuth, limiter)
+	glb.Register(w, configService, entClient, activities.iamAuth, limiter)
+	dns.Register(w, configService, entClient, activities.iamAuth, limiter)
 
 	w.RegisterWorkflow(GreenNodeInventoryWorkflow)
 

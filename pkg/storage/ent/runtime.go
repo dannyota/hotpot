@@ -162,8 +162,28 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputeservergroupmember"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputeserversecgroup"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputesshkey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodednshostedzone"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodednsrecord"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbgloballistener"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbgloballoadbalancer"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbglobalpackage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbglobalpool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbglobalregion"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeloadbalancercertificate"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeloadbalancerlb"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeloadbalancerlistener"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeloadbalancerpackage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeloadbalancerpool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodenetworkendpoint"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodenetworksecgroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodenetworksecgrouprule"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeportalquota"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeportalregion"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeportalzone"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodevolumeblockvolume"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodevolumesnapshot"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodevolumevolumetype"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodevolumevolumetypezone"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoaccount"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabase"
@@ -313,8 +333,28 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputeservergroupmember"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputeserversecgroup"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputesshkey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodednshostedzone"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodednsrecord"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeglbgloballistener"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeglbgloballoadbalancer"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeglbglobalpackage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeglbglobalpool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeglbglobalregion"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeloadbalancercertificate"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeloadbalancerlb"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeloadbalancerlistener"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeloadbalancerpackage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeloadbalancerpool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodenetworkendpoint"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodenetworksecgroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodenetworksecgrouprule"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeportalquota"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeportalregion"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeportalzone"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodevolumeblockvolume"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodevolumesnapshot"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodevolumevolumetype"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodevolumevolumetypezone"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1account"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1agent"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1app"
@@ -2202,6 +2242,192 @@ func init() {
 	bronzegreennodecomputeserversecgroupDescName := bronzegreennodecomputeserversecgroupFields[1].Descriptor()
 	// bronzegreennodecomputeserversecgroup.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	bronzegreennodecomputeserversecgroup.NameValidator = bronzegreennodecomputeserversecgroupDescName.Validators[0].(func(string) error)
+	bronzegreennodednshostedzoneFields := schema.BronzeGreenNodeDNSHostedZone{}.Fields()
+	_ = bronzegreennodednshostedzoneFields
+	// bronzegreennodednshostedzoneDescDomainName is the schema descriptor for domain_name field.
+	bronzegreennodednshostedzoneDescDomainName := bronzegreennodednshostedzoneFields[1].Descriptor()
+	// bronzegreennodednshostedzone.DomainNameValidator is a validator for the "domain_name" field. It is called by the builders before save.
+	bronzegreennodednshostedzone.DomainNameValidator = bronzegreennodednshostedzoneDescDomainName.Validators[0].(func(string) error)
+	// bronzegreennodednshostedzoneDescProjectID is the schema descriptor for project_id field.
+	bronzegreennodednshostedzoneDescProjectID := bronzegreennodednshostedzoneFields[12].Descriptor()
+	// bronzegreennodednshostedzone.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegreennodednshostedzone.ProjectIDValidator = bronzegreennodednshostedzoneDescProjectID.Validators[0].(func(string) error)
+	bronzegreennodednsrecordFields := schema.BronzeGreenNodeDNSRecord{}.Fields()
+	_ = bronzegreennodednsrecordFields
+	// bronzegreennodednsrecordDescRecordID is the schema descriptor for record_id field.
+	bronzegreennodednsrecordDescRecordID := bronzegreennodednsrecordFields[0].Descriptor()
+	// bronzegreennodednsrecord.RecordIDValidator is a validator for the "record_id" field. It is called by the builders before save.
+	bronzegreennodednsrecord.RecordIDValidator = bronzegreennodednsrecordDescRecordID.Validators[0].(func(string) error)
+	bronzegreennodeglbgloballistenerFields := schema.BronzeGreenNodeGLBGlobalListener{}.Fields()
+	_ = bronzegreennodeglbgloballistenerFields
+	// bronzegreennodeglbgloballistenerDescListenerID is the schema descriptor for listener_id field.
+	bronzegreennodeglbgloballistenerDescListenerID := bronzegreennodeglbgloballistenerFields[0].Descriptor()
+	// bronzegreennodeglbgloballistener.ListenerIDValidator is a validator for the "listener_id" field. It is called by the builders before save.
+	bronzegreennodeglbgloballistener.ListenerIDValidator = bronzegreennodeglbgloballistenerDescListenerID.Validators[0].(func(string) error)
+	// bronzegreennodeglbgloballistenerDescName is the schema descriptor for name field.
+	bronzegreennodeglbgloballistenerDescName := bronzegreennodeglbgloballistenerFields[1].Descriptor()
+	// bronzegreennodeglbgloballistener.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodeglbgloballistener.NameValidator = bronzegreennodeglbgloballistenerDescName.Validators[0].(func(string) error)
+	bronzegreennodeglbgloballoadbalancerFields := schema.BronzeGreenNodeGLBGlobalLoadBalancer{}.Fields()
+	_ = bronzegreennodeglbgloballoadbalancerFields
+	// bronzegreennodeglbgloballoadbalancerDescName is the schema descriptor for name field.
+	bronzegreennodeglbgloballoadbalancerDescName := bronzegreennodeglbgloballoadbalancerFields[1].Descriptor()
+	// bronzegreennodeglbgloballoadbalancer.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodeglbgloballoadbalancer.NameValidator = bronzegreennodeglbgloballoadbalancerDescName.Validators[0].(func(string) error)
+	// bronzegreennodeglbgloballoadbalancerDescProjectID is the schema descriptor for project_id field.
+	bronzegreennodeglbgloballoadbalancerDescProjectID := bronzegreennodeglbgloballoadbalancerFields[12].Descriptor()
+	// bronzegreennodeglbgloballoadbalancer.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegreennodeglbgloballoadbalancer.ProjectIDValidator = bronzegreennodeglbgloballoadbalancerDescProjectID.Validators[0].(func(string) error)
+	bronzegreennodeglbglobalpackageFields := schema.BronzeGreenNodeGLBGlobalPackage{}.Fields()
+	_ = bronzegreennodeglbglobalpackageFields
+	// bronzegreennodeglbglobalpackageDescName is the schema descriptor for name field.
+	bronzegreennodeglbglobalpackageDescName := bronzegreennodeglbglobalpackageFields[1].Descriptor()
+	// bronzegreennodeglbglobalpackage.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodeglbglobalpackage.NameValidator = bronzegreennodeglbglobalpackageDescName.Validators[0].(func(string) error)
+	// bronzegreennodeglbglobalpackageDescEnabled is the schema descriptor for enabled field.
+	bronzegreennodeglbglobalpackageDescEnabled := bronzegreennodeglbglobalpackageFields[5].Descriptor()
+	// bronzegreennodeglbglobalpackage.DefaultEnabled holds the default value on creation for the enabled field.
+	bronzegreennodeglbglobalpackage.DefaultEnabled = bronzegreennodeglbglobalpackageDescEnabled.Default.(bool)
+	// bronzegreennodeglbglobalpackageDescProjectID is the schema descriptor for project_id field.
+	bronzegreennodeglbglobalpackageDescProjectID := bronzegreennodeglbglobalpackageFields[16].Descriptor()
+	// bronzegreennodeglbglobalpackage.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegreennodeglbglobalpackage.ProjectIDValidator = bronzegreennodeglbglobalpackageDescProjectID.Validators[0].(func(string) error)
+	bronzegreennodeglbglobalpoolFields := schema.BronzeGreenNodeGLBGlobalPool{}.Fields()
+	_ = bronzegreennodeglbglobalpoolFields
+	// bronzegreennodeglbglobalpoolDescPoolID is the schema descriptor for pool_id field.
+	bronzegreennodeglbglobalpoolDescPoolID := bronzegreennodeglbglobalpoolFields[0].Descriptor()
+	// bronzegreennodeglbglobalpool.PoolIDValidator is a validator for the "pool_id" field. It is called by the builders before save.
+	bronzegreennodeglbglobalpool.PoolIDValidator = bronzegreennodeglbglobalpoolDescPoolID.Validators[0].(func(string) error)
+	// bronzegreennodeglbglobalpoolDescName is the schema descriptor for name field.
+	bronzegreennodeglbglobalpoolDescName := bronzegreennodeglbglobalpoolFields[1].Descriptor()
+	// bronzegreennodeglbglobalpool.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodeglbglobalpool.NameValidator = bronzegreennodeglbglobalpoolDescName.Validators[0].(func(string) error)
+	bronzegreennodeglbglobalregionFields := schema.BronzeGreenNodeGLBGlobalRegion{}.Fields()
+	_ = bronzegreennodeglbglobalregionFields
+	// bronzegreennodeglbglobalregionDescName is the schema descriptor for name field.
+	bronzegreennodeglbglobalregionDescName := bronzegreennodeglbglobalregionFields[1].Descriptor()
+	// bronzegreennodeglbglobalregion.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodeglbglobalregion.NameValidator = bronzegreennodeglbglobalregionDescName.Validators[0].(func(string) error)
+	// bronzegreennodeglbglobalregionDescProjectID is the schema descriptor for project_id field.
+	bronzegreennodeglbglobalregionDescProjectID := bronzegreennodeglbglobalregionFields[5].Descriptor()
+	// bronzegreennodeglbglobalregion.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegreennodeglbglobalregion.ProjectIDValidator = bronzegreennodeglbglobalregionDescProjectID.Validators[0].(func(string) error)
+	bronzegreennodeloadbalancercertificateFields := schema.BronzeGreenNodeLoadBalancerCertificate{}.Fields()
+	_ = bronzegreennodeloadbalancercertificateFields
+	// bronzegreennodeloadbalancercertificateDescName is the schema descriptor for name field.
+	bronzegreennodeloadbalancercertificateDescName := bronzegreennodeloadbalancercertificateFields[1].Descriptor()
+	// bronzegreennodeloadbalancercertificate.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodeloadbalancercertificate.NameValidator = bronzegreennodeloadbalancercertificateDescName.Validators[0].(func(string) error)
+	// bronzegreennodeloadbalancercertificateDescInUse is the schema descriptor for in_use field.
+	bronzegreennodeloadbalancercertificateDescInUse := bronzegreennodeloadbalancercertificateFields[10].Descriptor()
+	// bronzegreennodeloadbalancercertificate.DefaultInUse holds the default value on creation for the in_use field.
+	bronzegreennodeloadbalancercertificate.DefaultInUse = bronzegreennodeloadbalancercertificateDescInUse.Default.(bool)
+	// bronzegreennodeloadbalancercertificateDescRegion is the schema descriptor for region field.
+	bronzegreennodeloadbalancercertificateDescRegion := bronzegreennodeloadbalancercertificateFields[14].Descriptor()
+	// bronzegreennodeloadbalancercertificate.RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	bronzegreennodeloadbalancercertificate.RegionValidator = bronzegreennodeloadbalancercertificateDescRegion.Validators[0].(func(string) error)
+	// bronzegreennodeloadbalancercertificateDescProjectID is the schema descriptor for project_id field.
+	bronzegreennodeloadbalancercertificateDescProjectID := bronzegreennodeloadbalancercertificateFields[15].Descriptor()
+	// bronzegreennodeloadbalancercertificate.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegreennodeloadbalancercertificate.ProjectIDValidator = bronzegreennodeloadbalancercertificateDescProjectID.Validators[0].(func(string) error)
+	bronzegreennodeloadbalancerlbFields := schema.BronzeGreenNodeLoadBalancerLB{}.Fields()
+	_ = bronzegreennodeloadbalancerlbFields
+	// bronzegreennodeloadbalancerlbDescName is the schema descriptor for name field.
+	bronzegreennodeloadbalancerlbDescName := bronzegreennodeloadbalancerlbFields[1].Descriptor()
+	// bronzegreennodeloadbalancerlb.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodeloadbalancerlb.NameValidator = bronzegreennodeloadbalancerlbDescName.Validators[0].(func(string) error)
+	// bronzegreennodeloadbalancerlbDescInternal is the schema descriptor for internal field.
+	bronzegreennodeloadbalancerlbDescInternal := bronzegreennodeloadbalancerlbFields[17].Descriptor()
+	// bronzegreennodeloadbalancerlb.DefaultInternal holds the default value on creation for the internal field.
+	bronzegreennodeloadbalancerlb.DefaultInternal = bronzegreennodeloadbalancerlbDescInternal.Default.(bool)
+	// bronzegreennodeloadbalancerlbDescAutoScalable is the schema descriptor for auto_scalable field.
+	bronzegreennodeloadbalancerlbDescAutoScalable := bronzegreennodeloadbalancerlbFields[18].Descriptor()
+	// bronzegreennodeloadbalancerlb.DefaultAutoScalable holds the default value on creation for the auto_scalable field.
+	bronzegreennodeloadbalancerlb.DefaultAutoScalable = bronzegreennodeloadbalancerlbDescAutoScalable.Default.(bool)
+	// bronzegreennodeloadbalancerlbDescRegion is the schema descriptor for region field.
+	bronzegreennodeloadbalancerlbDescRegion := bronzegreennodeloadbalancerlbFields[24].Descriptor()
+	// bronzegreennodeloadbalancerlb.RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	bronzegreennodeloadbalancerlb.RegionValidator = bronzegreennodeloadbalancerlbDescRegion.Validators[0].(func(string) error)
+	// bronzegreennodeloadbalancerlbDescProjectID is the schema descriptor for project_id field.
+	bronzegreennodeloadbalancerlbDescProjectID := bronzegreennodeloadbalancerlbFields[25].Descriptor()
+	// bronzegreennodeloadbalancerlb.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegreennodeloadbalancerlb.ProjectIDValidator = bronzegreennodeloadbalancerlbDescProjectID.Validators[0].(func(string) error)
+	bronzegreennodeloadbalancerlistenerFields := schema.BronzeGreenNodeLoadBalancerListener{}.Fields()
+	_ = bronzegreennodeloadbalancerlistenerFields
+	// bronzegreennodeloadbalancerlistenerDescListenerID is the schema descriptor for listener_id field.
+	bronzegreennodeloadbalancerlistenerDescListenerID := bronzegreennodeloadbalancerlistenerFields[0].Descriptor()
+	// bronzegreennodeloadbalancerlistener.ListenerIDValidator is a validator for the "listener_id" field. It is called by the builders before save.
+	bronzegreennodeloadbalancerlistener.ListenerIDValidator = bronzegreennodeloadbalancerlistenerDescListenerID.Validators[0].(func(string) error)
+	// bronzegreennodeloadbalancerlistenerDescName is the schema descriptor for name field.
+	bronzegreennodeloadbalancerlistenerDescName := bronzegreennodeloadbalancerlistenerFields[1].Descriptor()
+	// bronzegreennodeloadbalancerlistener.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodeloadbalancerlistener.NameValidator = bronzegreennodeloadbalancerlistenerDescName.Validators[0].(func(string) error)
+	bronzegreennodeloadbalancerpackageFields := schema.BronzeGreenNodeLoadBalancerPackage{}.Fields()
+	_ = bronzegreennodeloadbalancerpackageFields
+	// bronzegreennodeloadbalancerpackageDescName is the schema descriptor for name field.
+	bronzegreennodeloadbalancerpackageDescName := bronzegreennodeloadbalancerpackageFields[1].Descriptor()
+	// bronzegreennodeloadbalancerpackage.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodeloadbalancerpackage.NameValidator = bronzegreennodeloadbalancerpackageDescName.Validators[0].(func(string) error)
+	// bronzegreennodeloadbalancerpackageDescRegion is the schema descriptor for region field.
+	bronzegreennodeloadbalancerpackageDescRegion := bronzegreennodeloadbalancerpackageFields[8].Descriptor()
+	// bronzegreennodeloadbalancerpackage.RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	bronzegreennodeloadbalancerpackage.RegionValidator = bronzegreennodeloadbalancerpackageDescRegion.Validators[0].(func(string) error)
+	// bronzegreennodeloadbalancerpackageDescProjectID is the schema descriptor for project_id field.
+	bronzegreennodeloadbalancerpackageDescProjectID := bronzegreennodeloadbalancerpackageFields[9].Descriptor()
+	// bronzegreennodeloadbalancerpackage.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegreennodeloadbalancerpackage.ProjectIDValidator = bronzegreennodeloadbalancerpackageDescProjectID.Validators[0].(func(string) error)
+	bronzegreennodeloadbalancerpoolFields := schema.BronzeGreenNodeLoadBalancerPool{}.Fields()
+	_ = bronzegreennodeloadbalancerpoolFields
+	// bronzegreennodeloadbalancerpoolDescPoolID is the schema descriptor for pool_id field.
+	bronzegreennodeloadbalancerpoolDescPoolID := bronzegreennodeloadbalancerpoolFields[0].Descriptor()
+	// bronzegreennodeloadbalancerpool.PoolIDValidator is a validator for the "pool_id" field. It is called by the builders before save.
+	bronzegreennodeloadbalancerpool.PoolIDValidator = bronzegreennodeloadbalancerpoolDescPoolID.Validators[0].(func(string) error)
+	// bronzegreennodeloadbalancerpoolDescName is the schema descriptor for name field.
+	bronzegreennodeloadbalancerpoolDescName := bronzegreennodeloadbalancerpoolFields[1].Descriptor()
+	// bronzegreennodeloadbalancerpool.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodeloadbalancerpool.NameValidator = bronzegreennodeloadbalancerpoolDescName.Validators[0].(func(string) error)
+	// bronzegreennodeloadbalancerpoolDescStickiness is the schema descriptor for stickiness field.
+	bronzegreennodeloadbalancerpoolDescStickiness := bronzegreennodeloadbalancerpoolFields[6].Descriptor()
+	// bronzegreennodeloadbalancerpool.DefaultStickiness holds the default value on creation for the stickiness field.
+	bronzegreennodeloadbalancerpool.DefaultStickiness = bronzegreennodeloadbalancerpoolDescStickiness.Default.(bool)
+	// bronzegreennodeloadbalancerpoolDescTLSEncryption is the schema descriptor for tls_encryption field.
+	bronzegreennodeloadbalancerpoolDescTLSEncryption := bronzegreennodeloadbalancerpoolFields[7].Descriptor()
+	// bronzegreennodeloadbalancerpool.DefaultTLSEncryption holds the default value on creation for the tls_encryption field.
+	bronzegreennodeloadbalancerpool.DefaultTLSEncryption = bronzegreennodeloadbalancerpoolDescTLSEncryption.Default.(bool)
+	bronzegreennodenetworkendpointFields := schema.BronzeGreenNodeNetworkEndpoint{}.Fields()
+	_ = bronzegreennodenetworkendpointFields
+	// bronzegreennodenetworkendpointDescName is the schema descriptor for name field.
+	bronzegreennodenetworkendpointDescName := bronzegreennodenetworkendpointFields[1].Descriptor()
+	// bronzegreennodenetworkendpoint.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodenetworkendpoint.NameValidator = bronzegreennodenetworkendpointDescName.Validators[0].(func(string) error)
+	// bronzegreennodenetworkendpointDescRegion is the schema descriptor for region field.
+	bronzegreennodenetworkendpointDescRegion := bronzegreennodenetworkendpointFields[6].Descriptor()
+	// bronzegreennodenetworkendpoint.RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	bronzegreennodenetworkendpoint.RegionValidator = bronzegreennodenetworkendpointDescRegion.Validators[0].(func(string) error)
+	// bronzegreennodenetworkendpointDescProjectID is the schema descriptor for project_id field.
+	bronzegreennodenetworkendpointDescProjectID := bronzegreennodenetworkendpointFields[7].Descriptor()
+	// bronzegreennodenetworkendpoint.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegreennodenetworkendpoint.ProjectIDValidator = bronzegreennodenetworkendpointDescProjectID.Validators[0].(func(string) error)
+	bronzegreennodenetworksecgroupFields := schema.BronzeGreenNodeNetworkSecgroup{}.Fields()
+	_ = bronzegreennodenetworksecgroupFields
+	// bronzegreennodenetworksecgroupDescName is the schema descriptor for name field.
+	bronzegreennodenetworksecgroupDescName := bronzegreennodenetworksecgroupFields[1].Descriptor()
+	// bronzegreennodenetworksecgroup.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodenetworksecgroup.NameValidator = bronzegreennodenetworksecgroupDescName.Validators[0].(func(string) error)
+	// bronzegreennodenetworksecgroupDescRegion is the schema descriptor for region field.
+	bronzegreennodenetworksecgroupDescRegion := bronzegreennodenetworksecgroupFields[4].Descriptor()
+	// bronzegreennodenetworksecgroup.RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	bronzegreennodenetworksecgroup.RegionValidator = bronzegreennodenetworksecgroupDescRegion.Validators[0].(func(string) error)
+	// bronzegreennodenetworksecgroupDescProjectID is the schema descriptor for project_id field.
+	bronzegreennodenetworksecgroupDescProjectID := bronzegreennodenetworksecgroupFields[5].Descriptor()
+	// bronzegreennodenetworksecgroup.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegreennodenetworksecgroup.ProjectIDValidator = bronzegreennodenetworksecgroupDescProjectID.Validators[0].(func(string) error)
+	bronzegreennodenetworksecgroupruleFields := schema.BronzeGreenNodeNetworkSecgroupRule{}.Fields()
+	_ = bronzegreennodenetworksecgroupruleFields
+	// bronzegreennodenetworksecgroupruleDescRuleID is the schema descriptor for rule_id field.
+	bronzegreennodenetworksecgroupruleDescRuleID := bronzegreennodenetworksecgroupruleFields[0].Descriptor()
+	// bronzegreennodenetworksecgrouprule.RuleIDValidator is a validator for the "rule_id" field. It is called by the builders before save.
+	bronzegreennodenetworksecgrouprule.RuleIDValidator = bronzegreennodenetworksecgroupruleDescRuleID.Validators[0].(func(string) error)
 	bronzegreennodeportalquotaFields := schema.BronzeGreenNodePortalQuota{}.Fields()
 	_ = bronzegreennodeportalquotaFields
 	// bronzegreennodeportalquotaDescName is the schema descriptor for name field.
@@ -2226,6 +2452,72 @@ func init() {
 	bronzegreennodeportalregionDescProjectID := bronzegreennodeportalregionFields[3].Descriptor()
 	// bronzegreennodeportalregion.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
 	bronzegreennodeportalregion.ProjectIDValidator = bronzegreennodeportalregionDescProjectID.Validators[0].(func(string) error)
+	bronzegreennodeportalzoneFields := schema.BronzeGreenNodePortalZone{}.Fields()
+	_ = bronzegreennodeportalzoneFields
+	// bronzegreennodeportalzoneDescName is the schema descriptor for name field.
+	bronzegreennodeportalzoneDescName := bronzegreennodeportalzoneFields[1].Descriptor()
+	// bronzegreennodeportalzone.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodeportalzone.NameValidator = bronzegreennodeportalzoneDescName.Validators[0].(func(string) error)
+	// bronzegreennodeportalzoneDescProjectID is the schema descriptor for project_id field.
+	bronzegreennodeportalzoneDescProjectID := bronzegreennodeportalzoneFields[3].Descriptor()
+	// bronzegreennodeportalzone.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegreennodeportalzone.ProjectIDValidator = bronzegreennodeportalzoneDescProjectID.Validators[0].(func(string) error)
+	bronzegreennodevolumeblockvolumeFields := schema.BronzeGreenNodeVolumeBlockVolume{}.Fields()
+	_ = bronzegreennodevolumeblockvolumeFields
+	// bronzegreennodevolumeblockvolumeDescName is the schema descriptor for name field.
+	bronzegreennodevolumeblockvolumeDescName := bronzegreennodevolumeblockvolumeFields[1].Descriptor()
+	// bronzegreennodevolumeblockvolume.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodevolumeblockvolume.NameValidator = bronzegreennodevolumeblockvolumeDescName.Validators[0].(func(string) error)
+	// bronzegreennodevolumeblockvolumeDescPersistentVolume is the schema descriptor for persistent_volume field.
+	bronzegreennodevolumeblockvolumeDescPersistentVolume := bronzegreennodevolumeblockvolumeFields[10].Descriptor()
+	// bronzegreennodevolumeblockvolume.DefaultPersistentVolume holds the default value on creation for the persistent_volume field.
+	bronzegreennodevolumeblockvolume.DefaultPersistentVolume = bronzegreennodevolumeblockvolumeDescPersistentVolume.Default.(bool)
+	// bronzegreennodevolumeblockvolumeDescMultiAttach is the schema descriptor for multi_attach field.
+	bronzegreennodevolumeblockvolumeDescMultiAttach := bronzegreennodevolumeblockvolumeFields[14].Descriptor()
+	// bronzegreennodevolumeblockvolume.DefaultMultiAttach holds the default value on creation for the multi_attach field.
+	bronzegreennodevolumeblockvolume.DefaultMultiAttach = bronzegreennodevolumeblockvolumeDescMultiAttach.Default.(bool)
+	// bronzegreennodevolumeblockvolumeDescRegion is the schema descriptor for region field.
+	bronzegreennodevolumeblockvolumeDescRegion := bronzegreennodevolumeblockvolumeFields[16].Descriptor()
+	// bronzegreennodevolumeblockvolume.RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	bronzegreennodevolumeblockvolume.RegionValidator = bronzegreennodevolumeblockvolumeDescRegion.Validators[0].(func(string) error)
+	// bronzegreennodevolumeblockvolumeDescProjectID is the schema descriptor for project_id field.
+	bronzegreennodevolumeblockvolumeDescProjectID := bronzegreennodevolumeblockvolumeFields[17].Descriptor()
+	// bronzegreennodevolumeblockvolume.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegreennodevolumeblockvolume.ProjectIDValidator = bronzegreennodevolumeblockvolumeDescProjectID.Validators[0].(func(string) error)
+	bronzegreennodevolumesnapshotFields := schema.BronzeGreenNodeVolumeSnapshot{}.Fields()
+	_ = bronzegreennodevolumesnapshotFields
+	// bronzegreennodevolumesnapshotDescSnapshotID is the schema descriptor for snapshot_id field.
+	bronzegreennodevolumesnapshotDescSnapshotID := bronzegreennodevolumesnapshotFields[0].Descriptor()
+	// bronzegreennodevolumesnapshot.SnapshotIDValidator is a validator for the "snapshot_id" field. It is called by the builders before save.
+	bronzegreennodevolumesnapshot.SnapshotIDValidator = bronzegreennodevolumesnapshotDescSnapshotID.Validators[0].(func(string) error)
+	bronzegreennodevolumevolumetypeFields := schema.BronzeGreenNodeVolumeVolumeType{}.Fields()
+	_ = bronzegreennodevolumevolumetypeFields
+	// bronzegreennodevolumevolumetypeDescName is the schema descriptor for name field.
+	bronzegreennodevolumevolumetypeDescName := bronzegreennodevolumevolumetypeFields[1].Descriptor()
+	// bronzegreennodevolumevolumetype.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodevolumevolumetype.NameValidator = bronzegreennodevolumevolumetypeDescName.Validators[0].(func(string) error)
+	// bronzegreennodevolumevolumetypeDescRegion is the schema descriptor for region field.
+	bronzegreennodevolumevolumetypeDescRegion := bronzegreennodevolumevolumetypeFields[7].Descriptor()
+	// bronzegreennodevolumevolumetype.RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	bronzegreennodevolumevolumetype.RegionValidator = bronzegreennodevolumevolumetypeDescRegion.Validators[0].(func(string) error)
+	// bronzegreennodevolumevolumetypeDescProjectID is the schema descriptor for project_id field.
+	bronzegreennodevolumevolumetypeDescProjectID := bronzegreennodevolumevolumetypeFields[8].Descriptor()
+	// bronzegreennodevolumevolumetype.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegreennodevolumevolumetype.ProjectIDValidator = bronzegreennodevolumevolumetypeDescProjectID.Validators[0].(func(string) error)
+	bronzegreennodevolumevolumetypezoneFields := schema.BronzeGreenNodeVolumeVolumeTypeZone{}.Fields()
+	_ = bronzegreennodevolumevolumetypezoneFields
+	// bronzegreennodevolumevolumetypezoneDescName is the schema descriptor for name field.
+	bronzegreennodevolumevolumetypezoneDescName := bronzegreennodevolumevolumetypezoneFields[1].Descriptor()
+	// bronzegreennodevolumevolumetypezone.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzegreennodevolumevolumetypezone.NameValidator = bronzegreennodevolumevolumetypezoneDescName.Validators[0].(func(string) error)
+	// bronzegreennodevolumevolumetypezoneDescRegion is the schema descriptor for region field.
+	bronzegreennodevolumevolumetypezoneDescRegion := bronzegreennodevolumevolumetypezoneFields[3].Descriptor()
+	// bronzegreennodevolumevolumetypezone.RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	bronzegreennodevolumevolumetypezone.RegionValidator = bronzegreennodevolumevolumetypezoneDescRegion.Validators[0].(func(string) error)
+	// bronzegreennodevolumevolumetypezoneDescProjectID is the schema descriptor for project_id field.
+	bronzegreennodevolumevolumetypezoneDescProjectID := bronzegreennodevolumevolumetypezoneFields[4].Descriptor()
+	// bronzegreennodevolumevolumetypezone.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzegreennodevolumevolumetypezone.ProjectIDValidator = bronzegreennodevolumevolumetypezoneDescProjectID.Validators[0].(func(string) error)
 	bronzehistoryawsec2instanceFields := schema.BronzeHistoryAWSEC2Instance{}.Fields()
 	_ = bronzehistoryawsec2instanceFields
 	// bronzehistoryawsec2instanceDescResourceID is the schema descriptor for resource_id field.
@@ -4488,6 +4780,228 @@ func init() {
 	bronzehistorygreennodecomputeserversecgroupDescName := bronzehistorygreennodecomputeserversecgroupFields[5].Descriptor()
 	// bronzehistorygreennodecomputeserversecgroup.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	bronzehistorygreennodecomputeserversecgroup.NameValidator = bronzehistorygreennodecomputeserversecgroupDescName.Validators[0].(func(string) error)
+	bronzehistorygreennodednshostedzoneFields := schema.BronzeHistoryGreenNodeDNSHostedZone{}.Fields()
+	_ = bronzehistorygreennodednshostedzoneFields
+	// bronzehistorygreennodednshostedzoneDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygreennodednshostedzoneDescResourceID := bronzehistorygreennodednshostedzoneFields[1].Descriptor()
+	// bronzehistorygreennodednshostedzone.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygreennodednshostedzone.ResourceIDValidator = bronzehistorygreennodednshostedzoneDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygreennodednshostedzoneDescDomainName is the schema descriptor for domain_name field.
+	bronzehistorygreennodednshostedzoneDescDomainName := bronzehistorygreennodednshostedzoneFields[2].Descriptor()
+	// bronzehistorygreennodednshostedzone.DomainNameValidator is a validator for the "domain_name" field. It is called by the builders before save.
+	bronzehistorygreennodednshostedzone.DomainNameValidator = bronzehistorygreennodednshostedzoneDescDomainName.Validators[0].(func(string) error)
+	// bronzehistorygreennodednshostedzoneDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygreennodednshostedzoneDescProjectID := bronzehistorygreennodednshostedzoneFields[13].Descriptor()
+	// bronzehistorygreennodednshostedzone.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygreennodednshostedzone.ProjectIDValidator = bronzehistorygreennodednshostedzoneDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygreennodednsrecordFields := schema.BronzeHistoryGreenNodeDNSRecord{}.Fields()
+	_ = bronzehistorygreennodednsrecordFields
+	// bronzehistorygreennodednsrecordDescRecordID is the schema descriptor for record_id field.
+	bronzehistorygreennodednsrecordDescRecordID := bronzehistorygreennodednsrecordFields[4].Descriptor()
+	// bronzehistorygreennodednsrecord.RecordIDValidator is a validator for the "record_id" field. It is called by the builders before save.
+	bronzehistorygreennodednsrecord.RecordIDValidator = bronzehistorygreennodednsrecordDescRecordID.Validators[0].(func(string) error)
+	bronzehistorygreennodeglbgloballistenerFields := schema.BronzeHistoryGreenNodeGLBGlobalListener{}.Fields()
+	_ = bronzehistorygreennodeglbgloballistenerFields
+	// bronzehistorygreennodeglbgloballistenerDescListenerID is the schema descriptor for listener_id field.
+	bronzehistorygreennodeglbgloballistenerDescListenerID := bronzehistorygreennodeglbgloballistenerFields[4].Descriptor()
+	// bronzehistorygreennodeglbgloballistener.ListenerIDValidator is a validator for the "listener_id" field. It is called by the builders before save.
+	bronzehistorygreennodeglbgloballistener.ListenerIDValidator = bronzehistorygreennodeglbgloballistenerDescListenerID.Validators[0].(func(string) error)
+	// bronzehistorygreennodeglbgloballistenerDescName is the schema descriptor for name field.
+	bronzehistorygreennodeglbgloballistenerDescName := bronzehistorygreennodeglbgloballistenerFields[5].Descriptor()
+	// bronzehistorygreennodeglbgloballistener.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodeglbgloballistener.NameValidator = bronzehistorygreennodeglbgloballistenerDescName.Validators[0].(func(string) error)
+	bronzehistorygreennodeglbgloballoadbalancerFields := schema.BronzeHistoryGreenNodeGLBGlobalLoadBalancer{}.Fields()
+	_ = bronzehistorygreennodeglbgloballoadbalancerFields
+	// bronzehistorygreennodeglbgloballoadbalancerDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygreennodeglbgloballoadbalancerDescResourceID := bronzehistorygreennodeglbgloballoadbalancerFields[1].Descriptor()
+	// bronzehistorygreennodeglbgloballoadbalancer.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygreennodeglbgloballoadbalancer.ResourceIDValidator = bronzehistorygreennodeglbgloballoadbalancerDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygreennodeglbgloballoadbalancerDescName is the schema descriptor for name field.
+	bronzehistorygreennodeglbgloballoadbalancerDescName := bronzehistorygreennodeglbgloballoadbalancerFields[2].Descriptor()
+	// bronzehistorygreennodeglbgloballoadbalancer.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodeglbgloballoadbalancer.NameValidator = bronzehistorygreennodeglbgloballoadbalancerDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodeglbgloballoadbalancerDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygreennodeglbgloballoadbalancerDescProjectID := bronzehistorygreennodeglbgloballoadbalancerFields[13].Descriptor()
+	// bronzehistorygreennodeglbgloballoadbalancer.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygreennodeglbgloballoadbalancer.ProjectIDValidator = bronzehistorygreennodeglbgloballoadbalancerDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygreennodeglbglobalpackageFields := schema.BronzeHistoryGreenNodeGLBGlobalPackage{}.Fields()
+	_ = bronzehistorygreennodeglbglobalpackageFields
+	// bronzehistorygreennodeglbglobalpackageDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygreennodeglbglobalpackageDescResourceID := bronzehistorygreennodeglbglobalpackageFields[1].Descriptor()
+	// bronzehistorygreennodeglbglobalpackage.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygreennodeglbglobalpackage.ResourceIDValidator = bronzehistorygreennodeglbglobalpackageDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygreennodeglbglobalpackageDescName is the schema descriptor for name field.
+	bronzehistorygreennodeglbglobalpackageDescName := bronzehistorygreennodeglbglobalpackageFields[2].Descriptor()
+	// bronzehistorygreennodeglbglobalpackage.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodeglbglobalpackage.NameValidator = bronzehistorygreennodeglbglobalpackageDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodeglbglobalpackageDescEnabled is the schema descriptor for enabled field.
+	bronzehistorygreennodeglbglobalpackageDescEnabled := bronzehistorygreennodeglbglobalpackageFields[6].Descriptor()
+	// bronzehistorygreennodeglbglobalpackage.DefaultEnabled holds the default value on creation for the enabled field.
+	bronzehistorygreennodeglbglobalpackage.DefaultEnabled = bronzehistorygreennodeglbglobalpackageDescEnabled.Default.(bool)
+	// bronzehistorygreennodeglbglobalpackageDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygreennodeglbglobalpackageDescProjectID := bronzehistorygreennodeglbglobalpackageFields[17].Descriptor()
+	// bronzehistorygreennodeglbglobalpackage.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygreennodeglbglobalpackage.ProjectIDValidator = bronzehistorygreennodeglbglobalpackageDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygreennodeglbglobalpoolFields := schema.BronzeHistoryGreenNodeGLBGlobalPool{}.Fields()
+	_ = bronzehistorygreennodeglbglobalpoolFields
+	// bronzehistorygreennodeglbglobalpoolDescPoolID is the schema descriptor for pool_id field.
+	bronzehistorygreennodeglbglobalpoolDescPoolID := bronzehistorygreennodeglbglobalpoolFields[4].Descriptor()
+	// bronzehistorygreennodeglbglobalpool.PoolIDValidator is a validator for the "pool_id" field. It is called by the builders before save.
+	bronzehistorygreennodeglbglobalpool.PoolIDValidator = bronzehistorygreennodeglbglobalpoolDescPoolID.Validators[0].(func(string) error)
+	// bronzehistorygreennodeglbglobalpoolDescName is the schema descriptor for name field.
+	bronzehistorygreennodeglbglobalpoolDescName := bronzehistorygreennodeglbglobalpoolFields[5].Descriptor()
+	// bronzehistorygreennodeglbglobalpool.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodeglbglobalpool.NameValidator = bronzehistorygreennodeglbglobalpoolDescName.Validators[0].(func(string) error)
+	bronzehistorygreennodeglbglobalregionFields := schema.BronzeHistoryGreenNodeGLBGlobalRegion{}.Fields()
+	_ = bronzehistorygreennodeglbglobalregionFields
+	// bronzehistorygreennodeglbglobalregionDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygreennodeglbglobalregionDescResourceID := bronzehistorygreennodeglbglobalregionFields[1].Descriptor()
+	// bronzehistorygreennodeglbglobalregion.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygreennodeglbglobalregion.ResourceIDValidator = bronzehistorygreennodeglbglobalregionDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygreennodeglbglobalregionDescName is the schema descriptor for name field.
+	bronzehistorygreennodeglbglobalregionDescName := bronzehistorygreennodeglbglobalregionFields[2].Descriptor()
+	// bronzehistorygreennodeglbglobalregion.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodeglbglobalregion.NameValidator = bronzehistorygreennodeglbglobalregionDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodeglbglobalregionDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygreennodeglbglobalregionDescProjectID := bronzehistorygreennodeglbglobalregionFields[6].Descriptor()
+	// bronzehistorygreennodeglbglobalregion.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygreennodeglbglobalregion.ProjectIDValidator = bronzehistorygreennodeglbglobalregionDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygreennodeloadbalancercertificateFields := schema.BronzeHistoryGreenNodeLoadBalancerCertificate{}.Fields()
+	_ = bronzehistorygreennodeloadbalancercertificateFields
+	// bronzehistorygreennodeloadbalancercertificateDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygreennodeloadbalancercertificateDescResourceID := bronzehistorygreennodeloadbalancercertificateFields[1].Descriptor()
+	// bronzehistorygreennodeloadbalancercertificate.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygreennodeloadbalancercertificate.ResourceIDValidator = bronzehistorygreennodeloadbalancercertificateDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygreennodeloadbalancercertificateDescName is the schema descriptor for name field.
+	bronzehistorygreennodeloadbalancercertificateDescName := bronzehistorygreennodeloadbalancercertificateFields[2].Descriptor()
+	// bronzehistorygreennodeloadbalancercertificate.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodeloadbalancercertificate.NameValidator = bronzehistorygreennodeloadbalancercertificateDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodeloadbalancercertificateDescInUse is the schema descriptor for in_use field.
+	bronzehistorygreennodeloadbalancercertificateDescInUse := bronzehistorygreennodeloadbalancercertificateFields[11].Descriptor()
+	// bronzehistorygreennodeloadbalancercertificate.DefaultInUse holds the default value on creation for the in_use field.
+	bronzehistorygreennodeloadbalancercertificate.DefaultInUse = bronzehistorygreennodeloadbalancercertificateDescInUse.Default.(bool)
+	// bronzehistorygreennodeloadbalancercertificateDescRegion is the schema descriptor for region field.
+	bronzehistorygreennodeloadbalancercertificateDescRegion := bronzehistorygreennodeloadbalancercertificateFields[15].Descriptor()
+	// bronzehistorygreennodeloadbalancercertificate.RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	bronzehistorygreennodeloadbalancercertificate.RegionValidator = bronzehistorygreennodeloadbalancercertificateDescRegion.Validators[0].(func(string) error)
+	// bronzehistorygreennodeloadbalancercertificateDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygreennodeloadbalancercertificateDescProjectID := bronzehistorygreennodeloadbalancercertificateFields[16].Descriptor()
+	// bronzehistorygreennodeloadbalancercertificate.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygreennodeloadbalancercertificate.ProjectIDValidator = bronzehistorygreennodeloadbalancercertificateDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygreennodeloadbalancerlbFields := schema.BronzeHistoryGreenNodeLoadBalancerLB{}.Fields()
+	_ = bronzehistorygreennodeloadbalancerlbFields
+	// bronzehistorygreennodeloadbalancerlbDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygreennodeloadbalancerlbDescResourceID := bronzehistorygreennodeloadbalancerlbFields[1].Descriptor()
+	// bronzehistorygreennodeloadbalancerlb.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygreennodeloadbalancerlb.ResourceIDValidator = bronzehistorygreennodeloadbalancerlbDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygreennodeloadbalancerlbDescName is the schema descriptor for name field.
+	bronzehistorygreennodeloadbalancerlbDescName := bronzehistorygreennodeloadbalancerlbFields[2].Descriptor()
+	// bronzehistorygreennodeloadbalancerlb.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodeloadbalancerlb.NameValidator = bronzehistorygreennodeloadbalancerlbDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodeloadbalancerlbDescInternal is the schema descriptor for internal field.
+	bronzehistorygreennodeloadbalancerlbDescInternal := bronzehistorygreennodeloadbalancerlbFields[18].Descriptor()
+	// bronzehistorygreennodeloadbalancerlb.DefaultInternal holds the default value on creation for the internal field.
+	bronzehistorygreennodeloadbalancerlb.DefaultInternal = bronzehistorygreennodeloadbalancerlbDescInternal.Default.(bool)
+	// bronzehistorygreennodeloadbalancerlbDescAutoScalable is the schema descriptor for auto_scalable field.
+	bronzehistorygreennodeloadbalancerlbDescAutoScalable := bronzehistorygreennodeloadbalancerlbFields[19].Descriptor()
+	// bronzehistorygreennodeloadbalancerlb.DefaultAutoScalable holds the default value on creation for the auto_scalable field.
+	bronzehistorygreennodeloadbalancerlb.DefaultAutoScalable = bronzehistorygreennodeloadbalancerlbDescAutoScalable.Default.(bool)
+	// bronzehistorygreennodeloadbalancerlbDescRegion is the schema descriptor for region field.
+	bronzehistorygreennodeloadbalancerlbDescRegion := bronzehistorygreennodeloadbalancerlbFields[25].Descriptor()
+	// bronzehistorygreennodeloadbalancerlb.RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	bronzehistorygreennodeloadbalancerlb.RegionValidator = bronzehistorygreennodeloadbalancerlbDescRegion.Validators[0].(func(string) error)
+	// bronzehistorygreennodeloadbalancerlbDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygreennodeloadbalancerlbDescProjectID := bronzehistorygreennodeloadbalancerlbFields[26].Descriptor()
+	// bronzehistorygreennodeloadbalancerlb.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygreennodeloadbalancerlb.ProjectIDValidator = bronzehistorygreennodeloadbalancerlbDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygreennodeloadbalancerlistenerFields := schema.BronzeHistoryGreenNodeLoadBalancerListener{}.Fields()
+	_ = bronzehistorygreennodeloadbalancerlistenerFields
+	// bronzehistorygreennodeloadbalancerlistenerDescListenerID is the schema descriptor for listener_id field.
+	bronzehistorygreennodeloadbalancerlistenerDescListenerID := bronzehistorygreennodeloadbalancerlistenerFields[4].Descriptor()
+	// bronzehistorygreennodeloadbalancerlistener.ListenerIDValidator is a validator for the "listener_id" field. It is called by the builders before save.
+	bronzehistorygreennodeloadbalancerlistener.ListenerIDValidator = bronzehistorygreennodeloadbalancerlistenerDescListenerID.Validators[0].(func(string) error)
+	// bronzehistorygreennodeloadbalancerlistenerDescName is the schema descriptor for name field.
+	bronzehistorygreennodeloadbalancerlistenerDescName := bronzehistorygreennodeloadbalancerlistenerFields[5].Descriptor()
+	// bronzehistorygreennodeloadbalancerlistener.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodeloadbalancerlistener.NameValidator = bronzehistorygreennodeloadbalancerlistenerDescName.Validators[0].(func(string) error)
+	bronzehistorygreennodeloadbalancerpackageFields := schema.BronzeHistoryGreenNodeLoadBalancerPackage{}.Fields()
+	_ = bronzehistorygreennodeloadbalancerpackageFields
+	// bronzehistorygreennodeloadbalancerpackageDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygreennodeloadbalancerpackageDescResourceID := bronzehistorygreennodeloadbalancerpackageFields[1].Descriptor()
+	// bronzehistorygreennodeloadbalancerpackage.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygreennodeloadbalancerpackage.ResourceIDValidator = bronzehistorygreennodeloadbalancerpackageDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygreennodeloadbalancerpackageDescName is the schema descriptor for name field.
+	bronzehistorygreennodeloadbalancerpackageDescName := bronzehistorygreennodeloadbalancerpackageFields[2].Descriptor()
+	// bronzehistorygreennodeloadbalancerpackage.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodeloadbalancerpackage.NameValidator = bronzehistorygreennodeloadbalancerpackageDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodeloadbalancerpackageDescRegion is the schema descriptor for region field.
+	bronzehistorygreennodeloadbalancerpackageDescRegion := bronzehistorygreennodeloadbalancerpackageFields[9].Descriptor()
+	// bronzehistorygreennodeloadbalancerpackage.RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	bronzehistorygreennodeloadbalancerpackage.RegionValidator = bronzehistorygreennodeloadbalancerpackageDescRegion.Validators[0].(func(string) error)
+	// bronzehistorygreennodeloadbalancerpackageDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygreennodeloadbalancerpackageDescProjectID := bronzehistorygreennodeloadbalancerpackageFields[10].Descriptor()
+	// bronzehistorygreennodeloadbalancerpackage.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygreennodeloadbalancerpackage.ProjectIDValidator = bronzehistorygreennodeloadbalancerpackageDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygreennodeloadbalancerpoolFields := schema.BronzeHistoryGreenNodeLoadBalancerPool{}.Fields()
+	_ = bronzehistorygreennodeloadbalancerpoolFields
+	// bronzehistorygreennodeloadbalancerpoolDescPoolID is the schema descriptor for pool_id field.
+	bronzehistorygreennodeloadbalancerpoolDescPoolID := bronzehistorygreennodeloadbalancerpoolFields[4].Descriptor()
+	// bronzehistorygreennodeloadbalancerpool.PoolIDValidator is a validator for the "pool_id" field. It is called by the builders before save.
+	bronzehistorygreennodeloadbalancerpool.PoolIDValidator = bronzehistorygreennodeloadbalancerpoolDescPoolID.Validators[0].(func(string) error)
+	// bronzehistorygreennodeloadbalancerpoolDescName is the schema descriptor for name field.
+	bronzehistorygreennodeloadbalancerpoolDescName := bronzehistorygreennodeloadbalancerpoolFields[5].Descriptor()
+	// bronzehistorygreennodeloadbalancerpool.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodeloadbalancerpool.NameValidator = bronzehistorygreennodeloadbalancerpoolDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodeloadbalancerpoolDescStickiness is the schema descriptor for stickiness field.
+	bronzehistorygreennodeloadbalancerpoolDescStickiness := bronzehistorygreennodeloadbalancerpoolFields[10].Descriptor()
+	// bronzehistorygreennodeloadbalancerpool.DefaultStickiness holds the default value on creation for the stickiness field.
+	bronzehistorygreennodeloadbalancerpool.DefaultStickiness = bronzehistorygreennodeloadbalancerpoolDescStickiness.Default.(bool)
+	// bronzehistorygreennodeloadbalancerpoolDescTLSEncryption is the schema descriptor for tls_encryption field.
+	bronzehistorygreennodeloadbalancerpoolDescTLSEncryption := bronzehistorygreennodeloadbalancerpoolFields[11].Descriptor()
+	// bronzehistorygreennodeloadbalancerpool.DefaultTLSEncryption holds the default value on creation for the tls_encryption field.
+	bronzehistorygreennodeloadbalancerpool.DefaultTLSEncryption = bronzehistorygreennodeloadbalancerpoolDescTLSEncryption.Default.(bool)
+	bronzehistorygreennodenetworkendpointFields := schema.BronzeHistoryGreenNodeNetworkEndpoint{}.Fields()
+	_ = bronzehistorygreennodenetworkendpointFields
+	// bronzehistorygreennodenetworkendpointDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygreennodenetworkendpointDescResourceID := bronzehistorygreennodenetworkendpointFields[1].Descriptor()
+	// bronzehistorygreennodenetworkendpoint.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygreennodenetworkendpoint.ResourceIDValidator = bronzehistorygreennodenetworkendpointDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygreennodenetworkendpointDescName is the schema descriptor for name field.
+	bronzehistorygreennodenetworkendpointDescName := bronzehistorygreennodenetworkendpointFields[2].Descriptor()
+	// bronzehistorygreennodenetworkendpoint.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodenetworkendpoint.NameValidator = bronzehistorygreennodenetworkendpointDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodenetworkendpointDescRegion is the schema descriptor for region field.
+	bronzehistorygreennodenetworkendpointDescRegion := bronzehistorygreennodenetworkendpointFields[7].Descriptor()
+	// bronzehistorygreennodenetworkendpoint.RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	bronzehistorygreennodenetworkendpoint.RegionValidator = bronzehistorygreennodenetworkendpointDescRegion.Validators[0].(func(string) error)
+	// bronzehistorygreennodenetworkendpointDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygreennodenetworkendpointDescProjectID := bronzehistorygreennodenetworkendpointFields[8].Descriptor()
+	// bronzehistorygreennodenetworkendpoint.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygreennodenetworkendpoint.ProjectIDValidator = bronzehistorygreennodenetworkendpointDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygreennodenetworksecgroupFields := schema.BronzeHistoryGreenNodeNetworkSecgroup{}.Fields()
+	_ = bronzehistorygreennodenetworksecgroupFields
+	// bronzehistorygreennodenetworksecgroupDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygreennodenetworksecgroupDescResourceID := bronzehistorygreennodenetworksecgroupFields[1].Descriptor()
+	// bronzehistorygreennodenetworksecgroup.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygreennodenetworksecgroup.ResourceIDValidator = bronzehistorygreennodenetworksecgroupDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygreennodenetworksecgroupDescName is the schema descriptor for name field.
+	bronzehistorygreennodenetworksecgroupDescName := bronzehistorygreennodenetworksecgroupFields[2].Descriptor()
+	// bronzehistorygreennodenetworksecgroup.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodenetworksecgroup.NameValidator = bronzehistorygreennodenetworksecgroupDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodenetworksecgroupDescRegion is the schema descriptor for region field.
+	bronzehistorygreennodenetworksecgroupDescRegion := bronzehistorygreennodenetworksecgroupFields[5].Descriptor()
+	// bronzehistorygreennodenetworksecgroup.RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	bronzehistorygreennodenetworksecgroup.RegionValidator = bronzehistorygreennodenetworksecgroupDescRegion.Validators[0].(func(string) error)
+	// bronzehistorygreennodenetworksecgroupDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygreennodenetworksecgroupDescProjectID := bronzehistorygreennodenetworksecgroupFields[6].Descriptor()
+	// bronzehistorygreennodenetworksecgroup.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygreennodenetworksecgroup.ProjectIDValidator = bronzehistorygreennodenetworksecgroupDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygreennodenetworksecgroupruleFields := schema.BronzeHistoryGreenNodeNetworkSecgroupRule{}.Fields()
+	_ = bronzehistorygreennodenetworksecgroupruleFields
+	// bronzehistorygreennodenetworksecgroupruleDescRuleID is the schema descriptor for rule_id field.
+	bronzehistorygreennodenetworksecgroupruleDescRuleID := bronzehistorygreennodenetworksecgroupruleFields[4].Descriptor()
+	// bronzehistorygreennodenetworksecgrouprule.RuleIDValidator is a validator for the "rule_id" field. It is called by the builders before save.
+	bronzehistorygreennodenetworksecgrouprule.RuleIDValidator = bronzehistorygreennodenetworksecgroupruleDescRuleID.Validators[0].(func(string) error)
 	bronzehistorygreennodeportalquotaFields := schema.BronzeHistoryGreenNodePortalQuota{}.Fields()
 	_ = bronzehistorygreennodeportalquotaFields
 	// bronzehistorygreennodeportalquotaDescResourceID is the schema descriptor for resource_id field.
@@ -4520,6 +5034,88 @@ func init() {
 	bronzehistorygreennodeportalregionDescProjectID := bronzehistorygreennodeportalregionFields[4].Descriptor()
 	// bronzehistorygreennodeportalregion.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
 	bronzehistorygreennodeportalregion.ProjectIDValidator = bronzehistorygreennodeportalregionDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygreennodeportalzoneFields := schema.BronzeHistoryGreenNodePortalZone{}.Fields()
+	_ = bronzehistorygreennodeportalzoneFields
+	// bronzehistorygreennodeportalzoneDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygreennodeportalzoneDescResourceID := bronzehistorygreennodeportalzoneFields[1].Descriptor()
+	// bronzehistorygreennodeportalzone.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygreennodeportalzone.ResourceIDValidator = bronzehistorygreennodeportalzoneDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygreennodeportalzoneDescName is the schema descriptor for name field.
+	bronzehistorygreennodeportalzoneDescName := bronzehistorygreennodeportalzoneFields[2].Descriptor()
+	// bronzehistorygreennodeportalzone.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodeportalzone.NameValidator = bronzehistorygreennodeportalzoneDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodeportalzoneDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygreennodeportalzoneDescProjectID := bronzehistorygreennodeportalzoneFields[4].Descriptor()
+	// bronzehistorygreennodeportalzone.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygreennodeportalzone.ProjectIDValidator = bronzehistorygreennodeportalzoneDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygreennodevolumeblockvolumeFields := schema.BronzeHistoryGreenNodeVolumeBlockVolume{}.Fields()
+	_ = bronzehistorygreennodevolumeblockvolumeFields
+	// bronzehistorygreennodevolumeblockvolumeDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygreennodevolumeblockvolumeDescResourceID := bronzehistorygreennodevolumeblockvolumeFields[1].Descriptor()
+	// bronzehistorygreennodevolumeblockvolume.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygreennodevolumeblockvolume.ResourceIDValidator = bronzehistorygreennodevolumeblockvolumeDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygreennodevolumeblockvolumeDescName is the schema descriptor for name field.
+	bronzehistorygreennodevolumeblockvolumeDescName := bronzehistorygreennodevolumeblockvolumeFields[2].Descriptor()
+	// bronzehistorygreennodevolumeblockvolume.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodevolumeblockvolume.NameValidator = bronzehistorygreennodevolumeblockvolumeDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodevolumeblockvolumeDescPersistentVolume is the schema descriptor for persistent_volume field.
+	bronzehistorygreennodevolumeblockvolumeDescPersistentVolume := bronzehistorygreennodevolumeblockvolumeFields[11].Descriptor()
+	// bronzehistorygreennodevolumeblockvolume.DefaultPersistentVolume holds the default value on creation for the persistent_volume field.
+	bronzehistorygreennodevolumeblockvolume.DefaultPersistentVolume = bronzehistorygreennodevolumeblockvolumeDescPersistentVolume.Default.(bool)
+	// bronzehistorygreennodevolumeblockvolumeDescMultiAttach is the schema descriptor for multi_attach field.
+	bronzehistorygreennodevolumeblockvolumeDescMultiAttach := bronzehistorygreennodevolumeblockvolumeFields[15].Descriptor()
+	// bronzehistorygreennodevolumeblockvolume.DefaultMultiAttach holds the default value on creation for the multi_attach field.
+	bronzehistorygreennodevolumeblockvolume.DefaultMultiAttach = bronzehistorygreennodevolumeblockvolumeDescMultiAttach.Default.(bool)
+	// bronzehistorygreennodevolumeblockvolumeDescRegion is the schema descriptor for region field.
+	bronzehistorygreennodevolumeblockvolumeDescRegion := bronzehistorygreennodevolumeblockvolumeFields[17].Descriptor()
+	// bronzehistorygreennodevolumeblockvolume.RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	bronzehistorygreennodevolumeblockvolume.RegionValidator = bronzehistorygreennodevolumeblockvolumeDescRegion.Validators[0].(func(string) error)
+	// bronzehistorygreennodevolumeblockvolumeDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygreennodevolumeblockvolumeDescProjectID := bronzehistorygreennodevolumeblockvolumeFields[18].Descriptor()
+	// bronzehistorygreennodevolumeblockvolume.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygreennodevolumeblockvolume.ProjectIDValidator = bronzehistorygreennodevolumeblockvolumeDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygreennodevolumesnapshotFields := schema.BronzeHistoryGreenNodeVolumeSnapshot{}.Fields()
+	_ = bronzehistorygreennodevolumesnapshotFields
+	// bronzehistorygreennodevolumesnapshotDescSnapshotID is the schema descriptor for snapshot_id field.
+	bronzehistorygreennodevolumesnapshotDescSnapshotID := bronzehistorygreennodevolumesnapshotFields[4].Descriptor()
+	// bronzehistorygreennodevolumesnapshot.SnapshotIDValidator is a validator for the "snapshot_id" field. It is called by the builders before save.
+	bronzehistorygreennodevolumesnapshot.SnapshotIDValidator = bronzehistorygreennodevolumesnapshotDescSnapshotID.Validators[0].(func(string) error)
+	bronzehistorygreennodevolumevolumetypeFields := schema.BronzeHistoryGreenNodeVolumeVolumeType{}.Fields()
+	_ = bronzehistorygreennodevolumevolumetypeFields
+	// bronzehistorygreennodevolumevolumetypeDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygreennodevolumevolumetypeDescResourceID := bronzehistorygreennodevolumevolumetypeFields[1].Descriptor()
+	// bronzehistorygreennodevolumevolumetype.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygreennodevolumevolumetype.ResourceIDValidator = bronzehistorygreennodevolumevolumetypeDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygreennodevolumevolumetypeDescName is the schema descriptor for name field.
+	bronzehistorygreennodevolumevolumetypeDescName := bronzehistorygreennodevolumevolumetypeFields[2].Descriptor()
+	// bronzehistorygreennodevolumevolumetype.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodevolumevolumetype.NameValidator = bronzehistorygreennodevolumevolumetypeDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodevolumevolumetypeDescRegion is the schema descriptor for region field.
+	bronzehistorygreennodevolumevolumetypeDescRegion := bronzehistorygreennodevolumevolumetypeFields[8].Descriptor()
+	// bronzehistorygreennodevolumevolumetype.RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	bronzehistorygreennodevolumevolumetype.RegionValidator = bronzehistorygreennodevolumevolumetypeDescRegion.Validators[0].(func(string) error)
+	// bronzehistorygreennodevolumevolumetypeDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygreennodevolumevolumetypeDescProjectID := bronzehistorygreennodevolumevolumetypeFields[9].Descriptor()
+	// bronzehistorygreennodevolumevolumetype.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygreennodevolumevolumetype.ProjectIDValidator = bronzehistorygreennodevolumevolumetypeDescProjectID.Validators[0].(func(string) error)
+	bronzehistorygreennodevolumevolumetypezoneFields := schema.BronzeHistoryGreenNodeVolumeVolumeTypeZone{}.Fields()
+	_ = bronzehistorygreennodevolumevolumetypezoneFields
+	// bronzehistorygreennodevolumevolumetypezoneDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorygreennodevolumevolumetypezoneDescResourceID := bronzehistorygreennodevolumevolumetypezoneFields[1].Descriptor()
+	// bronzehistorygreennodevolumevolumetypezone.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorygreennodevolumevolumetypezone.ResourceIDValidator = bronzehistorygreennodevolumevolumetypezoneDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorygreennodevolumevolumetypezoneDescName is the schema descriptor for name field.
+	bronzehistorygreennodevolumevolumetypezoneDescName := bronzehistorygreennodevolumevolumetypezoneFields[2].Descriptor()
+	// bronzehistorygreennodevolumevolumetypezone.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorygreennodevolumevolumetypezone.NameValidator = bronzehistorygreennodevolumevolumetypezoneDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodevolumevolumetypezoneDescRegion is the schema descriptor for region field.
+	bronzehistorygreennodevolumevolumetypezoneDescRegion := bronzehistorygreennodevolumevolumetypezoneFields[4].Descriptor()
+	// bronzehistorygreennodevolumevolumetypezone.RegionValidator is a validator for the "region" field. It is called by the builders before save.
+	bronzehistorygreennodevolumevolumetypezone.RegionValidator = bronzehistorygreennodevolumevolumetypezoneDescRegion.Validators[0].(func(string) error)
+	// bronzehistorygreennodevolumevolumetypezoneDescProjectID is the schema descriptor for project_id field.
+	bronzehistorygreennodevolumevolumetypezoneDescProjectID := bronzehistorygreennodevolumevolumetypezoneFields[5].Descriptor()
+	// bronzehistorygreennodevolumevolumetypezone.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
+	bronzehistorygreennodevolumevolumetypezone.ProjectIDValidator = bronzehistorygreennodevolumevolumetypezoneDescProjectID.Validators[0].(func(string) error)
 	bronzehistorys1accountFields := schema.BronzeHistoryS1Account{}.Fields()
 	_ = bronzehistorys1accountFields
 	// bronzehistorys1accountDescResourceID is the schema descriptor for resource_id field.

@@ -1965,6 +1965,186 @@ func (f BronzeGreenNodeComputeServerSecGroupFunc) Mutate(ctx context.Context, m 
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeComputeServerSecGroupMutation", m)
 }
 
+// The BronzeGreenNodeDNSHostedZoneFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodeDNSHostedZone mutator.
+type BronzeGreenNodeDNSHostedZoneFunc func(context.Context, *ent.BronzeGreenNodeDNSHostedZoneMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodeDNSHostedZoneFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodeDNSHostedZoneMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeDNSHostedZoneMutation", m)
+}
+
+// The BronzeGreenNodeDNSRecordFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodeDNSRecord mutator.
+type BronzeGreenNodeDNSRecordFunc func(context.Context, *ent.BronzeGreenNodeDNSRecordMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodeDNSRecordFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodeDNSRecordMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeDNSRecordMutation", m)
+}
+
+// The BronzeGreenNodeGLBGlobalListenerFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodeGLBGlobalListener mutator.
+type BronzeGreenNodeGLBGlobalListenerFunc func(context.Context, *ent.BronzeGreenNodeGLBGlobalListenerMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodeGLBGlobalListenerFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodeGLBGlobalListenerMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeGLBGlobalListenerMutation", m)
+}
+
+// The BronzeGreenNodeGLBGlobalLoadBalancerFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodeGLBGlobalLoadBalancer mutator.
+type BronzeGreenNodeGLBGlobalLoadBalancerFunc func(context.Context, *ent.BronzeGreenNodeGLBGlobalLoadBalancerMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodeGLBGlobalLoadBalancerFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodeGLBGlobalLoadBalancerMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeGLBGlobalLoadBalancerMutation", m)
+}
+
+// The BronzeGreenNodeGLBGlobalPackageFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodeGLBGlobalPackage mutator.
+type BronzeGreenNodeGLBGlobalPackageFunc func(context.Context, *ent.BronzeGreenNodeGLBGlobalPackageMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodeGLBGlobalPackageFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodeGLBGlobalPackageMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeGLBGlobalPackageMutation", m)
+}
+
+// The BronzeGreenNodeGLBGlobalPoolFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodeGLBGlobalPool mutator.
+type BronzeGreenNodeGLBGlobalPoolFunc func(context.Context, *ent.BronzeGreenNodeGLBGlobalPoolMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodeGLBGlobalPoolFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodeGLBGlobalPoolMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeGLBGlobalPoolMutation", m)
+}
+
+// The BronzeGreenNodeGLBGlobalRegionFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodeGLBGlobalRegion mutator.
+type BronzeGreenNodeGLBGlobalRegionFunc func(context.Context, *ent.BronzeGreenNodeGLBGlobalRegionMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodeGLBGlobalRegionFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodeGLBGlobalRegionMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeGLBGlobalRegionMutation", m)
+}
+
+// The BronzeGreenNodeLoadBalancerCertificateFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodeLoadBalancerCertificate mutator.
+type BronzeGreenNodeLoadBalancerCertificateFunc func(context.Context, *ent.BronzeGreenNodeLoadBalancerCertificateMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodeLoadBalancerCertificateFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodeLoadBalancerCertificateMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeLoadBalancerCertificateMutation", m)
+}
+
+// The BronzeGreenNodeLoadBalancerLBFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodeLoadBalancerLB mutator.
+type BronzeGreenNodeLoadBalancerLBFunc func(context.Context, *ent.BronzeGreenNodeLoadBalancerLBMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodeLoadBalancerLBFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodeLoadBalancerLBMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeLoadBalancerLBMutation", m)
+}
+
+// The BronzeGreenNodeLoadBalancerListenerFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodeLoadBalancerListener mutator.
+type BronzeGreenNodeLoadBalancerListenerFunc func(context.Context, *ent.BronzeGreenNodeLoadBalancerListenerMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodeLoadBalancerListenerFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodeLoadBalancerListenerMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeLoadBalancerListenerMutation", m)
+}
+
+// The BronzeGreenNodeLoadBalancerPackageFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodeLoadBalancerPackage mutator.
+type BronzeGreenNodeLoadBalancerPackageFunc func(context.Context, *ent.BronzeGreenNodeLoadBalancerPackageMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodeLoadBalancerPackageFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodeLoadBalancerPackageMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeLoadBalancerPackageMutation", m)
+}
+
+// The BronzeGreenNodeLoadBalancerPoolFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodeLoadBalancerPool mutator.
+type BronzeGreenNodeLoadBalancerPoolFunc func(context.Context, *ent.BronzeGreenNodeLoadBalancerPoolMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodeLoadBalancerPoolFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodeLoadBalancerPoolMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeLoadBalancerPoolMutation", m)
+}
+
+// The BronzeGreenNodeNetworkEndpointFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodeNetworkEndpoint mutator.
+type BronzeGreenNodeNetworkEndpointFunc func(context.Context, *ent.BronzeGreenNodeNetworkEndpointMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodeNetworkEndpointFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodeNetworkEndpointMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeNetworkEndpointMutation", m)
+}
+
+// The BronzeGreenNodeNetworkSecgroupFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodeNetworkSecgroup mutator.
+type BronzeGreenNodeNetworkSecgroupFunc func(context.Context, *ent.BronzeGreenNodeNetworkSecgroupMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodeNetworkSecgroupFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodeNetworkSecgroupMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeNetworkSecgroupMutation", m)
+}
+
+// The BronzeGreenNodeNetworkSecgroupRuleFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodeNetworkSecgroupRule mutator.
+type BronzeGreenNodeNetworkSecgroupRuleFunc func(context.Context, *ent.BronzeGreenNodeNetworkSecgroupRuleMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodeNetworkSecgroupRuleFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodeNetworkSecgroupRuleMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeNetworkSecgroupRuleMutation", m)
+}
+
 // The BronzeGreenNodePortalQuotaFunc type is an adapter to allow the use of ordinary
 // function as BronzeGreenNodePortalQuota mutator.
 type BronzeGreenNodePortalQuotaFunc func(context.Context, *ent.BronzeGreenNodePortalQuotaMutation) (ent.Value, error)
@@ -1987,6 +2167,66 @@ func (f BronzeGreenNodePortalRegionFunc) Mutate(ctx context.Context, m ent.Mutat
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodePortalRegionMutation", m)
+}
+
+// The BronzeGreenNodePortalZoneFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodePortalZone mutator.
+type BronzeGreenNodePortalZoneFunc func(context.Context, *ent.BronzeGreenNodePortalZoneMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodePortalZoneFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodePortalZoneMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodePortalZoneMutation", m)
+}
+
+// The BronzeGreenNodeVolumeBlockVolumeFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodeVolumeBlockVolume mutator.
+type BronzeGreenNodeVolumeBlockVolumeFunc func(context.Context, *ent.BronzeGreenNodeVolumeBlockVolumeMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodeVolumeBlockVolumeFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodeVolumeBlockVolumeMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeVolumeBlockVolumeMutation", m)
+}
+
+// The BronzeGreenNodeVolumeSnapshotFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodeVolumeSnapshot mutator.
+type BronzeGreenNodeVolumeSnapshotFunc func(context.Context, *ent.BronzeGreenNodeVolumeSnapshotMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodeVolumeSnapshotFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodeVolumeSnapshotMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeVolumeSnapshotMutation", m)
+}
+
+// The BronzeGreenNodeVolumeVolumeTypeFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodeVolumeVolumeType mutator.
+type BronzeGreenNodeVolumeVolumeTypeFunc func(context.Context, *ent.BronzeGreenNodeVolumeVolumeTypeMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodeVolumeVolumeTypeFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodeVolumeVolumeTypeMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeVolumeVolumeTypeMutation", m)
+}
+
+// The BronzeGreenNodeVolumeVolumeTypeZoneFunc type is an adapter to allow the use of ordinary
+// function as BronzeGreenNodeVolumeVolumeTypeZone mutator.
+type BronzeGreenNodeVolumeVolumeTypeZoneFunc func(context.Context, *ent.BronzeGreenNodeVolumeVolumeTypeZoneMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeGreenNodeVolumeVolumeTypeZoneFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeGreenNodeVolumeVolumeTypeZoneMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeGreenNodeVolumeVolumeTypeZoneMutation", m)
 }
 
 // The BronzeHistoryAWSEC2InstanceFunc type is an adapter to allow the use of ordinary
@@ -3945,6 +4185,186 @@ func (f BronzeHistoryGreenNodeComputeServerSecGroupFunc) Mutate(ctx context.Cont
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeComputeServerSecGroupMutation", m)
 }
 
+// The BronzeHistoryGreenNodeDNSHostedZoneFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodeDNSHostedZone mutator.
+type BronzeHistoryGreenNodeDNSHostedZoneFunc func(context.Context, *ent.BronzeHistoryGreenNodeDNSHostedZoneMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodeDNSHostedZoneFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodeDNSHostedZoneMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeDNSHostedZoneMutation", m)
+}
+
+// The BronzeHistoryGreenNodeDNSRecordFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodeDNSRecord mutator.
+type BronzeHistoryGreenNodeDNSRecordFunc func(context.Context, *ent.BronzeHistoryGreenNodeDNSRecordMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodeDNSRecordFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodeDNSRecordMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeDNSRecordMutation", m)
+}
+
+// The BronzeHistoryGreenNodeGLBGlobalListenerFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodeGLBGlobalListener mutator.
+type BronzeHistoryGreenNodeGLBGlobalListenerFunc func(context.Context, *ent.BronzeHistoryGreenNodeGLBGlobalListenerMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodeGLBGlobalListenerFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodeGLBGlobalListenerMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeGLBGlobalListenerMutation", m)
+}
+
+// The BronzeHistoryGreenNodeGLBGlobalLoadBalancerFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodeGLBGlobalLoadBalancer mutator.
+type BronzeHistoryGreenNodeGLBGlobalLoadBalancerFunc func(context.Context, *ent.BronzeHistoryGreenNodeGLBGlobalLoadBalancerMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodeGLBGlobalLoadBalancerFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodeGLBGlobalLoadBalancerMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeGLBGlobalLoadBalancerMutation", m)
+}
+
+// The BronzeHistoryGreenNodeGLBGlobalPackageFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodeGLBGlobalPackage mutator.
+type BronzeHistoryGreenNodeGLBGlobalPackageFunc func(context.Context, *ent.BronzeHistoryGreenNodeGLBGlobalPackageMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodeGLBGlobalPackageFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodeGLBGlobalPackageMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeGLBGlobalPackageMutation", m)
+}
+
+// The BronzeHistoryGreenNodeGLBGlobalPoolFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodeGLBGlobalPool mutator.
+type BronzeHistoryGreenNodeGLBGlobalPoolFunc func(context.Context, *ent.BronzeHistoryGreenNodeGLBGlobalPoolMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodeGLBGlobalPoolFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodeGLBGlobalPoolMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeGLBGlobalPoolMutation", m)
+}
+
+// The BronzeHistoryGreenNodeGLBGlobalRegionFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodeGLBGlobalRegion mutator.
+type BronzeHistoryGreenNodeGLBGlobalRegionFunc func(context.Context, *ent.BronzeHistoryGreenNodeGLBGlobalRegionMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodeGLBGlobalRegionFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodeGLBGlobalRegionMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeGLBGlobalRegionMutation", m)
+}
+
+// The BronzeHistoryGreenNodeLoadBalancerCertificateFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodeLoadBalancerCertificate mutator.
+type BronzeHistoryGreenNodeLoadBalancerCertificateFunc func(context.Context, *ent.BronzeHistoryGreenNodeLoadBalancerCertificateMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodeLoadBalancerCertificateFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodeLoadBalancerCertificateMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeLoadBalancerCertificateMutation", m)
+}
+
+// The BronzeHistoryGreenNodeLoadBalancerLBFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodeLoadBalancerLB mutator.
+type BronzeHistoryGreenNodeLoadBalancerLBFunc func(context.Context, *ent.BronzeHistoryGreenNodeLoadBalancerLBMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodeLoadBalancerLBFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodeLoadBalancerLBMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeLoadBalancerLBMutation", m)
+}
+
+// The BronzeHistoryGreenNodeLoadBalancerListenerFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodeLoadBalancerListener mutator.
+type BronzeHistoryGreenNodeLoadBalancerListenerFunc func(context.Context, *ent.BronzeHistoryGreenNodeLoadBalancerListenerMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodeLoadBalancerListenerFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodeLoadBalancerListenerMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeLoadBalancerListenerMutation", m)
+}
+
+// The BronzeHistoryGreenNodeLoadBalancerPackageFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodeLoadBalancerPackage mutator.
+type BronzeHistoryGreenNodeLoadBalancerPackageFunc func(context.Context, *ent.BronzeHistoryGreenNodeLoadBalancerPackageMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodeLoadBalancerPackageFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodeLoadBalancerPackageMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeLoadBalancerPackageMutation", m)
+}
+
+// The BronzeHistoryGreenNodeLoadBalancerPoolFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodeLoadBalancerPool mutator.
+type BronzeHistoryGreenNodeLoadBalancerPoolFunc func(context.Context, *ent.BronzeHistoryGreenNodeLoadBalancerPoolMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodeLoadBalancerPoolFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodeLoadBalancerPoolMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeLoadBalancerPoolMutation", m)
+}
+
+// The BronzeHistoryGreenNodeNetworkEndpointFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodeNetworkEndpoint mutator.
+type BronzeHistoryGreenNodeNetworkEndpointFunc func(context.Context, *ent.BronzeHistoryGreenNodeNetworkEndpointMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodeNetworkEndpointFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodeNetworkEndpointMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeNetworkEndpointMutation", m)
+}
+
+// The BronzeHistoryGreenNodeNetworkSecgroupFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodeNetworkSecgroup mutator.
+type BronzeHistoryGreenNodeNetworkSecgroupFunc func(context.Context, *ent.BronzeHistoryGreenNodeNetworkSecgroupMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodeNetworkSecgroupFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodeNetworkSecgroupMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeNetworkSecgroupMutation", m)
+}
+
+// The BronzeHistoryGreenNodeNetworkSecgroupRuleFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodeNetworkSecgroupRule mutator.
+type BronzeHistoryGreenNodeNetworkSecgroupRuleFunc func(context.Context, *ent.BronzeHistoryGreenNodeNetworkSecgroupRuleMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodeNetworkSecgroupRuleFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodeNetworkSecgroupRuleMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeNetworkSecgroupRuleMutation", m)
+}
+
 // The BronzeHistoryGreenNodePortalQuotaFunc type is an adapter to allow the use of ordinary
 // function as BronzeHistoryGreenNodePortalQuota mutator.
 type BronzeHistoryGreenNodePortalQuotaFunc func(context.Context, *ent.BronzeHistoryGreenNodePortalQuotaMutation) (ent.Value, error)
@@ -3967,6 +4387,66 @@ func (f BronzeHistoryGreenNodePortalRegionFunc) Mutate(ctx context.Context, m en
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodePortalRegionMutation", m)
+}
+
+// The BronzeHistoryGreenNodePortalZoneFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodePortalZone mutator.
+type BronzeHistoryGreenNodePortalZoneFunc func(context.Context, *ent.BronzeHistoryGreenNodePortalZoneMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodePortalZoneFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodePortalZoneMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodePortalZoneMutation", m)
+}
+
+// The BronzeHistoryGreenNodeVolumeBlockVolumeFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodeVolumeBlockVolume mutator.
+type BronzeHistoryGreenNodeVolumeBlockVolumeFunc func(context.Context, *ent.BronzeHistoryGreenNodeVolumeBlockVolumeMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodeVolumeBlockVolumeFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodeVolumeBlockVolumeMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeVolumeBlockVolumeMutation", m)
+}
+
+// The BronzeHistoryGreenNodeVolumeSnapshotFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodeVolumeSnapshot mutator.
+type BronzeHistoryGreenNodeVolumeSnapshotFunc func(context.Context, *ent.BronzeHistoryGreenNodeVolumeSnapshotMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodeVolumeSnapshotFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodeVolumeSnapshotMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeVolumeSnapshotMutation", m)
+}
+
+// The BronzeHistoryGreenNodeVolumeVolumeTypeFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodeVolumeVolumeType mutator.
+type BronzeHistoryGreenNodeVolumeVolumeTypeFunc func(context.Context, *ent.BronzeHistoryGreenNodeVolumeVolumeTypeMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodeVolumeVolumeTypeFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodeVolumeVolumeTypeMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeVolumeVolumeTypeMutation", m)
+}
+
+// The BronzeHistoryGreenNodeVolumeVolumeTypeZoneFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryGreenNodeVolumeVolumeTypeZone mutator.
+type BronzeHistoryGreenNodeVolumeVolumeTypeZoneFunc func(context.Context, *ent.BronzeHistoryGreenNodeVolumeVolumeTypeZoneMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryGreenNodeVolumeVolumeTypeZoneFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryGreenNodeVolumeVolumeTypeZoneMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryGreenNodeVolumeVolumeTypeZoneMutation", m)
 }
 
 // The BronzeHistoryS1AccountFunc type is an adapter to allow the use of ordinary

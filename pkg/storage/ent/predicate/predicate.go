@@ -495,11 +495,71 @@ type BronzeGreenNodeComputeServerGroupMember func(*sql.Selector)
 // BronzeGreenNodeComputeServerSecGroup is the predicate function for bronzegreennodecomputeserversecgroup builders.
 type BronzeGreenNodeComputeServerSecGroup func(*sql.Selector)
 
+// BronzeGreenNodeDNSHostedZone is the predicate function for bronzegreennodednshostedzone builders.
+type BronzeGreenNodeDNSHostedZone func(*sql.Selector)
+
+// BronzeGreenNodeDNSRecord is the predicate function for bronzegreennodednsrecord builders.
+type BronzeGreenNodeDNSRecord func(*sql.Selector)
+
+// BronzeGreenNodeGLBGlobalListener is the predicate function for bronzegreennodeglbgloballistener builders.
+type BronzeGreenNodeGLBGlobalListener func(*sql.Selector)
+
+// BronzeGreenNodeGLBGlobalLoadBalancer is the predicate function for bronzegreennodeglbgloballoadbalancer builders.
+type BronzeGreenNodeGLBGlobalLoadBalancer func(*sql.Selector)
+
+// BronzeGreenNodeGLBGlobalPackage is the predicate function for bronzegreennodeglbglobalpackage builders.
+type BronzeGreenNodeGLBGlobalPackage func(*sql.Selector)
+
+// BronzeGreenNodeGLBGlobalPool is the predicate function for bronzegreennodeglbglobalpool builders.
+type BronzeGreenNodeGLBGlobalPool func(*sql.Selector)
+
+// BronzeGreenNodeGLBGlobalRegion is the predicate function for bronzegreennodeglbglobalregion builders.
+type BronzeGreenNodeGLBGlobalRegion func(*sql.Selector)
+
+// BronzeGreenNodeLoadBalancerCertificate is the predicate function for bronzegreennodeloadbalancercertificate builders.
+type BronzeGreenNodeLoadBalancerCertificate func(*sql.Selector)
+
+// BronzeGreenNodeLoadBalancerLB is the predicate function for bronzegreennodeloadbalancerlb builders.
+type BronzeGreenNodeLoadBalancerLB func(*sql.Selector)
+
+// BronzeGreenNodeLoadBalancerListener is the predicate function for bronzegreennodeloadbalancerlistener builders.
+type BronzeGreenNodeLoadBalancerListener func(*sql.Selector)
+
+// BronzeGreenNodeLoadBalancerPackage is the predicate function for bronzegreennodeloadbalancerpackage builders.
+type BronzeGreenNodeLoadBalancerPackage func(*sql.Selector)
+
+// BronzeGreenNodeLoadBalancerPool is the predicate function for bronzegreennodeloadbalancerpool builders.
+type BronzeGreenNodeLoadBalancerPool func(*sql.Selector)
+
+// BronzeGreenNodeNetworkEndpoint is the predicate function for bronzegreennodenetworkendpoint builders.
+type BronzeGreenNodeNetworkEndpoint func(*sql.Selector)
+
+// BronzeGreenNodeNetworkSecgroup is the predicate function for bronzegreennodenetworksecgroup builders.
+type BronzeGreenNodeNetworkSecgroup func(*sql.Selector)
+
+// BronzeGreenNodeNetworkSecgroupRule is the predicate function for bronzegreennodenetworksecgrouprule builders.
+type BronzeGreenNodeNetworkSecgroupRule func(*sql.Selector)
+
 // BronzeGreenNodePortalQuota is the predicate function for bronzegreennodeportalquota builders.
 type BronzeGreenNodePortalQuota func(*sql.Selector)
 
 // BronzeGreenNodePortalRegion is the predicate function for bronzegreennodeportalregion builders.
 type BronzeGreenNodePortalRegion func(*sql.Selector)
+
+// BronzeGreenNodePortalZone is the predicate function for bronzegreennodeportalzone builders.
+type BronzeGreenNodePortalZone func(*sql.Selector)
+
+// BronzeGreenNodeVolumeBlockVolume is the predicate function for bronzegreennodevolumeblockvolume builders.
+type BronzeGreenNodeVolumeBlockVolume func(*sql.Selector)
+
+// BronzeGreenNodeVolumeSnapshot is the predicate function for bronzegreennodevolumesnapshot builders.
+type BronzeGreenNodeVolumeSnapshot func(*sql.Selector)
+
+// BronzeGreenNodeVolumeVolumeType is the predicate function for bronzegreennodevolumevolumetype builders.
+type BronzeGreenNodeVolumeVolumeType func(*sql.Selector)
+
+// BronzeGreenNodeVolumeVolumeTypeZone is the predicate function for bronzegreennodevolumevolumetypezone builders.
+type BronzeGreenNodeVolumeVolumeTypeZone func(*sql.Selector)
 
 // BronzeHistoryAWSEC2Instance is the predicate function for bronzehistoryawsec2instance builders.
 type BronzeHistoryAWSEC2Instance func(*sql.Selector)
@@ -990,11 +1050,71 @@ type BronzeHistoryGreenNodeComputeServerGroupMember func(*sql.Selector)
 // BronzeHistoryGreenNodeComputeServerSecGroup is the predicate function for bronzehistorygreennodecomputeserversecgroup builders.
 type BronzeHistoryGreenNodeComputeServerSecGroup func(*sql.Selector)
 
+// BronzeHistoryGreenNodeDNSHostedZone is the predicate function for bronzehistorygreennodednshostedzone builders.
+type BronzeHistoryGreenNodeDNSHostedZone func(*sql.Selector)
+
+// BronzeHistoryGreenNodeDNSRecord is the predicate function for bronzehistorygreennodednsrecord builders.
+type BronzeHistoryGreenNodeDNSRecord func(*sql.Selector)
+
+// BronzeHistoryGreenNodeGLBGlobalListener is the predicate function for bronzehistorygreennodeglbgloballistener builders.
+type BronzeHistoryGreenNodeGLBGlobalListener func(*sql.Selector)
+
+// BronzeHistoryGreenNodeGLBGlobalLoadBalancer is the predicate function for bronzehistorygreennodeglbgloballoadbalancer builders.
+type BronzeHistoryGreenNodeGLBGlobalLoadBalancer func(*sql.Selector)
+
+// BronzeHistoryGreenNodeGLBGlobalPackage is the predicate function for bronzehistorygreennodeglbglobalpackage builders.
+type BronzeHistoryGreenNodeGLBGlobalPackage func(*sql.Selector)
+
+// BronzeHistoryGreenNodeGLBGlobalPool is the predicate function for bronzehistorygreennodeglbglobalpool builders.
+type BronzeHistoryGreenNodeGLBGlobalPool func(*sql.Selector)
+
+// BronzeHistoryGreenNodeGLBGlobalRegion is the predicate function for bronzehistorygreennodeglbglobalregion builders.
+type BronzeHistoryGreenNodeGLBGlobalRegion func(*sql.Selector)
+
+// BronzeHistoryGreenNodeLoadBalancerCertificate is the predicate function for bronzehistorygreennodeloadbalancercertificate builders.
+type BronzeHistoryGreenNodeLoadBalancerCertificate func(*sql.Selector)
+
+// BronzeHistoryGreenNodeLoadBalancerLB is the predicate function for bronzehistorygreennodeloadbalancerlb builders.
+type BronzeHistoryGreenNodeLoadBalancerLB func(*sql.Selector)
+
+// BronzeHistoryGreenNodeLoadBalancerListener is the predicate function for bronzehistorygreennodeloadbalancerlistener builders.
+type BronzeHistoryGreenNodeLoadBalancerListener func(*sql.Selector)
+
+// BronzeHistoryGreenNodeLoadBalancerPackage is the predicate function for bronzehistorygreennodeloadbalancerpackage builders.
+type BronzeHistoryGreenNodeLoadBalancerPackage func(*sql.Selector)
+
+// BronzeHistoryGreenNodeLoadBalancerPool is the predicate function for bronzehistorygreennodeloadbalancerpool builders.
+type BronzeHistoryGreenNodeLoadBalancerPool func(*sql.Selector)
+
+// BronzeHistoryGreenNodeNetworkEndpoint is the predicate function for bronzehistorygreennodenetworkendpoint builders.
+type BronzeHistoryGreenNodeNetworkEndpoint func(*sql.Selector)
+
+// BronzeHistoryGreenNodeNetworkSecgroup is the predicate function for bronzehistorygreennodenetworksecgroup builders.
+type BronzeHistoryGreenNodeNetworkSecgroup func(*sql.Selector)
+
+// BronzeHistoryGreenNodeNetworkSecgroupRule is the predicate function for bronzehistorygreennodenetworksecgrouprule builders.
+type BronzeHistoryGreenNodeNetworkSecgroupRule func(*sql.Selector)
+
 // BronzeHistoryGreenNodePortalQuota is the predicate function for bronzehistorygreennodeportalquota builders.
 type BronzeHistoryGreenNodePortalQuota func(*sql.Selector)
 
 // BronzeHistoryGreenNodePortalRegion is the predicate function for bronzehistorygreennodeportalregion builders.
 type BronzeHistoryGreenNodePortalRegion func(*sql.Selector)
+
+// BronzeHistoryGreenNodePortalZone is the predicate function for bronzehistorygreennodeportalzone builders.
+type BronzeHistoryGreenNodePortalZone func(*sql.Selector)
+
+// BronzeHistoryGreenNodeVolumeBlockVolume is the predicate function for bronzehistorygreennodevolumeblockvolume builders.
+type BronzeHistoryGreenNodeVolumeBlockVolume func(*sql.Selector)
+
+// BronzeHistoryGreenNodeVolumeSnapshot is the predicate function for bronzehistorygreennodevolumesnapshot builders.
+type BronzeHistoryGreenNodeVolumeSnapshot func(*sql.Selector)
+
+// BronzeHistoryGreenNodeVolumeVolumeType is the predicate function for bronzehistorygreennodevolumevolumetype builders.
+type BronzeHistoryGreenNodeVolumeVolumeType func(*sql.Selector)
+
+// BronzeHistoryGreenNodeVolumeVolumeTypeZone is the predicate function for bronzehistorygreennodevolumevolumetypezone builders.
+type BronzeHistoryGreenNodeVolumeVolumeTypeZone func(*sql.Selector)
 
 // BronzeHistoryS1Account is the predicate function for bronzehistorys1account builders.
 type BronzeHistoryS1Account func(*sql.Selector)

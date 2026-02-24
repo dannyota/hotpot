@@ -37,7 +37,12 @@ import (
 	bronze_gcp_vpcaccess "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/vpcaccess"
 	bronze_gcp_vpn "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/vpn"
 	bronze_greennode_compute "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/compute"
+	bronze_greennode_dns "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/dns"
+	bronze_greennode_glb "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/glb"
+	bronze_greennode_loadbalancer "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/loadbalancer"
+	bronze_greennode_network "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/network"
 	bronze_greennode_portal "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/portal"
+	bronze_greennode_volume "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/volume"
 	bronze_s1 "github.com/dannyota/hotpot/pkg/schema/bronze/s1"
 	bronzehistory_aws_ec2 "github.com/dannyota/hotpot/pkg/schema/bronzehistory/aws/ec2"
 	bronzehistory_do "github.com/dannyota/hotpot/pkg/schema/bronzehistory/do"
@@ -74,7 +79,12 @@ import (
 	bronzehistory_gcp_vpcaccess "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/vpcaccess"
 	bronzehistory_gcp_vpn "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/vpn"
 	bronzehistory_greennode_compute "github.com/dannyota/hotpot/pkg/schema/bronzehistory/greennode/compute"
+	bronzehistory_greennode_dns "github.com/dannyota/hotpot/pkg/schema/bronzehistory/greennode/dns"
+	bronzehistory_greennode_glb "github.com/dannyota/hotpot/pkg/schema/bronzehistory/greennode/glb"
+	bronzehistory_greennode_loadbalancer "github.com/dannyota/hotpot/pkg/schema/bronzehistory/greennode/loadbalancer"
+	bronzehistory_greennode_network "github.com/dannyota/hotpot/pkg/schema/bronzehistory/greennode/network"
 	bronzehistory_greennode_portal "github.com/dannyota/hotpot/pkg/schema/bronzehistory/greennode/portal"
+	bronzehistory_greennode_volume "github.com/dannyota/hotpot/pkg/schema/bronzehistory/greennode/volume"
 	bronzehistory_s1 "github.com/dannyota/hotpot/pkg/schema/bronzehistory/s1"
 )
 
@@ -730,12 +740,92 @@ type BronzeGreenNodeComputeSSHKey struct {
 	bronze_greennode_compute.BronzeGreenNodeComputeSSHKey
 }
 
+type BronzeGreenNodeDNSHostedZone struct {
+	bronze_greennode_dns.BronzeGreenNodeDNSHostedZone
+}
+
+type BronzeGreenNodeDNSRecord struct {
+	bronze_greennode_dns.BronzeGreenNodeDNSRecord
+}
+
+type BronzeGreenNodeGLBGlobalLoadBalancer struct {
+	bronze_greennode_glb.BronzeGreenNodeGLBGlobalLoadBalancer
+}
+
+type BronzeGreenNodeGLBGlobalListener struct {
+	bronze_greennode_glb.BronzeGreenNodeGLBGlobalListener
+}
+
+type BronzeGreenNodeGLBGlobalPool struct {
+	bronze_greennode_glb.BronzeGreenNodeGLBGlobalPool
+}
+
+type BronzeGreenNodeGLBGlobalPackage struct {
+	bronze_greennode_glb.BronzeGreenNodeGLBGlobalPackage
+}
+
+type BronzeGreenNodeGLBGlobalRegion struct {
+	bronze_greennode_glb.BronzeGreenNodeGLBGlobalRegion
+}
+
+type BronzeGreenNodeLoadBalancerCertificate struct {
+	bronze_greennode_loadbalancer.BronzeGreenNodeLoadBalancerCertificate
+}
+
+type BronzeGreenNodeLoadBalancerLB struct {
+	bronze_greennode_loadbalancer.BronzeGreenNodeLoadBalancerLB
+}
+
+type BronzeGreenNodeLoadBalancerListener struct {
+	bronze_greennode_loadbalancer.BronzeGreenNodeLoadBalancerListener
+}
+
+type BronzeGreenNodeLoadBalancerPool struct {
+	bronze_greennode_loadbalancer.BronzeGreenNodeLoadBalancerPool
+}
+
+type BronzeGreenNodeLoadBalancerPackage struct {
+	bronze_greennode_loadbalancer.BronzeGreenNodeLoadBalancerPackage
+}
+
+type BronzeGreenNodeNetworkEndpoint struct {
+	bronze_greennode_network.BronzeGreenNodeNetworkEndpoint
+}
+
+type BronzeGreenNodeNetworkSecgroup struct {
+	bronze_greennode_network.BronzeGreenNodeNetworkSecgroup
+}
+
+type BronzeGreenNodeNetworkSecgroupRule struct {
+	bronze_greennode_network.BronzeGreenNodeNetworkSecgroupRule
+}
+
 type BronzeGreenNodePortalQuota struct {
 	bronze_greennode_portal.BronzeGreenNodePortalQuota
 }
 
 type BronzeGreenNodePortalRegion struct {
 	bronze_greennode_portal.BronzeGreenNodePortalRegion
+}
+
+type BronzeGreenNodePortalZone struct {
+	bronze_greennode_portal.BronzeGreenNodePortalZone
+}
+
+type BronzeGreenNodeVolumeBlockVolume struct {
+	bronze_greennode_volume.BronzeGreenNodeVolumeBlockVolume
+}
+
+type BronzeGreenNodeVolumeSnapshot struct {
+	bronze_greennode_volume.BronzeGreenNodeVolumeSnapshot
+}
+
+type BronzeGreenNodeVolumeVolumeType struct {
+	bronze_greennode_volume.BronzeGreenNodeVolumeVolumeType
+}
+
+type BronzeGreenNodeVolumeVolumeTypeZone struct {
+	bronze_greennode_volume.BronzeGreenNodeVolumeVolumeTypeZone
 }
 
 type BronzeS1Account struct {
@@ -1430,12 +1520,92 @@ type BronzeHistoryGreenNodeComputeSSHKey struct {
 	bronzehistory_greennode_compute.BronzeHistoryGreenNodeComputeSSHKey
 }
 
+type BronzeHistoryGreenNodeDNSHostedZone struct {
+	bronzehistory_greennode_dns.BronzeHistoryGreenNodeDNSHostedZone
+}
+
+type BronzeHistoryGreenNodeDNSRecord struct {
+	bronzehistory_greennode_dns.BronzeHistoryGreenNodeDNSRecord
+}
+
+type BronzeHistoryGreenNodeGLBGlobalLoadBalancer struct {
+	bronzehistory_greennode_glb.BronzeHistoryGreenNodeGLBGlobalLoadBalancer
+}
+
+type BronzeHistoryGreenNodeGLBGlobalListener struct {
+	bronzehistory_greennode_glb.BronzeHistoryGreenNodeGLBGlobalListener
+}
+
+type BronzeHistoryGreenNodeGLBGlobalPool struct {
+	bronzehistory_greennode_glb.BronzeHistoryGreenNodeGLBGlobalPool
+}
+
+type BronzeHistoryGreenNodeGLBGlobalPackage struct {
+	bronzehistory_greennode_glb.BronzeHistoryGreenNodeGLBGlobalPackage
+}
+
+type BronzeHistoryGreenNodeGLBGlobalRegion struct {
+	bronzehistory_greennode_glb.BronzeHistoryGreenNodeGLBGlobalRegion
+}
+
+type BronzeHistoryGreenNodeLoadBalancerCertificate struct {
+	bronzehistory_greennode_loadbalancer.BronzeHistoryGreenNodeLoadBalancerCertificate
+}
+
+type BronzeHistoryGreenNodeLoadBalancerLB struct {
+	bronzehistory_greennode_loadbalancer.BronzeHistoryGreenNodeLoadBalancerLB
+}
+
+type BronzeHistoryGreenNodeLoadBalancerListener struct {
+	bronzehistory_greennode_loadbalancer.BronzeHistoryGreenNodeLoadBalancerListener
+}
+
+type BronzeHistoryGreenNodeLoadBalancerPool struct {
+	bronzehistory_greennode_loadbalancer.BronzeHistoryGreenNodeLoadBalancerPool
+}
+
+type BronzeHistoryGreenNodeLoadBalancerPackage struct {
+	bronzehistory_greennode_loadbalancer.BronzeHistoryGreenNodeLoadBalancerPackage
+}
+
+type BronzeHistoryGreenNodeNetworkEndpoint struct {
+	bronzehistory_greennode_network.BronzeHistoryGreenNodeNetworkEndpoint
+}
+
+type BronzeHistoryGreenNodeNetworkSecgroup struct {
+	bronzehistory_greennode_network.BronzeHistoryGreenNodeNetworkSecgroup
+}
+
+type BronzeHistoryGreenNodeNetworkSecgroupRule struct {
+	bronzehistory_greennode_network.BronzeHistoryGreenNodeNetworkSecgroupRule
+}
+
 type BronzeHistoryGreenNodePortalQuota struct {
 	bronzehistory_greennode_portal.BronzeHistoryGreenNodePortalQuota
 }
 
 type BronzeHistoryGreenNodePortalRegion struct {
 	bronzehistory_greennode_portal.BronzeHistoryGreenNodePortalRegion
+}
+
+type BronzeHistoryGreenNodePortalZone struct {
+	bronzehistory_greennode_portal.BronzeHistoryGreenNodePortalZone
+}
+
+type BronzeHistoryGreenNodeVolumeBlockVolume struct {
+	bronzehistory_greennode_volume.BronzeHistoryGreenNodeVolumeBlockVolume
+}
+
+type BronzeHistoryGreenNodeVolumeSnapshot struct {
+	bronzehistory_greennode_volume.BronzeHistoryGreenNodeVolumeSnapshot
+}
+
+type BronzeHistoryGreenNodeVolumeVolumeType struct {
+	bronzehistory_greennode_volume.BronzeHistoryGreenNodeVolumeVolumeType
+}
+
+type BronzeHistoryGreenNodeVolumeVolumeTypeZone struct {
+	bronzehistory_greennode_volume.BronzeHistoryGreenNodeVolumeVolumeTypeZone
 }
 
 type BronzeHistoryS1Account struct {

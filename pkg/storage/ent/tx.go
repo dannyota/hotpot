@@ -338,10 +338,50 @@ type Tx struct {
 	BronzeGreenNodeComputeServerGroupMember *BronzeGreenNodeComputeServerGroupMemberClient
 	// BronzeGreenNodeComputeServerSecGroup is the client for interacting with the BronzeGreenNodeComputeServerSecGroup builders.
 	BronzeGreenNodeComputeServerSecGroup *BronzeGreenNodeComputeServerSecGroupClient
+	// BronzeGreenNodeDNSHostedZone is the client for interacting with the BronzeGreenNodeDNSHostedZone builders.
+	BronzeGreenNodeDNSHostedZone *BronzeGreenNodeDNSHostedZoneClient
+	// BronzeGreenNodeDNSRecord is the client for interacting with the BronzeGreenNodeDNSRecord builders.
+	BronzeGreenNodeDNSRecord *BronzeGreenNodeDNSRecordClient
+	// BronzeGreenNodeGLBGlobalListener is the client for interacting with the BronzeGreenNodeGLBGlobalListener builders.
+	BronzeGreenNodeGLBGlobalListener *BronzeGreenNodeGLBGlobalListenerClient
+	// BronzeGreenNodeGLBGlobalLoadBalancer is the client for interacting with the BronzeGreenNodeGLBGlobalLoadBalancer builders.
+	BronzeGreenNodeGLBGlobalLoadBalancer *BronzeGreenNodeGLBGlobalLoadBalancerClient
+	// BronzeGreenNodeGLBGlobalPackage is the client for interacting with the BronzeGreenNodeGLBGlobalPackage builders.
+	BronzeGreenNodeGLBGlobalPackage *BronzeGreenNodeGLBGlobalPackageClient
+	// BronzeGreenNodeGLBGlobalPool is the client for interacting with the BronzeGreenNodeGLBGlobalPool builders.
+	BronzeGreenNodeGLBGlobalPool *BronzeGreenNodeGLBGlobalPoolClient
+	// BronzeGreenNodeGLBGlobalRegion is the client for interacting with the BronzeGreenNodeGLBGlobalRegion builders.
+	BronzeGreenNodeGLBGlobalRegion *BronzeGreenNodeGLBGlobalRegionClient
+	// BronzeGreenNodeLoadBalancerCertificate is the client for interacting with the BronzeGreenNodeLoadBalancerCertificate builders.
+	BronzeGreenNodeLoadBalancerCertificate *BronzeGreenNodeLoadBalancerCertificateClient
+	// BronzeGreenNodeLoadBalancerLB is the client for interacting with the BronzeGreenNodeLoadBalancerLB builders.
+	BronzeGreenNodeLoadBalancerLB *BronzeGreenNodeLoadBalancerLBClient
+	// BronzeGreenNodeLoadBalancerListener is the client for interacting with the BronzeGreenNodeLoadBalancerListener builders.
+	BronzeGreenNodeLoadBalancerListener *BronzeGreenNodeLoadBalancerListenerClient
+	// BronzeGreenNodeLoadBalancerPackage is the client for interacting with the BronzeGreenNodeLoadBalancerPackage builders.
+	BronzeGreenNodeLoadBalancerPackage *BronzeGreenNodeLoadBalancerPackageClient
+	// BronzeGreenNodeLoadBalancerPool is the client for interacting with the BronzeGreenNodeLoadBalancerPool builders.
+	BronzeGreenNodeLoadBalancerPool *BronzeGreenNodeLoadBalancerPoolClient
+	// BronzeGreenNodeNetworkEndpoint is the client for interacting with the BronzeGreenNodeNetworkEndpoint builders.
+	BronzeGreenNodeNetworkEndpoint *BronzeGreenNodeNetworkEndpointClient
+	// BronzeGreenNodeNetworkSecgroup is the client for interacting with the BronzeGreenNodeNetworkSecgroup builders.
+	BronzeGreenNodeNetworkSecgroup *BronzeGreenNodeNetworkSecgroupClient
+	// BronzeGreenNodeNetworkSecgroupRule is the client for interacting with the BronzeGreenNodeNetworkSecgroupRule builders.
+	BronzeGreenNodeNetworkSecgroupRule *BronzeGreenNodeNetworkSecgroupRuleClient
 	// BronzeGreenNodePortalQuota is the client for interacting with the BronzeGreenNodePortalQuota builders.
 	BronzeGreenNodePortalQuota *BronzeGreenNodePortalQuotaClient
 	// BronzeGreenNodePortalRegion is the client for interacting with the BronzeGreenNodePortalRegion builders.
 	BronzeGreenNodePortalRegion *BronzeGreenNodePortalRegionClient
+	// BronzeGreenNodePortalZone is the client for interacting with the BronzeGreenNodePortalZone builders.
+	BronzeGreenNodePortalZone *BronzeGreenNodePortalZoneClient
+	// BronzeGreenNodeVolumeBlockVolume is the client for interacting with the BronzeGreenNodeVolumeBlockVolume builders.
+	BronzeGreenNodeVolumeBlockVolume *BronzeGreenNodeVolumeBlockVolumeClient
+	// BronzeGreenNodeVolumeSnapshot is the client for interacting with the BronzeGreenNodeVolumeSnapshot builders.
+	BronzeGreenNodeVolumeSnapshot *BronzeGreenNodeVolumeSnapshotClient
+	// BronzeGreenNodeVolumeVolumeType is the client for interacting with the BronzeGreenNodeVolumeVolumeType builders.
+	BronzeGreenNodeVolumeVolumeType *BronzeGreenNodeVolumeVolumeTypeClient
+	// BronzeGreenNodeVolumeVolumeTypeZone is the client for interacting with the BronzeGreenNodeVolumeVolumeTypeZone builders.
+	BronzeGreenNodeVolumeVolumeTypeZone *BronzeGreenNodeVolumeVolumeTypeZoneClient
 	// BronzeHistoryAWSEC2Instance is the client for interacting with the BronzeHistoryAWSEC2Instance builders.
 	BronzeHistoryAWSEC2Instance *BronzeHistoryAWSEC2InstanceClient
 	// BronzeHistoryAWSEC2InstanceTag is the client for interacting with the BronzeHistoryAWSEC2InstanceTag builders.
@@ -668,10 +708,50 @@ type Tx struct {
 	BronzeHistoryGreenNodeComputeServerGroupMember *BronzeHistoryGreenNodeComputeServerGroupMemberClient
 	// BronzeHistoryGreenNodeComputeServerSecGroup is the client for interacting with the BronzeHistoryGreenNodeComputeServerSecGroup builders.
 	BronzeHistoryGreenNodeComputeServerSecGroup *BronzeHistoryGreenNodeComputeServerSecGroupClient
+	// BronzeHistoryGreenNodeDNSHostedZone is the client for interacting with the BronzeHistoryGreenNodeDNSHostedZone builders.
+	BronzeHistoryGreenNodeDNSHostedZone *BronzeHistoryGreenNodeDNSHostedZoneClient
+	// BronzeHistoryGreenNodeDNSRecord is the client for interacting with the BronzeHistoryGreenNodeDNSRecord builders.
+	BronzeHistoryGreenNodeDNSRecord *BronzeHistoryGreenNodeDNSRecordClient
+	// BronzeHistoryGreenNodeGLBGlobalListener is the client for interacting with the BronzeHistoryGreenNodeGLBGlobalListener builders.
+	BronzeHistoryGreenNodeGLBGlobalListener *BronzeHistoryGreenNodeGLBGlobalListenerClient
+	// BronzeHistoryGreenNodeGLBGlobalLoadBalancer is the client for interacting with the BronzeHistoryGreenNodeGLBGlobalLoadBalancer builders.
+	BronzeHistoryGreenNodeGLBGlobalLoadBalancer *BronzeHistoryGreenNodeGLBGlobalLoadBalancerClient
+	// BronzeHistoryGreenNodeGLBGlobalPackage is the client for interacting with the BronzeHistoryGreenNodeGLBGlobalPackage builders.
+	BronzeHistoryGreenNodeGLBGlobalPackage *BronzeHistoryGreenNodeGLBGlobalPackageClient
+	// BronzeHistoryGreenNodeGLBGlobalPool is the client for interacting with the BronzeHistoryGreenNodeGLBGlobalPool builders.
+	BronzeHistoryGreenNodeGLBGlobalPool *BronzeHistoryGreenNodeGLBGlobalPoolClient
+	// BronzeHistoryGreenNodeGLBGlobalRegion is the client for interacting with the BronzeHistoryGreenNodeGLBGlobalRegion builders.
+	BronzeHistoryGreenNodeGLBGlobalRegion *BronzeHistoryGreenNodeGLBGlobalRegionClient
+	// BronzeHistoryGreenNodeLoadBalancerCertificate is the client for interacting with the BronzeHistoryGreenNodeLoadBalancerCertificate builders.
+	BronzeHistoryGreenNodeLoadBalancerCertificate *BronzeHistoryGreenNodeLoadBalancerCertificateClient
+	// BronzeHistoryGreenNodeLoadBalancerLB is the client for interacting with the BronzeHistoryGreenNodeLoadBalancerLB builders.
+	BronzeHistoryGreenNodeLoadBalancerLB *BronzeHistoryGreenNodeLoadBalancerLBClient
+	// BronzeHistoryGreenNodeLoadBalancerListener is the client for interacting with the BronzeHistoryGreenNodeLoadBalancerListener builders.
+	BronzeHistoryGreenNodeLoadBalancerListener *BronzeHistoryGreenNodeLoadBalancerListenerClient
+	// BronzeHistoryGreenNodeLoadBalancerPackage is the client for interacting with the BronzeHistoryGreenNodeLoadBalancerPackage builders.
+	BronzeHistoryGreenNodeLoadBalancerPackage *BronzeHistoryGreenNodeLoadBalancerPackageClient
+	// BronzeHistoryGreenNodeLoadBalancerPool is the client for interacting with the BronzeHistoryGreenNodeLoadBalancerPool builders.
+	BronzeHistoryGreenNodeLoadBalancerPool *BronzeHistoryGreenNodeLoadBalancerPoolClient
+	// BronzeHistoryGreenNodeNetworkEndpoint is the client for interacting with the BronzeHistoryGreenNodeNetworkEndpoint builders.
+	BronzeHistoryGreenNodeNetworkEndpoint *BronzeHistoryGreenNodeNetworkEndpointClient
+	// BronzeHistoryGreenNodeNetworkSecgroup is the client for interacting with the BronzeHistoryGreenNodeNetworkSecgroup builders.
+	BronzeHistoryGreenNodeNetworkSecgroup *BronzeHistoryGreenNodeNetworkSecgroupClient
+	// BronzeHistoryGreenNodeNetworkSecgroupRule is the client for interacting with the BronzeHistoryGreenNodeNetworkSecgroupRule builders.
+	BronzeHistoryGreenNodeNetworkSecgroupRule *BronzeHistoryGreenNodeNetworkSecgroupRuleClient
 	// BronzeHistoryGreenNodePortalQuota is the client for interacting with the BronzeHistoryGreenNodePortalQuota builders.
 	BronzeHistoryGreenNodePortalQuota *BronzeHistoryGreenNodePortalQuotaClient
 	// BronzeHistoryGreenNodePortalRegion is the client for interacting with the BronzeHistoryGreenNodePortalRegion builders.
 	BronzeHistoryGreenNodePortalRegion *BronzeHistoryGreenNodePortalRegionClient
+	// BronzeHistoryGreenNodePortalZone is the client for interacting with the BronzeHistoryGreenNodePortalZone builders.
+	BronzeHistoryGreenNodePortalZone *BronzeHistoryGreenNodePortalZoneClient
+	// BronzeHistoryGreenNodeVolumeBlockVolume is the client for interacting with the BronzeHistoryGreenNodeVolumeBlockVolume builders.
+	BronzeHistoryGreenNodeVolumeBlockVolume *BronzeHistoryGreenNodeVolumeBlockVolumeClient
+	// BronzeHistoryGreenNodeVolumeSnapshot is the client for interacting with the BronzeHistoryGreenNodeVolumeSnapshot builders.
+	BronzeHistoryGreenNodeVolumeSnapshot *BronzeHistoryGreenNodeVolumeSnapshotClient
+	// BronzeHistoryGreenNodeVolumeVolumeType is the client for interacting with the BronzeHistoryGreenNodeVolumeVolumeType builders.
+	BronzeHistoryGreenNodeVolumeVolumeType *BronzeHistoryGreenNodeVolumeVolumeTypeClient
+	// BronzeHistoryGreenNodeVolumeVolumeTypeZone is the client for interacting with the BronzeHistoryGreenNodeVolumeVolumeTypeZone builders.
+	BronzeHistoryGreenNodeVolumeVolumeTypeZone *BronzeHistoryGreenNodeVolumeVolumeTypeZoneClient
 	// BronzeHistoryS1Account is the client for interacting with the BronzeHistoryS1Account builders.
 	BronzeHistoryS1Account *BronzeHistoryS1AccountClient
 	// BronzeHistoryS1Agent is the client for interacting with the BronzeHistoryS1Agent builders.
@@ -1006,8 +1086,28 @@ func (tx *Tx) init() {
 	tx.BronzeGreenNodeComputeServerGroup = NewBronzeGreenNodeComputeServerGroupClient(tx.config)
 	tx.BronzeGreenNodeComputeServerGroupMember = NewBronzeGreenNodeComputeServerGroupMemberClient(tx.config)
 	tx.BronzeGreenNodeComputeServerSecGroup = NewBronzeGreenNodeComputeServerSecGroupClient(tx.config)
+	tx.BronzeGreenNodeDNSHostedZone = NewBronzeGreenNodeDNSHostedZoneClient(tx.config)
+	tx.BronzeGreenNodeDNSRecord = NewBronzeGreenNodeDNSRecordClient(tx.config)
+	tx.BronzeGreenNodeGLBGlobalListener = NewBronzeGreenNodeGLBGlobalListenerClient(tx.config)
+	tx.BronzeGreenNodeGLBGlobalLoadBalancer = NewBronzeGreenNodeGLBGlobalLoadBalancerClient(tx.config)
+	tx.BronzeGreenNodeGLBGlobalPackage = NewBronzeGreenNodeGLBGlobalPackageClient(tx.config)
+	tx.BronzeGreenNodeGLBGlobalPool = NewBronzeGreenNodeGLBGlobalPoolClient(tx.config)
+	tx.BronzeGreenNodeGLBGlobalRegion = NewBronzeGreenNodeGLBGlobalRegionClient(tx.config)
+	tx.BronzeGreenNodeLoadBalancerCertificate = NewBronzeGreenNodeLoadBalancerCertificateClient(tx.config)
+	tx.BronzeGreenNodeLoadBalancerLB = NewBronzeGreenNodeLoadBalancerLBClient(tx.config)
+	tx.BronzeGreenNodeLoadBalancerListener = NewBronzeGreenNodeLoadBalancerListenerClient(tx.config)
+	tx.BronzeGreenNodeLoadBalancerPackage = NewBronzeGreenNodeLoadBalancerPackageClient(tx.config)
+	tx.BronzeGreenNodeLoadBalancerPool = NewBronzeGreenNodeLoadBalancerPoolClient(tx.config)
+	tx.BronzeGreenNodeNetworkEndpoint = NewBronzeGreenNodeNetworkEndpointClient(tx.config)
+	tx.BronzeGreenNodeNetworkSecgroup = NewBronzeGreenNodeNetworkSecgroupClient(tx.config)
+	tx.BronzeGreenNodeNetworkSecgroupRule = NewBronzeGreenNodeNetworkSecgroupRuleClient(tx.config)
 	tx.BronzeGreenNodePortalQuota = NewBronzeGreenNodePortalQuotaClient(tx.config)
 	tx.BronzeGreenNodePortalRegion = NewBronzeGreenNodePortalRegionClient(tx.config)
+	tx.BronzeGreenNodePortalZone = NewBronzeGreenNodePortalZoneClient(tx.config)
+	tx.BronzeGreenNodeVolumeBlockVolume = NewBronzeGreenNodeVolumeBlockVolumeClient(tx.config)
+	tx.BronzeGreenNodeVolumeSnapshot = NewBronzeGreenNodeVolumeSnapshotClient(tx.config)
+	tx.BronzeGreenNodeVolumeVolumeType = NewBronzeGreenNodeVolumeVolumeTypeClient(tx.config)
+	tx.BronzeGreenNodeVolumeVolumeTypeZone = NewBronzeGreenNodeVolumeVolumeTypeZoneClient(tx.config)
 	tx.BronzeHistoryAWSEC2Instance = NewBronzeHistoryAWSEC2InstanceClient(tx.config)
 	tx.BronzeHistoryAWSEC2InstanceTag = NewBronzeHistoryAWSEC2InstanceTagClient(tx.config)
 	tx.BronzeHistoryDOAccount = NewBronzeHistoryDOAccountClient(tx.config)
@@ -1171,8 +1271,28 @@ func (tx *Tx) init() {
 	tx.BronzeHistoryGreenNodeComputeServerGroup = NewBronzeHistoryGreenNodeComputeServerGroupClient(tx.config)
 	tx.BronzeHistoryGreenNodeComputeServerGroupMember = NewBronzeHistoryGreenNodeComputeServerGroupMemberClient(tx.config)
 	tx.BronzeHistoryGreenNodeComputeServerSecGroup = NewBronzeHistoryGreenNodeComputeServerSecGroupClient(tx.config)
+	tx.BronzeHistoryGreenNodeDNSHostedZone = NewBronzeHistoryGreenNodeDNSHostedZoneClient(tx.config)
+	tx.BronzeHistoryGreenNodeDNSRecord = NewBronzeHistoryGreenNodeDNSRecordClient(tx.config)
+	tx.BronzeHistoryGreenNodeGLBGlobalListener = NewBronzeHistoryGreenNodeGLBGlobalListenerClient(tx.config)
+	tx.BronzeHistoryGreenNodeGLBGlobalLoadBalancer = NewBronzeHistoryGreenNodeGLBGlobalLoadBalancerClient(tx.config)
+	tx.BronzeHistoryGreenNodeGLBGlobalPackage = NewBronzeHistoryGreenNodeGLBGlobalPackageClient(tx.config)
+	tx.BronzeHistoryGreenNodeGLBGlobalPool = NewBronzeHistoryGreenNodeGLBGlobalPoolClient(tx.config)
+	tx.BronzeHistoryGreenNodeGLBGlobalRegion = NewBronzeHistoryGreenNodeGLBGlobalRegionClient(tx.config)
+	tx.BronzeHistoryGreenNodeLoadBalancerCertificate = NewBronzeHistoryGreenNodeLoadBalancerCertificateClient(tx.config)
+	tx.BronzeHistoryGreenNodeLoadBalancerLB = NewBronzeHistoryGreenNodeLoadBalancerLBClient(tx.config)
+	tx.BronzeHistoryGreenNodeLoadBalancerListener = NewBronzeHistoryGreenNodeLoadBalancerListenerClient(tx.config)
+	tx.BronzeHistoryGreenNodeLoadBalancerPackage = NewBronzeHistoryGreenNodeLoadBalancerPackageClient(tx.config)
+	tx.BronzeHistoryGreenNodeLoadBalancerPool = NewBronzeHistoryGreenNodeLoadBalancerPoolClient(tx.config)
+	tx.BronzeHistoryGreenNodeNetworkEndpoint = NewBronzeHistoryGreenNodeNetworkEndpointClient(tx.config)
+	tx.BronzeHistoryGreenNodeNetworkSecgroup = NewBronzeHistoryGreenNodeNetworkSecgroupClient(tx.config)
+	tx.BronzeHistoryGreenNodeNetworkSecgroupRule = NewBronzeHistoryGreenNodeNetworkSecgroupRuleClient(tx.config)
 	tx.BronzeHistoryGreenNodePortalQuota = NewBronzeHistoryGreenNodePortalQuotaClient(tx.config)
 	tx.BronzeHistoryGreenNodePortalRegion = NewBronzeHistoryGreenNodePortalRegionClient(tx.config)
+	tx.BronzeHistoryGreenNodePortalZone = NewBronzeHistoryGreenNodePortalZoneClient(tx.config)
+	tx.BronzeHistoryGreenNodeVolumeBlockVolume = NewBronzeHistoryGreenNodeVolumeBlockVolumeClient(tx.config)
+	tx.BronzeHistoryGreenNodeVolumeSnapshot = NewBronzeHistoryGreenNodeVolumeSnapshotClient(tx.config)
+	tx.BronzeHistoryGreenNodeVolumeVolumeType = NewBronzeHistoryGreenNodeVolumeVolumeTypeClient(tx.config)
+	tx.BronzeHistoryGreenNodeVolumeVolumeTypeZone = NewBronzeHistoryGreenNodeVolumeVolumeTypeZoneClient(tx.config)
 	tx.BronzeHistoryS1Account = NewBronzeHistoryS1AccountClient(tx.config)
 	tx.BronzeHistoryS1Agent = NewBronzeHistoryS1AgentClient(tx.config)
 	tx.BronzeHistoryS1AgentNIC = NewBronzeHistoryS1AgentNICClient(tx.config)

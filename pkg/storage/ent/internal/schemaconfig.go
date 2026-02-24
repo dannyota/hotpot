@@ -170,8 +170,28 @@ type SchemaConfig struct {
 	BronzeGreenNodeComputeServerGroup                    string // BronzeGreenNodeComputeServerGroup table.
 	BronzeGreenNodeComputeServerGroupMember              string // BronzeGreenNodeComputeServerGroupMember table.
 	BronzeGreenNodeComputeServerSecGroup                 string // BronzeGreenNodeComputeServerSecGroup table.
+	BronzeGreenNodeDNSHostedZone                         string // BronzeGreenNodeDNSHostedZone table.
+	BronzeGreenNodeDNSRecord                             string // BronzeGreenNodeDNSRecord table.
+	BronzeGreenNodeGLBGlobalListener                     string // BronzeGreenNodeGLBGlobalListener table.
+	BronzeGreenNodeGLBGlobalLoadBalancer                 string // BronzeGreenNodeGLBGlobalLoadBalancer table.
+	BronzeGreenNodeGLBGlobalPackage                      string // BronzeGreenNodeGLBGlobalPackage table.
+	BronzeGreenNodeGLBGlobalPool                         string // BronzeGreenNodeGLBGlobalPool table.
+	BronzeGreenNodeGLBGlobalRegion                       string // BronzeGreenNodeGLBGlobalRegion table.
+	BronzeGreenNodeLoadBalancerCertificate               string // BronzeGreenNodeLoadBalancerCertificate table.
+	BronzeGreenNodeLoadBalancerLB                        string // BronzeGreenNodeLoadBalancerLB table.
+	BronzeGreenNodeLoadBalancerListener                  string // BronzeGreenNodeLoadBalancerListener table.
+	BronzeGreenNodeLoadBalancerPackage                   string // BronzeGreenNodeLoadBalancerPackage table.
+	BronzeGreenNodeLoadBalancerPool                      string // BronzeGreenNodeLoadBalancerPool table.
+	BronzeGreenNodeNetworkEndpoint                       string // BronzeGreenNodeNetworkEndpoint table.
+	BronzeGreenNodeNetworkSecgroup                       string // BronzeGreenNodeNetworkSecgroup table.
+	BronzeGreenNodeNetworkSecgroupRule                   string // BronzeGreenNodeNetworkSecgroupRule table.
 	BronzeGreenNodePortalQuota                           string // BronzeGreenNodePortalQuota table.
 	BronzeGreenNodePortalRegion                          string // BronzeGreenNodePortalRegion table.
+	BronzeGreenNodePortalZone                            string // BronzeGreenNodePortalZone table.
+	BronzeGreenNodeVolumeBlockVolume                     string // BronzeGreenNodeVolumeBlockVolume table.
+	BronzeGreenNodeVolumeSnapshot                        string // BronzeGreenNodeVolumeSnapshot table.
+	BronzeGreenNodeVolumeVolumeType                      string // BronzeGreenNodeVolumeVolumeType table.
+	BronzeGreenNodeVolumeVolumeTypeZone                  string // BronzeGreenNodeVolumeVolumeTypeZone table.
 	BronzeHistoryAWSEC2Instance                          string // BronzeHistoryAWSEC2Instance table.
 	BronzeHistoryAWSEC2InstanceTag                       string // BronzeHistoryAWSEC2InstanceTag table.
 	BronzeHistoryDOAccount                               string // BronzeHistoryDOAccount table.
@@ -335,8 +355,28 @@ type SchemaConfig struct {
 	BronzeHistoryGreenNodeComputeServerGroup             string // BronzeHistoryGreenNodeComputeServerGroup table.
 	BronzeHistoryGreenNodeComputeServerGroupMember       string // BronzeHistoryGreenNodeComputeServerGroupMember table.
 	BronzeHistoryGreenNodeComputeServerSecGroup          string // BronzeHistoryGreenNodeComputeServerSecGroup table.
+	BronzeHistoryGreenNodeDNSHostedZone                  string // BronzeHistoryGreenNodeDNSHostedZone table.
+	BronzeHistoryGreenNodeDNSRecord                      string // BronzeHistoryGreenNodeDNSRecord table.
+	BronzeHistoryGreenNodeGLBGlobalListener              string // BronzeHistoryGreenNodeGLBGlobalListener table.
+	BronzeHistoryGreenNodeGLBGlobalLoadBalancer          string // BronzeHistoryGreenNodeGLBGlobalLoadBalancer table.
+	BronzeHistoryGreenNodeGLBGlobalPackage               string // BronzeHistoryGreenNodeGLBGlobalPackage table.
+	BronzeHistoryGreenNodeGLBGlobalPool                  string // BronzeHistoryGreenNodeGLBGlobalPool table.
+	BronzeHistoryGreenNodeGLBGlobalRegion                string // BronzeHistoryGreenNodeGLBGlobalRegion table.
+	BronzeHistoryGreenNodeLoadBalancerCertificate        string // BronzeHistoryGreenNodeLoadBalancerCertificate table.
+	BronzeHistoryGreenNodeLoadBalancerLB                 string // BronzeHistoryGreenNodeLoadBalancerLB table.
+	BronzeHistoryGreenNodeLoadBalancerListener           string // BronzeHistoryGreenNodeLoadBalancerListener table.
+	BronzeHistoryGreenNodeLoadBalancerPackage            string // BronzeHistoryGreenNodeLoadBalancerPackage table.
+	BronzeHistoryGreenNodeLoadBalancerPool               string // BronzeHistoryGreenNodeLoadBalancerPool table.
+	BronzeHistoryGreenNodeNetworkEndpoint                string // BronzeHistoryGreenNodeNetworkEndpoint table.
+	BronzeHistoryGreenNodeNetworkSecgroup                string // BronzeHistoryGreenNodeNetworkSecgroup table.
+	BronzeHistoryGreenNodeNetworkSecgroupRule            string // BronzeHistoryGreenNodeNetworkSecgroupRule table.
 	BronzeHistoryGreenNodePortalQuota                    string // BronzeHistoryGreenNodePortalQuota table.
 	BronzeHistoryGreenNodePortalRegion                   string // BronzeHistoryGreenNodePortalRegion table.
+	BronzeHistoryGreenNodePortalZone                     string // BronzeHistoryGreenNodePortalZone table.
+	BronzeHistoryGreenNodeVolumeBlockVolume              string // BronzeHistoryGreenNodeVolumeBlockVolume table.
+	BronzeHistoryGreenNodeVolumeSnapshot                 string // BronzeHistoryGreenNodeVolumeSnapshot table.
+	BronzeHistoryGreenNodeVolumeVolumeType               string // BronzeHistoryGreenNodeVolumeVolumeType table.
+	BronzeHistoryGreenNodeVolumeVolumeTypeZone           string // BronzeHistoryGreenNodeVolumeVolumeTypeZone table.
 	BronzeHistoryS1Account                               string // BronzeHistoryS1Account table.
 	BronzeHistoryS1Agent                                 string // BronzeHistoryS1Agent table.
 	BronzeHistoryS1AgentNIC                              string // BronzeHistoryS1AgentNIC table.

@@ -175,8 +175,28 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputeservergroupmember"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputeserversecgroup"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputesshkey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodednshostedzone"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodednsrecord"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbgloballistener"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbgloballoadbalancer"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbglobalpackage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbglobalpool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbglobalregion"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeloadbalancercertificate"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeloadbalancerlb"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeloadbalancerlistener"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeloadbalancerpackage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeloadbalancerpool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodenetworkendpoint"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodenetworksecgroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodenetworksecgrouprule"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeportalquota"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeportalregion"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeportalzone"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodevolumeblockvolume"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodevolumesnapshot"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodevolumevolumetype"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodevolumevolumetypezone"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instancetag"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydoaccount"
@@ -340,8 +360,28 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputeservergroupmember"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputeserversecgroup"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputesshkey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodednshostedzone"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodednsrecord"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeglbgloballistener"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeglbgloballoadbalancer"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeglbglobalpackage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeglbglobalpool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeglbglobalregion"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeloadbalancercertificate"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeloadbalancerlb"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeloadbalancerlistener"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeloadbalancerpackage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeloadbalancerpool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodenetworkendpoint"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodenetworksecgroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodenetworksecgrouprule"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeportalquota"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeportalregion"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeportalzone"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodevolumeblockvolume"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodevolumesnapshot"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodevolumevolumetype"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodevolumevolumetypezone"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1account"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1agent"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1agentnic"
@@ -585,8 +625,28 @@ func checkColumn(t, c string) error {
 			bronzegreennodecomputeservergroup.Table:                    bronzegreennodecomputeservergroup.ValidColumn,
 			bronzegreennodecomputeservergroupmember.Table:              bronzegreennodecomputeservergroupmember.ValidColumn,
 			bronzegreennodecomputeserversecgroup.Table:                 bronzegreennodecomputeserversecgroup.ValidColumn,
+			bronzegreennodednshostedzone.Table:                         bronzegreennodednshostedzone.ValidColumn,
+			bronzegreennodednsrecord.Table:                             bronzegreennodednsrecord.ValidColumn,
+			bronzegreennodeglbgloballistener.Table:                     bronzegreennodeglbgloballistener.ValidColumn,
+			bronzegreennodeglbgloballoadbalancer.Table:                 bronzegreennodeglbgloballoadbalancer.ValidColumn,
+			bronzegreennodeglbglobalpackage.Table:                      bronzegreennodeglbglobalpackage.ValidColumn,
+			bronzegreennodeglbglobalpool.Table:                         bronzegreennodeglbglobalpool.ValidColumn,
+			bronzegreennodeglbglobalregion.Table:                       bronzegreennodeglbglobalregion.ValidColumn,
+			bronzegreennodeloadbalancercertificate.Table:               bronzegreennodeloadbalancercertificate.ValidColumn,
+			bronzegreennodeloadbalancerlb.Table:                        bronzegreennodeloadbalancerlb.ValidColumn,
+			bronzegreennodeloadbalancerlistener.Table:                  bronzegreennodeloadbalancerlistener.ValidColumn,
+			bronzegreennodeloadbalancerpackage.Table:                   bronzegreennodeloadbalancerpackage.ValidColumn,
+			bronzegreennodeloadbalancerpool.Table:                      bronzegreennodeloadbalancerpool.ValidColumn,
+			bronzegreennodenetworkendpoint.Table:                       bronzegreennodenetworkendpoint.ValidColumn,
+			bronzegreennodenetworksecgroup.Table:                       bronzegreennodenetworksecgroup.ValidColumn,
+			bronzegreennodenetworksecgrouprule.Table:                   bronzegreennodenetworksecgrouprule.ValidColumn,
 			bronzegreennodeportalquota.Table:                           bronzegreennodeportalquota.ValidColumn,
 			bronzegreennodeportalregion.Table:                          bronzegreennodeportalregion.ValidColumn,
+			bronzegreennodeportalzone.Table:                            bronzegreennodeportalzone.ValidColumn,
+			bronzegreennodevolumeblockvolume.Table:                     bronzegreennodevolumeblockvolume.ValidColumn,
+			bronzegreennodevolumesnapshot.Table:                        bronzegreennodevolumesnapshot.ValidColumn,
+			bronzegreennodevolumevolumetype.Table:                      bronzegreennodevolumevolumetype.ValidColumn,
+			bronzegreennodevolumevolumetypezone.Table:                  bronzegreennodevolumevolumetypezone.ValidColumn,
 			bronzehistoryawsec2instance.Table:                          bronzehistoryawsec2instance.ValidColumn,
 			bronzehistoryawsec2instancetag.Table:                       bronzehistoryawsec2instancetag.ValidColumn,
 			bronzehistorydoaccount.Table:                               bronzehistorydoaccount.ValidColumn,
@@ -750,8 +810,28 @@ func checkColumn(t, c string) error {
 			bronzehistorygreennodecomputeservergroup.Table:             bronzehistorygreennodecomputeservergroup.ValidColumn,
 			bronzehistorygreennodecomputeservergroupmember.Table:       bronzehistorygreennodecomputeservergroupmember.ValidColumn,
 			bronzehistorygreennodecomputeserversecgroup.Table:          bronzehistorygreennodecomputeserversecgroup.ValidColumn,
+			bronzehistorygreennodednshostedzone.Table:                  bronzehistorygreennodednshostedzone.ValidColumn,
+			bronzehistorygreennodednsrecord.Table:                      bronzehistorygreennodednsrecord.ValidColumn,
+			bronzehistorygreennodeglbgloballistener.Table:              bronzehistorygreennodeglbgloballistener.ValidColumn,
+			bronzehistorygreennodeglbgloballoadbalancer.Table:          bronzehistorygreennodeglbgloballoadbalancer.ValidColumn,
+			bronzehistorygreennodeglbglobalpackage.Table:               bronzehistorygreennodeglbglobalpackage.ValidColumn,
+			bronzehistorygreennodeglbglobalpool.Table:                  bronzehistorygreennodeglbglobalpool.ValidColumn,
+			bronzehistorygreennodeglbglobalregion.Table:                bronzehistorygreennodeglbglobalregion.ValidColumn,
+			bronzehistorygreennodeloadbalancercertificate.Table:        bronzehistorygreennodeloadbalancercertificate.ValidColumn,
+			bronzehistorygreennodeloadbalancerlb.Table:                 bronzehistorygreennodeloadbalancerlb.ValidColumn,
+			bronzehistorygreennodeloadbalancerlistener.Table:           bronzehistorygreennodeloadbalancerlistener.ValidColumn,
+			bronzehistorygreennodeloadbalancerpackage.Table:            bronzehistorygreennodeloadbalancerpackage.ValidColumn,
+			bronzehistorygreennodeloadbalancerpool.Table:               bronzehistorygreennodeloadbalancerpool.ValidColumn,
+			bronzehistorygreennodenetworkendpoint.Table:                bronzehistorygreennodenetworkendpoint.ValidColumn,
+			bronzehistorygreennodenetworksecgroup.Table:                bronzehistorygreennodenetworksecgroup.ValidColumn,
+			bronzehistorygreennodenetworksecgrouprule.Table:            bronzehistorygreennodenetworksecgrouprule.ValidColumn,
 			bronzehistorygreennodeportalquota.Table:                    bronzehistorygreennodeportalquota.ValidColumn,
 			bronzehistorygreennodeportalregion.Table:                   bronzehistorygreennodeportalregion.ValidColumn,
+			bronzehistorygreennodeportalzone.Table:                     bronzehistorygreennodeportalzone.ValidColumn,
+			bronzehistorygreennodevolumeblockvolume.Table:              bronzehistorygreennodevolumeblockvolume.ValidColumn,
+			bronzehistorygreennodevolumesnapshot.Table:                 bronzehistorygreennodevolumesnapshot.ValidColumn,
+			bronzehistorygreennodevolumevolumetype.Table:               bronzehistorygreennodevolumevolumetype.ValidColumn,
+			bronzehistorygreennodevolumevolumetypezone.Table:           bronzehistorygreennodevolumevolumetypezone.ValidColumn,
 			bronzehistorys1account.Table:                               bronzehistorys1account.ValidColumn,
 			bronzehistorys1agent.Table:                                 bronzehistorys1agent.ValidColumn,
 			bronzehistorys1agentnic.Table:                              bronzehistorys1agentnic.ValidColumn,
