@@ -866,10 +866,6 @@ type BronzeS1Site struct {
 	bronze_s1.BronzeS1Site
 }
 
-type BronzeS1Threat struct {
-	bronze_s1.BronzeS1Threat
-}
-
 type BronzeVaultPKICertificate struct {
 	bronze_vault_pki.BronzeVaultPKICertificate
 }
@@ -1648,10 +1644,6 @@ type BronzeHistoryS1RangerSetting struct {
 
 type BronzeHistoryS1Site struct {
 	bronzehistory_s1.BronzeHistoryS1Site
-}
-
-type BronzeHistoryS1Threat struct {
-	bronzehistory_s1.BronzeHistoryS1Threat
 }
 
 type BronzeHistoryVaultPKICertificate struct {

@@ -770,8 +770,6 @@ type Tx struct {
 	BronzeHistoryS1RangerSetting *BronzeHistoryS1RangerSettingClient
 	// BronzeHistoryS1Site is the client for interacting with the BronzeHistoryS1Site builders.
 	BronzeHistoryS1Site *BronzeHistoryS1SiteClient
-	// BronzeHistoryS1Threat is the client for interacting with the BronzeHistoryS1Threat builders.
-	BronzeHistoryS1Threat *BronzeHistoryS1ThreatClient
 	// BronzeHistoryVaultPKICertificate is the client for interacting with the BronzeHistoryVaultPKICertificate builders.
 	BronzeHistoryVaultPKICertificate *BronzeHistoryVaultPKICertificateClient
 	// BronzeS1Account is the client for interacting with the BronzeS1Account builders.
@@ -792,8 +790,6 @@ type Tx struct {
 	BronzeS1RangerSetting *BronzeS1RangerSettingClient
 	// BronzeS1Site is the client for interacting with the BronzeS1Site builders.
 	BronzeS1Site *BronzeS1SiteClient
-	// BronzeS1Threat is the client for interacting with the BronzeS1Threat builders.
-	BronzeS1Threat *BronzeS1ThreatClient
 	// BronzeVaultPKICertificate is the client for interacting with the BronzeVaultPKICertificate builders.
 	BronzeVaultPKICertificate *BronzeVaultPKICertificateClient
 
@@ -1306,7 +1302,6 @@ func (tx *Tx) init() {
 	tx.BronzeHistoryS1RangerGateway = NewBronzeHistoryS1RangerGatewayClient(tx.config)
 	tx.BronzeHistoryS1RangerSetting = NewBronzeHistoryS1RangerSettingClient(tx.config)
 	tx.BronzeHistoryS1Site = NewBronzeHistoryS1SiteClient(tx.config)
-	tx.BronzeHistoryS1Threat = NewBronzeHistoryS1ThreatClient(tx.config)
 	tx.BronzeHistoryVaultPKICertificate = NewBronzeHistoryVaultPKICertificateClient(tx.config)
 	tx.BronzeS1Account = NewBronzeS1AccountClient(tx.config)
 	tx.BronzeS1Agent = NewBronzeS1AgentClient(tx.config)
@@ -1317,7 +1312,6 @@ func (tx *Tx) init() {
 	tx.BronzeS1RangerGateway = NewBronzeS1RangerGatewayClient(tx.config)
 	tx.BronzeS1RangerSetting = NewBronzeS1RangerSettingClient(tx.config)
 	tx.BronzeS1Site = NewBronzeS1SiteClient(tx.config)
-	tx.BronzeS1Threat = NewBronzeS1ThreatClient(tx.config)
 	tx.BronzeVaultPKICertificate = NewBronzeVaultPKICertificateClient(tx.config)
 }
 

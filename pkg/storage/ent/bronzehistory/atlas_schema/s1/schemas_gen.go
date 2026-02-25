@@ -150,19 +150,3 @@ func (BronzeHistoryS1Site) Annotations() []schema.Annotation {
 	}
 	return append(anns, entsql.Annotation{Schema: "bronze_history"})
 }
-
-type BronzeHistoryS1Threat struct {
-	bronzehistory_s1.BronzeHistoryS1Threat
-}
-
-func (BronzeHistoryS1Threat) Annotations() []schema.Annotation {
-	anns := bronzehistory_s1.BronzeHistoryS1Threat{}.Annotations()
-	for i, a := range anns {
-		if v, ok := a.(entsql.Annotation); ok {
-			v.Schema = "bronze_history"
-			anns[i] = v
-			return anns
-		}
-	}
-	return append(anns, entsql.Annotation{Schema: "bronze_history"})
-}

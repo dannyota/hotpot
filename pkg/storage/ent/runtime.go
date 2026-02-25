@@ -363,7 +363,6 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1rangergateway"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1rangersetting"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1site"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1threat"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryvaultpkicertificate"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1account"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1agent"
@@ -373,7 +372,6 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangergateway"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangersetting"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1site"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1threat"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzevaultpkicertificate"
 	"github.com/dannyota/hotpot/pkg/storage/ent/schema"
 )
@@ -2402,12 +2400,16 @@ func init() {
 	bronzegreennodenetworkendpointDescName := bronzegreennodenetworkendpointFields[1].Descriptor()
 	// bronzegreennodenetworkendpoint.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	bronzegreennodenetworkendpoint.NameValidator = bronzegreennodenetworkendpointDescName.Validators[0].(func(string) error)
+	// bronzegreennodenetworkendpointDescEnableDNSName is the schema descriptor for enable_dns_name field.
+	bronzegreennodenetworkendpointDescEnableDNSName := bronzegreennodenetworkendpointFields[16].Descriptor()
+	// bronzegreennodenetworkendpoint.DefaultEnableDNSName holds the default value on creation for the enable_dns_name field.
+	bronzegreennodenetworkendpoint.DefaultEnableDNSName = bronzegreennodenetworkendpointDescEnableDNSName.Default.(bool)
 	// bronzegreennodenetworkendpointDescRegion is the schema descriptor for region field.
-	bronzegreennodenetworkendpointDescRegion := bronzegreennodenetworkendpointFields[6].Descriptor()
+	bronzegreennodenetworkendpointDescRegion := bronzegreennodenetworkendpointFields[23].Descriptor()
 	// bronzegreennodenetworkendpoint.RegionValidator is a validator for the "region" field. It is called by the builders before save.
 	bronzegreennodenetworkendpoint.RegionValidator = bronzegreennodenetworkendpointDescRegion.Validators[0].(func(string) error)
 	// bronzegreennodenetworkendpointDescProjectID is the schema descriptor for project_id field.
-	bronzegreennodenetworkendpointDescProjectID := bronzegreennodenetworkendpointFields[7].Descriptor()
+	bronzegreennodenetworkendpointDescProjectID := bronzegreennodenetworkendpointFields[24].Descriptor()
 	// bronzegreennodenetworkendpoint.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
 	bronzegreennodenetworkendpoint.ProjectIDValidator = bronzegreennodenetworkendpointDescProjectID.Validators[0].(func(string) error)
 	bronzegreennodenetworksecgroupFields := schema.BronzeGreenNodeNetworkSecgroup{}.Fields()
@@ -2416,12 +2418,16 @@ func init() {
 	bronzegreennodenetworksecgroupDescName := bronzegreennodenetworksecgroupFields[1].Descriptor()
 	// bronzegreennodenetworksecgroup.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	bronzegreennodenetworksecgroup.NameValidator = bronzegreennodenetworksecgroupDescName.Validators[0].(func(string) error)
+	// bronzegreennodenetworksecgroupDescIsSystem is the schema descriptor for is_system field.
+	bronzegreennodenetworksecgroupDescIsSystem := bronzegreennodenetworksecgroupFields[5].Descriptor()
+	// bronzegreennodenetworksecgroup.DefaultIsSystem holds the default value on creation for the is_system field.
+	bronzegreennodenetworksecgroup.DefaultIsSystem = bronzegreennodenetworksecgroupDescIsSystem.Default.(bool)
 	// bronzegreennodenetworksecgroupDescRegion is the schema descriptor for region field.
-	bronzegreennodenetworksecgroupDescRegion := bronzegreennodenetworksecgroupFields[4].Descriptor()
+	bronzegreennodenetworksecgroupDescRegion := bronzegreennodenetworksecgroupFields[6].Descriptor()
 	// bronzegreennodenetworksecgroup.RegionValidator is a validator for the "region" field. It is called by the builders before save.
 	bronzegreennodenetworksecgroup.RegionValidator = bronzegreennodenetworksecgroupDescRegion.Validators[0].(func(string) error)
 	// bronzegreennodenetworksecgroupDescProjectID is the schema descriptor for project_id field.
-	bronzegreennodenetworksecgroupDescProjectID := bronzegreennodenetworksecgroupFields[5].Descriptor()
+	bronzegreennodenetworksecgroupDescProjectID := bronzegreennodenetworksecgroupFields[7].Descriptor()
 	// bronzegreennodenetworksecgroup.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
 	bronzegreennodenetworksecgroup.ProjectIDValidator = bronzegreennodenetworksecgroupDescProjectID.Validators[0].(func(string) error)
 	bronzegreennodenetworksecgroupruleFields := schema.BronzeGreenNodeNetworkSecgroupRule{}.Fields()
@@ -4972,12 +4978,16 @@ func init() {
 	bronzehistorygreennodenetworkendpointDescName := bronzehistorygreennodenetworkendpointFields[2].Descriptor()
 	// bronzehistorygreennodenetworkendpoint.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	bronzehistorygreennodenetworkendpoint.NameValidator = bronzehistorygreennodenetworkendpointDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodenetworkendpointDescEnableDNSName is the schema descriptor for enable_dns_name field.
+	bronzehistorygreennodenetworkendpointDescEnableDNSName := bronzehistorygreennodenetworkendpointFields[17].Descriptor()
+	// bronzehistorygreennodenetworkendpoint.DefaultEnableDNSName holds the default value on creation for the enable_dns_name field.
+	bronzehistorygreennodenetworkendpoint.DefaultEnableDNSName = bronzehistorygreennodenetworkendpointDescEnableDNSName.Default.(bool)
 	// bronzehistorygreennodenetworkendpointDescRegion is the schema descriptor for region field.
-	bronzehistorygreennodenetworkendpointDescRegion := bronzehistorygreennodenetworkendpointFields[7].Descriptor()
+	bronzehistorygreennodenetworkendpointDescRegion := bronzehistorygreennodenetworkendpointFields[24].Descriptor()
 	// bronzehistorygreennodenetworkendpoint.RegionValidator is a validator for the "region" field. It is called by the builders before save.
 	bronzehistorygreennodenetworkendpoint.RegionValidator = bronzehistorygreennodenetworkendpointDescRegion.Validators[0].(func(string) error)
 	// bronzehistorygreennodenetworkendpointDescProjectID is the schema descriptor for project_id field.
-	bronzehistorygreennodenetworkendpointDescProjectID := bronzehistorygreennodenetworkendpointFields[8].Descriptor()
+	bronzehistorygreennodenetworkendpointDescProjectID := bronzehistorygreennodenetworkendpointFields[25].Descriptor()
 	// bronzehistorygreennodenetworkendpoint.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
 	bronzehistorygreennodenetworkendpoint.ProjectIDValidator = bronzehistorygreennodenetworkendpointDescProjectID.Validators[0].(func(string) error)
 	bronzehistorygreennodenetworksecgroupFields := schema.BronzeHistoryGreenNodeNetworkSecgroup{}.Fields()
@@ -4990,12 +5000,16 @@ func init() {
 	bronzehistorygreennodenetworksecgroupDescName := bronzehistorygreennodenetworksecgroupFields[2].Descriptor()
 	// bronzehistorygreennodenetworksecgroup.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	bronzehistorygreennodenetworksecgroup.NameValidator = bronzehistorygreennodenetworksecgroupDescName.Validators[0].(func(string) error)
+	// bronzehistorygreennodenetworksecgroupDescIsSystem is the schema descriptor for is_system field.
+	bronzehistorygreennodenetworksecgroupDescIsSystem := bronzehistorygreennodenetworksecgroupFields[6].Descriptor()
+	// bronzehistorygreennodenetworksecgroup.DefaultIsSystem holds the default value on creation for the is_system field.
+	bronzehistorygreennodenetworksecgroup.DefaultIsSystem = bronzehistorygreennodenetworksecgroupDescIsSystem.Default.(bool)
 	// bronzehistorygreennodenetworksecgroupDescRegion is the schema descriptor for region field.
-	bronzehistorygreennodenetworksecgroupDescRegion := bronzehistorygreennodenetworksecgroupFields[5].Descriptor()
+	bronzehistorygreennodenetworksecgroupDescRegion := bronzehistorygreennodenetworksecgroupFields[7].Descriptor()
 	// bronzehistorygreennodenetworksecgroup.RegionValidator is a validator for the "region" field. It is called by the builders before save.
 	bronzehistorygreennodenetworksecgroup.RegionValidator = bronzehistorygreennodenetworksecgroupDescRegion.Validators[0].(func(string) error)
 	// bronzehistorygreennodenetworksecgroupDescProjectID is the schema descriptor for project_id field.
-	bronzehistorygreennodenetworksecgroupDescProjectID := bronzehistorygreennodenetworksecgroupFields[6].Descriptor()
+	bronzehistorygreennodenetworksecgroupDescProjectID := bronzehistorygreennodenetworksecgroupFields[8].Descriptor()
 	// bronzehistorygreennodenetworksecgroup.ProjectIDValidator is a validator for the "project_id" field. It is called by the builders before save.
 	bronzehistorygreennodenetworksecgroup.ProjectIDValidator = bronzehistorygreennodenetworksecgroupDescProjectID.Validators[0].(func(string) error)
 	bronzehistorygreennodenetworksecgroupruleFields := schema.BronzeHistoryGreenNodeNetworkSecgroupRule{}.Fields()
@@ -5418,20 +5432,6 @@ func init() {
 	bronzehistorys1siteDescInheritAccountExpiration := bronzehistorys1siteFields[23].Descriptor()
 	// bronzehistorys1site.DefaultInheritAccountExpiration holds the default value on creation for the inherit_account_expiration field.
 	bronzehistorys1site.DefaultInheritAccountExpiration = bronzehistorys1siteDescInheritAccountExpiration.Default.(bool)
-	bronzehistorys1threatFields := schema.BronzeHistoryS1Threat{}.Fields()
-	_ = bronzehistorys1threatFields
-	// bronzehistorys1threatDescResourceID is the schema descriptor for resource_id field.
-	bronzehistorys1threatDescResourceID := bronzehistorys1threatFields[1].Descriptor()
-	// bronzehistorys1threat.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
-	bronzehistorys1threat.ResourceIDValidator = bronzehistorys1threatDescResourceID.Validators[0].(func(string) error)
-	// bronzehistorys1threatDescAgentIsActive is the schema descriptor for agent_is_active field.
-	bronzehistorys1threatDescAgentIsActive := bronzehistorys1threatFields[24].Descriptor()
-	// bronzehistorys1threat.DefaultAgentIsActive holds the default value on creation for the agent_is_active field.
-	bronzehistorys1threat.DefaultAgentIsActive = bronzehistorys1threatDescAgentIsActive.Default.(bool)
-	// bronzehistorys1threatDescAgentIsDecommissioned is the schema descriptor for agent_is_decommissioned field.
-	bronzehistorys1threatDescAgentIsDecommissioned := bronzehistorys1threatFields[25].Descriptor()
-	// bronzehistorys1threat.DefaultAgentIsDecommissioned holds the default value on creation for the agent_is_decommissioned field.
-	bronzehistorys1threat.DefaultAgentIsDecommissioned = bronzehistorys1threatDescAgentIsDecommissioned.Default.(bool)
 	bronzehistoryvaultpkicertificateFields := schema.BronzeHistoryVaultPKICertificate{}.Fields()
 	_ = bronzehistoryvaultpkicertificateFields
 	// bronzehistoryvaultpkicertificateDescResourceID is the schema descriptor for resource_id field.
@@ -5722,16 +5722,6 @@ func init() {
 	bronzes1siteDescInheritAccountExpiration := bronzes1siteFields[22].Descriptor()
 	// bronzes1site.DefaultInheritAccountExpiration holds the default value on creation for the inherit_account_expiration field.
 	bronzes1site.DefaultInheritAccountExpiration = bronzes1siteDescInheritAccountExpiration.Default.(bool)
-	bronzes1threatFields := schema.BronzeS1Threat{}.Fields()
-	_ = bronzes1threatFields
-	// bronzes1threatDescAgentIsActive is the schema descriptor for agent_is_active field.
-	bronzes1threatDescAgentIsActive := bronzes1threatFields[23].Descriptor()
-	// bronzes1threat.DefaultAgentIsActive holds the default value on creation for the agent_is_active field.
-	bronzes1threat.DefaultAgentIsActive = bronzes1threatDescAgentIsActive.Default.(bool)
-	// bronzes1threatDescAgentIsDecommissioned is the schema descriptor for agent_is_decommissioned field.
-	bronzes1threatDescAgentIsDecommissioned := bronzes1threatFields[24].Descriptor()
-	// bronzes1threat.DefaultAgentIsDecommissioned holds the default value on creation for the agent_is_decommissioned field.
-	bronzes1threat.DefaultAgentIsDecommissioned = bronzes1threatDescAgentIsDecommissioned.Default.(bool)
 	bronzevaultpkicertificateFields := schema.BronzeVaultPKICertificate{}.Fields()
 	_ = bronzevaultpkicertificateFields
 	// bronzevaultpkicertificateDescVaultName is the schema descriptor for vault_name field.

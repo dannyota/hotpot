@@ -391,7 +391,6 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1rangergateway"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1rangersetting"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1site"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1threat"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryvaultpkicertificate"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1account"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1agent"
@@ -402,7 +401,6 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangergateway"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangersetting"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1site"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1threat"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzevaultpkicertificate"
 )
 
@@ -843,7 +841,6 @@ func checkColumn(t, c string) error {
 			bronzehistorys1rangergateway.Table:                         bronzehistorys1rangergateway.ValidColumn,
 			bronzehistorys1rangersetting.Table:                         bronzehistorys1rangersetting.ValidColumn,
 			bronzehistorys1site.Table:                                  bronzehistorys1site.ValidColumn,
-			bronzehistorys1threat.Table:                                bronzehistorys1threat.ValidColumn,
 			bronzehistoryvaultpkicertificate.Table:                     bronzehistoryvaultpkicertificate.ValidColumn,
 			bronzes1account.Table:                                      bronzes1account.ValidColumn,
 			bronzes1agent.Table:                                        bronzes1agent.ValidColumn,
@@ -854,7 +851,6 @@ func checkColumn(t, c string) error {
 			bronzes1rangergateway.Table:                                bronzes1rangergateway.ValidColumn,
 			bronzes1rangersetting.Table:                                bronzes1rangersetting.ValidColumn,
 			bronzes1site.Table:                                         bronzes1site.ValidColumn,
-			bronzes1threat.Table:                                       bronzes1threat.ValidColumn,
 			bronzevaultpkicertificate.Table:                            bronzevaultpkicertificate.ValidColumn,
 		})
 	})

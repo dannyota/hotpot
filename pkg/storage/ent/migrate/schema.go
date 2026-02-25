@@ -6188,8 +6188,25 @@ var (
 		{Name: "name", Type: field.TypeString},
 		{Name: "ipv4_address", Type: field.TypeString, Nullable: true},
 		{Name: "endpoint_url", Type: field.TypeString, Nullable: true},
+		{Name: "endpoint_auth_url", Type: field.TypeString, Nullable: true},
+		{Name: "endpoint_service_id", Type: field.TypeString, Nullable: true},
 		{Name: "status", Type: field.TypeString, Nullable: true},
+		{Name: "billing_status", Type: field.TypeString, Nullable: true},
+		{Name: "endpoint_type", Type: field.TypeString, Nullable: true},
+		{Name: "version", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "created_at", Type: field.TypeString, Nullable: true},
+		{Name: "updated_at", Type: field.TypeString, Nullable: true},
 		{Name: "vpc_id", Type: field.TypeString, Nullable: true},
+		{Name: "vpc_name", Type: field.TypeString, Nullable: true},
+		{Name: "zone_uuid", Type: field.TypeString, Nullable: true},
+		{Name: "enable_dns_name", Type: field.TypeBool, Default: false},
+		{Name: "endpoint_domains", Type: field.TypeJSON, Nullable: true},
+		{Name: "subnet_id", Type: field.TypeString, Nullable: true},
+		{Name: "category_name", Type: field.TypeString, Nullable: true},
+		{Name: "service_name", Type: field.TypeString, Nullable: true},
+		{Name: "service_endpoint_type", Type: field.TypeString, Nullable: true},
+		{Name: "package_name", Type: field.TypeString, Nullable: true},
 		{Name: "region", Type: field.TypeString},
 		{Name: "project_id", Type: field.TypeString},
 	}
@@ -6202,17 +6219,17 @@ var (
 			{
 				Name:    "bronzegreennodenetworkendpoint_status",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeNetworkEndpointsColumns[6]},
+				Columns: []*schema.Column{GreennodeNetworkEndpointsColumns[8]},
 			},
 			{
 				Name:    "bronzegreennodenetworkendpoint_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeNetworkEndpointsColumns[9]},
+				Columns: []*schema.Column{GreennodeNetworkEndpointsColumns[26]},
 			},
 			{
 				Name:    "bronzegreennodenetworkendpoint_region",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeNetworkEndpointsColumns[8]},
+				Columns: []*schema.Column{GreennodeNetworkEndpointsColumns[25]},
 			},
 			{
 				Name:    "bronzegreennodenetworkendpoint_collected_at",
@@ -6229,6 +6246,8 @@ var (
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
 		{Name: "status", Type: field.TypeString, Nullable: true},
+		{Name: "created_at", Type: field.TypeString, Nullable: true},
+		{Name: "is_system", Type: field.TypeBool, Default: false},
 		{Name: "region", Type: field.TypeString},
 		{Name: "project_id", Type: field.TypeString},
 	}
@@ -6246,12 +6265,12 @@ var (
 			{
 				Name:    "bronzegreennodenetworksecgroup_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeNetworkSecgroupsColumns[7]},
+				Columns: []*schema.Column{GreennodeNetworkSecgroupsColumns[9]},
 			},
 			{
 				Name:    "bronzegreennodenetworksecgroup_region",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeNetworkSecgroupsColumns[6]},
+				Columns: []*schema.Column{GreennodeNetworkSecgroupsColumns[8]},
 			},
 			{
 				Name:    "bronzegreennodenetworksecgroup_collected_at",
@@ -14478,8 +14497,25 @@ var (
 		{Name: "name", Type: field.TypeString},
 		{Name: "ipv4_address", Type: field.TypeString, Nullable: true},
 		{Name: "endpoint_url", Type: field.TypeString, Nullable: true},
+		{Name: "endpoint_auth_url", Type: field.TypeString, Nullable: true},
+		{Name: "endpoint_service_id", Type: field.TypeString, Nullable: true},
 		{Name: "status", Type: field.TypeString, Nullable: true},
+		{Name: "billing_status", Type: field.TypeString, Nullable: true},
+		{Name: "endpoint_type", Type: field.TypeString, Nullable: true},
+		{Name: "version", Type: field.TypeString, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "created_at", Type: field.TypeString, Nullable: true},
+		{Name: "updated_at", Type: field.TypeString, Nullable: true},
 		{Name: "vpc_id", Type: field.TypeString, Nullable: true},
+		{Name: "vpc_name", Type: field.TypeString, Nullable: true},
+		{Name: "zone_uuid", Type: field.TypeString, Nullable: true},
+		{Name: "enable_dns_name", Type: field.TypeBool, Default: false},
+		{Name: "endpoint_domains", Type: field.TypeJSON, Nullable: true},
+		{Name: "subnet_id", Type: field.TypeString, Nullable: true},
+		{Name: "category_name", Type: field.TypeString, Nullable: true},
+		{Name: "service_name", Type: field.TypeString, Nullable: true},
+		{Name: "service_endpoint_type", Type: field.TypeString, Nullable: true},
+		{Name: "package_name", Type: field.TypeString, Nullable: true},
 		{Name: "region", Type: field.TypeString},
 		{Name: "project_id", Type: field.TypeString},
 	}
@@ -14507,7 +14543,7 @@ var (
 			{
 				Name:    "bronzehistorygreennodenetworkendpoint_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeNetworkEndpointsHistoryColumns[12]},
+				Columns: []*schema.Column{GreennodeNetworkEndpointsHistoryColumns[29]},
 			},
 		},
 	}
@@ -14522,6 +14558,8 @@ var (
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
 		{Name: "status", Type: field.TypeString, Nullable: true},
+		{Name: "created_at", Type: field.TypeString, Nullable: true},
+		{Name: "is_system", Type: field.TypeBool, Default: false},
 		{Name: "region", Type: field.TypeString},
 		{Name: "project_id", Type: field.TypeString},
 	}
@@ -14549,7 +14587,7 @@ var (
 			{
 				Name:    "bronzehistorygreennodenetworksecgroup_project_id",
 				Unique:  false,
-				Columns: []*schema.Column{GreennodeNetworkSecgroupsHistoryColumns[10]},
+				Columns: []*schema.Column{GreennodeNetworkSecgroupsHistoryColumns[12]},
 			},
 		},
 	}
@@ -15441,68 +15479,6 @@ var (
 			},
 		},
 	}
-	// S1ThreatsHistoryColumns holds the columns for the "s1_threats_history" table.
-	S1ThreatsHistoryColumns = []*schema.Column{
-		{Name: "history_id", Type: field.TypeUint, Increment: true},
-		{Name: "valid_from", Type: field.TypeTime},
-		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
-		{Name: "collected_at", Type: field.TypeTime},
-		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "resource_id", Type: field.TypeString},
-		{Name: "agent_id", Type: field.TypeString, Nullable: true},
-		{Name: "classification", Type: field.TypeString, Nullable: true},
-		{Name: "threat_name", Type: field.TypeString, Nullable: true},
-		{Name: "file_path", Type: field.TypeString, Nullable: true},
-		{Name: "status", Type: field.TypeString, Nullable: true},
-		{Name: "analyst_verdict", Type: field.TypeString, Nullable: true},
-		{Name: "confidence_level", Type: field.TypeString, Nullable: true},
-		{Name: "initiated_by", Type: field.TypeString, Nullable: true},
-		{Name: "api_created_at", Type: field.TypeTime, Nullable: true},
-		{Name: "threat_info_json", Type: field.TypeJSON, Nullable: true},
-		{Name: "api_updated_at", Type: field.TypeTime, Nullable: true},
-		{Name: "file_content_hash", Type: field.TypeString, Nullable: true},
-		{Name: "file_sha256", Type: field.TypeString, Nullable: true},
-		{Name: "cloud_verdict", Type: field.TypeString, Nullable: true},
-		{Name: "classification_source", Type: field.TypeString, Nullable: true},
-		{Name: "site_id", Type: field.TypeString, Nullable: true},
-		{Name: "site_name", Type: field.TypeString, Nullable: true},
-		{Name: "account_id", Type: field.TypeString, Nullable: true},
-		{Name: "account_name", Type: field.TypeString, Nullable: true},
-		{Name: "agent_computer_name", Type: field.TypeString, Nullable: true},
-		{Name: "agent_os_type", Type: field.TypeString, Nullable: true},
-		{Name: "agent_machine_type", Type: field.TypeString, Nullable: true},
-		{Name: "agent_is_active", Type: field.TypeBool, Default: false},
-		{Name: "agent_is_decommissioned", Type: field.TypeBool, Default: false},
-		{Name: "agent_version", Type: field.TypeString, Nullable: true},
-	}
-	// S1ThreatsHistoryTable holds the schema information for the "s1_threats_history" table.
-	S1ThreatsHistoryTable = &schema.Table{
-		Name:       "s1_threats_history",
-		Columns:    S1ThreatsHistoryColumns,
-		PrimaryKey: []*schema.Column{S1ThreatsHistoryColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "bronzehistorys1threat_resource_id_valid_from",
-				Unique:  false,
-				Columns: []*schema.Column{S1ThreatsHistoryColumns[5], S1ThreatsHistoryColumns[1]},
-			},
-			{
-				Name:    "bronzehistorys1threat_valid_to",
-				Unique:  false,
-				Columns: []*schema.Column{S1ThreatsHistoryColumns[2]},
-			},
-			{
-				Name:    "bronzehistorys1threat_collected_at",
-				Unique:  false,
-				Columns: []*schema.Column{S1ThreatsHistoryColumns[3]},
-			},
-			{
-				Name:    "bronzehistorys1threat_agent_id",
-				Unique:  false,
-				Columns: []*schema.Column{S1ThreatsHistoryColumns[6]},
-			},
-		},
-	}
 	// VaultPkiCertificatesHistoryColumns holds the columns for the "vault_pki_certificates_history" table.
 	VaultPkiCertificatesHistoryColumns = []*schema.Column{
 		{Name: "history_id", Type: field.TypeUint, Increment: true},
@@ -16065,75 +16041,6 @@ var (
 			},
 		},
 	}
-	// S1ThreatsColumns holds the columns for the "s1_threats" table.
-	S1ThreatsColumns = []*schema.Column{
-		{Name: "resource_id", Type: field.TypeString, Unique: true},
-		{Name: "collected_at", Type: field.TypeTime},
-		{Name: "first_collected_at", Type: field.TypeTime},
-		{Name: "agent_id", Type: field.TypeString, Nullable: true},
-		{Name: "classification", Type: field.TypeString, Nullable: true},
-		{Name: "threat_name", Type: field.TypeString, Nullable: true},
-		{Name: "file_path", Type: field.TypeString, Nullable: true},
-		{Name: "status", Type: field.TypeString, Nullable: true},
-		{Name: "analyst_verdict", Type: field.TypeString, Nullable: true},
-		{Name: "confidence_level", Type: field.TypeString, Nullable: true},
-		{Name: "initiated_by", Type: field.TypeString, Nullable: true},
-		{Name: "api_created_at", Type: field.TypeTime, Nullable: true},
-		{Name: "threat_info_json", Type: field.TypeJSON, Nullable: true},
-		{Name: "api_updated_at", Type: field.TypeTime, Nullable: true},
-		{Name: "file_content_hash", Type: field.TypeString, Nullable: true},
-		{Name: "file_sha256", Type: field.TypeString, Nullable: true},
-		{Name: "cloud_verdict", Type: field.TypeString, Nullable: true},
-		{Name: "classification_source", Type: field.TypeString, Nullable: true},
-		{Name: "site_id", Type: field.TypeString, Nullable: true},
-		{Name: "site_name", Type: field.TypeString, Nullable: true},
-		{Name: "account_id", Type: field.TypeString, Nullable: true},
-		{Name: "account_name", Type: field.TypeString, Nullable: true},
-		{Name: "agent_computer_name", Type: field.TypeString, Nullable: true},
-		{Name: "agent_os_type", Type: field.TypeString, Nullable: true},
-		{Name: "agent_machine_type", Type: field.TypeString, Nullable: true},
-		{Name: "agent_is_active", Type: field.TypeBool, Default: false},
-		{Name: "agent_is_decommissioned", Type: field.TypeBool, Default: false},
-		{Name: "agent_version", Type: field.TypeString, Nullable: true},
-	}
-	// S1ThreatsTable holds the schema information for the "s1_threats" table.
-	S1ThreatsTable = &schema.Table{
-		Name:       "s1_threats",
-		Columns:    S1ThreatsColumns,
-		PrimaryKey: []*schema.Column{S1ThreatsColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "bronzes1threat_agent_id",
-				Unique:  false,
-				Columns: []*schema.Column{S1ThreatsColumns[3]},
-			},
-			{
-				Name:    "bronzes1threat_status",
-				Unique:  false,
-				Columns: []*schema.Column{S1ThreatsColumns[7]},
-			},
-			{
-				Name:    "bronzes1threat_classification",
-				Unique:  false,
-				Columns: []*schema.Column{S1ThreatsColumns[4]},
-			},
-			{
-				Name:    "bronzes1threat_collected_at",
-				Unique:  false,
-				Columns: []*schema.Column{S1ThreatsColumns[1]},
-			},
-			{
-				Name:    "bronzes1threat_site_id",
-				Unique:  false,
-				Columns: []*schema.Column{S1ThreatsColumns[18]},
-			},
-			{
-				Name:    "bronzes1threat_account_id",
-				Unique:  false,
-				Columns: []*schema.Column{S1ThreatsColumns[20]},
-			},
-		},
-	}
 	// VaultPkiCertificatesColumns holds the columns for the "vault_pki_certificates" table.
 	VaultPkiCertificatesColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -16574,7 +16481,6 @@ var (
 		S1RangerGatewaysHistoryTable,
 		S1RangerSettingsHistoryTable,
 		S1SitesHistoryTable,
-		S1ThreatsHistoryTable,
 		VaultPkiCertificatesHistoryTable,
 		S1AccountsTable,
 		S1AgentsTable,
@@ -16585,7 +16491,6 @@ var (
 		S1RangerGatewaysTable,
 		S1RangerSettingsTable,
 		S1SitesTable,
-		S1ThreatsTable,
 		VaultPkiCertificatesTable,
 	}
 )
@@ -17788,9 +17693,6 @@ func init() {
 	S1SitesHistoryTable.Annotation = &entsql.Annotation{
 		Table: "s1_sites_history",
 	}
-	S1ThreatsHistoryTable.Annotation = &entsql.Annotation{
-		Table: "s1_threats_history",
-	}
 	VaultPkiCertificatesHistoryTable.Annotation = &entsql.Annotation{
 		Table: "vault_pki_certificates_history",
 	}
@@ -17821,9 +17723,6 @@ func init() {
 	}
 	S1SitesTable.Annotation = &entsql.Annotation{
 		Table: "s1_sites",
-	}
-	S1ThreatsTable.Annotation = &entsql.Annotation{
-		Table: "s1_threats",
 	}
 	VaultPkiCertificatesTable.Annotation = &entsql.Annotation{
 		Table: "vault_pki_certificates",

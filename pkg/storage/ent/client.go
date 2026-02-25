@@ -394,7 +394,6 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1rangergateway"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1rangersetting"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1site"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1threat"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryvaultpkicertificate"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1account"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1agent"
@@ -405,7 +404,6 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangergateway"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangersetting"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1site"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1threat"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzevaultpkicertificate"
 
 	"github.com/dannyota/hotpot/pkg/storage/ent/internal"
@@ -1174,8 +1172,6 @@ type Client struct {
 	BronzeHistoryS1RangerSetting *BronzeHistoryS1RangerSettingClient
 	// BronzeHistoryS1Site is the client for interacting with the BronzeHistoryS1Site builders.
 	BronzeHistoryS1Site *BronzeHistoryS1SiteClient
-	// BronzeHistoryS1Threat is the client for interacting with the BronzeHistoryS1Threat builders.
-	BronzeHistoryS1Threat *BronzeHistoryS1ThreatClient
 	// BronzeHistoryVaultPKICertificate is the client for interacting with the BronzeHistoryVaultPKICertificate builders.
 	BronzeHistoryVaultPKICertificate *BronzeHistoryVaultPKICertificateClient
 	// BronzeS1Account is the client for interacting with the BronzeS1Account builders.
@@ -1196,8 +1192,6 @@ type Client struct {
 	BronzeS1RangerSetting *BronzeS1RangerSettingClient
 	// BronzeS1Site is the client for interacting with the BronzeS1Site builders.
 	BronzeS1Site *BronzeS1SiteClient
-	// BronzeS1Threat is the client for interacting with the BronzeS1Threat builders.
-	BronzeS1Threat *BronzeS1ThreatClient
 	// BronzeVaultPKICertificate is the client for interacting with the BronzeVaultPKICertificate builders.
 	BronzeVaultPKICertificate *BronzeVaultPKICertificateClient
 }
@@ -1590,7 +1584,6 @@ func (c *Client) init() {
 	c.BronzeHistoryS1RangerGateway = NewBronzeHistoryS1RangerGatewayClient(c.config)
 	c.BronzeHistoryS1RangerSetting = NewBronzeHistoryS1RangerSettingClient(c.config)
 	c.BronzeHistoryS1Site = NewBronzeHistoryS1SiteClient(c.config)
-	c.BronzeHistoryS1Threat = NewBronzeHistoryS1ThreatClient(c.config)
 	c.BronzeHistoryVaultPKICertificate = NewBronzeHistoryVaultPKICertificateClient(c.config)
 	c.BronzeS1Account = NewBronzeS1AccountClient(c.config)
 	c.BronzeS1Agent = NewBronzeS1AgentClient(c.config)
@@ -1601,7 +1594,6 @@ func (c *Client) init() {
 	c.BronzeS1RangerGateway = NewBronzeS1RangerGatewayClient(c.config)
 	c.BronzeS1RangerSetting = NewBronzeS1RangerSettingClient(c.config)
 	c.BronzeS1Site = NewBronzeS1SiteClient(c.config)
-	c.BronzeS1Threat = NewBronzeS1ThreatClient(c.config)
 	c.BronzeVaultPKICertificate = NewBronzeVaultPKICertificateClient(c.config)
 }
 
@@ -2076,7 +2068,6 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		BronzeHistoryS1RangerGateway:                         NewBronzeHistoryS1RangerGatewayClient(cfg),
 		BronzeHistoryS1RangerSetting:                         NewBronzeHistoryS1RangerSettingClient(cfg),
 		BronzeHistoryS1Site:                                  NewBronzeHistoryS1SiteClient(cfg),
-		BronzeHistoryS1Threat:                                NewBronzeHistoryS1ThreatClient(cfg),
 		BronzeHistoryVaultPKICertificate:                     NewBronzeHistoryVaultPKICertificateClient(cfg),
 		BronzeS1Account:                                      NewBronzeS1AccountClient(cfg),
 		BronzeS1Agent:                                        NewBronzeS1AgentClient(cfg),
@@ -2087,7 +2078,6 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		BronzeS1RangerGateway:                                NewBronzeS1RangerGatewayClient(cfg),
 		BronzeS1RangerSetting:                                NewBronzeS1RangerSettingClient(cfg),
 		BronzeS1Site:                                         NewBronzeS1SiteClient(cfg),
-		BronzeS1Threat:                                       NewBronzeS1ThreatClient(cfg),
 		BronzeVaultPKICertificate:                            NewBronzeVaultPKICertificateClient(cfg),
 	}, nil
 }
@@ -2487,7 +2477,6 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		BronzeHistoryS1RangerGateway:                         NewBronzeHistoryS1RangerGatewayClient(cfg),
 		BronzeHistoryS1RangerSetting:                         NewBronzeHistoryS1RangerSettingClient(cfg),
 		BronzeHistoryS1Site:                                  NewBronzeHistoryS1SiteClient(cfg),
-		BronzeHistoryS1Threat:                                NewBronzeHistoryS1ThreatClient(cfg),
 		BronzeHistoryVaultPKICertificate:                     NewBronzeHistoryVaultPKICertificateClient(cfg),
 		BronzeS1Account:                                      NewBronzeS1AccountClient(cfg),
 		BronzeS1Agent:                                        NewBronzeS1AgentClient(cfg),
@@ -2498,7 +2487,6 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		BronzeS1RangerGateway:                                NewBronzeS1RangerGatewayClient(cfg),
 		BronzeS1RangerSetting:                                NewBronzeS1RangerSettingClient(cfg),
 		BronzeS1Site:                                         NewBronzeS1SiteClient(cfg),
-		BronzeS1Threat:                                       NewBronzeS1ThreatClient(cfg),
 		BronzeVaultPKICertificate:                            NewBronzeVaultPKICertificateClient(cfg),
 	}, nil
 }
@@ -2744,11 +2732,10 @@ func (c *Client) Use(hooks ...Hook) {
 		c.BronzeHistoryS1Agent, c.BronzeHistoryS1AgentNIC, c.BronzeHistoryS1App,
 		c.BronzeHistoryS1Group, c.BronzeHistoryS1RangerDevice,
 		c.BronzeHistoryS1RangerGateway, c.BronzeHistoryS1RangerSetting,
-		c.BronzeHistoryS1Site, c.BronzeHistoryS1Threat,
-		c.BronzeHistoryVaultPKICertificate, c.BronzeS1Account, c.BronzeS1Agent,
-		c.BronzeS1AgentNIC, c.BronzeS1App, c.BronzeS1Group, c.BronzeS1RangerDevice,
-		c.BronzeS1RangerGateway, c.BronzeS1RangerSetting, c.BronzeS1Site,
-		c.BronzeS1Threat, c.BronzeVaultPKICertificate,
+		c.BronzeHistoryS1Site, c.BronzeHistoryVaultPKICertificate, c.BronzeS1Account,
+		c.BronzeS1Agent, c.BronzeS1AgentNIC, c.BronzeS1App, c.BronzeS1Group,
+		c.BronzeS1RangerDevice, c.BronzeS1RangerGateway, c.BronzeS1RangerSetting,
+		c.BronzeS1Site, c.BronzeVaultPKICertificate,
 	} {
 		n.Use(hooks...)
 	}
@@ -2973,11 +2960,10 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.BronzeHistoryS1Agent, c.BronzeHistoryS1AgentNIC, c.BronzeHistoryS1App,
 		c.BronzeHistoryS1Group, c.BronzeHistoryS1RangerDevice,
 		c.BronzeHistoryS1RangerGateway, c.BronzeHistoryS1RangerSetting,
-		c.BronzeHistoryS1Site, c.BronzeHistoryS1Threat,
-		c.BronzeHistoryVaultPKICertificate, c.BronzeS1Account, c.BronzeS1Agent,
-		c.BronzeS1AgentNIC, c.BronzeS1App, c.BronzeS1Group, c.BronzeS1RangerDevice,
-		c.BronzeS1RangerGateway, c.BronzeS1RangerSetting, c.BronzeS1Site,
-		c.BronzeS1Threat, c.BronzeVaultPKICertificate,
+		c.BronzeHistoryS1Site, c.BronzeHistoryVaultPKICertificate, c.BronzeS1Account,
+		c.BronzeS1Agent, c.BronzeS1AgentNIC, c.BronzeS1App, c.BronzeS1Group,
+		c.BronzeS1RangerDevice, c.BronzeS1RangerGateway, c.BronzeS1RangerSetting,
+		c.BronzeS1Site, c.BronzeVaultPKICertificate,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -3744,8 +3730,6 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeHistoryS1RangerSetting.mutate(ctx, m)
 	case *BronzeHistoryS1SiteMutation:
 		return c.BronzeHistoryS1Site.mutate(ctx, m)
-	case *BronzeHistoryS1ThreatMutation:
-		return c.BronzeHistoryS1Threat.mutate(ctx, m)
 	case *BronzeHistoryVaultPKICertificateMutation:
 		return c.BronzeHistoryVaultPKICertificate.mutate(ctx, m)
 	case *BronzeS1AccountMutation:
@@ -3766,8 +3750,6 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeS1RangerSetting.mutate(ctx, m)
 	case *BronzeS1SiteMutation:
 		return c.BronzeS1Site.mutate(ctx, m)
-	case *BronzeS1ThreatMutation:
-		return c.BronzeS1Threat.mutate(ctx, m)
 	case *BronzeVaultPKICertificateMutation:
 		return c.BronzeVaultPKICertificate.mutate(ctx, m)
 	default:
@@ -56462,139 +56444,6 @@ func (c *BronzeHistoryS1SiteClient) mutate(ctx context.Context, m *BronzeHistory
 	}
 }
 
-// BronzeHistoryS1ThreatClient is a client for the BronzeHistoryS1Threat schema.
-type BronzeHistoryS1ThreatClient struct {
-	config
-}
-
-// NewBronzeHistoryS1ThreatClient returns a client for the BronzeHistoryS1Threat from the given config.
-func NewBronzeHistoryS1ThreatClient(c config) *BronzeHistoryS1ThreatClient {
-	return &BronzeHistoryS1ThreatClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `bronzehistorys1threat.Hooks(f(g(h())))`.
-func (c *BronzeHistoryS1ThreatClient) Use(hooks ...Hook) {
-	c.hooks.BronzeHistoryS1Threat = append(c.hooks.BronzeHistoryS1Threat, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `bronzehistorys1threat.Intercept(f(g(h())))`.
-func (c *BronzeHistoryS1ThreatClient) Intercept(interceptors ...Interceptor) {
-	c.inters.BronzeHistoryS1Threat = append(c.inters.BronzeHistoryS1Threat, interceptors...)
-}
-
-// Create returns a builder for creating a BronzeHistoryS1Threat entity.
-func (c *BronzeHistoryS1ThreatClient) Create() *BronzeHistoryS1ThreatCreate {
-	mutation := newBronzeHistoryS1ThreatMutation(c.config, OpCreate)
-	return &BronzeHistoryS1ThreatCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of BronzeHistoryS1Threat entities.
-func (c *BronzeHistoryS1ThreatClient) CreateBulk(builders ...*BronzeHistoryS1ThreatCreate) *BronzeHistoryS1ThreatCreateBulk {
-	return &BronzeHistoryS1ThreatCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *BronzeHistoryS1ThreatClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryS1ThreatCreate, int)) *BronzeHistoryS1ThreatCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &BronzeHistoryS1ThreatCreateBulk{err: fmt.Errorf("calling to BronzeHistoryS1ThreatClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*BronzeHistoryS1ThreatCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &BronzeHistoryS1ThreatCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for BronzeHistoryS1Threat.
-func (c *BronzeHistoryS1ThreatClient) Update() *BronzeHistoryS1ThreatUpdate {
-	mutation := newBronzeHistoryS1ThreatMutation(c.config, OpUpdate)
-	return &BronzeHistoryS1ThreatUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *BronzeHistoryS1ThreatClient) UpdateOne(_m *BronzeHistoryS1Threat) *BronzeHistoryS1ThreatUpdateOne {
-	mutation := newBronzeHistoryS1ThreatMutation(c.config, OpUpdateOne, withBronzeHistoryS1Threat(_m))
-	return &BronzeHistoryS1ThreatUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *BronzeHistoryS1ThreatClient) UpdateOneID(id uint) *BronzeHistoryS1ThreatUpdateOne {
-	mutation := newBronzeHistoryS1ThreatMutation(c.config, OpUpdateOne, withBronzeHistoryS1ThreatID(id))
-	return &BronzeHistoryS1ThreatUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for BronzeHistoryS1Threat.
-func (c *BronzeHistoryS1ThreatClient) Delete() *BronzeHistoryS1ThreatDelete {
-	mutation := newBronzeHistoryS1ThreatMutation(c.config, OpDelete)
-	return &BronzeHistoryS1ThreatDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *BronzeHistoryS1ThreatClient) DeleteOne(_m *BronzeHistoryS1Threat) *BronzeHistoryS1ThreatDeleteOne {
-	return c.DeleteOneID(_m.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeHistoryS1ThreatClient) DeleteOneID(id uint) *BronzeHistoryS1ThreatDeleteOne {
-	builder := c.Delete().Where(bronzehistorys1threat.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &BronzeHistoryS1ThreatDeleteOne{builder}
-}
-
-// Query returns a query builder for BronzeHistoryS1Threat.
-func (c *BronzeHistoryS1ThreatClient) Query() *BronzeHistoryS1ThreatQuery {
-	return &BronzeHistoryS1ThreatQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeBronzeHistoryS1Threat},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a BronzeHistoryS1Threat entity by its id.
-func (c *BronzeHistoryS1ThreatClient) Get(ctx context.Context, id uint) (*BronzeHistoryS1Threat, error) {
-	return c.Query().Where(bronzehistorys1threat.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *BronzeHistoryS1ThreatClient) GetX(ctx context.Context, id uint) *BronzeHistoryS1Threat {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *BronzeHistoryS1ThreatClient) Hooks() []Hook {
-	return c.hooks.BronzeHistoryS1Threat
-}
-
-// Interceptors returns the client interceptors.
-func (c *BronzeHistoryS1ThreatClient) Interceptors() []Interceptor {
-	return c.inters.BronzeHistoryS1Threat
-}
-
-func (c *BronzeHistoryS1ThreatClient) mutate(ctx context.Context, m *BronzeHistoryS1ThreatMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&BronzeHistoryS1ThreatCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&BronzeHistoryS1ThreatUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&BronzeHistoryS1ThreatUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&BronzeHistoryS1ThreatDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown BronzeHistoryS1Threat mutation op: %q", m.Op())
-	}
-}
-
 // BronzeHistoryVaultPKICertificateClient is a client for the BronzeHistoryVaultPKICertificate schema.
 type BronzeHistoryVaultPKICertificateClient struct {
 	config
@@ -57963,139 +57812,6 @@ func (c *BronzeS1SiteClient) mutate(ctx context.Context, m *BronzeS1SiteMutation
 	}
 }
 
-// BronzeS1ThreatClient is a client for the BronzeS1Threat schema.
-type BronzeS1ThreatClient struct {
-	config
-}
-
-// NewBronzeS1ThreatClient returns a client for the BronzeS1Threat from the given config.
-func NewBronzeS1ThreatClient(c config) *BronzeS1ThreatClient {
-	return &BronzeS1ThreatClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `bronzes1threat.Hooks(f(g(h())))`.
-func (c *BronzeS1ThreatClient) Use(hooks ...Hook) {
-	c.hooks.BronzeS1Threat = append(c.hooks.BronzeS1Threat, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `bronzes1threat.Intercept(f(g(h())))`.
-func (c *BronzeS1ThreatClient) Intercept(interceptors ...Interceptor) {
-	c.inters.BronzeS1Threat = append(c.inters.BronzeS1Threat, interceptors...)
-}
-
-// Create returns a builder for creating a BronzeS1Threat entity.
-func (c *BronzeS1ThreatClient) Create() *BronzeS1ThreatCreate {
-	mutation := newBronzeS1ThreatMutation(c.config, OpCreate)
-	return &BronzeS1ThreatCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of BronzeS1Threat entities.
-func (c *BronzeS1ThreatClient) CreateBulk(builders ...*BronzeS1ThreatCreate) *BronzeS1ThreatCreateBulk {
-	return &BronzeS1ThreatCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *BronzeS1ThreatClient) MapCreateBulk(slice any, setFunc func(*BronzeS1ThreatCreate, int)) *BronzeS1ThreatCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &BronzeS1ThreatCreateBulk{err: fmt.Errorf("calling to BronzeS1ThreatClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*BronzeS1ThreatCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &BronzeS1ThreatCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for BronzeS1Threat.
-func (c *BronzeS1ThreatClient) Update() *BronzeS1ThreatUpdate {
-	mutation := newBronzeS1ThreatMutation(c.config, OpUpdate)
-	return &BronzeS1ThreatUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *BronzeS1ThreatClient) UpdateOne(_m *BronzeS1Threat) *BronzeS1ThreatUpdateOne {
-	mutation := newBronzeS1ThreatMutation(c.config, OpUpdateOne, withBronzeS1Threat(_m))
-	return &BronzeS1ThreatUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *BronzeS1ThreatClient) UpdateOneID(id string) *BronzeS1ThreatUpdateOne {
-	mutation := newBronzeS1ThreatMutation(c.config, OpUpdateOne, withBronzeS1ThreatID(id))
-	return &BronzeS1ThreatUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for BronzeS1Threat.
-func (c *BronzeS1ThreatClient) Delete() *BronzeS1ThreatDelete {
-	mutation := newBronzeS1ThreatMutation(c.config, OpDelete)
-	return &BronzeS1ThreatDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *BronzeS1ThreatClient) DeleteOne(_m *BronzeS1Threat) *BronzeS1ThreatDeleteOne {
-	return c.DeleteOneID(_m.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *BronzeS1ThreatClient) DeleteOneID(id string) *BronzeS1ThreatDeleteOne {
-	builder := c.Delete().Where(bronzes1threat.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &BronzeS1ThreatDeleteOne{builder}
-}
-
-// Query returns a query builder for BronzeS1Threat.
-func (c *BronzeS1ThreatClient) Query() *BronzeS1ThreatQuery {
-	return &BronzeS1ThreatQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeBronzeS1Threat},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a BronzeS1Threat entity by its id.
-func (c *BronzeS1ThreatClient) Get(ctx context.Context, id string) (*BronzeS1Threat, error) {
-	return c.Query().Where(bronzes1threat.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *BronzeS1ThreatClient) GetX(ctx context.Context, id string) *BronzeS1Threat {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *BronzeS1ThreatClient) Hooks() []Hook {
-	return c.hooks.BronzeS1Threat
-}
-
-// Interceptors returns the client interceptors.
-func (c *BronzeS1ThreatClient) Interceptors() []Interceptor {
-	return c.inters.BronzeS1Threat
-}
-
-func (c *BronzeS1ThreatClient) mutate(ctx context.Context, m *BronzeS1ThreatMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&BronzeS1ThreatCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&BronzeS1ThreatUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&BronzeS1ThreatUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&BronzeS1ThreatDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown BronzeS1Threat mutation op: %q", m.Op())
-	}
-}
-
 // BronzeVaultPKICertificateClient is a client for the BronzeVaultPKICertificate schema.
 type BronzeVaultPKICertificateClient struct {
 	config
@@ -58431,10 +58147,10 @@ type (
 		BronzeHistoryS1Agent, BronzeHistoryS1AgentNIC, BronzeHistoryS1App,
 		BronzeHistoryS1Group, BronzeHistoryS1RangerDevice,
 		BronzeHistoryS1RangerGateway, BronzeHistoryS1RangerSetting,
-		BronzeHistoryS1Site, BronzeHistoryS1Threat, BronzeHistoryVaultPKICertificate,
-		BronzeS1Account, BronzeS1Agent, BronzeS1AgentNIC, BronzeS1App, BronzeS1Group,
+		BronzeHistoryS1Site, BronzeHistoryVaultPKICertificate, BronzeS1Account,
+		BronzeS1Agent, BronzeS1AgentNIC, BronzeS1App, BronzeS1Group,
 		BronzeS1RangerDevice, BronzeS1RangerGateway, BronzeS1RangerSetting,
-		BronzeS1Site, BronzeS1Threat, BronzeVaultPKICertificate []ent.Hook
+		BronzeS1Site, BronzeVaultPKICertificate []ent.Hook
 	}
 	inters struct {
 		BronzeAWSEC2Instance, BronzeAWSEC2InstanceTag, BronzeDOAccount,
@@ -58636,10 +58352,10 @@ type (
 		BronzeHistoryS1Agent, BronzeHistoryS1AgentNIC, BronzeHistoryS1App,
 		BronzeHistoryS1Group, BronzeHistoryS1RangerDevice,
 		BronzeHistoryS1RangerGateway, BronzeHistoryS1RangerSetting,
-		BronzeHistoryS1Site, BronzeHistoryS1Threat, BronzeHistoryVaultPKICertificate,
-		BronzeS1Account, BronzeS1Agent, BronzeS1AgentNIC, BronzeS1App, BronzeS1Group,
+		BronzeHistoryS1Site, BronzeHistoryVaultPKICertificate, BronzeS1Account,
+		BronzeS1Agent, BronzeS1AgentNIC, BronzeS1App, BronzeS1Group,
 		BronzeS1RangerDevice, BronzeS1RangerGateway, BronzeS1RangerSetting,
-		BronzeS1Site, BronzeS1Threat, BronzeVaultPKICertificate []ent.Interceptor
+		BronzeS1Site, BronzeVaultPKICertificate []ent.Interceptor
 	}
 )
 

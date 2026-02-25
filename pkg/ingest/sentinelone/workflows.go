@@ -14,7 +14,6 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_gateway"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_setting"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/site"
-	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/threat"
 )
 
 // S1InventoryWorkflowResult contains the result of SentinelOne inventory collection.
@@ -24,7 +23,6 @@ type S1InventoryWorkflowResult struct {
 	AppCount           int
 	GroupCount         int
 	SiteCount          int
-	ThreatCount        int
 	RangerDeviceCount  int
 	RangerGatewayCount int
 	RangerSettingCount int
@@ -84,15 +82,6 @@ func S1InventoryWorkflow(ctx workflow.Context) (*S1InventoryWorkflowResult, erro
 		result.GroupCount = groupResult.GroupCount
 	}
 
-	// Execute threat workflow
-	var threatResult threat.S1ThreatWorkflowResult
-	err = workflow.ExecuteChildWorkflow(ctx, threat.S1ThreatWorkflow).Get(ctx, &threatResult)
-	if err != nil {
-		logger.Error("Failed to execute S1ThreatWorkflow", "error", err)
-	} else {
-		result.ThreatCount = threatResult.ThreatCount
-	}
-
 	// Execute app workflow
 	var appResult app.S1AppWorkflowResult
 	err = workflow.ExecuteChildWorkflow(ctx, app.S1AppWorkflow).Get(ctx, &appResult)
@@ -135,7 +124,6 @@ func S1InventoryWorkflow(ctx workflow.Context) (*S1InventoryWorkflowResult, erro
 		"apps", result.AppCount,
 		"groups", result.GroupCount,
 		"sites", result.SiteCount,
-		"threats", result.ThreatCount,
 		"rangerDevices", result.RangerDeviceCount,
 		"rangerGateways", result.RangerGatewayCount,
 		"rangerSettings", result.RangerSettingCount,

@@ -4557,18 +4557,6 @@ func (f BronzeHistoryS1SiteFunc) Mutate(ctx context.Context, m ent.Mutation) (en
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryS1SiteMutation", m)
 }
 
-// The BronzeHistoryS1ThreatFunc type is an adapter to allow the use of ordinary
-// function as BronzeHistoryS1Threat mutator.
-type BronzeHistoryS1ThreatFunc func(context.Context, *ent.BronzeHistoryS1ThreatMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f BronzeHistoryS1ThreatFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.BronzeHistoryS1ThreatMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryS1ThreatMutation", m)
-}
-
 // The BronzeHistoryVaultPKICertificateFunc type is an adapter to allow the use of ordinary
 // function as BronzeHistoryVaultPKICertificate mutator.
 type BronzeHistoryVaultPKICertificateFunc func(context.Context, *ent.BronzeHistoryVaultPKICertificateMutation) (ent.Value, error)
@@ -4687,18 +4675,6 @@ func (f BronzeS1SiteFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeS1SiteMutation", m)
-}
-
-// The BronzeS1ThreatFunc type is an adapter to allow the use of ordinary
-// function as BronzeS1Threat mutator.
-type BronzeS1ThreatFunc func(context.Context, *ent.BronzeS1ThreatMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f BronzeS1ThreatFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.BronzeS1ThreatMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeS1ThreatMutation", m)
 }
 
 // The BronzeVaultPKICertificateFunc type is an adapter to allow the use of ordinary
