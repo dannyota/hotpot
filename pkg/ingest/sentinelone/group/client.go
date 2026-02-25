@@ -16,8 +16,14 @@ type Client struct {
 	httpClient *http.Client
 }
 
+// maxGroupsBatchSize is the maximum limit accepted by the SentinelOne Groups API.
+const maxGroupsBatchSize = 300
+
 // NewClient creates a new SentinelOne groups client.
 func NewClient(baseURL, apiToken string, batchSize int, httpClient *http.Client) *Client {
+	if batchSize > maxGroupsBatchSize {
+		batchSize = maxGroupsBatchSize
+	}
 	return &Client{
 		baseURL:    baseURL,
 		apiToken:   apiToken,

@@ -2,6 +2,7 @@ package threat
 
 import (
 	"encoding/json"
+	"strings"
 	"time"
 )
 
@@ -46,7 +47,7 @@ func ConvertThreat(t APIThreat, collectedAt time.Time) *ThreatData {
 		Classification:        t.Classification,
 		ThreatName:            t.ThreatName,
 		FilePath:              t.FilePath,
-		Status:                t.MitigationStatus,
+		Status:                strings.Join(t.MitigationStatus, ","),
 		AnalystVerdict:        t.AnalystVerdict,
 		ConfidenceLevel:       t.ConfidenceLevel,
 		InitiatedBy:           t.InitiatedBy,
