@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinterconnect"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinterconnect"
 )
 
 // HistoryService manages interconnect history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new interconnect.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *InterconnectData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, data *InterconnectData, now time.Time) error {
 	create := tx.BronzeHistoryGCPComputeInterconnect.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -89,7 +89,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *In
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeInterconnect, new *InterconnectData, diff *InterconnectDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGCPComputeInterconnect, new *InterconnectData, diff *InterconnectDiff, now time.Time) error {
 	if !diff.IsChanged {
 		return nil
 	}
@@ -175,7 +175,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted interconnect.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPComputeInterconnect.Update().
 		Where(
 			bronzehistorygcpcomputeinterconnect.ResourceID(resourceID),
@@ -183,7 +183,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		SetValidTo(now).
 		Save(ctx)
-	if ent.IsNotFound(err) {
+	if entcompute.IsNotFound(err) {
 		return nil // No history to close
 	}
 	return err

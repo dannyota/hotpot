@@ -5,21 +5,21 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesnapshot"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesnapshotlabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesnapshotlicense"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesnapshot"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesnapshotlabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesnapshotlicense"
 )
 
 // Service handles GCP Compute snapshot ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entcompute.Client
 	history   *HistoryService
 }
 
 // NewService creates a new snapshot ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entcompute.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -101,7 +101,7 @@ func (s *Service) saveSnapshots(ctx context.Context, snapshots []*SnapshotData) 
 			WithLabels().
 			WithLicenses().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entcompute.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing snapshot %s: %w", snapshotData.Name, err)
 		}
@@ -130,7 +130,7 @@ func (s *Service) saveSnapshots(ctx context.Context, snapshots []*SnapshotData) 
 		}
 
 		// Create or update snapshot
-		var savedSnapshot *ent.BronzeGCPComputeSnapshot
+		var savedSnapshot *entcompute.BronzeGCPComputeSnapshot
 		if existing == nil {
 			// Create new snapshot
 			create := tx.BronzeGCPComputeSnapshot.Create().
@@ -249,7 +249,7 @@ func (s *Service) saveSnapshots(ctx context.Context, snapshots []*SnapshotData) 
 }
 
 // deleteSnapshotChildren deletes all child entities for a snapshot.
-func (s *Service) deleteSnapshotChildren(ctx context.Context, tx *ent.Tx, snapshotID string) error {
+func (s *Service) deleteSnapshotChildren(ctx context.Context, tx *entcompute.Tx, snapshotID string) error {
 	// Delete labels
 	_, err := tx.BronzeGCPComputeSnapshotLabel.Delete().
 		Where(bronzegcpcomputesnapshotlabel.HasSnapshotWith(bronzegcpcomputesnapshot.ID(snapshotID))).
@@ -270,7 +270,7 @@ func (s *Service) deleteSnapshotChildren(ctx context.Context, tx *ent.Tx, snapsh
 }
 
 // createSnapshotChildren creates all child entities for a snapshot.
-func (s *Service) createSnapshotChildren(ctx context.Context, tx *ent.Tx, snapshot *ent.BronzeGCPComputeSnapshot, data *SnapshotData) error {
+func (s *Service) createSnapshotChildren(ctx context.Context, tx *entcompute.Tx, snapshot *entcompute.BronzeGCPComputeSnapshot, data *SnapshotData) error {
 	// Create labels
 	for _, labelData := range data.Labels {
 		_, err := tx.BronzeGCPComputeSnapshotLabel.Create().

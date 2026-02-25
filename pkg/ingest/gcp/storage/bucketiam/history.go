@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpstoragebucketiampolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpstoragebucketiampolicybinding"
+	entstorage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucketiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucketiampolicybinding"
 )
 
 // HistoryService manages bucket IAM policy history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entstorage.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entstorage.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new bucket IAM policy.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *BucketIamPolicyData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entstorage.Tx, data *BucketIamPolicyData, now time.Time) error {
 	// Create policy history
 	policyHistory, err := tx.BronzeHistoryGCPStorageBucketIamPolicy.Create().
 		SetResourceID(data.ID).
@@ -60,7 +60,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Bu
 }
 
 // UpdateHistory updates history records for a changed bucket IAM policy.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPStorageBucketIamPolicy, new *BucketIamPolicyData, diff *BucketIamPolicyDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entstorage.Tx, old *entstorage.BronzeGCPStorageBucketIamPolicy, new *BucketIamPolicyData, diff *BucketIamPolicyDiff, now time.Time) error {
 	// Get current policy history
 	currentHistory, err := tx.BronzeHistoryGCPStorageBucketIamPolicy.Query().
 		Where(
@@ -163,7 +163,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted bucket IAM policy.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entstorage.Tx, resourceID string, now time.Time) error {
 	// Get current policy history
 	currentHistory, err := tx.BronzeHistoryGCPStorageBucketIamPolicy.Query().
 		Where(
@@ -172,7 +172,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entstorage.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current bucket IAM policy history: %w", err)

@@ -5,21 +5,21 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeloadbalancerlb"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeloadbalancerlistener"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeloadbalancerpool"
+	entlb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzegreennodeloadbalancerlb"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzegreennodeloadbalancerlistener"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzegreennodeloadbalancerpool"
 )
 
 // Service handles GreenNode load balancer ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entlb.Client
 	history   *HistoryService
 }
 
 // NewService creates a new load balancer ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entlb.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -98,7 +98,7 @@ func (s *Service) saveLBs(ctx context.Context, lbs []*LBData) error {
 			WithListeners().
 			WithPools().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entlb.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing LB %s: %w", data.Name, err)
 		}
@@ -122,7 +122,7 @@ func (s *Service) saveLBs(ctx context.Context, lbs []*LBData) error {
 			}
 		}
 
-		var savedLB *ent.BronzeGreenNodeLoadBalancerLB
+		var savedLB *entlb.BronzeGreenNodeLoadBalancerLB
 		if existing == nil {
 			create := tx.BronzeGreenNodeLoadBalancerLB.Create().
 				SetID(data.ID).
@@ -226,7 +226,7 @@ func (s *Service) saveLBs(ctx context.Context, lbs []*LBData) error {
 	return nil
 }
 
-func (s *Service) deleteLBChildren(ctx context.Context, tx *ent.Tx, lbID string) error {
+func (s *Service) deleteLBChildren(ctx context.Context, tx *entlb.Tx, lbID string) error {
 	_, err := tx.BronzeGreenNodeLoadBalancerListener.Delete().
 		Where(bronzegreennodeloadbalancerlistener.HasLbWith(bronzegreennodeloadbalancerlb.ID(lbID))).
 		Exec(ctx)
@@ -244,7 +244,7 @@ func (s *Service) deleteLBChildren(ctx context.Context, tx *ent.Tx, lbID string)
 	return nil
 }
 
-func (s *Service) createLBChildren(ctx context.Context, tx *ent.Tx, lb *ent.BronzeGreenNodeLoadBalancerLB, data *LBData) error {
+func (s *Service) createLBChildren(ctx context.Context, tx *entlb.Tx, lb *entlb.BronzeGreenNodeLoadBalancerLB, data *LBData) error {
 	for _, l := range data.Listeners {
 		create := tx.BronzeGreenNodeLoadBalancerListener.Create().
 			SetLb(lb).

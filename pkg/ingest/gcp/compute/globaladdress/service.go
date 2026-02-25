@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeglobaladdress"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeglobaladdresslabel"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeglobaladdress"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeglobaladdresslabel"
 )
 
 // Service handles GCP Compute global address ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entcompute.Client
 	history   *HistoryService
 }
 
 // NewService creates a new global address ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entcompute.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -99,7 +99,7 @@ func (s *Service) saveGlobalAddresses(ctx context.Context, addresses []*GlobalAd
 			Where(bronzegcpcomputeglobaladdress.ID(addressData.ID)).
 			WithLabels().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entcompute.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing global address %s: %w", addressData.Name, err)
 		}
@@ -128,7 +128,7 @@ func (s *Service) saveGlobalAddresses(ctx context.Context, addresses []*GlobalAd
 		}
 
 		// Create or update address
-		var savedAddress *ent.BronzeGCPComputeGlobalAddress
+		var savedAddress *entcompute.BronzeGCPComputeGlobalAddress
 		if existing == nil {
 			// Create new address
 			create := tx.BronzeGCPComputeGlobalAddress.Create().
@@ -225,7 +225,7 @@ func (s *Service) saveGlobalAddresses(ctx context.Context, addresses []*GlobalAd
 }
 
 // deleteGlobalAddressChildren deletes all child entities for a global address.
-func (s *Service) deleteGlobalAddressChildren(ctx context.Context, tx *ent.Tx, addressID string) error {
+func (s *Service) deleteGlobalAddressChildren(ctx context.Context, tx *entcompute.Tx, addressID string) error {
 	// Delete labels
 	_, err := tx.BronzeGCPComputeGlobalAddressLabel.Delete().
 		Where(bronzegcpcomputeglobaladdresslabel.HasGlobalAddressWith(bronzegcpcomputeglobaladdress.ID(addressID))).
@@ -238,7 +238,7 @@ func (s *Service) deleteGlobalAddressChildren(ctx context.Context, tx *ent.Tx, a
 }
 
 // createGlobalAddressChildren creates all child entities for a global address.
-func (s *Service) createGlobalAddressChildren(ctx context.Context, tx *ent.Tx, address *ent.BronzeGCPComputeGlobalAddress, data *GlobalAddressData) error {
+func (s *Service) createGlobalAddressChildren(ctx context.Context, tx *entcompute.Tx, address *entcompute.BronzeGCPComputeGlobalAddress, data *GlobalAddressData) error {
 	// Create labels
 	for _, labelData := range data.Labels {
 		_, err := tx.BronzeGCPComputeGlobalAddressLabel.Create().

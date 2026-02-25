@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpdnspolicy"
+	entdns "github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzehistorygcpdnspolicy"
 )
 
 // HistoryService handles history tracking for DNS policies.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entdns.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entdns.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new DNS policy.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, policyData *PolicyData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entdns.Tx, policyData *PolicyData, now time.Time) error {
 	create := tx.BronzeHistoryGCPDNSPolicy.Create().
 		SetResourceID(policyData.ID).
 		SetValidFrom(now).
@@ -46,7 +46,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, policyDa
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPDNSPolicy, new *PolicyData, diff *PolicyDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entdns.Tx, old *entdns.BronzeGCPDNSPolicy, new *PolicyData, diff *PolicyDiff, now time.Time) error {
 	if !diff.IsChanged {
 		return nil
 	}
@@ -89,7 +89,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted DNS policy.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entdns.Tx, resourceID string, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPDNSPolicy.Update().
 		Where(
 			bronzehistorygcpdnspolicy.ResourceID(resourceID),
@@ -97,7 +97,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		SetValidTo(now).
 		Save(ctx)
-	if ent.IsNotFound(err) {
+	if entdns.IsNotFound(err) {
 		return nil // No history to close
 	}
 	return err

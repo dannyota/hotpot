@@ -3,7 +3,7 @@ package healthcheck
 import (
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // HealthCheckDiff represents changes between old and new health check states.
@@ -13,7 +13,7 @@ type HealthCheckDiff struct {
 }
 
 // DiffHealthCheckData compares existing Ent entity with new HealthCheckData and returns differences.
-func DiffHealthCheckData(old *ent.BronzeGCPComputeHealthCheck, new *HealthCheckData) *HealthCheckDiff {
+func DiffHealthCheckData(old *entcompute.BronzeGCPComputeHealthCheck, new *HealthCheckData) *HealthCheckDiff {
 	diff := &HealthCheckDiff{}
 
 	// New health check

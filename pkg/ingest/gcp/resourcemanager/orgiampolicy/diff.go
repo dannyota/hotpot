@@ -1,7 +1,7 @@
 package orgiampolicy
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // OrgIamPolicyDiff represents changes between old and new organization IAM policy state.
@@ -22,7 +22,7 @@ func (d *OrgIamPolicyDiff) HasAnyChange() bool {
 }
 
 // DiffOrgIamPolicyData compares existing Ent entity with new OrgIamPolicyData and returns differences.
-func DiffOrgIamPolicyData(old *ent.BronzeGCPOrgIamPolicy, new *OrgIamPolicyData) *OrgIamPolicyDiff {
+func DiffOrgIamPolicyData(old *entresourcemanager.BronzeGCPOrgIamPolicy, new *OrgIamPolicyData) *OrgIamPolicyDiff {
 	diff := &OrgIamPolicyDiff{}
 
 	// New policy
@@ -45,7 +45,7 @@ func DiffOrgIamPolicyData(old *ent.BronzeGCPOrgIamPolicy, new *OrgIamPolicyData)
 }
 
 // diffBindingsData compares Ent bindings with new binding data.
-func diffBindingsData(old []*ent.BronzeGCPOrgIamPolicyBinding, new []BindingData) ChildDiff {
+func diffBindingsData(old []*entresourcemanager.BronzeGCPOrgIamPolicyBinding, new []BindingData) ChildDiff {
 	diff := ChildDiff{}
 
 	if len(old) != len(new) {

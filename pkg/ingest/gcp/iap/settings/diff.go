@@ -3,7 +3,7 @@ package settings
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entiap "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap"
 )
 
 // SettingsDiff represents changes between old and new IAP settings state.
@@ -18,7 +18,7 @@ func (d *SettingsDiff) HasAnyChange() bool {
 }
 
 // DiffSettingsData compares existing Ent entity with new SettingsData and returns differences.
-func DiffSettingsData(old *ent.BronzeGCPIAPSettings, new *SettingsData) *SettingsDiff {
+func DiffSettingsData(old *entiap.BronzeGCPIAPSettings, new *SettingsData) *SettingsDiff {
 	diff := &SettingsDiff{}
 
 	if old == nil {

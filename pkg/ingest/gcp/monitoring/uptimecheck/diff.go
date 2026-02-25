@@ -3,7 +3,7 @@ package uptimecheck
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entmonitoring "github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring"
 )
 
 // UptimeCheckDiff represents changes between old and new uptime check config state.
@@ -18,7 +18,7 @@ func (d *UptimeCheckDiff) HasAnyChange() bool {
 }
 
 // DiffUptimeCheckData compares existing Ent entity with new UptimeCheckData and returns differences.
-func DiffUptimeCheckData(old *ent.BronzeGCPMonitoringUptimeCheckConfig, new *UptimeCheckData) *UptimeCheckDiff {
+func DiffUptimeCheckData(old *entmonitoring.BronzeGCPMonitoringUptimeCheckConfig, new *UptimeCheckData) *UptimeCheckDiff {
 	diff := &UptimeCheckDiff{}
 
 	if old == nil {

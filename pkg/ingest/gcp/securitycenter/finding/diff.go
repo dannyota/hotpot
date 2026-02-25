@@ -1,7 +1,7 @@
 package finding
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entsecuritycenter "github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter"
 )
 
 // FindingDiff represents changes between old and new SCC finding state.
@@ -16,7 +16,7 @@ func (d *FindingDiff) HasAnyChange() bool {
 }
 
 // DiffFindingData compares existing Ent entity with new FindingData and returns differences.
-func DiffFindingData(old *ent.BronzeGCPSecurityCenterFinding, new *FindingData) *FindingDiff {
+func DiffFindingData(old *entsecuritycenter.BronzeGCPSecurityCenterFinding, new *FindingData) *FindingDiff {
 	diff := &FindingDiff{}
 
 	if old == nil {

@@ -9,7 +9,8 @@ import (
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entorgpolicy "github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 type ConstraintRaw struct {
@@ -19,15 +20,16 @@ type ConstraintRaw struct {
 
 type Client struct {
 	orgPolicyClient *orgpolicy.Client
-	entClient       *ent.Client
+	entClient       *entorgpolicy.Client
+	rmClient        *entresourcemanager.Client
 }
 
-func NewClient(ctx context.Context, entClient *ent.Client, opts ...option.ClientOption) (*Client, error) {
+func NewClient(ctx context.Context, entClient *entorgpolicy.Client, rmClient *entresourcemanager.Client, opts ...option.ClientOption) (*Client, error) {
 	c, err := orgpolicy.NewClient(ctx, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create org policy client: %w", err)
 	}
-	return &Client{orgPolicyClient: c, entClient: entClient}, nil
+	return &Client{orgPolicyClient: c, entClient: entClient, rmClient: rmClient}, nil
 }
 
 func (c *Client) Close() error {
@@ -38,7 +40,7 @@ func (c *Client) Close() error {
 }
 
 func (c *Client) ListConstraints(ctx context.Context) ([]ConstraintRaw, error) {
-	orgs, err := c.entClient.BronzeGCPOrganization.Query().All(ctx)
+	orgs, err := c.rmClient.BronzeGCPOrganization.Query().All(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to query organizations from database: %w", err)
 	}

@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpbigtablecluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpbigtableinstance"
+	entbigtable "github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable/bronzegcpbigtablecluster"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable/bronzegcpbigtableinstance"
 )
 
 // Service handles Bigtable instance ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entbigtable.Client
 	history   *HistoryService
 }
 
 // NewService creates a new Bigtable instance ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entbigtable.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -98,7 +98,7 @@ func (s *Service) saveInstances(ctx context.Context, instances []*InstanceData) 
 		existing, err := tx.BronzeGCPBigtableInstance.Query().
 			Where(bronzegcpbigtableinstance.ID(instanceData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entbigtable.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing instance %s: %w", instanceData.ID, err)
 		}

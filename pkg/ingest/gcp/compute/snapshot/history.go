@@ -5,24 +5,24 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesnapshot"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesnapshotlabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesnapshotlicense"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputesnapshot"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputesnapshotlabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputesnapshotlicense"
 )
 
 // HistoryService handles history tracking for snapshots.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new snapshot and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, snapshotData *SnapshotData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, snapshotData *SnapshotData, now time.Time) error {
 	// Create snapshot history
 	snapHistCreate := tx.BronzeHistoryGCPComputeSnapshot.Create().
 		SetResourceID(snapshotData.ID).
@@ -73,7 +73,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, snapshot
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeSnapshot, new *SnapshotData, diff *SnapshotDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGCPComputeSnapshot, new *SnapshotData, diff *SnapshotDiff, now time.Time) error {
 	// Get current snapshot history
 	currentHist, err := tx.BronzeHistoryGCPComputeSnapshot.Query().
 		Where(
@@ -151,7 +151,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted snapshot.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	// Get current snapshot history
 	currentHist, err := tx.BronzeHistoryGCPComputeSnapshot.Query().
 		Where(
@@ -160,7 +160,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcompute.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current snapshot history: %w", err)
@@ -178,7 +178,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 }
 
 // createChildrenHistory creates history records for all children.
-func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, snapshotHistoryID uint, data *SnapshotData, now time.Time) error {
+func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *entcompute.Tx, snapshotHistoryID uint, data *SnapshotData, now time.Time) error {
 	// Labels
 	for _, labelData := range data.Labels {
 		_, err := tx.BronzeHistoryGCPComputeSnapshotLabel.Create().
@@ -208,7 +208,7 @@ func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, 
 }
 
 // closeChildrenHistory closes all children history records.
-func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, snapshotHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *entcompute.Tx, snapshotHistoryID uint, now time.Time) error {
 	// Close labels
 	_, err := tx.BronzeHistoryGCPComputeSnapshotLabel.Update().
 		Where(
@@ -237,7 +237,7 @@ func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, s
 }
 
 // updateChildrenHistory updates children history based on diff (granular tracking).
-func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, snapshotHistoryID uint, new *SnapshotData, diff *SnapshotDiff, now time.Time) error {
+func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *entcompute.Tx, snapshotHistoryID uint, new *SnapshotData, diff *SnapshotDiff, now time.Time) error {
 	if diff.LabelsDiff.Changed {
 		if err := h.updateLabelsHistory(ctx, tx, snapshotHistoryID, new.Labels, now); err != nil {
 			return err
@@ -253,7 +253,7 @@ func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, 
 	return nil
 }
 
-func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *ent.Tx, snapshotHistoryID uint, labels []SnapshotLabelData, now time.Time) error {
+func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *entcompute.Tx, snapshotHistoryID uint, labels []SnapshotLabelData, now time.Time) error {
 	// Close old labels
 	_, err := tx.BronzeHistoryGCPComputeSnapshotLabel.Update().
 		Where(
@@ -282,7 +282,7 @@ func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *ent.Tx, sn
 	return nil
 }
 
-func (h *HistoryService) updateLicensesHistory(ctx context.Context, tx *ent.Tx, snapshotHistoryID uint, licenses []SnapshotLicenseData, now time.Time) error {
+func (h *HistoryService) updateLicensesHistory(ctx context.Context, tx *entcompute.Tx, snapshotHistoryID uint, licenses []SnapshotLicenseData, now time.Time) error {
 	// Close old licenses
 	_, err := tx.BronzeHistoryGCPComputeSnapshotLicense.Update().
 		Where(

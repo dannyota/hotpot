@@ -1,7 +1,7 @@
 package secgroup
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
 )
 
 // SecgroupDiff represents changes between old and new security group states.
@@ -18,7 +18,7 @@ type ChildDiff struct {
 }
 
 // DiffSecgroupData compares old Ent entity and new SecgroupData.
-func DiffSecgroupData(old *ent.BronzeGreenNodeNetworkSecgroup, new *SecgroupData) *SecgroupDiff {
+func DiffSecgroupData(old *entnet.BronzeGreenNodeNetworkSecgroup, new *SecgroupData) *SecgroupDiff {
 	if old == nil {
 		return &SecgroupDiff{
 			IsNew:     true,
@@ -38,7 +38,7 @@ func (d *SecgroupDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged || d.RulesDiff.Changed
 }
 
-func hasSecgroupFieldsChanged(old *ent.BronzeGreenNodeNetworkSecgroup, new *SecgroupData) bool {
+func hasSecgroupFieldsChanged(old *entnet.BronzeGreenNodeNetworkSecgroup, new *SecgroupData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Status != new.Status ||
@@ -46,11 +46,11 @@ func hasSecgroupFieldsChanged(old *ent.BronzeGreenNodeNetworkSecgroup, new *Secg
 		old.IsSystem != new.IsSystem
 }
 
-func diffRules(old []*ent.BronzeGreenNodeNetworkSecgroupRule, new []SecgroupRuleData) ChildDiff {
+func diffRules(old []*entnet.BronzeGreenNodeNetworkSecgroupRule, new []SecgroupRuleData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
-	oldMap := make(map[string]*ent.BronzeGreenNodeNetworkSecgroupRule)
+	oldMap := make(map[string]*entnet.BronzeGreenNodeNetworkSecgroupRule)
 	for _, r := range old {
 		oldMap[r.RuleID] = r
 	}

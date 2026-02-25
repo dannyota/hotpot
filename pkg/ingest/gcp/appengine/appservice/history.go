@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpappengineservice"
+	entappengine "github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/bronzehistorygcpappengineservice"
 )
 
 // HistoryService manages App Engine service history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entappengine.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entappengine.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new App Engine service.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *ServiceData, applicationHistoryID uint, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entappengine.Tx, data *ServiceData, applicationHistoryID uint, now time.Time) error {
 	create := tx.BronzeHistoryGCPAppEngineService.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -49,7 +49,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Se
 }
 
 // UpdateHistory updates history records for a changed App Engine service.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPAppEngineService, new *ServiceData, diff *ServiceDiff, applicationHistoryID uint, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entappengine.Tx, old *entappengine.BronzeGCPAppEngineService, new *ServiceData, diff *ServiceDiff, applicationHistoryID uint, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPAppEngineService.Query().
 		Where(
 			bronzehistorygcpappengineservice.ResourceID(old.ID),
@@ -99,7 +99,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted App Engine service.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entappengine.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPAppEngineService.Query().
 		Where(
 			bronzehistorygcpappengineservice.ResourceID(resourceID),
@@ -107,7 +107,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entappengine.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current App Engine service history: %w", err)

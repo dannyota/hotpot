@@ -10,7 +10,8 @@ import (
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entaccesscontextmanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // AccessPolicyRaw holds raw API data for an access policy.
@@ -22,16 +23,17 @@ type AccessPolicyRaw struct {
 // Client wraps the GCP Access Context Manager API for access policies.
 type Client struct {
 	acmClient *accesscontextmanager.Client
-	entClient *ent.Client
+	entClient *entaccesscontextmanager.Client
+	rmClient  *entresourcemanager.Client
 }
 
 // NewClient creates a new access policy client.
-func NewClient(ctx context.Context, entClient *ent.Client, opts ...option.ClientOption) (*Client, error) {
+func NewClient(ctx context.Context, entClient *entaccesscontextmanager.Client, rmClient *entresourcemanager.Client, opts ...option.ClientOption) (*Client, error) {
 	acmClient, err := accesscontextmanager.NewClient(ctx, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create access context manager client: %w", err)
 	}
-	return &Client{acmClient: acmClient, entClient: entClient}, nil
+	return &Client{acmClient: acmClient, entClient: entClient, rmClient: rmClient}, nil
 }
 
 // Close closes the client connections.
@@ -45,7 +47,7 @@ func (c *Client) Close() error {
 // ListAccessPolicies queries organizations from the database, then fetches access policies for each.
 func (c *Client) ListAccessPolicies(ctx context.Context) ([]AccessPolicyRaw, error) {
 	// Query organizations from database
-	orgs, err := c.entClient.BronzeGCPOrganization.Query().All(ctx)
+	orgs, err := c.rmClient.BronzeGCPOrganization.Query().All(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to query organizations from database: %w", err)
 	}

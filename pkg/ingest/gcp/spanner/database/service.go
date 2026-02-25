@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpspannerdatabase"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpspannerinstance"
+	entspanner "github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/bronzegcpspannerdatabase"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/bronzegcpspannerinstance"
 )
 
 // Service handles Spanner database ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entspanner.Client
 	history   *HistoryService
 }
 
 // NewService creates a new Spanner database ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entspanner.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -102,7 +102,7 @@ func (s *Service) saveDatabases(ctx context.Context, databases []*DatabaseData) 
 		existing, err := tx.BronzeGCPSpannerDatabase.Query().
 			Where(bronzegcpspannerdatabase.ID(dbData.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entspanner.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing Spanner database %s: %w", dbData.ResourceID, err)
 		}
@@ -125,7 +125,7 @@ func (s *Service) saveDatabases(ctx context.Context, databases []*DatabaseData) 
 		parentInstance, err := tx.BronzeGCPSpannerInstance.Query().
 			Where(bronzegcpspannerinstance.ID(dbData.InstanceName)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entspanner.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to find parent instance %s: %w", dbData.InstanceName, err)
 		}

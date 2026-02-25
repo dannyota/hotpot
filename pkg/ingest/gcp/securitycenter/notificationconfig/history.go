@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecuritycenternotificationconfig"
+	entsecuritycenter "github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/bronzehistorygcpsecuritycenternotificationconfig"
 )
 
 // HistoryService manages SCC notification config history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entsecuritycenter.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entsecuritycenter.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new SCC notification config.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *NotificationConfigData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entsecuritycenter.Tx, data *NotificationConfigData, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPSecurityCenterNotificationConfig.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -41,7 +41,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *No
 }
 
 // UpdateHistory updates history records for a changed SCC notification config.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPSecurityCenterNotificationConfig, new *NotificationConfigData, diff *NotificationConfigDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entsecuritycenter.Tx, old *entsecuritycenter.BronzeGCPSecurityCenterNotificationConfig, new *NotificationConfigData, diff *NotificationConfigDiff, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPSecurityCenterNotificationConfig.Query().
 		Where(
 			bronzehistorygcpsecuritycenternotificationconfig.ResourceID(old.ID),
@@ -83,7 +83,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted SCC notification config.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entsecuritycenter.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPSecurityCenterNotificationConfig.Query().
 		Where(
 			bronzehistorygcpsecuritycenternotificationconfig.ResourceID(resourceID),
@@ -91,7 +91,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entsecuritycenter.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current SCC notification config history: %w", err)

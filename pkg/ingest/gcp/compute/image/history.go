@@ -5,24 +5,24 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeimage"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeimagelabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeimagelicense"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeimage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeimagelabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeimagelicense"
 )
 
 // HistoryService handles history tracking for images.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new image and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, imageData *ImageData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, imageData *ImageData, now time.Time) error {
 	// Create image history
 	imgHistCreate := tx.BronzeHistoryGCPComputeImage.Create().
 		SetResourceID(imageData.ID).
@@ -92,7 +92,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, imageDat
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeImage, new *ImageData, diff *ImageDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGCPComputeImage, new *ImageData, diff *ImageDiff, now time.Time) error {
 	// Get current image history
 	currentHist, err := tx.BronzeHistoryGCPComputeImage.Query().
 		Where(
@@ -189,7 +189,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted image.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	// Get current image history
 	currentHist, err := tx.BronzeHistoryGCPComputeImage.Query().
 		Where(
@@ -198,7 +198,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcompute.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current image history: %w", err)
@@ -216,7 +216,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 }
 
 // createChildrenHistory creates history records for all children.
-func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, imageHistoryID uint, data *ImageData, now time.Time) error {
+func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *entcompute.Tx, imageHistoryID uint, data *ImageData, now time.Time) error {
 	// Labels
 	for _, labelData := range data.Labels {
 		_, err := tx.BronzeHistoryGCPComputeImageLabel.Create().
@@ -246,7 +246,7 @@ func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, 
 }
 
 // closeChildrenHistory closes all children history records.
-func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, imageHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *entcompute.Tx, imageHistoryID uint, now time.Time) error {
 	// Close labels
 	_, err := tx.BronzeHistoryGCPComputeImageLabel.Update().
 		Where(
@@ -275,7 +275,7 @@ func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, i
 }
 
 // updateChildrenHistory updates children history based on diff (granular tracking).
-func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, imageHistoryID uint, old *ent.BronzeGCPComputeImage, new *ImageData, diff *ImageDiff, now time.Time) error {
+func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *entcompute.Tx, imageHistoryID uint, old *entcompute.BronzeGCPComputeImage, new *ImageData, diff *ImageDiff, now time.Time) error {
 	if diff.LabelsDiff.Changed {
 		if err := h.updateLabelsHistory(ctx, tx, imageHistoryID, new.Labels, now); err != nil {
 			return err
@@ -291,7 +291,7 @@ func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, 
 	return nil
 }
 
-func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *ent.Tx, imageHistoryID uint, labels []ImageLabelData, now time.Time) error {
+func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *entcompute.Tx, imageHistoryID uint, labels []ImageLabelData, now time.Time) error {
 	// Close old labels
 	_, err := tx.BronzeHistoryGCPComputeImageLabel.Update().
 		Where(
@@ -319,7 +319,7 @@ func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *ent.Tx, im
 	return nil
 }
 
-func (h *HistoryService) updateLicensesHistory(ctx context.Context, tx *ent.Tx, imageHistoryID uint, licenses []ImageLicenseData, now time.Time) error {
+func (h *HistoryService) updateLicensesHistory(ctx context.Context, tx *entcompute.Tx, imageHistoryID uint, licenses []ImageLicenseData, now time.Time) error {
 	// Close old licenses
 	_, err := tx.BronzeHistoryGCPComputeImageLicense.Update().
 		Where(

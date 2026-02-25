@@ -3,7 +3,7 @@ package connector
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entvpcaccess "github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpcaccess"
 )
 
 // ConnectorDiff represents changes between old and new connector states.
@@ -13,7 +13,7 @@ type ConnectorDiff struct {
 }
 
 // DiffConnectorData compares existing Ent entity with new ConnectorData and returns differences.
-func DiffConnectorData(old *ent.BronzeGCPVPCAccessConnector, new *ConnectorData) *ConnectorDiff {
+func DiffConnectorData(old *entvpcaccess.BronzeGCPVPCAccessConnector, new *ConnectorData) *ConnectorDiff {
 	diff := &ConnectorDiff{}
 
 	// New connector

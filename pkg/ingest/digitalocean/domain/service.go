@@ -5,21 +5,21 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodomain"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodomainrecord"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedodomain"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedodomainrecord"
 )
 
 // Service handles DigitalOcean Domain ingestion.
 type Service struct {
 	client        *Client
-	entClient     *ent.Client
+	entClient     *entdo.Client
 	domainHistory *DomainHistoryService
 	recordHistory *RecordHistoryService
 }
 
 // NewService creates a new Domain ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entdo.Client) *Service {
 	return &Service{
 		client:        client,
 		entClient:     entClient,
@@ -92,7 +92,7 @@ func (s *Service) saveDomains(ctx context.Context, domains []*DomainData) error 
 		existing, err := tx.BronzeDODomain.Query().
 			Where(bronzedodomain.ID(data.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entdo.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing Domain %s: %w", data.ResourceID, err)
 		}
@@ -254,7 +254,7 @@ func (s *Service) saveRecords(ctx context.Context, records []*DomainRecordData) 
 		existing, err := tx.BronzeDODomainRecord.Query().
 			Where(bronzedodomainrecord.ID(data.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entdo.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing DomainRecord %s: %w", data.ResourceID, err)
 		}

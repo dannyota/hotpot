@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbglobalregion"
+	entglb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbglobalregion"
 )
 
 // Service handles GreenNode global region ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entglb.Client
 	history   *HistoryService
 }
 
 // NewService creates a new global region ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entglb.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -80,7 +80,7 @@ func (s *Service) saveRegions(ctx context.Context, regions []*GLBRegionData) err
 		existing, err := tx.BronzeGreenNodeGLBGlobalRegion.Query().
 			Where(bronzegreennodeglbglobalregion.ID(data.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entglb.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing region %s: %w", data.Name, err)
 		}

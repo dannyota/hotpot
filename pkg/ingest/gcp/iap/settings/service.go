@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpiapsettings"
+	entiap "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap/bronzegcpiapsettings"
 )
 
 // Service handles IAP settings ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entiap.Client
 	history   *HistoryService
 }
 
 // NewService creates a new IAP settings ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entiap.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -94,7 +94,7 @@ func (s *Service) saveSettings(ctx context.Context, settingsList []*SettingsData
 		existing, err := tx.BronzeGCPIAPSettings.Query().
 			Where(bronzegcpiapsettings.ID(data.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entiap.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing IAP settings %s: %w", data.ID, err)
 		}

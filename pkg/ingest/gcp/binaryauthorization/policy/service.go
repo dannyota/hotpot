@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpbinaryauthorizationpolicy"
+	entbinaryauthorization "github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization/bronzegcpbinaryauthorizationpolicy"
 )
 
 // Service handles Binary Authorization policy ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entbinaryauthorization.Client
 	history   *HistoryService
 }
 
 // NewService creates a new Binary Authorization policy ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entbinaryauthorization.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -82,7 +82,7 @@ func (s *Service) savePolicy(ctx context.Context, policyData *PolicyData) error 
 	existing, err := tx.BronzeGCPBinaryAuthorizationPolicy.Query().
 		Where(bronzegcpbinaryauthorizationpolicy.ID(policyData.ID)).
 		First(ctx)
-	if err != nil && !ent.IsNotFound(err) {
+	if err != nil && !entbinaryauthorization.IsNotFound(err) {
 		tx.Rollback()
 		return fmt.Errorf("failed to load existing policy %s: %w", policyData.ID, err)
 	}

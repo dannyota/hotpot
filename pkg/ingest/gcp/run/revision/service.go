@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcprunrevision"
+	entrun "github.com/dannyota/hotpot/pkg/storage/ent/gcp/run"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/run/bronzegcprunrevision"
 )
 
 // Service handles Cloud Run revision ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entrun.Client
 	history   *HistoryService
 }
 
 // NewService creates a new Cloud Run revision ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entrun.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -97,7 +97,7 @@ func (s *Service) saveRevisions(ctx context.Context, revisions []*RevisionData) 
 		existing, err := tx.BronzeGCPRunRevision.Query().
 			Where(bronzegcprunrevision.ID(revisionData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entrun.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing Cloud Run revision %s: %w", revisionData.ID, err)
 		}

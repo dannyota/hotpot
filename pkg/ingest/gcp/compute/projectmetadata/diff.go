@@ -3,7 +3,7 @@ package projectmetadata
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // ProjectMetadataDiff represents changes between old and new project metadata states.
@@ -21,7 +21,7 @@ type ChildDiff struct {
 }
 
 // DiffProjectMetadataData compares old Ent entity and new data.
-func DiffProjectMetadataData(old *ent.BronzeGCPComputeProjectMetadata, new *ProjectMetadataData) *ProjectMetadataDiff {
+func DiffProjectMetadataData(old *entcompute.BronzeGCPComputeProjectMetadata, new *ProjectMetadataData) *ProjectMetadataDiff {
 	if old == nil {
 		return &ProjectMetadataDiff{
 			IsNew:     true,
@@ -35,7 +35,7 @@ func DiffProjectMetadataData(old *ent.BronzeGCPComputeProjectMetadata, new *Proj
 	diff.IsChanged = hasMetadataFieldsChanged(old, new)
 
 	// Compare items children
-	var oldItems []*ent.BronzeGCPComputeProjectMetadataItem
+	var oldItems []*entcompute.BronzeGCPComputeProjectMetadataItem
 	if old.Edges.Items != nil {
 		oldItems = old.Edges.Items
 	}
@@ -53,7 +53,7 @@ func (d *ProjectMetadataDiff) HasAnyChange() bool {
 }
 
 // hasMetadataFieldsChanged compares metadata-level fields (excluding children).
-func hasMetadataFieldsChanged(old *ent.BronzeGCPComputeProjectMetadata, new *ProjectMetadataData) bool {
+func hasMetadataFieldsChanged(old *entcompute.BronzeGCPComputeProjectMetadata, new *ProjectMetadataData) bool {
 	return old.Name != new.Name ||
 		old.DefaultServiceAccount != new.DefaultServiceAccount ||
 		old.DefaultNetworkTier != new.DefaultNetworkTier ||
@@ -62,7 +62,7 @@ func hasMetadataFieldsChanged(old *ent.BronzeGCPComputeProjectMetadata, new *Pro
 		!bytes.Equal(old.UsageExportLocationJSON, new.UsageExportLocationJSON)
 }
 
-func diffItems(old []*ent.BronzeGCPComputeProjectMetadataItem, new []ItemData) ChildDiff {
+func diffItems(old []*entcompute.BronzeGCPComputeProjectMetadataItem, new []ItemData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

@@ -5,11 +5,11 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
 )
 
 // Register registers Volume activities and workflows with the Temporal worker.
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
+func Register(w worker.Worker, configService *config.Service, entClient *entdo.Client, limiter ratelimit.Limiter) {
 	activities := NewActivities(configService, entClient, limiter)
 
 	w.RegisterActivity(activities.IngestDOVolumes)

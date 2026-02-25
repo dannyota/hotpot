@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpiapiampolicy"
+	entiap "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap/bronzehistorygcpiapiampolicy"
 )
 
 // HistoryService manages IAP IAM policy history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entiap.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entiap.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new IAP IAM policy.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *IAMPolicyData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entiap.Tx, data *IAMPolicyData, now time.Time) error {
 	create := tx.BronzeHistoryGCPIAPIAMPolicy.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -51,7 +51,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *IA
 }
 
 // UpdateHistory updates history records for a changed IAP IAM policy.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPIAPIAMPolicy, new *IAMPolicyData, diff *IAMPolicyDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entiap.Tx, old *entiap.BronzeGCPIAPIAMPolicy, new *IAMPolicyData, diff *IAMPolicyDiff, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPIAPIAMPolicy.Query().
 		Where(
 			bronzehistorygcpiapiampolicy.ResourceID(old.ID),
@@ -103,7 +103,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted IAP IAM policy.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entiap.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPIAPIAMPolicy.Query().
 		Where(
 			bronzehistorygcpiapiampolicy.ResourceID(resourceID),
@@ -111,7 +111,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entiap.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current IAP IAM policy history: %w", err)

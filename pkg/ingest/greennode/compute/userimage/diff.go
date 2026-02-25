@@ -1,7 +1,7 @@
 package userimage
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
 )
 
 // UserImageDiff represents changes between old and new user image states.
@@ -11,7 +11,7 @@ type UserImageDiff struct {
 }
 
 // DiffUserImageData compares old Ent entity and new UserImageData.
-func DiffUserImageData(old *ent.BronzeGreenNodeComputeUserImage, new *UserImageData) *UserImageDiff {
+func DiffUserImageData(old *entcompute.BronzeGreenNodeComputeUserImage, new *UserImageData) *UserImageDiff {
 	if old == nil {
 		return &UserImageDiff{IsNew: true}
 	}

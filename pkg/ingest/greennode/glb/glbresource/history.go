@@ -5,24 +5,24 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeglbgloballistener"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeglbgloballoadbalancer"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeglbglobalpool"
+	entglb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbgloballistener"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbgloballoadbalancer"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbglobalpool"
 )
 
 // HistoryService handles history tracking for GLBs.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entglb.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entglb.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new GLB and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *GLBData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entglb.Tx, data *GLBData, now time.Time) error {
 	glbHist, err := h.createGLBHistory(ctx, tx, data, now, data.CollectedAt)
 	if err != nil {
 		return err
@@ -34,7 +34,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *GL
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGreenNodeGLBGlobalLoadBalancer, new *GLBData, diff *GLBDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entglb.Tx, old *entglb.BronzeGreenNodeGLBGlobalLoadBalancer, new *GLBData, diff *GLBDiff, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeGLBGlobalLoadBalancer.Query().
 		Where(
 			bronzehistorygreennodeglbgloballoadbalancer.ResourceID(old.ID),
@@ -95,7 +95,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted GLB.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entglb.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeGLBGlobalLoadBalancer.Query().
 		Where(
 			bronzehistorygreennodeglbgloballoadbalancer.ResourceID(resourceID),
@@ -103,7 +103,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entglb.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current GLB history: %w", err)
@@ -121,7 +121,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	return h.closePoolsHistory(ctx, tx, currentHist.ID, now)
 }
 
-func (h *HistoryService) createGLBHistory(ctx context.Context, tx *ent.Tx, data *GLBData, now time.Time, firstCollectedAt time.Time) (*ent.BronzeHistoryGreenNodeGLBGlobalLoadBalancer, error) {
+func (h *HistoryService) createGLBHistory(ctx context.Context, tx *entglb.Tx, data *GLBData, now time.Time, firstCollectedAt time.Time) (*entglb.BronzeHistoryGreenNodeGLBGlobalLoadBalancer, error) {
 	create := tx.BronzeHistoryGreenNodeGLBGlobalLoadBalancer.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -152,7 +152,7 @@ func (h *HistoryService) createGLBHistory(ctx context.Context, tx *ent.Tx, data 
 	return hist, nil
 }
 
-func (h *HistoryService) createListenersHistory(ctx context.Context, tx *ent.Tx, glbHistoryID uint, listeners []GLBListenerData, now time.Time) error {
+func (h *HistoryService) createListenersHistory(ctx context.Context, tx *entglb.Tx, glbHistoryID uint, listeners []GLBListenerData, now time.Time) error {
 	for _, l := range listeners {
 		create := tx.BronzeHistoryGreenNodeGLBGlobalListener.Create().
 			SetGlbHistoryID(glbHistoryID).
@@ -185,7 +185,7 @@ func (h *HistoryService) createListenersHistory(ctx context.Context, tx *ent.Tx,
 	return nil
 }
 
-func (h *HistoryService) createPoolsHistory(ctx context.Context, tx *ent.Tx, glbHistoryID uint, pools []GLBPoolData, now time.Time) error {
+func (h *HistoryService) createPoolsHistory(ctx context.Context, tx *entglb.Tx, glbHistoryID uint, pools []GLBPoolData, now time.Time) error {
 	for _, p := range pools {
 		create := tx.BronzeHistoryGreenNodeGLBGlobalPool.Create().
 			SetGlbHistoryID(glbHistoryID).
@@ -222,7 +222,7 @@ func (h *HistoryService) createPoolsHistory(ctx context.Context, tx *ent.Tx, glb
 	return nil
 }
 
-func (h *HistoryService) closeListenersHistory(ctx context.Context, tx *ent.Tx, glbHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeListenersHistory(ctx context.Context, tx *entglb.Tx, glbHistoryID uint, now time.Time) error {
 	_, err := tx.BronzeHistoryGreenNodeGLBGlobalListener.Update().
 		Where(
 			bronzehistorygreennodeglbgloballistener.GlbHistoryID(glbHistoryID),
@@ -236,7 +236,7 @@ func (h *HistoryService) closeListenersHistory(ctx context.Context, tx *ent.Tx, 
 	return nil
 }
 
-func (h *HistoryService) closePoolsHistory(ctx context.Context, tx *ent.Tx, glbHistoryID uint, now time.Time) error {
+func (h *HistoryService) closePoolsHistory(ctx context.Context, tx *entglb.Tx, glbHistoryID uint, now time.Time) error {
 	_, err := tx.BronzeHistoryGreenNodeGLBGlobalPool.Update().
 		Where(
 			bronzehistorygreennodeglbglobalpool.GlbHistoryID(glbHistoryID),

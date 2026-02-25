@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodenetworkvpc"
+	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworkvpc"
 )
 
 // Service handles GreenNode VPC ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entnet.Client
 	history   *HistoryService
 }
 
 // NewService creates a new VPC ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entnet.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -80,7 +80,7 @@ func (s *Service) saveVPCs(ctx context.Context, vpcs []*VPCData) error {
 		existing, err := tx.BronzeGreenNodeNetworkVpc.Query().
 			Where(bronzegreennodenetworkvpc.ID(data.UUID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entnet.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing vpc %s: %w", data.Name, err)
 		}

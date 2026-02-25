@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpdnsmanagedzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpdnsmanagedzonelabel"
+	entdns "github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnsmanagedzone"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnsmanagedzonelabel"
 )
 
 // Service handles GCP DNS managed zone ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entdns.Client
 	history   *HistoryService
 }
 
 // NewService creates a new managed zone ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entdns.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -99,7 +99,7 @@ func (s *Service) saveManagedZones(ctx context.Context, zones []*ManagedZoneData
 			Where(bronzegcpdnsmanagedzone.ID(zoneData.ID)).
 			WithLabels().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entdns.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing managed zone %s: %w", zoneData.Name, err)
 		}
@@ -128,7 +128,7 @@ func (s *Service) saveManagedZones(ctx context.Context, zones []*ManagedZoneData
 		}
 
 		// Create or update managed zone
-		var savedZone *ent.BronzeGCPDNSManagedZone
+		var savedZone *entdns.BronzeGCPDNSManagedZone
 		if existing == nil {
 			// Create new managed zone
 			create := tx.BronzeGCPDNSManagedZone.Create().
@@ -241,7 +241,7 @@ func (s *Service) saveManagedZones(ctx context.Context, zones []*ManagedZoneData
 }
 
 // deleteManagedZoneChildren deletes labels for a managed zone.
-func deleteManagedZoneChildren(ctx context.Context, tx *ent.Tx, managedZoneID string) error {
+func deleteManagedZoneChildren(ctx context.Context, tx *entdns.Tx, managedZoneID string) error {
 	_, err := tx.BronzeGCPDNSManagedZoneLabel.Delete().
 		Where(bronzegcpdnsmanagedzonelabel.HasManagedZoneWith(bronzegcpdnsmanagedzone.ID(managedZoneID))).
 		Exec(ctx)
@@ -253,7 +253,7 @@ func deleteManagedZoneChildren(ctx context.Context, tx *ent.Tx, managedZoneID st
 }
 
 // createManagedZoneChildren creates labels for a managed zone.
-func createManagedZoneChildren(ctx context.Context, tx *ent.Tx, savedZone *ent.BronzeGCPDNSManagedZone, zoneData *ManagedZoneData) error {
+func createManagedZoneChildren(ctx context.Context, tx *entdns.Tx, savedZone *entdns.BronzeGCPDNSManagedZone, zoneData *ManagedZoneData) error {
 	for _, label := range zoneData.Labels {
 		_, err := tx.BronzeGCPDNSManagedZoneLabel.Create().
 			SetKey(label.Key).

@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpaccesscontextmanageraccesslevel"
+	entaccesscontextmanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager/bronzegcpaccesscontextmanageraccesslevel"
 )
 
 // Service handles access level ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entaccesscontextmanager.Client
 	history   *HistoryService
 }
 
 // NewService creates a new access level ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entaccesscontextmanager.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -87,7 +87,7 @@ func (s *Service) saveLevels(ctx context.Context, levels []*AccessLevelData) err
 		existing, err := tx.BronzeGCPAccessContextManagerAccessLevel.Query().
 			Where(bronzegcpaccesscontextmanageraccesslevel.ID(levelData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entaccesscontextmanager.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing access level %s: %w", levelData.ID, err)
 		}

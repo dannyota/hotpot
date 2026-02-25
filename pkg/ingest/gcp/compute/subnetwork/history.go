@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesubnetwork"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesubnetworksecondaryrange"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputesubnetwork"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputesubnetworksecondaryrange"
 )
 
 // HistoryService handles history tracking for subnetworks.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new subnetwork and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, subnetData *SubnetworkData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, subnetData *SubnetworkData, now time.Time) error {
 	// Create subnetwork history
 	subnetHist, err := tx.BronzeHistoryGCPComputeSubnetwork.Create().
 		SetResourceID(subnetData.ID).
@@ -57,7 +57,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, subnetDa
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeSubnetwork, new *SubnetworkData, diff *SubnetworkDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGCPComputeSubnetwork, new *SubnetworkData, diff *SubnetworkDiff, now time.Time) error {
 	// Get current subnetwork history
 	currentHist, err := tx.BronzeHistoryGCPComputeSubnetwork.Query().
 		Where(
@@ -121,7 +121,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted subnetwork.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	// Get current subnetwork history
 	currentHist, err := tx.BronzeHistoryGCPComputeSubnetwork.Query().
 		Where(
@@ -130,7 +130,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcompute.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current subnetwork history: %w", err)
@@ -149,7 +149,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 }
 
 // createChildrenHistory creates history records for all children.
-func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, subnetHistoryID uint, subnet *SubnetworkData, now time.Time) error {
+func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *entcompute.Tx, subnetHistoryID uint, subnet *SubnetworkData, now time.Time) error {
 	// Secondary ranges
 	for _, rangeData := range subnet.SecondaryIpRanges {
 		_, err := tx.BronzeHistoryGCPComputeSubnetworkSecondaryRange.Create().
@@ -167,7 +167,7 @@ func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, 
 }
 
 // closeChildrenHistory closes all children history records.
-func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, subnetHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *entcompute.Tx, subnetHistoryID uint, now time.Time) error {
 	// Close secondary ranges
 	_, err := tx.BronzeHistoryGCPComputeSubnetworkSecondaryRange.Update().
 		Where(
@@ -184,7 +184,7 @@ func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, s
 }
 
 // updateChildrenHistory updates children history based on diff (granular tracking).
-func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, subnetHistoryID uint, new *SubnetworkData, diff *SubnetworkDiff, now time.Time) error {
+func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *entcompute.Tx, subnetHistoryID uint, new *SubnetworkData, diff *SubnetworkDiff, now time.Time) error {
 	if diff.SecondaryRangesDiff.Changed {
 		if err := h.updateSecondaryRangesHistory(ctx, tx, subnetHistoryID, new.SecondaryIpRanges, now); err != nil {
 			return fmt.Errorf("failed to update secondary ranges history: %w", err)
@@ -194,7 +194,7 @@ func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, 
 	return nil
 }
 
-func (h *HistoryService) updateSecondaryRangesHistory(ctx context.Context, tx *ent.Tx, subnetHistoryID uint, ranges []SecondaryRangeData, now time.Time) error {
+func (h *HistoryService) updateSecondaryRangesHistory(ctx context.Context, tx *entcompute.Tx, subnetHistoryID uint, ranges []SecondaryRangeData, now time.Time) error {
 	// Close old secondary range history
 	_, err := tx.BronzeHistoryGCPComputeSubnetworkSecondaryRange.Update().
 		Where(

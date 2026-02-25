@@ -6,20 +6,20 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1agent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1agentnic"
+	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1agent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1agentnic"
 )
 
 // Service handles SentinelOne agent ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *ents1.Client
 	history   *HistoryService
 }
 
 // NewService creates a new agent ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *ents1.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -106,7 +106,7 @@ func (s *Service) saveAgents(ctx context.Context, agents []*AgentData) error {
 			Where(bronzes1agent.ID(data.ResourceID)).
 			WithNics().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !ents1.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing agent %s: %w", data.ResourceID, err)
 		}
@@ -131,7 +131,7 @@ func (s *Service) saveAgents(ctx context.Context, agents []*AgentData) error {
 			}
 		}
 
-		var savedAgent *ent.BronzeS1Agent
+		var savedAgent *ents1.BronzeS1Agent
 		if existing == nil {
 			create := tx.BronzeS1Agent.Create().
 				SetID(data.ResourceID).
@@ -345,7 +345,7 @@ func (s *Service) saveAgents(ctx context.Context, agents []*AgentData) error {
 	return nil
 }
 
-func (s *Service) deleteAgentChildren(ctx context.Context, tx *ent.Tx, agentID string) error {
+func (s *Service) deleteAgentChildren(ctx context.Context, tx *ents1.Tx, agentID string) error {
 	_, err := tx.BronzeS1AgentNIC.Delete().
 		Where(bronzes1agentnic.HasAgentWith(bronzes1agent.ID(agentID))).
 		Exec(ctx)
@@ -355,7 +355,7 @@ func (s *Service) deleteAgentChildren(ctx context.Context, tx *ent.Tx, agentID s
 	return nil
 }
 
-func (s *Service) createAgentChildren(ctx context.Context, tx *ent.Tx, agent *ent.BronzeS1Agent, data *AgentData) error {
+func (s *Service) createAgentChildren(ctx context.Context, tx *ents1.Tx, agent *ents1.BronzeS1Agent, data *AgentData) error {
 	for _, nic := range data.NICs {
 		nicCreate := tx.BronzeS1AgentNIC.Create().
 			SetAgent(agent).

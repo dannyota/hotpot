@@ -5,26 +5,26 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabase"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabasebackup"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabaseconfig"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabasefirewallrule"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabasepool"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabasereplica"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodatabaseuser"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodatabase"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodatabasebackup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodatabaseconfig"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodatabasefirewallrule"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodatabasepool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodatabasereplica"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodatabaseuser"
 )
 
 // DatabaseHistoryService handles history tracking for Database clusters.
 type DatabaseHistoryService struct {
-	entClient *ent.Client
+	entClient *entdo.Client
 }
 
-func NewDatabaseHistoryService(entClient *ent.Client) *DatabaseHistoryService {
+func NewDatabaseHistoryService(entClient *entdo.Client) *DatabaseHistoryService {
 	return &DatabaseHistoryService{entClient: entClient}
 }
 
-func (h *DatabaseHistoryService) buildCreate(tx *ent.Tx, data *DatabaseData) *ent.BronzeHistoryDODatabaseCreate {
+func (h *DatabaseHistoryService) buildCreate(tx *entdo.Tx, data *DatabaseData) *entdo.BronzeHistoryDODatabaseCreate {
 	return tx.BronzeHistoryDODatabase.Create().
 		SetResourceID(data.ResourceID).
 		SetName(data.Name).
@@ -42,7 +42,7 @@ func (h *DatabaseHistoryService) buildCreate(tx *ent.Tx, data *DatabaseData) *en
 		SetNillableAPICreatedAt(data.APICreatedAt)
 }
 
-func (h *DatabaseHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *DatabaseData, now time.Time) error {
+func (h *DatabaseHistoryService) CreateHistory(ctx context.Context, tx *entdo.Tx, data *DatabaseData, now time.Time) error {
 	_, err := h.buildCreate(tx, data).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
@@ -54,7 +54,7 @@ func (h *DatabaseHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, 
 	return nil
 }
 
-func (h *DatabaseHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeDODatabase, new *DatabaseData, now time.Time) error {
+func (h *DatabaseHistoryService) UpdateHistory(ctx context.Context, tx *entdo.Tx, old *entdo.BronzeDODatabase, new *DatabaseData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDODatabase.Query().
 		Where(
 			bronzehistorydodatabase.ResourceID(old.ID),
@@ -83,7 +83,7 @@ func (h *DatabaseHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, 
 	return nil
 }
 
-func (h *DatabaseHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *DatabaseHistoryService) CloseHistory(ctx context.Context, tx *entdo.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDODatabase.Query().
 		Where(
 			bronzehistorydodatabase.ResourceID(resourceID),
@@ -91,7 +91,7 @@ func (h *DatabaseHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, r
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entdo.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current Database history: %w", err)
@@ -108,14 +108,14 @@ func (h *DatabaseHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, r
 
 // FirewallRuleHistoryService handles history tracking for Database Firewall Rules.
 type FirewallRuleHistoryService struct {
-	entClient *ent.Client
+	entClient *entdo.Client
 }
 
-func NewFirewallRuleHistoryService(entClient *ent.Client) *FirewallRuleHistoryService {
+func NewFirewallRuleHistoryService(entClient *entdo.Client) *FirewallRuleHistoryService {
 	return &FirewallRuleHistoryService{entClient: entClient}
 }
 
-func (h *FirewallRuleHistoryService) buildCreate(tx *ent.Tx, data *FirewallRuleData) *ent.BronzeHistoryDODatabaseFirewallRuleCreate {
+func (h *FirewallRuleHistoryService) buildCreate(tx *entdo.Tx, data *FirewallRuleData) *entdo.BronzeHistoryDODatabaseFirewallRuleCreate {
 	return tx.BronzeHistoryDODatabaseFirewallRule.Create().
 		SetResourceID(data.ResourceID).
 		SetClusterID(data.ClusterID).
@@ -125,7 +125,7 @@ func (h *FirewallRuleHistoryService) buildCreate(tx *ent.Tx, data *FirewallRuleD
 		SetNillableAPICreatedAt(data.APICreatedAt)
 }
 
-func (h *FirewallRuleHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *FirewallRuleData, now time.Time) error {
+func (h *FirewallRuleHistoryService) CreateHistory(ctx context.Context, tx *entdo.Tx, data *FirewallRuleData, now time.Time) error {
 	_, err := h.buildCreate(tx, data).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
@@ -137,7 +137,7 @@ func (h *FirewallRuleHistoryService) CreateHistory(ctx context.Context, tx *ent.
 	return nil
 }
 
-func (h *FirewallRuleHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeDODatabaseFirewallRule, new *FirewallRuleData, now time.Time) error {
+func (h *FirewallRuleHistoryService) UpdateHistory(ctx context.Context, tx *entdo.Tx, old *entdo.BronzeDODatabaseFirewallRule, new *FirewallRuleData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDODatabaseFirewallRule.Query().
 		Where(
 			bronzehistorydodatabasefirewallrule.ResourceID(old.ID),
@@ -166,7 +166,7 @@ func (h *FirewallRuleHistoryService) UpdateHistory(ctx context.Context, tx *ent.
 	return nil
 }
 
-func (h *FirewallRuleHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *FirewallRuleHistoryService) CloseHistory(ctx context.Context, tx *entdo.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDODatabaseFirewallRule.Query().
 		Where(
 			bronzehistorydodatabasefirewallrule.ResourceID(resourceID),
@@ -174,7 +174,7 @@ func (h *FirewallRuleHistoryService) CloseHistory(ctx context.Context, tx *ent.T
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entdo.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current FirewallRule history: %w", err)
@@ -191,14 +191,14 @@ func (h *FirewallRuleHistoryService) CloseHistory(ctx context.Context, tx *ent.T
 
 // UserHistoryService handles history tracking for Database Users.
 type UserHistoryService struct {
-	entClient *ent.Client
+	entClient *entdo.Client
 }
 
-func NewUserHistoryService(entClient *ent.Client) *UserHistoryService {
+func NewUserHistoryService(entClient *entdo.Client) *UserHistoryService {
 	return &UserHistoryService{entClient: entClient}
 }
 
-func (h *UserHistoryService) buildCreate(tx *ent.Tx, data *UserData) *ent.BronzeHistoryDODatabaseUserCreate {
+func (h *UserHistoryService) buildCreate(tx *entdo.Tx, data *UserData) *entdo.BronzeHistoryDODatabaseUserCreate {
 	return tx.BronzeHistoryDODatabaseUser.Create().
 		SetResourceID(data.ResourceID).
 		SetClusterID(data.ClusterID).
@@ -208,7 +208,7 @@ func (h *UserHistoryService) buildCreate(tx *ent.Tx, data *UserData) *ent.Bronze
 		SetSettingsJSON(data.SettingsJSON)
 }
 
-func (h *UserHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *UserData, now time.Time) error {
+func (h *UserHistoryService) CreateHistory(ctx context.Context, tx *entdo.Tx, data *UserData, now time.Time) error {
 	_, err := h.buildCreate(tx, data).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
@@ -220,7 +220,7 @@ func (h *UserHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data
 	return nil
 }
 
-func (h *UserHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeDODatabaseUser, new *UserData, now time.Time) error {
+func (h *UserHistoryService) UpdateHistory(ctx context.Context, tx *entdo.Tx, old *entdo.BronzeDODatabaseUser, new *UserData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDODatabaseUser.Query().
 		Where(
 			bronzehistorydodatabaseuser.ResourceID(old.ID),
@@ -249,7 +249,7 @@ func (h *UserHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old 
 	return nil
 }
 
-func (h *UserHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *UserHistoryService) CloseHistory(ctx context.Context, tx *entdo.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDODatabaseUser.Query().
 		Where(
 			bronzehistorydodatabaseuser.ResourceID(resourceID),
@@ -257,7 +257,7 @@ func (h *UserHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resou
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entdo.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current User history: %w", err)
@@ -274,14 +274,14 @@ func (h *UserHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resou
 
 // ReplicaHistoryService handles history tracking for Database Replicas.
 type ReplicaHistoryService struct {
-	entClient *ent.Client
+	entClient *entdo.Client
 }
 
-func NewReplicaHistoryService(entClient *ent.Client) *ReplicaHistoryService {
+func NewReplicaHistoryService(entClient *entdo.Client) *ReplicaHistoryService {
 	return &ReplicaHistoryService{entClient: entClient}
 }
 
-func (h *ReplicaHistoryService) buildCreate(tx *ent.Tx, data *ReplicaData) *ent.BronzeHistoryDODatabaseReplicaCreate {
+func (h *ReplicaHistoryService) buildCreate(tx *entdo.Tx, data *ReplicaData) *entdo.BronzeHistoryDODatabaseReplicaCreate {
 	return tx.BronzeHistoryDODatabaseReplica.Create().
 		SetResourceID(data.ResourceID).
 		SetClusterID(data.ClusterID).
@@ -295,7 +295,7 @@ func (h *ReplicaHistoryService) buildCreate(tx *ent.Tx, data *ReplicaData) *ent.
 		SetNillableAPICreatedAt(data.APICreatedAt)
 }
 
-func (h *ReplicaHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *ReplicaData, now time.Time) error {
+func (h *ReplicaHistoryService) CreateHistory(ctx context.Context, tx *entdo.Tx, data *ReplicaData, now time.Time) error {
 	_, err := h.buildCreate(tx, data).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
@@ -307,7 +307,7 @@ func (h *ReplicaHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, d
 	return nil
 }
 
-func (h *ReplicaHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeDODatabaseReplica, new *ReplicaData, now time.Time) error {
+func (h *ReplicaHistoryService) UpdateHistory(ctx context.Context, tx *entdo.Tx, old *entdo.BronzeDODatabaseReplica, new *ReplicaData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDODatabaseReplica.Query().
 		Where(
 			bronzehistorydodatabasereplica.ResourceID(old.ID),
@@ -336,7 +336,7 @@ func (h *ReplicaHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, o
 	return nil
 }
 
-func (h *ReplicaHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *ReplicaHistoryService) CloseHistory(ctx context.Context, tx *entdo.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDODatabaseReplica.Query().
 		Where(
 			bronzehistorydodatabasereplica.ResourceID(resourceID),
@@ -344,7 +344,7 @@ func (h *ReplicaHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, re
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entdo.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current Replica history: %w", err)
@@ -361,14 +361,14 @@ func (h *ReplicaHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, re
 
 // BackupHistoryService handles history tracking for Database Backups.
 type BackupHistoryService struct {
-	entClient *ent.Client
+	entClient *entdo.Client
 }
 
-func NewBackupHistoryService(entClient *ent.Client) *BackupHistoryService {
+func NewBackupHistoryService(entClient *entdo.Client) *BackupHistoryService {
 	return &BackupHistoryService{entClient: entClient}
 }
 
-func (h *BackupHistoryService) buildCreate(tx *ent.Tx, data *BackupData) *ent.BronzeHistoryDODatabaseBackupCreate {
+func (h *BackupHistoryService) buildCreate(tx *entdo.Tx, data *BackupData) *entdo.BronzeHistoryDODatabaseBackupCreate {
 	return tx.BronzeHistoryDODatabaseBackup.Create().
 		SetResourceID(data.ResourceID).
 		SetClusterID(data.ClusterID).
@@ -376,7 +376,7 @@ func (h *BackupHistoryService) buildCreate(tx *ent.Tx, data *BackupData) *ent.Br
 		SetNillableAPICreatedAt(data.APICreatedAt)
 }
 
-func (h *BackupHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *BackupData, now time.Time) error {
+func (h *BackupHistoryService) CreateHistory(ctx context.Context, tx *entdo.Tx, data *BackupData, now time.Time) error {
 	_, err := h.buildCreate(tx, data).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
@@ -388,7 +388,7 @@ func (h *BackupHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, da
 	return nil
 }
 
-func (h *BackupHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeDODatabaseBackup, new *BackupData, now time.Time) error {
+func (h *BackupHistoryService) UpdateHistory(ctx context.Context, tx *entdo.Tx, old *entdo.BronzeDODatabaseBackup, new *BackupData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDODatabaseBackup.Query().
 		Where(
 			bronzehistorydodatabasebackup.ResourceID(old.ID),
@@ -417,7 +417,7 @@ func (h *BackupHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, ol
 	return nil
 }
 
-func (h *BackupHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *BackupHistoryService) CloseHistory(ctx context.Context, tx *entdo.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDODatabaseBackup.Query().
 		Where(
 			bronzehistorydodatabasebackup.ResourceID(resourceID),
@@ -425,7 +425,7 @@ func (h *BackupHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, res
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entdo.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current Backup history: %w", err)
@@ -442,14 +442,14 @@ func (h *BackupHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, res
 
 // ConfigHistoryService handles history tracking for Database Configs.
 type ConfigHistoryService struct {
-	entClient *ent.Client
+	entClient *entdo.Client
 }
 
-func NewConfigHistoryService(entClient *ent.Client) *ConfigHistoryService {
+func NewConfigHistoryService(entClient *entdo.Client) *ConfigHistoryService {
 	return &ConfigHistoryService{entClient: entClient}
 }
 
-func (h *ConfigHistoryService) buildCreate(tx *ent.Tx, data *ConfigData) *ent.BronzeHistoryDODatabaseConfigCreate {
+func (h *ConfigHistoryService) buildCreate(tx *entdo.Tx, data *ConfigData) *entdo.BronzeHistoryDODatabaseConfigCreate {
 	return tx.BronzeHistoryDODatabaseConfig.Create().
 		SetResourceID(data.ResourceID).
 		SetClusterID(data.ClusterID).
@@ -457,7 +457,7 @@ func (h *ConfigHistoryService) buildCreate(tx *ent.Tx, data *ConfigData) *ent.Br
 		SetConfigJSON(data.ConfigJSON)
 }
 
-func (h *ConfigHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *ConfigData, now time.Time) error {
+func (h *ConfigHistoryService) CreateHistory(ctx context.Context, tx *entdo.Tx, data *ConfigData, now time.Time) error {
 	_, err := h.buildCreate(tx, data).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
@@ -469,7 +469,7 @@ func (h *ConfigHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, da
 	return nil
 }
 
-func (h *ConfigHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeDODatabaseConfig, new *ConfigData, now time.Time) error {
+func (h *ConfigHistoryService) UpdateHistory(ctx context.Context, tx *entdo.Tx, old *entdo.BronzeDODatabaseConfig, new *ConfigData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDODatabaseConfig.Query().
 		Where(
 			bronzehistorydodatabaseconfig.ResourceID(old.ID),
@@ -498,7 +498,7 @@ func (h *ConfigHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, ol
 	return nil
 }
 
-func (h *ConfigHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *ConfigHistoryService) CloseHistory(ctx context.Context, tx *entdo.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDODatabaseConfig.Query().
 		Where(
 			bronzehistorydodatabaseconfig.ResourceID(resourceID),
@@ -506,7 +506,7 @@ func (h *ConfigHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, res
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entdo.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current Config history: %w", err)
@@ -523,14 +523,14 @@ func (h *ConfigHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, res
 
 // PoolHistoryService handles history tracking for Database Connection Pools.
 type PoolHistoryService struct {
-	entClient *ent.Client
+	entClient *entdo.Client
 }
 
-func NewPoolHistoryService(entClient *ent.Client) *PoolHistoryService {
+func NewPoolHistoryService(entClient *entdo.Client) *PoolHistoryService {
 	return &PoolHistoryService{entClient: entClient}
 }
 
-func (h *PoolHistoryService) buildCreate(tx *ent.Tx, data *PoolData) *ent.BronzeHistoryDODatabasePoolCreate {
+func (h *PoolHistoryService) buildCreate(tx *entdo.Tx, data *PoolData) *entdo.BronzeHistoryDODatabasePoolCreate {
 	return tx.BronzeHistoryDODatabasePool.Create().
 		SetResourceID(data.ResourceID).
 		SetClusterID(data.ClusterID).
@@ -541,7 +541,7 @@ func (h *PoolHistoryService) buildCreate(tx *ent.Tx, data *PoolData) *ent.Bronze
 		SetMode(data.Mode)
 }
 
-func (h *PoolHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *PoolData, now time.Time) error {
+func (h *PoolHistoryService) CreateHistory(ctx context.Context, tx *entdo.Tx, data *PoolData, now time.Time) error {
 	_, err := h.buildCreate(tx, data).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
@@ -553,7 +553,7 @@ func (h *PoolHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data
 	return nil
 }
 
-func (h *PoolHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeDODatabasePool, new *PoolData, now time.Time) error {
+func (h *PoolHistoryService) UpdateHistory(ctx context.Context, tx *entdo.Tx, old *entdo.BronzeDODatabasePool, new *PoolData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDODatabasePool.Query().
 		Where(
 			bronzehistorydodatabasepool.ResourceID(old.ID),
@@ -582,7 +582,7 @@ func (h *PoolHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old 
 	return nil
 }
 
-func (h *PoolHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *PoolHistoryService) CloseHistory(ctx context.Context, tx *entdo.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDODatabasePool.Query().
 		Where(
 			bronzehistorydodatabasepool.ResourceID(resourceID),
@@ -590,7 +590,7 @@ func (h *PoolHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resou
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entdo.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current Pool history: %w", err)

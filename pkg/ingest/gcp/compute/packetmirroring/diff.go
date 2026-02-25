@@ -3,7 +3,7 @@ package packetmirroring
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // PacketMirroringDiff represents changes between old and new packet mirroring states.
@@ -13,7 +13,7 @@ type PacketMirroringDiff struct {
 }
 
 // DiffPacketMirroringData compares existing Ent entity with new PacketMirroringData and returns differences.
-func DiffPacketMirroringData(old *ent.BronzeGCPComputePacketMirroring, new *PacketMirroringData) *PacketMirroringDiff {
+func DiffPacketMirroringData(old *entcompute.BronzeGCPComputePacketMirroring, new *PacketMirroringData) *PacketMirroringDiff {
 	diff := &PacketMirroringDiff{}
 
 	// New packet mirroring

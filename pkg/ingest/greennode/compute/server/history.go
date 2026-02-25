@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputeserver"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputeserversecgroup"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputeserver"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputeserversecgroup"
 )
 
 // HistoryService handles history tracking for servers.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new server and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *ServerData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, data *ServerData, now time.Time) error {
 	serverHist, err := h.createServerHistory(ctx, tx, data, now, data.CollectedAt)
 	if err != nil {
 		return err
@@ -30,7 +30,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Se
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGreenNodeComputeServer, new *ServerData, diff *ServerDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGreenNodeComputeServer, new *ServerData, diff *ServerDiff, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeComputeServer.Query().
 		Where(
 			bronzehistorygreennodecomputeserver.ResourceID(old.ID),
@@ -74,7 +74,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted server.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeComputeServer.Query().
 		Where(
 			bronzehistorygreennodecomputeserver.ResourceID(resourceID),
@@ -82,7 +82,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcompute.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current server history: %w", err)
@@ -97,7 +97,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	return h.closeSecGroupsHistory(ctx, tx, currentHist.ID, now)
 }
 
-func (h *HistoryService) createServerHistory(ctx context.Context, tx *ent.Tx, data *ServerData, now time.Time, firstCollectedAt time.Time) (*ent.BronzeHistoryGreenNodeComputeServer, error) {
+func (h *HistoryService) createServerHistory(ctx context.Context, tx *entcompute.Tx, data *ServerData, now time.Time, firstCollectedAt time.Time) (*entcompute.BronzeHistoryGreenNodeComputeServer, error) {
 	create := tx.BronzeHistoryGreenNodeComputeServer.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -142,7 +142,7 @@ func (h *HistoryService) createServerHistory(ctx context.Context, tx *ent.Tx, da
 	return hist, nil
 }
 
-func (h *HistoryService) createSecGroupsHistory(ctx context.Context, tx *ent.Tx, serverHistoryID uint, secGroups []SecGroupData, now time.Time) error {
+func (h *HistoryService) createSecGroupsHistory(ctx context.Context, tx *entcompute.Tx, serverHistoryID uint, secGroups []SecGroupData, now time.Time) error {
 	for _, sg := range secGroups {
 		_, err := tx.BronzeHistoryGreenNodeComputeServerSecGroup.Create().
 			SetServerHistoryID(serverHistoryID).
@@ -157,7 +157,7 @@ func (h *HistoryService) createSecGroupsHistory(ctx context.Context, tx *ent.Tx,
 	return nil
 }
 
-func (h *HistoryService) closeSecGroupsHistory(ctx context.Context, tx *ent.Tx, serverHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeSecGroupsHistory(ctx context.Context, tx *entcompute.Tx, serverHistoryID uint, now time.Time) error {
 	_, err := tx.BronzeHistoryGreenNodeComputeServerSecGroup.Update().
 		Where(
 			bronzehistorygreennodecomputeserversecgroup.ServerHistoryID(serverHistoryID),

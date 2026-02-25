@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodenetworkinterconnect"
+	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworkinterconnect"
 )
 
 // Service handles GreenNode interconnect ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entnet.Client
 	history   *HistoryService
 }
 
 // NewService creates a new interconnect ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entnet.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -80,7 +80,7 @@ func (s *Service) saveInterconnects(ctx context.Context, interconnects []*Interc
 		existing, err := tx.BronzeGreenNodeNetworkInterconnect.Query().
 			Where(bronzegreennodenetworkinterconnect.ID(data.UUID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entnet.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing interconnect %s: %w", data.Name, err)
 		}

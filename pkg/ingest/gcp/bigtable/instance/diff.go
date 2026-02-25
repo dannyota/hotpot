@@ -3,7 +3,7 @@ package instance
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entbigtable "github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable"
 )
 
 // InstanceDiff represents changes between old and new Bigtable instance state.
@@ -18,7 +18,7 @@ func (d *InstanceDiff) HasAnyChange() bool {
 }
 
 // DiffInstanceData compares existing Ent entity with new InstanceData and returns differences.
-func DiffInstanceData(old *ent.BronzeGCPBigtableInstance, new *InstanceData) *InstanceDiff {
+func DiffInstanceData(old *entbigtable.BronzeGCPBigtableInstance, new *InstanceData) *InstanceDiff {
 	diff := &InstanceDiff{}
 
 	if old == nil {

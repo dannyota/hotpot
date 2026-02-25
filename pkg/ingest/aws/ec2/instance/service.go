@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzeawsec2instance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzeawsec2instancetag"
+	entec2 "github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2"
+	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instancetag"
 )
 
 // Service handles AWS EC2 instance ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entec2.Client
 	history   *HistoryService
 }
 
 // NewService creates a new instance ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entec2.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -102,7 +102,7 @@ func (s *Service) saveInstances(ctx context.Context, instances []*InstanceData) 
 			Where(bronzeawsec2instance.ID(instanceData.ResourceID)).
 			WithTags().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entec2.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing instance %s: %w", instanceData.ResourceID, err)
 		}
@@ -130,7 +130,7 @@ func (s *Service) saveInstances(ctx context.Context, instances []*InstanceData) 
 		}
 
 		// Create or update instance
-		var savedInstance *ent.BronzeAWSEC2Instance
+		var savedInstance *entec2.BronzeAWSEC2Instance
 		if existing == nil {
 			create := tx.BronzeAWSEC2Instance.Create().
 				SetID(instanceData.ResourceID).
@@ -220,7 +220,7 @@ func (s *Service) saveInstances(ctx context.Context, instances []*InstanceData) 
 	return nil
 }
 
-func (s *Service) deleteInstanceChildren(ctx context.Context, tx *ent.Tx, instanceID string) error {
+func (s *Service) deleteInstanceChildren(ctx context.Context, tx *entec2.Tx, instanceID string) error {
 	_, err := tx.BronzeAWSEC2InstanceTag.Delete().
 		Where(bronzeawsec2instancetag.HasInstanceWith(bronzeawsec2instance.ID(instanceID))).
 		Exec(ctx)
@@ -230,7 +230,7 @@ func (s *Service) deleteInstanceChildren(ctx context.Context, tx *ent.Tx, instan
 	return nil
 }
 
-func (s *Service) createInstanceChildren(ctx context.Context, tx *ent.Tx, instance *ent.BronzeAWSEC2Instance, data *InstanceData) error {
+func (s *Service) createInstanceChildren(ctx context.Context, tx *entec2.Tx, instance *entec2.BronzeAWSEC2Instance, data *InstanceData) error {
 	for _, tagData := range data.Tags {
 		_, err := tx.BronzeAWSEC2InstanceTag.Create().
 			SetInstance(instance).

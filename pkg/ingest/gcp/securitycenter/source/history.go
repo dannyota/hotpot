@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecuritycentersource"
+	entsecuritycenter "github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/bronzehistorygcpsecuritycentersource"
 )
 
 // HistoryService manages SCC source history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entsecuritycenter.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entsecuritycenter.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new SCC source.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *SourceData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entsecuritycenter.Tx, data *SourceData, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPSecurityCenterSource.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -39,7 +39,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *So
 }
 
 // UpdateHistory updates history records for a changed SCC source.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPSecurityCenterSource, new *SourceData, diff *SourceDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entsecuritycenter.Tx, old *entsecuritycenter.BronzeGCPSecurityCenterSource, new *SourceData, diff *SourceDiff, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPSecurityCenterSource.Query().
 		Where(
 			bronzehistorygcpsecuritycentersource.ResourceID(old.ID),
@@ -79,7 +79,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted SCC source.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entsecuritycenter.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPSecurityCenterSource.Query().
 		Where(
 			bronzehistorygcpsecuritycentersource.ResourceID(resourceID),
@@ -87,7 +87,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entsecuritycenter.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current SCC source history: %w", err)

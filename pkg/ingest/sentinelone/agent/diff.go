@@ -3,7 +3,7 @@ package agent
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
 )
 
 // AgentDiff represents changes between old and new agent states.
@@ -24,7 +24,7 @@ func (d *AgentDiff) HasAnyChange() bool {
 }
 
 // DiffAgentData compares old Ent entity and new data.
-func DiffAgentData(old *ent.BronzeS1Agent, new *AgentData) *AgentDiff {
+func DiffAgentData(old *ents1.BronzeS1Agent, new *AgentData) *AgentDiff {
 	if old == nil {
 		return &AgentDiff{
 			IsNew:    true,
@@ -40,7 +40,7 @@ func DiffAgentData(old *ent.BronzeS1Agent, new *AgentData) *AgentDiff {
 	return diff
 }
 
-func hasAgentFieldsChanged(old *ent.BronzeS1Agent, new *AgentData) bool {
+func hasAgentFieldsChanged(old *ents1.BronzeS1Agent, new *AgentData) bool {
 	return old.ComputerName != new.ComputerName ||
 		old.ExternalIP != new.ExternalIP ||
 		old.SiteName != new.SiteName ||
@@ -93,7 +93,7 @@ func hasAgentFieldsChanged(old *ent.BronzeS1Agent, new *AgentData) bool {
 		!bytes.Equal(old.MissingPermissionsJSON, new.MissingPermissionsJSON)
 }
 
-func diffNICsData(old []*ent.BronzeS1AgentNIC, new []NICData) ChildDiff {
+func diffNICsData(old []*ents1.BronzeS1AgentNIC, new []NICData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -105,7 +105,7 @@ func diffNICsData(old []*ent.BronzeS1AgentNIC, new []NICData) ChildDiff {
 	return ChildDiff{Changed: false}
 }
 
-func hasNICChangedData(old *ent.BronzeS1AgentNIC, new *NICData) bool {
+func hasNICChangedData(old *ents1.BronzeS1AgentNIC, new *NICData) bool {
 	return old.InterfaceID != new.InterfaceID ||
 		old.Name != new.Name ||
 		old.Description != new.Description ||

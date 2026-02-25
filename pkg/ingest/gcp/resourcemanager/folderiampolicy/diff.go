@@ -1,7 +1,7 @@
 package folderiampolicy
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // FolderIamPolicyDiff represents changes between old and new folder IAM policy state.
@@ -22,7 +22,7 @@ func (d *FolderIamPolicyDiff) HasAnyChange() bool {
 }
 
 // DiffFolderIamPolicyData compares existing Ent entity with new FolderIamPolicyData and returns differences.
-func DiffFolderIamPolicyData(old *ent.BronzeGCPFolderIamPolicy, new *FolderIamPolicyData) *FolderIamPolicyDiff {
+func DiffFolderIamPolicyData(old *entresourcemanager.BronzeGCPFolderIamPolicy, new *FolderIamPolicyData) *FolderIamPolicyDiff {
 	diff := &FolderIamPolicyDiff{}
 
 	// New policy
@@ -45,7 +45,7 @@ func DiffFolderIamPolicyData(old *ent.BronzeGCPFolderIamPolicy, new *FolderIamPo
 }
 
 // diffBindingsData compares Ent bindings with new binding data.
-func diffBindingsData(old []*ent.BronzeGCPFolderIamPolicyBinding, new []BindingData) ChildDiff {
+func diffBindingsData(old []*entresourcemanager.BronzeGCPFolderIamPolicyBinding, new []BindingData) ChildDiff {
 	diff := ChildDiff{}
 
 	if len(old) != len(new) {

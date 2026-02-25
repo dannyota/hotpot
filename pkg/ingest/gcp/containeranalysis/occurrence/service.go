@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontaineranalysisoccurrence"
+	entcontaineranalysis "github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzegcpcontaineranalysisoccurrence"
 )
 
 // Service handles Grafeas occurrence ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entcontaineranalysis.Client
 	history   *HistoryService
 }
 
 // NewService creates a new Grafeas occurrence ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entcontaineranalysis.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -86,7 +86,7 @@ func (s *Service) saveOccurrences(ctx context.Context, occurrences []*Occurrence
 		existing, err := tx.BronzeGCPContainerAnalysisOccurrence.Query().
 			Where(bronzegcpcontaineranalysisoccurrence.ID(occData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entcontaineranalysis.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing occurrence %s: %w", occData.ID, err)
 		}

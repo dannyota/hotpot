@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecuritycenternotificationconfig"
+	entsecuritycenter "github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/bronzegcpsecuritycenternotificationconfig"
 )
 
 // Service handles SCC notification config ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entsecuritycenter.Client
 	history   *HistoryService
 }
 
 // NewService creates a new SCC notification config ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entsecuritycenter.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -87,7 +87,7 @@ func (s *Service) saveNotificationConfigs(ctx context.Context, configs []*Notifi
 		existing, err := tx.BronzeGCPSecurityCenterNotificationConfig.Query().
 			Where(bronzegcpsecuritycenternotificationconfig.ID(configData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entsecuritycenter.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing notification config %s: %w", configData.ID, err)
 		}

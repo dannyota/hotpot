@@ -5,24 +5,24 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputefirewall"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputefirewallallowed"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputefirewalldenied"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputefirewall"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputefirewallallowed"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputefirewalldenied"
 )
 
 // HistoryService handles history tracking for firewalls.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new firewall and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, firewallData *FirewallData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, firewallData *FirewallData, now time.Time) error {
 	// Create firewall history
 	fwHist, err := tx.BronzeHistoryGCPComputeFirewall.Create().
 		SetResourceID(firewallData.ID).
@@ -55,7 +55,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, firewall
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeFirewall, new *FirewallData, diff *FirewallDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGCPComputeFirewall, new *FirewallData, diff *FirewallDiff, now time.Time) error {
 	// Get current firewall history
 	currentHist, err := tx.BronzeHistoryGCPComputeFirewall.Query().
 		Where(
@@ -116,7 +116,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted firewall.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	// Get current firewall history
 	currentHist, err := tx.BronzeHistoryGCPComputeFirewall.Query().
 		Where(
@@ -125,7 +125,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcompute.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current firewall history: %w", err)
@@ -144,7 +144,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 }
 
 // createChildrenHistory creates history records for all children.
-func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, firewallHistoryID uint, firewall *FirewallData, now time.Time) error {
+func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *entcompute.Tx, firewallHistoryID uint, firewall *FirewallData, now time.Time) error {
 	// Allowed rules
 	for _, allowed := range firewall.Allowed {
 		create := tx.BronzeHistoryGCPComputeFirewallAllowed.Create().
@@ -179,7 +179,7 @@ func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, 
 }
 
 // closeChildrenHistory closes all children history records.
-func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, firewallHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *entcompute.Tx, firewallHistoryID uint, now time.Time) error {
 	// Close allowed rules
 	_, err := tx.BronzeHistoryGCPComputeFirewallAllowed.Update().
 		Where(
@@ -208,7 +208,7 @@ func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, f
 }
 
 // updateChildrenHistory updates children history based on diff (granular tracking).
-func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, firewallHistoryID uint, new *FirewallData, diff *FirewallDiff, now time.Time) error {
+func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *entcompute.Tx, firewallHistoryID uint, new *FirewallData, diff *FirewallDiff, now time.Time) error {
 	if diff.AllowedDiff.Changed {
 		if err := h.updateAllowedHistory(ctx, tx, firewallHistoryID, new.Allowed, now); err != nil {
 			return fmt.Errorf("failed to update allowed history: %w", err)
@@ -224,7 +224,7 @@ func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, 
 	return nil
 }
 
-func (h *HistoryService) updateAllowedHistory(ctx context.Context, tx *ent.Tx, firewallHistoryID uint, allowed []AllowedData, now time.Time) error {
+func (h *HistoryService) updateAllowedHistory(ctx context.Context, tx *entcompute.Tx, firewallHistoryID uint, allowed []AllowedData, now time.Time) error {
 	// Close old allowed history
 	_, err := tx.BronzeHistoryGCPComputeFirewallAllowed.Update().
 		Where(
@@ -255,7 +255,7 @@ func (h *HistoryService) updateAllowedHistory(ctx context.Context, tx *ent.Tx, f
 	return nil
 }
 
-func (h *HistoryService) updateDeniedHistory(ctx context.Context, tx *ent.Tx, firewallHistoryID uint, denied []DeniedData, now time.Time) error {
+func (h *HistoryService) updateDeniedHistory(ctx context.Context, tx *entcompute.Tx, firewallHistoryID uint, denied []DeniedData, now time.Time) error {
 	// Close old denied history
 	_, err := tx.BronzeHistoryGCPComputeFirewallDenied.Update().
 		Where(

@@ -1,7 +1,7 @@
 package domain
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
 )
 
 // DomainDiff represents changes between old and new Domain states.
@@ -11,7 +11,7 @@ type DomainDiff struct {
 }
 
 // DiffDomainData compares old Ent entity and new data.
-func DiffDomainData(old *ent.BronzeDODomain, new *DomainData) *DomainDiff {
+func DiffDomainData(old *entdo.BronzeDODomain, new *DomainData) *DomainDiff {
 	if old == nil {
 		return &DomainDiff{IsNew: true}
 	}
@@ -29,7 +29,7 @@ type DomainRecordDiff struct {
 }
 
 // DiffDomainRecordData compares old Ent entity and new data.
-func DiffDomainRecordData(old *ent.BronzeDODomainRecord, new *DomainRecordData) *DomainRecordDiff {
+func DiffDomainRecordData(old *entdo.BronzeDODomainRecord, new *DomainRecordData) *DomainRecordDiff {
 	if old == nil {
 		return &DomainRecordDiff{IsNew: true}
 	}

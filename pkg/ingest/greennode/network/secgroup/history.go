@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodenetworksecgroup"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodenetworksecgrouprule"
+	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworksecgroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworksecgrouprule"
 )
 
 // HistoryService handles history tracking for security groups.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entnet.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entnet.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new security group and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *SecgroupData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entnet.Tx, data *SecgroupData, now time.Time) error {
 	sgHist, err := h.createSecgroupHistory(ctx, tx, data, now, data.CollectedAt)
 	if err != nil {
 		return err
@@ -30,7 +30,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Se
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGreenNodeNetworkSecgroup, new *SecgroupData, diff *SecgroupDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entnet.Tx, old *entnet.BronzeGreenNodeNetworkSecgroup, new *SecgroupData, diff *SecgroupDiff, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeNetworkSecgroup.Query().
 		Where(
 			bronzehistorygreennodenetworksecgroup.ResourceID(old.ID),
@@ -74,7 +74,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted security group.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entnet.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeNetworkSecgroup.Query().
 		Where(
 			bronzehistorygreennodenetworksecgroup.ResourceID(resourceID),
@@ -82,7 +82,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entnet.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current secgroup history: %w", err)
@@ -97,7 +97,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	return h.closeRulesHistory(ctx, tx, currentHist.ID, now)
 }
 
-func (h *HistoryService) createSecgroupHistory(ctx context.Context, tx *ent.Tx, data *SecgroupData, now time.Time, firstCollectedAt time.Time) (*ent.BronzeHistoryGreenNodeNetworkSecgroup, error) {
+func (h *HistoryService) createSecgroupHistory(ctx context.Context, tx *entnet.Tx, data *SecgroupData, now time.Time, firstCollectedAt time.Time) (*entnet.BronzeHistoryGreenNodeNetworkSecgroup, error) {
 	hist, err := tx.BronzeHistoryGreenNodeNetworkSecgroup.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -117,7 +117,7 @@ func (h *HistoryService) createSecgroupHistory(ctx context.Context, tx *ent.Tx, 
 	return hist, nil
 }
 
-func (h *HistoryService) createRulesHistory(ctx context.Context, tx *ent.Tx, secgroupHistoryID uint, rules []SecgroupRuleData, now time.Time) error {
+func (h *HistoryService) createRulesHistory(ctx context.Context, tx *entnet.Tx, secgroupHistoryID uint, rules []SecgroupRuleData, now time.Time) error {
 	for _, r := range rules {
 		_, err := tx.BronzeHistoryGreenNodeNetworkSecgroupRule.Create().
 			SetSecgroupHistoryID(secgroupHistoryID).
@@ -138,7 +138,7 @@ func (h *HistoryService) createRulesHistory(ctx context.Context, tx *ent.Tx, sec
 	return nil
 }
 
-func (h *HistoryService) closeRulesHistory(ctx context.Context, tx *ent.Tx, secgroupHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeRulesHistory(ctx context.Context, tx *entnet.Tx, secgroupHistoryID uint, now time.Time) error {
 	_, err := tx.BronzeHistoryGreenNodeNetworkSecgroupRule.Update().
 		Where(
 			bronzehistorygreennodenetworksecgrouprule.SecgroupHistoryID(secgroupHistoryID),

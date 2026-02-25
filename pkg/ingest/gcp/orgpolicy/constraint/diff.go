@@ -1,7 +1,7 @@
 package constraint
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entorgpolicy "github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy"
 )
 
 type ConstraintDiff struct {
@@ -13,7 +13,7 @@ func (d *ConstraintDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged
 }
 
-func DiffConstraintData(old *ent.BronzeGCPOrgPolicyConstraint, new *ConstraintData) *ConstraintDiff {
+func DiffConstraintData(old *entorgpolicy.BronzeGCPOrgPolicyConstraint, new *ConstraintData) *ConstraintDiff {
 	diff := &ConstraintDiff{}
 
 	if old == nil {

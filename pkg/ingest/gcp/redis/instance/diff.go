@@ -3,7 +3,7 @@ package instance
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entredis "github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis"
 )
 
 // InstanceDiff represents changes between old and new Redis instance state.
@@ -18,7 +18,7 @@ func (d *InstanceDiff) HasAnyChange() bool {
 }
 
 // DiffInstanceData compares existing Ent entity with new InstanceData and returns differences.
-func DiffInstanceData(old *ent.BronzeGCPRedisInstance, new *InstanceData) *InstanceDiff {
+func DiffInstanceData(old *entredis.BronzeGCPRedisInstance, new *InstanceData) *InstanceDiff {
 	diff := &InstanceDiff{}
 
 	if old == nil {

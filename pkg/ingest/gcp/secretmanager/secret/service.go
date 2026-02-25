@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecretmanagersecret"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecretmanagersecretlabel"
+	entsecretmanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/bronzegcpsecretmanagersecret"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/bronzegcpsecretmanagersecretlabel"
 )
 
 // Service handles GCP Secret Manager secret ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entsecretmanager.Client
 	history   *HistoryService
 }
 
 // NewService creates a new secret ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entsecretmanager.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -94,7 +94,7 @@ func (s *Service) saveSecrets(ctx context.Context, secrets []*SecretData) error 
 			Where(bronzegcpsecretmanagersecret.ID(secretData.ID)).
 			WithLabels().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entsecretmanager.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing secret %s: %w", secretData.Name, err)
 		}
@@ -119,7 +119,7 @@ func (s *Service) saveSecrets(ctx context.Context, secrets []*SecretData) error 
 			}
 		}
 
-		var savedSecret *ent.BronzeGCPSecretManagerSecret
+		var savedSecret *entsecretmanager.BronzeGCPSecretManagerSecret
 		if existing == nil {
 			create := tx.BronzeGCPSecretManagerSecret.Create().
 				SetID(secretData.ID).
@@ -207,7 +207,7 @@ func (s *Service) saveSecrets(ctx context.Context, secrets []*SecretData) error 
 	return nil
 }
 
-func deleteSecretChildren(ctx context.Context, tx *ent.Tx, secretID string) error {
+func deleteSecretChildren(ctx context.Context, tx *entsecretmanager.Tx, secretID string) error {
 	_, err := tx.BronzeGCPSecretManagerSecretLabel.Delete().
 		Where(bronzegcpsecretmanagersecretlabel.HasSecretWith(bronzegcpsecretmanagersecret.ID(secretID))).
 		Exec(ctx)
@@ -217,7 +217,7 @@ func deleteSecretChildren(ctx context.Context, tx *ent.Tx, secretID string) erro
 	return nil
 }
 
-func createSecretChildren(ctx context.Context, tx *ent.Tx, savedSecret *ent.BronzeGCPSecretManagerSecret, secretData *SecretData) error {
+func createSecretChildren(ctx context.Context, tx *entsecretmanager.Tx, savedSecret *entsecretmanager.BronzeGCPSecretManagerSecret, secretData *SecretData) error {
 	for _, label := range secretData.Labels {
 		_, err := tx.BronzeGCPSecretManagerSecretLabel.Create().
 			SetKey(label.Key).

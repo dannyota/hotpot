@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpspannerinstance"
+	entspanner "github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/bronzehistorygcpspannerinstance"
 )
 
 // HistoryService manages Spanner instance history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entspanner.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entspanner.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new Spanner instance.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *InstanceData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entspanner.Tx, data *InstanceData, now time.Time) error {
 	create := tx.BronzeHistoryGCPSpannerInstance.Create().
 		SetResourceID(data.ResourceID).
 		SetValidFrom(now).
@@ -54,7 +54,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *In
 }
 
 // UpdateHistory updates history records for a changed Spanner instance.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPSpannerInstance, new *InstanceData, diff *InstanceDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entspanner.Tx, old *entspanner.BronzeGCPSpannerInstance, new *InstanceData, diff *InstanceDiff, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPSpannerInstance.Query().
 		Where(
 			bronzehistorygcpspannerinstance.ResourceID(old.ID),
@@ -109,7 +109,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted Spanner instance.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entspanner.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPSpannerInstance.Query().
 		Where(
 			bronzehistorygcpspannerinstance.ResourceID(resourceID),
@@ -117,7 +117,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entspanner.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current Spanner instance history: %w", err)

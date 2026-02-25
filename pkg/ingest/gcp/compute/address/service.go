@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeaddress"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeaddresslabel"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeaddress"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeaddresslabel"
 )
 
 // Service handles GCP Compute address ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entcompute.Client
 	history   *HistoryService
 }
 
 // NewService creates a new address ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entcompute.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -99,7 +99,7 @@ func (s *Service) saveAddresses(ctx context.Context, addresses []*AddressData) e
 			Where(bronzegcpcomputeaddress.ID(addressData.ID)).
 			WithLabels().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entcompute.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing address %s: %w", addressData.Name, err)
 		}
@@ -128,7 +128,7 @@ func (s *Service) saveAddresses(ctx context.Context, addresses []*AddressData) e
 		}
 
 		// Create or update address
-		var savedAddress *ent.BronzeGCPComputeAddress
+		var savedAddress *entcompute.BronzeGCPComputeAddress
 		if existing == nil {
 			// Create new address
 			create := tx.BronzeGCPComputeAddress.Create().
@@ -225,7 +225,7 @@ func (s *Service) saveAddresses(ctx context.Context, addresses []*AddressData) e
 }
 
 // deleteAddressChildren deletes all child entities for an address.
-func (s *Service) deleteAddressChildren(ctx context.Context, tx *ent.Tx, addressID string) error {
+func (s *Service) deleteAddressChildren(ctx context.Context, tx *entcompute.Tx, addressID string) error {
 	// Delete labels
 	_, err := tx.BronzeGCPComputeAddressLabel.Delete().
 		Where(bronzegcpcomputeaddresslabel.HasAddressWith(bronzegcpcomputeaddress.ID(addressID))).
@@ -238,7 +238,7 @@ func (s *Service) deleteAddressChildren(ctx context.Context, tx *ent.Tx, address
 }
 
 // createAddressChildren creates all child entities for an address.
-func (s *Service) createAddressChildren(ctx context.Context, tx *ent.Tx, address *ent.BronzeGCPComputeAddress, data *AddressData) error {
+func (s *Service) createAddressChildren(ctx context.Context, tx *entcompute.Tx, address *entcompute.BronzeGCPComputeAddress, data *AddressData) error {
 	// Create labels
 	for _, labelData := range data.Labels {
 		_, err := tx.BronzeGCPComputeAddressLabel.Create().

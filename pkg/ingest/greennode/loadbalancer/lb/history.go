@@ -5,24 +5,24 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeloadbalancerlb"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeloadbalancerlistener"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeloadbalancerpool"
+	entlb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzehistorygreennodeloadbalancerlb"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzehistorygreennodeloadbalancerlistener"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzehistorygreennodeloadbalancerpool"
 )
 
 // HistoryService handles history tracking for load balancers.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entlb.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entlb.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new load balancer and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *LBData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entlb.Tx, data *LBData, now time.Time) error {
 	lbHist, err := h.createLBHistory(ctx, tx, data, now, data.CollectedAt)
 	if err != nil {
 		return err
@@ -34,7 +34,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *LB
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGreenNodeLoadBalancerLB, new *LBData, diff *LBDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entlb.Tx, old *entlb.BronzeGreenNodeLoadBalancerLB, new *LBData, diff *LBDiff, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeLoadBalancerLB.Query().
 		Where(
 			bronzehistorygreennodeloadbalancerlb.ResourceID(old.ID),
@@ -95,7 +95,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted load balancer.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entlb.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeLoadBalancerLB.Query().
 		Where(
 			bronzehistorygreennodeloadbalancerlb.ResourceID(resourceID),
@@ -103,7 +103,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entlb.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current LB history: %w", err)
@@ -121,7 +121,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	return h.closePoolsHistory(ctx, tx, currentHist.ID, now)
 }
 
-func (h *HistoryService) createLBHistory(ctx context.Context, tx *ent.Tx, data *LBData, now time.Time, firstCollectedAt time.Time) (*ent.BronzeHistoryGreenNodeLoadBalancerLB, error) {
+func (h *HistoryService) createLBHistory(ctx context.Context, tx *entlb.Tx, data *LBData, now time.Time, firstCollectedAt time.Time) (*entlb.BronzeHistoryGreenNodeLoadBalancerLB, error) {
 	create := tx.BronzeHistoryGreenNodeLoadBalancerLB.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -163,7 +163,7 @@ func (h *HistoryService) createLBHistory(ctx context.Context, tx *ent.Tx, data *
 	return hist, nil
 }
 
-func (h *HistoryService) createListenersHistory(ctx context.Context, tx *ent.Tx, lbHistoryID uint, listeners []ListenerData, now time.Time) error {
+func (h *HistoryService) createListenersHistory(ctx context.Context, tx *entlb.Tx, lbHistoryID uint, listeners []ListenerData, now time.Time) error {
 	for _, l := range listeners {
 		create := tx.BronzeHistoryGreenNodeLoadBalancerListener.Create().
 			SetLbHistoryID(lbHistoryID).
@@ -208,7 +208,7 @@ func (h *HistoryService) createListenersHistory(ctx context.Context, tx *ent.Tx,
 	return nil
 }
 
-func (h *HistoryService) createPoolsHistory(ctx context.Context, tx *ent.Tx, lbHistoryID uint, pools []PoolData, now time.Time) error {
+func (h *HistoryService) createPoolsHistory(ctx context.Context, tx *entlb.Tx, lbHistoryID uint, pools []PoolData, now time.Time) error {
 	for _, p := range pools {
 		create := tx.BronzeHistoryGreenNodeLoadBalancerPool.Create().
 			SetLbHistoryID(lbHistoryID).
@@ -236,7 +236,7 @@ func (h *HistoryService) createPoolsHistory(ctx context.Context, tx *ent.Tx, lbH
 	return nil
 }
 
-func (h *HistoryService) closeListenersHistory(ctx context.Context, tx *ent.Tx, lbHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeListenersHistory(ctx context.Context, tx *entlb.Tx, lbHistoryID uint, now time.Time) error {
 	_, err := tx.BronzeHistoryGreenNodeLoadBalancerListener.Update().
 		Where(
 			bronzehistorygreennodeloadbalancerlistener.LbHistoryID(lbHistoryID),
@@ -250,7 +250,7 @@ func (h *HistoryService) closeListenersHistory(ctx context.Context, tx *ent.Tx, 
 	return nil
 }
 
-func (h *HistoryService) closePoolsHistory(ctx context.Context, tx *ent.Tx, lbHistoryID uint, now time.Time) error {
+func (h *HistoryService) closePoolsHistory(ctx context.Context, tx *entlb.Tx, lbHistoryID uint, now time.Time) error {
 	_, err := tx.BronzeHistoryGreenNodeLoadBalancerPool.Update().
 		Where(
 			bronzehistorygreennodeloadbalancerpool.LbHistoryID(lbHistoryID),

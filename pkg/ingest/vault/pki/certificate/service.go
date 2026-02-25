@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzevaultpkicertificate"
+	entpki "github.com/dannyota/hotpot/pkg/storage/ent/vault/pki"
+	"github.com/dannyota/hotpot/pkg/storage/ent/vault/pki/bronzevaultpkicertificate"
 )
 
 // Service handles Vault PKI certificate ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entpki.Client
 	history   *HistoryService
 }
 
 // NewService creates a new certificate ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entpki.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -101,7 +101,7 @@ func (s *Service) saveCertificates(ctx context.Context, certs []*CertificateData
 		existing, err := tx.BronzeVaultPKICertificate.Query().
 			Where(bronzevaultpkicertificate.ID(certData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entpki.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing cert %s: %w", certData.ID, err)
 		}

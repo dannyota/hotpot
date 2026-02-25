@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodenetworkroutetable"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodenetworkroutetableroute"
+	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworkroutetable"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworkroutetableroute"
 )
 
 // Service handles GreenNode route table ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entnet.Client
 	history   *HistoryService
 }
 
 // NewService creates a new route table ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entnet.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -82,7 +82,7 @@ func (s *Service) saveRouteTables(ctx context.Context, routeTables []*RouteTable
 			Where(bronzegreennodenetworkroutetable.ID(data.UUID)).
 			WithRoutes().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entnet.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing route table %s: %w", data.Name, err)
 		}
@@ -106,7 +106,7 @@ func (s *Service) saveRouteTables(ctx context.Context, routeTables []*RouteTable
 			}
 		}
 
-		var savedRouteTable *ent.BronzeGreenNodeNetworkRouteTable
+		var savedRouteTable *entnet.BronzeGreenNodeNetworkRouteTable
 		if existing == nil {
 			savedRouteTable, err = tx.BronzeGreenNodeNetworkRouteTable.Create().
 				SetID(data.UUID).
@@ -164,7 +164,7 @@ func (s *Service) saveRouteTables(ctx context.Context, routeTables []*RouteTable
 	return nil
 }
 
-func (s *Service) deleteRouteTableChildren(ctx context.Context, tx *ent.Tx, routeTableID string) error {
+func (s *Service) deleteRouteTableChildren(ctx context.Context, tx *entnet.Tx, routeTableID string) error {
 	_, err := tx.BronzeGreenNodeNetworkRouteTableRoute.Delete().
 		Where(bronzegreennodenetworkroutetableroute.HasRouteTableWith(bronzegreennodenetworkroutetable.ID(routeTableID))).
 		Exec(ctx)
@@ -174,7 +174,7 @@ func (s *Service) deleteRouteTableChildren(ctx context.Context, tx *ent.Tx, rout
 	return nil
 }
 
-func (s *Service) createRouteTableChildren(ctx context.Context, tx *ent.Tx, rt *ent.BronzeGreenNodeNetworkRouteTable, data *RouteTableData) error {
+func (s *Service) createRouteTableChildren(ctx context.Context, tx *entnet.Tx, rt *entnet.BronzeGreenNodeNetworkRouteTable, data *RouteTableData) error {
 	for _, r := range data.Routes {
 		_, err := tx.BronzeGreenNodeNetworkRouteTableRoute.Create().
 			SetRouteTable(rt).

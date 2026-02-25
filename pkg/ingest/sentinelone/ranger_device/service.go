@@ -6,19 +6,19 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangerdevice"
+	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangerdevice"
 )
 
 // Service handles SentinelOne ranger device ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *ents1.Client
 	history   *HistoryService
 }
 
 // NewService creates a new ranger device ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *ents1.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -100,7 +100,7 @@ func (s *Service) saveDevices(ctx context.Context, devices []*RangerDeviceData) 
 		existing, err := tx.BronzeS1RangerDevice.Query().
 			Where(bronzes1rangerdevice.ID(data.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !ents1.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing ranger device %s: %w", data.ResourceID, err)
 		}

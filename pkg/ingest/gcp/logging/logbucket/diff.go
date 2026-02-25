@@ -3,7 +3,7 @@ package logbucket
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entlogging "github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging"
 )
 
 // LogBucketDiff represents changes between old and new log bucket states.
@@ -13,7 +13,7 @@ type LogBucketDiff struct {
 }
 
 // DiffLogBucketData compares old Ent entity and new data.
-func DiffLogBucketData(old *ent.BronzeGCPLoggingBucket, new *LogBucketData) *LogBucketDiff {
+func DiffLogBucketData(old *entlogging.BronzeGCPLoggingBucket, new *LogBucketData) *LogBucketDiff {
 	if old == nil {
 		return &LogBucketDiff{IsNew: true}
 	}
@@ -27,7 +27,7 @@ func (d *LogBucketDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged
 }
 
-func hasFieldsChanged(old *ent.BronzeGCPLoggingBucket, new *LogBucketData) bool {
+func hasFieldsChanged(old *entlogging.BronzeGCPLoggingBucket, new *LogBucketData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.RetentionDays != new.RetentionDays ||

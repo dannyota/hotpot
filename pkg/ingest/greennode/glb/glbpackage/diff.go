@@ -3,7 +3,7 @@ package glbpackage
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entglb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb"
 )
 
 // GLBPackageDiff represents changes between old and new package states.
@@ -13,7 +13,7 @@ type GLBPackageDiff struct {
 }
 
 // DiffGLBPackageData compares old Ent entity and new GLBPackageData.
-func DiffGLBPackageData(old *ent.BronzeGreenNodeGLBGlobalPackage, new *GLBPackageData) *GLBPackageDiff {
+func DiffGLBPackageData(old *entglb.BronzeGreenNodeGLBGlobalPackage, new *GLBPackageData) *GLBPackageDiff {
 	if old == nil {
 		return &GLBPackageDiff{IsNew: true}
 	}

@@ -1,7 +1,7 @@
 package source
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entsecuritycenter "github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter"
 )
 
 // SourceDiff represents changes between old and new SCC source state.
@@ -16,7 +16,7 @@ func (d *SourceDiff) HasAnyChange() bool {
 }
 
 // DiffSourceData compares existing Ent entity with new SourceData and returns differences.
-func DiffSourceData(old *ent.BronzeGCPSecurityCenterSource, new *SourceData) *SourceDiff {
+func DiffSourceData(old *entsecuritycenter.BronzeGCPSecurityCenterSource, new *SourceData) *SourceDiff {
 	diff := &SourceDiff{}
 
 	if old == nil {

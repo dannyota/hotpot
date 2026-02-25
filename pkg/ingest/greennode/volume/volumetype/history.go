@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodevolumevolumetype"
+	entvol "github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumevolumetype"
 )
 
 // HistoryService handles history tracking for volume types.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entvol.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entvol.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new volume type.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *VolumeTypeData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entvol.Tx, data *VolumeTypeData, now time.Time) error {
 	_, err := tx.BronzeHistoryGreenNodeVolumeVolumeType.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -42,7 +42,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Vo
 }
 
 // UpdateHistory closes old history and creates new history.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGreenNodeVolumeVolumeType, new *VolumeTypeData, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entvol.Tx, old *entvol.BronzeGreenNodeVolumeVolumeType, new *VolumeTypeData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeVolumeVolumeType.Query().
 		Where(
 			bronzehistorygreennodevolumevolumetype.ResourceID(old.ID),
@@ -80,7 +80,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history for a deleted volume type.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entvol.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeVolumeVolumeType.Query().
 		Where(
 			bronzehistorygreennodevolumevolumetype.ResourceID(resourceID),
@@ -88,7 +88,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entvol.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current volume type history: %w", err)

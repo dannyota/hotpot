@@ -5,24 +5,24 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputedisk"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputedisklabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputedisklicense"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputedisk"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputedisklabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputedisklicense"
 )
 
 // HistoryService handles history tracking for disks.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new disk and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, diskData *DiskData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, diskData *DiskData, now time.Time) error {
 	// Create disk history
 	diskHistCreate := tx.BronzeHistoryGCPComputeDisk.Create().
 		SetResourceID(diskData.ID).
@@ -79,7 +79,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, diskData
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeDisk, new *DiskData, diff *DiskDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGCPComputeDisk, new *DiskData, diff *DiskDiff, now time.Time) error {
 	// Get current disk history
 	currentHist, err := tx.BronzeHistoryGCPComputeDisk.Query().
 		Where(
@@ -163,7 +163,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted disk.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	// Get current disk history
 	currentHist, err := tx.BronzeHistoryGCPComputeDisk.Query().
 		Where(
@@ -172,7 +172,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcompute.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current disk history: %w", err)
@@ -190,7 +190,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 }
 
 // createChildrenHistory creates history records for all children.
-func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, diskHistoryID uint, data *DiskData, now time.Time) error {
+func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *entcompute.Tx, diskHistoryID uint, data *DiskData, now time.Time) error {
 	// Labels
 	for _, labelData := range data.Labels {
 		_, err := tx.BronzeHistoryGCPComputeDiskLabel.Create().
@@ -220,7 +220,7 @@ func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, 
 }
 
 // closeChildrenHistory closes all children history records.
-func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, diskHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *entcompute.Tx, diskHistoryID uint, now time.Time) error {
 	// Close labels
 	_, err := tx.BronzeHistoryGCPComputeDiskLabel.Update().
 		Where(
@@ -249,7 +249,7 @@ func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, d
 }
 
 // updateChildrenHistory updates children history based on diff (granular tracking).
-func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, diskHistoryID uint, new *DiskData, diff *DiskDiff, now time.Time) error {
+func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *entcompute.Tx, diskHistoryID uint, new *DiskData, diff *DiskDiff, now time.Time) error {
 	if diff.LabelsDiff.Changed {
 		if err := h.updateLabelsHistory(ctx, tx, diskHistoryID, new.Labels, now); err != nil {
 			return err
@@ -265,7 +265,7 @@ func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, 
 	return nil
 }
 
-func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *ent.Tx, diskHistoryID uint, labels []DiskLabelData, now time.Time) error {
+func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *entcompute.Tx, diskHistoryID uint, labels []DiskLabelData, now time.Time) error {
 	// Close old labels
 	_, err := tx.BronzeHistoryGCPComputeDiskLabel.Update().
 		Where(
@@ -294,7 +294,7 @@ func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *ent.Tx, di
 	return nil
 }
 
-func (h *HistoryService) updateLicensesHistory(ctx context.Context, tx *ent.Tx, diskHistoryID uint, licenses []DiskLicenseData, now time.Time) error {
+func (h *HistoryService) updateLicensesHistory(ctx context.Context, tx *entcompute.Tx, diskHistoryID uint, licenses []DiskLicenseData, now time.Time) error {
 	// Close old licenses
 	_, err := tx.BronzeHistoryGCPComputeDiskLicense.Update().
 		Where(

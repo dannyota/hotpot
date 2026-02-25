@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfolderiampolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfolderiampolicybinding"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcpfolderiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcpfolderiampolicybinding"
 )
 
 // HistoryService manages folder IAM policy history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entresourcemanager.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entresourcemanager.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new folder IAM policy.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *FolderIamPolicyData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entresourcemanager.Tx, data *FolderIamPolicyData, now time.Time) error {
 	// Create policy history
 	policyHistory, err := tx.BronzeHistoryGCPFolderIamPolicy.Create().
 		SetResourceID(data.ID).
@@ -59,7 +59,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Fo
 }
 
 // UpdateHistory updates history records for a changed folder IAM policy.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPFolderIamPolicy, new *FolderIamPolicyData, diff *FolderIamPolicyDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entresourcemanager.Tx, old *entresourcemanager.BronzeGCPFolderIamPolicy, new *FolderIamPolicyData, diff *FolderIamPolicyDiff, now time.Time) error {
 	// Get current policy history
 	currentHistory, err := tx.BronzeHistoryGCPFolderIamPolicy.Query().
 		Where(
@@ -161,7 +161,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted folder IAM policy.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entresourcemanager.Tx, resourceID string, now time.Time) error {
 	// Get current policy history
 	currentHistory, err := tx.BronzeHistoryGCPFolderIamPolicy.Query().
 		Where(
@@ -170,7 +170,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entresourcemanager.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current folder IAM policy history: %w", err)

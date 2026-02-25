@@ -3,7 +3,7 @@ package targetpool
 import (
 	"encoding/json"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // TargetPoolDiff represents changes between old and new target pool states.
@@ -13,7 +13,7 @@ type TargetPoolDiff struct {
 }
 
 // DiffTargetPoolData compares existing Ent entity with new TargetPoolData.
-func DiffTargetPoolData(old *ent.BronzeGCPComputeTargetPool, new *TargetPoolData) *TargetPoolDiff {
+func DiffTargetPoolData(old *entcompute.BronzeGCPComputeTargetPool, new *TargetPoolData) *TargetPoolDiff {
 	diff := &TargetPoolDiff{}
 
 	if old == nil {

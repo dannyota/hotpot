@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeportalquota"
+	entportal "github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/bronzehistorygreennodeportalquota"
 )
 
 // HistoryService handles history tracking for quotas.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entportal.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entportal.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new quota.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *QuotaData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entportal.Tx, data *QuotaData, now time.Time) error {
 	_, err := tx.BronzeHistoryGreenNodePortalQuota.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -41,7 +41,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Qu
 }
 
 // UpdateHistory closes old history and creates new history.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGreenNodePortalQuota, new *QuotaData, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entportal.Tx, old *entportal.BronzeGreenNodePortalQuota, new *QuotaData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodePortalQuota.Query().
 		Where(
 			bronzehistorygreennodeportalquota.ResourceID(old.ID),
@@ -78,7 +78,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history for a deleted quota.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entportal.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodePortalQuota.Query().
 		Where(
 			bronzehistorygreennodeportalquota.ResourceID(resourceID),
@@ -86,7 +86,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entportal.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current quota history: %w", err)

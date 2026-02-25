@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1agent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1agentnic"
+	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1agent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1agentnic"
 )
 
 // HistoryService handles history tracking for agents.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *ents1.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *ents1.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new agent and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *AgentData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *ents1.Tx, data *AgentData, now time.Time) error {
 	agentHistCreate := h.buildAgentHistoryCreate(tx, data, data.CollectedAt, now)
 
 	agentHist, err := agentHistCreate.Save(ctx)
@@ -33,7 +33,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Ag
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeS1Agent, new *AgentData, diff *AgentDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ents1.Tx, old *ents1.BronzeS1Agent, new *AgentData, diff *AgentDiff, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryS1Agent.Query().
 		Where(
 			bronzehistorys1agent.ResourceID(old.ID),
@@ -75,7 +75,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted agent.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *ents1.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryS1Agent.Query().
 		Where(
 			bronzehistorys1agent.ResourceID(resourceID),
@@ -83,7 +83,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if ents1.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current agent history: %w", err)
@@ -98,7 +98,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	return h.closeNICsHistory(ctx, tx, currentHist.ID, now)
 }
 
-func (h *HistoryService) buildAgentHistoryCreate(tx *ent.Tx, data *AgentData, firstCollectedAt time.Time, now time.Time) *ent.BronzeHistoryS1AgentCreate {
+func (h *HistoryService) buildAgentHistoryCreate(tx *ents1.Tx, data *AgentData, firstCollectedAt time.Time, now time.Time) *ents1.BronzeHistoryS1AgentCreate {
 	create := tx.BronzeHistoryS1Agent.Create().
 		SetResourceID(data.ResourceID).
 		SetValidFrom(now).
@@ -190,7 +190,7 @@ func (h *HistoryService) buildAgentHistoryCreate(tx *ent.Tx, data *AgentData, fi
 	return create
 }
 
-func (h *HistoryService) createNICsHistory(ctx context.Context, tx *ent.Tx, agentHistoryID uint, nics []NICData, now time.Time) error {
+func (h *HistoryService) createNICsHistory(ctx context.Context, tx *ents1.Tx, agentHistoryID uint, nics []NICData, now time.Time) error {
 	for _, nic := range nics {
 		nicCreate := tx.BronzeHistoryS1AgentNIC.Create().
 			SetAgentHistoryID(agentHistoryID).
@@ -217,7 +217,7 @@ func (h *HistoryService) createNICsHistory(ctx context.Context, tx *ent.Tx, agen
 	return nil
 }
 
-func (h *HistoryService) closeNICsHistory(ctx context.Context, tx *ent.Tx, agentHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeNICsHistory(ctx context.Context, tx *ents1.Tx, agentHistoryID uint, now time.Time) error {
 	_, err := tx.BronzeHistoryS1AgentNIC.Update().
 		Where(
 			bronzehistorys1agentnic.AgentHistoryID(agentHistoryID),

@@ -3,8 +3,10 @@ package ingest
 import (
 	"context"
 	"fmt"
+	"io"
 	"log/slog"
 
+	"entgo.io/ent/dialect"
 	"go.temporal.io/sdk/client"
 	sdklog "go.temporal.io/sdk/log"
 	"go.temporal.io/sdk/worker"
@@ -17,7 +19,7 @@ import (
 
 // Run starts the ingest workers.
 // The context is used to signal shutdown - when cancelled, workers will stop.
-func Run(ctx context.Context, configService *config.Service, entClient *ent.Client) error {
+func Run(ctx context.Context, configService *config.Service, entClient *ent.Client, driver dialect.Driver) error {
 	// Set colored logger as default for app-level logging (INFO+).
 	slog.SetDefault(logger.New(slog.LevelInfo))
 
@@ -67,7 +69,12 @@ func Run(ctx context.Context, configService *config.Service, entClient *ent.Clie
 			TaskQueueActivitiesPerSecond: activitiesPerSec,
 		})
 
-		closer := p.Register(w, configService, entClient)
+		var closer io.Closer
+		if p.RegisterWithDriver != nil {
+			closer = p.RegisterWithDriver(w, configService, driver)
+		} else {
+			closer = p.Register(w, configService, entClient)
+		}
 		if closer != nil {
 			defer closer.Close()
 		}

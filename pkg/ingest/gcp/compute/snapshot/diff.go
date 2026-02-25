@@ -2,7 +2,7 @@ package snapshot
 
 import (
 	"bytes"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // SnapshotDiff represents changes between old and new snapshot states.
@@ -21,7 +21,7 @@ type ChildDiff struct {
 }
 
 // DiffSnapshotData compares old Ent entity and new SnapshotData.
-func DiffSnapshotData(old *ent.BronzeGCPComputeSnapshot, new *SnapshotData) *SnapshotDiff {
+func DiffSnapshotData(old *entcompute.BronzeGCPComputeSnapshot, new *SnapshotData) *SnapshotDiff {
 	if old == nil {
 		return &SnapshotDiff{
 			IsNew:        true,
@@ -51,7 +51,7 @@ func (d *SnapshotDiff) HasAnyChange() bool {
 }
 
 // hasSnapshotFieldsChanged compares snapshot-level fields (excluding children).
-func hasSnapshotFieldsChanged(old *ent.BronzeGCPComputeSnapshot, new *SnapshotData) bool {
+func hasSnapshotFieldsChanged(old *entcompute.BronzeGCPComputeSnapshot, new *SnapshotData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Status != new.Status ||
@@ -75,7 +75,7 @@ func hasSnapshotFieldsChanged(old *ent.BronzeGCPComputeSnapshot, new *SnapshotDa
 		!bytes.Equal(old.StorageLocationsJSON, new.StorageLocationsJSON)
 }
 
-func diffLabels(old []*ent.BronzeGCPComputeSnapshotLabel, new []SnapshotLabelData) ChildDiff {
+func diffLabels(old []*entcompute.BronzeGCPComputeSnapshotLabel, new []SnapshotLabelData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -91,7 +91,7 @@ func diffLabels(old []*ent.BronzeGCPComputeSnapshotLabel, new []SnapshotLabelDat
 	return ChildDiff{Changed: false}
 }
 
-func diffLicenses(old []*ent.BronzeGCPComputeSnapshotLicense, new []SnapshotLicenseData) ChildDiff {
+func diffLicenses(old []*entcompute.BronzeGCPComputeSnapshotLicense, new []SnapshotLicenseData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

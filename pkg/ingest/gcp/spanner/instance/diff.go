@@ -3,7 +3,7 @@ package instance
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entspanner "github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner"
 )
 
 // InstanceDiff represents changes between old and new Spanner instance state.
@@ -18,7 +18,7 @@ func (d *InstanceDiff) HasAnyChange() bool {
 }
 
 // DiffInstanceData compares existing Ent entity with new InstanceData and returns differences.
-func DiffInstanceData(old *ent.BronzeGCPSpannerInstance, new *InstanceData) *InstanceDiff {
+func DiffInstanceData(old *entspanner.BronzeGCPSpannerInstance, new *InstanceData) *InstanceDiff {
 	diff := &InstanceDiff{}
 
 	if old == nil {

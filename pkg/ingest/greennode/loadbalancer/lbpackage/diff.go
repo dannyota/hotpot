@@ -1,7 +1,7 @@
 package lbpackage
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entlb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer"
 )
 
 // PackageDiff represents changes between old and new package states.
@@ -11,7 +11,7 @@ type PackageDiff struct {
 }
 
 // DiffPackageData compares old Ent entity and new PackageData.
-func DiffPackageData(old *ent.BronzeGreenNodeLoadBalancerPackage, new *PackageData) *PackageDiff {
+func DiffPackageData(old *entlb.BronzeGreenNodeLoadBalancerPackage, new *PackageData) *PackageDiff {
 	if old == nil {
 		return &PackageDiff{IsNew: true}
 	}

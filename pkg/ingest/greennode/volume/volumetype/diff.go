@@ -1,7 +1,7 @@
 package volumetype
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entvol "github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume"
 )
 
 // VolumeTypeDiff represents changes between old and new volume type states.
@@ -11,7 +11,7 @@ type VolumeTypeDiff struct {
 }
 
 // DiffVolumeTypeData compares old Ent entity and new VolumeTypeData.
-func DiffVolumeTypeData(old *ent.BronzeGreenNodeVolumeVolumeType, new *VolumeTypeData) *VolumeTypeDiff {
+func DiffVolumeTypeData(old *entvol.BronzeGreenNodeVolumeVolumeType, new *VolumeTypeData) *VolumeTypeDiff {
 	if old == nil {
 		return &VolumeTypeDiff{IsNew: true}
 	}

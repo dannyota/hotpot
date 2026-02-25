@@ -3,7 +3,7 @@ package securitypolicy
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // SecurityPolicyDiff represents changes between old and new security policy states.
@@ -13,7 +13,7 @@ type SecurityPolicyDiff struct {
 }
 
 // DiffSecurityPolicyData compares existing Ent entity with new SecurityPolicyData and returns differences.
-func DiffSecurityPolicyData(old *ent.BronzeGCPComputeSecurityPolicy, new *SecurityPolicyData) *SecurityPolicyDiff {
+func DiffSecurityPolicyData(old *entcompute.BronzeGCPComputeSecurityPolicy, new *SecurityPolicyData) *SecurityPolicyDiff {
 	diff := &SecurityPolicyDiff{}
 
 	// New security policy

@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpstoragebucketiampolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpstoragebucketiampolicybinding"
+	entstorage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucketiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucketiampolicybinding"
 )
 
 // Service handles GCP Storage bucket IAM policy ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entstorage.Client
 	history   *HistoryService
 }
 
 // NewService creates a new bucket IAM policy ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entstorage.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -99,7 +99,7 @@ func (s *Service) savePolicies(ctx context.Context, policies []*BucketIamPolicyD
 			Where(bronzegcpstoragebucketiampolicy.ID(policyData.ID)).
 			WithBindings().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entstorage.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing policy %s: %w", policyData.ID, err)
 		}
@@ -131,7 +131,7 @@ func (s *Service) savePolicies(ctx context.Context, policies []*BucketIamPolicyD
 		}
 
 		// Create or update policy
-		var savedPolicy *ent.BronzeGCPStorageBucketIamPolicy
+		var savedPolicy *entstorage.BronzeGCPStorageBucketIamPolicy
 		if existing == nil {
 			// Create new policy
 			create := tx.BronzeGCPStorageBucketIamPolicy.Create().

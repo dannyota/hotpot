@@ -3,7 +3,7 @@ package secret
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entsecretmanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager"
 )
 
 // SecretDiff represents changes between old and new secret states.
@@ -20,7 +20,7 @@ type ChildDiff struct {
 }
 
 // DiffSecretData compares old Ent entity and new data.
-func DiffSecretData(old *ent.BronzeGCPSecretManagerSecret, new *SecretData) *SecretDiff {
+func DiffSecretData(old *entsecretmanager.BronzeGCPSecretManagerSecret, new *SecretData) *SecretDiff {
 	if old == nil {
 		return &SecretDiff{
 			IsNew:     true,
@@ -32,7 +32,7 @@ func DiffSecretData(old *ent.BronzeGCPSecretManagerSecret, new *SecretData) *Sec
 
 	diff.IsChanged = hasSecretFieldsChanged(old, new)
 
-	var oldLabels []*ent.BronzeGCPSecretManagerSecretLabel
+	var oldLabels []*entsecretmanager.BronzeGCPSecretManagerSecretLabel
 	if old.Edges.Labels != nil {
 		oldLabels = old.Edges.Labels
 	}
@@ -46,7 +46,7 @@ func (d *SecretDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged || d.LabelDiff.Changed
 }
 
-func hasSecretFieldsChanged(old *ent.BronzeGCPSecretManagerSecret, new *SecretData) bool {
+func hasSecretFieldsChanged(old *entsecretmanager.BronzeGCPSecretManagerSecret, new *SecretData) bool {
 	return old.Name != new.Name ||
 		old.CreateTime != new.CreateTime ||
 		old.Etag != new.Etag ||
@@ -57,7 +57,7 @@ func hasSecretFieldsChanged(old *ent.BronzeGCPSecretManagerSecret, new *SecretDa
 		!bytes.Equal(old.AnnotationsJSON, new.AnnotationsJSON)
 }
 
-func diffLabels(old []*ent.BronzeGCPSecretManagerSecretLabel, new []LabelData) ChildDiff {
+func diffLabels(old []*entsecretmanager.BronzeGCPSecretManagerSecretLabel, new []LabelData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpaccesscontextmanageraccesspolicy"
+	entaccesscontextmanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager/bronzehistorygcpaccesscontextmanageraccesspolicy"
 )
 
 // HistoryService manages access policy history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entaccesscontextmanager.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entaccesscontextmanager.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new access policy.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *AccessPolicyData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entaccesscontextmanager.Tx, data *AccessPolicyData, now time.Time) error {
 	create := tx.BronzeHistoryGCPAccessContextManagerAccessPolicy.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -48,7 +48,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Ac
 }
 
 // UpdateHistory updates history records for a changed access policy.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPAccessContextManagerAccessPolicy, new *AccessPolicyData, diff *AccessPolicyDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entaccesscontextmanager.Tx, old *entaccesscontextmanager.BronzeGCPAccessContextManagerAccessPolicy, new *AccessPolicyData, diff *AccessPolicyDiff, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPAccessContextManagerAccessPolicy.Query().
 		Where(
 			bronzehistorygcpaccesscontextmanageraccesspolicy.ResourceID(old.ID),
@@ -97,7 +97,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted access policy.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entaccesscontextmanager.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPAccessContextManagerAccessPolicy.Query().
 		Where(
 			bronzehistorygcpaccesscontextmanageraccesspolicy.ResourceID(resourceID),
@@ -105,7 +105,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entaccesscontextmanager.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current access policy history: %w", err)

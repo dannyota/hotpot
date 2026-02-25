@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodednshostedzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodednsrecord"
+	entdns "github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzehistorygreennodednshostedzone"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzehistorygreennodednsrecord"
 )
 
 // HistoryService handles history tracking for DNS hosted zones.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entdns.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entdns.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new hosted zone and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *HostedZoneData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entdns.Tx, data *HostedZoneData, now time.Time) error {
 	zoneHist, err := h.createHostedZoneHistory(ctx, tx, data, now, data.CollectedAt)
 	if err != nil {
 		return err
@@ -30,7 +30,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Ho
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGreenNodeDNSHostedZone, new *HostedZoneData, diff *HostedZoneDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entdns.Tx, old *entdns.BronzeGreenNodeDNSHostedZone, new *HostedZoneData, diff *HostedZoneDiff, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeDNSHostedZone.Query().
 		Where(
 			bronzehistorygreennodednshostedzone.ResourceID(old.ID),
@@ -74,7 +74,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted hosted zone.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entdns.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeDNSHostedZone.Query().
 		Where(
 			bronzehistorygreennodednshostedzone.ResourceID(resourceID),
@@ -82,7 +82,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entdns.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current hosted zone history: %w", err)
@@ -97,7 +97,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	return h.closeRecordsHistory(ctx, tx, currentHist.ID, now)
 }
 
-func (h *HistoryService) createHostedZoneHistory(ctx context.Context, tx *ent.Tx, data *HostedZoneData, now time.Time, firstCollectedAt time.Time) (*ent.BronzeHistoryGreenNodeDNSHostedZone, error) {
+func (h *HistoryService) createHostedZoneHistory(ctx context.Context, tx *entdns.Tx, data *HostedZoneData, now time.Time, firstCollectedAt time.Time) (*entdns.BronzeHistoryGreenNodeDNSHostedZone, error) {
 	create := tx.BronzeHistoryGreenNodeDNSHostedZone.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -129,7 +129,7 @@ func (h *HistoryService) createHostedZoneHistory(ctx context.Context, tx *ent.Tx
 	return hist, nil
 }
 
-func (h *HistoryService) createRecordsHistory(ctx context.Context, tx *ent.Tx, zoneHistoryID uint, records []RecordData, now time.Time) error {
+func (h *HistoryService) createRecordsHistory(ctx context.Context, tx *entdns.Tx, zoneHistoryID uint, records []RecordData, now time.Time) error {
 	for _, r := range records {
 		create := tx.BronzeHistoryGreenNodeDNSRecord.Create().
 			SetHostedZoneHistoryID(zoneHistoryID).
@@ -156,7 +156,7 @@ func (h *HistoryService) createRecordsHistory(ctx context.Context, tx *ent.Tx, z
 	return nil
 }
 
-func (h *HistoryService) closeRecordsHistory(ctx context.Context, tx *ent.Tx, zoneHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeRecordsHistory(ctx context.Context, tx *entdns.Tx, zoneHistoryID uint, now time.Time) error {
 	_, err := tx.BronzeHistoryGreenNodeDNSRecord.Update().
 		Where(
 			bronzehistorygreennodednsrecord.HostedZoneHistoryID(zoneHistoryID),

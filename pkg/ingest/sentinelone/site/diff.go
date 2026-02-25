@@ -3,7 +3,7 @@ package site
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
 )
 
 // SiteDiff represents changes between old and new site states.
@@ -13,7 +13,7 @@ type SiteDiff struct {
 }
 
 // DiffSiteData compares old Ent entity and new data.
-func DiffSiteData(old *ent.BronzeS1Site, new *SiteData) *SiteDiff {
+func DiffSiteData(old *ents1.BronzeS1Site, new *SiteData) *SiteDiff {
 	if old == nil {
 		return &SiteDiff{IsNew: true}
 	}

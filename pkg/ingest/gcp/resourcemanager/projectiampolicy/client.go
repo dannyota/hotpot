@@ -8,8 +8,8 @@ import (
 	"cloud.google.com/go/iam/apiv1/iampb"
 	"google.golang.org/api/option"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpproject"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpproject"
 )
 
 // ProjectIamPolicyRaw holds raw API data for a project IAM policy.
@@ -21,11 +21,11 @@ type ProjectIamPolicyRaw struct {
 // Client wraps the GCP Resource Manager API for project IAM policies.
 type Client struct {
 	client    *resourcemanager.ProjectsClient
-	entClient *ent.Client
+	entClient *entresourcemanager.Client
 }
 
 // NewClient creates a new GCP Resource Manager project IAM policy client.
-func NewClient(ctx context.Context, entClient *ent.Client, opts ...option.ClientOption) (*Client, error) {
+func NewClient(ctx context.Context, entClient *entresourcemanager.Client, opts ...option.ClientOption) (*Client, error) {
 	client, err := resourcemanager.NewProjectsClient(ctx, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create resource manager projects client: %w", err)

@@ -3,7 +3,7 @@ package lb
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entlb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer"
 )
 
 // LBDiff represents changes between old and new load balancer states.
@@ -21,7 +21,7 @@ type ChildDiff struct {
 }
 
 // DiffLBData compares old Ent entity and new LBData.
-func DiffLBData(old *ent.BronzeGreenNodeLoadBalancerLB, new *LBData) *LBDiff {
+func DiffLBData(old *entlb.BronzeGreenNodeLoadBalancerLB, new *LBData) *LBDiff {
 	if old == nil {
 		return &LBDiff{
 			IsNew:         true,
@@ -43,7 +43,7 @@ func (d *LBDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged || d.ListenersDiff.Changed || d.PoolsDiff.Changed
 }
 
-func hasLBFieldsChanged(old *ent.BronzeGreenNodeLoadBalancerLB, new *LBData) bool {
+func hasLBFieldsChanged(old *entlb.BronzeGreenNodeLoadBalancerLB, new *LBData) bool {
 	return old.Name != new.Name ||
 		old.DisplayStatus != new.DisplayStatus ||
 		old.Address != new.Address ||
@@ -69,11 +69,11 @@ func hasLBFieldsChanged(old *ent.BronzeGreenNodeLoadBalancerLB, new *LBData) boo
 		!bytes.Equal(old.NodesJSON, new.NodesJSON)
 }
 
-func diffListeners(old []*ent.BronzeGreenNodeLoadBalancerListener, new []ListenerData) ChildDiff {
+func diffListeners(old []*entlb.BronzeGreenNodeLoadBalancerListener, new []ListenerData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
-	oldMap := make(map[string]*ent.BronzeGreenNodeLoadBalancerListener)
+	oldMap := make(map[string]*entlb.BronzeGreenNodeLoadBalancerListener)
 	for _, l := range old {
 		oldMap[l.ListenerID] = l
 	}
@@ -89,7 +89,7 @@ func diffListeners(old []*ent.BronzeGreenNodeLoadBalancerListener, new []Listene
 	return ChildDiff{Changed: false}
 }
 
-func hasListenerFieldsChanged(old *ent.BronzeGreenNodeLoadBalancerListener, new *ListenerData) bool {
+func hasListenerFieldsChanged(old *entlb.BronzeGreenNodeLoadBalancerListener, new *ListenerData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Protocol != new.Protocol ||
@@ -112,11 +112,11 @@ func hasListenerFieldsChanged(old *ent.BronzeGreenNodeLoadBalancerListener, new 
 		!bytes.Equal(old.PoliciesJSON, new.PoliciesJSON)
 }
 
-func diffPools(old []*ent.BronzeGreenNodeLoadBalancerPool, new []PoolData) ChildDiff {
+func diffPools(old []*entlb.BronzeGreenNodeLoadBalancerPool, new []PoolData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
-	oldMap := make(map[string]*ent.BronzeGreenNodeLoadBalancerPool)
+	oldMap := make(map[string]*entlb.BronzeGreenNodeLoadBalancerPool)
 	for _, p := range old {
 		oldMap[p.PoolID] = p
 	}
@@ -132,7 +132,7 @@ func diffPools(old []*ent.BronzeGreenNodeLoadBalancerPool, new []PoolData) Child
 	return ChildDiff{Changed: false}
 }
 
-func hasPoolFieldsChanged(old *ent.BronzeGreenNodeLoadBalancerPool, new *PoolData) bool {
+func hasPoolFieldsChanged(old *entlb.BronzeGreenNodeLoadBalancerPool, new *PoolData) bool {
 	return old.Name != new.Name ||
 		old.Protocol != new.Protocol ||
 		old.Description != new.Description ||

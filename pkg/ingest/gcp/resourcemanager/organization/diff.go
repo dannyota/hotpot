@@ -1,7 +1,7 @@
 package organization
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // OrganizationDiff represents changes between old and new organization state.
@@ -16,7 +16,7 @@ func (d *OrganizationDiff) HasAnyChange() bool {
 }
 
 // DiffOrganizationData compares existing Ent entity with new OrganizationData and returns differences.
-func DiffOrganizationData(old *ent.BronzeGCPOrganization, new *OrganizationData) *OrganizationDiff {
+func DiffOrganizationData(old *entresourcemanager.BronzeGCPOrganization, new *OrganizationData) *OrganizationDiff {
 	diff := &OrganizationDiff{}
 
 	// New organization

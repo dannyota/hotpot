@@ -8,8 +8,8 @@ import (
 	"google.golang.org/api/option"
 	storagev1 "google.golang.org/api/storage/v1"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpstoragebucket"
+	entstorage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucket"
 )
 
 // BucketIamPolicyRaw holds raw API data for a bucket IAM policy.
@@ -21,11 +21,11 @@ type BucketIamPolicyRaw struct {
 // Client wraps the GCP Storage API for bucket IAM policies.
 type Client struct {
 	service   *storagev1.Service
-	entClient *ent.Client
+	entClient *entstorage.Client
 }
 
 // NewClient creates a new GCP Storage bucket IAM policy client.
-func NewClient(ctx context.Context, entClient *ent.Client, httpClient *http.Client, opts ...option.ClientOption) (*Client, error) {
+func NewClient(ctx context.Context, entClient *entstorage.Client, httpClient *http.Client, opts ...option.ClientOption) (*Client, error) {
 	allOpts := append([]option.ClientOption{option.WithHTTPClient(httpClient)}, opts...)
 	service, err := storagev1.NewService(ctx, allOpts...)
 	if err != nil {

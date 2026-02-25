@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgiampolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgiampolicybinding"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcporgiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcporgiampolicybinding"
 )
 
 // HistoryService manages organization IAM policy history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entresourcemanager.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entresourcemanager.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new organization IAM policy.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *OrgIamPolicyData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entresourcemanager.Tx, data *OrgIamPolicyData, now time.Time) error {
 	// Create policy history
 	policyHistory, err := tx.BronzeHistoryGCPOrgIamPolicy.Create().
 		SetResourceID(data.ID).
@@ -59,7 +59,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Or
 }
 
 // UpdateHistory updates history records for a changed organization IAM policy.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPOrgIamPolicy, new *OrgIamPolicyData, diff *OrgIamPolicyDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entresourcemanager.Tx, old *entresourcemanager.BronzeGCPOrgIamPolicy, new *OrgIamPolicyData, diff *OrgIamPolicyDiff, now time.Time) error {
 	// Get current policy history
 	currentHistory, err := tx.BronzeHistoryGCPOrgIamPolicy.Query().
 		Where(
@@ -161,7 +161,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted organization IAM policy.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entresourcemanager.Tx, resourceID string, now time.Time) error {
 	// Get current policy history
 	currentHistory, err := tx.BronzeHistoryGCPOrgIamPolicy.Query().
 		Where(
@@ -170,7 +170,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entresourcemanager.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current org IAM policy history: %w", err)

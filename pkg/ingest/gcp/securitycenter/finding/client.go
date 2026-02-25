@@ -9,7 +9,8 @@ import (
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	entsecuritycenter "github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter"
 )
 
 // FindingRaw holds raw API data for an SCC finding.
@@ -22,16 +23,17 @@ type FindingRaw struct {
 // Client wraps the GCP Security Command Center API for findings.
 type Client struct {
 	sccClient *securitycenter.Client
-	entClient *ent.Client
+	entClient *entsecuritycenter.Client
+	rmClient  *entresourcemanager.Client
 }
 
 // NewClient creates a new SCC finding client.
-func NewClient(ctx context.Context, entClient *ent.Client, opts ...option.ClientOption) (*Client, error) {
+func NewClient(ctx context.Context, entClient *entsecuritycenter.Client, rmClient *entresourcemanager.Client, opts ...option.ClientOption) (*Client, error) {
 	sccClient, err := securitycenter.NewClient(ctx, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create security center client: %w", err)
 	}
-	return &Client{sccClient: sccClient, entClient: entClient}, nil
+	return &Client{sccClient: sccClient, entClient: entClient, rmClient: rmClient}, nil
 }
 
 // Close closes the client connections.
@@ -46,7 +48,7 @@ func (c *Client) Close() error {
 // then fetches findings per source.
 func (c *Client) ListFindings(ctx context.Context) ([]FindingRaw, error) {
 	// Query organizations from database
-	orgs, err := c.entClient.BronzeGCPOrganization.Query().All(ctx)
+	orgs, err := c.rmClient.BronzeGCPOrganization.Query().All(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to query organizations from database: %w", err)
 	}

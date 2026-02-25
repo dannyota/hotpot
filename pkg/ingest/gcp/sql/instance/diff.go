@@ -3,7 +3,7 @@ package instance
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entgcpsql "github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql"
 )
 
 // InstanceDiff represents changes between old and new instance states.
@@ -21,7 +21,7 @@ type ChildDiff struct {
 }
 
 // DiffInstanceData compares old Ent entity and new data.
-func DiffInstanceData(old *ent.BronzeGCPSQLInstance, new *InstanceData) *InstanceDiff {
+func DiffInstanceData(old *entgcpsql.BronzeGCPSQLInstance, new *InstanceData) *InstanceDiff {
 	if old == nil {
 		return &InstanceDiff{
 			IsNew:      true,
@@ -49,7 +49,7 @@ func (d *InstanceDiff) HasAnyChange() bool {
 }
 
 // hasInstanceFieldsChanged compares instance-level fields (excluding children).
-func hasInstanceFieldsChanged(old *ent.BronzeGCPSQLInstance, new *InstanceData) bool {
+func hasInstanceFieldsChanged(old *entgcpsql.BronzeGCPSQLInstance, new *InstanceData) bool {
 	return old.Name != new.Name ||
 		old.DatabaseVersion != new.DatabaseVersion ||
 		old.State != new.State ||
@@ -69,7 +69,7 @@ func hasInstanceFieldsChanged(old *ent.BronzeGCPSQLInstance, new *InstanceData) 
 		!bytes.Equal(old.DiskEncryptionStatusJSON, new.DiskEncryptionStatusJSON)
 }
 
-func diffLabelsData(old []*ent.BronzeGCPSQLInstanceLabel, new []LabelData) ChildDiff {
+func diffLabelsData(old []*entgcpsql.BronzeGCPSQLInstanceLabel, new []LabelData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

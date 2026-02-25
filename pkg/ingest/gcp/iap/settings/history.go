@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpiapsettings"
+	entiap "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap/bronzehistorygcpiapsettings"
 )
 
 // HistoryService manages IAP settings history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entiap.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entiap.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for new IAP settings.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *SettingsData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entiap.Tx, data *SettingsData, now time.Time) error {
 	create := tx.BronzeHistoryGCPIAPSettings.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -45,7 +45,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Se
 }
 
 // UpdateHistory updates history records for changed IAP settings.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPIAPSettings, new *SettingsData, diff *SettingsDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entiap.Tx, old *entiap.BronzeGCPIAPSettings, new *SettingsData, diff *SettingsDiff, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPIAPSettings.Query().
 		Where(
 			bronzehistorygcpiapsettings.ResourceID(old.ID),
@@ -91,7 +91,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for deleted IAP settings.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entiap.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPIAPSettings.Query().
 		Where(
 			bronzehistorygcpiapsettings.ResourceID(resourceID),
@@ -99,7 +99,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entiap.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current IAP settings history: %w", err)

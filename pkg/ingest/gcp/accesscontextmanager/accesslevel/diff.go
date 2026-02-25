@@ -3,7 +3,7 @@ package accesslevel
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entaccesscontextmanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager"
 )
 
 // AccessLevelDiff represents changes between old and new access level state.
@@ -18,7 +18,7 @@ func (d *AccessLevelDiff) HasAnyChange() bool {
 }
 
 // DiffAccessLevelData compares existing Ent entity with new AccessLevelData and returns differences.
-func DiffAccessLevelData(old *ent.BronzeGCPAccessContextManagerAccessLevel, new *AccessLevelData) *AccessLevelDiff {
+func DiffAccessLevelData(old *entaccesscontextmanager.BronzeGCPAccessContextManagerAccessLevel, new *AccessLevelData) *AccessLevelDiff {
 	diff := &AccessLevelDiff{}
 
 	if old == nil {

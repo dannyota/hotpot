@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectiampolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectiampolicybinding"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcpprojectiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcpprojectiampolicybinding"
 )
 
 // HistoryService manages project IAM policy history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entresourcemanager.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entresourcemanager.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new project IAM policy.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *ProjectIamPolicyData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entresourcemanager.Tx, data *ProjectIamPolicyData, now time.Time) error {
 	// Create policy history
 	policyHistory, err := tx.BronzeHistoryGCPProjectIamPolicy.Create().
 		SetResourceID(data.ID).
@@ -60,7 +60,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Pr
 }
 
 // UpdateHistory updates history records for a changed project IAM policy.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPProjectIamPolicy, new *ProjectIamPolicyData, diff *ProjectIamPolicyDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entresourcemanager.Tx, old *entresourcemanager.BronzeGCPProjectIamPolicy, new *ProjectIamPolicyData, diff *ProjectIamPolicyDiff, now time.Time) error {
 	// Get current policy history
 	currentHistory, err := tx.BronzeHistoryGCPProjectIamPolicy.Query().
 		Where(
@@ -163,7 +163,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted project IAM policy.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entresourcemanager.Tx, resourceID string, now time.Time) error {
 	// Get current policy history
 	currentHistory, err := tx.BronzeHistoryGCPProjectIamPolicy.Query().
 		Where(
@@ -172,7 +172,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entresourcemanager.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current project IAM policy history: %w", err)

@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesecuritypolicy"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesecuritypolicy"
 )
 
 // Service handles GCP Compute security policy ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entcompute.Client
 	history   *HistoryService
 }
 
 // NewService creates a new security policy ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entcompute.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -97,7 +97,7 @@ func (s *Service) saveSecurityPolicies(ctx context.Context, policies []*Security
 		existing, err := tx.BronzeGCPComputeSecurityPolicy.Query().
 			Where(bronzegcpcomputesecuritypolicy.ID(policyData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entcompute.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing security policy %s: %w", policyData.Name, err)
 		}

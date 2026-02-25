@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpbinaryauthorizationattestor"
+	entbinaryauthorization "github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization/bronzegcpbinaryauthorizationattestor"
 )
 
 // Service handles Binary Authorization attestor ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entbinaryauthorization.Client
 	history   *HistoryService
 }
 
 // NewService creates a new Binary Authorization attestor ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entbinaryauthorization.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -91,7 +91,7 @@ func (s *Service) saveAttestors(ctx context.Context, attestors []*AttestorData) 
 		existing, err := tx.BronzeGCPBinaryAuthorizationAttestor.Query().
 			Where(bronzegcpbinaryauthorizationattestor.ID(attestorData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entbinaryauthorization.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing attestor %s: %w", attestorData.ID, err)
 		}

@@ -8,7 +8,7 @@ import (
 	"cloud.google.com/go/iam/apiv1/iampb"
 	"google.golang.org/api/option"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // FolderIamPolicyRaw holds raw API data for a folder IAM policy.
@@ -20,11 +20,11 @@ type FolderIamPolicyRaw struct {
 // Client wraps the GCP Resource Manager API for folder IAM policies.
 type Client struct {
 	foldersClient *resourcemanager.FoldersClient
-	entClient     *ent.Client
+	entClient     *entresourcemanager.Client
 }
 
 // NewClient creates a new GCP Resource Manager folder IAM policy client.
-func NewClient(ctx context.Context, entClient *ent.Client, opts ...option.ClientOption) (*Client, error) {
+func NewClient(ctx context.Context, entClient *entresourcemanager.Client, opts ...option.ClientOption) (*Client, error) {
 	foldersClient, err := resourcemanager.NewFoldersClient(ctx, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create folders client: %w", err)

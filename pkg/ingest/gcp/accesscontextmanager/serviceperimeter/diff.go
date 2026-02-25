@@ -3,7 +3,7 @@ package serviceperimeter
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entaccesscontextmanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager"
 )
 
 // ServicePerimeterDiff represents changes between old and new service perimeter state.
@@ -18,7 +18,7 @@ func (d *ServicePerimeterDiff) HasAnyChange() bool {
 }
 
 // DiffServicePerimeterData compares existing Ent entity with new ServicePerimeterData and returns differences.
-func DiffServicePerimeterData(old *ent.BronzeGCPAccessContextManagerServicePerimeter, new *ServicePerimeterData) *ServicePerimeterDiff {
+func DiffServicePerimeterData(old *entaccesscontextmanager.BronzeGCPAccessContextManagerServicePerimeter, new *ServicePerimeterData) *ServicePerimeterDiff {
 	diff := &ServicePerimeterDiff{}
 
 	if old == nil {

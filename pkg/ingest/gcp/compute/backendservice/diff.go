@@ -3,7 +3,7 @@ package backendservice
 import (
 	"encoding/json"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // BackendServiceDiff represents changes between old and new backend service states.
@@ -24,7 +24,7 @@ func (d *BackendServiceDiff) HasAnyChange() bool {
 }
 
 // DiffBackendServiceData compares existing Ent entity with new BackendServiceData.
-func DiffBackendServiceData(old *ent.BronzeGCPComputeBackendService, new *BackendServiceData) *BackendServiceDiff {
+func DiffBackendServiceData(old *entcompute.BronzeGCPComputeBackendService, new *BackendServiceData) *BackendServiceDiff {
 	diff := &BackendServiceDiff{}
 
 	// New backend service
@@ -43,7 +43,7 @@ func DiffBackendServiceData(old *ent.BronzeGCPComputeBackendService, new *Backen
 }
 
 // hasBackendServiceFieldsChanged compares backend service-level fields (excluding children).
-func hasBackendServiceFieldsChanged(old *ent.BronzeGCPComputeBackendService, new *BackendServiceData) bool {
+func hasBackendServiceFieldsChanged(old *entcompute.BronzeGCPComputeBackendService, new *BackendServiceData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.CreationTimestamp != new.CreationTimestamp ||
@@ -96,7 +96,7 @@ func jsonObjChanged(old, new map[string]interface{}) bool {
 	return string(oldBytes) != string(newBytes)
 }
 
-func diffBackendsData(old []*ent.BronzeGCPComputeBackendServiceBackend, new []BackendData) ChildDiff {
+func diffBackendsData(old []*entcompute.BronzeGCPComputeBackendServiceBackend, new []BackendData) ChildDiff {
 	diff := ChildDiff{}
 
 	if len(old) != len(new) {
@@ -105,7 +105,7 @@ func diffBackendsData(old []*ent.BronzeGCPComputeBackendServiceBackend, new []Ba
 	}
 
 	// Build map of old backends by group
-	oldMap := make(map[string]*ent.BronzeGCPComputeBackendServiceBackend, len(old))
+	oldMap := make(map[string]*entcompute.BronzeGCPComputeBackendServiceBackend, len(old))
 	for _, b := range old {
 		oldMap[b.Group] = b
 	}

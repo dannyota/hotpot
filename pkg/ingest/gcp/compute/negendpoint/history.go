@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenegendpoint"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputenegendpoint"
 )
 
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *NegEndpointData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, data *NegEndpointData, now time.Time) error {
 	create := tx.BronzeHistoryGCPComputeNegEndpoint.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -42,7 +42,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Ne
 	return nil
 }
 
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeNegEndpoint, new *NegEndpointData, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGCPComputeNegEndpoint, new *NegEndpointData, now time.Time) error {
 	// Close old history
 	_, err := tx.BronzeHistoryGCPComputeNegEndpoint.Update().
 		Where(
@@ -81,7 +81,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 	return nil
 }
 
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPComputeNegEndpoint.Update().
 		Where(
 			bronzehistorygcpcomputenegendpoint.ResourceID(resourceID),
@@ -89,7 +89,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		SetValidTo(now).
 		Save(ctx)
-	if ent.IsNotFound(err) {
+	if entcompute.IsNotFound(err) {
 		return nil
 	}
 	return err

@@ -3,7 +3,7 @@ package forwardingrule
 import (
 	"encoding/json"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // ForwardingRuleDiff represents changes between old and new forwarding rule states.
@@ -24,7 +24,7 @@ func (d *ForwardingRuleDiff) HasAnyChange() bool {
 }
 
 // DiffForwardingRuleData compares existing Ent entity with new ForwardingRuleData.
-func DiffForwardingRuleData(old *ent.BronzeGCPComputeForwardingRule, new *ForwardingRuleData) *ForwardingRuleDiff {
+func DiffForwardingRuleData(old *entcompute.BronzeGCPComputeForwardingRule, new *ForwardingRuleData) *ForwardingRuleDiff {
 	diff := &ForwardingRuleDiff{}
 
 	// New forwarding rule
@@ -43,7 +43,7 @@ func DiffForwardingRuleData(old *ent.BronzeGCPComputeForwardingRule, new *Forwar
 }
 
 // hasForwardingRuleFieldsChanged compares forwarding rule-level fields (excluding children).
-func hasForwardingRuleFieldsChanged(old *ent.BronzeGCPComputeForwardingRule, new *ForwardingRuleData) bool {
+func hasForwardingRuleFieldsChanged(old *entcompute.BronzeGCPComputeForwardingRule, new *ForwardingRuleData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.IPAddress != new.IPAddress ||
@@ -87,7 +87,7 @@ func jsonChanged(old, new []interface{}) bool {
 	return string(oldBytes) != string(newBytes)
 }
 
-func diffLabelsData(old []*ent.BronzeGCPComputeForwardingRuleLabel, new []LabelData) ChildDiff {
+func diffLabelsData(old []*entcompute.BronzeGCPComputeForwardingRuleLabel, new []LabelData) ChildDiff {
 	diff := ChildDiff{}
 
 	if len(old) != len(new) {

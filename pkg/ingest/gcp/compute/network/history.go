@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenetwork"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputenetworkpeering"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputenetwork"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputenetworkpeering"
 )
 
 // HistoryService handles history tracking for networks.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new network and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, networkData *NetworkData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, networkData *NetworkData, now time.Time) error {
 	// Create network history
 	netHist, err := tx.BronzeHistoryGCPComputeNetwork.Create().
 		SetResourceID(networkData.ID).
@@ -51,7 +51,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, networkD
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeNetwork, new *NetworkData, diff *NetworkDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGCPComputeNetwork, new *NetworkData, diff *NetworkDiff, now time.Time) error {
 	// Get current network history
 	currentHist, err := tx.BronzeHistoryGCPComputeNetwork.Query().
 		Where(
@@ -109,7 +109,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted network.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	// Get current network history
 	currentHist, err := tx.BronzeHistoryGCPComputeNetwork.Query().
 		Where(
@@ -118,7 +118,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcompute.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current network history: %w", err)
@@ -137,7 +137,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 }
 
 // createChildrenHistory creates history records for all children.
-func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, networkHistoryID uint, network *NetworkData, now time.Time) error {
+func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *entcompute.Tx, networkHistoryID uint, network *NetworkData, now time.Time) error {
 	// Peerings
 	for _, peering := range network.Peerings {
 		_, err := tx.BronzeHistoryGCPComputeNetworkPeering.Create().
@@ -165,7 +165,7 @@ func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, 
 }
 
 // closeChildrenHistory closes all children history records.
-func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, networkHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *entcompute.Tx, networkHistoryID uint, now time.Time) error {
 	// Close peerings
 	_, err := tx.BronzeHistoryGCPComputeNetworkPeering.Update().
 		Where(
@@ -182,7 +182,7 @@ func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, n
 }
 
 // updateChildrenHistory updates children history based on diff (granular tracking).
-func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, networkHistoryID uint, new *NetworkData, diff *NetworkDiff, now time.Time) error {
+func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *entcompute.Tx, networkHistoryID uint, new *NetworkData, diff *NetworkDiff, now time.Time) error {
 	if diff.PeeringsDiff.Changed {
 		if err := h.updatePeeringsHistory(ctx, tx, networkHistoryID, new.Peerings, now); err != nil {
 			return fmt.Errorf("failed to update peerings history: %w", err)
@@ -192,7 +192,7 @@ func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, 
 	return nil
 }
 
-func (h *HistoryService) updatePeeringsHistory(ctx context.Context, tx *ent.Tx, networkHistoryID uint, peerings []PeeringData, now time.Time) error {
+func (h *HistoryService) updatePeeringsHistory(ctx context.Context, tx *entcompute.Tx, networkHistoryID uint, peerings []PeeringData, now time.Time) error {
 	// Close old peering history
 	_, err := tx.BronzeHistoryGCPComputeNetworkPeering.Update().
 		Where(

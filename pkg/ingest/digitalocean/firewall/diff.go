@@ -3,7 +3,7 @@ package firewall
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
 )
 
 // FirewallDiff represents changes between old and new Firewall states.
@@ -13,7 +13,7 @@ type FirewallDiff struct {
 }
 
 // DiffFirewallData compares old Ent entity and new data.
-func DiffFirewallData(old *ent.BronzeDOFirewall, new *FirewallData) *FirewallDiff {
+func DiffFirewallData(old *entdo.BronzeDOFirewall, new *FirewallData) *FirewallDiff {
 	if old == nil {
 		return &FirewallDiff{IsNew: true}
 	}

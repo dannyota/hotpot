@@ -3,7 +3,7 @@ package customconstraint
 import (
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entorgpolicy "github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy"
 )
 
 type CustomConstraintDiff struct {
@@ -15,7 +15,7 @@ func (d *CustomConstraintDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged
 }
 
-func DiffCustomConstraintData(old *ent.BronzeGCPOrgPolicyCustomConstraint, new *CustomConstraintData) *CustomConstraintDiff {
+func DiffCustomConstraintData(old *entorgpolicy.BronzeGCPOrgPolicyCustomConstraint, new *CustomConstraintData) *CustomConstraintDiff {
 	diff := &CustomConstraintDiff{}
 
 	if old == nil {

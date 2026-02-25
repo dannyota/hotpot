@@ -21,6 +21,7 @@ type dbManager struct {
 	gracePeriod   time.Duration
 	onReconnect   func(oldDSN, newDSN string)
 
+	driver     dialect.Driver
 	entClient  *ent.Client
 	currentDSN string
 	mu         sync.RWMutex
@@ -61,6 +62,7 @@ func (m *dbManager) connect() error {
 	)
 
 	m.mu.Lock()
+	m.driver = drv
 	m.entClient = entClient
 	m.currentDSN = dsn
 	m.mu.Unlock()
@@ -102,6 +104,7 @@ func (m *dbManager) reconnectIfChanged() {
 	m.mu.Lock()
 	oldClient := m.entClient
 	oldDSN := m.currentDSN
+	m.driver = drv
 	m.entClient = newClient
 	m.currentDSN = newDSN
 	m.mu.Unlock()
@@ -132,6 +135,14 @@ func (m *dbManager) closeAfterGracePeriod(oldClient *ent.Client) {
 	}
 
 	log.Printf("Old database connection closed")
+}
+
+// Driver returns the current dialect.Driver (thread-safe).
+// Providers use this to create per-service ent clients.
+func (m *dbManager) Driver() dialect.Driver {
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+	return m.driver
 }
 
 // EntClient returns the current Ent client (thread-safe).

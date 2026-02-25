@@ -6,11 +6,11 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entlb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer"
 )
 
 // Register registers certificate workflows and activities with the Temporal worker.
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, iamAuth *auth.IAMUserAuth, limiter ratelimit.Limiter) {
+func Register(w worker.Worker, configService *config.Service, entClient *entlb.Client, iamAuth *auth.IAMUserAuth, limiter ratelimit.Limiter) {
 	activities := NewActivities(configService, entClient, iamAuth, limiter)
 	w.RegisterActivity(activities.IngestLoadBalancerCertificates)
 	w.RegisterWorkflow(GreenNodeLoadBalancerCertificateWorkflow)

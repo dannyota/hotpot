@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontainercluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontainerclusteraddon"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontainerclustercondition"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontainerclusterlabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcontainerclusternodepool"
+	entcontainer "github.com/dannyota/hotpot/pkg/storage/ent/gcp/container"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainercluster"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusteraddon"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclustercondition"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusterlabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusternodepool"
 )
 
 // Service handles GCP Container cluster ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entcontainer.Client
 	history   *HistoryService
 }
 
 // NewService creates a new cluster ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entcontainer.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -105,7 +105,7 @@ func (s *Service) saveClusters(ctx context.Context, clusters []*ClusterData) err
 			WithConditions().
 			WithNodePools().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entcontainer.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing cluster %s: %w", clusterData.Name, err)
 		}
@@ -134,7 +134,7 @@ func (s *Service) saveClusters(ctx context.Context, clusters []*ClusterData) err
 		}
 
 		// Create or update cluster
-		var savedCluster *ent.BronzeGCPContainerCluster
+		var savedCluster *entcontainer.BronzeGCPContainerCluster
 		if existing == nil {
 			// Create new cluster
 			create := tx.BronzeGCPContainerCluster.Create().
@@ -353,7 +353,7 @@ func (s *Service) saveClusters(ctx context.Context, clusters []*ClusterData) err
 }
 
 // deleteClusterChildren deletes all child entities for a cluster.
-func (s *Service) deleteClusterChildren(ctx context.Context, tx *ent.Tx, clusterID string) error {
+func (s *Service) deleteClusterChildren(ctx context.Context, tx *entcontainer.Tx, clusterID string) error {
 	// Labels
 	_, err := tx.BronzeGCPContainerClusterLabel.Delete().
 		Where(bronzegcpcontainerclusterlabel.HasClusterWith(bronzegcpcontainercluster.ID(clusterID))).
@@ -390,7 +390,7 @@ func (s *Service) deleteClusterChildren(ctx context.Context, tx *ent.Tx, cluster
 }
 
 // createClusterChildren creates all child entities for a cluster.
-func (s *Service) createClusterChildren(ctx context.Context, tx *ent.Tx, cluster *ent.BronzeGCPContainerCluster, data *ClusterData) error {
+func (s *Service) createClusterChildren(ctx context.Context, tx *entcontainer.Tx, cluster *entcontainer.BronzeGCPContainerCluster, data *ClusterData) error {
 	// Create labels
 	for _, labelData := range data.Labels {
 		_, err := tx.BronzeGCPContainerClusterLabel.Create().

@@ -6,11 +6,11 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
 )
 
 // Register registers VPC workflows and activities with the Temporal worker.
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, iamAuth *auth.IAMUserAuth, limiter ratelimit.Limiter) {
+func Register(w worker.Worker, configService *config.Service, entClient *entnet.Client, iamAuth *auth.IAMUserAuth, limiter ratelimit.Limiter) {
 	activities := NewActivities(configService, entClient, iamAuth, limiter)
 	w.RegisterActivity(activities.IngestNetworkVPCs)
 	w.RegisterWorkflow(GreenNodeNetworkVPCWorkflow)

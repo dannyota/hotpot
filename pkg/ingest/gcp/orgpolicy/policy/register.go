@@ -5,11 +5,12 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entorgpolicy "github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
-	activities := NewActivities(configService, entClient, limiter)
+func Register(w worker.Worker, configService *config.Service, entClient *entorgpolicy.Client, rmClient *entresourcemanager.Client, limiter ratelimit.Limiter) {
+	activities := NewActivities(configService, entClient, rmClient, limiter)
 	w.RegisterActivity(activities.IngestPolicies)
 	w.RegisterWorkflow(GCPOrgPolicyPolicyWorkflow)
 }

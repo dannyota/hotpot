@@ -1,7 +1,7 @@
 package project
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // ProjectDiff represents changes between old and new project state.
@@ -22,7 +22,7 @@ func (d *ProjectDiff) HasAnyChange() bool {
 }
 
 // DiffProjectData compares existing Ent entity with new ProjectData and returns differences.
-func DiffProjectData(old *ent.BronzeGCPProject, new *ProjectData) *ProjectDiff {
+func DiffProjectData(old *entresourcemanager.BronzeGCPProject, new *ProjectData) *ProjectDiff {
 	diff := &ProjectDiff{}
 
 	// New project
@@ -48,7 +48,7 @@ func DiffProjectData(old *ent.BronzeGCPProject, new *ProjectData) *ProjectDiff {
 }
 
 // diffLabelsData compares Ent labels with new label data.
-func diffLabelsData(old []*ent.BronzeGCPProjectLabel, new []LabelData) ChildDiff {
+func diffLabelsData(old []*entresourcemanager.BronzeGCPProjectLabel, new []LabelData) ChildDiff {
 	diff := ChildDiff{}
 
 	if len(old) != len(new) {

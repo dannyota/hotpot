@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpmonitoringuptimecheckconfig"
+	entmonitoring "github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring/bronzehistorygcpmonitoringuptimecheckconfig"
 )
 
 // HistoryService manages uptime check config history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entmonitoring.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entmonitoring.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new uptime check config.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *UptimeCheckData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entmonitoring.Tx, data *UptimeCheckData, now time.Time) error {
 	create := tx.BronzeHistoryGCPMonitoringUptimeCheckConfig.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -74,7 +74,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Up
 }
 
 // UpdateHistory updates history records for a changed uptime check config.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPMonitoringUptimeCheckConfig, new *UptimeCheckData, diff *UptimeCheckDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entmonitoring.Tx, old *entmonitoring.BronzeGCPMonitoringUptimeCheckConfig, new *UptimeCheckData, diff *UptimeCheckDiff, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPMonitoringUptimeCheckConfig.Query().
 		Where(
 			bronzehistorygcpmonitoringuptimecheckconfig.ResourceID(old.ID),
@@ -149,7 +149,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted uptime check config.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entmonitoring.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPMonitoringUptimeCheckConfig.Query().
 		Where(
 			bronzehistorygcpmonitoringuptimecheckconfig.ResourceID(resourceID),
@@ -157,7 +157,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entmonitoring.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current uptime check config history: %w", err)

@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpbinaryauthorizationpolicy"
+	entbinaryauthorization "github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization/bronzehistorygcpbinaryauthorizationpolicy"
 )
 
 // HistoryService manages Binary Authorization policy history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entbinaryauthorization.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entbinaryauthorization.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new Binary Authorization policy.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *PolicyData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entbinaryauthorization.Tx, data *PolicyData, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPBinaryAuthorizationPolicy.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -44,7 +44,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Po
 }
 
 // UpdateHistory updates history records for a changed Binary Authorization policy.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPBinaryAuthorizationPolicy, new *PolicyData, diff *PolicyDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entbinaryauthorization.Tx, old *entbinaryauthorization.BronzeGCPBinaryAuthorizationPolicy, new *PolicyData, diff *PolicyDiff, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPBinaryAuthorizationPolicy.Query().
 		Where(
 			bronzehistorygcpbinaryauthorizationpolicy.ResourceID(old.ID),
@@ -89,7 +89,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted Binary Authorization policy.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entbinaryauthorization.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPBinaryAuthorizationPolicy.Query().
 		Where(
 			bronzehistorygcpbinaryauthorizationpolicy.ResourceID(resourceID),
@@ -97,7 +97,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entbinaryauthorization.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current binary authorization policy history: %w", err)

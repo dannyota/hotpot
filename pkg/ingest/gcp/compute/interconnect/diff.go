@@ -3,7 +3,7 @@ package interconnect
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // InterconnectDiff represents changes between old and new interconnect states.
@@ -13,7 +13,7 @@ type InterconnectDiff struct {
 }
 
 // DiffInterconnectData compares existing Ent entity with new InterconnectData and returns differences.
-func DiffInterconnectData(old *ent.BronzeGCPComputeInterconnect, new *InterconnectData) *InterconnectDiff {
+func DiffInterconnectData(old *entcompute.BronzeGCPComputeInterconnect, new *InterconnectData) *InterconnectDiff {
 	diff := &InterconnectDiff{}
 
 	// New interconnect

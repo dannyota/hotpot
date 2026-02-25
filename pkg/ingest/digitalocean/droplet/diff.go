@@ -3,7 +3,7 @@ package droplet
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
 )
 
 // DropletDiff represents changes between old and new Droplet states.
@@ -13,7 +13,7 @@ type DropletDiff struct {
 }
 
 // DiffDropletData compares old Ent entity and new data.
-func DiffDropletData(old *ent.BronzeDODroplet, new *DropletData) *DropletDiff {
+func DiffDropletData(old *entdo.BronzeDODroplet, new *DropletData) *DropletDiff {
 	if old == nil {
 		return &DropletDiff{IsNew: true}
 	}

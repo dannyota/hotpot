@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgpolicypolicy"
+	entorgpolicy "github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzehistorygcporgpolicypolicy"
 )
 
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entorgpolicy.Client
 }
 
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entorgpolicy.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *PolicyData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entorgpolicy.Tx, data *PolicyData, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPOrgPolicyPolicy.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -35,7 +35,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Po
 	return nil
 }
 
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPOrgPolicyPolicy, new *PolicyData, diff *PolicyDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entorgpolicy.Tx, old *entorgpolicy.BronzeGCPOrgPolicyPolicy, new *PolicyData, diff *PolicyDiff, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPOrgPolicyPolicy.Query().
 		Where(
 			bronzehistorygcporgpolicypolicy.ResourceID(old.ID),
@@ -72,7 +72,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 	return nil
 }
 
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entorgpolicy.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPOrgPolicyPolicy.Query().
 		Where(
 			bronzehistorygcporgpolicypolicy.ResourceID(resourceID),
@@ -80,7 +80,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entorgpolicy.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current org policy history: %w", err)

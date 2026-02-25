@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcloudassetresourcesearch"
+	entcloudasset "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/bronzehistorygcpcloudassetresourcesearch"
 )
 
 // HistoryService manages resource search history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcloudasset.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcloudasset.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new resource search result.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *ResourceSearchData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcloudasset.Tx, data *ResourceSearchData, now time.Time) error {
 	create := tx.BronzeHistoryGCPCloudAssetResourceSearch.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -59,7 +59,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Re
 }
 
 // UpdateHistory updates history records for a changed resource search result.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPCloudAssetResourceSearch, new *ResourceSearchData, diff *ResourceSearchDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcloudasset.Tx, old *entcloudasset.BronzeGCPCloudAssetResourceSearch, new *ResourceSearchData, diff *ResourceSearchDiff, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPCloudAssetResourceSearch.Query().
 		Where(
 			bronzehistorygcpcloudassetresourcesearch.ResourceID(old.ID),
@@ -119,7 +119,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted resource search result.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcloudasset.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPCloudAssetResourceSearch.Query().
 		Where(
 			bronzehistorygcpcloudassetresourcesearch.ResourceID(resourceID),
@@ -127,7 +127,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcloudasset.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current resource search history: %w", err)

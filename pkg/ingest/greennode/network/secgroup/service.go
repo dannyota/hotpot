@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodenetworksecgroup"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodenetworksecgrouprule"
+	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworksecgroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworksecgrouprule"
 )
 
 // Service handles GreenNode security group ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entnet.Client
 	history   *HistoryService
 }
 
 // NewService creates a new security group ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entnet.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -86,7 +86,7 @@ func (s *Service) saveSecgroups(ctx context.Context, secgroups []*SecgroupData) 
 			Where(bronzegreennodenetworksecgroup.ID(data.ID)).
 			WithRules().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entnet.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing secgroup %s: %w", data.Name, err)
 		}
@@ -110,7 +110,7 @@ func (s *Service) saveSecgroups(ctx context.Context, secgroups []*SecgroupData) 
 			}
 		}
 
-		var savedSecgroup *ent.BronzeGreenNodeNetworkSecgroup
+		var savedSecgroup *entnet.BronzeGreenNodeNetworkSecgroup
 		if existing == nil {
 			savedSecgroup, err = tx.BronzeGreenNodeNetworkSecgroup.Create().
 				SetID(data.ID).
@@ -170,7 +170,7 @@ func (s *Service) saveSecgroups(ctx context.Context, secgroups []*SecgroupData) 
 	return nil
 }
 
-func (s *Service) deleteSecgroupChildren(ctx context.Context, tx *ent.Tx, secgroupID string) error {
+func (s *Service) deleteSecgroupChildren(ctx context.Context, tx *entnet.Tx, secgroupID string) error {
 	_, err := tx.BronzeGreenNodeNetworkSecgroupRule.Delete().
 		Where(bronzegreennodenetworksecgrouprule.HasSecgroupWith(bronzegreennodenetworksecgroup.ID(secgroupID))).
 		Exec(ctx)
@@ -180,7 +180,7 @@ func (s *Service) deleteSecgroupChildren(ctx context.Context, tx *ent.Tx, secgro
 	return nil
 }
 
-func (s *Service) createSecgroupChildren(ctx context.Context, tx *ent.Tx, sg *ent.BronzeGreenNodeNetworkSecgroup, data *SecgroupData) error {
+func (s *Service) createSecgroupChildren(ctx context.Context, tx *entnet.Tx, sg *entnet.BronzeGreenNodeNetworkSecgroup, data *SecgroupData) error {
 	for _, r := range data.Rules {
 		_, err := tx.BronzeGreenNodeNetworkSecgroupRule.Create().
 			SetSecgroup(sg).

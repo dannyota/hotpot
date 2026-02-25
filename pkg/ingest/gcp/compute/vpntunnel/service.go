@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntunnel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpntunnellabel"
+	entvpn "github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpntunnel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpntunnellabel"
 )
 
 // Service handles GCP Compute VPN tunnel ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entvpn.Client
 	history   *HistoryService
 }
 
 // NewService creates a new VPN tunnel ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entvpn.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -98,7 +98,7 @@ func (s *Service) saveVpnTunnels(ctx context.Context, vpnTunnels []*VpnTunnelDat
 			Where(bronzegcpvpntunnel.ID(data.ID)).
 			WithLabels().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entvpn.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("query existing vpn tunnel %s: %w", data.Name, err)
 		}
@@ -120,7 +120,7 @@ func (s *Service) saveVpnTunnels(ctx context.Context, vpnTunnels []*VpnTunnelDat
 		}
 
 		// Upsert VPN tunnel
-		var savedTunnel *ent.BronzeGCPVPNTunnel
+		var savedTunnel *entvpn.BronzeGCPVPNTunnel
 		if existing == nil {
 			// Create new VPN tunnel
 			create := tx.BronzeGCPVPNTunnel.Create().

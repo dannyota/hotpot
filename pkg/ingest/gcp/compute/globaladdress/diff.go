@@ -2,7 +2,7 @@ package globaladdress
 
 import (
 	"bytes"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // GlobalAddressDiff represents changes between old and new global address states.
@@ -20,7 +20,7 @@ type ChildDiff struct {
 }
 
 // DiffGlobalAddressData compares old Ent entity and new GlobalAddressData.
-func DiffGlobalAddressData(old *ent.BronzeGCPComputeGlobalAddress, new *GlobalAddressData) *GlobalAddressDiff {
+func DiffGlobalAddressData(old *entcompute.BronzeGCPComputeGlobalAddress, new *GlobalAddressData) *GlobalAddressDiff {
 	if old == nil {
 		return &GlobalAddressDiff{
 			IsNew:      true,
@@ -49,7 +49,7 @@ func (d *GlobalAddressDiff) HasAnyChange() bool {
 }
 
 // hasGlobalAddressFieldsChanged compares address-level fields (excluding children).
-func hasGlobalAddressFieldsChanged(old *ent.BronzeGCPComputeGlobalAddress, new *GlobalAddressData) bool {
+func hasGlobalAddressFieldsChanged(old *entcompute.BronzeGCPComputeGlobalAddress, new *GlobalAddressData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Address != new.Address ||
@@ -68,7 +68,7 @@ func hasGlobalAddressFieldsChanged(old *ent.BronzeGCPComputeGlobalAddress, new *
 		!bytes.Equal(old.UsersJSON, new.UsersJSON)
 }
 
-func diffLabels(old []*ent.BronzeGCPComputeGlobalAddressLabel, new []GlobalAddressLabelData) ChildDiff {
+func diffLabels(old []*entcompute.BronzeGCPComputeGlobalAddressLabel, new []GlobalAddressLabelData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

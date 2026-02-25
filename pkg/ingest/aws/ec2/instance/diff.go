@@ -3,7 +3,7 @@ package instance
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entec2 "github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2"
 )
 
 // InstanceDiff represents changes between old and new instance states.
@@ -21,7 +21,7 @@ type ChildDiff struct {
 }
 
 // DiffInstanceData compares old Ent entity and new data.
-func DiffInstanceData(old *ent.BronzeAWSEC2Instance, new *InstanceData) *InstanceDiff {
+func DiffInstanceData(old *entec2.BronzeAWSEC2Instance, new *InstanceData) *InstanceDiff {
 	if old == nil {
 		return &InstanceDiff{
 			IsNew:    true,
@@ -45,7 +45,7 @@ func (d *InstanceDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged || d.TagsDiff.Changed
 }
 
-func hasInstanceFieldsChanged(old *ent.BronzeAWSEC2Instance, new *InstanceData) bool {
+func hasInstanceFieldsChanged(old *entec2.BronzeAWSEC2Instance, new *InstanceData) bool {
 	return old.Name != new.Name ||
 		old.InstanceType != new.InstanceType ||
 		old.State != new.State ||
@@ -60,7 +60,7 @@ func hasInstanceFieldsChanged(old *ent.BronzeAWSEC2Instance, new *InstanceData) 
 		!bytes.Equal(old.SecurityGroupsJSON, new.SecurityGroupJSON)
 }
 
-func diffTagsData(old []*ent.BronzeAWSEC2InstanceTag, new []TagData) ChildDiff {
+func diffTagsData(old []*entec2.BronzeAWSEC2InstanceTag, new []TagData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

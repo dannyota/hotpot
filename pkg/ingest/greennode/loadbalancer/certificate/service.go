@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeloadbalancercertificate"
+	entlb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzegreennodeloadbalancercertificate"
 )
 
 // Service handles GreenNode certificate ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entlb.Client
 	history   *HistoryService
 }
 
 // NewService creates a new certificate ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entlb.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -80,7 +80,7 @@ func (s *Service) saveCertificates(ctx context.Context, certs []*CertificateData
 		existing, err := tx.BronzeGreenNodeLoadBalancerCertificate.Query().
 			Where(bronzegreennodeloadbalancercertificate.ID(data.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entlb.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing certificate %s: %w", data.Name, err)
 		}

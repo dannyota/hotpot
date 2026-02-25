@@ -1,6 +1,7 @@
 package gcp
 
 import (
+	"entgo.io/ent/dialect"
 	"go.temporal.io/sdk/worker"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
@@ -36,12 +37,11 @@ import (
 	gcpsql "github.com/dannyota/hotpot/pkg/ingest/gcp/sql"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/storage"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/vpcaccess"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // Register registers all GCP activities and workflows with the Temporal worker.
 // Returns the rate limit service for cleanup (caller should defer Close()).
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client) *ratelimit.Service {
+func Register(w worker.Worker, configService *config.Service, driver dialect.Driver) *ratelimit.Service {
 	// Create shared rate limiter for all GCP API calls
 	rateLimitSvc := ratelimit.NewService(ratelimit.ServiceOptions{
 		RedisConfig: configService.RedisConfig(),
@@ -55,97 +55,97 @@ func Register(w worker.Worker, configService *config.Service, entClient *ent.Cli
 	w.RegisterActivity(activities.ResolveDisabledServices)
 
 	// Register resource manager (project discovery)
-	resourcemanager.Register(w, configService, entClient, limiter)
+	resourcemanager.Register(w, configService, driver, limiter)
 
 	// Register compute (instances, disks, networks)
-	compute.Register(w, configService, entClient, limiter)
+	compute.Register(w, configService, driver, limiter)
 
 	// Register container (GKE clusters)
-	container.Register(w, configService, entClient, limiter)
+	container.Register(w, configService, driver, limiter)
 
 	// Register IAM (service accounts, keys)
-	iam.Register(w, configService, entClient, limiter)
+	iam.Register(w, configService, driver, limiter)
 
 	// Register VPC Access (connectors)
-	vpcaccess.Register(w, configService, entClient, limiter)
+	vpcaccess.Register(w, configService, driver, limiter)
 
 	// Register Storage (buckets)
-	storage.Register(w, configService, entClient, limiter)
+	storage.Register(w, configService, driver, limiter)
 
 	// Register KMS (key rings, crypto keys)
-	kms.Register(w, configService, entClient, limiter)
+	kms.Register(w, configService, driver, limiter)
 
 	// Register Logging (sinks, buckets)
-	logging.Register(w, configService, entClient, limiter)
+	logging.Register(w, configService, driver, limiter)
 
 	// Register DNS (managed zones)
-	dns.Register(w, configService, entClient, limiter)
+	dns.Register(w, configService, driver, limiter)
 
 	// Register Secret Manager (secrets)
-	secretmanager.Register(w, configService, entClient, limiter)
+	secretmanager.Register(w, configService, driver, limiter)
 
 	// Register Cloud SQL (instances)
-	gcpsql.Register(w, configService, entClient, limiter)
+	gcpsql.Register(w, configService, driver, limiter)
 
 	// Register Security Command Center (sources, findings, notification configs)
-	securitycenter.Register(w, configService, entClient, limiter)
+	securitycenter.Register(w, configService, driver, limiter)
 
 	// Register Organization Policy (constraints, policies, custom constraints)
-	orgpolicy.Register(w, configService, entClient, limiter)
+	orgpolicy.Register(w, configService, driver, limiter)
 
 	// Register Service Usage (enabled services)
-	serviceusage.Register(w, configService, entClient, limiter)
+	serviceusage.Register(w, configService, driver, limiter)
 
 	// Register Cloud Functions
-	cloudfunctions.Register(w, configService, entClient, limiter)
+	cloudfunctions.Register(w, configService, driver, limiter)
 
 	// Register Memorystore Redis (instances)
-	redis.Register(w, configService, entClient, limiter)
+	redis.Register(w, configService, driver, limiter)
 
 	// Register Dataproc (clusters)
-	dataproc.Register(w, configService, entClient, limiter)
+	dataproc.Register(w, configService, driver, limiter)
 
 	// Register IAP (settings, IAM policies)
-	iap.Register(w, configService, entClient, limiter)
+	iap.Register(w, configService, driver, limiter)
 
 	// Register AlloyDB (clusters)
-	alloydb.Register(w, configService, entClient, limiter)
+	alloydb.Register(w, configService, driver, limiter)
 
 	// Register Filestore (instances)
-	filestore.Register(w, configService, entClient, limiter)
+	filestore.Register(w, configService, driver, limiter)
 
 	// Register Pub/Sub (topics, subscriptions)
-	pubsub.Register(w, configService, entClient, limiter)
+	pubsub.Register(w, configService, driver, limiter)
 
 	// Register App Engine (applications, services)
-	appengine.Register(w, configService, entClient, limiter)
+	appengine.Register(w, configService, driver, limiter)
 
 	// Register Cloud Asset (assets, IAM policy search, resource search)
-	cloudasset.Register(w, configService, entClient, limiter)
+	cloudasset.Register(w, configService, driver, limiter)
 
 	// Register Binary Authorization (policies, attestors)
-	binaryauthorization.Register(w, configService, entClient, limiter)
+	binaryauthorization.Register(w, configService, driver, limiter)
 
 	// Register Monitoring (alert policies, uptime checks)
-	monitoring.Register(w, configService, entClient, limiter)
+	monitoring.Register(w, configService, driver, limiter)
 
 	// Register Cloud Run (services, revisions)
-	run.Register(w, configService, entClient, limiter)
+	run.Register(w, configService, driver, limiter)
 
 	// Register Access Context Manager (access policies, levels, perimeters)
-	accesscontextmanager.Register(w, configService, entClient, limiter)
+	accesscontextmanager.Register(w, configService, driver, limiter)
 
 	// Register Container Analysis (notes, occurrences)
-	containeranalysis.Register(w, configService, entClient, limiter)
+	containeranalysis.Register(w, configService, driver, limiter)
 
 	// Register Spanner (instances, databases)
-	spanner.Register(w, configService, entClient, limiter)
+	spanner.Register(w, configService, driver, limiter)
 
 	// Register BigQuery (datasets, tables)
-	bigquery.Register(w, configService, entClient, limiter)
+	bigquery.Register(w, configService, driver, limiter)
 
 	// Register Bigtable (instances, clusters)
-	bigtable.Register(w, configService, entClient, limiter)
+	bigtable.Register(w, configService, driver, limiter)
 
 	// Register GCP inventory workflow
 	w.RegisterWorkflow(GCPInventoryWorkflow)

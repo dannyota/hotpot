@@ -1,6 +1,6 @@
 package group
 
-import "github.com/dannyota/hotpot/pkg/storage/ent"
+import ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
 
 // GroupDiff represents changes between old and new group states.
 type GroupDiff struct {
@@ -9,7 +9,7 @@ type GroupDiff struct {
 }
 
 // DiffGroupData compares old Ent entity and new data.
-func DiffGroupData(old *ent.BronzeS1Group, new *GroupData) *GroupDiff {
+func DiffGroupData(old *ents1.BronzeS1Group, new *GroupData) *GroupDiff {
 	if old == nil {
 		return &GroupDiff{IsNew: true}
 	}

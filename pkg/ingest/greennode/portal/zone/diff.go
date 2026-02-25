@@ -1,7 +1,7 @@
 package zone
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entportal "github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal"
 )
 
 // ZoneDiff represents changes between old and new zone states.
@@ -11,7 +11,7 @@ type ZoneDiff struct {
 }
 
 // DiffZoneData compares old Ent entity and new ZoneData.
-func DiffZoneData(old *ent.BronzeGreenNodePortalZone, new *ZoneData) *ZoneDiff {
+func DiffZoneData(old *entportal.BronzeGreenNodePortalZone, new *ZoneData) *ZoneDiff {
 	if old == nil {
 		return &ZoneDiff{IsNew: true}
 	}

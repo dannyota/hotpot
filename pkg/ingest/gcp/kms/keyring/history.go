@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpkmskeyring"
+	entkms "github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms/bronzehistorygcpkmskeyring"
 )
 
 // HistoryService handles history tracking for key rings.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entkms.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entkms.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new key ring.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *KeyRingData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entkms.Tx, data *KeyRingData, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPKMSKeyRing.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -38,7 +38,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Ke
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPKMSKeyRing, new *KeyRingData, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entkms.Tx, old *entkms.BronzeGCPKMSKeyRing, new *KeyRingData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGCPKMSKeyRing.Query().
 		Where(
 			bronzehistorygcpkmskeyring.ResourceID(old.ID),
@@ -74,7 +74,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted key ring.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entkms.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGCPKMSKeyRing.Query().
 		Where(
 			bronzehistorygcpkmskeyring.ResourceID(resourceID),
@@ -82,7 +82,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entkms.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current key ring history: %w", err)

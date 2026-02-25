@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeprojectmetadata"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeprojectmetadataitem"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeprojectmetadata"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeprojectmetadataitem"
 )
 
 // Service handles GCP Compute project metadata ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entcompute.Client
 	history   *HistoryService
 }
 
 // NewService creates a new project metadata ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entcompute.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -96,7 +96,7 @@ func (s *Service) saveProjectMetadata(ctx context.Context, metadataList []*Proje
 			Where(bronzegcpcomputeprojectmetadata.ID(data.ID)).
 			WithItems().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entcompute.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing project metadata %s: %w", data.Name, err)
 		}
@@ -125,7 +125,7 @@ func (s *Service) saveProjectMetadata(ctx context.Context, metadataList []*Proje
 		}
 
 		// Create or update metadata
-		var savedMetadata *ent.BronzeGCPComputeProjectMetadata
+		var savedMetadata *entcompute.BronzeGCPComputeProjectMetadata
 		if existing == nil {
 			// Create new metadata
 			create := tx.BronzeGCPComputeProjectMetadata.Create().
@@ -198,7 +198,7 @@ func (s *Service) saveProjectMetadata(ctx context.Context, metadataList []*Proje
 }
 
 // deleteMetadataChildren deletes items for a project metadata record.
-func deleteMetadataChildren(ctx context.Context, tx *ent.Tx, metadataID string) error {
+func deleteMetadataChildren(ctx context.Context, tx *entcompute.Tx, metadataID string) error {
 	_, err := tx.BronzeGCPComputeProjectMetadataItem.Delete().
 		Where(bronzegcpcomputeprojectmetadataitem.HasMetadataWith(bronzegcpcomputeprojectmetadata.ID(metadataID))).
 		Exec(ctx)
@@ -210,7 +210,7 @@ func deleteMetadataChildren(ctx context.Context, tx *ent.Tx, metadataID string) 
 }
 
 // createMetadataChildren creates items for a project metadata record.
-func createMetadataChildren(ctx context.Context, tx *ent.Tx, savedMetadata *ent.BronzeGCPComputeProjectMetadata, data *ProjectMetadataData) error {
+func createMetadataChildren(ctx context.Context, tx *entcompute.Tx, savedMetadata *entcompute.BronzeGCPComputeProjectMetadata, data *ProjectMetadataData) error {
 	for _, item := range data.Items {
 		create := tx.BronzeGCPComputeProjectMetadataItem.Create().
 			SetKey(item.Key).

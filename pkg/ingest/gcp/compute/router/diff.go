@@ -3,7 +3,7 @@ package router
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // RouterDiff represents changes between old and new router states.
@@ -13,7 +13,7 @@ type RouterDiff struct {
 }
 
 // DiffRouterData compares existing Ent entity with new RouterData and returns differences.
-func DiffRouterData(old *ent.BronzeGCPComputeRouter, new *RouterData) *RouterDiff {
+func DiffRouterData(old *entcompute.BronzeGCPComputeRouter, new *RouterData) *RouterDiff {
 	diff := &RouterDiff{}
 
 	// New router

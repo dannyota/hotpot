@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputeservergroup"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputeservergroupmember"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputeservergroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputeservergroupmember"
 )
 
 // HistoryService handles history tracking for server groups.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new server group and members.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *ServerGroupData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, data *ServerGroupData, now time.Time) error {
 	sgHist, err := tx.BronzeHistoryGreenNodeComputeServerGroup.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -41,7 +41,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Se
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGreenNodeComputeServerGroup, new *ServerGroupData, diff *ServerGroupDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGreenNodeComputeServerGroup, new *ServerGroupData, diff *ServerGroupDiff, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeComputeServerGroup.Query().
 		Where(
 			bronzehistorygreennodecomputeservergroup.ResourceID(old.ID),
@@ -92,7 +92,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history for a deleted server group.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeComputeServerGroup.Query().
 		Where(
 			bronzehistorygreennodecomputeservergroup.ResourceID(resourceID),
@@ -100,7 +100,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcompute.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current server group history: %w", err)
@@ -115,7 +115,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	return h.closeMembersHistory(ctx, tx, currentHist.ID, now)
 }
 
-func (h *HistoryService) createMembersHistory(ctx context.Context, tx *ent.Tx, sgHistoryID uint, members []MemberData, now time.Time) error {
+func (h *HistoryService) createMembersHistory(ctx context.Context, tx *entcompute.Tx, sgHistoryID uint, members []MemberData, now time.Time) error {
 	for _, m := range members {
 		_, err := tx.BronzeHistoryGreenNodeComputeServerGroupMember.Create().
 			SetServerGroupHistoryID(sgHistoryID).
@@ -130,7 +130,7 @@ func (h *HistoryService) createMembersHistory(ctx context.Context, tx *ent.Tx, s
 	return nil
 }
 
-func (h *HistoryService) closeMembersHistory(ctx context.Context, tx *ent.Tx, sgHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeMembersHistory(ctx context.Context, tx *entcompute.Tx, sgHistoryID uint, now time.Time) error {
 	_, err := tx.BronzeHistoryGreenNodeComputeServerGroupMember.Update().
 		Where(
 			bronzehistorygreennodecomputeservergroupmember.ServerGroupHistoryID(sgHistoryID),

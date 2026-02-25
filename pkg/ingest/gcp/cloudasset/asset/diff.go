@@ -3,7 +3,7 @@ package asset
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcloudasset "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset"
 )
 
 // AssetDiff represents changes between old and new Cloud Asset state.
@@ -18,7 +18,7 @@ func (d *AssetDiff) HasAnyChange() bool {
 }
 
 // DiffAssetData compares existing Ent entity with new AssetData and returns differences.
-func DiffAssetData(old *ent.BronzeGCPCloudAssetAsset, new *AssetData) *AssetDiff {
+func DiffAssetData(old *entcloudasset.BronzeGCPCloudAssetAsset, new *AssetData) *AssetDiff {
 	diff := &AssetDiff{}
 
 	if old == nil {

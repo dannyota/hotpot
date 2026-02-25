@@ -3,7 +3,7 @@ package iampolicysearch
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcloudasset "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset"
 )
 
 // IAMPolicySearchDiff represents changes between old and new IAM policy search state.
@@ -18,7 +18,7 @@ func (d *IAMPolicySearchDiff) HasAnyChange() bool {
 }
 
 // DiffIAMPolicySearchData compares existing Ent entity with new IAMPolicySearchData and returns differences.
-func DiffIAMPolicySearchData(old *ent.BronzeGCPCloudAssetIAMPolicySearch, new *IAMPolicySearchData) *IAMPolicySearchDiff {
+func DiffIAMPolicySearchData(old *entcloudasset.BronzeGCPCloudAssetIAMPolicySearch, new *IAMPolicySearchData) *IAMPolicySearchDiff {
 	diff := &IAMPolicySearchDiff{}
 
 	if old == nil {

@@ -1,7 +1,7 @@
 package logexclusion
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entlogging "github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging"
 )
 
 // ExclusionDiff represents changes between old and new log exclusion states.
@@ -11,7 +11,7 @@ type ExclusionDiff struct {
 }
 
 // DiffExclusionData compares old Ent entity and new data.
-func DiffExclusionData(old *ent.BronzeGCPLoggingLogExclusion, new *LogExclusionData) *ExclusionDiff {
+func DiffExclusionData(old *entlogging.BronzeGCPLoggingLogExclusion, new *LogExclusionData) *ExclusionDiff {
 	if old == nil {
 		return &ExclusionDiff{IsNew: true}
 	}
@@ -25,7 +25,7 @@ func (d *ExclusionDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged
 }
 
-func hasFieldsChanged(old *ent.BronzeGCPLoggingLogExclusion, new *LogExclusionData) bool {
+func hasFieldsChanged(old *entlogging.BronzeGCPLoggingLogExclusion, new *LogExclusionData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Filter != new.Filter ||

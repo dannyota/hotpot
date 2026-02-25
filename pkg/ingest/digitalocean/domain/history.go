@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodomain"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydodomainrecord"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodomain"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodomainrecord"
 )
 
 // DomainHistoryService handles history tracking for Domains.
 type DomainHistoryService struct {
-	entClient *ent.Client
+	entClient *entdo.Client
 }
 
 // NewDomainHistoryService creates a new domain history service.
-func NewDomainHistoryService(entClient *ent.Client) *DomainHistoryService {
+func NewDomainHistoryService(entClient *entdo.Client) *DomainHistoryService {
 	return &DomainHistoryService{entClient: entClient}
 }
 
-func (h *DomainHistoryService) buildCreate(tx *ent.Tx, data *DomainData) *ent.BronzeHistoryDODomainCreate {
+func (h *DomainHistoryService) buildCreate(tx *entdo.Tx, data *DomainData) *entdo.BronzeHistoryDODomainCreate {
 	return tx.BronzeHistoryDODomain.Create().
 		SetResourceID(data.ResourceID).
 		SetTTL(data.TTL).
@@ -28,7 +28,7 @@ func (h *DomainHistoryService) buildCreate(tx *ent.Tx, data *DomainData) *ent.Br
 }
 
 // CreateHistory creates a history record for a new Domain.
-func (h *DomainHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *DomainData, now time.Time) error {
+func (h *DomainHistoryService) CreateHistory(ctx context.Context, tx *entdo.Tx, data *DomainData, now time.Time) error {
 	_, err := h.buildCreate(tx, data).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
@@ -41,7 +41,7 @@ func (h *DomainHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, da
 }
 
 // UpdateHistory closes old history and creates new for a changed Domain.
-func (h *DomainHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeDODomain, new *DomainData, now time.Time) error {
+func (h *DomainHistoryService) UpdateHistory(ctx context.Context, tx *entdo.Tx, old *entdo.BronzeDODomain, new *DomainData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDODomain.Query().
 		Where(
 			bronzehistorydodomain.ResourceID(old.ID),
@@ -71,7 +71,7 @@ func (h *DomainHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, ol
 }
 
 // CloseHistory closes history records for a deleted Domain.
-func (h *DomainHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *DomainHistoryService) CloseHistory(ctx context.Context, tx *entdo.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDODomain.Query().
 		Where(
 			bronzehistorydodomain.ResourceID(resourceID),
@@ -79,7 +79,7 @@ func (h *DomainHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, res
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entdo.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current Domain history: %w", err)
@@ -96,15 +96,15 @@ func (h *DomainHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, res
 
 // RecordHistoryService handles history tracking for Domain Records.
 type RecordHistoryService struct {
-	entClient *ent.Client
+	entClient *entdo.Client
 }
 
 // NewRecordHistoryService creates a new domain record history service.
-func NewRecordHistoryService(entClient *ent.Client) *RecordHistoryService {
+func NewRecordHistoryService(entClient *entdo.Client) *RecordHistoryService {
 	return &RecordHistoryService{entClient: entClient}
 }
 
-func (h *RecordHistoryService) buildCreate(tx *ent.Tx, data *DomainRecordData) *ent.BronzeHistoryDODomainRecordCreate {
+func (h *RecordHistoryService) buildCreate(tx *entdo.Tx, data *DomainRecordData) *entdo.BronzeHistoryDODomainRecordCreate {
 	return tx.BronzeHistoryDODomainRecord.Create().
 		SetResourceID(data.ResourceID).
 		SetDomainName(data.DomainName).
@@ -121,7 +121,7 @@ func (h *RecordHistoryService) buildCreate(tx *ent.Tx, data *DomainRecordData) *
 }
 
 // CreateHistory creates a history record for a new Domain Record.
-func (h *RecordHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *DomainRecordData, now time.Time) error {
+func (h *RecordHistoryService) CreateHistory(ctx context.Context, tx *entdo.Tx, data *DomainRecordData, now time.Time) error {
 	_, err := h.buildCreate(tx, data).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
@@ -134,7 +134,7 @@ func (h *RecordHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, da
 }
 
 // UpdateHistory closes old history and creates new for a changed Domain Record.
-func (h *RecordHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeDODomainRecord, new *DomainRecordData, now time.Time) error {
+func (h *RecordHistoryService) UpdateHistory(ctx context.Context, tx *entdo.Tx, old *entdo.BronzeDODomainRecord, new *DomainRecordData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDODomainRecord.Query().
 		Where(
 			bronzehistorydodomainrecord.ResourceID(old.ID),
@@ -164,7 +164,7 @@ func (h *RecordHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, ol
 }
 
 // CloseHistory closes history records for a deleted Domain Record.
-func (h *RecordHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *RecordHistoryService) CloseHistory(ctx context.Context, tx *entdo.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDODomainRecord.Query().
 		Where(
 			bronzehistorydodomainrecord.ResourceID(resourceID),
@@ -172,7 +172,7 @@ func (h *RecordHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, res
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entdo.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current DomainRecord history: %w", err)

@@ -3,7 +3,7 @@ package policy
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entbinaryauthorization "github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization"
 )
 
 // PolicyDiff represents changes between old and new Binary Authorization policy state.
@@ -18,7 +18,7 @@ func (d *PolicyDiff) HasAnyChange() bool {
 }
 
 // DiffPolicyData compares existing Ent entity with new PolicyData and returns differences.
-func DiffPolicyData(old *ent.BronzeGCPBinaryAuthorizationPolicy, new *PolicyData) *PolicyDiff {
+func DiffPolicyData(old *entbinaryauthorization.BronzeGCPBinaryAuthorizationPolicy, new *PolicyData) *PolicyDiff {
 	diff := &PolicyDiff{}
 
 	if old == nil {

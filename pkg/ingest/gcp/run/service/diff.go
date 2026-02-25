@@ -3,7 +3,7 @@ package service
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entrun "github.com/dannyota/hotpot/pkg/storage/ent/gcp/run"
 )
 
 // ServiceDiff represents changes between old and new Cloud Run service state.
@@ -18,7 +18,7 @@ func (d *ServiceDiff) HasAnyChange() bool {
 }
 
 // DiffServiceData compares existing Ent entity with new ServiceData and returns differences.
-func DiffServiceData(old *ent.BronzeGCPRunService, new *ServiceData) *ServiceDiff {
+func DiffServiceData(old *entrun.BronzeGCPRunService, new *ServiceData) *ServiceDiff {
 	diff := &ServiceDiff{}
 
 	if old == nil {

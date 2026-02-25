@@ -1,6 +1,6 @@
 package serviceaccountkey
 
-import "github.com/dannyota/hotpot/pkg/storage/ent"
+import entiam "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam"
 
 // ServiceAccountKeyDiff represents changes between old and new service account key states.
 type ServiceAccountKeyDiff struct {
@@ -9,7 +9,7 @@ type ServiceAccountKeyDiff struct {
 }
 
 // DiffServiceAccountKeyData compares existing Ent entity with new ServiceAccountKeyData and returns differences.
-func DiffServiceAccountKeyData(old *ent.BronzeGCPIAMServiceAccountKey, new *ServiceAccountKeyData) *ServiceAccountKeyDiff {
+func DiffServiceAccountKeyData(old *entiam.BronzeGCPIAMServiceAccountKey, new *ServiceAccountKeyData) *ServiceAccountKeyDiff {
 	diff := &ServiceAccountKeyDiff{}
 
 	// New service account key

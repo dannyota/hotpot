@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeportalquota"
+	entportal "github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/bronzegreennodeportalquota"
 )
 
 // Service handles GreenNode quota ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entportal.Client
 	history   *HistoryService
 }
 
 // NewService creates a new quota ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entportal.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -80,7 +80,7 @@ func (s *Service) saveQuotas(ctx context.Context, quotas []*QuotaData) error {
 		existing, err := tx.BronzeGreenNodePortalQuota.Query().
 			Where(bronzegreennodeportalquota.ID(data.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entportal.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing quota %s: %w", data.Name, err)
 		}

@@ -1,7 +1,7 @@
 package peering
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
 )
 
 // PeeringDiff represents changes between old and new peering states.
@@ -11,7 +11,7 @@ type PeeringDiff struct {
 }
 
 // DiffPeeringData compares old Ent entity and new PeeringData.
-func DiffPeeringData(old *ent.BronzeGreenNodeNetworkPeering, new *PeeringData) *PeeringDiff {
+func DiffPeeringData(old *entnet.BronzeGreenNodeNetworkPeering, new *PeeringData) *PeeringDiff {
 	if old == nil {
 		return &PeeringDiff{IsNew: true}
 	}

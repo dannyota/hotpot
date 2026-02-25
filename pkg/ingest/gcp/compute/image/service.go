@@ -5,21 +5,21 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeimage"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeimagelabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeimagelicense"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeimage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeimagelabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeimagelicense"
 )
 
 // Service handles GCP Compute image ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entcompute.Client
 	history   *HistoryService
 }
 
 // NewService creates a new image ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entcompute.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -101,7 +101,7 @@ func (s *Service) saveImages(ctx context.Context, images []*ImageData) error {
 			WithLabels().
 			WithLicenses().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entcompute.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing image %s: %w", imageData.Name, err)
 		}
@@ -130,7 +130,7 @@ func (s *Service) saveImages(ctx context.Context, images []*ImageData) error {
 		}
 
 		// Create or update image
-		var savedImage *ent.BronzeGCPComputeImage
+		var savedImage *entcompute.BronzeGCPComputeImage
 		if existing == nil {
 			// Create new image
 			create := tx.BronzeGCPComputeImage.Create().
@@ -288,7 +288,7 @@ func (s *Service) saveImages(ctx context.Context, images []*ImageData) error {
 
 // deleteImageChildren deletes all child entities for an image.
 // Note: Ent CASCADE DELETE is set on edges, so we just need to delete direct children.
-func (s *Service) deleteImageChildren(ctx context.Context, tx *ent.Tx, imageID string) error {
+func (s *Service) deleteImageChildren(ctx context.Context, tx *entcompute.Tx, imageID string) error {
 	// Delete labels
 	_, err := tx.BronzeGCPComputeImageLabel.Delete().
 		Where(bronzegcpcomputeimagelabel.HasImageWith(bronzegcpcomputeimage.ID(imageID))).
@@ -309,7 +309,7 @@ func (s *Service) deleteImageChildren(ctx context.Context, tx *ent.Tx, imageID s
 }
 
 // createImageChildren creates all child entities for an image.
-func (s *Service) createImageChildren(ctx context.Context, tx *ent.Tx, image *ent.BronzeGCPComputeImage, data *ImageData) error {
+func (s *Service) createImageChildren(ctx context.Context, tx *entcompute.Tx, image *entcompute.BronzeGCPComputeImage, data *ImageData) error {
 	// Create labels
 	for _, labelData := range data.Labels {
 		_, err := tx.BronzeGCPComputeImageLabel.Create().

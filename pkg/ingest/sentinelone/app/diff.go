@@ -1,6 +1,6 @@
 package app
 
-import "github.com/dannyota/hotpot/pkg/storage/ent"
+import ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
 
 // AppDiff represents changes between old and new app states.
 type AppDiff struct {
@@ -9,7 +9,7 @@ type AppDiff struct {
 }
 
 // DiffAppData compares old Ent entity and new data.
-func DiffAppData(old *ent.BronzeS1App, new *AppData) *AppDiff {
+func DiffAppData(old *ents1.BronzeS1App, new *AppData) *AppDiff {
 	if old == nil {
 		return &AppDiff{IsNew: true}
 	}

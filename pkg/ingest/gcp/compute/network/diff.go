@@ -3,7 +3,7 @@ package network
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // NetworkDiff represents changes between old and new network states.
@@ -21,7 +21,7 @@ type ChildDiff struct {
 }
 
 // DiffNetworkData compares old Ent entity and new data.
-func DiffNetworkData(old *ent.BronzeGCPComputeNetwork, new *NetworkData) *NetworkDiff {
+func DiffNetworkData(old *entcompute.BronzeGCPComputeNetwork, new *NetworkData) *NetworkDiff {
 	if old == nil {
 		return &NetworkDiff{
 			IsNew:        true,
@@ -35,7 +35,7 @@ func DiffNetworkData(old *ent.BronzeGCPComputeNetwork, new *NetworkData) *Networ
 	diff.IsChanged = hasNetworkFieldsChanged(old, new)
 
 	// Compare children (note: old.Edges.Peerings might be nil if not loaded)
-	var oldPeerings []*ent.BronzeGCPComputeNetworkPeering
+	var oldPeerings []*entcompute.BronzeGCPComputeNetworkPeering
 	if old.Edges.Peerings != nil {
 		oldPeerings = old.Edges.Peerings
 	}
@@ -53,7 +53,7 @@ func (d *NetworkDiff) HasAnyChange() bool {
 }
 
 // hasNetworkFieldsChanged compares network-level fields (excluding children).
-func hasNetworkFieldsChanged(old *ent.BronzeGCPComputeNetwork, new *NetworkData) bool {
+func hasNetworkFieldsChanged(old *entcompute.BronzeGCPComputeNetwork, new *NetworkData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.AutoCreateSubnetworks != new.AutoCreateSubnetworks ||
@@ -66,13 +66,13 @@ func hasNetworkFieldsChanged(old *ent.BronzeGCPComputeNetwork, new *NetworkData)
 		!bytes.Equal(old.SubnetworksJSON, new.SubnetworksJSON)
 }
 
-func diffPeerings(old []*ent.BronzeGCPComputeNetworkPeering, new []PeeringData) ChildDiff {
+func diffPeerings(old []*entcompute.BronzeGCPComputeNetworkPeering, new []PeeringData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
 
 	// Build map of old peerings by name
-	oldMap := make(map[string]*ent.BronzeGCPComputeNetworkPeering)
+	oldMap := make(map[string]*entcompute.BronzeGCPComputeNetworkPeering)
 	for _, p := range old {
 		oldMap[p.Name] = p
 	}
@@ -91,7 +91,7 @@ func diffPeerings(old []*ent.BronzeGCPComputeNetworkPeering, new []PeeringData) 
 	return ChildDiff{Changed: false}
 }
 
-func peeringChanged(old *ent.BronzeGCPComputeNetworkPeering, new PeeringData) bool {
+func peeringChanged(old *entcompute.BronzeGCPComputeNetworkPeering, new PeeringData) bool {
 	return old.Network != new.Network ||
 		old.State != new.State ||
 		old.StateDetails != new.StateDetails ||

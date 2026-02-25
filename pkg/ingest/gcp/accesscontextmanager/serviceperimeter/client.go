@@ -11,7 +11,7 @@ import (
 	"google.golang.org/api/option"
 	"google.golang.org/protobuf/encoding/protojson"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entaccesscontextmanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager"
 )
 
 // ServicePerimeterRaw holds raw API data for a service perimeter.
@@ -24,11 +24,11 @@ type ServicePerimeterRaw struct {
 // Client wraps the GCP Access Context Manager API for service perimeters.
 type Client struct {
 	acmClient *accesscontextmanager.Client
-	entClient *ent.Client
+	entClient *entaccesscontextmanager.Client
 }
 
 // NewClient creates a new service perimeter client.
-func NewClient(ctx context.Context, entClient *ent.Client, opts ...option.ClientOption) (*Client, error) {
+func NewClient(ctx context.Context, entClient *entaccesscontextmanager.Client, opts ...option.ClientOption) (*Client, error) {
 	acmClient, err := accesscontextmanager.NewClient(ctx, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create access context manager client: %w", err)

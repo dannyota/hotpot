@@ -5,21 +5,21 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1account"
+	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1account"
 )
 
 // HistoryService handles history tracking for accounts.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *ents1.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *ents1.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
-func (h *HistoryService) buildCreate(tx *ent.Tx, data *AccountData) *ent.BronzeHistoryS1AccountCreate {
+func (h *HistoryService) buildCreate(tx *ents1.Tx, data *AccountData) *ents1.BronzeHistoryS1AccountCreate {
 	create := tx.BronzeHistoryS1Account.Create().
 		SetResourceID(data.ResourceID).
 		SetName(data.Name).
@@ -52,7 +52,7 @@ func (h *HistoryService) buildCreate(tx *ent.Tx, data *AccountData) *ent.BronzeH
 }
 
 // CreateHistory creates a history record for a new account.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *AccountData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *ents1.Tx, data *AccountData, now time.Time) error {
 	_, err := h.buildCreate(tx, data).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
@@ -65,7 +65,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Ac
 }
 
 // UpdateHistory closes old history and creates new history for a changed account.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeS1Account, new *AccountData, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ents1.Tx, old *ents1.BronzeS1Account, new *AccountData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryS1Account.Query().
 		Where(
 			bronzehistorys1account.ResourceID(old.ID),
@@ -95,7 +95,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted account.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *ents1.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryS1Account.Query().
 		Where(
 			bronzehistorys1account.ResourceID(resourceID),
@@ -103,7 +103,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if ents1.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current account history: %w", err)

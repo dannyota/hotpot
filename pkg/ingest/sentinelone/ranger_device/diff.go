@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
 )
 
 // RangerDeviceDiff represents changes between old and new ranger device states.
@@ -14,7 +14,7 @@ type RangerDeviceDiff struct {
 }
 
 // DiffRangerDeviceData compares old Ent entity and new data.
-func DiffRangerDeviceData(old *ent.BronzeS1RangerDevice, new *RangerDeviceData) *RangerDeviceDiff {
+func DiffRangerDeviceData(old *ents1.BronzeS1RangerDevice, new *RangerDeviceData) *RangerDeviceDiff {
 	if old == nil {
 		return &RangerDeviceDiff{IsNew: true}
 	}

@@ -1,7 +1,7 @@
 package endpoint
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
 )
 
 // EndpointDiff represents changes between old and new endpoint states.
@@ -11,7 +11,7 @@ type EndpointDiff struct {
 }
 
 // DiffEndpointData compares old Ent entity and new EndpointData.
-func DiffEndpointData(old *ent.BronzeGreenNodeNetworkEndpoint, new *EndpointData) *EndpointDiff {
+func DiffEndpointData(old *entnet.BronzeGreenNodeNetworkEndpoint, new *EndpointData) *EndpointDiff {
 	if old == nil {
 		return &EndpointDiff{IsNew: true}
 	}

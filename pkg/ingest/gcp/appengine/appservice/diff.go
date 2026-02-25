@@ -3,7 +3,7 @@ package appservice
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entappengine "github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine"
 )
 
 // ServiceDiff represents changes between old and new App Engine service state.
@@ -18,7 +18,7 @@ func (d *ServiceDiff) HasAnyChange() bool {
 }
 
 // DiffServiceData compares existing Ent entity with new ServiceData and returns differences.
-func DiffServiceData(old *ent.BronzeGCPAppEngineService, new *ServiceData) *ServiceDiff {
+func DiffServiceData(old *entappengine.BronzeGCPAppEngineService, new *ServiceData) *ServiceDiff {
 	diff := &ServiceDiff{}
 
 	if old == nil {

@@ -1,6 +1,7 @@
 package sentinelone
 
 import (
+	"entgo.io/ent/dialect"
 	"go.temporal.io/sdk/worker"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
@@ -13,18 +14,20 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_gateway"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_setting"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/site"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
 )
 
 // Register registers all SentinelOne activities and workflows with the Temporal worker.
 // Returns the rate limit service for cleanup (caller should defer Close()).
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client) *ratelimit.Service {
+func Register(w worker.Worker, configService *config.Service, driver dialect.Driver) *ratelimit.Service {
 	rateLimitSvc := ratelimit.NewService(ratelimit.ServiceOptions{
 		RedisConfig: configService.RedisConfig(),
 		KeyPrefix:   "ratelimit:s1",
 		ReqPerMin:   configService.S1RateLimitPerMinute(),
 	})
 	limiter := rateLimitSvc.Limiter()
+
+	entClient := ents1.NewClient(ents1.Driver(driver), ents1.AlternateSchema(ents1.DefaultSchemaConfig()))
 
 	account.Register(w, configService, entClient, limiter)
 	agent.Register(w, configService, entClient, limiter)

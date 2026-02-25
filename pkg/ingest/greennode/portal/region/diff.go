@@ -1,7 +1,7 @@
 package region
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entportal "github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal"
 )
 
 // RegionDiff represents changes between old and new region states.
@@ -11,7 +11,7 @@ type RegionDiff struct {
 }
 
 // DiffRegionData compares old Ent entity and new RegionData.
-func DiffRegionData(old *ent.BronzeGreenNodePortalRegion, new *RegionData) *RegionDiff {
+func DiffRegionData(old *entportal.BronzeGreenNodePortalRegion, new *RegionData) *RegionDiff {
 	if old == nil {
 		return &RegionDiff{IsNew: true}
 	}

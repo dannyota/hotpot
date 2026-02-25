@@ -3,7 +3,7 @@ package bucketiam
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entstorage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage"
 )
 
 // BucketIamPolicyDiff represents changes between old and new bucket IAM policy state.
@@ -24,7 +24,7 @@ func (d *BucketIamPolicyDiff) HasAnyChange() bool {
 }
 
 // DiffBucketIamPolicyData compares existing Ent entity with new BucketIamPolicyData and returns differences.
-func DiffBucketIamPolicyData(old *ent.BronzeGCPStorageBucketIamPolicy, new *BucketIamPolicyData) *BucketIamPolicyDiff {
+func DiffBucketIamPolicyData(old *entstorage.BronzeGCPStorageBucketIamPolicy, new *BucketIamPolicyData) *BucketIamPolicyDiff {
 	diff := &BucketIamPolicyDiff{}
 
 	// New policy
@@ -47,7 +47,7 @@ func DiffBucketIamPolicyData(old *ent.BronzeGCPStorageBucketIamPolicy, new *Buck
 }
 
 // diffBindingsData compares Ent bindings with new binding data.
-func diffBindingsData(old []*ent.BronzeGCPStorageBucketIamPolicyBinding, new []BindingData) ChildDiff {
+func diffBindingsData(old []*entstorage.BronzeGCPStorageBucketIamPolicyBinding, new []BindingData) ChildDiff {
 	diff := ChildDiff{}
 
 	if len(old) != len(new) {

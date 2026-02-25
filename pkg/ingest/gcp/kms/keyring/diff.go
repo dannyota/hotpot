@@ -1,7 +1,7 @@
 package keyring
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entkms "github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms"
 )
 
 // KeyRingDiff represents changes between old and new key ring states.
@@ -11,7 +11,7 @@ type KeyRingDiff struct {
 }
 
 // DiffKeyRingData compares old Ent entity and new data.
-func DiffKeyRingData(old *ent.BronzeGCPKMSKeyRing, new *KeyRingData) *KeyRingDiff {
+func DiffKeyRingData(old *entkms.BronzeGCPKMSKeyRing, new *KeyRingData) *KeyRingDiff {
 	if old == nil {
 		return &KeyRingDiff{IsNew: true}
 	}

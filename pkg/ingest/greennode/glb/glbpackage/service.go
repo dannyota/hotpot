@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbglobalpackage"
+	entglb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbglobalpackage"
 )
 
 // Service handles GreenNode global package ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entglb.Client
 	history   *HistoryService
 }
 
 // NewService creates a new global package ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entglb.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -84,7 +84,7 @@ func (s *Service) savePackages(ctx context.Context, packages []*GLBPackageData) 
 		existing, err := tx.BronzeGreenNodeGLBGlobalPackage.Query().
 			Where(bronzegreennodeglbglobalpackage.ID(data.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entglb.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing package %s: %w", data.Name, err)
 		}

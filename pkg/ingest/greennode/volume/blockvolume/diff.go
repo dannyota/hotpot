@@ -3,7 +3,7 @@ package blockvolume
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entvol "github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume"
 )
 
 // BlockVolumeDiff represents changes between old and new block volume states.
@@ -20,7 +20,7 @@ type ChildDiff struct {
 }
 
 // DiffBlockVolumeData compares old Ent entity and new BlockVolumeData.
-func DiffBlockVolumeData(old *ent.BronzeGreenNodeVolumeBlockVolume, new *BlockVolumeData) *BlockVolumeDiff {
+func DiffBlockVolumeData(old *entvol.BronzeGreenNodeVolumeBlockVolume, new *BlockVolumeData) *BlockVolumeDiff {
 	if old == nil {
 		return &BlockVolumeDiff{
 			IsNew:         true,
@@ -40,7 +40,7 @@ func (d *BlockVolumeDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged || d.SnapshotsDiff.Changed
 }
 
-func hasBlockVolumeFieldsChanged(old *ent.BronzeGreenNodeVolumeBlockVolume, new *BlockVolumeData) bool {
+func hasBlockVolumeFieldsChanged(old *entvol.BronzeGreenNodeVolumeBlockVolume, new *BlockVolumeData) bool {
 	return old.Name != new.Name ||
 		old.VolumeTypeID != new.VolumeTypeID ||
 		old.ClusterID != new.ClusterID ||
@@ -58,11 +58,11 @@ func hasBlockVolumeFieldsChanged(old *ent.BronzeGreenNodeVolumeBlockVolume, new 
 		old.ZoneID != new.ZoneID
 }
 
-func diffSnapshots(old []*ent.BronzeGreenNodeVolumeSnapshot, new []SnapshotData) ChildDiff {
+func diffSnapshots(old []*entvol.BronzeGreenNodeVolumeSnapshot, new []SnapshotData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
-	oldMap := make(map[string]*ent.BronzeGreenNodeVolumeSnapshot)
+	oldMap := make(map[string]*entvol.BronzeGreenNodeVolumeSnapshot)
 	for _, s := range old {
 		oldMap[s.SnapshotID] = s
 	}

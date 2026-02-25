@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcloudassetresourcesearch"
+	entcloudasset "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/bronzegcpcloudassetresourcesearch"
 )
 
 // Service handles resource search ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entcloudasset.Client
 	history   *HistoryService
 }
 
 // NewService creates a new resource search ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entcloudasset.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -87,7 +87,7 @@ func (s *Service) saveResources(ctx context.Context, resources []*ResourceSearch
 		existing, err := tx.BronzeGCPCloudAssetResourceSearch.Query().
 			Where(bronzegcpcloudassetresourcesearch.ID(resourceData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entcloudasset.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing resource search %s: %w", resourceData.ID, err)
 		}

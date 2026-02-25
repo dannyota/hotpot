@@ -5,21 +5,21 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokubernetescluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedokubernetesnodepool"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedokubernetescluster"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedokubernetesnodepool"
 )
 
 // Service handles DigitalOcean Kubernetes ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entdo.Client
 	clusterHistory *ClusterHistoryService
 	npHistory      *NodePoolHistoryService
 }
 
 // NewService creates a new Kubernetes ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entdo.Client) *Service {
 	return &Service{
 		client:         client,
 		entClient:      entClient,
@@ -92,7 +92,7 @@ func (s *Service) saveClusters(ctx context.Context, clusters []*ClusterData) err
 		existing, err := tx.BronzeDOKubernetesCluster.Query().
 			Where(bronzedokubernetescluster.ID(data.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entdo.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing KubernetesCluster %s: %w", data.ResourceID, err)
 		}
@@ -288,7 +288,7 @@ func (s *Service) saveNodePools(ctx context.Context, pools []*NodePoolData) erro
 		existing, err := tx.BronzeDOKubernetesNodePool.Query().
 			Where(bronzedokubernetesnodepool.ID(data.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entdo.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing KubernetesNodePool %s: %w", data.ResourceID, err)
 		}
@@ -365,7 +365,7 @@ func (s *Service) saveNodePools(ctx context.Context, pools []*NodePoolData) erro
 // DeleteStaleNodePools removes node pools not collected in the latest run.
 func (s *Service) DeleteStaleNodePools(ctx context.Context, collectedAt time.Time) error {
 	return s.deleteStale(ctx, collectedAt, "KubernetesNodePool",
-		func(ctx context.Context, tx *ent.Tx, collectedAt time.Time) ([]*staleResource, error) {
+		func(ctx context.Context, tx *entdo.Tx, collectedAt time.Time) ([]*staleResource, error) {
 			stale, err := tx.BronzeDOKubernetesNodePool.Query().
 				Where(bronzedokubernetesnodepool.CollectedAtLT(collectedAt)).
 				All(ctx)
@@ -380,7 +380,7 @@ func (s *Service) DeleteStaleNodePools(ctx context.Context, collectedAt time.Tim
 			}
 			return result, nil
 		},
-		func(ctx context.Context, tx *ent.Tx, id string, now time.Time) error {
+		func(ctx context.Context, tx *entdo.Tx, id string, now time.Time) error {
 			return s.npHistory.CloseHistory(ctx, tx, id, now)
 		},
 	)
@@ -391,8 +391,8 @@ type staleResource struct {
 	delete func(ctx context.Context) error
 }
 
-type queryStaleFunc func(ctx context.Context, tx *ent.Tx, collectedAt time.Time) ([]*staleResource, error)
-type closeHistoryFunc func(ctx context.Context, tx *ent.Tx, id string, now time.Time) error
+type queryStaleFunc func(ctx context.Context, tx *entdo.Tx, collectedAt time.Time) ([]*staleResource, error)
+type closeHistoryFunc func(ctx context.Context, tx *entdo.Tx, id string, now time.Time) error
 
 func (s *Service) deleteStale(ctx context.Context, collectedAt time.Time, typeName string, queryFn queryStaleFunc, closeFn closeHistoryFunc) error {
 	now := time.Now()

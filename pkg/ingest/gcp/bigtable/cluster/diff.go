@@ -3,7 +3,7 @@ package cluster
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entbigtable "github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable"
 )
 
 // ClusterDiff represents changes between old and new Bigtable cluster state.
@@ -18,7 +18,7 @@ func (d *ClusterDiff) HasAnyChange() bool {
 }
 
 // DiffClusterData compares existing Ent entity with new ClusterData and returns differences.
-func DiffClusterData(old *ent.BronzeGCPBigtableCluster, new *ClusterData) *ClusterDiff {
+func DiffClusterData(old *entbigtable.BronzeGCPBigtableCluster, new *ClusterData) *ClusterDiff {
 	diff := &ClusterDiff{}
 
 	if old == nil {

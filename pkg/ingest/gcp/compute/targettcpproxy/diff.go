@@ -1,7 +1,7 @@
 package targettcpproxy
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // TargetTcpProxyDiff represents changes between old and new target TCP proxy states.
@@ -11,7 +11,7 @@ type TargetTcpProxyDiff struct {
 }
 
 // DiffTargetTcpProxyData compares existing Ent entity with new TargetTcpProxyData and returns differences.
-func DiffTargetTcpProxyData(old *ent.BronzeGCPComputeTargetTcpProxy, new *TargetTcpProxyData) *TargetTcpProxyDiff {
+func DiffTargetTcpProxyData(old *entcompute.BronzeGCPComputeTargetTcpProxy, new *TargetTcpProxyData) *TargetTcpProxyDiff {
 	diff := &TargetTcpProxyDiff{}
 
 	if old == nil {

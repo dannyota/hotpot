@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontaineranalysisnote"
+	entcontaineranalysis "github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzehistorygcpcontaineranalysisnote"
 )
 
 // HistoryService manages Grafeas note history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcontaineranalysis.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcontaineranalysis.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new Grafeas note.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *NoteData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcontaineranalysis.Tx, data *NoteData, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPContainerAnalysisNote.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -56,7 +56,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *No
 }
 
 // UpdateHistory updates history records for a changed Grafeas note.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPContainerAnalysisNote, new *NoteData, diff *NoteDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcontaineranalysis.Tx, old *entcontaineranalysis.BronzeGCPContainerAnalysisNote, new *NoteData, diff *NoteDiff, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPContainerAnalysisNote.Query().
 		Where(
 			bronzehistorygcpcontaineranalysisnote.ResourceID(old.ID),
@@ -113,7 +113,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted Grafeas note.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcontaineranalysis.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPContainerAnalysisNote.Query().
 		Where(
 			bronzehistorygcpcontaineranalysisnote.ResourceID(resourceID),
@@ -121,7 +121,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcontaineranalysis.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current note history: %w", err)

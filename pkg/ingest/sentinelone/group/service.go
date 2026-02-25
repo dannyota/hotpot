@@ -6,19 +6,19 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1group"
+	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1group"
 )
 
 // Service handles SentinelOne group ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *ents1.Client
 	history   *HistoryService
 }
 
 // NewService creates a new group ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *ents1.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -100,7 +100,7 @@ func (s *Service) saveGroups(ctx context.Context, groups []*GroupData) error {
 		existing, err := tx.BronzeS1Group.Query().
 			Where(bronzes1group.ID(data.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !ents1.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing group %s: %w", data.ResourceID, err)
 		}

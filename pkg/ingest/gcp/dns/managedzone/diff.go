@@ -3,7 +3,7 @@ package managedzone
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entdns "github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns"
 )
 
 // ManagedZoneDiff represents changes between old and new managed zone states.
@@ -21,7 +21,7 @@ type ChildDiff struct {
 }
 
 // DiffManagedZoneData compares old Ent entity and new data.
-func DiffManagedZoneData(old *ent.BronzeGCPDNSManagedZone, new *ManagedZoneData) *ManagedZoneDiff {
+func DiffManagedZoneData(old *entdns.BronzeGCPDNSManagedZone, new *ManagedZoneData) *ManagedZoneDiff {
 	if old == nil {
 		return &ManagedZoneDiff{
 			IsNew:     true,
@@ -35,7 +35,7 @@ func DiffManagedZoneData(old *ent.BronzeGCPDNSManagedZone, new *ManagedZoneData)
 	diff.IsChanged = hasManagedZoneFieldsChanged(old, new)
 
 	// Compare label children
-	var oldLabels []*ent.BronzeGCPDNSManagedZoneLabel
+	var oldLabels []*entdns.BronzeGCPDNSManagedZoneLabel
 	if old.Edges.Labels != nil {
 		oldLabels = old.Edges.Labels
 	}
@@ -53,7 +53,7 @@ func (d *ManagedZoneDiff) HasAnyChange() bool {
 }
 
 // hasManagedZoneFieldsChanged compares managed zone-level fields (excluding children).
-func hasManagedZoneFieldsChanged(old *ent.BronzeGCPDNSManagedZone, new *ManagedZoneData) bool {
+func hasManagedZoneFieldsChanged(old *entdns.BronzeGCPDNSManagedZone, new *ManagedZoneData) bool {
 	return old.Name != new.Name ||
 		old.DNSName != new.DnsName ||
 		old.Description != new.Description ||
@@ -66,7 +66,7 @@ func hasManagedZoneFieldsChanged(old *ent.BronzeGCPDNSManagedZone, new *ManagedZ
 		!bytes.Equal(old.CloudLoggingConfigJSON, new.CloudLoggingConfigJSON)
 }
 
-func diffLabels(old []*ent.BronzeGCPDNSManagedZoneLabel, new []LabelData) ChildDiff {
+func diffLabels(old []*entdns.BronzeGCPDNSManagedZoneLabel, new []LabelData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

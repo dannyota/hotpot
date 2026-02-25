@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeportalzone"
+	entportal "github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/bronzehistorygreennodeportalzone"
 )
 
 // HistoryService handles history tracking for zones.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entportal.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entportal.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new zone.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *ZoneData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entportal.Tx, data *ZoneData, now time.Time) error {
 	_, err := tx.BronzeHistoryGreenNodePortalZone.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -37,7 +37,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Zo
 }
 
 // UpdateHistory closes old history and creates new history.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGreenNodePortalZone, new *ZoneData, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entportal.Tx, old *entportal.BronzeGreenNodePortalZone, new *ZoneData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodePortalZone.Query().
 		Where(
 			bronzehistorygreennodeportalzone.ResourceID(old.ID),
@@ -70,7 +70,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history for a deleted zone.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entportal.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodePortalZone.Query().
 		Where(
 			bronzehistorygreennodeportalzone.ResourceID(resourceID),
@@ -78,7 +78,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entportal.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current zone history: %w", err)

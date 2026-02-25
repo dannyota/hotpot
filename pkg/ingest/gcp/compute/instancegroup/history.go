@@ -5,24 +5,24 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancegroup"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancegroupmember"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancegroupnamedport"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancegroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancegroupmember"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancegroupnamedport"
 )
 
 // HistoryService manages instance group history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new instance group.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, groupData *InstanceGroupData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, groupData *InstanceGroupData, now time.Time) error {
 	// Create instance group history
 	groupHistory, err := tx.BronzeHistoryGCPComputeInstanceGroup.Create().
 		SetResourceID(groupData.ID).
@@ -75,7 +75,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, groupDat
 }
 
 // UpdateHistory updates history records for a changed instance group.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeInstanceGroup, new *InstanceGroupData, diff *InstanceGroupDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGCPComputeInstanceGroup, new *InstanceGroupData, diff *InstanceGroupDiff, now time.Time) error {
 	// Get current instance group history
 	currentHistory, err := tx.BronzeHistoryGCPComputeInstanceGroup.Query().
 		Where(
@@ -132,7 +132,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted instance group.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	// Get current instance group history
 	currentHistory, err := tx.BronzeHistoryGCPComputeInstanceGroup.Query().
 		Where(
@@ -141,7 +141,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcompute.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current instance group history: %w", err)
@@ -160,7 +160,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 }
 
 // createChildrenHistory creates history records for all children.
-func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, groupHistoryID uint, groupData *InstanceGroupData, now time.Time) error {
+func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *entcompute.Tx, groupHistoryID uint, groupData *InstanceGroupData, now time.Time) error {
 	// Create named port history
 	for _, port := range groupData.NamedPorts {
 		_, err := tx.BronzeHistoryGCPComputeInstanceGroupNamedPort.Create().
@@ -192,7 +192,7 @@ func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, 
 }
 
 // closeChildrenHistory closes all children history records.
-func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, groupHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *entcompute.Tx, groupHistoryID uint, now time.Time) error {
 	// Close named port history
 	_, err := tx.BronzeHistoryGCPComputeInstanceGroupNamedPort.Update().
 		Where(
@@ -221,7 +221,7 @@ func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, g
 }
 
 // updateChildrenHistory updates children history based on diff (granular tracking).
-func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, groupHistoryID uint, new *InstanceGroupData, diff *InstanceGroupDiff, now time.Time) error {
+func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *entcompute.Tx, groupHistoryID uint, new *InstanceGroupData, diff *InstanceGroupDiff, now time.Time) error {
 	if diff.NamedPortsDiff.HasChanges {
 		// Close old named port history
 		_, err := tx.BronzeHistoryGCPComputeInstanceGroupNamedPort.Update().

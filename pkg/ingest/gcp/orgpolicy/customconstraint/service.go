@@ -5,17 +5,17 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcporgpolicycustomconstraint"
+	entorgpolicy "github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzegcporgpolicycustomconstraint"
 )
 
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entorgpolicy.Client
 	history   *HistoryService
 }
 
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entorgpolicy.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -78,7 +78,7 @@ func (s *Service) saveCustomConstraints(ctx context.Context, customConstraints [
 		existing, err := tx.BronzeGCPOrgPolicyCustomConstraint.Query().
 			Where(bronzegcporgpolicycustomconstraint.ID(ccData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entorgpolicy.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing custom constraint %s: %w", ccData.ID, err)
 		}

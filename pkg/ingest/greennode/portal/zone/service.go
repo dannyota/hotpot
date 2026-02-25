@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeportalzone"
+	entportal "github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/bronzegreennodeportalzone"
 )
 
 // Service handles GreenNode zone ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entportal.Client
 	history   *HistoryService
 }
 
 // NewService creates a new zone ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entportal.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -80,7 +80,7 @@ func (s *Service) saveZones(ctx context.Context, zones []*ZoneData) error {
 		existing, err := tx.BronzeGreenNodePortalZone.Query().
 			Where(bronzegreennodeportalzone.ID(data.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entportal.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing zone %s: %w", data.Name, err)
 		}

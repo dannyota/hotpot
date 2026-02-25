@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
 )
 
 // RangerGatewayDiff represents changes between old and new gateway states.
@@ -14,7 +14,7 @@ type RangerGatewayDiff struct {
 }
 
 // DiffRangerGatewayData compares old Ent entity and new data.
-func DiffRangerGatewayData(old *ent.BronzeS1RangerGateway, new *RangerGatewayData) *RangerGatewayDiff {
+func DiffRangerGatewayData(old *ents1.BronzeS1RangerGateway, new *RangerGatewayData) *RangerGatewayDiff {
 	if old == nil {
 		return &RangerGatewayDiff{IsNew: true}
 	}

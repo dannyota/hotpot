@@ -1,7 +1,7 @@
 package notificationconfig
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entsecuritycenter "github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter"
 )
 
 // NotificationConfigDiff represents changes between old and new SCC notification config state.
@@ -16,7 +16,7 @@ func (d *NotificationConfigDiff) HasAnyChange() bool {
 }
 
 // DiffNotificationConfigData compares existing Ent entity with new NotificationConfigData and returns differences.
-func DiffNotificationConfigData(old *ent.BronzeGCPSecurityCenterNotificationConfig, new *NotificationConfigData) *NotificationConfigDiff {
+func DiffNotificationConfigData(old *entsecuritycenter.BronzeGCPSecurityCenterNotificationConfig, new *NotificationConfigData) *NotificationConfigDiff {
 	diff := &NotificationConfigDiff{}
 
 	if old == nil {

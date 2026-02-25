@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcplogginglogmetric"
+	entlogging "github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzehistorygcplogginglogmetric"
 )
 
 // HistoryService handles history tracking for log metrics.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entlogging.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entlogging.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new log metric.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *LogMetricData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entlogging.Tx, data *LogMetricData, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPLoggingLogMetric.Create().
 		SetResourceID(data.ResourceID).
 		SetValidFrom(now).
@@ -43,7 +43,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Lo
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPLoggingLogMetric, new *LogMetricData, diff *LogMetricDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entlogging.Tx, old *entlogging.BronzeGCPLoggingLogMetric, new *LogMetricData, diff *LogMetricDiff, now time.Time) error {
 	if !diff.IsChanged {
 		return nil
 	}
@@ -83,7 +83,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted log metric.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entlogging.Tx, resourceID string, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPLoggingLogMetric.Update().
 		Where(
 			bronzehistorygcplogginglogmetric.ResourceID(resourceID),
@@ -91,7 +91,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		SetValidTo(now).
 		Save(ctx)
-	if ent.IsNotFound(err) {
+	if entlogging.IsNotFound(err) {
 		return nil // No history to close
 	}
 	return err

@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpngateway"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpvpngatewaylabel"
+	entvpn "github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpngateway"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpngatewaylabel"
 )
 
 // Service handles GCP Compute VPN gateway ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entvpn.Client
 	history   *HistoryService
 }
 
 // NewService creates a new VPN gateway ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entvpn.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -98,7 +98,7 @@ func (s *Service) saveVpnGateways(ctx context.Context, vpnGateways []*VpnGateway
 			Where(bronzegcpvpngateway.ID(data.ID)).
 			WithLabels().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entvpn.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("query existing vpn gateway %s: %w", data.Name, err)
 		}
@@ -120,7 +120,7 @@ func (s *Service) saveVpnGateways(ctx context.Context, vpnGateways []*VpnGateway
 		}
 
 		// Upsert VPN gateway
-		var savedGateway *ent.BronzeGCPVPNGateway
+		var savedGateway *entvpn.BronzeGCPVPNGateway
 		if existing == nil {
 			// Create new VPN gateway
 			create := tx.BronzeGCPVPNGateway.Create().

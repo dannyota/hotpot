@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpvpntargetgateway"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpvpntargetgatewaylabel"
+	entvpn "github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzehistorygcpvpntargetgateway"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzehistorygcpvpntargetgatewaylabel"
 )
 
 // HistoryService handles history tracking for Classic VPN gateways.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entvpn.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entvpn.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new target VPN gateway and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *TargetVpnGatewayData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entvpn.Tx, data *TargetVpnGatewayData, now time.Time) error {
 	// Create target VPN gateway history
 	create := tx.BronzeHistoryGCPVPNTargetGateway.Create().
 		SetResourceID(data.ID).
@@ -68,7 +68,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Ta
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPVPNTargetGateway, new *TargetVpnGatewayData, diff *TargetVpnGatewayDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entvpn.Tx, old *entvpn.BronzeGCPVPNTargetGateway, new *TargetVpnGatewayData, diff *TargetVpnGatewayDiff, now time.Time) error {
 	if !diff.IsChanged && !diff.LabelsDiff.HasChanges {
 		return nil
 	}
@@ -183,7 +183,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted target VPN gateway.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entvpn.Tx, resourceID string, now time.Time) error {
 	// Get current target VPN gateway history
 	currentHist, err := tx.BronzeHistoryGCPVPNTargetGateway.Query().
 		Where(
@@ -192,7 +192,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entvpn.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("query current history: %w", err)

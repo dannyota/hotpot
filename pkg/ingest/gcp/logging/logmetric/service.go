@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcplogginglogmetric"
+	entlogging "github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzegcplogginglogmetric"
 )
 
 // Service handles GCP Cloud Logging log metric ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entlogging.Client
 	history   *HistoryService
 }
 
 // NewService creates a new log metric ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entlogging.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -93,7 +93,7 @@ func (s *Service) saveLogMetrics(ctx context.Context, metrics []*LogMetricData) 
 		existing, err := tx.BronzeGCPLoggingLogMetric.Query().
 			Where(bronzegcplogginglogmetric.ID(metricData.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entlogging.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing log metric %s: %w", metricData.Name, err)
 		}

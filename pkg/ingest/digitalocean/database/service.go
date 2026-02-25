@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabase"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabasebackup"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabaseconfig"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabasefirewallrule"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabasepool"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabasereplica"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedodatabaseuser"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedodatabase"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedodatabasebackup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedodatabaseconfig"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedodatabasefirewallrule"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedodatabasepool"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedodatabasereplica"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedodatabaseuser"
 )
 
 // Service handles DigitalOcean Database ingestion.
 type Service struct {
 	client          *Client
-	entClient       *ent.Client
+	entClient       *entdo.Client
 	dbHistory       *DatabaseHistoryService
 	fwHistory       *FirewallRuleHistoryService
 	userHistory     *UserHistoryService
@@ -29,7 +29,7 @@ type Service struct {
 }
 
 // NewService creates a new Database ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entdo.Client) *Service {
 	return &Service{
 		client:         client,
 		entClient:      entClient,
@@ -111,7 +111,7 @@ func (s *Service) saveDatabases(ctx context.Context, databases []*DatabaseData) 
 		existing, err := tx.BronzeDODatabase.Query().
 			Where(bronzedodatabase.ID(data.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entdo.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing Database %s: %w", data.ResourceID, err)
 		}
@@ -371,7 +371,7 @@ func (s *Service) saveFirewallRules(ctx context.Context, rules []*FirewallRuleDa
 		existing, err := tx.BronzeDODatabaseFirewallRule.Query().
 			Where(bronzedodatabasefirewallrule.ID(data.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entdo.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing FirewallRule %s: %w", data.ResourceID, err)
 		}
@@ -453,7 +453,7 @@ func (s *Service) saveUsers(ctx context.Context, users []*UserData) error {
 		existing, err := tx.BronzeDODatabaseUser.Query().
 			Where(bronzedodatabaseuser.ID(data.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entdo.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing User %s: %w", data.ResourceID, err)
 		}
@@ -535,7 +535,7 @@ func (s *Service) saveReplicas(ctx context.Context, replicas []*ReplicaData) err
 		existing, err := tx.BronzeDODatabaseReplica.Query().
 			Where(bronzedodatabasereplica.ID(data.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entdo.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing Replica %s: %w", data.ResourceID, err)
 		}
@@ -625,7 +625,7 @@ func (s *Service) saveBackups(ctx context.Context, backups []*BackupData) error 
 		existing, err := tx.BronzeDODatabaseBackup.Query().
 			Where(bronzedodatabasebackup.ID(data.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entdo.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing Backup %s: %w", data.ResourceID, err)
 		}
@@ -703,7 +703,7 @@ func (s *Service) saveConfigs(ctx context.Context, configs []*ConfigData) error 
 		existing, err := tx.BronzeDODatabaseConfig.Query().
 			Where(bronzedodatabaseconfig.ID(data.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entdo.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing Config %s: %w", data.ResourceID, err)
 		}
@@ -781,7 +781,7 @@ func (s *Service) savePools(ctx context.Context, pools []*PoolData) error {
 		existing, err := tx.BronzeDODatabasePool.Query().
 			Where(bronzedodatabasepool.ID(data.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entdo.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing Pool %s: %w", data.ResourceID, err)
 		}
@@ -846,7 +846,7 @@ func (s *Service) savePools(ctx context.Context, pools []*PoolData) error {
 // DeleteStaleFirewallRules removes firewall rules not collected in the latest run.
 func (s *Service) DeleteStaleFirewallRules(ctx context.Context, collectedAt time.Time) error {
 	return s.deleteStale(ctx, collectedAt, "FirewallRule",
-		func(ctx context.Context, tx *ent.Tx, collectedAt time.Time) ([]*staleResource, error) {
+		func(ctx context.Context, tx *entdo.Tx, collectedAt time.Time) ([]*staleResource, error) {
 			stale, err := tx.BronzeDODatabaseFirewallRule.Query().
 				Where(bronzedodatabasefirewallrule.CollectedAtLT(collectedAt)).
 				All(ctx)
@@ -861,7 +861,7 @@ func (s *Service) DeleteStaleFirewallRules(ctx context.Context, collectedAt time
 			}
 			return result, nil
 		},
-		func(ctx context.Context, tx *ent.Tx, id string, now time.Time) error {
+		func(ctx context.Context, tx *entdo.Tx, id string, now time.Time) error {
 			return s.fwHistory.CloseHistory(ctx, tx, id, now)
 		},
 	)
@@ -870,7 +870,7 @@ func (s *Service) DeleteStaleFirewallRules(ctx context.Context, collectedAt time
 // DeleteStaleUsers removes users not collected in the latest run.
 func (s *Service) DeleteStaleUsers(ctx context.Context, collectedAt time.Time) error {
 	return s.deleteStale(ctx, collectedAt, "User",
-		func(ctx context.Context, tx *ent.Tx, collectedAt time.Time) ([]*staleResource, error) {
+		func(ctx context.Context, tx *entdo.Tx, collectedAt time.Time) ([]*staleResource, error) {
 			stale, err := tx.BronzeDODatabaseUser.Query().
 				Where(bronzedodatabaseuser.CollectedAtLT(collectedAt)).
 				All(ctx)
@@ -885,7 +885,7 @@ func (s *Service) DeleteStaleUsers(ctx context.Context, collectedAt time.Time) e
 			}
 			return result, nil
 		},
-		func(ctx context.Context, tx *ent.Tx, id string, now time.Time) error {
+		func(ctx context.Context, tx *entdo.Tx, id string, now time.Time) error {
 			return s.userHistory.CloseHistory(ctx, tx, id, now)
 		},
 	)
@@ -894,7 +894,7 @@ func (s *Service) DeleteStaleUsers(ctx context.Context, collectedAt time.Time) e
 // DeleteStaleReplicas removes replicas not collected in the latest run.
 func (s *Service) DeleteStaleReplicas(ctx context.Context, collectedAt time.Time) error {
 	return s.deleteStale(ctx, collectedAt, "Replica",
-		func(ctx context.Context, tx *ent.Tx, collectedAt time.Time) ([]*staleResource, error) {
+		func(ctx context.Context, tx *entdo.Tx, collectedAt time.Time) ([]*staleResource, error) {
 			stale, err := tx.BronzeDODatabaseReplica.Query().
 				Where(bronzedodatabasereplica.CollectedAtLT(collectedAt)).
 				All(ctx)
@@ -909,7 +909,7 @@ func (s *Service) DeleteStaleReplicas(ctx context.Context, collectedAt time.Time
 			}
 			return result, nil
 		},
-		func(ctx context.Context, tx *ent.Tx, id string, now time.Time) error {
+		func(ctx context.Context, tx *entdo.Tx, id string, now time.Time) error {
 			return s.replicaHistory.CloseHistory(ctx, tx, id, now)
 		},
 	)
@@ -918,7 +918,7 @@ func (s *Service) DeleteStaleReplicas(ctx context.Context, collectedAt time.Time
 // DeleteStaleBackups removes backups not collected in the latest run.
 func (s *Service) DeleteStaleBackups(ctx context.Context, collectedAt time.Time) error {
 	return s.deleteStale(ctx, collectedAt, "Backup",
-		func(ctx context.Context, tx *ent.Tx, collectedAt time.Time) ([]*staleResource, error) {
+		func(ctx context.Context, tx *entdo.Tx, collectedAt time.Time) ([]*staleResource, error) {
 			stale, err := tx.BronzeDODatabaseBackup.Query().
 				Where(bronzedodatabasebackup.CollectedAtLT(collectedAt)).
 				All(ctx)
@@ -933,7 +933,7 @@ func (s *Service) DeleteStaleBackups(ctx context.Context, collectedAt time.Time)
 			}
 			return result, nil
 		},
-		func(ctx context.Context, tx *ent.Tx, id string, now time.Time) error {
+		func(ctx context.Context, tx *entdo.Tx, id string, now time.Time) error {
 			return s.backupHistory.CloseHistory(ctx, tx, id, now)
 		},
 	)
@@ -942,7 +942,7 @@ func (s *Service) DeleteStaleBackups(ctx context.Context, collectedAt time.Time)
 // DeleteStaleConfigs removes configs not collected in the latest run.
 func (s *Service) DeleteStaleConfigs(ctx context.Context, collectedAt time.Time) error {
 	return s.deleteStale(ctx, collectedAt, "Config",
-		func(ctx context.Context, tx *ent.Tx, collectedAt time.Time) ([]*staleResource, error) {
+		func(ctx context.Context, tx *entdo.Tx, collectedAt time.Time) ([]*staleResource, error) {
 			stale, err := tx.BronzeDODatabaseConfig.Query().
 				Where(bronzedodatabaseconfig.CollectedAtLT(collectedAt)).
 				All(ctx)
@@ -957,7 +957,7 @@ func (s *Service) DeleteStaleConfigs(ctx context.Context, collectedAt time.Time)
 			}
 			return result, nil
 		},
-		func(ctx context.Context, tx *ent.Tx, id string, now time.Time) error {
+		func(ctx context.Context, tx *entdo.Tx, id string, now time.Time) error {
 			return s.configHistory.CloseHistory(ctx, tx, id, now)
 		},
 	)
@@ -966,7 +966,7 @@ func (s *Service) DeleteStaleConfigs(ctx context.Context, collectedAt time.Time)
 // DeleteStalePools removes connection pools not collected in the latest run.
 func (s *Service) DeleteStalePools(ctx context.Context, collectedAt time.Time) error {
 	return s.deleteStale(ctx, collectedAt, "Pool",
-		func(ctx context.Context, tx *ent.Tx, collectedAt time.Time) ([]*staleResource, error) {
+		func(ctx context.Context, tx *entdo.Tx, collectedAt time.Time) ([]*staleResource, error) {
 			stale, err := tx.BronzeDODatabasePool.Query().
 				Where(bronzedodatabasepool.CollectedAtLT(collectedAt)).
 				All(ctx)
@@ -981,7 +981,7 @@ func (s *Service) DeleteStalePools(ctx context.Context, collectedAt time.Time) e
 			}
 			return result, nil
 		},
-		func(ctx context.Context, tx *ent.Tx, id string, now time.Time) error {
+		func(ctx context.Context, tx *entdo.Tx, id string, now time.Time) error {
 			return s.poolHistory.CloseHistory(ctx, tx, id, now)
 		},
 	)
@@ -992,8 +992,8 @@ type staleResource struct {
 	delete func(ctx context.Context) error
 }
 
-type queryStaleFunc func(ctx context.Context, tx *ent.Tx, collectedAt time.Time) ([]*staleResource, error)
-type closeHistoryFunc func(ctx context.Context, tx *ent.Tx, id string, now time.Time) error
+type queryStaleFunc func(ctx context.Context, tx *entdo.Tx, collectedAt time.Time) ([]*staleResource, error)
+type closeHistoryFunc func(ctx context.Context, tx *entdo.Tx, id string, now time.Time) error
 
 func (s *Service) deleteStale(ctx context.Context, collectedAt time.Time, typeName string, queryFn queryStaleFunc, closeFn closeHistoryFunc) error {
 	now := time.Now()

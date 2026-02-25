@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcloudassetiampolicysearch"
+	entcloudasset "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/bronzegcpcloudassetiampolicysearch"
 )
 
 // Service handles IAM policy search ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entcloudasset.Client
 	history   *HistoryService
 }
 
 // NewService creates a new IAM policy search ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entcloudasset.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -87,7 +87,7 @@ func (s *Service) savePolicies(ctx context.Context, policies []*IAMPolicySearchD
 		existing, err := tx.BronzeGCPCloudAssetIAMPolicySearch.Query().
 			Where(bronzegcpcloudassetiampolicysearch.ID(policyData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entcloudasset.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing IAM policy search %s: %w", policyData.ID, err)
 		}

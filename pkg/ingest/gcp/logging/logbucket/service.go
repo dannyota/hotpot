@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcploggingbucket"
+	entlogging "github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzegcploggingbucket"
 )
 
 // Service handles GCP Cloud Logging bucket ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entlogging.Client
 	history   *HistoryService
 }
 
 // NewService creates a new log bucket ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entlogging.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -93,7 +93,7 @@ func (s *Service) saveBuckets(ctx context.Context, buckets []*LogBucketData) err
 		existing, err := tx.BronzeGCPLoggingBucket.Query().
 			Where(bronzegcploggingbucket.ID(bucketData.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entlogging.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing bucket %s: %w", bucketData.Name, err)
 		}

@@ -3,7 +3,7 @@ package cryptokey
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entkms "github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms"
 )
 
 // CryptoKeyDiff represents changes between old and new crypto key states.
@@ -13,7 +13,7 @@ type CryptoKeyDiff struct {
 }
 
 // DiffCryptoKeyData compares old Ent entity and new data.
-func DiffCryptoKeyData(old *ent.BronzeGCPKMSCryptoKey, new *CryptoKeyData) *CryptoKeyDiff {
+func DiffCryptoKeyData(old *entkms.BronzeGCPKMSCryptoKey, new *CryptoKeyData) *CryptoKeyDiff {
 	if old == nil {
 		return &CryptoKeyDiff{IsNew: true}
 	}

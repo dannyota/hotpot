@@ -3,7 +3,7 @@ package table
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entbigquery "github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery"
 )
 
 // TableDiff represents changes between old and new BigQuery table state.
@@ -18,7 +18,7 @@ func (d *TableDiff) HasAnyChange() bool {
 }
 
 // DiffTableData compares existing Ent entity with new TableData and returns differences.
-func DiffTableData(old *ent.BronzeGCPBigQueryTable, new *TableData) *TableDiff {
+func DiffTableData(old *entbigquery.BronzeGCPBigQueryTable, new *TableData) *TableDiff {
 	diff := &TableDiff{}
 
 	if old == nil {

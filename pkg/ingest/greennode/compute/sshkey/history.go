@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputesshkey"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputesshkey"
 )
 
 // HistoryService handles history tracking for SSH keys.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new SSH key.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *SSHKeyData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, data *SSHKeyData, now time.Time) error {
 	_, err := tx.BronzeHistoryGreenNodeComputeSSHKey.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -40,7 +40,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *SS
 }
 
 // UpdateHistory closes old history and creates new history.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGreenNodeComputeSSHKey, new *SSHKeyData, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGreenNodeComputeSSHKey, new *SSHKeyData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeComputeSSHKey.Query().
 		Where(
 			bronzehistorygreennodecomputesshkey.ResourceID(old.ID),
@@ -76,7 +76,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history for a deleted SSH key.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeComputeSSHKey.Query().
 		Where(
 			bronzehistorygreennodecomputesshkey.ResourceID(resourceID),
@@ -84,7 +84,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcompute.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current ssh key history: %w", err)

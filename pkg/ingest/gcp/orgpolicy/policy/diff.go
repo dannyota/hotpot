@@ -1,7 +1,7 @@
 package policy
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entorgpolicy "github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy"
 )
 
 type PolicyDiff struct {
@@ -13,7 +13,7 @@ func (d *PolicyDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged
 }
 
-func DiffPolicyData(old *ent.BronzeGCPOrgPolicyPolicy, new *PolicyData) *PolicyDiff {
+func DiffPolicyData(old *entorgpolicy.BronzeGCPOrgPolicyPolicy, new *PolicyData) *PolicyDiff {
 	diff := &PolicyDiff{}
 
 	if old == nil {

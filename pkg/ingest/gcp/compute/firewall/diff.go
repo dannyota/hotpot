@@ -3,7 +3,7 @@ package firewall
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // FirewallDiff represents changes between old and new firewall states.
@@ -22,7 +22,7 @@ type ChildDiff struct {
 }
 
 // DiffFirewallData compares old Ent entity and new data.
-func DiffFirewallData(old *ent.BronzeGCPComputeFirewall, new *FirewallData) *FirewallDiff {
+func DiffFirewallData(old *entcompute.BronzeGCPComputeFirewall, new *FirewallData) *FirewallDiff {
 	if old == nil {
 		return &FirewallDiff{
 			IsNew:       true,
@@ -37,14 +37,14 @@ func DiffFirewallData(old *ent.BronzeGCPComputeFirewall, new *FirewallData) *Fir
 	diff.IsChanged = hasFirewallFieldsChanged(old, new)
 
 	// Compare allowed children (note: old.Edges.Allowed might be nil if not loaded)
-	var oldAllowed []*ent.BronzeGCPComputeFirewallAllowed
+	var oldAllowed []*entcompute.BronzeGCPComputeFirewallAllowed
 	if old.Edges.Allowed != nil {
 		oldAllowed = old.Edges.Allowed
 	}
 	diff.AllowedDiff = diffAllowed(oldAllowed, new.Allowed)
 
 	// Compare denied children
-	var oldDenied []*ent.BronzeGCPComputeFirewallDenied
+	var oldDenied []*entcompute.BronzeGCPComputeFirewallDenied
 	if old.Edges.Denied != nil {
 		oldDenied = old.Edges.Denied
 	}
@@ -62,7 +62,7 @@ func (d *FirewallDiff) HasAnyChange() bool {
 }
 
 // hasFirewallFieldsChanged compares firewall-level fields (excluding children).
-func hasFirewallFieldsChanged(old *ent.BronzeGCPComputeFirewall, new *FirewallData) bool {
+func hasFirewallFieldsChanged(old *entcompute.BronzeGCPComputeFirewall, new *FirewallData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Network != new.Network ||
@@ -78,7 +78,7 @@ func hasFirewallFieldsChanged(old *ent.BronzeGCPComputeFirewall, new *FirewallDa
 		!bytes.Equal(old.LogConfigJSON, new.LogConfigJSON)
 }
 
-func diffAllowed(old []*ent.BronzeGCPComputeFirewallAllowed, new []AllowedData) ChildDiff {
+func diffAllowed(old []*entcompute.BronzeGCPComputeFirewallAllowed, new []AllowedData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -105,7 +105,7 @@ func diffAllowed(old []*ent.BronzeGCPComputeFirewallAllowed, new []AllowedData) 
 	return ChildDiff{Changed: false}
 }
 
-func diffDenied(old []*ent.BronzeGCPComputeFirewallDenied, new []DeniedData) ChildDiff {
+func diffDenied(old []*entcompute.BronzeGCPComputeFirewallDenied, new []DeniedData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

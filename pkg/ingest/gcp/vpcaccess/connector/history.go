@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpvpcaccessconnector"
+	entvpcaccess "github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpcaccess"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpcaccess/bronzehistorygcpvpcaccessconnector"
 )
 
 // HistoryService manages VPC Access connector history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entvpcaccess.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entvpcaccess.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new connector.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *ConnectorData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entvpcaccess.Tx, data *ConnectorData, now time.Time) error {
 	create := tx.BronzeHistoryGCPVPCAccessConnector.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -67,7 +67,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Co
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPVPCAccessConnector, new *ConnectorData, diff *ConnectorDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entvpcaccess.Tx, old *entvpcaccess.BronzeGCPVPCAccessConnector, new *ConnectorData, diff *ConnectorDiff, now time.Time) error {
 	if !diff.IsChanged {
 		return nil
 	}
@@ -131,7 +131,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted connector.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entvpcaccess.Tx, resourceID string, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPVPCAccessConnector.Update().
 		Where(
 			bronzehistorygcpvpcaccessconnector.ResourceID(resourceID),
@@ -139,7 +139,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		SetValidTo(now).
 		Save(ctx)
-	if ent.IsNotFound(err) {
+	if entvpcaccess.IsNotFound(err) {
 		return nil // No history to close
 	}
 	return err

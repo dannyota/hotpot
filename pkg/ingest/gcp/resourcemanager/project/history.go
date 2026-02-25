@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpproject"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpprojectlabel"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcpproject"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcpprojectlabel"
 )
 
 // HistoryService manages project history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entresourcemanager.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entresourcemanager.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new project.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, projectData *ProjectData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entresourcemanager.Tx, projectData *ProjectData, now time.Time) error {
 	// Create project history
 	projectHistory, err := tx.BronzeHistoryGCPProject.Create().
 		SetProjectID(projectData.ID).
@@ -58,7 +58,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, projectD
 }
 
 // UpdateHistory updates history records for a changed project.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPProject, new *ProjectData, diff *ProjectDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entresourcemanager.Tx, old *entresourcemanager.BronzeGCPProject, new *ProjectData, diff *ProjectDiff, now time.Time) error {
 	// Get current project history
 	currentHistory, err := tx.BronzeHistoryGCPProject.Query().
 		Where(
@@ -153,7 +153,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted project.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, projectID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entresourcemanager.Tx, projectID string, now time.Time) error {
 	// Get current project history
 	currentHistory, err := tx.BronzeHistoryGCPProject.Query().
 		Where(
@@ -162,7 +162,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, projectID
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entresourcemanager.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current project history: %w", err)

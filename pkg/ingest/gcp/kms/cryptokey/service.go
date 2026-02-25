@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpkmscryptokey"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpkmskeyring"
+	entkms "github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms/bronzegcpkmscryptokey"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms/bronzegcpkmskeyring"
 )
 
 // Service handles GCP KMS crypto key ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entkms.Client
 	history   *HistoryService
 }
 
 // NewService creates a new crypto key ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entkms.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -104,7 +104,7 @@ func (s *Service) saveCryptoKeys(ctx context.Context, keys []*CryptoKeyData) err
 		existing, err := tx.BronzeGCPKMSCryptoKey.Query().
 			Where(bronzegcpkmscryptokey.ID(data.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entkms.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing crypto key %s: %w", data.Name, err)
 		}

@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpserviceusageenabledservice"
+	entserviceusage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/serviceusage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/serviceusage/bronzehistorygcpserviceusageenabledservice"
 )
 
 // HistoryService manages enabled service history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entserviceusage.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entserviceusage.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new enabled service.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *EnabledServiceData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entserviceusage.Tx, data *EnabledServiceData, now time.Time) error {
 	create := tx.BronzeHistoryGCPServiceUsageEnabledService.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -44,7 +44,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *En
 }
 
 // UpdateHistory updates history records for a changed enabled service.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPServiceUsageEnabledService, new *EnabledServiceData, diff *EnabledServiceDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entserviceusage.Tx, old *entserviceusage.BronzeGCPServiceUsageEnabledService, new *EnabledServiceData, diff *EnabledServiceDiff, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPServiceUsageEnabledService.Query().
 		Where(
 			bronzehistorygcpserviceusageenabledservice.ResourceID(old.ID),
@@ -89,7 +89,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted enabled service.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entserviceusage.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPServiceUsageEnabledService.Query().
 		Where(
 			bronzehistorygcpserviceusageenabledservice.ResourceID(resourceID),
@@ -97,7 +97,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entserviceusage.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current enabled service history: %w", err)

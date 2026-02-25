@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpproject"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectlabel"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpproject"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpprojectlabel"
 )
 
 // Service handles GCP Project ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entresourcemanager.Client
 	history   *HistoryService
 }
 
 // NewService creates a new project ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entresourcemanager.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -93,7 +93,7 @@ func (s *Service) saveProjects(ctx context.Context, projects []*ProjectData) err
 			Where(bronzegcpproject.ID(projectData.ID)).
 			WithLabels().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entresourcemanager.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing project %s: %w", projectData.ID, err)
 		}
@@ -125,7 +125,7 @@ func (s *Service) saveProjects(ctx context.Context, projects []*ProjectData) err
 		}
 
 		// Create or update project
-		var savedProject *ent.BronzeGCPProject
+		var savedProject *entresourcemanager.BronzeGCPProject
 		if existing == nil {
 			// Create new project
 			create := tx.BronzeGCPProject.Create().

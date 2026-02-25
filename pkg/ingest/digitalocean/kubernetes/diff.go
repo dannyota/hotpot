@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
 )
 
 // ClusterDiff represents changes between old and new Kubernetes cluster states.
@@ -14,7 +14,7 @@ type ClusterDiff struct {
 }
 
 // DiffClusterData compares old Ent entity and new data.
-func DiffClusterData(old *ent.BronzeDOKubernetesCluster, new *ClusterData) *ClusterDiff {
+func DiffClusterData(old *entdo.BronzeDOKubernetesCluster, new *ClusterData) *ClusterDiff {
 	if old == nil {
 		return &ClusterDiff{IsNew: true}
 	}
@@ -50,7 +50,7 @@ type NodePoolDiff struct {
 }
 
 // DiffNodePoolData compares old Ent entity and new data.
-func DiffNodePoolData(old *ent.BronzeDOKubernetesNodePool, new *NodePoolData) *NodePoolDiff {
+func DiffNodePoolData(old *entdo.BronzeDOKubernetesNodePool, new *NodePoolData) *NodePoolDiff {
 	if old == nil {
 		return &NodePoolDiff{IsNew: true}
 	}

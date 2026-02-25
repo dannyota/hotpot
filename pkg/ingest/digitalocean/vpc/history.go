@@ -5,21 +5,21 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydovpc"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydovpc"
 )
 
 // HistoryService handles history tracking for VPCs.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entdo.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entdo.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
-func (h *HistoryService) buildCreate(tx *ent.Tx, data *VpcData) *ent.BronzeHistoryDOVpcCreate {
+func (h *HistoryService) buildCreate(tx *entdo.Tx, data *VpcData) *entdo.BronzeHistoryDOVpcCreate {
 	create := tx.BronzeHistoryDOVpc.Create().
 		SetResourceID(data.ResourceID).
 		SetName(data.Name).
@@ -37,7 +37,7 @@ func (h *HistoryService) buildCreate(tx *ent.Tx, data *VpcData) *ent.BronzeHisto
 }
 
 // CreateHistory creates a history record for a new VPC.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *VpcData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entdo.Tx, data *VpcData, now time.Time) error {
 	_, err := h.buildCreate(tx, data).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
@@ -50,7 +50,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Vp
 }
 
 // UpdateHistory closes old history and creates new for a changed VPC.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeDOVpc, new *VpcData, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entdo.Tx, old *entdo.BronzeDOVpc, new *VpcData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDOVpc.Query().
 		Where(
 			bronzehistorydovpc.ResourceID(old.ID),
@@ -80,7 +80,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted VPC.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entdo.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDOVpc.Query().
 		Where(
 			bronzehistorydovpc.ResourceID(resourceID),
@@ -88,7 +88,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entdo.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current VPC history: %w", err)

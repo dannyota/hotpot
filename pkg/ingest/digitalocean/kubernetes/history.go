@@ -5,21 +5,21 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokubernetescluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydokubernetesnodepool"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydokubernetescluster"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydokubernetesnodepool"
 )
 
 // ClusterHistoryService handles history tracking for Kubernetes clusters.
 type ClusterHistoryService struct {
-	entClient *ent.Client
+	entClient *entdo.Client
 }
 
-func NewClusterHistoryService(entClient *ent.Client) *ClusterHistoryService {
+func NewClusterHistoryService(entClient *entdo.Client) *ClusterHistoryService {
 	return &ClusterHistoryService{entClient: entClient}
 }
 
-func (h *ClusterHistoryService) buildCreate(tx *ent.Tx, data *ClusterData) *ent.BronzeHistoryDOKubernetesClusterCreate {
+func (h *ClusterHistoryService) buildCreate(tx *entdo.Tx, data *ClusterData) *entdo.BronzeHistoryDOKubernetesClusterCreate {
 	return tx.BronzeHistoryDOKubernetesCluster.Create().
 		SetResourceID(data.ResourceID).
 		SetName(data.Name).
@@ -44,7 +44,7 @@ func (h *ClusterHistoryService) buildCreate(tx *ent.Tx, data *ClusterData) *ent.
 		SetNillableAPIUpdatedAt(data.APIUpdatedAt)
 }
 
-func (h *ClusterHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *ClusterData, now time.Time) error {
+func (h *ClusterHistoryService) CreateHistory(ctx context.Context, tx *entdo.Tx, data *ClusterData, now time.Time) error {
 	_, err := h.buildCreate(tx, data).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
@@ -56,7 +56,7 @@ func (h *ClusterHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, d
 	return nil
 }
 
-func (h *ClusterHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeDOKubernetesCluster, new *ClusterData, now time.Time) error {
+func (h *ClusterHistoryService) UpdateHistory(ctx context.Context, tx *entdo.Tx, old *entdo.BronzeDOKubernetesCluster, new *ClusterData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDOKubernetesCluster.Query().
 		Where(
 			bronzehistorydokubernetescluster.ResourceID(old.ID),
@@ -85,7 +85,7 @@ func (h *ClusterHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, o
 	return nil
 }
 
-func (h *ClusterHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *ClusterHistoryService) CloseHistory(ctx context.Context, tx *entdo.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDOKubernetesCluster.Query().
 		Where(
 			bronzehistorydokubernetescluster.ResourceID(resourceID),
@@ -93,7 +93,7 @@ func (h *ClusterHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, re
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entdo.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current KubernetesCluster history: %w", err)
@@ -110,14 +110,14 @@ func (h *ClusterHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, re
 
 // NodePoolHistoryService handles history tracking for Kubernetes node pools.
 type NodePoolHistoryService struct {
-	entClient *ent.Client
+	entClient *entdo.Client
 }
 
-func NewNodePoolHistoryService(entClient *ent.Client) *NodePoolHistoryService {
+func NewNodePoolHistoryService(entClient *entdo.Client) *NodePoolHistoryService {
 	return &NodePoolHistoryService{entClient: entClient}
 }
 
-func (h *NodePoolHistoryService) buildCreate(tx *ent.Tx, data *NodePoolData) *ent.BronzeHistoryDOKubernetesNodePoolCreate {
+func (h *NodePoolHistoryService) buildCreate(tx *entdo.Tx, data *NodePoolData) *entdo.BronzeHistoryDOKubernetesNodePoolCreate {
 	return tx.BronzeHistoryDOKubernetesNodePool.Create().
 		SetResourceID(data.ResourceID).
 		SetClusterID(data.ClusterID).
@@ -134,7 +134,7 @@ func (h *NodePoolHistoryService) buildCreate(tx *ent.Tx, data *NodePoolData) *en
 		SetNodesJSON(data.NodesJSON)
 }
 
-func (h *NodePoolHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *NodePoolData, now time.Time) error {
+func (h *NodePoolHistoryService) CreateHistory(ctx context.Context, tx *entdo.Tx, data *NodePoolData, now time.Time) error {
 	_, err := h.buildCreate(tx, data).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
@@ -146,7 +146,7 @@ func (h *NodePoolHistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, 
 	return nil
 }
 
-func (h *NodePoolHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeDOKubernetesNodePool, new *NodePoolData, now time.Time) error {
+func (h *NodePoolHistoryService) UpdateHistory(ctx context.Context, tx *entdo.Tx, old *entdo.BronzeDOKubernetesNodePool, new *NodePoolData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDOKubernetesNodePool.Query().
 		Where(
 			bronzehistorydokubernetesnodepool.ResourceID(old.ID),
@@ -175,7 +175,7 @@ func (h *NodePoolHistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, 
 	return nil
 }
 
-func (h *NodePoolHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *NodePoolHistoryService) CloseHistory(ctx context.Context, tx *entdo.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDOKubernetesNodePool.Query().
 		Where(
 			bronzehistorydokubernetesnodepool.ResourceID(resourceID),
@@ -183,7 +183,7 @@ func (h *NodePoolHistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, r
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entdo.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current KubernetesNodePool history: %w", err)

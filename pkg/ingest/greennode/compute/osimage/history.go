@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodecomputeosimage"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputeosimage"
 )
 
 // HistoryService handles history tracking for OS images.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new OS image.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *OSImageData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, data *OSImageData, now time.Time) error {
 	_, err := tx.BronzeHistoryGreenNodeComputeOSImage.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -47,7 +47,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *OS
 }
 
 // UpdateHistory closes old history and creates new history.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGreenNodeComputeOSImage, new *OSImageData, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGreenNodeComputeOSImage, new *OSImageData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeComputeOSImage.Query().
 		Where(
 			bronzehistorygreennodecomputeosimage.ResourceID(old.ID),
@@ -90,7 +90,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history for a deleted OS image.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeComputeOSImage.Query().
 		Where(
 			bronzehistorygreennodecomputeosimage.ResourceID(resourceID),
@@ -98,7 +98,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcompute.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current os image history: %w", err)

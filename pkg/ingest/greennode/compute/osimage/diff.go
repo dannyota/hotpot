@@ -1,7 +1,7 @@
 package osimage
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
 )
 
 // OSImageDiff represents changes between old and new OS image states.
@@ -11,7 +11,7 @@ type OSImageDiff struct {
 }
 
 // DiffOSImageData compares old Ent entity and new OSImageData.
-func DiffOSImageData(old *ent.BronzeGreenNodeComputeOSImage, new *OSImageData) *OSImageDiff {
+func DiffOSImageData(old *entcompute.BronzeGreenNodeComputeOSImage, new *OSImageData) *OSImageDiff {
 	if old == nil {
 		return &OSImageDiff{IsNew: true}
 	}

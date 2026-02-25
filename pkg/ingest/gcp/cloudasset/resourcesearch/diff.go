@@ -3,7 +3,7 @@ package resourcesearch
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcloudasset "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset"
 )
 
 // ResourceSearchDiff represents changes between old and new resource search state.
@@ -18,7 +18,7 @@ func (d *ResourceSearchDiff) HasAnyChange() bool {
 }
 
 // DiffResourceSearchData compares existing Ent entity with new ResourceSearchData and returns differences.
-func DiffResourceSearchData(old *ent.BronzeGCPCloudAssetResourceSearch, new *ResourceSearchData) *ResourceSearchDiff {
+func DiffResourceSearchData(old *entcloudasset.BronzeGCPCloudAssetResourceSearch, new *ResourceSearchData) *ResourceSearchDiff {
 	diff := &ResourceSearchDiff{}
 
 	if old == nil {

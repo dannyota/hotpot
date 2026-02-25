@@ -5,11 +5,11 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entbigtable "github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable"
 )
 
 // Register registers all Bigtable cluster activities and workflows.
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
+func Register(w worker.Worker, configService *config.Service, entClient *entbigtable.Client, limiter ratelimit.Limiter) {
 	activities := NewActivities(configService, entClient, limiter)
 	w.RegisterActivity(activities.IngestBigtableClusters)
 	w.RegisterWorkflow(GCPBigtableClusterWorkflow)

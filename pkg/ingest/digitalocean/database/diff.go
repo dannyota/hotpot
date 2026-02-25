@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
 )
 
 // DatabaseDiff represents changes between old and new Database cluster states.
@@ -14,7 +14,7 @@ type DatabaseDiff struct {
 }
 
 // DiffDatabaseData compares old Ent entity and new data.
-func DiffDatabaseData(old *ent.BronzeDODatabase, new *DatabaseData) *DatabaseDiff {
+func DiffDatabaseData(old *entdo.BronzeDODatabase, new *DatabaseData) *DatabaseDiff {
 	if old == nil {
 		return &DatabaseDiff{IsNew: true}
 	}
@@ -43,7 +43,7 @@ type FirewallRuleDiff struct {
 }
 
 // DiffFirewallRuleData compares old Ent entity and new data.
-func DiffFirewallRuleData(old *ent.BronzeDODatabaseFirewallRule, new *FirewallRuleData) *FirewallRuleDiff {
+func DiffFirewallRuleData(old *entdo.BronzeDODatabaseFirewallRule, new *FirewallRuleData) *FirewallRuleDiff {
 	if old == nil {
 		return &FirewallRuleDiff{IsNew: true}
 	}
@@ -64,7 +64,7 @@ type UserDiff struct {
 }
 
 // DiffUserData compares old Ent entity and new data.
-func DiffUserData(old *ent.BronzeDODatabaseUser, new *UserData) *UserDiff {
+func DiffUserData(old *entdo.BronzeDODatabaseUser, new *UserData) *UserDiff {
 	if old == nil {
 		return &UserDiff{IsNew: true}
 	}
@@ -85,7 +85,7 @@ type ReplicaDiff struct {
 }
 
 // DiffReplicaData compares old Ent entity and new data.
-func DiffReplicaData(old *ent.BronzeDODatabaseReplica, new *ReplicaData) *ReplicaDiff {
+func DiffReplicaData(old *entdo.BronzeDODatabaseReplica, new *ReplicaData) *ReplicaDiff {
 	if old == nil {
 		return &ReplicaDiff{IsNew: true}
 	}
@@ -110,7 +110,7 @@ type BackupDiff struct {
 }
 
 // DiffBackupData compares old Ent entity and new data.
-func DiffBackupData(old *ent.BronzeDODatabaseBackup, new *BackupData) *BackupDiff {
+func DiffBackupData(old *entdo.BronzeDODatabaseBackup, new *BackupData) *BackupDiff {
 	if old == nil {
 		return &BackupDiff{IsNew: true}
 	}
@@ -129,7 +129,7 @@ type ConfigDiff struct {
 }
 
 // DiffConfigData compares old Ent entity and new data.
-func DiffConfigData(old *ent.BronzeDODatabaseConfig, new *ConfigData) *ConfigDiff {
+func DiffConfigData(old *entdo.BronzeDODatabaseConfig, new *ConfigData) *ConfigDiff {
 	if old == nil {
 		return &ConfigDiff{IsNew: true}
 	}
@@ -148,7 +148,7 @@ type PoolDiff struct {
 }
 
 // DiffPoolData compares old Ent entity and new data.
-func DiffPoolData(old *ent.BronzeDODatabasePool, new *PoolData) *PoolDiff {
+func DiffPoolData(old *entdo.BronzeDODatabasePool, new *PoolData) *PoolDiff {
 	if old == nil {
 		return &PoolDiff{IsNew: true}
 	}

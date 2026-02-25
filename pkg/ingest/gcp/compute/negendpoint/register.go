@@ -5,10 +5,10 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
+func Register(w worker.Worker, configService *config.Service, entClient *entcompute.Client, limiter ratelimit.Limiter) {
 	activities := NewActivities(configService, entClient, limiter)
 	w.RegisterActivity(activities.IngestComputeNegEndpoints)
 	w.RegisterWorkflow(GCPComputeNegEndpointWorkflow)

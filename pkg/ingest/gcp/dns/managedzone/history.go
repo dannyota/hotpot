@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpdnsmanagedzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpdnsmanagedzonelabel"
+	entdns "github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzehistorygcpdnsmanagedzone"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzehistorygcpdnsmanagedzonelabel"
 )
 
 // HistoryService handles history tracking for managed zones.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entdns.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entdns.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new managed zone and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, zoneData *ManagedZoneData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entdns.Tx, zoneData *ManagedZoneData, now time.Time) error {
 	// Create managed zone history
 	create := tx.BronzeHistoryGCPDNSManagedZone.Create().
 		SetResourceID(zoneData.ID).
@@ -69,7 +69,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, zoneData
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPDNSManagedZone, new *ManagedZoneData, diff *ManagedZoneDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entdns.Tx, old *entdns.BronzeGCPDNSManagedZone, new *ManagedZoneData, diff *ManagedZoneDiff, now time.Time) error {
 	// Get current managed zone history
 	currentHist, err := tx.BronzeHistoryGCPDNSManagedZone.Query().
 		Where(
@@ -145,7 +145,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted managed zone.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entdns.Tx, resourceID string, now time.Time) error {
 	// Get current managed zone history
 	currentHist, err := tx.BronzeHistoryGCPDNSManagedZone.Query().
 		Where(
@@ -154,7 +154,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entdns.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current managed zone history: %w", err)
@@ -173,7 +173,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 }
 
 // createLabelsHistory creates history records for all labels.
-func (h *HistoryService) createLabelsHistory(ctx context.Context, tx *ent.Tx, managedZoneHistoryID uint, zoneData *ManagedZoneData, now time.Time) error {
+func (h *HistoryService) createLabelsHistory(ctx context.Context, tx *entdns.Tx, managedZoneHistoryID uint, zoneData *ManagedZoneData, now time.Time) error {
 	for _, label := range zoneData.Labels {
 		_, err := tx.BronzeHistoryGCPDNSManagedZoneLabel.Create().
 			SetManagedZoneHistoryID(managedZoneHistoryID).
@@ -190,7 +190,7 @@ func (h *HistoryService) createLabelsHistory(ctx context.Context, tx *ent.Tx, ma
 }
 
 // closeLabelsHistory closes all label history records.
-func (h *HistoryService) closeLabelsHistory(ctx context.Context, tx *ent.Tx, managedZoneHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeLabelsHistory(ctx context.Context, tx *entdns.Tx, managedZoneHistoryID uint, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPDNSManagedZoneLabel.Update().
 		Where(
 			bronzehistorygcpdnsmanagedzonelabel.ManagedZoneHistoryID(managedZoneHistoryID),
@@ -206,7 +206,7 @@ func (h *HistoryService) closeLabelsHistory(ctx context.Context, tx *ent.Tx, man
 }
 
 // updateChildrenHistory updates children history based on diff (granular tracking).
-func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, managedZoneHistoryID uint, new *ManagedZoneData, diff *ManagedZoneDiff, now time.Time) error {
+func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *entdns.Tx, managedZoneHistoryID uint, new *ManagedZoneData, diff *ManagedZoneDiff, now time.Time) error {
 	if diff.LabelDiff.Changed {
 		if err := h.updateLabelsHistory(ctx, tx, managedZoneHistoryID, new.Labels, now); err != nil {
 			return fmt.Errorf("failed to update labels history: %w", err)
@@ -216,7 +216,7 @@ func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, 
 	return nil
 }
 
-func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *ent.Tx, managedZoneHistoryID uint, labels []LabelData, now time.Time) error {
+func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *entdns.Tx, managedZoneHistoryID uint, labels []LabelData, now time.Time) error {
 	// Close old label history
 	_, err := tx.BronzeHistoryGCPDNSManagedZoneLabel.Update().
 		Where(

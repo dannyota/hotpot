@@ -5,25 +5,25 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstancedisk"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstancelabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstancemetadata"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstancenic"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstanceserviceaccount"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeinstancetag"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancedisk"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancelabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancemetadata"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancenic"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstanceserviceaccount"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancetag"
 )
 
 // Service handles GCP Compute instance ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entcompute.Client
 	history   *HistoryService
 }
 
 // NewService creates a new instance ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entcompute.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -102,10 +102,10 @@ func (s *Service) saveInstances(ctx context.Context, instances []*InstanceData) 
 		// Load existing instance with all nested edges
 		existing, err := tx.BronzeGCPComputeInstance.Query().
 			Where(bronzegcpcomputeinstance.ID(instanceData.ResourceID)).
-			WithDisks(func(q *ent.BronzeGCPComputeInstanceDiskQuery) {
+			WithDisks(func(q *entcompute.BronzeGCPComputeInstanceDiskQuery) {
 				q.WithLicenses()
 			}).
-			WithNics(func(q *ent.BronzeGCPComputeInstanceNICQuery) {
+			WithNics(func(q *entcompute.BronzeGCPComputeInstanceNICQuery) {
 				q.WithAccessConfigs().WithAliasIPRanges()
 			}).
 			WithLabels().
@@ -113,7 +113,7 @@ func (s *Service) saveInstances(ctx context.Context, instances []*InstanceData) 
 			WithMetadata().
 			WithServiceAccounts().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entcompute.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing instance %s: %w", instanceData.Name, err)
 		}
@@ -142,7 +142,7 @@ func (s *Service) saveInstances(ctx context.Context, instances []*InstanceData) 
 		}
 
 		// Create or update instance
-		var savedInstance *ent.BronzeGCPComputeInstance
+		var savedInstance *entcompute.BronzeGCPComputeInstance
 		if existing == nil {
 			// Create new instance
 			create := tx.BronzeGCPComputeInstance.Create().
@@ -237,7 +237,7 @@ func (s *Service) saveInstances(ctx context.Context, instances []*InstanceData) 
 // deleteInstanceChildren deletes all child entities for an instance.
 // Note: Ent CASCADE DELETE is set on edges, so deleting parent entities
 // will automatically delete their children. We just need to delete from top-level down.
-func (s *Service) deleteInstanceChildren(ctx context.Context, tx *ent.Tx, instanceID string) error {
+func (s *Service) deleteInstanceChildren(ctx context.Context, tx *entcompute.Tx, instanceID string) error {
 	// Delete direct children using Has...With predicates
 	// The CASCADE DELETE on edges will automatically remove nested children
 
@@ -293,7 +293,7 @@ func (s *Service) deleteInstanceChildren(ctx context.Context, tx *ent.Tx, instan
 }
 
 // createInstanceChildren creates all child entities for an instance.
-func (s *Service) createInstanceChildren(ctx context.Context, tx *ent.Tx, instance *ent.BronzeGCPComputeInstance, data *InstanceData) error {
+func (s *Service) createInstanceChildren(ctx context.Context, tx *entcompute.Tx, instance *entcompute.BronzeGCPComputeInstance, data *InstanceData) error {
 	// Create disks and their licenses
 	for _, diskData := range data.Disks {
 		diskCreate := tx.BronzeGCPComputeInstanceDisk.Create().

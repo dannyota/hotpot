@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputenetwork"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputenetworkpeering"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputenetwork"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputenetworkpeering"
 )
 
 // Service handles GCP Compute network ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entcompute.Client
 	history   *HistoryService
 }
 
 // NewService creates a new network ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entcompute.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -99,7 +99,7 @@ func (s *Service) saveNetworks(ctx context.Context, networks []*NetworkData) err
 			Where(bronzegcpcomputenetwork.ID(networkData.ID)).
 			WithPeerings().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entcompute.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing network %s: %w", networkData.Name, err)
 		}
@@ -131,7 +131,7 @@ func (s *Service) saveNetworks(ctx context.Context, networks []*NetworkData) err
 		}
 
 		// Create or update network
-		var savedNetwork *ent.BronzeGCPComputeNetwork
+		var savedNetwork *entcompute.BronzeGCPComputeNetwork
 		if existing == nil {
 			// Create new network
 			create := tx.BronzeGCPComputeNetwork.Create().

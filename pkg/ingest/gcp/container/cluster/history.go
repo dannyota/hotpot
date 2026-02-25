@@ -5,26 +5,26 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontainercluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontainerclusteraddon"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontainerclustercondition"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontainerclusterlabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcontainerclusternodepool"
+	entcontainer "github.com/dannyota/hotpot/pkg/storage/ent/gcp/container"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainercluster"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusteraddon"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclustercondition"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusterlabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusternodepool"
 )
 
 // HistoryService handles history tracking for clusters.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcontainer.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcontainer.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new cluster and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, clusterData *ClusterData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcontainer.Tx, clusterData *ClusterData, now time.Time) error {
 	// Create cluster history
 	clusterHistCreate := tx.BronzeHistoryGCPContainerCluster.Create().
 		SetResourceID(clusterData.ResourceID).
@@ -125,7 +125,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, clusterD
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPContainerCluster, new *ClusterData, diff *ClusterDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcontainer.Tx, old *entcontainer.BronzeGCPContainerCluster, new *ClusterData, diff *ClusterDiff, now time.Time) error {
 	// Get current cluster history
 	currentHist, err := tx.BronzeHistoryGCPContainerCluster.Query().
 		Where(
@@ -253,7 +253,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted cluster.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcontainer.Tx, resourceID string, now time.Time) error {
 	// Get current cluster history
 	currentHist, err := tx.BronzeHistoryGCPContainerCluster.Query().
 		Where(
@@ -262,7 +262,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcontainer.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current cluster history: %w", err)
@@ -280,7 +280,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 }
 
 // createChildrenHistory creates history records for all children.
-func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, clusterHistoryID uint, data *ClusterData, now time.Time) error {
+func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *entcontainer.Tx, clusterHistoryID uint, data *ClusterData, now time.Time) error {
 	// Labels
 	for _, labelData := range data.Labels {
 		_, err := tx.BronzeHistoryGCPContainerClusterLabel.Create().
@@ -375,7 +375,7 @@ func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, 
 }
 
 // closeChildrenHistory closes all children history records.
-func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, clusterHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *entcontainer.Tx, clusterHistoryID uint, now time.Time) error {
 	// Labels
 	_, err := tx.BronzeHistoryGCPContainerClusterLabel.Update().
 		Where(
@@ -428,7 +428,7 @@ func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, c
 }
 
 // updateChildrenHistory updates children history based on diff (granular tracking).
-func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, clusterHistoryID uint, old *ent.BronzeGCPContainerCluster, new *ClusterData, diff *ClusterDiff, now time.Time) error {
+func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *entcontainer.Tx, clusterHistoryID uint, old *entcontainer.BronzeGCPContainerCluster, new *ClusterData, diff *ClusterDiff, now time.Time) error {
 	if diff.LabelsDiff.Changed {
 		if err := h.updateLabelsHistory(ctx, tx, clusterHistoryID, new.Labels, now); err != nil {
 			return err
@@ -456,7 +456,7 @@ func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, 
 	return nil
 }
 
-func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *ent.Tx, clusterHistoryID uint, labels []LabelData, now time.Time) error {
+func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *entcontainer.Tx, clusterHistoryID uint, labels []LabelData, now time.Time) error {
 	// Close old label history
 	_, err := tx.BronzeHistoryGCPContainerClusterLabel.Update().
 		Where(
@@ -485,7 +485,7 @@ func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *ent.Tx, cl
 	return nil
 }
 
-func (h *HistoryService) updateAddonsHistory(ctx context.Context, tx *ent.Tx, clusterHistoryID uint, addons []AddonData, now time.Time) error {
+func (h *HistoryService) updateAddonsHistory(ctx context.Context, tx *entcontainer.Tx, clusterHistoryID uint, addons []AddonData, now time.Time) error {
 	// Close old addon history
 	_, err := tx.BronzeHistoryGCPContainerClusterAddon.Update().
 		Where(
@@ -519,7 +519,7 @@ func (h *HistoryService) updateAddonsHistory(ctx context.Context, tx *ent.Tx, cl
 	return nil
 }
 
-func (h *HistoryService) updateConditionsHistory(ctx context.Context, tx *ent.Tx, clusterHistoryID uint, conditions []ConditionData, now time.Time) error {
+func (h *HistoryService) updateConditionsHistory(ctx context.Context, tx *entcontainer.Tx, clusterHistoryID uint, conditions []ConditionData, now time.Time) error {
 	// Close old condition history
 	_, err := tx.BronzeHistoryGCPContainerClusterCondition.Update().
 		Where(
@@ -549,7 +549,7 @@ func (h *HistoryService) updateConditionsHistory(ctx context.Context, tx *ent.Tx
 	return nil
 }
 
-func (h *HistoryService) updateNodePoolsHistory(ctx context.Context, tx *ent.Tx, clusterHistoryID uint, nodePools []NodePoolData, now time.Time) error {
+func (h *HistoryService) updateNodePoolsHistory(ctx context.Context, tx *entcontainer.Tx, clusterHistoryID uint, nodePools []NodePoolData, now time.Time) error {
 	// Close old node pool history
 	_, err := tx.BronzeHistoryGCPContainerClusterNodePool.Update().
 		Where(

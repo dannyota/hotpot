@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfilestoreinstance"
+	entfilestore "github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore/bronzehistorygcpfilestoreinstance"
 )
 
 // HistoryService manages Filestore instance history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entfilestore.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entfilestore.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new Filestore instance.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *InstanceData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entfilestore.Tx, data *InstanceData, now time.Time) error {
 	create := tx.BronzeHistoryGCPFilestoreInstance.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -63,7 +63,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *In
 }
 
 // UpdateHistory updates history records for a changed Filestore instance.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPFilestoreInstance, new *InstanceData, diff *InstanceDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entfilestore.Tx, old *entfilestore.BronzeGCPFilestoreInstance, new *InstanceData, diff *InstanceDiff, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPFilestoreInstance.Query().
 		Where(
 			bronzehistorygcpfilestoreinstance.ResourceID(old.ID),
@@ -127,7 +127,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted Filestore instance.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entfilestore.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPFilestoreInstance.Query().
 		Where(
 			bronzehistorygcpfilestoreinstance.ResourceID(resourceID),
@@ -135,7 +135,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entfilestore.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current Filestore instance history: %w", err)

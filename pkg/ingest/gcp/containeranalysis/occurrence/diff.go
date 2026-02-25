@@ -3,7 +3,7 @@ package occurrence
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcontaineranalysis "github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis"
 )
 
 // OccurrenceDiff represents changes between old and new Grafeas occurrence state.
@@ -18,7 +18,7 @@ func (d *OccurrenceDiff) HasAnyChange() bool {
 }
 
 // DiffOccurrenceData compares existing Ent entity with new OccurrenceData and returns differences.
-func DiffOccurrenceData(old *ent.BronzeGCPContainerAnalysisOccurrence, new *OccurrenceData) *OccurrenceDiff {
+func DiffOccurrenceData(old *entcontaineranalysis.BronzeGCPContainerAnalysisOccurrence, new *OccurrenceData) *OccurrenceDiff {
 	diff := &OccurrenceDiff{}
 
 	if old == nil {

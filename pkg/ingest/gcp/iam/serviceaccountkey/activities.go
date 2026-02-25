@@ -11,16 +11,16 @@ import (
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
 	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entiam "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam"
 )
 
 type Activities struct {
 	configService *config.Service
-	entClient     *ent.Client
+	entClient     *entiam.Client
 	limiter       ratelimit.Limiter
 }
 
-func NewActivities(configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) *Activities {
+func NewActivities(configService *config.Service, entClient *entiam.Client, limiter ratelimit.Limiter) *Activities {
 	return &Activities{
 		configService: configService,
 		entClient:     entClient,

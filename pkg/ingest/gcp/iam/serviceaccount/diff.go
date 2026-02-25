@@ -1,13 +1,13 @@
 package serviceaccount
 
-import "github.com/dannyota/hotpot/pkg/storage/ent"
+import entiam "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam"
 
 type ServiceAccountDiff struct {
 	IsNew     bool
 	IsChanged bool
 }
 
-func DiffServiceAccountData(old *ent.BronzeGCPIAMServiceAccount, new *ServiceAccountData) *ServiceAccountDiff {
+func DiffServiceAccountData(old *entiam.BronzeGCPIAMServiceAccount, new *ServiceAccountData) *ServiceAccountDiff {
 	if old == nil {
 		return &ServiceAccountDiff{IsNew: true}
 	}
@@ -20,7 +20,7 @@ func (d *ServiceAccountDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged
 }
 
-func hasFieldsChanged(old *ent.BronzeGCPIAMServiceAccount, new *ServiceAccountData) bool {
+func hasFieldsChanged(old *entiam.BronzeGCPIAMServiceAccount, new *ServiceAccountData) bool {
 	return old.Name != new.Name ||
 		old.Email != new.Email ||
 		old.DisplayName != new.DisplayName ||

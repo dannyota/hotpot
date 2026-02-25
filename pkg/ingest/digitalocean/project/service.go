@@ -5,21 +5,21 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoproject"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedoprojectresource"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedoproject"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedoprojectresource"
 )
 
 // Service handles DigitalOcean Project ingestion.
 type Service struct {
 	client          *Client
-	entClient       *ent.Client
+	entClient       *entdo.Client
 	projectHistory  *ProjectHistoryService
 	resourceHistory *ResourceHistoryService
 }
 
 // NewService creates a new Project ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entdo.Client) *Service {
 	return &Service{
 		client:          client,
 		entClient:       entClient,
@@ -92,7 +92,7 @@ func (s *Service) saveProjects(ctx context.Context, projects []*ProjectData) err
 		existing, err := tx.BronzeDOProject.Query().
 			Where(bronzedoproject.ID(data.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entdo.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing Project %s: %w", data.ResourceID, err)
 		}
@@ -268,7 +268,7 @@ func (s *Service) saveResources(ctx context.Context, resources []*ProjectResourc
 		existing, err := tx.BronzeDOProjectResource.Query().
 			Where(bronzedoprojectresource.ID(data.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entdo.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing ProjectResource %s: %w", data.ResourceID, err)
 		}

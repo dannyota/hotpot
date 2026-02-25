@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodevolumeblockvolume"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodevolumesnapshot"
+	entvol "github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumeblockvolume"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumesnapshot"
 )
 
 // Service handles GreenNode block volume ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entvol.Client
 	history   *HistoryService
 }
 
 // NewService creates a new block volume ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entvol.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -94,7 +94,7 @@ func (s *Service) saveBlockVolumes(ctx context.Context, volumes []*BlockVolumeDa
 			Where(bronzegreennodevolumeblockvolume.ID(data.ID)).
 			WithSnapshots().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entvol.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing block volume %s: %w", data.Name, err)
 		}
@@ -118,7 +118,7 @@ func (s *Service) saveBlockVolumes(ctx context.Context, volumes []*BlockVolumeDa
 			}
 		}
 
-		var savedVolume *ent.BronzeGreenNodeVolumeBlockVolume
+		var savedVolume *entvol.BronzeGreenNodeVolumeBlockVolume
 		if existing == nil {
 			create := tx.BronzeGreenNodeVolumeBlockVolume.Create().
 				SetID(data.ID).
@@ -206,7 +206,7 @@ func (s *Service) saveBlockVolumes(ctx context.Context, volumes []*BlockVolumeDa
 	return nil
 }
 
-func (s *Service) deleteBlockVolumeChildren(ctx context.Context, tx *ent.Tx, volumeID string) error {
+func (s *Service) deleteBlockVolumeChildren(ctx context.Context, tx *entvol.Tx, volumeID string) error {
 	_, err := tx.BronzeGreenNodeVolumeSnapshot.Delete().
 		Where(bronzegreennodevolumesnapshot.HasBlockVolumeWith(bronzegreennodevolumeblockvolume.ID(volumeID))).
 		Exec(ctx)
@@ -216,7 +216,7 @@ func (s *Service) deleteBlockVolumeChildren(ctx context.Context, tx *ent.Tx, vol
 	return nil
 }
 
-func (s *Service) createBlockVolumeChildren(ctx context.Context, tx *ent.Tx, volume *ent.BronzeGreenNodeVolumeBlockVolume, data *BlockVolumeData) error {
+func (s *Service) createBlockVolumeChildren(ctx context.Context, tx *entvol.Tx, volume *entvol.BronzeGreenNodeVolumeBlockVolume, data *BlockVolumeData) error {
 	for _, snap := range data.Snapshots {
 		_, err := tx.BronzeGreenNodeVolumeSnapshot.Create().
 			SetBlockVolume(volume).

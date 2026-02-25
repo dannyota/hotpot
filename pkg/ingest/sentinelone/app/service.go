@@ -6,19 +6,19 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1app"
+	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1app"
 )
 
 // Service handles SentinelOne installed application ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *ents1.Client
 	history   *HistoryService
 }
 
 // NewService creates a new app ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *ents1.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -100,7 +100,7 @@ func (s *Service) saveApps(ctx context.Context, apps []*AppData) error {
 		existing, err := tx.BronzeS1App.Query().
 			Where(bronzes1app.ID(data.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !ents1.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing app %s: %w", data.ResourceID, err)
 		}

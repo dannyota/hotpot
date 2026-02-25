@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpmonitoringalertpolicy"
+	entmonitoring "github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring/bronzegcpmonitoringalertpolicy"
 )
 
 // Service handles alert policy ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entmonitoring.Client
 	history   *HistoryService
 }
 
 // NewService creates a new alert policy ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entmonitoring.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -94,7 +94,7 @@ func (s *Service) saveAlertPolicies(ctx context.Context, policies []*AlertPolicy
 		existing, err := tx.BronzeGCPMonitoringAlertPolicy.Query().
 			Where(bronzegcpmonitoringalertpolicy.ID(policyData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entmonitoring.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing alert policy %s: %w", policyData.ID, err)
 		}

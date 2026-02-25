@@ -3,11 +3,11 @@ package greennode
 import (
 	"io"
 
+	"entgo.io/ent/dialect"
 	"go.temporal.io/sdk/worker"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/ingest"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 func init() {
@@ -16,8 +16,8 @@ func init() {
 		TaskQueue:          "hotpot-ingest-greennode",
 		Enabled:            (*config.Service).GreenNodeEnabled,
 		RateLimitPerMinute: (*config.Service).GreenNodeRateLimitPerMinute,
-		Register: func(w worker.Worker, cs *config.Service, ec *ent.Client) io.Closer {
-			return Register(w, cs, ec)
+		RegisterWithDriver: func(w worker.Worker, cs *config.Service, drv dialect.Driver) io.Closer {
+			return Register(w, cs, drv)
 		},
 		Workflow: GreenNodeInventoryWorkflow,
 	})

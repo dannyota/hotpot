@@ -3,7 +3,7 @@ package loadbalancer
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
 )
 
 // LoadBalancerDiff represents changes between old and new Load Balancer states.
@@ -13,7 +13,7 @@ type LoadBalancerDiff struct {
 }
 
 // DiffLoadBalancerData compares old Ent entity and new data.
-func DiffLoadBalancerData(old *ent.BronzeDOLoadBalancer, new *LoadBalancerData) *LoadBalancerDiff {
+func DiffLoadBalancerData(old *entdo.BronzeDOLoadBalancer, new *LoadBalancerData) *LoadBalancerDiff {
 	if old == nil {
 		return &LoadBalancerDiff{IsNew: true}
 	}

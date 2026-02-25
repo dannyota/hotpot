@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpdataproccluster"
+	entdataproc "github.com/dannyota/hotpot/pkg/storage/ent/gcp/dataproc"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dataproc/bronzehistorygcpdataproccluster"
 )
 
 // HistoryService manages Dataproc cluster history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entdataproc.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entdataproc.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new Dataproc cluster.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *ClusterData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entdataproc.Tx, data *ClusterData, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPDataprocCluster.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -44,7 +44,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Cl
 }
 
 // UpdateHistory updates history records for a changed Dataproc cluster.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPDataprocCluster, new *ClusterData, diff *ClusterDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entdataproc.Tx, old *entdataproc.BronzeGCPDataprocCluster, new *ClusterData, diff *ClusterDiff, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPDataprocCluster.Query().
 		Where(
 			bronzehistorygcpdataproccluster.ResourceID(old.ID),
@@ -89,7 +89,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted Dataproc cluster.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entdataproc.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPDataprocCluster.Query().
 		Where(
 			bronzehistorygcpdataproccluster.ResourceID(resourceID),
@@ -97,7 +97,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entdataproc.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current Dataproc cluster history: %w", err)

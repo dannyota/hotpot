@@ -3,7 +3,7 @@ package certificate
 import (
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entpki "github.com/dannyota/hotpot/pkg/storage/ent/vault/pki"
 )
 
 // CertDiff represents changes between old and new certificate states.
@@ -13,7 +13,7 @@ type CertDiff struct {
 }
 
 // DiffCertData compares old Ent entity and new data.
-func DiffCertData(old *ent.BronzeVaultPKICertificate, new *CertificateData) *CertDiff {
+func DiffCertData(old *entpki.BronzeVaultPKICertificate, new *CertificateData) *CertDiff {
 	if old == nil {
 		return &CertDiff{IsNew: true}
 	}

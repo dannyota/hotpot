@@ -3,7 +3,7 @@ package bucket
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entstorage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage"
 )
 
 // BucketDiff represents changes between old and new bucket states.
@@ -20,7 +20,7 @@ type ChildDiff struct {
 }
 
 // DiffBucketData compares old Ent entity and new data.
-func DiffBucketData(old *ent.BronzeGCPStorageBucket, new *BucketData) *BucketDiff {
+func DiffBucketData(old *entstorage.BronzeGCPStorageBucket, new *BucketData) *BucketDiff {
 	if old == nil {
 		return &BucketDiff{
 			IsNew:     true,
@@ -32,7 +32,7 @@ func DiffBucketData(old *ent.BronzeGCPStorageBucket, new *BucketData) *BucketDif
 
 	diff.IsChanged = hasBucketFieldsChanged(old, new)
 
-	var oldLabels []*ent.BronzeGCPStorageBucketLabel
+	var oldLabels []*entstorage.BronzeGCPStorageBucketLabel
 	if old.Edges.Labels != nil {
 		oldLabels = old.Edges.Labels
 	}
@@ -46,7 +46,7 @@ func (d *BucketDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged || d.LabelDiff.Changed
 }
 
-func hasBucketFieldsChanged(old *ent.BronzeGCPStorageBucket, new *BucketData) bool {
+func hasBucketFieldsChanged(old *entstorage.BronzeGCPStorageBucket, new *BucketData) bool {
 	return old.Name != new.Name ||
 		old.Location != new.Location ||
 		old.StorageClass != new.StorageClass ||
@@ -67,7 +67,7 @@ func hasBucketFieldsChanged(old *ent.BronzeGCPStorageBucket, new *BucketData) bo
 		!bytes.Equal(old.AutoclassJSON, new.AutoclassJSON)
 }
 
-func diffLabels(old []*ent.BronzeGCPStorageBucketLabel, new []LabelData) ChildDiff {
+func diffLabels(old []*entstorage.BronzeGCPStorageBucketLabel, new []LabelData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

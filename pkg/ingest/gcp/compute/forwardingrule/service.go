@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeforwardingrule"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeforwardingrulelabel"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeforwardingrule"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeforwardingrulelabel"
 )
 
 // Service handles GCP Compute forwarding rule ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entcompute.Client
 	history   *HistoryService
 }
 
 // NewService creates a new forwarding rule ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entcompute.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -99,7 +99,7 @@ func (s *Service) saveForwardingRules(ctx context.Context, forwardingRules []*Fo
 			Where(bronzegcpcomputeforwardingrule.ID(ruleData.ID)).
 			WithLabels().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entcompute.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing forwarding rule %s: %w", ruleData.ID, err)
 		}
@@ -131,7 +131,7 @@ func (s *Service) saveForwardingRules(ctx context.Context, forwardingRules []*Fo
 		}
 
 		// Create or update forwarding rule
-		var savedRule *ent.BronzeGCPComputeForwardingRule
+		var savedRule *entcompute.BronzeGCPComputeForwardingRule
 		if existing == nil {
 			// Create new forwarding rule
 			create := tx.BronzeGCPComputeForwardingRule.Create().

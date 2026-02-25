@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsqlinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsqlinstancelabel"
+	entgcpsql "github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/bronzegcpsqlinstance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/bronzegcpsqlinstancelabel"
 )
 
 // Service handles GCP Cloud SQL instance ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entgcpsql.Client
 	history   *HistoryService
 }
 
 // NewService creates a new SQL instance ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entgcpsql.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -99,7 +99,7 @@ func (s *Service) saveInstances(ctx context.Context, instances []*InstanceData) 
 			Where(bronzegcpsqlinstance.ID(instanceData.ResourceID)).
 			WithLabels().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entgcpsql.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing SQL instance %s: %w", instanceData.Name, err)
 		}
@@ -128,7 +128,7 @@ func (s *Service) saveInstances(ctx context.Context, instances []*InstanceData) 
 		}
 
 		// Create or update instance
-		var savedInstance *ent.BronzeGCPSQLInstance
+		var savedInstance *entgcpsql.BronzeGCPSQLInstance
 		if existing == nil {
 			// Create new instance
 			create := tx.BronzeGCPSQLInstance.Create().
@@ -247,7 +247,7 @@ func (s *Service) saveInstances(ctx context.Context, instances []*InstanceData) 
 }
 
 // deleteInstanceChildren deletes all child entities for an instance.
-func deleteInstanceChildren(ctx context.Context, tx *ent.Tx, instanceID string) error {
+func deleteInstanceChildren(ctx context.Context, tx *entgcpsql.Tx, instanceID string) error {
 	// Delete labels
 	_, err := tx.BronzeGCPSQLInstanceLabel.Delete().
 		Where(bronzegcpsqlinstancelabel.HasInstanceWith(bronzegcpsqlinstance.ID(instanceID))).
@@ -260,7 +260,7 @@ func deleteInstanceChildren(ctx context.Context, tx *ent.Tx, instanceID string) 
 }
 
 // createInstanceChildren creates all child entities for an instance.
-func createInstanceChildren(ctx context.Context, tx *ent.Tx, instance *ent.BronzeGCPSQLInstance, data *InstanceData) error {
+func createInstanceChildren(ctx context.Context, tx *entgcpsql.Tx, instance *entgcpsql.BronzeGCPSQLInstance, data *InstanceData) error {
 	// Create labels
 	for _, labelData := range data.Labels {
 		_, err := tx.BronzeGCPSQLInstanceLabel.Create().

@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfolder"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpfolderlabel"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcpfolder"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcpfolderlabel"
 )
 
 // HistoryService manages folder history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entresourcemanager.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entresourcemanager.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new folder.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, folderData *FolderData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entresourcemanager.Tx, folderData *FolderData, now time.Time) error {
 	// Create folder history
 	folderHistory, err := tx.BronzeHistoryGCPFolder.Create().
 		SetResourceID(folderData.ID).
@@ -58,7 +58,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, folderDa
 }
 
 // UpdateHistory updates history records for a changed folder.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPFolder, new *FolderData, diff *FolderDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entresourcemanager.Tx, old *entresourcemanager.BronzeGCPFolder, new *FolderData, diff *FolderDiff, now time.Time) error {
 	// Get current folder history
 	currentHistory, err := tx.BronzeHistoryGCPFolder.Query().
 		Where(
@@ -153,7 +153,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted folder.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, folderID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entresourcemanager.Tx, folderID string, now time.Time) error {
 	// Get current folder history
 	currentHistory, err := tx.BronzeHistoryGCPFolder.Query().
 		Where(
@@ -162,7 +162,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, folderID 
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entresourcemanager.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current folder history: %w", err)

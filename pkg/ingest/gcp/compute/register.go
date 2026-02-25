@@ -37,12 +37,16 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/urlmap"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/vpngateway"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/vpntunnel"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"entgo.io/ent/dialect"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	entvpn "github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn"
 )
 
 // Register registers all Compute Engine activities and workflows.
 // Client is NOT created here - it's created per workflow session.
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
+func Register(w worker.Worker, configService *config.Service, driver dialect.Driver, limiter ratelimit.Limiter) {
+	entClient := entcompute.NewClient(entcompute.Driver(driver), entcompute.AlternateSchema(entcompute.DefaultSchemaConfig()))
+	vpnClient := entvpn.NewClient(entvpn.Driver(driver), entvpn.AlternateSchema(entvpn.DefaultSchemaConfig()))
 	// Register sub-packages with config service
 	instance.Register(w, configService, entClient, limiter)
 	disk.Register(w, configService, entClient, limiter)
@@ -57,9 +61,9 @@ func Register(w worker.Worker, configService *config.Service, entClient *ent.Cli
 	globalforwardingrule.Register(w, configService, entClient, limiter)
 	healthcheck.Register(w, configService, entClient, limiter)
 	image.Register(w, configService, entClient, limiter)
-	vpngateway.Register(w, configService, entClient, limiter)
-	targetvpngateway.Register(w, configService, entClient, limiter)
-	vpntunnel.Register(w, configService, entClient, limiter)
+	vpngateway.Register(w, configService, vpnClient, limiter)
+	targetvpngateway.Register(w, configService, vpnClient, limiter)
+	vpntunnel.Register(w, configService, vpnClient, limiter)
 	targethttpproxy.Register(w, configService, entClient, limiter)
 	targettcpproxy.Register(w, configService, entClient, limiter)
 	targetsslproxy.Register(w, configService, entClient, limiter)

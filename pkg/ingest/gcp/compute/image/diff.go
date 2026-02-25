@@ -2,7 +2,7 @@ package image
 
 import (
 	"bytes"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // ImageDiff represents changes between old and new image states.
@@ -20,7 +20,7 @@ type ChildDiff struct {
 }
 
 // DiffImageData compares old Ent entity and new ImageData.
-func DiffImageData(old *ent.BronzeGCPComputeImage, new *ImageData) *ImageDiff {
+func DiffImageData(old *entcompute.BronzeGCPComputeImage, new *ImageData) *ImageDiff {
 	if old == nil {
 		return &ImageDiff{
 			IsNew:        true,
@@ -45,7 +45,7 @@ func (d *ImageDiff) HasAnyChange() bool {
 	return d.LabelsDiff.Changed || d.LicensesDiff.Changed
 }
 
-func hasImageFieldsChanged(old *ent.BronzeGCPComputeImage, new *ImageData) bool {
+func hasImageFieldsChanged(old *entcompute.BronzeGCPComputeImage, new *ImageData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Status != new.Status ||
@@ -76,7 +76,7 @@ func hasImageFieldsChanged(old *ent.BronzeGCPComputeImage, new *ImageData) bool 
 		!bytes.Equal(old.LicenseCodesJSON, new.LicenseCodesJSON)
 }
 
-func diffLabels(old []*ent.BronzeGCPComputeImageLabel, new []ImageLabelData) ChildDiff {
+func diffLabels(old []*entcompute.BronzeGCPComputeImageLabel, new []ImageLabelData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -94,7 +94,7 @@ func diffLabels(old []*ent.BronzeGCPComputeImageLabel, new []ImageLabelData) Chi
 	return ChildDiff{Changed: false}
 }
 
-func diffLicenses(old []*ent.BronzeGCPComputeImageLicense, new []ImageLicenseData) ChildDiff {
+func diffLicenses(old []*entcompute.BronzeGCPComputeImageLicense, new []ImageLicenseData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

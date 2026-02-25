@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcloudfunctionsfunction"
+	entcloudfunctions "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzehistorygcpcloudfunctionsfunction"
 )
 
 // HistoryService manages Cloud Function history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcloudfunctions.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcloudfunctions.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new Cloud Function.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *FunctionData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcloudfunctions.Tx, data *FunctionData, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPCloudFunctionsFunction.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -51,7 +51,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Fu
 }
 
 // UpdateHistory updates history records for a changed Cloud Function.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPCloudFunctionsFunction, new *FunctionData, diff *FunctionDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcloudfunctions.Tx, old *entcloudfunctions.BronzeGCPCloudFunctionsFunction, new *FunctionData, diff *FunctionDiff, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPCloudFunctionsFunction.Query().
 		Where(
 			bronzehistorygcpcloudfunctionsfunction.ResourceID(old.ID),
@@ -103,7 +103,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted Cloud Function.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcloudfunctions.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPCloudFunctionsFunction.Query().
 		Where(
 			bronzehistorygcpcloudfunctionsfunction.ResourceID(resourceID),
@@ -111,7 +111,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcloudfunctions.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current Cloud Function history: %w", err)

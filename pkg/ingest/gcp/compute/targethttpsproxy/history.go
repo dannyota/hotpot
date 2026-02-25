@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputetargethttpsproxy"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputetargethttpsproxy"
 )
 
 // HistoryService manages target HTTPS proxy history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new target HTTPS proxy.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *TargetHttpsProxyData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, data *TargetHttpsProxyData, now time.Time) error {
 	create := tx.BronzeHistoryGCPComputeTargetHttpsProxy.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -80,7 +80,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Ta
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeTargetHttpsProxy, new *TargetHttpsProxyData, diff *TargetHttpsProxyDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGCPComputeTargetHttpsProxy, new *TargetHttpsProxyData, diff *TargetHttpsProxyDiff, now time.Time) error {
 	if !diff.IsChanged {
 		return nil
 	}
@@ -157,7 +157,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted target HTTPS proxy.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPComputeTargetHttpsProxy.Update().
 		Where(
 			bronzehistorygcpcomputetargethttpsproxy.ResourceID(resourceID),
@@ -165,7 +165,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		SetValidTo(now).
 		Save(ctx)
-	if ent.IsNotFound(err) {
+	if entcompute.IsNotFound(err) {
 		return nil
 	}
 	return err

@@ -5,31 +5,31 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancedisk"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancedisklicense"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancelabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancemetadata"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancenic"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancenicaccessconfig"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancenicaliasrange"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstanceserviceaccount"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeinstancetag"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancedisk"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancedisklicense"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancelabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancemetadata"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancenic"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancenicaccessconfig"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancenicaliasrange"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstanceserviceaccount"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancetag"
 )
 
 // HistoryService handles history tracking for instances.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new instance and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, instanceData *InstanceData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, instanceData *InstanceData, now time.Time) error {
 	// Create instance history
 	instHistCreate := tx.BronzeHistoryGCPComputeInstance.Create().
 		SetResourceID(instanceData.ResourceID).
@@ -67,7 +67,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, instance
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeInstance, new *InstanceData, diff *InstanceDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGCPComputeInstance, new *InstanceData, diff *InstanceDiff, now time.Time) error {
 	// Get current instance history
 	currentHist, err := tx.BronzeHistoryGCPComputeInstance.Query().
 		Where(
@@ -132,7 +132,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted instance.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	// Get current instance history
 	currentHist, err := tx.BronzeHistoryGCPComputeInstance.Query().
 		Where(
@@ -141,7 +141,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcompute.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current instance history: %w", err)
@@ -159,7 +159,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 }
 
 // createChildrenHistory creates history records for all children.
-func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, data *InstanceData, now time.Time) error {
+func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *entcompute.Tx, instanceHistoryID uint, data *InstanceData, now time.Time) error {
 	// Disks
 	for _, diskData := range data.Disks {
 		diskHistCreate := tx.BronzeHistoryGCPComputeInstanceDisk.Create().
@@ -305,7 +305,7 @@ func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, 
 }
 
 // closeChildrenHistory closes all children history records.
-func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *entcompute.Tx, instanceHistoryID uint, now time.Time) error {
 	// Close direct children (disks, NICs, labels, tags, metadata, service accounts)
 	_, err := tx.BronzeHistoryGCPComputeInstanceDisk.Update().
 		Where(
@@ -435,7 +435,7 @@ func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, i
 }
 
 // updateChildrenHistory updates children history based on diff (granular tracking).
-func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, old *ent.BronzeGCPComputeInstance, new *InstanceData, diff *InstanceDiff, now time.Time) error {
+func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *entcompute.Tx, instanceHistoryID uint, old *entcompute.BronzeGCPComputeInstance, new *InstanceData, diff *InstanceDiff, now time.Time) error {
 	// For each child type, if changed: close old + create new
 	// If unchanged: no action (still links to same instance_history_id)
 
@@ -478,7 +478,7 @@ func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, 
 	return nil
 }
 
-func (h *HistoryService) updateDisksHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, disks []DiskData, now time.Time) error {
+func (h *HistoryService) updateDisksHistory(ctx context.Context, tx *entcompute.Tx, instanceHistoryID uint, disks []DiskData, now time.Time) error {
 	// Get old disk history IDs to close nested licenses
 	var oldDiskHistIDs []uint
 	err := tx.BronzeHistoryGCPComputeInstanceDisk.Query().
@@ -560,7 +560,7 @@ func (h *HistoryService) updateDisksHistory(ctx context.Context, tx *ent.Tx, ins
 	return nil
 }
 
-func (h *HistoryService) updateNICsHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, nics []NICData, now time.Time) error {
+func (h *HistoryService) updateNICsHistory(ctx context.Context, tx *entcompute.Tx, instanceHistoryID uint, nics []NICData, now time.Time) error {
 	// Get old NIC history IDs to close nested children
 	var oldNICHistIDs []uint
 	err := tx.BronzeHistoryGCPComputeInstanceNIC.Query().
@@ -657,7 +657,7 @@ func (h *HistoryService) updateNICsHistory(ctx context.Context, tx *ent.Tx, inst
 	return nil
 }
 
-func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, labels []LabelData, now time.Time) error {
+func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *entcompute.Tx, instanceHistoryID uint, labels []LabelData, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPComputeInstanceLabel.Update().
 		Where(
 			bronzehistorygcpcomputeinstancelabel.InstanceHistoryID(instanceHistoryID),
@@ -683,7 +683,7 @@ func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *ent.Tx, in
 	return nil
 }
 
-func (h *HistoryService) updateTagsHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, tags []TagData, now time.Time) error {
+func (h *HistoryService) updateTagsHistory(ctx context.Context, tx *entcompute.Tx, instanceHistoryID uint, tags []TagData, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPComputeInstanceTag.Update().
 		Where(
 			bronzehistorygcpcomputeinstancetag.InstanceHistoryID(instanceHistoryID),
@@ -708,7 +708,7 @@ func (h *HistoryService) updateTagsHistory(ctx context.Context, tx *ent.Tx, inst
 	return nil
 }
 
-func (h *HistoryService) updateMetadataHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, metadata []MetadataData, now time.Time) error {
+func (h *HistoryService) updateMetadataHistory(ctx context.Context, tx *entcompute.Tx, instanceHistoryID uint, metadata []MetadataData, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPComputeInstanceMetadata.Update().
 		Where(
 			bronzehistorygcpcomputeinstancemetadata.InstanceHistoryID(instanceHistoryID),
@@ -734,7 +734,7 @@ func (h *HistoryService) updateMetadataHistory(ctx context.Context, tx *ent.Tx, 
 	return nil
 }
 
-func (h *HistoryService) updateServiceAccountsHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, sas []ServiceAccountData, now time.Time) error {
+func (h *HistoryService) updateServiceAccountsHistory(ctx context.Context, tx *entcompute.Tx, instanceHistoryID uint, sas []ServiceAccountData, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPComputeInstanceServiceAccount.Update().
 		Where(
 			bronzehistorygcpcomputeinstanceserviceaccount.InstanceHistoryID(instanceHistoryID),

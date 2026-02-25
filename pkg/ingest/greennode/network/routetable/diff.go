@@ -1,7 +1,7 @@
 package routetable
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
 )
 
 // RouteTableDiff represents changes between old and new route table states.
@@ -18,7 +18,7 @@ type ChildDiff struct {
 }
 
 // DiffRouteTableData compares old Ent entity and new RouteTableData.
-func DiffRouteTableData(old *ent.BronzeGreenNodeNetworkRouteTable, new *RouteTableData) *RouteTableDiff {
+func DiffRouteTableData(old *entnet.BronzeGreenNodeNetworkRouteTable, new *RouteTableData) *RouteTableDiff {
 	if old == nil {
 		return &RouteTableDiff{
 			IsNew:      true,
@@ -38,17 +38,17 @@ func (d *RouteTableDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged || d.RoutesDiff.Changed
 }
 
-func hasRouteTableFieldsChanged(old *ent.BronzeGreenNodeNetworkRouteTable, new *RouteTableData) bool {
+func hasRouteTableFieldsChanged(old *entnet.BronzeGreenNodeNetworkRouteTable, new *RouteTableData) bool {
 	return old.Name != new.Name ||
 		old.Status != new.Status ||
 		old.NetworkID != new.NetworkID
 }
 
-func diffRoutes(old []*ent.BronzeGreenNodeNetworkRouteTableRoute, new []RouteData) ChildDiff {
+func diffRoutes(old []*entnet.BronzeGreenNodeNetworkRouteTableRoute, new []RouteData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
-	oldMap := make(map[string]*ent.BronzeGreenNodeNetworkRouteTableRoute)
+	oldMap := make(map[string]*entnet.BronzeGreenNodeNetworkRouteTableRoute)
 	for _, r := range old {
 		oldMap[r.RouteID] = r
 	}

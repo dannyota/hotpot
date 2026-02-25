@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcloudfunctionsfunction"
+	entcloudfunctions "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzegcpcloudfunctionsfunction"
 )
 
 // Service handles Cloud Function ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entcloudfunctions.Client
 	history   *HistoryService
 }
 
 // NewService creates a new Cloud Function ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entcloudfunctions.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -94,7 +94,7 @@ func (s *Service) saveFunctions(ctx context.Context, functions []*FunctionData) 
 		existing, err := tx.BronzeGCPCloudFunctionsFunction.Query().
 			Where(bronzegcpcloudfunctionsfunction.ID(funcData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entcloudfunctions.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing function %s: %w", funcData.ID, err)
 		}

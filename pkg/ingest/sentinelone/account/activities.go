@@ -9,18 +9,18 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
 )
 
 // Activities holds dependencies for Temporal activities.
 type Activities struct {
 	configService *config.Service
-	entClient     *ent.Client
+	entClient     *ents1.Client
 	limiter       ratelimit.Limiter
 }
 
 // NewActivities creates a new Activities instance.
-func NewActivities(configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) *Activities {
+func NewActivities(configService *config.Service, entClient *ents1.Client, limiter ratelimit.Limiter) *Activities {
 	return &Activities{
 		configService: configService,
 		entClient:     entClient,

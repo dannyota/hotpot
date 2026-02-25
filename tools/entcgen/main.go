@@ -24,6 +24,7 @@ type schemaInfo struct {
 	TypeName   string // e.g. "BronzeGCPComputeInstance"
 	ImportPath string // e.g. "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/compute"
 	Alias      string // e.g. "bronze_gcp_compute"
+	Layer      string // e.g. "bronze", "bronzehistory"
 }
 
 // layerToSchema maps directory names to PG schema names.
@@ -52,11 +53,17 @@ func main() {
 
 	discovered := discoverSchemas(schemaRoot)
 
+	// Flatten all schemas across layers for monolithic generation.
+	var allSchemas []schemaInfo
+	for _, schemas := range discovered.byLayer {
+		allSchemas = append(allSchemas, schemas...)
+	}
+
 	// 1. Generate runtime wrappers (all layers combined)
 	runtimeSchemaDir := filepath.Join(target, "schema")
 	os.MkdirAll(runtimeSchemaDir, 0755)
 
-	if err := generateWrappers(runtimeSchemaDir, discovered.byLayer); err != nil {
+	if err := generateWrappers(runtimeSchemaDir, allSchemas); err != nil {
 		log.Fatalf("generate runtime wrappers: %v", err)
 	}
 
@@ -85,7 +92,7 @@ func main() {
 	}
 
 	// 4. Generate schema config helper (maps types to PG schemas)
-	if err := generateSchemaConfig(target, discovered.byLayer); err != nil {
+	if err := generateSchemaConfig(target, "ent", allSchemas); err != nil {
 		log.Fatalf("generate schema config: %v", err)
 	}
 
@@ -101,6 +108,42 @@ func main() {
 		Features: []gen.Feature{gen.FeatureSchemaConfig},
 	}); err != nil {
 		log.Fatalf("entc generate: %v", err)
+	}
+
+	// 6. Generate per-service ent packages (e.g., ent/gcp/compute/, ent/s1/)
+	for serviceKey, schemas := range discovered.byService {
+		serviceTarget := filepath.Join("ent", filepath.FromSlash(serviceKey))
+		servicePkg := callerModule + "/" + filepath.ToSlash(filepath.Join(rel, "ent", serviceKey))
+		packageName := filepath.Base(serviceKey)
+
+		// Generate runtime wrappers
+		serviceSchemaDir := filepath.Join(serviceTarget, "schema")
+		os.MkdirAll(serviceSchemaDir, 0755)
+
+		if err := generateWrappers(serviceSchemaDir, schemas); err != nil {
+			log.Fatalf("generate per-service wrappers for %s: %v", serviceKey, err)
+		}
+
+		// Generate schema config
+		if err := generateSchemaConfig(serviceTarget, packageName, schemas); err != nil {
+			log.Fatalf("generate per-service schema config for %s: %v", serviceKey, err)
+		}
+
+		// Run entc
+		absServiceSchemaDir, err := filepath.Abs(serviceSchemaDir)
+		if err != nil {
+			log.Fatalf("get abs path for %s: %v", serviceKey, err)
+		}
+
+		if err := entc.Generate(absServiceSchemaDir, &gen.Config{
+			Package:  servicePkg,
+			Target:   serviceTarget,
+			Features: []gen.Feature{gen.FeatureSchemaConfig},
+		}); err != nil {
+			log.Fatalf("entc generate for %s: %v", serviceKey, err)
+		}
+
+		log.Printf("generated per-service ent package: %s (%d types)", serviceKey, len(schemas))
 	}
 }
 
@@ -159,16 +202,18 @@ func readModulePath(dir string) (modulePath, modDir string) {
 	return "", ""
 }
 
-// discoverResult holds schemas grouped by layer and by layer+provider.
+// discoverResult holds schemas grouped by layer, by layer+provider, and by service.
 type discoverResult struct {
 	byLayer         map[string][]schemaInfo
 	byLayerProvider map[string]map[string][]schemaInfo
+	byService       map[string][]schemaInfo // key: "gcp/compute", "s1", "do", etc.
 }
 
 func discoverSchemas(root string) discoverResult {
 	result := discoverResult{
 		byLayer:         map[string][]schemaInfo{},
 		byLayerProvider: map[string]map[string][]schemaInfo{},
+		byService:       map[string][]schemaInfo{},
 	}
 
 	filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
@@ -213,6 +258,7 @@ func discoverSchemas(root string) discoverResult {
 						TypeName:   typeSpec.Name.Name,
 						ImportPath: hotpotModule + "/pkg/schema/" + strings.ReplaceAll(relDir, string(os.PathSeparator), "/"),
 						Alias:      alias,
+						Layer:      layer,
 					}
 					result.byLayer[layer] = append(result.byLayer[layer], si)
 					if provider != "" {
@@ -220,6 +266,10 @@ func discoverSchemas(root string) discoverResult {
 							result.byLayerProvider[layer] = map[string][]schemaInfo{}
 						}
 						result.byLayerProvider[layer][provider] = append(result.byLayerProvider[layer][provider], si)
+
+						// Service key: everything after layer (e.g., "gcp/compute", "s1", "vault/pki")
+						serviceKey := strings.Join(parts[1:], "/")
+						result.byService[serviceKey] = append(result.byService[serviceKey], si)
 					}
 				}
 			}
@@ -249,24 +299,20 @@ func embedsEntSchema(ts *ast.TypeSpec) bool {
 	return false
 }
 
-func generateSchemaConfig(target string, schemasByLayer map[string][]schemaInfo) error {
+func generateSchemaConfig(target string, packageName string, schemas []schemaInfo) error {
 	var entries strings.Builder
-	for layer, schemas := range schemasByLayer {
-		pgSchema := layerToSchema[layer]
-		for _, s := range schemas {
-			fmt.Fprintf(&entries, "\t\t%s: %q,\n", s.TypeName, pgSchema)
-		}
+	for _, s := range schemas {
+		pgSchema := layerToSchema[s.Layer]
+		fmt.Fprintf(&entries, "\t\t%s: %q,\n", s.TypeName, pgSchema)
 	}
 
-	src := fmt.Sprintf(`// Code generated by entcgen. DO NOT EDIT.
-package ent
-
-// DefaultSchemaConfig returns the schema config mapping each type to its PG schema.
-func DefaultSchemaConfig() SchemaConfig {
-	return SchemaConfig{
-%s	}
-}
-`, entries.String())
+	src := "// Code generated by entcgen. DO NOT EDIT.\n" +
+		"package " + packageName + "\n\n" +
+		"// DefaultSchemaConfig returns the schema config mapping each type to its PG schema.\n" +
+		"func DefaultSchemaConfig() SchemaConfig {\n" +
+		"\treturn SchemaConfig{\n" +
+		entries.String() +
+		"\t}\n}\n"
 
 	formatted, err := format.Source([]byte(src))
 	if err != nil {
@@ -328,23 +374,19 @@ import (
 	return os.WriteFile(filepath.Join(dir, "schemas_gen.go"), formatted, 0644)
 }
 
-func generateWrappers(dir string, schemasByLayer map[string][]schemaInfo) error {
+func generateWrappers(dir string, schemas []schemaInfo) error {
 	var imports, types strings.Builder
 
 	seen := map[string]bool{}
-	for _, schemas := range schemasByLayer {
-		for _, s := range schemas {
-			if !seen[s.ImportPath] {
-				fmt.Fprintf(&imports, "\t%s %q\n", s.Alias, s.ImportPath)
-				seen[s.ImportPath] = true
-			}
+	for _, s := range schemas {
+		if !seen[s.ImportPath] {
+			fmt.Fprintf(&imports, "\t%s %q\n", s.Alias, s.ImportPath)
+			seen[s.ImportPath] = true
 		}
 	}
 
-	for _, schemas := range schemasByLayer {
-		for _, s := range schemas {
-			fmt.Fprintf(&types, "type %s struct {\n\t%s.%s\n}\n\n", s.TypeName, s.Alias, s.TypeName)
-		}
+	for _, s := range schemas {
+		fmt.Fprintf(&types, "type %s struct {\n\t%s.%s\n}\n\n", s.TypeName, s.Alias, s.TypeName)
 	}
 
 	src := fmt.Sprintf("// Code generated by entcgen. DO NOT EDIT.\npackage schema\n\nimport (\n%s)\n\n%s", imports.String(), types.String())

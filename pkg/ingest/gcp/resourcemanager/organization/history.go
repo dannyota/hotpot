@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporganization"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcporganization"
 )
 
 // HistoryService manages organization history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entresourcemanager.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entresourcemanager.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new organization.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, orgData *OrganizationData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entresourcemanager.Tx, orgData *OrganizationData, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPOrganization.Create().
 		SetResourceID(orgData.ID).
 		SetValidFrom(now).
@@ -43,7 +43,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, orgData 
 }
 
 // UpdateHistory updates history records for a changed organization.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPOrganization, new *OrganizationData, diff *OrganizationDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entresourcemanager.Tx, old *entresourcemanager.BronzeGCPOrganization, new *OrganizationData, diff *OrganizationDiff, now time.Time) error {
 	// Get current organization history
 	currentHistory, err := tx.BronzeHistoryGCPOrganization.Query().
 		Where(
@@ -89,7 +89,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted organization.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, organizationID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entresourcemanager.Tx, organizationID string, now time.Time) error {
 	// Get current organization history
 	currentHistory, err := tx.BronzeHistoryGCPOrganization.Query().
 		Where(
@@ -98,7 +98,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, organizat
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entresourcemanager.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current organization history: %w", err)

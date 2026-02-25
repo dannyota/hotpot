@@ -3,7 +3,7 @@ package subnetwork
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // SubnetworkDiff represents changes between old and new subnetwork states.
@@ -21,7 +21,7 @@ type ChildDiff struct {
 }
 
 // DiffSubnetworkData compares old Ent entity and new data.
-func DiffSubnetworkData(old *ent.BronzeGCPComputeSubnetwork, new *SubnetworkData) *SubnetworkDiff {
+func DiffSubnetworkData(old *entcompute.BronzeGCPComputeSubnetwork, new *SubnetworkData) *SubnetworkDiff {
 	if old == nil {
 		return &SubnetworkDiff{
 			IsNew:               true,
@@ -35,7 +35,7 @@ func DiffSubnetworkData(old *ent.BronzeGCPComputeSubnetwork, new *SubnetworkData
 	diff.IsChanged = hasSubnetworkFieldsChanged(old, new)
 
 	// Compare children
-	var oldRanges []*ent.BronzeGCPComputeSubnetworkSecondaryRange
+	var oldRanges []*entcompute.BronzeGCPComputeSubnetworkSecondaryRange
 	if old.Edges.SecondaryIPRanges != nil {
 		oldRanges = old.Edges.SecondaryIPRanges
 	}
@@ -53,7 +53,7 @@ func (d *SubnetworkDiff) HasAnyChange() bool {
 }
 
 // hasSubnetworkFieldsChanged compares subnetwork-level fields (excluding children).
-func hasSubnetworkFieldsChanged(old *ent.BronzeGCPComputeSubnetwork, new *SubnetworkData) bool {
+func hasSubnetworkFieldsChanged(old *entcompute.BronzeGCPComputeSubnetwork, new *SubnetworkData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Network != new.Network ||
@@ -72,7 +72,7 @@ func hasSubnetworkFieldsChanged(old *ent.BronzeGCPComputeSubnetwork, new *Subnet
 		old.Fingerprint != new.Fingerprint
 }
 
-func diffSecondaryRanges(old []*ent.BronzeGCPComputeSubnetworkSecondaryRange, new []SecondaryRangeData) ChildDiff {
+func diffSecondaryRanges(old []*entcompute.BronzeGCPComputeSubnetworkSecondaryRange, new []SecondaryRangeData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

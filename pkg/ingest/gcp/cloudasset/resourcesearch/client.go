@@ -9,7 +9,8 @@ import (
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcloudasset "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // ResourceSearchRaw holds raw API data for a resource search result.
@@ -21,16 +22,17 @@ type ResourceSearchRaw struct {
 // Client wraps the GCP Cloud Asset Inventory API for resource search.
 type Client struct {
 	assetClient *gcpasset.Client
-	entClient   *ent.Client
+	entClient   *entcloudasset.Client
+	rmClient    *entresourcemanager.Client
 }
 
 // NewClient creates a new Cloud Asset resource search client.
-func NewClient(ctx context.Context, entClient *ent.Client, opts ...option.ClientOption) (*Client, error) {
+func NewClient(ctx context.Context, entClient *entcloudasset.Client, rmClient *entresourcemanager.Client, opts ...option.ClientOption) (*Client, error) {
 	assetClient, err := gcpasset.NewClient(ctx, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create cloud asset client: %w", err)
 	}
-	return &Client{assetClient: assetClient, entClient: entClient}, nil
+	return &Client{assetClient: assetClient, entClient: entClient, rmClient: rmClient}, nil
 }
 
 // Close closes the client connections.
@@ -44,7 +46,7 @@ func (c *Client) Close() error {
 // SearchAllResources queries organizations from the database, then searches resources for each.
 func (c *Client) SearchAllResources(ctx context.Context) ([]ResourceSearchRaw, error) {
 	// Query organizations from database
-	orgs, err := c.entClient.BronzeGCPOrganization.Query().All(ctx)
+	orgs, err := c.rmClient.BronzeGCPOrganization.Query().All(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to query organizations from database: %w", err)
 	}

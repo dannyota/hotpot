@@ -7,11 +7,13 @@ import (
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/containeranalysis/note"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/containeranalysis/occurrence"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"entgo.io/ent/dialect"
+	entcontaineranalysis "github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis"
 )
 
 // Register registers all Container Analysis activities and workflows.
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
+func Register(w worker.Worker, configService *config.Service, driver dialect.Driver, limiter ratelimit.Limiter) {
+	entClient := entcontaineranalysis.NewClient(entcontaineranalysis.Driver(driver), entcontaineranalysis.AlternateSchema(entcontaineranalysis.DefaultSchemaConfig()))
 	note.Register(w, configService, entClient, limiter)
 	occurrence.Register(w, configService, entClient, limiter)
 

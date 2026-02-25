@@ -2,7 +2,7 @@ package cluster
 
 import (
 	"bytes"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcontainer "github.com/dannyota/hotpot/pkg/storage/ent/gcp/container"
 )
 
 // ClusterDiff represents changes between old and new cluster states.
@@ -23,7 +23,7 @@ type ChildDiff struct {
 }
 
 // DiffClusterData compares old Ent entity and new data.
-func DiffClusterData(old *ent.BronzeGCPContainerCluster, new *ClusterData) *ClusterDiff {
+func DiffClusterData(old *entcontainer.BronzeGCPContainerCluster, new *ClusterData) *ClusterDiff {
 	if old == nil {
 		return &ClusterDiff{
 			IsNew:          true,
@@ -60,7 +60,7 @@ func (d *ClusterDiff) HasAnyChange() bool {
 }
 
 // hasClusterFieldsChanged compares cluster-level fields (excluding children).
-func hasClusterFieldsChanged(old *ent.BronzeGCPContainerCluster, new *ClusterData) bool {
+func hasClusterFieldsChanged(old *entcontainer.BronzeGCPContainerCluster, new *ClusterData) bool {
 	return old.Name != new.Name ||
 		old.Location != new.Location ||
 		old.Zone != new.Zone ||
@@ -90,7 +90,7 @@ func hasClusterFieldsChanged(old *ent.BronzeGCPContainerCluster, new *ClusterDat
 		!bytes.Equal(old.ReleaseChannelJSON, new.ReleaseChannelJSON)
 }
 
-func diffLabelsData(old []*ent.BronzeGCPContainerClusterLabel, new []LabelData) ChildDiff {
+func diffLabelsData(old []*entcontainer.BronzeGCPContainerClusterLabel, new []LabelData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -106,11 +106,11 @@ func diffLabelsData(old []*ent.BronzeGCPContainerClusterLabel, new []LabelData) 
 	return ChildDiff{Changed: false}
 }
 
-func diffAddonsData(old []*ent.BronzeGCPContainerClusterAddon, new []AddonData) ChildDiff {
+func diffAddonsData(old []*entcontainer.BronzeGCPContainerClusterAddon, new []AddonData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
-	oldMap := make(map[string]*ent.BronzeGCPContainerClusterAddon)
+	oldMap := make(map[string]*entcontainer.BronzeGCPContainerClusterAddon)
 	for _, a := range old {
 		oldMap[a.AddonName] = a
 	}
@@ -124,7 +124,7 @@ func diffAddonsData(old []*ent.BronzeGCPContainerClusterAddon, new []AddonData) 
 	return ChildDiff{Changed: false}
 }
 
-func diffConditionsData(old []*ent.BronzeGCPContainerClusterCondition, new []ConditionData) ChildDiff {
+func diffConditionsData(old []*entcontainer.BronzeGCPContainerClusterCondition, new []ConditionData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -138,11 +138,11 @@ func diffConditionsData(old []*ent.BronzeGCPContainerClusterCondition, new []Con
 	return ChildDiff{Changed: false}
 }
 
-func diffNodePoolsData(old []*ent.BronzeGCPContainerClusterNodePool, new []NodePoolData) ChildDiff {
+func diffNodePoolsData(old []*entcontainer.BronzeGCPContainerClusterNodePool, new []NodePoolData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
-	oldMap := make(map[string]*ent.BronzeGCPContainerClusterNodePool)
+	oldMap := make(map[string]*entcontainer.BronzeGCPContainerClusterNodePool)
 	for _, np := range old {
 		oldMap[np.Name] = np
 	}
@@ -155,7 +155,7 @@ func diffNodePoolsData(old []*ent.BronzeGCPContainerClusterNodePool, new []NodeP
 	return ChildDiff{Changed: false}
 }
 
-func hasNodePoolChangedData(old *ent.BronzeGCPContainerClusterNodePool, new *NodePoolData) bool {
+func hasNodePoolChangedData(old *entcontainer.BronzeGCPContainerClusterNodePool, new *NodePoolData) bool {
 	return old.Version != new.Version ||
 		old.Status != new.Status ||
 		old.StatusMessage != new.StatusMessage ||

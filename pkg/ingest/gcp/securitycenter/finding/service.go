@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpsecuritycenterfinding"
+	entsecuritycenter "github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/bronzegcpsecuritycenterfinding"
 )
 
 // Service handles SCC finding ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entsecuritycenter.Client
 	history   *HistoryService
 }
 
 // NewService creates a new SCC finding ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entsecuritycenter.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -89,7 +89,7 @@ func (s *Service) saveFindings(ctx context.Context, findings []*FindingData) err
 		existing, err := tx.BronzeGCPSecurityCenterFinding.Query().
 			Where(bronzegcpsecuritycenterfinding.ID(findingData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entsecuritycenter.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing finding %s: %w", findingData.ID, err)
 		}

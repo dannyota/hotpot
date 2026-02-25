@@ -5,21 +5,21 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputedisk"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputedisklabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputedisklicense"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputedisk"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputedisklabel"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputedisklicense"
 )
 
 // Service handles GCP Compute disk ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entcompute.Client
 	history   *HistoryService
 }
 
 // NewService creates a new disk ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entcompute.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -101,7 +101,7 @@ func (s *Service) saveDisks(ctx context.Context, disks []*DiskData) error {
 			WithLabels().
 			WithLicenses().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entcompute.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing disk %s: %w", diskData.Name, err)
 		}
@@ -130,7 +130,7 @@ func (s *Service) saveDisks(ctx context.Context, disks []*DiskData) error {
 		}
 
 		// Create or update disk
-		var savedDisk *ent.BronzeGCPComputeDisk
+		var savedDisk *entcompute.BronzeGCPComputeDisk
 		if existing == nil {
 			// Create new disk
 			create := tx.BronzeGCPComputeDisk.Create().
@@ -261,7 +261,7 @@ func (s *Service) saveDisks(ctx context.Context, disks []*DiskData) error {
 }
 
 // deleteDiskChildren deletes all child entities for a disk.
-func (s *Service) deleteDiskChildren(ctx context.Context, tx *ent.Tx, diskID string) error {
+func (s *Service) deleteDiskChildren(ctx context.Context, tx *entcompute.Tx, diskID string) error {
 	// Delete labels
 	_, err := tx.BronzeGCPComputeDiskLabel.Delete().
 		Where(bronzegcpcomputedisklabel.HasDiskWith(bronzegcpcomputedisk.ID(diskID))).
@@ -282,7 +282,7 @@ func (s *Service) deleteDiskChildren(ctx context.Context, tx *ent.Tx, diskID str
 }
 
 // createDiskChildren creates all child entities for a disk.
-func (s *Service) createDiskChildren(ctx context.Context, tx *ent.Tx, disk *ent.BronzeGCPComputeDisk, data *DiskData) error {
+func (s *Service) createDiskChildren(ctx context.Context, tx *entcompute.Tx, disk *entcompute.BronzeGCPComputeDisk, data *DiskData) error {
 	// Create labels
 	for _, labelData := range data.Labels {
 		_, err := tx.BronzeGCPComputeDiskLabel.Create().

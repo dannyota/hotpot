@@ -3,7 +3,7 @@ package sslpolicy
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // SslPolicyDiff represents changes between old and new SSL policy states.
@@ -13,7 +13,7 @@ type SslPolicyDiff struct {
 }
 
 // DiffSslPolicyData compares existing Ent entity with new SslPolicyData and returns differences.
-func DiffSslPolicyData(old *ent.BronzeGCPComputeSslPolicy, new *SslPolicyData) *SslPolicyDiff {
+func DiffSslPolicyData(old *entcompute.BronzeGCPComputeSslPolicy, new *SslPolicyData) *SslPolicyDiff {
 	diff := &SslPolicyDiff{}
 
 	// New SSL policy

@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodenetworkendpoint"
+	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworkendpoint"
 )
 
 // HistoryService handles history tracking for endpoints.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entnet.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entnet.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new endpoint.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *EndpointData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entnet.Tx, data *EndpointData, now time.Time) error {
 	_, err := tx.BronzeHistoryGreenNodeNetworkEndpoint.Create().
 		SetResourceID(data.UUID).
 		SetValidFrom(now).
@@ -58,7 +58,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *En
 }
 
 // UpdateHistory closes old history and creates new history.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGreenNodeNetworkEndpoint, new *EndpointData, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entnet.Tx, old *entnet.BronzeGreenNodeNetworkEndpoint, new *EndpointData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeNetworkEndpoint.Query().
 		Where(
 			bronzehistorygreennodenetworkendpoint.ResourceID(old.ID),
@@ -112,7 +112,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history for a deleted endpoint.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entnet.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeNetworkEndpoint.Query().
 		Where(
 			bronzehistorygreennodenetworkendpoint.ResourceID(resourceID),
@@ -120,7 +120,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entnet.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current endpoint history: %w", err)

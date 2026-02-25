@@ -1,7 +1,7 @@
 package certificate
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entlb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer"
 )
 
 // CertificateDiff represents changes between old and new certificate states.
@@ -11,7 +11,7 @@ type CertificateDiff struct {
 }
 
 // DiffCertificateData compares old Ent entity and new CertificateData.
-func DiffCertificateData(old *ent.BronzeGreenNodeLoadBalancerCertificate, new *CertificateData) *CertificateDiff {
+func DiffCertificateData(old *entlb.BronzeGreenNodeLoadBalancerCertificate, new *CertificateData) *CertificateDiff {
 	if old == nil {
 		return &CertificateDiff{IsNew: true}
 	}

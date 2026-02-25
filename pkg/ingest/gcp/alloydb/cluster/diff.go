@@ -3,7 +3,7 @@ package cluster
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entalloydb "github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb"
 )
 
 // ClusterDiff represents changes between old and new AlloyDB cluster states.
@@ -18,7 +18,7 @@ func (d *ClusterDiff) HasAnyChange() bool {
 }
 
 // DiffClusterData compares existing Ent entity with new ClusterData and returns differences.
-func DiffClusterData(old *ent.BronzeGCPAlloyDBCluster, new *ClusterData) *ClusterDiff {
+func DiffClusterData(old *entalloydb.BronzeGCPAlloyDBCluster, new *ClusterData) *ClusterDiff {
 	diff := &ClusterDiff{}
 
 	if old == nil {

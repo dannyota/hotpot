@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1rangersetting"
+	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangersetting"
 )
 
 // HistoryService handles history tracking for ranger settings.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *ents1.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *ents1.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new ranger setting.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *RangerSettingData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *ents1.Tx, data *RangerSettingData, now time.Time) error {
 	create := tx.BronzeHistoryS1RangerSetting.Create().
 		SetResourceID(data.ResourceID).
 		SetValidFrom(now).
@@ -64,7 +64,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Ra
 }
 
 // UpdateHistory closes old history and creates new history for a changed ranger setting.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeS1RangerSetting, new *RangerSettingData, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ents1.Tx, old *ents1.BronzeS1RangerSetting, new *RangerSettingData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryS1RangerSetting.Query().
 		Where(
 			bronzehistorys1rangersetting.ResourceID(old.ID),
@@ -125,7 +125,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted ranger setting.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *ents1.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryS1RangerSetting.Query().
 		Where(
 			bronzehistorys1rangersetting.ResourceID(resourceID),
@@ -133,7 +133,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if ents1.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current ranger setting history: %w", err)

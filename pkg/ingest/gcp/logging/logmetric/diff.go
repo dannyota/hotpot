@@ -3,7 +3,7 @@ package logmetric
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entlogging "github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging"
 )
 
 // LogMetricDiff represents changes between old and new log metric states.
@@ -13,7 +13,7 @@ type LogMetricDiff struct {
 }
 
 // DiffLogMetricData compares old Ent entity and new data.
-func DiffLogMetricData(old *ent.BronzeGCPLoggingLogMetric, new *LogMetricData) *LogMetricDiff {
+func DiffLogMetricData(old *entlogging.BronzeGCPLoggingLogMetric, new *LogMetricData) *LogMetricDiff {
 	if old == nil {
 		return &LogMetricDiff{IsNew: true}
 	}
@@ -27,7 +27,7 @@ func (d *LogMetricDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged
 }
 
-func hasFieldsChanged(old *ent.BronzeGCPLoggingLogMetric, new *LogMetricData) bool {
+func hasFieldsChanged(old *entlogging.BronzeGCPLoggingLogMetric, new *LogMetricData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Filter != new.Filter ||

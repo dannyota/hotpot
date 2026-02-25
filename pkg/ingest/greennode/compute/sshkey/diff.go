@@ -1,7 +1,7 @@
 package sshkey
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
 )
 
 // SSHKeyDiff represents changes between old and new SSH key states.
@@ -11,7 +11,7 @@ type SSHKeyDiff struct {
 }
 
 // DiffSSHKeyData compares old Ent entity and new SSHKeyData.
-func DiffSSHKeyData(old *ent.BronzeGreenNodeComputeSSHKey, new *SSHKeyData) *SSHKeyDiff {
+func DiffSSHKeyData(old *entcompute.BronzeGreenNodeComputeSSHKey, new *SSHKeyData) *SSHKeyDiff {
 	if old == nil {
 		return &SSHKeyDiff{IsNew: true}
 	}

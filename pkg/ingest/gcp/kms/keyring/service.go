@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpkmskeyring"
+	entkms "github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms/bronzegcpkmskeyring"
 )
 
 // Service handles GCP KMS key ring ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entkms.Client
 	history   *HistoryService
 }
 
 // NewService creates a new key ring ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entkms.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -90,7 +90,7 @@ func (s *Service) saveKeyRings(ctx context.Context, keyRings []*KeyRingData) err
 		existing, err := tx.BronzeGCPKMSKeyRing.Query().
 			Where(bronzegcpkmskeyring.ID(data.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entkms.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing key ring %s: %w", data.Name, err)
 		}

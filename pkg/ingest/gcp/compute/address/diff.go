@@ -2,7 +2,7 @@ package address
 
 import (
 	"bytes"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // AddressDiff represents changes between old and new address states.
@@ -20,7 +20,7 @@ type ChildDiff struct {
 }
 
 // DiffAddressData compares old Ent entity and new AddressData.
-func DiffAddressData(old *ent.BronzeGCPComputeAddress, new *AddressData) *AddressDiff {
+func DiffAddressData(old *entcompute.BronzeGCPComputeAddress, new *AddressData) *AddressDiff {
 	if old == nil {
 		return &AddressDiff{
 			IsNew:      true,
@@ -49,7 +49,7 @@ func (d *AddressDiff) HasAnyChange() bool {
 }
 
 // hasAddressFieldsChanged compares address-level fields (excluding children).
-func hasAddressFieldsChanged(old *ent.BronzeGCPComputeAddress, new *AddressData) bool {
+func hasAddressFieldsChanged(old *entcompute.BronzeGCPComputeAddress, new *AddressData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Address != new.Address ||
@@ -68,7 +68,7 @@ func hasAddressFieldsChanged(old *ent.BronzeGCPComputeAddress, new *AddressData)
 		!bytes.Equal(old.UsersJSON, new.UsersJSON)
 }
 
-func diffLabels(old []*ent.BronzeGCPComputeAddressLabel, new []AddressLabelData) ChildDiff {
+func diffLabels(old []*entcompute.BronzeGCPComputeAddressLabel, new []AddressLabelData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

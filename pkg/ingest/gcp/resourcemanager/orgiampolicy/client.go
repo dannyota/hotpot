@@ -8,7 +8,7 @@ import (
 	"cloud.google.com/go/iam/apiv1/iampb"
 	"google.golang.org/api/option"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // OrgIamPolicyRaw holds raw API data for an organization IAM policy.
@@ -20,11 +20,11 @@ type OrgIamPolicyRaw struct {
 // Client wraps the GCP Resource Manager API for organization IAM policies.
 type Client struct {
 	orgsClient *resourcemanager.OrganizationsClient
-	entClient  *ent.Client
+	entClient  *entresourcemanager.Client
 }
 
 // NewClient creates a new GCP Resource Manager organization IAM policy client.
-func NewClient(ctx context.Context, entClient *ent.Client, opts ...option.ClientOption) (*Client, error) {
+func NewClient(ctx context.Context, entClient *entresourcemanager.Client, opts ...option.ClientOption) (*Client, error) {
 	orgsClient, err := resourcemanager.NewOrganizationsClient(ctx, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create organizations client: %w", err)

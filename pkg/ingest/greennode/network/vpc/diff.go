@@ -1,7 +1,7 @@
 package vpc
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
 )
 
 // VPCDiff represents changes between old and new VPC states.
@@ -11,7 +11,7 @@ type VPCDiff struct {
 }
 
 // DiffVPCData compares old Ent entity and new VPCData.
-func DiffVPCData(old *ent.BronzeGreenNodeNetworkVpc, new *VPCData) *VPCDiff {
+func DiffVPCData(old *entnet.BronzeGreenNodeNetworkVpc, new *VPCData) *VPCDiff {
 	if old == nil {
 		return &VPCDiff{IsNew: true}
 	}

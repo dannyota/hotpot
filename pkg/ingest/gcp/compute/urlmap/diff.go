@@ -3,7 +3,7 @@ package urlmap
 import (
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // UrlMapDiff represents changes between old and new URL map states.
@@ -13,7 +13,7 @@ type UrlMapDiff struct {
 }
 
 // DiffUrlMapData compares existing Ent entity with new UrlMapData.
-func DiffUrlMapData(old *ent.BronzeGCPComputeUrlMap, new *UrlMapData) *UrlMapDiff {
+func DiffUrlMapData(old *entcompute.BronzeGCPComputeUrlMap, new *UrlMapData) *UrlMapDiff {
 	diff := &UrlMapDiff{}
 
 	if old == nil {

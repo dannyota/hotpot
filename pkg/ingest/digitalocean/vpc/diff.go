@@ -1,7 +1,7 @@
 package vpc
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
 )
 
 // VpcDiff represents changes between old and new VPC states.
@@ -11,7 +11,7 @@ type VpcDiff struct {
 }
 
 // DiffVpcData compares old Ent entity and new data.
-func DiffVpcData(old *ent.BronzeDOVpc, new *VpcData) *VpcDiff {
+func DiffVpcData(old *entdo.BronzeDOVpc, new *VpcData) *VpcDiff {
 	if old == nil {
 		return &VpcDiff{IsNew: true}
 	}

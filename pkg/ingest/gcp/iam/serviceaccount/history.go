@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpiamserviceaccount"
+	entiam "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam/bronzehistorygcpiamserviceaccount"
 )
 
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entiam.Client
 }
 
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entiam.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, saData *ServiceAccountData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entiam.Tx, saData *ServiceAccountData, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPIAMServiceAccount.Create().
 		SetResourceID(saData.ResourceID).
 		SetValidFrom(now).
@@ -35,7 +35,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, saData *
 	return err
 }
 
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPIAMServiceAccount, new *ServiceAccountData, diff *ServiceAccountDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entiam.Tx, old *entiam.BronzeGCPIAMServiceAccount, new *ServiceAccountData, diff *ServiceAccountDiff, now time.Time) error {
 	if !diff.IsChanged {
 		return nil
 	}
@@ -70,7 +70,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 	return err
 }
 
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entiam.Tx, resourceID string, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPIAMServiceAccount.Update().
 		Where(
 			bronzehistorygcpiamserviceaccount.ResourceID(resourceID),
@@ -78,7 +78,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		SetValidTo(now).
 		Save(ctx)
-	if ent.IsNotFound(err) {
+	if entiam.IsNotFound(err) {
 		return nil // No history to close
 	}
 	return err

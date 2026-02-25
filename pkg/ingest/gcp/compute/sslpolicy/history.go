@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputesslpolicy"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputesslpolicy"
 )
 
 // HistoryService manages SSL policy history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new SSL policy.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *SslPolicyData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, data *SslPolicyData, now time.Time) error {
 	create := tx.BronzeHistoryGCPComputeSslPolicy.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -62,7 +62,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Ss
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeSslPolicy, new *SslPolicyData, diff *SslPolicyDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGCPComputeSslPolicy, new *SslPolicyData, diff *SslPolicyDiff, now time.Time) error {
 	if !diff.IsChanged {
 		return nil
 	}
@@ -121,7 +121,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted SSL policy.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPComputeSslPolicy.Update().
 		Where(
 			bronzehistorygcpcomputesslpolicy.ResourceID(resourceID),
@@ -129,7 +129,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		SetValidTo(now).
 		Save(ctx)
-	if ent.IsNotFound(err) {
+	if entcompute.IsNotFound(err) {
 		return nil // No history to close
 	}
 	return err

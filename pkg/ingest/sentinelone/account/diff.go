@@ -3,7 +3,7 @@ package account
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
 )
 
 // AccountDiff represents changes between old and new account states.
@@ -13,7 +13,7 @@ type AccountDiff struct {
 }
 
 // DiffAccountData compares old Ent entity and new data.
-func DiffAccountData(old *ent.BronzeS1Account, new *AccountData) *AccountDiff {
+func DiffAccountData(old *ents1.BronzeS1Account, new *AccountData) *AccountDiff {
 	if old == nil {
 		return &AccountDiff{IsNew: true}
 	}

@@ -3,7 +3,7 @@ package volume
 import (
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
 )
 
 // VolumeDiff represents changes between old and new Volume states.
@@ -13,7 +13,7 @@ type VolumeDiff struct {
 }
 
 // DiffVolumeData compares old Ent entity and new data.
-func DiffVolumeData(old *ent.BronzeDOVolume, new *VolumeData) *VolumeDiff {
+func DiffVolumeData(old *entdo.BronzeDOVolume, new *VolumeData) *VolumeDiff {
 	if old == nil {
 		return &VolumeDiff{IsNew: true}
 	}

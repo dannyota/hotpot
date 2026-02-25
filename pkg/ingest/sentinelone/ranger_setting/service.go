@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangersetting"
+	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangersetting"
 )
 
 // Service handles SentinelOne Ranger setting ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *ents1.Client
 	history   *HistoryService
 }
 
 // NewService creates a new ranger setting ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *ents1.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -91,7 +91,7 @@ func (s *Service) saveSettings(ctx context.Context, settings []*RangerSettingDat
 		existing, err := tx.BronzeS1RangerSetting.Query().
 			Where(bronzes1rangersetting.ID(data.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !ents1.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing ranger setting %s: %w", data.ResourceID, err)
 		}

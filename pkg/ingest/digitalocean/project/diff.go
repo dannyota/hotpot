@@ -1,7 +1,7 @@
 package project
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
 )
 
 // ProjectDiff represents changes between old and new Project states.
@@ -11,7 +11,7 @@ type ProjectDiff struct {
 }
 
 // DiffProjectData compares old Ent entity and new data.
-func DiffProjectData(old *ent.BronzeDOProject, new *ProjectData) *ProjectDiff {
+func DiffProjectData(old *entdo.BronzeDOProject, new *ProjectData) *ProjectDiff {
 	if old == nil {
 		return &ProjectDiff{IsNew: true}
 	}
@@ -36,7 +36,7 @@ type ProjectResourceDiff struct {
 }
 
 // DiffProjectResourceData compares old Ent entity and new data.
-func DiffProjectResourceData(old *ent.BronzeDOProjectResource, new *ProjectResourceData) *ProjectResourceDiff {
+func DiffProjectResourceData(old *entdo.BronzeDOProjectResource, new *ProjectResourceData) *ProjectResourceDiff {
 	if old == nil {
 		return &ProjectResourceDiff{IsNew: true}
 	}

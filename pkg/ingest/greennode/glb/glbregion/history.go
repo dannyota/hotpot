@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodeglbglobalregion"
+	entglb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbglobalregion"
 )
 
 // HistoryService handles history tracking for global regions.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entglb.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entglb.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new global region.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *GLBRegionData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entglb.Tx, data *GLBRegionData, now time.Time) error {
 	_, err := tx.BronzeHistoryGreenNodeGLBGlobalRegion.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -39,7 +39,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *GL
 }
 
 // UpdateHistory closes old history and creates new history.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGreenNodeGLBGlobalRegion, new *GLBRegionData, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entglb.Tx, old *entglb.BronzeGreenNodeGLBGlobalRegion, new *GLBRegionData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeGLBGlobalRegion.Query().
 		Where(
 			bronzehistorygreennodeglbglobalregion.ResourceID(old.ID),
@@ -74,7 +74,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history for a deleted region.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entglb.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeGLBGlobalRegion.Query().
 		Where(
 			bronzehistorygreennodeglbglobalregion.ResourceID(resourceID),
@@ -82,7 +82,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entglb.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current region history: %w", err)

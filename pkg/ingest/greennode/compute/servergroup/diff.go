@@ -1,7 +1,7 @@
 package servergroup
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
 )
 
 // ServerGroupDiff represents changes between old and new server group states.
@@ -18,7 +18,7 @@ type ChildDiff struct {
 }
 
 // DiffServerGroupData compares old Ent entity and new ServerGroupData.
-func DiffServerGroupData(old *ent.BronzeGreenNodeComputeServerGroup, new *ServerGroupData) *ServerGroupDiff {
+func DiffServerGroupData(old *entcompute.BronzeGreenNodeComputeServerGroup, new *ServerGroupData) *ServerGroupDiff {
 	if old == nil {
 		return &ServerGroupDiff{
 			IsNew:       true,
@@ -42,7 +42,7 @@ func (d *ServerGroupDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged || d.MembersDiff.Changed
 }
 
-func diffMembers(old []*ent.BronzeGreenNodeComputeServerGroupMember, new []MemberData) ChildDiff {
+func diffMembers(old []*entcompute.BronzeGreenNodeComputeServerGroupMember, new []MemberData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

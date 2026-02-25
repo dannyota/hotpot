@@ -6,11 +6,11 @@ import (
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
 	"github.com/dannyota/hotpot/pkg/ingest/aws/ec2/instance"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entec2 "github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2"
 )
 
 // Register registers all EC2 activities and workflows.
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
+func Register(w worker.Worker, configService *config.Service, entClient *entec2.Client, limiter ratelimit.Limiter) {
 	// Register instance sub-package
 	instance.Register(w, configService, entClient, limiter)
 

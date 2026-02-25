@@ -7,11 +7,13 @@ import (
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/run/revision"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/run/service"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"entgo.io/ent/dialect"
+	entrun "github.com/dannyota/hotpot/pkg/storage/ent/gcp/run"
 )
 
 // Register registers all Cloud Run activities and workflows.
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
+func Register(w worker.Worker, configService *config.Service, driver dialect.Driver, limiter ratelimit.Limiter) {
+	entClient := entrun.NewClient(entrun.Driver(driver), entrun.AlternateSchema(entrun.DefaultSchemaConfig()))
 	service.Register(w, configService, entClient, limiter)
 	revision.Register(w, configService, entClient, limiter)
 

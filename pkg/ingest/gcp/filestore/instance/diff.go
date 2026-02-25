@@ -3,7 +3,7 @@ package instance
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entfilestore "github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore"
 )
 
 // InstanceDiff represents changes between old and new Filestore instance state.
@@ -18,7 +18,7 @@ func (d *InstanceDiff) HasAnyChange() bool {
 }
 
 // DiffInstanceData compares existing Ent entity with new InstanceData and returns differences.
-func DiffInstanceData(old *ent.BronzeGCPFilestoreInstance, new *InstanceData) *InstanceDiff {
+func DiffInstanceData(old *entfilestore.BronzeGCPFilestoreInstance, new *InstanceData) *InstanceDiff {
 	if old == nil {
 		return &InstanceDiff{IsNew: true}
 	}

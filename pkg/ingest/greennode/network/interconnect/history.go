@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodenetworkinterconnect"
+	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworkinterconnect"
 )
 
 // HistoryService handles history tracking for interconnects.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entnet.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entnet.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new interconnect.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *InterconnectData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entnet.Tx, data *InterconnectData, now time.Time) error {
 	_, err := tx.BronzeHistoryGreenNodeNetworkInterconnect.Create().
 		SetResourceID(data.UUID).
 		SetValidFrom(now).
@@ -50,7 +50,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *In
 }
 
 // UpdateHistory closes old history and creates new history.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGreenNodeNetworkInterconnect, new *InterconnectData, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entnet.Tx, old *entnet.BronzeGreenNodeNetworkInterconnect, new *InterconnectData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeNetworkInterconnect.Query().
 		Where(
 			bronzehistorygreennodenetworkinterconnect.ResourceID(old.ID),
@@ -96,7 +96,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history for a deleted interconnect.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entnet.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeNetworkInterconnect.Query().
 		Where(
 			bronzehistorygreennodenetworkinterconnect.ResourceID(resourceID),
@@ -104,7 +104,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entnet.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current interconnect history: %w", err)

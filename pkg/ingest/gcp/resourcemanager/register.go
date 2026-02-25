@@ -11,12 +11,14 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/resourcemanager/organization"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/resourcemanager/project"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/resourcemanager/projectiampolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"entgo.io/ent/dialect"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // Register registers all Resource Manager activities and workflows.
 // Client is NOT created here - it's created per workflow session.
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
+func Register(w worker.Worker, configService *config.Service, driver dialect.Driver, limiter ratelimit.Limiter) {
+	entClient := entresourcemanager.NewClient(entresourcemanager.Driver(driver), entresourcemanager.AlternateSchema(entresourcemanager.DefaultSchemaConfig()))
 	// Register sub-packages with config service
 	project.Register(w, configService, entClient, limiter)
 	organization.Register(w, configService, entClient, limiter)

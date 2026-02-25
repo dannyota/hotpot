@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpiapiampolicy"
+	entiap "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap/bronzegcpiapiampolicy"
 )
 
 // Service handles IAP IAM policy ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entiap.Client
 	history   *HistoryService
 }
 
 // NewService creates a new IAP IAM policy ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entiap.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -94,7 +94,7 @@ func (s *Service) savePolicies(ctx context.Context, policies []*IAMPolicyData) e
 		existing, err := tx.BronzeGCPIAPIAMPolicy.Query().
 			Where(bronzegcpiapiampolicy.ID(data.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entiap.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing IAP IAM policy %s: %w", data.ID, err)
 		}

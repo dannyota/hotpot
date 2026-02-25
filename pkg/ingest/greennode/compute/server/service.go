@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputeserver"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputeserversecgroup"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeserver"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeserversecgroup"
 )
 
 // Service handles GreenNode server ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entcompute.Client
 	history   *HistoryService
 }
 
 // NewService creates a new server ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entcompute.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -86,7 +86,7 @@ func (s *Service) saveServers(ctx context.Context, servers []*ServerData) error 
 			Where(bronzegreennodecomputeserver.ID(data.ID)).
 			WithSecGroups().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entcompute.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing server %s: %w", data.Name, err)
 		}
@@ -110,7 +110,7 @@ func (s *Service) saveServers(ctx context.Context, servers []*ServerData) error 
 			}
 		}
 
-		var savedServer *ent.BronzeGreenNodeComputeServer
+		var savedServer *entcompute.BronzeGreenNodeComputeServer
 		if existing == nil {
 			create := tx.BronzeGreenNodeComputeServer.Create().
 				SetID(data.ID).
@@ -220,7 +220,7 @@ func (s *Service) saveServers(ctx context.Context, servers []*ServerData) error 
 	return nil
 }
 
-func (s *Service) deleteServerChildren(ctx context.Context, tx *ent.Tx, serverID string) error {
+func (s *Service) deleteServerChildren(ctx context.Context, tx *entcompute.Tx, serverID string) error {
 	_, err := tx.BronzeGreenNodeComputeServerSecGroup.Delete().
 		Where(bronzegreennodecomputeserversecgroup.HasServerWith(bronzegreennodecomputeserver.ID(serverID))).
 		Exec(ctx)
@@ -230,7 +230,7 @@ func (s *Service) deleteServerChildren(ctx context.Context, tx *ent.Tx, serverID
 	return nil
 }
 
-func (s *Service) createServerChildren(ctx context.Context, tx *ent.Tx, server *ent.BronzeGreenNodeComputeServer, data *ServerData) error {
+func (s *Service) createServerChildren(ctx context.Context, tx *entcompute.Tx, server *entcompute.BronzeGreenNodeComputeServer, data *ServerData) error {
 	for _, sg := range data.SecGroups {
 		_, err := tx.BronzeGreenNodeComputeServerSecGroup.Create().
 			SetServer(server).

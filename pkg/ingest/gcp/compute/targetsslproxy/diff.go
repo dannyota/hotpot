@@ -3,7 +3,7 @@ package targetsslproxy
 import (
 	"encoding/json"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // TargetSslProxyDiff represents changes between old and new target SSL proxy states.
@@ -13,7 +13,7 @@ type TargetSslProxyDiff struct {
 }
 
 // DiffTargetSslProxyData compares existing Ent entity with new TargetSslProxyData.
-func DiffTargetSslProxyData(old *ent.BronzeGCPComputeTargetSslProxy, new *TargetSslProxyData) *TargetSslProxyDiff {
+func DiffTargetSslProxyData(old *entcompute.BronzeGCPComputeTargetSslProxy, new *TargetSslProxyData) *TargetSslProxyDiff {
 	diff := &TargetSslProxyDiff{}
 
 	if old == nil {

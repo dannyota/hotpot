@@ -7,21 +7,21 @@ import (
 
 	glbv1 "danny.vn/greennode/services/glb/v1"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbgloballistener"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbgloballoadbalancer"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodeglbglobalpool"
+	entglb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbgloballistener"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbgloballoadbalancer"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbglobalpool"
 )
 
 // Service handles GreenNode GLB ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entglb.Client
 	history   *HistoryService
 }
 
 // NewService creates a new GLB ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entglb.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -120,7 +120,7 @@ func (s *Service) saveGLBs(ctx context.Context, glbs []*GLBData) error {
 			WithListeners().
 			WithPools().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entglb.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing GLB %s: %w", data.ID, err)
 		}
@@ -144,7 +144,7 @@ func (s *Service) saveGLBs(ctx context.Context, glbs []*GLBData) error {
 			}
 		}
 
-		var savedGLB *ent.BronzeGreenNodeGLBGlobalLoadBalancer
+		var savedGLB *entglb.BronzeGreenNodeGLBGlobalLoadBalancer
 		if existing == nil {
 			create := tx.BronzeGreenNodeGLBGlobalLoadBalancer.Create().
 				SetID(data.ID).
@@ -226,7 +226,7 @@ func (s *Service) saveGLBs(ctx context.Context, glbs []*GLBData) error {
 	return nil
 }
 
-func (s *Service) deleteGLBChildren(ctx context.Context, tx *ent.Tx, glbID string) error {
+func (s *Service) deleteGLBChildren(ctx context.Context, tx *entglb.Tx, glbID string) error {
 	_, err := tx.BronzeGreenNodeGLBGlobalListener.Delete().
 		Where(bronzegreennodeglbgloballistener.HasGlbWith(bronzegreennodeglbgloballoadbalancer.ID(glbID))).
 		Exec(ctx)
@@ -244,7 +244,7 @@ func (s *Service) deleteGLBChildren(ctx context.Context, tx *ent.Tx, glbID strin
 	return nil
 }
 
-func (s *Service) createGLBChildren(ctx context.Context, tx *ent.Tx, glb *ent.BronzeGreenNodeGLBGlobalLoadBalancer, data *GLBData) error {
+func (s *Service) createGLBChildren(ctx context.Context, tx *entglb.Tx, glb *entglb.BronzeGreenNodeGLBGlobalLoadBalancer, data *GLBData) error {
 	for _, l := range data.Listeners {
 		create := tx.BronzeGreenNodeGLBGlobalListener.Create().
 			SetGlb(glb).

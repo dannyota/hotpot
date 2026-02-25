@@ -5,6 +5,7 @@ import (
 	"slices"
 	"sync"
 
+	"entgo.io/ent/dialect"
 	"go.temporal.io/sdk/worker"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
@@ -19,6 +20,7 @@ type ProviderRegistration struct {
 	Enabled            func(*config.Service) bool
 	RateLimitPerMinute func(*config.Service) int
 	Register           func(worker.Worker, *config.Service, *ent.Client) io.Closer
+	RegisterWithDriver func(worker.Worker, *config.Service, dialect.Driver) io.Closer
 
 	// Workflow is the top-level inventory workflow function for scheduling.
 	Workflow interface{}

@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecretmanagersecret"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsecretmanagersecretlabel"
+	entsecretmanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/bronzehistorygcpsecretmanagersecret"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/bronzehistorygcpsecretmanagersecretlabel"
 )
 
 // HistoryService handles history tracking for secrets.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entsecretmanager.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entsecretmanager.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new secret and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, secretData *SecretData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entsecretmanager.Tx, secretData *SecretData, now time.Time) error {
 	hist, err := tx.BronzeHistoryGCPSecretManagerSecret.Create().
 		SetResourceID(secretData.ID).
 		SetValidFrom(now).
@@ -45,7 +45,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, secretDa
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPSecretManagerSecret, new *SecretData, diff *SecretDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entsecretmanager.Tx, old *entsecretmanager.BronzeGCPSecretManagerSecret, new *SecretData, diff *SecretDiff, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGCPSecretManagerSecret.Query().
 		Where(
 			bronzehistorygcpsecretmanagersecret.ResourceID(old.ID),
@@ -97,7 +97,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted secret.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entsecretmanager.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGCPSecretManagerSecret.Query().
 		Where(
 			bronzehistorygcpsecretmanagersecret.ResourceID(resourceID),
@@ -105,7 +105,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entsecretmanager.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current secret history: %w", err)
@@ -121,7 +121,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	return h.closeLabelsHistory(ctx, tx, currentHist.ID, now)
 }
 
-func (h *HistoryService) createLabelsHistory(ctx context.Context, tx *ent.Tx, secretHistoryID uint, secretData *SecretData, now time.Time) error {
+func (h *HistoryService) createLabelsHistory(ctx context.Context, tx *entsecretmanager.Tx, secretHistoryID uint, secretData *SecretData, now time.Time) error {
 	for _, label := range secretData.Labels {
 		_, err := tx.BronzeHistoryGCPSecretManagerSecretLabel.Create().
 			SetSecretHistoryID(secretHistoryID).
@@ -136,7 +136,7 @@ func (h *HistoryService) createLabelsHistory(ctx context.Context, tx *ent.Tx, se
 	return nil
 }
 
-func (h *HistoryService) closeLabelsHistory(ctx context.Context, tx *ent.Tx, secretHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeLabelsHistory(ctx context.Context, tx *entsecretmanager.Tx, secretHistoryID uint, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPSecretManagerSecretLabel.Update().
 		Where(
 			bronzehistorygcpsecretmanagersecretlabel.SecretHistoryID(secretHistoryID),
@@ -150,7 +150,7 @@ func (h *HistoryService) closeLabelsHistory(ctx context.Context, tx *ent.Tx, sec
 	return nil
 }
 
-func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *ent.Tx, secretHistoryID uint, new *SecretData, now time.Time) error {
+func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *entsecretmanager.Tx, secretHistoryID uint, new *SecretData, now time.Time) error {
 	if err := h.closeLabelsHistory(ctx, tx, secretHistoryID, now); err != nil {
 		return err
 	}

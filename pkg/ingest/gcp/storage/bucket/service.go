@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpstoragebucket"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpstoragebucketlabel"
+	entstorage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucket"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucketlabel"
 )
 
 // Service handles GCP Storage bucket ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entstorage.Client
 	history   *HistoryService
 }
 
 // NewService creates a new bucket ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entstorage.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -94,7 +94,7 @@ func (s *Service) saveBuckets(ctx context.Context, buckets []*BucketData) error 
 			Where(bronzegcpstoragebucket.ID(bucketData.ID)).
 			WithLabels().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entstorage.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing bucket %s: %w", bucketData.Name, err)
 		}
@@ -119,7 +119,7 @@ func (s *Service) saveBuckets(ctx context.Context, buckets []*BucketData) error 
 			}
 		}
 
-		var savedBucket *ent.BronzeGCPStorageBucket
+		var savedBucket *entstorage.BronzeGCPStorageBucket
 		if existing == nil {
 			create := tx.BronzeGCPStorageBucket.Create().
 				SetID(bucketData.ID).
@@ -243,7 +243,7 @@ func (s *Service) saveBuckets(ctx context.Context, buckets []*BucketData) error 
 	return nil
 }
 
-func deleteBucketChildren(ctx context.Context, tx *ent.Tx, bucketID string) error {
+func deleteBucketChildren(ctx context.Context, tx *entstorage.Tx, bucketID string) error {
 	_, err := tx.BronzeGCPStorageBucketLabel.Delete().
 		Where(bronzegcpstoragebucketlabel.HasBucketWith(bronzegcpstoragebucket.ID(bucketID))).
 		Exec(ctx)
@@ -253,7 +253,7 @@ func deleteBucketChildren(ctx context.Context, tx *ent.Tx, bucketID string) erro
 	return nil
 }
 
-func createBucketChildren(ctx context.Context, tx *ent.Tx, savedBucket *ent.BronzeGCPStorageBucket, bucketData *BucketData) error {
+func createBucketChildren(ctx context.Context, tx *entstorage.Tx, savedBucket *entstorage.BronzeGCPStorageBucket, bucketData *BucketData) error {
 	for _, label := range bucketData.Labels {
 		_, err := tx.BronzeGCPStorageBucketLabel.Create().
 			SetKey(label.Key).

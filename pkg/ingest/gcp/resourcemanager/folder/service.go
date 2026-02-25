@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfolder"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpfolderlabel"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpfolder"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpfolderlabel"
 )
 
 // Service handles GCP Folder ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entresourcemanager.Client
 	history   *HistoryService
 }
 
 // NewService creates a new folder ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entresourcemanager.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -93,7 +93,7 @@ func (s *Service) saveFolders(ctx context.Context, folders []*FolderData) error 
 			Where(bronzegcpfolder.ID(folderData.ID)).
 			WithLabels().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entresourcemanager.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing folder %s: %w", folderData.ID, err)
 		}
@@ -125,7 +125,7 @@ func (s *Service) saveFolders(ctx context.Context, folders []*FolderData) error 
 		}
 
 		// Create or update folder
-		var savedFolder *ent.BronzeGCPFolder
+		var savedFolder *entresourcemanager.BronzeGCPFolder
 		if existing == nil {
 			// Create new folder
 			create := tx.BronzeGCPFolder.Create().

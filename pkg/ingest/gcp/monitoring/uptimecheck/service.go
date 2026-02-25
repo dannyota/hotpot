@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpmonitoringuptimecheckconfig"
+	entmonitoring "github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring/bronzegcpmonitoringuptimecheckconfig"
 )
 
 // Service handles uptime check config ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entmonitoring.Client
 	history   *HistoryService
 }
 
 // NewService creates a new uptime check config ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entmonitoring.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -94,7 +94,7 @@ func (s *Service) saveUptimeChecks(ctx context.Context, configs []*UptimeCheckDa
 		existing, err := tx.BronzeGCPMonitoringUptimeCheckConfig.Query().
 			Where(bronzegcpmonitoringuptimecheckconfig.ID(configData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entmonitoring.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing uptime check config %s: %w", configData.ID, err)
 		}

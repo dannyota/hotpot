@@ -1,7 +1,7 @@
 package quota
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entportal "github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal"
 )
 
 // QuotaDiff represents changes between old and new quota states.
@@ -11,7 +11,7 @@ type QuotaDiff struct {
 }
 
 // DiffQuotaData compares old Ent entity and new QuotaData.
-func DiffQuotaData(old *ent.BronzeGreenNodePortalQuota, new *QuotaData) *QuotaDiff {
+func DiffQuotaData(old *entportal.BronzeGreenNodePortalQuota, new *QuotaData) *QuotaDiff {
 	if old == nil {
 		return &QuotaDiff{IsNew: true}
 	}

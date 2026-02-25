@@ -3,7 +3,7 @@ package volumetypezone
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entvol "github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume"
 )
 
 // VolumeTypeZoneDiff represents changes between old and new volume type zone states.
@@ -13,7 +13,7 @@ type VolumeTypeZoneDiff struct {
 }
 
 // DiffVolumeTypeZoneData compares old Ent entity and new VolumeTypeZoneData.
-func DiffVolumeTypeZoneData(old *ent.BronzeGreenNodeVolumeVolumeTypeZone, new *VolumeTypeZoneData) *VolumeTypeZoneDiff {
+func DiffVolumeTypeZoneData(old *entvol.BronzeGreenNodeVolumeVolumeTypeZone, new *VolumeTypeZoneData) *VolumeTypeZoneDiff {
 	if old == nil {
 		return &VolumeTypeZoneDiff{IsNew: true}
 	}

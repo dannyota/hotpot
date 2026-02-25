@@ -1,7 +1,7 @@
 package projectiampolicy
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // ProjectIamPolicyDiff represents changes between old and new project IAM policy state.
@@ -22,7 +22,7 @@ func (d *ProjectIamPolicyDiff) HasAnyChange() bool {
 }
 
 // DiffProjectIamPolicyData compares existing Ent entity with new ProjectIamPolicyData and returns differences.
-func DiffProjectIamPolicyData(old *ent.BronzeGCPProjectIamPolicy, new *ProjectIamPolicyData) *ProjectIamPolicyDiff {
+func DiffProjectIamPolicyData(old *entresourcemanager.BronzeGCPProjectIamPolicy, new *ProjectIamPolicyData) *ProjectIamPolicyDiff {
 	diff := &ProjectIamPolicyDiff{}
 
 	// New policy
@@ -45,7 +45,7 @@ func DiffProjectIamPolicyData(old *ent.BronzeGCPProjectIamPolicy, new *ProjectIa
 }
 
 // diffBindingsData compares Ent bindings with new binding data.
-func diffBindingsData(old []*ent.BronzeGCPProjectIamPolicyBinding, new []BindingData) ChildDiff {
+func diffBindingsData(old []*entresourcemanager.BronzeGCPProjectIamPolicyBinding, new []BindingData) ChildDiff {
 	diff := ChildDiff{}
 
 	if len(old) != len(new) {

@@ -1,7 +1,7 @@
 package subnet
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
 )
 
 // SubnetDiff represents changes between old and new subnet states.
@@ -11,7 +11,7 @@ type SubnetDiff struct {
 }
 
 // DiffSubnetData compares old Ent entity and new SubnetData.
-func DiffSubnetData(old *ent.BronzeGreenNodeNetworkSubnet, new *SubnetData) *SubnetDiff {
+func DiffSubnetData(old *entnet.BronzeGreenNodeNetworkSubnet, new *SubnetData) *SubnetDiff {
 	if old == nil {
 		return &SubnetDiff{IsNew: true}
 	}

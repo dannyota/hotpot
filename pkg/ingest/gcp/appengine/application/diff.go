@@ -3,7 +3,7 @@ package application
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entappengine "github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine"
 )
 
 // ApplicationDiff represents changes between old and new App Engine application state.
@@ -18,7 +18,7 @@ func (d *ApplicationDiff) HasAnyChange() bool {
 }
 
 // DiffApplicationData compares existing Ent entity with new ApplicationData and returns differences.
-func DiffApplicationData(old *ent.BronzeGCPAppEngineApplication, new *ApplicationData) *ApplicationDiff {
+func DiffApplicationData(old *entappengine.BronzeGCPAppEngineApplication, new *ApplicationData) *ApplicationDiff {
 	diff := &ApplicationDiff{}
 
 	if old == nil {

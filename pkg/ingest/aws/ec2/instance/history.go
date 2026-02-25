@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryawsec2instancetag"
+	entec2 "github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2"
+	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzehistoryawsec2instance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzehistoryawsec2instancetag"
 )
 
 // HistoryService handles history tracking for instances.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entec2.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entec2.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new instance and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *InstanceData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entec2.Tx, data *InstanceData, now time.Time) error {
 	instHistCreate := tx.BronzeHistoryAWSEC2Instance.Create().
 		SetResourceID(data.ResourceID).
 		SetValidFrom(now).
@@ -57,7 +57,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *In
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeAWSEC2Instance, new *InstanceData, diff *InstanceDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entec2.Tx, old *entec2.BronzeAWSEC2Instance, new *InstanceData, diff *InstanceDiff, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryAWSEC2Instance.Query().
 		Where(
 			bronzehistoryawsec2instance.ResourceID(old.ID),
@@ -126,7 +126,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted instance.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entec2.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryAWSEC2Instance.Query().
 		Where(
 			bronzehistoryawsec2instance.ResourceID(resourceID),
@@ -134,7 +134,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entec2.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current instance history: %w", err)
@@ -149,7 +149,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	return h.closeTagsHistory(ctx, tx, currentHist.ID, now)
 }
 
-func (h *HistoryService) createTagsHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, tags []TagData, now time.Time) error {
+func (h *HistoryService) createTagsHistory(ctx context.Context, tx *entec2.Tx, instanceHistoryID uint, tags []TagData, now time.Time) error {
 	for _, tagData := range tags {
 		_, err := tx.BronzeHistoryAWSEC2InstanceTag.Create().
 			SetInstanceHistoryID(instanceHistoryID).
@@ -164,7 +164,7 @@ func (h *HistoryService) createTagsHistory(ctx context.Context, tx *ent.Tx, inst
 	return nil
 }
 
-func (h *HistoryService) closeTagsHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeTagsHistory(ctx context.Context, tx *entec2.Tx, instanceHistoryID uint, now time.Time) error {
 	_, err := tx.BronzeHistoryAWSEC2InstanceTag.Update().
 		Where(
 			bronzehistoryawsec2instancetag.InstanceHistoryID(instanceHistoryID),
@@ -178,7 +178,7 @@ func (h *HistoryService) closeTagsHistory(ctx context.Context, tx *ent.Tx, insta
 	return nil
 }
 
-func (h *HistoryService) updateTagsHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, tags []TagData, now time.Time) error {
+func (h *HistoryService) updateTagsHistory(ctx context.Context, tx *entec2.Tx, instanceHistoryID uint, tags []TagData, now time.Time) error {
 	if err := h.closeTagsHistory(ctx, tx, instanceHistoryID, now); err != nil {
 		return err
 	}

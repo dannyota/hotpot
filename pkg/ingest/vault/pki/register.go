@@ -6,11 +6,11 @@ import (
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
 	"github.com/dannyota/hotpot/pkg/ingest/vault/pki/certificate"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entpki "github.com/dannyota/hotpot/pkg/storage/ent/vault/pki"
 )
 
 // Register registers PKI activities and workflows with the Temporal worker.
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
+func Register(w worker.Worker, configService *config.Service, entClient *entpki.Client, limiter ratelimit.Limiter) {
 	// Register certificate resource
 	certificate.Register(w, configService, entClient, limiter)
 

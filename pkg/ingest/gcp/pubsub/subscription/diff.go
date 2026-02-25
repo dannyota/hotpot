@@ -3,7 +3,7 @@ package subscription
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entpubsub "github.com/dannyota/hotpot/pkg/storage/ent/gcp/pubsub"
 )
 
 // SubscriptionDiff represents changes between old and new subscription state.
@@ -18,7 +18,7 @@ func (d *SubscriptionDiff) HasAnyChange() bool {
 }
 
 // DiffSubscriptionData compares existing Ent entity with new SubscriptionData and returns differences.
-func DiffSubscriptionData(old *ent.BronzeGCPPubSubSubscription, new *SubscriptionData) *SubscriptionDiff {
+func DiffSubscriptionData(old *entpubsub.BronzeGCPPubSubSubscription, new *SubscriptionData) *SubscriptionDiff {
 	diff := &SubscriptionDiff{}
 
 	if old == nil {

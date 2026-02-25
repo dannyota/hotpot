@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeglobalforwardingrule"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeglobalforwardingrulelabel"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeglobalforwardingrule"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeglobalforwardingrulelabel"
 )
 
 // HistoryService manages global forwarding rule history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new global forwarding rule.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, ruleData *GlobalForwardingRuleData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, ruleData *GlobalForwardingRuleData, now time.Time) error {
 	// Create global forwarding rule history
 	ruleHistory, err := tx.BronzeHistoryGCPComputeGlobalForwardingRule.Create().
 		SetResourceID(ruleData.ID).
@@ -113,7 +113,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, ruleData
 }
 
 // UpdateHistory updates history records for a changed global forwarding rule.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeGlobalForwardingRule, new *GlobalForwardingRuleData, diff *GlobalForwardingRuleDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGCPComputeGlobalForwardingRule, new *GlobalForwardingRuleData, diff *GlobalForwardingRuleDiff, now time.Time) error {
 	// Get current global forwarding rule history
 	currentHistory, err := tx.BronzeHistoryGCPComputeGlobalForwardingRule.Query().
 		Where(
@@ -262,7 +262,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted global forwarding rule.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	// Get current global forwarding rule history
 	currentHistory, err := tx.BronzeHistoryGCPComputeGlobalForwardingRule.Query().
 		Where(
@@ -271,7 +271,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcompute.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current global forwarding rule history: %w", err)

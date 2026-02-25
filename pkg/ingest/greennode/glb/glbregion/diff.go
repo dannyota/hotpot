@@ -1,7 +1,7 @@
 package glbregion
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entglb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb"
 )
 
 // GLBRegionDiff represents changes between old and new region states.
@@ -11,7 +11,7 @@ type GLBRegionDiff struct {
 }
 
 // DiffGLBRegionData compares old Ent entity and new GLBRegionData.
-func DiffGLBRegionData(old *ent.BronzeGreenNodeGLBGlobalRegion, new *GLBRegionData) *GLBRegionDiff {
+func DiffGLBRegionData(old *entglb.BronzeGreenNodeGLBGlobalRegion, new *GLBRegionData) *GLBRegionDiff {
 	if old == nil {
 		return &GLBRegionDiff{IsNew: true}
 	}

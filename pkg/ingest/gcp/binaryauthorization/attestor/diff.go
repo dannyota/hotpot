@@ -3,7 +3,7 @@ package attestor
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entbinaryauthorization "github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization"
 )
 
 // AttestorDiff represents changes between old and new Binary Authorization attestor state.
@@ -18,7 +18,7 @@ func (d *AttestorDiff) HasAnyChange() bool {
 }
 
 // DiffAttestorData compares existing Ent entity with new AttestorData and returns differences.
-func DiffAttestorData(old *ent.BronzeGCPBinaryAuthorizationAttestor, new *AttestorData) *AttestorDiff {
+func DiffAttestorData(old *entbinaryauthorization.BronzeGCPBinaryAuthorizationAttestor, new *AttestorData) *AttestorDiff {
 	diff := &AttestorDiff{}
 
 	if old == nil {

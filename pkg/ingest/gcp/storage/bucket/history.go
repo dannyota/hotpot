@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpstoragebucket"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpstoragebucketlabel"
+	entstorage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucket"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucketlabel"
 )
 
 // HistoryService handles history tracking for buckets.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entstorage.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entstorage.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new bucket and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, bucketData *BucketData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entstorage.Tx, bucketData *BucketData, now time.Time) error {
 	hist, err := tx.BronzeHistoryGCPStorageBucket.Create().
 		SetResourceID(bucketData.ID).
 		SetValidFrom(now).
@@ -55,7 +55,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, bucketDa
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPStorageBucket, new *BucketData, diff *BucketDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entstorage.Tx, old *entstorage.BronzeGCPStorageBucket, new *BucketData, diff *BucketDiff, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGCPStorageBucket.Query().
 		Where(
 			bronzehistorygcpstoragebucket.ResourceID(old.ID),
@@ -117,7 +117,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted bucket.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entstorage.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGCPStorageBucket.Query().
 		Where(
 			bronzehistorygcpstoragebucket.ResourceID(resourceID),
@@ -125,7 +125,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entstorage.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current bucket history: %w", err)
@@ -141,7 +141,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	return h.closeLabelsHistory(ctx, tx, currentHist.ID, now)
 }
 
-func (h *HistoryService) createLabelsHistory(ctx context.Context, tx *ent.Tx, bucketHistoryID uint, bucketData *BucketData, now time.Time) error {
+func (h *HistoryService) createLabelsHistory(ctx context.Context, tx *entstorage.Tx, bucketHistoryID uint, bucketData *BucketData, now time.Time) error {
 	for _, label := range bucketData.Labels {
 		_, err := tx.BronzeHistoryGCPStorageBucketLabel.Create().
 			SetBucketHistoryID(bucketHistoryID).
@@ -156,7 +156,7 @@ func (h *HistoryService) createLabelsHistory(ctx context.Context, tx *ent.Tx, bu
 	return nil
 }
 
-func (h *HistoryService) closeLabelsHistory(ctx context.Context, tx *ent.Tx, bucketHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeLabelsHistory(ctx context.Context, tx *entstorage.Tx, bucketHistoryID uint, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPStorageBucketLabel.Update().
 		Where(
 			bronzehistorygcpstoragebucketlabel.BucketHistoryID(bucketHistoryID),
@@ -170,7 +170,7 @@ func (h *HistoryService) closeLabelsHistory(ctx context.Context, tx *ent.Tx, buc
 	return nil
 }
 
-func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *ent.Tx, bucketHistoryID uint, new *BucketData, now time.Time) error {
+func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *entstorage.Tx, bucketHistoryID uint, new *BucketData, now time.Time) error {
 	if err := h.closeLabelsHistory(ctx, tx, bucketHistoryID, now); err != nil {
 		return err
 	}

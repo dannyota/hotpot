@@ -3,7 +3,7 @@ package hostedzone
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entdns "github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns"
 )
 
 // HostedZoneDiff represents changes between old and new hosted zone states.
@@ -20,7 +20,7 @@ type ChildDiff struct {
 }
 
 // DiffHostedZoneData compares old Ent entity and new HostedZoneData.
-func DiffHostedZoneData(old *ent.BronzeGreenNodeDNSHostedZone, new *HostedZoneData) *HostedZoneDiff {
+func DiffHostedZoneData(old *entdns.BronzeGreenNodeDNSHostedZone, new *HostedZoneData) *HostedZoneDiff {
 	if old == nil {
 		return &HostedZoneDiff{
 			IsNew:       true,
@@ -40,7 +40,7 @@ func (d *HostedZoneDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged || d.RecordsDiff.Changed
 }
 
-func hasHostedZoneFieldsChanged(old *ent.BronzeGreenNodeDNSHostedZone, new *HostedZoneData) bool {
+func hasHostedZoneFieldsChanged(old *entdns.BronzeGreenNodeDNSHostedZone, new *HostedZoneData) bool {
 	return old.DomainName != new.DomainName ||
 		old.Status != new.Status ||
 		old.Description != new.Description ||
@@ -64,11 +64,11 @@ func nillableStringEqual(a, b *string) bool {
 	return *a == *b
 }
 
-func diffRecords(old []*ent.BronzeGreenNodeDNSRecord, new []RecordData) ChildDiff {
+func diffRecords(old []*entdns.BronzeGreenNodeDNSRecord, new []RecordData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
-	oldMap := make(map[string]*ent.BronzeGreenNodeDNSRecord)
+	oldMap := make(map[string]*entdns.BronzeGreenNodeDNSRecord)
 	for _, r := range old {
 		oldMap[r.RecordID] = r
 	}
@@ -84,7 +84,7 @@ func diffRecords(old []*ent.BronzeGreenNodeDNSRecord, new []RecordData) ChildDif
 	return ChildDiff{Changed: false}
 }
 
-func hasRecordFieldsChanged(old *ent.BronzeGreenNodeDNSRecord, new *RecordData) bool {
+func hasRecordFieldsChanged(old *entdns.BronzeGreenNodeDNSRecord, new *RecordData) bool {
 	return old.SubDomain != new.SubDomain ||
 		old.Status != new.Status ||
 		old.Type != new.Type ||

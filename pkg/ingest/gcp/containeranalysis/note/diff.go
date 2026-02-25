@@ -3,7 +3,7 @@ package note
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcontaineranalysis "github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis"
 )
 
 // NoteDiff represents changes between old and new Grafeas note state.
@@ -18,7 +18,7 @@ func (d *NoteDiff) HasAnyChange() bool {
 }
 
 // DiffNoteData compares existing Ent entity with new NoteData and returns differences.
-func DiffNoteData(old *ent.BronzeGCPContainerAnalysisNote, new *NoteData) *NoteDiff {
+func DiffNoteData(old *entcontaineranalysis.BronzeGCPContainerAnalysisNote, new *NoteData) *NoteDiff {
 	diff := &NoteDiff{}
 
 	if old == nil {

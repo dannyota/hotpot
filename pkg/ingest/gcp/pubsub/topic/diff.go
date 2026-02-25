@@ -3,7 +3,7 @@ package topic
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entpubsub "github.com/dannyota/hotpot/pkg/storage/ent/gcp/pubsub"
 )
 
 // TopicDiff represents changes between old and new topic state.
@@ -18,7 +18,7 @@ func (d *TopicDiff) HasAnyChange() bool {
 }
 
 // DiffTopicData compares existing Ent entity with new TopicData and returns differences.
-func DiffTopicData(old *ent.BronzeGCPPubSubTopic, new *TopicData) *TopicDiff {
+func DiffTopicData(old *entpubsub.BronzeGCPPubSubTopic, new *TopicData) *TopicDiff {
 	diff := &TopicDiff{}
 
 	if old == nil {

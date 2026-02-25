@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpbigquerydataset"
+	entbigquery "github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery/bronzehistorygcpbigquerydataset"
 )
 
 // HistoryService manages BigQuery dataset history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entbigquery.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entbigquery.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new BigQuery dataset.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *DatasetData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entbigquery.Tx, data *DatasetData, now time.Time) error {
 	create := tx.BronzeHistoryGCPBigQueryDataset.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -77,7 +77,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Da
 }
 
 // UpdateHistory updates history records for a changed BigQuery dataset.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPBigQueryDataset, new *DatasetData, diff *DatasetDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entbigquery.Tx, old *entbigquery.BronzeGCPBigQueryDataset, new *DatasetData, diff *DatasetDiff, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPBigQueryDataset.Query().
 		Where(
 			bronzehistorygcpbigquerydataset.ResourceID(old.ID),
@@ -155,7 +155,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted BigQuery dataset.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entbigquery.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPBigQueryDataset.Query().
 		Where(
 			bronzehistorygcpbigquerydataset.ResourceID(resourceID),
@@ -163,7 +163,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entbigquery.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current BigQuery dataset history: %w", err)

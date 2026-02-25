@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputeservergroup"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodecomputeservergroupmember"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeservergroup"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeservergroupmember"
 )
 
 // Service handles GreenNode server group ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entcompute.Client
 	history   *HistoryService
 }
 
 // NewService creates a new server group ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entcompute.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -82,7 +82,7 @@ func (s *Service) saveServerGroups(ctx context.Context, groups []*ServerGroupDat
 			Where(bronzegreennodecomputeservergroup.ID(data.ID)).
 			WithMembers().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entcompute.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing server group %s: %w", data.Name, err)
 		}
@@ -106,7 +106,7 @@ func (s *Service) saveServerGroups(ctx context.Context, groups []*ServerGroupDat
 			}
 		}
 
-		var savedGroup *ent.BronzeGreenNodeComputeServerGroup
+		var savedGroup *entcompute.BronzeGreenNodeComputeServerGroup
 		if existing == nil {
 			savedGroup, err = tx.BronzeGreenNodeComputeServerGroup.Create().
 				SetID(data.ID).
@@ -162,7 +162,7 @@ func (s *Service) saveServerGroups(ctx context.Context, groups []*ServerGroupDat
 	return nil
 }
 
-func (s *Service) deleteGroupChildren(ctx context.Context, tx *ent.Tx, groupID string) error {
+func (s *Service) deleteGroupChildren(ctx context.Context, tx *entcompute.Tx, groupID string) error {
 	_, err := tx.BronzeGreenNodeComputeServerGroupMember.Delete().
 		Where(bronzegreennodecomputeservergroupmember.HasServerGroupWith(bronzegreennodecomputeservergroup.ID(groupID))).
 		Exec(ctx)
@@ -172,7 +172,7 @@ func (s *Service) deleteGroupChildren(ctx context.Context, tx *ent.Tx, groupID s
 	return nil
 }
 
-func (s *Service) createGroupChildren(ctx context.Context, tx *ent.Tx, group *ent.BronzeGreenNodeComputeServerGroup, data *ServerGroupData) error {
+func (s *Service) createGroupChildren(ctx context.Context, tx *entcompute.Tx, group *entcompute.BronzeGreenNodeComputeServerGroup, data *ServerGroupData) error {
 	for _, m := range data.Members {
 		_, err := tx.BronzeGreenNodeComputeServerGroupMember.Create().
 			SetServerGroup(group).

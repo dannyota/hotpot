@@ -5,21 +5,21 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorydovolume"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydovolume"
 )
 
 // HistoryService handles history tracking for Volumes.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entdo.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entdo.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
-func (h *HistoryService) buildCreate(tx *ent.Tx, data *VolumeData) *ent.BronzeHistoryDOVolumeCreate {
+func (h *HistoryService) buildCreate(tx *entdo.Tx, data *VolumeData) *entdo.BronzeHistoryDOVolumeCreate {
 	create := tx.BronzeHistoryDOVolume.Create().
 		SetResourceID(data.ResourceID).
 		SetName(data.Name).
@@ -39,7 +39,7 @@ func (h *HistoryService) buildCreate(tx *ent.Tx, data *VolumeData) *ent.BronzeHi
 }
 
 // CreateHistory creates a history record for a new Volume.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *VolumeData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entdo.Tx, data *VolumeData, now time.Time) error {
 	_, err := h.buildCreate(tx, data).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
@@ -52,7 +52,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Vo
 }
 
 // UpdateHistory closes old history and creates new for a changed Volume.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeDOVolume, new *VolumeData, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entdo.Tx, old *entdo.BronzeDOVolume, new *VolumeData, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDOVolume.Query().
 		Where(
 			bronzehistorydovolume.ResourceID(old.ID),
@@ -82,7 +82,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted Volume.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entdo.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryDOVolume.Query().
 		Where(
 			bronzehistorydovolume.ResourceID(resourceID),
@@ -90,7 +90,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entdo.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current volume history: %w", err)

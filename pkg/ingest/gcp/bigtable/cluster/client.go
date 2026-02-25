@@ -7,8 +7,8 @@ import (
 	"cloud.google.com/go/bigtable"
 	"google.golang.org/api/option"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpbigtableinstance"
+	entbigtable "github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable/bronzegcpbigtableinstance"
 )
 
 // ClusterRaw holds raw API data for a Bigtable cluster with its parent instance.
@@ -21,12 +21,12 @@ type ClusterRaw struct {
 // Client wraps the GCP Bigtable Instance Admin API for clusters.
 type Client struct {
 	adminClient *bigtable.InstanceAdminClient
-	entClient   *ent.Client
+	entClient   *entbigtable.Client
 	projectID   string
 }
 
 // NewClient creates a new Bigtable cluster client.
-func NewClient(ctx context.Context, projectID string, entClient *ent.Client, opts ...option.ClientOption) (*Client, error) {
+func NewClient(ctx context.Context, projectID string, entClient *entbigtable.Client, opts ...option.ClientOption) (*Client, error) {
 	adminClient, err := bigtable.NewInstanceAdminClient(ctx, projectID, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create bigtable instance admin client: %w", err)

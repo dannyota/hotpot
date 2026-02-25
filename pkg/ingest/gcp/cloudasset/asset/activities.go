@@ -11,21 +11,24 @@ import (
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
 	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcloudasset "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // Activities holds dependencies for Temporal activities.
 type Activities struct {
 	configService *config.Service
-	entClient     *ent.Client
+	entClient     *entcloudasset.Client
+	rmClient      *entresourcemanager.Client
 	limiter       ratelimit.Limiter
 }
 
 // NewActivities creates a new Activities instance.
-func NewActivities(configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) *Activities {
+func NewActivities(configService *config.Service, entClient *entcloudasset.Client, rmClient *entresourcemanager.Client, limiter ratelimit.Limiter) *Activities {
 	return &Activities{
 		configService: configService,
 		entClient:     entClient,
+		rmClient:      rmClient,
 		limiter:       limiter,
 	}
 }
@@ -39,7 +42,7 @@ func (a *Activities) createClient(ctx context.Context) (*Client, error) {
 	opts = append(opts, option.WithGRPCDialOption(
 		grpc.WithUnaryInterceptor(ratelimit.UnaryInterceptor(a.limiter)),
 	))
-	return NewClient(ctx, a.entClient, opts...)
+	return NewClient(ctx, a.entClient, a.rmClient, opts...)
 }
 
 // IngestAssetsParams contains parameters for the ingest activity.

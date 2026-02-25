@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpredisinstance"
+	entredis "github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis/bronzegcpredisinstance"
 )
 
 // Service handles GCP Memorystore Redis instance ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entredis.Client
 	history   *HistoryService
 }
 
 // NewService creates a new Redis instance ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entredis.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -92,7 +92,7 @@ func (s *Service) saveInstances(ctx context.Context, instances []*InstanceData) 
 		existing, err := tx.BronzeGCPRedisInstance.Query().
 			Where(bronzegcpredisinstance.ID(instData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entredis.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing Redis instance %s: %w", instData.ID, err)
 		}

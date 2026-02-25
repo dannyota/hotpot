@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpiamserviceaccountkey"
+	entiam "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam/bronzegcpiamserviceaccountkey"
 )
 
 // Service handles GCP IAM service account key ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entiam.Client
 	history   *HistoryService
 }
 
 // NewService creates a new service account key ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entiam.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -94,7 +94,7 @@ func (s *Service) saveServiceAccountKeys(ctx context.Context, keys []*ServiceAcc
 		existing, err := tx.BronzeGCPIAMServiceAccountKey.Query().
 			Where(bronzegcpiamserviceaccountkey.ID(keyData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entiam.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing key %s: %w", keyData.ID, err)
 		}

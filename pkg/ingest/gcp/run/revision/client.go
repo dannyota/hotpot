@@ -9,18 +9,18 @@ import (
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcprunservice"
+	entrun "github.com/dannyota/hotpot/pkg/storage/ent/gcp/run"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/run/bronzegcprunservice"
 )
 
 // Client wraps the GCP Cloud Run API for revisions.
 type Client struct {
 	revisionsClient *run.RevisionsClient
-	entClient       *ent.Client
+	entClient       *entrun.Client
 }
 
 // NewClient creates a new Cloud Run revision client.
-func NewClient(ctx context.Context, entClient *ent.Client, opts ...option.ClientOption) (*Client, error) {
+func NewClient(ctx context.Context, entClient *entrun.Client, opts ...option.ClientOption) (*Client, error) {
 	revisionsClient, err := run.NewRevisionsClient(ctx, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create Cloud Run revisions client: %w", err)

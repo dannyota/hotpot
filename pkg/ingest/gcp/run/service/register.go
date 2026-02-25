@@ -5,11 +5,11 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entrun "github.com/dannyota/hotpot/pkg/storage/ent/gcp/run"
 )
 
 // Register registers all Cloud Run service activities and workflows.
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
+func Register(w worker.Worker, configService *config.Service, entClient *entrun.Client, limiter ratelimit.Limiter) {
 	activities := NewActivities(configService, entClient, limiter)
 	w.RegisterActivity(activities.IngestRunServices)
 	w.RegisterWorkflow(GCPRunServiceWorkflow)

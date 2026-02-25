@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodevolumeblockvolume"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodevolumesnapshot"
+	entvol "github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumeblockvolume"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumesnapshot"
 )
 
 // HistoryService handles history tracking for block volumes.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entvol.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entvol.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new block volume and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *BlockVolumeData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entvol.Tx, data *BlockVolumeData, now time.Time) error {
 	volHist, err := h.createBlockVolumeHistory(ctx, tx, data, now, data.CollectedAt)
 	if err != nil {
 		return err
@@ -30,7 +30,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Bl
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGreenNodeVolumeBlockVolume, new *BlockVolumeData, diff *BlockVolumeDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entvol.Tx, old *entvol.BronzeGreenNodeVolumeBlockVolume, new *BlockVolumeData, diff *BlockVolumeDiff, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeVolumeBlockVolume.Query().
 		Where(
 			bronzehistorygreennodevolumeblockvolume.ResourceID(old.ID),
@@ -74,7 +74,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted block volume.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entvol.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeVolumeBlockVolume.Query().
 		Where(
 			bronzehistorygreennodevolumeblockvolume.ResourceID(resourceID),
@@ -82,7 +82,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entvol.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current block volume history: %w", err)
@@ -97,7 +97,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	return h.closeSnapshotsHistory(ctx, tx, currentHist.ID, now)
 }
 
-func (h *HistoryService) createBlockVolumeHistory(ctx context.Context, tx *ent.Tx, data *BlockVolumeData, now time.Time, firstCollectedAt time.Time) (*ent.BronzeHistoryGreenNodeVolumeBlockVolume, error) {
+func (h *HistoryService) createBlockVolumeHistory(ctx context.Context, tx *entvol.Tx, data *BlockVolumeData, now time.Time, firstCollectedAt time.Time) (*entvol.BronzeHistoryGreenNodeVolumeBlockVolume, error) {
 	create := tx.BronzeHistoryGreenNodeVolumeBlockVolume.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -131,7 +131,7 @@ func (h *HistoryService) createBlockVolumeHistory(ctx context.Context, tx *ent.T
 	return hist, nil
 }
 
-func (h *HistoryService) createSnapshotsHistory(ctx context.Context, tx *ent.Tx, blockVolumeHistoryID uint, snapshots []SnapshotData, now time.Time) error {
+func (h *HistoryService) createSnapshotsHistory(ctx context.Context, tx *entvol.Tx, blockVolumeHistoryID uint, snapshots []SnapshotData, now time.Time) error {
 	for _, s := range snapshots {
 		_, err := tx.BronzeHistoryGreenNodeVolumeSnapshot.Create().
 			SetBlockVolumeHistoryID(blockVolumeHistoryID).
@@ -150,7 +150,7 @@ func (h *HistoryService) createSnapshotsHistory(ctx context.Context, tx *ent.Tx,
 	return nil
 }
 
-func (h *HistoryService) closeSnapshotsHistory(ctx context.Context, tx *ent.Tx, blockVolumeHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeSnapshotsHistory(ctx context.Context, tx *entvol.Tx, blockVolumeHistoryID uint, now time.Time) error {
 	_, err := tx.BronzeHistoryGreenNodeVolumeSnapshot.Update().
 		Where(
 			bronzehistorygreennodevolumesnapshot.BlockVolumeHistoryID(blockVolumeHistoryID),

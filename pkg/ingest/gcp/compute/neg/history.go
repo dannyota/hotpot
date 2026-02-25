@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeneg"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeneg"
 )
 
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *NegData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, data *NegData, now time.Time) error {
 	create := tx.BronzeHistoryGCPComputeNeg.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -58,7 +58,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Ne
 	return nil
 }
 
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeNeg, new *NegData, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGCPComputeNeg, new *NegData, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPComputeNeg.Query().
 		Where(
 			bronzehistorygcpcomputeneg.ResourceID(old.ID),
@@ -118,7 +118,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 	return nil
 }
 
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPComputeNeg.Query().
 		Where(
 			bronzehistorygcpcomputeneg.ResourceID(resourceID),
@@ -126,7 +126,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcompute.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current NEG history: %w", err)

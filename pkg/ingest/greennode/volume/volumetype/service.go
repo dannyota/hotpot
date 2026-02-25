@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodevolumevolumetype"
+	entvol "github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumevolumetype"
 )
 
 // Service handles GreenNode volume type ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entvol.Client
 	history   *HistoryService
 }
 
 // NewService creates a new volume type ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entvol.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -80,7 +80,7 @@ func (s *Service) saveVolumeTypes(ctx context.Context, volumeTypes []*VolumeType
 		existing, err := tx.BronzeGreenNodeVolumeVolumeType.Query().
 			Where(bronzegreennodevolumevolumetype.ID(data.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entvol.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing volume type %s: %w", data.Name, err)
 		}

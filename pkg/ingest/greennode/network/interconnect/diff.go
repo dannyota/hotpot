@@ -1,7 +1,7 @@
 package interconnect
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
 )
 
 // InterconnectDiff represents changes between old and new interconnect states.
@@ -11,7 +11,7 @@ type InterconnectDiff struct {
 }
 
 // DiffInterconnectData compares old Ent entity and new InterconnectData.
-func DiffInterconnectData(old *ent.BronzeGreenNodeNetworkInterconnect, new *InterconnectData) *InterconnectDiff {
+func DiffInterconnectData(old *entnet.BronzeGreenNodeNetworkInterconnect, new *InterconnectData) *InterconnectDiff {
 	if old == nil {
 		return &InterconnectDiff{IsNew: true}
 	}

@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeglobaladdress"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputeglobaladdresslabel"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeglobaladdress"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeglobaladdresslabel"
 )
 
 // HistoryService handles history tracking for global addresses.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new global address and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, addressData *GlobalAddressData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, addressData *GlobalAddressData, now time.Time) error {
 	// Create address history
 	addrHistCreate := tx.BronzeHistoryGCPComputeGlobalAddress.Create().
 		SetResourceID(addressData.ID).
@@ -61,7 +61,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, addressD
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeGlobalAddress, new *GlobalAddressData, diff *GlobalAddressDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGCPComputeGlobalAddress, new *GlobalAddressData, diff *GlobalAddressDiff, now time.Time) error {
 	// Get current address history
 	currentHist, err := tx.BronzeHistoryGCPComputeGlobalAddress.Query().
 		Where(
@@ -128,7 +128,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted global address.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	// Get current address history
 	currentHist, err := tx.BronzeHistoryGCPComputeGlobalAddress.Query().
 		Where(
@@ -137,7 +137,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcompute.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current global address history: %w", err)
@@ -155,7 +155,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 }
 
 // createChildrenHistory creates history records for all children.
-func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, globalAddressHistoryID uint, data *GlobalAddressData, now time.Time) error {
+func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *entcompute.Tx, globalAddressHistoryID uint, data *GlobalAddressData, now time.Time) error {
 	// Labels
 	for _, labelData := range data.Labels {
 		_, err := tx.BronzeHistoryGCPComputeGlobalAddressLabel.Create().
@@ -173,7 +173,7 @@ func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, 
 }
 
 // closeChildrenHistory closes all children history records.
-func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, globalAddressHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *entcompute.Tx, globalAddressHistoryID uint, now time.Time) error {
 	// Close labels
 	_, err := tx.BronzeHistoryGCPComputeGlobalAddressLabel.Update().
 		Where(
@@ -190,7 +190,7 @@ func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, g
 }
 
 // updateChildrenHistory updates children history based on diff (granular tracking).
-func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, globalAddressHistoryID uint, new *GlobalAddressData, diff *GlobalAddressDiff, now time.Time) error {
+func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *entcompute.Tx, globalAddressHistoryID uint, new *GlobalAddressData, diff *GlobalAddressDiff, now time.Time) error {
 	if diff.LabelsDiff.Changed {
 		if err := h.updateLabelsHistory(ctx, tx, globalAddressHistoryID, new.Labels, now); err != nil {
 			return err
@@ -199,7 +199,7 @@ func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, 
 	return nil
 }
 
-func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *ent.Tx, globalAddressHistoryID uint, labels []GlobalAddressLabelData, now time.Time) error {
+func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *entcompute.Tx, globalAddressHistoryID uint, labels []GlobalAddressLabelData, now time.Time) error {
 	// Close old labels
 	_, err := tx.BronzeHistoryGCPComputeGlobalAddressLabel.Update().
 		Where(

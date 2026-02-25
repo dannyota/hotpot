@@ -3,7 +3,7 @@ package ranger_setting
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
 )
 
 // RangerSettingDiff represents changes between old and new ranger setting states.
@@ -13,7 +13,7 @@ type RangerSettingDiff struct {
 }
 
 // DiffRangerSettingData compares old Ent entity and new data.
-func DiffRangerSettingData(old *ent.BronzeS1RangerSetting, new *RangerSettingData) *RangerSettingDiff {
+func DiffRangerSettingData(old *ents1.BronzeS1RangerSetting, new *RangerSettingData) *RangerSettingDiff {
 	if old == nil {
 		return &RangerSettingDiff{IsNew: true}
 	}

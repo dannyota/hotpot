@@ -3,7 +3,7 @@ package negendpoint
 import (
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 type NegEndpointDiff struct {
@@ -15,7 +15,7 @@ func (d *NegEndpointDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged
 }
 
-func DiffNegEndpointData(old *ent.BronzeGCPComputeNegEndpoint, new *NegEndpointData) *NegEndpointDiff {
+func DiffNegEndpointData(old *entcompute.BronzeGCPComputeNegEndpoint, new *NegEndpointData) *NegEndpointDiff {
 	diff := &NegEndpointDiff{}
 
 	if old == nil {

@@ -3,7 +3,7 @@ package glbresource
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entglb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb"
 )
 
 // GLBDiff represents changes between old and new GLB states.
@@ -21,7 +21,7 @@ type ChildDiff struct {
 }
 
 // DiffGLBData compares old Ent entity and new GLBData.
-func DiffGLBData(old *ent.BronzeGreenNodeGLBGlobalLoadBalancer, new *GLBData) *GLBDiff {
+func DiffGLBData(old *entglb.BronzeGreenNodeGLBGlobalLoadBalancer, new *GLBData) *GLBDiff {
 	if old == nil {
 		return &GLBDiff{
 			IsNew:         true,
@@ -43,7 +43,7 @@ func (d *GLBDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged || d.ListenersDiff.Changed || d.PoolsDiff.Changed
 }
 
-func hasGLBFieldsChanged(old *ent.BronzeGreenNodeGLBGlobalLoadBalancer, new *GLBData) bool {
+func hasGLBFieldsChanged(old *entglb.BronzeGreenNodeGLBGlobalLoadBalancer, new *GLBData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Status != new.Status ||
@@ -57,11 +57,11 @@ func hasGLBFieldsChanged(old *ent.BronzeGreenNodeGLBGlobalLoadBalancer, new *GLB
 		old.DeletedAtAPI != new.DeletedAtAPI
 }
 
-func diffListeners(old []*ent.BronzeGreenNodeGLBGlobalListener, new []GLBListenerData) ChildDiff {
+func diffListeners(old []*entglb.BronzeGreenNodeGLBGlobalListener, new []GLBListenerData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
-	oldMap := make(map[string]*ent.BronzeGreenNodeGLBGlobalListener)
+	oldMap := make(map[string]*entglb.BronzeGreenNodeGLBGlobalListener)
 	for _, l := range old {
 		oldMap[l.ListenerID] = l
 	}
@@ -77,7 +77,7 @@ func diffListeners(old []*ent.BronzeGreenNodeGLBGlobalListener, new []GLBListene
 	return ChildDiff{Changed: false}
 }
 
-func hasListenerFieldsChanged(old *ent.BronzeGreenNodeGLBGlobalListener, new *GLBListenerData) bool {
+func hasListenerFieldsChanged(old *entglb.BronzeGreenNodeGLBGlobalListener, new *GLBListenerData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Protocol != new.Protocol ||
@@ -94,11 +94,11 @@ func hasListenerFieldsChanged(old *ent.BronzeGreenNodeGLBGlobalListener, new *GL
 		!ptrStringEqual(old.DeletedAtAPI, new.DeletedAtAPI)
 }
 
-func diffPools(old []*ent.BronzeGreenNodeGLBGlobalPool, new []GLBPoolData) ChildDiff {
+func diffPools(old []*entglb.BronzeGreenNodeGLBGlobalPool, new []GLBPoolData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
-	oldMap := make(map[string]*ent.BronzeGreenNodeGLBGlobalPool)
+	oldMap := make(map[string]*entglb.BronzeGreenNodeGLBGlobalPool)
 	for _, p := range old {
 		oldMap[p.PoolID] = p
 	}
@@ -114,7 +114,7 @@ func diffPools(old []*ent.BronzeGreenNodeGLBGlobalPool, new []GLBPoolData) Child
 	return ChildDiff{Changed: false}
 }
 
-func hasPoolFieldsChanged(old *ent.BronzeGreenNodeGLBGlobalPool, new *GLBPoolData) bool {
+func hasPoolFieldsChanged(old *entglb.BronzeGreenNodeGLBGlobalPool, new *GLBPoolData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Algorithm != new.Algorithm ||

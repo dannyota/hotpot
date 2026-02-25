@@ -3,7 +3,7 @@ package function
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcloudfunctions "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions"
 )
 
 // FunctionDiff represents changes between old and new Cloud Function state.
@@ -18,7 +18,7 @@ func (d *FunctionDiff) HasAnyChange() bool {
 }
 
 // DiffFunctionData compares existing Ent entity with new FunctionData and returns differences.
-func DiffFunctionData(old *ent.BronzeGCPCloudFunctionsFunction, new *FunctionData) *FunctionDiff {
+func DiffFunctionData(old *entcloudfunctions.BronzeGCPCloudFunctionsFunction, new *FunctionData) *FunctionDiff {
 	diff := &FunctionDiff{}
 
 	if old == nil {

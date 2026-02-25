@@ -1,7 +1,7 @@
 package folder
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // FolderDiff represents changes between old and new folder state.
@@ -22,7 +22,7 @@ func (d *FolderDiff) HasAnyChange() bool {
 }
 
 // DiffFolderData compares existing Ent entity with new FolderData and returns differences.
-func DiffFolderData(old *ent.BronzeGCPFolder, new *FolderData) *FolderDiff {
+func DiffFolderData(old *entresourcemanager.BronzeGCPFolder, new *FolderData) *FolderDiff {
 	diff := &FolderDiff{}
 
 	// New folder
@@ -48,7 +48,7 @@ func DiffFolderData(old *ent.BronzeGCPFolder, new *FolderData) *FolderDiff {
 }
 
 // diffLabelsData compares Ent labels with new label data.
-func diffLabelsData(old []*ent.BronzeGCPFolderLabel, new []LabelData) ChildDiff {
+func diffLabelsData(old []*entresourcemanager.BronzeGCPFolderLabel, new []LabelData) ChildDiff {
 	diff := ChildDiff{}
 
 	if len(old) != len(new) {

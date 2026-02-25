@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpspannerinstance"
+	entspanner "github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/bronzegcpspannerinstance"
 )
 
 // Service handles Spanner instance ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entspanner.Client
 	history   *HistoryService
 }
 
 // NewService creates a new Spanner instance ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entspanner.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -105,7 +105,7 @@ func (s *Service) saveInstances(ctx context.Context, instances []*InstanceData) 
 		existing, err := tx.BronzeGCPSpannerInstance.Query().
 			Where(bronzegcpspannerinstance.ID(instanceData.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entspanner.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing Spanner instance %s: %w", instanceData.ResourceID, err)
 		}

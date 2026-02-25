@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpappengineapplication"
+	entappengine "github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/bronzegcpappengineapplication"
 )
 
 // Service handles App Engine application ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entappengine.Client
 	history   *HistoryService
 }
 
 // NewService creates a new App Engine application ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entappengine.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -98,7 +98,7 @@ func (s *Service) saveApplication(ctx context.Context, appData *ApplicationData)
 	existing, err := tx.BronzeGCPAppEngineApplication.Query().
 		Where(bronzegcpappengineapplication.ID(appData.ID)).
 		First(ctx)
-	if err != nil && !ent.IsNotFound(err) {
+	if err != nil && !entappengine.IsNotFound(err) {
 		tx.Rollback()
 		return fmt.Errorf("failed to load existing application %s: %w", appData.ID, err)
 	}

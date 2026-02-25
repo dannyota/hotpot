@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpalloydbcluster"
+	entalloydb "github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/bronzegcpalloydbcluster"
 )
 
 // Service handles AlloyDB cluster ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entalloydb.Client
 	history   *HistoryService
 }
 
 // NewService creates a new AlloyDB cluster ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entalloydb.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -92,7 +92,7 @@ func (s *Service) saveClusters(ctx context.Context, clusters []*ClusterData) err
 		existing, err := tx.BronzeGCPAlloyDBCluster.Query().
 			Where(bronzegcpalloydbcluster.ID(clusterData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entalloydb.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing cluster %s: %w", clusterData.ID, err)
 		}

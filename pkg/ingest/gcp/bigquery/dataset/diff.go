@@ -3,7 +3,7 @@ package dataset
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entbigquery "github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery"
 )
 
 // DatasetDiff represents changes between old and new BigQuery dataset state.
@@ -18,7 +18,7 @@ func (d *DatasetDiff) HasAnyChange() bool {
 }
 
 // DiffDatasetData compares existing Ent entity with new DatasetData and returns differences.
-func DiffDatasetData(old *ent.BronzeGCPBigQueryDataset, new *DatasetData) *DatasetDiff {
+func DiffDatasetData(old *entbigquery.BronzeGCPBigQueryDataset, new *DatasetData) *DatasetDiff {
 	diff := &DatasetDiff{}
 
 	if old == nil {

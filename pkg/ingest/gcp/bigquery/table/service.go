@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpbigquerytable"
+	entbigquery "github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery/bronzegcpbigquerytable"
 )
 
 // Service handles BigQuery table ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entbigquery.Client
 	history   *HistoryService
 }
 
 // NewService creates a new BigQuery table ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entbigquery.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -98,7 +98,7 @@ func (s *Service) saveTables(ctx context.Context, tables []*TableData) error {
 		existing, err := tx.BronzeGCPBigQueryTable.Query().
 			Where(bronzegcpbigquerytable.ID(tableData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entbigquery.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing table %s: %w", tableData.ID, err)
 		}

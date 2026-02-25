@@ -3,7 +3,7 @@ package revision
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entrun "github.com/dannyota/hotpot/pkg/storage/ent/gcp/run"
 )
 
 // RevisionDiff represents changes between old and new Cloud Run revision state.
@@ -18,7 +18,7 @@ func (d *RevisionDiff) HasAnyChange() bool {
 }
 
 // DiffRevisionData compares existing Ent entity with new RevisionData and returns differences.
-func DiffRevisionData(old *ent.BronzeGCPRunRevision, new *RevisionData) *RevisionDiff {
+func DiffRevisionData(old *entrun.BronzeGCPRunRevision, new *RevisionData) *RevisionDiff {
 	diff := &RevisionDiff{}
 
 	if old == nil {

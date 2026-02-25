@@ -1,7 +1,7 @@
 package instancegroup
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // InstanceGroupDiff represents changes between old and new instance group states.
@@ -23,7 +23,7 @@ func (d *InstanceGroupDiff) HasAnyChange() bool {
 }
 
 // DiffInstanceGroupData compares existing Ent entity with new InstanceGroupData.
-func DiffInstanceGroupData(old *ent.BronzeGCPComputeInstanceGroup, new *InstanceGroupData) *InstanceGroupDiff {
+func DiffInstanceGroupData(old *entcompute.BronzeGCPComputeInstanceGroup, new *InstanceGroupData) *InstanceGroupDiff {
 	diff := &InstanceGroupDiff{}
 
 	// New instance group
@@ -43,7 +43,7 @@ func DiffInstanceGroupData(old *ent.BronzeGCPComputeInstanceGroup, new *Instance
 }
 
 // hasGroupFieldsChanged compares group-level fields (excluding children).
-func hasGroupFieldsChanged(old *ent.BronzeGCPComputeInstanceGroup, new *InstanceGroupData) bool {
+func hasGroupFieldsChanged(old *entcompute.BronzeGCPComputeInstanceGroup, new *InstanceGroupData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Zone != new.Zone ||
@@ -53,7 +53,7 @@ func hasGroupFieldsChanged(old *ent.BronzeGCPComputeInstanceGroup, new *Instance
 		old.Fingerprint != new.Fingerprint
 }
 
-func diffNamedPortsData(old []*ent.BronzeGCPComputeInstanceGroupNamedPort, new []NamedPortData) ChildDiff {
+func diffNamedPortsData(old []*entcompute.BronzeGCPComputeInstanceGroupNamedPort, new []NamedPortData) ChildDiff {
 	diff := ChildDiff{}
 
 	if len(old) != len(new) {
@@ -78,7 +78,7 @@ func diffNamedPortsData(old []*ent.BronzeGCPComputeInstanceGroupNamedPort, new [
 	return diff
 }
 
-func diffMembersData(old []*ent.BronzeGCPComputeInstanceGroupMember, new []MemberData) ChildDiff {
+func diffMembersData(old []*entcompute.BronzeGCPComputeInstanceGroupMember, new []MemberData) ChildDiff {
 	diff := ChildDiff{}
 
 	if len(old) != len(new) {

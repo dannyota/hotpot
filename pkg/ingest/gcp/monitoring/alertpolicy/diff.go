@@ -3,7 +3,7 @@ package alertpolicy
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entmonitoring "github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring"
 )
 
 // AlertPolicyDiff represents changes between old and new alert policy state.
@@ -18,7 +18,7 @@ func (d *AlertPolicyDiff) HasAnyChange() bool {
 }
 
 // DiffAlertPolicyData compares existing Ent entity with new AlertPolicyData and returns differences.
-func DiffAlertPolicyData(old *ent.BronzeGCPMonitoringAlertPolicy, new *AlertPolicyData) *AlertPolicyDiff {
+func DiffAlertPolicyData(old *entmonitoring.BronzeGCPMonitoringAlertPolicy, new *AlertPolicyData) *AlertPolicyDiff {
 	diff := &AlertPolicyDiff{}
 
 	if old == nil {

@@ -5,21 +5,21 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputefirewall"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputefirewallallowed"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputefirewalldenied"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputefirewall"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputefirewallallowed"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputefirewalldenied"
 )
 
 // Service handles GCP Compute firewall ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entcompute.Client
 	history   *HistoryService
 }
 
 // NewService creates a new firewall ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entcompute.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -101,7 +101,7 @@ func (s *Service) saveFirewalls(ctx context.Context, firewalls []*FirewallData) 
 			WithAllowed().
 			WithDenied().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entcompute.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing firewall %s: %w", firewallData.Name, err)
 		}
@@ -130,7 +130,7 @@ func (s *Service) saveFirewalls(ctx context.Context, firewalls []*FirewallData) 
 		}
 
 		// Create or update firewall
-		var savedFirewall *ent.BronzeGCPComputeFirewall
+		var savedFirewall *entcompute.BronzeGCPComputeFirewall
 		if existing == nil {
 			// Create new firewall
 			create := tx.BronzeGCPComputeFirewall.Create().
@@ -245,7 +245,7 @@ func (s *Service) saveFirewalls(ctx context.Context, firewalls []*FirewallData) 
 }
 
 // deleteFirewallChildren deletes allowed and denied rules for a firewall.
-func deleteFirewallChildren(ctx context.Context, tx *ent.Tx, firewallID string) error {
+func deleteFirewallChildren(ctx context.Context, tx *entcompute.Tx, firewallID string) error {
 	// Delete allowed rules
 	_, err := tx.BronzeGCPComputeFirewallAllowed.Delete().
 		Where(bronzegcpcomputefirewallallowed.HasFirewallRefWith(bronzegcpcomputefirewall.ID(firewallID))).
@@ -266,7 +266,7 @@ func deleteFirewallChildren(ctx context.Context, tx *ent.Tx, firewallID string) 
 }
 
 // createFirewallChildren creates allowed and denied rules for a firewall.
-func createFirewallChildren(ctx context.Context, tx *ent.Tx, savedFirewall *ent.BronzeGCPComputeFirewall, firewallData *FirewallData) error {
+func createFirewallChildren(ctx context.Context, tx *entcompute.Tx, savedFirewall *entcompute.BronzeGCPComputeFirewall, firewallData *FirewallData) error {
 	// Create allowed rules
 	for _, allowed := range firewallData.Allowed {
 		create := tx.BronzeGCPComputeFirewallAllowed.Create().

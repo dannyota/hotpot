@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectiampolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpprojectiampolicybinding"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpprojectiampolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpprojectiampolicybinding"
 )
 
 // Service handles GCP project IAM policy ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entresourcemanager.Client
 	history   *HistoryService
 }
 
 // NewService creates a new project IAM policy ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entresourcemanager.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -95,7 +95,7 @@ func (s *Service) savePolicies(ctx context.Context, policies []*ProjectIamPolicy
 			Where(bronzegcpprojectiampolicy.ID(policyData.ID)).
 			WithBindings().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entresourcemanager.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing policy %s: %w", policyData.ID, err)
 		}
@@ -127,7 +127,7 @@ func (s *Service) savePolicies(ctx context.Context, policies []*ProjectIamPolicy
 		}
 
 		// Create or update policy
-		var savedPolicy *ent.BronzeGCPProjectIamPolicy
+		var savedPolicy *entresourcemanager.BronzeGCPProjectIamPolicy
 		if existing == nil {
 			// Create new policy
 			create := tx.BronzeGCPProjectIamPolicy.Create().

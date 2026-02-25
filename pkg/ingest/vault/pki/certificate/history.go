@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryvaultpkicertificate"
+	entpki "github.com/dannyota/hotpot/pkg/storage/ent/vault/pki"
+	"github.com/dannyota/hotpot/pkg/storage/ent/vault/pki/bronzehistoryvaultpkicertificate"
 )
 
 // HistoryService handles history tracking for certificates.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entpki.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entpki.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new certificate.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *CertificateData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entpki.Tx, data *CertificateData, now time.Time) error {
 	create := tx.BronzeHistoryVaultPKICertificate.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -53,7 +53,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Ce
 }
 
 // UpdateHistory closes old history and creates new history for a changed certificate.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeVaultPKICertificate, new *CertificateData, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entpki.Tx, old *entpki.BronzeVaultPKICertificate, new *CertificateData, now time.Time) error {
 	// Find current open history record
 	currentHist, err := tx.BronzeHistoryVaultPKICertificate.Query().
 		Where(
@@ -105,7 +105,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes the history record for a deleted certificate.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entpki.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryVaultPKICertificate.Query().
 		Where(
 			bronzehistoryvaultpkicertificate.ResourceID(resourceID),
@@ -113,7 +113,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entpki.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current certificate history: %w", err)

@@ -11,19 +11,22 @@ import (
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
 	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entorgpolicy "github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy"
+	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 type Activities struct {
 	configService *config.Service
-	entClient     *ent.Client
+	entClient     *entorgpolicy.Client
+	rmClient      *entresourcemanager.Client
 	limiter       ratelimit.Limiter
 }
 
-func NewActivities(configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) *Activities {
+func NewActivities(configService *config.Service, entClient *entorgpolicy.Client, rmClient *entresourcemanager.Client, limiter ratelimit.Limiter) *Activities {
 	return &Activities{
 		configService: configService,
 		entClient:     entClient,
+		rmClient:      rmClient,
 		limiter:       limiter,
 	}
 }
@@ -36,7 +39,7 @@ func (a *Activities) createClient(ctx context.Context) (*Client, error) {
 	opts = append(opts, option.WithGRPCDialOption(
 		grpc.WithUnaryInterceptor(ratelimit.UnaryInterceptor(a.limiter)),
 	))
-	return NewClient(ctx, a.entClient, opts...)
+	return NewClient(ctx, a.entClient, a.rmClient, opts...)
 }
 
 type IngestCustomConstraintsParams struct {

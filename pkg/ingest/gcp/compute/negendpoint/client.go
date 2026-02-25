@@ -9,8 +9,8 @@ import (
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputeneg"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeneg"
 )
 
 // EndpointWithNeg pairs an endpoint with its parent NEG info.
@@ -23,10 +23,10 @@ type EndpointWithNeg struct {
 
 type Client struct {
 	negClient *compute.NetworkEndpointGroupsClient
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
-func NewClient(ctx context.Context, entClient *ent.Client, opts ...option.ClientOption) (*Client, error) {
+func NewClient(ctx context.Context, entClient *entcompute.Client, opts ...option.ClientOption) (*Client, error) {
 	c, err := compute.NewNetworkEndpointGroupsRESTClient(ctx, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create NEG client: %w", err)

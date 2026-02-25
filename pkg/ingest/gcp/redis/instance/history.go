@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpredisinstance"
+	entredis "github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis/bronzehistorygcpredisinstance"
 )
 
 // HistoryService manages Redis instance history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entredis.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entredis.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new Redis instance.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *InstanceData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entredis.Tx, data *InstanceData, now time.Time) error {
 	create := tx.BronzeHistoryGCPRedisInstance.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -91,7 +91,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *In
 }
 
 // UpdateHistory updates history records for a changed Redis instance.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPRedisInstance, new *InstanceData, diff *InstanceDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entredis.Tx, old *entredis.BronzeGCPRedisInstance, new *InstanceData, diff *InstanceDiff, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPRedisInstance.Query().
 		Where(
 			bronzehistorygcpredisinstance.ResourceID(old.ID),
@@ -183,7 +183,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted Redis instance.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entredis.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPRedisInstance.Query().
 		Where(
 			bronzehistorygcpredisinstance.ResourceID(resourceID),
@@ -191,7 +191,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entredis.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current Redis instance history: %w", err)

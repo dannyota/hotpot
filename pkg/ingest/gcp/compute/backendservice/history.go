@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputebackendservice"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpcomputebackendservicebackend"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputebackendservice"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputebackendservicebackend"
 )
 
 // HistoryService manages backend service history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entcompute.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entcompute.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new backend service.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *BackendServiceData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entcompute.Tx, data *BackendServiceData, now time.Time) error {
 	// Create backend service history
 	bsHistory, err := tx.BronzeHistoryGCPComputeBackendService.Create().
 		SetResourceID(data.ID).
@@ -212,7 +212,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Ba
 }
 
 // UpdateHistory updates history records for a changed backend service.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPComputeBackendService, new *BackendServiceData, diff *BackendServiceDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entcompute.Tx, old *entcompute.BronzeGCPComputeBackendService, new *BackendServiceData, diff *BackendServiceDiff, now time.Time) error {
 	// Get current backend service history
 	currentHistory, err := tx.BronzeHistoryGCPComputeBackendService.Query().
 		Where(
@@ -472,7 +472,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted backend service.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entcompute.Tx, resourceID string, now time.Time) error {
 	// Get current backend service history
 	currentHistory, err := tx.BronzeHistoryGCPComputeBackendService.Query().
 		Where(
@@ -481,7 +481,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entcompute.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current backend service history: %w", err)

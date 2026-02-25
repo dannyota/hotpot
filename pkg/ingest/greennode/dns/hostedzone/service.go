@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodednshostedzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegreennodednsrecord"
+	entdns "github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzegreennodednshostedzone"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzegreennodednsrecord"
 )
 
 // Service handles GreenNode DNS hosted zone ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entdns.Client
 	history   *HistoryService
 }
 
 // NewService creates a new hosted zone ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entdns.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -99,7 +99,7 @@ func (s *Service) saveHostedZones(ctx context.Context, zones []*HostedZoneData) 
 			Where(bronzegreennodednshostedzone.ID(data.ID)).
 			WithRecords().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entdns.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing hosted zone %s: %w", data.ID, err)
 		}
@@ -123,7 +123,7 @@ func (s *Service) saveHostedZones(ctx context.Context, zones []*HostedZoneData) 
 			}
 		}
 
-		var savedZone *ent.BronzeGreenNodeDNSHostedZone
+		var savedZone *entdns.BronzeGreenNodeDNSHostedZone
 		if existing == nil {
 			create := tx.BronzeGreenNodeDNSHostedZone.Create().
 				SetID(data.ID).
@@ -205,7 +205,7 @@ func (s *Service) saveHostedZones(ctx context.Context, zones []*HostedZoneData) 
 	return nil
 }
 
-func (s *Service) deleteHostedZoneChildren(ctx context.Context, tx *ent.Tx, hostedZoneID string) error {
+func (s *Service) deleteHostedZoneChildren(ctx context.Context, tx *entdns.Tx, hostedZoneID string) error {
 	_, err := tx.BronzeGreenNodeDNSRecord.Delete().
 		Where(bronzegreennodednsrecord.HasHostedZoneWith(bronzegreennodednshostedzone.ID(hostedZoneID))).
 		Exec(ctx)
@@ -215,7 +215,7 @@ func (s *Service) deleteHostedZoneChildren(ctx context.Context, tx *ent.Tx, host
 	return nil
 }
 
-func (s *Service) createHostedZoneChildren(ctx context.Context, tx *ent.Tx, zone *ent.BronzeGreenNodeDNSHostedZone, data *HostedZoneData) error {
+func (s *Service) createHostedZoneChildren(ctx context.Context, tx *entdns.Tx, zone *entdns.BronzeGreenNodeDNSHostedZone, data *HostedZoneData) error {
 	for _, r := range data.Records {
 		create := tx.BronzeGreenNodeDNSRecord.Create().
 			SetHostedZone(zone).

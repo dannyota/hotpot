@@ -3,7 +3,7 @@ package database
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entspanner "github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner"
 )
 
 // DatabaseDiff represents changes between old and new Spanner database state.
@@ -18,7 +18,7 @@ func (d *DatabaseDiff) HasAnyChange() bool {
 }
 
 // DiffDatabaseData compares existing Ent entity with new DatabaseData and returns differences.
-func DiffDatabaseData(old *ent.BronzeGCPSpannerDatabase, new *DatabaseData) *DatabaseDiff {
+func DiffDatabaseData(old *entspanner.BronzeGCPSpannerDatabase, new *DatabaseData) *DatabaseDiff {
 	diff := &DatabaseDiff{}
 
 	if old == nil {

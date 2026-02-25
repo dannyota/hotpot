@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcporgpolicyconstraint"
+	entorgpolicy "github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzehistorygcporgpolicyconstraint"
 )
 
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entorgpolicy.Client
 }
 
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entorgpolicy.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *ConstraintData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entorgpolicy.Tx, data *ConstraintData, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPOrgPolicyConstraint.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -39,7 +39,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Co
 	return nil
 }
 
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPOrgPolicyConstraint, new *ConstraintData, diff *ConstraintDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entorgpolicy.Tx, old *entorgpolicy.BronzeGCPOrgPolicyConstraint, new *ConstraintData, diff *ConstraintDiff, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPOrgPolicyConstraint.Query().
 		Where(
 			bronzehistorygcporgpolicyconstraint.ResourceID(old.ID),
@@ -80,7 +80,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 	return nil
 }
 
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entorgpolicy.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPOrgPolicyConstraint.Query().
 		Where(
 			bronzehistorygcporgpolicyconstraint.ResourceID(resourceID),
@@ -88,7 +88,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entorgpolicy.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current org policy constraint history: %w", err)

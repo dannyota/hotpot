@@ -7,11 +7,13 @@ import (
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/storage/bucket"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/storage/bucketiam"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	"entgo.io/ent/dialect"
+	entstorage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage"
 )
 
 // Register registers all Storage activities and workflows.
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
+func Register(w worker.Worker, configService *config.Service, driver dialect.Driver, limiter ratelimit.Limiter) {
+	entClient := entstorage.NewClient(entstorage.Driver(driver), entstorage.AlternateSchema(entstorage.DefaultSchemaConfig()))
 	bucket.Register(w, configService, entClient, limiter)
 	bucketiam.Register(w, configService, entClient, limiter)
 

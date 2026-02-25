@@ -1,7 +1,7 @@
 package key
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
 )
 
 // KeyDiff represents changes between old and new SSH key states.
@@ -11,7 +11,7 @@ type KeyDiff struct {
 }
 
 // DiffKeyData compares old Ent entity and new data.
-func DiffKeyData(old *ent.BronzeDOKey, new *KeyData) *KeyDiff {
+func DiffKeyData(old *entdo.BronzeDOKey, new *KeyData) *KeyDiff {
 	if old == nil {
 		return &KeyDiff{IsNew: true}
 	}

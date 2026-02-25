@@ -5,20 +5,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputebackendservice"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputebackendservicebackend"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputebackendservice"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputebackendservicebackend"
 )
 
 // Service handles GCP Compute backend service ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entcompute.Client
 	history   *HistoryService
 }
 
 // NewService creates a new backend service ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entcompute.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -99,7 +99,7 @@ func (s *Service) saveBackendServices(ctx context.Context, backendServices []*Ba
 			Where(bronzegcpcomputebackendservice.ID(data.ID)).
 			WithBackends().
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entcompute.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing backend service %s: %w", data.ID, err)
 		}
@@ -131,7 +131,7 @@ func (s *Service) saveBackendServices(ctx context.Context, backendServices []*Ba
 		}
 
 		// Create or update backend service
-		var savedService *ent.BronzeGCPComputeBackendService
+		var savedService *entcompute.BronzeGCPComputeBackendService
 		if existing == nil {
 			// Create new backend service
 			create := tx.BronzeGCPComputeBackendService.Create().

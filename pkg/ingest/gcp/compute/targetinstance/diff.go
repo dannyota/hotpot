@@ -1,7 +1,7 @@
 package targetinstance
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // TargetInstanceDiff represents changes between old and new target instance states.
@@ -11,7 +11,7 @@ type TargetInstanceDiff struct {
 }
 
 // DiffTargetInstanceData compares existing Ent entity with new TargetInstanceData and returns differences.
-func DiffTargetInstanceData(old *ent.BronzeGCPComputeTargetInstance, new *TargetInstanceData) *TargetInstanceDiff {
+func DiffTargetInstanceData(old *entcompute.BronzeGCPComputeTargetInstance, new *TargetInstanceData) *TargetInstanceDiff {
 	diff := &TargetInstanceDiff{}
 
 	// New target instance

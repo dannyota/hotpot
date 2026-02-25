@@ -3,7 +3,7 @@ package vpntunnel
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entvpn "github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn"
 )
 
 // VpnTunnelDiff represents changes between old and new VPN tunnel states.
@@ -24,7 +24,7 @@ func (d *VpnTunnelDiff) HasAnyChange() bool {
 }
 
 // DiffVpnTunnelData compares existing Ent entity with new VpnTunnelData.
-func DiffVpnTunnelData(old *ent.BronzeGCPVPNTunnel, new *VpnTunnelData) *VpnTunnelDiff {
+func DiffVpnTunnelData(old *entvpn.BronzeGCPVPNTunnel, new *VpnTunnelData) *VpnTunnelDiff {
 	diff := &VpnTunnelDiff{}
 
 	// New VPN tunnel
@@ -43,7 +43,7 @@ func DiffVpnTunnelData(old *ent.BronzeGCPVPNTunnel, new *VpnTunnelData) *VpnTunn
 }
 
 // hasVpnTunnelFieldsChanged compares VPN tunnel-level fields (excluding children).
-func hasVpnTunnelFieldsChanged(old *ent.BronzeGCPVPNTunnel, new *VpnTunnelData) bool {
+func hasVpnTunnelFieldsChanged(old *entvpn.BronzeGCPVPNTunnel, new *VpnTunnelData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Status != new.Status ||
@@ -66,7 +66,7 @@ func hasVpnTunnelFieldsChanged(old *ent.BronzeGCPVPNTunnel, new *VpnTunnelData) 
 		!bytes.Equal(old.RemoteTrafficSelectorJSON, new.RemoteTrafficSelectorJSON)
 }
 
-func diffLabelsData(old []*ent.BronzeGCPVPNTunnelLabel, new []LabelData) ChildDiff {
+func diffLabelsData(old []*entvpn.BronzeGCPVPNTunnelLabel, new []LabelData) ChildDiff {
 	diff := ChildDiff{}
 
 	if len(old) != len(new) {

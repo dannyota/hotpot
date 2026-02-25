@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpaccesscontextmanageraccesspolicy"
+	entaccesscontextmanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager/bronzegcpaccesscontextmanageraccesspolicy"
 )
 
 // Service handles access policy ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entaccesscontextmanager.Client
 	history   *HistoryService
 }
 
 // NewService creates a new access policy ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entaccesscontextmanager.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -87,7 +87,7 @@ func (s *Service) savePolicies(ctx context.Context, policies []*AccessPolicyData
 		existing, err := tx.BronzeGCPAccessContextManagerAccessPolicy.Query().
 			Where(bronzegcpaccesscontextmanageraccesspolicy.ID(policyData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entaccesscontextmanager.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing access policy %s: %w", policyData.ID, err)
 		}

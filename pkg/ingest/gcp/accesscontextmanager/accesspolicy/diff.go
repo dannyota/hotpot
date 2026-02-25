@@ -3,7 +3,7 @@ package accesspolicy
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entaccesscontextmanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager"
 )
 
 // AccessPolicyDiff represents changes between old and new access policy state.
@@ -18,7 +18,7 @@ func (d *AccessPolicyDiff) HasAnyChange() bool {
 }
 
 // DiffAccessPolicyData compares existing Ent entity with new AccessPolicyData and returns differences.
-func DiffAccessPolicyData(old *ent.BronzeGCPAccessContextManagerAccessPolicy, new *AccessPolicyData) *AccessPolicyDiff {
+func DiffAccessPolicyData(old *entaccesscontextmanager.BronzeGCPAccessContextManagerAccessPolicy, new *AccessPolicyData) *AccessPolicyDiff {
 	diff := &AccessPolicyDiff{}
 
 	if old == nil {

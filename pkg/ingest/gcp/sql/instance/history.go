@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsqlinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpsqlinstancelabel"
+	entgcpsql "github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/bronzehistorygcpsqlinstance"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/bronzehistorygcpsqlinstancelabel"
 )
 
 // HistoryService handles history tracking for SQL instances.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entgcpsql.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entgcpsql.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new instance and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, instanceData *InstanceData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entgcpsql.Tx, instanceData *InstanceData, now time.Time) error {
 	// Create instance history
 	instHistCreate := tx.BronzeHistoryGCPSQLInstance.Create().
 		SetResourceID(instanceData.ResourceID).
@@ -72,7 +72,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, instance
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPSQLInstance, new *InstanceData, diff *InstanceDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entgcpsql.Tx, old *entgcpsql.BronzeGCPSQLInstance, new *InstanceData, diff *InstanceDiff, now time.Time) error {
 	// Get current instance history
 	currentHist, err := tx.BronzeHistoryGCPSQLInstance.Query().
 		Where(
@@ -150,7 +150,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted instance.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entgcpsql.Tx, resourceID string, now time.Time) error {
 	// Get current instance history
 	currentHist, err := tx.BronzeHistoryGCPSQLInstance.Query().
 		Where(
@@ -159,7 +159,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entgcpsql.IsNotFound(err) {
 			return nil // No history to close
 		}
 		return fmt.Errorf("failed to find current instance history: %w", err)
@@ -177,7 +177,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 }
 
 // createChildrenHistory creates history records for all children.
-func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, data *InstanceData, now time.Time) error {
+func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *entgcpsql.Tx, instanceHistoryID uint, data *InstanceData, now time.Time) error {
 	// Labels
 	for _, labelData := range data.Labels {
 		_, err := tx.BronzeHistoryGCPSQLInstanceLabel.Create().
@@ -195,7 +195,7 @@ func (h *HistoryService) createChildrenHistory(ctx context.Context, tx *ent.Tx, 
 }
 
 // closeChildrenHistory closes all children history records.
-func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *entgcpsql.Tx, instanceHistoryID uint, now time.Time) error {
 	// Close labels
 	_, err := tx.BronzeHistoryGCPSQLInstanceLabel.Update().
 		Where(
@@ -212,7 +212,7 @@ func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, i
 }
 
 // updateChildrenHistory updates children history based on diff (granular tracking).
-func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, new *InstanceData, diff *InstanceDiff, now time.Time) error {
+func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *entgcpsql.Tx, instanceHistoryID uint, new *InstanceData, diff *InstanceDiff, now time.Time) error {
 	if diff.LabelsDiff.Changed {
 		if err := h.updateLabelsHistory(ctx, tx, instanceHistoryID, new.Labels, now); err != nil {
 			return err
@@ -222,7 +222,7 @@ func (h *HistoryService) updateChildrenHistory(ctx context.Context, tx *ent.Tx, 
 	return nil
 }
 
-func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, labels []LabelData, now time.Time) error {
+func (h *HistoryService) updateLabelsHistory(ctx context.Context, tx *entgcpsql.Tx, instanceHistoryID uint, labels []LabelData, now time.Time) error {
 	// Close old label history
 	_, err := tx.BronzeHistoryGCPSQLInstanceLabel.Update().
 		Where(

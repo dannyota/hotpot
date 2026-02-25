@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzedovpc"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedovpc"
 )
 
 // Service handles DigitalOcean VPC ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entdo.Client
 	history   *HistoryService
 }
 
 // NewService creates a new VPC ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entdo.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -85,7 +85,7 @@ func (s *Service) saveVPCs(ctx context.Context, vpcs []*VpcData) error {
 		existing, err := tx.BronzeDOVpc.Query().
 			Where(bronzedovpc.ID(data.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entdo.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("load existing VPC %s: %w", data.ResourceID, err)
 		}

@@ -3,7 +3,7 @@ package cluster
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entdataproc "github.com/dannyota/hotpot/pkg/storage/ent/gcp/dataproc"
 )
 
 // ClusterDiff represents changes between old and new Dataproc cluster state.
@@ -18,7 +18,7 @@ func (d *ClusterDiff) HasAnyChange() bool {
 }
 
 // DiffClusterData compares existing Ent entity with new ClusterData and returns differences.
-func DiffClusterData(old *ent.BronzeGCPDataprocCluster, new *ClusterData) *ClusterDiff {
+func DiffClusterData(old *entdataproc.BronzeGCPDataprocCluster, new *ClusterData) *ClusterDiff {
 	diff := &ClusterDiff{}
 
 	if old == nil {

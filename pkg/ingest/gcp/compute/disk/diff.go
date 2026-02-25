@@ -2,7 +2,7 @@ package disk
 
 import (
 	"bytes"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // DiskDiff represents changes between old and new disk states.
@@ -21,7 +21,7 @@ type ChildDiff struct {
 }
 
 // DiffDiskData compares old Ent entity and new DiskData.
-func DiffDiskData(old *ent.BronzeGCPComputeDisk, new *DiskData) *DiskDiff {
+func DiffDiskData(old *entcompute.BronzeGCPComputeDisk, new *DiskData) *DiskDiff {
 	if old == nil {
 		return &DiskDiff{
 			IsNew:        true,
@@ -51,7 +51,7 @@ func (d *DiskDiff) HasAnyChange() bool {
 }
 
 // hasDiskFieldsChanged compares disk-level fields (excluding children).
-func hasDiskFieldsChanged(old *ent.BronzeGCPComputeDisk, new *DiskData) bool {
+func hasDiskFieldsChanged(old *entcompute.BronzeGCPComputeDisk, new *DiskData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Zone != new.Zone ||
@@ -79,7 +79,7 @@ func hasDiskFieldsChanged(old *ent.BronzeGCPComputeDisk, new *DiskData) bool {
 		!bytes.Equal(old.GuestOsFeaturesJSON, new.GuestOsFeaturesJSON)
 }
 
-func diffLabels(old []*ent.BronzeGCPComputeDiskLabel, new []DiskLabelData) ChildDiff {
+func diffLabels(old []*entcompute.BronzeGCPComputeDiskLabel, new []DiskLabelData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -95,7 +95,7 @@ func diffLabels(old []*ent.BronzeGCPComputeDiskLabel, new []DiskLabelData) Child
 	return ChildDiff{Changed: false}
 }
 
-func diffLicenses(old []*ent.BronzeGCPComputeDiskLicense, new []DiskLicenseData) ChildDiff {
+func diffLicenses(old []*entcompute.BronzeGCPComputeDiskLicense, new []DiskLicenseData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

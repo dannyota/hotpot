@@ -3,7 +3,7 @@ package vpngateway
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entvpn "github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn"
 )
 
 // VpnGatewayDiff represents changes between old and new VPN gateway states.
@@ -24,7 +24,7 @@ func (d *VpnGatewayDiff) HasAnyChange() bool {
 }
 
 // DiffVpnGatewayData compares existing Ent entity with new VpnGatewayData.
-func DiffVpnGatewayData(old *ent.BronzeGCPVPNGateway, new *VpnGatewayData) *VpnGatewayDiff {
+func DiffVpnGatewayData(old *entvpn.BronzeGCPVPNGateway, new *VpnGatewayData) *VpnGatewayDiff {
 	diff := &VpnGatewayDiff{}
 
 	// New VPN gateway
@@ -43,7 +43,7 @@ func DiffVpnGatewayData(old *ent.BronzeGCPVPNGateway, new *VpnGatewayData) *VpnG
 }
 
 // hasVpnGatewayFieldsChanged compares VPN gateway-level fields (excluding children).
-func hasVpnGatewayFieldsChanged(old *ent.BronzeGCPVPNGateway, new *VpnGatewayData) bool {
+func hasVpnGatewayFieldsChanged(old *entvpn.BronzeGCPVPNGateway, new *VpnGatewayData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Region != new.Region ||
@@ -56,7 +56,7 @@ func hasVpnGatewayFieldsChanged(old *ent.BronzeGCPVPNGateway, new *VpnGatewayDat
 		!bytes.Equal(old.VpnInterfacesJSON, new.VpnInterfacesJSON)
 }
 
-func diffLabelsData(old []*ent.BronzeGCPVPNGatewayLabel, new []LabelData) ChildDiff {
+func diffLabelsData(old []*entvpn.BronzeGCPVPNGatewayLabel, new []LabelData) ChildDiff {
 	diff := ChildDiff{}
 
 	if len(old) != len(new) {

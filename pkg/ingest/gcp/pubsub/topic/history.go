@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcppubsubtopic"
+	entpubsub "github.com/dannyota/hotpot/pkg/storage/ent/gcp/pubsub"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/pubsub/bronzehistorygcppubsubtopic"
 )
 
 // HistoryService manages Pub/Sub topic history tracking.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entpubsub.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entpubsub.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates initial history records for a new topic.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *TopicData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entpubsub.Tx, data *TopicData, now time.Time) error {
 	create := tx.BronzeHistoryGCPPubSubTopic.Create().
 		SetResourceID(data.ID).
 		SetValidFrom(now).
@@ -54,7 +54,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *To
 }
 
 // UpdateHistory updates history records for a changed topic.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPPubSubTopic, new *TopicData, diff *TopicDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entpubsub.Tx, old *entpubsub.BronzeGCPPubSubTopic, new *TopicData, diff *TopicDiff, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPPubSubTopic.Query().
 		Where(
 			bronzehistorygcppubsubtopic.ResourceID(old.ID),
@@ -109,7 +109,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes all history records for a deleted topic.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entpubsub.Tx, resourceID string, now time.Time) error {
 	currentHistory, err := tx.BronzeHistoryGCPPubSubTopic.Query().
 		Where(
 			bronzehistorygcppubsubtopic.ResourceID(resourceID),
@@ -117,7 +117,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entpubsub.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("failed to find current topic history: %w", err)

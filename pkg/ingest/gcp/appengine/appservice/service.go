@@ -5,21 +5,21 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpappengineapplication"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpappengineservice"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcpappengineapplication"
+	entappengine "github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/bronzegcpappengineapplication"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/bronzegcpappengineservice"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/bronzehistorygcpappengineapplication"
 )
 
 // Service handles App Engine service ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entappengine.Client
 	history   *HistoryService
 }
 
 // NewService creates a new App Engine service ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entappengine.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -120,7 +120,7 @@ func (s *Service) saveServices(ctx context.Context, services []*ServiceData, pro
 		existing, err := tx.BronzeGCPAppEngineService.Query().
 			Where(bronzegcpappengineservice.ID(svcData.ID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entappengine.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing service %s: %w", svcData.ID, err)
 		}

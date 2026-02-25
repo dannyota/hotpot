@@ -1,6 +1,7 @@
 package digitalocean
 
 import (
+	"entgo.io/ent/dialect"
 	"go.temporal.io/sdk/worker"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
@@ -16,18 +17,20 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/project"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/volume"
 	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/vpc"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
 )
 
 // Register registers all DigitalOcean activities and workflows with the Temporal worker.
 // Returns the rate limit service for cleanup (caller should defer Close()).
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client) *ratelimit.Service {
+func Register(w worker.Worker, configService *config.Service, driver dialect.Driver) *ratelimit.Service {
 	rateLimitSvc := ratelimit.NewService(ratelimit.ServiceOptions{
 		RedisConfig: configService.RedisConfig(),
 		KeyPrefix:   "ratelimit:do",
 		ReqPerMin:   configService.DORateLimitPerMinute(),
 	})
 	limiter := rateLimitSvc.Limiter()
+
+	entClient := entdo.NewClient(entdo.Driver(driver), entdo.AlternateSchema(entdo.DefaultSchemaConfig()))
 
 	account.Register(w, configService, entClient, limiter)
 	database.Register(w, configService, entClient, limiter)

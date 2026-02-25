@@ -5,23 +5,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodenetworkroutetable"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygreennodenetworkroutetableroute"
+	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworkroutetable"
+	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworkroutetableroute"
 )
 
 // HistoryService handles history tracking for route tables.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entnet.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entnet.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates history records for a new route table and all children.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *RouteTableData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entnet.Tx, data *RouteTableData, now time.Time) error {
 	rtHist, err := h.createRouteTableHistory(ctx, tx, data, now, data.CollectedAt)
 	if err != nil {
 		return err
@@ -30,7 +30,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *Ro
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGreenNodeNetworkRouteTable, new *RouteTableData, diff *RouteTableDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entnet.Tx, old *entnet.BronzeGreenNodeNetworkRouteTable, new *RouteTableData, diff *RouteTableDiff, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeNetworkRouteTable.Query().
 		Where(
 			bronzehistorygreennodenetworkroutetable.ResourceID(old.ID),
@@ -74,7 +74,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted route table.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entnet.Tx, resourceID string, now time.Time) error {
 	currentHist, err := tx.BronzeHistoryGreenNodeNetworkRouteTable.Query().
 		Where(
 			bronzehistorygreennodenetworkroutetable.ResourceID(resourceID),
@@ -82,7 +82,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		First(ctx)
 	if err != nil {
-		if ent.IsNotFound(err) {
+		if entnet.IsNotFound(err) {
 			return nil
 		}
 		return fmt.Errorf("find current route table history: %w", err)
@@ -97,7 +97,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 	return h.closeRoutesHistory(ctx, tx, currentHist.ID, now)
 }
 
-func (h *HistoryService) createRouteTableHistory(ctx context.Context, tx *ent.Tx, data *RouteTableData, now time.Time, firstCollectedAt time.Time) (*ent.BronzeHistoryGreenNodeNetworkRouteTable, error) {
+func (h *HistoryService) createRouteTableHistory(ctx context.Context, tx *entnet.Tx, data *RouteTableData, now time.Time, firstCollectedAt time.Time) (*entnet.BronzeHistoryGreenNodeNetworkRouteTable, error) {
 	hist, err := tx.BronzeHistoryGreenNodeNetworkRouteTable.Create().
 		SetResourceID(data.UUID).
 		SetValidFrom(now).
@@ -116,7 +116,7 @@ func (h *HistoryService) createRouteTableHistory(ctx context.Context, tx *ent.Tx
 	return hist, nil
 }
 
-func (h *HistoryService) createRoutesHistory(ctx context.Context, tx *ent.Tx, routeTableHistoryID uint, routes []RouteData, now time.Time) error {
+func (h *HistoryService) createRoutesHistory(ctx context.Context, tx *entnet.Tx, routeTableHistoryID uint, routes []RouteData, now time.Time) error {
 	for _, r := range routes {
 		_, err := tx.BronzeHistoryGreenNodeNetworkRouteTableRoute.Create().
 			SetRouteTableHistoryID(routeTableHistoryID).
@@ -135,7 +135,7 @@ func (h *HistoryService) createRoutesHistory(ctx context.Context, tx *ent.Tx, ro
 	return nil
 }
 
-func (h *HistoryService) closeRoutesHistory(ctx context.Context, tx *ent.Tx, routeTableHistoryID uint, now time.Time) error {
+func (h *HistoryService) closeRoutesHistory(ctx context.Context, tx *entnet.Tx, routeTableHistoryID uint, now time.Time) error {
 	_, err := tx.BronzeHistoryGreenNodeNetworkRouteTableRoute.Update().
 		Where(
 			bronzehistorygreennodenetworkroutetableroute.RouteTableHistoryID(routeTableHistoryID),

@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcploggingbucket"
+	entlogging "github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzehistorygcploggingbucket"
 )
 
 // HistoryService handles history tracking for log buckets.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entlogging.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entlogging.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new log bucket.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, bucketData *LogBucketData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entlogging.Tx, bucketData *LogBucketData, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPLoggingBucket.Create().
 		SetResourceID(bucketData.ResourceID).
 		SetValidFrom(now).
@@ -41,7 +41,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, bucketDa
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPLoggingBucket, new *LogBucketData, diff *LogBucketDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entlogging.Tx, old *entlogging.BronzeGCPLoggingBucket, new *LogBucketData, diff *LogBucketDiff, now time.Time) error {
 	if !diff.IsChanged {
 		return nil
 	}
@@ -79,7 +79,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted log bucket.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entlogging.Tx, resourceID string, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPLoggingBucket.Update().
 		Where(
 			bronzehistorygcploggingbucket.ResourceID(resourceID),
@@ -87,7 +87,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		SetValidTo(now).
 		Save(ctx)
-	if ent.IsNotFound(err) {
+	if entlogging.IsNotFound(err) {
 		return nil // No history to close
 	}
 	return err

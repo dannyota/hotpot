@@ -5,17 +5,17 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpiamserviceaccount"
+	entiam "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam/bronzegcpiamserviceaccount"
 )
 
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entiam.Client
 	history   *HistoryService
 }
 
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entiam.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -83,7 +83,7 @@ func (s *Service) saveServiceAccounts(ctx context.Context, accounts []*ServiceAc
 		existing, err := tx.BronzeGCPIAMServiceAccount.Query().
 			Where(bronzegcpiamserviceaccount.ID(saData.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entiam.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing service account %s: %w", saData.Email, err)
 		}

@@ -2,7 +2,7 @@ package instance
 
 import (
 	"bytes"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // InstanceDiff represents changes between old and new instance states.
@@ -25,7 +25,7 @@ type ChildDiff struct {
 }
 
 // DiffInstanceData compares old Ent entity and new data.
-func DiffInstanceData(old *ent.BronzeGCPComputeInstance, new *InstanceData) *InstanceDiff {
+func DiffInstanceData(old *entcompute.BronzeGCPComputeInstance, new *InstanceData) *InstanceDiff {
 	if old == nil {
 		return &InstanceDiff{
 			IsNew:               true,
@@ -68,7 +68,7 @@ func (d *InstanceDiff) HasAnyChange() bool {
 }
 
 // hasInstanceFieldsChanged compares instance-level fields (excluding children).
-func hasInstanceFieldsChanged(old *ent.BronzeGCPComputeInstance, new *InstanceData) bool {
+func hasInstanceFieldsChanged(old *entcompute.BronzeGCPComputeInstance, new *InstanceData) bool {
 	return old.Name != new.Name ||
 		old.Zone != new.Zone ||
 		old.MachineType != new.MachineType ||
@@ -82,7 +82,7 @@ func hasInstanceFieldsChanged(old *ent.BronzeGCPComputeInstance, new *InstanceDa
 		!bytes.Equal(old.SchedulingJSON, new.SchedulingJSON)
 }
 
-func diffDisksData(old []*ent.BronzeGCPComputeInstanceDisk, new []DiskData) ChildDiff {
+func diffDisksData(old []*entcompute.BronzeGCPComputeInstanceDisk, new []DiskData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -94,7 +94,7 @@ func diffDisksData(old []*ent.BronzeGCPComputeInstanceDisk, new []DiskData) Chil
 	return ChildDiff{Changed: false}
 }
 
-func hasDiskChangedData(old *ent.BronzeGCPComputeInstanceDisk, new *DiskData) bool {
+func hasDiskChangedData(old *entcompute.BronzeGCPComputeInstanceDisk, new *DiskData) bool {
 	// Compare fields
 	if old.Source != new.Source ||
 		old.DeviceName != new.DeviceName ||
@@ -122,7 +122,7 @@ func hasDiskChangedData(old *ent.BronzeGCPComputeInstanceDisk, new *DiskData) bo
 	return false
 }
 
-func diffNICsData(old []*ent.BronzeGCPComputeInstanceNIC, new []NICData) ChildDiff {
+func diffNICsData(old []*entcompute.BronzeGCPComputeInstanceNIC, new []NICData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -134,7 +134,7 @@ func diffNICsData(old []*ent.BronzeGCPComputeInstanceNIC, new []NICData) ChildDi
 	return ChildDiff{Changed: false}
 }
 
-func hasNICChangedData(old *ent.BronzeGCPComputeInstanceNIC, new *NICData) bool {
+func hasNICChangedData(old *entcompute.BronzeGCPComputeInstanceNIC, new *NICData) bool {
 	if old.Name != new.Name ||
 		old.Network != new.Network ||
 		old.Subnetwork != new.Subnetwork ||
@@ -171,7 +171,7 @@ func hasNICChangedData(old *ent.BronzeGCPComputeInstanceNIC, new *NICData) bool 
 	return false
 }
 
-func diffLabelsData(old []*ent.BronzeGCPComputeInstanceLabel, new []LabelData) ChildDiff {
+func diffLabelsData(old []*entcompute.BronzeGCPComputeInstanceLabel, new []LabelData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -187,7 +187,7 @@ func diffLabelsData(old []*ent.BronzeGCPComputeInstanceLabel, new []LabelData) C
 	return ChildDiff{Changed: false}
 }
 
-func diffTagsData(old []*ent.BronzeGCPComputeInstanceTag, new []TagData) ChildDiff {
+func diffTagsData(old []*entcompute.BronzeGCPComputeInstanceTag, new []TagData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -203,7 +203,7 @@ func diffTagsData(old []*ent.BronzeGCPComputeInstanceTag, new []TagData) ChildDi
 	return ChildDiff{Changed: false}
 }
 
-func diffMetadataData(old []*ent.BronzeGCPComputeInstanceMetadata, new []MetadataData) ChildDiff {
+func diffMetadataData(old []*entcompute.BronzeGCPComputeInstanceMetadata, new []MetadataData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}
@@ -219,7 +219,7 @@ func diffMetadataData(old []*ent.BronzeGCPComputeInstanceMetadata, new []Metadat
 	return ChildDiff{Changed: false}
 }
 
-func diffServiceAccountsData(old []*ent.BronzeGCPComputeInstanceServiceAccount, new []ServiceAccountData) ChildDiff {
+func diffServiceAccountsData(old []*entcompute.BronzeGCPComputeInstanceServiceAccount, new []ServiceAccountData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

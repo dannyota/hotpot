@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcplogginglogexclusion"
+	entlogging "github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzegcplogginglogexclusion"
 )
 
 // Service handles GCP Cloud Logging log exclusion ingestion.
 type Service struct {
 	client    *Client
-	entClient *ent.Client
+	entClient *entlogging.Client
 	history   *HistoryService
 }
 
 // NewService creates a new log exclusion ingestion service.
-func NewService(client *Client, entClient *ent.Client) *Service {
+func NewService(client *Client, entClient *entlogging.Client) *Service {
 	return &Service{
 		client:    client,
 		entClient: entClient,
@@ -90,7 +90,7 @@ func (s *Service) saveExclusions(ctx context.Context, exclusions []*LogExclusion
 		existing, err := tx.BronzeGCPLoggingLogExclusion.Query().
 			Where(bronzegcplogginglogexclusion.ID(exclusionData.ResourceID)).
 			First(ctx)
-		if err != nil && !ent.IsNotFound(err) {
+		if err != nil && !entlogging.IsNotFound(err) {
 			tx.Rollback()
 			return fmt.Errorf("failed to load existing exclusion %s: %w", exclusionData.Name, err)
 		}

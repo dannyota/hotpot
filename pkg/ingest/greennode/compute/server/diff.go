@@ -3,7 +3,7 @@ package server
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
 )
 
 // ServerDiff represents changes between old and new server states.
@@ -20,7 +20,7 @@ type ChildDiff struct {
 }
 
 // DiffServerData compares old Ent entity and new ServerData.
-func DiffServerData(old *ent.BronzeGreenNodeComputeServer, new *ServerData) *ServerDiff {
+func DiffServerData(old *entcompute.BronzeGreenNodeComputeServer, new *ServerData) *ServerDiff {
 	if old == nil {
 		return &ServerDiff{
 			IsNew:         true,
@@ -40,7 +40,7 @@ func (d *ServerDiff) HasAnyChange() bool {
 	return d.IsNew || d.IsChanged || d.SecGroupsDiff.Changed
 }
 
-func hasServerFieldsChanged(old *ent.BronzeGreenNodeComputeServer, new *ServerData) bool {
+func hasServerFieldsChanged(old *entcompute.BronzeGreenNodeComputeServer, new *ServerData) bool {
 	return old.Name != new.Name ||
 		old.Status != new.Status ||
 		old.Location != new.Location ||
@@ -69,7 +69,7 @@ func hasServerFieldsChanged(old *ent.BronzeGreenNodeComputeServer, new *ServerDa
 		!bytes.Equal(old.InterfacesJSON, new.InterfacesJSON)
 }
 
-func diffSecGroups(old []*ent.BronzeGreenNodeComputeServerSecGroup, new []SecGroupData) ChildDiff {
+func diffSecGroups(old []*entcompute.BronzeGreenNodeComputeServerSecGroup, new []SecGroupData) ChildDiff {
 	if len(old) != len(new) {
 		return ChildDiff{Changed: true}
 	}

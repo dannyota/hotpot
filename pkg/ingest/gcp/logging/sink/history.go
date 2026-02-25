@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorygcploggingsink"
+	entlogging "github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzehistorygcploggingsink"
 )
 
 // HistoryService handles history tracking for sinks.
 type HistoryService struct {
-	entClient *ent.Client
+	entClient *entlogging.Client
 }
 
 // NewHistoryService creates a new history service.
-func NewHistoryService(entClient *ent.Client) *HistoryService {
+func NewHistoryService(entClient *entlogging.Client) *HistoryService {
 	return &HistoryService{entClient: entClient}
 }
 
 // CreateHistory creates a history record for a new sink.
-func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, sinkData *SinkData, now time.Time) error {
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *entlogging.Tx, sinkData *SinkData, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPLoggingSink.Create().
 		SetResourceID(sinkData.ResourceID).
 		SetValidFrom(now).
@@ -41,7 +41,7 @@ func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, sinkData
 }
 
 // UpdateHistory closes old history and creates new history based on diff.
-func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent.BronzeGCPLoggingSink, new *SinkData, diff *SinkDiff, now time.Time) error {
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *entlogging.Tx, old *entlogging.BronzeGCPLoggingSink, new *SinkData, diff *SinkDiff, now time.Time) error {
 	if !diff.IsChanged {
 		return nil
 	}
@@ -79,7 +79,7 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 }
 
 // CloseHistory closes history records for a deleted sink.
-func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceID string, now time.Time) error {
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *entlogging.Tx, resourceID string, now time.Time) error {
 	_, err := tx.BronzeHistoryGCPLoggingSink.Update().
 		Where(
 			bronzehistorygcploggingsink.ResourceID(resourceID),
@@ -87,7 +87,7 @@ func (h *HistoryService) CloseHistory(ctx context.Context, tx *ent.Tx, resourceI
 		).
 		SetValidTo(now).
 		Save(ctx)
-	if ent.IsNotFound(err) {
+	if entlogging.IsNotFound(err) {
 		return nil // No history to close
 	}
 	return err

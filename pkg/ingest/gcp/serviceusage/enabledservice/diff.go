@@ -3,7 +3,7 @@ package enabledservice
 import (
 	"bytes"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent"
+	entserviceusage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/serviceusage"
 )
 
 // EnabledServiceDiff represents changes between old and new enabled service states.
@@ -18,7 +18,7 @@ func (d *EnabledServiceDiff) HasAnyChange() bool {
 }
 
 // DiffEnabledServiceData compares existing Ent entity with new EnabledServiceData and returns differences.
-func DiffEnabledServiceData(old *ent.BronzeGCPServiceUsageEnabledService, new *EnabledServiceData) *EnabledServiceDiff {
+func DiffEnabledServiceData(old *entserviceusage.BronzeGCPServiceUsageEnabledService, new *EnabledServiceData) *EnabledServiceDiff {
 	diff := &EnabledServiceDiff{}
 
 	if old == nil {
