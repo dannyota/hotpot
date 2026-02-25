@@ -2,12 +2,14 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"io/fs"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	"github.com/dannyota/hotpot/deploy/migrations"
@@ -15,7 +17,14 @@ import (
 	"github.com/dannyota/hotpot/pkg/base/app"
 )
 
+// layerOrder controls the order migrations are applied. Bronze tables must
+// exist before bronze_history tables can reference them.
+var layerOrder = []string{"bronze", "bronzehistory", "silver", "gold"}
+
 func main() {
+	providersFlag := flag.String("providers", "", "comma-separated list of providers to migrate (default: all)")
+	flag.Parse()
+
 	ctx := context.Background()
 
 	application, err := app.New(app.Options{})
@@ -54,61 +63,98 @@ func main() {
 		log.Fatalf("Failed to extract migrations: %v", err)
 	}
 
-	// Discover layer subdirectories from the embedded FS.
-	layers, err := layerDirs(tmpDir)
+	// Discover layer/provider pairs from the extracted directory structure.
+	pairs, err := discoverPairs(tmpDir)
 	if err != nil {
-		log.Fatalf("Failed to list layers: %v", err)
+		log.Fatalf("Failed to discover migrations: %v", err)
 	}
 
-	for _, layer := range layers {
-		fmt.Printf("==> %s: atlas migrate apply\n", layer)
+	// Filter to requested providers.
+	if *providersFlag != "" {
+		allowed := map[string]bool{}
+		for _, p := range strings.Split(*providersFlag, ",") {
+			allowed[strings.TrimSpace(p)] = true
+		}
+		var filtered []layerProvider
+		for _, lp := range pairs {
+			if allowed[lp.provider] {
+				filtered = append(filtered, lp)
+			}
+		}
+		pairs = filtered
+	}
 
-		config := buildApplyConfig(layer, postgresURL, tmpDir)
+	if len(pairs) == 0 {
+		log.Fatal("No migration directories found for the requested providers")
+	}
 
-		if err := runAtlasApply(layer, config); err != nil {
-			log.Fatalf("%s failed: %v", layer, err)
+	for _, lp := range pairs {
+		envName := lp.layer + "-" + lp.provider
+		fmt.Printf("==> %s/%s: atlas migrate apply\n", lp.layer, lp.provider)
+
+		config := buildApplyConfig(envName, postgresURL, filepath.Join(tmpDir, lp.layer, lp.provider))
+
+		if err := runAtlasApply(envName, config); err != nil {
+			log.Fatalf("%s/%s failed: %v", lp.layer, lp.provider, err)
 		}
 	}
 
 	fmt.Println("\n✅ Migration complete")
 }
 
-// layerDirs returns the subdirectory names inside dir, sorted alphabetically.
-// These correspond to the migration layers (bronze, bronzehistory, etc.).
-func layerDirs(dir string) ([]string, error) {
-	entries, err := os.ReadDir(dir)
-	if err != nil {
-		return nil, err
-	}
-	var layers []string
-	for _, e := range entries {
-		if e.IsDir() {
-			layers = append(layers, e.Name())
+type layerProvider struct {
+	layer    string
+	provider string
+}
+
+// discoverPairs returns all layer/provider pairs found in the extracted
+// migration directory, sorted in layer-first order (all bronze/* before
+// all bronzehistory/*, etc.).
+func discoverPairs(dir string) ([]layerProvider, error) {
+	var pairs []layerProvider
+	for _, layer := range layerOrder {
+		layerDir := filepath.Join(dir, layer)
+		entries, err := os.ReadDir(layerDir)
+		if err != nil {
+			if os.IsNotExist(err) {
+				continue
+			}
+			return nil, err
+		}
+		// Sort providers alphabetically for deterministic ordering.
+		var providers []string
+		for _, e := range entries {
+			if e.IsDir() {
+				providers = append(providers, e.Name())
+			}
+		}
+		sort.Strings(providers)
+		for _, p := range providers {
+			pairs = append(pairs, layerProvider{layer: layer, provider: p})
 		}
 	}
-	return layers, nil
+	return pairs, nil
 }
 
 // buildApplyConfig returns a minimal Atlas HCL config for applying migrations.
-// No src or dev URL is needed — just the target URL and migration directory.
-func buildApplyConfig(layer, dbURL, tmpDir string) string {
+func buildApplyConfig(envName, dbURL, migDir string) string {
 	var b strings.Builder
-	fmt.Fprintf(&b, "env %q {\n", layer)
+	fmt.Fprintf(&b, "env %q {\n", envName)
 	fmt.Fprintf(&b, "  url = %q\n", dbURL)
-	fmt.Fprintf(&b, "  migration {\n    dir = \"file://%s\"\n  }\n", filepath.Join(tmpDir, layer))
+	fmt.Fprintf(&b, "  migration {\n    dir = \"file://%s\"\n  }\n", migDir)
 	fmt.Fprintf(&b, "}\n")
 	return b.String()
 }
 
-// runAtlasApply executes atlas migrate apply for a layer.
-func runAtlasApply(layer, config string) error {
+// runAtlasApply executes atlas migrate apply for a layer/provider env.
+func runAtlasApply(envName, config string) error {
 	uri, setupCmd, cleanup, err := atlascfg.ConfigPipe(config)
 	if err != nil {
 		return fmt.Errorf("config pipe: %w", err)
 	}
 	defer cleanup()
 
-	cmd := exec.Command("atlas", "migrate", "apply", "--config", uri, "--env", layer)
+	cmd := exec.Command("atlas", "migrate", "apply", "--config", uri, "--env", envName)
 	setupCmd(cmd)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr

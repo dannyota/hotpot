@@ -49,36 +49,10 @@ func main() {
 	if err != nil {
 		log.Fatalf("compute relative path: %v", err)
 	}
-	pkg := callerModule + "/" + filepath.ToSlash(filepath.Join(rel, target))
 
 	discovered := discoverSchemas(schemaRoot)
 
-	// Flatten all schemas across layers for monolithic generation.
-	var allSchemas []schemaInfo
-	for _, schemas := range discovered.byLayer {
-		allSchemas = append(allSchemas, schemas...)
-	}
-
-	// 1. Generate runtime wrappers (all layers combined)
-	runtimeSchemaDir := filepath.Join(target, "schema")
-	os.MkdirAll(runtimeSchemaDir, 0755)
-
-	if err := generateWrappers(runtimeSchemaDir, allSchemas); err != nil {
-		log.Fatalf("generate runtime wrappers: %v", err)
-	}
-
-	// 2. Generate per-layer wrappers for Atlas (with entsql.Schema annotation)
-	for layer, schemas := range discovered.byLayer {
-		atlasSchemaDir := filepath.Join(target, layer, "atlas_schema")
-		os.MkdirAll(atlasSchemaDir, 0755)
-
-		pgSchema := layerToSchema[layer]
-		if err := generateAtlasWrappers(atlasSchemaDir, schemas, pgSchema); err != nil {
-			log.Fatalf("generate atlas wrappers for %s: %v", layer, err)
-		}
-	}
-
-	// 3. Generate per-layer per-provider atlas wrappers
+	// 1. Generate per-provider atlas wrappers (with entsql.Schema annotation)
 	for layer, providerSchemas := range discovered.byLayerProvider {
 		pgSchema := layerToSchema[layer]
 		for provider, schemas := range providerSchemas {
@@ -91,26 +65,7 @@ func main() {
 		}
 	}
 
-	// 4. Generate schema config helper (maps types to PG schemas)
-	if err := generateSchemaConfig(target, "ent", allSchemas); err != nil {
-		log.Fatalf("generate schema config: %v", err)
-	}
-
-	// 5. Run entc ONCE — generates ONE client with all types
-	absRuntimeSchemaDir, err := filepath.Abs(runtimeSchemaDir)
-	if err != nil {
-		log.Fatalf("get abs path: %v", err)
-	}
-
-	if err := entc.Generate(absRuntimeSchemaDir, &gen.Config{
-		Package:  pkg,
-		Target:   target,
-		Features: []gen.Feature{gen.FeatureSchemaConfig},
-	}); err != nil {
-		log.Fatalf("entc generate: %v", err)
-	}
-
-	// 6. Generate per-service ent packages (e.g., ent/gcp/compute/, ent/s1/)
+	// 2. Generate per-service ent packages (e.g., ent/gcp/compute/, ent/s1/)
 	for serviceKey, schemas := range discovered.byService {
 		serviceTarget := filepath.Join("ent", filepath.FromSlash(serviceKey))
 		servicePkg := callerModule + "/" + filepath.ToSlash(filepath.Join(rel, "ent", serviceKey))
@@ -202,16 +157,14 @@ func readModulePath(dir string) (modulePath, modDir string) {
 	return "", ""
 }
 
-// discoverResult holds schemas grouped by layer, by layer+provider, and by service.
+// discoverResult holds schemas grouped by layer+provider and by service.
 type discoverResult struct {
-	byLayer         map[string][]schemaInfo
 	byLayerProvider map[string]map[string][]schemaInfo
 	byService       map[string][]schemaInfo // key: "gcp/compute", "s1", "do", etc.
 }
 
 func discoverSchemas(root string) discoverResult {
 	result := discoverResult{
-		byLayer:         map[string][]schemaInfo{},
 		byLayerProvider: map[string]map[string][]schemaInfo{},
 		byService:       map[string][]schemaInfo{},
 	}
@@ -260,7 +213,6 @@ func discoverSchemas(root string) discoverResult {
 						Alias:      alias,
 						Layer:      layer,
 					}
-					result.byLayer[layer] = append(result.byLayer[layer], si)
 					if provider != "" {
 						if result.byLayerProvider[layer] == nil {
 							result.byLayerProvider[layer] = map[string][]schemaInfo{}

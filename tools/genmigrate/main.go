@@ -100,90 +100,103 @@ func main() {
 	}
 	fmt.Printf("Enabled providers: %s\n", strings.Join(enabledProviders, ", "))
 
-	config := buildDiffConfig(absSchema, postgresURL, enabledProviders)
-
 	for _, layer := range layerOrder {
-		// Check that at least one enabled provider has schemas for this layer.
-		hasSchemas := false
 		for _, provider := range enabledProviders {
-			dir := filepath.Join(absSchema, layer, "atlas_schema", provider)
-			if _, err := os.Stat(dir); err == nil {
-				hasSchemas = true
-				break
+			atlasDir := filepath.Join(absSchema, layer, "atlas_schema", provider)
+			if _, err := os.Stat(atlasDir); err != nil {
+				continue
 			}
-		}
-		if !hasSchemas {
-			continue
-		}
 
-		fmt.Printf("==> %s: atlas migrate diff %s\n", layer, name)
+			migDir := filepath.Join(layer, provider)
+			os.MkdirAll(migDir, 0755)
 
-		if err := runAtlasDiff(name, layer, config); err != nil {
-			log.Fatalf("%s failed: %v", layer, err)
-		}
+			envName := layer + "-" + provider
+			config := buildDiffConfig(envName, atlasDir, migDir, postgresURL)
 
-		if err := renameToSequential(layer); err != nil {
-			log.Fatalf("%s rename failed: %v", layer, err)
+			fmt.Printf("==> %s/%s: atlas migrate diff %s\n", layer, provider, name)
+
+			if err := runAtlasDiff(name, envName, config); err != nil {
+				log.Fatalf("%s/%s failed: %v", layer, provider, err)
+			}
+
+			if err := postProcessSQL(migDir); err != nil {
+				log.Fatalf("%s/%s post-process failed: %v", layer, provider, err)
+			}
+
+			if err := renameToSequential(migDir); err != nil {
+				log.Fatalf("%s/%s rename failed: %v", layer, provider, err)
+			}
 		}
 	}
 
 	fmt.Println("\n✅ Migration diff complete")
 }
 
-// buildDiffConfig returns an Atlas HCL config with src, dev, url, and migration
-// dir for each layer. The src is built from per-provider atlas_schema dirs for
-// the enabled providers only. The same URL is used for both dev and url since
-// genmigrate only runs against a _dev database.
-func buildDiffConfig(schemaDir, dbURL string, providers []string) string {
+// buildDiffConfig returns an Atlas HCL config for a single layer/provider pair.
+func buildDiffConfig(envName, atlasDir, migDir, dbURL string) string {
 	var b strings.Builder
-	for _, layer := range layerOrder {
-		// Collect per-provider atlas_schema dirs that exist for this layer.
-		var providerDirs []string
-		for _, provider := range providers {
-			dir := filepath.Join(schemaDir, layer, "atlas_schema", provider)
-			if _, err := os.Stat(dir); err == nil {
-				providerDirs = append(providerDirs, dir)
-			}
-		}
-		if len(providerDirs) == 0 {
-			continue
-		}
-
-		// Atlas only supports a single ent:// URL. When multiple providers
-		// are enabled, use the combined per-layer atlas_schema dir (which
-		// entcgen generates with all providers' schemas merged).
-		var src string
-		if len(providerDirs) == 1 {
-			src = fmt.Sprintf("\"ent://%s\"", providerDirs[0])
-		} else {
-			combined := filepath.Join(schemaDir, layer, "atlas_schema")
-			src = fmt.Sprintf("\"ent://%s\"", combined)
-		}
-
-		fmt.Fprintf(&b, "env %q {\n", layer)
-		fmt.Fprintf(&b, "  src = %s\n", src)
-		fmt.Fprintf(&b, "  dev = %q\n", dbURL)
-		fmt.Fprintf(&b, "  url = %q\n", dbURL)
-		fmt.Fprintf(&b, "  migration {\n    dir = \"file://%s\"\n  }\n", layer)
-		fmt.Fprintf(&b, "}\n")
-	}
+	fmt.Fprintf(&b, "env %q {\n", envName)
+	fmt.Fprintf(&b, "  src = \"ent://%s\"\n", atlasDir)
+	fmt.Fprintf(&b, "  dev = %q\n", dbURL)
+	fmt.Fprintf(&b, "  url = %q\n", dbURL)
+	fmt.Fprintf(&b, "  migration {\n    dir = \"file://%s\"\n  }\n", migDir)
+	fmt.Fprintf(&b, "}\n")
 	return b.String()
 }
 
-// runAtlasDiff executes atlas migrate diff for a layer.
-func runAtlasDiff(name, layer, config string) error {
+// runAtlasDiff executes atlas migrate diff for a layer/provider env.
+func runAtlasDiff(name, envName, config string) error {
 	uri, setupCmd, cleanup, err := atlascfg.ConfigPipe(config)
 	if err != nil {
 		return fmt.Errorf("config pipe: %w", err)
 	}
 	defer cleanup()
 
-	cmd := exec.Command("atlas", "migrate", "diff", name, "--config", uri, "--env", layer)
+	cmd := exec.Command("atlas", "migrate", "diff", name, "--config", uri, "--env", envName)
 	setupCmd(cmd)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
 	return cmd.Run()
+}
+
+// createSchemaRe matches CREATE SCHEMA statements that should use IF NOT EXISTS.
+// Multiple providers share the same PG schema (e.g. "bronze"), so each provider's
+// migration must be safe to run even if the schema already exists.
+var createSchemaRe = regexp.MustCompile(`(?i)CREATE SCHEMA "([^"]+)"`)
+
+// postProcessSQL rewrites CREATE SCHEMA to CREATE SCHEMA IF NOT EXISTS in all
+// .sql files in the given directory, then rehashes to keep atlas.sum consistent.
+func postProcessSQL(dir string) error {
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		return err
+	}
+
+	modified := false
+	for _, e := range entries {
+		if !strings.HasSuffix(e.Name(), ".sql") {
+			continue
+		}
+		path := filepath.Join(dir, e.Name())
+		data, err := os.ReadFile(path)
+		if err != nil {
+			return fmt.Errorf("read %s: %w", path, err)
+		}
+
+		replaced := createSchemaRe.ReplaceAllString(string(data), `CREATE SCHEMA IF NOT EXISTS "$1"`)
+		if replaced != string(data) {
+			if err := os.WriteFile(path, []byte(replaced), 0644); err != nil {
+				return fmt.Errorf("write %s: %w", path, err)
+			}
+			modified = true
+		}
+	}
+
+	if modified {
+		return rehash(dir)
+	}
+	return nil
 }
 
 // timestampRe matches Atlas's default timestamp-prefixed migration files (e.g. "20260208154545_initial.sql").
@@ -192,40 +205,33 @@ var timestampRe = regexp.MustCompile(`^\d{14}_(.+)\.sql$`)
 // seqRe matches sequential migration files (e.g. "0001_initial.sql").
 var seqRe = regexp.MustCompile(`^(\d{4})_.+\.sql$`)
 
-// maxSeqAcrossLayers scans all layer directories and returns the highest
-// sequential migration number found. This gives us a global counter so
-// versions are unique across layers and don't collide in the shared
-// atlas_schema_revisions table.
-func maxSeqAcrossLayers() int {
+// maxSeqInDir returns the highest sequential migration number in the given directory.
+func maxSeqInDir(dir string) int {
 	max := 0
-	for _, layer := range layerOrder {
-		entries, err := os.ReadDir(layer)
-		if err != nil {
-			continue
-		}
-		for _, e := range entries {
-			if m := seqRe.FindStringSubmatch(e.Name()); m != nil {
-				n := 0
-				fmt.Sscanf(m[1], "%d", &n)
-				if n > max {
-					max = n
-				}
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		return 0
+	}
+	for _, e := range entries {
+		if m := seqRe.FindStringSubmatch(e.Name()); m != nil {
+			n := 0
+			fmt.Sscanf(m[1], "%d", &n)
+			if n > max {
+				max = n
 			}
 		}
 	}
 	return max
 }
 
-// renameToSequential renames any timestamp-prefixed .sql files in the layer's
-// migration directory to use globally-unique zero-padded sequential numbers
-// (0001_, 0002_, …). After renaming it rehashes so atlas.sum stays consistent.
-func renameToSequential(layer string) error {
-	entries, err := os.ReadDir(layer)
+// renameToSequential renames any timestamp-prefixed .sql files in the directory
+// to use zero-padded sequential numbers (0001_, 0002_, …), then rehashes.
+func renameToSequential(dir string) error {
+	entries, err := os.ReadDir(dir)
 	if err != nil {
 		return err
 	}
 
-	// Find timestamp-prefixed files that need renaming, sorted by name
 	var toRename []string
 	for _, e := range entries {
 		if timestampRe.MatchString(e.Name()) {
@@ -237,27 +243,29 @@ func renameToSequential(layer string) error {
 	}
 	sort.Strings(toRename)
 
-	seq := maxSeqAcrossLayers()
+	seq := maxSeqInDir(dir)
 	for _, old := range toRename {
 		seq++
-		name := timestampRe.FindStringSubmatch(old)[1] // e.g. "initial"
+		name := timestampRe.FindStringSubmatch(old)[1]
 		newName := fmt.Sprintf("%04d_%s.sql", seq, name)
 
-		oldPath := filepath.Join(layer, old)
-		newPath := filepath.Join(layer, newName)
+		oldPath := filepath.Join(dir, old)
+		newPath := filepath.Join(dir, newName)
 		fmt.Printf("    rename: %s -> %s\n", old, newName)
 		if err := os.Rename(oldPath, newPath); err != nil {
 			return fmt.Errorf("rename %s: %w", old, err)
 		}
 	}
 
-	// Rehash so atlas.sum matches the new filenames
-	cmd := exec.Command("atlas", "migrate", "hash", "--dir", fmt.Sprintf("file://%s", layer))
+	return rehash(dir)
+}
+
+func rehash(dir string) error {
+	cmd := exec.Command("atlas", "migrate", "hash", "--dir", fmt.Sprintf("file://%s", dir))
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
 		return fmt.Errorf("rehash: %w", err)
 	}
-
 	return nil
 }
