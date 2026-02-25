@@ -6,7 +6,8 @@ Hotpot follows the **Medallion Data Architecture** pattern, designed as independ
 flowchart TD
     subgraph Sources["External Sources"]
         GCP[GCP] ~~~ GN[GreenNode]
-        S1[SentinelOne] ~~~ OTHER[Others...]
+        S1[SentinelOne] ~~~ DO[DigitalOcean]
+        VAULT[Vault] ~~~ AWS[AWS]
     end
 
     subgraph Orchestration["Orchestration"]
@@ -80,13 +81,23 @@ hotpot/
 │   │
 │   ├── storage/                # Generated ent code
 │   │   ├── entc.go             # Schema auto-discovery
-│   │   └── ent/                # Generated client (DO NOT EDIT)
+│   │   └── ent/                # Generated clients (DO NOT EDIT)
+│   │       ├── client.go       # Monolithic client (migration only)
+│   │       ├── gcp/compute/    # Per-service: GCP Compute
+│   │       ├── gcp/vpn/        # Per-service: GCP VPN
+│   │       ├── s1/             # Per-service: SentinelOne
+│   │       ├── greennode/      # Per-service: GreenNode
+│   │       └── ...
 │   │
 │   ├── ingest/                 # Bronze: data collection
 │   │   ├── run.go
+│   │   ├── registry.go         # Provider self-registration
 │   │   ├── gcp/
 │   │   ├── greennode/
-│   │   └── sentinelone/
+│   │   ├── sentinelone/
+│   │   ├── digitalocean/
+│   │   ├── vault/
+│   │   └── aws/
 │   │
 │   ├── normalize/              # Silver: transformation
 │   │   ├── run.go
@@ -113,11 +124,13 @@ Each layer runs as an independent Temporal worker. Admin UI uses Metabase (exter
 ### Entry Point Pattern
 
 ```
-cmd/ingest/main.go      →  imports pkg/ingest  →  calls ingest.Run()
-cmd/migrate/main.go     →  imports pkg/migrate  →  calls migrate.Run()
+cmd/ingest/main.go          →  imports all providers     →  calls ingest.Run()
+cmd/ingest-gcp/main.go      →  imports GCP provider only →  calls ingest.Run()
+cmd/ingest-greennode/main.go →  imports GreenNode only    →  calls ingest.Run()
+cmd/migrate/main.go          →  imports pkg/migrate       →  calls migrate.Run()
 ```
 
-`cmd/` contains only production binaries. Dev tools live in `tools/`. All logic lives in `pkg/`.
+Per-provider binaries import only the provider they need, resulting in smaller binaries. `cmd/` contains only production binaries. Dev tools live in `tools/`. All logic lives in `pkg/`.
 
 ### Task Queues
 
@@ -126,7 +139,9 @@ cmd/migrate/main.go     →  imports pkg/migrate  →  calls migrate.Run()
 | ingest | `hotpot-ingest-gcp` | GCP inventory collection |
 | ingest | `hotpot-ingest-greennode` | GreenNode collection |
 | ingest | `hotpot-ingest-s1` | SentinelOne collection |
-| ingest | `hotpot-ingest-fortinet` | Fortinet collection |
+| ingest | `hotpot-ingest-do` | DigitalOcean collection |
+| ingest | `hotpot-ingest-vault` | Vault collection |
+| ingest | `hotpot-ingest-aws` | AWS collection |
 | normalize | `hotpot-normalize` | Data normalization |
 | detect | `hotpot-detect` | Detection rules |
 
@@ -272,15 +287,17 @@ pkg/schema/
     └── alerts/
 ```
 
-Ent generates a unified client in `pkg/storage/ent/`:
+Ent generates **per-service clients** in `pkg/storage/ent/{provider}/{service}/`:
 
 ```go
-import "hotpot/pkg/storage/ent"
+import entcompute "hotpot/pkg/storage/ent/gcp/compute"
 
-// All schemas in one client
+// Per-service client — only includes types for that service
+client := entcompute.NewClient(entcompute.Driver(driver), entcompute.AlternateSchema(entcompute.DefaultSchemaConfig()))
 client.BronzeGCPComputeInstance.Query()...
-client.SilverEnrichedAsset.Query()...
 ```
+
+Each provider binary only links the ent types it uses, reducing binary size significantly.
 
 ## 📈 Scaling
 
@@ -304,7 +321,7 @@ kubectl scale deployment hotpot-detect --replicas=3
 | Language | Go |
 | Workflow Engine | Temporal |
 | Database | PostgreSQL + Ent |
-| Dependency Injection | uber-go/dig |
+| Database Driver | dialect.Driver (shared, per-service clients created from it) |
 | Admin UI | Metabase |
 | Deployment | Docker + Kubernetes |
 

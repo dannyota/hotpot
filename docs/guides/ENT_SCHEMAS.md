@@ -413,8 +413,8 @@ go generate
 This runs `tools/entcgen/main.go` which:
 1. Discovers all schemas in `pkg/schema/`
 2. Generates wrapper structs
-3. Runs ent code generation
-4. Creates `pkg/storage/ent/` with all client code
+3. Runs monolithic ent code generation → `pkg/storage/ent/`
+4. Runs per-service ent code generation → `pkg/storage/ent/{provider}/{service}/`
 
 ## 🩹 Workaround: Ent Issue #2330
 

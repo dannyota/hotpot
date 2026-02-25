@@ -28,16 +28,18 @@ pkg/ingest/{provider}/{resource}/
 
 ## 🏗️ Activity Struct
 
-Hold dependencies, not state:
+Hold dependencies, not state. The ent client is a **per-service client** (not the monolithic one):
 
 ```go
+import entcompute "hotpot/pkg/storage/ent/gcp/compute"
+
 type Activities struct {
     configService *config.Service
-    entClient     *ent.Client
+    entClient     *entcompute.Client
     limiter       ratelimit.Limiter
 }
 
-func NewActivities(configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) *Activities {
+func NewActivities(configService *config.Service, entClient *entcompute.Client, limiter ratelimit.Limiter) *Activities {
     return &Activities{
         configService: configService,
         entClient:     entClient,
@@ -137,7 +139,9 @@ func (a *Activities) IngestComputeInstances(ctx context.Context, params IngestCo
 ## 📋 Registration
 
 ```go
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
+import entcompute "hotpot/pkg/storage/ent/gcp/compute"
+
+func Register(w worker.Worker, configService *config.Service, entClient *entcompute.Client, limiter ratelimit.Limiter) {
     activities := NewActivities(configService, entClient, limiter)
     w.RegisterActivity(activities.IngestComputeInstances)
     w.RegisterWorkflow(GCPComputeInstanceWorkflow)
@@ -199,11 +203,11 @@ Provider (gcp/)
 
 ### Level 1: Provider Register
 
-Creates a shared rate limiter, passes it to all services:
+Creates a shared rate limiter, passes `dialect.Driver` to all services:
 
 ```go
 // pkg/ingest/gcp/register.go
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client) *ratelimit.Service {
+func Register(w worker.Worker, configService *config.Service, driver dialect.Driver) *ratelimit.Service {
     rateLimitSvc := ratelimit.NewService(ratelimit.ServiceOptions{
         RedisConfig: configService.RedisConfig(),
         KeyPrefix:   "ratelimit:gcp",
@@ -211,8 +215,8 @@ func Register(w worker.Worker, configService *config.Service, entClient *ent.Cli
     })
     limiter := rateLimitSvc.Limiter()
 
-    compute.Register(w, configService, entClient, limiter)
-    container.Register(w, configService, entClient, limiter)
+    compute.Register(w, configService, driver, limiter)
+    container.Register(w, configService, driver, limiter)
     // ... more services
 
     w.RegisterWorkflow(GCPInventoryWorkflow)
@@ -222,11 +226,14 @@ func Register(w worker.Worker, configService *config.Service, entClient *ent.Cli
 
 ### Level 2: Service Register
 
-Calls resource-level Register, registers service workflow:
+Creates per-service ent client from `dialect.Driver`, passes it to resources:
 
 ```go
 // pkg/ingest/gcp/compute/register.go
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
+import entcompute "hotpot/pkg/storage/ent/gcp/compute"
+
+func Register(w worker.Worker, configService *config.Service, driver dialect.Driver, limiter ratelimit.Limiter) {
+    entClient := entcompute.NewClient(entcompute.Driver(driver), entcompute.AlternateSchema(entcompute.DefaultSchemaConfig()))
     instance.Register(w, configService, entClient, limiter)
     disk.Register(w, configService, entClient, limiter)
     network.Register(w, configService, entClient, limiter)
@@ -237,11 +244,13 @@ func Register(w worker.Worker, configService *config.Service, entClient *ent.Cli
 
 ### Level 3: Resource Register
 
-Registers activities and workflow:
+Receives per-service ent client, registers activities and workflow:
 
 ```go
 // pkg/ingest/gcp/compute/instance/register.go
-func Register(w worker.Worker, configService *config.Service, entClient *ent.Client, limiter ratelimit.Limiter) {
+import entcompute "hotpot/pkg/storage/ent/gcp/compute"
+
+func Register(w worker.Worker, configService *config.Service, entClient *entcompute.Client, limiter ratelimit.Limiter) {
     activities := NewActivities(configService, entClient, limiter)
     w.RegisterActivity(activities.IngestComputeInstances)
     w.RegisterWorkflow(GCPComputeInstanceWorkflow)
@@ -304,8 +313,8 @@ See [ENT_SCHEMAS.md](ENT_SCHEMAS.md) for ent schema patterns.
 Service layer handles history tracking:
 
 ```go
-// In service.go
-func (s *Service) saveInstances(ctx context.Context, instances []*ent.BronzeGCPComputeInstance) error {
+// In service.go (uses per-service ent client, e.g., *entcompute.Client)
+func (s *Service) saveInstances(ctx context.Context, instances []*entcompute.BronzeGCPComputeInstance) error {
     // 1. Query existing with edges loaded
     // 2. Compute diff
     // 3. Skip if no changes (update collected_at only)
@@ -324,6 +333,8 @@ func (s *Service) DeleteStaleInstances(ctx context.Context, projectID string, co
 See [HISTORY.md](../architecture/HISTORY.md) for history tracking details.
 
 ## 🗄️ Ent Client Usage
+
+All examples use per-service ent clients (e.g., `*entcompute.Client`):
 
 ### Querying
 

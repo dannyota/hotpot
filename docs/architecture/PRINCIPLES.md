@@ -34,8 +34,11 @@ pkg/schema/                 # Ent schemas (auto-discovered)
 └── gold/                   # Gold schemas
 
 pkg/storage/ent/            # Generated code (DO NOT EDIT)
-├── client.go               # Unified ent client
-├── bronzegcpcomputeinstance.go
+├── client.go               # Monolithic client (migration only)
+├── gcp/compute/            # Per-service: GCP Compute types
+├── gcp/vpn/                # Per-service: GCP VPN types
+├── s1/                     # Per-service: SentinelOne types
+├── greennode/              # Per-service: GreenNode types
 └── ...
 ```
 
@@ -68,8 +71,8 @@ gold.alerts               -- Security alerts
 // Wrong: importing another layer
 import "hotpot/pkg/ingest/gcp"
 
-// Correct: use generated ent client
-import "hotpot/pkg/storage/ent"
+// Correct: use per-service ent client
+import entcompute "hotpot/pkg/storage/ent/gcp/compute"
 
 instances, err := client.BronzeGCPComputeInstance.Query().All(ctx)
 ```
@@ -101,17 +104,19 @@ See [WORKFLOWS.md](../guides/WORKFLOWS.md) for details.
 
 ## 🏗️ 6. Activities Pattern
 
-Activities use a struct to hold dependencies:
+Activities use a struct to hold dependencies. The ent client is a **per-service client** (not the monolithic one):
 
 ```go
 // activities.go
+import entcompute "hotpot/pkg/storage/ent/gcp/compute"
+
 type Activities struct {
     configService *config.Service
-    db            *ent.Client
-    limiter       *rate.Limiter
+    entClient     *entcompute.Client
+    limiter       ratelimit.Limiter
 }
 
-func NewActivities(configService *config.Service, db *ent.Client, limiter *rate.Limiter) *Activities {
+func NewActivities(configService *config.Service, entClient *entcompute.Client, limiter ratelimit.Limiter) *Activities {
     return &Activities{configService: configService, entClient: entClient, limiter: limiter}
 }
 
@@ -138,11 +143,12 @@ See [ACTIVITIES.md](../guides/ACTIVITIES.md) for details.
 
 ## 📋 7. Register Pattern
 
-Each package has `register.go` to register workflows and activities:
+Each package has `register.go` to register workflows and activities. The 3-level hierarchy uses `dialect.Driver` at provider/service level, and per-service ent clients at resource level:
 
 ```go
 // pkg/ingest/gcp/compute/register.go
-func Register(w worker.Worker, configService *config.Service, db *ent.Client, limiter *rate.Limiter) {
+func Register(w worker.Worker, configService *config.Service, driver dialect.Driver, limiter ratelimit.Limiter) {
+    entClient := entcompute.NewClient(entcompute.Driver(driver), entcompute.AlternateSchema(entcompute.DefaultSchemaConfig()))
     instance.Register(w, configService, entClient, limiter)
     w.RegisterWorkflow(ComputeWorkflow)
 }

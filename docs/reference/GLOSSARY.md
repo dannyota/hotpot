@@ -29,6 +29,9 @@
 | **GCP** | Google Cloud Platform | Cloud inventory |
 | **GreenNode** | GreenNode (formerly VNG Cloud) | Cloud inventory |
 | **S1** | SentinelOne | EDR/Endpoint security |
+| **DO** | DigitalOcean | Cloud inventory |
+| **Vault** | HashiCorp Vault | Secrets/PKI management |
+| **AWS** | Amazon Web Services | Cloud inventory |
 | **SCC** | Security Command Center (GCP) | Vulnerability scanner |
 
 ## ⚙️ Tech Stack
@@ -39,7 +42,7 @@
 | **Activity** | Single unit of work in Temporal |
 | **Workflow** | Orchestrates multiple activities |
 | **Ent** | Type-safe Go entity framework |
-| **DI / dig** | Dependency injection (uber-go/dig) |
+| **dialect.Driver** | Shared database driver, used to create per-service ent clients |
 
 ## 🗄️ Database
 
@@ -55,7 +58,7 @@
 | **client.go** | External API client wrapper |
 | **activities.go** | Temporal activity definitions |
 | **workflows.go** | Temporal workflow definitions |
-| **container.go** | Dependency injection setup |
+| **provider.go** | Provider self-registration via init() |
 | **run.go** | Module entry point (`Run()` function) |
 
 ## 🤖 Agent Terms

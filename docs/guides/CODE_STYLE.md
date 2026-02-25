@@ -196,7 +196,7 @@ import (
     "entgo.io/ent/schema/field"
 
     "hotpot/pkg/schema/bronze/mixin"
-    "hotpot/pkg/storage/ent"
+    entcompute "hotpot/pkg/storage/ent/gcp/compute"  // per-service ent client
 )
 ```
 
@@ -244,9 +244,11 @@ func (BronzeGCPComputeInstanceDisk) Edges() []ent.Edge {
 
 ### Querying with Edges
 
+All examples use per-service ent clients (e.g., `*entcompute.Client`):
+
 ```go
 // Load all edges
-instance, err := client.BronzeGCPComputeInstance.Query().
+instance, err := entClient.BronzeGCPComputeInstance.Query().
     Where(bronzegcpcomputeinstance.IDEQ(id)).
     WithDisks().
     WithLabels().
@@ -254,7 +256,7 @@ instance, err := client.BronzeGCPComputeInstance.Query().
     Only(ctx)
 
 // Filter through edges
-instances, err := client.BronzeGCPComputeInstance.Query().
+instances, err := entClient.BronzeGCPComputeInstance.Query().
     Where(bronzegcpcomputeinstance.HasDisksWith(
         bronzegcpcomputeinstancedisk.SourceEQ("image-1"),
     )).
@@ -264,7 +266,7 @@ instances, err := client.BronzeGCPComputeInstance.Query().
 ### Transactions
 
 ```go
-tx, err := client.Tx(ctx)
+tx, err := entClient.Tx(ctx)
 if err != nil {
     return err
 }
