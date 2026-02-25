@@ -12,8 +12,7 @@ import (
 
 //go:generate go run github.com/dannyota/hotpot/tools/ingestgen
 
-var _ = ingest.ProviderSet("gcp", "greennode", "sentinelone")
-var _ = ingest.DisableServiceSet("greennode", "dns", "glb", "loadbalancer")
+var _ = ingest.ProviderSet("sentinelone")
 
 func main() {
 	slog.SetDefault(logger.New(slog.LevelInfo))

@@ -3,6 +3,7 @@
 package main
 
 import (
+	_ "github.com/dannyota/hotpot/pkg/ingest/greennode"
 	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/compute"
 	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/network"
 	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/portal"

@@ -3,6 +3,7 @@
 package main
 
 import (
+	_ "github.com/dannyota/hotpot/pkg/ingest/gcp"
 	_ "github.com/dannyota/hotpot/pkg/ingest/gcp/accesscontextmanager"
 	_ "github.com/dannyota/hotpot/pkg/ingest/gcp/alloydb"
 	_ "github.com/dannyota/hotpot/pkg/ingest/gcp/appengine"
@@ -34,4 +35,18 @@ import (
 	_ "github.com/dannyota/hotpot/pkg/ingest/gcp/sql"
 	_ "github.com/dannyota/hotpot/pkg/ingest/gcp/storage"
 	_ "github.com/dannyota/hotpot/pkg/ingest/gcp/vpcaccess"
+	_ "github.com/dannyota/hotpot/pkg/ingest/greennode"
+	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/compute"
+	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/network"
+	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/portal"
+	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/volume"
+	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone"
+	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/account"
+	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/agent"
+	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/app"
+	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/group"
+	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_device"
+	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_gateway"
+	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_setting"
+	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/site"
 )

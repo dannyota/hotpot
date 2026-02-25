@@ -1,4 +1,4 @@
-// ingestgen generates blank import files for the ingest binary based on
+// ingestgen generates a single blank import file for the ingest binary based on
 // ProviderSet() and DisableServiceSet() declarations in the calling package.
 //
 // Usage: go generate (from a cmd/ingest* directory containing build.go)
@@ -42,22 +42,18 @@ func main() {
 		log.Printf("ingestgen: disabled services: %v", disabledServices)
 	}
 
-	// Validate providers exist and discover services.
-	type providerInfo struct {
-		name     string
-		services []string // nil if no service subdirs
-	}
-
-	var infos []providerInfo
+	// Collect all imports: providers + their services.
+	var imports []string
 	for _, name := range providers {
 		providerDir := filepath.Join(ingestDir, name)
 		if _, err := os.Stat(filepath.Join(providerDir, "provider.go")); err != nil {
 			log.Fatalf("provider %q: missing provider.go in %s", name, providerDir)
 		}
 
+		imports = append(imports, hotpotModule+"/pkg/ingest/"+name)
+
 		services := discoverServices(providerDir)
 		if len(services) > 0 {
-			// Filter out disabled services.
 			disabled := disabledServices[name]
 			var enabled []string
 			for _, svc := range services {
@@ -65,38 +61,22 @@ func main() {
 					enabled = append(enabled, svc)
 				}
 			}
-			services = enabled
-			sort.Strings(services)
-			log.Printf("ingestgen: %s services: %v", name, services)
+			sort.Strings(enabled)
+			if len(enabled) > 0 {
+				log.Printf("ingestgen: %s services: %v", name, enabled)
+			}
+			for _, svc := range enabled {
+				imports = append(imports, hotpotModule+"/pkg/ingest/"+name+"/"+svc)
+			}
 		}
-
-		infos = append(infos, providerInfo{name: name, services: services})
 	}
 
-	// Generate providers_gen.go.
-	var providerImports []string
-	for _, info := range infos {
-		providerImports = append(providerImports, hotpotModule+"/pkg/ingest/"+info.name)
-	}
-	writeGenFile(filepath.Join(cwd, "providers_gen.go"), providerImports)
+	// Write single generated file.
+	outPath := filepath.Join(cwd, "imports_gen.go")
+	writeGenFile(outPath, imports)
 
-	// Generate {name}_services_gen.go for each provider that has services.
-	for _, info := range infos {
-		genFile := filepath.Join(cwd, info.name+"_services_gen.go")
-		if len(info.services) == 0 {
-			// Clean up stale file if provider has no services.
-			os.Remove(genFile)
-			continue
-		}
-		var serviceImports []string
-		for _, svc := range info.services {
-			serviceImports = append(serviceImports, hotpotModule+"/pkg/ingest/"+info.name+"/"+svc)
-		}
-		writeGenFile(genFile, serviceImports)
-	}
-
-	// Clean up stale *_services_gen.go files for providers no longer listed.
-	cleanStaleFiles(cwd, providers)
+	// Clean up old multi-file output from previous versions.
+	cleanStaleFiles(cwd)
 }
 
 // parseDeclarations parses Go files in dir (excluding *_gen.go) and extracts
@@ -194,9 +174,9 @@ func writeGenFile(path string, imports []string) {
 	log.Printf("ingestgen: wrote %s", filepath.Base(path))
 }
 
-// cleanStaleFiles removes *_services_gen.go files for providers that are no
-// longer in the declared list.
-func cleanStaleFiles(dir string, providers []string) {
+// cleanStaleFiles removes old multi-file generated output (providers_gen.go,
+// *_services_gen.go) from previous versions of ingestgen.
+func cleanStaleFiles(dir string) {
 	entries, err := os.ReadDir(dir)
 	if err != nil {
 		return
@@ -204,11 +184,11 @@ func cleanStaleFiles(dir string, providers []string) {
 
 	for _, entry := range entries {
 		name := entry.Name()
-		if !strings.HasSuffix(name, "_services_gen.go") {
+		if name == "imports_gen.go" {
 			continue
 		}
-		provider := strings.TrimSuffix(name, "_services_gen.go")
-		if !slices.Contains(providers, provider) {
+		// Clean up old multi-file output: providers_gen.go, *_services_gen.go, ingestgen_gen.go.
+		if name == "providers_gen.go" || name == "ingestgen_gen.go" || strings.HasSuffix(name, "_services_gen.go") {
 			path := filepath.Join(dir, name)
 			if err := os.Remove(path); err != nil {
 				log.Printf("ingestgen: warning: cannot remove stale %s: %v", name, err)

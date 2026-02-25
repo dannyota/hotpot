@@ -3,6 +3,7 @@
 package main
 
 import (
+	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/account"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/agent"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/app"
