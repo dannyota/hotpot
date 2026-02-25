@@ -1,46 +1,80 @@
 -- Add new schema named "bronze"
 CREATE SCHEMA "bronze";
--- Create "gcp_orgpolicy_constraints" table
-CREATE TABLE "bronze"."gcp_orgpolicy_constraints" (
+-- Create "gcp_pubsub_subscriptions" table
+CREATE TABLE "bronze"."gcp_pubsub_subscriptions" (
   "resource_id" character varying NOT NULL,
   "collected_at" timestamptz NOT NULL,
   "first_collected_at" timestamptz NOT NULL,
-  "display_name" character varying NULL,
-  "description" character varying NULL,
-  "constraint_default" bigint NOT NULL DEFAULT 0,
-  "supports_dry_run" boolean NOT NULL DEFAULT false,
-  "supports_simulation" boolean NOT NULL DEFAULT false,
-  "list_constraint" jsonb NULL,
-  "boolean_constraint" jsonb NULL,
-  "organization_id" character varying NOT NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcporgpolicyconstraint_collected_at" to table: "gcp_orgpolicy_constraints"
-CREATE INDEX "bronzegcporgpolicyconstraint_collected_at" ON "bronze"."gcp_orgpolicy_constraints" ("collected_at");
--- Create index "bronzegcporgpolicyconstraint_organization_id" to table: "gcp_orgpolicy_constraints"
-CREATE INDEX "bronzegcporgpolicyconstraint_organization_id" ON "bronze"."gcp_orgpolicy_constraints" ("organization_id");
--- Create "gcp_compute_neg_endpoints" table
-CREATE TABLE "bronze"."gcp_compute_neg_endpoints" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "instance" character varying NULL,
-  "ip_address" character varying NULL,
-  "ipv6_address" character varying NULL,
-  "port" character varying NULL,
-  "fqdn" character varying NULL,
-  "annotations_json" jsonb NULL,
-  "neg_name" character varying NOT NULL,
-  "zone" character varying NULL,
+  "name" character varying NOT NULL,
+  "topic" character varying NULL,
+  "push_config_json" jsonb NULL,
+  "bigquery_config_json" jsonb NULL,
+  "cloud_storage_config_json" jsonb NULL,
+  "ack_deadline_seconds" bigint NULL,
+  "retain_acked_messages" boolean NOT NULL DEFAULT false,
+  "message_retention_duration" character varying NULL,
+  "labels_json" jsonb NULL,
+  "enable_message_ordering" boolean NOT NULL DEFAULT false,
+  "expiration_policy_json" jsonb NULL,
+  "filter" character varying NULL,
+  "dead_letter_policy_json" jsonb NULL,
+  "retry_policy_json" jsonb NULL,
+  "detached" boolean NOT NULL DEFAULT false,
+  "enable_exactly_once_delivery" boolean NOT NULL DEFAULT false,
+  "state" bigint NULL,
   "project_id" character varying NOT NULL,
   PRIMARY KEY ("resource_id")
 );
--- Create index "bronzegcpcomputenegendpoint_collected_at" to table: "gcp_compute_neg_endpoints"
-CREATE INDEX "bronzegcpcomputenegendpoint_collected_at" ON "bronze"."gcp_compute_neg_endpoints" ("collected_at");
--- Create index "bronzegcpcomputenegendpoint_neg_name" to table: "gcp_compute_neg_endpoints"
-CREATE INDEX "bronzegcpcomputenegendpoint_neg_name" ON "bronze"."gcp_compute_neg_endpoints" ("neg_name");
--- Create index "bronzegcpcomputenegendpoint_project_id" to table: "gcp_compute_neg_endpoints"
-CREATE INDEX "bronzegcpcomputenegendpoint_project_id" ON "bronze"."gcp_compute_neg_endpoints" ("project_id");
+-- Create index "bronzegcppubsubsubscription_collected_at" to table: "gcp_pubsub_subscriptions"
+CREATE INDEX "bronzegcppubsubsubscription_collected_at" ON "bronze"."gcp_pubsub_subscriptions" ("collected_at");
+-- Create index "bronzegcppubsubsubscription_project_id" to table: "gcp_pubsub_subscriptions"
+CREATE INDEX "bronzegcppubsubsubscription_project_id" ON "bronze"."gcp_pubsub_subscriptions" ("project_id");
+-- Create "s1_ranger_devices" table
+CREATE TABLE "bronze"."s1_ranger_devices" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "local_ip" character varying NULL,
+  "external_ip" character varying NULL,
+  "mac_address" character varying NULL,
+  "os_type" character varying NULL,
+  "os_name" character varying NULL,
+  "os_version" character varying NULL,
+  "device_type" character varying NULL,
+  "device_function" character varying NULL,
+  "manufacturer" character varying NULL,
+  "managed_state" character varying NULL,
+  "agent_id" character varying NULL,
+  "first_seen" timestamptz NULL,
+  "last_seen" timestamptz NULL,
+  "subnet_address" character varying NULL,
+  "gateway_ip_address" character varying NULL,
+  "gateway_mac_address" character varying NULL,
+  "network_name" character varying NULL,
+  "domain" character varying NULL,
+  "site_name" character varying NULL,
+  "device_review" character varying NULL,
+  "has_identity" boolean NOT NULL DEFAULT false,
+  "has_user_label" boolean NOT NULL DEFAULT false,
+  "fingerprint_score" bigint NULL,
+  "tcp_ports_json" jsonb NULL,
+  "udp_ports_json" jsonb NULL,
+  "hostnames_json" jsonb NULL,
+  "discovery_methods_json" jsonb NULL,
+  "networks_json" jsonb NULL,
+  "tags_json" jsonb NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzes1rangerdevice_agent_id" to table: "s1_ranger_devices"
+CREATE INDEX "bronzes1rangerdevice_agent_id" ON "bronze"."s1_ranger_devices" ("agent_id");
+-- Create index "bronzes1rangerdevice_collected_at" to table: "s1_ranger_devices"
+CREATE INDEX "bronzes1rangerdevice_collected_at" ON "bronze"."s1_ranger_devices" ("collected_at");
+-- Create index "bronzes1rangerdevice_managed_state" to table: "s1_ranger_devices"
+CREATE INDEX "bronzes1rangerdevice_managed_state" ON "bronze"."s1_ranger_devices" ("managed_state");
+-- Create index "bronzes1rangerdevice_network_name" to table: "s1_ranger_devices"
+CREATE INDEX "bronzes1rangerdevice_network_name" ON "bronze"."s1_ranger_devices" ("network_name");
+-- Create index "bronzes1rangerdevice_site_name" to table: "s1_ranger_devices"
+CREATE INDEX "bronzes1rangerdevice_site_name" ON "bronze"."s1_ranger_devices" ("site_name");
 -- Create "aws_ec2_instances" table
 CREATE TABLE "bronze"."aws_ec2_instances" (
   "resource_id" character varying NOT NULL,
@@ -524,89 +558,74 @@ CREATE INDEX "bronzedovpc_collected_at" ON "bronze"."do_vpcs" ("collected_at");
 CREATE INDEX "bronzedovpc_is_default" ON "bronze"."do_vpcs" ("is_default");
 -- Create index "bronzedovpc_region" to table: "do_vpcs"
 CREATE INDEX "bronzedovpc_region" ON "bronze"."do_vpcs" ("region");
--- Create "gcp_containeranalysis_occurrences" table
-CREATE TABLE "bronze"."gcp_containeranalysis_occurrences" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "resource_uri" character varying NULL,
-  "note_name" character varying NULL,
-  "kind" bigint NULL,
-  "remediation" character varying NULL,
-  "create_time" character varying NULL,
-  "update_time" character varying NULL,
-  "vulnerability_json" jsonb NULL,
-  "build_json" jsonb NULL,
-  "image_json" jsonb NULL,
-  "package_json" jsonb NULL,
-  "deployment_json" jsonb NULL,
-  "discovery_json" jsonb NULL,
-  "attestation_json" jsonb NULL,
-  "upgrade_json" jsonb NULL,
-  "compliance_json" jsonb NULL,
-  "dsse_attestation_json" jsonb NULL,
-  "sbom_reference_json" jsonb NULL,
-  "envelope_json" jsonb NULL,
-  "project_id" character varying NOT NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcpcontaineranalysisoccurrence_collected_at" to table: "gcp_containeranalysis_occurrences"
-CREATE INDEX "bronzegcpcontaineranalysisoccurrence_collected_at" ON "bronze"."gcp_containeranalysis_occurrences" ("collected_at");
--- Create index "bronzegcpcontaineranalysisoccurrence_kind" to table: "gcp_containeranalysis_occurrences"
-CREATE INDEX "bronzegcpcontaineranalysisoccurrence_kind" ON "bronze"."gcp_containeranalysis_occurrences" ("kind");
--- Create index "bronzegcpcontaineranalysisoccurrence_note_name" to table: "gcp_containeranalysis_occurrences"
-CREATE INDEX "bronzegcpcontaineranalysisoccurrence_note_name" ON "bronze"."gcp_containeranalysis_occurrences" ("note_name");
--- Create index "bronzegcpcontaineranalysisoccurrence_project_id" to table: "gcp_containeranalysis_occurrences"
-CREATE INDEX "bronzegcpcontaineranalysisoccurrence_project_id" ON "bronze"."gcp_containeranalysis_occurrences" ("project_id");
--- Create index "bronzegcpcontaineranalysisoccurrence_resource_uri" to table: "gcp_containeranalysis_occurrences"
-CREATE INDEX "bronzegcpcontaineranalysisoccurrence_resource_uri" ON "bronze"."gcp_containeranalysis_occurrences" ("resource_uri");
--- Create "gcp_dataproc_clusters" table
-CREATE TABLE "bronze"."gcp_dataproc_clusters" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "cluster_name" character varying NOT NULL,
-  "cluster_uuid" character varying NULL,
-  "config_json" jsonb NULL,
-  "status_json" jsonb NULL,
-  "status_history_json" jsonb NULL,
-  "labels_json" jsonb NULL,
-  "metrics_json" jsonb NULL,
-  "project_id" character varying NOT NULL,
-  "location" character varying NOT NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcpdataproccluster_collected_at" to table: "gcp_dataproc_clusters"
-CREATE INDEX "bronzegcpdataproccluster_collected_at" ON "bronze"."gcp_dataproc_clusters" ("collected_at");
--- Create index "bronzegcpdataproccluster_location" to table: "gcp_dataproc_clusters"
-CREATE INDEX "bronzegcpdataproccluster_location" ON "bronze"."gcp_dataproc_clusters" ("location");
--- Create index "bronzegcpdataproccluster_project_id" to table: "gcp_dataproc_clusters"
-CREATE INDEX "bronzegcpdataproccluster_project_id" ON "bronze"."gcp_dataproc_clusters" ("project_id");
--- Create "gcp_compute_url_maps" table
-CREATE TABLE "bronze"."gcp_compute_url_maps" (
+-- Create "gcp_filestore_instances" table
+CREATE TABLE "bronze"."gcp_filestore_instances" (
   "resource_id" character varying NOT NULL,
   "collected_at" timestamptz NOT NULL,
   "first_collected_at" timestamptz NOT NULL,
   "name" character varying NOT NULL,
   "description" character varying NULL,
-  "creation_timestamp" character varying NULL,
-  "self_link" character varying NULL,
-  "fingerprint" character varying NULL,
-  "default_service" character varying NULL,
-  "region" character varying NULL,
-  "host_rules_json" jsonb NULL,
-  "path_matchers_json" jsonb NULL,
-  "tests_json" jsonb NULL,
-  "default_route_action_json" jsonb NULL,
-  "default_url_redirect_json" jsonb NULL,
-  "header_action_json" jsonb NULL,
+  "state" bigint NOT NULL DEFAULT 0,
+  "status_message" character varying NULL,
+  "create_time" character varying NULL,
+  "tier" bigint NOT NULL DEFAULT 0,
+  "labels_json" jsonb NULL,
+  "file_shares_json" jsonb NULL,
+  "networks_json" jsonb NULL,
+  "etag" character varying NULL,
+  "satisfies_pzs" boolean NOT NULL DEFAULT false,
+  "satisfies_pzi" boolean NOT NULL DEFAULT false,
+  "kms_key_name" character varying NULL,
+  "suspension_reasons_json" jsonb NULL,
+  "max_capacity_gb" bigint NULL,
+  "protocol" bigint NOT NULL DEFAULT 0,
+  "project_id" character varying NOT NULL,
+  "location" character varying NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcpfilestoreinstance_collected_at" to table: "gcp_filestore_instances"
+CREATE INDEX "bronzegcpfilestoreinstance_collected_at" ON "bronze"."gcp_filestore_instances" ("collected_at");
+-- Create index "bronzegcpfilestoreinstance_project_id" to table: "gcp_filestore_instances"
+CREATE INDEX "bronzegcpfilestoreinstance_project_id" ON "bronze"."gcp_filestore_instances" ("project_id");
+-- Create "gcp_dns_policies" table
+CREATE TABLE "bronze"."gcp_dns_policies" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "description" character varying NULL,
+  "enable_inbound_forwarding" boolean NOT NULL DEFAULT false,
+  "enable_logging" boolean NOT NULL DEFAULT false,
+  "networks_json" jsonb NULL,
+  "alternative_name_server_config_json" jsonb NULL,
   "project_id" character varying NOT NULL,
   PRIMARY KEY ("resource_id")
 );
--- Create index "bronzegcpcomputeurlmap_collected_at" to table: "gcp_compute_url_maps"
-CREATE INDEX "bronzegcpcomputeurlmap_collected_at" ON "bronze"."gcp_compute_url_maps" ("collected_at");
--- Create index "bronzegcpcomputeurlmap_project_id" to table: "gcp_compute_url_maps"
-CREATE INDEX "bronzegcpcomputeurlmap_project_id" ON "bronze"."gcp_compute_url_maps" ("project_id");
+-- Create index "bronzegcpdnspolicy_collected_at" to table: "gcp_dns_policies"
+CREATE INDEX "bronzegcpdnspolicy_collected_at" ON "bronze"."gcp_dns_policies" ("collected_at");
+-- Create index "bronzegcpdnspolicy_project_id" to table: "gcp_dns_policies"
+CREATE INDEX "bronzegcpdnspolicy_project_id" ON "bronze"."gcp_dns_policies" ("project_id");
+-- Create "gcp_iam_service_accounts" table
+CREATE TABLE "bronze"."gcp_iam_service_accounts" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "email" character varying NOT NULL,
+  "display_name" character varying NULL,
+  "description" character varying NULL,
+  "oauth2_client_id" character varying NULL,
+  "disabled" boolean NOT NULL DEFAULT false,
+  "etag" character varying NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcpiamserviceaccount_collected_at" to table: "gcp_iam_service_accounts"
+CREATE INDEX "bronzegcpiamserviceaccount_collected_at" ON "bronze"."gcp_iam_service_accounts" ("collected_at");
+-- Create index "bronzegcpiamserviceaccount_email" to table: "gcp_iam_service_accounts"
+CREATE INDEX "bronzegcpiamserviceaccount_email" ON "bronze"."gcp_iam_service_accounts" ("email");
+-- Create index "bronzegcpiamserviceaccount_project_id" to table: "gcp_iam_service_accounts"
+CREATE INDEX "bronzegcpiamserviceaccount_project_id" ON "bronze"."gcp_iam_service_accounts" ("project_id");
 -- Create "gcp_alloydb_clusters" table
 CREATE TABLE "bronze"."gcp_alloydb_clusters" (
   "resource_id" character varying NOT NULL,
@@ -651,57 +670,45 @@ CREATE TABLE "bronze"."gcp_alloydb_clusters" (
 CREATE INDEX "bronzegcpalloydbcluster_collected_at" ON "bronze"."gcp_alloydb_clusters" ("collected_at");
 -- Create index "bronzegcpalloydbcluster_project_id" to table: "gcp_alloydb_clusters"
 CREATE INDEX "bronzegcpalloydbcluster_project_id" ON "bronze"."gcp_alloydb_clusters" ("project_id");
--- Create "gcp_filestore_instances" table
-CREATE TABLE "bronze"."gcp_filestore_instances" (
+-- Create "gcp_iap_iam_policies" table
+CREATE TABLE "bronze"."gcp_iap_iam_policies" (
   "resource_id" character varying NOT NULL,
   "collected_at" timestamptz NOT NULL,
   "first_collected_at" timestamptz NOT NULL,
   "name" character varying NOT NULL,
-  "description" character varying NULL,
-  "state" bigint NOT NULL DEFAULT 0,
-  "status_message" character varying NULL,
-  "create_time" character varying NULL,
-  "tier" bigint NOT NULL DEFAULT 0,
-  "labels_json" jsonb NULL,
-  "file_shares_json" jsonb NULL,
-  "networks_json" jsonb NULL,
   "etag" character varying NULL,
-  "satisfies_pzs" boolean NOT NULL DEFAULT false,
-  "satisfies_pzi" boolean NOT NULL DEFAULT false,
-  "kms_key_name" character varying NULL,
-  "suspension_reasons_json" jsonb NULL,
-  "max_capacity_gb" bigint NULL,
-  "protocol" bigint NOT NULL DEFAULT 0,
+  "version" bigint NULL,
+  "bindings_json" jsonb NULL,
+  "audit_configs_json" jsonb NULL,
   "project_id" character varying NOT NULL,
-  "location" character varying NULL,
   PRIMARY KEY ("resource_id")
 );
--- Create index "bronzegcpfilestoreinstance_collected_at" to table: "gcp_filestore_instances"
-CREATE INDEX "bronzegcpfilestoreinstance_collected_at" ON "bronze"."gcp_filestore_instances" ("collected_at");
--- Create index "bronzegcpfilestoreinstance_project_id" to table: "gcp_filestore_instances"
-CREATE INDEX "bronzegcpfilestoreinstance_project_id" ON "bronze"."gcp_filestore_instances" ("project_id");
--- Create "gcp_iam_service_account_keys" table
-CREATE TABLE "bronze"."gcp_iam_service_account_keys" (
+-- Create index "bronzegcpiapiampolicy_collected_at" to table: "gcp_iap_iam_policies"
+CREATE INDEX "bronzegcpiapiampolicy_collected_at" ON "bronze"."gcp_iap_iam_policies" ("collected_at");
+-- Create index "bronzegcpiapiampolicy_project_id" to table: "gcp_iap_iam_policies"
+CREATE INDEX "bronzegcpiapiampolicy_project_id" ON "bronze"."gcp_iap_iam_policies" ("project_id");
+-- Create "gcp_dataproc_clusters" table
+CREATE TABLE "bronze"."gcp_dataproc_clusters" (
   "resource_id" character varying NOT NULL,
   "collected_at" timestamptz NOT NULL,
   "first_collected_at" timestamptz NOT NULL,
-  "name" character varying NOT NULL,
-  "service_account_email" character varying NOT NULL,
-  "key_origin" character varying NULL,
-  "key_type" character varying NULL,
-  "key_algorithm" character varying NULL,
-  "valid_after_time" timestamptz NULL,
-  "valid_before_time" timestamptz NULL,
-  "disabled" boolean NOT NULL DEFAULT false,
+  "cluster_name" character varying NOT NULL,
+  "cluster_uuid" character varying NULL,
+  "config_json" jsonb NULL,
+  "status_json" jsonb NULL,
+  "status_history_json" jsonb NULL,
+  "labels_json" jsonb NULL,
+  "metrics_json" jsonb NULL,
   "project_id" character varying NOT NULL,
+  "location" character varying NOT NULL,
   PRIMARY KEY ("resource_id")
 );
--- Create index "bronzegcpiamserviceaccountkey_collected_at" to table: "gcp_iam_service_account_keys"
-CREATE INDEX "bronzegcpiamserviceaccountkey_collected_at" ON "bronze"."gcp_iam_service_account_keys" ("collected_at");
--- Create index "bronzegcpiamserviceaccountkey_project_id" to table: "gcp_iam_service_account_keys"
-CREATE INDEX "bronzegcpiamserviceaccountkey_project_id" ON "bronze"."gcp_iam_service_account_keys" ("project_id");
--- Create index "bronzegcpiamserviceaccountkey_service_account_email" to table: "gcp_iam_service_account_keys"
-CREATE INDEX "bronzegcpiamserviceaccountkey_service_account_email" ON "bronze"."gcp_iam_service_account_keys" ("service_account_email");
+-- Create index "bronzegcpdataproccluster_collected_at" to table: "gcp_dataproc_clusters"
+CREATE INDEX "bronzegcpdataproccluster_collected_at" ON "bronze"."gcp_dataproc_clusters" ("collected_at");
+-- Create index "bronzegcpdataproccluster_location" to table: "gcp_dataproc_clusters"
+CREATE INDEX "bronzegcpdataproccluster_location" ON "bronze"."gcp_dataproc_clusters" ("location");
+-- Create index "bronzegcpdataproccluster_project_id" to table: "gcp_dataproc_clusters"
+CREATE INDEX "bronzegcpdataproccluster_project_id" ON "bronze"."gcp_dataproc_clusters" ("project_id");
 -- Create "gcp_bigquery_datasets" table
 CREATE TABLE "bronze"."gcp_bigquery_datasets" (
   "resource_id" character varying NOT NULL,
@@ -759,47 +766,76 @@ CREATE INDEX "bronzegcpbigquerytable_collected_at" ON "bronze"."gcp_bigquery_tab
 CREATE INDEX "bronzegcpbigquerytable_dataset_id" ON "bronze"."gcp_bigquery_tables" ("dataset_id");
 -- Create index "bronzegcpbigquerytable_project_id" to table: "gcp_bigquery_tables"
 CREATE INDEX "bronzegcpbigquerytable_project_id" ON "bronze"."gcp_bigquery_tables" ("project_id");
--- Create "gcp_compute_target_tcp_proxies" table
-CREATE TABLE "bronze"."gcp_compute_target_tcp_proxies" (
+-- Create "gcp_containeranalysis_occurrences" table
+CREATE TABLE "bronze"."gcp_containeranalysis_occurrences" (
   "resource_id" character varying NOT NULL,
   "collected_at" timestamptz NOT NULL,
   "first_collected_at" timestamptz NOT NULL,
-  "name" character varying NOT NULL,
-  "description" character varying NULL,
-  "creation_timestamp" character varying NULL,
-  "self_link" character varying NULL,
-  "service" character varying NULL,
-  "proxy_bind" boolean NOT NULL DEFAULT false,
-  "proxy_header" character varying NULL,
-  "region" character varying NULL,
+  "resource_uri" character varying NULL,
+  "note_name" character varying NULL,
+  "kind" bigint NULL,
+  "remediation" character varying NULL,
+  "create_time" character varying NULL,
+  "update_time" character varying NULL,
+  "vulnerability_json" jsonb NULL,
+  "build_json" jsonb NULL,
+  "image_json" jsonb NULL,
+  "package_json" jsonb NULL,
+  "deployment_json" jsonb NULL,
+  "discovery_json" jsonb NULL,
+  "attestation_json" jsonb NULL,
+  "upgrade_json" jsonb NULL,
+  "compliance_json" jsonb NULL,
+  "dsse_attestation_json" jsonb NULL,
+  "sbom_reference_json" jsonb NULL,
+  "envelope_json" jsonb NULL,
   "project_id" character varying NOT NULL,
   PRIMARY KEY ("resource_id")
 );
--- Create index "bronzegcpcomputetargettcpproxy_collected_at" to table: "gcp_compute_target_tcp_proxies"
-CREATE INDEX "bronzegcpcomputetargettcpproxy_collected_at" ON "bronze"."gcp_compute_target_tcp_proxies" ("collected_at");
--- Create index "bronzegcpcomputetargettcpproxy_project_id" to table: "gcp_compute_target_tcp_proxies"
-CREATE INDEX "bronzegcpcomputetargettcpproxy_project_id" ON "bronze"."gcp_compute_target_tcp_proxies" ("project_id");
--- Create "gcp_compute_target_ssl_proxies" table
-CREATE TABLE "bronze"."gcp_compute_target_ssl_proxies" (
+-- Create index "bronzegcpcontaineranalysisoccurrence_collected_at" to table: "gcp_containeranalysis_occurrences"
+CREATE INDEX "bronzegcpcontaineranalysisoccurrence_collected_at" ON "bronze"."gcp_containeranalysis_occurrences" ("collected_at");
+-- Create index "bronzegcpcontaineranalysisoccurrence_kind" to table: "gcp_containeranalysis_occurrences"
+CREATE INDEX "bronzegcpcontaineranalysisoccurrence_kind" ON "bronze"."gcp_containeranalysis_occurrences" ("kind");
+-- Create index "bronzegcpcontaineranalysisoccurrence_note_name" to table: "gcp_containeranalysis_occurrences"
+CREATE INDEX "bronzegcpcontaineranalysisoccurrence_note_name" ON "bronze"."gcp_containeranalysis_occurrences" ("note_name");
+-- Create index "bronzegcpcontaineranalysisoccurrence_project_id" to table: "gcp_containeranalysis_occurrences"
+CREATE INDEX "bronzegcpcontaineranalysisoccurrence_project_id" ON "bronze"."gcp_containeranalysis_occurrences" ("project_id");
+-- Create index "bronzegcpcontaineranalysisoccurrence_resource_uri" to table: "gcp_containeranalysis_occurrences"
+CREATE INDEX "bronzegcpcontaineranalysisoccurrence_resource_uri" ON "bronze"."gcp_containeranalysis_occurrences" ("resource_uri");
+-- Create "gcp_containeranalysis_notes" table
+CREATE TABLE "bronze"."gcp_containeranalysis_notes" (
   "resource_id" character varying NOT NULL,
   "collected_at" timestamptz NOT NULL,
   "first_collected_at" timestamptz NOT NULL,
-  "name" character varying NOT NULL,
-  "description" character varying NULL,
-  "creation_timestamp" character varying NULL,
-  "self_link" character varying NULL,
-  "service" character varying NULL,
-  "proxy_header" character varying NULL,
-  "certificate_map" character varying NULL,
-  "ssl_policy" character varying NULL,
-  "ssl_certificates_json" jsonb NULL,
+  "short_description" character varying NULL,
+  "long_description" character varying NULL,
+  "kind" bigint NULL,
+  "expiration_time" character varying NULL,
+  "create_time" character varying NULL,
+  "update_time" character varying NULL,
+  "related_url_json" jsonb NULL,
+  "related_note_names" jsonb NULL,
+  "vulnerability_json" jsonb NULL,
+  "build_json" jsonb NULL,
+  "image_json" jsonb NULL,
+  "package_json" jsonb NULL,
+  "deployment_json" jsonb NULL,
+  "discovery_json" jsonb NULL,
+  "attestation_json" jsonb NULL,
+  "upgrade_json" jsonb NULL,
+  "compliance_json" jsonb NULL,
+  "dsse_attestation_json" jsonb NULL,
+  "vulnerability_assessment_json" jsonb NULL,
+  "sbom_reference_json" jsonb NULL,
   "project_id" character varying NOT NULL,
   PRIMARY KEY ("resource_id")
 );
--- Create index "bronzegcpcomputetargetsslproxy_collected_at" to table: "gcp_compute_target_ssl_proxies"
-CREATE INDEX "bronzegcpcomputetargetsslproxy_collected_at" ON "bronze"."gcp_compute_target_ssl_proxies" ("collected_at");
--- Create index "bronzegcpcomputetargetsslproxy_project_id" to table: "gcp_compute_target_ssl_proxies"
-CREATE INDEX "bronzegcpcomputetargetsslproxy_project_id" ON "bronze"."gcp_compute_target_ssl_proxies" ("project_id");
+-- Create index "bronzegcpcontaineranalysisnote_collected_at" to table: "gcp_containeranalysis_notes"
+CREATE INDEX "bronzegcpcontaineranalysisnote_collected_at" ON "bronze"."gcp_containeranalysis_notes" ("collected_at");
+-- Create index "bronzegcpcontaineranalysisnote_kind" to table: "gcp_containeranalysis_notes"
+CREATE INDEX "bronzegcpcontaineranalysisnote_kind" ON "bronze"."gcp_containeranalysis_notes" ("kind");
+-- Create index "bronzegcpcontaineranalysisnote_project_id" to table: "gcp_containeranalysis_notes"
+CREATE INDEX "bronzegcpcontaineranalysisnote_project_id" ON "bronze"."gcp_containeranalysis_notes" ("project_id");
 -- Create "gcp_binaryauthorization_attestors" table
 CREATE TABLE "bronze"."gcp_binaryauthorization_attestors" (
   "resource_id" character varying NOT NULL,
@@ -930,107 +966,21 @@ CREATE TABLE "bronze"."gcp_cloudfunctions_functions" (
 CREATE INDEX "bronzegcpcloudfunctionsfunction_collected_at" ON "bronze"."gcp_cloudfunctions_functions" ("collected_at");
 -- Create index "bronzegcpcloudfunctionsfunction_project_id" to table: "gcp_cloudfunctions_functions"
 CREATE INDEX "bronzegcpcloudfunctionsfunction_project_id" ON "bronze"."gcp_cloudfunctions_functions" ("project_id");
--- Create "gcp_compute_target_pools" table
-CREATE TABLE "bronze"."gcp_compute_target_pools" (
+-- Create "gcp_iap_settings" table
+CREATE TABLE "bronze"."gcp_iap_settings" (
   "resource_id" character varying NOT NULL,
   "collected_at" timestamptz NOT NULL,
   "first_collected_at" timestamptz NOT NULL,
   "name" character varying NOT NULL,
-  "description" character varying NULL,
-  "creation_timestamp" character varying NULL,
-  "self_link" character varying NULL,
-  "session_affinity" character varying NULL,
-  "backup_pool" character varying NULL,
-  "failover_ratio" real NULL,
-  "security_policy" character varying NULL,
-  "region" character varying NULL,
-  "health_checks_json" jsonb NULL,
-  "instances_json" jsonb NULL,
+  "access_settings_json" jsonb NULL,
+  "application_settings_json" jsonb NULL,
   "project_id" character varying NOT NULL,
   PRIMARY KEY ("resource_id")
 );
--- Create index "bronzegcpcomputetargetpool_collected_at" to table: "gcp_compute_target_pools"
-CREATE INDEX "bronzegcpcomputetargetpool_collected_at" ON "bronze"."gcp_compute_target_pools" ("collected_at");
--- Create index "bronzegcpcomputetargetpool_project_id" to table: "gcp_compute_target_pools"
-CREATE INDEX "bronzegcpcomputetargetpool_project_id" ON "bronze"."gcp_compute_target_pools" ("project_id");
--- Create index "bronzegcpcomputetargetpool_region" to table: "gcp_compute_target_pools"
-CREATE INDEX "bronzegcpcomputetargetpool_region" ON "bronze"."gcp_compute_target_pools" ("region");
--- Create "gcp_compute_target_instances" table
-CREATE TABLE "bronze"."gcp_compute_target_instances" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "name" character varying NOT NULL,
-  "description" character varying NULL,
-  "zone" character varying NULL,
-  "instance" character varying NULL,
-  "network" character varying NULL,
-  "nat_policy" character varying NULL,
-  "security_policy" character varying NULL,
-  "self_link" character varying NULL,
-  "creation_timestamp" character varying NULL,
-  "project_id" character varying NOT NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcpcomputetargetinstance_collected_at" to table: "gcp_compute_target_instances"
-CREATE INDEX "bronzegcpcomputetargetinstance_collected_at" ON "bronze"."gcp_compute_target_instances" ("collected_at");
--- Create index "bronzegcpcomputetargetinstance_project_id" to table: "gcp_compute_target_instances"
-CREATE INDEX "bronzegcpcomputetargetinstance_project_id" ON "bronze"."gcp_compute_target_instances" ("project_id");
--- Create "gcp_compute_target_https_proxies" table
-CREATE TABLE "bronze"."gcp_compute_target_https_proxies" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "name" character varying NOT NULL,
-  "description" character varying NULL,
-  "creation_timestamp" character varying NULL,
-  "self_link" character varying NULL,
-  "fingerprint" character varying NULL,
-  "url_map" character varying NULL,
-  "quic_override" character varying NULL,
-  "server_tls_policy" character varying NULL,
-  "authorization_policy" character varying NULL,
-  "certificate_map" character varying NULL,
-  "ssl_policy" character varying NULL,
-  "tls_early_data" character varying NULL,
-  "proxy_bind" boolean NOT NULL DEFAULT false,
-  "http_keep_alive_timeout_sec" integer NULL,
-  "ssl_certificates_json" jsonb NULL,
-  "region" character varying NULL,
-  "project_id" character varying NOT NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcpcomputetargethttpsproxy_collected_at" to table: "gcp_compute_target_https_proxies"
-CREATE INDEX "bronzegcpcomputetargethttpsproxy_collected_at" ON "bronze"."gcp_compute_target_https_proxies" ("collected_at");
--- Create index "bronzegcpcomputetargethttpsproxy_project_id" to table: "gcp_compute_target_https_proxies"
-CREATE INDEX "bronzegcpcomputetargethttpsproxy_project_id" ON "bronze"."gcp_compute_target_https_proxies" ("project_id");
--- Create "gcp_compute_routers" table
-CREATE TABLE "bronze"."gcp_compute_routers" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "name" character varying NOT NULL,
-  "description" character varying NULL,
-  "self_link" character varying NULL,
-  "creation_timestamp" character varying NULL,
-  "network" character varying NULL,
-  "region" character varying NULL,
-  "bgp_asn" bigint NOT NULL DEFAULT 0,
-  "bgp_advertise_mode" character varying NULL,
-  "bgp_advertised_groups_json" jsonb NULL,
-  "bgp_advertised_ip_ranges_json" jsonb NULL,
-  "bgp_keepalive_interval" bigint NOT NULL DEFAULT 0,
-  "bgp_peers_json" jsonb NULL,
-  "interfaces_json" jsonb NULL,
-  "nats_json" jsonb NULL,
-  "encrypted_interconnect_router" boolean NOT NULL DEFAULT false,
-  "project_id" character varying NOT NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcpcomputerouter_collected_at" to table: "gcp_compute_routers"
-CREATE INDEX "bronzegcpcomputerouter_collected_at" ON "bronze"."gcp_compute_routers" ("collected_at");
--- Create index "bronzegcpcomputerouter_project_id" to table: "gcp_compute_routers"
-CREATE INDEX "bronzegcpcomputerouter_project_id" ON "bronze"."gcp_compute_routers" ("project_id");
+-- Create index "bronzegcpiapsettings_collected_at" to table: "gcp_iap_settings"
+CREATE INDEX "bronzegcpiapsettings_collected_at" ON "bronze"."gcp_iap_settings" ("collected_at");
+-- Create index "bronzegcpiapsettings_project_id" to table: "gcp_iap_settings"
+CREATE INDEX "bronzegcpiapsettings_project_id" ON "bronze"."gcp_iap_settings" ("project_id");
 -- Create "gcp_kms_crypto_keys" table
 CREATE TABLE "bronze"."gcp_kms_crypto_keys" (
   "resource_id" character varying NOT NULL,
@@ -1056,6 +1006,213 @@ CREATE TABLE "bronze"."gcp_kms_crypto_keys" (
 CREATE INDEX "bronzegcpkmscryptokey_collected_at" ON "bronze"."gcp_kms_crypto_keys" ("collected_at");
 -- Create index "bronzegcpkmscryptokey_project_id" to table: "gcp_kms_crypto_keys"
 CREATE INDEX "bronzegcpkmscryptokey_project_id" ON "bronze"."gcp_kms_crypto_keys" ("project_id");
+-- Create "gcp_kms_key_rings" table
+CREATE TABLE "bronze"."gcp_kms_key_rings" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "create_time" character varying NULL,
+  "project_id" character varying NOT NULL,
+  "location" character varying NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcpkmskeyring_collected_at" to table: "gcp_kms_key_rings"
+CREATE INDEX "bronzegcpkmskeyring_collected_at" ON "bronze"."gcp_kms_key_rings" ("collected_at");
+-- Create index "bronzegcpkmskeyring_project_id" to table: "gcp_kms_key_rings"
+CREATE INDEX "bronzegcpkmskeyring_project_id" ON "bronze"."gcp_kms_key_rings" ("project_id");
+-- Create "gcp_logging_buckets" table
+CREATE TABLE "bronze"."gcp_logging_buckets" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "description" character varying NULL,
+  "retention_days" integer NOT NULL DEFAULT 0,
+  "locked" boolean NOT NULL DEFAULT false,
+  "lifecycle_state" character varying NULL,
+  "analytics_enabled" boolean NOT NULL DEFAULT false,
+  "project_id" character varying NOT NULL,
+  "location" character varying NULL,
+  "cmek_settings_json" jsonb NULL,
+  "index_configs_json" jsonb NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcploggingbucket_collected_at" to table: "gcp_logging_buckets"
+CREATE INDEX "bronzegcploggingbucket_collected_at" ON "bronze"."gcp_logging_buckets" ("collected_at");
+-- Create index "bronzegcploggingbucket_project_id" to table: "gcp_logging_buckets"
+CREATE INDEX "bronzegcploggingbucket_project_id" ON "bronze"."gcp_logging_buckets" ("project_id");
+-- Create "gcp_logging_log_exclusions" table
+CREATE TABLE "bronze"."gcp_logging_log_exclusions" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "description" character varying NULL,
+  "filter" text NULL,
+  "disabled" boolean NOT NULL DEFAULT false,
+  "create_time" character varying NULL,
+  "update_time" character varying NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcplogginglogexclusion_collected_at" to table: "gcp_logging_log_exclusions"
+CREATE INDEX "bronzegcplogginglogexclusion_collected_at" ON "bronze"."gcp_logging_log_exclusions" ("collected_at");
+-- Create index "bronzegcplogginglogexclusion_project_id" to table: "gcp_logging_log_exclusions"
+CREATE INDEX "bronzegcplogginglogexclusion_project_id" ON "bronze"."gcp_logging_log_exclusions" ("project_id");
+-- Create "gcp_logging_log_metrics" table
+CREATE TABLE "bronze"."gcp_logging_log_metrics" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "description" character varying NULL,
+  "filter" text NULL,
+  "metric_descriptor_json" jsonb NULL,
+  "label_extractors_json" jsonb NULL,
+  "bucket_options_json" jsonb NULL,
+  "value_extractor" character varying NULL,
+  "version" character varying NULL,
+  "disabled" boolean NOT NULL DEFAULT false,
+  "create_time" character varying NULL,
+  "update_time" character varying NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcplogginglogmetric_collected_at" to table: "gcp_logging_log_metrics"
+CREATE INDEX "bronzegcplogginglogmetric_collected_at" ON "bronze"."gcp_logging_log_metrics" ("collected_at");
+-- Create index "bronzegcplogginglogmetric_project_id" to table: "gcp_logging_log_metrics"
+CREATE INDEX "bronzegcplogginglogmetric_project_id" ON "bronze"."gcp_logging_log_metrics" ("project_id");
+-- Create "gcp_logging_sinks" table
+CREATE TABLE "bronze"."gcp_logging_sinks" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "destination" character varying NULL,
+  "filter" text NULL,
+  "description" character varying NULL,
+  "disabled" boolean NOT NULL DEFAULT false,
+  "include_children" boolean NOT NULL DEFAULT false,
+  "writer_identity" character varying NULL,
+  "exclusions_json" jsonb NULL,
+  "bigquery_options_json" jsonb NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcploggingsink_collected_at" to table: "gcp_logging_sinks"
+CREATE INDEX "bronzegcploggingsink_collected_at" ON "bronze"."gcp_logging_sinks" ("collected_at");
+-- Create index "bronzegcploggingsink_project_id" to table: "gcp_logging_sinks"
+CREATE INDEX "bronzegcploggingsink_project_id" ON "bronze"."gcp_logging_sinks" ("project_id");
+-- Create "gcp_monitoring_alert_policies" table
+CREATE TABLE "bronze"."gcp_monitoring_alert_policies" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "display_name" character varying NULL,
+  "documentation_json" jsonb NULL,
+  "user_labels_json" jsonb NULL,
+  "conditions_json" jsonb NULL,
+  "combiner" bigint NOT NULL DEFAULT 0,
+  "enabled" boolean NOT NULL DEFAULT false,
+  "notification_channels_json" jsonb NULL,
+  "creation_record_json" jsonb NULL,
+  "mutation_record_json" jsonb NULL,
+  "alert_strategy_json" jsonb NULL,
+  "severity" bigint NOT NULL DEFAULT 0,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcpmonitoringalertpolicy_collected_at" to table: "gcp_monitoring_alert_policies"
+CREATE INDEX "bronzegcpmonitoringalertpolicy_collected_at" ON "bronze"."gcp_monitoring_alert_policies" ("collected_at");
+-- Create index "bronzegcpmonitoringalertpolicy_project_id" to table: "gcp_monitoring_alert_policies"
+CREATE INDEX "bronzegcpmonitoringalertpolicy_project_id" ON "bronze"."gcp_monitoring_alert_policies" ("project_id");
+-- Create "gcp_monitoring_uptime_check_configs" table
+CREATE TABLE "bronze"."gcp_monitoring_uptime_check_configs" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "display_name" character varying NULL,
+  "monitored_resource_json" jsonb NULL,
+  "resource_group_json" jsonb NULL,
+  "http_check_json" jsonb NULL,
+  "tcp_check_json" jsonb NULL,
+  "period" character varying NULL,
+  "timeout" character varying NULL,
+  "content_matchers_json" jsonb NULL,
+  "checker_type" bigint NOT NULL DEFAULT 0,
+  "selected_regions_json" jsonb NULL,
+  "is_internal" boolean NOT NULL DEFAULT false,
+  "internal_checkers_json" jsonb NULL,
+  "user_labels_json" jsonb NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcpmonitoringuptimecheckconfig_collected_at" to table: "gcp_monitoring_uptime_check_configs"
+CREATE INDEX "bronzegcpmonitoringuptimecheckconfig_collected_at" ON "bronze"."gcp_monitoring_uptime_check_configs" ("collected_at");
+-- Create index "bronzegcpmonitoringuptimecheckconfig_project_id" to table: "gcp_monitoring_uptime_check_configs"
+CREATE INDEX "bronzegcpmonitoringuptimecheckconfig_project_id" ON "bronze"."gcp_monitoring_uptime_check_configs" ("project_id");
+-- Create "gcp_compute_url_maps" table
+CREATE TABLE "bronze"."gcp_compute_url_maps" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "description" character varying NULL,
+  "creation_timestamp" character varying NULL,
+  "self_link" character varying NULL,
+  "fingerprint" character varying NULL,
+  "default_service" character varying NULL,
+  "region" character varying NULL,
+  "host_rules_json" jsonb NULL,
+  "path_matchers_json" jsonb NULL,
+  "tests_json" jsonb NULL,
+  "default_route_action_json" jsonb NULL,
+  "default_url_redirect_json" jsonb NULL,
+  "header_action_json" jsonb NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcpcomputeurlmap_collected_at" to table: "gcp_compute_url_maps"
+CREATE INDEX "bronzegcpcomputeurlmap_collected_at" ON "bronze"."gcp_compute_url_maps" ("collected_at");
+-- Create index "bronzegcpcomputeurlmap_project_id" to table: "gcp_compute_url_maps"
+CREATE INDEX "bronzegcpcomputeurlmap_project_id" ON "bronze"."gcp_compute_url_maps" ("project_id");
+-- Create "vault_pki_certificates" table
+CREATE TABLE "bronze"."vault_pki_certificates" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "vault_name" character varying NOT NULL,
+  "mount_path" character varying NOT NULL,
+  "serial_number" character varying NOT NULL,
+  "common_name" character varying NULL,
+  "issuer_cn" character varying NULL,
+  "subject_cn" character varying NULL,
+  "sans" character varying NULL,
+  "key_type" character varying NULL,
+  "key_bits" bigint NULL,
+  "signing_algo" character varying NULL,
+  "not_before" timestamptz NULL,
+  "not_after" timestamptz NULL,
+  "is_revoked" boolean NOT NULL DEFAULT false,
+  "revoked_at" timestamptz NULL,
+  "certificate_pem" character varying NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzevaultpkicertificate_collected_at" to table: "vault_pki_certificates"
+CREATE INDEX "bronzevaultpkicertificate_collected_at" ON "bronze"."vault_pki_certificates" ("collected_at");
+-- Create index "bronzevaultpkicertificate_common_name" to table: "vault_pki_certificates"
+CREATE INDEX "bronzevaultpkicertificate_common_name" ON "bronze"."vault_pki_certificates" ("common_name");
+-- Create index "bronzevaultpkicertificate_is_revoked" to table: "vault_pki_certificates"
+CREATE INDEX "bronzevaultpkicertificate_is_revoked" ON "bronze"."vault_pki_certificates" ("is_revoked");
+-- Create index "bronzevaultpkicertificate_mount_path" to table: "vault_pki_certificates"
+CREATE INDEX "bronzevaultpkicertificate_mount_path" ON "bronze"."vault_pki_certificates" ("mount_path");
+-- Create index "bronzevaultpkicertificate_not_after" to table: "vault_pki_certificates"
+CREATE INDEX "bronzevaultpkicertificate_not_after" ON "bronze"."vault_pki_certificates" ("not_after");
+-- Create index "bronzevaultpkicertificate_vault_name" to table: "vault_pki_certificates"
+CREATE INDEX "bronzevaultpkicertificate_vault_name" ON "bronze"."vault_pki_certificates" ("vault_name");
 -- Create "s1_threats" table
 CREATE TABLE "bronze"."s1_threats" (
   "resource_id" character varying NOT NULL,
@@ -1100,24 +1257,6 @@ CREATE INDEX "bronzes1threat_collected_at" ON "bronze"."s1_threats" ("collected_
 CREATE INDEX "bronzes1threat_site_id" ON "bronze"."s1_threats" ("site_id");
 -- Create index "bronzes1threat_status" to table: "s1_threats"
 CREATE INDEX "bronzes1threat_status" ON "bronze"."s1_threats" ("status");
--- Create "gcp_dns_policies" table
-CREATE TABLE "bronze"."gcp_dns_policies" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "name" character varying NOT NULL,
-  "description" character varying NULL,
-  "enable_inbound_forwarding" boolean NOT NULL DEFAULT false,
-  "enable_logging" boolean NOT NULL DEFAULT false,
-  "networks_json" jsonb NULL,
-  "alternative_name_server_config_json" jsonb NULL,
-  "project_id" character varying NOT NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcpdnspolicy_collected_at" to table: "gcp_dns_policies"
-CREATE INDEX "bronzegcpdnspolicy_collected_at" ON "bronze"."gcp_dns_policies" ("collected_at");
--- Create index "bronzegcpdnspolicy_project_id" to table: "gcp_dns_policies"
-CREATE INDEX "bronzegcpdnspolicy_project_id" ON "bronze"."gcp_dns_policies" ("project_id");
 -- Create "s1_sites" table
 CREATE TABLE "bronze"."s1_sites" (
   "resource_id" character varying NOT NULL,
@@ -1233,79 +1372,78 @@ CREATE INDEX "bronzes1rangergateway_collected_at" ON "bronze"."s1_ranger_gateway
 CREATE INDEX "bronzes1rangergateway_network_name" ON "bronze"."s1_ranger_gateways" ("network_name");
 -- Create index "bronzes1rangergateway_site_id" to table: "s1_ranger_gateways"
 CREATE INDEX "bronzes1rangergateway_site_id" ON "bronze"."s1_ranger_gateways" ("site_id");
--- Create "s1_ranger_devices" table
-CREATE TABLE "bronze"."s1_ranger_devices" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "local_ip" character varying NULL,
-  "external_ip" character varying NULL,
-  "mac_address" character varying NULL,
-  "os_type" character varying NULL,
-  "os_name" character varying NULL,
-  "os_version" character varying NULL,
-  "device_type" character varying NULL,
-  "device_function" character varying NULL,
-  "manufacturer" character varying NULL,
-  "managed_state" character varying NULL,
-  "agent_id" character varying NULL,
-  "first_seen" timestamptz NULL,
-  "last_seen" timestamptz NULL,
-  "subnet_address" character varying NULL,
-  "gateway_ip_address" character varying NULL,
-  "gateway_mac_address" character varying NULL,
-  "network_name" character varying NULL,
-  "domain" character varying NULL,
-  "site_name" character varying NULL,
-  "device_review" character varying NULL,
-  "has_identity" boolean NOT NULL DEFAULT false,
-  "has_user_label" boolean NOT NULL DEFAULT false,
-  "fingerprint_score" bigint NULL,
-  "tcp_ports_json" jsonb NULL,
-  "udp_ports_json" jsonb NULL,
-  "hostnames_json" jsonb NULL,
-  "discovery_methods_json" jsonb NULL,
-  "networks_json" jsonb NULL,
-  "tags_json" jsonb NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzes1rangerdevice_agent_id" to table: "s1_ranger_devices"
-CREATE INDEX "bronzes1rangerdevice_agent_id" ON "bronze"."s1_ranger_devices" ("agent_id");
--- Create index "bronzes1rangerdevice_collected_at" to table: "s1_ranger_devices"
-CREATE INDEX "bronzes1rangerdevice_collected_at" ON "bronze"."s1_ranger_devices" ("collected_at");
--- Create index "bronzes1rangerdevice_managed_state" to table: "s1_ranger_devices"
-CREATE INDEX "bronzes1rangerdevice_managed_state" ON "bronze"."s1_ranger_devices" ("managed_state");
--- Create index "bronzes1rangerdevice_network_name" to table: "s1_ranger_devices"
-CREATE INDEX "bronzes1rangerdevice_network_name" ON "bronze"."s1_ranger_devices" ("network_name");
--- Create index "bronzes1rangerdevice_site_name" to table: "s1_ranger_devices"
-CREATE INDEX "bronzes1rangerdevice_site_name" ON "bronze"."s1_ranger_devices" ("site_name");
--- Create "s1_groups" table
-CREATE TABLE "bronze"."s1_groups" (
+-- Create "gcp_compute_health_checks" table
+CREATE TABLE "bronze"."gcp_compute_health_checks" (
   "resource_id" character varying NOT NULL,
   "collected_at" timestamptz NOT NULL,
   "first_collected_at" timestamptz NOT NULL,
   "name" character varying NOT NULL,
-  "site_id" character varying NULL,
+  "description" character varying NULL,
+  "creation_timestamp" character varying NULL,
+  "self_link" character varying NULL,
   "type" character varying NULL,
-  "is_default" boolean NOT NULL DEFAULT false,
-  "inherits" boolean NOT NULL DEFAULT false,
-  "rank" bigint NULL,
-  "total_agents" bigint NOT NULL DEFAULT 0,
-  "creator" character varying NULL,
-  "creator_id" character varying NULL,
-  "filter_name" character varying NULL,
-  "filter_id" character varying NULL,
-  "api_created_at" timestamptz NULL,
-  "api_updated_at" timestamptz NULL,
-  "registration_token" character varying NULL,
+  "region" character varying NULL,
+  "check_interval_sec" integer NULL,
+  "timeout_sec" integer NULL,
+  "healthy_threshold" integer NULL,
+  "unhealthy_threshold" integer NULL,
+  "tcp_health_check_json" jsonb NULL,
+  "http_health_check_json" jsonb NULL,
+  "https_health_check_json" jsonb NULL,
+  "http2_health_check_json" jsonb NULL,
+  "ssl_health_check_json" jsonb NULL,
+  "grpc_health_check_json" jsonb NULL,
+  "log_config_json" jsonb NULL,
+  "project_id" character varying NOT NULL,
   PRIMARY KEY ("resource_id")
 );
--- Create index "bronzes1group_collected_at" to table: "s1_groups"
-CREATE INDEX "bronzes1group_collected_at" ON "bronze"."s1_groups" ("collected_at");
--- Create index "bronzes1group_site_id" to table: "s1_groups"
-CREATE INDEX "bronzes1group_site_id" ON "bronze"."s1_groups" ("site_id");
--- Create index "bronzes1group_type" to table: "s1_groups"
-CREATE INDEX "bronzes1group_type" ON "bronze"."s1_groups" ("type");
+-- Create index "bronzegcpcomputehealthcheck_collected_at" to table: "gcp_compute_health_checks"
+CREATE INDEX "bronzegcpcomputehealthcheck_collected_at" ON "bronze"."gcp_compute_health_checks" ("collected_at");
+-- Create index "bronzegcpcomputehealthcheck_project_id" to table: "gcp_compute_health_checks"
+CREATE INDEX "bronzegcpcomputehealthcheck_project_id" ON "bronze"."gcp_compute_health_checks" ("project_id");
+-- Create index "bronzegcpcomputehealthcheck_type" to table: "gcp_compute_health_checks"
+CREATE INDEX "bronzegcpcomputehealthcheck_type" ON "bronze"."gcp_compute_health_checks" ("type");
+-- Create "gcp_organizations" table
+CREATE TABLE "bronze"."gcp_organizations" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "display_name" character varying NULL,
+  "state" character varying NULL,
+  "directory_customer_id" character varying NULL,
+  "etag" character varying NULL,
+  "create_time" character varying NULL,
+  "update_time" character varying NULL,
+  "delete_time" character varying NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcporganization_collected_at" to table: "gcp_organizations"
+CREATE INDEX "bronzegcporganization_collected_at" ON "bronze"."gcp_organizations" ("collected_at");
+-- Create index "bronzegcporganization_state" to table: "gcp_organizations"
+CREATE INDEX "bronzegcporganization_state" ON "bronze"."gcp_organizations" ("state");
+-- Create "gcp_compute_neg_endpoints" table
+CREATE TABLE "bronze"."gcp_compute_neg_endpoints" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "instance" character varying NULL,
+  "ip_address" character varying NULL,
+  "ipv6_address" character varying NULL,
+  "port" character varying NULL,
+  "fqdn" character varying NULL,
+  "annotations_json" jsonb NULL,
+  "neg_name" character varying NOT NULL,
+  "zone" character varying NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcpcomputenegendpoint_collected_at" to table: "gcp_compute_neg_endpoints"
+CREATE INDEX "bronzegcpcomputenegendpoint_collected_at" ON "bronze"."gcp_compute_neg_endpoints" ("collected_at");
+-- Create index "bronzegcpcomputenegendpoint_neg_name" to table: "gcp_compute_neg_endpoints"
+CREATE INDEX "bronzegcpcomputenegendpoint_neg_name" ON "bronze"."gcp_compute_neg_endpoints" ("neg_name");
+-- Create index "bronzegcpcomputenegendpoint_project_id" to table: "gcp_compute_neg_endpoints"
+CREATE INDEX "bronzegcpcomputenegendpoint_project_id" ON "bronze"."gcp_compute_neg_endpoints" ("project_id");
 -- Create "s1_apps" table
 CREATE TABLE "bronze"."s1_apps" (
   "resource_id" character varying NOT NULL,
@@ -1373,6 +1511,58 @@ CREATE INDEX "bronzes1account_account_type" ON "bronze"."s1_accounts" ("account_
 CREATE INDEX "bronzes1account_collected_at" ON "bronze"."s1_accounts" ("collected_at");
 -- Create index "bronzes1account_state" to table: "s1_accounts"
 CREATE INDEX "bronzes1account_state" ON "bronze"."s1_accounts" ("state");
+-- Create "greennode_volume_volume_types" table
+CREATE TABLE "bronze"."greennode_volume_volume_types" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "iops" bigint NULL,
+  "max_size" bigint NULL,
+  "min_size" bigint NULL,
+  "through_put" bigint NULL,
+  "zone_id" character varying NULL,
+  "region" character varying NOT NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegreennodevolumevolumetype_collected_at" to table: "greennode_volume_volume_types"
+CREATE INDEX "bronzegreennodevolumevolumetype_collected_at" ON "bronze"."greennode_volume_volume_types" ("collected_at");
+-- Create index "bronzegreennodevolumevolumetype_project_id" to table: "greennode_volume_volume_types"
+CREATE INDEX "bronzegreennodevolumevolumetype_project_id" ON "bronze"."greennode_volume_volume_types" ("project_id");
+-- Create index "bronzegreennodevolumevolumetype_region" to table: "greennode_volume_volume_types"
+CREATE INDEX "bronzegreennodevolumevolumetype_region" ON "bronze"."greennode_volume_volume_types" ("region");
+-- Create "greennode_volume_volume_type_zones" table
+CREATE TABLE "bronze"."greennode_volume_volume_type_zones" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "pool_name_json" jsonb NULL,
+  "region" character varying NOT NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegreennodevolumevolumetypezone_collected_at" to table: "greennode_volume_volume_type_zones"
+CREATE INDEX "bronzegreennodevolumevolumetypezone_collected_at" ON "bronze"."greennode_volume_volume_type_zones" ("collected_at");
+-- Create index "bronzegreennodevolumevolumetypezone_project_id" to table: "greennode_volume_volume_type_zones"
+CREATE INDEX "bronzegreennodevolumevolumetypezone_project_id" ON "bronze"."greennode_volume_volume_type_zones" ("project_id");
+-- Create index "bronzegreennodevolumevolumetypezone_region" to table: "greennode_volume_volume_type_zones"
+CREATE INDEX "bronzegreennodevolumevolumetypezone_region" ON "bronze"."greennode_volume_volume_type_zones" ("region");
+-- Create "greennode_portal_zones" table
+CREATE TABLE "bronze"."greennode_portal_zones" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "openstack_zone" character varying NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegreennodeportalzone_collected_at" to table: "greennode_portal_zones"
+CREATE INDEX "bronzegreennodeportalzone_collected_at" ON "bronze"."greennode_portal_zones" ("collected_at");
+-- Create index "bronzegreennodeportalzone_project_id" to table: "greennode_portal_zones"
+CREATE INDEX "bronzegreennodeportalzone_project_id" ON "bronze"."greennode_portal_zones" ("project_id");
 -- Create "greennode_portal_regions" table
 CREATE TABLE "bronze"."greennode_portal_regions" (
   "resource_id" character varying NOT NULL,
@@ -1407,37 +1597,121 @@ CREATE INDEX "bronzegreennodeportalquota_collected_at" ON "bronze"."greennode_po
 CREATE INDEX "bronzegreennodeportalquota_project_id" ON "bronze"."greennode_portal_quotas" ("project_id");
 -- Create index "bronzegreennodeportalquota_region" to table: "greennode_portal_quotas"
 CREATE INDEX "bronzegreennodeportalquota_region" ON "bronze"."greennode_portal_quotas" ("region");
--- Create "gcp_compute_health_checks" table
-CREATE TABLE "bronze"."gcp_compute_health_checks" (
+-- Create "greennode_network_endpoints" table
+CREATE TABLE "bronze"."greennode_network_endpoints" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "ipv4_address" character varying NULL,
+  "endpoint_url" character varying NULL,
+  "status" character varying NULL,
+  "vpc_id" character varying NULL,
+  "region" character varying NOT NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegreennodenetworkendpoint_collected_at" to table: "greennode_network_endpoints"
+CREATE INDEX "bronzegreennodenetworkendpoint_collected_at" ON "bronze"."greennode_network_endpoints" ("collected_at");
+-- Create index "bronzegreennodenetworkendpoint_project_id" to table: "greennode_network_endpoints"
+CREATE INDEX "bronzegreennodenetworkendpoint_project_id" ON "bronze"."greennode_network_endpoints" ("project_id");
+-- Create index "bronzegreennodenetworkendpoint_region" to table: "greennode_network_endpoints"
+CREATE INDEX "bronzegreennodenetworkendpoint_region" ON "bronze"."greennode_network_endpoints" ("region");
+-- Create index "bronzegreennodenetworkendpoint_status" to table: "greennode_network_endpoints"
+CREATE INDEX "bronzegreennodenetworkendpoint_status" ON "bronze"."greennode_network_endpoints" ("status");
+-- Create "greennode_loadbalancer_packages" table
+CREATE TABLE "bronze"."greennode_loadbalancer_packages" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "type" character varying NULL,
+  "connection_number" bigint NULL,
+  "data_transfer" bigint NULL,
+  "mode" character varying NULL,
+  "lb_type" character varying NULL,
+  "display_lb_type" character varying NULL,
+  "region" character varying NOT NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegreennodeloadbalancerpackage_collected_at" to table: "greennode_loadbalancer_packages"
+CREATE INDEX "bronzegreennodeloadbalancerpackage_collected_at" ON "bronze"."greennode_loadbalancer_packages" ("collected_at");
+-- Create index "bronzegreennodeloadbalancerpackage_project_id" to table: "greennode_loadbalancer_packages"
+CREATE INDEX "bronzegreennodeloadbalancerpackage_project_id" ON "bronze"."greennode_loadbalancer_packages" ("project_id");
+-- Create index "bronzegreennodeloadbalancerpackage_region" to table: "greennode_loadbalancer_packages"
+CREATE INDEX "bronzegreennodeloadbalancerpackage_region" ON "bronze"."greennode_loadbalancer_packages" ("region");
+-- Create "greennode_loadbalancer_certificates" table
+CREATE TABLE "bronze"."greennode_loadbalancer_certificates" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "certificate_type" character varying NULL,
+  "expired_at" character varying NULL,
+  "imported_at" character varying NULL,
+  "not_after" bigint NULL,
+  "key_algorithm" character varying NULL,
+  "serial" character varying NULL,
+  "subject" character varying NULL,
+  "domain_name" character varying NULL,
+  "in_use" boolean NOT NULL DEFAULT false,
+  "issuer" character varying NULL,
+  "signature_algorithm" character varying NULL,
+  "not_before" bigint NULL,
+  "region" character varying NOT NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegreennodeloadbalancercertificate_collected_at" to table: "greennode_loadbalancer_certificates"
+CREATE INDEX "bronzegreennodeloadbalancercertificate_collected_at" ON "bronze"."greennode_loadbalancer_certificates" ("collected_at");
+-- Create index "bronzegreennodeloadbalancercertificate_project_id" to table: "greennode_loadbalancer_certificates"
+CREATE INDEX "bronzegreennodeloadbalancercertificate_project_id" ON "bronze"."greennode_loadbalancer_certificates" ("project_id");
+-- Create index "bronzegreennodeloadbalancercertificate_region" to table: "greennode_loadbalancer_certificates"
+CREATE INDEX "bronzegreennodeloadbalancercertificate_region" ON "bronze"."greennode_loadbalancer_certificates" ("region");
+-- Create "greennode_glb_global_regions" table
+CREATE TABLE "bronze"."greennode_glb_global_regions" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "vserver_endpoint" character varying NULL,
+  "vlb_endpoint" character varying NULL,
+  "ui_server_endpoint" character varying NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegreennodeglbglobalregion_collected_at" to table: "greennode_glb_global_regions"
+CREATE INDEX "bronzegreennodeglbglobalregion_collected_at" ON "bronze"."greennode_glb_global_regions" ("collected_at");
+-- Create index "bronzegreennodeglbglobalregion_project_id" to table: "greennode_glb_global_regions"
+CREATE INDEX "bronzegreennodeglbglobalregion_project_id" ON "bronze"."greennode_glb_global_regions" ("project_id");
+-- Create "greennode_glb_global_packages" table
+CREATE TABLE "bronze"."greennode_glb_global_packages" (
   "resource_id" character varying NOT NULL,
   "collected_at" timestamptz NOT NULL,
   "first_collected_at" timestamptz NOT NULL,
   "name" character varying NOT NULL,
   "description" character varying NULL,
-  "creation_timestamp" character varying NULL,
-  "self_link" character varying NULL,
-  "type" character varying NULL,
-  "region" character varying NULL,
-  "check_interval_sec" integer NULL,
-  "timeout_sec" integer NULL,
-  "healthy_threshold" integer NULL,
-  "unhealthy_threshold" integer NULL,
-  "tcp_health_check_json" jsonb NULL,
-  "http_health_check_json" jsonb NULL,
-  "https_health_check_json" jsonb NULL,
-  "http2_health_check_json" jsonb NULL,
-  "ssl_health_check_json" jsonb NULL,
-  "grpc_health_check_json" jsonb NULL,
-  "log_config_json" jsonb NULL,
+  "description_en" character varying NULL,
+  "detail_json" jsonb NULL,
+  "enabled" boolean NOT NULL DEFAULT false,
+  "base_sku" character varying NULL,
+  "base_connection_rate" bigint NULL,
+  "base_domestic_traffic_total" bigint NULL,
+  "base_non_domestic_traffic_total" bigint NULL,
+  "connection_sku" character varying NULL,
+  "domestic_traffic_sku" character varying NULL,
+  "non_domestic_traffic_sku" character varying NULL,
+  "created_at_api" character varying NULL,
+  "updated_at_api" character varying NULL,
+  "vlb_packages_json" jsonb NULL,
   "project_id" character varying NOT NULL,
   PRIMARY KEY ("resource_id")
 );
--- Create index "bronzegcpcomputehealthcheck_collected_at" to table: "gcp_compute_health_checks"
-CREATE INDEX "bronzegcpcomputehealthcheck_collected_at" ON "bronze"."gcp_compute_health_checks" ("collected_at");
--- Create index "bronzegcpcomputehealthcheck_project_id" to table: "gcp_compute_health_checks"
-CREATE INDEX "bronzegcpcomputehealthcheck_project_id" ON "bronze"."gcp_compute_health_checks" ("project_id");
--- Create index "bronzegcpcomputehealthcheck_type" to table: "gcp_compute_health_checks"
-CREATE INDEX "bronzegcpcomputehealthcheck_type" ON "bronze"."gcp_compute_health_checks" ("type");
+-- Create index "bronzegreennodeglbglobalpackage_collected_at" to table: "greennode_glb_global_packages"
+CREATE INDEX "bronzegreennodeglbglobalpackage_collected_at" ON "bronze"."greennode_glb_global_packages" ("collected_at");
+-- Create index "bronzegreennodeglbglobalpackage_project_id" to table: "greennode_glb_global_packages"
+CREATE INDEX "bronzegreennodeglbglobalpackage_project_id" ON "bronze"."greennode_glb_global_packages" ("project_id");
 -- Create "greennode_compute_ssh_keys" table
 CREATE TABLE "bronze"."greennode_compute_ssh_keys" (
   "resource_id" character varying NOT NULL,
@@ -1480,6 +1754,94 @@ CREATE TABLE "bronze"."gcp_vpc_access_connectors" (
 CREATE INDEX "bronzegcpvpcaccessconnector_collected_at" ON "bronze"."gcp_vpc_access_connectors" ("collected_at");
 -- Create index "bronzegcpvpcaccessconnector_project_id" to table: "gcp_vpc_access_connectors"
 CREATE INDEX "bronzegcpvpcaccessconnector_project_id" ON "bronze"."gcp_vpc_access_connectors" ("project_id");
+-- Create "gcp_compute_interconnects" table
+CREATE TABLE "bronze"."gcp_compute_interconnects" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "description" character varying NULL,
+  "self_link" character varying NULL,
+  "location" character varying NULL,
+  "interconnect_type" character varying NULL,
+  "link_type" character varying NULL,
+  "admin_enabled" boolean NOT NULL DEFAULT false,
+  "operational_status" character varying NULL,
+  "provisioned_link_count" bigint NULL,
+  "requested_link_count" bigint NULL,
+  "peer_ip_address" character varying NULL,
+  "google_ip_address" character varying NULL,
+  "google_reference_id" character varying NULL,
+  "noc_contact_email" character varying NULL,
+  "customer_name" character varying NULL,
+  "state" character varying NULL,
+  "creation_timestamp" character varying NULL,
+  "expected_outages_json" jsonb NULL,
+  "circuit_infos_json" jsonb NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcpcomputeinterconnect_collected_at" to table: "gcp_compute_interconnects"
+CREATE INDEX "bronzegcpcomputeinterconnect_collected_at" ON "bronze"."gcp_compute_interconnects" ("collected_at");
+-- Create index "bronzegcpcomputeinterconnect_project_id" to table: "gcp_compute_interconnects"
+CREATE INDEX "bronzegcpcomputeinterconnect_project_id" ON "bronze"."gcp_compute_interconnects" ("project_id");
+-- Create "s1_groups" table
+CREATE TABLE "bronze"."s1_groups" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "site_id" character varying NULL,
+  "type" character varying NULL,
+  "is_default" boolean NOT NULL DEFAULT false,
+  "inherits" boolean NOT NULL DEFAULT false,
+  "rank" bigint NULL,
+  "total_agents" bigint NOT NULL DEFAULT 0,
+  "creator" character varying NULL,
+  "creator_id" character varying NULL,
+  "filter_name" character varying NULL,
+  "filter_id" character varying NULL,
+  "api_created_at" timestamptz NULL,
+  "api_updated_at" timestamptz NULL,
+  "registration_token" character varying NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzes1group_collected_at" to table: "s1_groups"
+CREATE INDEX "bronzes1group_collected_at" ON "bronze"."s1_groups" ("collected_at");
+-- Create index "bronzes1group_site_id" to table: "s1_groups"
+CREATE INDEX "bronzes1group_site_id" ON "bronze"."s1_groups" ("site_id");
+-- Create index "bronzes1group_type" to table: "s1_groups"
+CREATE INDEX "bronzes1group_type" ON "bronze"."s1_groups" ("type");
+-- Create "gcp_compute_negs" table
+CREATE TABLE "bronze"."gcp_compute_negs" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "description" character varying NULL,
+  "creation_timestamp" character varying NULL,
+  "self_link" character varying NULL,
+  "network" character varying NULL,
+  "subnetwork" character varying NULL,
+  "zone" character varying NULL,
+  "network_endpoint_type" character varying NULL,
+  "default_port" character varying NULL,
+  "size" character varying NULL,
+  "region" character varying NULL,
+  "annotations_json" jsonb NULL,
+  "app_engine_json" jsonb NULL,
+  "cloud_function_json" jsonb NULL,
+  "cloud_run_json" jsonb NULL,
+  "psc_data_json" jsonb NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcpcomputeneg_collected_at" to table: "gcp_compute_negs"
+CREATE INDEX "bronzegcpcomputeneg_collected_at" ON "bronze"."gcp_compute_negs" ("collected_at");
+-- Create index "bronzegcpcomputeneg_project_id" to table: "gcp_compute_negs"
+CREATE INDEX "bronzegcpcomputeneg_project_id" ON "bronze"."gcp_compute_negs" ("project_id");
+-- Create index "bronzegcpcomputeneg_zone" to table: "gcp_compute_negs"
+CREATE INDEX "bronzegcpcomputeneg_zone" ON "bronze"."gcp_compute_negs" ("zone");
 -- Create "gcp_serviceusage_enabled_services" table
 CREATE TABLE "bronze"."gcp_serviceusage_enabled_services" (
   "resource_id" character varying NOT NULL,
@@ -1511,6 +1873,29 @@ CREATE TABLE "bronze"."gcp_securitycenter_sources" (
 CREATE INDEX "bronzegcpsecuritycentersource_collected_at" ON "bronze"."gcp_securitycenter_sources" ("collected_at");
 -- Create index "bronzegcpsecuritycentersource_organization_id" to table: "gcp_securitycenter_sources"
 CREATE INDEX "bronzegcpsecuritycentersource_organization_id" ON "bronze"."gcp_securitycenter_sources" ("organization_id");
+-- Create "gcp_compute_packet_mirrorings" table
+CREATE TABLE "bronze"."gcp_compute_packet_mirrorings" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "description" character varying NULL,
+  "self_link" character varying NULL,
+  "region" character varying NULL,
+  "network" character varying NULL,
+  "priority" bigint NULL,
+  "enable" character varying NULL,
+  "collector_ilb_json" jsonb NULL,
+  "mirrored_resources_json" jsonb NULL,
+  "filter_json" jsonb NULL,
+  "creation_timestamp" character varying NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcpcomputepacketmirroring_collected_at" to table: "gcp_compute_packet_mirrorings"
+CREATE INDEX "bronzegcpcomputepacketmirroring_collected_at" ON "bronze"."gcp_compute_packet_mirrorings" ("collected_at");
+-- Create index "bronzegcpcomputepacketmirroring_project_id" to table: "gcp_compute_packet_mirrorings"
+CREATE INDEX "bronzegcpcomputepacketmirroring_project_id" ON "bronze"."gcp_compute_packet_mirrorings" ("project_id");
 -- Create "gcp_securitycenter_notification_configs" table
 CREATE TABLE "bronze"."gcp_securitycenter_notification_configs" (
   "resource_id" character varying NOT NULL,
@@ -1564,6 +1949,58 @@ CREATE INDEX "bronzegcpsecuritycenterfinding_organization_id" ON "bronze"."gcp_s
 CREATE INDEX "bronzegcpsecuritycenterfinding_severity" ON "bronze"."gcp_securitycenter_findings" ("severity");
 -- Create index "bronzegcpsecuritycenterfinding_state" to table: "gcp_securitycenter_findings"
 CREATE INDEX "bronzegcpsecuritycenterfinding_state" ON "bronze"."gcp_securitycenter_findings" ("state");
+-- Create "gcp_compute_routers" table
+CREATE TABLE "bronze"."gcp_compute_routers" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "description" character varying NULL,
+  "self_link" character varying NULL,
+  "creation_timestamp" character varying NULL,
+  "network" character varying NULL,
+  "region" character varying NULL,
+  "bgp_asn" bigint NOT NULL DEFAULT 0,
+  "bgp_advertise_mode" character varying NULL,
+  "bgp_advertised_groups_json" jsonb NULL,
+  "bgp_advertised_ip_ranges_json" jsonb NULL,
+  "bgp_keepalive_interval" bigint NOT NULL DEFAULT 0,
+  "bgp_peers_json" jsonb NULL,
+  "interfaces_json" jsonb NULL,
+  "nats_json" jsonb NULL,
+  "encrypted_interconnect_router" boolean NOT NULL DEFAULT false,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcpcomputerouter_collected_at" to table: "gcp_compute_routers"
+CREATE INDEX "bronzegcpcomputerouter_collected_at" ON "bronze"."gcp_compute_routers" ("collected_at");
+-- Create index "bronzegcpcomputerouter_project_id" to table: "gcp_compute_routers"
+CREATE INDEX "bronzegcpcomputerouter_project_id" ON "bronze"."gcp_compute_routers" ("project_id");
+-- Create "gcp_compute_security_policies" table
+CREATE TABLE "bronze"."gcp_compute_security_policies" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "description" character varying NULL,
+  "self_link" character varying NULL,
+  "creation_timestamp" character varying NULL,
+  "type" character varying NULL,
+  "fingerprint" character varying NULL,
+  "rules_json" jsonb NULL,
+  "associations_json" jsonb NULL,
+  "adaptive_protection_config_json" jsonb NULL,
+  "advanced_options_config_json" jsonb NULL,
+  "ddos_protection_config_json" jsonb NULL,
+  "recaptcha_options_config_json" jsonb NULL,
+  "labels_json" jsonb NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcpcomputesecuritypolicy_collected_at" to table: "gcp_compute_security_policies"
+CREATE INDEX "bronzegcpcomputesecuritypolicy_collected_at" ON "bronze"."gcp_compute_security_policies" ("collected_at");
+-- Create index "bronzegcpcomputesecuritypolicy_project_id" to table: "gcp_compute_security_policies"
+CREATE INDEX "bronzegcpcomputesecuritypolicy_project_id" ON "bronze"."gcp_compute_security_policies" ("project_id");
 -- Create "gcp_redis_instances" table
 CREATE TABLE "bronze"."gcp_redis_instances" (
   "resource_id" character varying NOT NULL,
@@ -1631,35 +2068,50 @@ CREATE TABLE "bronze"."gcp_pubsub_topics" (
 CREATE INDEX "bronzegcppubsubtopic_collected_at" ON "bronze"."gcp_pubsub_topics" ("collected_at");
 -- Create index "bronzegcppubsubtopic_project_id" to table: "gcp_pubsub_topics"
 CREATE INDEX "bronzegcppubsubtopic_project_id" ON "bronze"."gcp_pubsub_topics" ("project_id");
--- Create "gcp_pubsub_subscriptions" table
-CREATE TABLE "bronze"."gcp_pubsub_subscriptions" (
+-- Create "gcp_iam_service_account_keys" table
+CREATE TABLE "bronze"."gcp_iam_service_account_keys" (
   "resource_id" character varying NOT NULL,
   "collected_at" timestamptz NOT NULL,
   "first_collected_at" timestamptz NOT NULL,
   "name" character varying NOT NULL,
-  "topic" character varying NULL,
-  "push_config_json" jsonb NULL,
-  "bigquery_config_json" jsonb NULL,
-  "cloud_storage_config_json" jsonb NULL,
-  "ack_deadline_seconds" bigint NULL,
-  "retain_acked_messages" boolean NOT NULL DEFAULT false,
-  "message_retention_duration" character varying NULL,
-  "labels_json" jsonb NULL,
-  "enable_message_ordering" boolean NOT NULL DEFAULT false,
-  "expiration_policy_json" jsonb NULL,
-  "filter" character varying NULL,
-  "dead_letter_policy_json" jsonb NULL,
-  "retry_policy_json" jsonb NULL,
-  "detached" boolean NOT NULL DEFAULT false,
-  "enable_exactly_once_delivery" boolean NOT NULL DEFAULT false,
-  "state" bigint NULL,
+  "service_account_email" character varying NOT NULL,
+  "key_origin" character varying NULL,
+  "key_type" character varying NULL,
+  "key_algorithm" character varying NULL,
+  "valid_after_time" timestamptz NULL,
+  "valid_before_time" timestamptz NULL,
+  "disabled" boolean NOT NULL DEFAULT false,
   "project_id" character varying NOT NULL,
   PRIMARY KEY ("resource_id")
 );
--- Create index "bronzegcppubsubsubscription_collected_at" to table: "gcp_pubsub_subscriptions"
-CREATE INDEX "bronzegcppubsubsubscription_collected_at" ON "bronze"."gcp_pubsub_subscriptions" ("collected_at");
--- Create index "bronzegcppubsubsubscription_project_id" to table: "gcp_pubsub_subscriptions"
-CREATE INDEX "bronzegcppubsubsubscription_project_id" ON "bronze"."gcp_pubsub_subscriptions" ("project_id");
+-- Create index "bronzegcpiamserviceaccountkey_collected_at" to table: "gcp_iam_service_account_keys"
+CREATE INDEX "bronzegcpiamserviceaccountkey_collected_at" ON "bronze"."gcp_iam_service_account_keys" ("collected_at");
+-- Create index "bronzegcpiamserviceaccountkey_project_id" to table: "gcp_iam_service_account_keys"
+CREATE INDEX "bronzegcpiamserviceaccountkey_project_id" ON "bronze"."gcp_iam_service_account_keys" ("project_id");
+-- Create index "bronzegcpiamserviceaccountkey_service_account_email" to table: "gcp_iam_service_account_keys"
+CREATE INDEX "bronzegcpiamserviceaccountkey_service_account_email" ON "bronze"."gcp_iam_service_account_keys" ("service_account_email");
+-- Create "gcp_compute_ssl_policies" table
+CREATE TABLE "bronze"."gcp_compute_ssl_policies" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "description" character varying NULL,
+  "self_link" character varying NULL,
+  "creation_timestamp" character varying NULL,
+  "profile" character varying NULL,
+  "min_tls_version" character varying NULL,
+  "fingerprint" character varying NULL,
+  "custom_features_json" jsonb NULL,
+  "enabled_features_json" jsonb NULL,
+  "warnings_json" jsonb NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcpcomputesslpolicy_collected_at" to table: "gcp_compute_ssl_policies"
+CREATE INDEX "bronzegcpcomputesslpolicy_collected_at" ON "bronze"."gcp_compute_ssl_policies" ("collected_at");
+-- Create index "bronzegcpcomputesslpolicy_project_id" to table: "gcp_compute_ssl_policies"
+CREATE INDEX "bronzegcpcomputesslpolicy_project_id" ON "bronze"."gcp_compute_ssl_policies" ("project_id");
 -- Create "gcp_orgpolicy_policies" table
 CREATE TABLE "bronze"."gcp_orgpolicy_policies" (
   "resource_id" character varying NOT NULL,
@@ -1694,291 +2146,6 @@ CREATE TABLE "bronze"."gcp_orgpolicy_custom_constraints" (
 CREATE INDEX "bronzegcporgpolicycustomconstraint_collected_at" ON "bronze"."gcp_orgpolicy_custom_constraints" ("collected_at");
 -- Create index "bronzegcporgpolicycustomconstraint_organization_id" to table: "gcp_orgpolicy_custom_constraints"
 CREATE INDEX "bronzegcporgpolicycustomconstraint_organization_id" ON "bronze"."gcp_orgpolicy_custom_constraints" ("organization_id");
--- Create "gcp_organizations" table
-CREATE TABLE "bronze"."gcp_organizations" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "name" character varying NOT NULL,
-  "display_name" character varying NULL,
-  "state" character varying NULL,
-  "directory_customer_id" character varying NULL,
-  "etag" character varying NULL,
-  "create_time" character varying NULL,
-  "update_time" character varying NULL,
-  "delete_time" character varying NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcporganization_collected_at" to table: "gcp_organizations"
-CREATE INDEX "bronzegcporganization_collected_at" ON "bronze"."gcp_organizations" ("collected_at");
--- Create index "bronzegcporganization_state" to table: "gcp_organizations"
-CREATE INDEX "bronzegcporganization_state" ON "bronze"."gcp_organizations" ("state");
--- Create "gcp_monitoring_uptime_check_configs" table
-CREATE TABLE "bronze"."gcp_monitoring_uptime_check_configs" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "name" character varying NOT NULL,
-  "display_name" character varying NULL,
-  "monitored_resource_json" jsonb NULL,
-  "resource_group_json" jsonb NULL,
-  "http_check_json" jsonb NULL,
-  "tcp_check_json" jsonb NULL,
-  "period" character varying NULL,
-  "timeout" character varying NULL,
-  "content_matchers_json" jsonb NULL,
-  "checker_type" bigint NOT NULL DEFAULT 0,
-  "selected_regions_json" jsonb NULL,
-  "is_internal" boolean NOT NULL DEFAULT false,
-  "internal_checkers_json" jsonb NULL,
-  "user_labels_json" jsonb NULL,
-  "project_id" character varying NOT NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcpmonitoringuptimecheckconfig_collected_at" to table: "gcp_monitoring_uptime_check_configs"
-CREATE INDEX "bronzegcpmonitoringuptimecheckconfig_collected_at" ON "bronze"."gcp_monitoring_uptime_check_configs" ("collected_at");
--- Create index "bronzegcpmonitoringuptimecheckconfig_project_id" to table: "gcp_monitoring_uptime_check_configs"
-CREATE INDEX "bronzegcpmonitoringuptimecheckconfig_project_id" ON "bronze"."gcp_monitoring_uptime_check_configs" ("project_id");
--- Create "gcp_monitoring_alert_policies" table
-CREATE TABLE "bronze"."gcp_monitoring_alert_policies" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "name" character varying NOT NULL,
-  "display_name" character varying NULL,
-  "documentation_json" jsonb NULL,
-  "user_labels_json" jsonb NULL,
-  "conditions_json" jsonb NULL,
-  "combiner" bigint NOT NULL DEFAULT 0,
-  "enabled" boolean NOT NULL DEFAULT false,
-  "notification_channels_json" jsonb NULL,
-  "creation_record_json" jsonb NULL,
-  "mutation_record_json" jsonb NULL,
-  "alert_strategy_json" jsonb NULL,
-  "severity" bigint NOT NULL DEFAULT 0,
-  "project_id" character varying NOT NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcpmonitoringalertpolicy_collected_at" to table: "gcp_monitoring_alert_policies"
-CREATE INDEX "bronzegcpmonitoringalertpolicy_collected_at" ON "bronze"."gcp_monitoring_alert_policies" ("collected_at");
--- Create index "bronzegcpmonitoringalertpolicy_project_id" to table: "gcp_monitoring_alert_policies"
-CREATE INDEX "bronzegcpmonitoringalertpolicy_project_id" ON "bronze"."gcp_monitoring_alert_policies" ("project_id");
--- Create "gcp_logging_sinks" table
-CREATE TABLE "bronze"."gcp_logging_sinks" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "name" character varying NOT NULL,
-  "destination" character varying NULL,
-  "filter" text NULL,
-  "description" character varying NULL,
-  "disabled" boolean NOT NULL DEFAULT false,
-  "include_children" boolean NOT NULL DEFAULT false,
-  "writer_identity" character varying NULL,
-  "exclusions_json" jsonb NULL,
-  "bigquery_options_json" jsonb NULL,
-  "project_id" character varying NOT NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcploggingsink_collected_at" to table: "gcp_logging_sinks"
-CREATE INDEX "bronzegcploggingsink_collected_at" ON "bronze"."gcp_logging_sinks" ("collected_at");
--- Create index "bronzegcploggingsink_project_id" to table: "gcp_logging_sinks"
-CREATE INDEX "bronzegcploggingsink_project_id" ON "bronze"."gcp_logging_sinks" ("project_id");
--- Create "gcp_compute_interconnects" table
-CREATE TABLE "bronze"."gcp_compute_interconnects" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "name" character varying NOT NULL,
-  "description" character varying NULL,
-  "self_link" character varying NULL,
-  "location" character varying NULL,
-  "interconnect_type" character varying NULL,
-  "link_type" character varying NULL,
-  "admin_enabled" boolean NOT NULL DEFAULT false,
-  "operational_status" character varying NULL,
-  "provisioned_link_count" bigint NULL,
-  "requested_link_count" bigint NULL,
-  "peer_ip_address" character varying NULL,
-  "google_ip_address" character varying NULL,
-  "google_reference_id" character varying NULL,
-  "noc_contact_email" character varying NULL,
-  "customer_name" character varying NULL,
-  "state" character varying NULL,
-  "creation_timestamp" character varying NULL,
-  "expected_outages_json" jsonb NULL,
-  "circuit_infos_json" jsonb NULL,
-  "project_id" character varying NOT NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcpcomputeinterconnect_collected_at" to table: "gcp_compute_interconnects"
-CREATE INDEX "bronzegcpcomputeinterconnect_collected_at" ON "bronze"."gcp_compute_interconnects" ("collected_at");
--- Create index "bronzegcpcomputeinterconnect_project_id" to table: "gcp_compute_interconnects"
-CREATE INDEX "bronzegcpcomputeinterconnect_project_id" ON "bronze"."gcp_compute_interconnects" ("project_id");
--- Create "gcp_containeranalysis_notes" table
-CREATE TABLE "bronze"."gcp_containeranalysis_notes" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "short_description" character varying NULL,
-  "long_description" character varying NULL,
-  "kind" bigint NULL,
-  "expiration_time" character varying NULL,
-  "create_time" character varying NULL,
-  "update_time" character varying NULL,
-  "related_url_json" jsonb NULL,
-  "related_note_names" jsonb NULL,
-  "vulnerability_json" jsonb NULL,
-  "build_json" jsonb NULL,
-  "image_json" jsonb NULL,
-  "package_json" jsonb NULL,
-  "deployment_json" jsonb NULL,
-  "discovery_json" jsonb NULL,
-  "attestation_json" jsonb NULL,
-  "upgrade_json" jsonb NULL,
-  "compliance_json" jsonb NULL,
-  "dsse_attestation_json" jsonb NULL,
-  "vulnerability_assessment_json" jsonb NULL,
-  "sbom_reference_json" jsonb NULL,
-  "project_id" character varying NOT NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcpcontaineranalysisnote_collected_at" to table: "gcp_containeranalysis_notes"
-CREATE INDEX "bronzegcpcontaineranalysisnote_collected_at" ON "bronze"."gcp_containeranalysis_notes" ("collected_at");
--- Create index "bronzegcpcontaineranalysisnote_kind" to table: "gcp_containeranalysis_notes"
-CREATE INDEX "bronzegcpcontaineranalysisnote_kind" ON "bronze"."gcp_containeranalysis_notes" ("kind");
--- Create index "bronzegcpcontaineranalysisnote_project_id" to table: "gcp_containeranalysis_notes"
-CREATE INDEX "bronzegcpcontaineranalysisnote_project_id" ON "bronze"."gcp_containeranalysis_notes" ("project_id");
--- Create "gcp_compute_negs" table
-CREATE TABLE "bronze"."gcp_compute_negs" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "name" character varying NOT NULL,
-  "description" character varying NULL,
-  "creation_timestamp" character varying NULL,
-  "self_link" character varying NULL,
-  "network" character varying NULL,
-  "subnetwork" character varying NULL,
-  "zone" character varying NULL,
-  "network_endpoint_type" character varying NULL,
-  "default_port" character varying NULL,
-  "size" character varying NULL,
-  "region" character varying NULL,
-  "annotations_json" jsonb NULL,
-  "app_engine_json" jsonb NULL,
-  "cloud_function_json" jsonb NULL,
-  "cloud_run_json" jsonb NULL,
-  "psc_data_json" jsonb NULL,
-  "project_id" character varying NOT NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcpcomputeneg_collected_at" to table: "gcp_compute_negs"
-CREATE INDEX "bronzegcpcomputeneg_collected_at" ON "bronze"."gcp_compute_negs" ("collected_at");
--- Create index "bronzegcpcomputeneg_project_id" to table: "gcp_compute_negs"
-CREATE INDEX "bronzegcpcomputeneg_project_id" ON "bronze"."gcp_compute_negs" ("project_id");
--- Create index "bronzegcpcomputeneg_zone" to table: "gcp_compute_negs"
-CREATE INDEX "bronzegcpcomputeneg_zone" ON "bronze"."gcp_compute_negs" ("zone");
--- Create "gcp_logging_log_metrics" table
-CREATE TABLE "bronze"."gcp_logging_log_metrics" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "name" character varying NOT NULL,
-  "description" character varying NULL,
-  "filter" text NULL,
-  "metric_descriptor_json" jsonb NULL,
-  "label_extractors_json" jsonb NULL,
-  "bucket_options_json" jsonb NULL,
-  "value_extractor" character varying NULL,
-  "version" character varying NULL,
-  "disabled" boolean NOT NULL DEFAULT false,
-  "create_time" character varying NULL,
-  "update_time" character varying NULL,
-  "project_id" character varying NOT NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcplogginglogmetric_collected_at" to table: "gcp_logging_log_metrics"
-CREATE INDEX "bronzegcplogginglogmetric_collected_at" ON "bronze"."gcp_logging_log_metrics" ("collected_at");
--- Create index "bronzegcplogginglogmetric_project_id" to table: "gcp_logging_log_metrics"
-CREATE INDEX "bronzegcplogginglogmetric_project_id" ON "bronze"."gcp_logging_log_metrics" ("project_id");
--- Create "gcp_logging_log_exclusions" table
-CREATE TABLE "bronze"."gcp_logging_log_exclusions" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "name" character varying NOT NULL,
-  "description" character varying NULL,
-  "filter" text NULL,
-  "disabled" boolean NOT NULL DEFAULT false,
-  "create_time" character varying NULL,
-  "update_time" character varying NULL,
-  "project_id" character varying NOT NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcplogginglogexclusion_collected_at" to table: "gcp_logging_log_exclusions"
-CREATE INDEX "bronzegcplogginglogexclusion_collected_at" ON "bronze"."gcp_logging_log_exclusions" ("collected_at");
--- Create index "bronzegcplogginglogexclusion_project_id" to table: "gcp_logging_log_exclusions"
-CREATE INDEX "bronzegcplogginglogexclusion_project_id" ON "bronze"."gcp_logging_log_exclusions" ("project_id");
--- Create "gcp_compute_packet_mirrorings" table
-CREATE TABLE "bronze"."gcp_compute_packet_mirrorings" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "name" character varying NOT NULL,
-  "description" character varying NULL,
-  "self_link" character varying NULL,
-  "region" character varying NULL,
-  "network" character varying NULL,
-  "priority" bigint NULL,
-  "enable" character varying NULL,
-  "collector_ilb_json" jsonb NULL,
-  "mirrored_resources_json" jsonb NULL,
-  "filter_json" jsonb NULL,
-  "creation_timestamp" character varying NULL,
-  "project_id" character varying NOT NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcpcomputepacketmirroring_collected_at" to table: "gcp_compute_packet_mirrorings"
-CREATE INDEX "bronzegcpcomputepacketmirroring_collected_at" ON "bronze"."gcp_compute_packet_mirrorings" ("collected_at");
--- Create index "bronzegcpcomputepacketmirroring_project_id" to table: "gcp_compute_packet_mirrorings"
-CREATE INDEX "bronzegcpcomputepacketmirroring_project_id" ON "bronze"."gcp_compute_packet_mirrorings" ("project_id");
--- Create "gcp_logging_buckets" table
-CREATE TABLE "bronze"."gcp_logging_buckets" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "name" character varying NOT NULL,
-  "description" character varying NULL,
-  "retention_days" integer NOT NULL DEFAULT 0,
-  "locked" boolean NOT NULL DEFAULT false,
-  "lifecycle_state" character varying NULL,
-  "analytics_enabled" boolean NOT NULL DEFAULT false,
-  "project_id" character varying NOT NULL,
-  "location" character varying NULL,
-  "cmek_settings_json" jsonb NULL,
-  "index_configs_json" jsonb NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcploggingbucket_collected_at" to table: "gcp_logging_buckets"
-CREATE INDEX "bronzegcploggingbucket_collected_at" ON "bronze"."gcp_logging_buckets" ("collected_at");
--- Create index "bronzegcploggingbucket_project_id" to table: "gcp_logging_buckets"
-CREATE INDEX "bronzegcploggingbucket_project_id" ON "bronze"."gcp_logging_buckets" ("project_id");
--- Create "gcp_kms_key_rings" table
-CREATE TABLE "bronze"."gcp_kms_key_rings" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "name" character varying NOT NULL,
-  "create_time" character varying NULL,
-  "project_id" character varying NOT NULL,
-  "location" character varying NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcpkmskeyring_collected_at" to table: "gcp_kms_key_rings"
-CREATE INDEX "bronzegcpkmskeyring_collected_at" ON "bronze"."gcp_kms_key_rings" ("collected_at");
--- Create index "bronzegcpkmskeyring_project_id" to table: "gcp_kms_key_rings"
-CREATE INDEX "bronzegcpkmskeyring_project_id" ON "bronze"."gcp_kms_key_rings" ("project_id");
 -- Create "gcp_compute_target_http_proxies" table
 CREATE TABLE "bronze"."gcp_compute_target_http_proxies" (
   "resource_id" character varying NOT NULL,
@@ -2000,106 +2167,140 @@ CREATE TABLE "bronze"."gcp_compute_target_http_proxies" (
 CREATE INDEX "bronzegcpcomputetargethttpproxy_collected_at" ON "bronze"."gcp_compute_target_http_proxies" ("collected_at");
 -- Create index "bronzegcpcomputetargethttpproxy_project_id" to table: "gcp_compute_target_http_proxies"
 CREATE INDEX "bronzegcpcomputetargethttpproxy_project_id" ON "bronze"."gcp_compute_target_http_proxies" ("project_id");
--- Create "gcp_compute_security_policies" table
-CREATE TABLE "bronze"."gcp_compute_security_policies" (
+-- Create "gcp_compute_target_https_proxies" table
+CREATE TABLE "bronze"."gcp_compute_target_https_proxies" (
   "resource_id" character varying NOT NULL,
   "collected_at" timestamptz NOT NULL,
   "first_collected_at" timestamptz NOT NULL,
   "name" character varying NOT NULL,
   "description" character varying NULL,
+  "creation_timestamp" character varying NULL,
+  "self_link" character varying NULL,
+  "fingerprint" character varying NULL,
+  "url_map" character varying NULL,
+  "quic_override" character varying NULL,
+  "server_tls_policy" character varying NULL,
+  "authorization_policy" character varying NULL,
+  "certificate_map" character varying NULL,
+  "ssl_policy" character varying NULL,
+  "tls_early_data" character varying NULL,
+  "proxy_bind" boolean NOT NULL DEFAULT false,
+  "http_keep_alive_timeout_sec" integer NULL,
+  "ssl_certificates_json" jsonb NULL,
+  "region" character varying NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcpcomputetargethttpsproxy_collected_at" to table: "gcp_compute_target_https_proxies"
+CREATE INDEX "bronzegcpcomputetargethttpsproxy_collected_at" ON "bronze"."gcp_compute_target_https_proxies" ("collected_at");
+-- Create index "bronzegcpcomputetargethttpsproxy_project_id" to table: "gcp_compute_target_https_proxies"
+CREATE INDEX "bronzegcpcomputetargethttpsproxy_project_id" ON "bronze"."gcp_compute_target_https_proxies" ("project_id");
+-- Create "gcp_compute_target_instances" table
+CREATE TABLE "bronze"."gcp_compute_target_instances" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "description" character varying NULL,
+  "zone" character varying NULL,
+  "instance" character varying NULL,
+  "network" character varying NULL,
+  "nat_policy" character varying NULL,
+  "security_policy" character varying NULL,
   "self_link" character varying NULL,
   "creation_timestamp" character varying NULL,
-  "type" character varying NULL,
-  "fingerprint" character varying NULL,
-  "rules_json" jsonb NULL,
-  "associations_json" jsonb NULL,
-  "adaptive_protection_config_json" jsonb NULL,
-  "advanced_options_config_json" jsonb NULL,
-  "ddos_protection_config_json" jsonb NULL,
-  "recaptcha_options_config_json" jsonb NULL,
-  "labels_json" jsonb NULL,
   "project_id" character varying NOT NULL,
   PRIMARY KEY ("resource_id")
 );
--- Create index "bronzegcpcomputesecuritypolicy_collected_at" to table: "gcp_compute_security_policies"
-CREATE INDEX "bronzegcpcomputesecuritypolicy_collected_at" ON "bronze"."gcp_compute_security_policies" ("collected_at");
--- Create index "bronzegcpcomputesecuritypolicy_project_id" to table: "gcp_compute_security_policies"
-CREATE INDEX "bronzegcpcomputesecuritypolicy_project_id" ON "bronze"."gcp_compute_security_policies" ("project_id");
--- Create "gcp_iap_settings" table
-CREATE TABLE "bronze"."gcp_iap_settings" (
+-- Create index "bronzegcpcomputetargetinstance_collected_at" to table: "gcp_compute_target_instances"
+CREATE INDEX "bronzegcpcomputetargetinstance_collected_at" ON "bronze"."gcp_compute_target_instances" ("collected_at");
+-- Create index "bronzegcpcomputetargetinstance_project_id" to table: "gcp_compute_target_instances"
+CREATE INDEX "bronzegcpcomputetargetinstance_project_id" ON "bronze"."gcp_compute_target_instances" ("project_id");
+-- Create "gcp_compute_target_pools" table
+CREATE TABLE "bronze"."gcp_compute_target_pools" (
   "resource_id" character varying NOT NULL,
   "collected_at" timestamptz NOT NULL,
   "first_collected_at" timestamptz NOT NULL,
   "name" character varying NOT NULL,
-  "access_settings_json" jsonb NULL,
-  "application_settings_json" jsonb NULL,
+  "description" character varying NULL,
+  "creation_timestamp" character varying NULL,
+  "self_link" character varying NULL,
+  "session_affinity" character varying NULL,
+  "backup_pool" character varying NULL,
+  "failover_ratio" real NULL,
+  "security_policy" character varying NULL,
+  "region" character varying NULL,
+  "health_checks_json" jsonb NULL,
+  "instances_json" jsonb NULL,
   "project_id" character varying NOT NULL,
   PRIMARY KEY ("resource_id")
 );
--- Create index "bronzegcpiapsettings_collected_at" to table: "gcp_iap_settings"
-CREATE INDEX "bronzegcpiapsettings_collected_at" ON "bronze"."gcp_iap_settings" ("collected_at");
--- Create index "bronzegcpiapsettings_project_id" to table: "gcp_iap_settings"
-CREATE INDEX "bronzegcpiapsettings_project_id" ON "bronze"."gcp_iap_settings" ("project_id");
--- Create "gcp_iap_iam_policies" table
-CREATE TABLE "bronze"."gcp_iap_iam_policies" (
+-- Create index "bronzegcpcomputetargetpool_collected_at" to table: "gcp_compute_target_pools"
+CREATE INDEX "bronzegcpcomputetargetpool_collected_at" ON "bronze"."gcp_compute_target_pools" ("collected_at");
+-- Create index "bronzegcpcomputetargetpool_project_id" to table: "gcp_compute_target_pools"
+CREATE INDEX "bronzegcpcomputetargetpool_project_id" ON "bronze"."gcp_compute_target_pools" ("project_id");
+-- Create index "bronzegcpcomputetargetpool_region" to table: "gcp_compute_target_pools"
+CREATE INDEX "bronzegcpcomputetargetpool_region" ON "bronze"."gcp_compute_target_pools" ("region");
+-- Create "gcp_compute_target_ssl_proxies" table
+CREATE TABLE "bronze"."gcp_compute_target_ssl_proxies" (
   "resource_id" character varying NOT NULL,
   "collected_at" timestamptz NOT NULL,
   "first_collected_at" timestamptz NOT NULL,
   "name" character varying NOT NULL,
-  "etag" character varying NULL,
-  "version" bigint NULL,
-  "bindings_json" jsonb NULL,
-  "audit_configs_json" jsonb NULL,
+  "description" character varying NULL,
+  "creation_timestamp" character varying NULL,
+  "self_link" character varying NULL,
+  "service" character varying NULL,
+  "proxy_header" character varying NULL,
+  "certificate_map" character varying NULL,
+  "ssl_policy" character varying NULL,
+  "ssl_certificates_json" jsonb NULL,
   "project_id" character varying NOT NULL,
   PRIMARY KEY ("resource_id")
 );
--- Create index "bronzegcpiapiampolicy_collected_at" to table: "gcp_iap_iam_policies"
-CREATE INDEX "bronzegcpiapiampolicy_collected_at" ON "bronze"."gcp_iap_iam_policies" ("collected_at");
--- Create index "bronzegcpiapiampolicy_project_id" to table: "gcp_iap_iam_policies"
-CREATE INDEX "bronzegcpiapiampolicy_project_id" ON "bronze"."gcp_iap_iam_policies" ("project_id");
--- Create "gcp_iam_service_accounts" table
-CREATE TABLE "bronze"."gcp_iam_service_accounts" (
+-- Create index "bronzegcpcomputetargetsslproxy_collected_at" to table: "gcp_compute_target_ssl_proxies"
+CREATE INDEX "bronzegcpcomputetargetsslproxy_collected_at" ON "bronze"."gcp_compute_target_ssl_proxies" ("collected_at");
+-- Create index "bronzegcpcomputetargetsslproxy_project_id" to table: "gcp_compute_target_ssl_proxies"
+CREATE INDEX "bronzegcpcomputetargetsslproxy_project_id" ON "bronze"."gcp_compute_target_ssl_proxies" ("project_id");
+-- Create "gcp_compute_target_tcp_proxies" table
+CREATE TABLE "bronze"."gcp_compute_target_tcp_proxies" (
   "resource_id" character varying NOT NULL,
   "collected_at" timestamptz NOT NULL,
   "first_collected_at" timestamptz NOT NULL,
   "name" character varying NOT NULL,
-  "email" character varying NOT NULL,
+  "description" character varying NULL,
+  "creation_timestamp" character varying NULL,
+  "self_link" character varying NULL,
+  "service" character varying NULL,
+  "proxy_bind" boolean NOT NULL DEFAULT false,
+  "proxy_header" character varying NULL,
+  "region" character varying NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegcpcomputetargettcpproxy_collected_at" to table: "gcp_compute_target_tcp_proxies"
+CREATE INDEX "bronzegcpcomputetargettcpproxy_collected_at" ON "bronze"."gcp_compute_target_tcp_proxies" ("collected_at");
+-- Create index "bronzegcpcomputetargettcpproxy_project_id" to table: "gcp_compute_target_tcp_proxies"
+CREATE INDEX "bronzegcpcomputetargettcpproxy_project_id" ON "bronze"."gcp_compute_target_tcp_proxies" ("project_id");
+-- Create "gcp_orgpolicy_constraints" table
+CREATE TABLE "bronze"."gcp_orgpolicy_constraints" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
   "display_name" character varying NULL,
   "description" character varying NULL,
-  "oauth2_client_id" character varying NULL,
-  "disabled" boolean NOT NULL DEFAULT false,
-  "etag" character varying NULL,
-  "project_id" character varying NOT NULL,
+  "constraint_default" bigint NOT NULL DEFAULT 0,
+  "supports_dry_run" boolean NOT NULL DEFAULT false,
+  "supports_simulation" boolean NOT NULL DEFAULT false,
+  "list_constraint" jsonb NULL,
+  "boolean_constraint" jsonb NULL,
+  "organization_id" character varying NOT NULL,
   PRIMARY KEY ("resource_id")
 );
--- Create index "bronzegcpiamserviceaccount_collected_at" to table: "gcp_iam_service_accounts"
-CREATE INDEX "bronzegcpiamserviceaccount_collected_at" ON "bronze"."gcp_iam_service_accounts" ("collected_at");
--- Create index "bronzegcpiamserviceaccount_email" to table: "gcp_iam_service_accounts"
-CREATE INDEX "bronzegcpiamserviceaccount_email" ON "bronze"."gcp_iam_service_accounts" ("email");
--- Create index "bronzegcpiamserviceaccount_project_id" to table: "gcp_iam_service_accounts"
-CREATE INDEX "bronzegcpiamserviceaccount_project_id" ON "bronze"."gcp_iam_service_accounts" ("project_id");
--- Create "gcp_compute_ssl_policies" table
-CREATE TABLE "bronze"."gcp_compute_ssl_policies" (
-  "resource_id" character varying NOT NULL,
-  "collected_at" timestamptz NOT NULL,
-  "first_collected_at" timestamptz NOT NULL,
-  "name" character varying NOT NULL,
-  "description" character varying NULL,
-  "self_link" character varying NULL,
-  "creation_timestamp" character varying NULL,
-  "profile" character varying NULL,
-  "min_tls_version" character varying NULL,
-  "fingerprint" character varying NULL,
-  "custom_features_json" jsonb NULL,
-  "enabled_features_json" jsonb NULL,
-  "warnings_json" jsonb NULL,
-  "project_id" character varying NOT NULL,
-  PRIMARY KEY ("resource_id")
-);
--- Create index "bronzegcpcomputesslpolicy_collected_at" to table: "gcp_compute_ssl_policies"
-CREATE INDEX "bronzegcpcomputesslpolicy_collected_at" ON "bronze"."gcp_compute_ssl_policies" ("collected_at");
--- Create index "bronzegcpcomputesslpolicy_project_id" to table: "gcp_compute_ssl_policies"
-CREATE INDEX "bronzegcpcomputesslpolicy_project_id" ON "bronze"."gcp_compute_ssl_policies" ("project_id");
+-- Create index "bronzegcporgpolicyconstraint_collected_at" to table: "gcp_orgpolicy_constraints"
+CREATE INDEX "bronzegcporgpolicyconstraint_collected_at" ON "bronze"."gcp_orgpolicy_constraints" ("collected_at");
+-- Create index "bronzegcporgpolicyconstraint_organization_id" to table: "gcp_orgpolicy_constraints"
+CREATE INDEX "bronzegcporgpolicyconstraint_organization_id" ON "bronze"."gcp_orgpolicy_constraints" ("organization_id");
 -- Create "aws_ec2_instance_tags" table
 CREATE TABLE "bronze"."aws_ec2_instance_tags" (
   "id" bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY,
@@ -3736,6 +3937,281 @@ CREATE TABLE "bronze"."greennode_compute_server_sec_groups" (
   "bronze_green_node_compute_server_sec_groups" character varying NOT NULL,
   PRIMARY KEY ("id"),
   CONSTRAINT "greennode_compute_server_sec_groups_greennode_compute_servers_s" FOREIGN KEY ("bronze_green_node_compute_server_sec_groups") REFERENCES "bronze"."greennode_compute_servers" ("resource_id") ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+-- Create "greennode_dns_hosted_zones" table
+CREATE TABLE "bronze"."greennode_dns_hosted_zones" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "domain_name" character varying NOT NULL,
+  "status" character varying NULL,
+  "description" character varying NULL,
+  "type" character varying NULL,
+  "count_records" bigint NULL,
+  "assoc_vpc_ids_json" jsonb NULL,
+  "assoc_vpc_map_region_json" jsonb NULL,
+  "portal_user_id" bigint NULL,
+  "created_at_api" character varying NULL,
+  "deleted_at_api" character varying NULL,
+  "updated_at_api" character varying NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegreennodednshostedzone_collected_at" to table: "greennode_dns_hosted_zones"
+CREATE INDEX "bronzegreennodednshostedzone_collected_at" ON "bronze"."greennode_dns_hosted_zones" ("collected_at");
+-- Create index "bronzegreennodednshostedzone_project_id" to table: "greennode_dns_hosted_zones"
+CREATE INDEX "bronzegreennodednshostedzone_project_id" ON "bronze"."greennode_dns_hosted_zones" ("project_id");
+-- Create index "bronzegreennodednshostedzone_status" to table: "greennode_dns_hosted_zones"
+CREATE INDEX "bronzegreennodednshostedzone_status" ON "bronze"."greennode_dns_hosted_zones" ("status");
+-- Create "greennode_dns_records" table
+CREATE TABLE "bronze"."greennode_dns_records" (
+  "id" bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY,
+  "record_id" character varying NOT NULL,
+  "sub_domain" character varying NULL,
+  "status" character varying NULL,
+  "type" character varying NULL,
+  "routing_policy" character varying NULL,
+  "value_json" jsonb NULL,
+  "ttl" bigint NULL,
+  "enable_sticky_session" boolean NULL,
+  "created_at_api" character varying NULL,
+  "deleted_at_api" character varying NULL,
+  "updated_at_api" character varying NULL,
+  "bronze_green_node_dns_hosted_zone_records" character varying NOT NULL,
+  PRIMARY KEY ("id"),
+  CONSTRAINT "greennode_dns_records_greennode_dns_hosted_zones_records" FOREIGN KEY ("bronze_green_node_dns_hosted_zone_records") REFERENCES "bronze"."greennode_dns_hosted_zones" ("resource_id") ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+-- Create "greennode_glb_global_load_balancers" table
+CREATE TABLE "bronze"."greennode_glb_global_load_balancers" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "description" character varying NULL,
+  "status" character varying NULL,
+  "package" character varying NULL,
+  "type" character varying NULL,
+  "user_id" bigint NULL,
+  "vips_json" jsonb NULL,
+  "domains_json" jsonb NULL,
+  "created_at_api" character varying NULL,
+  "updated_at_api" character varying NULL,
+  "deleted_at_api" character varying NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegreennodeglbgloballoadbalancer_collected_at" to table: "greennode_glb_global_load_balancers"
+CREATE INDEX "bronzegreennodeglbgloballoadbalancer_collected_at" ON "bronze"."greennode_glb_global_load_balancers" ("collected_at");
+-- Create index "bronzegreennodeglbgloballoadbalancer_project_id" to table: "greennode_glb_global_load_balancers"
+CREATE INDEX "bronzegreennodeglbgloballoadbalancer_project_id" ON "bronze"."greennode_glb_global_load_balancers" ("project_id");
+-- Create index "bronzegreennodeglbgloballoadbalancer_status" to table: "greennode_glb_global_load_balancers"
+CREATE INDEX "bronzegreennodeglbgloballoadbalancer_status" ON "bronze"."greennode_glb_global_load_balancers" ("status");
+-- Create "greennode_glb_global_listeners" table
+CREATE TABLE "bronze"."greennode_glb_global_listeners" (
+  "id" bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY,
+  "listener_id" character varying NOT NULL,
+  "name" character varying NOT NULL,
+  "description" character varying NULL,
+  "protocol" character varying NULL,
+  "port" bigint NULL,
+  "global_pool_id" character varying NULL,
+  "timeout_client" bigint NULL,
+  "timeout_member" bigint NULL,
+  "timeout_connection" bigint NULL,
+  "allowed_cidrs" character varying NULL,
+  "headers" character varying NULL,
+  "status" character varying NULL,
+  "created_at_api" character varying NULL,
+  "updated_at_api" character varying NULL,
+  "deleted_at_api" character varying NULL,
+  "bronze_green_node_glb_global_load_balancer_listeners" character varying NOT NULL,
+  PRIMARY KEY ("id"),
+  CONSTRAINT "greennode_glb_global_listeners_greennode_glb_global_load_balanc" FOREIGN KEY ("bronze_green_node_glb_global_load_balancer_listeners") REFERENCES "bronze"."greennode_glb_global_load_balancers" ("resource_id") ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+-- Create "greennode_glb_global_pools" table
+CREATE TABLE "bronze"."greennode_glb_global_pools" (
+  "id" bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY,
+  "pool_id" character varying NOT NULL,
+  "name" character varying NOT NULL,
+  "description" character varying NULL,
+  "algorithm" character varying NULL,
+  "sticky_session" character varying NULL,
+  "tls_enabled" character varying NULL,
+  "protocol" character varying NULL,
+  "status" character varying NULL,
+  "health_json" jsonb NULL,
+  "pool_members_json" jsonb NULL,
+  "created_at_api" character varying NULL,
+  "updated_at_api" character varying NULL,
+  "deleted_at_api" character varying NULL,
+  "bronze_green_node_glb_global_load_balancer_pools" character varying NOT NULL,
+  PRIMARY KEY ("id"),
+  CONSTRAINT "greennode_glb_global_pools_greennode_glb_global_load_balancers_" FOREIGN KEY ("bronze_green_node_glb_global_load_balancer_pools") REFERENCES "bronze"."greennode_glb_global_load_balancers" ("resource_id") ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+-- Create "greennode_loadbalancer_lbs" table
+CREATE TABLE "bronze"."greennode_loadbalancer_lbs" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "display_status" character varying NULL,
+  "address" character varying NULL,
+  "private_subnet_id" character varying NULL,
+  "private_subnet_cidr" character varying NULL,
+  "type" character varying NULL,
+  "display_type" character varying NULL,
+  "load_balancer_schema" character varying NULL,
+  "package_id" character varying NULL,
+  "description" character varying NULL,
+  "location" character varying NULL,
+  "created_at_api" character varying NULL,
+  "updated_at_api" character varying NULL,
+  "progress_status" character varying NULL,
+  "status" character varying NULL,
+  "backend_subnet_id" character varying NULL,
+  "internal" boolean NOT NULL DEFAULT false,
+  "auto_scalable" boolean NOT NULL DEFAULT false,
+  "zone_id" character varying NULL,
+  "min_size" bigint NULL,
+  "max_size" bigint NULL,
+  "total_nodes" bigint NULL,
+  "nodes_json" jsonb NULL,
+  "region" character varying NOT NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegreennodeloadbalancerlb_collected_at" to table: "greennode_loadbalancer_lbs"
+CREATE INDEX "bronzegreennodeloadbalancerlb_collected_at" ON "bronze"."greennode_loadbalancer_lbs" ("collected_at");
+-- Create index "bronzegreennodeloadbalancerlb_project_id" to table: "greennode_loadbalancer_lbs"
+CREATE INDEX "bronzegreennodeloadbalancerlb_project_id" ON "bronze"."greennode_loadbalancer_lbs" ("project_id");
+-- Create index "bronzegreennodeloadbalancerlb_region" to table: "greennode_loadbalancer_lbs"
+CREATE INDEX "bronzegreennodeloadbalancerlb_region" ON "bronze"."greennode_loadbalancer_lbs" ("region");
+-- Create index "bronzegreennodeloadbalancerlb_status" to table: "greennode_loadbalancer_lbs"
+CREATE INDEX "bronzegreennodeloadbalancerlb_status" ON "bronze"."greennode_loadbalancer_lbs" ("status");
+-- Create "greennode_loadbalancer_listeners" table
+CREATE TABLE "bronze"."greennode_loadbalancer_listeners" (
+  "id" bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY,
+  "listener_id" character varying NOT NULL,
+  "name" character varying NOT NULL,
+  "description" character varying NULL,
+  "protocol" character varying NULL,
+  "protocol_port" bigint NULL,
+  "connection_limit" bigint NULL,
+  "default_pool_id" character varying NULL,
+  "default_pool_name" character varying NULL,
+  "timeout_client" bigint NULL,
+  "timeout_member" bigint NULL,
+  "timeout_connection" bigint NULL,
+  "allowed_cidrs" character varying NULL,
+  "certificate_authorities_json" jsonb NULL,
+  "display_status" character varying NULL,
+  "created_at_api" character varying NULL,
+  "updated_at_api" character varying NULL,
+  "default_certificate_authority" character varying NULL,
+  "client_certificate_authentication" character varying NULL,
+  "progress_status" character varying NULL,
+  "insert_headers_json" jsonb NULL,
+  "policies_json" jsonb NULL,
+  "bronze_green_node_load_balancer_lb_listeners" character varying NOT NULL,
+  PRIMARY KEY ("id"),
+  CONSTRAINT "greennode_loadbalancer_listeners_greennode_loadbalancer_lbs_lis" FOREIGN KEY ("bronze_green_node_load_balancer_lb_listeners") REFERENCES "bronze"."greennode_loadbalancer_lbs" ("resource_id") ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+-- Create "greennode_loadbalancer_pools" table
+CREATE TABLE "bronze"."greennode_loadbalancer_pools" (
+  "id" bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY,
+  "pool_id" character varying NOT NULL,
+  "name" character varying NOT NULL,
+  "protocol" character varying NULL,
+  "description" character varying NULL,
+  "load_balance_method" character varying NULL,
+  "status" character varying NULL,
+  "stickiness" boolean NOT NULL DEFAULT false,
+  "tls_encryption" boolean NOT NULL DEFAULT false,
+  "members_json" jsonb NULL,
+  "health_monitor_json" jsonb NULL,
+  "bronze_green_node_load_balancer_lb_pools" character varying NOT NULL,
+  PRIMARY KEY ("id"),
+  CONSTRAINT "greennode_loadbalancer_pools_greennode_loadbalancer_lbs_pools" FOREIGN KEY ("bronze_green_node_load_balancer_lb_pools") REFERENCES "bronze"."greennode_loadbalancer_lbs" ("resource_id") ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+-- Create "greennode_network_secgroups" table
+CREATE TABLE "bronze"."greennode_network_secgroups" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "description" character varying NULL,
+  "status" character varying NULL,
+  "region" character varying NOT NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegreennodenetworksecgroup_collected_at" to table: "greennode_network_secgroups"
+CREATE INDEX "bronzegreennodenetworksecgroup_collected_at" ON "bronze"."greennode_network_secgroups" ("collected_at");
+-- Create index "bronzegreennodenetworksecgroup_project_id" to table: "greennode_network_secgroups"
+CREATE INDEX "bronzegreennodenetworksecgroup_project_id" ON "bronze"."greennode_network_secgroups" ("project_id");
+-- Create index "bronzegreennodenetworksecgroup_region" to table: "greennode_network_secgroups"
+CREATE INDEX "bronzegreennodenetworksecgroup_region" ON "bronze"."greennode_network_secgroups" ("region");
+-- Create index "bronzegreennodenetworksecgroup_status" to table: "greennode_network_secgroups"
+CREATE INDEX "bronzegreennodenetworksecgroup_status" ON "bronze"."greennode_network_secgroups" ("status");
+-- Create "greennode_network_secgroup_rules" table
+CREATE TABLE "bronze"."greennode_network_secgroup_rules" (
+  "id" bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY,
+  "rule_id" character varying NOT NULL,
+  "direction" character varying NULL,
+  "ether_type" character varying NULL,
+  "protocol" character varying NULL,
+  "description" character varying NULL,
+  "remote_ip_prefix" character varying NULL,
+  "port_range_max" bigint NULL,
+  "port_range_min" bigint NULL,
+  "bronze_green_node_network_secgroup_rules" character varying NOT NULL,
+  PRIMARY KEY ("id"),
+  CONSTRAINT "greennode_network_secgroup_rules_greennode_network_secgroups_ru" FOREIGN KEY ("bronze_green_node_network_secgroup_rules") REFERENCES "bronze"."greennode_network_secgroups" ("resource_id") ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+-- Create "greennode_volume_block_volumes" table
+CREATE TABLE "bronze"."greennode_volume_block_volumes" (
+  "resource_id" character varying NOT NULL,
+  "collected_at" timestamptz NOT NULL,
+  "first_collected_at" timestamptz NOT NULL,
+  "name" character varying NOT NULL,
+  "volume_type_id" character varying NULL,
+  "cluster_id" character varying NULL,
+  "vm_id" character varying NULL,
+  "size" character varying NULL,
+  "iops_id" character varying NULL,
+  "status" character varying NULL,
+  "created_at_api" character varying NULL,
+  "updated_at_api" character varying NULL,
+  "persistent_volume" boolean NOT NULL DEFAULT false,
+  "attached_machine_json" jsonb NULL,
+  "under_id" character varying NULL,
+  "migrate_state" character varying NULL,
+  "multi_attach" boolean NOT NULL DEFAULT false,
+  "zone_id" character varying NULL,
+  "region" character varying NOT NULL,
+  "project_id" character varying NOT NULL,
+  PRIMARY KEY ("resource_id")
+);
+-- Create index "bronzegreennodevolumeblockvolume_collected_at" to table: "greennode_volume_block_volumes"
+CREATE INDEX "bronzegreennodevolumeblockvolume_collected_at" ON "bronze"."greennode_volume_block_volumes" ("collected_at");
+-- Create index "bronzegreennodevolumeblockvolume_project_id" to table: "greennode_volume_block_volumes"
+CREATE INDEX "bronzegreennodevolumeblockvolume_project_id" ON "bronze"."greennode_volume_block_volumes" ("project_id");
+-- Create index "bronzegreennodevolumeblockvolume_region" to table: "greennode_volume_block_volumes"
+CREATE INDEX "bronzegreennodevolumeblockvolume_region" ON "bronze"."greennode_volume_block_volumes" ("region");
+-- Create index "bronzegreennodevolumeblockvolume_status" to table: "greennode_volume_block_volumes"
+CREATE INDEX "bronzegreennodevolumeblockvolume_status" ON "bronze"."greennode_volume_block_volumes" ("status");
+-- Create "greennode_volume_snapshots" table
+CREATE TABLE "bronze"."greennode_volume_snapshots" (
+  "id" bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY,
+  "snapshot_id" character varying NOT NULL,
+  "name" character varying NULL,
+  "size" bigint NULL,
+  "volume_size" bigint NULL,
+  "status" character varying NULL,
+  "created_at_api" character varying NULL,
+  "bronze_green_node_volume_block_volume_snapshots" character varying NOT NULL,
+  PRIMARY KEY ("id"),
+  CONSTRAINT "greennode_volume_snapshots_greennode_volume_block_volumes_snaps" FOREIGN KEY ("bronze_green_node_volume_block_volume_snapshots") REFERENCES "bronze"."greennode_volume_block_volumes" ("resource_id") ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 -- Create "s1_agents" table
 CREATE TABLE "bronze"."s1_agents" (

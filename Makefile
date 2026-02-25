@@ -36,6 +36,12 @@ build-migrate:
 	@go build -o bin/migrate$(BIN_EXT) ./cmd/migrate
 	@echo "migrate built in bin/"
 
+build-genmigrate:
+	@$(MKDIR_BIN)
+	@echo "Building genmigrate..."
+	@go build -o bin/genmigrate$(BIN_EXT) ./tools/genmigrate
+	@echo "genmigrate built in bin/"
+
 clean: ## Remove built binaries
 	@$(RM_BIN)
 	@$(RM_LOOSE)
@@ -54,10 +60,6 @@ generate: ## Generate ent code
 ## ── Migrations ────────────────────────────────────────────
 
 genmigrate: ## Generate migration SQL (NAME=description DB=dbname)
-	@$(MKDIR_BIN)
-	@echo "Building genmigrate..."
-	@go build -o bin/genmigrate$(BIN_EXT) ./tools/genmigrate
-	@echo "genmigrate built in bin/"
 	@go run ./tools/genmigrate --schema $(SCHEMA) --out $(MIGDIR) --db $(DB) $(NAME)
 
 migrate: ## Apply pending migrations
