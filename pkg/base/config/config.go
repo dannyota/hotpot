@@ -7,6 +7,7 @@ type Config struct {
 	S1       S1Config       `yaml:"s1"`
 	DO        DOConfig        `yaml:"do"`
 	GreenNode GreenNodeConfig `yaml:"greennode"`
+	Vault     VaultConfig     `yaml:"vault"`
 	Database DatabaseConfig `yaml:"database"`
 	Temporal TemporalConfig `yaml:"temporal"`
 	Redis    RedisConfig    `yaml:"redis"`
@@ -112,6 +113,34 @@ type GreenNodeConfig struct {
 	// RateLimitPerMinute is the max API requests per minute across all GreenNode clients.
 	// Default: 300 (see Service.GreenNodeRateLimitPerMinute()).
 	RateLimitPerMinute int `yaml:"rate_limit_per_minute,omitempty"`
+}
+
+// VaultConfig holds HashiCorp Vault configuration for multi-instance PKI ingestion.
+type VaultConfig struct {
+	// Enabled controls whether Vault ingestion runs and tables are created.
+	Enabled bool `yaml:"enabled"`
+
+	// RateLimitPerMinute is the max API requests per minute across all Vault instances.
+	// Default: 60 (see Service.VaultRateLimitPerMinute()).
+	RateLimitPerMinute int `yaml:"rate_limit_per_minute,omitempty"`
+
+	// Instances is the list of Vault servers to ingest from.
+	Instances []VaultInstance `yaml:"instances"`
+}
+
+// VaultInstance holds connection details for a single Vault server.
+type VaultInstance struct {
+	// Name is a unique identifier for this Vault instance (e.g., "prod-vault").
+	Name string `yaml:"name"`
+
+	// Address is the full URL of the Vault server (e.g., "https://vault.example.com").
+	Address string `yaml:"address"`
+
+	// Token is the Vault authentication token.
+	Token string `yaml:"token"`
+
+	// VerifySSL controls TLS certificate verification. Default: true.
+	VerifySSL *bool `yaml:"verify_ssl,omitempty"`
 }
 
 // RedisConfig holds Redis connection configuration.

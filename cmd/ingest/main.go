@@ -12,6 +12,7 @@ import (
 	_ "github.com/dannyota/hotpot/pkg/ingest/gcp"
 	_ "github.com/dannyota/hotpot/pkg/ingest/greennode"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone"
+	_ "github.com/dannyota/hotpot/pkg/ingest/vault"
 	// _ "github.com/dannyota/hotpot/pkg/ingest/digitalocean"
 )
 

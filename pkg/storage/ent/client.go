@@ -395,6 +395,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1rangersetting"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1site"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1threat"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryvaultpkicertificate"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1account"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1agent"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1agentnic"
@@ -405,6 +406,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangersetting"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1site"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1threat"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzevaultpkicertificate"
 
 	"github.com/dannyota/hotpot/pkg/storage/ent/internal"
 )
@@ -1174,6 +1176,8 @@ type Client struct {
 	BronzeHistoryS1Site *BronzeHistoryS1SiteClient
 	// BronzeHistoryS1Threat is the client for interacting with the BronzeHistoryS1Threat builders.
 	BronzeHistoryS1Threat *BronzeHistoryS1ThreatClient
+	// BronzeHistoryVaultPKICertificate is the client for interacting with the BronzeHistoryVaultPKICertificate builders.
+	BronzeHistoryVaultPKICertificate *BronzeHistoryVaultPKICertificateClient
 	// BronzeS1Account is the client for interacting with the BronzeS1Account builders.
 	BronzeS1Account *BronzeS1AccountClient
 	// BronzeS1Agent is the client for interacting with the BronzeS1Agent builders.
@@ -1194,6 +1198,8 @@ type Client struct {
 	BronzeS1Site *BronzeS1SiteClient
 	// BronzeS1Threat is the client for interacting with the BronzeS1Threat builders.
 	BronzeS1Threat *BronzeS1ThreatClient
+	// BronzeVaultPKICertificate is the client for interacting with the BronzeVaultPKICertificate builders.
+	BronzeVaultPKICertificate *BronzeVaultPKICertificateClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -1585,6 +1591,7 @@ func (c *Client) init() {
 	c.BronzeHistoryS1RangerSetting = NewBronzeHistoryS1RangerSettingClient(c.config)
 	c.BronzeHistoryS1Site = NewBronzeHistoryS1SiteClient(c.config)
 	c.BronzeHistoryS1Threat = NewBronzeHistoryS1ThreatClient(c.config)
+	c.BronzeHistoryVaultPKICertificate = NewBronzeHistoryVaultPKICertificateClient(c.config)
 	c.BronzeS1Account = NewBronzeS1AccountClient(c.config)
 	c.BronzeS1Agent = NewBronzeS1AgentClient(c.config)
 	c.BronzeS1AgentNIC = NewBronzeS1AgentNICClient(c.config)
@@ -1595,6 +1602,7 @@ func (c *Client) init() {
 	c.BronzeS1RangerSetting = NewBronzeS1RangerSettingClient(c.config)
 	c.BronzeS1Site = NewBronzeS1SiteClient(c.config)
 	c.BronzeS1Threat = NewBronzeS1ThreatClient(c.config)
+	c.BronzeVaultPKICertificate = NewBronzeVaultPKICertificateClient(c.config)
 }
 
 type (
@@ -2069,6 +2077,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		BronzeHistoryS1RangerSetting:                         NewBronzeHistoryS1RangerSettingClient(cfg),
 		BronzeHistoryS1Site:                                  NewBronzeHistoryS1SiteClient(cfg),
 		BronzeHistoryS1Threat:                                NewBronzeHistoryS1ThreatClient(cfg),
+		BronzeHistoryVaultPKICertificate:                     NewBronzeHistoryVaultPKICertificateClient(cfg),
 		BronzeS1Account:                                      NewBronzeS1AccountClient(cfg),
 		BronzeS1Agent:                                        NewBronzeS1AgentClient(cfg),
 		BronzeS1AgentNIC:                                     NewBronzeS1AgentNICClient(cfg),
@@ -2079,6 +2088,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		BronzeS1RangerSetting:                                NewBronzeS1RangerSettingClient(cfg),
 		BronzeS1Site:                                         NewBronzeS1SiteClient(cfg),
 		BronzeS1Threat:                                       NewBronzeS1ThreatClient(cfg),
+		BronzeVaultPKICertificate:                            NewBronzeVaultPKICertificateClient(cfg),
 	}, nil
 }
 
@@ -2478,6 +2488,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		BronzeHistoryS1RangerSetting:                         NewBronzeHistoryS1RangerSettingClient(cfg),
 		BronzeHistoryS1Site:                                  NewBronzeHistoryS1SiteClient(cfg),
 		BronzeHistoryS1Threat:                                NewBronzeHistoryS1ThreatClient(cfg),
+		BronzeHistoryVaultPKICertificate:                     NewBronzeHistoryVaultPKICertificateClient(cfg),
 		BronzeS1Account:                                      NewBronzeS1AccountClient(cfg),
 		BronzeS1Agent:                                        NewBronzeS1AgentClient(cfg),
 		BronzeS1AgentNIC:                                     NewBronzeS1AgentNICClient(cfg),
@@ -2488,6 +2499,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		BronzeS1RangerSetting:                                NewBronzeS1RangerSettingClient(cfg),
 		BronzeS1Site:                                         NewBronzeS1SiteClient(cfg),
 		BronzeS1Threat:                                       NewBronzeS1ThreatClient(cfg),
+		BronzeVaultPKICertificate:                            NewBronzeVaultPKICertificateClient(cfg),
 	}, nil
 }
 
@@ -2732,10 +2744,11 @@ func (c *Client) Use(hooks ...Hook) {
 		c.BronzeHistoryS1Agent, c.BronzeHistoryS1AgentNIC, c.BronzeHistoryS1App,
 		c.BronzeHistoryS1Group, c.BronzeHistoryS1RangerDevice,
 		c.BronzeHistoryS1RangerGateway, c.BronzeHistoryS1RangerSetting,
-		c.BronzeHistoryS1Site, c.BronzeHistoryS1Threat, c.BronzeS1Account,
-		c.BronzeS1Agent, c.BronzeS1AgentNIC, c.BronzeS1App, c.BronzeS1Group,
-		c.BronzeS1RangerDevice, c.BronzeS1RangerGateway, c.BronzeS1RangerSetting,
-		c.BronzeS1Site, c.BronzeS1Threat,
+		c.BronzeHistoryS1Site, c.BronzeHistoryS1Threat,
+		c.BronzeHistoryVaultPKICertificate, c.BronzeS1Account, c.BronzeS1Agent,
+		c.BronzeS1AgentNIC, c.BronzeS1App, c.BronzeS1Group, c.BronzeS1RangerDevice,
+		c.BronzeS1RangerGateway, c.BronzeS1RangerSetting, c.BronzeS1Site,
+		c.BronzeS1Threat, c.BronzeVaultPKICertificate,
 	} {
 		n.Use(hooks...)
 	}
@@ -2960,10 +2973,11 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.BronzeHistoryS1Agent, c.BronzeHistoryS1AgentNIC, c.BronzeHistoryS1App,
 		c.BronzeHistoryS1Group, c.BronzeHistoryS1RangerDevice,
 		c.BronzeHistoryS1RangerGateway, c.BronzeHistoryS1RangerSetting,
-		c.BronzeHistoryS1Site, c.BronzeHistoryS1Threat, c.BronzeS1Account,
-		c.BronzeS1Agent, c.BronzeS1AgentNIC, c.BronzeS1App, c.BronzeS1Group,
-		c.BronzeS1RangerDevice, c.BronzeS1RangerGateway, c.BronzeS1RangerSetting,
-		c.BronzeS1Site, c.BronzeS1Threat,
+		c.BronzeHistoryS1Site, c.BronzeHistoryS1Threat,
+		c.BronzeHistoryVaultPKICertificate, c.BronzeS1Account, c.BronzeS1Agent,
+		c.BronzeS1AgentNIC, c.BronzeS1App, c.BronzeS1Group, c.BronzeS1RangerDevice,
+		c.BronzeS1RangerGateway, c.BronzeS1RangerSetting, c.BronzeS1Site,
+		c.BronzeS1Threat, c.BronzeVaultPKICertificate,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -3732,6 +3746,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeHistoryS1Site.mutate(ctx, m)
 	case *BronzeHistoryS1ThreatMutation:
 		return c.BronzeHistoryS1Threat.mutate(ctx, m)
+	case *BronzeHistoryVaultPKICertificateMutation:
+		return c.BronzeHistoryVaultPKICertificate.mutate(ctx, m)
 	case *BronzeS1AccountMutation:
 		return c.BronzeS1Account.mutate(ctx, m)
 	case *BronzeS1AgentMutation:
@@ -3752,6 +3768,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeS1Site.mutate(ctx, m)
 	case *BronzeS1ThreatMutation:
 		return c.BronzeS1Threat.mutate(ctx, m)
+	case *BronzeVaultPKICertificateMutation:
+		return c.BronzeVaultPKICertificate.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
 	}
@@ -56577,6 +56595,139 @@ func (c *BronzeHistoryS1ThreatClient) mutate(ctx context.Context, m *BronzeHisto
 	}
 }
 
+// BronzeHistoryVaultPKICertificateClient is a client for the BronzeHistoryVaultPKICertificate schema.
+type BronzeHistoryVaultPKICertificateClient struct {
+	config
+}
+
+// NewBronzeHistoryVaultPKICertificateClient returns a client for the BronzeHistoryVaultPKICertificate from the given config.
+func NewBronzeHistoryVaultPKICertificateClient(c config) *BronzeHistoryVaultPKICertificateClient {
+	return &BronzeHistoryVaultPKICertificateClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistoryvaultpkicertificate.Hooks(f(g(h())))`.
+func (c *BronzeHistoryVaultPKICertificateClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryVaultPKICertificate = append(c.hooks.BronzeHistoryVaultPKICertificate, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistoryvaultpkicertificate.Intercept(f(g(h())))`.
+func (c *BronzeHistoryVaultPKICertificateClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryVaultPKICertificate = append(c.inters.BronzeHistoryVaultPKICertificate, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryVaultPKICertificate entity.
+func (c *BronzeHistoryVaultPKICertificateClient) Create() *BronzeHistoryVaultPKICertificateCreate {
+	mutation := newBronzeHistoryVaultPKICertificateMutation(c.config, OpCreate)
+	return &BronzeHistoryVaultPKICertificateCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryVaultPKICertificate entities.
+func (c *BronzeHistoryVaultPKICertificateClient) CreateBulk(builders ...*BronzeHistoryVaultPKICertificateCreate) *BronzeHistoryVaultPKICertificateCreateBulk {
+	return &BronzeHistoryVaultPKICertificateCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryVaultPKICertificateClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryVaultPKICertificateCreate, int)) *BronzeHistoryVaultPKICertificateCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryVaultPKICertificateCreateBulk{err: fmt.Errorf("calling to BronzeHistoryVaultPKICertificateClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryVaultPKICertificateCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryVaultPKICertificateCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryVaultPKICertificate.
+func (c *BronzeHistoryVaultPKICertificateClient) Update() *BronzeHistoryVaultPKICertificateUpdate {
+	mutation := newBronzeHistoryVaultPKICertificateMutation(c.config, OpUpdate)
+	return &BronzeHistoryVaultPKICertificateUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryVaultPKICertificateClient) UpdateOne(_m *BronzeHistoryVaultPKICertificate) *BronzeHistoryVaultPKICertificateUpdateOne {
+	mutation := newBronzeHistoryVaultPKICertificateMutation(c.config, OpUpdateOne, withBronzeHistoryVaultPKICertificate(_m))
+	return &BronzeHistoryVaultPKICertificateUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryVaultPKICertificateClient) UpdateOneID(id uint) *BronzeHistoryVaultPKICertificateUpdateOne {
+	mutation := newBronzeHistoryVaultPKICertificateMutation(c.config, OpUpdateOne, withBronzeHistoryVaultPKICertificateID(id))
+	return &BronzeHistoryVaultPKICertificateUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryVaultPKICertificate.
+func (c *BronzeHistoryVaultPKICertificateClient) Delete() *BronzeHistoryVaultPKICertificateDelete {
+	mutation := newBronzeHistoryVaultPKICertificateMutation(c.config, OpDelete)
+	return &BronzeHistoryVaultPKICertificateDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryVaultPKICertificateClient) DeleteOne(_m *BronzeHistoryVaultPKICertificate) *BronzeHistoryVaultPKICertificateDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryVaultPKICertificateClient) DeleteOneID(id uint) *BronzeHistoryVaultPKICertificateDeleteOne {
+	builder := c.Delete().Where(bronzehistoryvaultpkicertificate.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryVaultPKICertificateDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryVaultPKICertificate.
+func (c *BronzeHistoryVaultPKICertificateClient) Query() *BronzeHistoryVaultPKICertificateQuery {
+	return &BronzeHistoryVaultPKICertificateQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryVaultPKICertificate},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryVaultPKICertificate entity by its id.
+func (c *BronzeHistoryVaultPKICertificateClient) Get(ctx context.Context, id uint) (*BronzeHistoryVaultPKICertificate, error) {
+	return c.Query().Where(bronzehistoryvaultpkicertificate.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryVaultPKICertificateClient) GetX(ctx context.Context, id uint) *BronzeHistoryVaultPKICertificate {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryVaultPKICertificateClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryVaultPKICertificate
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryVaultPKICertificateClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryVaultPKICertificate
+}
+
+func (c *BronzeHistoryVaultPKICertificateClient) mutate(ctx context.Context, m *BronzeHistoryVaultPKICertificateMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryVaultPKICertificateCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryVaultPKICertificateUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryVaultPKICertificateUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryVaultPKICertificateDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeHistoryVaultPKICertificate mutation op: %q", m.Op())
+	}
+}
+
 // BronzeS1AccountClient is a client for the BronzeS1Account schema.
 type BronzeS1AccountClient struct {
 	config
@@ -57945,6 +58096,139 @@ func (c *BronzeS1ThreatClient) mutate(ctx context.Context, m *BronzeS1ThreatMuta
 	}
 }
 
+// BronzeVaultPKICertificateClient is a client for the BronzeVaultPKICertificate schema.
+type BronzeVaultPKICertificateClient struct {
+	config
+}
+
+// NewBronzeVaultPKICertificateClient returns a client for the BronzeVaultPKICertificate from the given config.
+func NewBronzeVaultPKICertificateClient(c config) *BronzeVaultPKICertificateClient {
+	return &BronzeVaultPKICertificateClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzevaultpkicertificate.Hooks(f(g(h())))`.
+func (c *BronzeVaultPKICertificateClient) Use(hooks ...Hook) {
+	c.hooks.BronzeVaultPKICertificate = append(c.hooks.BronzeVaultPKICertificate, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzevaultpkicertificate.Intercept(f(g(h())))`.
+func (c *BronzeVaultPKICertificateClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeVaultPKICertificate = append(c.inters.BronzeVaultPKICertificate, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeVaultPKICertificate entity.
+func (c *BronzeVaultPKICertificateClient) Create() *BronzeVaultPKICertificateCreate {
+	mutation := newBronzeVaultPKICertificateMutation(c.config, OpCreate)
+	return &BronzeVaultPKICertificateCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeVaultPKICertificate entities.
+func (c *BronzeVaultPKICertificateClient) CreateBulk(builders ...*BronzeVaultPKICertificateCreate) *BronzeVaultPKICertificateCreateBulk {
+	return &BronzeVaultPKICertificateCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeVaultPKICertificateClient) MapCreateBulk(slice any, setFunc func(*BronzeVaultPKICertificateCreate, int)) *BronzeVaultPKICertificateCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeVaultPKICertificateCreateBulk{err: fmt.Errorf("calling to BronzeVaultPKICertificateClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeVaultPKICertificateCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeVaultPKICertificateCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeVaultPKICertificate.
+func (c *BronzeVaultPKICertificateClient) Update() *BronzeVaultPKICertificateUpdate {
+	mutation := newBronzeVaultPKICertificateMutation(c.config, OpUpdate)
+	return &BronzeVaultPKICertificateUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeVaultPKICertificateClient) UpdateOne(_m *BronzeVaultPKICertificate) *BronzeVaultPKICertificateUpdateOne {
+	mutation := newBronzeVaultPKICertificateMutation(c.config, OpUpdateOne, withBronzeVaultPKICertificate(_m))
+	return &BronzeVaultPKICertificateUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeVaultPKICertificateClient) UpdateOneID(id string) *BronzeVaultPKICertificateUpdateOne {
+	mutation := newBronzeVaultPKICertificateMutation(c.config, OpUpdateOne, withBronzeVaultPKICertificateID(id))
+	return &BronzeVaultPKICertificateUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeVaultPKICertificate.
+func (c *BronzeVaultPKICertificateClient) Delete() *BronzeVaultPKICertificateDelete {
+	mutation := newBronzeVaultPKICertificateMutation(c.config, OpDelete)
+	return &BronzeVaultPKICertificateDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeVaultPKICertificateClient) DeleteOne(_m *BronzeVaultPKICertificate) *BronzeVaultPKICertificateDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeVaultPKICertificateClient) DeleteOneID(id string) *BronzeVaultPKICertificateDeleteOne {
+	builder := c.Delete().Where(bronzevaultpkicertificate.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeVaultPKICertificateDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeVaultPKICertificate.
+func (c *BronzeVaultPKICertificateClient) Query() *BronzeVaultPKICertificateQuery {
+	return &BronzeVaultPKICertificateQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeVaultPKICertificate},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeVaultPKICertificate entity by its id.
+func (c *BronzeVaultPKICertificateClient) Get(ctx context.Context, id string) (*BronzeVaultPKICertificate, error) {
+	return c.Query().Where(bronzevaultpkicertificate.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeVaultPKICertificateClient) GetX(ctx context.Context, id string) *BronzeVaultPKICertificate {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeVaultPKICertificateClient) Hooks() []Hook {
+	return c.hooks.BronzeVaultPKICertificate
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeVaultPKICertificateClient) Interceptors() []Interceptor {
+	return c.inters.BronzeVaultPKICertificate
+}
+
+func (c *BronzeVaultPKICertificateClient) mutate(ctx context.Context, m *BronzeVaultPKICertificateMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeVaultPKICertificateCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeVaultPKICertificateUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeVaultPKICertificateUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeVaultPKICertificateDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BronzeVaultPKICertificate mutation op: %q", m.Op())
+	}
+}
+
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
@@ -58147,10 +58431,10 @@ type (
 		BronzeHistoryS1Agent, BronzeHistoryS1AgentNIC, BronzeHistoryS1App,
 		BronzeHistoryS1Group, BronzeHistoryS1RangerDevice,
 		BronzeHistoryS1RangerGateway, BronzeHistoryS1RangerSetting,
-		BronzeHistoryS1Site, BronzeHistoryS1Threat, BronzeS1Account, BronzeS1Agent,
-		BronzeS1AgentNIC, BronzeS1App, BronzeS1Group, BronzeS1RangerDevice,
-		BronzeS1RangerGateway, BronzeS1RangerSetting, BronzeS1Site,
-		BronzeS1Threat []ent.Hook
+		BronzeHistoryS1Site, BronzeHistoryS1Threat, BronzeHistoryVaultPKICertificate,
+		BronzeS1Account, BronzeS1Agent, BronzeS1AgentNIC, BronzeS1App, BronzeS1Group,
+		BronzeS1RangerDevice, BronzeS1RangerGateway, BronzeS1RangerSetting,
+		BronzeS1Site, BronzeS1Threat, BronzeVaultPKICertificate []ent.Hook
 	}
 	inters struct {
 		BronzeAWSEC2Instance, BronzeAWSEC2InstanceTag, BronzeDOAccount,
@@ -58352,10 +58636,10 @@ type (
 		BronzeHistoryS1Agent, BronzeHistoryS1AgentNIC, BronzeHistoryS1App,
 		BronzeHistoryS1Group, BronzeHistoryS1RangerDevice,
 		BronzeHistoryS1RangerGateway, BronzeHistoryS1RangerSetting,
-		BronzeHistoryS1Site, BronzeHistoryS1Threat, BronzeS1Account, BronzeS1Agent,
-		BronzeS1AgentNIC, BronzeS1App, BronzeS1Group, BronzeS1RangerDevice,
-		BronzeS1RangerGateway, BronzeS1RangerSetting, BronzeS1Site,
-		BronzeS1Threat []ent.Interceptor
+		BronzeHistoryS1Site, BronzeHistoryS1Threat, BronzeHistoryVaultPKICertificate,
+		BronzeS1Account, BronzeS1Agent, BronzeS1AgentNIC, BronzeS1App, BronzeS1Group,
+		BronzeS1RangerDevice, BronzeS1RangerGateway, BronzeS1RangerSetting,
+		BronzeS1Site, BronzeS1Threat, BronzeVaultPKICertificate []ent.Interceptor
 	}
 )
 

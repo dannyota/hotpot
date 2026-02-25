@@ -772,6 +772,8 @@ type Tx struct {
 	BronzeHistoryS1Site *BronzeHistoryS1SiteClient
 	// BronzeHistoryS1Threat is the client for interacting with the BronzeHistoryS1Threat builders.
 	BronzeHistoryS1Threat *BronzeHistoryS1ThreatClient
+	// BronzeHistoryVaultPKICertificate is the client for interacting with the BronzeHistoryVaultPKICertificate builders.
+	BronzeHistoryVaultPKICertificate *BronzeHistoryVaultPKICertificateClient
 	// BronzeS1Account is the client for interacting with the BronzeS1Account builders.
 	BronzeS1Account *BronzeS1AccountClient
 	// BronzeS1Agent is the client for interacting with the BronzeS1Agent builders.
@@ -792,6 +794,8 @@ type Tx struct {
 	BronzeS1Site *BronzeS1SiteClient
 	// BronzeS1Threat is the client for interacting with the BronzeS1Threat builders.
 	BronzeS1Threat *BronzeS1ThreatClient
+	// BronzeVaultPKICertificate is the client for interacting with the BronzeVaultPKICertificate builders.
+	BronzeVaultPKICertificate *BronzeVaultPKICertificateClient
 
 	// lazily loaded.
 	client     *Client
@@ -1303,6 +1307,7 @@ func (tx *Tx) init() {
 	tx.BronzeHistoryS1RangerSetting = NewBronzeHistoryS1RangerSettingClient(tx.config)
 	tx.BronzeHistoryS1Site = NewBronzeHistoryS1SiteClient(tx.config)
 	tx.BronzeHistoryS1Threat = NewBronzeHistoryS1ThreatClient(tx.config)
+	tx.BronzeHistoryVaultPKICertificate = NewBronzeHistoryVaultPKICertificateClient(tx.config)
 	tx.BronzeS1Account = NewBronzeS1AccountClient(tx.config)
 	tx.BronzeS1Agent = NewBronzeS1AgentClient(tx.config)
 	tx.BronzeS1AgentNIC = NewBronzeS1AgentNICClient(tx.config)
@@ -1313,6 +1318,7 @@ func (tx *Tx) init() {
 	tx.BronzeS1RangerSetting = NewBronzeS1RangerSettingClient(tx.config)
 	tx.BronzeS1Site = NewBronzeS1SiteClient(tx.config)
 	tx.BronzeS1Threat = NewBronzeS1ThreatClient(tx.config)
+	tx.BronzeVaultPKICertificate = NewBronzeVaultPKICertificateClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

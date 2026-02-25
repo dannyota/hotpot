@@ -387,6 +387,7 @@ type SchemaConfig struct {
 	BronzeHistoryS1RangerSetting                         string // BronzeHistoryS1RangerSetting table.
 	BronzeHistoryS1Site                                  string // BronzeHistoryS1Site table.
 	BronzeHistoryS1Threat                                string // BronzeHistoryS1Threat table.
+	BronzeHistoryVaultPKICertificate                     string // BronzeHistoryVaultPKICertificate table.
 	BronzeS1Account                                      string // BronzeS1Account table.
 	BronzeS1Agent                                        string // BronzeS1Agent table.
 	BronzeS1AgentNIC                                     string // BronzeS1AgentNIC table.
@@ -397,6 +398,7 @@ type SchemaConfig struct {
 	BronzeS1RangerSetting                                string // BronzeS1RangerSetting table.
 	BronzeS1Site                                         string // BronzeS1Site table.
 	BronzeS1Threat                                       string // BronzeS1Threat table.
+	BronzeVaultPKICertificate                            string // BronzeVaultPKICertificate table.
 }
 
 type schemaCtxKey struct{}

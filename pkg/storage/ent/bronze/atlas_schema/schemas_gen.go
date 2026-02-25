@@ -46,6 +46,7 @@ import (
 	bronze_greennode_portal "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/portal"
 	bronze_greennode_volume "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/volume"
 	bronze_s1 "github.com/dannyota/hotpot/pkg/schema/bronze/s1"
+	bronze_vault_pki "github.com/dannyota/hotpot/pkg/schema/bronze/vault/pki"
 )
 
 type BronzeAWSEC2Instance struct {
@@ -3158,6 +3159,22 @@ type BronzeS1Threat struct {
 
 func (BronzeS1Threat) Annotations() []schema.Annotation {
 	anns := bronze_s1.BronzeS1Threat{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeVaultPKICertificate struct {
+	bronze_vault_pki.BronzeVaultPKICertificate
+}
+
+func (BronzeVaultPKICertificate) Annotations() []schema.Annotation {
+	anns := bronze_vault_pki.BronzeVaultPKICertificate{}.Annotations()
 	for i, a := range anns {
 		if v, ok := a.(entsql.Annotation); ok {
 			v.Schema = "bronze"

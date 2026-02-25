@@ -392,6 +392,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1rangersetting"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1site"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1threat"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryvaultpkicertificate"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1account"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1agent"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1agentnic"
@@ -402,6 +403,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangersetting"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1site"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1threat"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzevaultpkicertificate"
 )
 
 // ent aliases to avoid import conflicts in user's code.
@@ -842,6 +844,7 @@ func checkColumn(t, c string) error {
 			bronzehistorys1rangersetting.Table:                         bronzehistorys1rangersetting.ValidColumn,
 			bronzehistorys1site.Table:                                  bronzehistorys1site.ValidColumn,
 			bronzehistorys1threat.Table:                                bronzehistorys1threat.ValidColumn,
+			bronzehistoryvaultpkicertificate.Table:                     bronzehistoryvaultpkicertificate.ValidColumn,
 			bronzes1account.Table:                                      bronzes1account.ValidColumn,
 			bronzes1agent.Table:                                        bronzes1agent.ValidColumn,
 			bronzes1agentnic.Table:                                     bronzes1agentnic.ValidColumn,
@@ -852,6 +855,7 @@ func checkColumn(t, c string) error {
 			bronzes1rangersetting.Table:                                bronzes1rangersetting.ValidColumn,
 			bronzes1site.Table:                                         bronzes1site.ValidColumn,
 			bronzes1threat.Table:                                       bronzes1threat.ValidColumn,
+			bronzevaultpkicertificate.Table:                            bronzevaultpkicertificate.ValidColumn,
 		})
 	})
 	return columnCheck(t, c)

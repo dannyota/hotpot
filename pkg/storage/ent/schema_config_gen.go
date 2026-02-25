@@ -199,6 +199,7 @@ func DefaultSchemaConfig() SchemaConfig {
 		BronzeS1RangerSetting:                                "bronze",
 		BronzeS1Site:                                         "bronze",
 		BronzeS1Threat:                                       "bronze",
+		BronzeVaultPKICertificate:                            "bronze",
 		BronzeHistoryAWSEC2Instance:                          "bronze_history",
 		BronzeHistoryAWSEC2InstanceTag:                       "bronze_history",
 		BronzeHistoryDOAccount:                               "bronze_history",
@@ -394,5 +395,6 @@ func DefaultSchemaConfig() SchemaConfig {
 		BronzeHistoryS1RangerSetting:                         "bronze_history",
 		BronzeHistoryS1Site:                                  "bronze_history",
 		BronzeHistoryS1Threat:                                "bronze_history",
+		BronzeHistoryVaultPKICertificate:                     "bronze_history",
 	}
 }

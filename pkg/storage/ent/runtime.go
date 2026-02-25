@@ -364,6 +364,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1rangersetting"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1site"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistorys1threat"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzehistoryvaultpkicertificate"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1account"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1agent"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1app"
@@ -373,6 +374,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1rangersetting"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1site"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzes1threat"
+	"github.com/dannyota/hotpot/pkg/storage/ent/bronzevaultpkicertificate"
 	"github.com/dannyota/hotpot/pkg/storage/ent/schema"
 )
 
@@ -5430,6 +5432,28 @@ func init() {
 	bronzehistorys1threatDescAgentIsDecommissioned := bronzehistorys1threatFields[25].Descriptor()
 	// bronzehistorys1threat.DefaultAgentIsDecommissioned holds the default value on creation for the agent_is_decommissioned field.
 	bronzehistorys1threat.DefaultAgentIsDecommissioned = bronzehistorys1threatDescAgentIsDecommissioned.Default.(bool)
+	bronzehistoryvaultpkicertificateFields := schema.BronzeHistoryVaultPKICertificate{}.Fields()
+	_ = bronzehistoryvaultpkicertificateFields
+	// bronzehistoryvaultpkicertificateDescResourceID is the schema descriptor for resource_id field.
+	bronzehistoryvaultpkicertificateDescResourceID := bronzehistoryvaultpkicertificateFields[1].Descriptor()
+	// bronzehistoryvaultpkicertificate.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistoryvaultpkicertificate.ResourceIDValidator = bronzehistoryvaultpkicertificateDescResourceID.Validators[0].(func(string) error)
+	// bronzehistoryvaultpkicertificateDescVaultName is the schema descriptor for vault_name field.
+	bronzehistoryvaultpkicertificateDescVaultName := bronzehistoryvaultpkicertificateFields[2].Descriptor()
+	// bronzehistoryvaultpkicertificate.VaultNameValidator is a validator for the "vault_name" field. It is called by the builders before save.
+	bronzehistoryvaultpkicertificate.VaultNameValidator = bronzehistoryvaultpkicertificateDescVaultName.Validators[0].(func(string) error)
+	// bronzehistoryvaultpkicertificateDescMountPath is the schema descriptor for mount_path field.
+	bronzehistoryvaultpkicertificateDescMountPath := bronzehistoryvaultpkicertificateFields[3].Descriptor()
+	// bronzehistoryvaultpkicertificate.MountPathValidator is a validator for the "mount_path" field. It is called by the builders before save.
+	bronzehistoryvaultpkicertificate.MountPathValidator = bronzehistoryvaultpkicertificateDescMountPath.Validators[0].(func(string) error)
+	// bronzehistoryvaultpkicertificateDescSerialNumber is the schema descriptor for serial_number field.
+	bronzehistoryvaultpkicertificateDescSerialNumber := bronzehistoryvaultpkicertificateFields[4].Descriptor()
+	// bronzehistoryvaultpkicertificate.SerialNumberValidator is a validator for the "serial_number" field. It is called by the builders before save.
+	bronzehistoryvaultpkicertificate.SerialNumberValidator = bronzehistoryvaultpkicertificateDescSerialNumber.Validators[0].(func(string) error)
+	// bronzehistoryvaultpkicertificateDescIsRevoked is the schema descriptor for is_revoked field.
+	bronzehistoryvaultpkicertificateDescIsRevoked := bronzehistoryvaultpkicertificateFields[14].Descriptor()
+	// bronzehistoryvaultpkicertificate.DefaultIsRevoked holds the default value on creation for the is_revoked field.
+	bronzehistoryvaultpkicertificate.DefaultIsRevoked = bronzehistoryvaultpkicertificateDescIsRevoked.Default.(bool)
 	bronzes1accountFields := schema.BronzeS1Account{}.Fields()
 	_ = bronzes1accountFields
 	// bronzes1accountDescName is the schema descriptor for name field.
@@ -5708,4 +5732,22 @@ func init() {
 	bronzes1threatDescAgentIsDecommissioned := bronzes1threatFields[24].Descriptor()
 	// bronzes1threat.DefaultAgentIsDecommissioned holds the default value on creation for the agent_is_decommissioned field.
 	bronzes1threat.DefaultAgentIsDecommissioned = bronzes1threatDescAgentIsDecommissioned.Default.(bool)
+	bronzevaultpkicertificateFields := schema.BronzeVaultPKICertificate{}.Fields()
+	_ = bronzevaultpkicertificateFields
+	// bronzevaultpkicertificateDescVaultName is the schema descriptor for vault_name field.
+	bronzevaultpkicertificateDescVaultName := bronzevaultpkicertificateFields[1].Descriptor()
+	// bronzevaultpkicertificate.VaultNameValidator is a validator for the "vault_name" field. It is called by the builders before save.
+	bronzevaultpkicertificate.VaultNameValidator = bronzevaultpkicertificateDescVaultName.Validators[0].(func(string) error)
+	// bronzevaultpkicertificateDescMountPath is the schema descriptor for mount_path field.
+	bronzevaultpkicertificateDescMountPath := bronzevaultpkicertificateFields[2].Descriptor()
+	// bronzevaultpkicertificate.MountPathValidator is a validator for the "mount_path" field. It is called by the builders before save.
+	bronzevaultpkicertificate.MountPathValidator = bronzevaultpkicertificateDescMountPath.Validators[0].(func(string) error)
+	// bronzevaultpkicertificateDescSerialNumber is the schema descriptor for serial_number field.
+	bronzevaultpkicertificateDescSerialNumber := bronzevaultpkicertificateFields[3].Descriptor()
+	// bronzevaultpkicertificate.SerialNumberValidator is a validator for the "serial_number" field. It is called by the builders before save.
+	bronzevaultpkicertificate.SerialNumberValidator = bronzevaultpkicertificateDescSerialNumber.Validators[0].(func(string) error)
+	// bronzevaultpkicertificateDescIsRevoked is the schema descriptor for is_revoked field.
+	bronzevaultpkicertificateDescIsRevoked := bronzevaultpkicertificateFields[13].Descriptor()
+	// bronzevaultpkicertificate.DefaultIsRevoked holds the default value on creation for the is_revoked field.
+	bronzevaultpkicertificate.DefaultIsRevoked = bronzevaultpkicertificateDescIsRevoked.Default.(bool)
 }

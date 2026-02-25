@@ -167,6 +167,9 @@ func (s *Service) EnabledProviders() []string {
 	if s.config.GreenNode.Enabled {
 		providers = append(providers, "greennode")
 	}
+	if s.config.Vault.Enabled {
+		providers = append(providers, "vault")
+	}
 	return providers
 }
 
@@ -439,6 +442,53 @@ func (s *Service) GreenNodeRateLimitPerMinute() int {
 		return 300
 	}
 	return s.config.GreenNode.RateLimitPerMinute
+}
+
+// VaultEnabled returns true if Vault ingestion is enabled in config.
+func (s *Service) VaultEnabled() bool {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.config != nil && s.config.Vault.Enabled
+}
+
+// VaultRateLimitPerMinute returns the max API requests per minute for Vault.
+// Defaults to 60 if not configured.
+func (s *Service) VaultRateLimitPerMinute() int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || s.config.Vault.RateLimitPerMinute <= 0 {
+		return 60
+	}
+	return s.config.Vault.RateLimitPerMinute
+}
+
+// VaultInstances returns a copy of configured Vault instances.
+func (s *Service) VaultInstances() []VaultInstance {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || len(s.config.Vault.Instances) == 0 {
+		return nil
+	}
+	result := make([]VaultInstance, len(s.config.Vault.Instances))
+	copy(result, s.config.Vault.Instances)
+	return result
+}
+
+// VaultInstance looks up a Vault instance by name.
+// Returns nil if not found.
+func (s *Service) VaultInstance(name string) *VaultInstance {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return nil
+	}
+	for _, inst := range s.config.Vault.Instances {
+		if inst.Name == name {
+			v := inst
+			return &v
+		}
+	}
+	return nil
 }
 
 // RedisConfig returns the Redis configuration.

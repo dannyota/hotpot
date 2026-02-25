@@ -1146,6 +1146,9 @@ type BronzeHistoryS1Site func(*sql.Selector)
 // BronzeHistoryS1Threat is the predicate function for bronzehistorys1threat builders.
 type BronzeHistoryS1Threat func(*sql.Selector)
 
+// BronzeHistoryVaultPKICertificate is the predicate function for bronzehistoryvaultpkicertificate builders.
+type BronzeHistoryVaultPKICertificate func(*sql.Selector)
+
 // BronzeS1Account is the predicate function for bronzes1account builders.
 type BronzeS1Account func(*sql.Selector)
 
@@ -1175,3 +1178,6 @@ type BronzeS1Site func(*sql.Selector)
 
 // BronzeS1Threat is the predicate function for bronzes1threat builders.
 type BronzeS1Threat func(*sql.Selector)
+
+// BronzeVaultPKICertificate is the predicate function for bronzevaultpkicertificate builders.
+type BronzeVaultPKICertificate func(*sql.Selector)

@@ -4569,6 +4569,18 @@ func (f BronzeHistoryS1ThreatFunc) Mutate(ctx context.Context, m ent.Mutation) (
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryS1ThreatMutation", m)
 }
 
+// The BronzeHistoryVaultPKICertificateFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryVaultPKICertificate mutator.
+type BronzeHistoryVaultPKICertificateFunc func(context.Context, *ent.BronzeHistoryVaultPKICertificateMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryVaultPKICertificateFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeHistoryVaultPKICertificateMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeHistoryVaultPKICertificateMutation", m)
+}
+
 // The BronzeS1AccountFunc type is an adapter to allow the use of ordinary
 // function as BronzeS1Account mutator.
 type BronzeS1AccountFunc func(context.Context, *ent.BronzeS1AccountMutation) (ent.Value, error)
@@ -4687,6 +4699,18 @@ func (f BronzeS1ThreatFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Val
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeS1ThreatMutation", m)
+}
+
+// The BronzeVaultPKICertificateFunc type is an adapter to allow the use of ordinary
+// function as BronzeVaultPKICertificate mutator.
+type BronzeVaultPKICertificateFunc func(context.Context, *ent.BronzeVaultPKICertificateMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeVaultPKICertificateFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.BronzeVaultPKICertificateMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.BronzeVaultPKICertificateMutation", m)
 }
 
 // Condition is a hook condition function.
