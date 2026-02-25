@@ -8,7 +8,6 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/account"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/agent"
-	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/app"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/group"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_device"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_gateway"
@@ -20,7 +19,6 @@ import (
 type S1InventoryWorkflowResult struct {
 	AccountCount       int
 	AgentCount         int
-	AppCount           int
 	GroupCount         int
 	SiteCount          int
 	RangerDeviceCount  int
@@ -82,15 +80,6 @@ func S1InventoryWorkflow(ctx workflow.Context) (*S1InventoryWorkflowResult, erro
 		result.GroupCount = groupResult.GroupCount
 	}
 
-	// Execute app workflow
-	var appResult app.S1AppWorkflowResult
-	err = workflow.ExecuteChildWorkflow(ctx, app.S1AppWorkflow).Get(ctx, &appResult)
-	if err != nil {
-		logger.Error("Failed to execute S1AppWorkflow", "error", err)
-	} else {
-		result.AppCount = appResult.AppCount
-	}
-
 	// Execute ranger device workflow
 	var rangerDeviceResult ranger_device.S1RangerDeviceWorkflowResult
 	err = workflow.ExecuteChildWorkflow(ctx, ranger_device.S1RangerDeviceWorkflow).Get(ctx, &rangerDeviceResult)
@@ -121,7 +110,6 @@ func S1InventoryWorkflow(ctx workflow.Context) (*S1InventoryWorkflowResult, erro
 	logger.Info("Completed S1InventoryWorkflow",
 		"accounts", result.AccountCount,
 		"agents", result.AgentCount,
-		"apps", result.AppCount,
 		"groups", result.GroupCount,
 		"sites", result.SiteCount,
 		"rangerDevices", result.RangerDeviceCount,

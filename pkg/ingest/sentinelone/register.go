@@ -8,7 +8,6 @@ import (
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/account"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/agent"
-	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/app"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/group"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_device"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_gateway"
@@ -31,7 +30,6 @@ func Register(w worker.Worker, configService *config.Service, driver dialect.Dri
 
 	account.Register(w, configService, entClient, limiter)
 	agent.Register(w, configService, entClient, limiter)
-	app.Register(w, configService, entClient, limiter)
 	group.Register(w, configService, entClient, limiter)
 	site.Register(w, configService, entClient, limiter)
 	ranger_device.Register(w, configService, entClient, limiter)

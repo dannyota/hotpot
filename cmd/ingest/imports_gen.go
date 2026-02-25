@@ -46,7 +46,6 @@ import (
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/account"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/agent"
-	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/app"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/group"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_device"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_gateway"
