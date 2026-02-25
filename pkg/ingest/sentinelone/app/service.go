@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"time"
 
 	"github.com/dannyota/hotpot/pkg/storage/ent"
@@ -39,16 +40,21 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 
 	var allApps []*AppData
 	cursor := ""
+	batchNum := 0
 
 	for {
+		batchNum++
 		batch, err := s.client.GetAppsBatch(cursor)
 		if err != nil {
+			slog.Error("s1 apps batch failed", "batch", batchNum, "totalSoFar", len(allApps), "error", err)
 			return nil, fmt.Errorf("get apps batch: %w", err)
 		}
 
 		for _, apiApp := range batch.Apps {
 			allApps = append(allApps, ConvertApp(apiApp, collectedAt))
 		}
+
+		slog.Info("s1 apps batch fetched", "batch", batchNum, "batchItems", len(batch.Apps), "totalItems", len(allApps), "hasMore", batch.HasMore)
 
 		if heartbeat != nil {
 			heartbeat()

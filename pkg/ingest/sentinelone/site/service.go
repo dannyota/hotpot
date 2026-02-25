@@ -3,6 +3,7 @@ package site
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"time"
 
 	"github.com/dannyota/hotpot/pkg/storage/ent"
@@ -39,16 +40,21 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 
 	var allSites []*SiteData
 	cursor := ""
+	batchNum := 0
 
 	for {
+		batchNum++
 		batch, err := s.client.GetSitesBatch(cursor)
 		if err != nil {
+			slog.Error("s1 sites batch failed", "batch", batchNum, "totalSoFar", len(allSites), "error", err)
 			return nil, fmt.Errorf("get sites batch: %w", err)
 		}
 
 		for _, apiSite := range batch.Sites {
 			allSites = append(allSites, ConvertSite(apiSite, collectedAt))
 		}
+
+		slog.Info("s1 sites batch fetched", "batch", batchNum, "batchItems", len(batch.Sites), "totalItems", len(allSites), "hasMore", batch.HasMore)
 
 		if heartbeat != nil {
 			heartbeat()

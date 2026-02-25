@@ -3,6 +3,7 @@ package threat
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"time"
 
 	"github.com/dannyota/hotpot/pkg/storage/ent"
@@ -39,16 +40,21 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 
 	var allThreats []*ThreatData
 	cursor := ""
+	batchNum := 0
 
 	for {
+		batchNum++
 		batch, err := s.client.GetThreatsBatch(cursor)
 		if err != nil {
+			slog.Error("s1 threats batch failed", "batch", batchNum, "totalSoFar", len(allThreats), "error", err)
 			return nil, fmt.Errorf("get threats batch: %w", err)
 		}
 
 		for _, apiThreat := range batch.Threats {
 			allThreats = append(allThreats, ConvertThreat(apiThreat, collectedAt))
 		}
+
+		slog.Info("s1 threats batch fetched", "batch", batchNum, "batchItems", len(batch.Threats), "totalItems", len(allThreats), "hasMore", batch.HasMore)
 
 		if heartbeat != nil {
 			heartbeat()

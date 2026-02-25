@@ -3,6 +3,7 @@ package agent
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"time"
 
 	"github.com/dannyota/hotpot/pkg/storage/ent"
@@ -40,10 +41,13 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 
 	var allAgents []*AgentData
 	cursor := ""
+	batchNum := 0
 
 	for {
+		batchNum++
 		batch, err := s.client.GetAgentsBatch(cursor)
 		if err != nil {
+			slog.Error("s1 agents batch failed", "batch", batchNum, "totalSoFar", len(allAgents), "error", err)
 			return nil, fmt.Errorf("get agents batch: %w", err)
 		}
 
@@ -54,6 +58,8 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 			}
 			allAgents = append(allAgents, data)
 		}
+
+		slog.Info("s1 agents batch fetched", "batch", batchNum, "batchItems", len(batch.Agents), "totalItems", len(allAgents), "hasMore", batch.HasMore)
 
 		if heartbeat != nil {
 			heartbeat()

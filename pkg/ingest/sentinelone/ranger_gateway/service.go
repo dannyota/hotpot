@@ -3,6 +3,7 @@ package ranger_gateway
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"time"
 
 	"github.com/dannyota/hotpot/pkg/storage/ent"
@@ -39,16 +40,21 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 
 	var allGateways []*RangerGatewayData
 	cursor := ""
+	batchNum := 0
 
 	for {
+		batchNum++
 		batch, err := s.client.GetGatewaysBatch(cursor)
 		if err != nil {
+			slog.Error("s1 ranger gateways batch failed", "batch", batchNum, "totalSoFar", len(allGateways), "error", err)
 			return nil, fmt.Errorf("get ranger gateways batch: %w", err)
 		}
 
 		for _, apiGateway := range batch.Gateways {
 			allGateways = append(allGateways, ConvertRangerGateway(apiGateway, collectedAt))
 		}
+
+		slog.Info("s1 ranger gateways batch fetched", "batch", batchNum, "batchItems", len(batch.Gateways), "totalItems", len(allGateways), "hasMore", batch.HasMore)
 
 		if heartbeat != nil {
 			heartbeat()

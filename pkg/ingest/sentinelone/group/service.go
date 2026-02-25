@@ -3,6 +3,7 @@ package group
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"time"
 
 	"github.com/dannyota/hotpot/pkg/storage/ent"
@@ -39,16 +40,21 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 
 	var allGroups []*GroupData
 	cursor := ""
+	batchNum := 0
 
 	for {
+		batchNum++
 		batch, err := s.client.GetGroupsBatch(cursor)
 		if err != nil {
+			slog.Error("s1 groups batch failed", "batch", batchNum, "totalSoFar", len(allGroups), "error", err)
 			return nil, fmt.Errorf("get groups batch: %w", err)
 		}
 
 		for _, apiGroup := range batch.Groups {
 			allGroups = append(allGroups, ConvertGroup(apiGroup, collectedAt))
 		}
+
+		slog.Info("s1 groups batch fetched", "batch", batchNum, "batchItems", len(batch.Groups), "totalItems", len(allGroups), "hasMore", batch.HasMore)
 
 		if heartbeat != nil {
 			heartbeat()

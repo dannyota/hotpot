@@ -3,6 +3,7 @@ package ranger_device
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"time"
 
 	"github.com/dannyota/hotpot/pkg/storage/ent"
@@ -39,16 +40,21 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 
 	var allDevices []*RangerDeviceData
 	cursor := ""
+	batchNum := 0
 
 	for {
+		batchNum++
 		batch, err := s.client.GetDevicesBatch(cursor)
 		if err != nil {
+			slog.Error("s1 ranger devices batch failed", "batch", batchNum, "totalSoFar", len(allDevices), "error", err)
 			return nil, fmt.Errorf("get ranger devices batch: %w", err)
 		}
 
 		for _, apiDevice := range batch.Devices {
 			allDevices = append(allDevices, ConvertRangerDevice(apiDevice, collectedAt))
 		}
+
+		slog.Info("s1 ranger devices batch fetched", "batch", batchNum, "batchItems", len(batch.Devices), "totalItems", len(allDevices), "hasMore", batch.HasMore)
 
 		if heartbeat != nil {
 			heartbeat()

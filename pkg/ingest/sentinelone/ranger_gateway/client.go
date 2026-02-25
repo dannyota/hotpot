@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"net/url"
 	"time"
@@ -105,6 +106,7 @@ func (c *Client) doRequest(method, endpoint string, params url.Values) ([]byte, 
 	if params != nil {
 		requestURL = fmt.Sprintf("%s?%s", requestURL, params.Encode())
 	}
+	start := time.Now()
 
 	req, err := http.NewRequest(method, requestURL, nil)
 	if err != nil {
@@ -114,8 +116,11 @@ func (c *Client) doRequest(method, endpoint string, params url.Values) ([]byte, 
 	req.Header.Set("Authorization", fmt.Sprintf("ApiToken %s", c.apiToken))
 	req.Header.Set("Content-Type", "application/json")
 
+	slog.Debug("s1 api request", "method", method, "endpoint", endpoint)
+
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
+		slog.Error("s1 api request failed", "method", method, "endpoint", endpoint, "error", err, "durationMs", time.Since(start).Milliseconds())
 		return nil, fmt.Errorf("execute request: %w", err)
 	}
 	defer resp.Body.Close()
@@ -124,6 +129,8 @@ func (c *Client) doRequest(method, endpoint string, params url.Values) ([]byte, 
 	if err != nil {
 		return nil, fmt.Errorf("read response body: %w", err)
 	}
+
+	slog.Info("s1 api response", "method", method, "endpoint", endpoint, "status", resp.StatusCode, "responseBytes", len(body), "durationMs", time.Since(start).Milliseconds())
 
 	if resp.StatusCode == http.StatusUnauthorized || resp.StatusCode == http.StatusForbidden {
 		return nil, fmt.Errorf("authentication failed (status: %d)", resp.StatusCode)
