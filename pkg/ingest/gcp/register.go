@@ -50,6 +50,10 @@ func Register(w worker.Worker, configService *config.Service, entClient *ent.Cli
 	})
 	limiter := rateLimitSvc.Limiter()
 
+	// Register top-level GCP activities (disabled services resolution)
+	activities := &Activities{configService: configService}
+	w.RegisterActivity(activities.ResolveDisabledServices)
+
 	// Register resource manager (project discovery)
 	resourcemanager.Register(w, configService, entClient, limiter)
 

@@ -2,6 +2,7 @@ package ingest
 
 import (
 	"io"
+	"slices"
 	"sync"
 
 	"go.temporal.io/sdk/worker"
@@ -54,4 +55,9 @@ func ResetProviders() {
 	mu.Lock()
 	defer mu.Unlock()
 	providers = nil
+}
+
+// ServiceDisabled returns true if the named service is in the disabled list.
+func ServiceDisabled(disabledServices []string, name string) bool {
+	return slices.Contains(disabledServices, name)
 }
