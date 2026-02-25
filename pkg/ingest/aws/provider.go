@@ -16,7 +16,7 @@ func init() {
 		TaskQueue:          "hotpot-ingest-aws",
 		Enabled:            (*config.Service).AWSEnabled,
 		RateLimitPerMinute: (*config.Service).AWSRateLimitPerMinute,
-		RegisterWithDriver: func(w worker.Worker, cs *config.Service, drv dialect.Driver) io.Closer {
+		Register: func(w worker.Worker, cs *config.Service, drv dialect.Driver) io.Closer {
 			return Register(w, cs, drv)
 		},
 		Workflow:     AWSInventoryWorkflow,

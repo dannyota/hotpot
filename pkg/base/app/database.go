@@ -12,7 +12,6 @@ import (
 	_ "github.com/jackc/pgx/v5/stdlib"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // dbManager handles database connections with hot-reload support.
@@ -22,7 +21,6 @@ type dbManager struct {
 	onReconnect   func(oldDSN, newDSN string)
 
 	driver     dialect.Driver
-	entClient  *ent.Client
 	currentDSN string
 	mu         sync.RWMutex
 }
@@ -55,15 +53,8 @@ func (m *dbManager) connect() error {
 	// Create Ent driver
 	drv := entsql.OpenDB(dialect.Postgres, db)
 
-	// Create Ent client with schema routing
-	entClient := ent.NewClient(
-		ent.Driver(drv),
-		ent.AlternateSchema(ent.DefaultSchemaConfig()),
-	)
-
 	m.mu.Lock()
 	m.driver = drv
-	m.entClient = entClient
 	m.currentDSN = dsn
 	m.mu.Unlock()
 
@@ -93,19 +84,14 @@ func (m *dbManager) reconnectIfChanged() {
 		return
 	}
 
-	// Create Ent driver and client
+	// Create Ent driver
 	drv := entsql.OpenDB(dialect.Postgres, db)
-	newClient := ent.NewClient(
-		ent.Driver(drv),
-		ent.AlternateSchema(ent.DefaultSchemaConfig()),
-	)
 
 	// Swap connections
 	m.mu.Lock()
-	oldClient := m.entClient
+	oldDriver := m.driver
 	oldDSN := m.currentDSN
 	m.driver = drv
-	m.entClient = newClient
 	m.currentDSN = newDSN
 	m.mu.Unlock()
 
@@ -116,20 +102,18 @@ func (m *dbManager) reconnectIfChanged() {
 		m.onReconnect(oldDSN, newDSN)
 	}
 
-	// Close old connection after grace period (in background)
-	go m.closeAfterGracePeriod(oldClient)
+	// Close old driver after grace period (in background)
+	if oldDriver != nil {
+		go m.closeDriverAfterGracePeriod(oldDriver)
+	}
 }
 
-// closeAfterGracePeriod waits then closes the old connection.
-func (m *dbManager) closeAfterGracePeriod(oldClient *ent.Client) {
-	if oldClient == nil {
-		return
-	}
-
+// closeDriverAfterGracePeriod waits then closes the old driver.
+func (m *dbManager) closeDriverAfterGracePeriod(drv dialect.Driver) {
 	log.Printf("Waiting %v before closing old database connection...", m.gracePeriod)
 	time.Sleep(m.gracePeriod)
 
-	if err := oldClient.Close(); err != nil {
+	if err := drv.Close(); err != nil {
 		log.Printf("Failed to close old database connection: %v", err)
 		return
 	}
@@ -145,21 +129,14 @@ func (m *dbManager) Driver() dialect.Driver {
 	return m.driver
 }
 
-// EntClient returns the current Ent client (thread-safe).
-func (m *dbManager) EntClient() *ent.Client {
-	m.mu.RLock()
-	defer m.mu.RUnlock()
-	return m.entClient
-}
-
 // close closes the current database connection.
 func (m *dbManager) close() error {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
-	if m.entClient == nil {
+	if m.driver == nil {
 		return nil
 	}
 
-	return m.entClient.Close()
+	return m.driver.Close()
 }

@@ -16,7 +16,7 @@ func init() {
 		TaskQueue:          "hotpot-ingest-gcp",
 		Enabled:            (*config.Service).GCPEnabled,
 		RateLimitPerMinute: (*config.Service).GCPRateLimitPerMinute,
-		RegisterWithDriver: func(w worker.Worker, cs *config.Service, drv dialect.Driver) io.Closer {
+		Register: func(w worker.Worker, cs *config.Service, drv dialect.Driver) io.Closer {
 			return Register(w, cs, drv)
 		},
 		Workflow:     GCPInventoryWorkflow,

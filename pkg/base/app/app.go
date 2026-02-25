@@ -11,7 +11,6 @@ import (
 	"entgo.io/ent/dialect"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // App provides a unified interface for config and database with hot-reload.
@@ -133,12 +132,6 @@ func (a *App) Driver() dialect.Driver {
 	return a.dbManager.Driver()
 }
 
-// EntClient returns the current Ent client.
-// The client may change after a config reload.
-func (a *App) EntClient() *ent.Client {
-	return a.dbManager.EntClient()
-}
-
 // Config returns a copy of current configuration.
 func (a *App) Config() config.Config {
 	return a.configService.Config()
@@ -146,7 +139,7 @@ func (a *App) Config() config.Config {
 
 // RunFunc is the signature for service runner functions.
 // The context is cancelled when the app receives SIGINT/SIGTERM.
-type RunFunc func(ctx context.Context, configService *config.Service, entClient *ent.Client, driver dialect.Driver) error
+type RunFunc func(ctx context.Context, configService *config.Service, driver dialect.Driver) error
 
 // Run starts a service runner in a goroutine (non-blocking).
 // Use Wait() to block until all runners complete.
@@ -156,7 +149,7 @@ func (a *App) Run(runner RunFunc) {
 	a.wg.Add(1)
 	go func() {
 		defer a.wg.Done()
-		if err := runner(a.ctx, a.configService, a.dbManager.EntClient(), a.dbManager.Driver()); err != nil {
+		if err := runner(a.ctx, a.configService, a.dbManager.Driver()); err != nil {
 			a.errMu.Lock()
 			a.errors = append(a.errors, err)
 			a.errMu.Unlock()

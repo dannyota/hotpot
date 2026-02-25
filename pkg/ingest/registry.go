@@ -9,7 +9,6 @@ import (
 	"go.temporal.io/sdk/worker"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // ProviderRegistration describes a provider that can be started by the ingest runner.
@@ -19,8 +18,7 @@ type ProviderRegistration struct {
 	TaskQueue          string
 	Enabled            func(*config.Service) bool
 	RateLimitPerMinute func(*config.Service) int
-	Register           func(worker.Worker, *config.Service, *ent.Client) io.Closer
-	RegisterWithDriver func(worker.Worker, *config.Service, dialect.Driver) io.Closer
+	Register           func(worker.Worker, *config.Service, dialect.Driver) io.Closer
 
 	// Workflow is the top-level inventory workflow function for scheduling.
 	Workflow interface{}

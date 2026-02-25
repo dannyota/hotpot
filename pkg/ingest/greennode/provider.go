@@ -16,7 +16,7 @@ func init() {
 		TaskQueue:          "hotpot-ingest-greennode",
 		Enabled:            (*config.Service).GreenNodeEnabled,
 		RateLimitPerMinute: (*config.Service).GreenNodeRateLimitPerMinute,
-		RegisterWithDriver: func(w worker.Worker, cs *config.Service, drv dialect.Driver) io.Closer {
+		Register: func(w worker.Worker, cs *config.Service, drv dialect.Driver) io.Closer {
 			return Register(w, cs, drv)
 		},
 		Workflow: GreenNodeInventoryWorkflow,

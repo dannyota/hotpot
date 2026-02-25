@@ -16,7 +16,7 @@ func init() {
 		TaskQueue:          "hotpot-ingest-vault",
 		Enabled:            (*config.Service).VaultEnabled,
 		RateLimitPerMinute: (*config.Service).VaultRateLimitPerMinute,
-		RegisterWithDriver: func(w worker.Worker, cs *config.Service, drv dialect.Driver) io.Closer {
+		Register: func(w worker.Worker, cs *config.Service, drv dialect.Driver) io.Closer {
 			return Register(w, cs, drv)
 		},
 		Workflow: VaultInventoryWorkflow,

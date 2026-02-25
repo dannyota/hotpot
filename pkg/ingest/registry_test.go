@@ -4,10 +4,10 @@ import (
 	"io"
 	"testing"
 
+	"entgo.io/ent/dialect"
 	"go.temporal.io/sdk/worker"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 func TestProviders_Empty(t *testing.T) {
@@ -29,14 +29,14 @@ func TestRegisterProvider(t *testing.T) {
 		TaskQueue: "queue-a",
 		Enabled:   func(*config.Service) bool { return true },
 		RateLimitPerMinute: func(*config.Service) int { return 100 },
-		Register: func(worker.Worker, *config.Service, *ent.Client) io.Closer { return nil },
+		Register: func(worker.Worker, *config.Service, dialect.Driver) io.Closer { return nil },
 	})
 	RegisterProvider(ProviderRegistration{
 		Name:      "test-b",
 		TaskQueue: "queue-b",
 		Enabled:   func(*config.Service) bool { return false },
 		RateLimitPerMinute: func(*config.Service) int { return 200 },
-		Register: func(worker.Worker, *config.Service, *ent.Client) io.Closer { return nil },
+		Register: func(worker.Worker, *config.Service, dialect.Driver) io.Closer { return nil },
 	})
 
 	got := Providers()
@@ -60,7 +60,7 @@ func TestProviders_ReturnsCopy(t *testing.T) {
 		TaskQueue: "queue",
 		Enabled:   func(*config.Service) bool { return true },
 		RateLimitPerMinute: func(*config.Service) int { return 100 },
-		Register: func(worker.Worker, *config.Service, *ent.Client) io.Closer { return nil },
+		Register: func(worker.Worker, *config.Service, dialect.Driver) io.Closer { return nil },
 	})
 
 	got := Providers()

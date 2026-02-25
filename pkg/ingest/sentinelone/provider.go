@@ -16,7 +16,7 @@ func init() {
 		TaskQueue:          "hotpot-ingest-s1",
 		Enabled:            (*config.Service).S1Enabled,
 		RateLimitPerMinute: (*config.Service).S1RateLimitPerMinute,
-		RegisterWithDriver: func(w worker.Worker, cs *config.Service, drv dialect.Driver) io.Closer {
+		Register: func(w worker.Worker, cs *config.Service, drv dialect.Driver) io.Closer {
 			return Register(w, cs, drv)
 		},
 		Workflow: S1InventoryWorkflow,

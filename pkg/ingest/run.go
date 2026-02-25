@@ -14,12 +14,11 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/logger"
-	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // Run starts the ingest workers.
 // The context is used to signal shutdown - when cancelled, workers will stop.
-func Run(ctx context.Context, configService *config.Service, entClient *ent.Client, driver dialect.Driver) error {
+func Run(ctx context.Context, configService *config.Service, driver dialect.Driver) error {
 	// Set colored logger as default for app-level logging (INFO+).
 	slog.SetDefault(logger.New(slog.LevelInfo))
 
@@ -70,10 +69,8 @@ func Run(ctx context.Context, configService *config.Service, entClient *ent.Clie
 		})
 
 		var closer io.Closer
-		if p.RegisterWithDriver != nil {
-			closer = p.RegisterWithDriver(w, configService, driver)
-		} else {
-			closer = p.Register(w, configService, entClient)
+		if p.Register != nil {
+			closer = p.Register(w, configService, driver)
 		}
 		if closer != nil {
 			defer closer.Close()
