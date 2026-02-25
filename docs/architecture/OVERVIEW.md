@@ -56,6 +56,7 @@ hotpot/
 │
 ├── tools/                      # Dev-only tools
 │   ├── entcgen/main.go         # Ent code generation
+│   ├── ingestgen/main.go       # Ingest binary import generation
 │   └── genmigrate/main.go      # Migration SQL generation
 │
 ├── docs/                       # Documentation
