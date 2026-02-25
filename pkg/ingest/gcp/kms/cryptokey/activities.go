@@ -10,6 +10,7 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
@@ -64,7 +65,7 @@ func (a *Activities) IngestKMSCryptoKeys(ctx context.Context, params IngestKMSCr
 
 	client, err := a.createClient(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("create client: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("create client: %w", err))
 	}
 	defer client.Close()
 
@@ -73,7 +74,7 @@ func (a *Activities) IngestKMSCryptoKeys(ctx context.Context, params IngestKMSCr
 		ProjectID: params.ProjectID,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("failed to ingest crypto keys: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("failed to ingest crypto keys: %w", err))
 	}
 
 	if err := service.DeleteStaleCryptoKeys(ctx, params.ProjectID, result.CollectedAt); err != nil {

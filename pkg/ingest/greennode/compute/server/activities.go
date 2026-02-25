@@ -10,6 +10,7 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
@@ -53,13 +54,13 @@ func (a *Activities) IngestComputeServers(ctx context.Context, params IngestComp
 
 	client, err := NewClient(ctx, a.configService, a.iamAuth, a.limiter, params.Region, params.ProjectID)
 	if err != nil {
-		return nil, fmt.Errorf("create client: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("create client: %w", err))
 	}
 
 	service := NewService(client, a.entClient)
 	result, err := service.Ingest(ctx, params.ProjectID, params.Region)
 	if err != nil {
-		return nil, fmt.Errorf("ingest servers: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest servers: %w", err))
 	}
 
 	if err := service.DeleteStaleServers(ctx, params.ProjectID, params.Region, result.CollectedAt); err != nil {

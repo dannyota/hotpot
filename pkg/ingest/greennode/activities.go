@@ -13,6 +13,7 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 )
 
 // Activities holds dependencies for top-level GreenNode activities.
@@ -101,7 +102,7 @@ func (a *Activities) DiscoverProjects(ctx context.Context, params DiscoverProjec
 		option.WithTransport(ratelimit.NewRateLimitedTransport(a.limiter, nil)),
 	)
 	if err != nil {
-		return nil, fmt.Errorf("create greennode client: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("create greennode client: %w", err))
 	}
 	log.Printf("[DiscoverProjects] SDK client created (%v)", time.Since(step))
 
@@ -110,7 +111,7 @@ func (a *Activities) DiscoverProjects(ctx context.Context, params DiscoverProjec
 	result, err := sdk.PortalV1.ListProjects(ctx, portalv1.NewListProjectsRequest())
 	if err != nil {
 		log.Printf("[DiscoverProjects] ListProjects failed (%v): %v", time.Since(step), err)
-		return nil, fmt.Errorf("list projects: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("list projects: %w", err))
 	}
 	log.Printf("[DiscoverProjects] ListProjects OK (%v) %d projects", time.Since(step), len(result.Items))
 

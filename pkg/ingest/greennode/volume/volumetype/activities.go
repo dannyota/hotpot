@@ -10,6 +10,7 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
@@ -53,13 +54,13 @@ func (a *Activities) IngestVolumeVolumeTypes(ctx context.Context, params IngestV
 
 	client, err := NewClient(ctx, a.configService, a.iamAuth, a.limiter, params.Region, params.ProjectID)
 	if err != nil {
-		return nil, fmt.Errorf("create client: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("create client: %w", err))
 	}
 
 	service := NewService(client, a.entClient)
 	result, err := service.Ingest(ctx, params.ProjectID, params.Region)
 	if err != nil {
-		return nil, fmt.Errorf("ingest volume types: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest volume types: %w", err))
 	}
 
 	if err := service.DeleteStaleVolumeTypes(ctx, params.ProjectID, params.Region, result.CollectedAt); err != nil {

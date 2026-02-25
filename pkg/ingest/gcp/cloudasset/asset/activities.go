@@ -10,6 +10,7 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
@@ -61,14 +62,14 @@ func (a *Activities) IngestAssets(ctx context.Context, params IngestAssetsParams
 
 	client, err := a.createClient(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("create client: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("create client: %w", err))
 	}
 	defer client.Close()
 
 	service := NewService(client, a.entClient)
 	result, err := service.Ingest(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed to ingest Cloud Asset assets: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("failed to ingest Cloud Asset assets: %w", err))
 	}
 
 	if err := service.DeleteStaleAssets(ctx, result.CollectedAt); err != nil {

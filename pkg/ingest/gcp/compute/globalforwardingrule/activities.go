@@ -10,6 +10,7 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
@@ -66,7 +67,7 @@ func (a *Activities) IngestComputeGlobalForwardingRules(ctx context.Context, par
 	// Create client for this activity
 	client, err := a.createClient(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("create client: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("create client: %w", err))
 	}
 	defer client.Close()
 
@@ -76,7 +77,7 @@ func (a *Activities) IngestComputeGlobalForwardingRules(ctx context.Context, par
 		ProjectID: params.ProjectID,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("failed to ingest global forwarding rules: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("failed to ingest global forwarding rules: %w", err))
 	}
 
 	// Delete stale global forwarding rules

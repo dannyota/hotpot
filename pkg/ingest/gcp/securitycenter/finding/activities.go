@@ -10,6 +10,7 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
@@ -61,14 +62,14 @@ func (a *Activities) IngestFindings(ctx context.Context, params IngestFindingsPa
 
 	client, err := a.createClient(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("create client: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("create client: %w", err))
 	}
 	defer client.Close()
 
 	service := NewService(client, a.entClient)
 	result, err := service.Ingest(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed to ingest SCC findings: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("failed to ingest SCC findings: %w", err))
 	}
 
 	if err := service.DeleteStaleFindings(ctx, result.CollectedAt); err != nil {

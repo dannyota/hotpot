@@ -10,6 +10,7 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
@@ -56,14 +57,14 @@ func (a *Activities) IngestComputeNegs(ctx context.Context, params IngestCompute
 
 	client, err := a.createClient(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("create client: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("create client: %w", err))
 	}
 	defer client.Close()
 
 	service := NewService(client, a.entClient)
 	result, err := service.Ingest(ctx, IngestParams{ProjectID: params.ProjectID})
 	if err != nil {
-		return nil, fmt.Errorf("failed to ingest NEGs: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("failed to ingest NEGs: %w", err))
 	}
 
 	if err := service.DeleteStaleNegs(ctx, params.ProjectID, result.CollectedAt); err != nil {

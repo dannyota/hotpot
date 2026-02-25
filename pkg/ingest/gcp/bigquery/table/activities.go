@@ -10,6 +10,7 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
@@ -67,7 +68,7 @@ func (a *Activities) IngestBigQueryTables(ctx context.Context, params IngestBigQ
 
 	client, err := a.createClient(ctx, params.ProjectID)
 	if err != nil {
-		return nil, fmt.Errorf("create client: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("create client: %w", err))
 	}
 	defer client.Close()
 
@@ -77,7 +78,7 @@ func (a *Activities) IngestBigQueryTables(ctx context.Context, params IngestBigQ
 		DatasetIDs: params.DatasetIDs,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("failed to ingest BigQuery tables: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("failed to ingest BigQuery tables: %w", err))
 	}
 
 	if err := service.DeleteStaleTables(ctx, params.ProjectID, result.CollectedAt); err != nil {

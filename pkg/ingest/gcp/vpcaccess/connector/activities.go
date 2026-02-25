@@ -10,6 +10,7 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/storage/ent"
 	"github.com/dannyota/hotpot/pkg/storage/ent/bronzegcpcomputesubnetwork"
 )
@@ -70,7 +71,7 @@ func (a *Activities) IngestVpcAccessConnectors(ctx context.Context, params Inges
 		Select(bronzegcpcomputesubnetwork.FieldRegion).
 		All(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed to query regions from subnetworks: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("failed to query regions from subnetworks: %w", err))
 	}
 
 	// Extract unique regions
@@ -99,7 +100,7 @@ func (a *Activities) IngestVpcAccessConnectors(ctx context.Context, params Inges
 	// Create client for this activity
 	client, err := a.createClient(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("create client: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("create client: %w", err))
 	}
 	defer client.Close()
 
@@ -110,7 +111,7 @@ func (a *Activities) IngestVpcAccessConnectors(ctx context.Context, params Inges
 		Regions:   regions,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("failed to ingest connectors: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("failed to ingest connectors: %w", err))
 	}
 
 	// Delete stale connectors

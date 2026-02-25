@@ -10,6 +10,7 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
@@ -65,14 +66,14 @@ func (a *Activities) IngestOccurrences(ctx context.Context, params IngestOccurre
 
 	client, err := a.createClient(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("create client: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("create client: %w", err))
 	}
 	defer client.Close()
 
 	service := NewService(client, a.entClient)
 	result, err := service.Ingest(ctx, params.ProjectID)
 	if err != nil {
-		return nil, fmt.Errorf("failed to ingest occurrences: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("failed to ingest occurrences: %w", err))
 	}
 
 	if err := service.DeleteStaleOccurrences(ctx, params.ProjectID, result.CollectedAt); err != nil {
