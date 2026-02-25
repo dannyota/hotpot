@@ -44,20 +44,18 @@ func NewActivities(configService *config.Service, limiter ratelimit.Limiter) *Ac
 // DiscoverRegionsParams contains parameters for region discovery.
 type DiscoverRegionsParams struct{}
 
-// DiscoverRegionsResult contains the discovered regions and disabled services.
+// DiscoverRegionsResult contains the discovered regions.
 type DiscoverRegionsResult struct {
-	Regions          []string
-	DisabledServices []string
+	Regions []string
 }
 
 // DiscoverRegionsActivity is the activity function reference for workflow registration.
 var DiscoverRegionsActivity = (*Activities).DiscoverRegions
 
-// DiscoverRegions reads configured GreenNode regions and disabled services from config.
+// DiscoverRegions reads configured GreenNode regions from config.
 func (a *Activities) DiscoverRegions(ctx context.Context, _ DiscoverRegionsParams) (*DiscoverRegionsResult, error) {
 	return &DiscoverRegionsResult{
-		Regions:          a.configService.GreenNodeRegions(),
-		DisabledServices: a.configService.GreenNodeDisabledServices(),
+		Regions: a.configService.GreenNodeRegions(),
 	}, nil
 }
 

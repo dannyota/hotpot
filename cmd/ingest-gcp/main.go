@@ -13,36 +13,6 @@ import (
 //go:generate go run github.com/dannyota/hotpot/tools/ingestgen
 
 var _ = ingest.ProviderSet("gcp")
-var _ = ingest.DisableServiceSet("gcp",
-	"accesscontextmanager",
-	"alloydb",
-	"appengine",
-	"bigquery",
-	"bigtable",
-	"binaryauthorization",
-	"cloudasset",
-	"cloudfunctions",
-	"containeranalysis",
-	"dataproc",
-	"dns",
-	"filestore",
-	"iam",
-	"iap",
-	"kms",
-	"logging",
-	"monitoring",
-	"orgpolicy",
-	"pubsub",
-	"redis",
-	"resourcemanager",
-	"run",
-	"secretmanager",
-	"securitycenter",
-	"serviceusage",
-	"spanner",
-	"sql",
-	"storage",
-)
 
 func main() {
 	slog.SetDefault(logger.New(slog.LevelInfo))

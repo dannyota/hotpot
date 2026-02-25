@@ -5,6 +5,9 @@ package main
 import (
 	_ "github.com/dannyota/hotpot/pkg/ingest/greennode"
 	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/compute"
+	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/dns"
+	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/glb"
+	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/loadbalancer"
 	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/network"
 	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/portal"
 	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/volume"

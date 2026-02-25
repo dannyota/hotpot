@@ -2,7 +2,6 @@ package ingest
 
 import (
 	"io"
-	"slices"
 	"sync"
 
 	"entgo.io/ent/dialect"
@@ -119,9 +118,4 @@ func ResetServices() {
 	mu.Lock()
 	defer mu.Unlock()
 	services = nil
-}
-
-// ServiceDisabled returns true if the named service is in the disabled list.
-func ServiceDisabled(disabledServices []string, name string) bool {
-	return slices.Contains(disabledServices, name)
 }

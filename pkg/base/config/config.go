@@ -47,11 +47,6 @@ type GCPConfig struct {
 	// RateLimitPerMinute is the max API requests per minute across all GCP clients.
 	// Default: 600 (see Service.GCPRateLimitPerMinute()).
 	RateLimitPerMinute int `yaml:"rate_limit_per_minute,omitempty"`
-
-	// DisabledServices is a blacklist of GCP services to skip during ingestion.
-	// Empty means all services run. Example: ["securitycenter", "orgpolicy"].
-	// Note: "resourcemanager" cannot be disabled (it discovers projects).
-	DisabledServices []string `yaml:"disabled_services,omitempty"`
 }
 
 // DatabaseConfig holds database connection configuration.
@@ -118,10 +113,6 @@ type GreenNodeConfig struct {
 	// RateLimitPerMinute is the max API requests per minute across all GreenNode clients.
 	// Default: 300 (see Service.GreenNodeRateLimitPerMinute()).
 	RateLimitPerMinute int `yaml:"rate_limit_per_minute,omitempty"`
-
-	// DisabledServices is a blacklist of GreenNode services to skip during ingestion.
-	// Empty means all services run. Example: ["glb", "dns"].
-	DisabledServices []string `yaml:"disabled_services,omitempty"`
 }
 
 // VaultConfig holds HashiCorp Vault configuration for multi-instance PKI ingestion.

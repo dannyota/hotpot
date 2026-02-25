@@ -433,32 +433,6 @@ func (s *Service) GreenNodeTOTPSecret() string {
 	return s.config.GreenNode.TOTPSecret
 }
 
-// GCPDisabledServices returns the list of disabled GCP services.
-// Returns nil if not configured.
-func (s *Service) GCPDisabledServices() []string {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
-	if s.config == nil || len(s.config.GCP.DisabledServices) == 0 {
-		return nil
-	}
-	result := make([]string, len(s.config.GCP.DisabledServices))
-	copy(result, s.config.GCP.DisabledServices)
-	return result
-}
-
-// GreenNodeDisabledServices returns the list of disabled GreenNode services.
-// Returns nil if not configured.
-func (s *Service) GreenNodeDisabledServices() []string {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
-	if s.config == nil || len(s.config.GreenNode.DisabledServices) == 0 {
-		return nil
-	}
-	result := make([]string, len(s.config.GreenNode.DisabledServices))
-	copy(result, s.config.GreenNode.DisabledServices)
-	return result
-}
-
 // GreenNodeRateLimitPerMinute returns the max API requests per minute for GreenNode.
 // Defaults to 300 if not configured.
 func (s *Service) GreenNodeRateLimitPerMinute() int {

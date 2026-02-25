@@ -83,7 +83,6 @@ func GreenNodeInventoryWorkflow(ctx workflow.Context) (*GreenNodeInventoryWorkfl
 	}
 
 	firstRegion := discoverResult.Regions[0]
-	disabled := discoverResult.DisabledServices
 
 	childOpts := workflow.ChildWorkflowOptions{}
 	childCtx := workflow.WithChildOptions(ctx, childOpts)
@@ -111,10 +110,6 @@ func GreenNodeInventoryWorkflow(ctx workflow.Context) (*GreenNodeInventoryWorkfl
 	// Global services (portal, glb, dns) — run once using first project/region
 	for _, svc := range services {
 		if svc.Scope != ingest.ScopeGlobal {
-			continue
-		}
-		if ingest.ServiceDisabled(disabled, svc.Name) {
-			logger.Info("Skipping disabled service", "service", svc.Name)
 			continue
 		}
 		res := svc.NewResult()
@@ -148,9 +143,6 @@ func GreenNodeInventoryWorkflow(ctx workflow.Context) (*GreenNodeInventoryWorkfl
 		for _, projectID := range projectsResult.ProjectIDs {
 			for _, svc := range services {
 				if svc.Scope != ingest.ScopeRegional {
-					continue
-				}
-				if ingest.ServiceDisabled(disabled, svc.Name) {
 					continue
 				}
 				res := svc.NewResult()
