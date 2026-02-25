@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"encoding/json"
-	"flag"
 	"fmt"
 	"go/ast"
 	"go/format"
@@ -13,14 +12,10 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"sort"
 	"strings"
 
 	"entgo.io/ent/entc"
 	"entgo.io/ent/entc/gen"
-	"gopkg.in/yaml.v3"
-
-	"github.com/dannyota/hotpot/pkg/base/config"
 )
 
 const hotpotModule = "github.com/dannyota/hotpot"
@@ -39,134 +34,9 @@ var layerToSchema = map[string]string{
 	"gold":          "gold",
 }
 
-var configFlag = flag.String("config", "", "path to config YAML for schema filtering")
-
-// schemaFilter controls which provider schemas to include during discovery.
-// A nil *schemaFilter means include everything (backward compatible).
-//
-// Only provider-level filtering is supported. Service-level disabled_services
-// is a runtime concept — the ingest code unconditionally imports all service
-// packages, so their ent types must exist at compile time.
-type schemaFilter struct {
-	enabledProviders map[string]bool // provider dir name -> enabled
-}
-
-// include returns true if schemas for the given provider should be generated.
-func (f *schemaFilter) include(provider string) bool {
-	if f == nil {
-		return true
-	}
-	return f.enabledProviders[provider]
-}
-
-// configPath resolves the config file path: --config flag > CONFIG_FILE env > moduleRoot/config.yaml > "".
-func configPath(hotpotDir string) string {
-	if *configFlag != "" {
-		return *configFlag
-	}
-	if env := os.Getenv("CONFIG_FILE"); env != "" {
-		return env
-	}
-	candidate := filepath.Join(hotpotDir, "config.yaml")
-	if _, err := os.Stat(candidate); err == nil {
-		return candidate
-	}
-	return ""
-}
-
-// loadFilter reads the config YAML and builds a schema filter.
-// Returns nil (generate all) if no config is found or on parse error.
-func loadFilter(hotpotDir string) *schemaFilter {
-	path := configPath(hotpotDir)
-	if path == "" {
-		log.Println("entcgen: no config file found, generating all schemas")
-		return nil
-	}
-
-	data, err := os.ReadFile(path)
-	if err != nil {
-		log.Printf("entcgen: warning: cannot read config %s: %v (generating all schemas)", path, err)
-		return nil
-	}
-
-	var cfg config.Config
-	if err := yaml.Unmarshal(data, &cfg); err != nil {
-		log.Printf("entcgen: warning: cannot parse config %s: %v (generating all schemas)", path, err)
-		return nil
-	}
-
-	log.Printf("entcgen: using config %s for schema filtering", path)
-	return buildFilter(&cfg)
-}
-
-// buildFilter maps config enabled flags to a schemaFilter.
-func buildFilter(cfg *config.Config) *schemaFilter {
-	f := &schemaFilter{
-		enabledProviders: map[string]bool{
-			"gcp":       cfg.GCP.Enabled,
-			"greennode": cfg.GreenNode.Enabled,
-			"aws":       cfg.AWS.Enabled,
-			"s1":        cfg.S1.Enabled,
-			"do":        cfg.DO.Enabled,
-			"vault":     cfg.Vault.Enabled,
-		},
-	}
-
-	var enabled, disabled []string
-	for p, on := range f.enabledProviders {
-		if on {
-			enabled = append(enabled, p)
-		} else {
-			disabled = append(disabled, p)
-		}
-	}
-	sort.Strings(enabled)
-	sort.Strings(disabled)
-	log.Printf("entcgen: enabled providers: %v", enabled)
-	if len(disabled) > 0 {
-		log.Printf("entcgen: disabled providers (skipping schemas): %v", disabled)
-	}
-
-	return f
-}
-
-// cleanStaleAtlasDirs removes per-provider atlas_schema subdirectories that are
-// no longer present in the discovered schemas. This prevents stale generated files
-// from lingering when a provider is filtered out.
-func cleanStaleAtlasDirs(target string, byLayerProvider map[string]map[string][]schemaInfo) {
-	for layer := range layerToSchema {
-		atlasDir := filepath.Join(target, layer, "atlas_schema")
-		entries, err := os.ReadDir(atlasDir)
-		if err != nil {
-			continue // dir doesn't exist yet
-		}
-
-		activeProviders := byLayerProvider[layer] // nil if layer has no providers
-		for _, entry := range entries {
-			if !entry.IsDir() {
-				continue
-			}
-			provider := entry.Name()
-			if _, ok := activeProviders[provider]; ok {
-				continue // still active
-			}
-			dir := filepath.Join(atlasDir, provider)
-			if err := os.RemoveAll(dir); err != nil {
-				log.Printf("entcgen: warning: cannot remove stale atlas dir %s: %v", dir, err)
-			} else {
-				log.Printf("entcgen: removed stale atlas dir %s", dir)
-			}
-		}
-	}
-}
-
 func main() {
-	flag.Parse()
-
 	hotpotDir := findModuleDir(hotpotModule)
 	schemaRoot := filepath.Join(hotpotDir, "pkg", "schema")
-
-	filter := loadFilter(hotpotDir)
 
 	callerModule, modDir := readModulePath(".")
 	target := "ent"
@@ -180,7 +50,7 @@ func main() {
 	}
 	pkg := callerModule + "/" + filepath.ToSlash(filepath.Join(rel, target))
 
-	discovered := discoverSchemas(schemaRoot, filter)
+	discovered := discoverSchemas(schemaRoot)
 
 	// 1. Generate runtime wrappers (all layers combined)
 	runtimeSchemaDir := filepath.Join(target, "schema")
@@ -201,9 +71,7 @@ func main() {
 		}
 	}
 
-	// 3. Clean stale per-provider atlas dirs, then generate new ones
-	cleanStaleAtlasDirs(target, discovered.byLayerProvider)
-
+	// 3. Generate per-layer per-provider atlas wrappers
 	for layer, providerSchemas := range discovered.byLayerProvider {
 		pgSchema := layerToSchema[layer]
 		for provider, schemas := range providerSchemas {
@@ -297,7 +165,7 @@ type discoverResult struct {
 	byLayerProvider map[string]map[string][]schemaInfo
 }
 
-func discoverSchemas(root string, filter *schemaFilter) discoverResult {
+func discoverSchemas(root string) discoverResult {
 	result := discoverResult{
 		byLayer:         map[string][]schemaInfo{},
 		byLayerProvider: map[string]map[string][]schemaInfo{},
@@ -321,11 +189,6 @@ func discoverSchemas(root string, filter *schemaFilter) discoverResult {
 		var provider string
 		if len(parts) >= 2 {
 			provider = parts[1]
-		}
-
-		// Apply provider filter before parsing AST for efficiency.
-		if provider != "" && !filter.include(provider) {
-			return nil
 		}
 
 		fset := token.NewFileSet()

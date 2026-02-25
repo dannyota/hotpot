@@ -7,13 +7,6 @@ import (
 	"go.temporal.io/sdk/workflow"
 
 	"github.com/dannyota/hotpot/pkg/ingest"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/compute"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/dns"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/glb"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/loadbalancer"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/network"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/portal"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/volume"
 )
 
 // GreenNodeInventoryWorkflowResult contains the result of GreenNode inventory collection.
@@ -50,13 +43,16 @@ type GreenNodeInventoryWorkflowResult struct {
 	LBPackageCount   int
 
 	// GLB
-	GLBCount          int
-	GLBPackageCount   int
-	GLBRegionCount    int
+	GLBCount       int
+	GLBPackageCount int
+	GLBRegionCount int
 
 	// DNS
 	HostedZoneCount int
 }
+
+// aggregateFunc is the function signature for merging a service result into the provider result.
+type aggregateFunc = func(*GreenNodeInventoryWorkflowResult, any)
 
 // GreenNodeInventoryWorkflow orchestrates GreenNode inventory collection.
 func GreenNodeInventoryWorkflow(ctx workflow.Context) (*GreenNodeInventoryWorkflowResult, error) {
@@ -92,7 +88,7 @@ func GreenNodeInventoryWorkflow(ctx workflow.Context) (*GreenNodeInventoryWorkfl
 	childOpts := workflow.ChildWorkflowOptions{}
 	childCtx := workflow.WithChildOptions(ctx, childOpts)
 
-	// Discover projects for the first region (used for portal, GLB, DNS which are global)
+	// Discover projects for the first region (used for global services)
 	var firstProjectID string
 	{
 		var projectsResult DiscoverProjectsResult
@@ -110,26 +106,28 @@ func GreenNodeInventoryWorkflow(ctx workflow.Context) (*GreenNodeInventoryWorkfl
 		firstProjectID = projectsResult.ProjectIDs[0]
 	}
 
-	// Portal (regions + quotas + zones) - run once using first region and first project
-	if ingest.ServiceDisabled(disabled, "portal") {
-		logger.Info("Skipping disabled service", "service", "portal")
-	} else {
-		var portalResult portal.GreenNodePortalWorkflowResult
-		err = workflow.ExecuteChildWorkflow(childCtx, portal.GreenNodePortalWorkflow, portal.GreenNodePortalWorkflowParams{
-			ProjectID: firstProjectID,
-			Region:    firstRegion,
-		}).Get(ctx, &portalResult)
+	services := ingest.Services("greennode")
+
+	// Global services (portal, glb, dns) — run once using first project/region
+	for _, svc := range services {
+		if svc.Scope != ingest.ScopeGlobal {
+			continue
+		}
+		if ingest.ServiceDisabled(disabled, svc.Name) {
+			logger.Info("Skipping disabled service", "service", svc.Name)
+			continue
+		}
+		res := svc.NewResult()
+		err = workflow.ExecuteChildWorkflow(childCtx, svc.Workflow,
+			svc.NewParams(firstProjectID, firstRegion)).Get(ctx, res)
 		if err != nil {
-			logger.Error("Failed portal ingestion", "error", err)
+			logger.Error("Failed ingestion", "service", svc.Name, "error", err)
 		} else {
-			result.RegionCount = portalResult.RegionCount
-			result.QuotaCount = portalResult.QuotaCount
-			result.ZoneCount = portalResult.ZoneCount
+			svc.Aggregate.(aggregateFunc)(result, res)
 		}
 	}
 
 	// Per-region services: discover projects per region, then run per-project services.
-	// Different regions have different project IDs (e.g. VNetwork endpoint API is region-scoped).
 	for _, region := range discoverResult.Regions {
 		var projectsResult DiscoverProjectsResult
 		err = workflow.ExecuteActivity(activityCtx, DiscoverProjectsActivity, DiscoverProjectsParams{
@@ -148,109 +146,23 @@ func GreenNodeInventoryWorkflow(ctx workflow.Context) (*GreenNodeInventoryWorkfl
 		logger.Info("Discovered projects for region", "region", region, "count", len(projectsResult.ProjectIDs), "projectIDs", projectsResult.ProjectIDs)
 
 		for _, projectID := range projectsResult.ProjectIDs {
-			// Compute
-			if !ingest.ServiceDisabled(disabled, "compute") {
-				var computeResult compute.GreenNodeComputeWorkflowResult
-				err = workflow.ExecuteChildWorkflow(childCtx, compute.GreenNodeComputeWorkflow, compute.GreenNodeComputeWorkflowParams{
-					ProjectID: projectID,
-					Region:    region,
-				}).Get(ctx, &computeResult)
+			for _, svc := range services {
+				if svc.Scope != ingest.ScopeRegional {
+					continue
+				}
+				if ingest.ServiceDisabled(disabled, svc.Name) {
+					continue
+				}
+				res := svc.NewResult()
+				err = workflow.ExecuteChildWorkflow(childCtx, svc.Workflow,
+					svc.NewParams(projectID, region)).Get(ctx, res)
 				if err != nil {
-					logger.Error("Failed compute ingestion", "error", err, "projectID", projectID, "region", region)
+					logger.Error("Failed ingestion", "service", svc.Name, "error", err,
+						"projectID", projectID, "region", region)
 				} else {
-					result.ServerCount += computeResult.ServerCount
-					result.SSHKeyCount += computeResult.SSHKeyCount
-					result.ServerGroupCount += computeResult.ServerGroupCount
-					result.OSImageCount += computeResult.OSImageCount
-					result.UserImageCount += computeResult.UserImageCount
+					svc.Aggregate.(aggregateFunc)(result, res)
 				}
 			}
-
-			// Network
-			if !ingest.ServiceDisabled(disabled, "network") {
-				var networkResult network.GreenNodeNetworkWorkflowResult
-				err = workflow.ExecuteChildWorkflow(childCtx, network.GreenNodeNetworkWorkflow, network.GreenNodeNetworkWorkflowParams{
-					ProjectID: projectID,
-					Region:    region,
-				}).Get(ctx, &networkResult)
-				if err != nil {
-					logger.Error("Failed network ingestion", "error", err, "projectID", projectID, "region", region)
-				} else {
-					result.SecgroupCount += networkResult.SecgroupCount
-					result.EndpointCount += networkResult.EndpointCount
-					result.VPCCount += networkResult.VPCCount
-					result.SubnetCount += networkResult.SubnetCount
-					result.RouteTableCount += networkResult.RouteTableCount
-					result.PeeringCount += networkResult.PeeringCount
-					result.InterconnectCount += networkResult.InterconnectCount
-				}
-			}
-
-			// Volume
-			if !ingest.ServiceDisabled(disabled, "volume") {
-				var volumeResult volume.GreenNodeVolumeWorkflowResult
-				err = workflow.ExecuteChildWorkflow(childCtx, volume.GreenNodeVolumeWorkflow, volume.GreenNodeVolumeWorkflowParams{
-					ProjectID: projectID,
-					Region:    region,
-				}).Get(ctx, &volumeResult)
-				if err != nil {
-					logger.Error("Failed volume ingestion", "error", err, "projectID", projectID, "region", region)
-				} else {
-					result.BlockVolumeCount += volumeResult.BlockVolumeCount
-					result.VolumeTypeCount += volumeResult.VolumeTypeCount
-					result.VolumeTypeZoneCount += volumeResult.VolumeTypeZoneCount
-				}
-			}
-
-			// Load Balancer
-			if !ingest.ServiceDisabled(disabled, "loadbalancer") {
-				var lbResult loadbalancer.GreenNodeLoadBalancerWorkflowResult
-				err = workflow.ExecuteChildWorkflow(childCtx, loadbalancer.GreenNodeLoadBalancerWorkflow, loadbalancer.GreenNodeLoadBalancerWorkflowParams{
-					ProjectID: projectID,
-					Region:    region,
-				}).Get(ctx, &lbResult)
-				if err != nil {
-					logger.Error("Failed load balancer ingestion", "error", err, "projectID", projectID, "region", region)
-				} else {
-					result.LBCount += lbResult.LBCount
-					result.CertificateCount += lbResult.CertificateCount
-					result.LBPackageCount += lbResult.PackageCount
-				}
-			}
-		}
-	}
-
-	// GLB - run once globally
-	if ingest.ServiceDisabled(disabled, "glb") {
-		logger.Info("Skipping disabled service", "service", "glb")
-	} else {
-		var glbResult glb.GreenNodeGLBWorkflowResult
-		err = workflow.ExecuteChildWorkflow(childCtx, glb.GreenNodeGLBWorkflow, glb.GreenNodeGLBWorkflowParams{
-			ProjectID: firstProjectID,
-			Region:    firstRegion,
-		}).Get(ctx, &glbResult)
-		if err != nil {
-			logger.Error("Failed GLB ingestion", "error", err)
-		} else {
-			result.GLBCount = glbResult.GLBCount
-			result.GLBPackageCount = glbResult.PackageCount
-			result.GLBRegionCount = glbResult.RegionCount
-		}
-	}
-
-	// DNS - run once globally
-	if ingest.ServiceDisabled(disabled, "dns") {
-		logger.Info("Skipping disabled service", "service", "dns")
-	} else {
-		var dnsResult dns.GreenNodeDNSWorkflowResult
-		err = workflow.ExecuteChildWorkflow(childCtx, dns.GreenNodeDNSWorkflow, dns.GreenNodeDNSWorkflowParams{
-			ProjectID: firstProjectID,
-			Region:    firstRegion,
-		}).Get(ctx, &dnsResult)
-		if err != nil {
-			logger.Error("Failed DNS ingestion", "error", err)
-		} else {
-			result.HostedZoneCount = dnsResult.HostedZoneCount
 		}
 	}
 
