@@ -35,6 +35,11 @@ func (BronzeGreenNodeNetworkSecgroup) Fields() []ent.Field {
 			Optional(),
 		field.String("status").
 			Optional(),
+		field.String("created_at").
+			Optional().
+			Comment("API creation timestamp"),
+		field.Bool("is_system").
+			Default(false),
 		field.String("region").
 			NotEmpty().
 			Comment("GreenNode region (e.g. hcm-3, han-1)"),

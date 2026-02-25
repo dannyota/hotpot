@@ -48,6 +48,10 @@ logs/
 
 # Generated code
 pkg/storage/ent/
+entcgen
+
+# Claude Code
+.claude/
 
 # OS
 .DS_Store

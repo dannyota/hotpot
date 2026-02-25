@@ -42,13 +42,30 @@ func NewClient(ctx context.Context, configService *config.Service, iamAuth *auth
 	return &Client{sdk: sdk}, nil
 }
 
-// ListSecgroups lists all security groups.
+// ListSecgroups lists all security groups, handling pagination.
 func (c *Client) ListSecgroups(ctx context.Context) ([]*networkv2.Secgroup, error) {
-	result, err := c.sdk.Network.ListSecgroup(ctx, &networkv2.ListSecgroupRequest{})
-	if err != nil {
-		return nil, fmt.Errorf("list secgroups: %w", err)
+	var all []*networkv2.Secgroup
+	page := 1
+	size := 50
+
+	for {
+		result, err := c.sdk.Network.ListSecgroup(ctx, &networkv2.ListSecgroupRequest{
+			Page: page,
+			Size: size,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("list secgroups page %d: %w", page, err)
+		}
+
+		all = append(all, result.Items...)
+
+		if page >= result.TotalPage {
+			break
+		}
+		page++
 	}
-	return result.Items, nil
+
+	return all, nil
 }
 
 // ListSecgroupRulesBySecgroupID lists all rules for a security group.

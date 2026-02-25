@@ -243,15 +243,15 @@ func (s *Service) S1RateLimitPerMinute() int {
 }
 
 // S1BatchSize returns the batch size for SentinelOne API pagination.
-// Defaults to 200 if not configured. Capped at 200 (lowest API max across endpoints).
+// Defaults to 1000 if not configured. Capped at 1000 (API max for most endpoints).
 func (s *Service) S1BatchSize() int {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 	if s.config == nil || s.config.S1.BatchSize <= 0 {
-		return 200
+		return 1000
 	}
-	if s.config.S1.BatchSize > 200 {
-		return 200
+	if s.config.S1.BatchSize > 1000 {
+		return 1000
 	}
 	return s.config.S1.BatchSize
 }

@@ -106,6 +106,8 @@ func (h *HistoryService) createSecgroupHistory(ctx context.Context, tx *ent.Tx, 
 		SetName(data.Name).
 		SetDescription(data.Description).
 		SetStatus(data.Status).
+		SetCreatedAt(data.CreatedAt).
+		SetIsSystem(data.IsSystem).
 		SetRegion(data.Region).
 		SetProjectID(data.ProjectID).
 		Save(ctx)

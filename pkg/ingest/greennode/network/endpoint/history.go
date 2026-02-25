@@ -22,15 +22,32 @@ func NewHistoryService(entClient *ent.Client) *HistoryService {
 // CreateHistory creates a history record for a new endpoint.
 func (h *HistoryService) CreateHistory(ctx context.Context, tx *ent.Tx, data *EndpointData, now time.Time) error {
 	_, err := tx.BronzeHistoryGreenNodeNetworkEndpoint.Create().
-		SetResourceID(data.ID).
+		SetResourceID(data.UUID).
 		SetValidFrom(now).
 		SetCollectedAt(data.CollectedAt).
 		SetFirstCollectedAt(data.CollectedAt).
 		SetName(data.Name).
 		SetIpv4Address(data.Ipv4Address).
 		SetEndpointURL(data.EndpointURL).
+		SetEndpointAuthURL(data.EndpointAuthURL).
+		SetEndpointServiceID(data.EndpointServiceID).
 		SetStatus(data.Status).
+		SetBillingStatus(data.BillingStatus).
+		SetEndpointType(data.EndpointType).
+		SetVersion(data.Version).
+		SetDescription(data.Description).
+		SetCreatedAt(data.CreatedAt).
+		SetUpdatedAt(data.UpdatedAt).
 		SetVpcID(data.VpcID).
+		SetVpcName(data.VpcName).
+		SetZoneUUID(data.ZoneUuid).
+		SetEnableDNSName(data.EnableDnsName).
+		SetEndpointDomains(data.EndpointDomains).
+		SetSubnetID(data.SubnetID).
+		SetCategoryName(data.CategoryName).
+		SetServiceName(data.ServiceName).
+		SetServiceEndpointType(data.ServiceEndpointType).
+		SetPackageName(data.PackageName).
 		SetRegion(data.Region).
 		SetProjectID(data.ProjectID).
 		Save(ctx)
@@ -59,15 +76,32 @@ func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ent.Tx, old *ent
 	}
 
 	_, err = tx.BronzeHistoryGreenNodeNetworkEndpoint.Create().
-		SetResourceID(new.ID).
+		SetResourceID(new.UUID).
 		SetValidFrom(now).
 		SetCollectedAt(new.CollectedAt).
 		SetFirstCollectedAt(old.FirstCollectedAt).
 		SetName(new.Name).
 		SetIpv4Address(new.Ipv4Address).
 		SetEndpointURL(new.EndpointURL).
+		SetEndpointAuthURL(new.EndpointAuthURL).
+		SetEndpointServiceID(new.EndpointServiceID).
 		SetStatus(new.Status).
+		SetBillingStatus(new.BillingStatus).
+		SetEndpointType(new.EndpointType).
+		SetVersion(new.Version).
+		SetDescription(new.Description).
+		SetCreatedAt(new.CreatedAt).
+		SetUpdatedAt(new.UpdatedAt).
 		SetVpcID(new.VpcID).
+		SetVpcName(new.VpcName).
+		SetZoneUUID(new.ZoneUuid).
+		SetEnableDNSName(new.EnableDnsName).
+		SetEndpointDomains(new.EndpointDomains).
+		SetSubnetID(new.SubnetID).
+		SetCategoryName(new.CategoryName).
+		SetServiceName(new.ServiceName).
+		SetServiceEndpointType(new.ServiceEndpointType).
+		SetPackageName(new.PackageName).
 		SetRegion(new.Region).
 		SetProjectID(new.ProjectID).
 		Save(ctx)

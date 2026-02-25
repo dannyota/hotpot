@@ -117,6 +117,8 @@ func (s *Service) saveSecgroups(ctx context.Context, secgroups []*SecgroupData) 
 				SetName(data.Name).
 				SetDescription(data.Description).
 				SetStatus(data.Status).
+				SetCreatedAt(data.CreatedAt).
+				SetIsSystem(data.IsSystem).
 				SetRegion(data.Region).
 				SetProjectID(data.ProjectID).
 				SetCollectedAt(data.CollectedAt).
@@ -131,6 +133,8 @@ func (s *Service) saveSecgroups(ctx context.Context, secgroups []*SecgroupData) 
 				SetName(data.Name).
 				SetDescription(data.Description).
 				SetStatus(data.Status).
+				SetCreatedAt(data.CreatedAt).
+				SetIsSystem(data.IsSystem).
 				SetRegion(data.Region).
 				SetProjectID(data.ProjectID).
 				SetCollectedAt(data.CollectedAt).

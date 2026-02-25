@@ -3,9 +3,11 @@ package compute
 import (
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/ingest/greennode/compute/osimage"
 	"github.com/dannyota/hotpot/pkg/ingest/greennode/compute/server"
 	"github.com/dannyota/hotpot/pkg/ingest/greennode/compute/servergroup"
 	"github.com/dannyota/hotpot/pkg/ingest/greennode/compute/sshkey"
+	"github.com/dannyota/hotpot/pkg/ingest/greennode/compute/userimage"
 )
 
 // GreenNodeComputeWorkflowParams contains parameters for the compute workflow.
@@ -19,6 +21,8 @@ type GreenNodeComputeWorkflowResult struct {
 	ServerCount      int
 	SSHKeyCount      int
 	ServerGroupCount int
+	OSImageCount     int
+	UserImageCount   int
 }
 
 // GreenNodeComputeWorkflow orchestrates GreenNode compute ingestion.
@@ -67,10 +71,36 @@ func GreenNodeComputeWorkflow(ctx workflow.Context, params GreenNodeComputeWorkf
 		result.ServerGroupCount = sgResult.GroupCount
 	}
 
+	// OS Images
+	var osImageResult osimage.GreenNodeComputeOSImageWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, osimage.GreenNodeComputeOSImageWorkflow, osimage.GreenNodeComputeOSImageWorkflowParams{
+		ProjectID: params.ProjectID,
+		Region:    params.Region,
+	}).Get(ctx, &osImageResult)
+	if err != nil {
+		logger.Error("Failed to ingest OS images", "error", err)
+	} else {
+		result.OSImageCount = osImageResult.OSImageCount
+	}
+
+	// User Images
+	var userImageResult userimage.GreenNodeComputeUserImageWorkflowResult
+	err = workflow.ExecuteChildWorkflow(childCtx, userimage.GreenNodeComputeUserImageWorkflow, userimage.GreenNodeComputeUserImageWorkflowParams{
+		ProjectID: params.ProjectID,
+		Region:    params.Region,
+	}).Get(ctx, &userImageResult)
+	if err != nil {
+		logger.Error("Failed to ingest user images", "error", err)
+	} else {
+		result.UserImageCount = userImageResult.UserImageCount
+	}
+
 	logger.Info("Completed GreenNodeComputeWorkflow",
 		"serverCount", result.ServerCount,
 		"sshKeyCount", result.SSHKeyCount,
 		"serverGroupCount", result.ServerGroupCount,
+		"osImageCount", result.OSImageCount,
+		"userImageCount", result.UserImageCount,
 	)
 
 	return result, nil

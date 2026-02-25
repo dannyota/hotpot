@@ -20,8 +20,24 @@ func DiffEndpointData(old *ent.BronzeGreenNodeNetworkEndpoint, new *EndpointData
 		IsChanged: old.Name != new.Name ||
 			old.Ipv4Address != new.Ipv4Address ||
 			old.EndpointURL != new.EndpointURL ||
+			old.EndpointAuthURL != new.EndpointAuthURL ||
+			old.EndpointServiceID != new.EndpointServiceID ||
 			old.Status != new.Status ||
-			old.VpcID != new.VpcID,
+			old.BillingStatus != new.BillingStatus ||
+			old.EndpointType != new.EndpointType ||
+			old.Version != new.Version ||
+			old.Description != new.Description ||
+			old.CreatedAt != new.CreatedAt ||
+			old.UpdatedAt != new.UpdatedAt ||
+			old.VpcID != new.VpcID ||
+			old.VpcName != new.VpcName ||
+			old.ZoneUUID != new.ZoneUuid ||
+			old.EnableDNSName != new.EnableDnsName ||
+			old.SubnetID != new.SubnetID ||
+			old.CategoryName != new.CategoryName ||
+			old.ServiceName != new.ServiceName ||
+			old.ServiceEndpointType != new.ServiceEndpointType ||
+			old.PackageName != new.PackageName,
 	}
 }
 

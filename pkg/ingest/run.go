@@ -3,19 +3,27 @@ package ingest
 import (
 	"context"
 	"fmt"
-	"log"
+	"log/slog"
 
 	"go.temporal.io/sdk/client"
+	sdklog "go.temporal.io/sdk/log"
 	"go.temporal.io/sdk/worker"
 	"golang.org/x/sync/errgroup"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
+	"github.com/dannyota/hotpot/pkg/base/logger"
 	"github.com/dannyota/hotpot/pkg/storage/ent"
 )
 
 // Run starts the ingest workers.
 // The context is used to signal shutdown - when cancelled, workers will stop.
 func Run(ctx context.Context, configService *config.Service, entClient *ent.Client) error {
+	// Set colored logger as default for app-level logging (INFO+).
+	slog.SetDefault(logger.New(slog.LevelInfo))
+
+	// Temporal SDK is noisy at INFO — only show WARN+.
+	temporalLogger := sdklog.NewStructuredLogger(logger.New(slog.LevelWarn))
+
 	allProviders := Providers()
 	if len(allProviders) == 0 {
 		return fmt.Errorf("no providers registered; import at least one provider package in cmd/ingest/main.go")
@@ -25,6 +33,7 @@ func Run(ctx context.Context, configService *config.Service, entClient *ent.Clie
 	temporalClient, err := client.Dial(client.Options{
 		HostPort:  configService.TemporalHostPort(),
 		Namespace: configService.TemporalNamespace(),
+		Logger:    temporalLogger,
 	})
 	if err != nil {
 		return fmt.Errorf("failed to create Temporal client: %w", err)
@@ -63,8 +72,9 @@ func Run(ctx context.Context, configService *config.Service, entClient *ent.Clie
 			defer closer.Close()
 		}
 
-		log.Printf("%s worker enabled (rate limit: %d rpm, Temporal: %.1f activities/sec)",
-			p.Name, reqPerMin, activitiesPerSec)
+		slog.Info(fmt.Sprintf("%s worker enabled", p.Name),
+			"rate_limit", fmt.Sprintf("%d rpm", reqPerMin),
+			"activities_per_sec", fmt.Sprintf("%.1f", activitiesPerSec))
 
 		g.Go(func() error {
 			if err := w.Run(interruptCh); err != nil {
@@ -81,7 +91,7 @@ func Run(ctx context.Context, configService *config.Service, entClient *ent.Clie
 		}
 		return fmt.Errorf("no providers enabled in config; registered providers: %v", names)
 	}
-	log.Printf("Started %d provider worker(s)", started)
+	slog.Info(fmt.Sprintf("Started %d provider worker(s)", started))
 
 	return g.Wait()
 }

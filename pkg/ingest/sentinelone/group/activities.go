@@ -35,7 +35,7 @@ func (a *Activities) createClient() *Client {
 	return NewClient(
 		a.configService.S1BaseURL(),
 		a.configService.S1APIToken(),
-		a.configService.S1BatchSize(),
+		maxGroupsBatchSize,
 		httpClient,
 	)
 }

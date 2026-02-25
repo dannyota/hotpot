@@ -78,7 +78,7 @@ func (s *Service) saveEndpoints(ctx context.Context, endpoints []*EndpointData) 
 
 	for _, data := range endpoints {
 		existing, err := tx.BronzeGreenNodeNetworkEndpoint.Query().
-			Where(bronzegreennodenetworkendpoint.ID(data.ID)).
+			Where(bronzegreennodenetworkendpoint.ID(data.UUID)).
 			First(ctx)
 		if err != nil && !ent.IsNotFound(err) {
 			tx.Rollback()
@@ -88,7 +88,7 @@ func (s *Service) saveEndpoints(ctx context.Context, endpoints []*EndpointData) 
 		diff := DiffEndpointData(existing, data)
 
 		if !diff.HasAnyChange() && existing != nil {
-			if err := tx.BronzeGreenNodeNetworkEndpoint.UpdateOneID(data.ID).
+			if err := tx.BronzeGreenNodeNetworkEndpoint.UpdateOneID(data.UUID).
 				SetCollectedAt(data.CollectedAt).
 				Exec(ctx); err != nil {
 				tx.Rollback()
@@ -99,12 +99,29 @@ func (s *Service) saveEndpoints(ctx context.Context, endpoints []*EndpointData) 
 
 		if existing == nil {
 			_, err = tx.BronzeGreenNodeNetworkEndpoint.Create().
-				SetID(data.ID).
+				SetID(data.UUID).
 				SetName(data.Name).
 				SetIpv4Address(data.Ipv4Address).
 				SetEndpointURL(data.EndpointURL).
+				SetEndpointAuthURL(data.EndpointAuthURL).
+				SetEndpointServiceID(data.EndpointServiceID).
 				SetStatus(data.Status).
+				SetBillingStatus(data.BillingStatus).
+				SetEndpointType(data.EndpointType).
+				SetVersion(data.Version).
+				SetDescription(data.Description).
+				SetCreatedAt(data.CreatedAt).
+				SetUpdatedAt(data.UpdatedAt).
 				SetVpcID(data.VpcID).
+				SetVpcName(data.VpcName).
+				SetZoneUUID(data.ZoneUuid).
+				SetEnableDNSName(data.EnableDnsName).
+				SetEndpointDomains(data.EndpointDomains).
+				SetSubnetID(data.SubnetID).
+				SetCategoryName(data.CategoryName).
+				SetServiceName(data.ServiceName).
+				SetServiceEndpointType(data.ServiceEndpointType).
+				SetPackageName(data.PackageName).
 				SetRegion(data.Region).
 				SetProjectID(data.ProjectID).
 				SetCollectedAt(data.CollectedAt).
@@ -120,12 +137,29 @@ func (s *Service) saveEndpoints(ctx context.Context, endpoints []*EndpointData) 
 				return fmt.Errorf("create history for endpoint %s: %w", data.Name, err)
 			}
 		} else {
-			_, err = tx.BronzeGreenNodeNetworkEndpoint.UpdateOneID(data.ID).
+			_, err = tx.BronzeGreenNodeNetworkEndpoint.UpdateOneID(data.UUID).
 				SetName(data.Name).
 				SetIpv4Address(data.Ipv4Address).
 				SetEndpointURL(data.EndpointURL).
+				SetEndpointAuthURL(data.EndpointAuthURL).
+				SetEndpointServiceID(data.EndpointServiceID).
 				SetStatus(data.Status).
+				SetBillingStatus(data.BillingStatus).
+				SetEndpointType(data.EndpointType).
+				SetVersion(data.Version).
+				SetDescription(data.Description).
+				SetCreatedAt(data.CreatedAt).
+				SetUpdatedAt(data.UpdatedAt).
 				SetVpcID(data.VpcID).
+				SetVpcName(data.VpcName).
+				SetZoneUUID(data.ZoneUuid).
+				SetEnableDNSName(data.EnableDnsName).
+				SetEndpointDomains(data.EndpointDomains).
+				SetSubnetID(data.SubnetID).
+				SetCategoryName(data.CategoryName).
+				SetServiceName(data.ServiceName).
+				SetServiceEndpointType(data.ServiceEndpointType).
+				SetPackageName(data.PackageName).
 				SetRegion(data.Region).
 				SetProjectID(data.ProjectID).
 				SetCollectedAt(data.CollectedAt).

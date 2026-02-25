@@ -41,7 +41,9 @@ func (d *SecgroupDiff) HasAnyChange() bool {
 func hasSecgroupFieldsChanged(old *ent.BronzeGreenNodeNetworkSecgroup, new *SecgroupData) bool {
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
-		old.Status != new.Status
+		old.Status != new.Status ||
+		old.CreatedAt != new.CreatedAt ||
+		old.IsSystem != new.IsSystem
 }
 
 func diffRules(old []*ent.BronzeGreenNodeNetworkSecgroupRule, new []SecgroupRuleData) ChildDiff {

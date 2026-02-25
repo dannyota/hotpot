@@ -12,6 +12,8 @@ type SecgroupData struct {
 	Name        string
 	Description string
 	Status      string
+	CreatedAt   string
+	IsSystem    bool
 	Region      string
 	ProjectID   string
 	CollectedAt time.Time
@@ -38,6 +40,8 @@ func ConvertSecgroup(sg *networkv2.Secgroup, rules []*networkv2.SecgroupRule, pr
 		Name:        sg.Name,
 		Description: sg.Description,
 		Status:      sg.Status,
+		CreatedAt:   sg.CreatedAt,
+		IsSystem:    sg.IsSystem,
 		Region:      region,
 		ProjectID:   projectID,
 		CollectedAt: collectedAt,

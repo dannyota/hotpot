@@ -27,10 +27,17 @@ type GreenNodeInventoryWorkflowResult struct {
 	ServerCount      int
 	SSHKeyCount      int
 	ServerGroupCount int
+	OSImageCount     int
+	UserImageCount   int
 
 	// Network
-	SecgroupCount int
-	EndpointCount int
+	SecgroupCount     int
+	EndpointCount     int
+	VPCCount          int
+	SubnetCount       int
+	RouteTableCount   int
+	PeeringCount      int
+	InterconnectCount int
 
 	// Volume
 	BlockVolumeCount    int
@@ -80,30 +87,28 @@ func GreenNodeInventoryWorkflow(ctx workflow.Context) (*GreenNodeInventoryWorkfl
 	}
 
 	firstRegion := discoverResult.Regions[0]
-
-	// Discover projects (from config or via Portal V1 API)
-	var projectsResult DiscoverProjectsResult
-	err = workflow.ExecuteActivity(activityCtx, DiscoverProjectsActivity, DiscoverProjectsParams{
-		Region: firstRegion,
-	}).Get(ctx, &projectsResult)
-	if err != nil {
-		logger.Error("Failed to discover projects", "error", err)
-		return nil, err
-	}
-
-	if len(projectsResult.ProjectIDs) == 0 {
-		logger.Warn("No GreenNode projects discovered")
-		return result, nil
-	}
-
-	logger.Info("Discovered projects", "count", len(projectsResult.ProjectIDs), "projectIDs", projectsResult.ProjectIDs)
+	disabled := discoverResult.DisabledServices
 
 	childOpts := workflow.ChildWorkflowOptions{}
 	childCtx := workflow.WithChildOptions(ctx, childOpts)
 
-	// Use first project for portal (regions + quotas are project-scoped)
-	firstProjectID := projectsResult.ProjectIDs[0]
-	disabled := discoverResult.DisabledServices
+	// Discover projects for the first region (used for portal, GLB, DNS which are global)
+	var firstProjectID string
+	{
+		var projectsResult DiscoverProjectsResult
+		err = workflow.ExecuteActivity(activityCtx, DiscoverProjectsActivity, DiscoverProjectsParams{
+			Region: firstRegion,
+		}).Get(ctx, &projectsResult)
+		if err != nil {
+			logger.Error("Failed to discover projects for first region", "error", err, "region", firstRegion)
+			return nil, err
+		}
+		if len(projectsResult.ProjectIDs) == 0 {
+			logger.Warn("No GreenNode projects discovered", "region", firstRegion)
+			return result, nil
+		}
+		firstProjectID = projectsResult.ProjectIDs[0]
+	}
 
 	// Portal (regions + quotas + zones) - run once using first region and first project
 	if ingest.ServiceDisabled(disabled, "portal") {
@@ -123,9 +128,26 @@ func GreenNodeInventoryWorkflow(ctx workflow.Context) (*GreenNodeInventoryWorkfl
 		}
 	}
 
-	// Per (project, region) services: Compute, Network, Volume, LoadBalancer
-	for _, projectID := range projectsResult.ProjectIDs {
-		for _, region := range discoverResult.Regions {
+	// Per-region services: discover projects per region, then run per-project services.
+	// Different regions have different project IDs (e.g. VNetwork endpoint API is region-scoped).
+	for _, region := range discoverResult.Regions {
+		var projectsResult DiscoverProjectsResult
+		err = workflow.ExecuteActivity(activityCtx, DiscoverProjectsActivity, DiscoverProjectsParams{
+			Region: region,
+		}).Get(ctx, &projectsResult)
+		if err != nil {
+			logger.Error("Failed to discover projects for region", "error", err, "region", region)
+			continue
+		}
+
+		if len(projectsResult.ProjectIDs) == 0 {
+			logger.Warn("No projects discovered for region, skipping", "region", region)
+			continue
+		}
+
+		logger.Info("Discovered projects for region", "region", region, "count", len(projectsResult.ProjectIDs), "projectIDs", projectsResult.ProjectIDs)
+
+		for _, projectID := range projectsResult.ProjectIDs {
 			// Compute
 			if !ingest.ServiceDisabled(disabled, "compute") {
 				var computeResult compute.GreenNodeComputeWorkflowResult
@@ -139,6 +161,8 @@ func GreenNodeInventoryWorkflow(ctx workflow.Context) (*GreenNodeInventoryWorkfl
 					result.ServerCount += computeResult.ServerCount
 					result.SSHKeyCount += computeResult.SSHKeyCount
 					result.ServerGroupCount += computeResult.ServerGroupCount
+					result.OSImageCount += computeResult.OSImageCount
+					result.UserImageCount += computeResult.UserImageCount
 				}
 			}
 
@@ -154,6 +178,11 @@ func GreenNodeInventoryWorkflow(ctx workflow.Context) (*GreenNodeInventoryWorkfl
 				} else {
 					result.SecgroupCount += networkResult.SecgroupCount
 					result.EndpointCount += networkResult.EndpointCount
+					result.VPCCount += networkResult.VPCCount
+					result.SubnetCount += networkResult.SubnetCount
+					result.RouteTableCount += networkResult.RouteTableCount
+					result.PeeringCount += networkResult.PeeringCount
+					result.InterconnectCount += networkResult.InterconnectCount
 				}
 			}
 
@@ -232,8 +261,15 @@ func GreenNodeInventoryWorkflow(ctx workflow.Context) (*GreenNodeInventoryWorkfl
 		"serverCount", result.ServerCount,
 		"sshKeyCount", result.SSHKeyCount,
 		"serverGroupCount", result.ServerGroupCount,
+		"osImageCount", result.OSImageCount,
+		"userImageCount", result.UserImageCount,
 		"secgroupCount", result.SecgroupCount,
 		"endpointCount", result.EndpointCount,
+		"vpcCount", result.VPCCount,
+		"subnetCount", result.SubnetCount,
+		"routeTableCount", result.RouteTableCount,
+		"peeringCount", result.PeeringCount,
+		"interconnectCount", result.InterconnectCount,
 		"blockVolumeCount", result.BlockVolumeCount,
 		"volumeTypeCount", result.VolumeTypeCount,
 		"volumeTypeZoneCount", result.VolumeTypeZoneCount,

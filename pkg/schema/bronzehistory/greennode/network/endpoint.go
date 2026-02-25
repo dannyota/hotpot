@@ -30,9 +30,43 @@ func (BronzeHistoryGreenNodeNetworkEndpoint) Fields() []ent.Field {
 			Optional(),
 		field.String("endpoint_url").
 			Optional(),
+		field.String("endpoint_auth_url").
+			Optional(),
+		field.String("endpoint_service_id").
+			Optional(),
 		field.String("status").
 			Optional(),
+		field.String("billing_status").
+			Optional(),
+		field.String("endpoint_type").
+			Optional(),
+		field.String("version").
+			Optional(),
+		field.String("description").
+			Optional(),
+		field.String("created_at").
+			Optional(),
+		field.String("updated_at").
+			Optional(),
 		field.String("vpc_id").
+			Optional(),
+		field.String("vpc_name").
+			Optional(),
+		field.String("zone_uuid").
+			Optional(),
+		field.Bool("enable_dns_name").
+			Default(false),
+		field.JSON("endpoint_domains", []string{}).
+			Optional(),
+		field.String("subnet_id").
+			Optional(),
+		field.String("category_name").
+			Optional(),
+		field.String("service_name").
+			Optional(),
+		field.String("service_endpoint_type").
+			Optional(),
+		field.String("package_name").
 			Optional(),
 		field.String("region").
 			NotEmpty(),
