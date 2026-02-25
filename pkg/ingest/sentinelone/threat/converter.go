@@ -2,6 +2,7 @@ package threat
 
 import (
 	"encoding/json"
+	"fmt"
 	"strings"
 	"time"
 )
@@ -47,7 +48,7 @@ func ConvertThreat(t APIThreat, collectedAt time.Time) *ThreatData {
 		Classification:        t.Classification,
 		ThreatName:            t.ThreatName,
 		FilePath:              t.FilePath,
-		Status:                strings.Join(t.MitigationStatus, ","),
+		Status:                parseMitigationStatus(t.MitigationStatus),
 		AnalystVerdict:        t.AnalystVerdict,
 		ConfidenceLevel:       t.ConfidenceLevel,
 		InitiatedBy:           t.InitiatedBy,
@@ -79,4 +80,27 @@ func ConvertThreat(t APIThreat, collectedAt time.Time) *ThreatData {
 	}
 
 	return data
+}
+
+// parseMitigationStatus handles the polymorphic mitigationStatus field from the
+// SentinelOne API, which can be a string, an array of strings, or an object.
+func parseMitigationStatus(raw json.RawMessage) string {
+	if len(raw) == 0 {
+		return ""
+	}
+
+	// Try string first.
+	var s string
+	if err := json.Unmarshal(raw, &s); err == nil {
+		return s
+	}
+
+	// Try array of strings.
+	var arr []string
+	if err := json.Unmarshal(raw, &arr); err == nil {
+		return strings.Join(arr, ",")
+	}
+
+	// Fallback: store the raw JSON.
+	return fmt.Sprintf("%s", raw)
 }

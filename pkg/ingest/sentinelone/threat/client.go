@@ -34,7 +34,7 @@ type APIThreat struct {
 	Classification  string          `json:"classification"`
 	ThreatName      string          `json:"threatName"`
 	FilePath        string          `json:"filePath"`
-	MitigationStatus []string      `json:"mitigationStatus"`
+	MitigationStatus json.RawMessage `json:"mitigationStatus"`
 	AnalystVerdict  string          `json:"analystVerdict"`
 	ConfidenceLevel string          `json:"confidenceLevel"`
 	InitiatedBy     string          `json:"initiatedBy"`
