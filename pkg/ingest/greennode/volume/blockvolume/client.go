@@ -42,27 +42,55 @@ func NewClient(ctx context.Context, configService *config.Service, iamAuth *auth
 	return &Client{sdk: sdk}, nil
 }
 
-// ListBlockVolumes lists all block volumes.
+// ListBlockVolumes lists all block volumes, handling pagination.
 func (c *Client) ListBlockVolumes(ctx context.Context) ([]*volumev2.Volume, error) {
-	result, err := c.sdk.Volume.ListBlockVolumes(ctx, &volumev2.ListBlockVolumesRequest{
-		Page: 1,
-		Size: 10000,
-	})
-	if err != nil {
-		return nil, fmt.Errorf("list block volumes: %w", err)
+	var allVolumes []*volumev2.Volume
+	page := 1
+	size := 50
+
+	for {
+		result, err := c.sdk.Volume.ListBlockVolumes(ctx, &volumev2.ListBlockVolumesRequest{
+			Page: page,
+			Size: size,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("list block volumes page %d: %w", page, err)
+		}
+
+		allVolumes = append(allVolumes, result.Items...)
+
+		if page >= result.TotalPage {
+			break
+		}
+		page++
 	}
-	return result.Items, nil
+
+	return allVolumes, nil
 }
 
-// ListSnapshotsByBlockVolumeID lists all snapshots for a block volume.
+// ListSnapshotsByBlockVolumeID lists all snapshots for a block volume, handling pagination.
 func (c *Client) ListSnapshotsByBlockVolumeID(ctx context.Context, blockVolumeID string) ([]*volumev2.Snapshot, error) {
-	result, err := c.sdk.Volume.ListSnapshotsByBlockVolumeID(ctx, &volumev2.ListSnapshotsByBlockVolumeIDRequest{
-		BlockVolumeID: blockVolumeID,
-		Page:          1,
-		Size:          10000,
-	})
-	if err != nil {
-		return nil, fmt.Errorf("list snapshots for volume %s: %w", blockVolumeID, err)
+	var allSnapshots []*volumev2.Snapshot
+	page := 1
+	size := 50
+
+	for {
+		result, err := c.sdk.Volume.ListSnapshotsByBlockVolumeID(ctx, &volumev2.ListSnapshotsByBlockVolumeIDRequest{
+			BlockVolumeID: blockVolumeID,
+			Page:          page,
+			Size:          size,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("list snapshots for volume %s page %d: %w", blockVolumeID, page, err)
+		}
+
+		allSnapshots = append(allSnapshots, result.Items...)
+
+		if page >= result.TotalPages {
+			break
+		}
+		page++
 	}
-	return result.Items, nil
+
+	return allSnapshots, nil
 }
