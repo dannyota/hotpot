@@ -43,6 +43,8 @@ import (
 	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/network"
 	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/portal"
 	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/volume"
+	_ "github.com/dannyota/hotpot/pkg/ingest/jenkins"
+	_ "github.com/dannyota/hotpot/pkg/ingest/jenkins/job"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/account"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/agent"

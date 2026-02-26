@@ -8,6 +8,7 @@ type Config struct {
 	DO        DOConfig        `yaml:"do"`
 	GreenNode GreenNodeConfig `yaml:"greennode"`
 	Vault     VaultConfig     `yaml:"vault"`
+	Jenkins   JenkinsConfig   `yaml:"jenkins"`
 	Database DatabaseConfig `yaml:"database"`
 	Temporal TemporalConfig `yaml:"temporal"`
 	Redis    RedisConfig    `yaml:"redis"`
@@ -141,6 +142,40 @@ type VaultInstance struct {
 
 	// VerifySSL controls TLS certificate verification. Default: true.
 	VerifySSL *bool `yaml:"verify_ssl,omitempty"`
+}
+
+// JenkinsConfig holds Jenkins CI configuration.
+type JenkinsConfig struct {
+	// Enabled controls whether Jenkins ingestion runs and tables are created.
+	Enabled bool `yaml:"enabled"`
+
+	// BaseURL is the Jenkins server URL (e.g., "https://jenkins.example.com").
+	BaseURL string `yaml:"base_url"`
+
+	// Username is the Jenkins username for API authentication.
+	Username string `yaml:"username"`
+
+	// APIToken is the Jenkins API token for authentication.
+	APIToken string `yaml:"api_token"`
+
+	// VerifySSL controls TLS certificate verification. Default: true.
+	VerifySSL *bool `yaml:"verify_ssl,omitempty"`
+
+	// Timeout is the HTTP request timeout in seconds. Default: 30.
+	Timeout int `yaml:"timeout,omitempty"`
+
+	// Since filters which jobs to process. Only jobs with lastBuild.timestamp >= since
+	// are included. Format: "2024-01-01".
+	Since string `yaml:"since"`
+
+	// MaxBuildsPerJob limits how many builds to pull per job per run. Default: 1000.
+	MaxBuildsPerJob int `yaml:"max_builds_per_job,omitempty"`
+
+	// ExcludeRepos is a list of repo URL patterns to exclude from build repos.
+	ExcludeRepos []string `yaml:"exclude_repos,omitempty"`
+
+	// RateLimitPerMinute is the max API requests per minute. Default: 120.
+	RateLimitPerMinute int `yaml:"rate_limit_per_minute,omitempty"`
 }
 
 // RedisConfig holds Redis connection configuration.

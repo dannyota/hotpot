@@ -1,0 +1,24 @@
+package jenkins
+
+import (
+	"io"
+
+	"entgo.io/ent/dialect"
+	"go.temporal.io/sdk/worker"
+
+	"github.com/dannyota/hotpot/pkg/base/config"
+	"github.com/dannyota/hotpot/pkg/ingest"
+)
+
+func init() {
+	ingest.RegisterProvider(ingest.ProviderRegistration{
+		Name:               "jenkins",
+		TaskQueue:          "hotpot-ingest-jenkins",
+		Enabled:            (*config.Service).JenkinsEnabled,
+		RateLimitPerMinute: (*config.Service).JenkinsRateLimitPerMinute,
+		Register: func(w worker.Worker, cs *config.Service, drv dialect.Driver) io.Closer {
+			return Register(w, cs, drv)
+		},
+		Workflow: JenkinsInventoryWorkflow,
+	})
+}

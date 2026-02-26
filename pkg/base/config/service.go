@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"sync"
+	"time"
 )
 
 // Service manages configuration lifecycle with hot reload support.
@@ -169,6 +170,9 @@ func (s *Service) EnabledProviders() []string {
 	}
 	if s.config.Vault.Enabled {
 		providers = append(providers, "vault")
+	}
+	if s.config.Jenkins.Enabled {
+		providers = append(providers, "jenkins")
 	}
 	return providers
 }
@@ -489,6 +493,114 @@ func (s *Service) VaultInstance(name string) *VaultInstance {
 		}
 	}
 	return nil
+}
+
+// JenkinsEnabled returns true if Jenkins ingestion is enabled in config.
+func (s *Service) JenkinsEnabled() bool {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.config != nil && s.config.Jenkins.Enabled
+}
+
+// JenkinsBaseURL returns the Jenkins server base URL.
+func (s *Service) JenkinsBaseURL() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.Jenkins.BaseURL
+}
+
+// JenkinsUsername returns the Jenkins username.
+func (s *Service) JenkinsUsername() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.Jenkins.Username
+}
+
+// JenkinsAPIToken returns the Jenkins API token.
+func (s *Service) JenkinsAPIToken() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.Jenkins.APIToken
+}
+
+// JenkinsVerifySSL returns whether to verify SSL certificates for Jenkins.
+// Defaults to true if not configured.
+func (s *Service) JenkinsVerifySSL() bool {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || s.config.Jenkins.VerifySSL == nil {
+		return true
+	}
+	return *s.config.Jenkins.VerifySSL
+}
+
+// JenkinsTimeout returns the HTTP request timeout in seconds for Jenkins.
+// Defaults to 30 if not configured.
+func (s *Service) JenkinsTimeout() int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || s.config.Jenkins.Timeout <= 0 {
+		return 30
+	}
+	return s.config.Jenkins.Timeout
+}
+
+// JenkinsSince returns the since date for filtering Jenkins jobs.
+// Returns zero time if not configured or invalid.
+func (s *Service) JenkinsSince() time.Time {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || s.config.Jenkins.Since == "" {
+		return time.Time{}
+	}
+	t, err := time.Parse("2006-01-02", s.config.Jenkins.Since)
+	if err != nil {
+		return time.Time{}
+	}
+	return t
+}
+
+// JenkinsMaxBuildsPerJob returns the max builds to pull per job per run.
+// Defaults to 1000 if not configured.
+func (s *Service) JenkinsMaxBuildsPerJob() int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || s.config.Jenkins.MaxBuildsPerJob <= 0 {
+		return 1000
+	}
+	return s.config.Jenkins.MaxBuildsPerJob
+}
+
+// JenkinsExcludeRepos returns repo URL patterns to exclude.
+func (s *Service) JenkinsExcludeRepos() []string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || len(s.config.Jenkins.ExcludeRepos) == 0 {
+		return nil
+	}
+	result := make([]string, len(s.config.Jenkins.ExcludeRepos))
+	copy(result, s.config.Jenkins.ExcludeRepos)
+	return result
+}
+
+// JenkinsRateLimitPerMinute returns the max API requests per minute for Jenkins.
+// Defaults to 120 if not configured.
+func (s *Service) JenkinsRateLimitPerMinute() int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || s.config.Jenkins.RateLimitPerMinute <= 0 {
+		return 120
+	}
+	return s.config.Jenkins.RateLimitPerMinute
 }
 
 // RedisConfig returns the Redis configuration.
