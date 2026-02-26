@@ -53,4 +53,6 @@ import (
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_gateway"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_setting"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/site"
+	_ "github.com/dannyota/hotpot/pkg/ingest/vault"
+	_ "github.com/dannyota/hotpot/pkg/ingest/vault/pki"
 )

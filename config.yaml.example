@@ -76,6 +76,33 @@ greennode:
   #
   # rate_limit_per_minute: 300  # Default: 300
 
+# Vault Configuration (PKI certificate ingestion)
+# nosemgrep: generic.secrets.security.detected-generic-secret
+vault:
+  # Enable Vault ingestion (default: false)
+  enabled: false
+  # rate_limit_per_minute: 60  # Default: 60
+  # instances:
+  #   - name: "prod-vault"
+  #     address: "https://vault.example.com"
+  #     token: "<YOUR_VAULT_TOKEN>"
+  #     verify_ssl: true  # Default: true
+
+# Jenkins Configuration
+# nosemgrep: generic.secrets.security.detected-generic-secret
+jenkins:
+  # Enable Jenkins ingestion (default: false)
+  enabled: false
+  # base_url: "https://jenkins.example.com"
+  # username: "<YOUR_JENKINS_USERNAME>"
+  # api_token: "<YOUR_JENKINS_API_TOKEN>"
+  # verify_ssl: true              # Default: true
+  # timeout: 30                   # Seconds, default: 30
+  # since: "2024-01-01"           # Only process jobs with builds since this date
+  # max_builds_per_job: 1000      # Safety cap per run, default: 1000
+  # exclude_repos: []             # Repo URL patterns to exclude
+  # rate_limit_per_minute: 120    # Default: 120
+
 # Database Configuration (REQUIRED)
 # nosemgrep: generic.secrets.security.detected-generic-secret
 database:

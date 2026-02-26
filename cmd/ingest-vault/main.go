@@ -12,7 +12,7 @@ import (
 
 //go:generate go run github.com/dannyota/hotpot/tools/ingestgen
 
-var _ = ingest.ProviderSet("gcp", "greennode", "jenkins", "sentinelone", "vault")
+var _ = ingest.ProviderSet("vault")
 
 func main() {
 	slog.SetDefault(logger.New(slog.LevelInfo))
