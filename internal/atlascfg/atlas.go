@@ -17,6 +17,28 @@ func EnvName(layer, provider string) string {
 	return layer + "-" + provider
 }
 
+// RevisionsSchema returns the Postgres schema name used to store Atlas
+// migration revision history for a layer/provider pair.
+func RevisionsSchema(layer, provider string) string {
+	return "atlas_" + layer + "_" + provider
+}
+
+// layerPGSchema maps layer names to their Postgres schema names.
+var layerPGSchema = map[string]string{
+	"bronze":        "bronze",
+	"bronzehistory": "bronze_history",
+	"silver":        "silver",
+	"gold":          "gold",
+}
+
+// PGSchema returns the Postgres schema name for a layer.
+func PGSchema(layer string) string {
+	if s, ok := layerPGSchema[layer]; ok {
+		return s
+	}
+	return layer
+}
+
 // PostgresURL builds a postgres connection URL from a DatabaseConfig.
 func PostgresURL(cfg config.DatabaseConfig) string {
 	url := fmt.Sprintf("postgres://%s", cfg.User)

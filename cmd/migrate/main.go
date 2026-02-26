@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"flag"
 	"fmt"
 	"io/fs"
 	"log"
@@ -14,12 +13,12 @@ import (
 	"github.com/dannyota/hotpot/deploy/migrations"
 	"github.com/dannyota/hotpot/internal/atlascfg"
 	"github.com/dannyota/hotpot/pkg/base/app"
+	"github.com/dannyota/hotpot/pkg/migrate"
 )
 
-func main() {
-	providersFlag := flag.String("providers", "", "comma-separated list of providers to migrate (default: all)")
-	flag.Parse()
+var _ = migrate.ProviderSet("gcp", "greennode", "s1", "vault")
 
+func main() {
 	ctx := context.Background()
 
 	application, err := app.New(app.Options{})
@@ -56,20 +55,18 @@ func main() {
 		log.Fatalf("Failed to discover migrations: %v", err)
 	}
 
-	// Filter to requested providers.
-	if *providersFlag != "" {
-		allowed := map[string]bool{}
-		for _, p := range strings.Split(*providersFlag, ",") {
-			allowed[strings.TrimSpace(p)] = true
-		}
-		var filtered []layerProvider
-		for _, lp := range pairs {
-			if allowed[lp.provider] {
-				filtered = append(filtered, lp)
-			}
-		}
-		pairs = filtered
+	// Filter to build-time provider set.
+	allowed := map[string]bool{}
+	for _, p := range migrate.Providers() {
+		allowed[p] = true
 	}
+	var filtered []layerProvider
+	for _, lp := range pairs {
+		if allowed[lp.provider] {
+			filtered = append(filtered, lp)
+		}
+	}
+	pairs = filtered
 
 	if len(pairs) == 0 {
 		log.Fatal("No migration directories found for the requested providers")
@@ -79,9 +76,9 @@ func main() {
 		envName := atlascfg.EnvName(lp.layer, lp.provider)
 		fmt.Printf("==> %s/%s: atlas migrate apply\n", lp.layer, lp.provider)
 
-		config := buildApplyConfig(envName, postgresURL, filepath.Join(tmpDir, lp.layer, lp.provider))
+		config := buildApplyConfig(envName, lp.layer, lp.provider, postgresURL, filepath.Join(tmpDir, lp.layer, lp.provider))
 
-		if err := atlascfg.RunAtlas(config, envName, "migrate", "apply"); err != nil {
+		if err := atlascfg.RunAtlas(config, envName, "migrate", "apply", "--allow-dirty"); err != nil {
 			log.Fatalf("%s/%s failed: %v", lp.layer, lp.provider, err)
 		}
 	}
@@ -124,11 +121,17 @@ func discoverPairs(dir string) ([]layerProvider, error) {
 }
 
 // buildApplyConfig returns a minimal Atlas HCL config for applying migrations.
-func buildApplyConfig(envName, dbURL, migDir string) string {
+// Each layer/provider pair gets its own revisions_schema so that identically
+// named migration files (e.g. 0001_initial.sql) don't collide across providers.
+// The caller passes --allow-dirty to atlas since multiple independent migration
+// sets share the same database.
+func buildApplyConfig(envName, layer, provider, dbURL, migDir string) string {
 	var b strings.Builder
 	fmt.Fprintf(&b, "env %q {\n", envName)
 	fmt.Fprintf(&b, "  url = %q\n", dbURL)
-	fmt.Fprintf(&b, "  migration {\n    dir = \"file://%s\"\n  }\n", migDir)
+	fmt.Fprintf(&b, "  migration {\n    dir = \"file://%s\"\n", migDir)
+	fmt.Fprintf(&b, "    revisions_schema = %q\n", atlascfg.RevisionsSchema(layer, provider))
+	fmt.Fprintf(&b, "  }\n")
 	fmt.Fprintf(&b, "}\n")
 	return b.String()
 }

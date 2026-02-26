@@ -80,14 +80,17 @@ func main() {
 		log.Fatalf("Failed to change to output dir %s: %v", absOut, err)
 	}
 
-	enabledProviders := application.ConfigService().EnabledProviders()
-	if len(enabledProviders) == 0 {
-		log.Fatal("No providers enabled in config. Set enabled: true for at least one provider.")
+	providers, err := discoverProviders(absSchema)
+	if err != nil {
+		log.Fatalf("Failed to discover providers: %v", err)
 	}
-	fmt.Printf("Enabled providers: %s\n", strings.Join(enabledProviders, ", "))
+	if len(providers) == 0 {
+		log.Fatal("No providers found in schema directory")
+	}
+	fmt.Printf("Discovered providers: %s\n", strings.Join(providers, ", "))
 
 	for _, layer := range atlascfg.LayerOrder {
-		for _, provider := range enabledProviders {
+		for _, provider := range providers {
 			atlasDir := filepath.Join(absSchema, layer, "atlas_schema", provider)
 			if _, err := os.Stat(atlasDir); err != nil {
 				continue
@@ -228,4 +231,31 @@ func renameToSequential(dir string) error {
 	}
 
 	return atlascfg.Rehash(dir)
+}
+
+// discoverProviders scans the schema directory for provider subdirectories
+// across all layers and returns a sorted, deduplicated list.
+func discoverProviders(schemaDir string) ([]string, error) {
+	seen := map[string]bool{}
+	for _, layer := range atlascfg.LayerOrder {
+		dir := filepath.Join(schemaDir, layer, "atlas_schema")
+		entries, err := os.ReadDir(dir)
+		if err != nil {
+			if os.IsNotExist(err) {
+				continue
+			}
+			return nil, fmt.Errorf("read %s: %w", dir, err)
+		}
+		for _, e := range entries {
+			if e.IsDir() {
+				seen[e.Name()] = true
+			}
+		}
+	}
+	providers := make([]string, 0, len(seen))
+	for p := range seen {
+		providers = append(providers, p)
+	}
+	sort.Strings(providers)
+	return providers, nil
 }
