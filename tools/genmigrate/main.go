@@ -13,7 +13,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"regexp"
 	"sort"
@@ -22,9 +21,6 @@ import (
 	"github.com/dannyota/hotpot/internal/atlascfg"
 	"github.com/dannyota/hotpot/pkg/base/app"
 )
-
-// Layer order: bronze first, then history, then silver, gold.
-var layerOrder = []string{"bronze", "bronzehistory", "silver", "gold"}
 
 func main() {
 	schemaDir := flag.String("schema", "", "ent schema root directory (required)")
@@ -50,15 +46,14 @@ func main() {
 	defer application.Stop()
 
 	cfg := application.ConfigService().Config().Database
-	dbName := cfg.DBName
 	if *dbFlag != "" {
-		dbName = *dbFlag
+		cfg.DBName = *dbFlag
 	}
 
 	// Safety check: database name must end with _dev. Atlas drops and
 	// recreates tables in this database during diff, so running against a
 	// production database would destroy data.
-	if !strings.HasSuffix(dbName, "_dev") {
+	if !strings.HasSuffix(cfg.DBName, "_dev") {
 		log.Fatal("SAFETY CHECK FAILED: database name must end with \"_dev\"!\n" +
 			"Atlas will DROP AND RECREATE tables in this database during 'migrate diff'.\n" +
 			"This would DESTROY PRODUCTION DATA.\n\n" +
@@ -69,16 +64,7 @@ func main() {
 			"    dbname: hotpot_dev  # Must end with _dev")
 	}
 
-	postgresURL := fmt.Sprintf("postgres://%s", cfg.User)
-	if cfg.Password != "" {
-		postgresURL += ":" + cfg.Password
-	}
-	postgresURL += fmt.Sprintf("@%s:%d/%s", cfg.Host, cfg.Port, dbName)
-	sslmode := cfg.SSLMode
-	if sslmode == "" {
-		sslmode = "require"
-	}
-	postgresURL += "?sslmode=" + sslmode
+	postgresURL := atlascfg.PostgresURL(cfg)
 
 	// Change to output directory so relative paths in Atlas config resolve correctly.
 	absOut, err := filepath.Abs(*outDir)
@@ -100,7 +86,7 @@ func main() {
 	}
 	fmt.Printf("Enabled providers: %s\n", strings.Join(enabledProviders, ", "))
 
-	for _, layer := range layerOrder {
+	for _, layer := range atlascfg.LayerOrder {
 		for _, provider := range enabledProviders {
 			atlasDir := filepath.Join(absSchema, layer, "atlas_schema", provider)
 			if _, err := os.Stat(atlasDir); err != nil {
@@ -110,12 +96,12 @@ func main() {
 			migDir := filepath.Join(layer, provider)
 			os.MkdirAll(migDir, 0755)
 
-			envName := layer + "-" + provider
+			envName := atlascfg.EnvName(layer, provider)
 			config := buildDiffConfig(envName, atlasDir, migDir, postgresURL)
 
 			fmt.Printf("==> %s/%s: atlas migrate diff %s\n", layer, provider, name)
 
-			if err := runAtlasDiff(name, envName, config); err != nil {
+			if err := atlascfg.RunAtlas(config, envName, "migrate", "diff", name); err != nil {
 				log.Fatalf("%s/%s failed: %v", layer, provider, err)
 			}
 
@@ -142,22 +128,6 @@ func buildDiffConfig(envName, atlasDir, migDir, dbURL string) string {
 	fmt.Fprintf(&b, "  migration {\n    dir = \"file://%s\"\n  }\n", migDir)
 	fmt.Fprintf(&b, "}\n")
 	return b.String()
-}
-
-// runAtlasDiff executes atlas migrate diff for a layer/provider env.
-func runAtlasDiff(name, envName, config string) error {
-	uri, setupCmd, cleanup, err := atlascfg.ConfigPipe(config)
-	if err != nil {
-		return fmt.Errorf("config pipe: %w", err)
-	}
-	defer cleanup()
-
-	cmd := exec.Command("atlas", "migrate", "diff", name, "--config", uri, "--env", envName)
-	setupCmd(cmd)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-
-	return cmd.Run()
 }
 
 // createSchemaRe matches CREATE SCHEMA statements that should use IF NOT EXISTS.
@@ -194,7 +164,7 @@ func postProcessSQL(dir string) error {
 	}
 
 	if modified {
-		return rehash(dir)
+		return atlascfg.Rehash(dir)
 	}
 	return nil
 }
@@ -257,15 +227,5 @@ func renameToSequential(dir string) error {
 		}
 	}
 
-	return rehash(dir)
-}
-
-func rehash(dir string) error {
-	cmd := exec.Command("atlas", "migrate", "hash", "--dir", fmt.Sprintf("file://%s", dir))
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("rehash: %w", err)
-	}
-	return nil
+	return atlascfg.Rehash(dir)
 }
