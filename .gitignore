@@ -46,9 +46,6 @@ logs/
 *.swo
 *~
 
-# Generated code
-pkg/storage/ent/
-
 # Claude Code
 .claude/
 
