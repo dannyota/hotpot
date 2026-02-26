@@ -7,7 +7,7 @@ require (
 	cloud.google.com/go/alloydb v1.20.0
 	cloud.google.com/go/appengine v1.9.7
 	cloud.google.com/go/asset v1.22.1
-	cloud.google.com/go/bigquery v1.73.1
+	cloud.google.com/go/bigquery v1.74.0
 	cloud.google.com/go/bigtable v1.42.0
 	cloud.google.com/go/binaryauthorization v1.10.0
 	cloud.google.com/go/compute v1.54.0
