@@ -37,7 +37,7 @@ require (
 	github.com/aws/aws-sdk-go-v2 v1.41.2
 	github.com/aws/aws-sdk-go-v2/config v1.32.10
 	github.com/aws/aws-sdk-go-v2/credentials v1.19.10
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.291.0
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.292.0
 	github.com/digitalocean/godo v1.175.0
 	github.com/fsnotify/fsnotify v1.9.0
 	github.com/jackc/pgx/v5 v5.8.0
