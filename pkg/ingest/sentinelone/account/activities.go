@@ -9,6 +9,7 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
 )
 
@@ -59,7 +60,7 @@ func (a *Activities) IngestS1Accounts(ctx context.Context) (*IngestS1AccountsRes
 
 	result, err := service.Ingest(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("ingest accounts: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest accounts: %w", err))
 	}
 
 	if err := service.DeleteStale(ctx, result.CollectedAt); err != nil {

@@ -26,6 +26,25 @@ func MaybeNonRetryable(err error) error {
 	return err
 }
 
+// PropagateNonRetryable checks if an activity error contains a non-retryable
+// ApplicationError and, if so, re-wraps it as non-retryable. Use this in
+// workflows to prevent child workflow retry when an activity already failed
+// permanently — Temporal wraps activity errors in a retryable ActivityError
+// by default, losing the non-retryable flag.
+func PropagateNonRetryable(err error) error {
+	if err == nil {
+		return nil
+	}
+
+	var appErr *temporal.ApplicationError
+	if errors.As(err, &appErr) && appErr.NonRetryable() {
+		return temporal.NewNonRetryableApplicationError(
+			appErr.Message(), appErr.Type(), err)
+	}
+
+	return err
+}
+
 // nonRetryableReason inspects err and returns a short error-type string if the
 // error is known to be permanent, or "" if it should be retried normally.
 func nonRetryableReason(err error) string {
@@ -54,6 +73,17 @@ func nonRetryableReason(err error) string {
 	var sdkErr *sdkerror.SdkError
 	if errors.As(err, &sdkErr) {
 		if sdkErr.IsErrorAny(sdkerror.EcPermissionDenied, sdkerror.EcAuthenticationFailed) {
+			return "PERMISSION_DENIED"
+		}
+	}
+
+	// Generic HTTP status code errors (e.g. SentinelOne APIError).
+	var httpErr interface{ StatusCode() int }
+	if errors.As(err, &httpErr) {
+		switch httpErr.StatusCode() {
+		case 401:
+			return "UNAUTHENTICATED"
+		case 403:
 			return "PERMISSION_DENIED"
 		}
 	}

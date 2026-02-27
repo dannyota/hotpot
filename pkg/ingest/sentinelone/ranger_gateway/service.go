@@ -38,6 +38,11 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 	startTime := time.Now()
 	collectedAt := startTime
 
+	totalExpected, err := s.client.GetCount()
+	if err != nil {
+		slog.Warn("s1 ranger gateways: failed to get count, continuing without total", "error", err)
+	}
+
 	var allGateways []*RangerGatewayData
 	cursor := ""
 	batchNum := 0
@@ -54,7 +59,7 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 			allGateways = append(allGateways, ConvertRangerGateway(apiGateway, collectedAt))
 		}
 
-		slog.Info("s1 ranger gateways batch fetched", "batch", batchNum, "batchItems", len(batch.Gateways), "totalItems", len(allGateways), "hasMore", batch.HasMore)
+		slog.Info("s1 ranger gateways batch fetched", "batch", batchNum, "batchItems", len(batch.Gateways), "totalFetched", len(allGateways), "totalExpected", totalExpected, "hasMore", batch.HasMore)
 
 		if heartbeat != nil {
 			heartbeat()

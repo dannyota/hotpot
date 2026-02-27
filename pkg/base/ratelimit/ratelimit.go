@@ -2,7 +2,11 @@ package ratelimit
 
 import (
 	"context"
+	"log/slog"
+	"math"
 	"net/http"
+	"strconv"
+	"time"
 
 	"golang.org/x/time/rate"
 	"google.golang.org/grpc"
@@ -38,12 +42,59 @@ func NewRateLimitedTransport(limiter Limiter, base http.RoundTripper) *RateLimit
 	return &RateLimitedTransport{base: base, limiter: limiter}
 }
 
-// RoundTrip implements http.RoundTripper with rate limiting.
+const (
+	maxRetries       = 5
+	initialBackoff   = 5 * time.Second
+	backoffMult      = 2.0
+	maxBackoff       = 60 * time.Second
+)
+
+// RoundTrip implements http.RoundTripper with rate limiting and 429 retry.
 func (t *RateLimitedTransport) RoundTrip(req *http.Request) (*http.Response, error) {
-	if err := t.limiter.Wait(req.Context()); err != nil {
-		return nil, err
+	for attempt := 0; ; attempt++ {
+		if err := t.limiter.Wait(req.Context()); err != nil {
+			return nil, err
+		}
+
+		resp, err := t.base.RoundTrip(req)
+		if err != nil {
+			return nil, err
+		}
+
+		if resp.StatusCode != http.StatusTooManyRequests || attempt >= maxRetries {
+			return resp, nil
+		}
+
+		resp.Body.Close()
+
+		backoff := retryAfter(resp, attempt)
+		slog.Warn("rate limited (429), backing off",
+			"attempt", attempt+1,
+			"backoff", backoff,
+			"url", req.URL.Path,
+		)
+
+		select {
+		case <-time.After(backoff):
+		case <-req.Context().Done():
+			return nil, req.Context().Err()
+		}
 	}
-	return t.base.RoundTrip(req)
+}
+
+// retryAfter computes the backoff duration from a 429 response.
+// Uses the Retry-After header if present, otherwise exponential backoff.
+func retryAfter(resp *http.Response, attempt int) time.Duration {
+	if ra := resp.Header.Get("Retry-After"); ra != "" {
+		if secs, err := strconv.Atoi(ra); err == nil && secs > 0 {
+			return time.Duration(secs) * time.Second
+		}
+	}
+	backoff := time.Duration(float64(initialBackoff) * math.Pow(backoffMult, float64(attempt)))
+	if backoff > maxBackoff {
+		backoff = maxBackoff
+	}
+	return backoff
 }
 
 // UnaryInterceptor returns a gRPC unary client interceptor that calls

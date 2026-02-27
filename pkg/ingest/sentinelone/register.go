@@ -6,18 +6,12 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/account"
-	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/agent"
-	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/app_inventory"
-	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/endpoint_app"
-	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/group"
-	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/network_discovery"
-	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_device"
-	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_gateway"
-	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_setting"
-	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/site"
+	"github.com/dannyota/hotpot/pkg/ingest"
 	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
 )
+
+// serviceRegFunc is the function signature for SentinelOne service registration.
+type serviceRegFunc = func(worker.Worker, *config.Service, *ents1.Client, ratelimit.Limiter)
 
 // Register registers all SentinelOne activities and workflows with the Temporal worker.
 // Returns the rate limit service for cleanup (caller should defer Close()).
@@ -31,16 +25,9 @@ func Register(w worker.Worker, configService *config.Service, driver dialect.Dri
 
 	entClient := ents1.NewClient(ents1.Driver(driver), ents1.AlternateSchema(ents1.DefaultSchemaConfig()))
 
-	account.Register(w, configService, entClient, limiter)
-	agent.Register(w, configService, entClient, limiter)
-	group.Register(w, configService, entClient, limiter)
-	site.Register(w, configService, entClient, limiter)
-	ranger_device.Register(w, configService, entClient, limiter)
-	ranger_gateway.Register(w, configService, entClient, limiter)
-	ranger_setting.Register(w, configService, entClient, limiter)
-	network_discovery.Register(w, configService, entClient, limiter)
-	app_inventory.Register(w, configService, entClient, limiter)
-	endpoint_app.Register(w, configService, entClient, limiter)
+	for _, svc := range ingest.Services("sentinelone") {
+		svc.Register.(serviceRegFunc)(w, configService, entClient, limiter)
+	}
 
 	w.RegisterWorkflow(S1InventoryWorkflow)
 

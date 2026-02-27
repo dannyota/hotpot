@@ -5,6 +5,8 @@ import (
 
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
+
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 )
 
 // S1AccountWorkflowResult contains the result of the account workflow.
@@ -33,7 +35,7 @@ func S1AccountWorkflow(ctx workflow.Context) (*S1AccountWorkflowResult, error) {
 	err := workflow.ExecuteActivity(activityCtx, IngestS1AccountsActivity).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest accounts", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed S1AccountWorkflow", "accountCount", result.AccountCount)

@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"net/url"
 	"time"
+
+	"github.com/dannyota/hotpot/pkg/base/httperr"
 )
 
 // Client wraps the SentinelOne Ranger API.
@@ -67,6 +69,7 @@ type DeviceBatchResult struct {
 	Devices    []APIRangerDevice
 	NextCursor string
 	HasMore    bool
+	TotalItems int
 }
 
 // GetDevicesBatch retrieves a batch of ranger devices with cursor pagination.
@@ -86,6 +89,7 @@ func (c *Client) GetDevicesBatch(cursor string) (*DeviceBatchResult, error) {
 		Data       []APIRangerDevice `json:"data"`
 		Pagination struct {
 			NextCursor string `json:"nextCursor"`
+			TotalItems int    `json:"totalItems"`
 		} `json:"pagination"`
 	}
 
@@ -97,7 +101,31 @@ func (c *Client) GetDevicesBatch(cursor string) (*DeviceBatchResult, error) {
 		Devices:    response.Data,
 		NextCursor: response.Pagination.NextCursor,
 		HasMore:    response.Pagination.NextCursor != "",
+		TotalItems: response.Pagination.TotalItems,
 	}, nil
+}
+
+// GetCount returns the total number of ranger devices using countOnly mode.
+func (c *Client) GetCount() (int, error) {
+	params := url.Values{}
+	params.Set("countOnly", "true")
+
+	body, err := c.doRequest("GET", "/web/api/v2.0/ranger/table-view", params)
+	if err != nil {
+		return 0, fmt.Errorf("get ranger devices count: %w", err)
+	}
+
+	var response struct {
+		Pagination struct {
+			TotalItems int `json:"totalItems"`
+		} `json:"pagination"`
+	}
+
+	if err := json.Unmarshal(body, &response); err != nil {
+		return 0, fmt.Errorf("parse ranger devices count response: %w", err)
+	}
+
+	return response.Pagination.TotalItems, nil
 }
 
 func (c *Client) doRequest(method, endpoint string, params url.Values) ([]byte, error) {
@@ -133,7 +161,7 @@ func (c *Client) doRequest(method, endpoint string, params url.Values) ([]byte, 
 	slog.Info("s1 api response", "method", method, "endpoint", endpoint, "status", resp.StatusCode, "responseBytes", len(body), "durationMs", time.Since(start).Milliseconds())
 
 	if resp.StatusCode == http.StatusUnauthorized || resp.StatusCode == http.StatusForbidden {
-		return nil, fmt.Errorf("authentication failed (status: %d)", resp.StatusCode)
+		return nil, &httperr.APIError{Code: resp.StatusCode}
 	}
 
 	if resp.StatusCode != http.StatusOK {

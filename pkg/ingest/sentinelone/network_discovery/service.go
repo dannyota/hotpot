@@ -38,6 +38,11 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 	startTime := time.Now()
 	collectedAt := startTime
 
+	totalExpected, err := s.client.GetCount()
+	if err != nil {
+		slog.Warn("s1 network discovery: failed to get count, continuing without total", "error", err)
+	}
+
 	var allDevices []*NetworkDiscoveryData
 	cursor := ""
 	batchNum := 0
@@ -54,7 +59,7 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 			allDevices = append(allDevices, ConvertNetworkDiscovery(apiDevice, collectedAt))
 		}
 
-		slog.Info("s1 network discovery batch fetched", "batch", batchNum, "batchItems", len(batch.Devices), "totalItems", len(allDevices), "hasMore", batch.HasMore)
+		slog.Info("s1 network discovery batch fetched", "batch", batchNum, "batchItems", len(batch.Devices), "totalFetched", len(allDevices), "totalExpected", totalExpected, "hasMore", batch.HasMore)
 
 		if heartbeat != nil {
 			heartbeat()

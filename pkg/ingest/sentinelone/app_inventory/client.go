@@ -44,6 +44,7 @@ type AppBatchResult struct {
 	Apps       []APIAppInventory
 	NextCursor string
 	HasMore    bool
+	TotalItems int
 }
 
 // GetAppsBatch retrieves a batch of application inventory entries with cursor pagination.
@@ -54,7 +55,7 @@ func (c *Client) GetAppsBatch(cursor string) (*AppBatchResult, error) {
 		params.Set("cursor", cursor)
 	}
 
-	body, err := c.doRequest("GET", "/web/api/v2.1/inventory", params)
+	body, err := c.doRequest("GET", "/web/api/v2.1/application-management/inventory", params)
 	if err != nil {
 		return nil, fmt.Errorf("get app inventory: %w", err)
 	}
@@ -63,6 +64,7 @@ func (c *Client) GetAppsBatch(cursor string) (*AppBatchResult, error) {
 		Data       []APIAppInventory `json:"data"`
 		Pagination struct {
 			NextCursor string `json:"nextCursor"`
+			TotalItems int    `json:"totalItems"`
 		} `json:"pagination"`
 	}
 
@@ -74,7 +76,31 @@ func (c *Client) GetAppsBatch(cursor string) (*AppBatchResult, error) {
 		Apps:       response.Data,
 		NextCursor: response.Pagination.NextCursor,
 		HasMore:    response.Pagination.NextCursor != "",
+		TotalItems: response.Pagination.TotalItems,
 	}, nil
+}
+
+// GetCount returns the total number of app inventory entries using countOnly mode.
+func (c *Client) GetCount() (int, error) {
+	params := url.Values{}
+	params.Set("countOnly", "true")
+
+	body, err := c.doRequest("GET", "/web/api/v2.1/application-management/inventory", params)
+	if err != nil {
+		return 0, fmt.Errorf("get app inventory count: %w", err)
+	}
+
+	var response struct {
+		Pagination struct {
+			TotalItems int `json:"totalItems"`
+		} `json:"pagination"`
+	}
+
+	if err := json.Unmarshal(body, &response); err != nil {
+		return 0, fmt.Errorf("parse app inventory count response: %w", err)
+	}
+
+	return response.Pagination.TotalItems, nil
 }
 
 func (c *Client) doRequest(method, endpoint string, params url.Values) ([]byte, error) {

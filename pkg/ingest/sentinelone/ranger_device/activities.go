@@ -4,12 +4,12 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"strings"
 
 	"go.temporal.io/sdk/activity"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
 )
 
@@ -62,11 +62,7 @@ func (a *Activities) IngestS1RangerDevices(ctx context.Context) (*IngestS1Ranger
 		activity.RecordHeartbeat(ctx, nil)
 	})
 	if err != nil {
-		if strings.Contains(err.Error(), "status 403") || strings.Contains(err.Error(), "authentication failed") {
-			logger.Warn("Ranger not licensed, skipping device ingestion", "error", err)
-			return &IngestS1RangerDevicesResult{DeviceCount: 0}, nil
-		}
-		return nil, fmt.Errorf("ingest ranger devices: %w", err)
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest ranger devices: %w", err))
 	}
 
 	if err := service.DeleteStale(ctx, result.CollectedAt); err != nil {

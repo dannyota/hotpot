@@ -5,6 +5,8 @@ import (
 
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
+
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 )
 
 // S1RangerDeviceWorkflowResult contains the result of the ranger device workflow.
@@ -34,7 +36,7 @@ func S1RangerDeviceWorkflow(ctx workflow.Context) (*S1RangerDeviceWorkflowResult
 	err := workflow.ExecuteActivity(activityCtx, IngestS1RangerDevicesActivity).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest ranger devices", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed S1RangerDeviceWorkflow", "deviceCount", result.DeviceCount)

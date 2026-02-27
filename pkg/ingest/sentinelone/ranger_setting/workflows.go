@@ -5,6 +5,8 @@ import (
 
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
+
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 )
 
 // S1RangerSettingWorkflowResult contains the result of the ranger setting workflow.
@@ -34,7 +36,7 @@ func S1RangerSettingWorkflow(ctx workflow.Context) (*S1RangerSettingWorkflowResu
 	err := workflow.ExecuteActivity(activityCtx, IngestS1RangerSettingsActivity).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest ranger settings", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed S1RangerSettingWorkflow", "settingCount", result.SettingCount)

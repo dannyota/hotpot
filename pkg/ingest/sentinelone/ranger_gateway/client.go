@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"net/url"
 	"time"
+
+	"github.com/dannyota/hotpot/pkg/base/httperr"
 )
 
 // Client wraps the SentinelOne Ranger Gateways API.
@@ -68,6 +70,7 @@ type GatewayBatchResult struct {
 	Gateways   []APIRangerGateway
 	NextCursor string
 	HasMore    bool
+	TotalItems int
 }
 
 // GetGatewaysBatch retrieves a batch of ranger gateways with cursor pagination.
@@ -87,6 +90,7 @@ func (c *Client) GetGatewaysBatch(cursor string) (*GatewayBatchResult, error) {
 		Data       []APIRangerGateway `json:"data"`
 		Pagination struct {
 			NextCursor string `json:"nextCursor"`
+			TotalItems int    `json:"totalItems"`
 		} `json:"pagination"`
 	}
 
@@ -98,7 +102,31 @@ func (c *Client) GetGatewaysBatch(cursor string) (*GatewayBatchResult, error) {
 		Gateways:   response.Data,
 		NextCursor: response.Pagination.NextCursor,
 		HasMore:    response.Pagination.NextCursor != "",
+		TotalItems: response.Pagination.TotalItems,
 	}, nil
+}
+
+// GetCount returns the total number of ranger gateways using countOnly mode.
+func (c *Client) GetCount() (int, error) {
+	params := url.Values{}
+	params.Set("countOnly", "true")
+
+	body, err := c.doRequest("GET", "/web/api/v2.0/ranger/gateways", params)
+	if err != nil {
+		return 0, fmt.Errorf("get ranger gateways count: %w", err)
+	}
+
+	var response struct {
+		Pagination struct {
+			TotalItems int `json:"totalItems"`
+		} `json:"pagination"`
+	}
+
+	if err := json.Unmarshal(body, &response); err != nil {
+		return 0, fmt.Errorf("parse ranger gateways count response: %w", err)
+	}
+
+	return response.Pagination.TotalItems, nil
 }
 
 func (c *Client) doRequest(method, endpoint string, params url.Values) ([]byte, error) {
@@ -133,7 +161,7 @@ func (c *Client) doRequest(method, endpoint string, params url.Values) ([]byte, 
 	slog.Info("s1 api response", "method", method, "endpoint", endpoint, "status", resp.StatusCode, "responseBytes", len(body), "durationMs", time.Since(start).Milliseconds())
 
 	if resp.StatusCode == http.StatusUnauthorized || resp.StatusCode == http.StatusForbidden {
-		return nil, fmt.Errorf("authentication failed (status: %d)", resp.StatusCode)
+		return nil, &httperr.APIError{Code: resp.StatusCode}
 	}
 
 	if resp.StatusCode != http.StatusOK {

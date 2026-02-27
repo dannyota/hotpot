@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"net/url"
 	"time"
+
+	"github.com/dannyota/hotpot/pkg/base/httperr"
 )
 
 // Client wraps the SentinelOne Sites API.
@@ -61,6 +63,7 @@ type SiteBatchResult struct {
 	Sites      []APISite
 	NextCursor string
 	HasMore    bool
+	TotalItems int
 }
 
 // GetSitesBatch retrieves a batch of sites with cursor pagination.
@@ -83,6 +86,7 @@ func (c *Client) GetSitesBatch(cursor string) (*SiteBatchResult, error) {
 		} `json:"data"`
 		Pagination struct {
 			NextCursor string `json:"nextCursor"`
+			TotalItems int    `json:"totalItems"`
 		} `json:"pagination"`
 	}
 
@@ -94,7 +98,31 @@ func (c *Client) GetSitesBatch(cursor string) (*SiteBatchResult, error) {
 		Sites:      response.Data.Sites,
 		NextCursor: response.Pagination.NextCursor,
 		HasMore:    response.Pagination.NextCursor != "",
+		TotalItems: response.Pagination.TotalItems,
 	}, nil
+}
+
+// GetCount returns the total number of sites using countOnly mode.
+func (c *Client) GetCount() (int, error) {
+	params := url.Values{}
+	params.Set("countOnly", "true")
+
+	body, err := c.doRequest("GET", "/web/api/v2.1/sites", params)
+	if err != nil {
+		return 0, fmt.Errorf("get sites count: %w", err)
+	}
+
+	var response struct {
+		Pagination struct {
+			TotalItems int `json:"totalItems"`
+		} `json:"pagination"`
+	}
+
+	if err := json.Unmarshal(body, &response); err != nil {
+		return 0, fmt.Errorf("parse sites count response: %w", err)
+	}
+
+	return response.Pagination.TotalItems, nil
 }
 
 func (c *Client) doRequest(method, endpoint string, params url.Values) ([]byte, error) {
@@ -130,7 +158,7 @@ func (c *Client) doRequest(method, endpoint string, params url.Values) ([]byte, 
 	slog.Info("s1 api response", "method", method, "endpoint", endpoint, "status", resp.StatusCode, "responseBytes", len(body), "durationMs", time.Since(start).Milliseconds())
 
 	if resp.StatusCode == http.StatusUnauthorized || resp.StatusCode == http.StatusForbidden {
-		return nil, fmt.Errorf("authentication failed (status: %d)", resp.StatusCode)
+		return nil, &httperr.APIError{Code: resp.StatusCode}
 	}
 
 	if resp.StatusCode != http.StatusOK {

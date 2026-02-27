@@ -38,6 +38,11 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 	startTime := time.Now()
 	collectedAt := startTime
 
+	totalExpected, err := s.client.GetCount()
+	if err != nil {
+		slog.Warn("s1 app inventory: failed to get count, continuing without total", "error", err)
+	}
+
 	var allApps []*AppInventoryData
 	cursor := ""
 	batchNum := 0
@@ -54,7 +59,7 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 			allApps = append(allApps, ConvertAppInventory(app, collectedAt))
 		}
 
-		slog.Info("s1 app inventory batch fetched", "batch", batchNum, "batchItems", len(batch.Apps), "totalItems", len(allApps), "hasMore", batch.HasMore)
+		slog.Info("s1 app inventory batch fetched", "batch", batchNum, "batchItems", len(batch.Apps), "totalFetched", len(allApps), "totalExpected", totalExpected, "hasMore", batch.HasMore)
 
 		if heartbeat != nil {
 			heartbeat()

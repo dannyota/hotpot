@@ -38,6 +38,11 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 	startTime := time.Now()
 	collectedAt := startTime
 
+	totalExpected, err := s.client.GetCount()
+	if err != nil {
+		slog.Warn("s1 sites: failed to get count, continuing without total", "error", err)
+	}
+
 	var allSites []*SiteData
 	cursor := ""
 	batchNum := 0
@@ -54,7 +59,7 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 			allSites = append(allSites, ConvertSite(apiSite, collectedAt))
 		}
 
-		slog.Info("s1 sites batch fetched", "batch", batchNum, "batchItems", len(batch.Sites), "totalItems", len(allSites), "hasMore", batch.HasMore)
+		slog.Info("s1 sites batch fetched", "batch", batchNum, "batchItems", len(batch.Sites), "totalFetched", len(allSites), "totalExpected", totalExpected, "hasMore", batch.HasMore)
 
 		if heartbeat != nil {
 			heartbeat()

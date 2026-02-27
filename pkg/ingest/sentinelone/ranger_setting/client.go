@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"net/url"
 	"time"
+
+	"github.com/dannyota/hotpot/pkg/base/httperr"
 )
 
 // Client wraps the SentinelOne Ranger Settings API.
@@ -106,7 +108,7 @@ func (c *Client) doRequest(method, endpoint string, params url.Values) ([]byte, 
 	slog.Info("s1 api response", "method", method, "endpoint", endpoint, "status", resp.StatusCode, "responseBytes", len(body), "durationMs", time.Since(start).Milliseconds())
 
 	if resp.StatusCode == http.StatusUnauthorized || resp.StatusCode == http.StatusForbidden {
-		return nil, fmt.Errorf("authentication failed (status: %d)", resp.StatusCode)
+		return nil, &httperr.APIError{Code: resp.StatusCode}
 	}
 
 	if resp.StatusCode != http.StatusOK {

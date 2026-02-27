@@ -13,6 +13,7 @@ import (
 //go:generate go run github.com/dannyota/hotpot/tools/ingestgen
 
 var _ = ingest.ProviderSet("sentinelone")
+var _ = ingest.DisableServiceSet("sentinelone", "ranger_device", "ranger_gateway", "ranger_setting")
 
 func main() {
 	slog.SetDefault(logger.New(slog.LevelInfo))

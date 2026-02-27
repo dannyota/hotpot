@@ -5,6 +5,8 @@ import (
 
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
+
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 )
 
 // S1AgentWorkflowResult contains the result of the agent workflow.
@@ -34,7 +36,7 @@ func S1AgentWorkflow(ctx workflow.Context) (*S1AgentWorkflowResult, error) {
 	err := workflow.ExecuteActivity(activityCtx, IngestS1AgentsActivity).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest agents", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed S1AgentWorkflow", "agentCount", result.AgentCount)

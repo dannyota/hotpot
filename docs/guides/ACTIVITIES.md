@@ -203,24 +203,42 @@ Provider (gcp/)
 
 ### Level 1: Provider Register
 
-Creates a shared rate limiter, passes `dialect.Driver` to all services:
+Creates a shared rate limiter. Services self-register via `init()` in their `provider.go`, and the provider discovers them dynamically via `ingest.Services()`. This supports `DisableServiceSet` for build-time exclusion — excluded services are never imported, so their `init()` never runs.
 
 ```go
-// pkg/ingest/gcp/register.go
+// pkg/ingest/sentinelone/register.go
+type serviceRegFunc = func(worker.Worker, *config.Service, *ents1.Client, ratelimit.Limiter)
+
 func Register(w worker.Worker, configService *config.Service, driver dialect.Driver) *ratelimit.Service {
-    rateLimitSvc := ratelimit.NewService(ratelimit.ServiceOptions{
-        RedisConfig: configService.RedisConfig(),
-        KeyPrefix:   "ratelimit:gcp",
-        ReqPerMin:   configService.GCPRateLimitPerMinute(),
-    })
+    rateLimitSvc := ratelimit.NewService(ratelimit.ServiceOptions{...})
     limiter := rateLimitSvc.Limiter()
+    entClient := ents1.NewClient(...)
 
-    compute.Register(w, configService, driver, limiter)
-    container.Register(w, configService, driver, limiter)
-    // ... more services
+    for _, svc := range ingest.Services("sentinelone") {
+        svc.Register.(serviceRegFunc)(w, configService, entClient, limiter)
+    }
 
-    w.RegisterWorkflow(GCPInventoryWorkflow)
-    return rateLimitSvc // caller defers Close()
+    w.RegisterWorkflow(S1InventoryWorkflow)
+    return rateLimitSvc
+}
+```
+
+Each service has a `provider.go` that self-registers:
+
+```go
+// pkg/ingest/sentinelone/agent/provider.go
+func init() {
+    ingest.RegisterService(ingest.ServiceRegistration{
+        Provider:  "sentinelone",
+        Name:      "agent",
+        Register:  Register,
+        Workflow:  S1AgentWorkflow,
+        NewResult: func() any { return &S1AgentWorkflowResult{} },
+        Aggregate: func(parent *sentinelone.S1InventoryWorkflowResult, child any) {
+            r := child.(*S1AgentWorkflowResult)
+            parent.AgentCount = r.AgentCount
+        },
+    })
 }
 ```
 
@@ -286,7 +304,7 @@ New resource implementation:
 | 1 | `pkg/schema/bronze/` | Create ent schema for resource |
 | 2 | `pkg/schema/bronzehistory/` | Create ent history schema |
 | 3 | Run `go generate` | Generate ent code |
-| 4 | `client.go` | Wrap GCP API client, implement List method |
+| 4 | `client.go` | Wrap API client, implement List method |
 | 5 | `converter.go` | Convert API response → ent bronze model |
 | 6 | `diff.go` | Implement change detection (parent + children) |
 | 7 | `history.go` | Implement SCD Type 4 history tracking |
@@ -294,9 +312,13 @@ New resource implementation:
 | 9 | `activities.go` | Add createClient, Params/Result structs, activity var, method |
 | 10 | `workflows.go` | Create workflow with activity execution |
 | 11 | `register.go` | Register activities + workflow with worker |
-| 12 | parent `register.go` | Import and call child `Register()` |
-| 13 | parent `workflows.go` | Add `ExecuteChildWorkflow` for new resource |
-| 14 | parent workflow result | Add new resource counts to aggregated result |
+
+**Wiring into parent:**
+
+| Step | File | Action |
+|------|------|--------|
+| 12 | `provider.go` | Add `init()` with `ingest.RegisterService()` |
+| 13 | parent workflow result | Add new count field (aggregation is automatic) |
 
 See [ENT_SCHEMAS.md](ENT_SCHEMAS.md) for ent schema patterns.
 

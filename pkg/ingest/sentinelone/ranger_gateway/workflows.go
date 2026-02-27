@@ -5,6 +5,8 @@ import (
 
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
+
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 )
 
 // S1RangerGatewayWorkflowResult contains the result of the ranger gateway workflow.
@@ -34,7 +36,7 @@ func S1RangerGatewayWorkflow(ctx workflow.Context) (*S1RangerGatewayWorkflowResu
 	err := workflow.ExecuteActivity(activityCtx, IngestS1RangerGatewaysActivity).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest ranger gateways", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed S1RangerGatewayWorkflow", "gatewayCount", result.GatewayCount)

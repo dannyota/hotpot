@@ -131,6 +131,7 @@ type NetworkDiscoveryBatchResult struct {
 	Devices    []APINetworkDiscovery
 	NextCursor string
 	HasMore    bool
+	TotalItems int
 }
 
 // GetDevicesBatch retrieves a batch of network discovery devices with cursor pagination.
@@ -150,6 +151,7 @@ func (c *Client) GetDevicesBatch(cursor string) (*NetworkDiscoveryBatchResult, e
 		Data       []APINetworkDiscovery `json:"data"`
 		Pagination struct {
 			NextCursor string `json:"nextCursor"`
+			TotalItems int    `json:"totalItems"`
 		} `json:"pagination"`
 	}
 
@@ -161,7 +163,31 @@ func (c *Client) GetDevicesBatch(cursor string) (*NetworkDiscoveryBatchResult, e
 		Devices:    response.Data,
 		NextCursor: response.Pagination.NextCursor,
 		HasMore:    response.Pagination.NextCursor != "",
+		TotalItems: response.Pagination.TotalItems,
 	}, nil
+}
+
+// GetCount returns the total number of network discovery devices using countOnly mode.
+func (c *Client) GetCount() (int, error) {
+	params := url.Values{}
+	params.Set("countOnly", "true")
+
+	body, err := c.doRequest("GET", "/web/api/v2.1/xdr/assets/surface/networkDiscovery", params)
+	if err != nil {
+		return 0, fmt.Errorf("get network discovery count: %w", err)
+	}
+
+	var response struct {
+		Pagination struct {
+			TotalItems int `json:"totalItems"`
+		} `json:"pagination"`
+	}
+
+	if err := json.Unmarshal(body, &response); err != nil {
+		return 0, fmt.Errorf("parse network discovery count response: %w", err)
+	}
+
+	return response.Pagination.TotalItems, nil
 }
 
 func (c *Client) doRequest(method, endpoint string, params url.Values) ([]byte, error) {

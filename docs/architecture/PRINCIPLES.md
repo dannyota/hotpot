@@ -143,7 +143,37 @@ See [ACTIVITIES.md](../guides/ACTIVITIES.md) for details.
 
 ## 📋 7. Register Pattern
 
-Each package has `register.go` to register workflows and activities. The 3-level hierarchy uses `dialect.Driver` at provider/service level, and per-service ent clients at resource level:
+Services self-register via `init()` + `ingest.RegisterService()` in a `provider.go` file. The provider discovers them at runtime via `ingest.Services()`. This supports `DisableServiceSet` — excluded services are never imported, so their `init()` never runs.
+
+```go
+// pkg/ingest/sentinelone/agent/provider.go — service self-registers
+func init() {
+    ingest.RegisterService(ingest.ServiceRegistration{
+        Provider:  "sentinelone",
+        Name:      "agent",
+        Register:  Register,
+        Workflow:  S1AgentWorkflow,
+        NewResult: func() any { return &S1AgentWorkflowResult{} },
+        Aggregate: func(parent *sentinelone.S1InventoryWorkflowResult, child any) {
+            r := child.(*S1AgentWorkflowResult)
+            parent.AgentCount = r.AgentCount
+        },
+    })
+}
+
+// pkg/ingest/sentinelone/register.go — provider loops dynamically
+func Register(w worker.Worker, configService *config.Service, driver dialect.Driver) *ratelimit.Service {
+    // ... rate limiter setup ...
+    entClient := ents1.NewClient(...)
+    for _, svc := range ingest.Services("sentinelone") {
+        svc.Register.(serviceRegFunc)(w, configService, entClient, limiter)
+    }
+    w.RegisterWorkflow(S1InventoryWorkflow)
+    return rateLimitSvc
+}
+```
+
+For GCP's 3-level hierarchy (provider → service → resource), services within a service group (e.g., `compute/instance/`) also use `ingest.RegisterService()`. The per-service ent client is created at the service level from `dialect.Driver`:
 
 ```go
 // pkg/ingest/gcp/compute/register.go

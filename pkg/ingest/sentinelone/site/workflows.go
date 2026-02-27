@@ -5,6 +5,8 @@ import (
 
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
+
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 )
 
 // S1SiteWorkflowResult contains the result of the site workflow.
@@ -33,7 +35,7 @@ func S1SiteWorkflow(ctx workflow.Context) (*S1SiteWorkflowResult, error) {
 	err := workflow.ExecuteActivity(activityCtx, IngestS1SitesActivity).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest sites", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed S1SiteWorkflow", "siteCount", result.SiteCount)

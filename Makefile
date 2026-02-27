@@ -24,10 +24,13 @@ else
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 endif
 
-build:
+build: ## Build all ingest binaries
 	@$(MKDIR_BIN)
-	@echo "Building ingest..."
-	@go build -o bin/ingest$(BIN_EXT) ./cmd/ingest
+	@for dir in cmd/ingest*/; do \
+		name=$$(basename $$dir); \
+		echo "Building $$name..."; \
+		go build -o bin/$$name$(BIN_EXT) ./$$dir; \
+	done
 	@echo "Production binaries built in bin/"
 
 build-migrate:

@@ -238,11 +238,13 @@ Each module in `pkg/` is self-contained with nested provider/resource structure:
 ```
 pkg/ingest/
 ├── run.go                      # Entry: Run(), create workers
-├── gcp/
-│   ├── config.go               # GCP worker config
-│   ├── register.go             # Register GCP workflows
-│   ├── workflows.go            # GCPInventoryWorkflow
+├── registry.go                 # Provider + service self-registration
+├── gcp/                        # Provider → service → resource hierarchy
+│   ├── provider.go             # Provider init() + RegisterProvider
+│   ├── register.go             # Loops ingest.Services("gcp")
+│   ├── workflows.go            # GCPInventoryWorkflow (dynamic child dispatch)
 │   └── compute/
+│       ├── provider.go         # Service init() + RegisterService
 │       ├── register.go         # Register compute workflows
 │       ├── workflows.go        # ComputeWorkflow (orchestrator)
 │       └── instance/
@@ -252,10 +254,19 @@ pkg/ingest/
 │           ├── activities.go   # Temporal activities (creates client)
 │           ├── workflows.go    # InstanceWorkflow
 │           └── register.go     # Register instance activities
-├── greennode/
+├── sentinelone/                # Provider → services
+│   ├── provider.go             # Provider init() + RegisterProvider
+│   ├── register.go             # Loops ingest.Services("sentinelone")
+│   ├── workflows.go            # S1InventoryWorkflow (dynamic child dispatch)
+│   └── agent/
+│       ├── provider.go         # Service init() + RegisterService
+│       ├── register.go         # Register agent activities + workflow
+│       ├── activities.go       # Temporal activities
+│       ├── workflows.go        # S1AgentWorkflow
+│       └── ...
+├── greennode/                  # Same dynamic registration pattern
 │   └── ...
-└── sentinelone/
-    └── ...
+└── ...
 ```
 
 See [WORKFLOWS.md](../guides/WORKFLOWS.md) for workflow patterns and client lifecycle.
