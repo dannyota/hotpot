@@ -12,7 +12,9 @@ import (
 func Register(w worker.Worker, configService *config.Service, entClient *ents1.Client, limiter ratelimit.Limiter) {
 	activities := NewActivities(configService, entClient, limiter)
 
-	w.RegisterActivity(activities.IngestS1EndpointApps)
+	w.RegisterActivity(activities.ListAgentIDs)
+	w.RegisterActivity(activities.FetchAndSaveAgentApps)
+	w.RegisterActivity(activities.DeleteStaleEndpointApps)
 
 	w.RegisterWorkflow(S1EndpointAppWorkflow)
 }

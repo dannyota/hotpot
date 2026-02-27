@@ -3,7 +3,9 @@ package endpoint_app
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"net/http"
+	"time"
 
 	"go.temporal.io/sdk/activity"
 
@@ -11,6 +13,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
 	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1agent"
 )
 
 // Activities holds dependencies for Temporal activities.
@@ -40,41 +43,97 @@ func (a *Activities) createClient() *Client {
 	)
 }
 
-// IngestS1EndpointAppsResult contains the result of the ingest activity.
-type IngestS1EndpointAppsResult struct {
-	AppCount       int
-	DurationMillis int64
+// ListAgentIDsResult contains the result of listing agent IDs.
+type ListAgentIDsResult struct {
+	AgentIDs    []string
+	CollectedAt time.Time
 }
 
-// IngestS1EndpointAppsActivity is the activity function reference for workflow registration.
-var IngestS1EndpointAppsActivity = (*Activities).IngestS1EndpointApps
+// ListAgentIDsActivity is the activity function reference for workflow registration.
+var ListAgentIDsActivity = (*Activities).ListAgentIDs
 
-// IngestS1EndpointApps is a Temporal activity that ingests SentinelOne endpoint applications.
-func (a *Activities) IngestS1EndpointApps(ctx context.Context) (*IngestS1EndpointAppsResult, error) {
+// ListAgentIDs queries the database for all S1 agent IDs.
+func (a *Activities) ListAgentIDs(ctx context.Context) (*ListAgentIDsResult, error) {
 	logger := activity.GetLogger(ctx)
-	logger.Info("Starting SentinelOne endpoint app ingestion")
+	collectedAt := time.Now()
 
-	client := a.createClient()
-	service := NewService(client, a.entClient)
-
-	result, err := service.Ingest(ctx, func() {
-		activity.RecordHeartbeat(ctx, nil)
-	})
+	agents, err := a.entClient.BronzeS1Agent.Query().
+		Select(bronzes1agent.FieldID).
+		All(ctx)
 	if err != nil {
-		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest endpoint apps: %w", err))
+		return nil, fmt.Errorf("query agent IDs: %w", err)
 	}
 
-	if err := service.DeleteStale(ctx, result.CollectedAt); err != nil {
-		logger.Warn("Failed to delete stale endpoint apps", "error", err)
+	agentIDs := make([]string, len(agents))
+	for i, agent := range agents {
+		agentIDs[i] = agent.ID
 	}
 
-	logger.Info("Completed SentinelOne endpoint app ingestion",
-		"appCount", result.AppCount,
-		"durationMillis", result.DurationMillis,
-	)
+	logger.Info("Listed S1 agent IDs", "agentCount", len(agentIDs))
 
-	return &IngestS1EndpointAppsResult{
-		AppCount:       result.AppCount,
-		DurationMillis: result.DurationMillis,
+	return &ListAgentIDsResult{
+		AgentIDs:    agentIDs,
+		CollectedAt: collectedAt,
 	}, nil
+}
+
+// FetchAndSaveAgentAppsInput is the input for the FetchAndSaveAgentApps activity.
+type FetchAndSaveAgentAppsInput struct {
+	AgentID     string
+	CollectedAt time.Time
+}
+
+// FetchAndSaveAgentAppsResult contains the result of fetching and saving apps for one agent.
+type FetchAndSaveAgentAppsResult struct {
+	AppCount int
+}
+
+// FetchAndSaveAgentAppsActivity is the activity function reference for workflow registration.
+var FetchAndSaveAgentAppsActivity = (*Activities).FetchAndSaveAgentApps
+
+// FetchAndSaveAgentApps fetches endpoint apps for a single agent and saves them.
+func (a *Activities) FetchAndSaveAgentApps(ctx context.Context, input FetchAndSaveAgentAppsInput) (*FetchAndSaveAgentAppsResult, error) {
+	client := a.createClient()
+
+	apiApps, err := client.GetEndpointApps(input.AgentID)
+	if err != nil {
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("get endpoint apps for agent %s: %w", input.AgentID, err))
+	}
+
+	apps := make([]*EndpointAppData, 0, len(apiApps))
+	for _, app := range apiApps {
+		apps = append(apps, ConvertEndpointApp(input.AgentID, app, input.CollectedAt))
+	}
+
+	activity.RecordHeartbeat(ctx, input.AgentID)
+
+	service := NewService(client, a.entClient)
+	if err := service.SaveAgentApps(ctx, apps); err != nil {
+		return nil, fmt.Errorf("save endpoint apps for agent %s: %w", input.AgentID, err)
+	}
+
+	slog.Debug("s1 endpoint apps: saved agent apps", "agentID", input.AgentID, "appCount", len(apps))
+
+	return &FetchAndSaveAgentAppsResult{
+		AppCount: len(apps),
+	}, nil
+}
+
+// DeleteStaleEndpointAppsInput is the input for the DeleteStaleEndpointApps activity.
+type DeleteStaleEndpointAppsInput struct {
+	CollectedAt time.Time
+}
+
+// DeleteStaleEndpointAppsActivity is the activity function reference for workflow registration.
+var DeleteStaleEndpointAppsActivity = (*Activities).DeleteStaleEndpointApps
+
+// DeleteStaleEndpointApps removes endpoint apps not collected in the latest run.
+func (a *Activities) DeleteStaleEndpointApps(ctx context.Context, input DeleteStaleEndpointAppsInput) error {
+	service := NewService(a.createClient(), a.entClient)
+
+	if err := service.DeleteStale(ctx, input.CollectedAt); err != nil {
+		return fmt.Errorf("delete stale endpoint apps: %w", err)
+	}
+
+	return nil
 }

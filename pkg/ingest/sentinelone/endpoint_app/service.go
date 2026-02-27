@@ -3,11 +3,9 @@ package endpoint_app
 import (
 	"context"
 	"fmt"
-	"log/slog"
 	"time"
 
 	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1agent"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1endpointapp"
 )
 
@@ -27,64 +25,8 @@ func NewService(client *Client, entClient *ents1.Client) *Service {
 	}
 }
 
-// IngestResult contains the result of endpoint app ingestion.
-type IngestResult struct {
-	AppCount       int
-	CollectedAt    time.Time
-	DurationMillis int64
-}
-
-// Ingest fetches endpoint apps by querying agent IDs from the database first.
-func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, error) {
-	startTime := time.Now()
-	collectedAt := startTime
-
-	// Step 1: Get all agent IDs from database
-	agents, err := s.entClient.BronzeS1Agent.Query().
-		Select(bronzes1agent.FieldID).
-		All(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("query agent IDs: %w", err)
-	}
-
-	slog.Info("s1 endpoint apps: fetched agent IDs", "agentCount", len(agents))
-
-	// Step 2: For each agent, fetch their apps
-	var allApps []*EndpointAppData
-	for i, agent := range agents {
-		apiApps, err := s.client.GetEndpointApps(agent.ID)
-		if err != nil {
-			return nil, fmt.Errorf("get endpoint apps for agent %s: %w", agent.ID, err)
-		}
-
-		for _, app := range apiApps {
-			allApps = append(allApps, ConvertEndpointApp(agent.ID, app, collectedAt))
-		}
-
-		if (i+1)%50 == 0 {
-			slog.Info("s1 endpoint apps: progress", "agentsProcessed", i+1, "totalAgents", len(agents), "totalApps", len(allApps))
-		}
-
-		if heartbeat != nil {
-			heartbeat()
-		}
-	}
-
-	slog.Info("s1 endpoint apps: fetch complete", "totalAgents", len(agents), "totalApps", len(allApps))
-
-	// Step 3: Save + history + delete stale
-	if err := s.saveApps(ctx, allApps); err != nil {
-		return nil, fmt.Errorf("save endpoint apps: %w", err)
-	}
-
-	return &IngestResult{
-		AppCount:       len(allApps),
-		CollectedAt:    collectedAt,
-		DurationMillis: time.Since(startTime).Milliseconds(),
-	}, nil
-}
-
-func (s *Service) saveApps(ctx context.Context, apps []*EndpointAppData) error {
+// SaveAgentApps saves endpoint apps for a single agent (upsert + history).
+func (s *Service) SaveAgentApps(ctx context.Context, apps []*EndpointAppData) error {
 	if len(apps) == 0 {
 		return nil
 	}
