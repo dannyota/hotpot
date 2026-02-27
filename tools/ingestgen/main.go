@@ -1,5 +1,5 @@
 // ingestgen generates a single blank import file for the ingest binary based on
-// ProviderSet() declarations in the calling package.
+// ProviderSet() and DisableServiceSet() declarations in the calling package.
 //
 // Usage: go generate (from a cmd/ingest* directory containing build.go)
 package main
@@ -13,6 +13,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"slices"
 	"sort"
 	"strings"
 )
@@ -30,13 +31,16 @@ func main() {
 	ingestDir := filepath.Join(modRoot, "pkg", "ingest")
 
 	// Parse all non-generated .go files in cwd for declarations.
-	providers := parseDeclarations(cwd)
+	providers, disabledServices := parseDeclarations(cwd)
 	if len(providers) == 0 {
 		log.Fatal("no ingest.ProviderSet() call found — every ingest binary must declare providers")
 	}
 
 	sort.Strings(providers)
 	log.Printf("ingestgen: providers: %v", providers)
+	if len(disabledServices) > 0 {
+		log.Printf("ingestgen: disabled services: %v", disabledServices)
+	}
 
 	// Collect all imports: providers + their services.
 	var imports []string
@@ -49,12 +53,21 @@ func main() {
 		imports = append(imports, hotpotModule+"/pkg/ingest/"+name)
 
 		services := discoverServices(providerDir)
-		sort.Strings(services)
 		if len(services) > 0 {
-			log.Printf("ingestgen: %s services: %v", name, services)
-		}
-		for _, svc := range services {
-			imports = append(imports, hotpotModule+"/pkg/ingest/"+name+"/"+svc)
+			disabled := disabledServices[name]
+			var enabled []string
+			for _, svc := range services {
+				if !slices.Contains(disabled, svc) {
+					enabled = append(enabled, svc)
+				}
+			}
+			sort.Strings(enabled)
+			if len(enabled) > 0 {
+				log.Printf("ingestgen: %s services: %v", name, enabled)
+			}
+			for _, svc := range enabled {
+				imports = append(imports, hotpotModule+"/pkg/ingest/"+name+"/"+svc)
+			}
 		}
 	}
 
@@ -67,8 +80,11 @@ func main() {
 }
 
 // parseDeclarations parses Go files in dir (excluding *_gen.go) and extracts
-// provider names from ingest.ProviderSet(...) calls.
-func parseDeclarations(dir string) (providers []string) {
+// provider names from ingest.ProviderSet(...) calls and disabled services from
+// ingest.DisableServiceSet(provider, ...) calls.
+func parseDeclarations(dir string) (providers []string, disabledServices map[string][]string) {
+	disabledServices = map[string][]string{}
+
 	fset := token.NewFileSet()
 	entries, err := os.ReadDir(dir)
 	if err != nil {
@@ -93,19 +109,26 @@ func parseDeclarations(dir string) (providers []string) {
 				return true
 			}
 
-			if selectorName(call.Fun) == "ingest.ProviderSet" {
+			funcName := selectorName(call.Fun)
+			switch funcName {
+			case "ingest.ProviderSet":
 				providers = append(providers, extractStringArgs(call)...)
+			case "ingest.DisableServiceSet":
+				args := extractStringArgs(call)
+				if len(args) >= 2 {
+					provider := args[0]
+					disabledServices[provider] = append(disabledServices[provider], args[1:]...)
+				}
 			}
 			return true
 		})
 	}
 
-	return providers
+	return providers, disabledServices
 }
 
 // discoverServices scans a provider directory for subdirectories containing
-// register.go (service packages). Skips directories containing provider.go
-// (the provider package itself).
+// register.go (service packages).
 func discoverServices(providerDir string) []string {
 	entries, err := os.ReadDir(providerDir)
 	if err != nil {
@@ -118,12 +141,8 @@ func discoverServices(providerDir string) []string {
 			continue
 		}
 		subdir := filepath.Join(providerDir, entry.Name())
-		// Must have register.go (service package) but NOT provider.go (provider package).
 		if _, err := os.Stat(filepath.Join(subdir, "register.go")); err != nil {
 			continue
-		}
-		if _, err := os.Stat(filepath.Join(subdir, "provider.go")); err == nil {
-			continue // this is the provider package, not a service
 		}
 		services = append(services, entry.Name())
 	}
