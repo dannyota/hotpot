@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"log/slog"
+	"strings"
 	"sync"
 	"time"
 )
@@ -111,6 +113,28 @@ func (s *Service) Config() Config {
 		return Config{}
 	}
 	return *s.config
+}
+
+// LogLevel returns the configured slog.Level.
+// Defaults to slog.LevelInfo if not configured or invalid.
+func (s *Service) LogLevel() slog.Level {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || s.config.LogLevel == "" {
+		return slog.LevelInfo
+	}
+	switch strings.ToLower(s.config.LogLevel) {
+	case "debug":
+		return slog.LevelDebug
+	case "info":
+		return slog.LevelInfo
+	case "warn":
+		return slog.LevelWarn
+	case "error":
+		return slog.LevelError
+	default:
+		return slog.LevelInfo
+	}
 }
 
 // GCPRateLimitPerMinute returns the max API requests per minute for GCP.
@@ -236,12 +260,12 @@ func (s *Service) S1APIToken() string {
 }
 
 // S1RateLimitPerMinute returns the max API requests per minute for SentinelOne.
-// Defaults to 600 if not configured.
+// Defaults to 180 if not configured (S1 has undocumented nginx rate limits).
 func (s *Service) S1RateLimitPerMinute() int {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 	if s.config == nil || s.config.S1.RateLimitPerMinute <= 0 {
-		return 600
+		return 180
 	}
 	return s.config.S1.RateLimitPerMinute
 }

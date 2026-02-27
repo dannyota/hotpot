@@ -6,7 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/ingest/vault/pki"
+	"github.com/dannyota/hotpot/pkg/ingest"
 )
 
 // VaultInventoryWorkflowResult contains the result of the Vault inventory workflow.
@@ -21,6 +21,9 @@ type InstanceResult struct {
 	CertificateCount int
 	Error            string
 }
+
+// aggregateFunc is the function signature for merging a service result into the provider-level results.
+type aggregateFunc = func(*VaultInventoryWorkflowResult, *InstanceResult, any)
 
 // VaultInventoryWorkflow ingests PKI certificates from all configured Vault instances.
 func VaultInventoryWorkflow(ctx workflow.Context) (*VaultInventoryWorkflowResult, error) {
@@ -63,21 +66,22 @@ func VaultInventoryWorkflow(ctx workflow.Context) (*VaultInventoryWorkflowResult
 		InstanceResults: make([]InstanceResult, 0, len(listResult.VaultNames)),
 	}
 
+	services := ingest.Services("vault")
+
 	// Process each vault instance
 	for _, vaultName := range listResult.VaultNames {
 		instanceResult := InstanceResult{VaultName: vaultName}
 
-		var pkiResult pki.VaultPKIWorkflowResult
-		err := workflow.ExecuteChildWorkflow(ctx, pki.VaultPKIWorkflow, pki.VaultPKIWorkflowParams{
-			VaultName: vaultName,
-		}).Get(ctx, &pkiResult)
-
-		if err != nil {
-			logger.Error("Failed to execute VaultPKIWorkflow", "vaultName", vaultName, "error", err)
-			instanceResult.Error = err.Error()
-		} else {
-			instanceResult.CertificateCount = pkiResult.TotalCertificates
-			result.TotalCertificates += pkiResult.TotalCertificates
+		for _, svc := range services {
+			res := svc.NewResult()
+			err := workflow.ExecuteChildWorkflow(ctx, svc.Workflow,
+				svc.NewParams(vaultName, "")).Get(ctx, res)
+			if err != nil {
+				logger.Error("Failed ingestion", "service", svc.Name, "vaultName", vaultName, "error", err)
+				appendError(&instanceResult, err)
+			} else {
+				svc.Aggregate.(aggregateFunc)(result, &instanceResult, res)
+			}
 		}
 
 		result.InstanceResults = append(result.InstanceResults, instanceResult)
@@ -89,4 +93,12 @@ func VaultInventoryWorkflow(ctx workflow.Context) (*VaultInventoryWorkflowResult
 	)
 
 	return result, nil
+}
+
+func appendError(ir *InstanceResult, err error) {
+	if ir.Error == "" {
+		ir.Error = err.Error()
+	} else {
+		ir.Error += "; " + err.Error()
+	}
 }

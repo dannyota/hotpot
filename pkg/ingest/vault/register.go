@@ -6,9 +6,11 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/vault/pki"
-	entpki "github.com/dannyota/hotpot/pkg/storage/ent/vault/pki"
+	"github.com/dannyota/hotpot/pkg/ingest"
 )
+
+// serviceRegFunc is the function signature for Vault service registration.
+type serviceRegFunc = func(worker.Worker, *config.Service, dialect.Driver, ratelimit.Limiter)
 
 // Register registers all Vault activities and workflows with the Temporal worker.
 // Returns the rate limit service for cleanup (caller should defer Close()).
@@ -25,11 +27,9 @@ func Register(w worker.Worker, configService *config.Service, driver dialect.Dri
 	activities := NewActivities(configService, limiter)
 	w.RegisterActivity(activities.ListVaultInstances)
 
-	// Create per-service ent client
-	entClient := entpki.NewClient(entpki.Driver(driver), entpki.AlternateSchema(entpki.DefaultSchemaConfig()))
-
-	// Register PKI service
-	pki.Register(w, configService, entClient, limiter)
+	for _, svc := range ingest.Services("vault") {
+		svc.Register.(serviceRegFunc)(w, configService, driver, limiter)
+	}
 
 	// Register inventory workflow
 	w.RegisterWorkflow(VaultInventoryWorkflow)

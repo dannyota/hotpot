@@ -6,7 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/ingest/jenkins/job"
+	"github.com/dannyota/hotpot/pkg/ingest"
 )
 
 // JenkinsInventoryWorkflowResult contains the result of Jenkins inventory collection.
@@ -15,6 +15,9 @@ type JenkinsInventoryWorkflowResult struct {
 	BuildCount int
 	RepoCount  int
 }
+
+// aggregateFunc is the function signature for merging a service result into the provider result.
+type aggregateFunc = func(*JenkinsInventoryWorkflowResult, any)
 
 // JenkinsInventoryWorkflow orchestrates Jenkins inventory collection.
 func JenkinsInventoryWorkflow(ctx workflow.Context) (*JenkinsInventoryWorkflowResult, error) {
@@ -34,14 +37,14 @@ func JenkinsInventoryWorkflow(ctx workflow.Context) (*JenkinsInventoryWorkflowRe
 
 	result := &JenkinsInventoryWorkflowResult{}
 
-	var jobResult job.JenkinsJobWorkflowResult
-	err := workflow.ExecuteChildWorkflow(ctx, job.JenkinsJobWorkflow).Get(ctx, &jobResult)
-	if err != nil {
-		logger.Error("Failed to execute JenkinsJobWorkflow", "error", err)
-	} else {
-		result.JobCount = jobResult.JobCount
-		result.BuildCount = jobResult.BuildCount
-		result.RepoCount = jobResult.RepoCount
+	for _, svc := range ingest.Services("jenkins") {
+		res := svc.NewResult()
+		err := workflow.ExecuteChildWorkflow(ctx, svc.Workflow).Get(ctx, res)
+		if err != nil {
+			logger.Error("Failed ingestion", "service", svc.Name, "error", err)
+		} else {
+			svc.Aggregate.(aggregateFunc)(result, res)
+		}
 	}
 
 	logger.Info("Completed JenkinsInventoryWorkflow",

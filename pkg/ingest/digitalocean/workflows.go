@@ -6,17 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/account"
-	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/database"
-	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/domain"
-	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/droplet"
-	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/firewall"
-	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/key"
-	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/kubernetes"
-	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/loadbalancer"
-	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/project"
-	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/volume"
-	"github.com/dannyota/hotpot/pkg/ingest/digitalocean/vpc"
+	"github.com/dannyota/hotpot/pkg/ingest"
 )
 
 // DOInventoryWorkflowResult contains the result of DigitalOcean inventory collection.
@@ -43,6 +33,9 @@ type DOInventoryWorkflowResult struct {
 	VpcCount                  int
 }
 
+// aggregateFunc is the function signature for merging a service result into the provider result.
+type aggregateFunc = func(*DOInventoryWorkflowResult, any)
+
 // DOInventoryWorkflow orchestrates DigitalOcean inventory collection.
 func DOInventoryWorkflow(ctx workflow.Context) (*DOInventoryWorkflowResult, error) {
 	logger := workflow.GetLogger(ctx)
@@ -61,104 +54,14 @@ func DOInventoryWorkflow(ctx workflow.Context) (*DOInventoryWorkflowResult, erro
 
 	result := &DOInventoryWorkflowResult{}
 
-	// Launch all child workflows concurrently
-	accountFuture := workflow.ExecuteChildWorkflow(ctx, account.DOAccountWorkflow)
-	databaseFuture := workflow.ExecuteChildWorkflow(ctx, database.DODatabaseWorkflow)
-	domainFuture := workflow.ExecuteChildWorkflow(ctx, domain.DODomainWorkflow)
-	dropletFuture := workflow.ExecuteChildWorkflow(ctx, droplet.DODropletWorkflow)
-	firewallFuture := workflow.ExecuteChildWorkflow(ctx, firewall.DOFirewallWorkflow)
-	keyFuture := workflow.ExecuteChildWorkflow(ctx, key.DOKeyWorkflow)
-	kubernetesFuture := workflow.ExecuteChildWorkflow(ctx, kubernetes.DOKubernetesWorkflow)
-	lbFuture := workflow.ExecuteChildWorkflow(ctx, loadbalancer.DOLoadBalancerWorkflow)
-	projectFuture := workflow.ExecuteChildWorkflow(ctx, project.DOProjectWorkflow)
-	volumeFuture := workflow.ExecuteChildWorkflow(ctx, volume.DOVolumeWorkflow)
-	vpcFuture := workflow.ExecuteChildWorkflow(ctx, vpc.DOVpcWorkflow)
-
-	// Collect results
-	var accountResult account.DOAccountWorkflowResult
-	if err := accountFuture.Get(ctx, &accountResult); err != nil {
-		logger.Error("Failed to execute DOAccountWorkflow", "error", err)
-	} else {
-		result.AccountCount = accountResult.AccountCount
-	}
-
-	var databaseResult database.DODatabaseWorkflowResult
-	if err := databaseFuture.Get(ctx, &databaseResult); err != nil {
-		logger.Error("Failed to execute DODatabaseWorkflow", "error", err)
-	} else {
-		result.DatabaseClusterCount = databaseResult.ClusterCount
-		result.DatabaseFirewallRuleCount = databaseResult.FirewallRuleCount
-		result.DatabaseUserCount = databaseResult.UserCount
-		result.DatabaseReplicaCount = databaseResult.ReplicaCount
-		result.DatabaseBackupCount = databaseResult.BackupCount
-		result.DatabaseConfigCount = databaseResult.ConfigCount
-		result.DatabasePoolCount = databaseResult.PoolCount
-	}
-
-	var domainResult domain.DODomainWorkflowResult
-	if err := domainFuture.Get(ctx, &domainResult); err != nil {
-		logger.Error("Failed to execute DODomainWorkflow", "error", err)
-	} else {
-		result.DomainCount = domainResult.DomainCount
-		result.DomainRecordCount = domainResult.RecordCount
-	}
-
-	var dropletResult droplet.DODropletWorkflowResult
-	if err := dropletFuture.Get(ctx, &dropletResult); err != nil {
-		logger.Error("Failed to execute DODropletWorkflow", "error", err)
-	} else {
-		result.DropletCount = dropletResult.DropletCount
-	}
-
-	var firewallResult firewall.DOFirewallWorkflowResult
-	if err := firewallFuture.Get(ctx, &firewallResult); err != nil {
-		logger.Error("Failed to execute DOFirewallWorkflow", "error", err)
-	} else {
-		result.FirewallCount = firewallResult.FirewallCount
-	}
-
-	var keyResult key.DOKeyWorkflowResult
-	if err := keyFuture.Get(ctx, &keyResult); err != nil {
-		logger.Error("Failed to execute DOKeyWorkflow", "error", err)
-	} else {
-		result.KeyCount = keyResult.KeyCount
-	}
-
-	var kubernetesResult kubernetes.DOKubernetesWorkflowResult
-	if err := kubernetesFuture.Get(ctx, &kubernetesResult); err != nil {
-		logger.Error("Failed to execute DOKubernetesWorkflow", "error", err)
-	} else {
-		result.KubernetesClusterCount = kubernetesResult.ClusterCount
-		result.KubernetesNodePoolCount = kubernetesResult.NodePoolCount
-	}
-
-	var lbResult loadbalancer.DOLoadBalancerWorkflowResult
-	if err := lbFuture.Get(ctx, &lbResult); err != nil {
-		logger.Error("Failed to execute DOLoadBalancerWorkflow", "error", err)
-	} else {
-		result.LoadBalancerCount = lbResult.LoadBalancerCount
-	}
-
-	var projectResult project.DOProjectWorkflowResult
-	if err := projectFuture.Get(ctx, &projectResult); err != nil {
-		logger.Error("Failed to execute DOProjectWorkflow", "error", err)
-	} else {
-		result.ProjectCount = projectResult.ProjectCount
-		result.ResourceCount = projectResult.ResourceCount
-	}
-
-	var volumeResult volume.DOVolumeWorkflowResult
-	if err := volumeFuture.Get(ctx, &volumeResult); err != nil {
-		logger.Error("Failed to execute DOVolumeWorkflow", "error", err)
-	} else {
-		result.VolumeCount = volumeResult.VolumeCount
-	}
-
-	var vpcResult vpc.DOVpcWorkflowResult
-	if err := vpcFuture.Get(ctx, &vpcResult); err != nil {
-		logger.Error("Failed to execute DOVpcWorkflow", "error", err)
-	} else {
-		result.VpcCount = vpcResult.VpcCount
+	for _, svc := range ingest.Services("digitalocean") {
+		res := svc.NewResult()
+		err := workflow.ExecuteChildWorkflow(ctx, svc.Workflow).Get(ctx, res)
+		if err != nil {
+			logger.Error("Failed ingestion", "service", svc.Name, "error", err)
+		} else {
+			svc.Aggregate.(aggregateFunc)(result, res)
+		}
 	}
 
 	logger.Info("Completed DOInventoryWorkflow",

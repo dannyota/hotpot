@@ -6,7 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/ingest/aws/ec2"
+	"github.com/dannyota/hotpot/pkg/ingest"
 )
 
 // AWSInventoryWorkflowParams contains parameters for the AWS inventory workflow.
@@ -24,6 +24,9 @@ type RegionResult struct {
 	InstanceCount int
 	Error         string
 }
+
+// aggregateFunc is the function signature for merging a service result into the provider-level results.
+type aggregateFunc = func(*AWSInventoryWorkflowResult, *RegionResult, any)
 
 // AWSInventoryWorkflow ingests all AWS resources across all enabled regions.
 // It first discovers regions, then orchestrates per-region child workflows.
@@ -70,22 +73,22 @@ func AWSInventoryWorkflow(ctx workflow.Context, _ AWSInventoryWorkflowParams) (*
 		RegionResults: make([]RegionResult, 0, len(discoverResult.Regions)),
 	}
 
+	services := ingest.Services("aws")
+
 	// Process each region
 	for _, region := range discoverResult.Regions {
 		regionResult := RegionResult{Region: region}
 
-		// Execute AWSEC2Workflow for this region
-		var ec2Result ec2.AWSEC2WorkflowResult
-		err := workflow.ExecuteChildWorkflow(ctx, ec2.AWSEC2Workflow, ec2.AWSEC2WorkflowParams{
-			Region: region,
-		}).Get(ctx, &ec2Result)
-
-		if err != nil {
-			logger.Error("Failed to execute AWSEC2Workflow", "region", region, "error", err)
-			regionResult.Error = err.Error()
-		} else {
-			regionResult.InstanceCount = ec2Result.InstanceCount
-			result.TotalInstances += ec2Result.InstanceCount
+		for _, svc := range services {
+			res := svc.NewResult()
+			err := workflow.ExecuteChildWorkflow(ctx, svc.Workflow,
+				svc.NewParams("", region)).Get(ctx, res)
+			if err != nil {
+				logger.Error("Failed ingestion", "service", svc.Name, "region", region, "error", err)
+				appendError(&regionResult, err)
+			} else {
+				svc.Aggregate.(aggregateFunc)(result, &regionResult, res)
+			}
 		}
 
 		result.RegionResults = append(result.RegionResults, regionResult)
@@ -97,4 +100,12 @@ func AWSInventoryWorkflow(ctx workflow.Context, _ AWSInventoryWorkflowParams) (*
 	)
 
 	return result, nil
+}
+
+func appendError(rr *RegionResult, err error) {
+	if rr.Error == "" {
+		rr.Error = err.Error()
+	} else {
+		rr.Error += "; " + err.Error()
+	}
 }

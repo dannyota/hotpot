@@ -1,6 +1,7 @@
 package ec2
 
 import (
+	"entgo.io/ent/dialect"
 	"go.temporal.io/sdk/worker"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
@@ -10,7 +11,9 @@ import (
 )
 
 // Register registers all EC2 activities and workflows.
-func Register(w worker.Worker, configService *config.Service, entClient *entec2.Client, limiter ratelimit.Limiter) {
+func Register(w worker.Worker, configService *config.Service, driver dialect.Driver, limiter ratelimit.Limiter) {
+	entClient := entec2.NewClient(entec2.Driver(driver), entec2.AlternateSchema(entec2.DefaultSchemaConfig()))
+
 	// Register instance sub-package
 	instance.Register(w, configService, entClient, limiter)
 

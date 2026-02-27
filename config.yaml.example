@@ -14,6 +14,9 @@
 #   2. Replace all <PLACEHOLDER> values
 #   3. CONFIG_SOURCE=file CONFIG_FILE=config.yaml ./bin/ingest
 
+# Log level: debug, info, warn, error (default: info)
+# log_level: info
+
 # GCP Configuration
 gcp:
   # Enable GCP ingestion (default: false)
@@ -35,7 +38,7 @@ s1:
   enabled: false
   # base_url: "https://<YOUR_S1_CONSOLE>.sentinelone.net"
   # api_token: "<YOUR_S1_API_TOKEN>"
-  # rate_limit_per_minute: 600  # Default: 600
+  # rate_limit_per_minute: 180  # Default: 180 (S1 has undocumented nginx rate limits)
   # batch_size: 1000            # Default: 1000 (API max)
 
 # AWS Configuration

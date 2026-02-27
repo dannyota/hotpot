@@ -2,6 +2,10 @@ package config
 
 // Config holds all application configuration values.
 type Config struct {
+	// LogLevel controls the minimum log level: debug, info, warn, error.
+	// Default: "info" (see Service.LogLevel()).
+	LogLevel string `yaml:"log_level,omitempty"`
+
 	GCP      GCPConfig      `yaml:"gcp"`
 	AWS      AWSConfig      `yaml:"aws"`
 	S1       S1Config       `yaml:"s1"`

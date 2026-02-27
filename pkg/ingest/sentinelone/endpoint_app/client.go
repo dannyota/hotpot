@@ -42,7 +42,7 @@ func (c *Client) GetEndpointApps(agentID string) ([]APIEndpointApp, error) {
 	params := url.Values{}
 	params.Set("ids", agentID)
 
-	body, err := c.doRequest("GET", "/web/api/v2.1/inventory/applications", params)
+	body, err := c.doRequest("GET", "/web/api/v2.1/agents/applications", params)
 	if err != nil {
 		return nil, fmt.Errorf("get endpoint apps for agent %s: %w", agentID, err)
 	}
@@ -87,7 +87,7 @@ func (c *Client) doRequest(method, endpoint string, params url.Values) ([]byte, 
 		return nil, fmt.Errorf("read response body: %w", err)
 	}
 
-	slog.Info("s1 api response", "method", method, "endpoint", endpoint, "status", resp.StatusCode, "responseBytes", len(body), "durationMs", time.Since(start).Milliseconds())
+	slog.Debug("s1 api response", "method", method, "endpoint", endpoint, "status", resp.StatusCode, "responseBytes", len(body), "durationMs", time.Since(start).Milliseconds())
 
 	if resp.StatusCode == http.StatusUnauthorized || resp.StatusCode == http.StatusForbidden {
 		return nil, &httperr.APIError{Code: resp.StatusCode}

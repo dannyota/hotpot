@@ -54,6 +54,8 @@ func S1EndpointAppWorkflow(ctx workflow.Context) (*S1EndpointAppWorkflowResult, 
 	})
 
 	totalApps := 0
+	agentsDone := 0
+	totalAgents := len(listResult.AgentIDs)
 	sem := workflow.NewSemaphore(ctx, 5)
 	mu := workflow.NewMutex(ctx)
 	wg := workflow.NewWaitGroup(ctx)
@@ -85,6 +87,10 @@ func S1EndpointAppWorkflow(ctx workflow.Context) (*S1EndpointAppWorkflowResult, 
 				return
 			}
 			totalApps += result.AppCount
+			agentsDone++
+			if agentsDone%50 == 0 || agentsDone == totalAgents {
+				logger.Info("s1 endpoint apps: progress", "agentsDone", agentsDone, "totalAgents", totalAgents, "totalApps", totalApps)
+			}
 		})
 	}
 

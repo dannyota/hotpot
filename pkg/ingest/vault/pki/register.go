@@ -1,6 +1,7 @@
 package pki
 
 import (
+	"entgo.io/ent/dialect"
 	"go.temporal.io/sdk/worker"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
@@ -10,7 +11,9 @@ import (
 )
 
 // Register registers PKI activities and workflows with the Temporal worker.
-func Register(w worker.Worker, configService *config.Service, entClient *entpki.Client, limiter ratelimit.Limiter) {
+func Register(w worker.Worker, configService *config.Service, driver dialect.Driver, limiter ratelimit.Limiter) {
+	entClient := entpki.NewClient(entpki.Driver(driver), entpki.AlternateSchema(entpki.DefaultSchemaConfig()))
+
 	// Register certificate resource
 	certificate.Register(w, configService, entClient, limiter)
 

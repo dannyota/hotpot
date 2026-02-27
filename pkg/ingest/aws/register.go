@@ -6,9 +6,11 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/aws/ec2"
-	entec2 "github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2"
+	"github.com/dannyota/hotpot/pkg/ingest"
 )
+
+// serviceRegFunc is the function signature for AWS service registration.
+type serviceRegFunc = func(worker.Worker, *config.Service, dialect.Driver, ratelimit.Limiter)
 
 // Register registers all AWS activities and workflows with the Temporal worker.
 // Returns the rate limit service for cleanup (caller should defer Close()).
@@ -21,15 +23,13 @@ func Register(w worker.Worker, configService *config.Service, driver dialect.Dri
 	})
 	limiter := rateLimitSvc.Limiter()
 
-	// Register region discovery activities
+	// Register provider-level activities (region discovery)
 	activities := NewActivities(configService, limiter)
 	w.RegisterActivity(activities.DiscoverRegions)
 
-	// Create per-service ent client
-	entClient := entec2.NewClient(entec2.Driver(driver), entec2.AlternateSchema(entec2.DefaultSchemaConfig()))
-
-	// Register EC2 (instances)
-	ec2.Register(w, configService, entClient, limiter)
+	for _, svc := range ingest.Services("aws") {
+		svc.Register.(serviceRegFunc)(w, configService, driver, limiter)
+	}
 
 	// Register AWS inventory workflow
 	w.RegisterWorkflow(AWSInventoryWorkflow)
