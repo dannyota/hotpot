@@ -10,7 +10,7 @@ require (
 	cloud.google.com/go/bigquery v1.73.1
 	cloud.google.com/go/bigtable v1.42.0
 	cloud.google.com/go/binaryauthorization v1.10.0
-	cloud.google.com/go/compute v1.54.0
+	cloud.google.com/go/compute v1.55.0
 	cloud.google.com/go/container v1.46.0
 	cloud.google.com/go/containeranalysis v0.14.2
 	cloud.google.com/go/dataproc/v2 v2.16.0
