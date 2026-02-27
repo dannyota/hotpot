@@ -20,10 +20,13 @@ import (
 // The context is used to signal shutdown - when cancelled, workers will stop.
 func Run(ctx context.Context, configService *config.Service, driver dialect.Driver) error {
 	// Set colored logger as default for app-level logging.
-	slog.SetDefault(logger.New(configService.LogLevel()))
+	level := configService.LogLevel()
+	slog.SetDefault(logger.New(level))
 
-	// Temporal SDK is noisy at INFO — only show WARN+.
-	temporalLogger := sdklog.NewStructuredLogger(logger.New(slog.LevelWarn))
+	// Temporal logger controls workflow/activity log output.
+	// Cap at INFO minimum — Temporal SDK internals are noisy at DEBUG.
+	temporalLevel := max(level, slog.LevelInfo)
+	temporalLogger := sdklog.NewStructuredLogger(logger.New(temporalLevel))
 
 	allProviders := Providers()
 	if len(allProviders) == 0 {

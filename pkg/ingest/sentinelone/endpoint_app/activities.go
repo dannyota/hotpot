@@ -54,7 +54,6 @@ var ListAgentIDsActivity = (*Activities).ListAgentIDs
 
 // ListAgentIDs queries the database for all S1 agent IDs.
 func (a *Activities) ListAgentIDs(ctx context.Context) (*ListAgentIDsResult, error) {
-	logger := activity.GetLogger(ctx)
 	collectedAt := time.Now()
 
 	agents, err := a.entClient.BronzeS1Agent.Query().
@@ -69,7 +68,7 @@ func (a *Activities) ListAgentIDs(ctx context.Context) (*ListAgentIDsResult, err
 		agentIDs[i] = agent.ID
 	}
 
-	logger.Info("Listed S1 agent IDs", "agentCount", len(agentIDs))
+	slog.Info("s1 endpoint apps: listed agent IDs", "agentCount", len(agentIDs))
 
 	return &ListAgentIDsResult{
 		AgentIDs:    agentIDs,

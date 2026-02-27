@@ -1,6 +1,20 @@
 package endpoint_app
 
-import ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
+import (
+	"time"
+
+	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
+)
+
+func timeEqual(a, b *time.Time) bool {
+	if a == nil && b == nil {
+		return true
+	}
+	if a == nil || b == nil {
+		return false
+	}
+	return a.Equal(*b)
+}
 
 // EndpointAppDiff represents changes between old and new endpoint app states.
 type EndpointAppDiff struct {
@@ -18,7 +32,8 @@ func DiffEndpointAppData(old *ents1.BronzeS1EndpointApp, new *EndpointAppData) *
 		old.Name != new.Name ||
 		old.Version != new.Version ||
 		old.Publisher != new.Publisher ||
-		old.Size != new.Size
+		old.Size != new.Size ||
+		!timeEqual(old.InstalledDate, new.InstalledDate)
 
 	return &EndpointAppDiff{IsChanged: changed}
 }
