@@ -15,6 +15,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1account"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1agent"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1agentnic"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1appinventory"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1endpointapp"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1group"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangerdevice"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangergateway"
@@ -23,6 +25,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1account"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1agent"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1agentnic"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1appinventory"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1endpointapp"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1group"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangerdevice"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangergateway"
@@ -43,6 +47,8 @@ const (
 	TypeBronzeHistoryS1Account       = "BronzeHistoryS1Account"
 	TypeBronzeHistoryS1Agent         = "BronzeHistoryS1Agent"
 	TypeBronzeHistoryS1AgentNIC      = "BronzeHistoryS1AgentNIC"
+	TypeBronzeHistoryS1AppInventory  = "BronzeHistoryS1AppInventory"
+	TypeBronzeHistoryS1EndpointApp   = "BronzeHistoryS1EndpointApp"
 	TypeBronzeHistoryS1Group         = "BronzeHistoryS1Group"
 	TypeBronzeHistoryS1RangerDevice  = "BronzeHistoryS1RangerDevice"
 	TypeBronzeHistoryS1RangerGateway = "BronzeHistoryS1RangerGateway"
@@ -51,6 +57,8 @@ const (
 	TypeBronzeS1Account              = "BronzeS1Account"
 	TypeBronzeS1Agent                = "BronzeS1Agent"
 	TypeBronzeS1AgentNIC             = "BronzeS1AgentNIC"
+	TypeBronzeS1AppInventory         = "BronzeS1AppInventory"
+	TypeBronzeS1EndpointApp          = "BronzeS1EndpointApp"
 	TypeBronzeS1Group                = "BronzeS1Group"
 	TypeBronzeS1RangerDevice         = "BronzeS1RangerDevice"
 	TypeBronzeS1RangerGateway        = "BronzeS1RangerGateway"
@@ -7730,6 +7738,1981 @@ func (m *BronzeHistoryS1AgentNICMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *BronzeHistoryS1AgentNICMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown BronzeHistoryS1AgentNIC edge %s", name)
+}
+
+// BronzeHistoryS1AppInventoryMutation represents an operation that mutates the BronzeHistoryS1AppInventory nodes in the graph.
+type BronzeHistoryS1AppInventoryMutation struct {
+	config
+	op                            Op
+	typ                           string
+	id                            *uint
+	valid_from                    *time.Time
+	valid_to                      *time.Time
+	collected_at                  *time.Time
+	first_collected_at            *time.Time
+	resource_id                   *string
+	application_name              *string
+	application_vendor            *string
+	endpoints_count               *int
+	addendpoints_count            *int
+	application_versions_count    *int
+	addapplication_versions_count *int
+	estimate                      *bool
+	clearedFields                 map[string]struct{}
+	done                          bool
+	oldValue                      func(context.Context) (*BronzeHistoryS1AppInventory, error)
+	predicates                    []predicate.BronzeHistoryS1AppInventory
+}
+
+var _ ent.Mutation = (*BronzeHistoryS1AppInventoryMutation)(nil)
+
+// bronzehistorys1appinventoryOption allows management of the mutation configuration using functional options.
+type bronzehistorys1appinventoryOption func(*BronzeHistoryS1AppInventoryMutation)
+
+// newBronzeHistoryS1AppInventoryMutation creates new mutation for the BronzeHistoryS1AppInventory entity.
+func newBronzeHistoryS1AppInventoryMutation(c config, op Op, opts ...bronzehistorys1appinventoryOption) *BronzeHistoryS1AppInventoryMutation {
+	m := &BronzeHistoryS1AppInventoryMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeBronzeHistoryS1AppInventory,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withBronzeHistoryS1AppInventoryID sets the ID field of the mutation.
+func withBronzeHistoryS1AppInventoryID(id uint) bronzehistorys1appinventoryOption {
+	return func(m *BronzeHistoryS1AppInventoryMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *BronzeHistoryS1AppInventory
+		)
+		m.oldValue = func(ctx context.Context) (*BronzeHistoryS1AppInventory, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().BronzeHistoryS1AppInventory.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withBronzeHistoryS1AppInventory sets the old BronzeHistoryS1AppInventory of the mutation.
+func withBronzeHistoryS1AppInventory(node *BronzeHistoryS1AppInventory) bronzehistorys1appinventoryOption {
+	return func(m *BronzeHistoryS1AppInventoryMutation) {
+		m.oldValue = func(context.Context) (*BronzeHistoryS1AppInventory, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m BronzeHistoryS1AppInventoryMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m BronzeHistoryS1AppInventoryMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("s1: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of BronzeHistoryS1AppInventory entities.
+func (m *BronzeHistoryS1AppInventoryMutation) SetID(id uint) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *BronzeHistoryS1AppInventoryMutation) ID() (id uint, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) IDs(ctx context.Context) ([]uint, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uint{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().BronzeHistoryS1AppInventory.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetValidFrom sets the "valid_from" field.
+func (m *BronzeHistoryS1AppInventoryMutation) SetValidFrom(t time.Time) {
+	m.valid_from = &t
+}
+
+// ValidFrom returns the value of the "valid_from" field in the mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) ValidFrom() (r time.Time, exists bool) {
+	v := m.valid_from
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldValidFrom returns the old "valid_from" field's value of the BronzeHistoryS1AppInventory entity.
+// If the BronzeHistoryS1AppInventory object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1AppInventoryMutation) OldValidFrom(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldValidFrom is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldValidFrom requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldValidFrom: %w", err)
+	}
+	return oldValue.ValidFrom, nil
+}
+
+// ResetValidFrom resets all changes to the "valid_from" field.
+func (m *BronzeHistoryS1AppInventoryMutation) ResetValidFrom() {
+	m.valid_from = nil
+}
+
+// SetValidTo sets the "valid_to" field.
+func (m *BronzeHistoryS1AppInventoryMutation) SetValidTo(t time.Time) {
+	m.valid_to = &t
+}
+
+// ValidTo returns the value of the "valid_to" field in the mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) ValidTo() (r time.Time, exists bool) {
+	v := m.valid_to
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldValidTo returns the old "valid_to" field's value of the BronzeHistoryS1AppInventory entity.
+// If the BronzeHistoryS1AppInventory object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1AppInventoryMutation) OldValidTo(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldValidTo is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldValidTo requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldValidTo: %w", err)
+	}
+	return oldValue.ValidTo, nil
+}
+
+// ClearValidTo clears the value of the "valid_to" field.
+func (m *BronzeHistoryS1AppInventoryMutation) ClearValidTo() {
+	m.valid_to = nil
+	m.clearedFields[bronzehistorys1appinventory.FieldValidTo] = struct{}{}
+}
+
+// ValidToCleared returns if the "valid_to" field was cleared in this mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) ValidToCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1appinventory.FieldValidTo]
+	return ok
+}
+
+// ResetValidTo resets all changes to the "valid_to" field.
+func (m *BronzeHistoryS1AppInventoryMutation) ResetValidTo() {
+	m.valid_to = nil
+	delete(m.clearedFields, bronzehistorys1appinventory.FieldValidTo)
+}
+
+// SetCollectedAt sets the "collected_at" field.
+func (m *BronzeHistoryS1AppInventoryMutation) SetCollectedAt(t time.Time) {
+	m.collected_at = &t
+}
+
+// CollectedAt returns the value of the "collected_at" field in the mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) CollectedAt() (r time.Time, exists bool) {
+	v := m.collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCollectedAt returns the old "collected_at" field's value of the BronzeHistoryS1AppInventory entity.
+// If the BronzeHistoryS1AppInventory object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1AppInventoryMutation) OldCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCollectedAt: %w", err)
+	}
+	return oldValue.CollectedAt, nil
+}
+
+// ResetCollectedAt resets all changes to the "collected_at" field.
+func (m *BronzeHistoryS1AppInventoryMutation) ResetCollectedAt() {
+	m.collected_at = nil
+}
+
+// SetFirstCollectedAt sets the "first_collected_at" field.
+func (m *BronzeHistoryS1AppInventoryMutation) SetFirstCollectedAt(t time.Time) {
+	m.first_collected_at = &t
+}
+
+// FirstCollectedAt returns the value of the "first_collected_at" field in the mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) FirstCollectedAt() (r time.Time, exists bool) {
+	v := m.first_collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFirstCollectedAt returns the old "first_collected_at" field's value of the BronzeHistoryS1AppInventory entity.
+// If the BronzeHistoryS1AppInventory object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1AppInventoryMutation) OldFirstCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFirstCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFirstCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFirstCollectedAt: %w", err)
+	}
+	return oldValue.FirstCollectedAt, nil
+}
+
+// ResetFirstCollectedAt resets all changes to the "first_collected_at" field.
+func (m *BronzeHistoryS1AppInventoryMutation) ResetFirstCollectedAt() {
+	m.first_collected_at = nil
+}
+
+// SetResourceID sets the "resource_id" field.
+func (m *BronzeHistoryS1AppInventoryMutation) SetResourceID(s string) {
+	m.resource_id = &s
+}
+
+// ResourceID returns the value of the "resource_id" field in the mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) ResourceID() (r string, exists bool) {
+	v := m.resource_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldResourceID returns the old "resource_id" field's value of the BronzeHistoryS1AppInventory entity.
+// If the BronzeHistoryS1AppInventory object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1AppInventoryMutation) OldResourceID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldResourceID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldResourceID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldResourceID: %w", err)
+	}
+	return oldValue.ResourceID, nil
+}
+
+// ResetResourceID resets all changes to the "resource_id" field.
+func (m *BronzeHistoryS1AppInventoryMutation) ResetResourceID() {
+	m.resource_id = nil
+}
+
+// SetApplicationName sets the "application_name" field.
+func (m *BronzeHistoryS1AppInventoryMutation) SetApplicationName(s string) {
+	m.application_name = &s
+}
+
+// ApplicationName returns the value of the "application_name" field in the mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) ApplicationName() (r string, exists bool) {
+	v := m.application_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldApplicationName returns the old "application_name" field's value of the BronzeHistoryS1AppInventory entity.
+// If the BronzeHistoryS1AppInventory object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1AppInventoryMutation) OldApplicationName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldApplicationName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldApplicationName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldApplicationName: %w", err)
+	}
+	return oldValue.ApplicationName, nil
+}
+
+// ResetApplicationName resets all changes to the "application_name" field.
+func (m *BronzeHistoryS1AppInventoryMutation) ResetApplicationName() {
+	m.application_name = nil
+}
+
+// SetApplicationVendor sets the "application_vendor" field.
+func (m *BronzeHistoryS1AppInventoryMutation) SetApplicationVendor(s string) {
+	m.application_vendor = &s
+}
+
+// ApplicationVendor returns the value of the "application_vendor" field in the mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) ApplicationVendor() (r string, exists bool) {
+	v := m.application_vendor
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldApplicationVendor returns the old "application_vendor" field's value of the BronzeHistoryS1AppInventory entity.
+// If the BronzeHistoryS1AppInventory object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1AppInventoryMutation) OldApplicationVendor(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldApplicationVendor is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldApplicationVendor requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldApplicationVendor: %w", err)
+	}
+	return oldValue.ApplicationVendor, nil
+}
+
+// ClearApplicationVendor clears the value of the "application_vendor" field.
+func (m *BronzeHistoryS1AppInventoryMutation) ClearApplicationVendor() {
+	m.application_vendor = nil
+	m.clearedFields[bronzehistorys1appinventory.FieldApplicationVendor] = struct{}{}
+}
+
+// ApplicationVendorCleared returns if the "application_vendor" field was cleared in this mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) ApplicationVendorCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1appinventory.FieldApplicationVendor]
+	return ok
+}
+
+// ResetApplicationVendor resets all changes to the "application_vendor" field.
+func (m *BronzeHistoryS1AppInventoryMutation) ResetApplicationVendor() {
+	m.application_vendor = nil
+	delete(m.clearedFields, bronzehistorys1appinventory.FieldApplicationVendor)
+}
+
+// SetEndpointsCount sets the "endpoints_count" field.
+func (m *BronzeHistoryS1AppInventoryMutation) SetEndpointsCount(i int) {
+	m.endpoints_count = &i
+	m.addendpoints_count = nil
+}
+
+// EndpointsCount returns the value of the "endpoints_count" field in the mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) EndpointsCount() (r int, exists bool) {
+	v := m.endpoints_count
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEndpointsCount returns the old "endpoints_count" field's value of the BronzeHistoryS1AppInventory entity.
+// If the BronzeHistoryS1AppInventory object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1AppInventoryMutation) OldEndpointsCount(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEndpointsCount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEndpointsCount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEndpointsCount: %w", err)
+	}
+	return oldValue.EndpointsCount, nil
+}
+
+// AddEndpointsCount adds i to the "endpoints_count" field.
+func (m *BronzeHistoryS1AppInventoryMutation) AddEndpointsCount(i int) {
+	if m.addendpoints_count != nil {
+		*m.addendpoints_count += i
+	} else {
+		m.addendpoints_count = &i
+	}
+}
+
+// AddedEndpointsCount returns the value that was added to the "endpoints_count" field in this mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) AddedEndpointsCount() (r int, exists bool) {
+	v := m.addendpoints_count
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearEndpointsCount clears the value of the "endpoints_count" field.
+func (m *BronzeHistoryS1AppInventoryMutation) ClearEndpointsCount() {
+	m.endpoints_count = nil
+	m.addendpoints_count = nil
+	m.clearedFields[bronzehistorys1appinventory.FieldEndpointsCount] = struct{}{}
+}
+
+// EndpointsCountCleared returns if the "endpoints_count" field was cleared in this mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) EndpointsCountCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1appinventory.FieldEndpointsCount]
+	return ok
+}
+
+// ResetEndpointsCount resets all changes to the "endpoints_count" field.
+func (m *BronzeHistoryS1AppInventoryMutation) ResetEndpointsCount() {
+	m.endpoints_count = nil
+	m.addendpoints_count = nil
+	delete(m.clearedFields, bronzehistorys1appinventory.FieldEndpointsCount)
+}
+
+// SetApplicationVersionsCount sets the "application_versions_count" field.
+func (m *BronzeHistoryS1AppInventoryMutation) SetApplicationVersionsCount(i int) {
+	m.application_versions_count = &i
+	m.addapplication_versions_count = nil
+}
+
+// ApplicationVersionsCount returns the value of the "application_versions_count" field in the mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) ApplicationVersionsCount() (r int, exists bool) {
+	v := m.application_versions_count
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldApplicationVersionsCount returns the old "application_versions_count" field's value of the BronzeHistoryS1AppInventory entity.
+// If the BronzeHistoryS1AppInventory object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1AppInventoryMutation) OldApplicationVersionsCount(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldApplicationVersionsCount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldApplicationVersionsCount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldApplicationVersionsCount: %w", err)
+	}
+	return oldValue.ApplicationVersionsCount, nil
+}
+
+// AddApplicationVersionsCount adds i to the "application_versions_count" field.
+func (m *BronzeHistoryS1AppInventoryMutation) AddApplicationVersionsCount(i int) {
+	if m.addapplication_versions_count != nil {
+		*m.addapplication_versions_count += i
+	} else {
+		m.addapplication_versions_count = &i
+	}
+}
+
+// AddedApplicationVersionsCount returns the value that was added to the "application_versions_count" field in this mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) AddedApplicationVersionsCount() (r int, exists bool) {
+	v := m.addapplication_versions_count
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearApplicationVersionsCount clears the value of the "application_versions_count" field.
+func (m *BronzeHistoryS1AppInventoryMutation) ClearApplicationVersionsCount() {
+	m.application_versions_count = nil
+	m.addapplication_versions_count = nil
+	m.clearedFields[bronzehistorys1appinventory.FieldApplicationVersionsCount] = struct{}{}
+}
+
+// ApplicationVersionsCountCleared returns if the "application_versions_count" field was cleared in this mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) ApplicationVersionsCountCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1appinventory.FieldApplicationVersionsCount]
+	return ok
+}
+
+// ResetApplicationVersionsCount resets all changes to the "application_versions_count" field.
+func (m *BronzeHistoryS1AppInventoryMutation) ResetApplicationVersionsCount() {
+	m.application_versions_count = nil
+	m.addapplication_versions_count = nil
+	delete(m.clearedFields, bronzehistorys1appinventory.FieldApplicationVersionsCount)
+}
+
+// SetEstimate sets the "estimate" field.
+func (m *BronzeHistoryS1AppInventoryMutation) SetEstimate(b bool) {
+	m.estimate = &b
+}
+
+// Estimate returns the value of the "estimate" field in the mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) Estimate() (r bool, exists bool) {
+	v := m.estimate
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEstimate returns the old "estimate" field's value of the BronzeHistoryS1AppInventory entity.
+// If the BronzeHistoryS1AppInventory object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1AppInventoryMutation) OldEstimate(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEstimate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEstimate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEstimate: %w", err)
+	}
+	return oldValue.Estimate, nil
+}
+
+// ResetEstimate resets all changes to the "estimate" field.
+func (m *BronzeHistoryS1AppInventoryMutation) ResetEstimate() {
+	m.estimate = nil
+}
+
+// Where appends a list predicates to the BronzeHistoryS1AppInventoryMutation builder.
+func (m *BronzeHistoryS1AppInventoryMutation) Where(ps ...predicate.BronzeHistoryS1AppInventory) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the BronzeHistoryS1AppInventoryMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *BronzeHistoryS1AppInventoryMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.BronzeHistoryS1AppInventory, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *BronzeHistoryS1AppInventoryMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *BronzeHistoryS1AppInventoryMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (BronzeHistoryS1AppInventory).
+func (m *BronzeHistoryS1AppInventoryMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *BronzeHistoryS1AppInventoryMutation) Fields() []string {
+	fields := make([]string, 0, 10)
+	if m.valid_from != nil {
+		fields = append(fields, bronzehistorys1appinventory.FieldValidFrom)
+	}
+	if m.valid_to != nil {
+		fields = append(fields, bronzehistorys1appinventory.FieldValidTo)
+	}
+	if m.collected_at != nil {
+		fields = append(fields, bronzehistorys1appinventory.FieldCollectedAt)
+	}
+	if m.first_collected_at != nil {
+		fields = append(fields, bronzehistorys1appinventory.FieldFirstCollectedAt)
+	}
+	if m.resource_id != nil {
+		fields = append(fields, bronzehistorys1appinventory.FieldResourceID)
+	}
+	if m.application_name != nil {
+		fields = append(fields, bronzehistorys1appinventory.FieldApplicationName)
+	}
+	if m.application_vendor != nil {
+		fields = append(fields, bronzehistorys1appinventory.FieldApplicationVendor)
+	}
+	if m.endpoints_count != nil {
+		fields = append(fields, bronzehistorys1appinventory.FieldEndpointsCount)
+	}
+	if m.application_versions_count != nil {
+		fields = append(fields, bronzehistorys1appinventory.FieldApplicationVersionsCount)
+	}
+	if m.estimate != nil {
+		fields = append(fields, bronzehistorys1appinventory.FieldEstimate)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *BronzeHistoryS1AppInventoryMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case bronzehistorys1appinventory.FieldValidFrom:
+		return m.ValidFrom()
+	case bronzehistorys1appinventory.FieldValidTo:
+		return m.ValidTo()
+	case bronzehistorys1appinventory.FieldCollectedAt:
+		return m.CollectedAt()
+	case bronzehistorys1appinventory.FieldFirstCollectedAt:
+		return m.FirstCollectedAt()
+	case bronzehistorys1appinventory.FieldResourceID:
+		return m.ResourceID()
+	case bronzehistorys1appinventory.FieldApplicationName:
+		return m.ApplicationName()
+	case bronzehistorys1appinventory.FieldApplicationVendor:
+		return m.ApplicationVendor()
+	case bronzehistorys1appinventory.FieldEndpointsCount:
+		return m.EndpointsCount()
+	case bronzehistorys1appinventory.FieldApplicationVersionsCount:
+		return m.ApplicationVersionsCount()
+	case bronzehistorys1appinventory.FieldEstimate:
+		return m.Estimate()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *BronzeHistoryS1AppInventoryMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case bronzehistorys1appinventory.FieldValidFrom:
+		return m.OldValidFrom(ctx)
+	case bronzehistorys1appinventory.FieldValidTo:
+		return m.OldValidTo(ctx)
+	case bronzehistorys1appinventory.FieldCollectedAt:
+		return m.OldCollectedAt(ctx)
+	case bronzehistorys1appinventory.FieldFirstCollectedAt:
+		return m.OldFirstCollectedAt(ctx)
+	case bronzehistorys1appinventory.FieldResourceID:
+		return m.OldResourceID(ctx)
+	case bronzehistorys1appinventory.FieldApplicationName:
+		return m.OldApplicationName(ctx)
+	case bronzehistorys1appinventory.FieldApplicationVendor:
+		return m.OldApplicationVendor(ctx)
+	case bronzehistorys1appinventory.FieldEndpointsCount:
+		return m.OldEndpointsCount(ctx)
+	case bronzehistorys1appinventory.FieldApplicationVersionsCount:
+		return m.OldApplicationVersionsCount(ctx)
+	case bronzehistorys1appinventory.FieldEstimate:
+		return m.OldEstimate(ctx)
+	}
+	return nil, fmt.Errorf("unknown BronzeHistoryS1AppInventory field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeHistoryS1AppInventoryMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case bronzehistorys1appinventory.FieldValidFrom:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetValidFrom(v)
+		return nil
+	case bronzehistorys1appinventory.FieldValidTo:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetValidTo(v)
+		return nil
+	case bronzehistorys1appinventory.FieldCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCollectedAt(v)
+		return nil
+	case bronzehistorys1appinventory.FieldFirstCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFirstCollectedAt(v)
+		return nil
+	case bronzehistorys1appinventory.FieldResourceID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetResourceID(v)
+		return nil
+	case bronzehistorys1appinventory.FieldApplicationName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetApplicationName(v)
+		return nil
+	case bronzehistorys1appinventory.FieldApplicationVendor:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetApplicationVendor(v)
+		return nil
+	case bronzehistorys1appinventory.FieldEndpointsCount:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEndpointsCount(v)
+		return nil
+	case bronzehistorys1appinventory.FieldApplicationVersionsCount:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetApplicationVersionsCount(v)
+		return nil
+	case bronzehistorys1appinventory.FieldEstimate:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEstimate(v)
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeHistoryS1AppInventory field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) AddedFields() []string {
+	var fields []string
+	if m.addendpoints_count != nil {
+		fields = append(fields, bronzehistorys1appinventory.FieldEndpointsCount)
+	}
+	if m.addapplication_versions_count != nil {
+		fields = append(fields, bronzehistorys1appinventory.FieldApplicationVersionsCount)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *BronzeHistoryS1AppInventoryMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case bronzehistorys1appinventory.FieldEndpointsCount:
+		return m.AddedEndpointsCount()
+	case bronzehistorys1appinventory.FieldApplicationVersionsCount:
+		return m.AddedApplicationVersionsCount()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeHistoryS1AppInventoryMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case bronzehistorys1appinventory.FieldEndpointsCount:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddEndpointsCount(v)
+		return nil
+	case bronzehistorys1appinventory.FieldApplicationVersionsCount:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddApplicationVersionsCount(v)
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeHistoryS1AppInventory numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(bronzehistorys1appinventory.FieldValidTo) {
+		fields = append(fields, bronzehistorys1appinventory.FieldValidTo)
+	}
+	if m.FieldCleared(bronzehistorys1appinventory.FieldApplicationVendor) {
+		fields = append(fields, bronzehistorys1appinventory.FieldApplicationVendor)
+	}
+	if m.FieldCleared(bronzehistorys1appinventory.FieldEndpointsCount) {
+		fields = append(fields, bronzehistorys1appinventory.FieldEndpointsCount)
+	}
+	if m.FieldCleared(bronzehistorys1appinventory.FieldApplicationVersionsCount) {
+		fields = append(fields, bronzehistorys1appinventory.FieldApplicationVersionsCount)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *BronzeHistoryS1AppInventoryMutation) ClearField(name string) error {
+	switch name {
+	case bronzehistorys1appinventory.FieldValidTo:
+		m.ClearValidTo()
+		return nil
+	case bronzehistorys1appinventory.FieldApplicationVendor:
+		m.ClearApplicationVendor()
+		return nil
+	case bronzehistorys1appinventory.FieldEndpointsCount:
+		m.ClearEndpointsCount()
+		return nil
+	case bronzehistorys1appinventory.FieldApplicationVersionsCount:
+		m.ClearApplicationVersionsCount()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeHistoryS1AppInventory nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *BronzeHistoryS1AppInventoryMutation) ResetField(name string) error {
+	switch name {
+	case bronzehistorys1appinventory.FieldValidFrom:
+		m.ResetValidFrom()
+		return nil
+	case bronzehistorys1appinventory.FieldValidTo:
+		m.ResetValidTo()
+		return nil
+	case bronzehistorys1appinventory.FieldCollectedAt:
+		m.ResetCollectedAt()
+		return nil
+	case bronzehistorys1appinventory.FieldFirstCollectedAt:
+		m.ResetFirstCollectedAt()
+		return nil
+	case bronzehistorys1appinventory.FieldResourceID:
+		m.ResetResourceID()
+		return nil
+	case bronzehistorys1appinventory.FieldApplicationName:
+		m.ResetApplicationName()
+		return nil
+	case bronzehistorys1appinventory.FieldApplicationVendor:
+		m.ResetApplicationVendor()
+		return nil
+	case bronzehistorys1appinventory.FieldEndpointsCount:
+		m.ResetEndpointsCount()
+		return nil
+	case bronzehistorys1appinventory.FieldApplicationVersionsCount:
+		m.ResetApplicationVersionsCount()
+		return nil
+	case bronzehistorys1appinventory.FieldEstimate:
+		m.ResetEstimate()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeHistoryS1AppInventory field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *BronzeHistoryS1AppInventoryMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *BronzeHistoryS1AppInventoryMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown BronzeHistoryS1AppInventory unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *BronzeHistoryS1AppInventoryMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown BronzeHistoryS1AppInventory edge %s", name)
+}
+
+// BronzeHistoryS1EndpointAppMutation represents an operation that mutates the BronzeHistoryS1EndpointApp nodes in the graph.
+type BronzeHistoryS1EndpointAppMutation struct {
+	config
+	op                 Op
+	typ                string
+	id                 *uint
+	valid_from         *time.Time
+	valid_to           *time.Time
+	collected_at       *time.Time
+	first_collected_at *time.Time
+	resource_id        *string
+	agent_id           *string
+	name               *string
+	version            *string
+	publisher          *string
+	size               *int
+	addsize            *int
+	installed_date     *time.Time
+	clearedFields      map[string]struct{}
+	done               bool
+	oldValue           func(context.Context) (*BronzeHistoryS1EndpointApp, error)
+	predicates         []predicate.BronzeHistoryS1EndpointApp
+}
+
+var _ ent.Mutation = (*BronzeHistoryS1EndpointAppMutation)(nil)
+
+// bronzehistorys1endpointappOption allows management of the mutation configuration using functional options.
+type bronzehistorys1endpointappOption func(*BronzeHistoryS1EndpointAppMutation)
+
+// newBronzeHistoryS1EndpointAppMutation creates new mutation for the BronzeHistoryS1EndpointApp entity.
+func newBronzeHistoryS1EndpointAppMutation(c config, op Op, opts ...bronzehistorys1endpointappOption) *BronzeHistoryS1EndpointAppMutation {
+	m := &BronzeHistoryS1EndpointAppMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeBronzeHistoryS1EndpointApp,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withBronzeHistoryS1EndpointAppID sets the ID field of the mutation.
+func withBronzeHistoryS1EndpointAppID(id uint) bronzehistorys1endpointappOption {
+	return func(m *BronzeHistoryS1EndpointAppMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *BronzeHistoryS1EndpointApp
+		)
+		m.oldValue = func(ctx context.Context) (*BronzeHistoryS1EndpointApp, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().BronzeHistoryS1EndpointApp.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withBronzeHistoryS1EndpointApp sets the old BronzeHistoryS1EndpointApp of the mutation.
+func withBronzeHistoryS1EndpointApp(node *BronzeHistoryS1EndpointApp) bronzehistorys1endpointappOption {
+	return func(m *BronzeHistoryS1EndpointAppMutation) {
+		m.oldValue = func(context.Context) (*BronzeHistoryS1EndpointApp, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m BronzeHistoryS1EndpointAppMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m BronzeHistoryS1EndpointAppMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("s1: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of BronzeHistoryS1EndpointApp entities.
+func (m *BronzeHistoryS1EndpointAppMutation) SetID(id uint) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *BronzeHistoryS1EndpointAppMutation) ID() (id uint, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) IDs(ctx context.Context) ([]uint, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uint{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().BronzeHistoryS1EndpointApp.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetValidFrom sets the "valid_from" field.
+func (m *BronzeHistoryS1EndpointAppMutation) SetValidFrom(t time.Time) {
+	m.valid_from = &t
+}
+
+// ValidFrom returns the value of the "valid_from" field in the mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) ValidFrom() (r time.Time, exists bool) {
+	v := m.valid_from
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldValidFrom returns the old "valid_from" field's value of the BronzeHistoryS1EndpointApp entity.
+// If the BronzeHistoryS1EndpointApp object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1EndpointAppMutation) OldValidFrom(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldValidFrom is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldValidFrom requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldValidFrom: %w", err)
+	}
+	return oldValue.ValidFrom, nil
+}
+
+// ResetValidFrom resets all changes to the "valid_from" field.
+func (m *BronzeHistoryS1EndpointAppMutation) ResetValidFrom() {
+	m.valid_from = nil
+}
+
+// SetValidTo sets the "valid_to" field.
+func (m *BronzeHistoryS1EndpointAppMutation) SetValidTo(t time.Time) {
+	m.valid_to = &t
+}
+
+// ValidTo returns the value of the "valid_to" field in the mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) ValidTo() (r time.Time, exists bool) {
+	v := m.valid_to
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldValidTo returns the old "valid_to" field's value of the BronzeHistoryS1EndpointApp entity.
+// If the BronzeHistoryS1EndpointApp object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1EndpointAppMutation) OldValidTo(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldValidTo is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldValidTo requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldValidTo: %w", err)
+	}
+	return oldValue.ValidTo, nil
+}
+
+// ClearValidTo clears the value of the "valid_to" field.
+func (m *BronzeHistoryS1EndpointAppMutation) ClearValidTo() {
+	m.valid_to = nil
+	m.clearedFields[bronzehistorys1endpointapp.FieldValidTo] = struct{}{}
+}
+
+// ValidToCleared returns if the "valid_to" field was cleared in this mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) ValidToCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1endpointapp.FieldValidTo]
+	return ok
+}
+
+// ResetValidTo resets all changes to the "valid_to" field.
+func (m *BronzeHistoryS1EndpointAppMutation) ResetValidTo() {
+	m.valid_to = nil
+	delete(m.clearedFields, bronzehistorys1endpointapp.FieldValidTo)
+}
+
+// SetCollectedAt sets the "collected_at" field.
+func (m *BronzeHistoryS1EndpointAppMutation) SetCollectedAt(t time.Time) {
+	m.collected_at = &t
+}
+
+// CollectedAt returns the value of the "collected_at" field in the mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) CollectedAt() (r time.Time, exists bool) {
+	v := m.collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCollectedAt returns the old "collected_at" field's value of the BronzeHistoryS1EndpointApp entity.
+// If the BronzeHistoryS1EndpointApp object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1EndpointAppMutation) OldCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCollectedAt: %w", err)
+	}
+	return oldValue.CollectedAt, nil
+}
+
+// ResetCollectedAt resets all changes to the "collected_at" field.
+func (m *BronzeHistoryS1EndpointAppMutation) ResetCollectedAt() {
+	m.collected_at = nil
+}
+
+// SetFirstCollectedAt sets the "first_collected_at" field.
+func (m *BronzeHistoryS1EndpointAppMutation) SetFirstCollectedAt(t time.Time) {
+	m.first_collected_at = &t
+}
+
+// FirstCollectedAt returns the value of the "first_collected_at" field in the mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) FirstCollectedAt() (r time.Time, exists bool) {
+	v := m.first_collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFirstCollectedAt returns the old "first_collected_at" field's value of the BronzeHistoryS1EndpointApp entity.
+// If the BronzeHistoryS1EndpointApp object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1EndpointAppMutation) OldFirstCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFirstCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFirstCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFirstCollectedAt: %w", err)
+	}
+	return oldValue.FirstCollectedAt, nil
+}
+
+// ResetFirstCollectedAt resets all changes to the "first_collected_at" field.
+func (m *BronzeHistoryS1EndpointAppMutation) ResetFirstCollectedAt() {
+	m.first_collected_at = nil
+}
+
+// SetResourceID sets the "resource_id" field.
+func (m *BronzeHistoryS1EndpointAppMutation) SetResourceID(s string) {
+	m.resource_id = &s
+}
+
+// ResourceID returns the value of the "resource_id" field in the mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) ResourceID() (r string, exists bool) {
+	v := m.resource_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldResourceID returns the old "resource_id" field's value of the BronzeHistoryS1EndpointApp entity.
+// If the BronzeHistoryS1EndpointApp object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1EndpointAppMutation) OldResourceID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldResourceID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldResourceID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldResourceID: %w", err)
+	}
+	return oldValue.ResourceID, nil
+}
+
+// ResetResourceID resets all changes to the "resource_id" field.
+func (m *BronzeHistoryS1EndpointAppMutation) ResetResourceID() {
+	m.resource_id = nil
+}
+
+// SetAgentID sets the "agent_id" field.
+func (m *BronzeHistoryS1EndpointAppMutation) SetAgentID(s string) {
+	m.agent_id = &s
+}
+
+// AgentID returns the value of the "agent_id" field in the mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) AgentID() (r string, exists bool) {
+	v := m.agent_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAgentID returns the old "agent_id" field's value of the BronzeHistoryS1EndpointApp entity.
+// If the BronzeHistoryS1EndpointApp object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1EndpointAppMutation) OldAgentID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAgentID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAgentID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAgentID: %w", err)
+	}
+	return oldValue.AgentID, nil
+}
+
+// ResetAgentID resets all changes to the "agent_id" field.
+func (m *BronzeHistoryS1EndpointAppMutation) ResetAgentID() {
+	m.agent_id = nil
+}
+
+// SetName sets the "name" field.
+func (m *BronzeHistoryS1EndpointAppMutation) SetName(s string) {
+	m.name = &s
+}
+
+// Name returns the value of the "name" field in the mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) Name() (r string, exists bool) {
+	v := m.name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldName returns the old "name" field's value of the BronzeHistoryS1EndpointApp entity.
+// If the BronzeHistoryS1EndpointApp object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1EndpointAppMutation) OldName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
+	}
+	return oldValue.Name, nil
+}
+
+// ResetName resets all changes to the "name" field.
+func (m *BronzeHistoryS1EndpointAppMutation) ResetName() {
+	m.name = nil
+}
+
+// SetVersion sets the "version" field.
+func (m *BronzeHistoryS1EndpointAppMutation) SetVersion(s string) {
+	m.version = &s
+}
+
+// Version returns the value of the "version" field in the mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) Version() (r string, exists bool) {
+	v := m.version
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldVersion returns the old "version" field's value of the BronzeHistoryS1EndpointApp entity.
+// If the BronzeHistoryS1EndpointApp object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1EndpointAppMutation) OldVersion(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldVersion is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldVersion requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldVersion: %w", err)
+	}
+	return oldValue.Version, nil
+}
+
+// ClearVersion clears the value of the "version" field.
+func (m *BronzeHistoryS1EndpointAppMutation) ClearVersion() {
+	m.version = nil
+	m.clearedFields[bronzehistorys1endpointapp.FieldVersion] = struct{}{}
+}
+
+// VersionCleared returns if the "version" field was cleared in this mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) VersionCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1endpointapp.FieldVersion]
+	return ok
+}
+
+// ResetVersion resets all changes to the "version" field.
+func (m *BronzeHistoryS1EndpointAppMutation) ResetVersion() {
+	m.version = nil
+	delete(m.clearedFields, bronzehistorys1endpointapp.FieldVersion)
+}
+
+// SetPublisher sets the "publisher" field.
+func (m *BronzeHistoryS1EndpointAppMutation) SetPublisher(s string) {
+	m.publisher = &s
+}
+
+// Publisher returns the value of the "publisher" field in the mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) Publisher() (r string, exists bool) {
+	v := m.publisher
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPublisher returns the old "publisher" field's value of the BronzeHistoryS1EndpointApp entity.
+// If the BronzeHistoryS1EndpointApp object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1EndpointAppMutation) OldPublisher(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPublisher is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPublisher requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPublisher: %w", err)
+	}
+	return oldValue.Publisher, nil
+}
+
+// ClearPublisher clears the value of the "publisher" field.
+func (m *BronzeHistoryS1EndpointAppMutation) ClearPublisher() {
+	m.publisher = nil
+	m.clearedFields[bronzehistorys1endpointapp.FieldPublisher] = struct{}{}
+}
+
+// PublisherCleared returns if the "publisher" field was cleared in this mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) PublisherCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1endpointapp.FieldPublisher]
+	return ok
+}
+
+// ResetPublisher resets all changes to the "publisher" field.
+func (m *BronzeHistoryS1EndpointAppMutation) ResetPublisher() {
+	m.publisher = nil
+	delete(m.clearedFields, bronzehistorys1endpointapp.FieldPublisher)
+}
+
+// SetSize sets the "size" field.
+func (m *BronzeHistoryS1EndpointAppMutation) SetSize(i int) {
+	m.size = &i
+	m.addsize = nil
+}
+
+// Size returns the value of the "size" field in the mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) Size() (r int, exists bool) {
+	v := m.size
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSize returns the old "size" field's value of the BronzeHistoryS1EndpointApp entity.
+// If the BronzeHistoryS1EndpointApp object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1EndpointAppMutation) OldSize(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSize is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSize requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSize: %w", err)
+	}
+	return oldValue.Size, nil
+}
+
+// AddSize adds i to the "size" field.
+func (m *BronzeHistoryS1EndpointAppMutation) AddSize(i int) {
+	if m.addsize != nil {
+		*m.addsize += i
+	} else {
+		m.addsize = &i
+	}
+}
+
+// AddedSize returns the value that was added to the "size" field in this mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) AddedSize() (r int, exists bool) {
+	v := m.addsize
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearSize clears the value of the "size" field.
+func (m *BronzeHistoryS1EndpointAppMutation) ClearSize() {
+	m.size = nil
+	m.addsize = nil
+	m.clearedFields[bronzehistorys1endpointapp.FieldSize] = struct{}{}
+}
+
+// SizeCleared returns if the "size" field was cleared in this mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) SizeCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1endpointapp.FieldSize]
+	return ok
+}
+
+// ResetSize resets all changes to the "size" field.
+func (m *BronzeHistoryS1EndpointAppMutation) ResetSize() {
+	m.size = nil
+	m.addsize = nil
+	delete(m.clearedFields, bronzehistorys1endpointapp.FieldSize)
+}
+
+// SetInstalledDate sets the "installed_date" field.
+func (m *BronzeHistoryS1EndpointAppMutation) SetInstalledDate(t time.Time) {
+	m.installed_date = &t
+}
+
+// InstalledDate returns the value of the "installed_date" field in the mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) InstalledDate() (r time.Time, exists bool) {
+	v := m.installed_date
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInstalledDate returns the old "installed_date" field's value of the BronzeHistoryS1EndpointApp entity.
+// If the BronzeHistoryS1EndpointApp object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1EndpointAppMutation) OldInstalledDate(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldInstalledDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldInstalledDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInstalledDate: %w", err)
+	}
+	return oldValue.InstalledDate, nil
+}
+
+// ClearInstalledDate clears the value of the "installed_date" field.
+func (m *BronzeHistoryS1EndpointAppMutation) ClearInstalledDate() {
+	m.installed_date = nil
+	m.clearedFields[bronzehistorys1endpointapp.FieldInstalledDate] = struct{}{}
+}
+
+// InstalledDateCleared returns if the "installed_date" field was cleared in this mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) InstalledDateCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1endpointapp.FieldInstalledDate]
+	return ok
+}
+
+// ResetInstalledDate resets all changes to the "installed_date" field.
+func (m *BronzeHistoryS1EndpointAppMutation) ResetInstalledDate() {
+	m.installed_date = nil
+	delete(m.clearedFields, bronzehistorys1endpointapp.FieldInstalledDate)
+}
+
+// Where appends a list predicates to the BronzeHistoryS1EndpointAppMutation builder.
+func (m *BronzeHistoryS1EndpointAppMutation) Where(ps ...predicate.BronzeHistoryS1EndpointApp) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the BronzeHistoryS1EndpointAppMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *BronzeHistoryS1EndpointAppMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.BronzeHistoryS1EndpointApp, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *BronzeHistoryS1EndpointAppMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *BronzeHistoryS1EndpointAppMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (BronzeHistoryS1EndpointApp).
+func (m *BronzeHistoryS1EndpointAppMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *BronzeHistoryS1EndpointAppMutation) Fields() []string {
+	fields := make([]string, 0, 11)
+	if m.valid_from != nil {
+		fields = append(fields, bronzehistorys1endpointapp.FieldValidFrom)
+	}
+	if m.valid_to != nil {
+		fields = append(fields, bronzehistorys1endpointapp.FieldValidTo)
+	}
+	if m.collected_at != nil {
+		fields = append(fields, bronzehistorys1endpointapp.FieldCollectedAt)
+	}
+	if m.first_collected_at != nil {
+		fields = append(fields, bronzehistorys1endpointapp.FieldFirstCollectedAt)
+	}
+	if m.resource_id != nil {
+		fields = append(fields, bronzehistorys1endpointapp.FieldResourceID)
+	}
+	if m.agent_id != nil {
+		fields = append(fields, bronzehistorys1endpointapp.FieldAgentID)
+	}
+	if m.name != nil {
+		fields = append(fields, bronzehistorys1endpointapp.FieldName)
+	}
+	if m.version != nil {
+		fields = append(fields, bronzehistorys1endpointapp.FieldVersion)
+	}
+	if m.publisher != nil {
+		fields = append(fields, bronzehistorys1endpointapp.FieldPublisher)
+	}
+	if m.size != nil {
+		fields = append(fields, bronzehistorys1endpointapp.FieldSize)
+	}
+	if m.installed_date != nil {
+		fields = append(fields, bronzehistorys1endpointapp.FieldInstalledDate)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *BronzeHistoryS1EndpointAppMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case bronzehistorys1endpointapp.FieldValidFrom:
+		return m.ValidFrom()
+	case bronzehistorys1endpointapp.FieldValidTo:
+		return m.ValidTo()
+	case bronzehistorys1endpointapp.FieldCollectedAt:
+		return m.CollectedAt()
+	case bronzehistorys1endpointapp.FieldFirstCollectedAt:
+		return m.FirstCollectedAt()
+	case bronzehistorys1endpointapp.FieldResourceID:
+		return m.ResourceID()
+	case bronzehistorys1endpointapp.FieldAgentID:
+		return m.AgentID()
+	case bronzehistorys1endpointapp.FieldName:
+		return m.Name()
+	case bronzehistorys1endpointapp.FieldVersion:
+		return m.Version()
+	case bronzehistorys1endpointapp.FieldPublisher:
+		return m.Publisher()
+	case bronzehistorys1endpointapp.FieldSize:
+		return m.Size()
+	case bronzehistorys1endpointapp.FieldInstalledDate:
+		return m.InstalledDate()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *BronzeHistoryS1EndpointAppMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case bronzehistorys1endpointapp.FieldValidFrom:
+		return m.OldValidFrom(ctx)
+	case bronzehistorys1endpointapp.FieldValidTo:
+		return m.OldValidTo(ctx)
+	case bronzehistorys1endpointapp.FieldCollectedAt:
+		return m.OldCollectedAt(ctx)
+	case bronzehistorys1endpointapp.FieldFirstCollectedAt:
+		return m.OldFirstCollectedAt(ctx)
+	case bronzehistorys1endpointapp.FieldResourceID:
+		return m.OldResourceID(ctx)
+	case bronzehistorys1endpointapp.FieldAgentID:
+		return m.OldAgentID(ctx)
+	case bronzehistorys1endpointapp.FieldName:
+		return m.OldName(ctx)
+	case bronzehistorys1endpointapp.FieldVersion:
+		return m.OldVersion(ctx)
+	case bronzehistorys1endpointapp.FieldPublisher:
+		return m.OldPublisher(ctx)
+	case bronzehistorys1endpointapp.FieldSize:
+		return m.OldSize(ctx)
+	case bronzehistorys1endpointapp.FieldInstalledDate:
+		return m.OldInstalledDate(ctx)
+	}
+	return nil, fmt.Errorf("unknown BronzeHistoryS1EndpointApp field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeHistoryS1EndpointAppMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case bronzehistorys1endpointapp.FieldValidFrom:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetValidFrom(v)
+		return nil
+	case bronzehistorys1endpointapp.FieldValidTo:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetValidTo(v)
+		return nil
+	case bronzehistorys1endpointapp.FieldCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCollectedAt(v)
+		return nil
+	case bronzehistorys1endpointapp.FieldFirstCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFirstCollectedAt(v)
+		return nil
+	case bronzehistorys1endpointapp.FieldResourceID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetResourceID(v)
+		return nil
+	case bronzehistorys1endpointapp.FieldAgentID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAgentID(v)
+		return nil
+	case bronzehistorys1endpointapp.FieldName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetName(v)
+		return nil
+	case bronzehistorys1endpointapp.FieldVersion:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetVersion(v)
+		return nil
+	case bronzehistorys1endpointapp.FieldPublisher:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPublisher(v)
+		return nil
+	case bronzehistorys1endpointapp.FieldSize:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSize(v)
+		return nil
+	case bronzehistorys1endpointapp.FieldInstalledDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInstalledDate(v)
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeHistoryS1EndpointApp field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) AddedFields() []string {
+	var fields []string
+	if m.addsize != nil {
+		fields = append(fields, bronzehistorys1endpointapp.FieldSize)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *BronzeHistoryS1EndpointAppMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case bronzehistorys1endpointapp.FieldSize:
+		return m.AddedSize()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeHistoryS1EndpointAppMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case bronzehistorys1endpointapp.FieldSize:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddSize(v)
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeHistoryS1EndpointApp numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(bronzehistorys1endpointapp.FieldValidTo) {
+		fields = append(fields, bronzehistorys1endpointapp.FieldValidTo)
+	}
+	if m.FieldCleared(bronzehistorys1endpointapp.FieldVersion) {
+		fields = append(fields, bronzehistorys1endpointapp.FieldVersion)
+	}
+	if m.FieldCleared(bronzehistorys1endpointapp.FieldPublisher) {
+		fields = append(fields, bronzehistorys1endpointapp.FieldPublisher)
+	}
+	if m.FieldCleared(bronzehistorys1endpointapp.FieldSize) {
+		fields = append(fields, bronzehistorys1endpointapp.FieldSize)
+	}
+	if m.FieldCleared(bronzehistorys1endpointapp.FieldInstalledDate) {
+		fields = append(fields, bronzehistorys1endpointapp.FieldInstalledDate)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *BronzeHistoryS1EndpointAppMutation) ClearField(name string) error {
+	switch name {
+	case bronzehistorys1endpointapp.FieldValidTo:
+		m.ClearValidTo()
+		return nil
+	case bronzehistorys1endpointapp.FieldVersion:
+		m.ClearVersion()
+		return nil
+	case bronzehistorys1endpointapp.FieldPublisher:
+		m.ClearPublisher()
+		return nil
+	case bronzehistorys1endpointapp.FieldSize:
+		m.ClearSize()
+		return nil
+	case bronzehistorys1endpointapp.FieldInstalledDate:
+		m.ClearInstalledDate()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeHistoryS1EndpointApp nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *BronzeHistoryS1EndpointAppMutation) ResetField(name string) error {
+	switch name {
+	case bronzehistorys1endpointapp.FieldValidFrom:
+		m.ResetValidFrom()
+		return nil
+	case bronzehistorys1endpointapp.FieldValidTo:
+		m.ResetValidTo()
+		return nil
+	case bronzehistorys1endpointapp.FieldCollectedAt:
+		m.ResetCollectedAt()
+		return nil
+	case bronzehistorys1endpointapp.FieldFirstCollectedAt:
+		m.ResetFirstCollectedAt()
+		return nil
+	case bronzehistorys1endpointapp.FieldResourceID:
+		m.ResetResourceID()
+		return nil
+	case bronzehistorys1endpointapp.FieldAgentID:
+		m.ResetAgentID()
+		return nil
+	case bronzehistorys1endpointapp.FieldName:
+		m.ResetName()
+		return nil
+	case bronzehistorys1endpointapp.FieldVersion:
+		m.ResetVersion()
+		return nil
+	case bronzehistorys1endpointapp.FieldPublisher:
+		m.ResetPublisher()
+		return nil
+	case bronzehistorys1endpointapp.FieldSize:
+		m.ResetSize()
+		return nil
+	case bronzehistorys1endpointapp.FieldInstalledDate:
+		m.ResetInstalledDate()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeHistoryS1EndpointApp field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *BronzeHistoryS1EndpointAppMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *BronzeHistoryS1EndpointAppMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown BronzeHistoryS1EndpointApp unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *BronzeHistoryS1EndpointAppMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown BronzeHistoryS1EndpointApp edge %s", name)
 }
 
 // BronzeHistoryS1GroupMutation represents an operation that mutates the BronzeHistoryS1Group nodes in the graph.
@@ -26465,6 +28448,1619 @@ func (m *BronzeS1AgentNICMutation) ResetEdge(name string) error {
 		return nil
 	}
 	return fmt.Errorf("unknown BronzeS1AgentNIC edge %s", name)
+}
+
+// BronzeS1AppInventoryMutation represents an operation that mutates the BronzeS1AppInventory nodes in the graph.
+type BronzeS1AppInventoryMutation struct {
+	config
+	op                            Op
+	typ                           string
+	id                            *string
+	collected_at                  *time.Time
+	first_collected_at            *time.Time
+	application_name              *string
+	application_vendor            *string
+	endpoints_count               *int
+	addendpoints_count            *int
+	application_versions_count    *int
+	addapplication_versions_count *int
+	estimate                      *bool
+	clearedFields                 map[string]struct{}
+	done                          bool
+	oldValue                      func(context.Context) (*BronzeS1AppInventory, error)
+	predicates                    []predicate.BronzeS1AppInventory
+}
+
+var _ ent.Mutation = (*BronzeS1AppInventoryMutation)(nil)
+
+// bronzes1appinventoryOption allows management of the mutation configuration using functional options.
+type bronzes1appinventoryOption func(*BronzeS1AppInventoryMutation)
+
+// newBronzeS1AppInventoryMutation creates new mutation for the BronzeS1AppInventory entity.
+func newBronzeS1AppInventoryMutation(c config, op Op, opts ...bronzes1appinventoryOption) *BronzeS1AppInventoryMutation {
+	m := &BronzeS1AppInventoryMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeBronzeS1AppInventory,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withBronzeS1AppInventoryID sets the ID field of the mutation.
+func withBronzeS1AppInventoryID(id string) bronzes1appinventoryOption {
+	return func(m *BronzeS1AppInventoryMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *BronzeS1AppInventory
+		)
+		m.oldValue = func(ctx context.Context) (*BronzeS1AppInventory, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().BronzeS1AppInventory.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withBronzeS1AppInventory sets the old BronzeS1AppInventory of the mutation.
+func withBronzeS1AppInventory(node *BronzeS1AppInventory) bronzes1appinventoryOption {
+	return func(m *BronzeS1AppInventoryMutation) {
+		m.oldValue = func(context.Context) (*BronzeS1AppInventory, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m BronzeS1AppInventoryMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m BronzeS1AppInventoryMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("s1: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of BronzeS1AppInventory entities.
+func (m *BronzeS1AppInventoryMutation) SetID(id string) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *BronzeS1AppInventoryMutation) ID() (id string, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *BronzeS1AppInventoryMutation) IDs(ctx context.Context) ([]string, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []string{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().BronzeS1AppInventory.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCollectedAt sets the "collected_at" field.
+func (m *BronzeS1AppInventoryMutation) SetCollectedAt(t time.Time) {
+	m.collected_at = &t
+}
+
+// CollectedAt returns the value of the "collected_at" field in the mutation.
+func (m *BronzeS1AppInventoryMutation) CollectedAt() (r time.Time, exists bool) {
+	v := m.collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCollectedAt returns the old "collected_at" field's value of the BronzeS1AppInventory entity.
+// If the BronzeS1AppInventory object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1AppInventoryMutation) OldCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCollectedAt: %w", err)
+	}
+	return oldValue.CollectedAt, nil
+}
+
+// ResetCollectedAt resets all changes to the "collected_at" field.
+func (m *BronzeS1AppInventoryMutation) ResetCollectedAt() {
+	m.collected_at = nil
+}
+
+// SetFirstCollectedAt sets the "first_collected_at" field.
+func (m *BronzeS1AppInventoryMutation) SetFirstCollectedAt(t time.Time) {
+	m.first_collected_at = &t
+}
+
+// FirstCollectedAt returns the value of the "first_collected_at" field in the mutation.
+func (m *BronzeS1AppInventoryMutation) FirstCollectedAt() (r time.Time, exists bool) {
+	v := m.first_collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFirstCollectedAt returns the old "first_collected_at" field's value of the BronzeS1AppInventory entity.
+// If the BronzeS1AppInventory object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1AppInventoryMutation) OldFirstCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFirstCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFirstCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFirstCollectedAt: %w", err)
+	}
+	return oldValue.FirstCollectedAt, nil
+}
+
+// ResetFirstCollectedAt resets all changes to the "first_collected_at" field.
+func (m *BronzeS1AppInventoryMutation) ResetFirstCollectedAt() {
+	m.first_collected_at = nil
+}
+
+// SetApplicationName sets the "application_name" field.
+func (m *BronzeS1AppInventoryMutation) SetApplicationName(s string) {
+	m.application_name = &s
+}
+
+// ApplicationName returns the value of the "application_name" field in the mutation.
+func (m *BronzeS1AppInventoryMutation) ApplicationName() (r string, exists bool) {
+	v := m.application_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldApplicationName returns the old "application_name" field's value of the BronzeS1AppInventory entity.
+// If the BronzeS1AppInventory object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1AppInventoryMutation) OldApplicationName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldApplicationName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldApplicationName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldApplicationName: %w", err)
+	}
+	return oldValue.ApplicationName, nil
+}
+
+// ResetApplicationName resets all changes to the "application_name" field.
+func (m *BronzeS1AppInventoryMutation) ResetApplicationName() {
+	m.application_name = nil
+}
+
+// SetApplicationVendor sets the "application_vendor" field.
+func (m *BronzeS1AppInventoryMutation) SetApplicationVendor(s string) {
+	m.application_vendor = &s
+}
+
+// ApplicationVendor returns the value of the "application_vendor" field in the mutation.
+func (m *BronzeS1AppInventoryMutation) ApplicationVendor() (r string, exists bool) {
+	v := m.application_vendor
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldApplicationVendor returns the old "application_vendor" field's value of the BronzeS1AppInventory entity.
+// If the BronzeS1AppInventory object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1AppInventoryMutation) OldApplicationVendor(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldApplicationVendor is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldApplicationVendor requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldApplicationVendor: %w", err)
+	}
+	return oldValue.ApplicationVendor, nil
+}
+
+// ClearApplicationVendor clears the value of the "application_vendor" field.
+func (m *BronzeS1AppInventoryMutation) ClearApplicationVendor() {
+	m.application_vendor = nil
+	m.clearedFields[bronzes1appinventory.FieldApplicationVendor] = struct{}{}
+}
+
+// ApplicationVendorCleared returns if the "application_vendor" field was cleared in this mutation.
+func (m *BronzeS1AppInventoryMutation) ApplicationVendorCleared() bool {
+	_, ok := m.clearedFields[bronzes1appinventory.FieldApplicationVendor]
+	return ok
+}
+
+// ResetApplicationVendor resets all changes to the "application_vendor" field.
+func (m *BronzeS1AppInventoryMutation) ResetApplicationVendor() {
+	m.application_vendor = nil
+	delete(m.clearedFields, bronzes1appinventory.FieldApplicationVendor)
+}
+
+// SetEndpointsCount sets the "endpoints_count" field.
+func (m *BronzeS1AppInventoryMutation) SetEndpointsCount(i int) {
+	m.endpoints_count = &i
+	m.addendpoints_count = nil
+}
+
+// EndpointsCount returns the value of the "endpoints_count" field in the mutation.
+func (m *BronzeS1AppInventoryMutation) EndpointsCount() (r int, exists bool) {
+	v := m.endpoints_count
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEndpointsCount returns the old "endpoints_count" field's value of the BronzeS1AppInventory entity.
+// If the BronzeS1AppInventory object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1AppInventoryMutation) OldEndpointsCount(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEndpointsCount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEndpointsCount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEndpointsCount: %w", err)
+	}
+	return oldValue.EndpointsCount, nil
+}
+
+// AddEndpointsCount adds i to the "endpoints_count" field.
+func (m *BronzeS1AppInventoryMutation) AddEndpointsCount(i int) {
+	if m.addendpoints_count != nil {
+		*m.addendpoints_count += i
+	} else {
+		m.addendpoints_count = &i
+	}
+}
+
+// AddedEndpointsCount returns the value that was added to the "endpoints_count" field in this mutation.
+func (m *BronzeS1AppInventoryMutation) AddedEndpointsCount() (r int, exists bool) {
+	v := m.addendpoints_count
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearEndpointsCount clears the value of the "endpoints_count" field.
+func (m *BronzeS1AppInventoryMutation) ClearEndpointsCount() {
+	m.endpoints_count = nil
+	m.addendpoints_count = nil
+	m.clearedFields[bronzes1appinventory.FieldEndpointsCount] = struct{}{}
+}
+
+// EndpointsCountCleared returns if the "endpoints_count" field was cleared in this mutation.
+func (m *BronzeS1AppInventoryMutation) EndpointsCountCleared() bool {
+	_, ok := m.clearedFields[bronzes1appinventory.FieldEndpointsCount]
+	return ok
+}
+
+// ResetEndpointsCount resets all changes to the "endpoints_count" field.
+func (m *BronzeS1AppInventoryMutation) ResetEndpointsCount() {
+	m.endpoints_count = nil
+	m.addendpoints_count = nil
+	delete(m.clearedFields, bronzes1appinventory.FieldEndpointsCount)
+}
+
+// SetApplicationVersionsCount sets the "application_versions_count" field.
+func (m *BronzeS1AppInventoryMutation) SetApplicationVersionsCount(i int) {
+	m.application_versions_count = &i
+	m.addapplication_versions_count = nil
+}
+
+// ApplicationVersionsCount returns the value of the "application_versions_count" field in the mutation.
+func (m *BronzeS1AppInventoryMutation) ApplicationVersionsCount() (r int, exists bool) {
+	v := m.application_versions_count
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldApplicationVersionsCount returns the old "application_versions_count" field's value of the BronzeS1AppInventory entity.
+// If the BronzeS1AppInventory object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1AppInventoryMutation) OldApplicationVersionsCount(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldApplicationVersionsCount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldApplicationVersionsCount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldApplicationVersionsCount: %w", err)
+	}
+	return oldValue.ApplicationVersionsCount, nil
+}
+
+// AddApplicationVersionsCount adds i to the "application_versions_count" field.
+func (m *BronzeS1AppInventoryMutation) AddApplicationVersionsCount(i int) {
+	if m.addapplication_versions_count != nil {
+		*m.addapplication_versions_count += i
+	} else {
+		m.addapplication_versions_count = &i
+	}
+}
+
+// AddedApplicationVersionsCount returns the value that was added to the "application_versions_count" field in this mutation.
+func (m *BronzeS1AppInventoryMutation) AddedApplicationVersionsCount() (r int, exists bool) {
+	v := m.addapplication_versions_count
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearApplicationVersionsCount clears the value of the "application_versions_count" field.
+func (m *BronzeS1AppInventoryMutation) ClearApplicationVersionsCount() {
+	m.application_versions_count = nil
+	m.addapplication_versions_count = nil
+	m.clearedFields[bronzes1appinventory.FieldApplicationVersionsCount] = struct{}{}
+}
+
+// ApplicationVersionsCountCleared returns if the "application_versions_count" field was cleared in this mutation.
+func (m *BronzeS1AppInventoryMutation) ApplicationVersionsCountCleared() bool {
+	_, ok := m.clearedFields[bronzes1appinventory.FieldApplicationVersionsCount]
+	return ok
+}
+
+// ResetApplicationVersionsCount resets all changes to the "application_versions_count" field.
+func (m *BronzeS1AppInventoryMutation) ResetApplicationVersionsCount() {
+	m.application_versions_count = nil
+	m.addapplication_versions_count = nil
+	delete(m.clearedFields, bronzes1appinventory.FieldApplicationVersionsCount)
+}
+
+// SetEstimate sets the "estimate" field.
+func (m *BronzeS1AppInventoryMutation) SetEstimate(b bool) {
+	m.estimate = &b
+}
+
+// Estimate returns the value of the "estimate" field in the mutation.
+func (m *BronzeS1AppInventoryMutation) Estimate() (r bool, exists bool) {
+	v := m.estimate
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEstimate returns the old "estimate" field's value of the BronzeS1AppInventory entity.
+// If the BronzeS1AppInventory object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1AppInventoryMutation) OldEstimate(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEstimate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEstimate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEstimate: %w", err)
+	}
+	return oldValue.Estimate, nil
+}
+
+// ResetEstimate resets all changes to the "estimate" field.
+func (m *BronzeS1AppInventoryMutation) ResetEstimate() {
+	m.estimate = nil
+}
+
+// Where appends a list predicates to the BronzeS1AppInventoryMutation builder.
+func (m *BronzeS1AppInventoryMutation) Where(ps ...predicate.BronzeS1AppInventory) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the BronzeS1AppInventoryMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *BronzeS1AppInventoryMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.BronzeS1AppInventory, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *BronzeS1AppInventoryMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *BronzeS1AppInventoryMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (BronzeS1AppInventory).
+func (m *BronzeS1AppInventoryMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *BronzeS1AppInventoryMutation) Fields() []string {
+	fields := make([]string, 0, 7)
+	if m.collected_at != nil {
+		fields = append(fields, bronzes1appinventory.FieldCollectedAt)
+	}
+	if m.first_collected_at != nil {
+		fields = append(fields, bronzes1appinventory.FieldFirstCollectedAt)
+	}
+	if m.application_name != nil {
+		fields = append(fields, bronzes1appinventory.FieldApplicationName)
+	}
+	if m.application_vendor != nil {
+		fields = append(fields, bronzes1appinventory.FieldApplicationVendor)
+	}
+	if m.endpoints_count != nil {
+		fields = append(fields, bronzes1appinventory.FieldEndpointsCount)
+	}
+	if m.application_versions_count != nil {
+		fields = append(fields, bronzes1appinventory.FieldApplicationVersionsCount)
+	}
+	if m.estimate != nil {
+		fields = append(fields, bronzes1appinventory.FieldEstimate)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *BronzeS1AppInventoryMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case bronzes1appinventory.FieldCollectedAt:
+		return m.CollectedAt()
+	case bronzes1appinventory.FieldFirstCollectedAt:
+		return m.FirstCollectedAt()
+	case bronzes1appinventory.FieldApplicationName:
+		return m.ApplicationName()
+	case bronzes1appinventory.FieldApplicationVendor:
+		return m.ApplicationVendor()
+	case bronzes1appinventory.FieldEndpointsCount:
+		return m.EndpointsCount()
+	case bronzes1appinventory.FieldApplicationVersionsCount:
+		return m.ApplicationVersionsCount()
+	case bronzes1appinventory.FieldEstimate:
+		return m.Estimate()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *BronzeS1AppInventoryMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case bronzes1appinventory.FieldCollectedAt:
+		return m.OldCollectedAt(ctx)
+	case bronzes1appinventory.FieldFirstCollectedAt:
+		return m.OldFirstCollectedAt(ctx)
+	case bronzes1appinventory.FieldApplicationName:
+		return m.OldApplicationName(ctx)
+	case bronzes1appinventory.FieldApplicationVendor:
+		return m.OldApplicationVendor(ctx)
+	case bronzes1appinventory.FieldEndpointsCount:
+		return m.OldEndpointsCount(ctx)
+	case bronzes1appinventory.FieldApplicationVersionsCount:
+		return m.OldApplicationVersionsCount(ctx)
+	case bronzes1appinventory.FieldEstimate:
+		return m.OldEstimate(ctx)
+	}
+	return nil, fmt.Errorf("unknown BronzeS1AppInventory field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeS1AppInventoryMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case bronzes1appinventory.FieldCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCollectedAt(v)
+		return nil
+	case bronzes1appinventory.FieldFirstCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFirstCollectedAt(v)
+		return nil
+	case bronzes1appinventory.FieldApplicationName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetApplicationName(v)
+		return nil
+	case bronzes1appinventory.FieldApplicationVendor:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetApplicationVendor(v)
+		return nil
+	case bronzes1appinventory.FieldEndpointsCount:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEndpointsCount(v)
+		return nil
+	case bronzes1appinventory.FieldApplicationVersionsCount:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetApplicationVersionsCount(v)
+		return nil
+	case bronzes1appinventory.FieldEstimate:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEstimate(v)
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeS1AppInventory field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *BronzeS1AppInventoryMutation) AddedFields() []string {
+	var fields []string
+	if m.addendpoints_count != nil {
+		fields = append(fields, bronzes1appinventory.FieldEndpointsCount)
+	}
+	if m.addapplication_versions_count != nil {
+		fields = append(fields, bronzes1appinventory.FieldApplicationVersionsCount)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *BronzeS1AppInventoryMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case bronzes1appinventory.FieldEndpointsCount:
+		return m.AddedEndpointsCount()
+	case bronzes1appinventory.FieldApplicationVersionsCount:
+		return m.AddedApplicationVersionsCount()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeS1AppInventoryMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case bronzes1appinventory.FieldEndpointsCount:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddEndpointsCount(v)
+		return nil
+	case bronzes1appinventory.FieldApplicationVersionsCount:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddApplicationVersionsCount(v)
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeS1AppInventory numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *BronzeS1AppInventoryMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(bronzes1appinventory.FieldApplicationVendor) {
+		fields = append(fields, bronzes1appinventory.FieldApplicationVendor)
+	}
+	if m.FieldCleared(bronzes1appinventory.FieldEndpointsCount) {
+		fields = append(fields, bronzes1appinventory.FieldEndpointsCount)
+	}
+	if m.FieldCleared(bronzes1appinventory.FieldApplicationVersionsCount) {
+		fields = append(fields, bronzes1appinventory.FieldApplicationVersionsCount)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *BronzeS1AppInventoryMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *BronzeS1AppInventoryMutation) ClearField(name string) error {
+	switch name {
+	case bronzes1appinventory.FieldApplicationVendor:
+		m.ClearApplicationVendor()
+		return nil
+	case bronzes1appinventory.FieldEndpointsCount:
+		m.ClearEndpointsCount()
+		return nil
+	case bronzes1appinventory.FieldApplicationVersionsCount:
+		m.ClearApplicationVersionsCount()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeS1AppInventory nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *BronzeS1AppInventoryMutation) ResetField(name string) error {
+	switch name {
+	case bronzes1appinventory.FieldCollectedAt:
+		m.ResetCollectedAt()
+		return nil
+	case bronzes1appinventory.FieldFirstCollectedAt:
+		m.ResetFirstCollectedAt()
+		return nil
+	case bronzes1appinventory.FieldApplicationName:
+		m.ResetApplicationName()
+		return nil
+	case bronzes1appinventory.FieldApplicationVendor:
+		m.ResetApplicationVendor()
+		return nil
+	case bronzes1appinventory.FieldEndpointsCount:
+		m.ResetEndpointsCount()
+		return nil
+	case bronzes1appinventory.FieldApplicationVersionsCount:
+		m.ResetApplicationVersionsCount()
+		return nil
+	case bronzes1appinventory.FieldEstimate:
+		m.ResetEstimate()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeS1AppInventory field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *BronzeS1AppInventoryMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *BronzeS1AppInventoryMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *BronzeS1AppInventoryMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *BronzeS1AppInventoryMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *BronzeS1AppInventoryMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *BronzeS1AppInventoryMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *BronzeS1AppInventoryMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown BronzeS1AppInventory unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *BronzeS1AppInventoryMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown BronzeS1AppInventory edge %s", name)
+}
+
+// BronzeS1EndpointAppMutation represents an operation that mutates the BronzeS1EndpointApp nodes in the graph.
+type BronzeS1EndpointAppMutation struct {
+	config
+	op                 Op
+	typ                string
+	id                 *string
+	collected_at       *time.Time
+	first_collected_at *time.Time
+	agent_id           *string
+	name               *string
+	version            *string
+	publisher          *string
+	size               *int
+	addsize            *int
+	installed_date     *time.Time
+	clearedFields      map[string]struct{}
+	done               bool
+	oldValue           func(context.Context) (*BronzeS1EndpointApp, error)
+	predicates         []predicate.BronzeS1EndpointApp
+}
+
+var _ ent.Mutation = (*BronzeS1EndpointAppMutation)(nil)
+
+// bronzes1endpointappOption allows management of the mutation configuration using functional options.
+type bronzes1endpointappOption func(*BronzeS1EndpointAppMutation)
+
+// newBronzeS1EndpointAppMutation creates new mutation for the BronzeS1EndpointApp entity.
+func newBronzeS1EndpointAppMutation(c config, op Op, opts ...bronzes1endpointappOption) *BronzeS1EndpointAppMutation {
+	m := &BronzeS1EndpointAppMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeBronzeS1EndpointApp,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withBronzeS1EndpointAppID sets the ID field of the mutation.
+func withBronzeS1EndpointAppID(id string) bronzes1endpointappOption {
+	return func(m *BronzeS1EndpointAppMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *BronzeS1EndpointApp
+		)
+		m.oldValue = func(ctx context.Context) (*BronzeS1EndpointApp, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().BronzeS1EndpointApp.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withBronzeS1EndpointApp sets the old BronzeS1EndpointApp of the mutation.
+func withBronzeS1EndpointApp(node *BronzeS1EndpointApp) bronzes1endpointappOption {
+	return func(m *BronzeS1EndpointAppMutation) {
+		m.oldValue = func(context.Context) (*BronzeS1EndpointApp, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m BronzeS1EndpointAppMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m BronzeS1EndpointAppMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("s1: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of BronzeS1EndpointApp entities.
+func (m *BronzeS1EndpointAppMutation) SetID(id string) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *BronzeS1EndpointAppMutation) ID() (id string, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *BronzeS1EndpointAppMutation) IDs(ctx context.Context) ([]string, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []string{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().BronzeS1EndpointApp.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCollectedAt sets the "collected_at" field.
+func (m *BronzeS1EndpointAppMutation) SetCollectedAt(t time.Time) {
+	m.collected_at = &t
+}
+
+// CollectedAt returns the value of the "collected_at" field in the mutation.
+func (m *BronzeS1EndpointAppMutation) CollectedAt() (r time.Time, exists bool) {
+	v := m.collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCollectedAt returns the old "collected_at" field's value of the BronzeS1EndpointApp entity.
+// If the BronzeS1EndpointApp object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1EndpointAppMutation) OldCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCollectedAt: %w", err)
+	}
+	return oldValue.CollectedAt, nil
+}
+
+// ResetCollectedAt resets all changes to the "collected_at" field.
+func (m *BronzeS1EndpointAppMutation) ResetCollectedAt() {
+	m.collected_at = nil
+}
+
+// SetFirstCollectedAt sets the "first_collected_at" field.
+func (m *BronzeS1EndpointAppMutation) SetFirstCollectedAt(t time.Time) {
+	m.first_collected_at = &t
+}
+
+// FirstCollectedAt returns the value of the "first_collected_at" field in the mutation.
+func (m *BronzeS1EndpointAppMutation) FirstCollectedAt() (r time.Time, exists bool) {
+	v := m.first_collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFirstCollectedAt returns the old "first_collected_at" field's value of the BronzeS1EndpointApp entity.
+// If the BronzeS1EndpointApp object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1EndpointAppMutation) OldFirstCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFirstCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFirstCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFirstCollectedAt: %w", err)
+	}
+	return oldValue.FirstCollectedAt, nil
+}
+
+// ResetFirstCollectedAt resets all changes to the "first_collected_at" field.
+func (m *BronzeS1EndpointAppMutation) ResetFirstCollectedAt() {
+	m.first_collected_at = nil
+}
+
+// SetAgentID sets the "agent_id" field.
+func (m *BronzeS1EndpointAppMutation) SetAgentID(s string) {
+	m.agent_id = &s
+}
+
+// AgentID returns the value of the "agent_id" field in the mutation.
+func (m *BronzeS1EndpointAppMutation) AgentID() (r string, exists bool) {
+	v := m.agent_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAgentID returns the old "agent_id" field's value of the BronzeS1EndpointApp entity.
+// If the BronzeS1EndpointApp object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1EndpointAppMutation) OldAgentID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAgentID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAgentID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAgentID: %w", err)
+	}
+	return oldValue.AgentID, nil
+}
+
+// ResetAgentID resets all changes to the "agent_id" field.
+func (m *BronzeS1EndpointAppMutation) ResetAgentID() {
+	m.agent_id = nil
+}
+
+// SetName sets the "name" field.
+func (m *BronzeS1EndpointAppMutation) SetName(s string) {
+	m.name = &s
+}
+
+// Name returns the value of the "name" field in the mutation.
+func (m *BronzeS1EndpointAppMutation) Name() (r string, exists bool) {
+	v := m.name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldName returns the old "name" field's value of the BronzeS1EndpointApp entity.
+// If the BronzeS1EndpointApp object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1EndpointAppMutation) OldName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
+	}
+	return oldValue.Name, nil
+}
+
+// ResetName resets all changes to the "name" field.
+func (m *BronzeS1EndpointAppMutation) ResetName() {
+	m.name = nil
+}
+
+// SetVersion sets the "version" field.
+func (m *BronzeS1EndpointAppMutation) SetVersion(s string) {
+	m.version = &s
+}
+
+// Version returns the value of the "version" field in the mutation.
+func (m *BronzeS1EndpointAppMutation) Version() (r string, exists bool) {
+	v := m.version
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldVersion returns the old "version" field's value of the BronzeS1EndpointApp entity.
+// If the BronzeS1EndpointApp object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1EndpointAppMutation) OldVersion(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldVersion is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldVersion requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldVersion: %w", err)
+	}
+	return oldValue.Version, nil
+}
+
+// ClearVersion clears the value of the "version" field.
+func (m *BronzeS1EndpointAppMutation) ClearVersion() {
+	m.version = nil
+	m.clearedFields[bronzes1endpointapp.FieldVersion] = struct{}{}
+}
+
+// VersionCleared returns if the "version" field was cleared in this mutation.
+func (m *BronzeS1EndpointAppMutation) VersionCleared() bool {
+	_, ok := m.clearedFields[bronzes1endpointapp.FieldVersion]
+	return ok
+}
+
+// ResetVersion resets all changes to the "version" field.
+func (m *BronzeS1EndpointAppMutation) ResetVersion() {
+	m.version = nil
+	delete(m.clearedFields, bronzes1endpointapp.FieldVersion)
+}
+
+// SetPublisher sets the "publisher" field.
+func (m *BronzeS1EndpointAppMutation) SetPublisher(s string) {
+	m.publisher = &s
+}
+
+// Publisher returns the value of the "publisher" field in the mutation.
+func (m *BronzeS1EndpointAppMutation) Publisher() (r string, exists bool) {
+	v := m.publisher
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPublisher returns the old "publisher" field's value of the BronzeS1EndpointApp entity.
+// If the BronzeS1EndpointApp object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1EndpointAppMutation) OldPublisher(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPublisher is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPublisher requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPublisher: %w", err)
+	}
+	return oldValue.Publisher, nil
+}
+
+// ClearPublisher clears the value of the "publisher" field.
+func (m *BronzeS1EndpointAppMutation) ClearPublisher() {
+	m.publisher = nil
+	m.clearedFields[bronzes1endpointapp.FieldPublisher] = struct{}{}
+}
+
+// PublisherCleared returns if the "publisher" field was cleared in this mutation.
+func (m *BronzeS1EndpointAppMutation) PublisherCleared() bool {
+	_, ok := m.clearedFields[bronzes1endpointapp.FieldPublisher]
+	return ok
+}
+
+// ResetPublisher resets all changes to the "publisher" field.
+func (m *BronzeS1EndpointAppMutation) ResetPublisher() {
+	m.publisher = nil
+	delete(m.clearedFields, bronzes1endpointapp.FieldPublisher)
+}
+
+// SetSize sets the "size" field.
+func (m *BronzeS1EndpointAppMutation) SetSize(i int) {
+	m.size = &i
+	m.addsize = nil
+}
+
+// Size returns the value of the "size" field in the mutation.
+func (m *BronzeS1EndpointAppMutation) Size() (r int, exists bool) {
+	v := m.size
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSize returns the old "size" field's value of the BronzeS1EndpointApp entity.
+// If the BronzeS1EndpointApp object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1EndpointAppMutation) OldSize(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSize is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSize requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSize: %w", err)
+	}
+	return oldValue.Size, nil
+}
+
+// AddSize adds i to the "size" field.
+func (m *BronzeS1EndpointAppMutation) AddSize(i int) {
+	if m.addsize != nil {
+		*m.addsize += i
+	} else {
+		m.addsize = &i
+	}
+}
+
+// AddedSize returns the value that was added to the "size" field in this mutation.
+func (m *BronzeS1EndpointAppMutation) AddedSize() (r int, exists bool) {
+	v := m.addsize
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearSize clears the value of the "size" field.
+func (m *BronzeS1EndpointAppMutation) ClearSize() {
+	m.size = nil
+	m.addsize = nil
+	m.clearedFields[bronzes1endpointapp.FieldSize] = struct{}{}
+}
+
+// SizeCleared returns if the "size" field was cleared in this mutation.
+func (m *BronzeS1EndpointAppMutation) SizeCleared() bool {
+	_, ok := m.clearedFields[bronzes1endpointapp.FieldSize]
+	return ok
+}
+
+// ResetSize resets all changes to the "size" field.
+func (m *BronzeS1EndpointAppMutation) ResetSize() {
+	m.size = nil
+	m.addsize = nil
+	delete(m.clearedFields, bronzes1endpointapp.FieldSize)
+}
+
+// SetInstalledDate sets the "installed_date" field.
+func (m *BronzeS1EndpointAppMutation) SetInstalledDate(t time.Time) {
+	m.installed_date = &t
+}
+
+// InstalledDate returns the value of the "installed_date" field in the mutation.
+func (m *BronzeS1EndpointAppMutation) InstalledDate() (r time.Time, exists bool) {
+	v := m.installed_date
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInstalledDate returns the old "installed_date" field's value of the BronzeS1EndpointApp entity.
+// If the BronzeS1EndpointApp object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1EndpointAppMutation) OldInstalledDate(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldInstalledDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldInstalledDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInstalledDate: %w", err)
+	}
+	return oldValue.InstalledDate, nil
+}
+
+// ClearInstalledDate clears the value of the "installed_date" field.
+func (m *BronzeS1EndpointAppMutation) ClearInstalledDate() {
+	m.installed_date = nil
+	m.clearedFields[bronzes1endpointapp.FieldInstalledDate] = struct{}{}
+}
+
+// InstalledDateCleared returns if the "installed_date" field was cleared in this mutation.
+func (m *BronzeS1EndpointAppMutation) InstalledDateCleared() bool {
+	_, ok := m.clearedFields[bronzes1endpointapp.FieldInstalledDate]
+	return ok
+}
+
+// ResetInstalledDate resets all changes to the "installed_date" field.
+func (m *BronzeS1EndpointAppMutation) ResetInstalledDate() {
+	m.installed_date = nil
+	delete(m.clearedFields, bronzes1endpointapp.FieldInstalledDate)
+}
+
+// Where appends a list predicates to the BronzeS1EndpointAppMutation builder.
+func (m *BronzeS1EndpointAppMutation) Where(ps ...predicate.BronzeS1EndpointApp) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the BronzeS1EndpointAppMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *BronzeS1EndpointAppMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.BronzeS1EndpointApp, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *BronzeS1EndpointAppMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *BronzeS1EndpointAppMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (BronzeS1EndpointApp).
+func (m *BronzeS1EndpointAppMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *BronzeS1EndpointAppMutation) Fields() []string {
+	fields := make([]string, 0, 8)
+	if m.collected_at != nil {
+		fields = append(fields, bronzes1endpointapp.FieldCollectedAt)
+	}
+	if m.first_collected_at != nil {
+		fields = append(fields, bronzes1endpointapp.FieldFirstCollectedAt)
+	}
+	if m.agent_id != nil {
+		fields = append(fields, bronzes1endpointapp.FieldAgentID)
+	}
+	if m.name != nil {
+		fields = append(fields, bronzes1endpointapp.FieldName)
+	}
+	if m.version != nil {
+		fields = append(fields, bronzes1endpointapp.FieldVersion)
+	}
+	if m.publisher != nil {
+		fields = append(fields, bronzes1endpointapp.FieldPublisher)
+	}
+	if m.size != nil {
+		fields = append(fields, bronzes1endpointapp.FieldSize)
+	}
+	if m.installed_date != nil {
+		fields = append(fields, bronzes1endpointapp.FieldInstalledDate)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *BronzeS1EndpointAppMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case bronzes1endpointapp.FieldCollectedAt:
+		return m.CollectedAt()
+	case bronzes1endpointapp.FieldFirstCollectedAt:
+		return m.FirstCollectedAt()
+	case bronzes1endpointapp.FieldAgentID:
+		return m.AgentID()
+	case bronzes1endpointapp.FieldName:
+		return m.Name()
+	case bronzes1endpointapp.FieldVersion:
+		return m.Version()
+	case bronzes1endpointapp.FieldPublisher:
+		return m.Publisher()
+	case bronzes1endpointapp.FieldSize:
+		return m.Size()
+	case bronzes1endpointapp.FieldInstalledDate:
+		return m.InstalledDate()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *BronzeS1EndpointAppMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case bronzes1endpointapp.FieldCollectedAt:
+		return m.OldCollectedAt(ctx)
+	case bronzes1endpointapp.FieldFirstCollectedAt:
+		return m.OldFirstCollectedAt(ctx)
+	case bronzes1endpointapp.FieldAgentID:
+		return m.OldAgentID(ctx)
+	case bronzes1endpointapp.FieldName:
+		return m.OldName(ctx)
+	case bronzes1endpointapp.FieldVersion:
+		return m.OldVersion(ctx)
+	case bronzes1endpointapp.FieldPublisher:
+		return m.OldPublisher(ctx)
+	case bronzes1endpointapp.FieldSize:
+		return m.OldSize(ctx)
+	case bronzes1endpointapp.FieldInstalledDate:
+		return m.OldInstalledDate(ctx)
+	}
+	return nil, fmt.Errorf("unknown BronzeS1EndpointApp field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeS1EndpointAppMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case bronzes1endpointapp.FieldCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCollectedAt(v)
+		return nil
+	case bronzes1endpointapp.FieldFirstCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFirstCollectedAt(v)
+		return nil
+	case bronzes1endpointapp.FieldAgentID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAgentID(v)
+		return nil
+	case bronzes1endpointapp.FieldName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetName(v)
+		return nil
+	case bronzes1endpointapp.FieldVersion:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetVersion(v)
+		return nil
+	case bronzes1endpointapp.FieldPublisher:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPublisher(v)
+		return nil
+	case bronzes1endpointapp.FieldSize:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSize(v)
+		return nil
+	case bronzes1endpointapp.FieldInstalledDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInstalledDate(v)
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeS1EndpointApp field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *BronzeS1EndpointAppMutation) AddedFields() []string {
+	var fields []string
+	if m.addsize != nil {
+		fields = append(fields, bronzes1endpointapp.FieldSize)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *BronzeS1EndpointAppMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case bronzes1endpointapp.FieldSize:
+		return m.AddedSize()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeS1EndpointAppMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case bronzes1endpointapp.FieldSize:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddSize(v)
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeS1EndpointApp numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *BronzeS1EndpointAppMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(bronzes1endpointapp.FieldVersion) {
+		fields = append(fields, bronzes1endpointapp.FieldVersion)
+	}
+	if m.FieldCleared(bronzes1endpointapp.FieldPublisher) {
+		fields = append(fields, bronzes1endpointapp.FieldPublisher)
+	}
+	if m.FieldCleared(bronzes1endpointapp.FieldSize) {
+		fields = append(fields, bronzes1endpointapp.FieldSize)
+	}
+	if m.FieldCleared(bronzes1endpointapp.FieldInstalledDate) {
+		fields = append(fields, bronzes1endpointapp.FieldInstalledDate)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *BronzeS1EndpointAppMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *BronzeS1EndpointAppMutation) ClearField(name string) error {
+	switch name {
+	case bronzes1endpointapp.FieldVersion:
+		m.ClearVersion()
+		return nil
+	case bronzes1endpointapp.FieldPublisher:
+		m.ClearPublisher()
+		return nil
+	case bronzes1endpointapp.FieldSize:
+		m.ClearSize()
+		return nil
+	case bronzes1endpointapp.FieldInstalledDate:
+		m.ClearInstalledDate()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeS1EndpointApp nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *BronzeS1EndpointAppMutation) ResetField(name string) error {
+	switch name {
+	case bronzes1endpointapp.FieldCollectedAt:
+		m.ResetCollectedAt()
+		return nil
+	case bronzes1endpointapp.FieldFirstCollectedAt:
+		m.ResetFirstCollectedAt()
+		return nil
+	case bronzes1endpointapp.FieldAgentID:
+		m.ResetAgentID()
+		return nil
+	case bronzes1endpointapp.FieldName:
+		m.ResetName()
+		return nil
+	case bronzes1endpointapp.FieldVersion:
+		m.ResetVersion()
+		return nil
+	case bronzes1endpointapp.FieldPublisher:
+		m.ResetPublisher()
+		return nil
+	case bronzes1endpointapp.FieldSize:
+		m.ResetSize()
+		return nil
+	case bronzes1endpointapp.FieldInstalledDate:
+		m.ResetInstalledDate()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeS1EndpointApp field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *BronzeS1EndpointAppMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *BronzeS1EndpointAppMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *BronzeS1EndpointAppMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *BronzeS1EndpointAppMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *BronzeS1EndpointAppMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *BronzeS1EndpointAppMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *BronzeS1EndpointAppMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown BronzeS1EndpointApp unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *BronzeS1EndpointAppMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown BronzeS1EndpointApp edge %s", name)
 }
 
 // BronzeS1GroupMutation represents an operation that mutates the BronzeS1Group nodes in the graph.

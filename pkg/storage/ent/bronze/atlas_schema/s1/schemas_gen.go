@@ -55,6 +55,38 @@ func (BronzeS1AgentNIC) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze"})
 }
 
+type BronzeS1AppInventory struct {
+	bronze_s1.BronzeS1AppInventory
+}
+
+func (BronzeS1AppInventory) Annotations() []schema.Annotation {
+	anns := bronze_s1.BronzeS1AppInventory{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeS1EndpointApp struct {
+	bronze_s1.BronzeS1EndpointApp
+}
+
+func (BronzeS1EndpointApp) Annotations() []schema.Annotation {
+	anns := bronze_s1.BronzeS1EndpointApp{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
 type BronzeS1Group struct {
 	bronze_s1.BronzeS1Group
 }

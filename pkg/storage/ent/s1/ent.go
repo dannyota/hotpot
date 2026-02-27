@@ -15,6 +15,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1account"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1agent"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1agentnic"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1appinventory"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1endpointapp"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1group"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangerdevice"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangergateway"
@@ -23,6 +25,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1account"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1agent"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1agentnic"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1appinventory"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1endpointapp"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1group"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangerdevice"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangergateway"
@@ -91,6 +95,8 @@ func checkColumn(t, c string) error {
 			bronzehistorys1account.Table:       bronzehistorys1account.ValidColumn,
 			bronzehistorys1agent.Table:         bronzehistorys1agent.ValidColumn,
 			bronzehistorys1agentnic.Table:      bronzehistorys1agentnic.ValidColumn,
+			bronzehistorys1appinventory.Table:  bronzehistorys1appinventory.ValidColumn,
+			bronzehistorys1endpointapp.Table:   bronzehistorys1endpointapp.ValidColumn,
 			bronzehistorys1group.Table:         bronzehistorys1group.ValidColumn,
 			bronzehistorys1rangerdevice.Table:  bronzehistorys1rangerdevice.ValidColumn,
 			bronzehistorys1rangergateway.Table: bronzehistorys1rangergateway.ValidColumn,
@@ -99,6 +105,8 @@ func checkColumn(t, c string) error {
 			bronzes1account.Table:              bronzes1account.ValidColumn,
 			bronzes1agent.Table:                bronzes1agent.ValidColumn,
 			bronzes1agentnic.Table:             bronzes1agentnic.ValidColumn,
+			bronzes1appinventory.Table:         bronzes1appinventory.ValidColumn,
+			bronzes1endpointapp.Table:          bronzes1endpointapp.ValidColumn,
 			bronzes1group.Table:                bronzes1group.ValidColumn,
 			bronzes1rangerdevice.Table:         bronzes1rangerdevice.ValidColumn,
 			bronzes1rangergateway.Table:        bronzes1rangergateway.ValidColumn,

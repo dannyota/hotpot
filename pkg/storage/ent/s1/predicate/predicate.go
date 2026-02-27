@@ -15,6 +15,12 @@ type BronzeHistoryS1Agent func(*sql.Selector)
 // BronzeHistoryS1AgentNIC is the predicate function for bronzehistorys1agentnic builders.
 type BronzeHistoryS1AgentNIC func(*sql.Selector)
 
+// BronzeHistoryS1AppInventory is the predicate function for bronzehistorys1appinventory builders.
+type BronzeHistoryS1AppInventory func(*sql.Selector)
+
+// BronzeHistoryS1EndpointApp is the predicate function for bronzehistorys1endpointapp builders.
+type BronzeHistoryS1EndpointApp func(*sql.Selector)
+
 // BronzeHistoryS1Group is the predicate function for bronzehistorys1group builders.
 type BronzeHistoryS1Group func(*sql.Selector)
 
@@ -38,6 +44,12 @@ type BronzeS1Agent func(*sql.Selector)
 
 // BronzeS1AgentNIC is the predicate function for bronzes1agentnic builders.
 type BronzeS1AgentNIC func(*sql.Selector)
+
+// BronzeS1AppInventory is the predicate function for bronzes1appinventory builders.
+type BronzeS1AppInventory func(*sql.Selector)
+
+// BronzeS1EndpointApp is the predicate function for bronzes1endpointapp builders.
+type BronzeS1EndpointApp func(*sql.Selector)
 
 // BronzeS1Group is the predicate function for bronzes1group builders.
 type BronzeS1Group func(*sql.Selector)

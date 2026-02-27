@@ -8,6 +8,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/account"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/agent"
+	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/app_inventory"
+	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/endpoint_app"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/group"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_device"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_gateway"
@@ -35,6 +37,8 @@ func Register(w worker.Worker, configService *config.Service, driver dialect.Dri
 	ranger_device.Register(w, configService, entClient, limiter)
 	ranger_gateway.Register(w, configService, entClient, limiter)
 	ranger_setting.Register(w, configService, entClient, limiter)
+	app_inventory.Register(w, configService, entClient, limiter)
+	endpoint_app.Register(w, configService, entClient, limiter)
 
 	w.RegisterWorkflow(S1InventoryWorkflow)
 

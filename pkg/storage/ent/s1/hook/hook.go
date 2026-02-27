@@ -45,6 +45,30 @@ func (f BronzeHistoryS1AgentNICFunc) Mutate(ctx context.Context, m s1.Mutation) 
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *s1.BronzeHistoryS1AgentNICMutation", m)
 }
 
+// The BronzeHistoryS1AppInventoryFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryS1AppInventory mutator.
+type BronzeHistoryS1AppInventoryFunc func(context.Context, *s1.BronzeHistoryS1AppInventoryMutation) (s1.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryS1AppInventoryFunc) Mutate(ctx context.Context, m s1.Mutation) (s1.Value, error) {
+	if mv, ok := m.(*s1.BronzeHistoryS1AppInventoryMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *s1.BronzeHistoryS1AppInventoryMutation", m)
+}
+
+// The BronzeHistoryS1EndpointAppFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryS1EndpointApp mutator.
+type BronzeHistoryS1EndpointAppFunc func(context.Context, *s1.BronzeHistoryS1EndpointAppMutation) (s1.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryS1EndpointAppFunc) Mutate(ctx context.Context, m s1.Mutation) (s1.Value, error) {
+	if mv, ok := m.(*s1.BronzeHistoryS1EndpointAppMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *s1.BronzeHistoryS1EndpointAppMutation", m)
+}
+
 // The BronzeHistoryS1GroupFunc type is an adapter to allow the use of ordinary
 // function as BronzeHistoryS1Group mutator.
 type BronzeHistoryS1GroupFunc func(context.Context, *s1.BronzeHistoryS1GroupMutation) (s1.Value, error)
@@ -139,6 +163,30 @@ func (f BronzeS1AgentNICFunc) Mutate(ctx context.Context, m s1.Mutation) (s1.Val
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *s1.BronzeS1AgentNICMutation", m)
+}
+
+// The BronzeS1AppInventoryFunc type is an adapter to allow the use of ordinary
+// function as BronzeS1AppInventory mutator.
+type BronzeS1AppInventoryFunc func(context.Context, *s1.BronzeS1AppInventoryMutation) (s1.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeS1AppInventoryFunc) Mutate(ctx context.Context, m s1.Mutation) (s1.Value, error) {
+	if mv, ok := m.(*s1.BronzeS1AppInventoryMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *s1.BronzeS1AppInventoryMutation", m)
+}
+
+// The BronzeS1EndpointAppFunc type is an adapter to allow the use of ordinary
+// function as BronzeS1EndpointApp mutator.
+type BronzeS1EndpointAppFunc func(context.Context, *s1.BronzeS1EndpointAppMutation) (s1.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeS1EndpointAppFunc) Mutate(ctx context.Context, m s1.Mutation) (s1.Value, error) {
+	if mv, ok := m.(*s1.BronzeS1EndpointAppMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *s1.BronzeS1EndpointAppMutation", m)
 }
 
 // The BronzeS1GroupFunc type is an adapter to allow the use of ordinary

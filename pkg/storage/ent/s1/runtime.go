@@ -5,6 +5,8 @@ package s1
 import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1account"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1agent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1appinventory"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1endpointapp"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1group"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangerdevice"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangergateway"
@@ -12,6 +14,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1site"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1account"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1agent"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1appinventory"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1endpointapp"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1group"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangerdevice"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangergateway"
@@ -104,6 +108,34 @@ func init() {
 	bronzehistorys1agentDescIsUninstalled := bronzehistorys1agentFields[50].Descriptor()
 	// bronzehistorys1agent.DefaultIsUninstalled holds the default value on creation for the is_uninstalled field.
 	bronzehistorys1agent.DefaultIsUninstalled = bronzehistorys1agentDescIsUninstalled.Default.(bool)
+	bronzehistorys1appinventoryFields := schema.BronzeHistoryS1AppInventory{}.Fields()
+	_ = bronzehistorys1appinventoryFields
+	// bronzehistorys1appinventoryDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorys1appinventoryDescResourceID := bronzehistorys1appinventoryFields[1].Descriptor()
+	// bronzehistorys1appinventory.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorys1appinventory.ResourceIDValidator = bronzehistorys1appinventoryDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorys1appinventoryDescApplicationName is the schema descriptor for application_name field.
+	bronzehistorys1appinventoryDescApplicationName := bronzehistorys1appinventoryFields[2].Descriptor()
+	// bronzehistorys1appinventory.ApplicationNameValidator is a validator for the "application_name" field. It is called by the builders before save.
+	bronzehistorys1appinventory.ApplicationNameValidator = bronzehistorys1appinventoryDescApplicationName.Validators[0].(func(string) error)
+	// bronzehistorys1appinventoryDescEstimate is the schema descriptor for estimate field.
+	bronzehistorys1appinventoryDescEstimate := bronzehistorys1appinventoryFields[6].Descriptor()
+	// bronzehistorys1appinventory.DefaultEstimate holds the default value on creation for the estimate field.
+	bronzehistorys1appinventory.DefaultEstimate = bronzehistorys1appinventoryDescEstimate.Default.(bool)
+	bronzehistorys1endpointappFields := schema.BronzeHistoryS1EndpointApp{}.Fields()
+	_ = bronzehistorys1endpointappFields
+	// bronzehistorys1endpointappDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorys1endpointappDescResourceID := bronzehistorys1endpointappFields[1].Descriptor()
+	// bronzehistorys1endpointapp.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorys1endpointapp.ResourceIDValidator = bronzehistorys1endpointappDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorys1endpointappDescAgentID is the schema descriptor for agent_id field.
+	bronzehistorys1endpointappDescAgentID := bronzehistorys1endpointappFields[2].Descriptor()
+	// bronzehistorys1endpointapp.AgentIDValidator is a validator for the "agent_id" field. It is called by the builders before save.
+	bronzehistorys1endpointapp.AgentIDValidator = bronzehistorys1endpointappDescAgentID.Validators[0].(func(string) error)
+	// bronzehistorys1endpointappDescName is the schema descriptor for name field.
+	bronzehistorys1endpointappDescName := bronzehistorys1endpointappFields[3].Descriptor()
+	// bronzehistorys1endpointapp.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzehistorys1endpointapp.NameValidator = bronzehistorys1endpointappDescName.Validators[0].(func(string) error)
 	bronzehistorys1groupFields := schema.BronzeHistoryS1Group{}.Fields()
 	_ = bronzehistorys1groupFields
 	// bronzehistorys1groupDescResourceID is the schema descriptor for resource_id field.
@@ -366,6 +398,26 @@ func init() {
 	bronzes1agentDescIsUninstalled := bronzes1agentFields[49].Descriptor()
 	// bronzes1agent.DefaultIsUninstalled holds the default value on creation for the is_uninstalled field.
 	bronzes1agent.DefaultIsUninstalled = bronzes1agentDescIsUninstalled.Default.(bool)
+	bronzes1appinventoryFields := schema.BronzeS1AppInventory{}.Fields()
+	_ = bronzes1appinventoryFields
+	// bronzes1appinventoryDescApplicationName is the schema descriptor for application_name field.
+	bronzes1appinventoryDescApplicationName := bronzes1appinventoryFields[1].Descriptor()
+	// bronzes1appinventory.ApplicationNameValidator is a validator for the "application_name" field. It is called by the builders before save.
+	bronzes1appinventory.ApplicationNameValidator = bronzes1appinventoryDescApplicationName.Validators[0].(func(string) error)
+	// bronzes1appinventoryDescEstimate is the schema descriptor for estimate field.
+	bronzes1appinventoryDescEstimate := bronzes1appinventoryFields[5].Descriptor()
+	// bronzes1appinventory.DefaultEstimate holds the default value on creation for the estimate field.
+	bronzes1appinventory.DefaultEstimate = bronzes1appinventoryDescEstimate.Default.(bool)
+	bronzes1endpointappFields := schema.BronzeS1EndpointApp{}.Fields()
+	_ = bronzes1endpointappFields
+	// bronzes1endpointappDescAgentID is the schema descriptor for agent_id field.
+	bronzes1endpointappDescAgentID := bronzes1endpointappFields[1].Descriptor()
+	// bronzes1endpointapp.AgentIDValidator is a validator for the "agent_id" field. It is called by the builders before save.
+	bronzes1endpointapp.AgentIDValidator = bronzes1endpointappDescAgentID.Validators[0].(func(string) error)
+	// bronzes1endpointappDescName is the schema descriptor for name field.
+	bronzes1endpointappDescName := bronzes1endpointappFields[2].Descriptor()
+	// bronzes1endpointapp.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	bronzes1endpointapp.NameValidator = bronzes1endpointappDescName.Validators[0].(func(string) error)
 	bronzes1groupFields := schema.BronzeS1Group{}.Fields()
 	_ = bronzes1groupFields
 	// bronzes1groupDescName is the schema descriptor for name field.

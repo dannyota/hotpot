@@ -6,9 +6,8 @@ import (
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/account"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/agent"
+	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/app_inventory"
+	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/endpoint_app"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/group"
-	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_device"
-	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_gateway"
-	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_setting"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/site"
 )

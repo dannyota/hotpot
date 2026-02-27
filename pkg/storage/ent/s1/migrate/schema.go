@@ -190,6 +190,86 @@ var (
 			},
 		},
 	}
+	// S1AppInventoryHistoryColumns holds the columns for the "s1_app_inventory_history" table.
+	S1AppInventoryHistoryColumns = []*schema.Column{
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "application_name", Type: field.TypeString},
+		{Name: "application_vendor", Type: field.TypeString, Nullable: true},
+		{Name: "endpoints_count", Type: field.TypeInt, Nullable: true},
+		{Name: "application_versions_count", Type: field.TypeInt, Nullable: true},
+		{Name: "estimate", Type: field.TypeBool, Default: false},
+	}
+	// S1AppInventoryHistoryTable holds the schema information for the "s1_app_inventory_history" table.
+	S1AppInventoryHistoryTable = &schema.Table{
+		Name:       "s1_app_inventory_history",
+		Columns:    S1AppInventoryHistoryColumns,
+		PrimaryKey: []*schema.Column{S1AppInventoryHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorys1appinventory_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{S1AppInventoryHistoryColumns[5], S1AppInventoryHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorys1appinventory_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{S1AppInventoryHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorys1appinventory_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{S1AppInventoryHistoryColumns[3]},
+			},
+		},
+	}
+	// S1EndpointAppsHistoryColumns holds the columns for the "s1_endpoint_apps_history" table.
+	S1EndpointAppsHistoryColumns = []*schema.Column{
+		{Name: "history_id", Type: field.TypeUint, Increment: true},
+		{Name: "valid_from", Type: field.TypeTime},
+		{Name: "valid_to", Type: field.TypeTime, Nullable: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "resource_id", Type: field.TypeString},
+		{Name: "agent_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "version", Type: field.TypeString, Nullable: true},
+		{Name: "publisher", Type: field.TypeString, Nullable: true},
+		{Name: "size", Type: field.TypeInt, Nullable: true},
+		{Name: "installed_date", Type: field.TypeTime, Nullable: true},
+	}
+	// S1EndpointAppsHistoryTable holds the schema information for the "s1_endpoint_apps_history" table.
+	S1EndpointAppsHistoryTable = &schema.Table{
+		Name:       "s1_endpoint_apps_history",
+		Columns:    S1EndpointAppsHistoryColumns,
+		PrimaryKey: []*schema.Column{S1EndpointAppsHistoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzehistorys1endpointapp_resource_id_valid_from",
+				Unique:  false,
+				Columns: []*schema.Column{S1EndpointAppsHistoryColumns[5], S1EndpointAppsHistoryColumns[1]},
+			},
+			{
+				Name:    "bronzehistorys1endpointapp_valid_to",
+				Unique:  false,
+				Columns: []*schema.Column{S1EndpointAppsHistoryColumns[2]},
+			},
+			{
+				Name:    "bronzehistorys1endpointapp_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{S1EndpointAppsHistoryColumns[3]},
+			},
+			{
+				Name:    "bronzehistorys1endpointapp_agent_id",
+				Unique:  false,
+				Columns: []*schema.Column{S1EndpointAppsHistoryColumns[6]},
+			},
+		},
+	}
 	// S1GroupsHistoryColumns holds the columns for the "s1_groups_history" table.
 	S1GroupsHistoryColumns = []*schema.Column{
 		{Name: "history_id", Type: field.TypeUint, Increment: true},
@@ -678,6 +758,80 @@ var (
 			},
 		},
 	}
+	// S1AppInventoryColumns holds the columns for the "s1_app_inventory" table.
+	S1AppInventoryColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "application_name", Type: field.TypeString},
+		{Name: "application_vendor", Type: field.TypeString, Nullable: true},
+		{Name: "endpoints_count", Type: field.TypeInt, Nullable: true},
+		{Name: "application_versions_count", Type: field.TypeInt, Nullable: true},
+		{Name: "estimate", Type: field.TypeBool, Default: false},
+	}
+	// S1AppInventoryTable holds the schema information for the "s1_app_inventory" table.
+	S1AppInventoryTable = &schema.Table{
+		Name:       "s1_app_inventory",
+		Columns:    S1AppInventoryColumns,
+		PrimaryKey: []*schema.Column{S1AppInventoryColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzes1appinventory_application_name",
+				Unique:  false,
+				Columns: []*schema.Column{S1AppInventoryColumns[3]},
+			},
+			{
+				Name:    "bronzes1appinventory_application_vendor",
+				Unique:  false,
+				Columns: []*schema.Column{S1AppInventoryColumns[4]},
+			},
+			{
+				Name:    "bronzes1appinventory_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{S1AppInventoryColumns[1]},
+			},
+		},
+	}
+	// S1EndpointAppsColumns holds the columns for the "s1_endpoint_apps" table.
+	S1EndpointAppsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "agent_id", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "version", Type: field.TypeString, Nullable: true},
+		{Name: "publisher", Type: field.TypeString, Nullable: true},
+		{Name: "size", Type: field.TypeInt, Nullable: true},
+		{Name: "installed_date", Type: field.TypeTime, Nullable: true},
+	}
+	// S1EndpointAppsTable holds the schema information for the "s1_endpoint_apps" table.
+	S1EndpointAppsTable = &schema.Table{
+		Name:       "s1_endpoint_apps",
+		Columns:    S1EndpointAppsColumns,
+		PrimaryKey: []*schema.Column{S1EndpointAppsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzes1endpointapp_agent_id",
+				Unique:  false,
+				Columns: []*schema.Column{S1EndpointAppsColumns[3]},
+			},
+			{
+				Name:    "bronzes1endpointapp_name",
+				Unique:  false,
+				Columns: []*schema.Column{S1EndpointAppsColumns[4]},
+			},
+			{
+				Name:    "bronzes1endpointapp_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{S1EndpointAppsColumns[1]},
+			},
+			{
+				Name:    "bronzes1endpointapp_name_version",
+				Unique:  false,
+				Columns: []*schema.Column{S1EndpointAppsColumns[4], S1EndpointAppsColumns[5]},
+			},
+		},
+	}
 	// S1GroupsColumns holds the columns for the "s1_groups" table.
 	S1GroupsColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -957,6 +1111,8 @@ var (
 		S1AccountsHistoryTable,
 		S1AgentsHistoryTable,
 		S1AgentNicsHistoryTable,
+		S1AppInventoryHistoryTable,
+		S1EndpointAppsHistoryTable,
 		S1GroupsHistoryTable,
 		S1RangerDevicesHistoryTable,
 		S1RangerGatewaysHistoryTable,
@@ -965,6 +1121,8 @@ var (
 		S1AccountsTable,
 		S1AgentsTable,
 		S1AgentNicsTable,
+		S1AppInventoryTable,
+		S1EndpointAppsTable,
 		S1GroupsTable,
 		S1RangerDevicesTable,
 		S1RangerGatewaysTable,
@@ -982,6 +1140,12 @@ func init() {
 	}
 	S1AgentNicsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "s1_agent_nics_history",
+	}
+	S1AppInventoryHistoryTable.Annotation = &entsql.Annotation{
+		Table: "s1_app_inventory_history",
+	}
+	S1EndpointAppsHistoryTable.Annotation = &entsql.Annotation{
+		Table: "s1_endpoint_apps_history",
 	}
 	S1GroupsHistoryTable.Annotation = &entsql.Annotation{
 		Table: "s1_groups_history",
@@ -1007,6 +1171,12 @@ func init() {
 	S1AgentNicsTable.ForeignKeys[0].RefTable = S1AgentsTable
 	S1AgentNicsTable.Annotation = &entsql.Annotation{
 		Table: "s1_agent_nics",
+	}
+	S1AppInventoryTable.Annotation = &entsql.Annotation{
+		Table: "s1_app_inventory",
+	}
+	S1EndpointAppsTable.Annotation = &entsql.Annotation{
+		Table: "s1_endpoint_apps",
 	}
 	S1GroupsTable.Annotation = &entsql.Annotation{
 		Table: "s1_groups",

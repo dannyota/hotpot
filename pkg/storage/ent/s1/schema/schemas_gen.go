@@ -18,6 +18,14 @@ type BronzeS1AgentNIC struct {
 	bronze_s1.BronzeS1AgentNIC
 }
 
+type BronzeS1AppInventory struct {
+	bronze_s1.BronzeS1AppInventory
+}
+
+type BronzeS1EndpointApp struct {
+	bronze_s1.BronzeS1EndpointApp
+}
+
 type BronzeS1Group struct {
 	bronze_s1.BronzeS1Group
 }
@@ -48,6 +56,14 @@ type BronzeHistoryS1Agent struct {
 
 type BronzeHistoryS1AgentNIC struct {
 	bronzehistory_s1.BronzeHistoryS1AgentNIC
+}
+
+type BronzeHistoryS1AppInventory struct {
+	bronzehistory_s1.BronzeHistoryS1AppInventory
+}
+
+type BronzeHistoryS1EndpointApp struct {
+	bronzehistory_s1.BronzeHistoryS1EndpointApp
 }
 
 type BronzeHistoryS1Group struct {

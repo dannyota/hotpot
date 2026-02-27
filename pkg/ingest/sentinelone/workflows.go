@@ -8,6 +8,8 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/account"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/agent"
+	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/app_inventory"
+	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/endpoint_app"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/group"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_device"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_gateway"
@@ -24,6 +26,8 @@ type S1InventoryWorkflowResult struct {
 	RangerDeviceCount  int
 	RangerGatewayCount int
 	RangerSettingCount int
+	AppInventoryCount  int
+	EndpointAppCount   int
 }
 
 // S1InventoryWorkflow orchestrates SentinelOne inventory collection.
@@ -107,6 +111,24 @@ func S1InventoryWorkflow(ctx workflow.Context) (*S1InventoryWorkflowResult, erro
 		result.RangerSettingCount = rangerSettingResult.SettingCount
 	}
 
+	// Execute app inventory workflow
+	var appInventoryResult app_inventory.S1AppInventoryWorkflowResult
+	err = workflow.ExecuteChildWorkflow(ctx, app_inventory.S1AppInventoryWorkflow).Get(ctx, &appInventoryResult)
+	if err != nil {
+		logger.Error("Failed to execute S1AppInventoryWorkflow", "error", err)
+	} else {
+		result.AppInventoryCount = appInventoryResult.AppCount
+	}
+
+	// Execute endpoint app workflow
+	var endpointAppResult endpoint_app.S1EndpointAppWorkflowResult
+	err = workflow.ExecuteChildWorkflow(ctx, endpoint_app.S1EndpointAppWorkflow).Get(ctx, &endpointAppResult)
+	if err != nil {
+		logger.Error("Failed to execute S1EndpointAppWorkflow", "error", err)
+	} else {
+		result.EndpointAppCount = endpointAppResult.AppCount
+	}
+
 	logger.Info("Completed S1InventoryWorkflow",
 		"accounts", result.AccountCount,
 		"agents", result.AgentCount,
@@ -115,6 +137,8 @@ func S1InventoryWorkflow(ctx workflow.Context) (*S1InventoryWorkflowResult, erro
 		"rangerDevices", result.RangerDeviceCount,
 		"rangerGateways", result.RangerGatewayCount,
 		"rangerSettings", result.RangerSettingCount,
+		"appInventory", result.AppInventoryCount,
+		"endpointApps", result.EndpointAppCount,
 	)
 
 	return result, nil
