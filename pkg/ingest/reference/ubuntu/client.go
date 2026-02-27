@@ -1,0 +1,158 @@
+package ubuntu
+
+import (
+	"bufio"
+	"compress/gzip"
+	"fmt"
+	"io"
+	"net/http"
+	"os"
+	"strings"
+)
+
+// feedDef defines a single Ubuntu Packages.gz feed to download.
+type feedDef struct {
+	Release   string // e.g. "noble", "jammy"
+	Component string // e.g. "main", "universe"
+	URL       string
+}
+
+var feeds = []feedDef{
+	{"noble", "main", "http://archive.ubuntu.com/ubuntu/dists/noble/main/binary-amd64/Packages.gz"},
+	{"noble", "universe", "http://archive.ubuntu.com/ubuntu/dists/noble/universe/binary-amd64/Packages.gz"},
+	{"jammy", "main", "http://archive.ubuntu.com/ubuntu/dists/jammy/main/binary-amd64/Packages.gz"},
+	{"jammy", "universe", "http://archive.ubuntu.com/ubuntu/dists/jammy/universe/binary-amd64/Packages.gz"},
+}
+
+// Client downloads and parses Ubuntu Packages indexes.
+type Client struct {
+	httpClient *http.Client
+}
+
+// NewClient creates a new Ubuntu client.
+func NewClient(httpClient *http.Client) *Client {
+	return &Client{httpClient: httpClient}
+}
+
+// UbuntuPackageData holds a parsed Ubuntu package entry.
+type UbuntuPackageData struct {
+	PackageName string
+	Release     string
+	Component   string
+	Section     string
+	Description string
+}
+
+// Download fetches all configured Ubuntu Packages.gz feeds and parses them.
+func (c *Client) Download(heartbeat func()) ([]UbuntuPackageData, error) {
+	var all []UbuntuPackageData
+
+	for _, feed := range feeds {
+		packages, err := c.downloadFeed(feed)
+		if err != nil {
+			return nil, fmt.Errorf("download %s/%s: %w", feed.Release, feed.Component, err)
+		}
+		all = append(all, packages...)
+		heartbeat()
+	}
+
+	return all, nil
+}
+
+func (c *Client) downloadFeed(feed feedDef) ([]UbuntuPackageData, error) {
+	resp, err := c.httpClient.Get(feed.URL)
+	if err != nil {
+		return nil, fmt.Errorf("GET %s: %w", feed.URL, err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("GET %s: status %d", feed.URL, resp.StatusCode)
+	}
+
+	// Download to temp file
+	tmpFile, err := os.CreateTemp("", "ubuntu-packages-*.gz")
+	if err != nil {
+		return nil, fmt.Errorf("create temp file: %w", err)
+	}
+	defer os.Remove(tmpFile.Name())
+	defer tmpFile.Close()
+
+	if _, err := io.Copy(tmpFile, resp.Body); err != nil {
+		return nil, fmt.Errorf("download to temp: %w", err)
+	}
+	if _, err := tmpFile.Seek(0, io.SeekStart); err != nil {
+		return nil, fmt.Errorf("seek temp file: %w", err)
+	}
+
+	gz, err := gzip.NewReader(tmpFile)
+	if err != nil {
+		return nil, fmt.Errorf("gzip reader: %w", err)
+	}
+	defer gz.Close()
+
+	return parsePackages(gz, feed.Release, feed.Component)
+}
+
+// parsePackages parses the Debian Packages format (stanza-based, field: value).
+func parsePackages(r io.Reader, release, component string) ([]UbuntuPackageData, error) {
+	var result []UbuntuPackageData
+	scanner := bufio.NewScanner(r)
+	// Increase buffer for long lines
+	scanner.Buffer(make([]byte, 0, 1024*1024), 1024*1024)
+
+	var pkg, section, description string
+
+	flush := func() {
+		if pkg != "" && section != "" {
+			result = append(result, UbuntuPackageData{
+				PackageName: pkg,
+				Release:     release,
+				Component:   component,
+				Section:     section,
+				Description: description,
+			})
+		}
+		pkg = ""
+		section = ""
+		description = ""
+	}
+
+	for scanner.Scan() {
+		line := scanner.Text()
+
+		// Empty line = end of stanza
+		if line == "" {
+			flush()
+			continue
+		}
+
+		// Skip continuation lines (start with space or tab)
+		if strings.HasPrefix(line, " ") || strings.HasPrefix(line, "\t") {
+			continue
+		}
+
+		key, value, ok := strings.Cut(line, ": ")
+		if !ok {
+			continue
+		}
+
+		switch key {
+		case "Package":
+			pkg = value
+		case "Section":
+			section = value
+		case "Description":
+			description = value
+		}
+	}
+
+	// Flush last stanza
+	flush()
+
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("scan: %w", err)
+	}
+
+	return result, nil
+}

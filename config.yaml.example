@@ -106,6 +106,12 @@ jenkins:
   # exclude_repos: []             # Repo URL patterns to exclude
   # rate_limit_per_minute: 120    # Default: 120
 
+# Reference Data Configuration (NVD CPE, Ubuntu/RHEL packages)
+reference:
+  # Enable reference data ingestion (default: false)
+  enabled: false
+  # rate_limit_per_minute: 30  # Default: 30 (gentle on public servers)
+
 # Database Configuration (REQUIRED)
 # nosemgrep: generic.secrets.security.detected-generic-secret
 database:

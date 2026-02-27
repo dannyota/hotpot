@@ -13,6 +13,7 @@ type Config struct {
 	GreenNode GreenNodeConfig `yaml:"greennode"`
 	Vault     VaultConfig     `yaml:"vault"`
 	Jenkins   JenkinsConfig   `yaml:"jenkins"`
+	Reference ReferenceConfig `yaml:"reference"`
 	Database DatabaseConfig `yaml:"database"`
 	Temporal TemporalConfig `yaml:"temporal"`
 	Redis    RedisConfig    `yaml:"redis"`
@@ -179,6 +180,16 @@ type JenkinsConfig struct {
 	ExcludeRepos []string `yaml:"exclude_repos,omitempty"`
 
 	// RateLimitPerMinute is the max API requests per minute. Default: 120.
+	RateLimitPerMinute int `yaml:"rate_limit_per_minute,omitempty"`
+}
+
+// ReferenceConfig holds configuration for public reference data ingestion (NVD CPE, Ubuntu, RHEL).
+type ReferenceConfig struct {
+	// Enabled controls whether reference data ingestion runs.
+	Enabled bool `yaml:"enabled"`
+
+	// RateLimitPerMinute is the max HTTP requests per minute to public servers.
+	// Default: 30 (see Service.ReferenceRateLimitPerMinute()).
 	RateLimitPerMinute int `yaml:"rate_limit_per_minute,omitempty"`
 }
 

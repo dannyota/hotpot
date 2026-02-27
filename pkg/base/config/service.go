@@ -198,6 +198,9 @@ func (s *Service) EnabledProviders() []string {
 	if s.config.Jenkins.Enabled {
 		providers = append(providers, "jenkins")
 	}
+	if s.config.Reference.Enabled {
+		providers = append(providers, "reference")
+	}
 	return providers
 }
 
@@ -625,6 +628,24 @@ func (s *Service) JenkinsRateLimitPerMinute() int {
 		return 120
 	}
 	return s.config.Jenkins.RateLimitPerMinute
+}
+
+// ReferenceEnabled returns true if reference data ingestion is enabled in config.
+func (s *Service) ReferenceEnabled() bool {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.config != nil && s.config.Reference.Enabled
+}
+
+// ReferenceRateLimitPerMinute returns the max HTTP requests per minute for reference data.
+// Defaults to 30 if not configured (gentle on public servers).
+func (s *Service) ReferenceRateLimitPerMinute() int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || s.config.Reference.RateLimitPerMinute <= 0 {
+		return 30
+	}
+	return s.config.Reference.RateLimitPerMinute
 }
 
 // RedisConfig returns the Redis configuration.
