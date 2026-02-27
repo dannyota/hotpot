@@ -207,7 +207,11 @@ func parsePrimaryXML(r io.Reader, repoName string) ([]RPMPackageData, error) {
 		return nil, fmt.Errorf("decode primary.xml: %w", err)
 	}
 
+	// Deduplicate by name:arch — repos can contain multiple versions of the
+	// same package (e.g., kernel). Last entry wins (typically the latest).
+	seen := make(map[string]int, len(metadata.Packages))
 	var result []RPMPackageData
+
 	for _, pkg := range metadata.Packages {
 		if pkg.Type != "rpm" {
 			continue
@@ -218,7 +222,7 @@ func parsePrimaryXML(r io.Reader, repoName string) ([]RPMPackageData, error) {
 			version += "-" + pkg.Version.Rel
 		}
 
-		result = append(result, RPMPackageData{
+		d := RPMPackageData{
 			PackageName: pkg.Name,
 			Repo:        repoName,
 			Arch:        pkg.Arch,
@@ -226,7 +230,15 @@ func parsePrimaryXML(r io.Reader, repoName string) ([]RPMPackageData, error) {
 			RPMGroup:    pkg.Format.Group,
 			Summary:     pkg.Summary,
 			URL:         pkg.URL,
-		})
+		}
+
+		key := pkg.Name + ":" + pkg.Arch
+		if idx, ok := seen[key]; ok {
+			result[idx] = d // overwrite with later (newer) entry
+		} else {
+			seen[key] = len(result)
+			result = append(result, d)
+		}
 	}
 
 	return result, nil

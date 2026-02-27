@@ -102,16 +102,22 @@ func parsePackages(r io.Reader, release, component string) ([]UbuntuPackageData,
 	scanner.Buffer(make([]byte, 0, 1024*1024), 1024*1024)
 
 	var pkg, section, description string
+	// Deduplicate — Packages index can list the same package name multiple
+	// times (e.g., different architectures merged into one index).
+	seen := make(map[string]struct{})
 
 	flush := func() {
 		if pkg != "" && section != "" {
-			result = append(result, UbuntuPackageData{
-				PackageName: pkg,
-				Release:     release,
-				Component:   component,
-				Section:     section,
-				Description: description,
-			})
+			if _, dup := seen[pkg]; !dup {
+				seen[pkg] = struct{}{}
+				result = append(result, UbuntuPackageData{
+					PackageName: pkg,
+					Release:     release,
+					Component:   component,
+					Section:     section,
+					Description: description,
+				})
+			}
 		}
 		pkg = ""
 		section = ""
