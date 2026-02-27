@@ -18,6 +18,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1appinventory"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1endpointapp"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1group"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1networkdiscovery"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangerdevice"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangergateway"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangersetting"
@@ -28,6 +29,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1appinventory"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1endpointapp"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1group"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1networkdiscovery"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangerdevice"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangergateway"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangersetting"
@@ -92,26 +94,28 @@ var (
 func checkColumn(t, c string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			bronzehistorys1account.Table:       bronzehistorys1account.ValidColumn,
-			bronzehistorys1agent.Table:         bronzehistorys1agent.ValidColumn,
-			bronzehistorys1agentnic.Table:      bronzehistorys1agentnic.ValidColumn,
-			bronzehistorys1appinventory.Table:  bronzehistorys1appinventory.ValidColumn,
-			bronzehistorys1endpointapp.Table:   bronzehistorys1endpointapp.ValidColumn,
-			bronzehistorys1group.Table:         bronzehistorys1group.ValidColumn,
-			bronzehistorys1rangerdevice.Table:  bronzehistorys1rangerdevice.ValidColumn,
-			bronzehistorys1rangergateway.Table: bronzehistorys1rangergateway.ValidColumn,
-			bronzehistorys1rangersetting.Table: bronzehistorys1rangersetting.ValidColumn,
-			bronzehistorys1site.Table:          bronzehistorys1site.ValidColumn,
-			bronzes1account.Table:              bronzes1account.ValidColumn,
-			bronzes1agent.Table:                bronzes1agent.ValidColumn,
-			bronzes1agentnic.Table:             bronzes1agentnic.ValidColumn,
-			bronzes1appinventory.Table:         bronzes1appinventory.ValidColumn,
-			bronzes1endpointapp.Table:          bronzes1endpointapp.ValidColumn,
-			bronzes1group.Table:                bronzes1group.ValidColumn,
-			bronzes1rangerdevice.Table:         bronzes1rangerdevice.ValidColumn,
-			bronzes1rangergateway.Table:        bronzes1rangergateway.ValidColumn,
-			bronzes1rangersetting.Table:        bronzes1rangersetting.ValidColumn,
-			bronzes1site.Table:                 bronzes1site.ValidColumn,
+			bronzehistorys1account.Table:          bronzehistorys1account.ValidColumn,
+			bronzehistorys1agent.Table:            bronzehistorys1agent.ValidColumn,
+			bronzehistorys1agentnic.Table:         bronzehistorys1agentnic.ValidColumn,
+			bronzehistorys1appinventory.Table:     bronzehistorys1appinventory.ValidColumn,
+			bronzehistorys1endpointapp.Table:      bronzehistorys1endpointapp.ValidColumn,
+			bronzehistorys1group.Table:            bronzehistorys1group.ValidColumn,
+			bronzehistorys1networkdiscovery.Table: bronzehistorys1networkdiscovery.ValidColumn,
+			bronzehistorys1rangerdevice.Table:     bronzehistorys1rangerdevice.ValidColumn,
+			bronzehistorys1rangergateway.Table:    bronzehistorys1rangergateway.ValidColumn,
+			bronzehistorys1rangersetting.Table:    bronzehistorys1rangersetting.ValidColumn,
+			bronzehistorys1site.Table:             bronzehistorys1site.ValidColumn,
+			bronzes1account.Table:                 bronzes1account.ValidColumn,
+			bronzes1agent.Table:                   bronzes1agent.ValidColumn,
+			bronzes1agentnic.Table:                bronzes1agentnic.ValidColumn,
+			bronzes1appinventory.Table:            bronzes1appinventory.ValidColumn,
+			bronzes1endpointapp.Table:             bronzes1endpointapp.ValidColumn,
+			bronzes1group.Table:                   bronzes1group.ValidColumn,
+			bronzes1networkdiscovery.Table:        bronzes1networkdiscovery.ValidColumn,
+			bronzes1rangerdevice.Table:            bronzes1rangerdevice.ValidColumn,
+			bronzes1rangergateway.Table:           bronzes1rangergateway.ValidColumn,
+			bronzes1rangersetting.Table:           bronzes1rangersetting.ValidColumn,
+			bronzes1site.Table:                    bronzes1site.ValidColumn,
 		})
 	})
 	return columnCheck(t, c)

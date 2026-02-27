@@ -24,6 +24,8 @@ type Tx struct {
 	BronzeHistoryS1EndpointApp *BronzeHistoryS1EndpointAppClient
 	// BronzeHistoryS1Group is the client for interacting with the BronzeHistoryS1Group builders.
 	BronzeHistoryS1Group *BronzeHistoryS1GroupClient
+	// BronzeHistoryS1NetworkDiscovery is the client for interacting with the BronzeHistoryS1NetworkDiscovery builders.
+	BronzeHistoryS1NetworkDiscovery *BronzeHistoryS1NetworkDiscoveryClient
 	// BronzeHistoryS1RangerDevice is the client for interacting with the BronzeHistoryS1RangerDevice builders.
 	BronzeHistoryS1RangerDevice *BronzeHistoryS1RangerDeviceClient
 	// BronzeHistoryS1RangerGateway is the client for interacting with the BronzeHistoryS1RangerGateway builders.
@@ -44,6 +46,8 @@ type Tx struct {
 	BronzeS1EndpointApp *BronzeS1EndpointAppClient
 	// BronzeS1Group is the client for interacting with the BronzeS1Group builders.
 	BronzeS1Group *BronzeS1GroupClient
+	// BronzeS1NetworkDiscovery is the client for interacting with the BronzeS1NetworkDiscovery builders.
+	BronzeS1NetworkDiscovery *BronzeS1NetworkDiscoveryClient
 	// BronzeS1RangerDevice is the client for interacting with the BronzeS1RangerDevice builders.
 	BronzeS1RangerDevice *BronzeS1RangerDeviceClient
 	// BronzeS1RangerGateway is the client for interacting with the BronzeS1RangerGateway builders.
@@ -189,6 +193,7 @@ func (tx *Tx) init() {
 	tx.BronzeHistoryS1AppInventory = NewBronzeHistoryS1AppInventoryClient(tx.config)
 	tx.BronzeHistoryS1EndpointApp = NewBronzeHistoryS1EndpointAppClient(tx.config)
 	tx.BronzeHistoryS1Group = NewBronzeHistoryS1GroupClient(tx.config)
+	tx.BronzeHistoryS1NetworkDiscovery = NewBronzeHistoryS1NetworkDiscoveryClient(tx.config)
 	tx.BronzeHistoryS1RangerDevice = NewBronzeHistoryS1RangerDeviceClient(tx.config)
 	tx.BronzeHistoryS1RangerGateway = NewBronzeHistoryS1RangerGatewayClient(tx.config)
 	tx.BronzeHistoryS1RangerSetting = NewBronzeHistoryS1RangerSettingClient(tx.config)
@@ -199,6 +204,7 @@ func (tx *Tx) init() {
 	tx.BronzeS1AppInventory = NewBronzeS1AppInventoryClient(tx.config)
 	tx.BronzeS1EndpointApp = NewBronzeS1EndpointAppClient(tx.config)
 	tx.BronzeS1Group = NewBronzeS1GroupClient(tx.config)
+	tx.BronzeS1NetworkDiscovery = NewBronzeS1NetworkDiscoveryClient(tx.config)
 	tx.BronzeS1RangerDevice = NewBronzeS1RangerDeviceClient(tx.config)
 	tx.BronzeS1RangerGateway = NewBronzeS1RangerGatewayClient(tx.config)
 	tx.BronzeS1RangerSetting = NewBronzeS1RangerSettingClient(tx.config)

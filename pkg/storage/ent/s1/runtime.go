@@ -8,6 +8,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1appinventory"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1endpointapp"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1group"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1networkdiscovery"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangerdevice"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangergateway"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangersetting"
@@ -17,6 +18,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1appinventory"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1endpointapp"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1group"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1networkdiscovery"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangerdevice"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangergateway"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangersetting"
@@ -158,6 +160,24 @@ func init() {
 	bronzehistorys1groupDescTotalAgents := bronzehistorys1groupFields[8].Descriptor()
 	// bronzehistorys1group.DefaultTotalAgents holds the default value on creation for the total_agents field.
 	bronzehistorys1group.DefaultTotalAgents = bronzehistorys1groupDescTotalAgents.Default.(int)
+	bronzehistorys1networkdiscoveryFields := schema.BronzeHistoryS1NetworkDiscovery{}.Fields()
+	_ = bronzehistorys1networkdiscoveryFields
+	// bronzehistorys1networkdiscoveryDescResourceID is the schema descriptor for resource_id field.
+	bronzehistorys1networkdiscoveryDescResourceID := bronzehistorys1networkdiscoveryFields[1].Descriptor()
+	// bronzehistorys1networkdiscovery.ResourceIDValidator is a validator for the "resource_id" field. It is called by the builders before save.
+	bronzehistorys1networkdiscovery.ResourceIDValidator = bronzehistorys1networkdiscoveryDescResourceID.Validators[0].(func(string) error)
+	// bronzehistorys1networkdiscoveryDescIsAdConnector is the schema descriptor for is_ad_connector field.
+	bronzehistorys1networkdiscoveryDescIsAdConnector := bronzehistorys1networkdiscoveryFields[52].Descriptor()
+	// bronzehistorys1networkdiscovery.DefaultIsAdConnector holds the default value on creation for the is_ad_connector field.
+	bronzehistorys1networkdiscovery.DefaultIsAdConnector = bronzehistorys1networkdiscoveryDescIsAdConnector.Default.(bool)
+	// bronzehistorys1networkdiscoveryDescIsDcServer is the schema descriptor for is_dc_server field.
+	bronzehistorys1networkdiscoveryDescIsDcServer := bronzehistorys1networkdiscoveryFields[53].Descriptor()
+	// bronzehistorys1networkdiscovery.DefaultIsDcServer holds the default value on creation for the is_dc_server field.
+	bronzehistorys1networkdiscovery.DefaultIsDcServer = bronzehistorys1networkdiscoveryDescIsDcServer.Default.(bool)
+	// bronzehistorys1networkdiscoveryDescAdsEnabled is the schema descriptor for ads_enabled field.
+	bronzehistorys1networkdiscoveryDescAdsEnabled := bronzehistorys1networkdiscoveryFields[54].Descriptor()
+	// bronzehistorys1networkdiscovery.DefaultAdsEnabled holds the default value on creation for the ads_enabled field.
+	bronzehistorys1networkdiscovery.DefaultAdsEnabled = bronzehistorys1networkdiscoveryDescAdsEnabled.Default.(bool)
 	bronzehistorys1rangerdeviceFields := schema.BronzeHistoryS1RangerDevice{}.Fields()
 	_ = bronzehistorys1rangerdeviceFields
 	// bronzehistorys1rangerdeviceDescResourceID is the schema descriptor for resource_id field.
@@ -436,6 +456,20 @@ func init() {
 	bronzes1groupDescTotalAgents := bronzes1groupFields[7].Descriptor()
 	// bronzes1group.DefaultTotalAgents holds the default value on creation for the total_agents field.
 	bronzes1group.DefaultTotalAgents = bronzes1groupDescTotalAgents.Default.(int)
+	bronzes1networkdiscoveryFields := schema.BronzeS1NetworkDiscovery{}.Fields()
+	_ = bronzes1networkdiscoveryFields
+	// bronzes1networkdiscoveryDescIsAdConnector is the schema descriptor for is_ad_connector field.
+	bronzes1networkdiscoveryDescIsAdConnector := bronzes1networkdiscoveryFields[51].Descriptor()
+	// bronzes1networkdiscovery.DefaultIsAdConnector holds the default value on creation for the is_ad_connector field.
+	bronzes1networkdiscovery.DefaultIsAdConnector = bronzes1networkdiscoveryDescIsAdConnector.Default.(bool)
+	// bronzes1networkdiscoveryDescIsDcServer is the schema descriptor for is_dc_server field.
+	bronzes1networkdiscoveryDescIsDcServer := bronzes1networkdiscoveryFields[52].Descriptor()
+	// bronzes1networkdiscovery.DefaultIsDcServer holds the default value on creation for the is_dc_server field.
+	bronzes1networkdiscovery.DefaultIsDcServer = bronzes1networkdiscoveryDescIsDcServer.Default.(bool)
+	// bronzes1networkdiscoveryDescAdsEnabled is the schema descriptor for ads_enabled field.
+	bronzes1networkdiscoveryDescAdsEnabled := bronzes1networkdiscoveryFields[53].Descriptor()
+	// bronzes1networkdiscovery.DefaultAdsEnabled holds the default value on creation for the ads_enabled field.
+	bronzes1networkdiscovery.DefaultAdsEnabled = bronzes1networkdiscoveryDescAdsEnabled.Default.(bool)
 	bronzes1rangerdeviceFields := schema.BronzeS1RangerDevice{}.Fields()
 	_ = bronzes1rangerdeviceFields
 	// bronzes1rangerdeviceDescHasIdentity is the schema descriptor for has_identity field.

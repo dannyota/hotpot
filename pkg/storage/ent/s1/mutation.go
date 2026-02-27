@@ -18,6 +18,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1appinventory"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1endpointapp"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1group"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1networkdiscovery"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangerdevice"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangergateway"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangersetting"
@@ -28,6 +29,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1appinventory"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1endpointapp"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1group"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1networkdiscovery"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangerdevice"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangergateway"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangersetting"
@@ -44,26 +46,28 @@ const (
 	OpUpdateOne = ent.OpUpdateOne
 
 	// Node types.
-	TypeBronzeHistoryS1Account       = "BronzeHistoryS1Account"
-	TypeBronzeHistoryS1Agent         = "BronzeHistoryS1Agent"
-	TypeBronzeHistoryS1AgentNIC      = "BronzeHistoryS1AgentNIC"
-	TypeBronzeHistoryS1AppInventory  = "BronzeHistoryS1AppInventory"
-	TypeBronzeHistoryS1EndpointApp   = "BronzeHistoryS1EndpointApp"
-	TypeBronzeHistoryS1Group         = "BronzeHistoryS1Group"
-	TypeBronzeHistoryS1RangerDevice  = "BronzeHistoryS1RangerDevice"
-	TypeBronzeHistoryS1RangerGateway = "BronzeHistoryS1RangerGateway"
-	TypeBronzeHistoryS1RangerSetting = "BronzeHistoryS1RangerSetting"
-	TypeBronzeHistoryS1Site          = "BronzeHistoryS1Site"
-	TypeBronzeS1Account              = "BronzeS1Account"
-	TypeBronzeS1Agent                = "BronzeS1Agent"
-	TypeBronzeS1AgentNIC             = "BronzeS1AgentNIC"
-	TypeBronzeS1AppInventory         = "BronzeS1AppInventory"
-	TypeBronzeS1EndpointApp          = "BronzeS1EndpointApp"
-	TypeBronzeS1Group                = "BronzeS1Group"
-	TypeBronzeS1RangerDevice         = "BronzeS1RangerDevice"
-	TypeBronzeS1RangerGateway        = "BronzeS1RangerGateway"
-	TypeBronzeS1RangerSetting        = "BronzeS1RangerSetting"
-	TypeBronzeS1Site                 = "BronzeS1Site"
+	TypeBronzeHistoryS1Account          = "BronzeHistoryS1Account"
+	TypeBronzeHistoryS1Agent            = "BronzeHistoryS1Agent"
+	TypeBronzeHistoryS1AgentNIC         = "BronzeHistoryS1AgentNIC"
+	TypeBronzeHistoryS1AppInventory     = "BronzeHistoryS1AppInventory"
+	TypeBronzeHistoryS1EndpointApp      = "BronzeHistoryS1EndpointApp"
+	TypeBronzeHistoryS1Group            = "BronzeHistoryS1Group"
+	TypeBronzeHistoryS1NetworkDiscovery = "BronzeHistoryS1NetworkDiscovery"
+	TypeBronzeHistoryS1RangerDevice     = "BronzeHistoryS1RangerDevice"
+	TypeBronzeHistoryS1RangerGateway    = "BronzeHistoryS1RangerGateway"
+	TypeBronzeHistoryS1RangerSetting    = "BronzeHistoryS1RangerSetting"
+	TypeBronzeHistoryS1Site             = "BronzeHistoryS1Site"
+	TypeBronzeS1Account                 = "BronzeS1Account"
+	TypeBronzeS1Agent                   = "BronzeS1Agent"
+	TypeBronzeS1AgentNIC                = "BronzeS1AgentNIC"
+	TypeBronzeS1AppInventory            = "BronzeS1AppInventory"
+	TypeBronzeS1EndpointApp             = "BronzeS1EndpointApp"
+	TypeBronzeS1Group                   = "BronzeS1Group"
+	TypeBronzeS1NetworkDiscovery        = "BronzeS1NetworkDiscovery"
+	TypeBronzeS1RangerDevice            = "BronzeS1RangerDevice"
+	TypeBronzeS1RangerGateway           = "BronzeS1RangerGateway"
+	TypeBronzeS1RangerSetting           = "BronzeS1RangerSetting"
+	TypeBronzeS1Site                    = "BronzeS1Site"
 )
 
 // BronzeHistoryS1AccountMutation represents an operation that mutates the BronzeHistoryS1Account nodes in the graph.
@@ -11299,6 +11303,7278 @@ func (m *BronzeHistoryS1GroupMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *BronzeHistoryS1GroupMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown BronzeHistoryS1Group edge %s", name)
+}
+
+// BronzeHistoryS1NetworkDiscoveryMutation represents an operation that mutates the BronzeHistoryS1NetworkDiscovery nodes in the graph.
+type BronzeHistoryS1NetworkDiscoveryMutation struct {
+	config
+	op                            Op
+	typ                           string
+	id                            *uint
+	valid_from                    *time.Time
+	valid_to                      *time.Time
+	collected_at                  *time.Time
+	first_collected_at            *time.Time
+	resource_id                   *string
+	name                          *string
+	ip_address                    *string
+	domain                        *string
+	serial_number                 *string
+	category                      *string
+	sub_category                  *string
+	resource_type                 *string
+	os                            *string
+	os_family                     *string
+	os_version                    *string
+	os_name_version               *string
+	architecture                  *string
+	manufacturer                  *string
+	cpu                           *string
+	memory_readable               *string
+	network_name                  *string
+	asset_status                  *string
+	asset_criticality             *string
+	asset_environment             *string
+	infection_status              *string
+	device_review                 *string
+	epp_unsupported_unknown       *string
+	asset_contact_email           *string
+	legacy_identity_policy_name   *string
+	previous_os_type              *string
+	previous_os_version           *string
+	previous_device_function      *string
+	detected_from_site            *string
+	s1_account_id                 *string
+	s1_account_name               *string
+	s1_site_id                    *string
+	s1_site_name                  *string
+	s1_group_id                   *string
+	s1_group_name                 *string
+	s1_scope_id                   *string
+	s1_scope_level                *string
+	s1_scope_path                 *string
+	s1_onboarded_account_name     *string
+	s1_onboarded_group_name       *string
+	s1_onboarded_site_name        *string
+	s1_onboarded_scope_level      *string
+	s1_onboarded_scope_path       *string
+	memory                        *int
+	addmemory                     *int
+	core_count                    *int
+	addcore_count                 *int
+	s1_management_id              *int
+	adds1_management_id           *int
+	s1_scope_type                 *int
+	adds1_scope_type              *int
+	s1_onboarded_account_id       *int
+	adds1_onboarded_account_id    *int
+	s1_onboarded_group_id         *int
+	adds1_onboarded_group_id      *int
+	s1_onboarded_scope_id         *int
+	adds1_onboarded_scope_id      *int
+	s1_onboarded_site_id          *int
+	adds1_onboarded_site_id       *int
+	is_ad_connector               *bool
+	is_dc_server                  *bool
+	ads_enabled                   *bool
+	first_seen_dt                 *time.Time
+	last_update_dt                *time.Time
+	last_active_dt                *time.Time
+	last_reboot_dt                *time.Time
+	s1_updated_at                 *time.Time
+	agent_json                    *json.RawMessage
+	appendagent_json              json.RawMessage
+	network_interfaces_json       *json.RawMessage
+	appendnetwork_interfaces_json json.RawMessage
+	alerts_json                   *json.RawMessage
+	appendalerts_json             json.RawMessage
+	alerts_count_json             *json.RawMessage
+	appendalerts_count_json       json.RawMessage
+	device_review_log_json        *json.RawMessage
+	appenddevice_review_log_json  json.RawMessage
+	identity_json                 *json.RawMessage
+	appendidentity_json           json.RawMessage
+	notes_json                    *json.RawMessage
+	appendnotes_json              json.RawMessage
+	tags_json                     *json.RawMessage
+	appendtags_json               json.RawMessage
+	missing_coverage_json         *json.RawMessage
+	appendmissing_coverage_json   json.RawMessage
+	subnets_json                  *json.RawMessage
+	appendsubnets_json            json.RawMessage
+	surfaces_json                 *json.RawMessage
+	appendsurfaces_json           json.RawMessage
+	network_names_json            *json.RawMessage
+	appendnetwork_names_json      json.RawMessage
+	risk_factors_json             *json.RawMessage
+	appendrisk_factors_json       json.RawMessage
+	active_coverage_json          *json.RawMessage
+	appendactive_coverage_json    json.RawMessage
+	discovery_methods_json        *json.RawMessage
+	appenddiscovery_methods_json  json.RawMessage
+	hostnames_json                *json.RawMessage
+	appendhostnames_json          json.RawMessage
+	internal_ips_json             *json.RawMessage
+	appendinternal_ips_json       json.RawMessage
+	internal_ips_v6_json          *json.RawMessage
+	appendinternal_ips_v6_json    json.RawMessage
+	mac_addresses_json            *json.RawMessage
+	appendmac_addresses_json      json.RawMessage
+	gateway_ips_json              *json.RawMessage
+	appendgateway_ips_json        json.RawMessage
+	gateway_macs_json             *json.RawMessage
+	appendgateway_macs_json       json.RawMessage
+	tcp_ports_json                *json.RawMessage
+	appendtcp_ports_json          json.RawMessage
+	udp_ports_json                *json.RawMessage
+	appendudp_ports_json          json.RawMessage
+	ranger_tags_json              *json.RawMessage
+	appendranger_tags_json        json.RawMessage
+	id_secondary_json             *json.RawMessage
+	appendid_secondary_json       json.RawMessage
+	clearedFields                 map[string]struct{}
+	done                          bool
+	oldValue                      func(context.Context) (*BronzeHistoryS1NetworkDiscovery, error)
+	predicates                    []predicate.BronzeHistoryS1NetworkDiscovery
+}
+
+var _ ent.Mutation = (*BronzeHistoryS1NetworkDiscoveryMutation)(nil)
+
+// bronzehistorys1networkdiscoveryOption allows management of the mutation configuration using functional options.
+type bronzehistorys1networkdiscoveryOption func(*BronzeHistoryS1NetworkDiscoveryMutation)
+
+// newBronzeHistoryS1NetworkDiscoveryMutation creates new mutation for the BronzeHistoryS1NetworkDiscovery entity.
+func newBronzeHistoryS1NetworkDiscoveryMutation(c config, op Op, opts ...bronzehistorys1networkdiscoveryOption) *BronzeHistoryS1NetworkDiscoveryMutation {
+	m := &BronzeHistoryS1NetworkDiscoveryMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeBronzeHistoryS1NetworkDiscovery,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withBronzeHistoryS1NetworkDiscoveryID sets the ID field of the mutation.
+func withBronzeHistoryS1NetworkDiscoveryID(id uint) bronzehistorys1networkdiscoveryOption {
+	return func(m *BronzeHistoryS1NetworkDiscoveryMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *BronzeHistoryS1NetworkDiscovery
+		)
+		m.oldValue = func(ctx context.Context) (*BronzeHistoryS1NetworkDiscovery, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().BronzeHistoryS1NetworkDiscovery.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withBronzeHistoryS1NetworkDiscovery sets the old BronzeHistoryS1NetworkDiscovery of the mutation.
+func withBronzeHistoryS1NetworkDiscovery(node *BronzeHistoryS1NetworkDiscovery) bronzehistorys1networkdiscoveryOption {
+	return func(m *BronzeHistoryS1NetworkDiscoveryMutation) {
+		m.oldValue = func(context.Context) (*BronzeHistoryS1NetworkDiscovery, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m BronzeHistoryS1NetworkDiscoveryMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m BronzeHistoryS1NetworkDiscoveryMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("s1: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of BronzeHistoryS1NetworkDiscovery entities.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetID(id uint) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ID() (id uint, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) IDs(ctx context.Context) ([]uint, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uint{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().BronzeHistoryS1NetworkDiscovery.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetValidFrom sets the "valid_from" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetValidFrom(t time.Time) {
+	m.valid_from = &t
+}
+
+// ValidFrom returns the value of the "valid_from" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ValidFrom() (r time.Time, exists bool) {
+	v := m.valid_from
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldValidFrom returns the old "valid_from" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldValidFrom(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldValidFrom is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldValidFrom requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldValidFrom: %w", err)
+	}
+	return oldValue.ValidFrom, nil
+}
+
+// ResetValidFrom resets all changes to the "valid_from" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetValidFrom() {
+	m.valid_from = nil
+}
+
+// SetValidTo sets the "valid_to" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetValidTo(t time.Time) {
+	m.valid_to = &t
+}
+
+// ValidTo returns the value of the "valid_to" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ValidTo() (r time.Time, exists bool) {
+	v := m.valid_to
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldValidTo returns the old "valid_to" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldValidTo(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldValidTo is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldValidTo requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldValidTo: %w", err)
+	}
+	return oldValue.ValidTo, nil
+}
+
+// ClearValidTo clears the value of the "valid_to" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearValidTo() {
+	m.valid_to = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldValidTo] = struct{}{}
+}
+
+// ValidToCleared returns if the "valid_to" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ValidToCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldValidTo]
+	return ok
+}
+
+// ResetValidTo resets all changes to the "valid_to" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetValidTo() {
+	m.valid_to = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldValidTo)
+}
+
+// SetCollectedAt sets the "collected_at" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetCollectedAt(t time.Time) {
+	m.collected_at = &t
+}
+
+// CollectedAt returns the value of the "collected_at" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) CollectedAt() (r time.Time, exists bool) {
+	v := m.collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCollectedAt returns the old "collected_at" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCollectedAt: %w", err)
+	}
+	return oldValue.CollectedAt, nil
+}
+
+// ResetCollectedAt resets all changes to the "collected_at" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetCollectedAt() {
+	m.collected_at = nil
+}
+
+// SetFirstCollectedAt sets the "first_collected_at" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetFirstCollectedAt(t time.Time) {
+	m.first_collected_at = &t
+}
+
+// FirstCollectedAt returns the value of the "first_collected_at" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) FirstCollectedAt() (r time.Time, exists bool) {
+	v := m.first_collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFirstCollectedAt returns the old "first_collected_at" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldFirstCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFirstCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFirstCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFirstCollectedAt: %w", err)
+	}
+	return oldValue.FirstCollectedAt, nil
+}
+
+// ResetFirstCollectedAt resets all changes to the "first_collected_at" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetFirstCollectedAt() {
+	m.first_collected_at = nil
+}
+
+// SetResourceID sets the "resource_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetResourceID(s string) {
+	m.resource_id = &s
+}
+
+// ResourceID returns the value of the "resource_id" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResourceID() (r string, exists bool) {
+	v := m.resource_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldResourceID returns the old "resource_id" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldResourceID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldResourceID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldResourceID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldResourceID: %w", err)
+	}
+	return oldValue.ResourceID, nil
+}
+
+// ResetResourceID resets all changes to the "resource_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetResourceID() {
+	m.resource_id = nil
+}
+
+// SetName sets the "name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetName(s string) {
+	m.name = &s
+}
+
+// Name returns the value of the "name" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) Name() (r string, exists bool) {
+	v := m.name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldName returns the old "name" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
+	}
+	return oldValue.Name, nil
+}
+
+// ClearName clears the value of the "name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearName() {
+	m.name = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldName] = struct{}{}
+}
+
+// NameCleared returns if the "name" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) NameCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldName]
+	return ok
+}
+
+// ResetName resets all changes to the "name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetName() {
+	m.name = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldName)
+}
+
+// SetIPAddress sets the "ip_address" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetIPAddress(s string) {
+	m.ip_address = &s
+}
+
+// IPAddress returns the value of the "ip_address" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) IPAddress() (r string, exists bool) {
+	v := m.ip_address
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIPAddress returns the old "ip_address" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldIPAddress(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIPAddress is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIPAddress requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIPAddress: %w", err)
+	}
+	return oldValue.IPAddress, nil
+}
+
+// ClearIPAddress clears the value of the "ip_address" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearIPAddress() {
+	m.ip_address = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldIPAddress] = struct{}{}
+}
+
+// IPAddressCleared returns if the "ip_address" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) IPAddressCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldIPAddress]
+	return ok
+}
+
+// ResetIPAddress resets all changes to the "ip_address" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetIPAddress() {
+	m.ip_address = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldIPAddress)
+}
+
+// SetDomain sets the "domain" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetDomain(s string) {
+	m.domain = &s
+}
+
+// Domain returns the value of the "domain" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) Domain() (r string, exists bool) {
+	v := m.domain
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDomain returns the old "domain" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldDomain(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDomain is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDomain requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDomain: %w", err)
+	}
+	return oldValue.Domain, nil
+}
+
+// ClearDomain clears the value of the "domain" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearDomain() {
+	m.domain = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldDomain] = struct{}{}
+}
+
+// DomainCleared returns if the "domain" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) DomainCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldDomain]
+	return ok
+}
+
+// ResetDomain resets all changes to the "domain" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetDomain() {
+	m.domain = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldDomain)
+}
+
+// SetSerialNumber sets the "serial_number" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetSerialNumber(s string) {
+	m.serial_number = &s
+}
+
+// SerialNumber returns the value of the "serial_number" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SerialNumber() (r string, exists bool) {
+	v := m.serial_number
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSerialNumber returns the old "serial_number" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldSerialNumber(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSerialNumber is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSerialNumber requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSerialNumber: %w", err)
+	}
+	return oldValue.SerialNumber, nil
+}
+
+// ClearSerialNumber clears the value of the "serial_number" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearSerialNumber() {
+	m.serial_number = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldSerialNumber] = struct{}{}
+}
+
+// SerialNumberCleared returns if the "serial_number" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SerialNumberCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldSerialNumber]
+	return ok
+}
+
+// ResetSerialNumber resets all changes to the "serial_number" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetSerialNumber() {
+	m.serial_number = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldSerialNumber)
+}
+
+// SetCategory sets the "category" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetCategory(s string) {
+	m.category = &s
+}
+
+// Category returns the value of the "category" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) Category() (r string, exists bool) {
+	v := m.category
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCategory returns the old "category" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldCategory(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCategory is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCategory requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCategory: %w", err)
+	}
+	return oldValue.Category, nil
+}
+
+// ClearCategory clears the value of the "category" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearCategory() {
+	m.category = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldCategory] = struct{}{}
+}
+
+// CategoryCleared returns if the "category" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) CategoryCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldCategory]
+	return ok
+}
+
+// ResetCategory resets all changes to the "category" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetCategory() {
+	m.category = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldCategory)
+}
+
+// SetSubCategory sets the "sub_category" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetSubCategory(s string) {
+	m.sub_category = &s
+}
+
+// SubCategory returns the value of the "sub_category" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SubCategory() (r string, exists bool) {
+	v := m.sub_category
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSubCategory returns the old "sub_category" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldSubCategory(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSubCategory is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSubCategory requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSubCategory: %w", err)
+	}
+	return oldValue.SubCategory, nil
+}
+
+// ClearSubCategory clears the value of the "sub_category" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearSubCategory() {
+	m.sub_category = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldSubCategory] = struct{}{}
+}
+
+// SubCategoryCleared returns if the "sub_category" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SubCategoryCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldSubCategory]
+	return ok
+}
+
+// ResetSubCategory resets all changes to the "sub_category" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetSubCategory() {
+	m.sub_category = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldSubCategory)
+}
+
+// SetResourceType sets the "resource_type" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetResourceType(s string) {
+	m.resource_type = &s
+}
+
+// ResourceType returns the value of the "resource_type" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResourceType() (r string, exists bool) {
+	v := m.resource_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldResourceType returns the old "resource_type" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldResourceType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldResourceType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldResourceType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldResourceType: %w", err)
+	}
+	return oldValue.ResourceType, nil
+}
+
+// ClearResourceType clears the value of the "resource_type" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearResourceType() {
+	m.resource_type = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldResourceType] = struct{}{}
+}
+
+// ResourceTypeCleared returns if the "resource_type" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResourceTypeCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldResourceType]
+	return ok
+}
+
+// ResetResourceType resets all changes to the "resource_type" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetResourceType() {
+	m.resource_type = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldResourceType)
+}
+
+// SetOs sets the "os" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetOs(s string) {
+	m.os = &s
+}
+
+// Os returns the value of the "os" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) Os() (r string, exists bool) {
+	v := m.os
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOs returns the old "os" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldOs(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOs is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOs requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOs: %w", err)
+	}
+	return oldValue.Os, nil
+}
+
+// ClearOs clears the value of the "os" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearOs() {
+	m.os = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldOs] = struct{}{}
+}
+
+// OsCleared returns if the "os" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OsCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldOs]
+	return ok
+}
+
+// ResetOs resets all changes to the "os" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetOs() {
+	m.os = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldOs)
+}
+
+// SetOsFamily sets the "os_family" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetOsFamily(s string) {
+	m.os_family = &s
+}
+
+// OsFamily returns the value of the "os_family" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OsFamily() (r string, exists bool) {
+	v := m.os_family
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOsFamily returns the old "os_family" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldOsFamily(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOsFamily is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOsFamily requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOsFamily: %w", err)
+	}
+	return oldValue.OsFamily, nil
+}
+
+// ClearOsFamily clears the value of the "os_family" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearOsFamily() {
+	m.os_family = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldOsFamily] = struct{}{}
+}
+
+// OsFamilyCleared returns if the "os_family" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OsFamilyCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldOsFamily]
+	return ok
+}
+
+// ResetOsFamily resets all changes to the "os_family" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetOsFamily() {
+	m.os_family = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldOsFamily)
+}
+
+// SetOsVersion sets the "os_version" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetOsVersion(s string) {
+	m.os_version = &s
+}
+
+// OsVersion returns the value of the "os_version" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OsVersion() (r string, exists bool) {
+	v := m.os_version
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOsVersion returns the old "os_version" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldOsVersion(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOsVersion is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOsVersion requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOsVersion: %w", err)
+	}
+	return oldValue.OsVersion, nil
+}
+
+// ClearOsVersion clears the value of the "os_version" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearOsVersion() {
+	m.os_version = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldOsVersion] = struct{}{}
+}
+
+// OsVersionCleared returns if the "os_version" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OsVersionCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldOsVersion]
+	return ok
+}
+
+// ResetOsVersion resets all changes to the "os_version" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetOsVersion() {
+	m.os_version = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldOsVersion)
+}
+
+// SetOsNameVersion sets the "os_name_version" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetOsNameVersion(s string) {
+	m.os_name_version = &s
+}
+
+// OsNameVersion returns the value of the "os_name_version" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OsNameVersion() (r string, exists bool) {
+	v := m.os_name_version
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOsNameVersion returns the old "os_name_version" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldOsNameVersion(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOsNameVersion is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOsNameVersion requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOsNameVersion: %w", err)
+	}
+	return oldValue.OsNameVersion, nil
+}
+
+// ClearOsNameVersion clears the value of the "os_name_version" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearOsNameVersion() {
+	m.os_name_version = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldOsNameVersion] = struct{}{}
+}
+
+// OsNameVersionCleared returns if the "os_name_version" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OsNameVersionCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldOsNameVersion]
+	return ok
+}
+
+// ResetOsNameVersion resets all changes to the "os_name_version" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetOsNameVersion() {
+	m.os_name_version = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldOsNameVersion)
+}
+
+// SetArchitecture sets the "architecture" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetArchitecture(s string) {
+	m.architecture = &s
+}
+
+// Architecture returns the value of the "architecture" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) Architecture() (r string, exists bool) {
+	v := m.architecture
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldArchitecture returns the old "architecture" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldArchitecture(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldArchitecture is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldArchitecture requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldArchitecture: %w", err)
+	}
+	return oldValue.Architecture, nil
+}
+
+// ClearArchitecture clears the value of the "architecture" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearArchitecture() {
+	m.architecture = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldArchitecture] = struct{}{}
+}
+
+// ArchitectureCleared returns if the "architecture" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ArchitectureCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldArchitecture]
+	return ok
+}
+
+// ResetArchitecture resets all changes to the "architecture" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetArchitecture() {
+	m.architecture = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldArchitecture)
+}
+
+// SetManufacturer sets the "manufacturer" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetManufacturer(s string) {
+	m.manufacturer = &s
+}
+
+// Manufacturer returns the value of the "manufacturer" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) Manufacturer() (r string, exists bool) {
+	v := m.manufacturer
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldManufacturer returns the old "manufacturer" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldManufacturer(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldManufacturer is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldManufacturer requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldManufacturer: %w", err)
+	}
+	return oldValue.Manufacturer, nil
+}
+
+// ClearManufacturer clears the value of the "manufacturer" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearManufacturer() {
+	m.manufacturer = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldManufacturer] = struct{}{}
+}
+
+// ManufacturerCleared returns if the "manufacturer" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ManufacturerCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldManufacturer]
+	return ok
+}
+
+// ResetManufacturer resets all changes to the "manufacturer" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetManufacturer() {
+	m.manufacturer = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldManufacturer)
+}
+
+// SetCPU sets the "cpu" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetCPU(s string) {
+	m.cpu = &s
+}
+
+// CPU returns the value of the "cpu" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) CPU() (r string, exists bool) {
+	v := m.cpu
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCPU returns the old "cpu" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldCPU(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCPU is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCPU requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCPU: %w", err)
+	}
+	return oldValue.CPU, nil
+}
+
+// ClearCPU clears the value of the "cpu" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearCPU() {
+	m.cpu = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldCPU] = struct{}{}
+}
+
+// CPUCleared returns if the "cpu" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) CPUCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldCPU]
+	return ok
+}
+
+// ResetCPU resets all changes to the "cpu" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetCPU() {
+	m.cpu = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldCPU)
+}
+
+// SetMemoryReadable sets the "memory_readable" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetMemoryReadable(s string) {
+	m.memory_readable = &s
+}
+
+// MemoryReadable returns the value of the "memory_readable" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) MemoryReadable() (r string, exists bool) {
+	v := m.memory_readable
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMemoryReadable returns the old "memory_readable" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldMemoryReadable(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMemoryReadable is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMemoryReadable requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMemoryReadable: %w", err)
+	}
+	return oldValue.MemoryReadable, nil
+}
+
+// ClearMemoryReadable clears the value of the "memory_readable" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearMemoryReadable() {
+	m.memory_readable = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldMemoryReadable] = struct{}{}
+}
+
+// MemoryReadableCleared returns if the "memory_readable" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) MemoryReadableCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldMemoryReadable]
+	return ok
+}
+
+// ResetMemoryReadable resets all changes to the "memory_readable" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetMemoryReadable() {
+	m.memory_readable = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldMemoryReadable)
+}
+
+// SetNetworkName sets the "network_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetNetworkName(s string) {
+	m.network_name = &s
+}
+
+// NetworkName returns the value of the "network_name" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) NetworkName() (r string, exists bool) {
+	v := m.network_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldNetworkName returns the old "network_name" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldNetworkName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldNetworkName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldNetworkName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldNetworkName: %w", err)
+	}
+	return oldValue.NetworkName, nil
+}
+
+// ClearNetworkName clears the value of the "network_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearNetworkName() {
+	m.network_name = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldNetworkName] = struct{}{}
+}
+
+// NetworkNameCleared returns if the "network_name" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) NetworkNameCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldNetworkName]
+	return ok
+}
+
+// ResetNetworkName resets all changes to the "network_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetNetworkName() {
+	m.network_name = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldNetworkName)
+}
+
+// SetAssetStatus sets the "asset_status" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetAssetStatus(s string) {
+	m.asset_status = &s
+}
+
+// AssetStatus returns the value of the "asset_status" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AssetStatus() (r string, exists bool) {
+	v := m.asset_status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAssetStatus returns the old "asset_status" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldAssetStatus(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAssetStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAssetStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAssetStatus: %w", err)
+	}
+	return oldValue.AssetStatus, nil
+}
+
+// ClearAssetStatus clears the value of the "asset_status" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearAssetStatus() {
+	m.asset_status = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldAssetStatus] = struct{}{}
+}
+
+// AssetStatusCleared returns if the "asset_status" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AssetStatusCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldAssetStatus]
+	return ok
+}
+
+// ResetAssetStatus resets all changes to the "asset_status" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetAssetStatus() {
+	m.asset_status = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldAssetStatus)
+}
+
+// SetAssetCriticality sets the "asset_criticality" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetAssetCriticality(s string) {
+	m.asset_criticality = &s
+}
+
+// AssetCriticality returns the value of the "asset_criticality" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AssetCriticality() (r string, exists bool) {
+	v := m.asset_criticality
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAssetCriticality returns the old "asset_criticality" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldAssetCriticality(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAssetCriticality is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAssetCriticality requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAssetCriticality: %w", err)
+	}
+	return oldValue.AssetCriticality, nil
+}
+
+// ClearAssetCriticality clears the value of the "asset_criticality" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearAssetCriticality() {
+	m.asset_criticality = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldAssetCriticality] = struct{}{}
+}
+
+// AssetCriticalityCleared returns if the "asset_criticality" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AssetCriticalityCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldAssetCriticality]
+	return ok
+}
+
+// ResetAssetCriticality resets all changes to the "asset_criticality" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetAssetCriticality() {
+	m.asset_criticality = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldAssetCriticality)
+}
+
+// SetAssetEnvironment sets the "asset_environment" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetAssetEnvironment(s string) {
+	m.asset_environment = &s
+}
+
+// AssetEnvironment returns the value of the "asset_environment" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AssetEnvironment() (r string, exists bool) {
+	v := m.asset_environment
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAssetEnvironment returns the old "asset_environment" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldAssetEnvironment(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAssetEnvironment is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAssetEnvironment requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAssetEnvironment: %w", err)
+	}
+	return oldValue.AssetEnvironment, nil
+}
+
+// ClearAssetEnvironment clears the value of the "asset_environment" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearAssetEnvironment() {
+	m.asset_environment = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldAssetEnvironment] = struct{}{}
+}
+
+// AssetEnvironmentCleared returns if the "asset_environment" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AssetEnvironmentCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldAssetEnvironment]
+	return ok
+}
+
+// ResetAssetEnvironment resets all changes to the "asset_environment" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetAssetEnvironment() {
+	m.asset_environment = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldAssetEnvironment)
+}
+
+// SetInfectionStatus sets the "infection_status" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetInfectionStatus(s string) {
+	m.infection_status = &s
+}
+
+// InfectionStatus returns the value of the "infection_status" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) InfectionStatus() (r string, exists bool) {
+	v := m.infection_status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInfectionStatus returns the old "infection_status" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldInfectionStatus(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldInfectionStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldInfectionStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInfectionStatus: %w", err)
+	}
+	return oldValue.InfectionStatus, nil
+}
+
+// ClearInfectionStatus clears the value of the "infection_status" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearInfectionStatus() {
+	m.infection_status = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldInfectionStatus] = struct{}{}
+}
+
+// InfectionStatusCleared returns if the "infection_status" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) InfectionStatusCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldInfectionStatus]
+	return ok
+}
+
+// ResetInfectionStatus resets all changes to the "infection_status" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetInfectionStatus() {
+	m.infection_status = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldInfectionStatus)
+}
+
+// SetDeviceReview sets the "device_review" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetDeviceReview(s string) {
+	m.device_review = &s
+}
+
+// DeviceReview returns the value of the "device_review" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) DeviceReview() (r string, exists bool) {
+	v := m.device_review
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeviceReview returns the old "device_review" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldDeviceReview(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeviceReview is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeviceReview requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeviceReview: %w", err)
+	}
+	return oldValue.DeviceReview, nil
+}
+
+// ClearDeviceReview clears the value of the "device_review" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearDeviceReview() {
+	m.device_review = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldDeviceReview] = struct{}{}
+}
+
+// DeviceReviewCleared returns if the "device_review" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) DeviceReviewCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldDeviceReview]
+	return ok
+}
+
+// ResetDeviceReview resets all changes to the "device_review" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetDeviceReview() {
+	m.device_review = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldDeviceReview)
+}
+
+// SetEppUnsupportedUnknown sets the "epp_unsupported_unknown" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetEppUnsupportedUnknown(s string) {
+	m.epp_unsupported_unknown = &s
+}
+
+// EppUnsupportedUnknown returns the value of the "epp_unsupported_unknown" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) EppUnsupportedUnknown() (r string, exists bool) {
+	v := m.epp_unsupported_unknown
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEppUnsupportedUnknown returns the old "epp_unsupported_unknown" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldEppUnsupportedUnknown(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEppUnsupportedUnknown is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEppUnsupportedUnknown requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEppUnsupportedUnknown: %w", err)
+	}
+	return oldValue.EppUnsupportedUnknown, nil
+}
+
+// ClearEppUnsupportedUnknown clears the value of the "epp_unsupported_unknown" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearEppUnsupportedUnknown() {
+	m.epp_unsupported_unknown = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldEppUnsupportedUnknown] = struct{}{}
+}
+
+// EppUnsupportedUnknownCleared returns if the "epp_unsupported_unknown" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) EppUnsupportedUnknownCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldEppUnsupportedUnknown]
+	return ok
+}
+
+// ResetEppUnsupportedUnknown resets all changes to the "epp_unsupported_unknown" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetEppUnsupportedUnknown() {
+	m.epp_unsupported_unknown = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldEppUnsupportedUnknown)
+}
+
+// SetAssetContactEmail sets the "asset_contact_email" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetAssetContactEmail(s string) {
+	m.asset_contact_email = &s
+}
+
+// AssetContactEmail returns the value of the "asset_contact_email" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AssetContactEmail() (r string, exists bool) {
+	v := m.asset_contact_email
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAssetContactEmail returns the old "asset_contact_email" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldAssetContactEmail(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAssetContactEmail is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAssetContactEmail requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAssetContactEmail: %w", err)
+	}
+	return oldValue.AssetContactEmail, nil
+}
+
+// ClearAssetContactEmail clears the value of the "asset_contact_email" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearAssetContactEmail() {
+	m.asset_contact_email = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldAssetContactEmail] = struct{}{}
+}
+
+// AssetContactEmailCleared returns if the "asset_contact_email" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AssetContactEmailCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldAssetContactEmail]
+	return ok
+}
+
+// ResetAssetContactEmail resets all changes to the "asset_contact_email" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetAssetContactEmail() {
+	m.asset_contact_email = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldAssetContactEmail)
+}
+
+// SetLegacyIdentityPolicyName sets the "legacy_identity_policy_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetLegacyIdentityPolicyName(s string) {
+	m.legacy_identity_policy_name = &s
+}
+
+// LegacyIdentityPolicyName returns the value of the "legacy_identity_policy_name" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) LegacyIdentityPolicyName() (r string, exists bool) {
+	v := m.legacy_identity_policy_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLegacyIdentityPolicyName returns the old "legacy_identity_policy_name" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldLegacyIdentityPolicyName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLegacyIdentityPolicyName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLegacyIdentityPolicyName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLegacyIdentityPolicyName: %w", err)
+	}
+	return oldValue.LegacyIdentityPolicyName, nil
+}
+
+// ClearLegacyIdentityPolicyName clears the value of the "legacy_identity_policy_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearLegacyIdentityPolicyName() {
+	m.legacy_identity_policy_name = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldLegacyIdentityPolicyName] = struct{}{}
+}
+
+// LegacyIdentityPolicyNameCleared returns if the "legacy_identity_policy_name" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) LegacyIdentityPolicyNameCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldLegacyIdentityPolicyName]
+	return ok
+}
+
+// ResetLegacyIdentityPolicyName resets all changes to the "legacy_identity_policy_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetLegacyIdentityPolicyName() {
+	m.legacy_identity_policy_name = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldLegacyIdentityPolicyName)
+}
+
+// SetPreviousOsType sets the "previous_os_type" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetPreviousOsType(s string) {
+	m.previous_os_type = &s
+}
+
+// PreviousOsType returns the value of the "previous_os_type" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) PreviousOsType() (r string, exists bool) {
+	v := m.previous_os_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPreviousOsType returns the old "previous_os_type" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldPreviousOsType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPreviousOsType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPreviousOsType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPreviousOsType: %w", err)
+	}
+	return oldValue.PreviousOsType, nil
+}
+
+// ClearPreviousOsType clears the value of the "previous_os_type" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearPreviousOsType() {
+	m.previous_os_type = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldPreviousOsType] = struct{}{}
+}
+
+// PreviousOsTypeCleared returns if the "previous_os_type" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) PreviousOsTypeCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldPreviousOsType]
+	return ok
+}
+
+// ResetPreviousOsType resets all changes to the "previous_os_type" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetPreviousOsType() {
+	m.previous_os_type = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldPreviousOsType)
+}
+
+// SetPreviousOsVersion sets the "previous_os_version" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetPreviousOsVersion(s string) {
+	m.previous_os_version = &s
+}
+
+// PreviousOsVersion returns the value of the "previous_os_version" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) PreviousOsVersion() (r string, exists bool) {
+	v := m.previous_os_version
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPreviousOsVersion returns the old "previous_os_version" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldPreviousOsVersion(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPreviousOsVersion is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPreviousOsVersion requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPreviousOsVersion: %w", err)
+	}
+	return oldValue.PreviousOsVersion, nil
+}
+
+// ClearPreviousOsVersion clears the value of the "previous_os_version" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearPreviousOsVersion() {
+	m.previous_os_version = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldPreviousOsVersion] = struct{}{}
+}
+
+// PreviousOsVersionCleared returns if the "previous_os_version" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) PreviousOsVersionCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldPreviousOsVersion]
+	return ok
+}
+
+// ResetPreviousOsVersion resets all changes to the "previous_os_version" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetPreviousOsVersion() {
+	m.previous_os_version = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldPreviousOsVersion)
+}
+
+// SetPreviousDeviceFunction sets the "previous_device_function" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetPreviousDeviceFunction(s string) {
+	m.previous_device_function = &s
+}
+
+// PreviousDeviceFunction returns the value of the "previous_device_function" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) PreviousDeviceFunction() (r string, exists bool) {
+	v := m.previous_device_function
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPreviousDeviceFunction returns the old "previous_device_function" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldPreviousDeviceFunction(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPreviousDeviceFunction is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPreviousDeviceFunction requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPreviousDeviceFunction: %w", err)
+	}
+	return oldValue.PreviousDeviceFunction, nil
+}
+
+// ClearPreviousDeviceFunction clears the value of the "previous_device_function" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearPreviousDeviceFunction() {
+	m.previous_device_function = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldPreviousDeviceFunction] = struct{}{}
+}
+
+// PreviousDeviceFunctionCleared returns if the "previous_device_function" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) PreviousDeviceFunctionCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldPreviousDeviceFunction]
+	return ok
+}
+
+// ResetPreviousDeviceFunction resets all changes to the "previous_device_function" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetPreviousDeviceFunction() {
+	m.previous_device_function = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldPreviousDeviceFunction)
+}
+
+// SetDetectedFromSite sets the "detected_from_site" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetDetectedFromSite(s string) {
+	m.detected_from_site = &s
+}
+
+// DetectedFromSite returns the value of the "detected_from_site" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) DetectedFromSite() (r string, exists bool) {
+	v := m.detected_from_site
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDetectedFromSite returns the old "detected_from_site" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldDetectedFromSite(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDetectedFromSite is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDetectedFromSite requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDetectedFromSite: %w", err)
+	}
+	return oldValue.DetectedFromSite, nil
+}
+
+// ClearDetectedFromSite clears the value of the "detected_from_site" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearDetectedFromSite() {
+	m.detected_from_site = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldDetectedFromSite] = struct{}{}
+}
+
+// DetectedFromSiteCleared returns if the "detected_from_site" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) DetectedFromSiteCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldDetectedFromSite]
+	return ok
+}
+
+// ResetDetectedFromSite resets all changes to the "detected_from_site" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetDetectedFromSite() {
+	m.detected_from_site = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldDetectedFromSite)
+}
+
+// SetS1AccountID sets the "s1_account_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1AccountID(s string) {
+	m.s1_account_id = &s
+}
+
+// S1AccountID returns the value of the "s1_account_id" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1AccountID() (r string, exists bool) {
+	v := m.s1_account_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1AccountID returns the old "s1_account_id" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1AccountID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1AccountID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1AccountID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1AccountID: %w", err)
+	}
+	return oldValue.S1AccountID, nil
+}
+
+// ClearS1AccountID clears the value of the "s1_account_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1AccountID() {
+	m.s1_account_id = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1AccountID] = struct{}{}
+}
+
+// S1AccountIDCleared returns if the "s1_account_id" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1AccountIDCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1AccountID]
+	return ok
+}
+
+// ResetS1AccountID resets all changes to the "s1_account_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1AccountID() {
+	m.s1_account_id = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1AccountID)
+}
+
+// SetS1AccountName sets the "s1_account_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1AccountName(s string) {
+	m.s1_account_name = &s
+}
+
+// S1AccountName returns the value of the "s1_account_name" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1AccountName() (r string, exists bool) {
+	v := m.s1_account_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1AccountName returns the old "s1_account_name" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1AccountName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1AccountName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1AccountName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1AccountName: %w", err)
+	}
+	return oldValue.S1AccountName, nil
+}
+
+// ClearS1AccountName clears the value of the "s1_account_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1AccountName() {
+	m.s1_account_name = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1AccountName] = struct{}{}
+}
+
+// S1AccountNameCleared returns if the "s1_account_name" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1AccountNameCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1AccountName]
+	return ok
+}
+
+// ResetS1AccountName resets all changes to the "s1_account_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1AccountName() {
+	m.s1_account_name = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1AccountName)
+}
+
+// SetS1SiteID sets the "s1_site_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1SiteID(s string) {
+	m.s1_site_id = &s
+}
+
+// S1SiteID returns the value of the "s1_site_id" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1SiteID() (r string, exists bool) {
+	v := m.s1_site_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1SiteID returns the old "s1_site_id" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1SiteID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1SiteID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1SiteID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1SiteID: %w", err)
+	}
+	return oldValue.S1SiteID, nil
+}
+
+// ClearS1SiteID clears the value of the "s1_site_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1SiteID() {
+	m.s1_site_id = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1SiteID] = struct{}{}
+}
+
+// S1SiteIDCleared returns if the "s1_site_id" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1SiteIDCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1SiteID]
+	return ok
+}
+
+// ResetS1SiteID resets all changes to the "s1_site_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1SiteID() {
+	m.s1_site_id = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1SiteID)
+}
+
+// SetS1SiteName sets the "s1_site_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1SiteName(s string) {
+	m.s1_site_name = &s
+}
+
+// S1SiteName returns the value of the "s1_site_name" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1SiteName() (r string, exists bool) {
+	v := m.s1_site_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1SiteName returns the old "s1_site_name" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1SiteName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1SiteName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1SiteName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1SiteName: %w", err)
+	}
+	return oldValue.S1SiteName, nil
+}
+
+// ClearS1SiteName clears the value of the "s1_site_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1SiteName() {
+	m.s1_site_name = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1SiteName] = struct{}{}
+}
+
+// S1SiteNameCleared returns if the "s1_site_name" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1SiteNameCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1SiteName]
+	return ok
+}
+
+// ResetS1SiteName resets all changes to the "s1_site_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1SiteName() {
+	m.s1_site_name = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1SiteName)
+}
+
+// SetS1GroupID sets the "s1_group_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1GroupID(s string) {
+	m.s1_group_id = &s
+}
+
+// S1GroupID returns the value of the "s1_group_id" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1GroupID() (r string, exists bool) {
+	v := m.s1_group_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1GroupID returns the old "s1_group_id" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1GroupID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1GroupID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1GroupID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1GroupID: %w", err)
+	}
+	return oldValue.S1GroupID, nil
+}
+
+// ClearS1GroupID clears the value of the "s1_group_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1GroupID() {
+	m.s1_group_id = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1GroupID] = struct{}{}
+}
+
+// S1GroupIDCleared returns if the "s1_group_id" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1GroupIDCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1GroupID]
+	return ok
+}
+
+// ResetS1GroupID resets all changes to the "s1_group_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1GroupID() {
+	m.s1_group_id = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1GroupID)
+}
+
+// SetS1GroupName sets the "s1_group_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1GroupName(s string) {
+	m.s1_group_name = &s
+}
+
+// S1GroupName returns the value of the "s1_group_name" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1GroupName() (r string, exists bool) {
+	v := m.s1_group_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1GroupName returns the old "s1_group_name" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1GroupName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1GroupName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1GroupName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1GroupName: %w", err)
+	}
+	return oldValue.S1GroupName, nil
+}
+
+// ClearS1GroupName clears the value of the "s1_group_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1GroupName() {
+	m.s1_group_name = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1GroupName] = struct{}{}
+}
+
+// S1GroupNameCleared returns if the "s1_group_name" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1GroupNameCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1GroupName]
+	return ok
+}
+
+// ResetS1GroupName resets all changes to the "s1_group_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1GroupName() {
+	m.s1_group_name = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1GroupName)
+}
+
+// SetS1ScopeID sets the "s1_scope_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1ScopeID(s string) {
+	m.s1_scope_id = &s
+}
+
+// S1ScopeID returns the value of the "s1_scope_id" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1ScopeID() (r string, exists bool) {
+	v := m.s1_scope_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1ScopeID returns the old "s1_scope_id" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1ScopeID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1ScopeID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1ScopeID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1ScopeID: %w", err)
+	}
+	return oldValue.S1ScopeID, nil
+}
+
+// ClearS1ScopeID clears the value of the "s1_scope_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1ScopeID() {
+	m.s1_scope_id = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1ScopeID] = struct{}{}
+}
+
+// S1ScopeIDCleared returns if the "s1_scope_id" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1ScopeIDCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1ScopeID]
+	return ok
+}
+
+// ResetS1ScopeID resets all changes to the "s1_scope_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1ScopeID() {
+	m.s1_scope_id = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1ScopeID)
+}
+
+// SetS1ScopeLevel sets the "s1_scope_level" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1ScopeLevel(s string) {
+	m.s1_scope_level = &s
+}
+
+// S1ScopeLevel returns the value of the "s1_scope_level" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1ScopeLevel() (r string, exists bool) {
+	v := m.s1_scope_level
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1ScopeLevel returns the old "s1_scope_level" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1ScopeLevel(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1ScopeLevel is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1ScopeLevel requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1ScopeLevel: %w", err)
+	}
+	return oldValue.S1ScopeLevel, nil
+}
+
+// ClearS1ScopeLevel clears the value of the "s1_scope_level" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1ScopeLevel() {
+	m.s1_scope_level = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1ScopeLevel] = struct{}{}
+}
+
+// S1ScopeLevelCleared returns if the "s1_scope_level" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1ScopeLevelCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1ScopeLevel]
+	return ok
+}
+
+// ResetS1ScopeLevel resets all changes to the "s1_scope_level" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1ScopeLevel() {
+	m.s1_scope_level = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1ScopeLevel)
+}
+
+// SetS1ScopePath sets the "s1_scope_path" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1ScopePath(s string) {
+	m.s1_scope_path = &s
+}
+
+// S1ScopePath returns the value of the "s1_scope_path" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1ScopePath() (r string, exists bool) {
+	v := m.s1_scope_path
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1ScopePath returns the old "s1_scope_path" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1ScopePath(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1ScopePath is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1ScopePath requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1ScopePath: %w", err)
+	}
+	return oldValue.S1ScopePath, nil
+}
+
+// ClearS1ScopePath clears the value of the "s1_scope_path" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1ScopePath() {
+	m.s1_scope_path = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1ScopePath] = struct{}{}
+}
+
+// S1ScopePathCleared returns if the "s1_scope_path" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1ScopePathCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1ScopePath]
+	return ok
+}
+
+// ResetS1ScopePath resets all changes to the "s1_scope_path" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1ScopePath() {
+	m.s1_scope_path = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1ScopePath)
+}
+
+// SetS1OnboardedAccountName sets the "s1_onboarded_account_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1OnboardedAccountName(s string) {
+	m.s1_onboarded_account_name = &s
+}
+
+// S1OnboardedAccountName returns the value of the "s1_onboarded_account_name" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1OnboardedAccountName() (r string, exists bool) {
+	v := m.s1_onboarded_account_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1OnboardedAccountName returns the old "s1_onboarded_account_name" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1OnboardedAccountName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1OnboardedAccountName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1OnboardedAccountName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1OnboardedAccountName: %w", err)
+	}
+	return oldValue.S1OnboardedAccountName, nil
+}
+
+// ClearS1OnboardedAccountName clears the value of the "s1_onboarded_account_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1OnboardedAccountName() {
+	m.s1_onboarded_account_name = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1OnboardedAccountName] = struct{}{}
+}
+
+// S1OnboardedAccountNameCleared returns if the "s1_onboarded_account_name" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1OnboardedAccountNameCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1OnboardedAccountName]
+	return ok
+}
+
+// ResetS1OnboardedAccountName resets all changes to the "s1_onboarded_account_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1OnboardedAccountName() {
+	m.s1_onboarded_account_name = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1OnboardedAccountName)
+}
+
+// SetS1OnboardedGroupName sets the "s1_onboarded_group_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1OnboardedGroupName(s string) {
+	m.s1_onboarded_group_name = &s
+}
+
+// S1OnboardedGroupName returns the value of the "s1_onboarded_group_name" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1OnboardedGroupName() (r string, exists bool) {
+	v := m.s1_onboarded_group_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1OnboardedGroupName returns the old "s1_onboarded_group_name" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1OnboardedGroupName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1OnboardedGroupName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1OnboardedGroupName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1OnboardedGroupName: %w", err)
+	}
+	return oldValue.S1OnboardedGroupName, nil
+}
+
+// ClearS1OnboardedGroupName clears the value of the "s1_onboarded_group_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1OnboardedGroupName() {
+	m.s1_onboarded_group_name = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1OnboardedGroupName] = struct{}{}
+}
+
+// S1OnboardedGroupNameCleared returns if the "s1_onboarded_group_name" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1OnboardedGroupNameCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1OnboardedGroupName]
+	return ok
+}
+
+// ResetS1OnboardedGroupName resets all changes to the "s1_onboarded_group_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1OnboardedGroupName() {
+	m.s1_onboarded_group_name = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1OnboardedGroupName)
+}
+
+// SetS1OnboardedSiteName sets the "s1_onboarded_site_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1OnboardedSiteName(s string) {
+	m.s1_onboarded_site_name = &s
+}
+
+// S1OnboardedSiteName returns the value of the "s1_onboarded_site_name" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1OnboardedSiteName() (r string, exists bool) {
+	v := m.s1_onboarded_site_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1OnboardedSiteName returns the old "s1_onboarded_site_name" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1OnboardedSiteName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1OnboardedSiteName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1OnboardedSiteName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1OnboardedSiteName: %w", err)
+	}
+	return oldValue.S1OnboardedSiteName, nil
+}
+
+// ClearS1OnboardedSiteName clears the value of the "s1_onboarded_site_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1OnboardedSiteName() {
+	m.s1_onboarded_site_name = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1OnboardedSiteName] = struct{}{}
+}
+
+// S1OnboardedSiteNameCleared returns if the "s1_onboarded_site_name" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1OnboardedSiteNameCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1OnboardedSiteName]
+	return ok
+}
+
+// ResetS1OnboardedSiteName resets all changes to the "s1_onboarded_site_name" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1OnboardedSiteName() {
+	m.s1_onboarded_site_name = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1OnboardedSiteName)
+}
+
+// SetS1OnboardedScopeLevel sets the "s1_onboarded_scope_level" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1OnboardedScopeLevel(s string) {
+	m.s1_onboarded_scope_level = &s
+}
+
+// S1OnboardedScopeLevel returns the value of the "s1_onboarded_scope_level" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1OnboardedScopeLevel() (r string, exists bool) {
+	v := m.s1_onboarded_scope_level
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1OnboardedScopeLevel returns the old "s1_onboarded_scope_level" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1OnboardedScopeLevel(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1OnboardedScopeLevel is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1OnboardedScopeLevel requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1OnboardedScopeLevel: %w", err)
+	}
+	return oldValue.S1OnboardedScopeLevel, nil
+}
+
+// ClearS1OnboardedScopeLevel clears the value of the "s1_onboarded_scope_level" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1OnboardedScopeLevel() {
+	m.s1_onboarded_scope_level = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1OnboardedScopeLevel] = struct{}{}
+}
+
+// S1OnboardedScopeLevelCleared returns if the "s1_onboarded_scope_level" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1OnboardedScopeLevelCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1OnboardedScopeLevel]
+	return ok
+}
+
+// ResetS1OnboardedScopeLevel resets all changes to the "s1_onboarded_scope_level" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1OnboardedScopeLevel() {
+	m.s1_onboarded_scope_level = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1OnboardedScopeLevel)
+}
+
+// SetS1OnboardedScopePath sets the "s1_onboarded_scope_path" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1OnboardedScopePath(s string) {
+	m.s1_onboarded_scope_path = &s
+}
+
+// S1OnboardedScopePath returns the value of the "s1_onboarded_scope_path" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1OnboardedScopePath() (r string, exists bool) {
+	v := m.s1_onboarded_scope_path
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1OnboardedScopePath returns the old "s1_onboarded_scope_path" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1OnboardedScopePath(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1OnboardedScopePath is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1OnboardedScopePath requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1OnboardedScopePath: %w", err)
+	}
+	return oldValue.S1OnboardedScopePath, nil
+}
+
+// ClearS1OnboardedScopePath clears the value of the "s1_onboarded_scope_path" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1OnboardedScopePath() {
+	m.s1_onboarded_scope_path = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1OnboardedScopePath] = struct{}{}
+}
+
+// S1OnboardedScopePathCleared returns if the "s1_onboarded_scope_path" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1OnboardedScopePathCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1OnboardedScopePath]
+	return ok
+}
+
+// ResetS1OnboardedScopePath resets all changes to the "s1_onboarded_scope_path" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1OnboardedScopePath() {
+	m.s1_onboarded_scope_path = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1OnboardedScopePath)
+}
+
+// SetMemory sets the "memory" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetMemory(i int) {
+	m.memory = &i
+	m.addmemory = nil
+}
+
+// Memory returns the value of the "memory" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) Memory() (r int, exists bool) {
+	v := m.memory
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMemory returns the old "memory" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldMemory(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMemory is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMemory requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMemory: %w", err)
+	}
+	return oldValue.Memory, nil
+}
+
+// AddMemory adds i to the "memory" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddMemory(i int) {
+	if m.addmemory != nil {
+		*m.addmemory += i
+	} else {
+		m.addmemory = &i
+	}
+}
+
+// AddedMemory returns the value that was added to the "memory" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddedMemory() (r int, exists bool) {
+	v := m.addmemory
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearMemory clears the value of the "memory" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearMemory() {
+	m.memory = nil
+	m.addmemory = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldMemory] = struct{}{}
+}
+
+// MemoryCleared returns if the "memory" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) MemoryCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldMemory]
+	return ok
+}
+
+// ResetMemory resets all changes to the "memory" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetMemory() {
+	m.memory = nil
+	m.addmemory = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldMemory)
+}
+
+// SetCoreCount sets the "core_count" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetCoreCount(i int) {
+	m.core_count = &i
+	m.addcore_count = nil
+}
+
+// CoreCount returns the value of the "core_count" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) CoreCount() (r int, exists bool) {
+	v := m.core_count
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCoreCount returns the old "core_count" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldCoreCount(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCoreCount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCoreCount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCoreCount: %w", err)
+	}
+	return oldValue.CoreCount, nil
+}
+
+// AddCoreCount adds i to the "core_count" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddCoreCount(i int) {
+	if m.addcore_count != nil {
+		*m.addcore_count += i
+	} else {
+		m.addcore_count = &i
+	}
+}
+
+// AddedCoreCount returns the value that was added to the "core_count" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddedCoreCount() (r int, exists bool) {
+	v := m.addcore_count
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearCoreCount clears the value of the "core_count" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearCoreCount() {
+	m.core_count = nil
+	m.addcore_count = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldCoreCount] = struct{}{}
+}
+
+// CoreCountCleared returns if the "core_count" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) CoreCountCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldCoreCount]
+	return ok
+}
+
+// ResetCoreCount resets all changes to the "core_count" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetCoreCount() {
+	m.core_count = nil
+	m.addcore_count = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldCoreCount)
+}
+
+// SetS1ManagementID sets the "s1_management_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1ManagementID(i int) {
+	m.s1_management_id = &i
+	m.adds1_management_id = nil
+}
+
+// S1ManagementID returns the value of the "s1_management_id" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1ManagementID() (r int, exists bool) {
+	v := m.s1_management_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1ManagementID returns the old "s1_management_id" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1ManagementID(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1ManagementID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1ManagementID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1ManagementID: %w", err)
+	}
+	return oldValue.S1ManagementID, nil
+}
+
+// AddS1ManagementID adds i to the "s1_management_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddS1ManagementID(i int) {
+	if m.adds1_management_id != nil {
+		*m.adds1_management_id += i
+	} else {
+		m.adds1_management_id = &i
+	}
+}
+
+// AddedS1ManagementID returns the value that was added to the "s1_management_id" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddedS1ManagementID() (r int, exists bool) {
+	v := m.adds1_management_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearS1ManagementID clears the value of the "s1_management_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1ManagementID() {
+	m.s1_management_id = nil
+	m.adds1_management_id = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1ManagementID] = struct{}{}
+}
+
+// S1ManagementIDCleared returns if the "s1_management_id" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1ManagementIDCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1ManagementID]
+	return ok
+}
+
+// ResetS1ManagementID resets all changes to the "s1_management_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1ManagementID() {
+	m.s1_management_id = nil
+	m.adds1_management_id = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1ManagementID)
+}
+
+// SetS1ScopeType sets the "s1_scope_type" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1ScopeType(i int) {
+	m.s1_scope_type = &i
+	m.adds1_scope_type = nil
+}
+
+// S1ScopeType returns the value of the "s1_scope_type" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1ScopeType() (r int, exists bool) {
+	v := m.s1_scope_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1ScopeType returns the old "s1_scope_type" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1ScopeType(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1ScopeType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1ScopeType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1ScopeType: %w", err)
+	}
+	return oldValue.S1ScopeType, nil
+}
+
+// AddS1ScopeType adds i to the "s1_scope_type" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddS1ScopeType(i int) {
+	if m.adds1_scope_type != nil {
+		*m.adds1_scope_type += i
+	} else {
+		m.adds1_scope_type = &i
+	}
+}
+
+// AddedS1ScopeType returns the value that was added to the "s1_scope_type" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddedS1ScopeType() (r int, exists bool) {
+	v := m.adds1_scope_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearS1ScopeType clears the value of the "s1_scope_type" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1ScopeType() {
+	m.s1_scope_type = nil
+	m.adds1_scope_type = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1ScopeType] = struct{}{}
+}
+
+// S1ScopeTypeCleared returns if the "s1_scope_type" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1ScopeTypeCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1ScopeType]
+	return ok
+}
+
+// ResetS1ScopeType resets all changes to the "s1_scope_type" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1ScopeType() {
+	m.s1_scope_type = nil
+	m.adds1_scope_type = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1ScopeType)
+}
+
+// SetS1OnboardedAccountID sets the "s1_onboarded_account_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1OnboardedAccountID(i int) {
+	m.s1_onboarded_account_id = &i
+	m.adds1_onboarded_account_id = nil
+}
+
+// S1OnboardedAccountID returns the value of the "s1_onboarded_account_id" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1OnboardedAccountID() (r int, exists bool) {
+	v := m.s1_onboarded_account_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1OnboardedAccountID returns the old "s1_onboarded_account_id" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1OnboardedAccountID(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1OnboardedAccountID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1OnboardedAccountID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1OnboardedAccountID: %w", err)
+	}
+	return oldValue.S1OnboardedAccountID, nil
+}
+
+// AddS1OnboardedAccountID adds i to the "s1_onboarded_account_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddS1OnboardedAccountID(i int) {
+	if m.adds1_onboarded_account_id != nil {
+		*m.adds1_onboarded_account_id += i
+	} else {
+		m.adds1_onboarded_account_id = &i
+	}
+}
+
+// AddedS1OnboardedAccountID returns the value that was added to the "s1_onboarded_account_id" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddedS1OnboardedAccountID() (r int, exists bool) {
+	v := m.adds1_onboarded_account_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearS1OnboardedAccountID clears the value of the "s1_onboarded_account_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1OnboardedAccountID() {
+	m.s1_onboarded_account_id = nil
+	m.adds1_onboarded_account_id = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1OnboardedAccountID] = struct{}{}
+}
+
+// S1OnboardedAccountIDCleared returns if the "s1_onboarded_account_id" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1OnboardedAccountIDCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1OnboardedAccountID]
+	return ok
+}
+
+// ResetS1OnboardedAccountID resets all changes to the "s1_onboarded_account_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1OnboardedAccountID() {
+	m.s1_onboarded_account_id = nil
+	m.adds1_onboarded_account_id = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1OnboardedAccountID)
+}
+
+// SetS1OnboardedGroupID sets the "s1_onboarded_group_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1OnboardedGroupID(i int) {
+	m.s1_onboarded_group_id = &i
+	m.adds1_onboarded_group_id = nil
+}
+
+// S1OnboardedGroupID returns the value of the "s1_onboarded_group_id" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1OnboardedGroupID() (r int, exists bool) {
+	v := m.s1_onboarded_group_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1OnboardedGroupID returns the old "s1_onboarded_group_id" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1OnboardedGroupID(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1OnboardedGroupID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1OnboardedGroupID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1OnboardedGroupID: %w", err)
+	}
+	return oldValue.S1OnboardedGroupID, nil
+}
+
+// AddS1OnboardedGroupID adds i to the "s1_onboarded_group_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddS1OnboardedGroupID(i int) {
+	if m.adds1_onboarded_group_id != nil {
+		*m.adds1_onboarded_group_id += i
+	} else {
+		m.adds1_onboarded_group_id = &i
+	}
+}
+
+// AddedS1OnboardedGroupID returns the value that was added to the "s1_onboarded_group_id" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddedS1OnboardedGroupID() (r int, exists bool) {
+	v := m.adds1_onboarded_group_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearS1OnboardedGroupID clears the value of the "s1_onboarded_group_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1OnboardedGroupID() {
+	m.s1_onboarded_group_id = nil
+	m.adds1_onboarded_group_id = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1OnboardedGroupID] = struct{}{}
+}
+
+// S1OnboardedGroupIDCleared returns if the "s1_onboarded_group_id" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1OnboardedGroupIDCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1OnboardedGroupID]
+	return ok
+}
+
+// ResetS1OnboardedGroupID resets all changes to the "s1_onboarded_group_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1OnboardedGroupID() {
+	m.s1_onboarded_group_id = nil
+	m.adds1_onboarded_group_id = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1OnboardedGroupID)
+}
+
+// SetS1OnboardedScopeID sets the "s1_onboarded_scope_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1OnboardedScopeID(i int) {
+	m.s1_onboarded_scope_id = &i
+	m.adds1_onboarded_scope_id = nil
+}
+
+// S1OnboardedScopeID returns the value of the "s1_onboarded_scope_id" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1OnboardedScopeID() (r int, exists bool) {
+	v := m.s1_onboarded_scope_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1OnboardedScopeID returns the old "s1_onboarded_scope_id" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1OnboardedScopeID(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1OnboardedScopeID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1OnboardedScopeID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1OnboardedScopeID: %w", err)
+	}
+	return oldValue.S1OnboardedScopeID, nil
+}
+
+// AddS1OnboardedScopeID adds i to the "s1_onboarded_scope_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddS1OnboardedScopeID(i int) {
+	if m.adds1_onboarded_scope_id != nil {
+		*m.adds1_onboarded_scope_id += i
+	} else {
+		m.adds1_onboarded_scope_id = &i
+	}
+}
+
+// AddedS1OnboardedScopeID returns the value that was added to the "s1_onboarded_scope_id" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddedS1OnboardedScopeID() (r int, exists bool) {
+	v := m.adds1_onboarded_scope_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearS1OnboardedScopeID clears the value of the "s1_onboarded_scope_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1OnboardedScopeID() {
+	m.s1_onboarded_scope_id = nil
+	m.adds1_onboarded_scope_id = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1OnboardedScopeID] = struct{}{}
+}
+
+// S1OnboardedScopeIDCleared returns if the "s1_onboarded_scope_id" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1OnboardedScopeIDCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1OnboardedScopeID]
+	return ok
+}
+
+// ResetS1OnboardedScopeID resets all changes to the "s1_onboarded_scope_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1OnboardedScopeID() {
+	m.s1_onboarded_scope_id = nil
+	m.adds1_onboarded_scope_id = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1OnboardedScopeID)
+}
+
+// SetS1OnboardedSiteID sets the "s1_onboarded_site_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1OnboardedSiteID(i int) {
+	m.s1_onboarded_site_id = &i
+	m.adds1_onboarded_site_id = nil
+}
+
+// S1OnboardedSiteID returns the value of the "s1_onboarded_site_id" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1OnboardedSiteID() (r int, exists bool) {
+	v := m.s1_onboarded_site_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1OnboardedSiteID returns the old "s1_onboarded_site_id" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1OnboardedSiteID(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1OnboardedSiteID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1OnboardedSiteID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1OnboardedSiteID: %w", err)
+	}
+	return oldValue.S1OnboardedSiteID, nil
+}
+
+// AddS1OnboardedSiteID adds i to the "s1_onboarded_site_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddS1OnboardedSiteID(i int) {
+	if m.adds1_onboarded_site_id != nil {
+		*m.adds1_onboarded_site_id += i
+	} else {
+		m.adds1_onboarded_site_id = &i
+	}
+}
+
+// AddedS1OnboardedSiteID returns the value that was added to the "s1_onboarded_site_id" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddedS1OnboardedSiteID() (r int, exists bool) {
+	v := m.adds1_onboarded_site_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearS1OnboardedSiteID clears the value of the "s1_onboarded_site_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1OnboardedSiteID() {
+	m.s1_onboarded_site_id = nil
+	m.adds1_onboarded_site_id = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1OnboardedSiteID] = struct{}{}
+}
+
+// S1OnboardedSiteIDCleared returns if the "s1_onboarded_site_id" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1OnboardedSiteIDCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1OnboardedSiteID]
+	return ok
+}
+
+// ResetS1OnboardedSiteID resets all changes to the "s1_onboarded_site_id" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1OnboardedSiteID() {
+	m.s1_onboarded_site_id = nil
+	m.adds1_onboarded_site_id = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1OnboardedSiteID)
+}
+
+// SetIsAdConnector sets the "is_ad_connector" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetIsAdConnector(b bool) {
+	m.is_ad_connector = &b
+}
+
+// IsAdConnector returns the value of the "is_ad_connector" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) IsAdConnector() (r bool, exists bool) {
+	v := m.is_ad_connector
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsAdConnector returns the old "is_ad_connector" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldIsAdConnector(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsAdConnector is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsAdConnector requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsAdConnector: %w", err)
+	}
+	return oldValue.IsAdConnector, nil
+}
+
+// ResetIsAdConnector resets all changes to the "is_ad_connector" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetIsAdConnector() {
+	m.is_ad_connector = nil
+}
+
+// SetIsDcServer sets the "is_dc_server" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetIsDcServer(b bool) {
+	m.is_dc_server = &b
+}
+
+// IsDcServer returns the value of the "is_dc_server" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) IsDcServer() (r bool, exists bool) {
+	v := m.is_dc_server
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsDcServer returns the old "is_dc_server" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldIsDcServer(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsDcServer is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsDcServer requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsDcServer: %w", err)
+	}
+	return oldValue.IsDcServer, nil
+}
+
+// ResetIsDcServer resets all changes to the "is_dc_server" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetIsDcServer() {
+	m.is_dc_server = nil
+}
+
+// SetAdsEnabled sets the "ads_enabled" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetAdsEnabled(b bool) {
+	m.ads_enabled = &b
+}
+
+// AdsEnabled returns the value of the "ads_enabled" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AdsEnabled() (r bool, exists bool) {
+	v := m.ads_enabled
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAdsEnabled returns the old "ads_enabled" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldAdsEnabled(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAdsEnabled is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAdsEnabled requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAdsEnabled: %w", err)
+	}
+	return oldValue.AdsEnabled, nil
+}
+
+// ResetAdsEnabled resets all changes to the "ads_enabled" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetAdsEnabled() {
+	m.ads_enabled = nil
+}
+
+// SetFirstSeenDt sets the "first_seen_dt" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetFirstSeenDt(t time.Time) {
+	m.first_seen_dt = &t
+}
+
+// FirstSeenDt returns the value of the "first_seen_dt" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) FirstSeenDt() (r time.Time, exists bool) {
+	v := m.first_seen_dt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFirstSeenDt returns the old "first_seen_dt" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldFirstSeenDt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFirstSeenDt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFirstSeenDt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFirstSeenDt: %w", err)
+	}
+	return oldValue.FirstSeenDt, nil
+}
+
+// ClearFirstSeenDt clears the value of the "first_seen_dt" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearFirstSeenDt() {
+	m.first_seen_dt = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldFirstSeenDt] = struct{}{}
+}
+
+// FirstSeenDtCleared returns if the "first_seen_dt" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) FirstSeenDtCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldFirstSeenDt]
+	return ok
+}
+
+// ResetFirstSeenDt resets all changes to the "first_seen_dt" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetFirstSeenDt() {
+	m.first_seen_dt = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldFirstSeenDt)
+}
+
+// SetLastUpdateDt sets the "last_update_dt" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetLastUpdateDt(t time.Time) {
+	m.last_update_dt = &t
+}
+
+// LastUpdateDt returns the value of the "last_update_dt" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) LastUpdateDt() (r time.Time, exists bool) {
+	v := m.last_update_dt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLastUpdateDt returns the old "last_update_dt" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldLastUpdateDt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLastUpdateDt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLastUpdateDt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLastUpdateDt: %w", err)
+	}
+	return oldValue.LastUpdateDt, nil
+}
+
+// ClearLastUpdateDt clears the value of the "last_update_dt" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearLastUpdateDt() {
+	m.last_update_dt = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldLastUpdateDt] = struct{}{}
+}
+
+// LastUpdateDtCleared returns if the "last_update_dt" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) LastUpdateDtCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldLastUpdateDt]
+	return ok
+}
+
+// ResetLastUpdateDt resets all changes to the "last_update_dt" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetLastUpdateDt() {
+	m.last_update_dt = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldLastUpdateDt)
+}
+
+// SetLastActiveDt sets the "last_active_dt" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetLastActiveDt(t time.Time) {
+	m.last_active_dt = &t
+}
+
+// LastActiveDt returns the value of the "last_active_dt" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) LastActiveDt() (r time.Time, exists bool) {
+	v := m.last_active_dt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLastActiveDt returns the old "last_active_dt" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldLastActiveDt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLastActiveDt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLastActiveDt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLastActiveDt: %w", err)
+	}
+	return oldValue.LastActiveDt, nil
+}
+
+// ClearLastActiveDt clears the value of the "last_active_dt" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearLastActiveDt() {
+	m.last_active_dt = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldLastActiveDt] = struct{}{}
+}
+
+// LastActiveDtCleared returns if the "last_active_dt" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) LastActiveDtCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldLastActiveDt]
+	return ok
+}
+
+// ResetLastActiveDt resets all changes to the "last_active_dt" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetLastActiveDt() {
+	m.last_active_dt = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldLastActiveDt)
+}
+
+// SetLastRebootDt sets the "last_reboot_dt" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetLastRebootDt(t time.Time) {
+	m.last_reboot_dt = &t
+}
+
+// LastRebootDt returns the value of the "last_reboot_dt" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) LastRebootDt() (r time.Time, exists bool) {
+	v := m.last_reboot_dt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLastRebootDt returns the old "last_reboot_dt" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldLastRebootDt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLastRebootDt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLastRebootDt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLastRebootDt: %w", err)
+	}
+	return oldValue.LastRebootDt, nil
+}
+
+// ClearLastRebootDt clears the value of the "last_reboot_dt" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearLastRebootDt() {
+	m.last_reboot_dt = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldLastRebootDt] = struct{}{}
+}
+
+// LastRebootDtCleared returns if the "last_reboot_dt" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) LastRebootDtCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldLastRebootDt]
+	return ok
+}
+
+// ResetLastRebootDt resets all changes to the "last_reboot_dt" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetLastRebootDt() {
+	m.last_reboot_dt = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldLastRebootDt)
+}
+
+// SetS1UpdatedAt sets the "s1_updated_at" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetS1UpdatedAt(t time.Time) {
+	m.s1_updated_at = &t
+}
+
+// S1UpdatedAt returns the value of the "s1_updated_at" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1UpdatedAt() (r time.Time, exists bool) {
+	v := m.s1_updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1UpdatedAt returns the old "s1_updated_at" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldS1UpdatedAt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1UpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1UpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1UpdatedAt: %w", err)
+	}
+	return oldValue.S1UpdatedAt, nil
+}
+
+// ClearS1UpdatedAt clears the value of the "s1_updated_at" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearS1UpdatedAt() {
+	m.s1_updated_at = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldS1UpdatedAt] = struct{}{}
+}
+
+// S1UpdatedAtCleared returns if the "s1_updated_at" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) S1UpdatedAtCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldS1UpdatedAt]
+	return ok
+}
+
+// ResetS1UpdatedAt resets all changes to the "s1_updated_at" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetS1UpdatedAt() {
+	m.s1_updated_at = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldS1UpdatedAt)
+}
+
+// SetAgentJSON sets the "agent_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetAgentJSON(jm json.RawMessage) {
+	m.agent_json = &jm
+	m.appendagent_json = nil
+}
+
+// AgentJSON returns the value of the "agent_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AgentJSON() (r json.RawMessage, exists bool) {
+	v := m.agent_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAgentJSON returns the old "agent_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldAgentJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAgentJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAgentJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAgentJSON: %w", err)
+	}
+	return oldValue.AgentJSON, nil
+}
+
+// AppendAgentJSON adds jm to the "agent_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendAgentJSON(jm json.RawMessage) {
+	m.appendagent_json = append(m.appendagent_json, jm...)
+}
+
+// AppendedAgentJSON returns the list of values that were appended to the "agent_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedAgentJSON() (json.RawMessage, bool) {
+	if len(m.appendagent_json) == 0 {
+		return nil, false
+	}
+	return m.appendagent_json, true
+}
+
+// ClearAgentJSON clears the value of the "agent_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearAgentJSON() {
+	m.agent_json = nil
+	m.appendagent_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldAgentJSON] = struct{}{}
+}
+
+// AgentJSONCleared returns if the "agent_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AgentJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldAgentJSON]
+	return ok
+}
+
+// ResetAgentJSON resets all changes to the "agent_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetAgentJSON() {
+	m.agent_json = nil
+	m.appendagent_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldAgentJSON)
+}
+
+// SetNetworkInterfacesJSON sets the "network_interfaces_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetNetworkInterfacesJSON(jm json.RawMessage) {
+	m.network_interfaces_json = &jm
+	m.appendnetwork_interfaces_json = nil
+}
+
+// NetworkInterfacesJSON returns the value of the "network_interfaces_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) NetworkInterfacesJSON() (r json.RawMessage, exists bool) {
+	v := m.network_interfaces_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldNetworkInterfacesJSON returns the old "network_interfaces_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldNetworkInterfacesJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldNetworkInterfacesJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldNetworkInterfacesJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldNetworkInterfacesJSON: %w", err)
+	}
+	return oldValue.NetworkInterfacesJSON, nil
+}
+
+// AppendNetworkInterfacesJSON adds jm to the "network_interfaces_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendNetworkInterfacesJSON(jm json.RawMessage) {
+	m.appendnetwork_interfaces_json = append(m.appendnetwork_interfaces_json, jm...)
+}
+
+// AppendedNetworkInterfacesJSON returns the list of values that were appended to the "network_interfaces_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedNetworkInterfacesJSON() (json.RawMessage, bool) {
+	if len(m.appendnetwork_interfaces_json) == 0 {
+		return nil, false
+	}
+	return m.appendnetwork_interfaces_json, true
+}
+
+// ClearNetworkInterfacesJSON clears the value of the "network_interfaces_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearNetworkInterfacesJSON() {
+	m.network_interfaces_json = nil
+	m.appendnetwork_interfaces_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldNetworkInterfacesJSON] = struct{}{}
+}
+
+// NetworkInterfacesJSONCleared returns if the "network_interfaces_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) NetworkInterfacesJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldNetworkInterfacesJSON]
+	return ok
+}
+
+// ResetNetworkInterfacesJSON resets all changes to the "network_interfaces_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetNetworkInterfacesJSON() {
+	m.network_interfaces_json = nil
+	m.appendnetwork_interfaces_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldNetworkInterfacesJSON)
+}
+
+// SetAlertsJSON sets the "alerts_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetAlertsJSON(jm json.RawMessage) {
+	m.alerts_json = &jm
+	m.appendalerts_json = nil
+}
+
+// AlertsJSON returns the value of the "alerts_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AlertsJSON() (r json.RawMessage, exists bool) {
+	v := m.alerts_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAlertsJSON returns the old "alerts_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldAlertsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAlertsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAlertsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAlertsJSON: %w", err)
+	}
+	return oldValue.AlertsJSON, nil
+}
+
+// AppendAlertsJSON adds jm to the "alerts_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendAlertsJSON(jm json.RawMessage) {
+	m.appendalerts_json = append(m.appendalerts_json, jm...)
+}
+
+// AppendedAlertsJSON returns the list of values that were appended to the "alerts_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedAlertsJSON() (json.RawMessage, bool) {
+	if len(m.appendalerts_json) == 0 {
+		return nil, false
+	}
+	return m.appendalerts_json, true
+}
+
+// ClearAlertsJSON clears the value of the "alerts_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearAlertsJSON() {
+	m.alerts_json = nil
+	m.appendalerts_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldAlertsJSON] = struct{}{}
+}
+
+// AlertsJSONCleared returns if the "alerts_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AlertsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldAlertsJSON]
+	return ok
+}
+
+// ResetAlertsJSON resets all changes to the "alerts_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetAlertsJSON() {
+	m.alerts_json = nil
+	m.appendalerts_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldAlertsJSON)
+}
+
+// SetAlertsCountJSON sets the "alerts_count_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetAlertsCountJSON(jm json.RawMessage) {
+	m.alerts_count_json = &jm
+	m.appendalerts_count_json = nil
+}
+
+// AlertsCountJSON returns the value of the "alerts_count_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AlertsCountJSON() (r json.RawMessage, exists bool) {
+	v := m.alerts_count_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAlertsCountJSON returns the old "alerts_count_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldAlertsCountJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAlertsCountJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAlertsCountJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAlertsCountJSON: %w", err)
+	}
+	return oldValue.AlertsCountJSON, nil
+}
+
+// AppendAlertsCountJSON adds jm to the "alerts_count_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendAlertsCountJSON(jm json.RawMessage) {
+	m.appendalerts_count_json = append(m.appendalerts_count_json, jm...)
+}
+
+// AppendedAlertsCountJSON returns the list of values that were appended to the "alerts_count_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedAlertsCountJSON() (json.RawMessage, bool) {
+	if len(m.appendalerts_count_json) == 0 {
+		return nil, false
+	}
+	return m.appendalerts_count_json, true
+}
+
+// ClearAlertsCountJSON clears the value of the "alerts_count_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearAlertsCountJSON() {
+	m.alerts_count_json = nil
+	m.appendalerts_count_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldAlertsCountJSON] = struct{}{}
+}
+
+// AlertsCountJSONCleared returns if the "alerts_count_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AlertsCountJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldAlertsCountJSON]
+	return ok
+}
+
+// ResetAlertsCountJSON resets all changes to the "alerts_count_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetAlertsCountJSON() {
+	m.alerts_count_json = nil
+	m.appendalerts_count_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldAlertsCountJSON)
+}
+
+// SetDeviceReviewLogJSON sets the "device_review_log_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetDeviceReviewLogJSON(jm json.RawMessage) {
+	m.device_review_log_json = &jm
+	m.appenddevice_review_log_json = nil
+}
+
+// DeviceReviewLogJSON returns the value of the "device_review_log_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) DeviceReviewLogJSON() (r json.RawMessage, exists bool) {
+	v := m.device_review_log_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeviceReviewLogJSON returns the old "device_review_log_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldDeviceReviewLogJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeviceReviewLogJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeviceReviewLogJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeviceReviewLogJSON: %w", err)
+	}
+	return oldValue.DeviceReviewLogJSON, nil
+}
+
+// AppendDeviceReviewLogJSON adds jm to the "device_review_log_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendDeviceReviewLogJSON(jm json.RawMessage) {
+	m.appenddevice_review_log_json = append(m.appenddevice_review_log_json, jm...)
+}
+
+// AppendedDeviceReviewLogJSON returns the list of values that were appended to the "device_review_log_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedDeviceReviewLogJSON() (json.RawMessage, bool) {
+	if len(m.appenddevice_review_log_json) == 0 {
+		return nil, false
+	}
+	return m.appenddevice_review_log_json, true
+}
+
+// ClearDeviceReviewLogJSON clears the value of the "device_review_log_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearDeviceReviewLogJSON() {
+	m.device_review_log_json = nil
+	m.appenddevice_review_log_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldDeviceReviewLogJSON] = struct{}{}
+}
+
+// DeviceReviewLogJSONCleared returns if the "device_review_log_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) DeviceReviewLogJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldDeviceReviewLogJSON]
+	return ok
+}
+
+// ResetDeviceReviewLogJSON resets all changes to the "device_review_log_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetDeviceReviewLogJSON() {
+	m.device_review_log_json = nil
+	m.appenddevice_review_log_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldDeviceReviewLogJSON)
+}
+
+// SetIdentityJSON sets the "identity_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetIdentityJSON(jm json.RawMessage) {
+	m.identity_json = &jm
+	m.appendidentity_json = nil
+}
+
+// IdentityJSON returns the value of the "identity_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) IdentityJSON() (r json.RawMessage, exists bool) {
+	v := m.identity_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIdentityJSON returns the old "identity_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldIdentityJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIdentityJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIdentityJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIdentityJSON: %w", err)
+	}
+	return oldValue.IdentityJSON, nil
+}
+
+// AppendIdentityJSON adds jm to the "identity_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendIdentityJSON(jm json.RawMessage) {
+	m.appendidentity_json = append(m.appendidentity_json, jm...)
+}
+
+// AppendedIdentityJSON returns the list of values that were appended to the "identity_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedIdentityJSON() (json.RawMessage, bool) {
+	if len(m.appendidentity_json) == 0 {
+		return nil, false
+	}
+	return m.appendidentity_json, true
+}
+
+// ClearIdentityJSON clears the value of the "identity_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearIdentityJSON() {
+	m.identity_json = nil
+	m.appendidentity_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldIdentityJSON] = struct{}{}
+}
+
+// IdentityJSONCleared returns if the "identity_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) IdentityJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldIdentityJSON]
+	return ok
+}
+
+// ResetIdentityJSON resets all changes to the "identity_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetIdentityJSON() {
+	m.identity_json = nil
+	m.appendidentity_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldIdentityJSON)
+}
+
+// SetNotesJSON sets the "notes_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetNotesJSON(jm json.RawMessage) {
+	m.notes_json = &jm
+	m.appendnotes_json = nil
+}
+
+// NotesJSON returns the value of the "notes_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) NotesJSON() (r json.RawMessage, exists bool) {
+	v := m.notes_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldNotesJSON returns the old "notes_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldNotesJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldNotesJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldNotesJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldNotesJSON: %w", err)
+	}
+	return oldValue.NotesJSON, nil
+}
+
+// AppendNotesJSON adds jm to the "notes_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendNotesJSON(jm json.RawMessage) {
+	m.appendnotes_json = append(m.appendnotes_json, jm...)
+}
+
+// AppendedNotesJSON returns the list of values that were appended to the "notes_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedNotesJSON() (json.RawMessage, bool) {
+	if len(m.appendnotes_json) == 0 {
+		return nil, false
+	}
+	return m.appendnotes_json, true
+}
+
+// ClearNotesJSON clears the value of the "notes_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearNotesJSON() {
+	m.notes_json = nil
+	m.appendnotes_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldNotesJSON] = struct{}{}
+}
+
+// NotesJSONCleared returns if the "notes_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) NotesJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldNotesJSON]
+	return ok
+}
+
+// ResetNotesJSON resets all changes to the "notes_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetNotesJSON() {
+	m.notes_json = nil
+	m.appendnotes_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldNotesJSON)
+}
+
+// SetTagsJSON sets the "tags_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetTagsJSON(jm json.RawMessage) {
+	m.tags_json = &jm
+	m.appendtags_json = nil
+}
+
+// TagsJSON returns the value of the "tags_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) TagsJSON() (r json.RawMessage, exists bool) {
+	v := m.tags_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTagsJSON returns the old "tags_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldTagsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTagsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTagsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTagsJSON: %w", err)
+	}
+	return oldValue.TagsJSON, nil
+}
+
+// AppendTagsJSON adds jm to the "tags_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendTagsJSON(jm json.RawMessage) {
+	m.appendtags_json = append(m.appendtags_json, jm...)
+}
+
+// AppendedTagsJSON returns the list of values that were appended to the "tags_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedTagsJSON() (json.RawMessage, bool) {
+	if len(m.appendtags_json) == 0 {
+		return nil, false
+	}
+	return m.appendtags_json, true
+}
+
+// ClearTagsJSON clears the value of the "tags_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearTagsJSON() {
+	m.tags_json = nil
+	m.appendtags_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldTagsJSON] = struct{}{}
+}
+
+// TagsJSONCleared returns if the "tags_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) TagsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldTagsJSON]
+	return ok
+}
+
+// ResetTagsJSON resets all changes to the "tags_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetTagsJSON() {
+	m.tags_json = nil
+	m.appendtags_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldTagsJSON)
+}
+
+// SetMissingCoverageJSON sets the "missing_coverage_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetMissingCoverageJSON(jm json.RawMessage) {
+	m.missing_coverage_json = &jm
+	m.appendmissing_coverage_json = nil
+}
+
+// MissingCoverageJSON returns the value of the "missing_coverage_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) MissingCoverageJSON() (r json.RawMessage, exists bool) {
+	v := m.missing_coverage_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMissingCoverageJSON returns the old "missing_coverage_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldMissingCoverageJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMissingCoverageJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMissingCoverageJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMissingCoverageJSON: %w", err)
+	}
+	return oldValue.MissingCoverageJSON, nil
+}
+
+// AppendMissingCoverageJSON adds jm to the "missing_coverage_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendMissingCoverageJSON(jm json.RawMessage) {
+	m.appendmissing_coverage_json = append(m.appendmissing_coverage_json, jm...)
+}
+
+// AppendedMissingCoverageJSON returns the list of values that were appended to the "missing_coverage_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedMissingCoverageJSON() (json.RawMessage, bool) {
+	if len(m.appendmissing_coverage_json) == 0 {
+		return nil, false
+	}
+	return m.appendmissing_coverage_json, true
+}
+
+// ClearMissingCoverageJSON clears the value of the "missing_coverage_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearMissingCoverageJSON() {
+	m.missing_coverage_json = nil
+	m.appendmissing_coverage_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldMissingCoverageJSON] = struct{}{}
+}
+
+// MissingCoverageJSONCleared returns if the "missing_coverage_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) MissingCoverageJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldMissingCoverageJSON]
+	return ok
+}
+
+// ResetMissingCoverageJSON resets all changes to the "missing_coverage_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetMissingCoverageJSON() {
+	m.missing_coverage_json = nil
+	m.appendmissing_coverage_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldMissingCoverageJSON)
+}
+
+// SetSubnetsJSON sets the "subnets_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetSubnetsJSON(jm json.RawMessage) {
+	m.subnets_json = &jm
+	m.appendsubnets_json = nil
+}
+
+// SubnetsJSON returns the value of the "subnets_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SubnetsJSON() (r json.RawMessage, exists bool) {
+	v := m.subnets_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSubnetsJSON returns the old "subnets_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldSubnetsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSubnetsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSubnetsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSubnetsJSON: %w", err)
+	}
+	return oldValue.SubnetsJSON, nil
+}
+
+// AppendSubnetsJSON adds jm to the "subnets_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendSubnetsJSON(jm json.RawMessage) {
+	m.appendsubnets_json = append(m.appendsubnets_json, jm...)
+}
+
+// AppendedSubnetsJSON returns the list of values that were appended to the "subnets_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedSubnetsJSON() (json.RawMessage, bool) {
+	if len(m.appendsubnets_json) == 0 {
+		return nil, false
+	}
+	return m.appendsubnets_json, true
+}
+
+// ClearSubnetsJSON clears the value of the "subnets_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearSubnetsJSON() {
+	m.subnets_json = nil
+	m.appendsubnets_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldSubnetsJSON] = struct{}{}
+}
+
+// SubnetsJSONCleared returns if the "subnets_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SubnetsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldSubnetsJSON]
+	return ok
+}
+
+// ResetSubnetsJSON resets all changes to the "subnets_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetSubnetsJSON() {
+	m.subnets_json = nil
+	m.appendsubnets_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldSubnetsJSON)
+}
+
+// SetSurfacesJSON sets the "surfaces_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetSurfacesJSON(jm json.RawMessage) {
+	m.surfaces_json = &jm
+	m.appendsurfaces_json = nil
+}
+
+// SurfacesJSON returns the value of the "surfaces_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SurfacesJSON() (r json.RawMessage, exists bool) {
+	v := m.surfaces_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSurfacesJSON returns the old "surfaces_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldSurfacesJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSurfacesJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSurfacesJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSurfacesJSON: %w", err)
+	}
+	return oldValue.SurfacesJSON, nil
+}
+
+// AppendSurfacesJSON adds jm to the "surfaces_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendSurfacesJSON(jm json.RawMessage) {
+	m.appendsurfaces_json = append(m.appendsurfaces_json, jm...)
+}
+
+// AppendedSurfacesJSON returns the list of values that were appended to the "surfaces_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedSurfacesJSON() (json.RawMessage, bool) {
+	if len(m.appendsurfaces_json) == 0 {
+		return nil, false
+	}
+	return m.appendsurfaces_json, true
+}
+
+// ClearSurfacesJSON clears the value of the "surfaces_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearSurfacesJSON() {
+	m.surfaces_json = nil
+	m.appendsurfaces_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldSurfacesJSON] = struct{}{}
+}
+
+// SurfacesJSONCleared returns if the "surfaces_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SurfacesJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldSurfacesJSON]
+	return ok
+}
+
+// ResetSurfacesJSON resets all changes to the "surfaces_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetSurfacesJSON() {
+	m.surfaces_json = nil
+	m.appendsurfaces_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldSurfacesJSON)
+}
+
+// SetNetworkNamesJSON sets the "network_names_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetNetworkNamesJSON(jm json.RawMessage) {
+	m.network_names_json = &jm
+	m.appendnetwork_names_json = nil
+}
+
+// NetworkNamesJSON returns the value of the "network_names_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) NetworkNamesJSON() (r json.RawMessage, exists bool) {
+	v := m.network_names_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldNetworkNamesJSON returns the old "network_names_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldNetworkNamesJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldNetworkNamesJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldNetworkNamesJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldNetworkNamesJSON: %w", err)
+	}
+	return oldValue.NetworkNamesJSON, nil
+}
+
+// AppendNetworkNamesJSON adds jm to the "network_names_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendNetworkNamesJSON(jm json.RawMessage) {
+	m.appendnetwork_names_json = append(m.appendnetwork_names_json, jm...)
+}
+
+// AppendedNetworkNamesJSON returns the list of values that were appended to the "network_names_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedNetworkNamesJSON() (json.RawMessage, bool) {
+	if len(m.appendnetwork_names_json) == 0 {
+		return nil, false
+	}
+	return m.appendnetwork_names_json, true
+}
+
+// ClearNetworkNamesJSON clears the value of the "network_names_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearNetworkNamesJSON() {
+	m.network_names_json = nil
+	m.appendnetwork_names_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldNetworkNamesJSON] = struct{}{}
+}
+
+// NetworkNamesJSONCleared returns if the "network_names_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) NetworkNamesJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldNetworkNamesJSON]
+	return ok
+}
+
+// ResetNetworkNamesJSON resets all changes to the "network_names_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetNetworkNamesJSON() {
+	m.network_names_json = nil
+	m.appendnetwork_names_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldNetworkNamesJSON)
+}
+
+// SetRiskFactorsJSON sets the "risk_factors_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetRiskFactorsJSON(jm json.RawMessage) {
+	m.risk_factors_json = &jm
+	m.appendrisk_factors_json = nil
+}
+
+// RiskFactorsJSON returns the value of the "risk_factors_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) RiskFactorsJSON() (r json.RawMessage, exists bool) {
+	v := m.risk_factors_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRiskFactorsJSON returns the old "risk_factors_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldRiskFactorsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRiskFactorsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRiskFactorsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRiskFactorsJSON: %w", err)
+	}
+	return oldValue.RiskFactorsJSON, nil
+}
+
+// AppendRiskFactorsJSON adds jm to the "risk_factors_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendRiskFactorsJSON(jm json.RawMessage) {
+	m.appendrisk_factors_json = append(m.appendrisk_factors_json, jm...)
+}
+
+// AppendedRiskFactorsJSON returns the list of values that were appended to the "risk_factors_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedRiskFactorsJSON() (json.RawMessage, bool) {
+	if len(m.appendrisk_factors_json) == 0 {
+		return nil, false
+	}
+	return m.appendrisk_factors_json, true
+}
+
+// ClearRiskFactorsJSON clears the value of the "risk_factors_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearRiskFactorsJSON() {
+	m.risk_factors_json = nil
+	m.appendrisk_factors_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldRiskFactorsJSON] = struct{}{}
+}
+
+// RiskFactorsJSONCleared returns if the "risk_factors_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) RiskFactorsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldRiskFactorsJSON]
+	return ok
+}
+
+// ResetRiskFactorsJSON resets all changes to the "risk_factors_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetRiskFactorsJSON() {
+	m.risk_factors_json = nil
+	m.appendrisk_factors_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldRiskFactorsJSON)
+}
+
+// SetActiveCoverageJSON sets the "active_coverage_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetActiveCoverageJSON(jm json.RawMessage) {
+	m.active_coverage_json = &jm
+	m.appendactive_coverage_json = nil
+}
+
+// ActiveCoverageJSON returns the value of the "active_coverage_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ActiveCoverageJSON() (r json.RawMessage, exists bool) {
+	v := m.active_coverage_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldActiveCoverageJSON returns the old "active_coverage_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldActiveCoverageJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldActiveCoverageJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldActiveCoverageJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldActiveCoverageJSON: %w", err)
+	}
+	return oldValue.ActiveCoverageJSON, nil
+}
+
+// AppendActiveCoverageJSON adds jm to the "active_coverage_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendActiveCoverageJSON(jm json.RawMessage) {
+	m.appendactive_coverage_json = append(m.appendactive_coverage_json, jm...)
+}
+
+// AppendedActiveCoverageJSON returns the list of values that were appended to the "active_coverage_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedActiveCoverageJSON() (json.RawMessage, bool) {
+	if len(m.appendactive_coverage_json) == 0 {
+		return nil, false
+	}
+	return m.appendactive_coverage_json, true
+}
+
+// ClearActiveCoverageJSON clears the value of the "active_coverage_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearActiveCoverageJSON() {
+	m.active_coverage_json = nil
+	m.appendactive_coverage_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldActiveCoverageJSON] = struct{}{}
+}
+
+// ActiveCoverageJSONCleared returns if the "active_coverage_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ActiveCoverageJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldActiveCoverageJSON]
+	return ok
+}
+
+// ResetActiveCoverageJSON resets all changes to the "active_coverage_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetActiveCoverageJSON() {
+	m.active_coverage_json = nil
+	m.appendactive_coverage_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldActiveCoverageJSON)
+}
+
+// SetDiscoveryMethodsJSON sets the "discovery_methods_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetDiscoveryMethodsJSON(jm json.RawMessage) {
+	m.discovery_methods_json = &jm
+	m.appenddiscovery_methods_json = nil
+}
+
+// DiscoveryMethodsJSON returns the value of the "discovery_methods_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) DiscoveryMethodsJSON() (r json.RawMessage, exists bool) {
+	v := m.discovery_methods_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDiscoveryMethodsJSON returns the old "discovery_methods_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldDiscoveryMethodsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDiscoveryMethodsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDiscoveryMethodsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDiscoveryMethodsJSON: %w", err)
+	}
+	return oldValue.DiscoveryMethodsJSON, nil
+}
+
+// AppendDiscoveryMethodsJSON adds jm to the "discovery_methods_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendDiscoveryMethodsJSON(jm json.RawMessage) {
+	m.appenddiscovery_methods_json = append(m.appenddiscovery_methods_json, jm...)
+}
+
+// AppendedDiscoveryMethodsJSON returns the list of values that were appended to the "discovery_methods_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedDiscoveryMethodsJSON() (json.RawMessage, bool) {
+	if len(m.appenddiscovery_methods_json) == 0 {
+		return nil, false
+	}
+	return m.appenddiscovery_methods_json, true
+}
+
+// ClearDiscoveryMethodsJSON clears the value of the "discovery_methods_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearDiscoveryMethodsJSON() {
+	m.discovery_methods_json = nil
+	m.appenddiscovery_methods_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldDiscoveryMethodsJSON] = struct{}{}
+}
+
+// DiscoveryMethodsJSONCleared returns if the "discovery_methods_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) DiscoveryMethodsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldDiscoveryMethodsJSON]
+	return ok
+}
+
+// ResetDiscoveryMethodsJSON resets all changes to the "discovery_methods_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetDiscoveryMethodsJSON() {
+	m.discovery_methods_json = nil
+	m.appenddiscovery_methods_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldDiscoveryMethodsJSON)
+}
+
+// SetHostnamesJSON sets the "hostnames_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetHostnamesJSON(jm json.RawMessage) {
+	m.hostnames_json = &jm
+	m.appendhostnames_json = nil
+}
+
+// HostnamesJSON returns the value of the "hostnames_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) HostnamesJSON() (r json.RawMessage, exists bool) {
+	v := m.hostnames_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldHostnamesJSON returns the old "hostnames_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldHostnamesJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldHostnamesJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldHostnamesJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldHostnamesJSON: %w", err)
+	}
+	return oldValue.HostnamesJSON, nil
+}
+
+// AppendHostnamesJSON adds jm to the "hostnames_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendHostnamesJSON(jm json.RawMessage) {
+	m.appendhostnames_json = append(m.appendhostnames_json, jm...)
+}
+
+// AppendedHostnamesJSON returns the list of values that were appended to the "hostnames_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedHostnamesJSON() (json.RawMessage, bool) {
+	if len(m.appendhostnames_json) == 0 {
+		return nil, false
+	}
+	return m.appendhostnames_json, true
+}
+
+// ClearHostnamesJSON clears the value of the "hostnames_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearHostnamesJSON() {
+	m.hostnames_json = nil
+	m.appendhostnames_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldHostnamesJSON] = struct{}{}
+}
+
+// HostnamesJSONCleared returns if the "hostnames_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) HostnamesJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldHostnamesJSON]
+	return ok
+}
+
+// ResetHostnamesJSON resets all changes to the "hostnames_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetHostnamesJSON() {
+	m.hostnames_json = nil
+	m.appendhostnames_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldHostnamesJSON)
+}
+
+// SetInternalIpsJSON sets the "internal_ips_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetInternalIpsJSON(jm json.RawMessage) {
+	m.internal_ips_json = &jm
+	m.appendinternal_ips_json = nil
+}
+
+// InternalIpsJSON returns the value of the "internal_ips_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) InternalIpsJSON() (r json.RawMessage, exists bool) {
+	v := m.internal_ips_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInternalIpsJSON returns the old "internal_ips_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldInternalIpsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldInternalIpsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldInternalIpsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInternalIpsJSON: %w", err)
+	}
+	return oldValue.InternalIpsJSON, nil
+}
+
+// AppendInternalIpsJSON adds jm to the "internal_ips_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendInternalIpsJSON(jm json.RawMessage) {
+	m.appendinternal_ips_json = append(m.appendinternal_ips_json, jm...)
+}
+
+// AppendedInternalIpsJSON returns the list of values that were appended to the "internal_ips_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedInternalIpsJSON() (json.RawMessage, bool) {
+	if len(m.appendinternal_ips_json) == 0 {
+		return nil, false
+	}
+	return m.appendinternal_ips_json, true
+}
+
+// ClearInternalIpsJSON clears the value of the "internal_ips_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearInternalIpsJSON() {
+	m.internal_ips_json = nil
+	m.appendinternal_ips_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldInternalIpsJSON] = struct{}{}
+}
+
+// InternalIpsJSONCleared returns if the "internal_ips_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) InternalIpsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldInternalIpsJSON]
+	return ok
+}
+
+// ResetInternalIpsJSON resets all changes to the "internal_ips_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetInternalIpsJSON() {
+	m.internal_ips_json = nil
+	m.appendinternal_ips_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldInternalIpsJSON)
+}
+
+// SetInternalIpsV6JSON sets the "internal_ips_v6_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetInternalIpsV6JSON(jm json.RawMessage) {
+	m.internal_ips_v6_json = &jm
+	m.appendinternal_ips_v6_json = nil
+}
+
+// InternalIpsV6JSON returns the value of the "internal_ips_v6_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) InternalIpsV6JSON() (r json.RawMessage, exists bool) {
+	v := m.internal_ips_v6_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInternalIpsV6JSON returns the old "internal_ips_v6_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldInternalIpsV6JSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldInternalIpsV6JSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldInternalIpsV6JSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInternalIpsV6JSON: %w", err)
+	}
+	return oldValue.InternalIpsV6JSON, nil
+}
+
+// AppendInternalIpsV6JSON adds jm to the "internal_ips_v6_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendInternalIpsV6JSON(jm json.RawMessage) {
+	m.appendinternal_ips_v6_json = append(m.appendinternal_ips_v6_json, jm...)
+}
+
+// AppendedInternalIpsV6JSON returns the list of values that were appended to the "internal_ips_v6_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedInternalIpsV6JSON() (json.RawMessage, bool) {
+	if len(m.appendinternal_ips_v6_json) == 0 {
+		return nil, false
+	}
+	return m.appendinternal_ips_v6_json, true
+}
+
+// ClearInternalIpsV6JSON clears the value of the "internal_ips_v6_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearInternalIpsV6JSON() {
+	m.internal_ips_v6_json = nil
+	m.appendinternal_ips_v6_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldInternalIpsV6JSON] = struct{}{}
+}
+
+// InternalIpsV6JSONCleared returns if the "internal_ips_v6_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) InternalIpsV6JSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldInternalIpsV6JSON]
+	return ok
+}
+
+// ResetInternalIpsV6JSON resets all changes to the "internal_ips_v6_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetInternalIpsV6JSON() {
+	m.internal_ips_v6_json = nil
+	m.appendinternal_ips_v6_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldInternalIpsV6JSON)
+}
+
+// SetMACAddressesJSON sets the "mac_addresses_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetMACAddressesJSON(jm json.RawMessage) {
+	m.mac_addresses_json = &jm
+	m.appendmac_addresses_json = nil
+}
+
+// MACAddressesJSON returns the value of the "mac_addresses_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) MACAddressesJSON() (r json.RawMessage, exists bool) {
+	v := m.mac_addresses_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMACAddressesJSON returns the old "mac_addresses_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldMACAddressesJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMACAddressesJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMACAddressesJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMACAddressesJSON: %w", err)
+	}
+	return oldValue.MACAddressesJSON, nil
+}
+
+// AppendMACAddressesJSON adds jm to the "mac_addresses_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendMACAddressesJSON(jm json.RawMessage) {
+	m.appendmac_addresses_json = append(m.appendmac_addresses_json, jm...)
+}
+
+// AppendedMACAddressesJSON returns the list of values that were appended to the "mac_addresses_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedMACAddressesJSON() (json.RawMessage, bool) {
+	if len(m.appendmac_addresses_json) == 0 {
+		return nil, false
+	}
+	return m.appendmac_addresses_json, true
+}
+
+// ClearMACAddressesJSON clears the value of the "mac_addresses_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearMACAddressesJSON() {
+	m.mac_addresses_json = nil
+	m.appendmac_addresses_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldMACAddressesJSON] = struct{}{}
+}
+
+// MACAddressesJSONCleared returns if the "mac_addresses_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) MACAddressesJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldMACAddressesJSON]
+	return ok
+}
+
+// ResetMACAddressesJSON resets all changes to the "mac_addresses_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetMACAddressesJSON() {
+	m.mac_addresses_json = nil
+	m.appendmac_addresses_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldMACAddressesJSON)
+}
+
+// SetGatewayIpsJSON sets the "gateway_ips_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetGatewayIpsJSON(jm json.RawMessage) {
+	m.gateway_ips_json = &jm
+	m.appendgateway_ips_json = nil
+}
+
+// GatewayIpsJSON returns the value of the "gateway_ips_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) GatewayIpsJSON() (r json.RawMessage, exists bool) {
+	v := m.gateway_ips_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldGatewayIpsJSON returns the old "gateway_ips_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldGatewayIpsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldGatewayIpsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldGatewayIpsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldGatewayIpsJSON: %w", err)
+	}
+	return oldValue.GatewayIpsJSON, nil
+}
+
+// AppendGatewayIpsJSON adds jm to the "gateway_ips_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendGatewayIpsJSON(jm json.RawMessage) {
+	m.appendgateway_ips_json = append(m.appendgateway_ips_json, jm...)
+}
+
+// AppendedGatewayIpsJSON returns the list of values that were appended to the "gateway_ips_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedGatewayIpsJSON() (json.RawMessage, bool) {
+	if len(m.appendgateway_ips_json) == 0 {
+		return nil, false
+	}
+	return m.appendgateway_ips_json, true
+}
+
+// ClearGatewayIpsJSON clears the value of the "gateway_ips_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearGatewayIpsJSON() {
+	m.gateway_ips_json = nil
+	m.appendgateway_ips_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldGatewayIpsJSON] = struct{}{}
+}
+
+// GatewayIpsJSONCleared returns if the "gateway_ips_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) GatewayIpsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldGatewayIpsJSON]
+	return ok
+}
+
+// ResetGatewayIpsJSON resets all changes to the "gateway_ips_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetGatewayIpsJSON() {
+	m.gateway_ips_json = nil
+	m.appendgateway_ips_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldGatewayIpsJSON)
+}
+
+// SetGatewayMacsJSON sets the "gateway_macs_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetGatewayMacsJSON(jm json.RawMessage) {
+	m.gateway_macs_json = &jm
+	m.appendgateway_macs_json = nil
+}
+
+// GatewayMacsJSON returns the value of the "gateway_macs_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) GatewayMacsJSON() (r json.RawMessage, exists bool) {
+	v := m.gateway_macs_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldGatewayMacsJSON returns the old "gateway_macs_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldGatewayMacsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldGatewayMacsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldGatewayMacsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldGatewayMacsJSON: %w", err)
+	}
+	return oldValue.GatewayMacsJSON, nil
+}
+
+// AppendGatewayMacsJSON adds jm to the "gateway_macs_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendGatewayMacsJSON(jm json.RawMessage) {
+	m.appendgateway_macs_json = append(m.appendgateway_macs_json, jm...)
+}
+
+// AppendedGatewayMacsJSON returns the list of values that were appended to the "gateway_macs_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedGatewayMacsJSON() (json.RawMessage, bool) {
+	if len(m.appendgateway_macs_json) == 0 {
+		return nil, false
+	}
+	return m.appendgateway_macs_json, true
+}
+
+// ClearGatewayMacsJSON clears the value of the "gateway_macs_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearGatewayMacsJSON() {
+	m.gateway_macs_json = nil
+	m.appendgateway_macs_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldGatewayMacsJSON] = struct{}{}
+}
+
+// GatewayMacsJSONCleared returns if the "gateway_macs_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) GatewayMacsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldGatewayMacsJSON]
+	return ok
+}
+
+// ResetGatewayMacsJSON resets all changes to the "gateway_macs_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetGatewayMacsJSON() {
+	m.gateway_macs_json = nil
+	m.appendgateway_macs_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldGatewayMacsJSON)
+}
+
+// SetTCPPortsJSON sets the "tcp_ports_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetTCPPortsJSON(jm json.RawMessage) {
+	m.tcp_ports_json = &jm
+	m.appendtcp_ports_json = nil
+}
+
+// TCPPortsJSON returns the value of the "tcp_ports_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) TCPPortsJSON() (r json.RawMessage, exists bool) {
+	v := m.tcp_ports_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTCPPortsJSON returns the old "tcp_ports_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldTCPPortsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTCPPortsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTCPPortsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTCPPortsJSON: %w", err)
+	}
+	return oldValue.TCPPortsJSON, nil
+}
+
+// AppendTCPPortsJSON adds jm to the "tcp_ports_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendTCPPortsJSON(jm json.RawMessage) {
+	m.appendtcp_ports_json = append(m.appendtcp_ports_json, jm...)
+}
+
+// AppendedTCPPortsJSON returns the list of values that were appended to the "tcp_ports_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedTCPPortsJSON() (json.RawMessage, bool) {
+	if len(m.appendtcp_ports_json) == 0 {
+		return nil, false
+	}
+	return m.appendtcp_ports_json, true
+}
+
+// ClearTCPPortsJSON clears the value of the "tcp_ports_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearTCPPortsJSON() {
+	m.tcp_ports_json = nil
+	m.appendtcp_ports_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldTCPPortsJSON] = struct{}{}
+}
+
+// TCPPortsJSONCleared returns if the "tcp_ports_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) TCPPortsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldTCPPortsJSON]
+	return ok
+}
+
+// ResetTCPPortsJSON resets all changes to the "tcp_ports_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetTCPPortsJSON() {
+	m.tcp_ports_json = nil
+	m.appendtcp_ports_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldTCPPortsJSON)
+}
+
+// SetUDPPortsJSON sets the "udp_ports_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetUDPPortsJSON(jm json.RawMessage) {
+	m.udp_ports_json = &jm
+	m.appendudp_ports_json = nil
+}
+
+// UDPPortsJSON returns the value of the "udp_ports_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) UDPPortsJSON() (r json.RawMessage, exists bool) {
+	v := m.udp_ports_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUDPPortsJSON returns the old "udp_ports_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldUDPPortsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUDPPortsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUDPPortsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUDPPortsJSON: %w", err)
+	}
+	return oldValue.UDPPortsJSON, nil
+}
+
+// AppendUDPPortsJSON adds jm to the "udp_ports_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendUDPPortsJSON(jm json.RawMessage) {
+	m.appendudp_ports_json = append(m.appendudp_ports_json, jm...)
+}
+
+// AppendedUDPPortsJSON returns the list of values that were appended to the "udp_ports_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedUDPPortsJSON() (json.RawMessage, bool) {
+	if len(m.appendudp_ports_json) == 0 {
+		return nil, false
+	}
+	return m.appendudp_ports_json, true
+}
+
+// ClearUDPPortsJSON clears the value of the "udp_ports_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearUDPPortsJSON() {
+	m.udp_ports_json = nil
+	m.appendudp_ports_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldUDPPortsJSON] = struct{}{}
+}
+
+// UDPPortsJSONCleared returns if the "udp_ports_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) UDPPortsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldUDPPortsJSON]
+	return ok
+}
+
+// ResetUDPPortsJSON resets all changes to the "udp_ports_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetUDPPortsJSON() {
+	m.udp_ports_json = nil
+	m.appendudp_ports_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldUDPPortsJSON)
+}
+
+// SetRangerTagsJSON sets the "ranger_tags_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetRangerTagsJSON(jm json.RawMessage) {
+	m.ranger_tags_json = &jm
+	m.appendranger_tags_json = nil
+}
+
+// RangerTagsJSON returns the value of the "ranger_tags_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) RangerTagsJSON() (r json.RawMessage, exists bool) {
+	v := m.ranger_tags_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRangerTagsJSON returns the old "ranger_tags_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldRangerTagsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRangerTagsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRangerTagsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRangerTagsJSON: %w", err)
+	}
+	return oldValue.RangerTagsJSON, nil
+}
+
+// AppendRangerTagsJSON adds jm to the "ranger_tags_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendRangerTagsJSON(jm json.RawMessage) {
+	m.appendranger_tags_json = append(m.appendranger_tags_json, jm...)
+}
+
+// AppendedRangerTagsJSON returns the list of values that were appended to the "ranger_tags_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedRangerTagsJSON() (json.RawMessage, bool) {
+	if len(m.appendranger_tags_json) == 0 {
+		return nil, false
+	}
+	return m.appendranger_tags_json, true
+}
+
+// ClearRangerTagsJSON clears the value of the "ranger_tags_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearRangerTagsJSON() {
+	m.ranger_tags_json = nil
+	m.appendranger_tags_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldRangerTagsJSON] = struct{}{}
+}
+
+// RangerTagsJSONCleared returns if the "ranger_tags_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) RangerTagsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldRangerTagsJSON]
+	return ok
+}
+
+// ResetRangerTagsJSON resets all changes to the "ranger_tags_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetRangerTagsJSON() {
+	m.ranger_tags_json = nil
+	m.appendranger_tags_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldRangerTagsJSON)
+}
+
+// SetIDSecondaryJSON sets the "id_secondary_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetIDSecondaryJSON(jm json.RawMessage) {
+	m.id_secondary_json = &jm
+	m.appendid_secondary_json = nil
+}
+
+// IDSecondaryJSON returns the value of the "id_secondary_json" field in the mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) IDSecondaryJSON() (r json.RawMessage, exists bool) {
+	v := m.id_secondary_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIDSecondaryJSON returns the old "id_secondary_json" field's value of the BronzeHistoryS1NetworkDiscovery entity.
+// If the BronzeHistoryS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldIDSecondaryJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIDSecondaryJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIDSecondaryJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIDSecondaryJSON: %w", err)
+	}
+	return oldValue.IDSecondaryJSON, nil
+}
+
+// AppendIDSecondaryJSON adds jm to the "id_secondary_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendIDSecondaryJSON(jm json.RawMessage) {
+	m.appendid_secondary_json = append(m.appendid_secondary_json, jm...)
+}
+
+// AppendedIDSecondaryJSON returns the list of values that were appended to the "id_secondary_json" field in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AppendedIDSecondaryJSON() (json.RawMessage, bool) {
+	if len(m.appendid_secondary_json) == 0 {
+		return nil, false
+	}
+	return m.appendid_secondary_json, true
+}
+
+// ClearIDSecondaryJSON clears the value of the "id_secondary_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearIDSecondaryJSON() {
+	m.id_secondary_json = nil
+	m.appendid_secondary_json = nil
+	m.clearedFields[bronzehistorys1networkdiscovery.FieldIDSecondaryJSON] = struct{}{}
+}
+
+// IDSecondaryJSONCleared returns if the "id_secondary_json" field was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) IDSecondaryJSONCleared() bool {
+	_, ok := m.clearedFields[bronzehistorys1networkdiscovery.FieldIDSecondaryJSON]
+	return ok
+}
+
+// ResetIDSecondaryJSON resets all changes to the "id_secondary_json" field.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetIDSecondaryJSON() {
+	m.id_secondary_json = nil
+	m.appendid_secondary_json = nil
+	delete(m.clearedFields, bronzehistorys1networkdiscovery.FieldIDSecondaryJSON)
+}
+
+// Where appends a list predicates to the BronzeHistoryS1NetworkDiscoveryMutation builder.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) Where(ps ...predicate.BronzeHistoryS1NetworkDiscovery) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the BronzeHistoryS1NetworkDiscoveryMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.BronzeHistoryS1NetworkDiscovery, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (BronzeHistoryS1NetworkDiscovery).
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) Fields() []string {
+	fields := make([]string, 0, 88)
+	if m.valid_from != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldValidFrom)
+	}
+	if m.valid_to != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldValidTo)
+	}
+	if m.collected_at != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldCollectedAt)
+	}
+	if m.first_collected_at != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldFirstCollectedAt)
+	}
+	if m.resource_id != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldResourceID)
+	}
+	if m.name != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldName)
+	}
+	if m.ip_address != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldIPAddress)
+	}
+	if m.domain != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldDomain)
+	}
+	if m.serial_number != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldSerialNumber)
+	}
+	if m.category != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldCategory)
+	}
+	if m.sub_category != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldSubCategory)
+	}
+	if m.resource_type != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldResourceType)
+	}
+	if m.os != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldOs)
+	}
+	if m.os_family != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldOsFamily)
+	}
+	if m.os_version != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldOsVersion)
+	}
+	if m.os_name_version != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldOsNameVersion)
+	}
+	if m.architecture != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldArchitecture)
+	}
+	if m.manufacturer != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldManufacturer)
+	}
+	if m.cpu != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldCPU)
+	}
+	if m.memory_readable != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldMemoryReadable)
+	}
+	if m.network_name != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldNetworkName)
+	}
+	if m.asset_status != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldAssetStatus)
+	}
+	if m.asset_criticality != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldAssetCriticality)
+	}
+	if m.asset_environment != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldAssetEnvironment)
+	}
+	if m.infection_status != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldInfectionStatus)
+	}
+	if m.device_review != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldDeviceReview)
+	}
+	if m.epp_unsupported_unknown != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldEppUnsupportedUnknown)
+	}
+	if m.asset_contact_email != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldAssetContactEmail)
+	}
+	if m.legacy_identity_policy_name != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldLegacyIdentityPolicyName)
+	}
+	if m.previous_os_type != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldPreviousOsType)
+	}
+	if m.previous_os_version != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldPreviousOsVersion)
+	}
+	if m.previous_device_function != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldPreviousDeviceFunction)
+	}
+	if m.detected_from_site != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldDetectedFromSite)
+	}
+	if m.s1_account_id != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1AccountID)
+	}
+	if m.s1_account_name != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1AccountName)
+	}
+	if m.s1_site_id != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1SiteID)
+	}
+	if m.s1_site_name != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1SiteName)
+	}
+	if m.s1_group_id != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1GroupID)
+	}
+	if m.s1_group_name != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1GroupName)
+	}
+	if m.s1_scope_id != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1ScopeID)
+	}
+	if m.s1_scope_level != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1ScopeLevel)
+	}
+	if m.s1_scope_path != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1ScopePath)
+	}
+	if m.s1_onboarded_account_name != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedAccountName)
+	}
+	if m.s1_onboarded_group_name != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedGroupName)
+	}
+	if m.s1_onboarded_site_name != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedSiteName)
+	}
+	if m.s1_onboarded_scope_level != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedScopeLevel)
+	}
+	if m.s1_onboarded_scope_path != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedScopePath)
+	}
+	if m.memory != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldMemory)
+	}
+	if m.core_count != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldCoreCount)
+	}
+	if m.s1_management_id != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1ManagementID)
+	}
+	if m.s1_scope_type != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1ScopeType)
+	}
+	if m.s1_onboarded_account_id != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedAccountID)
+	}
+	if m.s1_onboarded_group_id != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedGroupID)
+	}
+	if m.s1_onboarded_scope_id != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedScopeID)
+	}
+	if m.s1_onboarded_site_id != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedSiteID)
+	}
+	if m.is_ad_connector != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldIsAdConnector)
+	}
+	if m.is_dc_server != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldIsDcServer)
+	}
+	if m.ads_enabled != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldAdsEnabled)
+	}
+	if m.first_seen_dt != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldFirstSeenDt)
+	}
+	if m.last_update_dt != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldLastUpdateDt)
+	}
+	if m.last_active_dt != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldLastActiveDt)
+	}
+	if m.last_reboot_dt != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldLastRebootDt)
+	}
+	if m.s1_updated_at != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1UpdatedAt)
+	}
+	if m.agent_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldAgentJSON)
+	}
+	if m.network_interfaces_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldNetworkInterfacesJSON)
+	}
+	if m.alerts_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldAlertsJSON)
+	}
+	if m.alerts_count_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldAlertsCountJSON)
+	}
+	if m.device_review_log_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldDeviceReviewLogJSON)
+	}
+	if m.identity_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldIdentityJSON)
+	}
+	if m.notes_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldNotesJSON)
+	}
+	if m.tags_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldTagsJSON)
+	}
+	if m.missing_coverage_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldMissingCoverageJSON)
+	}
+	if m.subnets_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldSubnetsJSON)
+	}
+	if m.surfaces_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldSurfacesJSON)
+	}
+	if m.network_names_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldNetworkNamesJSON)
+	}
+	if m.risk_factors_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldRiskFactorsJSON)
+	}
+	if m.active_coverage_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldActiveCoverageJSON)
+	}
+	if m.discovery_methods_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldDiscoveryMethodsJSON)
+	}
+	if m.hostnames_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldHostnamesJSON)
+	}
+	if m.internal_ips_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldInternalIpsJSON)
+	}
+	if m.internal_ips_v6_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldInternalIpsV6JSON)
+	}
+	if m.mac_addresses_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldMACAddressesJSON)
+	}
+	if m.gateway_ips_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldGatewayIpsJSON)
+	}
+	if m.gateway_macs_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldGatewayMacsJSON)
+	}
+	if m.tcp_ports_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldTCPPortsJSON)
+	}
+	if m.udp_ports_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldUDPPortsJSON)
+	}
+	if m.ranger_tags_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldRangerTagsJSON)
+	}
+	if m.id_secondary_json != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldIDSecondaryJSON)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case bronzehistorys1networkdiscovery.FieldValidFrom:
+		return m.ValidFrom()
+	case bronzehistorys1networkdiscovery.FieldValidTo:
+		return m.ValidTo()
+	case bronzehistorys1networkdiscovery.FieldCollectedAt:
+		return m.CollectedAt()
+	case bronzehistorys1networkdiscovery.FieldFirstCollectedAt:
+		return m.FirstCollectedAt()
+	case bronzehistorys1networkdiscovery.FieldResourceID:
+		return m.ResourceID()
+	case bronzehistorys1networkdiscovery.FieldName:
+		return m.Name()
+	case bronzehistorys1networkdiscovery.FieldIPAddress:
+		return m.IPAddress()
+	case bronzehistorys1networkdiscovery.FieldDomain:
+		return m.Domain()
+	case bronzehistorys1networkdiscovery.FieldSerialNumber:
+		return m.SerialNumber()
+	case bronzehistorys1networkdiscovery.FieldCategory:
+		return m.Category()
+	case bronzehistorys1networkdiscovery.FieldSubCategory:
+		return m.SubCategory()
+	case bronzehistorys1networkdiscovery.FieldResourceType:
+		return m.ResourceType()
+	case bronzehistorys1networkdiscovery.FieldOs:
+		return m.Os()
+	case bronzehistorys1networkdiscovery.FieldOsFamily:
+		return m.OsFamily()
+	case bronzehistorys1networkdiscovery.FieldOsVersion:
+		return m.OsVersion()
+	case bronzehistorys1networkdiscovery.FieldOsNameVersion:
+		return m.OsNameVersion()
+	case bronzehistorys1networkdiscovery.FieldArchitecture:
+		return m.Architecture()
+	case bronzehistorys1networkdiscovery.FieldManufacturer:
+		return m.Manufacturer()
+	case bronzehistorys1networkdiscovery.FieldCPU:
+		return m.CPU()
+	case bronzehistorys1networkdiscovery.FieldMemoryReadable:
+		return m.MemoryReadable()
+	case bronzehistorys1networkdiscovery.FieldNetworkName:
+		return m.NetworkName()
+	case bronzehistorys1networkdiscovery.FieldAssetStatus:
+		return m.AssetStatus()
+	case bronzehistorys1networkdiscovery.FieldAssetCriticality:
+		return m.AssetCriticality()
+	case bronzehistorys1networkdiscovery.FieldAssetEnvironment:
+		return m.AssetEnvironment()
+	case bronzehistorys1networkdiscovery.FieldInfectionStatus:
+		return m.InfectionStatus()
+	case bronzehistorys1networkdiscovery.FieldDeviceReview:
+		return m.DeviceReview()
+	case bronzehistorys1networkdiscovery.FieldEppUnsupportedUnknown:
+		return m.EppUnsupportedUnknown()
+	case bronzehistorys1networkdiscovery.FieldAssetContactEmail:
+		return m.AssetContactEmail()
+	case bronzehistorys1networkdiscovery.FieldLegacyIdentityPolicyName:
+		return m.LegacyIdentityPolicyName()
+	case bronzehistorys1networkdiscovery.FieldPreviousOsType:
+		return m.PreviousOsType()
+	case bronzehistorys1networkdiscovery.FieldPreviousOsVersion:
+		return m.PreviousOsVersion()
+	case bronzehistorys1networkdiscovery.FieldPreviousDeviceFunction:
+		return m.PreviousDeviceFunction()
+	case bronzehistorys1networkdiscovery.FieldDetectedFromSite:
+		return m.DetectedFromSite()
+	case bronzehistorys1networkdiscovery.FieldS1AccountID:
+		return m.S1AccountID()
+	case bronzehistorys1networkdiscovery.FieldS1AccountName:
+		return m.S1AccountName()
+	case bronzehistorys1networkdiscovery.FieldS1SiteID:
+		return m.S1SiteID()
+	case bronzehistorys1networkdiscovery.FieldS1SiteName:
+		return m.S1SiteName()
+	case bronzehistorys1networkdiscovery.FieldS1GroupID:
+		return m.S1GroupID()
+	case bronzehistorys1networkdiscovery.FieldS1GroupName:
+		return m.S1GroupName()
+	case bronzehistorys1networkdiscovery.FieldS1ScopeID:
+		return m.S1ScopeID()
+	case bronzehistorys1networkdiscovery.FieldS1ScopeLevel:
+		return m.S1ScopeLevel()
+	case bronzehistorys1networkdiscovery.FieldS1ScopePath:
+		return m.S1ScopePath()
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedAccountName:
+		return m.S1OnboardedAccountName()
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedGroupName:
+		return m.S1OnboardedGroupName()
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedSiteName:
+		return m.S1OnboardedSiteName()
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedScopeLevel:
+		return m.S1OnboardedScopeLevel()
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedScopePath:
+		return m.S1OnboardedScopePath()
+	case bronzehistorys1networkdiscovery.FieldMemory:
+		return m.Memory()
+	case bronzehistorys1networkdiscovery.FieldCoreCount:
+		return m.CoreCount()
+	case bronzehistorys1networkdiscovery.FieldS1ManagementID:
+		return m.S1ManagementID()
+	case bronzehistorys1networkdiscovery.FieldS1ScopeType:
+		return m.S1ScopeType()
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedAccountID:
+		return m.S1OnboardedAccountID()
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedGroupID:
+		return m.S1OnboardedGroupID()
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedScopeID:
+		return m.S1OnboardedScopeID()
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedSiteID:
+		return m.S1OnboardedSiteID()
+	case bronzehistorys1networkdiscovery.FieldIsAdConnector:
+		return m.IsAdConnector()
+	case bronzehistorys1networkdiscovery.FieldIsDcServer:
+		return m.IsDcServer()
+	case bronzehistorys1networkdiscovery.FieldAdsEnabled:
+		return m.AdsEnabled()
+	case bronzehistorys1networkdiscovery.FieldFirstSeenDt:
+		return m.FirstSeenDt()
+	case bronzehistorys1networkdiscovery.FieldLastUpdateDt:
+		return m.LastUpdateDt()
+	case bronzehistorys1networkdiscovery.FieldLastActiveDt:
+		return m.LastActiveDt()
+	case bronzehistorys1networkdiscovery.FieldLastRebootDt:
+		return m.LastRebootDt()
+	case bronzehistorys1networkdiscovery.FieldS1UpdatedAt:
+		return m.S1UpdatedAt()
+	case bronzehistorys1networkdiscovery.FieldAgentJSON:
+		return m.AgentJSON()
+	case bronzehistorys1networkdiscovery.FieldNetworkInterfacesJSON:
+		return m.NetworkInterfacesJSON()
+	case bronzehistorys1networkdiscovery.FieldAlertsJSON:
+		return m.AlertsJSON()
+	case bronzehistorys1networkdiscovery.FieldAlertsCountJSON:
+		return m.AlertsCountJSON()
+	case bronzehistorys1networkdiscovery.FieldDeviceReviewLogJSON:
+		return m.DeviceReviewLogJSON()
+	case bronzehistorys1networkdiscovery.FieldIdentityJSON:
+		return m.IdentityJSON()
+	case bronzehistorys1networkdiscovery.FieldNotesJSON:
+		return m.NotesJSON()
+	case bronzehistorys1networkdiscovery.FieldTagsJSON:
+		return m.TagsJSON()
+	case bronzehistorys1networkdiscovery.FieldMissingCoverageJSON:
+		return m.MissingCoverageJSON()
+	case bronzehistorys1networkdiscovery.FieldSubnetsJSON:
+		return m.SubnetsJSON()
+	case bronzehistorys1networkdiscovery.FieldSurfacesJSON:
+		return m.SurfacesJSON()
+	case bronzehistorys1networkdiscovery.FieldNetworkNamesJSON:
+		return m.NetworkNamesJSON()
+	case bronzehistorys1networkdiscovery.FieldRiskFactorsJSON:
+		return m.RiskFactorsJSON()
+	case bronzehistorys1networkdiscovery.FieldActiveCoverageJSON:
+		return m.ActiveCoverageJSON()
+	case bronzehistorys1networkdiscovery.FieldDiscoveryMethodsJSON:
+		return m.DiscoveryMethodsJSON()
+	case bronzehistorys1networkdiscovery.FieldHostnamesJSON:
+		return m.HostnamesJSON()
+	case bronzehistorys1networkdiscovery.FieldInternalIpsJSON:
+		return m.InternalIpsJSON()
+	case bronzehistorys1networkdiscovery.FieldInternalIpsV6JSON:
+		return m.InternalIpsV6JSON()
+	case bronzehistorys1networkdiscovery.FieldMACAddressesJSON:
+		return m.MACAddressesJSON()
+	case bronzehistorys1networkdiscovery.FieldGatewayIpsJSON:
+		return m.GatewayIpsJSON()
+	case bronzehistorys1networkdiscovery.FieldGatewayMacsJSON:
+		return m.GatewayMacsJSON()
+	case bronzehistorys1networkdiscovery.FieldTCPPortsJSON:
+		return m.TCPPortsJSON()
+	case bronzehistorys1networkdiscovery.FieldUDPPortsJSON:
+		return m.UDPPortsJSON()
+	case bronzehistorys1networkdiscovery.FieldRangerTagsJSON:
+		return m.RangerTagsJSON()
+	case bronzehistorys1networkdiscovery.FieldIDSecondaryJSON:
+		return m.IDSecondaryJSON()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case bronzehistorys1networkdiscovery.FieldValidFrom:
+		return m.OldValidFrom(ctx)
+	case bronzehistorys1networkdiscovery.FieldValidTo:
+		return m.OldValidTo(ctx)
+	case bronzehistorys1networkdiscovery.FieldCollectedAt:
+		return m.OldCollectedAt(ctx)
+	case bronzehistorys1networkdiscovery.FieldFirstCollectedAt:
+		return m.OldFirstCollectedAt(ctx)
+	case bronzehistorys1networkdiscovery.FieldResourceID:
+		return m.OldResourceID(ctx)
+	case bronzehistorys1networkdiscovery.FieldName:
+		return m.OldName(ctx)
+	case bronzehistorys1networkdiscovery.FieldIPAddress:
+		return m.OldIPAddress(ctx)
+	case bronzehistorys1networkdiscovery.FieldDomain:
+		return m.OldDomain(ctx)
+	case bronzehistorys1networkdiscovery.FieldSerialNumber:
+		return m.OldSerialNumber(ctx)
+	case bronzehistorys1networkdiscovery.FieldCategory:
+		return m.OldCategory(ctx)
+	case bronzehistorys1networkdiscovery.FieldSubCategory:
+		return m.OldSubCategory(ctx)
+	case bronzehistorys1networkdiscovery.FieldResourceType:
+		return m.OldResourceType(ctx)
+	case bronzehistorys1networkdiscovery.FieldOs:
+		return m.OldOs(ctx)
+	case bronzehistorys1networkdiscovery.FieldOsFamily:
+		return m.OldOsFamily(ctx)
+	case bronzehistorys1networkdiscovery.FieldOsVersion:
+		return m.OldOsVersion(ctx)
+	case bronzehistorys1networkdiscovery.FieldOsNameVersion:
+		return m.OldOsNameVersion(ctx)
+	case bronzehistorys1networkdiscovery.FieldArchitecture:
+		return m.OldArchitecture(ctx)
+	case bronzehistorys1networkdiscovery.FieldManufacturer:
+		return m.OldManufacturer(ctx)
+	case bronzehistorys1networkdiscovery.FieldCPU:
+		return m.OldCPU(ctx)
+	case bronzehistorys1networkdiscovery.FieldMemoryReadable:
+		return m.OldMemoryReadable(ctx)
+	case bronzehistorys1networkdiscovery.FieldNetworkName:
+		return m.OldNetworkName(ctx)
+	case bronzehistorys1networkdiscovery.FieldAssetStatus:
+		return m.OldAssetStatus(ctx)
+	case bronzehistorys1networkdiscovery.FieldAssetCriticality:
+		return m.OldAssetCriticality(ctx)
+	case bronzehistorys1networkdiscovery.FieldAssetEnvironment:
+		return m.OldAssetEnvironment(ctx)
+	case bronzehistorys1networkdiscovery.FieldInfectionStatus:
+		return m.OldInfectionStatus(ctx)
+	case bronzehistorys1networkdiscovery.FieldDeviceReview:
+		return m.OldDeviceReview(ctx)
+	case bronzehistorys1networkdiscovery.FieldEppUnsupportedUnknown:
+		return m.OldEppUnsupportedUnknown(ctx)
+	case bronzehistorys1networkdiscovery.FieldAssetContactEmail:
+		return m.OldAssetContactEmail(ctx)
+	case bronzehistorys1networkdiscovery.FieldLegacyIdentityPolicyName:
+		return m.OldLegacyIdentityPolicyName(ctx)
+	case bronzehistorys1networkdiscovery.FieldPreviousOsType:
+		return m.OldPreviousOsType(ctx)
+	case bronzehistorys1networkdiscovery.FieldPreviousOsVersion:
+		return m.OldPreviousOsVersion(ctx)
+	case bronzehistorys1networkdiscovery.FieldPreviousDeviceFunction:
+		return m.OldPreviousDeviceFunction(ctx)
+	case bronzehistorys1networkdiscovery.FieldDetectedFromSite:
+		return m.OldDetectedFromSite(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1AccountID:
+		return m.OldS1AccountID(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1AccountName:
+		return m.OldS1AccountName(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1SiteID:
+		return m.OldS1SiteID(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1SiteName:
+		return m.OldS1SiteName(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1GroupID:
+		return m.OldS1GroupID(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1GroupName:
+		return m.OldS1GroupName(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1ScopeID:
+		return m.OldS1ScopeID(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1ScopeLevel:
+		return m.OldS1ScopeLevel(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1ScopePath:
+		return m.OldS1ScopePath(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedAccountName:
+		return m.OldS1OnboardedAccountName(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedGroupName:
+		return m.OldS1OnboardedGroupName(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedSiteName:
+		return m.OldS1OnboardedSiteName(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedScopeLevel:
+		return m.OldS1OnboardedScopeLevel(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedScopePath:
+		return m.OldS1OnboardedScopePath(ctx)
+	case bronzehistorys1networkdiscovery.FieldMemory:
+		return m.OldMemory(ctx)
+	case bronzehistorys1networkdiscovery.FieldCoreCount:
+		return m.OldCoreCount(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1ManagementID:
+		return m.OldS1ManagementID(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1ScopeType:
+		return m.OldS1ScopeType(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedAccountID:
+		return m.OldS1OnboardedAccountID(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedGroupID:
+		return m.OldS1OnboardedGroupID(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedScopeID:
+		return m.OldS1OnboardedScopeID(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedSiteID:
+		return m.OldS1OnboardedSiteID(ctx)
+	case bronzehistorys1networkdiscovery.FieldIsAdConnector:
+		return m.OldIsAdConnector(ctx)
+	case bronzehistorys1networkdiscovery.FieldIsDcServer:
+		return m.OldIsDcServer(ctx)
+	case bronzehistorys1networkdiscovery.FieldAdsEnabled:
+		return m.OldAdsEnabled(ctx)
+	case bronzehistorys1networkdiscovery.FieldFirstSeenDt:
+		return m.OldFirstSeenDt(ctx)
+	case bronzehistorys1networkdiscovery.FieldLastUpdateDt:
+		return m.OldLastUpdateDt(ctx)
+	case bronzehistorys1networkdiscovery.FieldLastActiveDt:
+		return m.OldLastActiveDt(ctx)
+	case bronzehistorys1networkdiscovery.FieldLastRebootDt:
+		return m.OldLastRebootDt(ctx)
+	case bronzehistorys1networkdiscovery.FieldS1UpdatedAt:
+		return m.OldS1UpdatedAt(ctx)
+	case bronzehistorys1networkdiscovery.FieldAgentJSON:
+		return m.OldAgentJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldNetworkInterfacesJSON:
+		return m.OldNetworkInterfacesJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldAlertsJSON:
+		return m.OldAlertsJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldAlertsCountJSON:
+		return m.OldAlertsCountJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldDeviceReviewLogJSON:
+		return m.OldDeviceReviewLogJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldIdentityJSON:
+		return m.OldIdentityJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldNotesJSON:
+		return m.OldNotesJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldTagsJSON:
+		return m.OldTagsJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldMissingCoverageJSON:
+		return m.OldMissingCoverageJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldSubnetsJSON:
+		return m.OldSubnetsJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldSurfacesJSON:
+		return m.OldSurfacesJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldNetworkNamesJSON:
+		return m.OldNetworkNamesJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldRiskFactorsJSON:
+		return m.OldRiskFactorsJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldActiveCoverageJSON:
+		return m.OldActiveCoverageJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldDiscoveryMethodsJSON:
+		return m.OldDiscoveryMethodsJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldHostnamesJSON:
+		return m.OldHostnamesJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldInternalIpsJSON:
+		return m.OldInternalIpsJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldInternalIpsV6JSON:
+		return m.OldInternalIpsV6JSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldMACAddressesJSON:
+		return m.OldMACAddressesJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldGatewayIpsJSON:
+		return m.OldGatewayIpsJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldGatewayMacsJSON:
+		return m.OldGatewayMacsJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldTCPPortsJSON:
+		return m.OldTCPPortsJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldUDPPortsJSON:
+		return m.OldUDPPortsJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldRangerTagsJSON:
+		return m.OldRangerTagsJSON(ctx)
+	case bronzehistorys1networkdiscovery.FieldIDSecondaryJSON:
+		return m.OldIDSecondaryJSON(ctx)
+	}
+	return nil, fmt.Errorf("unknown BronzeHistoryS1NetworkDiscovery field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case bronzehistorys1networkdiscovery.FieldValidFrom:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetValidFrom(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldValidTo:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetValidTo(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCollectedAt(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldFirstCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFirstCollectedAt(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldResourceID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetResourceID(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetName(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldIPAddress:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIPAddress(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldDomain:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDomain(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldSerialNumber:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSerialNumber(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldCategory:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCategory(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldSubCategory:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSubCategory(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldResourceType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetResourceType(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldOs:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOs(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldOsFamily:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOsFamily(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldOsVersion:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOsVersion(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldOsNameVersion:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOsNameVersion(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldArchitecture:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetArchitecture(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldManufacturer:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetManufacturer(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldCPU:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCPU(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldMemoryReadable:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMemoryReadable(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldNetworkName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetNetworkName(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAssetStatus:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAssetStatus(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAssetCriticality:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAssetCriticality(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAssetEnvironment:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAssetEnvironment(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldInfectionStatus:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInfectionStatus(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldDeviceReview:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeviceReview(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldEppUnsupportedUnknown:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEppUnsupportedUnknown(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAssetContactEmail:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAssetContactEmail(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldLegacyIdentityPolicyName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLegacyIdentityPolicyName(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldPreviousOsType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPreviousOsType(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldPreviousOsVersion:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPreviousOsVersion(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldPreviousDeviceFunction:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPreviousDeviceFunction(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldDetectedFromSite:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDetectedFromSite(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1AccountID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1AccountID(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1AccountName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1AccountName(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1SiteID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1SiteID(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1SiteName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1SiteName(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1GroupID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1GroupID(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1GroupName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1GroupName(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1ScopeID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1ScopeID(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1ScopeLevel:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1ScopeLevel(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1ScopePath:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1ScopePath(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedAccountName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1OnboardedAccountName(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedGroupName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1OnboardedGroupName(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedSiteName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1OnboardedSiteName(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedScopeLevel:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1OnboardedScopeLevel(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedScopePath:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1OnboardedScopePath(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldMemory:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMemory(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldCoreCount:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCoreCount(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1ManagementID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1ManagementID(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1ScopeType:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1ScopeType(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedAccountID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1OnboardedAccountID(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedGroupID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1OnboardedGroupID(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedScopeID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1OnboardedScopeID(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedSiteID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1OnboardedSiteID(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldIsAdConnector:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsAdConnector(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldIsDcServer:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsDcServer(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAdsEnabled:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAdsEnabled(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldFirstSeenDt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFirstSeenDt(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldLastUpdateDt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLastUpdateDt(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldLastActiveDt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLastActiveDt(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldLastRebootDt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLastRebootDt(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1UpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1UpdatedAt(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAgentJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAgentJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldNetworkInterfacesJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetNetworkInterfacesJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAlertsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAlertsJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAlertsCountJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAlertsCountJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldDeviceReviewLogJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeviceReviewLogJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldIdentityJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIdentityJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldNotesJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetNotesJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldTagsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTagsJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldMissingCoverageJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMissingCoverageJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldSubnetsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSubnetsJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldSurfacesJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSurfacesJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldNetworkNamesJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetNetworkNamesJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldRiskFactorsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRiskFactorsJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldActiveCoverageJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetActiveCoverageJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldDiscoveryMethodsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDiscoveryMethodsJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldHostnamesJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetHostnamesJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldInternalIpsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInternalIpsJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldInternalIpsV6JSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInternalIpsV6JSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldMACAddressesJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMACAddressesJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldGatewayIpsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetGatewayIpsJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldGatewayMacsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetGatewayMacsJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldTCPPortsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTCPPortsJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldUDPPortsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUDPPortsJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldRangerTagsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRangerTagsJSON(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldIDSecondaryJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIDSecondaryJSON(v)
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeHistoryS1NetworkDiscovery field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddedFields() []string {
+	var fields []string
+	if m.addmemory != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldMemory)
+	}
+	if m.addcore_count != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldCoreCount)
+	}
+	if m.adds1_management_id != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1ManagementID)
+	}
+	if m.adds1_scope_type != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1ScopeType)
+	}
+	if m.adds1_onboarded_account_id != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedAccountID)
+	}
+	if m.adds1_onboarded_group_id != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedGroupID)
+	}
+	if m.adds1_onboarded_scope_id != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedScopeID)
+	}
+	if m.adds1_onboarded_site_id != nil {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedSiteID)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case bronzehistorys1networkdiscovery.FieldMemory:
+		return m.AddedMemory()
+	case bronzehistorys1networkdiscovery.FieldCoreCount:
+		return m.AddedCoreCount()
+	case bronzehistorys1networkdiscovery.FieldS1ManagementID:
+		return m.AddedS1ManagementID()
+	case bronzehistorys1networkdiscovery.FieldS1ScopeType:
+		return m.AddedS1ScopeType()
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedAccountID:
+		return m.AddedS1OnboardedAccountID()
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedGroupID:
+		return m.AddedS1OnboardedGroupID()
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedScopeID:
+		return m.AddedS1OnboardedScopeID()
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedSiteID:
+		return m.AddedS1OnboardedSiteID()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case bronzehistorys1networkdiscovery.FieldMemory:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddMemory(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldCoreCount:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCoreCount(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1ManagementID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddS1ManagementID(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1ScopeType:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddS1ScopeType(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedAccountID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddS1OnboardedAccountID(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedGroupID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddS1OnboardedGroupID(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedScopeID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddS1OnboardedScopeID(v)
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedSiteID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddS1OnboardedSiteID(v)
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeHistoryS1NetworkDiscovery numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldValidTo) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldValidTo)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldName) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldName)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldIPAddress) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldIPAddress)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldDomain) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldDomain)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldSerialNumber) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldSerialNumber)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldCategory) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldCategory)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldSubCategory) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldSubCategory)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldResourceType) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldResourceType)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldOs) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldOs)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldOsFamily) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldOsFamily)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldOsVersion) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldOsVersion)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldOsNameVersion) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldOsNameVersion)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldArchitecture) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldArchitecture)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldManufacturer) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldManufacturer)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldCPU) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldCPU)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldMemoryReadable) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldMemoryReadable)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldNetworkName) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldNetworkName)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldAssetStatus) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldAssetStatus)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldAssetCriticality) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldAssetCriticality)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldAssetEnvironment) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldAssetEnvironment)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldInfectionStatus) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldInfectionStatus)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldDeviceReview) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldDeviceReview)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldEppUnsupportedUnknown) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldEppUnsupportedUnknown)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldAssetContactEmail) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldAssetContactEmail)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldLegacyIdentityPolicyName) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldLegacyIdentityPolicyName)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldPreviousOsType) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldPreviousOsType)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldPreviousOsVersion) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldPreviousOsVersion)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldPreviousDeviceFunction) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldPreviousDeviceFunction)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldDetectedFromSite) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldDetectedFromSite)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1AccountID) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1AccountID)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1AccountName) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1AccountName)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1SiteID) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1SiteID)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1SiteName) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1SiteName)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1GroupID) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1GroupID)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1GroupName) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1GroupName)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1ScopeID) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1ScopeID)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1ScopeLevel) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1ScopeLevel)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1ScopePath) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1ScopePath)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1OnboardedAccountName) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedAccountName)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1OnboardedGroupName) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedGroupName)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1OnboardedSiteName) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedSiteName)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1OnboardedScopeLevel) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedScopeLevel)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1OnboardedScopePath) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedScopePath)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldMemory) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldMemory)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldCoreCount) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldCoreCount)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1ManagementID) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1ManagementID)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1ScopeType) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1ScopeType)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1OnboardedAccountID) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedAccountID)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1OnboardedGroupID) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedGroupID)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1OnboardedScopeID) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedScopeID)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1OnboardedSiteID) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1OnboardedSiteID)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldFirstSeenDt) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldFirstSeenDt)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldLastUpdateDt) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldLastUpdateDt)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldLastActiveDt) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldLastActiveDt)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldLastRebootDt) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldLastRebootDt)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldS1UpdatedAt) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldS1UpdatedAt)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldAgentJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldAgentJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldNetworkInterfacesJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldNetworkInterfacesJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldAlertsJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldAlertsJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldAlertsCountJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldAlertsCountJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldDeviceReviewLogJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldDeviceReviewLogJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldIdentityJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldIdentityJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldNotesJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldNotesJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldTagsJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldTagsJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldMissingCoverageJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldMissingCoverageJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldSubnetsJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldSubnetsJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldSurfacesJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldSurfacesJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldNetworkNamesJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldNetworkNamesJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldRiskFactorsJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldRiskFactorsJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldActiveCoverageJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldActiveCoverageJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldDiscoveryMethodsJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldDiscoveryMethodsJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldHostnamesJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldHostnamesJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldInternalIpsJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldInternalIpsJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldInternalIpsV6JSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldInternalIpsV6JSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldMACAddressesJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldMACAddressesJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldGatewayIpsJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldGatewayIpsJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldGatewayMacsJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldGatewayMacsJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldTCPPortsJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldTCPPortsJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldUDPPortsJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldUDPPortsJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldRangerTagsJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldRangerTagsJSON)
+	}
+	if m.FieldCleared(bronzehistorys1networkdiscovery.FieldIDSecondaryJSON) {
+		fields = append(fields, bronzehistorys1networkdiscovery.FieldIDSecondaryJSON)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearField(name string) error {
+	switch name {
+	case bronzehistorys1networkdiscovery.FieldValidTo:
+		m.ClearValidTo()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldName:
+		m.ClearName()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldIPAddress:
+		m.ClearIPAddress()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldDomain:
+		m.ClearDomain()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldSerialNumber:
+		m.ClearSerialNumber()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldCategory:
+		m.ClearCategory()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldSubCategory:
+		m.ClearSubCategory()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldResourceType:
+		m.ClearResourceType()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldOs:
+		m.ClearOs()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldOsFamily:
+		m.ClearOsFamily()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldOsVersion:
+		m.ClearOsVersion()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldOsNameVersion:
+		m.ClearOsNameVersion()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldArchitecture:
+		m.ClearArchitecture()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldManufacturer:
+		m.ClearManufacturer()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldCPU:
+		m.ClearCPU()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldMemoryReadable:
+		m.ClearMemoryReadable()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldNetworkName:
+		m.ClearNetworkName()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAssetStatus:
+		m.ClearAssetStatus()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAssetCriticality:
+		m.ClearAssetCriticality()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAssetEnvironment:
+		m.ClearAssetEnvironment()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldInfectionStatus:
+		m.ClearInfectionStatus()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldDeviceReview:
+		m.ClearDeviceReview()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldEppUnsupportedUnknown:
+		m.ClearEppUnsupportedUnknown()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAssetContactEmail:
+		m.ClearAssetContactEmail()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldLegacyIdentityPolicyName:
+		m.ClearLegacyIdentityPolicyName()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldPreviousOsType:
+		m.ClearPreviousOsType()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldPreviousOsVersion:
+		m.ClearPreviousOsVersion()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldPreviousDeviceFunction:
+		m.ClearPreviousDeviceFunction()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldDetectedFromSite:
+		m.ClearDetectedFromSite()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1AccountID:
+		m.ClearS1AccountID()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1AccountName:
+		m.ClearS1AccountName()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1SiteID:
+		m.ClearS1SiteID()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1SiteName:
+		m.ClearS1SiteName()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1GroupID:
+		m.ClearS1GroupID()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1GroupName:
+		m.ClearS1GroupName()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1ScopeID:
+		m.ClearS1ScopeID()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1ScopeLevel:
+		m.ClearS1ScopeLevel()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1ScopePath:
+		m.ClearS1ScopePath()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedAccountName:
+		m.ClearS1OnboardedAccountName()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedGroupName:
+		m.ClearS1OnboardedGroupName()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedSiteName:
+		m.ClearS1OnboardedSiteName()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedScopeLevel:
+		m.ClearS1OnboardedScopeLevel()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedScopePath:
+		m.ClearS1OnboardedScopePath()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldMemory:
+		m.ClearMemory()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldCoreCount:
+		m.ClearCoreCount()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1ManagementID:
+		m.ClearS1ManagementID()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1ScopeType:
+		m.ClearS1ScopeType()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedAccountID:
+		m.ClearS1OnboardedAccountID()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedGroupID:
+		m.ClearS1OnboardedGroupID()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedScopeID:
+		m.ClearS1OnboardedScopeID()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedSiteID:
+		m.ClearS1OnboardedSiteID()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldFirstSeenDt:
+		m.ClearFirstSeenDt()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldLastUpdateDt:
+		m.ClearLastUpdateDt()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldLastActiveDt:
+		m.ClearLastActiveDt()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldLastRebootDt:
+		m.ClearLastRebootDt()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1UpdatedAt:
+		m.ClearS1UpdatedAt()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAgentJSON:
+		m.ClearAgentJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldNetworkInterfacesJSON:
+		m.ClearNetworkInterfacesJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAlertsJSON:
+		m.ClearAlertsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAlertsCountJSON:
+		m.ClearAlertsCountJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldDeviceReviewLogJSON:
+		m.ClearDeviceReviewLogJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldIdentityJSON:
+		m.ClearIdentityJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldNotesJSON:
+		m.ClearNotesJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldTagsJSON:
+		m.ClearTagsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldMissingCoverageJSON:
+		m.ClearMissingCoverageJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldSubnetsJSON:
+		m.ClearSubnetsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldSurfacesJSON:
+		m.ClearSurfacesJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldNetworkNamesJSON:
+		m.ClearNetworkNamesJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldRiskFactorsJSON:
+		m.ClearRiskFactorsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldActiveCoverageJSON:
+		m.ClearActiveCoverageJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldDiscoveryMethodsJSON:
+		m.ClearDiscoveryMethodsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldHostnamesJSON:
+		m.ClearHostnamesJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldInternalIpsJSON:
+		m.ClearInternalIpsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldInternalIpsV6JSON:
+		m.ClearInternalIpsV6JSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldMACAddressesJSON:
+		m.ClearMACAddressesJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldGatewayIpsJSON:
+		m.ClearGatewayIpsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldGatewayMacsJSON:
+		m.ClearGatewayMacsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldTCPPortsJSON:
+		m.ClearTCPPortsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldUDPPortsJSON:
+		m.ClearUDPPortsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldRangerTagsJSON:
+		m.ClearRangerTagsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldIDSecondaryJSON:
+		m.ClearIDSecondaryJSON()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeHistoryS1NetworkDiscovery nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetField(name string) error {
+	switch name {
+	case bronzehistorys1networkdiscovery.FieldValidFrom:
+		m.ResetValidFrom()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldValidTo:
+		m.ResetValidTo()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldCollectedAt:
+		m.ResetCollectedAt()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldFirstCollectedAt:
+		m.ResetFirstCollectedAt()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldResourceID:
+		m.ResetResourceID()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldName:
+		m.ResetName()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldIPAddress:
+		m.ResetIPAddress()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldDomain:
+		m.ResetDomain()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldSerialNumber:
+		m.ResetSerialNumber()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldCategory:
+		m.ResetCategory()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldSubCategory:
+		m.ResetSubCategory()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldResourceType:
+		m.ResetResourceType()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldOs:
+		m.ResetOs()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldOsFamily:
+		m.ResetOsFamily()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldOsVersion:
+		m.ResetOsVersion()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldOsNameVersion:
+		m.ResetOsNameVersion()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldArchitecture:
+		m.ResetArchitecture()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldManufacturer:
+		m.ResetManufacturer()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldCPU:
+		m.ResetCPU()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldMemoryReadable:
+		m.ResetMemoryReadable()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldNetworkName:
+		m.ResetNetworkName()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAssetStatus:
+		m.ResetAssetStatus()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAssetCriticality:
+		m.ResetAssetCriticality()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAssetEnvironment:
+		m.ResetAssetEnvironment()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldInfectionStatus:
+		m.ResetInfectionStatus()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldDeviceReview:
+		m.ResetDeviceReview()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldEppUnsupportedUnknown:
+		m.ResetEppUnsupportedUnknown()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAssetContactEmail:
+		m.ResetAssetContactEmail()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldLegacyIdentityPolicyName:
+		m.ResetLegacyIdentityPolicyName()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldPreviousOsType:
+		m.ResetPreviousOsType()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldPreviousOsVersion:
+		m.ResetPreviousOsVersion()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldPreviousDeviceFunction:
+		m.ResetPreviousDeviceFunction()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldDetectedFromSite:
+		m.ResetDetectedFromSite()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1AccountID:
+		m.ResetS1AccountID()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1AccountName:
+		m.ResetS1AccountName()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1SiteID:
+		m.ResetS1SiteID()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1SiteName:
+		m.ResetS1SiteName()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1GroupID:
+		m.ResetS1GroupID()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1GroupName:
+		m.ResetS1GroupName()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1ScopeID:
+		m.ResetS1ScopeID()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1ScopeLevel:
+		m.ResetS1ScopeLevel()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1ScopePath:
+		m.ResetS1ScopePath()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedAccountName:
+		m.ResetS1OnboardedAccountName()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedGroupName:
+		m.ResetS1OnboardedGroupName()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedSiteName:
+		m.ResetS1OnboardedSiteName()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedScopeLevel:
+		m.ResetS1OnboardedScopeLevel()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedScopePath:
+		m.ResetS1OnboardedScopePath()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldMemory:
+		m.ResetMemory()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldCoreCount:
+		m.ResetCoreCount()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1ManagementID:
+		m.ResetS1ManagementID()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1ScopeType:
+		m.ResetS1ScopeType()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedAccountID:
+		m.ResetS1OnboardedAccountID()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedGroupID:
+		m.ResetS1OnboardedGroupID()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedScopeID:
+		m.ResetS1OnboardedScopeID()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1OnboardedSiteID:
+		m.ResetS1OnboardedSiteID()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldIsAdConnector:
+		m.ResetIsAdConnector()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldIsDcServer:
+		m.ResetIsDcServer()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAdsEnabled:
+		m.ResetAdsEnabled()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldFirstSeenDt:
+		m.ResetFirstSeenDt()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldLastUpdateDt:
+		m.ResetLastUpdateDt()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldLastActiveDt:
+		m.ResetLastActiveDt()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldLastRebootDt:
+		m.ResetLastRebootDt()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldS1UpdatedAt:
+		m.ResetS1UpdatedAt()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAgentJSON:
+		m.ResetAgentJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldNetworkInterfacesJSON:
+		m.ResetNetworkInterfacesJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAlertsJSON:
+		m.ResetAlertsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldAlertsCountJSON:
+		m.ResetAlertsCountJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldDeviceReviewLogJSON:
+		m.ResetDeviceReviewLogJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldIdentityJSON:
+		m.ResetIdentityJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldNotesJSON:
+		m.ResetNotesJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldTagsJSON:
+		m.ResetTagsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldMissingCoverageJSON:
+		m.ResetMissingCoverageJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldSubnetsJSON:
+		m.ResetSubnetsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldSurfacesJSON:
+		m.ResetSurfacesJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldNetworkNamesJSON:
+		m.ResetNetworkNamesJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldRiskFactorsJSON:
+		m.ResetRiskFactorsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldActiveCoverageJSON:
+		m.ResetActiveCoverageJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldDiscoveryMethodsJSON:
+		m.ResetDiscoveryMethodsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldHostnamesJSON:
+		m.ResetHostnamesJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldInternalIpsJSON:
+		m.ResetInternalIpsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldInternalIpsV6JSON:
+		m.ResetInternalIpsV6JSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldMACAddressesJSON:
+		m.ResetMACAddressesJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldGatewayIpsJSON:
+		m.ResetGatewayIpsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldGatewayMacsJSON:
+		m.ResetGatewayMacsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldTCPPortsJSON:
+		m.ResetTCPPortsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldUDPPortsJSON:
+		m.ResetUDPPortsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldRangerTagsJSON:
+		m.ResetRangerTagsJSON()
+		return nil
+	case bronzehistorys1networkdiscovery.FieldIDSecondaryJSON:
+		m.ResetIDSecondaryJSON()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeHistoryS1NetworkDiscovery field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown BronzeHistoryS1NetworkDiscovery unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *BronzeHistoryS1NetworkDiscoveryMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown BronzeHistoryS1NetworkDiscovery edge %s", name)
 }
 
 // BronzeHistoryS1RangerDeviceMutation represents an operation that mutates the BronzeHistoryS1RangerDevice nodes in the graph.
@@ -31466,6 +38742,7097 @@ func (m *BronzeS1GroupMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *BronzeS1GroupMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown BronzeS1Group edge %s", name)
+}
+
+// BronzeS1NetworkDiscoveryMutation represents an operation that mutates the BronzeS1NetworkDiscovery nodes in the graph.
+type BronzeS1NetworkDiscoveryMutation struct {
+	config
+	op                            Op
+	typ                           string
+	id                            *string
+	collected_at                  *time.Time
+	first_collected_at            *time.Time
+	name                          *string
+	ip_address                    *string
+	domain                        *string
+	serial_number                 *string
+	category                      *string
+	sub_category                  *string
+	resource_type                 *string
+	os                            *string
+	os_family                     *string
+	os_version                    *string
+	os_name_version               *string
+	architecture                  *string
+	manufacturer                  *string
+	cpu                           *string
+	memory_readable               *string
+	network_name                  *string
+	asset_status                  *string
+	asset_criticality             *string
+	asset_environment             *string
+	infection_status              *string
+	device_review                 *string
+	epp_unsupported_unknown       *string
+	asset_contact_email           *string
+	legacy_identity_policy_name   *string
+	previous_os_type              *string
+	previous_os_version           *string
+	previous_device_function      *string
+	detected_from_site            *string
+	s1_account_id                 *string
+	s1_account_name               *string
+	s1_site_id                    *string
+	s1_site_name                  *string
+	s1_group_id                   *string
+	s1_group_name                 *string
+	s1_scope_id                   *string
+	s1_scope_level                *string
+	s1_scope_path                 *string
+	s1_onboarded_account_name     *string
+	s1_onboarded_group_name       *string
+	s1_onboarded_site_name        *string
+	s1_onboarded_scope_level      *string
+	s1_onboarded_scope_path       *string
+	memory                        *int
+	addmemory                     *int
+	core_count                    *int
+	addcore_count                 *int
+	s1_management_id              *int
+	adds1_management_id           *int
+	s1_scope_type                 *int
+	adds1_scope_type              *int
+	s1_onboarded_account_id       *int
+	adds1_onboarded_account_id    *int
+	s1_onboarded_group_id         *int
+	adds1_onboarded_group_id      *int
+	s1_onboarded_scope_id         *int
+	adds1_onboarded_scope_id      *int
+	s1_onboarded_site_id          *int
+	adds1_onboarded_site_id       *int
+	is_ad_connector               *bool
+	is_dc_server                  *bool
+	ads_enabled                   *bool
+	first_seen_dt                 *time.Time
+	last_update_dt                *time.Time
+	last_active_dt                *time.Time
+	last_reboot_dt                *time.Time
+	s1_updated_at                 *time.Time
+	agent_json                    *json.RawMessage
+	appendagent_json              json.RawMessage
+	network_interfaces_json       *json.RawMessage
+	appendnetwork_interfaces_json json.RawMessage
+	alerts_json                   *json.RawMessage
+	appendalerts_json             json.RawMessage
+	alerts_count_json             *json.RawMessage
+	appendalerts_count_json       json.RawMessage
+	device_review_log_json        *json.RawMessage
+	appenddevice_review_log_json  json.RawMessage
+	identity_json                 *json.RawMessage
+	appendidentity_json           json.RawMessage
+	notes_json                    *json.RawMessage
+	appendnotes_json              json.RawMessage
+	tags_json                     *json.RawMessage
+	appendtags_json               json.RawMessage
+	missing_coverage_json         *json.RawMessage
+	appendmissing_coverage_json   json.RawMessage
+	subnets_json                  *json.RawMessage
+	appendsubnets_json            json.RawMessage
+	surfaces_json                 *json.RawMessage
+	appendsurfaces_json           json.RawMessage
+	network_names_json            *json.RawMessage
+	appendnetwork_names_json      json.RawMessage
+	risk_factors_json             *json.RawMessage
+	appendrisk_factors_json       json.RawMessage
+	active_coverage_json          *json.RawMessage
+	appendactive_coverage_json    json.RawMessage
+	discovery_methods_json        *json.RawMessage
+	appenddiscovery_methods_json  json.RawMessage
+	hostnames_json                *json.RawMessage
+	appendhostnames_json          json.RawMessage
+	internal_ips_json             *json.RawMessage
+	appendinternal_ips_json       json.RawMessage
+	internal_ips_v6_json          *json.RawMessage
+	appendinternal_ips_v6_json    json.RawMessage
+	mac_addresses_json            *json.RawMessage
+	appendmac_addresses_json      json.RawMessage
+	gateway_ips_json              *json.RawMessage
+	appendgateway_ips_json        json.RawMessage
+	gateway_macs_json             *json.RawMessage
+	appendgateway_macs_json       json.RawMessage
+	tcp_ports_json                *json.RawMessage
+	appendtcp_ports_json          json.RawMessage
+	udp_ports_json                *json.RawMessage
+	appendudp_ports_json          json.RawMessage
+	ranger_tags_json              *json.RawMessage
+	appendranger_tags_json        json.RawMessage
+	id_secondary_json             *json.RawMessage
+	appendid_secondary_json       json.RawMessage
+	clearedFields                 map[string]struct{}
+	done                          bool
+	oldValue                      func(context.Context) (*BronzeS1NetworkDiscovery, error)
+	predicates                    []predicate.BronzeS1NetworkDiscovery
+}
+
+var _ ent.Mutation = (*BronzeS1NetworkDiscoveryMutation)(nil)
+
+// bronzes1networkdiscoveryOption allows management of the mutation configuration using functional options.
+type bronzes1networkdiscoveryOption func(*BronzeS1NetworkDiscoveryMutation)
+
+// newBronzeS1NetworkDiscoveryMutation creates new mutation for the BronzeS1NetworkDiscovery entity.
+func newBronzeS1NetworkDiscoveryMutation(c config, op Op, opts ...bronzes1networkdiscoveryOption) *BronzeS1NetworkDiscoveryMutation {
+	m := &BronzeS1NetworkDiscoveryMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeBronzeS1NetworkDiscovery,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withBronzeS1NetworkDiscoveryID sets the ID field of the mutation.
+func withBronzeS1NetworkDiscoveryID(id string) bronzes1networkdiscoveryOption {
+	return func(m *BronzeS1NetworkDiscoveryMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *BronzeS1NetworkDiscovery
+		)
+		m.oldValue = func(ctx context.Context) (*BronzeS1NetworkDiscovery, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().BronzeS1NetworkDiscovery.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withBronzeS1NetworkDiscovery sets the old BronzeS1NetworkDiscovery of the mutation.
+func withBronzeS1NetworkDiscovery(node *BronzeS1NetworkDiscovery) bronzes1networkdiscoveryOption {
+	return func(m *BronzeS1NetworkDiscoveryMutation) {
+		m.oldValue = func(context.Context) (*BronzeS1NetworkDiscovery, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m BronzeS1NetworkDiscoveryMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m BronzeS1NetworkDiscoveryMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("s1: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of BronzeS1NetworkDiscovery entities.
+func (m *BronzeS1NetworkDiscoveryMutation) SetID(id string) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *BronzeS1NetworkDiscoveryMutation) ID() (id string, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) IDs(ctx context.Context) ([]string, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []string{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().BronzeS1NetworkDiscovery.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCollectedAt sets the "collected_at" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetCollectedAt(t time.Time) {
+	m.collected_at = &t
+}
+
+// CollectedAt returns the value of the "collected_at" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) CollectedAt() (r time.Time, exists bool) {
+	v := m.collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCollectedAt returns the old "collected_at" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCollectedAt: %w", err)
+	}
+	return oldValue.CollectedAt, nil
+}
+
+// ResetCollectedAt resets all changes to the "collected_at" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetCollectedAt() {
+	m.collected_at = nil
+}
+
+// SetFirstCollectedAt sets the "first_collected_at" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetFirstCollectedAt(t time.Time) {
+	m.first_collected_at = &t
+}
+
+// FirstCollectedAt returns the value of the "first_collected_at" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) FirstCollectedAt() (r time.Time, exists bool) {
+	v := m.first_collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFirstCollectedAt returns the old "first_collected_at" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldFirstCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFirstCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFirstCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFirstCollectedAt: %w", err)
+	}
+	return oldValue.FirstCollectedAt, nil
+}
+
+// ResetFirstCollectedAt resets all changes to the "first_collected_at" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetFirstCollectedAt() {
+	m.first_collected_at = nil
+}
+
+// SetName sets the "name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetName(s string) {
+	m.name = &s
+}
+
+// Name returns the value of the "name" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) Name() (r string, exists bool) {
+	v := m.name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldName returns the old "name" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
+	}
+	return oldValue.Name, nil
+}
+
+// ClearName clears the value of the "name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearName() {
+	m.name = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldName] = struct{}{}
+}
+
+// NameCleared returns if the "name" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) NameCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldName]
+	return ok
+}
+
+// ResetName resets all changes to the "name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetName() {
+	m.name = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldName)
+}
+
+// SetIPAddress sets the "ip_address" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetIPAddress(s string) {
+	m.ip_address = &s
+}
+
+// IPAddress returns the value of the "ip_address" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) IPAddress() (r string, exists bool) {
+	v := m.ip_address
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIPAddress returns the old "ip_address" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldIPAddress(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIPAddress is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIPAddress requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIPAddress: %w", err)
+	}
+	return oldValue.IPAddress, nil
+}
+
+// ClearIPAddress clears the value of the "ip_address" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearIPAddress() {
+	m.ip_address = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldIPAddress] = struct{}{}
+}
+
+// IPAddressCleared returns if the "ip_address" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) IPAddressCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldIPAddress]
+	return ok
+}
+
+// ResetIPAddress resets all changes to the "ip_address" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetIPAddress() {
+	m.ip_address = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldIPAddress)
+}
+
+// SetDomain sets the "domain" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetDomain(s string) {
+	m.domain = &s
+}
+
+// Domain returns the value of the "domain" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) Domain() (r string, exists bool) {
+	v := m.domain
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDomain returns the old "domain" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldDomain(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDomain is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDomain requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDomain: %w", err)
+	}
+	return oldValue.Domain, nil
+}
+
+// ClearDomain clears the value of the "domain" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearDomain() {
+	m.domain = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldDomain] = struct{}{}
+}
+
+// DomainCleared returns if the "domain" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) DomainCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldDomain]
+	return ok
+}
+
+// ResetDomain resets all changes to the "domain" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetDomain() {
+	m.domain = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldDomain)
+}
+
+// SetSerialNumber sets the "serial_number" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetSerialNumber(s string) {
+	m.serial_number = &s
+}
+
+// SerialNumber returns the value of the "serial_number" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) SerialNumber() (r string, exists bool) {
+	v := m.serial_number
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSerialNumber returns the old "serial_number" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldSerialNumber(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSerialNumber is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSerialNumber requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSerialNumber: %w", err)
+	}
+	return oldValue.SerialNumber, nil
+}
+
+// ClearSerialNumber clears the value of the "serial_number" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearSerialNumber() {
+	m.serial_number = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldSerialNumber] = struct{}{}
+}
+
+// SerialNumberCleared returns if the "serial_number" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) SerialNumberCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldSerialNumber]
+	return ok
+}
+
+// ResetSerialNumber resets all changes to the "serial_number" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetSerialNumber() {
+	m.serial_number = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldSerialNumber)
+}
+
+// SetCategory sets the "category" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetCategory(s string) {
+	m.category = &s
+}
+
+// Category returns the value of the "category" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) Category() (r string, exists bool) {
+	v := m.category
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCategory returns the old "category" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldCategory(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCategory is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCategory requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCategory: %w", err)
+	}
+	return oldValue.Category, nil
+}
+
+// ClearCategory clears the value of the "category" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearCategory() {
+	m.category = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldCategory] = struct{}{}
+}
+
+// CategoryCleared returns if the "category" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) CategoryCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldCategory]
+	return ok
+}
+
+// ResetCategory resets all changes to the "category" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetCategory() {
+	m.category = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldCategory)
+}
+
+// SetSubCategory sets the "sub_category" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetSubCategory(s string) {
+	m.sub_category = &s
+}
+
+// SubCategory returns the value of the "sub_category" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) SubCategory() (r string, exists bool) {
+	v := m.sub_category
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSubCategory returns the old "sub_category" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldSubCategory(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSubCategory is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSubCategory requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSubCategory: %w", err)
+	}
+	return oldValue.SubCategory, nil
+}
+
+// ClearSubCategory clears the value of the "sub_category" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearSubCategory() {
+	m.sub_category = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldSubCategory] = struct{}{}
+}
+
+// SubCategoryCleared returns if the "sub_category" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) SubCategoryCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldSubCategory]
+	return ok
+}
+
+// ResetSubCategory resets all changes to the "sub_category" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetSubCategory() {
+	m.sub_category = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldSubCategory)
+}
+
+// SetResourceType sets the "resource_type" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetResourceType(s string) {
+	m.resource_type = &s
+}
+
+// ResourceType returns the value of the "resource_type" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) ResourceType() (r string, exists bool) {
+	v := m.resource_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldResourceType returns the old "resource_type" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldResourceType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldResourceType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldResourceType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldResourceType: %w", err)
+	}
+	return oldValue.ResourceType, nil
+}
+
+// ClearResourceType clears the value of the "resource_type" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearResourceType() {
+	m.resource_type = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldResourceType] = struct{}{}
+}
+
+// ResourceTypeCleared returns if the "resource_type" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) ResourceTypeCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldResourceType]
+	return ok
+}
+
+// ResetResourceType resets all changes to the "resource_type" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetResourceType() {
+	m.resource_type = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldResourceType)
+}
+
+// SetOs sets the "os" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetOs(s string) {
+	m.os = &s
+}
+
+// Os returns the value of the "os" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) Os() (r string, exists bool) {
+	v := m.os
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOs returns the old "os" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldOs(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOs is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOs requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOs: %w", err)
+	}
+	return oldValue.Os, nil
+}
+
+// ClearOs clears the value of the "os" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearOs() {
+	m.os = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldOs] = struct{}{}
+}
+
+// OsCleared returns if the "os" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) OsCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldOs]
+	return ok
+}
+
+// ResetOs resets all changes to the "os" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetOs() {
+	m.os = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldOs)
+}
+
+// SetOsFamily sets the "os_family" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetOsFamily(s string) {
+	m.os_family = &s
+}
+
+// OsFamily returns the value of the "os_family" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) OsFamily() (r string, exists bool) {
+	v := m.os_family
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOsFamily returns the old "os_family" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldOsFamily(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOsFamily is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOsFamily requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOsFamily: %w", err)
+	}
+	return oldValue.OsFamily, nil
+}
+
+// ClearOsFamily clears the value of the "os_family" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearOsFamily() {
+	m.os_family = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldOsFamily] = struct{}{}
+}
+
+// OsFamilyCleared returns if the "os_family" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) OsFamilyCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldOsFamily]
+	return ok
+}
+
+// ResetOsFamily resets all changes to the "os_family" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetOsFamily() {
+	m.os_family = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldOsFamily)
+}
+
+// SetOsVersion sets the "os_version" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetOsVersion(s string) {
+	m.os_version = &s
+}
+
+// OsVersion returns the value of the "os_version" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) OsVersion() (r string, exists bool) {
+	v := m.os_version
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOsVersion returns the old "os_version" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldOsVersion(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOsVersion is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOsVersion requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOsVersion: %w", err)
+	}
+	return oldValue.OsVersion, nil
+}
+
+// ClearOsVersion clears the value of the "os_version" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearOsVersion() {
+	m.os_version = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldOsVersion] = struct{}{}
+}
+
+// OsVersionCleared returns if the "os_version" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) OsVersionCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldOsVersion]
+	return ok
+}
+
+// ResetOsVersion resets all changes to the "os_version" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetOsVersion() {
+	m.os_version = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldOsVersion)
+}
+
+// SetOsNameVersion sets the "os_name_version" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetOsNameVersion(s string) {
+	m.os_name_version = &s
+}
+
+// OsNameVersion returns the value of the "os_name_version" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) OsNameVersion() (r string, exists bool) {
+	v := m.os_name_version
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOsNameVersion returns the old "os_name_version" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldOsNameVersion(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOsNameVersion is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOsNameVersion requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOsNameVersion: %w", err)
+	}
+	return oldValue.OsNameVersion, nil
+}
+
+// ClearOsNameVersion clears the value of the "os_name_version" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearOsNameVersion() {
+	m.os_name_version = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldOsNameVersion] = struct{}{}
+}
+
+// OsNameVersionCleared returns if the "os_name_version" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) OsNameVersionCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldOsNameVersion]
+	return ok
+}
+
+// ResetOsNameVersion resets all changes to the "os_name_version" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetOsNameVersion() {
+	m.os_name_version = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldOsNameVersion)
+}
+
+// SetArchitecture sets the "architecture" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetArchitecture(s string) {
+	m.architecture = &s
+}
+
+// Architecture returns the value of the "architecture" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) Architecture() (r string, exists bool) {
+	v := m.architecture
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldArchitecture returns the old "architecture" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldArchitecture(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldArchitecture is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldArchitecture requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldArchitecture: %w", err)
+	}
+	return oldValue.Architecture, nil
+}
+
+// ClearArchitecture clears the value of the "architecture" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearArchitecture() {
+	m.architecture = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldArchitecture] = struct{}{}
+}
+
+// ArchitectureCleared returns if the "architecture" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) ArchitectureCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldArchitecture]
+	return ok
+}
+
+// ResetArchitecture resets all changes to the "architecture" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetArchitecture() {
+	m.architecture = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldArchitecture)
+}
+
+// SetManufacturer sets the "manufacturer" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetManufacturer(s string) {
+	m.manufacturer = &s
+}
+
+// Manufacturer returns the value of the "manufacturer" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) Manufacturer() (r string, exists bool) {
+	v := m.manufacturer
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldManufacturer returns the old "manufacturer" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldManufacturer(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldManufacturer is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldManufacturer requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldManufacturer: %w", err)
+	}
+	return oldValue.Manufacturer, nil
+}
+
+// ClearManufacturer clears the value of the "manufacturer" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearManufacturer() {
+	m.manufacturer = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldManufacturer] = struct{}{}
+}
+
+// ManufacturerCleared returns if the "manufacturer" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) ManufacturerCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldManufacturer]
+	return ok
+}
+
+// ResetManufacturer resets all changes to the "manufacturer" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetManufacturer() {
+	m.manufacturer = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldManufacturer)
+}
+
+// SetCPU sets the "cpu" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetCPU(s string) {
+	m.cpu = &s
+}
+
+// CPU returns the value of the "cpu" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) CPU() (r string, exists bool) {
+	v := m.cpu
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCPU returns the old "cpu" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldCPU(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCPU is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCPU requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCPU: %w", err)
+	}
+	return oldValue.CPU, nil
+}
+
+// ClearCPU clears the value of the "cpu" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearCPU() {
+	m.cpu = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldCPU] = struct{}{}
+}
+
+// CPUCleared returns if the "cpu" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) CPUCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldCPU]
+	return ok
+}
+
+// ResetCPU resets all changes to the "cpu" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetCPU() {
+	m.cpu = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldCPU)
+}
+
+// SetMemoryReadable sets the "memory_readable" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetMemoryReadable(s string) {
+	m.memory_readable = &s
+}
+
+// MemoryReadable returns the value of the "memory_readable" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) MemoryReadable() (r string, exists bool) {
+	v := m.memory_readable
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMemoryReadable returns the old "memory_readable" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldMemoryReadable(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMemoryReadable is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMemoryReadable requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMemoryReadable: %w", err)
+	}
+	return oldValue.MemoryReadable, nil
+}
+
+// ClearMemoryReadable clears the value of the "memory_readable" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearMemoryReadable() {
+	m.memory_readable = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldMemoryReadable] = struct{}{}
+}
+
+// MemoryReadableCleared returns if the "memory_readable" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) MemoryReadableCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldMemoryReadable]
+	return ok
+}
+
+// ResetMemoryReadable resets all changes to the "memory_readable" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetMemoryReadable() {
+	m.memory_readable = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldMemoryReadable)
+}
+
+// SetNetworkName sets the "network_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetNetworkName(s string) {
+	m.network_name = &s
+}
+
+// NetworkName returns the value of the "network_name" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) NetworkName() (r string, exists bool) {
+	v := m.network_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldNetworkName returns the old "network_name" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldNetworkName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldNetworkName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldNetworkName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldNetworkName: %w", err)
+	}
+	return oldValue.NetworkName, nil
+}
+
+// ClearNetworkName clears the value of the "network_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearNetworkName() {
+	m.network_name = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldNetworkName] = struct{}{}
+}
+
+// NetworkNameCleared returns if the "network_name" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) NetworkNameCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldNetworkName]
+	return ok
+}
+
+// ResetNetworkName resets all changes to the "network_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetNetworkName() {
+	m.network_name = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldNetworkName)
+}
+
+// SetAssetStatus sets the "asset_status" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetAssetStatus(s string) {
+	m.asset_status = &s
+}
+
+// AssetStatus returns the value of the "asset_status" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AssetStatus() (r string, exists bool) {
+	v := m.asset_status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAssetStatus returns the old "asset_status" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldAssetStatus(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAssetStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAssetStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAssetStatus: %w", err)
+	}
+	return oldValue.AssetStatus, nil
+}
+
+// ClearAssetStatus clears the value of the "asset_status" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearAssetStatus() {
+	m.asset_status = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldAssetStatus] = struct{}{}
+}
+
+// AssetStatusCleared returns if the "asset_status" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AssetStatusCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldAssetStatus]
+	return ok
+}
+
+// ResetAssetStatus resets all changes to the "asset_status" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetAssetStatus() {
+	m.asset_status = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldAssetStatus)
+}
+
+// SetAssetCriticality sets the "asset_criticality" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetAssetCriticality(s string) {
+	m.asset_criticality = &s
+}
+
+// AssetCriticality returns the value of the "asset_criticality" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AssetCriticality() (r string, exists bool) {
+	v := m.asset_criticality
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAssetCriticality returns the old "asset_criticality" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldAssetCriticality(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAssetCriticality is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAssetCriticality requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAssetCriticality: %w", err)
+	}
+	return oldValue.AssetCriticality, nil
+}
+
+// ClearAssetCriticality clears the value of the "asset_criticality" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearAssetCriticality() {
+	m.asset_criticality = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldAssetCriticality] = struct{}{}
+}
+
+// AssetCriticalityCleared returns if the "asset_criticality" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AssetCriticalityCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldAssetCriticality]
+	return ok
+}
+
+// ResetAssetCriticality resets all changes to the "asset_criticality" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetAssetCriticality() {
+	m.asset_criticality = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldAssetCriticality)
+}
+
+// SetAssetEnvironment sets the "asset_environment" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetAssetEnvironment(s string) {
+	m.asset_environment = &s
+}
+
+// AssetEnvironment returns the value of the "asset_environment" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AssetEnvironment() (r string, exists bool) {
+	v := m.asset_environment
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAssetEnvironment returns the old "asset_environment" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldAssetEnvironment(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAssetEnvironment is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAssetEnvironment requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAssetEnvironment: %w", err)
+	}
+	return oldValue.AssetEnvironment, nil
+}
+
+// ClearAssetEnvironment clears the value of the "asset_environment" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearAssetEnvironment() {
+	m.asset_environment = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldAssetEnvironment] = struct{}{}
+}
+
+// AssetEnvironmentCleared returns if the "asset_environment" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AssetEnvironmentCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldAssetEnvironment]
+	return ok
+}
+
+// ResetAssetEnvironment resets all changes to the "asset_environment" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetAssetEnvironment() {
+	m.asset_environment = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldAssetEnvironment)
+}
+
+// SetInfectionStatus sets the "infection_status" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetInfectionStatus(s string) {
+	m.infection_status = &s
+}
+
+// InfectionStatus returns the value of the "infection_status" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) InfectionStatus() (r string, exists bool) {
+	v := m.infection_status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInfectionStatus returns the old "infection_status" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldInfectionStatus(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldInfectionStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldInfectionStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInfectionStatus: %w", err)
+	}
+	return oldValue.InfectionStatus, nil
+}
+
+// ClearInfectionStatus clears the value of the "infection_status" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearInfectionStatus() {
+	m.infection_status = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldInfectionStatus] = struct{}{}
+}
+
+// InfectionStatusCleared returns if the "infection_status" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) InfectionStatusCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldInfectionStatus]
+	return ok
+}
+
+// ResetInfectionStatus resets all changes to the "infection_status" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetInfectionStatus() {
+	m.infection_status = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldInfectionStatus)
+}
+
+// SetDeviceReview sets the "device_review" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetDeviceReview(s string) {
+	m.device_review = &s
+}
+
+// DeviceReview returns the value of the "device_review" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) DeviceReview() (r string, exists bool) {
+	v := m.device_review
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeviceReview returns the old "device_review" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldDeviceReview(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeviceReview is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeviceReview requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeviceReview: %w", err)
+	}
+	return oldValue.DeviceReview, nil
+}
+
+// ClearDeviceReview clears the value of the "device_review" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearDeviceReview() {
+	m.device_review = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldDeviceReview] = struct{}{}
+}
+
+// DeviceReviewCleared returns if the "device_review" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) DeviceReviewCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldDeviceReview]
+	return ok
+}
+
+// ResetDeviceReview resets all changes to the "device_review" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetDeviceReview() {
+	m.device_review = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldDeviceReview)
+}
+
+// SetEppUnsupportedUnknown sets the "epp_unsupported_unknown" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetEppUnsupportedUnknown(s string) {
+	m.epp_unsupported_unknown = &s
+}
+
+// EppUnsupportedUnknown returns the value of the "epp_unsupported_unknown" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) EppUnsupportedUnknown() (r string, exists bool) {
+	v := m.epp_unsupported_unknown
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEppUnsupportedUnknown returns the old "epp_unsupported_unknown" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldEppUnsupportedUnknown(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEppUnsupportedUnknown is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEppUnsupportedUnknown requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEppUnsupportedUnknown: %w", err)
+	}
+	return oldValue.EppUnsupportedUnknown, nil
+}
+
+// ClearEppUnsupportedUnknown clears the value of the "epp_unsupported_unknown" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearEppUnsupportedUnknown() {
+	m.epp_unsupported_unknown = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldEppUnsupportedUnknown] = struct{}{}
+}
+
+// EppUnsupportedUnknownCleared returns if the "epp_unsupported_unknown" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) EppUnsupportedUnknownCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldEppUnsupportedUnknown]
+	return ok
+}
+
+// ResetEppUnsupportedUnknown resets all changes to the "epp_unsupported_unknown" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetEppUnsupportedUnknown() {
+	m.epp_unsupported_unknown = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldEppUnsupportedUnknown)
+}
+
+// SetAssetContactEmail sets the "asset_contact_email" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetAssetContactEmail(s string) {
+	m.asset_contact_email = &s
+}
+
+// AssetContactEmail returns the value of the "asset_contact_email" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AssetContactEmail() (r string, exists bool) {
+	v := m.asset_contact_email
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAssetContactEmail returns the old "asset_contact_email" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldAssetContactEmail(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAssetContactEmail is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAssetContactEmail requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAssetContactEmail: %w", err)
+	}
+	return oldValue.AssetContactEmail, nil
+}
+
+// ClearAssetContactEmail clears the value of the "asset_contact_email" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearAssetContactEmail() {
+	m.asset_contact_email = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldAssetContactEmail] = struct{}{}
+}
+
+// AssetContactEmailCleared returns if the "asset_contact_email" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AssetContactEmailCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldAssetContactEmail]
+	return ok
+}
+
+// ResetAssetContactEmail resets all changes to the "asset_contact_email" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetAssetContactEmail() {
+	m.asset_contact_email = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldAssetContactEmail)
+}
+
+// SetLegacyIdentityPolicyName sets the "legacy_identity_policy_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetLegacyIdentityPolicyName(s string) {
+	m.legacy_identity_policy_name = &s
+}
+
+// LegacyIdentityPolicyName returns the value of the "legacy_identity_policy_name" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) LegacyIdentityPolicyName() (r string, exists bool) {
+	v := m.legacy_identity_policy_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLegacyIdentityPolicyName returns the old "legacy_identity_policy_name" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldLegacyIdentityPolicyName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLegacyIdentityPolicyName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLegacyIdentityPolicyName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLegacyIdentityPolicyName: %w", err)
+	}
+	return oldValue.LegacyIdentityPolicyName, nil
+}
+
+// ClearLegacyIdentityPolicyName clears the value of the "legacy_identity_policy_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearLegacyIdentityPolicyName() {
+	m.legacy_identity_policy_name = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldLegacyIdentityPolicyName] = struct{}{}
+}
+
+// LegacyIdentityPolicyNameCleared returns if the "legacy_identity_policy_name" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) LegacyIdentityPolicyNameCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldLegacyIdentityPolicyName]
+	return ok
+}
+
+// ResetLegacyIdentityPolicyName resets all changes to the "legacy_identity_policy_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetLegacyIdentityPolicyName() {
+	m.legacy_identity_policy_name = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldLegacyIdentityPolicyName)
+}
+
+// SetPreviousOsType sets the "previous_os_type" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetPreviousOsType(s string) {
+	m.previous_os_type = &s
+}
+
+// PreviousOsType returns the value of the "previous_os_type" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) PreviousOsType() (r string, exists bool) {
+	v := m.previous_os_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPreviousOsType returns the old "previous_os_type" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldPreviousOsType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPreviousOsType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPreviousOsType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPreviousOsType: %w", err)
+	}
+	return oldValue.PreviousOsType, nil
+}
+
+// ClearPreviousOsType clears the value of the "previous_os_type" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearPreviousOsType() {
+	m.previous_os_type = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldPreviousOsType] = struct{}{}
+}
+
+// PreviousOsTypeCleared returns if the "previous_os_type" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) PreviousOsTypeCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldPreviousOsType]
+	return ok
+}
+
+// ResetPreviousOsType resets all changes to the "previous_os_type" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetPreviousOsType() {
+	m.previous_os_type = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldPreviousOsType)
+}
+
+// SetPreviousOsVersion sets the "previous_os_version" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetPreviousOsVersion(s string) {
+	m.previous_os_version = &s
+}
+
+// PreviousOsVersion returns the value of the "previous_os_version" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) PreviousOsVersion() (r string, exists bool) {
+	v := m.previous_os_version
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPreviousOsVersion returns the old "previous_os_version" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldPreviousOsVersion(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPreviousOsVersion is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPreviousOsVersion requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPreviousOsVersion: %w", err)
+	}
+	return oldValue.PreviousOsVersion, nil
+}
+
+// ClearPreviousOsVersion clears the value of the "previous_os_version" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearPreviousOsVersion() {
+	m.previous_os_version = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldPreviousOsVersion] = struct{}{}
+}
+
+// PreviousOsVersionCleared returns if the "previous_os_version" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) PreviousOsVersionCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldPreviousOsVersion]
+	return ok
+}
+
+// ResetPreviousOsVersion resets all changes to the "previous_os_version" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetPreviousOsVersion() {
+	m.previous_os_version = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldPreviousOsVersion)
+}
+
+// SetPreviousDeviceFunction sets the "previous_device_function" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetPreviousDeviceFunction(s string) {
+	m.previous_device_function = &s
+}
+
+// PreviousDeviceFunction returns the value of the "previous_device_function" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) PreviousDeviceFunction() (r string, exists bool) {
+	v := m.previous_device_function
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPreviousDeviceFunction returns the old "previous_device_function" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldPreviousDeviceFunction(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPreviousDeviceFunction is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPreviousDeviceFunction requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPreviousDeviceFunction: %w", err)
+	}
+	return oldValue.PreviousDeviceFunction, nil
+}
+
+// ClearPreviousDeviceFunction clears the value of the "previous_device_function" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearPreviousDeviceFunction() {
+	m.previous_device_function = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldPreviousDeviceFunction] = struct{}{}
+}
+
+// PreviousDeviceFunctionCleared returns if the "previous_device_function" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) PreviousDeviceFunctionCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldPreviousDeviceFunction]
+	return ok
+}
+
+// ResetPreviousDeviceFunction resets all changes to the "previous_device_function" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetPreviousDeviceFunction() {
+	m.previous_device_function = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldPreviousDeviceFunction)
+}
+
+// SetDetectedFromSite sets the "detected_from_site" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetDetectedFromSite(s string) {
+	m.detected_from_site = &s
+}
+
+// DetectedFromSite returns the value of the "detected_from_site" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) DetectedFromSite() (r string, exists bool) {
+	v := m.detected_from_site
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDetectedFromSite returns the old "detected_from_site" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldDetectedFromSite(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDetectedFromSite is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDetectedFromSite requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDetectedFromSite: %w", err)
+	}
+	return oldValue.DetectedFromSite, nil
+}
+
+// ClearDetectedFromSite clears the value of the "detected_from_site" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearDetectedFromSite() {
+	m.detected_from_site = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldDetectedFromSite] = struct{}{}
+}
+
+// DetectedFromSiteCleared returns if the "detected_from_site" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) DetectedFromSiteCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldDetectedFromSite]
+	return ok
+}
+
+// ResetDetectedFromSite resets all changes to the "detected_from_site" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetDetectedFromSite() {
+	m.detected_from_site = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldDetectedFromSite)
+}
+
+// SetS1AccountID sets the "s1_account_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1AccountID(s string) {
+	m.s1_account_id = &s
+}
+
+// S1AccountID returns the value of the "s1_account_id" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1AccountID() (r string, exists bool) {
+	v := m.s1_account_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1AccountID returns the old "s1_account_id" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1AccountID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1AccountID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1AccountID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1AccountID: %w", err)
+	}
+	return oldValue.S1AccountID, nil
+}
+
+// ClearS1AccountID clears the value of the "s1_account_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1AccountID() {
+	m.s1_account_id = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1AccountID] = struct{}{}
+}
+
+// S1AccountIDCleared returns if the "s1_account_id" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1AccountIDCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1AccountID]
+	return ok
+}
+
+// ResetS1AccountID resets all changes to the "s1_account_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1AccountID() {
+	m.s1_account_id = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1AccountID)
+}
+
+// SetS1AccountName sets the "s1_account_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1AccountName(s string) {
+	m.s1_account_name = &s
+}
+
+// S1AccountName returns the value of the "s1_account_name" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1AccountName() (r string, exists bool) {
+	v := m.s1_account_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1AccountName returns the old "s1_account_name" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1AccountName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1AccountName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1AccountName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1AccountName: %w", err)
+	}
+	return oldValue.S1AccountName, nil
+}
+
+// ClearS1AccountName clears the value of the "s1_account_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1AccountName() {
+	m.s1_account_name = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1AccountName] = struct{}{}
+}
+
+// S1AccountNameCleared returns if the "s1_account_name" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1AccountNameCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1AccountName]
+	return ok
+}
+
+// ResetS1AccountName resets all changes to the "s1_account_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1AccountName() {
+	m.s1_account_name = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1AccountName)
+}
+
+// SetS1SiteID sets the "s1_site_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1SiteID(s string) {
+	m.s1_site_id = &s
+}
+
+// S1SiteID returns the value of the "s1_site_id" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1SiteID() (r string, exists bool) {
+	v := m.s1_site_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1SiteID returns the old "s1_site_id" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1SiteID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1SiteID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1SiteID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1SiteID: %w", err)
+	}
+	return oldValue.S1SiteID, nil
+}
+
+// ClearS1SiteID clears the value of the "s1_site_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1SiteID() {
+	m.s1_site_id = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1SiteID] = struct{}{}
+}
+
+// S1SiteIDCleared returns if the "s1_site_id" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1SiteIDCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1SiteID]
+	return ok
+}
+
+// ResetS1SiteID resets all changes to the "s1_site_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1SiteID() {
+	m.s1_site_id = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1SiteID)
+}
+
+// SetS1SiteName sets the "s1_site_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1SiteName(s string) {
+	m.s1_site_name = &s
+}
+
+// S1SiteName returns the value of the "s1_site_name" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1SiteName() (r string, exists bool) {
+	v := m.s1_site_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1SiteName returns the old "s1_site_name" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1SiteName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1SiteName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1SiteName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1SiteName: %w", err)
+	}
+	return oldValue.S1SiteName, nil
+}
+
+// ClearS1SiteName clears the value of the "s1_site_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1SiteName() {
+	m.s1_site_name = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1SiteName] = struct{}{}
+}
+
+// S1SiteNameCleared returns if the "s1_site_name" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1SiteNameCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1SiteName]
+	return ok
+}
+
+// ResetS1SiteName resets all changes to the "s1_site_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1SiteName() {
+	m.s1_site_name = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1SiteName)
+}
+
+// SetS1GroupID sets the "s1_group_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1GroupID(s string) {
+	m.s1_group_id = &s
+}
+
+// S1GroupID returns the value of the "s1_group_id" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1GroupID() (r string, exists bool) {
+	v := m.s1_group_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1GroupID returns the old "s1_group_id" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1GroupID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1GroupID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1GroupID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1GroupID: %w", err)
+	}
+	return oldValue.S1GroupID, nil
+}
+
+// ClearS1GroupID clears the value of the "s1_group_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1GroupID() {
+	m.s1_group_id = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1GroupID] = struct{}{}
+}
+
+// S1GroupIDCleared returns if the "s1_group_id" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1GroupIDCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1GroupID]
+	return ok
+}
+
+// ResetS1GroupID resets all changes to the "s1_group_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1GroupID() {
+	m.s1_group_id = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1GroupID)
+}
+
+// SetS1GroupName sets the "s1_group_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1GroupName(s string) {
+	m.s1_group_name = &s
+}
+
+// S1GroupName returns the value of the "s1_group_name" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1GroupName() (r string, exists bool) {
+	v := m.s1_group_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1GroupName returns the old "s1_group_name" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1GroupName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1GroupName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1GroupName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1GroupName: %w", err)
+	}
+	return oldValue.S1GroupName, nil
+}
+
+// ClearS1GroupName clears the value of the "s1_group_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1GroupName() {
+	m.s1_group_name = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1GroupName] = struct{}{}
+}
+
+// S1GroupNameCleared returns if the "s1_group_name" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1GroupNameCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1GroupName]
+	return ok
+}
+
+// ResetS1GroupName resets all changes to the "s1_group_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1GroupName() {
+	m.s1_group_name = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1GroupName)
+}
+
+// SetS1ScopeID sets the "s1_scope_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1ScopeID(s string) {
+	m.s1_scope_id = &s
+}
+
+// S1ScopeID returns the value of the "s1_scope_id" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1ScopeID() (r string, exists bool) {
+	v := m.s1_scope_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1ScopeID returns the old "s1_scope_id" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1ScopeID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1ScopeID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1ScopeID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1ScopeID: %w", err)
+	}
+	return oldValue.S1ScopeID, nil
+}
+
+// ClearS1ScopeID clears the value of the "s1_scope_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1ScopeID() {
+	m.s1_scope_id = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1ScopeID] = struct{}{}
+}
+
+// S1ScopeIDCleared returns if the "s1_scope_id" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1ScopeIDCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1ScopeID]
+	return ok
+}
+
+// ResetS1ScopeID resets all changes to the "s1_scope_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1ScopeID() {
+	m.s1_scope_id = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1ScopeID)
+}
+
+// SetS1ScopeLevel sets the "s1_scope_level" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1ScopeLevel(s string) {
+	m.s1_scope_level = &s
+}
+
+// S1ScopeLevel returns the value of the "s1_scope_level" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1ScopeLevel() (r string, exists bool) {
+	v := m.s1_scope_level
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1ScopeLevel returns the old "s1_scope_level" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1ScopeLevel(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1ScopeLevel is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1ScopeLevel requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1ScopeLevel: %w", err)
+	}
+	return oldValue.S1ScopeLevel, nil
+}
+
+// ClearS1ScopeLevel clears the value of the "s1_scope_level" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1ScopeLevel() {
+	m.s1_scope_level = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1ScopeLevel] = struct{}{}
+}
+
+// S1ScopeLevelCleared returns if the "s1_scope_level" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1ScopeLevelCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1ScopeLevel]
+	return ok
+}
+
+// ResetS1ScopeLevel resets all changes to the "s1_scope_level" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1ScopeLevel() {
+	m.s1_scope_level = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1ScopeLevel)
+}
+
+// SetS1ScopePath sets the "s1_scope_path" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1ScopePath(s string) {
+	m.s1_scope_path = &s
+}
+
+// S1ScopePath returns the value of the "s1_scope_path" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1ScopePath() (r string, exists bool) {
+	v := m.s1_scope_path
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1ScopePath returns the old "s1_scope_path" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1ScopePath(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1ScopePath is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1ScopePath requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1ScopePath: %w", err)
+	}
+	return oldValue.S1ScopePath, nil
+}
+
+// ClearS1ScopePath clears the value of the "s1_scope_path" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1ScopePath() {
+	m.s1_scope_path = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1ScopePath] = struct{}{}
+}
+
+// S1ScopePathCleared returns if the "s1_scope_path" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1ScopePathCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1ScopePath]
+	return ok
+}
+
+// ResetS1ScopePath resets all changes to the "s1_scope_path" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1ScopePath() {
+	m.s1_scope_path = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1ScopePath)
+}
+
+// SetS1OnboardedAccountName sets the "s1_onboarded_account_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1OnboardedAccountName(s string) {
+	m.s1_onboarded_account_name = &s
+}
+
+// S1OnboardedAccountName returns the value of the "s1_onboarded_account_name" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1OnboardedAccountName() (r string, exists bool) {
+	v := m.s1_onboarded_account_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1OnboardedAccountName returns the old "s1_onboarded_account_name" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1OnboardedAccountName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1OnboardedAccountName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1OnboardedAccountName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1OnboardedAccountName: %w", err)
+	}
+	return oldValue.S1OnboardedAccountName, nil
+}
+
+// ClearS1OnboardedAccountName clears the value of the "s1_onboarded_account_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1OnboardedAccountName() {
+	m.s1_onboarded_account_name = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1OnboardedAccountName] = struct{}{}
+}
+
+// S1OnboardedAccountNameCleared returns if the "s1_onboarded_account_name" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1OnboardedAccountNameCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1OnboardedAccountName]
+	return ok
+}
+
+// ResetS1OnboardedAccountName resets all changes to the "s1_onboarded_account_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1OnboardedAccountName() {
+	m.s1_onboarded_account_name = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1OnboardedAccountName)
+}
+
+// SetS1OnboardedGroupName sets the "s1_onboarded_group_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1OnboardedGroupName(s string) {
+	m.s1_onboarded_group_name = &s
+}
+
+// S1OnboardedGroupName returns the value of the "s1_onboarded_group_name" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1OnboardedGroupName() (r string, exists bool) {
+	v := m.s1_onboarded_group_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1OnboardedGroupName returns the old "s1_onboarded_group_name" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1OnboardedGroupName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1OnboardedGroupName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1OnboardedGroupName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1OnboardedGroupName: %w", err)
+	}
+	return oldValue.S1OnboardedGroupName, nil
+}
+
+// ClearS1OnboardedGroupName clears the value of the "s1_onboarded_group_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1OnboardedGroupName() {
+	m.s1_onboarded_group_name = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1OnboardedGroupName] = struct{}{}
+}
+
+// S1OnboardedGroupNameCleared returns if the "s1_onboarded_group_name" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1OnboardedGroupNameCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1OnboardedGroupName]
+	return ok
+}
+
+// ResetS1OnboardedGroupName resets all changes to the "s1_onboarded_group_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1OnboardedGroupName() {
+	m.s1_onboarded_group_name = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1OnboardedGroupName)
+}
+
+// SetS1OnboardedSiteName sets the "s1_onboarded_site_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1OnboardedSiteName(s string) {
+	m.s1_onboarded_site_name = &s
+}
+
+// S1OnboardedSiteName returns the value of the "s1_onboarded_site_name" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1OnboardedSiteName() (r string, exists bool) {
+	v := m.s1_onboarded_site_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1OnboardedSiteName returns the old "s1_onboarded_site_name" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1OnboardedSiteName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1OnboardedSiteName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1OnboardedSiteName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1OnboardedSiteName: %w", err)
+	}
+	return oldValue.S1OnboardedSiteName, nil
+}
+
+// ClearS1OnboardedSiteName clears the value of the "s1_onboarded_site_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1OnboardedSiteName() {
+	m.s1_onboarded_site_name = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1OnboardedSiteName] = struct{}{}
+}
+
+// S1OnboardedSiteNameCleared returns if the "s1_onboarded_site_name" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1OnboardedSiteNameCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1OnboardedSiteName]
+	return ok
+}
+
+// ResetS1OnboardedSiteName resets all changes to the "s1_onboarded_site_name" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1OnboardedSiteName() {
+	m.s1_onboarded_site_name = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1OnboardedSiteName)
+}
+
+// SetS1OnboardedScopeLevel sets the "s1_onboarded_scope_level" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1OnboardedScopeLevel(s string) {
+	m.s1_onboarded_scope_level = &s
+}
+
+// S1OnboardedScopeLevel returns the value of the "s1_onboarded_scope_level" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1OnboardedScopeLevel() (r string, exists bool) {
+	v := m.s1_onboarded_scope_level
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1OnboardedScopeLevel returns the old "s1_onboarded_scope_level" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1OnboardedScopeLevel(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1OnboardedScopeLevel is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1OnboardedScopeLevel requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1OnboardedScopeLevel: %w", err)
+	}
+	return oldValue.S1OnboardedScopeLevel, nil
+}
+
+// ClearS1OnboardedScopeLevel clears the value of the "s1_onboarded_scope_level" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1OnboardedScopeLevel() {
+	m.s1_onboarded_scope_level = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1OnboardedScopeLevel] = struct{}{}
+}
+
+// S1OnboardedScopeLevelCleared returns if the "s1_onboarded_scope_level" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1OnboardedScopeLevelCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1OnboardedScopeLevel]
+	return ok
+}
+
+// ResetS1OnboardedScopeLevel resets all changes to the "s1_onboarded_scope_level" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1OnboardedScopeLevel() {
+	m.s1_onboarded_scope_level = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1OnboardedScopeLevel)
+}
+
+// SetS1OnboardedScopePath sets the "s1_onboarded_scope_path" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1OnboardedScopePath(s string) {
+	m.s1_onboarded_scope_path = &s
+}
+
+// S1OnboardedScopePath returns the value of the "s1_onboarded_scope_path" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1OnboardedScopePath() (r string, exists bool) {
+	v := m.s1_onboarded_scope_path
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1OnboardedScopePath returns the old "s1_onboarded_scope_path" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1OnboardedScopePath(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1OnboardedScopePath is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1OnboardedScopePath requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1OnboardedScopePath: %w", err)
+	}
+	return oldValue.S1OnboardedScopePath, nil
+}
+
+// ClearS1OnboardedScopePath clears the value of the "s1_onboarded_scope_path" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1OnboardedScopePath() {
+	m.s1_onboarded_scope_path = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1OnboardedScopePath] = struct{}{}
+}
+
+// S1OnboardedScopePathCleared returns if the "s1_onboarded_scope_path" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1OnboardedScopePathCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1OnboardedScopePath]
+	return ok
+}
+
+// ResetS1OnboardedScopePath resets all changes to the "s1_onboarded_scope_path" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1OnboardedScopePath() {
+	m.s1_onboarded_scope_path = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1OnboardedScopePath)
+}
+
+// SetMemory sets the "memory" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetMemory(i int) {
+	m.memory = &i
+	m.addmemory = nil
+}
+
+// Memory returns the value of the "memory" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) Memory() (r int, exists bool) {
+	v := m.memory
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMemory returns the old "memory" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldMemory(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMemory is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMemory requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMemory: %w", err)
+	}
+	return oldValue.Memory, nil
+}
+
+// AddMemory adds i to the "memory" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AddMemory(i int) {
+	if m.addmemory != nil {
+		*m.addmemory += i
+	} else {
+		m.addmemory = &i
+	}
+}
+
+// AddedMemory returns the value that was added to the "memory" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AddedMemory() (r int, exists bool) {
+	v := m.addmemory
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearMemory clears the value of the "memory" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearMemory() {
+	m.memory = nil
+	m.addmemory = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldMemory] = struct{}{}
+}
+
+// MemoryCleared returns if the "memory" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) MemoryCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldMemory]
+	return ok
+}
+
+// ResetMemory resets all changes to the "memory" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetMemory() {
+	m.memory = nil
+	m.addmemory = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldMemory)
+}
+
+// SetCoreCount sets the "core_count" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetCoreCount(i int) {
+	m.core_count = &i
+	m.addcore_count = nil
+}
+
+// CoreCount returns the value of the "core_count" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) CoreCount() (r int, exists bool) {
+	v := m.core_count
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCoreCount returns the old "core_count" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldCoreCount(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCoreCount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCoreCount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCoreCount: %w", err)
+	}
+	return oldValue.CoreCount, nil
+}
+
+// AddCoreCount adds i to the "core_count" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AddCoreCount(i int) {
+	if m.addcore_count != nil {
+		*m.addcore_count += i
+	} else {
+		m.addcore_count = &i
+	}
+}
+
+// AddedCoreCount returns the value that was added to the "core_count" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AddedCoreCount() (r int, exists bool) {
+	v := m.addcore_count
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearCoreCount clears the value of the "core_count" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearCoreCount() {
+	m.core_count = nil
+	m.addcore_count = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldCoreCount] = struct{}{}
+}
+
+// CoreCountCleared returns if the "core_count" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) CoreCountCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldCoreCount]
+	return ok
+}
+
+// ResetCoreCount resets all changes to the "core_count" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetCoreCount() {
+	m.core_count = nil
+	m.addcore_count = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldCoreCount)
+}
+
+// SetS1ManagementID sets the "s1_management_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1ManagementID(i int) {
+	m.s1_management_id = &i
+	m.adds1_management_id = nil
+}
+
+// S1ManagementID returns the value of the "s1_management_id" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1ManagementID() (r int, exists bool) {
+	v := m.s1_management_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1ManagementID returns the old "s1_management_id" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1ManagementID(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1ManagementID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1ManagementID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1ManagementID: %w", err)
+	}
+	return oldValue.S1ManagementID, nil
+}
+
+// AddS1ManagementID adds i to the "s1_management_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AddS1ManagementID(i int) {
+	if m.adds1_management_id != nil {
+		*m.adds1_management_id += i
+	} else {
+		m.adds1_management_id = &i
+	}
+}
+
+// AddedS1ManagementID returns the value that was added to the "s1_management_id" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AddedS1ManagementID() (r int, exists bool) {
+	v := m.adds1_management_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearS1ManagementID clears the value of the "s1_management_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1ManagementID() {
+	m.s1_management_id = nil
+	m.adds1_management_id = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1ManagementID] = struct{}{}
+}
+
+// S1ManagementIDCleared returns if the "s1_management_id" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1ManagementIDCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1ManagementID]
+	return ok
+}
+
+// ResetS1ManagementID resets all changes to the "s1_management_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1ManagementID() {
+	m.s1_management_id = nil
+	m.adds1_management_id = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1ManagementID)
+}
+
+// SetS1ScopeType sets the "s1_scope_type" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1ScopeType(i int) {
+	m.s1_scope_type = &i
+	m.adds1_scope_type = nil
+}
+
+// S1ScopeType returns the value of the "s1_scope_type" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1ScopeType() (r int, exists bool) {
+	v := m.s1_scope_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1ScopeType returns the old "s1_scope_type" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1ScopeType(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1ScopeType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1ScopeType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1ScopeType: %w", err)
+	}
+	return oldValue.S1ScopeType, nil
+}
+
+// AddS1ScopeType adds i to the "s1_scope_type" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AddS1ScopeType(i int) {
+	if m.adds1_scope_type != nil {
+		*m.adds1_scope_type += i
+	} else {
+		m.adds1_scope_type = &i
+	}
+}
+
+// AddedS1ScopeType returns the value that was added to the "s1_scope_type" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AddedS1ScopeType() (r int, exists bool) {
+	v := m.adds1_scope_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearS1ScopeType clears the value of the "s1_scope_type" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1ScopeType() {
+	m.s1_scope_type = nil
+	m.adds1_scope_type = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1ScopeType] = struct{}{}
+}
+
+// S1ScopeTypeCleared returns if the "s1_scope_type" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1ScopeTypeCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1ScopeType]
+	return ok
+}
+
+// ResetS1ScopeType resets all changes to the "s1_scope_type" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1ScopeType() {
+	m.s1_scope_type = nil
+	m.adds1_scope_type = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1ScopeType)
+}
+
+// SetS1OnboardedAccountID sets the "s1_onboarded_account_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1OnboardedAccountID(i int) {
+	m.s1_onboarded_account_id = &i
+	m.adds1_onboarded_account_id = nil
+}
+
+// S1OnboardedAccountID returns the value of the "s1_onboarded_account_id" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1OnboardedAccountID() (r int, exists bool) {
+	v := m.s1_onboarded_account_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1OnboardedAccountID returns the old "s1_onboarded_account_id" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1OnboardedAccountID(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1OnboardedAccountID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1OnboardedAccountID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1OnboardedAccountID: %w", err)
+	}
+	return oldValue.S1OnboardedAccountID, nil
+}
+
+// AddS1OnboardedAccountID adds i to the "s1_onboarded_account_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AddS1OnboardedAccountID(i int) {
+	if m.adds1_onboarded_account_id != nil {
+		*m.adds1_onboarded_account_id += i
+	} else {
+		m.adds1_onboarded_account_id = &i
+	}
+}
+
+// AddedS1OnboardedAccountID returns the value that was added to the "s1_onboarded_account_id" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AddedS1OnboardedAccountID() (r int, exists bool) {
+	v := m.adds1_onboarded_account_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearS1OnboardedAccountID clears the value of the "s1_onboarded_account_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1OnboardedAccountID() {
+	m.s1_onboarded_account_id = nil
+	m.adds1_onboarded_account_id = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1OnboardedAccountID] = struct{}{}
+}
+
+// S1OnboardedAccountIDCleared returns if the "s1_onboarded_account_id" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1OnboardedAccountIDCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1OnboardedAccountID]
+	return ok
+}
+
+// ResetS1OnboardedAccountID resets all changes to the "s1_onboarded_account_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1OnboardedAccountID() {
+	m.s1_onboarded_account_id = nil
+	m.adds1_onboarded_account_id = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1OnboardedAccountID)
+}
+
+// SetS1OnboardedGroupID sets the "s1_onboarded_group_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1OnboardedGroupID(i int) {
+	m.s1_onboarded_group_id = &i
+	m.adds1_onboarded_group_id = nil
+}
+
+// S1OnboardedGroupID returns the value of the "s1_onboarded_group_id" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1OnboardedGroupID() (r int, exists bool) {
+	v := m.s1_onboarded_group_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1OnboardedGroupID returns the old "s1_onboarded_group_id" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1OnboardedGroupID(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1OnboardedGroupID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1OnboardedGroupID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1OnboardedGroupID: %w", err)
+	}
+	return oldValue.S1OnboardedGroupID, nil
+}
+
+// AddS1OnboardedGroupID adds i to the "s1_onboarded_group_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AddS1OnboardedGroupID(i int) {
+	if m.adds1_onboarded_group_id != nil {
+		*m.adds1_onboarded_group_id += i
+	} else {
+		m.adds1_onboarded_group_id = &i
+	}
+}
+
+// AddedS1OnboardedGroupID returns the value that was added to the "s1_onboarded_group_id" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AddedS1OnboardedGroupID() (r int, exists bool) {
+	v := m.adds1_onboarded_group_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearS1OnboardedGroupID clears the value of the "s1_onboarded_group_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1OnboardedGroupID() {
+	m.s1_onboarded_group_id = nil
+	m.adds1_onboarded_group_id = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1OnboardedGroupID] = struct{}{}
+}
+
+// S1OnboardedGroupIDCleared returns if the "s1_onboarded_group_id" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1OnboardedGroupIDCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1OnboardedGroupID]
+	return ok
+}
+
+// ResetS1OnboardedGroupID resets all changes to the "s1_onboarded_group_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1OnboardedGroupID() {
+	m.s1_onboarded_group_id = nil
+	m.adds1_onboarded_group_id = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1OnboardedGroupID)
+}
+
+// SetS1OnboardedScopeID sets the "s1_onboarded_scope_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1OnboardedScopeID(i int) {
+	m.s1_onboarded_scope_id = &i
+	m.adds1_onboarded_scope_id = nil
+}
+
+// S1OnboardedScopeID returns the value of the "s1_onboarded_scope_id" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1OnboardedScopeID() (r int, exists bool) {
+	v := m.s1_onboarded_scope_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1OnboardedScopeID returns the old "s1_onboarded_scope_id" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1OnboardedScopeID(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1OnboardedScopeID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1OnboardedScopeID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1OnboardedScopeID: %w", err)
+	}
+	return oldValue.S1OnboardedScopeID, nil
+}
+
+// AddS1OnboardedScopeID adds i to the "s1_onboarded_scope_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AddS1OnboardedScopeID(i int) {
+	if m.adds1_onboarded_scope_id != nil {
+		*m.adds1_onboarded_scope_id += i
+	} else {
+		m.adds1_onboarded_scope_id = &i
+	}
+}
+
+// AddedS1OnboardedScopeID returns the value that was added to the "s1_onboarded_scope_id" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AddedS1OnboardedScopeID() (r int, exists bool) {
+	v := m.adds1_onboarded_scope_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearS1OnboardedScopeID clears the value of the "s1_onboarded_scope_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1OnboardedScopeID() {
+	m.s1_onboarded_scope_id = nil
+	m.adds1_onboarded_scope_id = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1OnboardedScopeID] = struct{}{}
+}
+
+// S1OnboardedScopeIDCleared returns if the "s1_onboarded_scope_id" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1OnboardedScopeIDCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1OnboardedScopeID]
+	return ok
+}
+
+// ResetS1OnboardedScopeID resets all changes to the "s1_onboarded_scope_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1OnboardedScopeID() {
+	m.s1_onboarded_scope_id = nil
+	m.adds1_onboarded_scope_id = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1OnboardedScopeID)
+}
+
+// SetS1OnboardedSiteID sets the "s1_onboarded_site_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1OnboardedSiteID(i int) {
+	m.s1_onboarded_site_id = &i
+	m.adds1_onboarded_site_id = nil
+}
+
+// S1OnboardedSiteID returns the value of the "s1_onboarded_site_id" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1OnboardedSiteID() (r int, exists bool) {
+	v := m.s1_onboarded_site_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1OnboardedSiteID returns the old "s1_onboarded_site_id" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1OnboardedSiteID(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1OnboardedSiteID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1OnboardedSiteID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1OnboardedSiteID: %w", err)
+	}
+	return oldValue.S1OnboardedSiteID, nil
+}
+
+// AddS1OnboardedSiteID adds i to the "s1_onboarded_site_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AddS1OnboardedSiteID(i int) {
+	if m.adds1_onboarded_site_id != nil {
+		*m.adds1_onboarded_site_id += i
+	} else {
+		m.adds1_onboarded_site_id = &i
+	}
+}
+
+// AddedS1OnboardedSiteID returns the value that was added to the "s1_onboarded_site_id" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AddedS1OnboardedSiteID() (r int, exists bool) {
+	v := m.adds1_onboarded_site_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearS1OnboardedSiteID clears the value of the "s1_onboarded_site_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1OnboardedSiteID() {
+	m.s1_onboarded_site_id = nil
+	m.adds1_onboarded_site_id = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1OnboardedSiteID] = struct{}{}
+}
+
+// S1OnboardedSiteIDCleared returns if the "s1_onboarded_site_id" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1OnboardedSiteIDCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1OnboardedSiteID]
+	return ok
+}
+
+// ResetS1OnboardedSiteID resets all changes to the "s1_onboarded_site_id" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1OnboardedSiteID() {
+	m.s1_onboarded_site_id = nil
+	m.adds1_onboarded_site_id = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1OnboardedSiteID)
+}
+
+// SetIsAdConnector sets the "is_ad_connector" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetIsAdConnector(b bool) {
+	m.is_ad_connector = &b
+}
+
+// IsAdConnector returns the value of the "is_ad_connector" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) IsAdConnector() (r bool, exists bool) {
+	v := m.is_ad_connector
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsAdConnector returns the old "is_ad_connector" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldIsAdConnector(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsAdConnector is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsAdConnector requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsAdConnector: %w", err)
+	}
+	return oldValue.IsAdConnector, nil
+}
+
+// ResetIsAdConnector resets all changes to the "is_ad_connector" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetIsAdConnector() {
+	m.is_ad_connector = nil
+}
+
+// SetIsDcServer sets the "is_dc_server" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetIsDcServer(b bool) {
+	m.is_dc_server = &b
+}
+
+// IsDcServer returns the value of the "is_dc_server" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) IsDcServer() (r bool, exists bool) {
+	v := m.is_dc_server
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsDcServer returns the old "is_dc_server" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldIsDcServer(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsDcServer is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsDcServer requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsDcServer: %w", err)
+	}
+	return oldValue.IsDcServer, nil
+}
+
+// ResetIsDcServer resets all changes to the "is_dc_server" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetIsDcServer() {
+	m.is_dc_server = nil
+}
+
+// SetAdsEnabled sets the "ads_enabled" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetAdsEnabled(b bool) {
+	m.ads_enabled = &b
+}
+
+// AdsEnabled returns the value of the "ads_enabled" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AdsEnabled() (r bool, exists bool) {
+	v := m.ads_enabled
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAdsEnabled returns the old "ads_enabled" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldAdsEnabled(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAdsEnabled is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAdsEnabled requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAdsEnabled: %w", err)
+	}
+	return oldValue.AdsEnabled, nil
+}
+
+// ResetAdsEnabled resets all changes to the "ads_enabled" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetAdsEnabled() {
+	m.ads_enabled = nil
+}
+
+// SetFirstSeenDt sets the "first_seen_dt" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetFirstSeenDt(t time.Time) {
+	m.first_seen_dt = &t
+}
+
+// FirstSeenDt returns the value of the "first_seen_dt" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) FirstSeenDt() (r time.Time, exists bool) {
+	v := m.first_seen_dt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFirstSeenDt returns the old "first_seen_dt" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldFirstSeenDt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFirstSeenDt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFirstSeenDt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFirstSeenDt: %w", err)
+	}
+	return oldValue.FirstSeenDt, nil
+}
+
+// ClearFirstSeenDt clears the value of the "first_seen_dt" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearFirstSeenDt() {
+	m.first_seen_dt = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldFirstSeenDt] = struct{}{}
+}
+
+// FirstSeenDtCleared returns if the "first_seen_dt" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) FirstSeenDtCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldFirstSeenDt]
+	return ok
+}
+
+// ResetFirstSeenDt resets all changes to the "first_seen_dt" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetFirstSeenDt() {
+	m.first_seen_dt = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldFirstSeenDt)
+}
+
+// SetLastUpdateDt sets the "last_update_dt" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetLastUpdateDt(t time.Time) {
+	m.last_update_dt = &t
+}
+
+// LastUpdateDt returns the value of the "last_update_dt" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) LastUpdateDt() (r time.Time, exists bool) {
+	v := m.last_update_dt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLastUpdateDt returns the old "last_update_dt" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldLastUpdateDt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLastUpdateDt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLastUpdateDt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLastUpdateDt: %w", err)
+	}
+	return oldValue.LastUpdateDt, nil
+}
+
+// ClearLastUpdateDt clears the value of the "last_update_dt" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearLastUpdateDt() {
+	m.last_update_dt = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldLastUpdateDt] = struct{}{}
+}
+
+// LastUpdateDtCleared returns if the "last_update_dt" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) LastUpdateDtCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldLastUpdateDt]
+	return ok
+}
+
+// ResetLastUpdateDt resets all changes to the "last_update_dt" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetLastUpdateDt() {
+	m.last_update_dt = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldLastUpdateDt)
+}
+
+// SetLastActiveDt sets the "last_active_dt" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetLastActiveDt(t time.Time) {
+	m.last_active_dt = &t
+}
+
+// LastActiveDt returns the value of the "last_active_dt" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) LastActiveDt() (r time.Time, exists bool) {
+	v := m.last_active_dt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLastActiveDt returns the old "last_active_dt" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldLastActiveDt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLastActiveDt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLastActiveDt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLastActiveDt: %w", err)
+	}
+	return oldValue.LastActiveDt, nil
+}
+
+// ClearLastActiveDt clears the value of the "last_active_dt" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearLastActiveDt() {
+	m.last_active_dt = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldLastActiveDt] = struct{}{}
+}
+
+// LastActiveDtCleared returns if the "last_active_dt" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) LastActiveDtCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldLastActiveDt]
+	return ok
+}
+
+// ResetLastActiveDt resets all changes to the "last_active_dt" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetLastActiveDt() {
+	m.last_active_dt = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldLastActiveDt)
+}
+
+// SetLastRebootDt sets the "last_reboot_dt" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetLastRebootDt(t time.Time) {
+	m.last_reboot_dt = &t
+}
+
+// LastRebootDt returns the value of the "last_reboot_dt" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) LastRebootDt() (r time.Time, exists bool) {
+	v := m.last_reboot_dt
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLastRebootDt returns the old "last_reboot_dt" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldLastRebootDt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLastRebootDt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLastRebootDt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLastRebootDt: %w", err)
+	}
+	return oldValue.LastRebootDt, nil
+}
+
+// ClearLastRebootDt clears the value of the "last_reboot_dt" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearLastRebootDt() {
+	m.last_reboot_dt = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldLastRebootDt] = struct{}{}
+}
+
+// LastRebootDtCleared returns if the "last_reboot_dt" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) LastRebootDtCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldLastRebootDt]
+	return ok
+}
+
+// ResetLastRebootDt resets all changes to the "last_reboot_dt" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetLastRebootDt() {
+	m.last_reboot_dt = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldLastRebootDt)
+}
+
+// SetS1UpdatedAt sets the "s1_updated_at" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetS1UpdatedAt(t time.Time) {
+	m.s1_updated_at = &t
+}
+
+// S1UpdatedAt returns the value of the "s1_updated_at" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1UpdatedAt() (r time.Time, exists bool) {
+	v := m.s1_updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldS1UpdatedAt returns the old "s1_updated_at" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldS1UpdatedAt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldS1UpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldS1UpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldS1UpdatedAt: %w", err)
+	}
+	return oldValue.S1UpdatedAt, nil
+}
+
+// ClearS1UpdatedAt clears the value of the "s1_updated_at" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearS1UpdatedAt() {
+	m.s1_updated_at = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldS1UpdatedAt] = struct{}{}
+}
+
+// S1UpdatedAtCleared returns if the "s1_updated_at" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) S1UpdatedAtCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldS1UpdatedAt]
+	return ok
+}
+
+// ResetS1UpdatedAt resets all changes to the "s1_updated_at" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetS1UpdatedAt() {
+	m.s1_updated_at = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldS1UpdatedAt)
+}
+
+// SetAgentJSON sets the "agent_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetAgentJSON(jm json.RawMessage) {
+	m.agent_json = &jm
+	m.appendagent_json = nil
+}
+
+// AgentJSON returns the value of the "agent_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AgentJSON() (r json.RawMessage, exists bool) {
+	v := m.agent_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAgentJSON returns the old "agent_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldAgentJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAgentJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAgentJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAgentJSON: %w", err)
+	}
+	return oldValue.AgentJSON, nil
+}
+
+// AppendAgentJSON adds jm to the "agent_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendAgentJSON(jm json.RawMessage) {
+	m.appendagent_json = append(m.appendagent_json, jm...)
+}
+
+// AppendedAgentJSON returns the list of values that were appended to the "agent_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedAgentJSON() (json.RawMessage, bool) {
+	if len(m.appendagent_json) == 0 {
+		return nil, false
+	}
+	return m.appendagent_json, true
+}
+
+// ClearAgentJSON clears the value of the "agent_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearAgentJSON() {
+	m.agent_json = nil
+	m.appendagent_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldAgentJSON] = struct{}{}
+}
+
+// AgentJSONCleared returns if the "agent_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AgentJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldAgentJSON]
+	return ok
+}
+
+// ResetAgentJSON resets all changes to the "agent_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetAgentJSON() {
+	m.agent_json = nil
+	m.appendagent_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldAgentJSON)
+}
+
+// SetNetworkInterfacesJSON sets the "network_interfaces_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetNetworkInterfacesJSON(jm json.RawMessage) {
+	m.network_interfaces_json = &jm
+	m.appendnetwork_interfaces_json = nil
+}
+
+// NetworkInterfacesJSON returns the value of the "network_interfaces_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) NetworkInterfacesJSON() (r json.RawMessage, exists bool) {
+	v := m.network_interfaces_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldNetworkInterfacesJSON returns the old "network_interfaces_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldNetworkInterfacesJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldNetworkInterfacesJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldNetworkInterfacesJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldNetworkInterfacesJSON: %w", err)
+	}
+	return oldValue.NetworkInterfacesJSON, nil
+}
+
+// AppendNetworkInterfacesJSON adds jm to the "network_interfaces_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendNetworkInterfacesJSON(jm json.RawMessage) {
+	m.appendnetwork_interfaces_json = append(m.appendnetwork_interfaces_json, jm...)
+}
+
+// AppendedNetworkInterfacesJSON returns the list of values that were appended to the "network_interfaces_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedNetworkInterfacesJSON() (json.RawMessage, bool) {
+	if len(m.appendnetwork_interfaces_json) == 0 {
+		return nil, false
+	}
+	return m.appendnetwork_interfaces_json, true
+}
+
+// ClearNetworkInterfacesJSON clears the value of the "network_interfaces_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearNetworkInterfacesJSON() {
+	m.network_interfaces_json = nil
+	m.appendnetwork_interfaces_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldNetworkInterfacesJSON] = struct{}{}
+}
+
+// NetworkInterfacesJSONCleared returns if the "network_interfaces_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) NetworkInterfacesJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldNetworkInterfacesJSON]
+	return ok
+}
+
+// ResetNetworkInterfacesJSON resets all changes to the "network_interfaces_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetNetworkInterfacesJSON() {
+	m.network_interfaces_json = nil
+	m.appendnetwork_interfaces_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldNetworkInterfacesJSON)
+}
+
+// SetAlertsJSON sets the "alerts_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetAlertsJSON(jm json.RawMessage) {
+	m.alerts_json = &jm
+	m.appendalerts_json = nil
+}
+
+// AlertsJSON returns the value of the "alerts_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AlertsJSON() (r json.RawMessage, exists bool) {
+	v := m.alerts_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAlertsJSON returns the old "alerts_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldAlertsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAlertsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAlertsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAlertsJSON: %w", err)
+	}
+	return oldValue.AlertsJSON, nil
+}
+
+// AppendAlertsJSON adds jm to the "alerts_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendAlertsJSON(jm json.RawMessage) {
+	m.appendalerts_json = append(m.appendalerts_json, jm...)
+}
+
+// AppendedAlertsJSON returns the list of values that were appended to the "alerts_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedAlertsJSON() (json.RawMessage, bool) {
+	if len(m.appendalerts_json) == 0 {
+		return nil, false
+	}
+	return m.appendalerts_json, true
+}
+
+// ClearAlertsJSON clears the value of the "alerts_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearAlertsJSON() {
+	m.alerts_json = nil
+	m.appendalerts_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldAlertsJSON] = struct{}{}
+}
+
+// AlertsJSONCleared returns if the "alerts_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AlertsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldAlertsJSON]
+	return ok
+}
+
+// ResetAlertsJSON resets all changes to the "alerts_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetAlertsJSON() {
+	m.alerts_json = nil
+	m.appendalerts_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldAlertsJSON)
+}
+
+// SetAlertsCountJSON sets the "alerts_count_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetAlertsCountJSON(jm json.RawMessage) {
+	m.alerts_count_json = &jm
+	m.appendalerts_count_json = nil
+}
+
+// AlertsCountJSON returns the value of the "alerts_count_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AlertsCountJSON() (r json.RawMessage, exists bool) {
+	v := m.alerts_count_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAlertsCountJSON returns the old "alerts_count_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldAlertsCountJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAlertsCountJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAlertsCountJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAlertsCountJSON: %w", err)
+	}
+	return oldValue.AlertsCountJSON, nil
+}
+
+// AppendAlertsCountJSON adds jm to the "alerts_count_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendAlertsCountJSON(jm json.RawMessage) {
+	m.appendalerts_count_json = append(m.appendalerts_count_json, jm...)
+}
+
+// AppendedAlertsCountJSON returns the list of values that were appended to the "alerts_count_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedAlertsCountJSON() (json.RawMessage, bool) {
+	if len(m.appendalerts_count_json) == 0 {
+		return nil, false
+	}
+	return m.appendalerts_count_json, true
+}
+
+// ClearAlertsCountJSON clears the value of the "alerts_count_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearAlertsCountJSON() {
+	m.alerts_count_json = nil
+	m.appendalerts_count_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldAlertsCountJSON] = struct{}{}
+}
+
+// AlertsCountJSONCleared returns if the "alerts_count_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AlertsCountJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldAlertsCountJSON]
+	return ok
+}
+
+// ResetAlertsCountJSON resets all changes to the "alerts_count_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetAlertsCountJSON() {
+	m.alerts_count_json = nil
+	m.appendalerts_count_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldAlertsCountJSON)
+}
+
+// SetDeviceReviewLogJSON sets the "device_review_log_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetDeviceReviewLogJSON(jm json.RawMessage) {
+	m.device_review_log_json = &jm
+	m.appenddevice_review_log_json = nil
+}
+
+// DeviceReviewLogJSON returns the value of the "device_review_log_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) DeviceReviewLogJSON() (r json.RawMessage, exists bool) {
+	v := m.device_review_log_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeviceReviewLogJSON returns the old "device_review_log_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldDeviceReviewLogJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeviceReviewLogJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeviceReviewLogJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeviceReviewLogJSON: %w", err)
+	}
+	return oldValue.DeviceReviewLogJSON, nil
+}
+
+// AppendDeviceReviewLogJSON adds jm to the "device_review_log_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendDeviceReviewLogJSON(jm json.RawMessage) {
+	m.appenddevice_review_log_json = append(m.appenddevice_review_log_json, jm...)
+}
+
+// AppendedDeviceReviewLogJSON returns the list of values that were appended to the "device_review_log_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedDeviceReviewLogJSON() (json.RawMessage, bool) {
+	if len(m.appenddevice_review_log_json) == 0 {
+		return nil, false
+	}
+	return m.appenddevice_review_log_json, true
+}
+
+// ClearDeviceReviewLogJSON clears the value of the "device_review_log_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearDeviceReviewLogJSON() {
+	m.device_review_log_json = nil
+	m.appenddevice_review_log_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldDeviceReviewLogJSON] = struct{}{}
+}
+
+// DeviceReviewLogJSONCleared returns if the "device_review_log_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) DeviceReviewLogJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldDeviceReviewLogJSON]
+	return ok
+}
+
+// ResetDeviceReviewLogJSON resets all changes to the "device_review_log_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetDeviceReviewLogJSON() {
+	m.device_review_log_json = nil
+	m.appenddevice_review_log_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldDeviceReviewLogJSON)
+}
+
+// SetIdentityJSON sets the "identity_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetIdentityJSON(jm json.RawMessage) {
+	m.identity_json = &jm
+	m.appendidentity_json = nil
+}
+
+// IdentityJSON returns the value of the "identity_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) IdentityJSON() (r json.RawMessage, exists bool) {
+	v := m.identity_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIdentityJSON returns the old "identity_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldIdentityJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIdentityJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIdentityJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIdentityJSON: %w", err)
+	}
+	return oldValue.IdentityJSON, nil
+}
+
+// AppendIdentityJSON adds jm to the "identity_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendIdentityJSON(jm json.RawMessage) {
+	m.appendidentity_json = append(m.appendidentity_json, jm...)
+}
+
+// AppendedIdentityJSON returns the list of values that were appended to the "identity_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedIdentityJSON() (json.RawMessage, bool) {
+	if len(m.appendidentity_json) == 0 {
+		return nil, false
+	}
+	return m.appendidentity_json, true
+}
+
+// ClearIdentityJSON clears the value of the "identity_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearIdentityJSON() {
+	m.identity_json = nil
+	m.appendidentity_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldIdentityJSON] = struct{}{}
+}
+
+// IdentityJSONCleared returns if the "identity_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) IdentityJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldIdentityJSON]
+	return ok
+}
+
+// ResetIdentityJSON resets all changes to the "identity_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetIdentityJSON() {
+	m.identity_json = nil
+	m.appendidentity_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldIdentityJSON)
+}
+
+// SetNotesJSON sets the "notes_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetNotesJSON(jm json.RawMessage) {
+	m.notes_json = &jm
+	m.appendnotes_json = nil
+}
+
+// NotesJSON returns the value of the "notes_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) NotesJSON() (r json.RawMessage, exists bool) {
+	v := m.notes_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldNotesJSON returns the old "notes_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldNotesJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldNotesJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldNotesJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldNotesJSON: %w", err)
+	}
+	return oldValue.NotesJSON, nil
+}
+
+// AppendNotesJSON adds jm to the "notes_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendNotesJSON(jm json.RawMessage) {
+	m.appendnotes_json = append(m.appendnotes_json, jm...)
+}
+
+// AppendedNotesJSON returns the list of values that were appended to the "notes_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedNotesJSON() (json.RawMessage, bool) {
+	if len(m.appendnotes_json) == 0 {
+		return nil, false
+	}
+	return m.appendnotes_json, true
+}
+
+// ClearNotesJSON clears the value of the "notes_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearNotesJSON() {
+	m.notes_json = nil
+	m.appendnotes_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldNotesJSON] = struct{}{}
+}
+
+// NotesJSONCleared returns if the "notes_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) NotesJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldNotesJSON]
+	return ok
+}
+
+// ResetNotesJSON resets all changes to the "notes_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetNotesJSON() {
+	m.notes_json = nil
+	m.appendnotes_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldNotesJSON)
+}
+
+// SetTagsJSON sets the "tags_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetTagsJSON(jm json.RawMessage) {
+	m.tags_json = &jm
+	m.appendtags_json = nil
+}
+
+// TagsJSON returns the value of the "tags_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) TagsJSON() (r json.RawMessage, exists bool) {
+	v := m.tags_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTagsJSON returns the old "tags_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldTagsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTagsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTagsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTagsJSON: %w", err)
+	}
+	return oldValue.TagsJSON, nil
+}
+
+// AppendTagsJSON adds jm to the "tags_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendTagsJSON(jm json.RawMessage) {
+	m.appendtags_json = append(m.appendtags_json, jm...)
+}
+
+// AppendedTagsJSON returns the list of values that were appended to the "tags_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedTagsJSON() (json.RawMessage, bool) {
+	if len(m.appendtags_json) == 0 {
+		return nil, false
+	}
+	return m.appendtags_json, true
+}
+
+// ClearTagsJSON clears the value of the "tags_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearTagsJSON() {
+	m.tags_json = nil
+	m.appendtags_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldTagsJSON] = struct{}{}
+}
+
+// TagsJSONCleared returns if the "tags_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) TagsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldTagsJSON]
+	return ok
+}
+
+// ResetTagsJSON resets all changes to the "tags_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetTagsJSON() {
+	m.tags_json = nil
+	m.appendtags_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldTagsJSON)
+}
+
+// SetMissingCoverageJSON sets the "missing_coverage_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetMissingCoverageJSON(jm json.RawMessage) {
+	m.missing_coverage_json = &jm
+	m.appendmissing_coverage_json = nil
+}
+
+// MissingCoverageJSON returns the value of the "missing_coverage_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) MissingCoverageJSON() (r json.RawMessage, exists bool) {
+	v := m.missing_coverage_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMissingCoverageJSON returns the old "missing_coverage_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldMissingCoverageJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMissingCoverageJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMissingCoverageJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMissingCoverageJSON: %w", err)
+	}
+	return oldValue.MissingCoverageJSON, nil
+}
+
+// AppendMissingCoverageJSON adds jm to the "missing_coverage_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendMissingCoverageJSON(jm json.RawMessage) {
+	m.appendmissing_coverage_json = append(m.appendmissing_coverage_json, jm...)
+}
+
+// AppendedMissingCoverageJSON returns the list of values that were appended to the "missing_coverage_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedMissingCoverageJSON() (json.RawMessage, bool) {
+	if len(m.appendmissing_coverage_json) == 0 {
+		return nil, false
+	}
+	return m.appendmissing_coverage_json, true
+}
+
+// ClearMissingCoverageJSON clears the value of the "missing_coverage_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearMissingCoverageJSON() {
+	m.missing_coverage_json = nil
+	m.appendmissing_coverage_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldMissingCoverageJSON] = struct{}{}
+}
+
+// MissingCoverageJSONCleared returns if the "missing_coverage_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) MissingCoverageJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldMissingCoverageJSON]
+	return ok
+}
+
+// ResetMissingCoverageJSON resets all changes to the "missing_coverage_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetMissingCoverageJSON() {
+	m.missing_coverage_json = nil
+	m.appendmissing_coverage_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldMissingCoverageJSON)
+}
+
+// SetSubnetsJSON sets the "subnets_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetSubnetsJSON(jm json.RawMessage) {
+	m.subnets_json = &jm
+	m.appendsubnets_json = nil
+}
+
+// SubnetsJSON returns the value of the "subnets_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) SubnetsJSON() (r json.RawMessage, exists bool) {
+	v := m.subnets_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSubnetsJSON returns the old "subnets_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldSubnetsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSubnetsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSubnetsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSubnetsJSON: %w", err)
+	}
+	return oldValue.SubnetsJSON, nil
+}
+
+// AppendSubnetsJSON adds jm to the "subnets_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendSubnetsJSON(jm json.RawMessage) {
+	m.appendsubnets_json = append(m.appendsubnets_json, jm...)
+}
+
+// AppendedSubnetsJSON returns the list of values that were appended to the "subnets_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedSubnetsJSON() (json.RawMessage, bool) {
+	if len(m.appendsubnets_json) == 0 {
+		return nil, false
+	}
+	return m.appendsubnets_json, true
+}
+
+// ClearSubnetsJSON clears the value of the "subnets_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearSubnetsJSON() {
+	m.subnets_json = nil
+	m.appendsubnets_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldSubnetsJSON] = struct{}{}
+}
+
+// SubnetsJSONCleared returns if the "subnets_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) SubnetsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldSubnetsJSON]
+	return ok
+}
+
+// ResetSubnetsJSON resets all changes to the "subnets_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetSubnetsJSON() {
+	m.subnets_json = nil
+	m.appendsubnets_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldSubnetsJSON)
+}
+
+// SetSurfacesJSON sets the "surfaces_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetSurfacesJSON(jm json.RawMessage) {
+	m.surfaces_json = &jm
+	m.appendsurfaces_json = nil
+}
+
+// SurfacesJSON returns the value of the "surfaces_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) SurfacesJSON() (r json.RawMessage, exists bool) {
+	v := m.surfaces_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSurfacesJSON returns the old "surfaces_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldSurfacesJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSurfacesJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSurfacesJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSurfacesJSON: %w", err)
+	}
+	return oldValue.SurfacesJSON, nil
+}
+
+// AppendSurfacesJSON adds jm to the "surfaces_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendSurfacesJSON(jm json.RawMessage) {
+	m.appendsurfaces_json = append(m.appendsurfaces_json, jm...)
+}
+
+// AppendedSurfacesJSON returns the list of values that were appended to the "surfaces_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedSurfacesJSON() (json.RawMessage, bool) {
+	if len(m.appendsurfaces_json) == 0 {
+		return nil, false
+	}
+	return m.appendsurfaces_json, true
+}
+
+// ClearSurfacesJSON clears the value of the "surfaces_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearSurfacesJSON() {
+	m.surfaces_json = nil
+	m.appendsurfaces_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldSurfacesJSON] = struct{}{}
+}
+
+// SurfacesJSONCleared returns if the "surfaces_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) SurfacesJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldSurfacesJSON]
+	return ok
+}
+
+// ResetSurfacesJSON resets all changes to the "surfaces_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetSurfacesJSON() {
+	m.surfaces_json = nil
+	m.appendsurfaces_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldSurfacesJSON)
+}
+
+// SetNetworkNamesJSON sets the "network_names_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetNetworkNamesJSON(jm json.RawMessage) {
+	m.network_names_json = &jm
+	m.appendnetwork_names_json = nil
+}
+
+// NetworkNamesJSON returns the value of the "network_names_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) NetworkNamesJSON() (r json.RawMessage, exists bool) {
+	v := m.network_names_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldNetworkNamesJSON returns the old "network_names_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldNetworkNamesJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldNetworkNamesJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldNetworkNamesJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldNetworkNamesJSON: %w", err)
+	}
+	return oldValue.NetworkNamesJSON, nil
+}
+
+// AppendNetworkNamesJSON adds jm to the "network_names_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendNetworkNamesJSON(jm json.RawMessage) {
+	m.appendnetwork_names_json = append(m.appendnetwork_names_json, jm...)
+}
+
+// AppendedNetworkNamesJSON returns the list of values that were appended to the "network_names_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedNetworkNamesJSON() (json.RawMessage, bool) {
+	if len(m.appendnetwork_names_json) == 0 {
+		return nil, false
+	}
+	return m.appendnetwork_names_json, true
+}
+
+// ClearNetworkNamesJSON clears the value of the "network_names_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearNetworkNamesJSON() {
+	m.network_names_json = nil
+	m.appendnetwork_names_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldNetworkNamesJSON] = struct{}{}
+}
+
+// NetworkNamesJSONCleared returns if the "network_names_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) NetworkNamesJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldNetworkNamesJSON]
+	return ok
+}
+
+// ResetNetworkNamesJSON resets all changes to the "network_names_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetNetworkNamesJSON() {
+	m.network_names_json = nil
+	m.appendnetwork_names_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldNetworkNamesJSON)
+}
+
+// SetRiskFactorsJSON sets the "risk_factors_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetRiskFactorsJSON(jm json.RawMessage) {
+	m.risk_factors_json = &jm
+	m.appendrisk_factors_json = nil
+}
+
+// RiskFactorsJSON returns the value of the "risk_factors_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) RiskFactorsJSON() (r json.RawMessage, exists bool) {
+	v := m.risk_factors_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRiskFactorsJSON returns the old "risk_factors_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldRiskFactorsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRiskFactorsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRiskFactorsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRiskFactorsJSON: %w", err)
+	}
+	return oldValue.RiskFactorsJSON, nil
+}
+
+// AppendRiskFactorsJSON adds jm to the "risk_factors_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendRiskFactorsJSON(jm json.RawMessage) {
+	m.appendrisk_factors_json = append(m.appendrisk_factors_json, jm...)
+}
+
+// AppendedRiskFactorsJSON returns the list of values that were appended to the "risk_factors_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedRiskFactorsJSON() (json.RawMessage, bool) {
+	if len(m.appendrisk_factors_json) == 0 {
+		return nil, false
+	}
+	return m.appendrisk_factors_json, true
+}
+
+// ClearRiskFactorsJSON clears the value of the "risk_factors_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearRiskFactorsJSON() {
+	m.risk_factors_json = nil
+	m.appendrisk_factors_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldRiskFactorsJSON] = struct{}{}
+}
+
+// RiskFactorsJSONCleared returns if the "risk_factors_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) RiskFactorsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldRiskFactorsJSON]
+	return ok
+}
+
+// ResetRiskFactorsJSON resets all changes to the "risk_factors_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetRiskFactorsJSON() {
+	m.risk_factors_json = nil
+	m.appendrisk_factors_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldRiskFactorsJSON)
+}
+
+// SetActiveCoverageJSON sets the "active_coverage_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetActiveCoverageJSON(jm json.RawMessage) {
+	m.active_coverage_json = &jm
+	m.appendactive_coverage_json = nil
+}
+
+// ActiveCoverageJSON returns the value of the "active_coverage_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) ActiveCoverageJSON() (r json.RawMessage, exists bool) {
+	v := m.active_coverage_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldActiveCoverageJSON returns the old "active_coverage_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldActiveCoverageJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldActiveCoverageJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldActiveCoverageJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldActiveCoverageJSON: %w", err)
+	}
+	return oldValue.ActiveCoverageJSON, nil
+}
+
+// AppendActiveCoverageJSON adds jm to the "active_coverage_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendActiveCoverageJSON(jm json.RawMessage) {
+	m.appendactive_coverage_json = append(m.appendactive_coverage_json, jm...)
+}
+
+// AppendedActiveCoverageJSON returns the list of values that were appended to the "active_coverage_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedActiveCoverageJSON() (json.RawMessage, bool) {
+	if len(m.appendactive_coverage_json) == 0 {
+		return nil, false
+	}
+	return m.appendactive_coverage_json, true
+}
+
+// ClearActiveCoverageJSON clears the value of the "active_coverage_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearActiveCoverageJSON() {
+	m.active_coverage_json = nil
+	m.appendactive_coverage_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldActiveCoverageJSON] = struct{}{}
+}
+
+// ActiveCoverageJSONCleared returns if the "active_coverage_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) ActiveCoverageJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldActiveCoverageJSON]
+	return ok
+}
+
+// ResetActiveCoverageJSON resets all changes to the "active_coverage_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetActiveCoverageJSON() {
+	m.active_coverage_json = nil
+	m.appendactive_coverage_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldActiveCoverageJSON)
+}
+
+// SetDiscoveryMethodsJSON sets the "discovery_methods_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetDiscoveryMethodsJSON(jm json.RawMessage) {
+	m.discovery_methods_json = &jm
+	m.appenddiscovery_methods_json = nil
+}
+
+// DiscoveryMethodsJSON returns the value of the "discovery_methods_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) DiscoveryMethodsJSON() (r json.RawMessage, exists bool) {
+	v := m.discovery_methods_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDiscoveryMethodsJSON returns the old "discovery_methods_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldDiscoveryMethodsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDiscoveryMethodsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDiscoveryMethodsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDiscoveryMethodsJSON: %w", err)
+	}
+	return oldValue.DiscoveryMethodsJSON, nil
+}
+
+// AppendDiscoveryMethodsJSON adds jm to the "discovery_methods_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendDiscoveryMethodsJSON(jm json.RawMessage) {
+	m.appenddiscovery_methods_json = append(m.appenddiscovery_methods_json, jm...)
+}
+
+// AppendedDiscoveryMethodsJSON returns the list of values that were appended to the "discovery_methods_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedDiscoveryMethodsJSON() (json.RawMessage, bool) {
+	if len(m.appenddiscovery_methods_json) == 0 {
+		return nil, false
+	}
+	return m.appenddiscovery_methods_json, true
+}
+
+// ClearDiscoveryMethodsJSON clears the value of the "discovery_methods_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearDiscoveryMethodsJSON() {
+	m.discovery_methods_json = nil
+	m.appenddiscovery_methods_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldDiscoveryMethodsJSON] = struct{}{}
+}
+
+// DiscoveryMethodsJSONCleared returns if the "discovery_methods_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) DiscoveryMethodsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldDiscoveryMethodsJSON]
+	return ok
+}
+
+// ResetDiscoveryMethodsJSON resets all changes to the "discovery_methods_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetDiscoveryMethodsJSON() {
+	m.discovery_methods_json = nil
+	m.appenddiscovery_methods_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldDiscoveryMethodsJSON)
+}
+
+// SetHostnamesJSON sets the "hostnames_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetHostnamesJSON(jm json.RawMessage) {
+	m.hostnames_json = &jm
+	m.appendhostnames_json = nil
+}
+
+// HostnamesJSON returns the value of the "hostnames_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) HostnamesJSON() (r json.RawMessage, exists bool) {
+	v := m.hostnames_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldHostnamesJSON returns the old "hostnames_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldHostnamesJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldHostnamesJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldHostnamesJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldHostnamesJSON: %w", err)
+	}
+	return oldValue.HostnamesJSON, nil
+}
+
+// AppendHostnamesJSON adds jm to the "hostnames_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendHostnamesJSON(jm json.RawMessage) {
+	m.appendhostnames_json = append(m.appendhostnames_json, jm...)
+}
+
+// AppendedHostnamesJSON returns the list of values that were appended to the "hostnames_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedHostnamesJSON() (json.RawMessage, bool) {
+	if len(m.appendhostnames_json) == 0 {
+		return nil, false
+	}
+	return m.appendhostnames_json, true
+}
+
+// ClearHostnamesJSON clears the value of the "hostnames_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearHostnamesJSON() {
+	m.hostnames_json = nil
+	m.appendhostnames_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldHostnamesJSON] = struct{}{}
+}
+
+// HostnamesJSONCleared returns if the "hostnames_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) HostnamesJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldHostnamesJSON]
+	return ok
+}
+
+// ResetHostnamesJSON resets all changes to the "hostnames_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetHostnamesJSON() {
+	m.hostnames_json = nil
+	m.appendhostnames_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldHostnamesJSON)
+}
+
+// SetInternalIpsJSON sets the "internal_ips_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetInternalIpsJSON(jm json.RawMessage) {
+	m.internal_ips_json = &jm
+	m.appendinternal_ips_json = nil
+}
+
+// InternalIpsJSON returns the value of the "internal_ips_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) InternalIpsJSON() (r json.RawMessage, exists bool) {
+	v := m.internal_ips_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInternalIpsJSON returns the old "internal_ips_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldInternalIpsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldInternalIpsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldInternalIpsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInternalIpsJSON: %w", err)
+	}
+	return oldValue.InternalIpsJSON, nil
+}
+
+// AppendInternalIpsJSON adds jm to the "internal_ips_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendInternalIpsJSON(jm json.RawMessage) {
+	m.appendinternal_ips_json = append(m.appendinternal_ips_json, jm...)
+}
+
+// AppendedInternalIpsJSON returns the list of values that were appended to the "internal_ips_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedInternalIpsJSON() (json.RawMessage, bool) {
+	if len(m.appendinternal_ips_json) == 0 {
+		return nil, false
+	}
+	return m.appendinternal_ips_json, true
+}
+
+// ClearInternalIpsJSON clears the value of the "internal_ips_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearInternalIpsJSON() {
+	m.internal_ips_json = nil
+	m.appendinternal_ips_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldInternalIpsJSON] = struct{}{}
+}
+
+// InternalIpsJSONCleared returns if the "internal_ips_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) InternalIpsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldInternalIpsJSON]
+	return ok
+}
+
+// ResetInternalIpsJSON resets all changes to the "internal_ips_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetInternalIpsJSON() {
+	m.internal_ips_json = nil
+	m.appendinternal_ips_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldInternalIpsJSON)
+}
+
+// SetInternalIpsV6JSON sets the "internal_ips_v6_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetInternalIpsV6JSON(jm json.RawMessage) {
+	m.internal_ips_v6_json = &jm
+	m.appendinternal_ips_v6_json = nil
+}
+
+// InternalIpsV6JSON returns the value of the "internal_ips_v6_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) InternalIpsV6JSON() (r json.RawMessage, exists bool) {
+	v := m.internal_ips_v6_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldInternalIpsV6JSON returns the old "internal_ips_v6_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldInternalIpsV6JSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldInternalIpsV6JSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldInternalIpsV6JSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldInternalIpsV6JSON: %w", err)
+	}
+	return oldValue.InternalIpsV6JSON, nil
+}
+
+// AppendInternalIpsV6JSON adds jm to the "internal_ips_v6_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendInternalIpsV6JSON(jm json.RawMessage) {
+	m.appendinternal_ips_v6_json = append(m.appendinternal_ips_v6_json, jm...)
+}
+
+// AppendedInternalIpsV6JSON returns the list of values that were appended to the "internal_ips_v6_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedInternalIpsV6JSON() (json.RawMessage, bool) {
+	if len(m.appendinternal_ips_v6_json) == 0 {
+		return nil, false
+	}
+	return m.appendinternal_ips_v6_json, true
+}
+
+// ClearInternalIpsV6JSON clears the value of the "internal_ips_v6_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearInternalIpsV6JSON() {
+	m.internal_ips_v6_json = nil
+	m.appendinternal_ips_v6_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldInternalIpsV6JSON] = struct{}{}
+}
+
+// InternalIpsV6JSONCleared returns if the "internal_ips_v6_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) InternalIpsV6JSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldInternalIpsV6JSON]
+	return ok
+}
+
+// ResetInternalIpsV6JSON resets all changes to the "internal_ips_v6_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetInternalIpsV6JSON() {
+	m.internal_ips_v6_json = nil
+	m.appendinternal_ips_v6_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldInternalIpsV6JSON)
+}
+
+// SetMACAddressesJSON sets the "mac_addresses_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetMACAddressesJSON(jm json.RawMessage) {
+	m.mac_addresses_json = &jm
+	m.appendmac_addresses_json = nil
+}
+
+// MACAddressesJSON returns the value of the "mac_addresses_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) MACAddressesJSON() (r json.RawMessage, exists bool) {
+	v := m.mac_addresses_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMACAddressesJSON returns the old "mac_addresses_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldMACAddressesJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMACAddressesJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMACAddressesJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMACAddressesJSON: %w", err)
+	}
+	return oldValue.MACAddressesJSON, nil
+}
+
+// AppendMACAddressesJSON adds jm to the "mac_addresses_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendMACAddressesJSON(jm json.RawMessage) {
+	m.appendmac_addresses_json = append(m.appendmac_addresses_json, jm...)
+}
+
+// AppendedMACAddressesJSON returns the list of values that were appended to the "mac_addresses_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedMACAddressesJSON() (json.RawMessage, bool) {
+	if len(m.appendmac_addresses_json) == 0 {
+		return nil, false
+	}
+	return m.appendmac_addresses_json, true
+}
+
+// ClearMACAddressesJSON clears the value of the "mac_addresses_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearMACAddressesJSON() {
+	m.mac_addresses_json = nil
+	m.appendmac_addresses_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldMACAddressesJSON] = struct{}{}
+}
+
+// MACAddressesJSONCleared returns if the "mac_addresses_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) MACAddressesJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldMACAddressesJSON]
+	return ok
+}
+
+// ResetMACAddressesJSON resets all changes to the "mac_addresses_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetMACAddressesJSON() {
+	m.mac_addresses_json = nil
+	m.appendmac_addresses_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldMACAddressesJSON)
+}
+
+// SetGatewayIpsJSON sets the "gateway_ips_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetGatewayIpsJSON(jm json.RawMessage) {
+	m.gateway_ips_json = &jm
+	m.appendgateway_ips_json = nil
+}
+
+// GatewayIpsJSON returns the value of the "gateway_ips_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) GatewayIpsJSON() (r json.RawMessage, exists bool) {
+	v := m.gateway_ips_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldGatewayIpsJSON returns the old "gateway_ips_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldGatewayIpsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldGatewayIpsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldGatewayIpsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldGatewayIpsJSON: %w", err)
+	}
+	return oldValue.GatewayIpsJSON, nil
+}
+
+// AppendGatewayIpsJSON adds jm to the "gateway_ips_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendGatewayIpsJSON(jm json.RawMessage) {
+	m.appendgateway_ips_json = append(m.appendgateway_ips_json, jm...)
+}
+
+// AppendedGatewayIpsJSON returns the list of values that were appended to the "gateway_ips_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedGatewayIpsJSON() (json.RawMessage, bool) {
+	if len(m.appendgateway_ips_json) == 0 {
+		return nil, false
+	}
+	return m.appendgateway_ips_json, true
+}
+
+// ClearGatewayIpsJSON clears the value of the "gateway_ips_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearGatewayIpsJSON() {
+	m.gateway_ips_json = nil
+	m.appendgateway_ips_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldGatewayIpsJSON] = struct{}{}
+}
+
+// GatewayIpsJSONCleared returns if the "gateway_ips_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) GatewayIpsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldGatewayIpsJSON]
+	return ok
+}
+
+// ResetGatewayIpsJSON resets all changes to the "gateway_ips_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetGatewayIpsJSON() {
+	m.gateway_ips_json = nil
+	m.appendgateway_ips_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldGatewayIpsJSON)
+}
+
+// SetGatewayMacsJSON sets the "gateway_macs_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetGatewayMacsJSON(jm json.RawMessage) {
+	m.gateway_macs_json = &jm
+	m.appendgateway_macs_json = nil
+}
+
+// GatewayMacsJSON returns the value of the "gateway_macs_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) GatewayMacsJSON() (r json.RawMessage, exists bool) {
+	v := m.gateway_macs_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldGatewayMacsJSON returns the old "gateway_macs_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldGatewayMacsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldGatewayMacsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldGatewayMacsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldGatewayMacsJSON: %w", err)
+	}
+	return oldValue.GatewayMacsJSON, nil
+}
+
+// AppendGatewayMacsJSON adds jm to the "gateway_macs_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendGatewayMacsJSON(jm json.RawMessage) {
+	m.appendgateway_macs_json = append(m.appendgateway_macs_json, jm...)
+}
+
+// AppendedGatewayMacsJSON returns the list of values that were appended to the "gateway_macs_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedGatewayMacsJSON() (json.RawMessage, bool) {
+	if len(m.appendgateway_macs_json) == 0 {
+		return nil, false
+	}
+	return m.appendgateway_macs_json, true
+}
+
+// ClearGatewayMacsJSON clears the value of the "gateway_macs_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearGatewayMacsJSON() {
+	m.gateway_macs_json = nil
+	m.appendgateway_macs_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldGatewayMacsJSON] = struct{}{}
+}
+
+// GatewayMacsJSONCleared returns if the "gateway_macs_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) GatewayMacsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldGatewayMacsJSON]
+	return ok
+}
+
+// ResetGatewayMacsJSON resets all changes to the "gateway_macs_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetGatewayMacsJSON() {
+	m.gateway_macs_json = nil
+	m.appendgateway_macs_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldGatewayMacsJSON)
+}
+
+// SetTCPPortsJSON sets the "tcp_ports_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetTCPPortsJSON(jm json.RawMessage) {
+	m.tcp_ports_json = &jm
+	m.appendtcp_ports_json = nil
+}
+
+// TCPPortsJSON returns the value of the "tcp_ports_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) TCPPortsJSON() (r json.RawMessage, exists bool) {
+	v := m.tcp_ports_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTCPPortsJSON returns the old "tcp_ports_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldTCPPortsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTCPPortsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTCPPortsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTCPPortsJSON: %w", err)
+	}
+	return oldValue.TCPPortsJSON, nil
+}
+
+// AppendTCPPortsJSON adds jm to the "tcp_ports_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendTCPPortsJSON(jm json.RawMessage) {
+	m.appendtcp_ports_json = append(m.appendtcp_ports_json, jm...)
+}
+
+// AppendedTCPPortsJSON returns the list of values that were appended to the "tcp_ports_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedTCPPortsJSON() (json.RawMessage, bool) {
+	if len(m.appendtcp_ports_json) == 0 {
+		return nil, false
+	}
+	return m.appendtcp_ports_json, true
+}
+
+// ClearTCPPortsJSON clears the value of the "tcp_ports_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearTCPPortsJSON() {
+	m.tcp_ports_json = nil
+	m.appendtcp_ports_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldTCPPortsJSON] = struct{}{}
+}
+
+// TCPPortsJSONCleared returns if the "tcp_ports_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) TCPPortsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldTCPPortsJSON]
+	return ok
+}
+
+// ResetTCPPortsJSON resets all changes to the "tcp_ports_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetTCPPortsJSON() {
+	m.tcp_ports_json = nil
+	m.appendtcp_ports_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldTCPPortsJSON)
+}
+
+// SetUDPPortsJSON sets the "udp_ports_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetUDPPortsJSON(jm json.RawMessage) {
+	m.udp_ports_json = &jm
+	m.appendudp_ports_json = nil
+}
+
+// UDPPortsJSON returns the value of the "udp_ports_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) UDPPortsJSON() (r json.RawMessage, exists bool) {
+	v := m.udp_ports_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUDPPortsJSON returns the old "udp_ports_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldUDPPortsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUDPPortsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUDPPortsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUDPPortsJSON: %w", err)
+	}
+	return oldValue.UDPPortsJSON, nil
+}
+
+// AppendUDPPortsJSON adds jm to the "udp_ports_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendUDPPortsJSON(jm json.RawMessage) {
+	m.appendudp_ports_json = append(m.appendudp_ports_json, jm...)
+}
+
+// AppendedUDPPortsJSON returns the list of values that were appended to the "udp_ports_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedUDPPortsJSON() (json.RawMessage, bool) {
+	if len(m.appendudp_ports_json) == 0 {
+		return nil, false
+	}
+	return m.appendudp_ports_json, true
+}
+
+// ClearUDPPortsJSON clears the value of the "udp_ports_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearUDPPortsJSON() {
+	m.udp_ports_json = nil
+	m.appendudp_ports_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldUDPPortsJSON] = struct{}{}
+}
+
+// UDPPortsJSONCleared returns if the "udp_ports_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) UDPPortsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldUDPPortsJSON]
+	return ok
+}
+
+// ResetUDPPortsJSON resets all changes to the "udp_ports_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetUDPPortsJSON() {
+	m.udp_ports_json = nil
+	m.appendudp_ports_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldUDPPortsJSON)
+}
+
+// SetRangerTagsJSON sets the "ranger_tags_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetRangerTagsJSON(jm json.RawMessage) {
+	m.ranger_tags_json = &jm
+	m.appendranger_tags_json = nil
+}
+
+// RangerTagsJSON returns the value of the "ranger_tags_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) RangerTagsJSON() (r json.RawMessage, exists bool) {
+	v := m.ranger_tags_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRangerTagsJSON returns the old "ranger_tags_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldRangerTagsJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRangerTagsJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRangerTagsJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRangerTagsJSON: %w", err)
+	}
+	return oldValue.RangerTagsJSON, nil
+}
+
+// AppendRangerTagsJSON adds jm to the "ranger_tags_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendRangerTagsJSON(jm json.RawMessage) {
+	m.appendranger_tags_json = append(m.appendranger_tags_json, jm...)
+}
+
+// AppendedRangerTagsJSON returns the list of values that were appended to the "ranger_tags_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedRangerTagsJSON() (json.RawMessage, bool) {
+	if len(m.appendranger_tags_json) == 0 {
+		return nil, false
+	}
+	return m.appendranger_tags_json, true
+}
+
+// ClearRangerTagsJSON clears the value of the "ranger_tags_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearRangerTagsJSON() {
+	m.ranger_tags_json = nil
+	m.appendranger_tags_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldRangerTagsJSON] = struct{}{}
+}
+
+// RangerTagsJSONCleared returns if the "ranger_tags_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) RangerTagsJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldRangerTagsJSON]
+	return ok
+}
+
+// ResetRangerTagsJSON resets all changes to the "ranger_tags_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetRangerTagsJSON() {
+	m.ranger_tags_json = nil
+	m.appendranger_tags_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldRangerTagsJSON)
+}
+
+// SetIDSecondaryJSON sets the "id_secondary_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) SetIDSecondaryJSON(jm json.RawMessage) {
+	m.id_secondary_json = &jm
+	m.appendid_secondary_json = nil
+}
+
+// IDSecondaryJSON returns the value of the "id_secondary_json" field in the mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) IDSecondaryJSON() (r json.RawMessage, exists bool) {
+	v := m.id_secondary_json
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIDSecondaryJSON returns the old "id_secondary_json" field's value of the BronzeS1NetworkDiscovery entity.
+// If the BronzeS1NetworkDiscovery object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeS1NetworkDiscoveryMutation) OldIDSecondaryJSON(ctx context.Context) (v json.RawMessage, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIDSecondaryJSON is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIDSecondaryJSON requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIDSecondaryJSON: %w", err)
+	}
+	return oldValue.IDSecondaryJSON, nil
+}
+
+// AppendIDSecondaryJSON adds jm to the "id_secondary_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendIDSecondaryJSON(jm json.RawMessage) {
+	m.appendid_secondary_json = append(m.appendid_secondary_json, jm...)
+}
+
+// AppendedIDSecondaryJSON returns the list of values that were appended to the "id_secondary_json" field in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AppendedIDSecondaryJSON() (json.RawMessage, bool) {
+	if len(m.appendid_secondary_json) == 0 {
+		return nil, false
+	}
+	return m.appendid_secondary_json, true
+}
+
+// ClearIDSecondaryJSON clears the value of the "id_secondary_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearIDSecondaryJSON() {
+	m.id_secondary_json = nil
+	m.appendid_secondary_json = nil
+	m.clearedFields[bronzes1networkdiscovery.FieldIDSecondaryJSON] = struct{}{}
+}
+
+// IDSecondaryJSONCleared returns if the "id_secondary_json" field was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) IDSecondaryJSONCleared() bool {
+	_, ok := m.clearedFields[bronzes1networkdiscovery.FieldIDSecondaryJSON]
+	return ok
+}
+
+// ResetIDSecondaryJSON resets all changes to the "id_secondary_json" field.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetIDSecondaryJSON() {
+	m.id_secondary_json = nil
+	m.appendid_secondary_json = nil
+	delete(m.clearedFields, bronzes1networkdiscovery.FieldIDSecondaryJSON)
+}
+
+// Where appends a list predicates to the BronzeS1NetworkDiscoveryMutation builder.
+func (m *BronzeS1NetworkDiscoveryMutation) Where(ps ...predicate.BronzeS1NetworkDiscovery) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the BronzeS1NetworkDiscoveryMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *BronzeS1NetworkDiscoveryMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.BronzeS1NetworkDiscovery, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *BronzeS1NetworkDiscoveryMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *BronzeS1NetworkDiscoveryMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (BronzeS1NetworkDiscovery).
+func (m *BronzeS1NetworkDiscoveryMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *BronzeS1NetworkDiscoveryMutation) Fields() []string {
+	fields := make([]string, 0, 85)
+	if m.collected_at != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldCollectedAt)
+	}
+	if m.first_collected_at != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldFirstCollectedAt)
+	}
+	if m.name != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldName)
+	}
+	if m.ip_address != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldIPAddress)
+	}
+	if m.domain != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldDomain)
+	}
+	if m.serial_number != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldSerialNumber)
+	}
+	if m.category != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldCategory)
+	}
+	if m.sub_category != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldSubCategory)
+	}
+	if m.resource_type != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldResourceType)
+	}
+	if m.os != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldOs)
+	}
+	if m.os_family != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldOsFamily)
+	}
+	if m.os_version != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldOsVersion)
+	}
+	if m.os_name_version != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldOsNameVersion)
+	}
+	if m.architecture != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldArchitecture)
+	}
+	if m.manufacturer != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldManufacturer)
+	}
+	if m.cpu != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldCPU)
+	}
+	if m.memory_readable != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldMemoryReadable)
+	}
+	if m.network_name != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldNetworkName)
+	}
+	if m.asset_status != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldAssetStatus)
+	}
+	if m.asset_criticality != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldAssetCriticality)
+	}
+	if m.asset_environment != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldAssetEnvironment)
+	}
+	if m.infection_status != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldInfectionStatus)
+	}
+	if m.device_review != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldDeviceReview)
+	}
+	if m.epp_unsupported_unknown != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldEppUnsupportedUnknown)
+	}
+	if m.asset_contact_email != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldAssetContactEmail)
+	}
+	if m.legacy_identity_policy_name != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldLegacyIdentityPolicyName)
+	}
+	if m.previous_os_type != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldPreviousOsType)
+	}
+	if m.previous_os_version != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldPreviousOsVersion)
+	}
+	if m.previous_device_function != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldPreviousDeviceFunction)
+	}
+	if m.detected_from_site != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldDetectedFromSite)
+	}
+	if m.s1_account_id != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1AccountID)
+	}
+	if m.s1_account_name != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1AccountName)
+	}
+	if m.s1_site_id != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1SiteID)
+	}
+	if m.s1_site_name != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1SiteName)
+	}
+	if m.s1_group_id != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1GroupID)
+	}
+	if m.s1_group_name != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1GroupName)
+	}
+	if m.s1_scope_id != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1ScopeID)
+	}
+	if m.s1_scope_level != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1ScopeLevel)
+	}
+	if m.s1_scope_path != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1ScopePath)
+	}
+	if m.s1_onboarded_account_name != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedAccountName)
+	}
+	if m.s1_onboarded_group_name != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedGroupName)
+	}
+	if m.s1_onboarded_site_name != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedSiteName)
+	}
+	if m.s1_onboarded_scope_level != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedScopeLevel)
+	}
+	if m.s1_onboarded_scope_path != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedScopePath)
+	}
+	if m.memory != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldMemory)
+	}
+	if m.core_count != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldCoreCount)
+	}
+	if m.s1_management_id != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1ManagementID)
+	}
+	if m.s1_scope_type != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1ScopeType)
+	}
+	if m.s1_onboarded_account_id != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedAccountID)
+	}
+	if m.s1_onboarded_group_id != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedGroupID)
+	}
+	if m.s1_onboarded_scope_id != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedScopeID)
+	}
+	if m.s1_onboarded_site_id != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedSiteID)
+	}
+	if m.is_ad_connector != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldIsAdConnector)
+	}
+	if m.is_dc_server != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldIsDcServer)
+	}
+	if m.ads_enabled != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldAdsEnabled)
+	}
+	if m.first_seen_dt != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldFirstSeenDt)
+	}
+	if m.last_update_dt != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldLastUpdateDt)
+	}
+	if m.last_active_dt != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldLastActiveDt)
+	}
+	if m.last_reboot_dt != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldLastRebootDt)
+	}
+	if m.s1_updated_at != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1UpdatedAt)
+	}
+	if m.agent_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldAgentJSON)
+	}
+	if m.network_interfaces_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldNetworkInterfacesJSON)
+	}
+	if m.alerts_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldAlertsJSON)
+	}
+	if m.alerts_count_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldAlertsCountJSON)
+	}
+	if m.device_review_log_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldDeviceReviewLogJSON)
+	}
+	if m.identity_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldIdentityJSON)
+	}
+	if m.notes_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldNotesJSON)
+	}
+	if m.tags_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldTagsJSON)
+	}
+	if m.missing_coverage_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldMissingCoverageJSON)
+	}
+	if m.subnets_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldSubnetsJSON)
+	}
+	if m.surfaces_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldSurfacesJSON)
+	}
+	if m.network_names_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldNetworkNamesJSON)
+	}
+	if m.risk_factors_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldRiskFactorsJSON)
+	}
+	if m.active_coverage_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldActiveCoverageJSON)
+	}
+	if m.discovery_methods_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldDiscoveryMethodsJSON)
+	}
+	if m.hostnames_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldHostnamesJSON)
+	}
+	if m.internal_ips_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldInternalIpsJSON)
+	}
+	if m.internal_ips_v6_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldInternalIpsV6JSON)
+	}
+	if m.mac_addresses_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldMACAddressesJSON)
+	}
+	if m.gateway_ips_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldGatewayIpsJSON)
+	}
+	if m.gateway_macs_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldGatewayMacsJSON)
+	}
+	if m.tcp_ports_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldTCPPortsJSON)
+	}
+	if m.udp_ports_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldUDPPortsJSON)
+	}
+	if m.ranger_tags_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldRangerTagsJSON)
+	}
+	if m.id_secondary_json != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldIDSecondaryJSON)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *BronzeS1NetworkDiscoveryMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case bronzes1networkdiscovery.FieldCollectedAt:
+		return m.CollectedAt()
+	case bronzes1networkdiscovery.FieldFirstCollectedAt:
+		return m.FirstCollectedAt()
+	case bronzes1networkdiscovery.FieldName:
+		return m.Name()
+	case bronzes1networkdiscovery.FieldIPAddress:
+		return m.IPAddress()
+	case bronzes1networkdiscovery.FieldDomain:
+		return m.Domain()
+	case bronzes1networkdiscovery.FieldSerialNumber:
+		return m.SerialNumber()
+	case bronzes1networkdiscovery.FieldCategory:
+		return m.Category()
+	case bronzes1networkdiscovery.FieldSubCategory:
+		return m.SubCategory()
+	case bronzes1networkdiscovery.FieldResourceType:
+		return m.ResourceType()
+	case bronzes1networkdiscovery.FieldOs:
+		return m.Os()
+	case bronzes1networkdiscovery.FieldOsFamily:
+		return m.OsFamily()
+	case bronzes1networkdiscovery.FieldOsVersion:
+		return m.OsVersion()
+	case bronzes1networkdiscovery.FieldOsNameVersion:
+		return m.OsNameVersion()
+	case bronzes1networkdiscovery.FieldArchitecture:
+		return m.Architecture()
+	case bronzes1networkdiscovery.FieldManufacturer:
+		return m.Manufacturer()
+	case bronzes1networkdiscovery.FieldCPU:
+		return m.CPU()
+	case bronzes1networkdiscovery.FieldMemoryReadable:
+		return m.MemoryReadable()
+	case bronzes1networkdiscovery.FieldNetworkName:
+		return m.NetworkName()
+	case bronzes1networkdiscovery.FieldAssetStatus:
+		return m.AssetStatus()
+	case bronzes1networkdiscovery.FieldAssetCriticality:
+		return m.AssetCriticality()
+	case bronzes1networkdiscovery.FieldAssetEnvironment:
+		return m.AssetEnvironment()
+	case bronzes1networkdiscovery.FieldInfectionStatus:
+		return m.InfectionStatus()
+	case bronzes1networkdiscovery.FieldDeviceReview:
+		return m.DeviceReview()
+	case bronzes1networkdiscovery.FieldEppUnsupportedUnknown:
+		return m.EppUnsupportedUnknown()
+	case bronzes1networkdiscovery.FieldAssetContactEmail:
+		return m.AssetContactEmail()
+	case bronzes1networkdiscovery.FieldLegacyIdentityPolicyName:
+		return m.LegacyIdentityPolicyName()
+	case bronzes1networkdiscovery.FieldPreviousOsType:
+		return m.PreviousOsType()
+	case bronzes1networkdiscovery.FieldPreviousOsVersion:
+		return m.PreviousOsVersion()
+	case bronzes1networkdiscovery.FieldPreviousDeviceFunction:
+		return m.PreviousDeviceFunction()
+	case bronzes1networkdiscovery.FieldDetectedFromSite:
+		return m.DetectedFromSite()
+	case bronzes1networkdiscovery.FieldS1AccountID:
+		return m.S1AccountID()
+	case bronzes1networkdiscovery.FieldS1AccountName:
+		return m.S1AccountName()
+	case bronzes1networkdiscovery.FieldS1SiteID:
+		return m.S1SiteID()
+	case bronzes1networkdiscovery.FieldS1SiteName:
+		return m.S1SiteName()
+	case bronzes1networkdiscovery.FieldS1GroupID:
+		return m.S1GroupID()
+	case bronzes1networkdiscovery.FieldS1GroupName:
+		return m.S1GroupName()
+	case bronzes1networkdiscovery.FieldS1ScopeID:
+		return m.S1ScopeID()
+	case bronzes1networkdiscovery.FieldS1ScopeLevel:
+		return m.S1ScopeLevel()
+	case bronzes1networkdiscovery.FieldS1ScopePath:
+		return m.S1ScopePath()
+	case bronzes1networkdiscovery.FieldS1OnboardedAccountName:
+		return m.S1OnboardedAccountName()
+	case bronzes1networkdiscovery.FieldS1OnboardedGroupName:
+		return m.S1OnboardedGroupName()
+	case bronzes1networkdiscovery.FieldS1OnboardedSiteName:
+		return m.S1OnboardedSiteName()
+	case bronzes1networkdiscovery.FieldS1OnboardedScopeLevel:
+		return m.S1OnboardedScopeLevel()
+	case bronzes1networkdiscovery.FieldS1OnboardedScopePath:
+		return m.S1OnboardedScopePath()
+	case bronzes1networkdiscovery.FieldMemory:
+		return m.Memory()
+	case bronzes1networkdiscovery.FieldCoreCount:
+		return m.CoreCount()
+	case bronzes1networkdiscovery.FieldS1ManagementID:
+		return m.S1ManagementID()
+	case bronzes1networkdiscovery.FieldS1ScopeType:
+		return m.S1ScopeType()
+	case bronzes1networkdiscovery.FieldS1OnboardedAccountID:
+		return m.S1OnboardedAccountID()
+	case bronzes1networkdiscovery.FieldS1OnboardedGroupID:
+		return m.S1OnboardedGroupID()
+	case bronzes1networkdiscovery.FieldS1OnboardedScopeID:
+		return m.S1OnboardedScopeID()
+	case bronzes1networkdiscovery.FieldS1OnboardedSiteID:
+		return m.S1OnboardedSiteID()
+	case bronzes1networkdiscovery.FieldIsAdConnector:
+		return m.IsAdConnector()
+	case bronzes1networkdiscovery.FieldIsDcServer:
+		return m.IsDcServer()
+	case bronzes1networkdiscovery.FieldAdsEnabled:
+		return m.AdsEnabled()
+	case bronzes1networkdiscovery.FieldFirstSeenDt:
+		return m.FirstSeenDt()
+	case bronzes1networkdiscovery.FieldLastUpdateDt:
+		return m.LastUpdateDt()
+	case bronzes1networkdiscovery.FieldLastActiveDt:
+		return m.LastActiveDt()
+	case bronzes1networkdiscovery.FieldLastRebootDt:
+		return m.LastRebootDt()
+	case bronzes1networkdiscovery.FieldS1UpdatedAt:
+		return m.S1UpdatedAt()
+	case bronzes1networkdiscovery.FieldAgentJSON:
+		return m.AgentJSON()
+	case bronzes1networkdiscovery.FieldNetworkInterfacesJSON:
+		return m.NetworkInterfacesJSON()
+	case bronzes1networkdiscovery.FieldAlertsJSON:
+		return m.AlertsJSON()
+	case bronzes1networkdiscovery.FieldAlertsCountJSON:
+		return m.AlertsCountJSON()
+	case bronzes1networkdiscovery.FieldDeviceReviewLogJSON:
+		return m.DeviceReviewLogJSON()
+	case bronzes1networkdiscovery.FieldIdentityJSON:
+		return m.IdentityJSON()
+	case bronzes1networkdiscovery.FieldNotesJSON:
+		return m.NotesJSON()
+	case bronzes1networkdiscovery.FieldTagsJSON:
+		return m.TagsJSON()
+	case bronzes1networkdiscovery.FieldMissingCoverageJSON:
+		return m.MissingCoverageJSON()
+	case bronzes1networkdiscovery.FieldSubnetsJSON:
+		return m.SubnetsJSON()
+	case bronzes1networkdiscovery.FieldSurfacesJSON:
+		return m.SurfacesJSON()
+	case bronzes1networkdiscovery.FieldNetworkNamesJSON:
+		return m.NetworkNamesJSON()
+	case bronzes1networkdiscovery.FieldRiskFactorsJSON:
+		return m.RiskFactorsJSON()
+	case bronzes1networkdiscovery.FieldActiveCoverageJSON:
+		return m.ActiveCoverageJSON()
+	case bronzes1networkdiscovery.FieldDiscoveryMethodsJSON:
+		return m.DiscoveryMethodsJSON()
+	case bronzes1networkdiscovery.FieldHostnamesJSON:
+		return m.HostnamesJSON()
+	case bronzes1networkdiscovery.FieldInternalIpsJSON:
+		return m.InternalIpsJSON()
+	case bronzes1networkdiscovery.FieldInternalIpsV6JSON:
+		return m.InternalIpsV6JSON()
+	case bronzes1networkdiscovery.FieldMACAddressesJSON:
+		return m.MACAddressesJSON()
+	case bronzes1networkdiscovery.FieldGatewayIpsJSON:
+		return m.GatewayIpsJSON()
+	case bronzes1networkdiscovery.FieldGatewayMacsJSON:
+		return m.GatewayMacsJSON()
+	case bronzes1networkdiscovery.FieldTCPPortsJSON:
+		return m.TCPPortsJSON()
+	case bronzes1networkdiscovery.FieldUDPPortsJSON:
+		return m.UDPPortsJSON()
+	case bronzes1networkdiscovery.FieldRangerTagsJSON:
+		return m.RangerTagsJSON()
+	case bronzes1networkdiscovery.FieldIDSecondaryJSON:
+		return m.IDSecondaryJSON()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *BronzeS1NetworkDiscoveryMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case bronzes1networkdiscovery.FieldCollectedAt:
+		return m.OldCollectedAt(ctx)
+	case bronzes1networkdiscovery.FieldFirstCollectedAt:
+		return m.OldFirstCollectedAt(ctx)
+	case bronzes1networkdiscovery.FieldName:
+		return m.OldName(ctx)
+	case bronzes1networkdiscovery.FieldIPAddress:
+		return m.OldIPAddress(ctx)
+	case bronzes1networkdiscovery.FieldDomain:
+		return m.OldDomain(ctx)
+	case bronzes1networkdiscovery.FieldSerialNumber:
+		return m.OldSerialNumber(ctx)
+	case bronzes1networkdiscovery.FieldCategory:
+		return m.OldCategory(ctx)
+	case bronzes1networkdiscovery.FieldSubCategory:
+		return m.OldSubCategory(ctx)
+	case bronzes1networkdiscovery.FieldResourceType:
+		return m.OldResourceType(ctx)
+	case bronzes1networkdiscovery.FieldOs:
+		return m.OldOs(ctx)
+	case bronzes1networkdiscovery.FieldOsFamily:
+		return m.OldOsFamily(ctx)
+	case bronzes1networkdiscovery.FieldOsVersion:
+		return m.OldOsVersion(ctx)
+	case bronzes1networkdiscovery.FieldOsNameVersion:
+		return m.OldOsNameVersion(ctx)
+	case bronzes1networkdiscovery.FieldArchitecture:
+		return m.OldArchitecture(ctx)
+	case bronzes1networkdiscovery.FieldManufacturer:
+		return m.OldManufacturer(ctx)
+	case bronzes1networkdiscovery.FieldCPU:
+		return m.OldCPU(ctx)
+	case bronzes1networkdiscovery.FieldMemoryReadable:
+		return m.OldMemoryReadable(ctx)
+	case bronzes1networkdiscovery.FieldNetworkName:
+		return m.OldNetworkName(ctx)
+	case bronzes1networkdiscovery.FieldAssetStatus:
+		return m.OldAssetStatus(ctx)
+	case bronzes1networkdiscovery.FieldAssetCriticality:
+		return m.OldAssetCriticality(ctx)
+	case bronzes1networkdiscovery.FieldAssetEnvironment:
+		return m.OldAssetEnvironment(ctx)
+	case bronzes1networkdiscovery.FieldInfectionStatus:
+		return m.OldInfectionStatus(ctx)
+	case bronzes1networkdiscovery.FieldDeviceReview:
+		return m.OldDeviceReview(ctx)
+	case bronzes1networkdiscovery.FieldEppUnsupportedUnknown:
+		return m.OldEppUnsupportedUnknown(ctx)
+	case bronzes1networkdiscovery.FieldAssetContactEmail:
+		return m.OldAssetContactEmail(ctx)
+	case bronzes1networkdiscovery.FieldLegacyIdentityPolicyName:
+		return m.OldLegacyIdentityPolicyName(ctx)
+	case bronzes1networkdiscovery.FieldPreviousOsType:
+		return m.OldPreviousOsType(ctx)
+	case bronzes1networkdiscovery.FieldPreviousOsVersion:
+		return m.OldPreviousOsVersion(ctx)
+	case bronzes1networkdiscovery.FieldPreviousDeviceFunction:
+		return m.OldPreviousDeviceFunction(ctx)
+	case bronzes1networkdiscovery.FieldDetectedFromSite:
+		return m.OldDetectedFromSite(ctx)
+	case bronzes1networkdiscovery.FieldS1AccountID:
+		return m.OldS1AccountID(ctx)
+	case bronzes1networkdiscovery.FieldS1AccountName:
+		return m.OldS1AccountName(ctx)
+	case bronzes1networkdiscovery.FieldS1SiteID:
+		return m.OldS1SiteID(ctx)
+	case bronzes1networkdiscovery.FieldS1SiteName:
+		return m.OldS1SiteName(ctx)
+	case bronzes1networkdiscovery.FieldS1GroupID:
+		return m.OldS1GroupID(ctx)
+	case bronzes1networkdiscovery.FieldS1GroupName:
+		return m.OldS1GroupName(ctx)
+	case bronzes1networkdiscovery.FieldS1ScopeID:
+		return m.OldS1ScopeID(ctx)
+	case bronzes1networkdiscovery.FieldS1ScopeLevel:
+		return m.OldS1ScopeLevel(ctx)
+	case bronzes1networkdiscovery.FieldS1ScopePath:
+		return m.OldS1ScopePath(ctx)
+	case bronzes1networkdiscovery.FieldS1OnboardedAccountName:
+		return m.OldS1OnboardedAccountName(ctx)
+	case bronzes1networkdiscovery.FieldS1OnboardedGroupName:
+		return m.OldS1OnboardedGroupName(ctx)
+	case bronzes1networkdiscovery.FieldS1OnboardedSiteName:
+		return m.OldS1OnboardedSiteName(ctx)
+	case bronzes1networkdiscovery.FieldS1OnboardedScopeLevel:
+		return m.OldS1OnboardedScopeLevel(ctx)
+	case bronzes1networkdiscovery.FieldS1OnboardedScopePath:
+		return m.OldS1OnboardedScopePath(ctx)
+	case bronzes1networkdiscovery.FieldMemory:
+		return m.OldMemory(ctx)
+	case bronzes1networkdiscovery.FieldCoreCount:
+		return m.OldCoreCount(ctx)
+	case bronzes1networkdiscovery.FieldS1ManagementID:
+		return m.OldS1ManagementID(ctx)
+	case bronzes1networkdiscovery.FieldS1ScopeType:
+		return m.OldS1ScopeType(ctx)
+	case bronzes1networkdiscovery.FieldS1OnboardedAccountID:
+		return m.OldS1OnboardedAccountID(ctx)
+	case bronzes1networkdiscovery.FieldS1OnboardedGroupID:
+		return m.OldS1OnboardedGroupID(ctx)
+	case bronzes1networkdiscovery.FieldS1OnboardedScopeID:
+		return m.OldS1OnboardedScopeID(ctx)
+	case bronzes1networkdiscovery.FieldS1OnboardedSiteID:
+		return m.OldS1OnboardedSiteID(ctx)
+	case bronzes1networkdiscovery.FieldIsAdConnector:
+		return m.OldIsAdConnector(ctx)
+	case bronzes1networkdiscovery.FieldIsDcServer:
+		return m.OldIsDcServer(ctx)
+	case bronzes1networkdiscovery.FieldAdsEnabled:
+		return m.OldAdsEnabled(ctx)
+	case bronzes1networkdiscovery.FieldFirstSeenDt:
+		return m.OldFirstSeenDt(ctx)
+	case bronzes1networkdiscovery.FieldLastUpdateDt:
+		return m.OldLastUpdateDt(ctx)
+	case bronzes1networkdiscovery.FieldLastActiveDt:
+		return m.OldLastActiveDt(ctx)
+	case bronzes1networkdiscovery.FieldLastRebootDt:
+		return m.OldLastRebootDt(ctx)
+	case bronzes1networkdiscovery.FieldS1UpdatedAt:
+		return m.OldS1UpdatedAt(ctx)
+	case bronzes1networkdiscovery.FieldAgentJSON:
+		return m.OldAgentJSON(ctx)
+	case bronzes1networkdiscovery.FieldNetworkInterfacesJSON:
+		return m.OldNetworkInterfacesJSON(ctx)
+	case bronzes1networkdiscovery.FieldAlertsJSON:
+		return m.OldAlertsJSON(ctx)
+	case bronzes1networkdiscovery.FieldAlertsCountJSON:
+		return m.OldAlertsCountJSON(ctx)
+	case bronzes1networkdiscovery.FieldDeviceReviewLogJSON:
+		return m.OldDeviceReviewLogJSON(ctx)
+	case bronzes1networkdiscovery.FieldIdentityJSON:
+		return m.OldIdentityJSON(ctx)
+	case bronzes1networkdiscovery.FieldNotesJSON:
+		return m.OldNotesJSON(ctx)
+	case bronzes1networkdiscovery.FieldTagsJSON:
+		return m.OldTagsJSON(ctx)
+	case bronzes1networkdiscovery.FieldMissingCoverageJSON:
+		return m.OldMissingCoverageJSON(ctx)
+	case bronzes1networkdiscovery.FieldSubnetsJSON:
+		return m.OldSubnetsJSON(ctx)
+	case bronzes1networkdiscovery.FieldSurfacesJSON:
+		return m.OldSurfacesJSON(ctx)
+	case bronzes1networkdiscovery.FieldNetworkNamesJSON:
+		return m.OldNetworkNamesJSON(ctx)
+	case bronzes1networkdiscovery.FieldRiskFactorsJSON:
+		return m.OldRiskFactorsJSON(ctx)
+	case bronzes1networkdiscovery.FieldActiveCoverageJSON:
+		return m.OldActiveCoverageJSON(ctx)
+	case bronzes1networkdiscovery.FieldDiscoveryMethodsJSON:
+		return m.OldDiscoveryMethodsJSON(ctx)
+	case bronzes1networkdiscovery.FieldHostnamesJSON:
+		return m.OldHostnamesJSON(ctx)
+	case bronzes1networkdiscovery.FieldInternalIpsJSON:
+		return m.OldInternalIpsJSON(ctx)
+	case bronzes1networkdiscovery.FieldInternalIpsV6JSON:
+		return m.OldInternalIpsV6JSON(ctx)
+	case bronzes1networkdiscovery.FieldMACAddressesJSON:
+		return m.OldMACAddressesJSON(ctx)
+	case bronzes1networkdiscovery.FieldGatewayIpsJSON:
+		return m.OldGatewayIpsJSON(ctx)
+	case bronzes1networkdiscovery.FieldGatewayMacsJSON:
+		return m.OldGatewayMacsJSON(ctx)
+	case bronzes1networkdiscovery.FieldTCPPortsJSON:
+		return m.OldTCPPortsJSON(ctx)
+	case bronzes1networkdiscovery.FieldUDPPortsJSON:
+		return m.OldUDPPortsJSON(ctx)
+	case bronzes1networkdiscovery.FieldRangerTagsJSON:
+		return m.OldRangerTagsJSON(ctx)
+	case bronzes1networkdiscovery.FieldIDSecondaryJSON:
+		return m.OldIDSecondaryJSON(ctx)
+	}
+	return nil, fmt.Errorf("unknown BronzeS1NetworkDiscovery field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeS1NetworkDiscoveryMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case bronzes1networkdiscovery.FieldCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCollectedAt(v)
+		return nil
+	case bronzes1networkdiscovery.FieldFirstCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFirstCollectedAt(v)
+		return nil
+	case bronzes1networkdiscovery.FieldName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetName(v)
+		return nil
+	case bronzes1networkdiscovery.FieldIPAddress:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIPAddress(v)
+		return nil
+	case bronzes1networkdiscovery.FieldDomain:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDomain(v)
+		return nil
+	case bronzes1networkdiscovery.FieldSerialNumber:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSerialNumber(v)
+		return nil
+	case bronzes1networkdiscovery.FieldCategory:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCategory(v)
+		return nil
+	case bronzes1networkdiscovery.FieldSubCategory:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSubCategory(v)
+		return nil
+	case bronzes1networkdiscovery.FieldResourceType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetResourceType(v)
+		return nil
+	case bronzes1networkdiscovery.FieldOs:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOs(v)
+		return nil
+	case bronzes1networkdiscovery.FieldOsFamily:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOsFamily(v)
+		return nil
+	case bronzes1networkdiscovery.FieldOsVersion:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOsVersion(v)
+		return nil
+	case bronzes1networkdiscovery.FieldOsNameVersion:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOsNameVersion(v)
+		return nil
+	case bronzes1networkdiscovery.FieldArchitecture:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetArchitecture(v)
+		return nil
+	case bronzes1networkdiscovery.FieldManufacturer:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetManufacturer(v)
+		return nil
+	case bronzes1networkdiscovery.FieldCPU:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCPU(v)
+		return nil
+	case bronzes1networkdiscovery.FieldMemoryReadable:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMemoryReadable(v)
+		return nil
+	case bronzes1networkdiscovery.FieldNetworkName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetNetworkName(v)
+		return nil
+	case bronzes1networkdiscovery.FieldAssetStatus:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAssetStatus(v)
+		return nil
+	case bronzes1networkdiscovery.FieldAssetCriticality:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAssetCriticality(v)
+		return nil
+	case bronzes1networkdiscovery.FieldAssetEnvironment:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAssetEnvironment(v)
+		return nil
+	case bronzes1networkdiscovery.FieldInfectionStatus:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInfectionStatus(v)
+		return nil
+	case bronzes1networkdiscovery.FieldDeviceReview:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeviceReview(v)
+		return nil
+	case bronzes1networkdiscovery.FieldEppUnsupportedUnknown:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEppUnsupportedUnknown(v)
+		return nil
+	case bronzes1networkdiscovery.FieldAssetContactEmail:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAssetContactEmail(v)
+		return nil
+	case bronzes1networkdiscovery.FieldLegacyIdentityPolicyName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLegacyIdentityPolicyName(v)
+		return nil
+	case bronzes1networkdiscovery.FieldPreviousOsType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPreviousOsType(v)
+		return nil
+	case bronzes1networkdiscovery.FieldPreviousOsVersion:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPreviousOsVersion(v)
+		return nil
+	case bronzes1networkdiscovery.FieldPreviousDeviceFunction:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPreviousDeviceFunction(v)
+		return nil
+	case bronzes1networkdiscovery.FieldDetectedFromSite:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDetectedFromSite(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1AccountID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1AccountID(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1AccountName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1AccountName(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1SiteID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1SiteID(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1SiteName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1SiteName(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1GroupID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1GroupID(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1GroupName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1GroupName(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1ScopeID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1ScopeID(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1ScopeLevel:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1ScopeLevel(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1ScopePath:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1ScopePath(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedAccountName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1OnboardedAccountName(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedGroupName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1OnboardedGroupName(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedSiteName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1OnboardedSiteName(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedScopeLevel:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1OnboardedScopeLevel(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedScopePath:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1OnboardedScopePath(v)
+		return nil
+	case bronzes1networkdiscovery.FieldMemory:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMemory(v)
+		return nil
+	case bronzes1networkdiscovery.FieldCoreCount:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCoreCount(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1ManagementID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1ManagementID(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1ScopeType:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1ScopeType(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedAccountID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1OnboardedAccountID(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedGroupID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1OnboardedGroupID(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedScopeID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1OnboardedScopeID(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedSiteID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1OnboardedSiteID(v)
+		return nil
+	case bronzes1networkdiscovery.FieldIsAdConnector:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsAdConnector(v)
+		return nil
+	case bronzes1networkdiscovery.FieldIsDcServer:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsDcServer(v)
+		return nil
+	case bronzes1networkdiscovery.FieldAdsEnabled:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAdsEnabled(v)
+		return nil
+	case bronzes1networkdiscovery.FieldFirstSeenDt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFirstSeenDt(v)
+		return nil
+	case bronzes1networkdiscovery.FieldLastUpdateDt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLastUpdateDt(v)
+		return nil
+	case bronzes1networkdiscovery.FieldLastActiveDt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLastActiveDt(v)
+		return nil
+	case bronzes1networkdiscovery.FieldLastRebootDt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLastRebootDt(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1UpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetS1UpdatedAt(v)
+		return nil
+	case bronzes1networkdiscovery.FieldAgentJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAgentJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldNetworkInterfacesJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetNetworkInterfacesJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldAlertsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAlertsJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldAlertsCountJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAlertsCountJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldDeviceReviewLogJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeviceReviewLogJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldIdentityJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIdentityJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldNotesJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetNotesJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldTagsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTagsJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldMissingCoverageJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMissingCoverageJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldSubnetsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSubnetsJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldSurfacesJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSurfacesJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldNetworkNamesJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetNetworkNamesJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldRiskFactorsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRiskFactorsJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldActiveCoverageJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetActiveCoverageJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldDiscoveryMethodsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDiscoveryMethodsJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldHostnamesJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetHostnamesJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldInternalIpsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInternalIpsJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldInternalIpsV6JSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetInternalIpsV6JSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldMACAddressesJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMACAddressesJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldGatewayIpsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetGatewayIpsJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldGatewayMacsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetGatewayMacsJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldTCPPortsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTCPPortsJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldUDPPortsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUDPPortsJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldRangerTagsJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRangerTagsJSON(v)
+		return nil
+	case bronzes1networkdiscovery.FieldIDSecondaryJSON:
+		v, ok := value.(json.RawMessage)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIDSecondaryJSON(v)
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeS1NetworkDiscovery field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AddedFields() []string {
+	var fields []string
+	if m.addmemory != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldMemory)
+	}
+	if m.addcore_count != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldCoreCount)
+	}
+	if m.adds1_management_id != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1ManagementID)
+	}
+	if m.adds1_scope_type != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1ScopeType)
+	}
+	if m.adds1_onboarded_account_id != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedAccountID)
+	}
+	if m.adds1_onboarded_group_id != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedGroupID)
+	}
+	if m.adds1_onboarded_scope_id != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedScopeID)
+	}
+	if m.adds1_onboarded_site_id != nil {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedSiteID)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *BronzeS1NetworkDiscoveryMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case bronzes1networkdiscovery.FieldMemory:
+		return m.AddedMemory()
+	case bronzes1networkdiscovery.FieldCoreCount:
+		return m.AddedCoreCount()
+	case bronzes1networkdiscovery.FieldS1ManagementID:
+		return m.AddedS1ManagementID()
+	case bronzes1networkdiscovery.FieldS1ScopeType:
+		return m.AddedS1ScopeType()
+	case bronzes1networkdiscovery.FieldS1OnboardedAccountID:
+		return m.AddedS1OnboardedAccountID()
+	case bronzes1networkdiscovery.FieldS1OnboardedGroupID:
+		return m.AddedS1OnboardedGroupID()
+	case bronzes1networkdiscovery.FieldS1OnboardedScopeID:
+		return m.AddedS1OnboardedScopeID()
+	case bronzes1networkdiscovery.FieldS1OnboardedSiteID:
+		return m.AddedS1OnboardedSiteID()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeS1NetworkDiscoveryMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case bronzes1networkdiscovery.FieldMemory:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddMemory(v)
+		return nil
+	case bronzes1networkdiscovery.FieldCoreCount:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCoreCount(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1ManagementID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddS1ManagementID(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1ScopeType:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddS1ScopeType(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedAccountID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddS1OnboardedAccountID(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedGroupID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddS1OnboardedGroupID(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedScopeID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddS1OnboardedScopeID(v)
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedSiteID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddS1OnboardedSiteID(v)
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeS1NetworkDiscovery numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(bronzes1networkdiscovery.FieldName) {
+		fields = append(fields, bronzes1networkdiscovery.FieldName)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldIPAddress) {
+		fields = append(fields, bronzes1networkdiscovery.FieldIPAddress)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldDomain) {
+		fields = append(fields, bronzes1networkdiscovery.FieldDomain)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldSerialNumber) {
+		fields = append(fields, bronzes1networkdiscovery.FieldSerialNumber)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldCategory) {
+		fields = append(fields, bronzes1networkdiscovery.FieldCategory)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldSubCategory) {
+		fields = append(fields, bronzes1networkdiscovery.FieldSubCategory)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldResourceType) {
+		fields = append(fields, bronzes1networkdiscovery.FieldResourceType)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldOs) {
+		fields = append(fields, bronzes1networkdiscovery.FieldOs)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldOsFamily) {
+		fields = append(fields, bronzes1networkdiscovery.FieldOsFamily)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldOsVersion) {
+		fields = append(fields, bronzes1networkdiscovery.FieldOsVersion)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldOsNameVersion) {
+		fields = append(fields, bronzes1networkdiscovery.FieldOsNameVersion)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldArchitecture) {
+		fields = append(fields, bronzes1networkdiscovery.FieldArchitecture)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldManufacturer) {
+		fields = append(fields, bronzes1networkdiscovery.FieldManufacturer)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldCPU) {
+		fields = append(fields, bronzes1networkdiscovery.FieldCPU)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldMemoryReadable) {
+		fields = append(fields, bronzes1networkdiscovery.FieldMemoryReadable)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldNetworkName) {
+		fields = append(fields, bronzes1networkdiscovery.FieldNetworkName)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldAssetStatus) {
+		fields = append(fields, bronzes1networkdiscovery.FieldAssetStatus)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldAssetCriticality) {
+		fields = append(fields, bronzes1networkdiscovery.FieldAssetCriticality)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldAssetEnvironment) {
+		fields = append(fields, bronzes1networkdiscovery.FieldAssetEnvironment)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldInfectionStatus) {
+		fields = append(fields, bronzes1networkdiscovery.FieldInfectionStatus)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldDeviceReview) {
+		fields = append(fields, bronzes1networkdiscovery.FieldDeviceReview)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldEppUnsupportedUnknown) {
+		fields = append(fields, bronzes1networkdiscovery.FieldEppUnsupportedUnknown)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldAssetContactEmail) {
+		fields = append(fields, bronzes1networkdiscovery.FieldAssetContactEmail)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldLegacyIdentityPolicyName) {
+		fields = append(fields, bronzes1networkdiscovery.FieldLegacyIdentityPolicyName)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldPreviousOsType) {
+		fields = append(fields, bronzes1networkdiscovery.FieldPreviousOsType)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldPreviousOsVersion) {
+		fields = append(fields, bronzes1networkdiscovery.FieldPreviousOsVersion)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldPreviousDeviceFunction) {
+		fields = append(fields, bronzes1networkdiscovery.FieldPreviousDeviceFunction)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldDetectedFromSite) {
+		fields = append(fields, bronzes1networkdiscovery.FieldDetectedFromSite)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1AccountID) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1AccountID)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1AccountName) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1AccountName)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1SiteID) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1SiteID)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1SiteName) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1SiteName)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1GroupID) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1GroupID)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1GroupName) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1GroupName)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1ScopeID) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1ScopeID)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1ScopeLevel) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1ScopeLevel)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1ScopePath) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1ScopePath)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1OnboardedAccountName) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedAccountName)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1OnboardedGroupName) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedGroupName)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1OnboardedSiteName) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedSiteName)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1OnboardedScopeLevel) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedScopeLevel)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1OnboardedScopePath) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedScopePath)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldMemory) {
+		fields = append(fields, bronzes1networkdiscovery.FieldMemory)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldCoreCount) {
+		fields = append(fields, bronzes1networkdiscovery.FieldCoreCount)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1ManagementID) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1ManagementID)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1ScopeType) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1ScopeType)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1OnboardedAccountID) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedAccountID)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1OnboardedGroupID) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedGroupID)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1OnboardedScopeID) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedScopeID)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1OnboardedSiteID) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1OnboardedSiteID)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldFirstSeenDt) {
+		fields = append(fields, bronzes1networkdiscovery.FieldFirstSeenDt)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldLastUpdateDt) {
+		fields = append(fields, bronzes1networkdiscovery.FieldLastUpdateDt)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldLastActiveDt) {
+		fields = append(fields, bronzes1networkdiscovery.FieldLastActiveDt)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldLastRebootDt) {
+		fields = append(fields, bronzes1networkdiscovery.FieldLastRebootDt)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldS1UpdatedAt) {
+		fields = append(fields, bronzes1networkdiscovery.FieldS1UpdatedAt)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldAgentJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldAgentJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldNetworkInterfacesJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldNetworkInterfacesJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldAlertsJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldAlertsJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldAlertsCountJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldAlertsCountJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldDeviceReviewLogJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldDeviceReviewLogJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldIdentityJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldIdentityJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldNotesJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldNotesJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldTagsJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldTagsJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldMissingCoverageJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldMissingCoverageJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldSubnetsJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldSubnetsJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldSurfacesJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldSurfacesJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldNetworkNamesJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldNetworkNamesJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldRiskFactorsJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldRiskFactorsJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldActiveCoverageJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldActiveCoverageJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldDiscoveryMethodsJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldDiscoveryMethodsJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldHostnamesJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldHostnamesJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldInternalIpsJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldInternalIpsJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldInternalIpsV6JSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldInternalIpsV6JSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldMACAddressesJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldMACAddressesJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldGatewayIpsJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldGatewayIpsJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldGatewayMacsJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldGatewayMacsJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldTCPPortsJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldTCPPortsJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldUDPPortsJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldUDPPortsJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldRangerTagsJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldRangerTagsJSON)
+	}
+	if m.FieldCleared(bronzes1networkdiscovery.FieldIDSecondaryJSON) {
+		fields = append(fields, bronzes1networkdiscovery.FieldIDSecondaryJSON)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearField(name string) error {
+	switch name {
+	case bronzes1networkdiscovery.FieldName:
+		m.ClearName()
+		return nil
+	case bronzes1networkdiscovery.FieldIPAddress:
+		m.ClearIPAddress()
+		return nil
+	case bronzes1networkdiscovery.FieldDomain:
+		m.ClearDomain()
+		return nil
+	case bronzes1networkdiscovery.FieldSerialNumber:
+		m.ClearSerialNumber()
+		return nil
+	case bronzes1networkdiscovery.FieldCategory:
+		m.ClearCategory()
+		return nil
+	case bronzes1networkdiscovery.FieldSubCategory:
+		m.ClearSubCategory()
+		return nil
+	case bronzes1networkdiscovery.FieldResourceType:
+		m.ClearResourceType()
+		return nil
+	case bronzes1networkdiscovery.FieldOs:
+		m.ClearOs()
+		return nil
+	case bronzes1networkdiscovery.FieldOsFamily:
+		m.ClearOsFamily()
+		return nil
+	case bronzes1networkdiscovery.FieldOsVersion:
+		m.ClearOsVersion()
+		return nil
+	case bronzes1networkdiscovery.FieldOsNameVersion:
+		m.ClearOsNameVersion()
+		return nil
+	case bronzes1networkdiscovery.FieldArchitecture:
+		m.ClearArchitecture()
+		return nil
+	case bronzes1networkdiscovery.FieldManufacturer:
+		m.ClearManufacturer()
+		return nil
+	case bronzes1networkdiscovery.FieldCPU:
+		m.ClearCPU()
+		return nil
+	case bronzes1networkdiscovery.FieldMemoryReadable:
+		m.ClearMemoryReadable()
+		return nil
+	case bronzes1networkdiscovery.FieldNetworkName:
+		m.ClearNetworkName()
+		return nil
+	case bronzes1networkdiscovery.FieldAssetStatus:
+		m.ClearAssetStatus()
+		return nil
+	case bronzes1networkdiscovery.FieldAssetCriticality:
+		m.ClearAssetCriticality()
+		return nil
+	case bronzes1networkdiscovery.FieldAssetEnvironment:
+		m.ClearAssetEnvironment()
+		return nil
+	case bronzes1networkdiscovery.FieldInfectionStatus:
+		m.ClearInfectionStatus()
+		return nil
+	case bronzes1networkdiscovery.FieldDeviceReview:
+		m.ClearDeviceReview()
+		return nil
+	case bronzes1networkdiscovery.FieldEppUnsupportedUnknown:
+		m.ClearEppUnsupportedUnknown()
+		return nil
+	case bronzes1networkdiscovery.FieldAssetContactEmail:
+		m.ClearAssetContactEmail()
+		return nil
+	case bronzes1networkdiscovery.FieldLegacyIdentityPolicyName:
+		m.ClearLegacyIdentityPolicyName()
+		return nil
+	case bronzes1networkdiscovery.FieldPreviousOsType:
+		m.ClearPreviousOsType()
+		return nil
+	case bronzes1networkdiscovery.FieldPreviousOsVersion:
+		m.ClearPreviousOsVersion()
+		return nil
+	case bronzes1networkdiscovery.FieldPreviousDeviceFunction:
+		m.ClearPreviousDeviceFunction()
+		return nil
+	case bronzes1networkdiscovery.FieldDetectedFromSite:
+		m.ClearDetectedFromSite()
+		return nil
+	case bronzes1networkdiscovery.FieldS1AccountID:
+		m.ClearS1AccountID()
+		return nil
+	case bronzes1networkdiscovery.FieldS1AccountName:
+		m.ClearS1AccountName()
+		return nil
+	case bronzes1networkdiscovery.FieldS1SiteID:
+		m.ClearS1SiteID()
+		return nil
+	case bronzes1networkdiscovery.FieldS1SiteName:
+		m.ClearS1SiteName()
+		return nil
+	case bronzes1networkdiscovery.FieldS1GroupID:
+		m.ClearS1GroupID()
+		return nil
+	case bronzes1networkdiscovery.FieldS1GroupName:
+		m.ClearS1GroupName()
+		return nil
+	case bronzes1networkdiscovery.FieldS1ScopeID:
+		m.ClearS1ScopeID()
+		return nil
+	case bronzes1networkdiscovery.FieldS1ScopeLevel:
+		m.ClearS1ScopeLevel()
+		return nil
+	case bronzes1networkdiscovery.FieldS1ScopePath:
+		m.ClearS1ScopePath()
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedAccountName:
+		m.ClearS1OnboardedAccountName()
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedGroupName:
+		m.ClearS1OnboardedGroupName()
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedSiteName:
+		m.ClearS1OnboardedSiteName()
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedScopeLevel:
+		m.ClearS1OnboardedScopeLevel()
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedScopePath:
+		m.ClearS1OnboardedScopePath()
+		return nil
+	case bronzes1networkdiscovery.FieldMemory:
+		m.ClearMemory()
+		return nil
+	case bronzes1networkdiscovery.FieldCoreCount:
+		m.ClearCoreCount()
+		return nil
+	case bronzes1networkdiscovery.FieldS1ManagementID:
+		m.ClearS1ManagementID()
+		return nil
+	case bronzes1networkdiscovery.FieldS1ScopeType:
+		m.ClearS1ScopeType()
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedAccountID:
+		m.ClearS1OnboardedAccountID()
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedGroupID:
+		m.ClearS1OnboardedGroupID()
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedScopeID:
+		m.ClearS1OnboardedScopeID()
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedSiteID:
+		m.ClearS1OnboardedSiteID()
+		return nil
+	case bronzes1networkdiscovery.FieldFirstSeenDt:
+		m.ClearFirstSeenDt()
+		return nil
+	case bronzes1networkdiscovery.FieldLastUpdateDt:
+		m.ClearLastUpdateDt()
+		return nil
+	case bronzes1networkdiscovery.FieldLastActiveDt:
+		m.ClearLastActiveDt()
+		return nil
+	case bronzes1networkdiscovery.FieldLastRebootDt:
+		m.ClearLastRebootDt()
+		return nil
+	case bronzes1networkdiscovery.FieldS1UpdatedAt:
+		m.ClearS1UpdatedAt()
+		return nil
+	case bronzes1networkdiscovery.FieldAgentJSON:
+		m.ClearAgentJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldNetworkInterfacesJSON:
+		m.ClearNetworkInterfacesJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldAlertsJSON:
+		m.ClearAlertsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldAlertsCountJSON:
+		m.ClearAlertsCountJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldDeviceReviewLogJSON:
+		m.ClearDeviceReviewLogJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldIdentityJSON:
+		m.ClearIdentityJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldNotesJSON:
+		m.ClearNotesJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldTagsJSON:
+		m.ClearTagsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldMissingCoverageJSON:
+		m.ClearMissingCoverageJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldSubnetsJSON:
+		m.ClearSubnetsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldSurfacesJSON:
+		m.ClearSurfacesJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldNetworkNamesJSON:
+		m.ClearNetworkNamesJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldRiskFactorsJSON:
+		m.ClearRiskFactorsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldActiveCoverageJSON:
+		m.ClearActiveCoverageJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldDiscoveryMethodsJSON:
+		m.ClearDiscoveryMethodsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldHostnamesJSON:
+		m.ClearHostnamesJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldInternalIpsJSON:
+		m.ClearInternalIpsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldInternalIpsV6JSON:
+		m.ClearInternalIpsV6JSON()
+		return nil
+	case bronzes1networkdiscovery.FieldMACAddressesJSON:
+		m.ClearMACAddressesJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldGatewayIpsJSON:
+		m.ClearGatewayIpsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldGatewayMacsJSON:
+		m.ClearGatewayMacsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldTCPPortsJSON:
+		m.ClearTCPPortsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldUDPPortsJSON:
+		m.ClearUDPPortsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldRangerTagsJSON:
+		m.ClearRangerTagsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldIDSecondaryJSON:
+		m.ClearIDSecondaryJSON()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeS1NetworkDiscovery nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetField(name string) error {
+	switch name {
+	case bronzes1networkdiscovery.FieldCollectedAt:
+		m.ResetCollectedAt()
+		return nil
+	case bronzes1networkdiscovery.FieldFirstCollectedAt:
+		m.ResetFirstCollectedAt()
+		return nil
+	case bronzes1networkdiscovery.FieldName:
+		m.ResetName()
+		return nil
+	case bronzes1networkdiscovery.FieldIPAddress:
+		m.ResetIPAddress()
+		return nil
+	case bronzes1networkdiscovery.FieldDomain:
+		m.ResetDomain()
+		return nil
+	case bronzes1networkdiscovery.FieldSerialNumber:
+		m.ResetSerialNumber()
+		return nil
+	case bronzes1networkdiscovery.FieldCategory:
+		m.ResetCategory()
+		return nil
+	case bronzes1networkdiscovery.FieldSubCategory:
+		m.ResetSubCategory()
+		return nil
+	case bronzes1networkdiscovery.FieldResourceType:
+		m.ResetResourceType()
+		return nil
+	case bronzes1networkdiscovery.FieldOs:
+		m.ResetOs()
+		return nil
+	case bronzes1networkdiscovery.FieldOsFamily:
+		m.ResetOsFamily()
+		return nil
+	case bronzes1networkdiscovery.FieldOsVersion:
+		m.ResetOsVersion()
+		return nil
+	case bronzes1networkdiscovery.FieldOsNameVersion:
+		m.ResetOsNameVersion()
+		return nil
+	case bronzes1networkdiscovery.FieldArchitecture:
+		m.ResetArchitecture()
+		return nil
+	case bronzes1networkdiscovery.FieldManufacturer:
+		m.ResetManufacturer()
+		return nil
+	case bronzes1networkdiscovery.FieldCPU:
+		m.ResetCPU()
+		return nil
+	case bronzes1networkdiscovery.FieldMemoryReadable:
+		m.ResetMemoryReadable()
+		return nil
+	case bronzes1networkdiscovery.FieldNetworkName:
+		m.ResetNetworkName()
+		return nil
+	case bronzes1networkdiscovery.FieldAssetStatus:
+		m.ResetAssetStatus()
+		return nil
+	case bronzes1networkdiscovery.FieldAssetCriticality:
+		m.ResetAssetCriticality()
+		return nil
+	case bronzes1networkdiscovery.FieldAssetEnvironment:
+		m.ResetAssetEnvironment()
+		return nil
+	case bronzes1networkdiscovery.FieldInfectionStatus:
+		m.ResetInfectionStatus()
+		return nil
+	case bronzes1networkdiscovery.FieldDeviceReview:
+		m.ResetDeviceReview()
+		return nil
+	case bronzes1networkdiscovery.FieldEppUnsupportedUnknown:
+		m.ResetEppUnsupportedUnknown()
+		return nil
+	case bronzes1networkdiscovery.FieldAssetContactEmail:
+		m.ResetAssetContactEmail()
+		return nil
+	case bronzes1networkdiscovery.FieldLegacyIdentityPolicyName:
+		m.ResetLegacyIdentityPolicyName()
+		return nil
+	case bronzes1networkdiscovery.FieldPreviousOsType:
+		m.ResetPreviousOsType()
+		return nil
+	case bronzes1networkdiscovery.FieldPreviousOsVersion:
+		m.ResetPreviousOsVersion()
+		return nil
+	case bronzes1networkdiscovery.FieldPreviousDeviceFunction:
+		m.ResetPreviousDeviceFunction()
+		return nil
+	case bronzes1networkdiscovery.FieldDetectedFromSite:
+		m.ResetDetectedFromSite()
+		return nil
+	case bronzes1networkdiscovery.FieldS1AccountID:
+		m.ResetS1AccountID()
+		return nil
+	case bronzes1networkdiscovery.FieldS1AccountName:
+		m.ResetS1AccountName()
+		return nil
+	case bronzes1networkdiscovery.FieldS1SiteID:
+		m.ResetS1SiteID()
+		return nil
+	case bronzes1networkdiscovery.FieldS1SiteName:
+		m.ResetS1SiteName()
+		return nil
+	case bronzes1networkdiscovery.FieldS1GroupID:
+		m.ResetS1GroupID()
+		return nil
+	case bronzes1networkdiscovery.FieldS1GroupName:
+		m.ResetS1GroupName()
+		return nil
+	case bronzes1networkdiscovery.FieldS1ScopeID:
+		m.ResetS1ScopeID()
+		return nil
+	case bronzes1networkdiscovery.FieldS1ScopeLevel:
+		m.ResetS1ScopeLevel()
+		return nil
+	case bronzes1networkdiscovery.FieldS1ScopePath:
+		m.ResetS1ScopePath()
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedAccountName:
+		m.ResetS1OnboardedAccountName()
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedGroupName:
+		m.ResetS1OnboardedGroupName()
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedSiteName:
+		m.ResetS1OnboardedSiteName()
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedScopeLevel:
+		m.ResetS1OnboardedScopeLevel()
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedScopePath:
+		m.ResetS1OnboardedScopePath()
+		return nil
+	case bronzes1networkdiscovery.FieldMemory:
+		m.ResetMemory()
+		return nil
+	case bronzes1networkdiscovery.FieldCoreCount:
+		m.ResetCoreCount()
+		return nil
+	case bronzes1networkdiscovery.FieldS1ManagementID:
+		m.ResetS1ManagementID()
+		return nil
+	case bronzes1networkdiscovery.FieldS1ScopeType:
+		m.ResetS1ScopeType()
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedAccountID:
+		m.ResetS1OnboardedAccountID()
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedGroupID:
+		m.ResetS1OnboardedGroupID()
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedScopeID:
+		m.ResetS1OnboardedScopeID()
+		return nil
+	case bronzes1networkdiscovery.FieldS1OnboardedSiteID:
+		m.ResetS1OnboardedSiteID()
+		return nil
+	case bronzes1networkdiscovery.FieldIsAdConnector:
+		m.ResetIsAdConnector()
+		return nil
+	case bronzes1networkdiscovery.FieldIsDcServer:
+		m.ResetIsDcServer()
+		return nil
+	case bronzes1networkdiscovery.FieldAdsEnabled:
+		m.ResetAdsEnabled()
+		return nil
+	case bronzes1networkdiscovery.FieldFirstSeenDt:
+		m.ResetFirstSeenDt()
+		return nil
+	case bronzes1networkdiscovery.FieldLastUpdateDt:
+		m.ResetLastUpdateDt()
+		return nil
+	case bronzes1networkdiscovery.FieldLastActiveDt:
+		m.ResetLastActiveDt()
+		return nil
+	case bronzes1networkdiscovery.FieldLastRebootDt:
+		m.ResetLastRebootDt()
+		return nil
+	case bronzes1networkdiscovery.FieldS1UpdatedAt:
+		m.ResetS1UpdatedAt()
+		return nil
+	case bronzes1networkdiscovery.FieldAgentJSON:
+		m.ResetAgentJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldNetworkInterfacesJSON:
+		m.ResetNetworkInterfacesJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldAlertsJSON:
+		m.ResetAlertsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldAlertsCountJSON:
+		m.ResetAlertsCountJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldDeviceReviewLogJSON:
+		m.ResetDeviceReviewLogJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldIdentityJSON:
+		m.ResetIdentityJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldNotesJSON:
+		m.ResetNotesJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldTagsJSON:
+		m.ResetTagsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldMissingCoverageJSON:
+		m.ResetMissingCoverageJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldSubnetsJSON:
+		m.ResetSubnetsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldSurfacesJSON:
+		m.ResetSurfacesJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldNetworkNamesJSON:
+		m.ResetNetworkNamesJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldRiskFactorsJSON:
+		m.ResetRiskFactorsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldActiveCoverageJSON:
+		m.ResetActiveCoverageJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldDiscoveryMethodsJSON:
+		m.ResetDiscoveryMethodsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldHostnamesJSON:
+		m.ResetHostnamesJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldInternalIpsJSON:
+		m.ResetInternalIpsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldInternalIpsV6JSON:
+		m.ResetInternalIpsV6JSON()
+		return nil
+	case bronzes1networkdiscovery.FieldMACAddressesJSON:
+		m.ResetMACAddressesJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldGatewayIpsJSON:
+		m.ResetGatewayIpsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldGatewayMacsJSON:
+		m.ResetGatewayMacsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldTCPPortsJSON:
+		m.ResetTCPPortsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldUDPPortsJSON:
+		m.ResetUDPPortsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldRangerTagsJSON:
+		m.ResetRangerTagsJSON()
+		return nil
+	case bronzes1networkdiscovery.FieldIDSecondaryJSON:
+		m.ResetIDSecondaryJSON()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeS1NetworkDiscovery field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *BronzeS1NetworkDiscoveryMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *BronzeS1NetworkDiscoveryMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown BronzeS1NetworkDiscovery unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *BronzeS1NetworkDiscoveryMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown BronzeS1NetworkDiscovery edge %s", name)
 }
 
 // BronzeS1RangerDeviceMutation represents an operation that mutates the BronzeS1RangerDevice nodes in the graph.

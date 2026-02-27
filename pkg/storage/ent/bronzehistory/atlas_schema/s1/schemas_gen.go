@@ -103,6 +103,22 @@ func (BronzeHistoryS1Group) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze_history"})
 }
 
+type BronzeHistoryS1NetworkDiscovery struct {
+	bronzehistory_s1.BronzeHistoryS1NetworkDiscovery
+}
+
+func (BronzeHistoryS1NetworkDiscovery) Annotations() []schema.Annotation {
+	anns := bronzehistory_s1.BronzeHistoryS1NetworkDiscovery{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze_history"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze_history"})
+}
+
 type BronzeHistoryS1RangerDevice struct {
 	bronzehistory_s1.BronzeHistoryS1RangerDevice
 }

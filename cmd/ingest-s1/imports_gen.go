@@ -9,5 +9,6 @@ import (
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/app_inventory"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/endpoint_app"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/group"
+	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/network_discovery"
 	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/site"
 )

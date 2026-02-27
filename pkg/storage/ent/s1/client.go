@@ -21,6 +21,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1appinventory"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1endpointapp"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1group"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1networkdiscovery"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangerdevice"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangergateway"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangersetting"
@@ -31,6 +32,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1appinventory"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1endpointapp"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1group"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1networkdiscovery"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangerdevice"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangergateway"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangersetting"
@@ -56,6 +58,8 @@ type Client struct {
 	BronzeHistoryS1EndpointApp *BronzeHistoryS1EndpointAppClient
 	// BronzeHistoryS1Group is the client for interacting with the BronzeHistoryS1Group builders.
 	BronzeHistoryS1Group *BronzeHistoryS1GroupClient
+	// BronzeHistoryS1NetworkDiscovery is the client for interacting with the BronzeHistoryS1NetworkDiscovery builders.
+	BronzeHistoryS1NetworkDiscovery *BronzeHistoryS1NetworkDiscoveryClient
 	// BronzeHistoryS1RangerDevice is the client for interacting with the BronzeHistoryS1RangerDevice builders.
 	BronzeHistoryS1RangerDevice *BronzeHistoryS1RangerDeviceClient
 	// BronzeHistoryS1RangerGateway is the client for interacting with the BronzeHistoryS1RangerGateway builders.
@@ -76,6 +80,8 @@ type Client struct {
 	BronzeS1EndpointApp *BronzeS1EndpointAppClient
 	// BronzeS1Group is the client for interacting with the BronzeS1Group builders.
 	BronzeS1Group *BronzeS1GroupClient
+	// BronzeS1NetworkDiscovery is the client for interacting with the BronzeS1NetworkDiscovery builders.
+	BronzeS1NetworkDiscovery *BronzeS1NetworkDiscoveryClient
 	// BronzeS1RangerDevice is the client for interacting with the BronzeS1RangerDevice builders.
 	BronzeS1RangerDevice *BronzeS1RangerDeviceClient
 	// BronzeS1RangerGateway is the client for interacting with the BronzeS1RangerGateway builders.
@@ -101,6 +107,7 @@ func (c *Client) init() {
 	c.BronzeHistoryS1AppInventory = NewBronzeHistoryS1AppInventoryClient(c.config)
 	c.BronzeHistoryS1EndpointApp = NewBronzeHistoryS1EndpointAppClient(c.config)
 	c.BronzeHistoryS1Group = NewBronzeHistoryS1GroupClient(c.config)
+	c.BronzeHistoryS1NetworkDiscovery = NewBronzeHistoryS1NetworkDiscoveryClient(c.config)
 	c.BronzeHistoryS1RangerDevice = NewBronzeHistoryS1RangerDeviceClient(c.config)
 	c.BronzeHistoryS1RangerGateway = NewBronzeHistoryS1RangerGatewayClient(c.config)
 	c.BronzeHistoryS1RangerSetting = NewBronzeHistoryS1RangerSettingClient(c.config)
@@ -111,6 +118,7 @@ func (c *Client) init() {
 	c.BronzeS1AppInventory = NewBronzeS1AppInventoryClient(c.config)
 	c.BronzeS1EndpointApp = NewBronzeS1EndpointAppClient(c.config)
 	c.BronzeS1Group = NewBronzeS1GroupClient(c.config)
+	c.BronzeS1NetworkDiscovery = NewBronzeS1NetworkDiscoveryClient(c.config)
 	c.BronzeS1RangerDevice = NewBronzeS1RangerDeviceClient(c.config)
 	c.BronzeS1RangerGateway = NewBronzeS1RangerGatewayClient(c.config)
 	c.BronzeS1RangerSetting = NewBronzeS1RangerSettingClient(c.config)
@@ -207,28 +215,30 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:                          ctx,
-		config:                       cfg,
-		BronzeHistoryS1Account:       NewBronzeHistoryS1AccountClient(cfg),
-		BronzeHistoryS1Agent:         NewBronzeHistoryS1AgentClient(cfg),
-		BronzeHistoryS1AgentNIC:      NewBronzeHistoryS1AgentNICClient(cfg),
-		BronzeHistoryS1AppInventory:  NewBronzeHistoryS1AppInventoryClient(cfg),
-		BronzeHistoryS1EndpointApp:   NewBronzeHistoryS1EndpointAppClient(cfg),
-		BronzeHistoryS1Group:         NewBronzeHistoryS1GroupClient(cfg),
-		BronzeHistoryS1RangerDevice:  NewBronzeHistoryS1RangerDeviceClient(cfg),
-		BronzeHistoryS1RangerGateway: NewBronzeHistoryS1RangerGatewayClient(cfg),
-		BronzeHistoryS1RangerSetting: NewBronzeHistoryS1RangerSettingClient(cfg),
-		BronzeHistoryS1Site:          NewBronzeHistoryS1SiteClient(cfg),
-		BronzeS1Account:              NewBronzeS1AccountClient(cfg),
-		BronzeS1Agent:                NewBronzeS1AgentClient(cfg),
-		BronzeS1AgentNIC:             NewBronzeS1AgentNICClient(cfg),
-		BronzeS1AppInventory:         NewBronzeS1AppInventoryClient(cfg),
-		BronzeS1EndpointApp:          NewBronzeS1EndpointAppClient(cfg),
-		BronzeS1Group:                NewBronzeS1GroupClient(cfg),
-		BronzeS1RangerDevice:         NewBronzeS1RangerDeviceClient(cfg),
-		BronzeS1RangerGateway:        NewBronzeS1RangerGatewayClient(cfg),
-		BronzeS1RangerSetting:        NewBronzeS1RangerSettingClient(cfg),
-		BronzeS1Site:                 NewBronzeS1SiteClient(cfg),
+		ctx:                             ctx,
+		config:                          cfg,
+		BronzeHistoryS1Account:          NewBronzeHistoryS1AccountClient(cfg),
+		BronzeHistoryS1Agent:            NewBronzeHistoryS1AgentClient(cfg),
+		BronzeHistoryS1AgentNIC:         NewBronzeHistoryS1AgentNICClient(cfg),
+		BronzeHistoryS1AppInventory:     NewBronzeHistoryS1AppInventoryClient(cfg),
+		BronzeHistoryS1EndpointApp:      NewBronzeHistoryS1EndpointAppClient(cfg),
+		BronzeHistoryS1Group:            NewBronzeHistoryS1GroupClient(cfg),
+		BronzeHistoryS1NetworkDiscovery: NewBronzeHistoryS1NetworkDiscoveryClient(cfg),
+		BronzeHistoryS1RangerDevice:     NewBronzeHistoryS1RangerDeviceClient(cfg),
+		BronzeHistoryS1RangerGateway:    NewBronzeHistoryS1RangerGatewayClient(cfg),
+		BronzeHistoryS1RangerSetting:    NewBronzeHistoryS1RangerSettingClient(cfg),
+		BronzeHistoryS1Site:             NewBronzeHistoryS1SiteClient(cfg),
+		BronzeS1Account:                 NewBronzeS1AccountClient(cfg),
+		BronzeS1Agent:                   NewBronzeS1AgentClient(cfg),
+		BronzeS1AgentNIC:                NewBronzeS1AgentNICClient(cfg),
+		BronzeS1AppInventory:            NewBronzeS1AppInventoryClient(cfg),
+		BronzeS1EndpointApp:             NewBronzeS1EndpointAppClient(cfg),
+		BronzeS1Group:                   NewBronzeS1GroupClient(cfg),
+		BronzeS1NetworkDiscovery:        NewBronzeS1NetworkDiscoveryClient(cfg),
+		BronzeS1RangerDevice:            NewBronzeS1RangerDeviceClient(cfg),
+		BronzeS1RangerGateway:           NewBronzeS1RangerGatewayClient(cfg),
+		BronzeS1RangerSetting:           NewBronzeS1RangerSettingClient(cfg),
+		BronzeS1Site:                    NewBronzeS1SiteClient(cfg),
 	}, nil
 }
 
@@ -246,28 +256,30 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:                          ctx,
-		config:                       cfg,
-		BronzeHistoryS1Account:       NewBronzeHistoryS1AccountClient(cfg),
-		BronzeHistoryS1Agent:         NewBronzeHistoryS1AgentClient(cfg),
-		BronzeHistoryS1AgentNIC:      NewBronzeHistoryS1AgentNICClient(cfg),
-		BronzeHistoryS1AppInventory:  NewBronzeHistoryS1AppInventoryClient(cfg),
-		BronzeHistoryS1EndpointApp:   NewBronzeHistoryS1EndpointAppClient(cfg),
-		BronzeHistoryS1Group:         NewBronzeHistoryS1GroupClient(cfg),
-		BronzeHistoryS1RangerDevice:  NewBronzeHistoryS1RangerDeviceClient(cfg),
-		BronzeHistoryS1RangerGateway: NewBronzeHistoryS1RangerGatewayClient(cfg),
-		BronzeHistoryS1RangerSetting: NewBronzeHistoryS1RangerSettingClient(cfg),
-		BronzeHistoryS1Site:          NewBronzeHistoryS1SiteClient(cfg),
-		BronzeS1Account:              NewBronzeS1AccountClient(cfg),
-		BronzeS1Agent:                NewBronzeS1AgentClient(cfg),
-		BronzeS1AgentNIC:             NewBronzeS1AgentNICClient(cfg),
-		BronzeS1AppInventory:         NewBronzeS1AppInventoryClient(cfg),
-		BronzeS1EndpointApp:          NewBronzeS1EndpointAppClient(cfg),
-		BronzeS1Group:                NewBronzeS1GroupClient(cfg),
-		BronzeS1RangerDevice:         NewBronzeS1RangerDeviceClient(cfg),
-		BronzeS1RangerGateway:        NewBronzeS1RangerGatewayClient(cfg),
-		BronzeS1RangerSetting:        NewBronzeS1RangerSettingClient(cfg),
-		BronzeS1Site:                 NewBronzeS1SiteClient(cfg),
+		ctx:                             ctx,
+		config:                          cfg,
+		BronzeHistoryS1Account:          NewBronzeHistoryS1AccountClient(cfg),
+		BronzeHistoryS1Agent:            NewBronzeHistoryS1AgentClient(cfg),
+		BronzeHistoryS1AgentNIC:         NewBronzeHistoryS1AgentNICClient(cfg),
+		BronzeHistoryS1AppInventory:     NewBronzeHistoryS1AppInventoryClient(cfg),
+		BronzeHistoryS1EndpointApp:      NewBronzeHistoryS1EndpointAppClient(cfg),
+		BronzeHistoryS1Group:            NewBronzeHistoryS1GroupClient(cfg),
+		BronzeHistoryS1NetworkDiscovery: NewBronzeHistoryS1NetworkDiscoveryClient(cfg),
+		BronzeHistoryS1RangerDevice:     NewBronzeHistoryS1RangerDeviceClient(cfg),
+		BronzeHistoryS1RangerGateway:    NewBronzeHistoryS1RangerGatewayClient(cfg),
+		BronzeHistoryS1RangerSetting:    NewBronzeHistoryS1RangerSettingClient(cfg),
+		BronzeHistoryS1Site:             NewBronzeHistoryS1SiteClient(cfg),
+		BronzeS1Account:                 NewBronzeS1AccountClient(cfg),
+		BronzeS1Agent:                   NewBronzeS1AgentClient(cfg),
+		BronzeS1AgentNIC:                NewBronzeS1AgentNICClient(cfg),
+		BronzeS1AppInventory:            NewBronzeS1AppInventoryClient(cfg),
+		BronzeS1EndpointApp:             NewBronzeS1EndpointAppClient(cfg),
+		BronzeS1Group:                   NewBronzeS1GroupClient(cfg),
+		BronzeS1NetworkDiscovery:        NewBronzeS1NetworkDiscoveryClient(cfg),
+		BronzeS1RangerDevice:            NewBronzeS1RangerDeviceClient(cfg),
+		BronzeS1RangerGateway:           NewBronzeS1RangerGatewayClient(cfg),
+		BronzeS1RangerSetting:           NewBronzeS1RangerSettingClient(cfg),
+		BronzeS1Site:                    NewBronzeS1SiteClient(cfg),
 	}, nil
 }
 
@@ -299,10 +311,11 @@ func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
 		c.BronzeHistoryS1Account, c.BronzeHistoryS1Agent, c.BronzeHistoryS1AgentNIC,
 		c.BronzeHistoryS1AppInventory, c.BronzeHistoryS1EndpointApp,
-		c.BronzeHistoryS1Group, c.BronzeHistoryS1RangerDevice,
-		c.BronzeHistoryS1RangerGateway, c.BronzeHistoryS1RangerSetting,
-		c.BronzeHistoryS1Site, c.BronzeS1Account, c.BronzeS1Agent, c.BronzeS1AgentNIC,
-		c.BronzeS1AppInventory, c.BronzeS1EndpointApp, c.BronzeS1Group,
+		c.BronzeHistoryS1Group, c.BronzeHistoryS1NetworkDiscovery,
+		c.BronzeHistoryS1RangerDevice, c.BronzeHistoryS1RangerGateway,
+		c.BronzeHistoryS1RangerSetting, c.BronzeHistoryS1Site, c.BronzeS1Account,
+		c.BronzeS1Agent, c.BronzeS1AgentNIC, c.BronzeS1AppInventory,
+		c.BronzeS1EndpointApp, c.BronzeS1Group, c.BronzeS1NetworkDiscovery,
 		c.BronzeS1RangerDevice, c.BronzeS1RangerGateway, c.BronzeS1RangerSetting,
 		c.BronzeS1Site,
 	} {
@@ -316,10 +329,11 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
 		c.BronzeHistoryS1Account, c.BronzeHistoryS1Agent, c.BronzeHistoryS1AgentNIC,
 		c.BronzeHistoryS1AppInventory, c.BronzeHistoryS1EndpointApp,
-		c.BronzeHistoryS1Group, c.BronzeHistoryS1RangerDevice,
-		c.BronzeHistoryS1RangerGateway, c.BronzeHistoryS1RangerSetting,
-		c.BronzeHistoryS1Site, c.BronzeS1Account, c.BronzeS1Agent, c.BronzeS1AgentNIC,
-		c.BronzeS1AppInventory, c.BronzeS1EndpointApp, c.BronzeS1Group,
+		c.BronzeHistoryS1Group, c.BronzeHistoryS1NetworkDiscovery,
+		c.BronzeHistoryS1RangerDevice, c.BronzeHistoryS1RangerGateway,
+		c.BronzeHistoryS1RangerSetting, c.BronzeHistoryS1Site, c.BronzeS1Account,
+		c.BronzeS1Agent, c.BronzeS1AgentNIC, c.BronzeS1AppInventory,
+		c.BronzeS1EndpointApp, c.BronzeS1Group, c.BronzeS1NetworkDiscovery,
 		c.BronzeS1RangerDevice, c.BronzeS1RangerGateway, c.BronzeS1RangerSetting,
 		c.BronzeS1Site,
 	} {
@@ -342,6 +356,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeHistoryS1EndpointApp.mutate(ctx, m)
 	case *BronzeHistoryS1GroupMutation:
 		return c.BronzeHistoryS1Group.mutate(ctx, m)
+	case *BronzeHistoryS1NetworkDiscoveryMutation:
+		return c.BronzeHistoryS1NetworkDiscovery.mutate(ctx, m)
 	case *BronzeHistoryS1RangerDeviceMutation:
 		return c.BronzeHistoryS1RangerDevice.mutate(ctx, m)
 	case *BronzeHistoryS1RangerGatewayMutation:
@@ -362,6 +378,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeS1EndpointApp.mutate(ctx, m)
 	case *BronzeS1GroupMutation:
 		return c.BronzeS1Group.mutate(ctx, m)
+	case *BronzeS1NetworkDiscoveryMutation:
+		return c.BronzeS1NetworkDiscovery.mutate(ctx, m)
 	case *BronzeS1RangerDeviceMutation:
 		return c.BronzeS1RangerDevice.mutate(ctx, m)
 	case *BronzeS1RangerGatewayMutation:
@@ -1170,6 +1188,139 @@ func (c *BronzeHistoryS1GroupClient) mutate(ctx context.Context, m *BronzeHistor
 		return (&BronzeHistoryS1GroupDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("s1: unknown BronzeHistoryS1Group mutation op: %q", m.Op())
+	}
+}
+
+// BronzeHistoryS1NetworkDiscoveryClient is a client for the BronzeHistoryS1NetworkDiscovery schema.
+type BronzeHistoryS1NetworkDiscoveryClient struct {
+	config
+}
+
+// NewBronzeHistoryS1NetworkDiscoveryClient returns a client for the BronzeHistoryS1NetworkDiscovery from the given config.
+func NewBronzeHistoryS1NetworkDiscoveryClient(c config) *BronzeHistoryS1NetworkDiscoveryClient {
+	return &BronzeHistoryS1NetworkDiscoveryClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzehistorys1networkdiscovery.Hooks(f(g(h())))`.
+func (c *BronzeHistoryS1NetworkDiscoveryClient) Use(hooks ...Hook) {
+	c.hooks.BronzeHistoryS1NetworkDiscovery = append(c.hooks.BronzeHistoryS1NetworkDiscovery, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzehistorys1networkdiscovery.Intercept(f(g(h())))`.
+func (c *BronzeHistoryS1NetworkDiscoveryClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeHistoryS1NetworkDiscovery = append(c.inters.BronzeHistoryS1NetworkDiscovery, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeHistoryS1NetworkDiscovery entity.
+func (c *BronzeHistoryS1NetworkDiscoveryClient) Create() *BronzeHistoryS1NetworkDiscoveryCreate {
+	mutation := newBronzeHistoryS1NetworkDiscoveryMutation(c.config, OpCreate)
+	return &BronzeHistoryS1NetworkDiscoveryCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeHistoryS1NetworkDiscovery entities.
+func (c *BronzeHistoryS1NetworkDiscoveryClient) CreateBulk(builders ...*BronzeHistoryS1NetworkDiscoveryCreate) *BronzeHistoryS1NetworkDiscoveryCreateBulk {
+	return &BronzeHistoryS1NetworkDiscoveryCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeHistoryS1NetworkDiscoveryClient) MapCreateBulk(slice any, setFunc func(*BronzeHistoryS1NetworkDiscoveryCreate, int)) *BronzeHistoryS1NetworkDiscoveryCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeHistoryS1NetworkDiscoveryCreateBulk{err: fmt.Errorf("calling to BronzeHistoryS1NetworkDiscoveryClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeHistoryS1NetworkDiscoveryCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeHistoryS1NetworkDiscoveryCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeHistoryS1NetworkDiscovery.
+func (c *BronzeHistoryS1NetworkDiscoveryClient) Update() *BronzeHistoryS1NetworkDiscoveryUpdate {
+	mutation := newBronzeHistoryS1NetworkDiscoveryMutation(c.config, OpUpdate)
+	return &BronzeHistoryS1NetworkDiscoveryUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeHistoryS1NetworkDiscoveryClient) UpdateOne(_m *BronzeHistoryS1NetworkDiscovery) *BronzeHistoryS1NetworkDiscoveryUpdateOne {
+	mutation := newBronzeHistoryS1NetworkDiscoveryMutation(c.config, OpUpdateOne, withBronzeHistoryS1NetworkDiscovery(_m))
+	return &BronzeHistoryS1NetworkDiscoveryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeHistoryS1NetworkDiscoveryClient) UpdateOneID(id uint) *BronzeHistoryS1NetworkDiscoveryUpdateOne {
+	mutation := newBronzeHistoryS1NetworkDiscoveryMutation(c.config, OpUpdateOne, withBronzeHistoryS1NetworkDiscoveryID(id))
+	return &BronzeHistoryS1NetworkDiscoveryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeHistoryS1NetworkDiscovery.
+func (c *BronzeHistoryS1NetworkDiscoveryClient) Delete() *BronzeHistoryS1NetworkDiscoveryDelete {
+	mutation := newBronzeHistoryS1NetworkDiscoveryMutation(c.config, OpDelete)
+	return &BronzeHistoryS1NetworkDiscoveryDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeHistoryS1NetworkDiscoveryClient) DeleteOne(_m *BronzeHistoryS1NetworkDiscovery) *BronzeHistoryS1NetworkDiscoveryDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeHistoryS1NetworkDiscoveryClient) DeleteOneID(id uint) *BronzeHistoryS1NetworkDiscoveryDeleteOne {
+	builder := c.Delete().Where(bronzehistorys1networkdiscovery.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeHistoryS1NetworkDiscoveryDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeHistoryS1NetworkDiscovery.
+func (c *BronzeHistoryS1NetworkDiscoveryClient) Query() *BronzeHistoryS1NetworkDiscoveryQuery {
+	return &BronzeHistoryS1NetworkDiscoveryQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeHistoryS1NetworkDiscovery},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeHistoryS1NetworkDiscovery entity by its id.
+func (c *BronzeHistoryS1NetworkDiscoveryClient) Get(ctx context.Context, id uint) (*BronzeHistoryS1NetworkDiscovery, error) {
+	return c.Query().Where(bronzehistorys1networkdiscovery.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeHistoryS1NetworkDiscoveryClient) GetX(ctx context.Context, id uint) *BronzeHistoryS1NetworkDiscovery {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeHistoryS1NetworkDiscoveryClient) Hooks() []Hook {
+	return c.hooks.BronzeHistoryS1NetworkDiscovery
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeHistoryS1NetworkDiscoveryClient) Interceptors() []Interceptor {
+	return c.inters.BronzeHistoryS1NetworkDiscovery
+}
+
+func (c *BronzeHistoryS1NetworkDiscoveryClient) mutate(ctx context.Context, m *BronzeHistoryS1NetworkDiscoveryMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeHistoryS1NetworkDiscoveryCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeHistoryS1NetworkDiscoveryUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeHistoryS1NetworkDiscoveryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeHistoryS1NetworkDiscoveryDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("s1: unknown BronzeHistoryS1NetworkDiscovery mutation op: %q", m.Op())
 	}
 }
 
@@ -2541,6 +2692,139 @@ func (c *BronzeS1GroupClient) mutate(ctx context.Context, m *BronzeS1GroupMutati
 	}
 }
 
+// BronzeS1NetworkDiscoveryClient is a client for the BronzeS1NetworkDiscovery schema.
+type BronzeS1NetworkDiscoveryClient struct {
+	config
+}
+
+// NewBronzeS1NetworkDiscoveryClient returns a client for the BronzeS1NetworkDiscovery from the given config.
+func NewBronzeS1NetworkDiscoveryClient(c config) *BronzeS1NetworkDiscoveryClient {
+	return &BronzeS1NetworkDiscoveryClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzes1networkdiscovery.Hooks(f(g(h())))`.
+func (c *BronzeS1NetworkDiscoveryClient) Use(hooks ...Hook) {
+	c.hooks.BronzeS1NetworkDiscovery = append(c.hooks.BronzeS1NetworkDiscovery, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzes1networkdiscovery.Intercept(f(g(h())))`.
+func (c *BronzeS1NetworkDiscoveryClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeS1NetworkDiscovery = append(c.inters.BronzeS1NetworkDiscovery, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeS1NetworkDiscovery entity.
+func (c *BronzeS1NetworkDiscoveryClient) Create() *BronzeS1NetworkDiscoveryCreate {
+	mutation := newBronzeS1NetworkDiscoveryMutation(c.config, OpCreate)
+	return &BronzeS1NetworkDiscoveryCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeS1NetworkDiscovery entities.
+func (c *BronzeS1NetworkDiscoveryClient) CreateBulk(builders ...*BronzeS1NetworkDiscoveryCreate) *BronzeS1NetworkDiscoveryCreateBulk {
+	return &BronzeS1NetworkDiscoveryCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeS1NetworkDiscoveryClient) MapCreateBulk(slice any, setFunc func(*BronzeS1NetworkDiscoveryCreate, int)) *BronzeS1NetworkDiscoveryCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeS1NetworkDiscoveryCreateBulk{err: fmt.Errorf("calling to BronzeS1NetworkDiscoveryClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeS1NetworkDiscoveryCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeS1NetworkDiscoveryCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeS1NetworkDiscovery.
+func (c *BronzeS1NetworkDiscoveryClient) Update() *BronzeS1NetworkDiscoveryUpdate {
+	mutation := newBronzeS1NetworkDiscoveryMutation(c.config, OpUpdate)
+	return &BronzeS1NetworkDiscoveryUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeS1NetworkDiscoveryClient) UpdateOne(_m *BronzeS1NetworkDiscovery) *BronzeS1NetworkDiscoveryUpdateOne {
+	mutation := newBronzeS1NetworkDiscoveryMutation(c.config, OpUpdateOne, withBronzeS1NetworkDiscovery(_m))
+	return &BronzeS1NetworkDiscoveryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeS1NetworkDiscoveryClient) UpdateOneID(id string) *BronzeS1NetworkDiscoveryUpdateOne {
+	mutation := newBronzeS1NetworkDiscoveryMutation(c.config, OpUpdateOne, withBronzeS1NetworkDiscoveryID(id))
+	return &BronzeS1NetworkDiscoveryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeS1NetworkDiscovery.
+func (c *BronzeS1NetworkDiscoveryClient) Delete() *BronzeS1NetworkDiscoveryDelete {
+	mutation := newBronzeS1NetworkDiscoveryMutation(c.config, OpDelete)
+	return &BronzeS1NetworkDiscoveryDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeS1NetworkDiscoveryClient) DeleteOne(_m *BronzeS1NetworkDiscovery) *BronzeS1NetworkDiscoveryDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeS1NetworkDiscoveryClient) DeleteOneID(id string) *BronzeS1NetworkDiscoveryDeleteOne {
+	builder := c.Delete().Where(bronzes1networkdiscovery.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeS1NetworkDiscoveryDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeS1NetworkDiscovery.
+func (c *BronzeS1NetworkDiscoveryClient) Query() *BronzeS1NetworkDiscoveryQuery {
+	return &BronzeS1NetworkDiscoveryQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeS1NetworkDiscovery},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeS1NetworkDiscovery entity by its id.
+func (c *BronzeS1NetworkDiscoveryClient) Get(ctx context.Context, id string) (*BronzeS1NetworkDiscovery, error) {
+	return c.Query().Where(bronzes1networkdiscovery.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeS1NetworkDiscoveryClient) GetX(ctx context.Context, id string) *BronzeS1NetworkDiscovery {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeS1NetworkDiscoveryClient) Hooks() []Hook {
+	return c.hooks.BronzeS1NetworkDiscovery
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeS1NetworkDiscoveryClient) Interceptors() []Interceptor {
+	return c.inters.BronzeS1NetworkDiscovery
+}
+
+func (c *BronzeS1NetworkDiscoveryClient) mutate(ctx context.Context, m *BronzeS1NetworkDiscoveryMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeS1NetworkDiscoveryCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeS1NetworkDiscoveryUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeS1NetworkDiscoveryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeS1NetworkDiscoveryDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("s1: unknown BronzeS1NetworkDiscovery mutation op: %q", m.Op())
+	}
+}
+
 // BronzeS1RangerDeviceClient is a client for the BronzeS1RangerDevice schema.
 type BronzeS1RangerDeviceClient struct {
 	config
@@ -3078,19 +3362,21 @@ type (
 	hooks struct {
 		BronzeHistoryS1Account, BronzeHistoryS1Agent, BronzeHistoryS1AgentNIC,
 		BronzeHistoryS1AppInventory, BronzeHistoryS1EndpointApp, BronzeHistoryS1Group,
-		BronzeHistoryS1RangerDevice, BronzeHistoryS1RangerGateway,
-		BronzeHistoryS1RangerSetting, BronzeHistoryS1Site, BronzeS1Account,
-		BronzeS1Agent, BronzeS1AgentNIC, BronzeS1AppInventory, BronzeS1EndpointApp,
-		BronzeS1Group, BronzeS1RangerDevice, BronzeS1RangerGateway,
+		BronzeHistoryS1NetworkDiscovery, BronzeHistoryS1RangerDevice,
+		BronzeHistoryS1RangerGateway, BronzeHistoryS1RangerSetting,
+		BronzeHistoryS1Site, BronzeS1Account, BronzeS1Agent, BronzeS1AgentNIC,
+		BronzeS1AppInventory, BronzeS1EndpointApp, BronzeS1Group,
+		BronzeS1NetworkDiscovery, BronzeS1RangerDevice, BronzeS1RangerGateway,
 		BronzeS1RangerSetting, BronzeS1Site []ent.Hook
 	}
 	inters struct {
 		BronzeHistoryS1Account, BronzeHistoryS1Agent, BronzeHistoryS1AgentNIC,
 		BronzeHistoryS1AppInventory, BronzeHistoryS1EndpointApp, BronzeHistoryS1Group,
-		BronzeHistoryS1RangerDevice, BronzeHistoryS1RangerGateway,
-		BronzeHistoryS1RangerSetting, BronzeHistoryS1Site, BronzeS1Account,
-		BronzeS1Agent, BronzeS1AgentNIC, BronzeS1AppInventory, BronzeS1EndpointApp,
-		BronzeS1Group, BronzeS1RangerDevice, BronzeS1RangerGateway,
+		BronzeHistoryS1NetworkDiscovery, BronzeHistoryS1RangerDevice,
+		BronzeHistoryS1RangerGateway, BronzeHistoryS1RangerSetting,
+		BronzeHistoryS1Site, BronzeS1Account, BronzeS1Agent, BronzeS1AgentNIC,
+		BronzeS1AppInventory, BronzeS1EndpointApp, BronzeS1Group,
+		BronzeS1NetworkDiscovery, BronzeS1RangerDevice, BronzeS1RangerGateway,
 		BronzeS1RangerSetting, BronzeS1Site []ent.Interceptor
 	}
 )

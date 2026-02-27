@@ -30,6 +30,10 @@ type BronzeS1Group struct {
 	bronze_s1.BronzeS1Group
 }
 
+type BronzeS1NetworkDiscovery struct {
+	bronze_s1.BronzeS1NetworkDiscovery
+}
+
 type BronzeS1RangerDevice struct {
 	bronze_s1.BronzeS1RangerDevice
 }
@@ -68,6 +72,10 @@ type BronzeHistoryS1EndpointApp struct {
 
 type BronzeHistoryS1Group struct {
 	bronzehistory_s1.BronzeHistoryS1Group
+}
+
+type BronzeHistoryS1NetworkDiscovery struct {
+	bronzehistory_s1.BronzeHistoryS1NetworkDiscovery
 }
 
 type BronzeHistoryS1RangerDevice struct {

@@ -103,6 +103,22 @@ func (BronzeS1Group) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze"})
 }
 
+type BronzeS1NetworkDiscovery struct {
+	bronze_s1.BronzeS1NetworkDiscovery
+}
+
+func (BronzeS1NetworkDiscovery) Annotations() []schema.Annotation {
+	anns := bronze_s1.BronzeS1NetworkDiscovery{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
 type BronzeS1RangerDevice struct {
 	bronze_s1.BronzeS1RangerDevice
 }

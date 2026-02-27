@@ -24,6 +24,9 @@ type BronzeHistoryS1EndpointApp func(*sql.Selector)
 // BronzeHistoryS1Group is the predicate function for bronzehistorys1group builders.
 type BronzeHistoryS1Group func(*sql.Selector)
 
+// BronzeHistoryS1NetworkDiscovery is the predicate function for bronzehistorys1networkdiscovery builders.
+type BronzeHistoryS1NetworkDiscovery func(*sql.Selector)
+
 // BronzeHistoryS1RangerDevice is the predicate function for bronzehistorys1rangerdevice builders.
 type BronzeHistoryS1RangerDevice func(*sql.Selector)
 
@@ -53,6 +56,9 @@ type BronzeS1EndpointApp func(*sql.Selector)
 
 // BronzeS1Group is the predicate function for bronzes1group builders.
 type BronzeS1Group func(*sql.Selector)
+
+// BronzeS1NetworkDiscovery is the predicate function for bronzes1networkdiscovery builders.
+type BronzeS1NetworkDiscovery func(*sql.Selector)
 
 // BronzeS1RangerDevice is the predicate function for bronzes1rangerdevice builders.
 type BronzeS1RangerDevice func(*sql.Selector)

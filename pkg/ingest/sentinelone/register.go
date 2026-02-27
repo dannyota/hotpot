@@ -11,6 +11,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/app_inventory"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/endpoint_app"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/group"
+	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/network_discovery"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_device"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_gateway"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_setting"
@@ -37,6 +38,7 @@ func Register(w worker.Worker, configService *config.Service, driver dialect.Dri
 	ranger_device.Register(w, configService, entClient, limiter)
 	ranger_gateway.Register(w, configService, entClient, limiter)
 	ranger_setting.Register(w, configService, entClient, limiter)
+	network_discovery.Register(w, configService, entClient, limiter)
 	app_inventory.Register(w, configService, entClient, limiter)
 	endpoint_app.Register(w, configService, entClient, limiter)
 

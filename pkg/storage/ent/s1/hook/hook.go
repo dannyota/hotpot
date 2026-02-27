@@ -81,6 +81,18 @@ func (f BronzeHistoryS1GroupFunc) Mutate(ctx context.Context, m s1.Mutation) (s1
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *s1.BronzeHistoryS1GroupMutation", m)
 }
 
+// The BronzeHistoryS1NetworkDiscoveryFunc type is an adapter to allow the use of ordinary
+// function as BronzeHistoryS1NetworkDiscovery mutator.
+type BronzeHistoryS1NetworkDiscoveryFunc func(context.Context, *s1.BronzeHistoryS1NetworkDiscoveryMutation) (s1.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeHistoryS1NetworkDiscoveryFunc) Mutate(ctx context.Context, m s1.Mutation) (s1.Value, error) {
+	if mv, ok := m.(*s1.BronzeHistoryS1NetworkDiscoveryMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *s1.BronzeHistoryS1NetworkDiscoveryMutation", m)
+}
+
 // The BronzeHistoryS1RangerDeviceFunc type is an adapter to allow the use of ordinary
 // function as BronzeHistoryS1RangerDevice mutator.
 type BronzeHistoryS1RangerDeviceFunc func(context.Context, *s1.BronzeHistoryS1RangerDeviceMutation) (s1.Value, error)
@@ -199,6 +211,18 @@ func (f BronzeS1GroupFunc) Mutate(ctx context.Context, m s1.Mutation) (s1.Value,
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *s1.BronzeS1GroupMutation", m)
+}
+
+// The BronzeS1NetworkDiscoveryFunc type is an adapter to allow the use of ordinary
+// function as BronzeS1NetworkDiscovery mutator.
+type BronzeS1NetworkDiscoveryFunc func(context.Context, *s1.BronzeS1NetworkDiscoveryMutation) (s1.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeS1NetworkDiscoveryFunc) Mutate(ctx context.Context, m s1.Mutation) (s1.Value, error) {
+	if mv, ok := m.(*s1.BronzeS1NetworkDiscoveryMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *s1.BronzeS1NetworkDiscoveryMutation", m)
 }
 
 // The BronzeS1RangerDeviceFunc type is an adapter to allow the use of ordinary

@@ -11,6 +11,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/app_inventory"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/endpoint_app"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/group"
+	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/network_discovery"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_device"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_gateway"
 	"github.com/dannyota/hotpot/pkg/ingest/sentinelone/ranger_setting"
@@ -25,8 +26,9 @@ type S1InventoryWorkflowResult struct {
 	SiteCount          int
 	RangerDeviceCount  int
 	RangerGatewayCount int
-	RangerSettingCount int
-	AppInventoryCount  int
+	RangerSettingCount    int
+	NetworkDiscoveryCount int
+	AppInventoryCount     int
 	EndpointAppCount   int
 }
 
@@ -111,6 +113,15 @@ func S1InventoryWorkflow(ctx workflow.Context) (*S1InventoryWorkflowResult, erro
 		result.RangerSettingCount = rangerSettingResult.SettingCount
 	}
 
+	// Execute network discovery workflow
+	var networkDiscoveryResult network_discovery.S1NetworkDiscoveryWorkflowResult
+	err = workflow.ExecuteChildWorkflow(ctx, network_discovery.S1NetworkDiscoveryWorkflow).Get(ctx, &networkDiscoveryResult)
+	if err != nil {
+		logger.Error("Failed to execute S1NetworkDiscoveryWorkflow", "error", err)
+	} else {
+		result.NetworkDiscoveryCount = networkDiscoveryResult.DeviceCount
+	}
+
 	// Execute app inventory workflow
 	var appInventoryResult app_inventory.S1AppInventoryWorkflowResult
 	err = workflow.ExecuteChildWorkflow(ctx, app_inventory.S1AppInventoryWorkflow).Get(ctx, &appInventoryResult)
@@ -137,6 +148,7 @@ func S1InventoryWorkflow(ctx workflow.Context) (*S1InventoryWorkflowResult, erro
 		"rangerDevices", result.RangerDeviceCount,
 		"rangerGateways", result.RangerGatewayCount,
 		"rangerSettings", result.RangerSettingCount,
+		"networkDiscoveries", result.NetworkDiscoveryCount,
 		"appInventory", result.AppInventoryCount,
 		"endpointApps", result.EndpointAppCount,
 	)

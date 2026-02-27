@@ -7,26 +7,28 @@ import "context"
 // SchemaConfig represents alternative schema names for all tables
 // that can be passed at runtime.
 type SchemaConfig struct {
-	BronzeHistoryS1Account       string // BronzeHistoryS1Account table.
-	BronzeHistoryS1Agent         string // BronzeHistoryS1Agent table.
-	BronzeHistoryS1AgentNIC      string // BronzeHistoryS1AgentNIC table.
-	BronzeHistoryS1AppInventory  string // BronzeHistoryS1AppInventory table.
-	BronzeHistoryS1EndpointApp   string // BronzeHistoryS1EndpointApp table.
-	BronzeHistoryS1Group         string // BronzeHistoryS1Group table.
-	BronzeHistoryS1RangerDevice  string // BronzeHistoryS1RangerDevice table.
-	BronzeHistoryS1RangerGateway string // BronzeHistoryS1RangerGateway table.
-	BronzeHistoryS1RangerSetting string // BronzeHistoryS1RangerSetting table.
-	BronzeHistoryS1Site          string // BronzeHistoryS1Site table.
-	BronzeS1Account              string // BronzeS1Account table.
-	BronzeS1Agent                string // BronzeS1Agent table.
-	BronzeS1AgentNIC             string // BronzeS1AgentNIC table.
-	BronzeS1AppInventory         string // BronzeS1AppInventory table.
-	BronzeS1EndpointApp          string // BronzeS1EndpointApp table.
-	BronzeS1Group                string // BronzeS1Group table.
-	BronzeS1RangerDevice         string // BronzeS1RangerDevice table.
-	BronzeS1RangerGateway        string // BronzeS1RangerGateway table.
-	BronzeS1RangerSetting        string // BronzeS1RangerSetting table.
-	BronzeS1Site                 string // BronzeS1Site table.
+	BronzeHistoryS1Account          string // BronzeHistoryS1Account table.
+	BronzeHistoryS1Agent            string // BronzeHistoryS1Agent table.
+	BronzeHistoryS1AgentNIC         string // BronzeHistoryS1AgentNIC table.
+	BronzeHistoryS1AppInventory     string // BronzeHistoryS1AppInventory table.
+	BronzeHistoryS1EndpointApp      string // BronzeHistoryS1EndpointApp table.
+	BronzeHistoryS1Group            string // BronzeHistoryS1Group table.
+	BronzeHistoryS1NetworkDiscovery string // BronzeHistoryS1NetworkDiscovery table.
+	BronzeHistoryS1RangerDevice     string // BronzeHistoryS1RangerDevice table.
+	BronzeHistoryS1RangerGateway    string // BronzeHistoryS1RangerGateway table.
+	BronzeHistoryS1RangerSetting    string // BronzeHistoryS1RangerSetting table.
+	BronzeHistoryS1Site             string // BronzeHistoryS1Site table.
+	BronzeS1Account                 string // BronzeS1Account table.
+	BronzeS1Agent                   string // BronzeS1Agent table.
+	BronzeS1AgentNIC                string // BronzeS1AgentNIC table.
+	BronzeS1AppInventory            string // BronzeS1AppInventory table.
+	BronzeS1EndpointApp             string // BronzeS1EndpointApp table.
+	BronzeS1Group                   string // BronzeS1Group table.
+	BronzeS1NetworkDiscovery        string // BronzeS1NetworkDiscovery table.
+	BronzeS1RangerDevice            string // BronzeS1RangerDevice table.
+	BronzeS1RangerGateway           string // BronzeS1RangerGateway table.
+	BronzeS1RangerSetting           string // BronzeS1RangerSetting table.
+	BronzeS1Site                    string // BronzeS1Site table.
 }
 
 type schemaCtxKey struct{}
