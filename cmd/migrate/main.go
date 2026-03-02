@@ -16,7 +16,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/migrate"
 )
 
-var _ = migrate.ProviderSet("gcp", "greennode", "jenkins", "s1", "vault", "reference")
+var _ = migrate.ProviderSet("gcp", "greennode", "jenkins", "meec", "s1", "vault", "reference")
 
 func main() {
 	ctx := context.Background()

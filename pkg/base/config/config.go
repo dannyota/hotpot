@@ -13,6 +13,7 @@ type Config struct {
 	GreenNode GreenNodeConfig `yaml:"greennode"`
 	Vault     VaultConfig     `yaml:"vault"`
 	Jenkins   JenkinsConfig   `yaml:"jenkins"`
+	MEEC      MEECConfig      `yaml:"meec"`
 	Reference ReferenceConfig `yaml:"reference"`
 	Database DatabaseConfig `yaml:"database"`
 	Temporal TemporalConfig `yaml:"temporal"`
@@ -178,6 +179,36 @@ type JenkinsConfig struct {
 
 	// ExcludeRepos is a list of repo URL patterns to exclude from build repos.
 	ExcludeRepos []string `yaml:"exclude_repos,omitempty"`
+
+	// RateLimitPerMinute is the max API requests per minute. Default: 120.
+	RateLimitPerMinute int `yaml:"rate_limit_per_minute,omitempty"`
+}
+
+// MEECConfig holds ManageEngine Endpoint Central configuration.
+type MEECConfig struct {
+	// Enabled controls whether MEEC ingestion runs and tables are created.
+	Enabled bool `yaml:"enabled"`
+
+	// BaseURL is the MEEC server URL (e.g., "https://10.91.9.133:8383").
+	BaseURL string `yaml:"base_url"`
+
+	// Username is the MEEC login username.
+	Username string `yaml:"username"`
+
+	// Password is the MEEC login password (plain text, base64-encoded before sending).
+	Password string `yaml:"password"`
+
+	// AuthType is the MEEC authentication type. Default: "local_authentication".
+	AuthType string `yaml:"auth_type,omitempty"`
+
+	// TOTPSecret is the base32-encoded TOTP secret for 2FA (optional).
+	TOTPSecret string `yaml:"totp_secret,omitempty"`
+
+	// APIVersion is the MEEC API version. Default: "1.4".
+	APIVersion string `yaml:"api_version,omitempty"`
+
+	// VerifySSL controls TLS certificate verification. Default: true.
+	VerifySSL *bool `yaml:"verify_ssl,omitempty"`
 
 	// RateLimitPerMinute is the max API requests per minute. Default: 120.
 	RateLimitPerMinute int `yaml:"rate_limit_per_minute,omitempty"`

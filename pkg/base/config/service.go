@@ -198,6 +198,9 @@ func (s *Service) EnabledProviders() []string {
 	if s.config.Jenkins.Enabled {
 		providers = append(providers, "jenkins")
 	}
+	if s.config.MEEC.Enabled {
+		providers = append(providers, "meec")
+	}
 	if s.config.Reference.Enabled {
 		providers = append(providers, "reference")
 	}
@@ -628,6 +631,97 @@ func (s *Service) JenkinsRateLimitPerMinute() int {
 		return 120
 	}
 	return s.config.Jenkins.RateLimitPerMinute
+}
+
+// MEECEnabled returns true if MEEC ingestion is enabled in config.
+func (s *Service) MEECEnabled() bool {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.config != nil && s.config.MEEC.Enabled
+}
+
+// MEECBaseURL returns the MEEC server base URL.
+func (s *Service) MEECBaseURL() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.MEEC.BaseURL
+}
+
+// MEECUsername returns the MEEC login username.
+func (s *Service) MEECUsername() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.MEEC.Username
+}
+
+// MEECPassword returns the MEEC login password.
+func (s *Service) MEECPassword() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.MEEC.Password
+}
+
+// MEECAuthType returns the MEEC authentication type.
+// Defaults to "local_authentication" if not configured.
+func (s *Service) MEECAuthType() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || s.config.MEEC.AuthType == "" {
+		return "local_authentication"
+	}
+	return s.config.MEEC.AuthType
+}
+
+// MEECTOTPSecret returns the MEEC TOTP secret for 2FA.
+func (s *Service) MEECTOTPSecret() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil {
+		return ""
+	}
+	return s.config.MEEC.TOTPSecret
+}
+
+// MEECAPIVersion returns the MEEC API version.
+// Defaults to "1.4" if not configured.
+func (s *Service) MEECAPIVersion() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || s.config.MEEC.APIVersion == "" {
+		return "1.4"
+	}
+	return s.config.MEEC.APIVersion
+}
+
+// MEECVerifySSL returns whether to verify SSL certificates for MEEC.
+// Defaults to true if not configured.
+func (s *Service) MEECVerifySSL() bool {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || s.config.MEEC.VerifySSL == nil {
+		return true
+	}
+	return *s.config.MEEC.VerifySSL
+}
+
+// MEECRateLimitPerMinute returns the max API requests per minute for MEEC.
+// Defaults to 120 if not configured.
+func (s *Service) MEECRateLimitPerMinute() int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if s.config == nil || s.config.MEEC.RateLimitPerMinute <= 0 {
+		return 120
+	}
+	return s.config.MEEC.RateLimitPerMinute
 }
 
 // ReferenceEnabled returns true if reference data ingestion is enabled in config.
