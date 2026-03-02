@@ -3,12 +3,11 @@ package managedzone
 import (
 	"context"
 	"fmt"
-	"net/http"
 
 	"go.temporal.io/sdk/activity"
-	"google.golang.org/api/option"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
+	"github.com/dannyota/hotpot/pkg/base/gcpauth"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
 	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	entdns "github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns"
@@ -32,14 +31,11 @@ func NewActivities(configService *config.Service, entClient *entdns.Client, limi
 
 // createClient creates a rate-limited GCP client with credentials.
 func (a *Activities) createClient(ctx context.Context) (*Client, error) {
-	var opts []option.ClientOption
-	if credJSON := a.configService.GCPCredentialsJSON(); len(credJSON) > 0 {
-		opts = append(opts, option.WithAuthCredentialsJSON(option.ServiceAccount, credJSON))
+	httpClient, err := gcpauth.NewHTTPClient(ctx, a.configService.GCPCredentialsJSON(), a.limiter)
+	if err != nil {
+		return nil, err
 	}
-	httpClient := &http.Client{
-		Transport: ratelimit.NewRateLimitedTransport(a.limiter, nil),
-	}
-	return NewClient(ctx, httpClient, opts...)
+	return NewClient(ctx, httpClient)
 }
 
 // IngestDNSManagedZonesParams contains parameters for the ingest activity.

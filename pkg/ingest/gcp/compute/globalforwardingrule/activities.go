@@ -3,12 +3,12 @@ package globalforwardingrule
 import (
 	"context"
 	"fmt"
-	"net/http"
 
 	"go.temporal.io/sdk/activity"
 	"google.golang.org/api/option"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
+	"github.com/dannyota/hotpot/pkg/base/gcpauth"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
 	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
@@ -32,14 +32,11 @@ func NewActivities(configService *config.Service, entClient *entcompute.Client, 
 
 // createClient creates a rate-limited GCP client with credentials.
 func (a *Activities) createClient(ctx context.Context) (*Client, error) {
-	var opts []option.ClientOption
-	if credJSON := a.configService.GCPCredentialsJSON(); len(credJSON) > 0 {
-		opts = append(opts, option.WithAuthCredentialsJSON(option.ServiceAccount, credJSON))
+	httpClient, err := gcpauth.NewHTTPClient(ctx, a.configService.GCPCredentialsJSON(), a.limiter)
+	if err != nil {
+		return nil, err
 	}
-	opts = append(opts, option.WithHTTPClient(&http.Client{
-		Transport: ratelimit.NewRateLimitedTransport(a.limiter, nil),
-	}))
-	return NewClient(ctx, opts...)
+	return NewClient(ctx, option.WithHTTPClient(httpClient))
 }
 
 // IngestComputeGlobalForwardingRulesParams contains parameters for the ingest activity.
@@ -49,9 +46,9 @@ type IngestComputeGlobalForwardingRulesParams struct {
 
 // IngestComputeGlobalForwardingRulesResult contains the result of the ingest activity.
 type IngestComputeGlobalForwardingRulesResult struct {
-	ProjectID                string
+	ProjectID                 string
 	GlobalForwardingRuleCount int
-	DurationMillis           int64
+	DurationMillis            int64
 }
 
 // IngestComputeGlobalForwardingRulesActivity is the activity function reference for workflow registration.
@@ -92,8 +89,8 @@ func (a *Activities) IngestComputeGlobalForwardingRules(ctx context.Context, par
 	)
 
 	return &IngestComputeGlobalForwardingRulesResult{
-		ProjectID:                result.ProjectID,
+		ProjectID:                 result.ProjectID,
 		GlobalForwardingRuleCount: result.GlobalForwardingRuleCount,
-		DurationMillis:           result.DurationMillis,
+		DurationMillis:            result.DurationMillis,
 	}, nil
 }
