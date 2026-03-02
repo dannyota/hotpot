@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"log/slog"
 	"net/http"
+	"sync/atomic"
 	"time"
 
 	"go.temporal.io/sdk/activity"
+	"golang.org/x/sync/errgroup"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/ratelimit"
@@ -76,45 +78,69 @@ func (a *Activities) ListAgentIDs(ctx context.Context) (*ListAgentIDsResult, err
 	}, nil
 }
 
-// FetchAndSaveAgentAppsInput is the input for the FetchAndSaveAgentApps activity.
-type FetchAndSaveAgentAppsInput struct {
-	AgentID     string
+// FetchAndSaveBatchInput is the input for the FetchAndSaveBatch activity.
+type FetchAndSaveBatchInput struct {
+	AgentIDs    []string
 	CollectedAt time.Time
 }
 
-// FetchAndSaveAgentAppsResult contains the result of fetching and saving apps for one agent.
-type FetchAndSaveAgentAppsResult struct {
+// FetchAndSaveBatchResult contains the result of processing a batch of agents.
+type FetchAndSaveBatchResult struct {
 	AppCount int
 }
 
-// FetchAndSaveAgentAppsActivity is the activity function reference for workflow registration.
-var FetchAndSaveAgentAppsActivity = (*Activities).FetchAndSaveAgentApps
+// FetchAndSaveBatchActivity is the activity function reference for workflow registration.
+var FetchAndSaveBatchActivity = (*Activities).FetchAndSaveBatch
 
-// FetchAndSaveAgentApps fetches endpoint apps for a single agent and saves them.
-func (a *Activities) FetchAndSaveAgentApps(ctx context.Context, input FetchAndSaveAgentAppsInput) (*FetchAndSaveAgentAppsResult, error) {
+const fetchWorkers = 10
+
+// FetchAndSaveBatch fetches and saves endpoint apps for a batch of agents.
+// Processes up to fetchWorkers agents in parallel — the rate limiter gates throughput.
+func (a *Activities) FetchAndSaveBatch(ctx context.Context, input FetchAndSaveBatchInput) (*FetchAndSaveBatchResult, error) {
 	client := a.createClient()
-
-	apiApps, err := client.GetEndpointApps(input.AgentID)
-	if err != nil {
-		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("get endpoint apps for agent %s: %w", input.AgentID, err))
-	}
-
-	apps := make([]*EndpointAppData, 0, len(apiApps))
-	for _, app := range apiApps {
-		apps = append(apps, ConvertEndpointApp(input.AgentID, app, input.CollectedAt))
-	}
-
-	activity.RecordHeartbeat(ctx, input.AgentID)
-
 	service := NewService(client, a.entClient)
-	if err := service.SaveAgentApps(ctx, apps); err != nil {
-		return nil, fmt.Errorf("save endpoint apps for agent %s: %w", input.AgentID, err)
+
+	var totalApps atomic.Int64
+	var done atomic.Int64
+
+	g, gCtx := errgroup.WithContext(ctx)
+	g.SetLimit(fetchWorkers)
+
+	for _, agentID := range input.AgentIDs {
+		g.Go(func() error {
+			apiApps, err := client.GetEndpointApps(agentID)
+			if err != nil {
+				return temporalerr.MaybeNonRetryable(fmt.Errorf("get endpoint apps for agent %s: %w", agentID, err))
+			}
+
+			apps := make([]*EndpointAppData, 0, len(apiApps))
+			for _, app := range apiApps {
+				apps = append(apps, ConvertEndpointApp(agentID, app, input.CollectedAt))
+			}
+
+			if err := service.SaveAgentApps(gCtx, apps); err != nil {
+				return fmt.Errorf("save endpoint apps for agent %s: %w", agentID, err)
+			}
+
+			totalApps.Add(int64(len(apps)))
+			n := done.Add(1)
+			activity.RecordHeartbeat(ctx, fmt.Sprintf("%d/%d agents, %d apps", n, len(input.AgentIDs), totalApps.Load()))
+			return nil
+		})
 	}
 
-	slog.Debug("s1 endpoint apps: saved agent apps", "agentID", input.AgentID, "appCount", len(apps))
+	if err := g.Wait(); err != nil {
+		return nil, err
+	}
 
-	return &FetchAndSaveAgentAppsResult{
-		AppCount: len(apps),
+	count := int(totalApps.Load())
+	slog.Info("s1 endpoint apps: batch saved",
+		"agentCount", len(input.AgentIDs),
+		"appCount", count,
+	)
+
+	return &FetchAndSaveBatchResult{
+		AppCount: count,
 	}, nil
 }
 

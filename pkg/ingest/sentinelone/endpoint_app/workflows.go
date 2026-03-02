@@ -9,13 +9,15 @@ import (
 	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 )
 
+const batchSize = 50
+
 // S1EndpointAppWorkflowResult contains the result of the endpoint app workflow.
 type S1EndpointAppWorkflowResult struct {
 	AppCount       int
 	DurationMillis int64
 }
 
-// S1EndpointAppWorkflow ingests SentinelOne endpoint applications using per-agent fan-out.
+// S1EndpointAppWorkflow ingests SentinelOne endpoint applications in sequential batches.
 func S1EndpointAppWorkflow(ctx workflow.Context) (*S1EndpointAppWorkflowResult, error) {
 	logger := workflow.GetLogger(ctx)
 	logger.Info("Starting S1EndpointAppWorkflow")
@@ -41,67 +43,46 @@ func S1EndpointAppWorkflow(ctx workflow.Context) (*S1EndpointAppWorkflowResult, 
 
 	logger.Info("Listed agent IDs", "agentCount", len(listResult.AgentIDs))
 
-	// Step 2: Fan-out — fetch and save apps per agent
+	// Step 2: Process agents in sequential batches.
+	// Each batch activity processes up to batchSize agents, with the rate
+	// limiter pacing API calls. This avoids fan-out complexity and keeps
+	// workflow history small.
 	fetchCtx := workflow.WithActivityOptions(ctx, workflow.ActivityOptions{
-		StartToCloseTimeout: 5 * time.Minute,
+		StartToCloseTimeout: 10 * time.Minute,
 		HeartbeatTimeout:    time.Minute,
 		RetryPolicy: &temporal.RetryPolicy{
-			InitialInterval:    time.Second,
+			InitialInterval:    5 * time.Second,
 			BackoffCoefficient: 2.0,
 			MaximumInterval:    time.Minute,
-			MaximumAttempts:    3,
+			MaximumAttempts:    5,
 		},
 	})
 
 	totalApps := 0
-	agentsDone := 0
-	totalAgents := len(listResult.AgentIDs)
-	sem := workflow.NewSemaphore(ctx, 5)
-	mu := workflow.NewMutex(ctx)
-	wg := workflow.NewWaitGroup(ctx)
-	var firstErr error
+	for i := 0; i < len(listResult.AgentIDs); i += batchSize {
+		end := i + batchSize
+		if end > len(listResult.AgentIDs) {
+			end = len(listResult.AgentIDs)
+		}
+		batch := listResult.AgentIDs[i:end]
 
-	for _, agentID := range listResult.AgentIDs {
-		if err := sem.Acquire(ctx, 1); err != nil {
-			return nil, err
+		var result FetchAndSaveBatchResult
+		err := workflow.ExecuteActivity(fetchCtx, FetchAndSaveBatchActivity, FetchAndSaveBatchInput{
+			AgentIDs:    batch,
+			CollectedAt: listResult.CollectedAt,
+		}).Get(ctx, &result)
+		if err != nil {
+			logger.Error("Failed to process batch", "batchStart", i, "error", err)
+			return nil, temporalerr.PropagateNonRetryable(err)
 		}
 
-		wg.Add(1)
-		agentID := agentID // capture loop variable
-		workflow.Go(ctx, func(gCtx workflow.Context) {
-			defer wg.Done()
-			defer sem.Release(1)
-
-			var result FetchAndSaveAgentAppsResult
-			err := workflow.ExecuteActivity(fetchCtx, FetchAndSaveAgentAppsActivity, FetchAndSaveAgentAppsInput{
-				AgentID:     agentID,
-				CollectedAt: listResult.CollectedAt,
-			}).Get(gCtx, &result)
-
-			_ = mu.Lock(gCtx)
-			defer mu.Unlock()
-			if err != nil {
-				if firstErr == nil {
-					firstErr = err
-				}
-				return
-			}
-			totalApps += result.AppCount
-			agentsDone++
-			if agentsDone%50 == 0 || agentsDone == totalAgents {
-				logger.Info("s1 endpoint apps: progress", "agentsDone", agentsDone, "totalAgents", totalAgents, "totalApps", totalApps)
-			}
-		})
+		totalApps += result.AppCount
+		logger.Info("s1 endpoint apps: batch complete",
+			"agentsDone", end,
+			"totalAgents", len(listResult.AgentIDs),
+			"totalApps", totalApps,
+		)
 	}
-
-	wg.Wait(ctx)
-
-	if firstErr != nil {
-		logger.Error("Failed to fetch agent apps", "error", firstErr)
-		return nil, temporalerr.PropagateNonRetryable(firstErr)
-	}
-
-	logger.Info("Fetched all agent apps", "totalApps", totalApps, "agentCount", len(listResult.AgentIDs))
 
 	// Step 3: Delete stale endpoint apps
 	deleteCtx := workflow.WithActivityOptions(ctx, workflow.ActivityOptions{
