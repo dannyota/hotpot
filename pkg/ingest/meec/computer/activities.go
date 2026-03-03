@@ -95,25 +95,3 @@ func (a *Activities) IngestComputers(ctx context.Context) (*IngestComputersResul
 	}, nil
 }
 
-// DeleteStaleComputersInput is the input for the DeleteStaleComputers activity.
-type DeleteStaleComputersInput struct {
-	CollectedAt time.Time
-}
-
-// DeleteStaleComputersActivity is the activity function reference for workflow registration.
-var DeleteStaleComputersActivity = (*Activities).DeleteStaleComputers
-
-// DeleteStaleComputers removes computers not collected in the latest run.
-func (a *Activities) DeleteStaleComputers(ctx context.Context, input DeleteStaleComputersInput) error {
-	client, err := a.createClient()
-	if err != nil {
-		return temporalerr.MaybeNonRetryable(err)
-	}
-	service := NewService(client, a.entClient)
-
-	if err := service.DeleteStale(ctx, input.CollectedAt); err != nil {
-		return fmt.Errorf("delete stale computers: %w", err)
-	}
-
-	return nil
-}

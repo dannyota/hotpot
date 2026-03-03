@@ -94,6 +94,8 @@ func (s *Service) saveSoftware(ctx context.Context, software []*SoftwareData) er
 		}
 	}()
 
+	activeIDs := make(map[string]struct{}, len(software))
+
 	for _, data := range software {
 		existing, err := tx.BronzeMEECInventorySoftware.Query().
 			Where(bronzemeecinventorysoftware.ID(data.ResourceID)).
@@ -112,6 +114,7 @@ func (s *Service) saveSoftware(ctx context.Context, software []*SoftwareData) er
 				tx.Rollback()
 				return fmt.Errorf("update collected_at for software %s: %w", data.ResourceID, err)
 			}
+			activeIDs[data.ResourceID] = struct{}{}
 			continue
 		}
 
@@ -178,49 +181,40 @@ func (s *Service) saveSoftware(ctx context.Context, software []*SoftwareData) er
 				return fmt.Errorf("update history for software %s: %w", data.ResourceID, err)
 			}
 		}
+
+		activeIDs[data.ResourceID] = struct{}{}
 	}
 
-	if err := tx.Commit(); err != nil {
-		return fmt.Errorf("commit transaction: %w", err)
-	}
-
-	return nil
-}
-
-// DeleteStale removes software entries that were not collected in the latest run.
-func (s *Service) DeleteStale(ctx context.Context, collectedAt time.Time) error {
-	now := time.Now()
-
-	tx, err := s.entClient.Tx(ctx)
-	if err != nil {
-		return fmt.Errorf("start transaction: %w", err)
-	}
-
-	defer func() {
-		if v := recover(); v != nil {
-			tx.Rollback()
-			panic(v)
-		}
-	}()
-
-	stale, err := tx.BronzeMEECInventorySoftware.Query().
-		Where(bronzemeecinventorysoftware.CollectedAtLT(collectedAt)).
-		All(ctx)
+	// Delete stale software not returned by the API.
+	allDBIDs, err := tx.BronzeMEECInventorySoftware.Query().
+		Select(bronzemeecinventorysoftware.FieldID).
+		Strings(ctx)
 	if err != nil {
 		tx.Rollback()
-		return err
+		return fmt.Errorf("query all software IDs: %w", err)
 	}
 
-	for _, sw := range stale {
-		if err := s.history.CloseHistory(ctx, tx, sw.ID, now); err != nil {
-			tx.Rollback()
-			return fmt.Errorf("close history for software %s: %w", sw.ID, err)
+	staleCount := 0
+	for _, id := range allDBIDs {
+		if _, ok := activeIDs[id]; ok {
+			continue
 		}
 
-		if err := tx.BronzeMEECInventorySoftware.DeleteOne(sw).Exec(ctx); err != nil {
+		if err := s.history.CloseHistory(ctx, tx, id, now); err != nil {
 			tx.Rollback()
-			return fmt.Errorf("delete software %s: %w", sw.ID, err)
+			return fmt.Errorf("close history for stale software %s: %w", id, err)
 		}
+
+		if err := tx.BronzeMEECInventorySoftware.DeleteOneID(id).Exec(ctx); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("delete stale software %s: %w", id, err)
+		}
+
+		staleCount++
+	}
+
+	if staleCount > 0 {
+		slog.Info("meec software: deleted stale", "count", staleCount)
 	}
 
 	if err := tx.Commit(); err != nil {

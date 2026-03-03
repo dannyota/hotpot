@@ -41,25 +41,6 @@ func MEECSoftwareWorkflow(ctx workflow.Context) (*MEECSoftwareWorkflowResult, er
 		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
-	logger.Info("Ingested software catalog", "softwareCount", ingestResult.SoftwareCount)
-
-	// Step 2: Delete stale software entries
-	deleteCtx := workflow.WithActivityOptions(ctx, workflow.ActivityOptions{
-		StartToCloseTimeout: 5 * time.Minute,
-		RetryPolicy: &temporal.RetryPolicy{
-			InitialInterval:    time.Second,
-			BackoffCoefficient: 2.0,
-			MaximumInterval:    time.Minute,
-			MaximumAttempts:    3,
-		},
-	})
-
-	if err := workflow.ExecuteActivity(deleteCtx, DeleteStaleSoftwareActivity, DeleteStaleSoftwareInput{
-		CollectedAt: ingestResult.CollectedAt,
-	}).Get(ctx, nil); err != nil {
-		logger.Warn("Failed to delete stale software entries", "error", err)
-	}
-
 	durationMillis := workflow.Now(ctx).Sub(startTime).Milliseconds()
 	logger.Info("Completed MEECSoftwareWorkflow", "softwareCount", ingestResult.SoftwareCount, "durationMillis", durationMillis)
 

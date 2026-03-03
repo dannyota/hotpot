@@ -3,9 +3,11 @@ package installed_software
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"time"
 
 	entinventory "github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory"
+	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/bronzemeecinventorycomputer"
 	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/bronzemeecinventoryinstalledsoftware"
 )
 
@@ -27,10 +29,6 @@ func NewService(client *Client, entClient *entinventory.Client) *Service {
 
 // SaveComputerSoftware saves installed software for a single computer (upsert + history).
 func (s *Service) SaveComputerSoftware(ctx context.Context, computerResourceID string, software []*InstalledSoftwareData) error {
-	if len(software) == 0 {
-		return nil
-	}
-
 	now := time.Now()
 
 	tx, err := s.entClient.Tx(ctx)
@@ -44,6 +42,8 @@ func (s *Service) SaveComputerSoftware(ctx context.Context, computerResourceID s
 			panic(v)
 		}
 	}()
+
+	activeIDs := make(map[string]struct{}, len(software))
 
 	for _, data := range software {
 		existing, err := tx.BronzeMEECInventoryInstalledSoftware.Query().
@@ -63,6 +63,7 @@ func (s *Service) SaveComputerSoftware(ctx context.Context, computerResourceID s
 				tx.Rollback()
 				return fmt.Errorf("update collected_at for installed software %s: %w", data.ResourceID, err)
 			}
+			activeIDs[data.ResourceID] = struct{}{}
 			continue
 		}
 
@@ -118,6 +119,40 @@ func (s *Service) SaveComputerSoftware(ctx context.Context, computerResourceID s
 				return fmt.Errorf("update history for installed software %s: %w", data.ResourceID, err)
 			}
 		}
+
+		activeIDs[data.ResourceID] = struct{}{}
+	}
+
+	// Delete stale installed software for this computer not returned by the API.
+	dbSoftwareIDs, err := tx.BronzeMEECInventoryInstalledSoftware.Query().
+		Where(bronzemeecinventoryinstalledsoftware.ComputerResourceIDEQ(computerResourceID)).
+		Select(bronzemeecinventoryinstalledsoftware.FieldID).
+		Strings(ctx)
+	if err != nil {
+		tx.Rollback()
+		return fmt.Errorf("query installed software IDs for computer %s: %w", computerResourceID, err)
+	}
+
+	staleCount := 0
+	for _, id := range dbSoftwareIDs {
+		if _, ok := activeIDs[id]; ok {
+			continue
+		}
+
+		if err := s.history.CloseHistory(ctx, tx, id, now); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("close history for stale installed software %s: %w", id, err)
+		}
+
+		if err := tx.BronzeMEECInventoryInstalledSoftware.DeleteOneID(id).Exec(ctx); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("delete stale installed software %s: %w", id, err)
+		}
+		staleCount++
+	}
+
+	if staleCount > 0 {
+		slog.Info("meec installed software: deleted stale for computer", "computerID", computerResourceID, "count", staleCount)
 	}
 
 	if err := tx.Commit(); err != nil {
@@ -127,9 +162,27 @@ func (s *Service) SaveComputerSoftware(ctx context.Context, computerResourceID s
 	return nil
 }
 
-// DeleteStale removes installed software that was not collected in the latest run.
-func (s *Service) DeleteStale(ctx context.Context, collectedAt time.Time) error {
+// DeleteOrphans removes installed software whose computer no longer exists.
+func (s *Service) DeleteOrphans(ctx context.Context) error {
 	now := time.Now()
+
+	computerIDs, err := s.entClient.BronzeMEECInventoryComputer.Query().
+		Select(bronzemeecinventorycomputer.FieldID).
+		Strings(ctx)
+	if err != nil {
+		return fmt.Errorf("query computer IDs: %w", err)
+	}
+
+	orphans, err := s.entClient.BronzeMEECInventoryInstalledSoftware.Query().
+		Where(bronzemeecinventoryinstalledsoftware.ComputerResourceIDNotIn(computerIDs...)).
+		All(ctx)
+	if err != nil {
+		return fmt.Errorf("query orphan installed software: %w", err)
+	}
+
+	if len(orphans) == 0 {
+		return nil
+	}
 
 	tx, err := s.entClient.Tx(ctx)
 	if err != nil {
@@ -143,29 +196,23 @@ func (s *Service) DeleteStale(ctx context.Context, collectedAt time.Time) error 
 		}
 	}()
 
-	stale, err := tx.BronzeMEECInventoryInstalledSoftware.Query().
-		Where(bronzemeecinventoryinstalledsoftware.CollectedAtLT(collectedAt)).
-		All(ctx)
-	if err != nil {
-		tx.Rollback()
-		return err
-	}
-
-	for _, sw := range stale {
+	for _, sw := range orphans {
 		if err := s.history.CloseHistory(ctx, tx, sw.ID, now); err != nil {
 			tx.Rollback()
-			return fmt.Errorf("close history for installed software %s: %w", sw.ID, err)
+			return fmt.Errorf("close history for orphan installed software %s: %w", sw.ID, err)
 		}
 
 		if err := tx.BronzeMEECInventoryInstalledSoftware.DeleteOne(sw).Exec(ctx); err != nil {
 			tx.Rollback()
-			return fmt.Errorf("delete installed software %s: %w", sw.ID, err)
+			return fmt.Errorf("delete orphan installed software %s: %w", sw.ID, err)
 		}
 	}
 
 	if err := tx.Commit(); err != nil {
 		return fmt.Errorf("commit transaction: %w", err)
 	}
+
+	slog.Info("meec installed software: deleted orphans", "count", len(orphans))
 
 	return nil
 }

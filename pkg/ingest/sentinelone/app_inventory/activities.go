@@ -65,10 +65,6 @@ func (a *Activities) IngestS1AppInventory(ctx context.Context) (*IngestS1AppInve
 		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest app inventory: %w", err))
 	}
 
-	if err := service.DeleteStale(ctx, result.CollectedAt); err != nil {
-		logger.Warn("Failed to delete stale app inventory entries", "error", err)
-	}
-
 	logger.Info("Completed SentinelOne app inventory ingestion",
 		"appCount", result.AppCount,
 		"durationMillis", result.DurationMillis,

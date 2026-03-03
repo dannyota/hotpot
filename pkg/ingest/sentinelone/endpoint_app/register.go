@@ -14,7 +14,7 @@ func Register(w worker.Worker, configService *config.Service, entClient *ents1.C
 
 	w.RegisterActivity(activities.ListAgentIDs)
 	w.RegisterActivity(activities.FetchAndSaveBatch)
-	w.RegisterActivity(activities.DeleteStaleEndpointApps)
+	w.RegisterActivity(activities.DeleteOrphanEndpointApps)
 
 	w.RegisterWorkflow(S1EndpointAppWorkflow)
 }

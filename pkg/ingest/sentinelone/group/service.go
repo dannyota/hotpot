@@ -101,6 +101,8 @@ func (s *Service) saveGroups(ctx context.Context, groups []*GroupData) error {
 		}
 	}()
 
+	activeIDs := make(map[string]struct{}, len(groups))
+
 	for _, data := range groups {
 		existing, err := tx.BronzeS1Group.Query().
 			Where(bronzes1group.ID(data.ResourceID)).
@@ -119,6 +121,7 @@ func (s *Service) saveGroups(ctx context.Context, groups []*GroupData) error {
 				tx.Rollback()
 				return fmt.Errorf("update collected_at for group %s: %w", data.ResourceID, err)
 			}
+			activeIDs[data.ResourceID] = struct{}{}
 			continue
 		}
 
@@ -195,49 +198,39 @@ func (s *Service) saveGroups(ctx context.Context, groups []*GroupData) error {
 				return fmt.Errorf("update history for group %s: %w", data.ResourceID, err)
 			}
 		}
+
+		activeIDs[data.ResourceID] = struct{}{}
 	}
 
-	if err := tx.Commit(); err != nil {
-		return fmt.Errorf("commit transaction: %w", err)
-	}
-
-	return nil
-}
-
-// DeleteStale removes groups that were not collected in the latest run.
-func (s *Service) DeleteStale(ctx context.Context, collectedAt time.Time) error {
-	now := time.Now()
-
-	tx, err := s.entClient.Tx(ctx)
-	if err != nil {
-		return fmt.Errorf("start transaction: %w", err)
-	}
-
-	defer func() {
-		if v := recover(); v != nil {
-			tx.Rollback()
-			panic(v)
-		}
-	}()
-
-	stale, err := tx.BronzeS1Group.Query().
-		Where(bronzes1group.CollectedAtLT(collectedAt)).
-		All(ctx)
+	// Delete stale groups not returned by the API.
+	allDBIDs, err := tx.BronzeS1Group.Query().
+		Select(bronzes1group.FieldID).
+		Strings(ctx)
 	if err != nil {
 		tx.Rollback()
-		return err
+		return fmt.Errorf("query all group IDs: %w", err)
 	}
 
-	for _, g := range stale {
-		if err := s.history.CloseHistory(ctx, tx, g.ID, now); err != nil {
-			tx.Rollback()
-			return fmt.Errorf("close history for group %s: %w", g.ID, err)
+	staleCount := 0
+	for _, id := range allDBIDs {
+		if _, ok := activeIDs[id]; ok {
+			continue
 		}
 
-		if err := tx.BronzeS1Group.DeleteOne(g).Exec(ctx); err != nil {
+		if err := s.history.CloseHistory(ctx, tx, id, now); err != nil {
 			tx.Rollback()
-			return fmt.Errorf("delete group %s: %w", g.ID, err)
+			return fmt.Errorf("close history for stale group %s: %w", id, err)
 		}
+
+		if err := tx.BronzeS1Group.DeleteOneID(id).Exec(ctx); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("delete stale group %s: %w", id, err)
+		}
+		staleCount++
+	}
+
+	if staleCount > 0 {
+		slog.Info("s1 groups: deleted stale", "count", staleCount)
 	}
 
 	if err := tx.Commit(); err != nil {

@@ -65,10 +65,6 @@ func (a *Activities) IngestS1RangerGateways(ctx context.Context) (*IngestS1Range
 		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest ranger gateways: %w", err))
 	}
 
-	if err := service.DeleteStale(ctx, result.CollectedAt); err != nil {
-		logger.Warn("Failed to delete stale ranger gateways", "error", err)
-	}
-
 	logger.Info("Completed SentinelOne ranger gateway ingestion",
 		"gatewayCount", result.GatewayCount,
 		"durationMillis", result.DurationMillis,

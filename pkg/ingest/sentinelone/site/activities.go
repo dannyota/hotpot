@@ -65,10 +65,6 @@ func (a *Activities) IngestS1Sites(ctx context.Context) (*IngestS1SitesResult, e
 		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest sites: %w", err))
 	}
 
-	if err := service.DeleteStale(ctx, result.CollectedAt); err != nil {
-		logger.Warn("Failed to delete stale sites", "error", err)
-	}
-
 	logger.Info("Completed SentinelOne site ingestion",
 		"siteCount", result.SiteCount,
 		"durationMillis", result.DurationMillis,

@@ -64,10 +64,6 @@ func (a *Activities) IngestS1RangerSettings(ctx context.Context) (*IngestS1Range
 		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest ranger settings: %w", err))
 	}
 
-	if err := service.DeleteStale(ctx, result.CollectedAt); err != nil {
-		logger.Warn("Failed to delete stale ranger settings", "error", err)
-	}
-
 	logger.Info("Completed SentinelOne Ranger setting ingestion",
 		"settingCount", result.SettingCount,
 		"durationMillis", result.DurationMillis,

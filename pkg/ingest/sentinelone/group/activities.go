@@ -65,10 +65,6 @@ func (a *Activities) IngestS1Groups(ctx context.Context) (*IngestS1GroupsResult,
 		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest groups: %w", err))
 	}
 
-	if err := service.DeleteStale(ctx, result.CollectedAt); err != nil {
-		logger.Warn("Failed to delete stale groups", "error", err)
-	}
-
 	logger.Info("Completed SentinelOne group ingestion",
 		"groupCount", result.GroupCount,
 		"durationMillis", result.DurationMillis,

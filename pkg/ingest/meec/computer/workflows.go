@@ -40,26 +40,6 @@ func MEECComputerWorkflow(ctx workflow.Context) (*MEECComputerWorkflowResult, er
 		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
-	logger.Info("Ingested computers", "computerCount", ingestResult.ComputerCount)
-
-	// Step 2: Delete stale computers
-	deleteOpts := workflow.ActivityOptions{
-		StartToCloseTimeout: 5 * time.Minute,
-		RetryPolicy: &temporal.RetryPolicy{
-			InitialInterval:    time.Second,
-			BackoffCoefficient: 2.0,
-			MaximumInterval:    time.Minute,
-			MaximumAttempts:    3,
-		},
-	}
-	deleteCtx := workflow.WithActivityOptions(ctx, deleteOpts)
-
-	if err := workflow.ExecuteActivity(deleteCtx, DeleteStaleComputersActivity, DeleteStaleComputersInput{
-		CollectedAt: ingestResult.CollectedAt,
-	}).Get(ctx, nil); err != nil {
-		logger.Warn("Failed to delete stale computers", "error", err)
-	}
-
 	logger.Info("Completed MEECComputerWorkflow", "computerCount", ingestResult.ComputerCount)
 
 	return &MEECComputerWorkflowResult{

@@ -84,7 +84,7 @@ func S1EndpointAppWorkflow(ctx workflow.Context) (*S1EndpointAppWorkflowResult, 
 		)
 	}
 
-	// Step 3: Delete stale endpoint apps
+	// Step 3: Delete orphan endpoint apps
 	deleteCtx := workflow.WithActivityOptions(ctx, workflow.ActivityOptions{
 		StartToCloseTimeout: 5 * time.Minute,
 		RetryPolicy: &temporal.RetryPolicy{
@@ -95,10 +95,8 @@ func S1EndpointAppWorkflow(ctx workflow.Context) (*S1EndpointAppWorkflowResult, 
 		},
 	})
 
-	if err := workflow.ExecuteActivity(deleteCtx, DeleteStaleEndpointAppsActivity, DeleteStaleEndpointAppsInput{
-		CollectedAt: listResult.CollectedAt,
-	}).Get(ctx, nil); err != nil {
-		logger.Warn("Failed to delete stale endpoint apps", "error", err)
+	if err := workflow.ExecuteActivity(deleteCtx, DeleteOrphanEndpointAppsActivity).Get(ctx, nil); err != nil {
+		logger.Warn("Failed to delete orphan endpoint apps", "error", err)
 	}
 
 	durationMillis := workflow.Now(ctx).Sub(startTime).Milliseconds()

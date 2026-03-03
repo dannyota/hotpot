@@ -118,7 +118,7 @@ func (a *Activities) FetchAndSaveBatch(ctx context.Context, input FetchAndSaveBa
 				apps = append(apps, ConvertEndpointApp(agentID, app, input.CollectedAt))
 			}
 
-			if err := service.SaveAgentApps(gCtx, apps); err != nil {
+			if err := service.SaveAgentApps(gCtx, agentID, apps); err != nil {
 				return fmt.Errorf("save endpoint apps for agent %s: %w", agentID, err)
 			}
 
@@ -144,20 +144,15 @@ func (a *Activities) FetchAndSaveBatch(ctx context.Context, input FetchAndSaveBa
 	}, nil
 }
 
-// DeleteStaleEndpointAppsInput is the input for the DeleteStaleEndpointApps activity.
-type DeleteStaleEndpointAppsInput struct {
-	CollectedAt time.Time
-}
+// DeleteOrphanEndpointAppsActivity is the activity function reference for workflow registration.
+var DeleteOrphanEndpointAppsActivity = (*Activities).DeleteOrphanEndpointApps
 
-// DeleteStaleEndpointAppsActivity is the activity function reference for workflow registration.
-var DeleteStaleEndpointAppsActivity = (*Activities).DeleteStaleEndpointApps
+// DeleteOrphanEndpointApps removes endpoint apps whose agent no longer exists.
+func (a *Activities) DeleteOrphanEndpointApps(ctx context.Context) error {
+	service := NewService(nil, a.entClient)
 
-// DeleteStaleEndpointApps removes endpoint apps not collected in the latest run.
-func (a *Activities) DeleteStaleEndpointApps(ctx context.Context, input DeleteStaleEndpointAppsInput) error {
-	service := NewService(a.createClient(), a.entClient)
-
-	if err := service.DeleteStale(ctx, input.CollectedAt); err != nil {
-		return fmt.Errorf("delete stale endpoint apps: %w", err)
+	if err := service.DeleteOrphans(ctx); err != nil {
+		return fmt.Errorf("delete orphan endpoint apps: %w", err)
 	}
 
 	return nil

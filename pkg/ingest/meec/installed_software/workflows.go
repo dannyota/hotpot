@@ -84,7 +84,7 @@ func MEECInstalledSoftwareWorkflow(ctx workflow.Context) (*MEECInstalledSoftware
 		)
 	}
 
-	// Step 3: Delete stale installed software
+	// Step 3: Delete orphan installed software
 	deleteCtx := workflow.WithActivityOptions(ctx, workflow.ActivityOptions{
 		StartToCloseTimeout: 5 * time.Minute,
 		RetryPolicy: &temporal.RetryPolicy{
@@ -95,10 +95,8 @@ func MEECInstalledSoftwareWorkflow(ctx workflow.Context) (*MEECInstalledSoftware
 		},
 	})
 
-	if err := workflow.ExecuteActivity(deleteCtx, DeleteStaleInstalledSoftwareActivity, DeleteStaleInstalledSoftwareInput{
-		CollectedAt: listResult.CollectedAt,
-	}).Get(ctx, nil); err != nil {
-		logger.Warn("Failed to delete stale installed software", "error", err)
+	if err := workflow.ExecuteActivity(deleteCtx, DeleteOrphanInstalledSoftwareActivity).Get(ctx, nil); err != nil {
+		logger.Warn("Failed to delete orphan installed software", "error", err)
 	}
 
 	durationMillis := workflow.Now(ctx).Sub(startTime).Milliseconds()

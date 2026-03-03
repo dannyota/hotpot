@@ -95,25 +95,3 @@ func (a *Activities) IngestSoftware(ctx context.Context) (*IngestSoftwareResult,
 	}, nil
 }
 
-// DeleteStaleSoftwareInput is the input for the DeleteStaleSoftware activity.
-type DeleteStaleSoftwareInput struct {
-	CollectedAt time.Time
-}
-
-// DeleteStaleSoftwareActivity is the activity function reference for workflow registration.
-var DeleteStaleSoftwareActivity = (*Activities).DeleteStaleSoftware
-
-// DeleteStaleSoftware removes software entries not collected in the latest run.
-func (a *Activities) DeleteStaleSoftware(ctx context.Context, input DeleteStaleSoftwareInput) error {
-	client, err := a.createClient()
-	if err != nil {
-		return temporalerr.MaybeNonRetryable(err)
-	}
-	service := NewService(client, a.entClient)
-
-	if err := service.DeleteStale(ctx, input.CollectedAt); err != nil {
-		return fmt.Errorf("delete stale software: %w", err)
-	}
-
-	return nil
-}

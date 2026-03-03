@@ -63,10 +63,6 @@ func (a *Activities) IngestS1Accounts(ctx context.Context) (*IngestS1AccountsRes
 		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest accounts: %w", err))
 	}
 
-	if err := service.DeleteStale(ctx, result.CollectedAt); err != nil {
-		logger.Warn("Failed to delete stale accounts", "error", err)
-	}
-
 	logger.Info("Completed SentinelOne account ingestion",
 		"accountCount", result.AccountCount,
 		"durationMillis", result.DurationMillis,

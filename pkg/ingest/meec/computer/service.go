@@ -83,6 +83,8 @@ func (s *Service) saveComputers(ctx context.Context, computers []*ComputerData) 
 		}
 	}()
 
+	activeIDs := make(map[string]struct{}, len(computers))
+
 	for _, data := range computers {
 		existing, err := tx.BronzeMEECInventoryComputer.Query().
 			Where(bronzemeecinventorycomputer.ID(data.ResourceID)).
@@ -101,6 +103,7 @@ func (s *Service) saveComputers(ctx context.Context, computers []*ComputerData) 
 				tx.Rollback()
 				return fmt.Errorf("update collected_at for computer %s: %w", data.ResourceID, err)
 			}
+			activeIDs[data.ResourceID] = struct{}{}
 			continue
 		}
 
@@ -184,56 +187,45 @@ func (s *Service) saveComputers(ctx context.Context, computers []*ComputerData) 
 				return fmt.Errorf("update history for computer %s: %w", data.ResourceID, err)
 			}
 		}
+
+		activeIDs[data.ResourceID] = struct{}{}
 	}
 
-	if err := tx.Commit(); err != nil {
-		return fmt.Errorf("commit transaction: %w", err)
-	}
-
-	return nil
-}
-
-// DeleteStale removes computers that were not collected in the latest run.
-func (s *Service) DeleteStale(ctx context.Context, collectedAt time.Time) error {
-	now := time.Now()
-
-	tx, err := s.entClient.Tx(ctx)
-	if err != nil {
-		return fmt.Errorf("start transaction: %w", err)
-	}
-
-	defer func() {
-		if v := recover(); v != nil {
-			tx.Rollback()
-			panic(v)
-		}
-	}()
-
-	stale, err := tx.BronzeMEECInventoryComputer.Query().
-		Where(bronzemeecinventorycomputer.CollectedAtLT(collectedAt)).
-		All(ctx)
+	// Delete stale computers not returned by the API.
+	allDBIDs, err := tx.BronzeMEECInventoryComputer.Query().
+		Select(bronzemeecinventorycomputer.FieldID).
+		Strings(ctx)
 	if err != nil {
 		tx.Rollback()
-		return err
+		return fmt.Errorf("query all computer IDs: %w", err)
 	}
 
-	for _, comp := range stale {
-		if err := s.history.CloseHistory(ctx, tx, comp.ID, now); err != nil {
-			tx.Rollback()
-			return fmt.Errorf("close history for computer %s: %w", comp.ID, err)
+	staleCount := 0
+	for _, id := range allDBIDs {
+		if _, ok := activeIDs[id]; ok {
+			continue
 		}
 
-		if err := tx.BronzeMEECInventoryComputer.DeleteOne(comp).Exec(ctx); err != nil {
+		if err := s.history.CloseHistory(ctx, tx, id, now); err != nil {
 			tx.Rollback()
-			return fmt.Errorf("delete computer %s: %w", comp.ID, err)
+			return fmt.Errorf("close history for stale computer %s: %w", id, err)
 		}
+
+		if err := tx.BronzeMEECInventoryComputer.DeleteOneID(id).Exec(ctx); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("delete stale computer %s: %w", id, err)
+		}
+
+		staleCount++
+	}
+
+	if staleCount > 0 {
+		slog.Info("meec computers: deleted stale", "count", staleCount)
 	}
 
 	if err := tx.Commit(); err != nil {
 		return fmt.Errorf("commit transaction: %w", err)
 	}
-
-	slog.Info("meec computers: deleted stale", "count", len(stale))
 
 	return nil
 }

@@ -65,10 +65,6 @@ func (a *Activities) IngestS1RangerDevices(ctx context.Context) (*IngestS1Ranger
 		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest ranger devices: %w", err))
 	}
 
-	if err := service.DeleteStale(ctx, result.CollectedAt); err != nil {
-		logger.Warn("Failed to delete stale ranger devices", "error", err)
-	}
-
 	logger.Info("Completed SentinelOne ranger device ingestion",
 		"deviceCount", result.DeviceCount,
 		"durationMillis", result.DurationMillis,

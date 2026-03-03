@@ -65,10 +65,6 @@ func (a *Activities) IngestS1NetworkDiscovery(ctx context.Context) (*IngestS1Net
 		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest network discovery devices: %w", err))
 	}
 
-	if err := service.DeleteStale(ctx, result.CollectedAt); err != nil {
-		logger.Warn("Failed to delete stale network discovery devices", "error", err)
-	}
-
 	logger.Info("Completed SentinelOne network discovery ingestion",
 		"deviceCount", result.DeviceCount,
 		"durationMillis", result.DurationMillis,

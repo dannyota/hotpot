@@ -3,6 +3,7 @@ package ranger_setting
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"time"
 
 	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
@@ -87,6 +88,8 @@ func (s *Service) saveSettings(ctx context.Context, settings []*RangerSettingDat
 		}
 	}()
 
+	activeIDs := make(map[string]struct{}, len(settings))
+
 	for _, data := range settings {
 		existing, err := tx.BronzeS1RangerSetting.Query().
 			Where(bronzes1rangersetting.ID(data.ResourceID)).
@@ -105,6 +108,7 @@ func (s *Service) saveSettings(ctx context.Context, settings []*RangerSettingDat
 				tx.Rollback()
 				return fmt.Errorf("update collected_at for ranger setting %s: %w", data.ResourceID, err)
 			}
+			activeIDs[data.ResourceID] = struct{}{}
 			continue
 		}
 
@@ -197,49 +201,39 @@ func (s *Service) saveSettings(ctx context.Context, settings []*RangerSettingDat
 				return fmt.Errorf("update history for ranger setting %s: %w", data.ResourceID, err)
 			}
 		}
+
+		activeIDs[data.ResourceID] = struct{}{}
 	}
 
-	if err := tx.Commit(); err != nil {
-		return fmt.Errorf("commit transaction: %w", err)
-	}
-
-	return nil
-}
-
-// DeleteStale removes ranger settings that were not collected in the latest run.
-func (s *Service) DeleteStale(ctx context.Context, collectedAt time.Time) error {
-	now := time.Now()
-
-	tx, err := s.entClient.Tx(ctx)
-	if err != nil {
-		return fmt.Errorf("start transaction: %w", err)
-	}
-
-	defer func() {
-		if v := recover(); v != nil {
-			tx.Rollback()
-			panic(v)
-		}
-	}()
-
-	stale, err := tx.BronzeS1RangerSetting.Query().
-		Where(bronzes1rangersetting.CollectedAtLT(collectedAt)).
-		All(ctx)
+	// Delete stale ranger settings not returned by the API.
+	allDBIDs, err := tx.BronzeS1RangerSetting.Query().
+		Select(bronzes1rangersetting.FieldID).
+		Strings(ctx)
 	if err != nil {
 		tx.Rollback()
-		return err
+		return fmt.Errorf("query all ranger setting IDs: %w", err)
 	}
 
-	for _, t := range stale {
-		if err := s.history.CloseHistory(ctx, tx, t.ID, now); err != nil {
-			tx.Rollback()
-			return fmt.Errorf("close history for ranger setting %s: %w", t.ID, err)
+	staleCount := 0
+	for _, id := range allDBIDs {
+		if _, ok := activeIDs[id]; ok {
+			continue
 		}
 
-		if err := tx.BronzeS1RangerSetting.DeleteOne(t).Exec(ctx); err != nil {
+		if err := s.history.CloseHistory(ctx, tx, id, now); err != nil {
 			tx.Rollback()
-			return fmt.Errorf("delete ranger setting %s: %w", t.ID, err)
+			return fmt.Errorf("close history for stale ranger setting %s: %w", id, err)
 		}
+
+		if err := tx.BronzeS1RangerSetting.DeleteOneID(id).Exec(ctx); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("delete stale ranger setting %s: %w", id, err)
+		}
+		staleCount++
+	}
+
+	if staleCount > 0 {
+		slog.Info("s1 ranger settings: deleted stale", "count", staleCount)
 	}
 
 	if err := tx.Commit(); err != nil {
@@ -248,3 +242,4 @@ func (s *Service) DeleteStale(ctx context.Context, collectedAt time.Time) error 
 
 	return nil
 }
+

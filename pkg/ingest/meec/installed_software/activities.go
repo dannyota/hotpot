@@ -161,24 +161,15 @@ func (a *Activities) FetchAndSaveBatch(ctx context.Context, input FetchAndSaveBa
 	}, nil
 }
 
-// DeleteStaleInstalledSoftwareInput is the input for the DeleteStaleInstalledSoftware activity.
-type DeleteStaleInstalledSoftwareInput struct {
-	CollectedAt time.Time
-}
+// DeleteOrphanInstalledSoftwareActivity is the activity function reference for workflow registration.
+var DeleteOrphanInstalledSoftwareActivity = (*Activities).DeleteOrphanInstalledSoftware
 
-// DeleteStaleInstalledSoftwareActivity is the activity function reference for workflow registration.
-var DeleteStaleInstalledSoftwareActivity = (*Activities).DeleteStaleInstalledSoftware
+// DeleteOrphanInstalledSoftware removes installed software whose computer no longer exists.
+func (a *Activities) DeleteOrphanInstalledSoftware(ctx context.Context) error {
+	service := NewService(nil, a.entClient)
 
-// DeleteStaleInstalledSoftware removes installed software not collected in the latest run.
-func (a *Activities) DeleteStaleInstalledSoftware(ctx context.Context, input DeleteStaleInstalledSoftwareInput) error {
-	client, err := a.createClient()
-	if err != nil {
-		return temporalerr.MaybeNonRetryable(err)
-	}
-	service := NewService(client, a.entClient)
-
-	if err := service.DeleteStale(ctx, input.CollectedAt); err != nil {
-		return fmt.Errorf("delete stale installed software: %w", err)
+	if err := service.DeleteOrphans(ctx); err != nil {
+		return fmt.Errorf("delete orphan installed software: %w", err)
 	}
 
 	return nil

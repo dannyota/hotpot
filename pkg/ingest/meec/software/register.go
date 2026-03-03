@@ -14,7 +14,6 @@ func Register(w worker.Worker, configService *config.Service, entClient *entinve
 	activities := NewActivities(configService, entClient, limiter, tokenSource)
 
 	w.RegisterActivity(activities.IngestSoftware)
-	w.RegisterActivity(activities.DeleteStaleSoftware)
 
 	w.RegisterWorkflow(MEECSoftwareWorkflow)
 }

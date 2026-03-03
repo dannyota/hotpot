@@ -15,7 +15,7 @@ func Register(w worker.Worker, configService *config.Service, entClient *entinve
 
 	w.RegisterActivity(activities.ListComputerIDs)
 	w.RegisterActivity(activities.FetchAndSaveBatch)
-	w.RegisterActivity(activities.DeleteStaleInstalledSoftware)
+	w.RegisterActivity(activities.DeleteOrphanInstalledSoftware)
 
 	w.RegisterWorkflow(MEECInstalledSoftwareWorkflow)
 }

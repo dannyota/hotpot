@@ -3,9 +3,11 @@ package endpoint_app
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"time"
 
 	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
+	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1agent"
 	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1endpointapp"
 )
 
@@ -26,11 +28,7 @@ func NewService(client *Client, entClient *ents1.Client) *Service {
 }
 
 // SaveAgentApps saves endpoint apps for a single agent (upsert + history).
-func (s *Service) SaveAgentApps(ctx context.Context, apps []*EndpointAppData) error {
-	if len(apps) == 0 {
-		return nil
-	}
-
+func (s *Service) SaveAgentApps(ctx context.Context, agentID string, apps []*EndpointAppData) error {
 	now := time.Now()
 
 	tx, err := s.entClient.Tx(ctx)
@@ -44,6 +42,8 @@ func (s *Service) SaveAgentApps(ctx context.Context, apps []*EndpointAppData) er
 			panic(v)
 		}
 	}()
+
+	activeIDs := make(map[string]struct{}, len(apps))
 
 	for _, data := range apps {
 		existing, err := tx.BronzeS1EndpointApp.Query().
@@ -63,6 +63,7 @@ func (s *Service) SaveAgentApps(ctx context.Context, apps []*EndpointAppData) er
 				tx.Rollback()
 				return fmt.Errorf("update collected_at for endpoint app %s: %w", data.ResourceID, err)
 			}
+			activeIDs[data.ResourceID] = struct{}{}
 			continue
 		}
 
@@ -90,6 +91,8 @@ func (s *Service) SaveAgentApps(ctx context.Context, apps []*EndpointAppData) er
 				tx.Rollback()
 				return fmt.Errorf("create history for endpoint app %s: %w", data.ResourceID, err)
 			}
+
+			activeIDs[data.ResourceID] = struct{}{}
 		} else {
 			update := tx.BronzeS1EndpointApp.UpdateOneID(data.ResourceID).
 				SetAgentID(data.AgentID).
@@ -112,7 +115,41 @@ func (s *Service) SaveAgentApps(ctx context.Context, apps []*EndpointAppData) er
 				tx.Rollback()
 				return fmt.Errorf("update history for endpoint app %s: %w", data.ResourceID, err)
 			}
+
+			activeIDs[data.ResourceID] = struct{}{}
 		}
+	}
+
+	// Delete stale endpoint apps for this agent not returned by the API.
+	dbAppIDs, err := tx.BronzeS1EndpointApp.Query().
+		Where(bronzes1endpointapp.AgentIDEQ(agentID)).
+		Select(bronzes1endpointapp.FieldID).
+		Strings(ctx)
+	if err != nil {
+		tx.Rollback()
+		return fmt.Errorf("query endpoint app IDs for agent %s: %w", agentID, err)
+	}
+
+	staleCount := 0
+	for _, id := range dbAppIDs {
+		if _, ok := activeIDs[id]; ok {
+			continue
+		}
+
+		if err := s.history.CloseHistory(ctx, tx, id, now); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("close history for stale endpoint app %s: %w", id, err)
+		}
+
+		if err := tx.BronzeS1EndpointApp.DeleteOneID(id).Exec(ctx); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("delete stale endpoint app %s: %w", id, err)
+		}
+		staleCount++
+	}
+
+	if staleCount > 0 {
+		slog.Info("s1 endpoint apps: deleted stale for agent", "agentID", agentID, "count", staleCount)
 	}
 
 	if err := tx.Commit(); err != nil {
@@ -122,9 +159,27 @@ func (s *Service) SaveAgentApps(ctx context.Context, apps []*EndpointAppData) er
 	return nil
 }
 
-// DeleteStale removes endpoint apps that were not collected in the latest run.
-func (s *Service) DeleteStale(ctx context.Context, collectedAt time.Time) error {
+// DeleteOrphans removes endpoint apps whose agent no longer exists.
+func (s *Service) DeleteOrphans(ctx context.Context) error {
 	now := time.Now()
+
+	agentIDs, err := s.entClient.BronzeS1Agent.Query().
+		Select(bronzes1agent.FieldID).
+		Strings(ctx)
+	if err != nil {
+		return fmt.Errorf("query agent IDs: %w", err)
+	}
+
+	orphans, err := s.entClient.BronzeS1EndpointApp.Query().
+		Where(bronzes1endpointapp.AgentIDNotIn(agentIDs...)).
+		All(ctx)
+	if err != nil {
+		return fmt.Errorf("query orphan endpoint apps: %w", err)
+	}
+
+	if len(orphans) == 0 {
+		return nil
+	}
 
 	tx, err := s.entClient.Tx(ctx)
 	if err != nil {
@@ -138,29 +193,23 @@ func (s *Service) DeleteStale(ctx context.Context, collectedAt time.Time) error 
 		}
 	}()
 
-	stale, err := tx.BronzeS1EndpointApp.Query().
-		Where(bronzes1endpointapp.CollectedAtLT(collectedAt)).
-		All(ctx)
-	if err != nil {
-		tx.Rollback()
-		return err
-	}
-
-	for _, app := range stale {
+	for _, app := range orphans {
 		if err := s.history.CloseHistory(ctx, tx, app.ID, now); err != nil {
 			tx.Rollback()
-			return fmt.Errorf("close history for endpoint app %s: %w", app.ID, err)
+			return fmt.Errorf("close history for orphan endpoint app %s: %w", app.ID, err)
 		}
 
 		if err := tx.BronzeS1EndpointApp.DeleteOne(app).Exec(ctx); err != nil {
 			tx.Rollback()
-			return fmt.Errorf("delete endpoint app %s: %w", app.ID, err)
+			return fmt.Errorf("delete orphan endpoint app %s: %w", app.ID, err)
 		}
 	}
 
 	if err := tx.Commit(); err != nil {
 		return fmt.Errorf("commit transaction: %w", err)
 	}
+
+	slog.Info("s1 endpoint apps: deleted orphans", "count", len(orphans))
 
 	return nil
 }

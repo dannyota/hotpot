@@ -65,10 +65,6 @@ func (a *Activities) IngestS1Agents(ctx context.Context) (*IngestS1AgentsResult,
 		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest agents: %w", err))
 	}
 
-	if err := service.DeleteStale(ctx, result.CollectedAt); err != nil {
-		logger.Warn("Failed to delete stale agents", "error", err)
-	}
-
 	logger.Info("Completed SentinelOne agent ingestion",
 		"agentCount", result.AgentCount,
 		"durationMillis", result.DurationMillis,
