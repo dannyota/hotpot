@@ -348,11 +348,78 @@ func (s *Service) saveInstances(ctx context.Context, instances []*entcompute.Bro
 func (s *Service) DeleteStaleInstances(ctx context.Context, projectID string, collectedAt time.Time) error {
     // 1. Find stale (collected_at < latest)
     // 2. Close history (set valid_to)
-    // 3. Delete resource (cascade handles children automatically)
+    // 3. Delete children explicitly (leaf-to-root order, FK constraints use NO ACTION)
+    // 4. Delete parent resource
 }
 ```
 
 See [HISTORY.md](../architecture/HISTORY.md) for history tracking details.
+
+## 🗑️ Deletion Pattern
+
+FK constraints use `ON DELETE NO ACTION` by design — this prevents accidental deletion from bypassing history tracking. All deletions must be explicit, in leaf-to-root order.
+
+**Order:** close history (including nested) → delete bronze grandchildren → delete bronze children → delete bronze parent.
+
+### History closure (nested)
+
+`CloseHistory` sets `valid_to` on the parent history record, then must also close all children and grandchildren history. Since history tables have no edges, grandchildren are closed by querying parent history IDs first:
+
+```go
+// In history.go — closeChildrenHistory (called by CloseHistory)
+func (h *HistoryService) closeChildrenHistory(ctx context.Context, tx *ent.Tx, instanceHistoryID uint, now time.Time) error {
+    // Close direct children by parent history ID
+    tx.DiskHistory.Update().
+        Where(diskhistory.InstanceHistoryID(instanceHistoryID), diskhistory.ValidToIsNil()).
+        SetValidTo(now).Save(ctx)
+    tx.NICHistory.Update().
+        Where(nichistory.InstanceHistoryID(instanceHistoryID), nichistory.ValidToIsNil()).
+        SetValidTo(now).Save(ctx)
+    // ... labels, tags, metadata, service accounts
+
+    // Close grandchildren — query child history IDs first, then close by those IDs
+    diskHistIDs := tx.DiskHistory.Query().
+        Where(diskhistory.InstanceHistoryID(instanceHistoryID)).
+        Select(diskhistory.FieldID).Scan(ctx, &diskHistIDs)
+    tx.DiskLicenseHistory.Update().
+        Where(disklicensehistory.DiskHistoryIDIn(diskHistIDs...), disklicensehistory.ValidToIsNil()).
+        SetValidTo(now).Save(ctx)
+
+    nicHistIDs := tx.NICHistory.Query().
+        Where(nichistory.InstanceHistoryID(instanceHistoryID)).
+        Select(nichistory.FieldID).Scan(ctx, &nicHistIDs)
+    tx.NICAccessConfigHistory.Update().
+        Where(nicaccessconfighistory.NicHistoryIDIn(nicHistIDs...), nicaccessconfighistory.ValidToIsNil()).
+        SetValidTo(now).Save(ctx)
+    tx.NICAliasRangeHistory.Update().
+        Where(nicaliasrangehistory.NicHistoryIDIn(nicHistIDs...), nicaliasrangehistory.ValidToIsNil()).
+        SetValidTo(now).Save(ctx)
+}
+```
+
+### Bronze deletion (leaf-to-root)
+
+```go
+// In service.go — deleting bronze records after history is closed
+func (s *Service) deleteInstanceChildren(ctx context.Context, tx *ent.Tx, instanceID string) error {
+    // 1. Delete grandchildren (leaves of the tree)
+    tx.DiskLicense.Delete().Where(disklicense.HasDiskWith(
+        disk.HasInstanceWith(instance.ID(instanceID)),
+    )).Exec(ctx)
+    tx.NICAccessConfig.Delete().Where(nicaccessconfig.HasNicWith(
+        nic.HasInstanceWith(instance.ID(instanceID)),
+    )).Exec(ctx)
+
+    // 2. Delete children
+    tx.Disk.Delete().Where(disk.HasInstanceWith(instance.ID(instanceID))).Exec(ctx)
+    tx.NIC.Delete().Where(nic.HasInstanceWith(instance.ID(instanceID))).Exec(ctx)
+    tx.Label.Delete().Where(label.HasInstanceWith(instance.ID(instanceID))).Exec(ctx)
+
+    // 3. Parent is deleted by caller after this returns
+}
+```
+
+**Why NO ACTION?** If deletion used CASCADE, a bare `DELETE FROM instances` (e.g., via manual SQL) would silently remove children without closing their history records. NO ACTION forces all deletion through code that tracks history first.
 
 ## 🗄️ Ent Client Usage
 
@@ -400,7 +467,7 @@ err := s.entClient.BronzeGCPComputeInstance.UpdateOneID(id).
 ### Deleting
 
 ```go
-// Delete one (cascade deletes children automatically)
+// Delete one (delete children explicitly first — FK constraints use NO ACTION)
 err := s.entClient.BronzeGCPComputeInstance.DeleteOneID(id).Exec(ctx)
 
 // Delete multiple

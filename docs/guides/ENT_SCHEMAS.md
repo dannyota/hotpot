@@ -228,6 +228,7 @@ func (BronzeHistoryGCPComputeInstance) Indexes() []ent.Index {
         index.Fields("resource_id", "valid_from"),
         index.Fields("valid_to"),
         index.Fields("collected_at"),
+        index.Fields("project_id"),  // Add indexes for resource-specific lookup fields
     }
 }
 
@@ -312,7 +313,7 @@ field.JSON("settings_json", json.RawMessage{}).Optional()
 // Parent defines edge TO children
 func (Parent) Edges() []ent.Edge {
     return []ent.Edge{
-        edge.To("children", Child.Type),  // CASCADE DELETE automatic
+        edge.To("children", Child.Type),  // FK uses NO ACTION — delete children explicitly
     }
 }
 

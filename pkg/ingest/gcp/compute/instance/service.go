@@ -8,9 +8,12 @@ import (
 	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstance"
 	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancedisk"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancedisklicense"
 	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancelabel"
 	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancemetadata"
 	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancenic"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancenicaccessconfig"
+	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancenicaliasrange"
 	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstanceserviceaccount"
 	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancetag"
 )
@@ -235,23 +238,51 @@ func (s *Service) saveInstances(ctx context.Context, instances []*InstanceData) 
 }
 
 // deleteInstanceChildren deletes all child entities for an instance.
-// Note: Ent CASCADE DELETE is set on edges, so deleting parent entities
-// will automatically delete their children. We just need to delete from top-level down.
+// Grandchildren must be deleted before their parents due to FK constraints.
 func (s *Service) deleteInstanceChildren(ctx context.Context, tx *entcompute.Tx, instanceID string) error {
-	// Delete direct children using Has...With predicates
-	// The CASCADE DELETE on edges will automatically remove nested children
+	instancePred := bronzegcpcomputeinstance.ID(instanceID)
 
-	// Disks (CASCADE will delete licenses)
-	_, err := tx.BronzeGCPComputeInstanceDisk.Delete().
-		Where(bronzegcpcomputeinstancedisk.HasInstanceWith(bronzegcpcomputeinstance.ID(instanceID))).
+	// Delete disk licenses (grandchildren) before disks
+	_, err := tx.BronzeGCPComputeInstanceDiskLicense.Delete().
+		Where(bronzegcpcomputeinstancedisklicense.HasDiskWith(
+			bronzegcpcomputeinstancedisk.HasInstanceWith(instancePred),
+		)).
+		Exec(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to delete disk licenses: %w", err)
+	}
+
+	// Disks
+	_, err = tx.BronzeGCPComputeInstanceDisk.Delete().
+		Where(bronzegcpcomputeinstancedisk.HasInstanceWith(instancePred)).
 		Exec(ctx)
 	if err != nil {
 		return fmt.Errorf("failed to delete disks: %w", err)
 	}
 
-	// NICs (CASCADE will delete access configs and alias ranges)
+	// Delete NIC access configs (grandchildren) before NICs
+	_, err = tx.BronzeGCPComputeInstanceNICAccessConfig.Delete().
+		Where(bronzegcpcomputeinstancenicaccessconfig.HasNicWith(
+			bronzegcpcomputeinstancenic.HasInstanceWith(instancePred),
+		)).
+		Exec(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to delete NIC access configs: %w", err)
+	}
+
+	// Delete NIC alias ranges (grandchildren) before NICs
+	_, err = tx.BronzeGCPComputeInstanceNICAliasRange.Delete().
+		Where(bronzegcpcomputeinstancenicaliasrange.HasNicWith(
+			bronzegcpcomputeinstancenic.HasInstanceWith(instancePred),
+		)).
+		Exec(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to delete NIC alias ranges: %w", err)
+	}
+
+	// NICs
 	_, err = tx.BronzeGCPComputeInstanceNIC.Delete().
-		Where(bronzegcpcomputeinstancenic.HasInstanceWith(bronzegcpcomputeinstance.ID(instanceID))).
+		Where(bronzegcpcomputeinstancenic.HasInstanceWith(instancePred)).
 		Exec(ctx)
 	if err != nil {
 		return fmt.Errorf("failed to delete NICs: %w", err)
@@ -466,7 +497,7 @@ func (s *Service) DeleteStaleInstances(ctx context.Context, projectID string, co
 			return fmt.Errorf("failed to close history for instance %s: %w", inst.ID, err)
 		}
 
-		// Delete children (CASCADE will handle nested children)
+		// Delete children explicitly (leaf-to-root, FK constraints use NO ACTION)
 		if err := s.deleteInstanceChildren(ctx, tx, inst.ID); err != nil {
 			tx.Rollback()
 			return fmt.Errorf("failed to delete children for instance %s: %w", inst.ID, err)
