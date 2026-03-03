@@ -10,6 +10,10 @@
 | **Gold** | Analytics layer, alerts and compliance results |
 | **Layer** | One stage in the medallion pipeline (ingest/normalize/detect) |
 | **Provider** | External data source (GCP, GreenNode, SentinelOne, etc.) |
+| **Normalize** | Silver layer process: transform per-provider bronze data into unified models |
+| **Merge** | Deduplication step combining normalized records via MAC/IP matching |
+| **NormalizedMachine** | Intermediate per-provider row in `silver.machine_normalized` |
+| **Bronze Link** | Lineage record tracking which bronze source contributed to a silver record |
 
 ## 📦 Package Names
 
@@ -60,6 +64,8 @@
 | **workflows.go** | Temporal workflow definitions |
 | **provider.go** | Provider self-registration via init() |
 | **run.go** | Module entry point (`Run()` function) |
+| **merge.go** | Dedup merge engine (silver layer) |
+| **provider.go** (normalize) | Provider interface + Load function for bronze→silver mapping |
 
 ## 🤖 Agent Terms
 

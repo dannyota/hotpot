@@ -11,6 +11,13 @@ When adding a new GCP resource type:
 - [ ] Run `cd pkg/storage && go generate`
 - [ ] Verify compilation: `go build ./...`
 
+When adding a new silver domain:
+
+- [ ] Create silver mixin (if not exists) in `pkg/schema/silver/mixin/`
+- [ ] Create silver schemas in `pkg/schema/silver/{domain}/`
+- [ ] Run `cd pkg/storage && go generate`
+- [ ] Verify compilation: `go build ./...`
+
 ## 📐 Naming Conventions
 
 ### Go Type Names (CRITICAL)
@@ -33,11 +40,16 @@ type GCPComputeInstance struct {  // DON'T DO THIS
 }
 ```
 
-**Pattern**: `{Layer}{Provider}{Service}{Resource}`
-- Layer: `Bronze`, `BronzeHistory`, `Silver`, `Gold`
+**Pattern (Bronze)**: `{Layer}{Provider}{Service}{Resource}`
+- Layer: `Bronze`, `BronzeHistory`
 - Provider: `GCP`, `AWS`, `Azure`, `GreenNode`
 - Service: `Compute`, `Networking`, `IAM`, `Container`
 - Resource: `Instance`, `Disk`, `Network`, `Cluster`
+
+**Pattern (Silver)**: `Silver{Domain}{Entity}`
+- Domain: `Machine`, `K8sNode` (cross-provider, no provider prefix)
+- Entity: `Normalized`, `BronzeLink`
+- Example: `SilverMachine`, `SilverMachineNormalized`, `SilverMachineBronzeLink`
 
 ### Table Names
 
@@ -276,6 +288,117 @@ func (BronzeHistoryGCPComputeInstanceLabel) Indexes() []ent.Index {
 func (BronzeHistoryGCPComputeInstanceLabel) Annotations() []schema.Annotation {
     return []schema.Annotation{
         entsql.Annotation{Table: "gcp_compute_instance_labels_history"},
+    }
+}
+```
+
+## 🥈 Silver Schema Pattern
+
+Silver schemas are cross-provider — they unify data from multiple bronze sources. No provider prefix in type names.
+
+### Silver Mixin
+
+```go
+// pkg/schema/silver/mixin/timestamp.go
+type Timestamp struct { mixin.Schema }
+
+func (Timestamp) Fields() []ent.Field {
+    return []ent.Field{
+        field.Time("collected_at"),
+        field.Time("first_collected_at").Immutable(),
+        field.Time("normalized_at"),
+    }
+}
+```
+
+### Silver Parent (uses silver mixin)
+
+```go
+// pkg/schema/silver/machine/silver_machine.go
+type SilverMachine struct { ent.Schema }
+
+func (SilverMachine) Mixin() []ent.Mixin {
+    return []ent.Mixin{silvermixin.Timestamp{}}
+}
+
+func (SilverMachine) Fields() []ent.Field {
+    return []ent.Field{
+        field.String("id").StorageKey("resource_id").Unique().Immutable(),
+        field.String("hostname").NotEmpty(),
+        field.String("os_type"),
+        field.String("status"),
+        // ...
+    }
+}
+
+func (SilverMachine) Edges() []ent.Edge {
+    return []ent.Edge{
+        edge.To("bronze_links", SilverMachineBronzeLink.Type),
+    }
+}
+
+func (SilverMachine) Annotations() []schema.Annotation {
+    return []schema.Annotation{
+        entsql.Annotation{Table: "machines"},
+    }
+}
+```
+
+### Silver Intermediate (no mixin)
+
+Intermediate normalized tables do NOT use the silver mixin — timestamps are not immutable because upserts may update them.
+
+```go
+// pkg/schema/silver/machine/silver_machine_normalized.go
+type SilverMachineNormalized struct { ent.Schema }
+
+// NO Mixin() — timestamps managed explicitly
+
+func (SilverMachineNormalized) Fields() []ent.Field {
+    return []ent.Field{
+        field.String("id").StorageKey("resource_id").Unique().Immutable(),
+        field.String("provider").NotEmpty(),
+        field.Bool("is_base"),
+        field.String("bronze_table").NotEmpty(),
+        field.String("bronze_resource_id").NotEmpty(),
+        // ... normalized fields ...
+        field.JSON("merge_keys_json", map[string][]string{}),
+        field.Time("collected_at"),
+        field.Time("first_collected_at"),
+        field.Time("normalized_at"),
+    }
+}
+
+func (SilverMachineNormalized) Annotations() []schema.Annotation {
+    return []schema.Annotation{
+        entsql.Annotation{Table: "machine_normalized"},
+    }
+}
+```
+
+### Silver Lineage Link (child)
+
+```go
+// pkg/schema/silver/machine/silver_machine_bronze_link.go
+type SilverMachineBronzeLink struct { ent.Schema }
+
+func (SilverMachineBronzeLink) Fields() []ent.Field {
+    return []ent.Field{
+        field.String("provider").NotEmpty(),
+        field.String("bronze_table").NotEmpty(),
+        field.String("bronze_resource_id").NotEmpty(),
+    }
+}
+
+func (SilverMachineBronzeLink) Edges() []ent.Edge {
+    return []ent.Edge{
+        edge.From("machine", SilverMachine.Type).Ref("bronze_links").Unique().Required(),
+    }
+}
+
+func (SilverMachineBronzeLink) Annotations() []schema.Annotation {
+    return []schema.Annotation{
+        entsql.Annotation{Table: "machine_bronze_links"},
     }
 }
 ```

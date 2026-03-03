@@ -140,6 +140,10 @@ deploy/
     │   ├── 0002_initial.sql
     │   └── atlas.sum
     ├── silver/
+    │   └── machine/
+    │       ├── 0000_baseline.sql
+    │       ├── 0001_initial.sql
+    │       └── atlas.sum
     └── gold/
 ```
 

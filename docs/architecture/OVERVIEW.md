@@ -51,6 +51,7 @@ hotpot/
 │
 ├── cmd/                        # Production binaries
 │   ├── ingest/main.go
+│   ├── normalize/main.go
 │   ├── migrate/main.go
 │   └── ...
 │
@@ -88,6 +89,7 @@ hotpot/
 │   │       ├── gcp/vpn/        # Per-service: GCP VPN
 │   │       ├── s1/             # Per-service: SentinelOne
 │   │       ├── greennode/      # Per-service: GreenNode
+│   │       ├── machine/         # Per-service: Silver Machine
 │   │       └── ...
 │   │
 │   ├── ingest/                 # Bronze: data collection
@@ -102,8 +104,17 @@ hotpot/
 │   │
 │   ├── normalize/              # Silver: transformation
 │   │   ├── run.go
-│   │   ├── assets/
-│   │   └── vulnerabilities/
+│   │   ├── register.go
+│   │   └── machine/
+│   │       ├── provider.go     # Provider interface + NormalizedMachine type
+│   │       ├── merge.go        # MAC/IP dedup merge engine
+│   │       ├── activities.go   # Temporal activities
+│   │       ├── workflows.go    # Two-phase workflow
+│   │       ├── register.go     # Wire activities + workflow
+│   │       ├── s1/             # S1 provider
+│   │       ├── meec/           # MEEC provider
+│   │       ├── gcp/            # GCP provider
+│   │       └── greennode/      # GreenNode provider
 │   │
 │   └── detect/                 # Gold: analytics
 │       ├── run.go
@@ -128,6 +139,7 @@ Each layer runs as an independent Temporal worker. Admin UI uses Metabase (exter
 cmd/ingest/main.go          →  imports all providers     →  calls ingest.Run()
 cmd/ingest-gcp/main.go      →  imports GCP provider only →  calls ingest.Run()
 cmd/ingest-greennode/main.go →  imports GreenNode only    →  calls ingest.Run()
+cmd/normalize/main.go       →  imports normalize pkg      →  calls normalize.Run()
 cmd/migrate/main.go          →  imports pkg/migrate       →  calls migrate.Run()
 ```
 
@@ -143,7 +155,7 @@ Per-provider binaries import only the provider they need, resulting in smaller b
 | ingest | `hotpot-ingest-do` | DigitalOcean collection |
 | ingest | `hotpot-ingest-vault` | Vault collection |
 | ingest | `hotpot-ingest-aws` | AWS collection |
-| normalize | `hotpot-normalize` | Data normalization |
+| normalize | `normalize` | Machine normalization (silver layer) |
 | detect | `hotpot-detect` | Detection rules |
 
 ## 🔄 Data Flow
@@ -201,8 +213,8 @@ CREATE SCHEMA gold_history;    -- Historical versions
 |--------|---------|--------|
 | `bronze` | Current raw data | `gcp_compute_instances`, `gcp_compute_instance_nics`, ... |
 | `bronze_history` | All versions | Same tables with `valid_from/valid_to` |
-| `silver` | Current normalized | `assets`, `vulnerabilities`, `software` |
-| `silver_history` | All versions | Same tables with `valid_from/valid_to` |
+| `silver` | Current normalized | `machines`, `machine_normalized`, `machine_bronze_links` |
+| `silver_history` | All versions | (not yet implemented) |
 | `gold` | Current analytics | `compliance`, `alerts`, `mv_asset_summary` |
 | `gold_history` | All versions | Same tables with `valid_from/valid_to` |
 
@@ -292,8 +304,12 @@ pkg/schema/
 │       │   └── ...
 │       └── ...
 ├── silver/
-│   └── asset/
-│       └── enriched.go
+│   ├── mixin/
+│   │   └── timestamp.go        # Silver timestamp mixin
+│   └── machine/
+│       ├── silver_machine.go
+│       ├── silver_machine_normalized.go
+│       └── silver_machine_bronze_link.go
 └── gold/
     ├── compliance/
     └── alerts/

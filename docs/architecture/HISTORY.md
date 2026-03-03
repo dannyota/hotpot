@@ -14,7 +14,8 @@ flowchart LR
 |--------|---------|-----------|
 | `bronze` | Current state | Always |
 | `bronze_history` | All versions | Configurable |
-| `silver` / `silver_history` | Normalized | Configurable |
+| `silver` | Normalized (machines) | Always |
+| `silver_history` | (not yet implemented) | — |
 | `gold` / `gold_history` | Analytics | Indefinite |
 
 ## 🔗 Linking Strategy

@@ -37,6 +37,8 @@ Follow [Google Go Style Guide](https://google.github.io/styleguide/go/):
 | Type name | `{Layer}{Provider}{Service}{Resource}` | `BronzeGCPComputeInstance` |
 | Table name | `{provider}_{service}_{resource}` | `gcp_compute_instances` |
 | History table | `{provider}_{service}_{resource}_history` | `gcp_compute_instances_history` |
+| Silver type name | `Silver{Domain}{Entity}` | `SilverMachine` |
+| Silver table name | `{domain}_{entity}` | `machines` (in `silver` schema) |
 
 ## 🔧 Code Patterns
 

@@ -496,6 +496,85 @@ if _, err := tx.BronzeHistoryGCPComputeInstance.Create()...; err != nil {
 return tx.Commit()
 ```
 
+## 🥈 Normalize Activities
+
+Normalize activities follow a simpler pattern than ingest — no external API clients, no rate limiting.
+
+### File Structure
+
+```
+pkg/normalize/machine/
+├── provider.go      # Provider interface + NormalizedMachine type
+├── merge.go         # MAC/IP dedup merge engine
+├── activities.go    # NormalizeProvider + MergeMachines activities
+├── workflows.go     # Two-phase workflow
+├── register.go      # Register with Temporal worker
+├── s1/
+│   └── provider.go  # S1 bronze → NormalizedMachine
+├── meec/
+│   └── provider.go  # MEEC bronze → NormalizedMachine
+├── gcp/
+│   └── provider.go  # GCP bronze → NormalizedMachine
+└── greennode/
+    └── provider.go  # GreenNode bronze → NormalizedMachine
+```
+
+### Activity Struct
+
+Normalize activities need an ent client (writing silver tables) and a raw `*sql.DB` (reading bronze tables — no cross-layer ent imports):
+
+```go
+import entmachine "hotpot/pkg/storage/ent/machine"
+
+type Activities struct {
+    configService *config.Service
+    entClient     *entmachine.Client
+    db            *sql.DB
+    providers     map[string]Provider
+}
+```
+
+### Two-Phase Workflow
+
+```go
+func NormalizeMachinesWorkflow(ctx workflow.Context) error {
+    // Phase 1: Normalize all providers in parallel
+    // Each writes to silver.machine_normalized independently
+    futures := startNormalizeActivities(ctx, providerKeys)
+
+    // Phase 2: Merge machine_normalized → machines + bronze_links
+    workflow.ExecuteActivity(ctx, MergeMachinesActivity).Get(ctx, nil)
+}
+```
+
+### Provider Interface
+
+Providers read bronze via raw SQL and return normalized structs:
+
+```go
+type Provider interface {
+    Key() string
+    Label() string
+    IsBase() bool
+    Load(ctx context.Context, db *sql.DB) ([]NormalizedMachine, error)
+}
+```
+
+### Registration
+
+Flat hierarchy — providers are assembled in `pkg/normalize/register.go` to avoid import cycles:
+
+```go
+// pkg/normalize/register.go — assembles providers, calls domain Register
+func Register(w worker.Worker, configService *config.Service, driver dialect.Driver, db *sql.DB) {
+    providers := []machine.Provider{
+        &s1.Provider{}, &meec.Provider{},
+        &greennode.Provider{}, &gcp.Provider{},
+    }
+    machine.Register(w, configService, driver, db, providers)
+}
+```
+
 ## 📚 References
 
 - [ENT_SCHEMAS.md](ENT_SCHEMAS.md) - Ent schema patterns
