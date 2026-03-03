@@ -28,6 +28,7 @@ func (Provider) Load(ctx context.Context, db *sql.DB) ([]machine.NormalizedMachi
 		SELECT resource_id, name, status, region,
 			COALESCE(flavor_name, ''),
 			COALESCE(image_version, ''),
+			COALESCE(server_group_name, ''),
 			collected_at, first_collected_at,
 			COALESCE(interfaces_json::text, '{}')
 		FROM bronze.greennode_compute_servers`)
@@ -38,10 +39,10 @@ func (Provider) Load(ctx context.Context, db *sql.DB) ([]machine.NormalizedMachi
 
 	var result []machine.NormalizedMachine
 	for rows.Next() {
-		var resourceID, hostname, status, region, flavorName, imageVer, ifacesJSON string
+		var resourceID, hostname, status, region, flavorName, imageVer, serverGroup, ifacesJSON string
 		var collectedAt, firstCollectedAt sql.NullTime
 		if err := rows.Scan(&resourceID, &hostname, &status, &region,
-			&flavorName, &imageVer, &collectedAt, &firstCollectedAt, &ifacesJSON); err != nil {
+			&flavorName, &imageVer, &serverGroup, &collectedAt, &firstCollectedAt, &ifacesJSON); err != nil {
 			return nil, fmt.Errorf("scan greennode server: %w", err)
 		}
 
@@ -63,7 +64,7 @@ func (Provider) Load(ctx context.Context, db *sql.DB) ([]machine.NormalizedMachi
 			Status:           normalizeStatus(status),
 			InternalIP:       firstIP,
 			Environment:      machine.InferEnvironment(hostname, ""),
-			CloudProject:     region,
+			CloudProject:     serverGroup,
 			CloudZone:        region,
 			CloudMachineType: flavorName,
 			CollectedAt:      collectedAt.Time,

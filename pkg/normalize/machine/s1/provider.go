@@ -16,6 +16,25 @@ const (
 	bronzeTable = "s1_agents"
 )
 
+// bestOSName picks the most descriptive name from S1's os_name and os_revision.
+// S1's os_name is generic for Linux/macOS ("Linux", "macOS") but specific for
+// Windows ("Windows 11 Pro"). os_revision has detail for Linux/macOS
+// ("Red Hat Enterprise release 9.4 ...") but only build numbers for Windows ("26200").
+// For Windows, both are combined: "Windows 11 Pro (Build 26200)".
+func bestOSName(osType, osName, osRevision string) string {
+	generic := strings.EqualFold(osName, osType) || strings.EqualFold(osName, "linux") || strings.EqualFold(osName, "macos")
+	if osName != "" && !generic {
+		if osRevision != "" {
+			return osName + " (Build " + osRevision + ")"
+		}
+		return osName
+	}
+	if osRevision != "" {
+		return osRevision
+	}
+	return osName
+}
+
 // Provider normalizes bronze.s1_agents into NormalizedMachine records.
 type Provider struct{}
 
@@ -27,9 +46,9 @@ func (Provider) Load(ctx context.Context, db *sql.DB) ([]machine.NormalizedMachi
 	// Load agents.
 	agentRows, err := db.QueryContext(ctx, `
 		SELECT resource_id, computer_name, os_type,
-			COALESCE(os_revision, ''),
-			COALESCE(site_name, ''), is_active,
-			is_decommissioned, is_uninstalled,
+			COALESCE(os_name, ''), COALESCE(os_revision, ''),
+			COALESCE(site_name, ''), COALESCE(last_ip_to_mgmt, ''),
+			is_active, is_decommissioned, is_uninstalled,
 			collected_at, first_collected_at
 		FROM bronze.s1_agents`)
 	if err != nil {
@@ -42,7 +61,9 @@ func (Provider) Load(ctx context.Context, db *sql.DB) ([]machine.NormalizedMachi
 		hostname         string
 		osType           string
 		osName           string
+		osRevision       string
 		site             string
+		lastIPToMgmt     string
 		isActive         bool
 		isDecommissioned bool
 		isUninstalled    bool
@@ -55,8 +76,8 @@ func (Provider) Load(ctx context.Context, db *sql.DB) ([]machine.NormalizedMachi
 	agents := make(map[string]*agent)
 	for agentRows.Next() {
 		var a agent
-		if err := agentRows.Scan(&a.id, &a.hostname, &a.osType, &a.osName,
-			&a.site, &a.isActive, &a.isDecommissioned, &a.isUninstalled,
+		if err := agentRows.Scan(&a.id, &a.hostname, &a.osType, &a.osName, &a.osRevision,
+			&a.site, &a.lastIPToMgmt, &a.isActive, &a.isDecommissioned, &a.isUninstalled,
 			&a.collectedAt, &a.firstCollectedAt); err != nil {
 			return nil, fmt.Errorf("scan s1 agent: %w", err)
 		}
@@ -115,6 +136,9 @@ func (Provider) Load(ctx context.Context, db *sql.DB) ([]machine.NormalizedMachi
 		internalIP := ""
 		if len(a.ips) > 0 {
 			internalIP = a.ips[0]
+		} else if a.lastIPToMgmt != "" {
+			internalIP = a.lastIPToMgmt
+			a.ips = append(a.ips, a.lastIPToMgmt)
 		}
 		result = append(result, machine.NormalizedMachine{
 			Provider:         key,
@@ -123,7 +147,7 @@ func (Provider) Load(ctx context.Context, db *sql.DB) ([]machine.NormalizedMachi
 			BronzeResourceID: a.id,
 			Hostname:         a.hostname,
 			OSType:           a.osType,
-			OSName:           a.osName,
+			OSName:           bestOSName(a.osType, a.osName, a.osRevision),
 			Status:           status,
 			InternalIP:       internalIP,
 			Environment:      machine.InferEnvironment(a.hostname, a.site),
