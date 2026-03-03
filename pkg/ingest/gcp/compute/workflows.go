@@ -6,7 +6,6 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/address"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/backendservice"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/disk"
@@ -84,7 +83,7 @@ type GCPComputeWorkflowResult struct {
 }
 
 // GCPComputeWorkflow ingests all GCP Compute Engine resources for a single project.
-// Orchestrates child workflows - each manages its own session and client lifecycle.
+// All independent resources run in parallel. NEGEndpoint runs after NEG (it queries NEGs from DB).
 func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (*GCPComputeWorkflowResult, error) {
 	logger := workflow.GetLogger(ctx)
 	logger.Info("Starting GCPComputeWorkflow", "projectID", params.ProjectID)
@@ -105,325 +104,365 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		ProjectID: params.ProjectID,
 	}
 
-	// Execute instance workflow
+	// Phase 1: Launch all independent resources in parallel
+	instanceFuture := workflow.ExecuteChildWorkflow(childCtx, instance.GCPComputeInstanceWorkflow,
+		instance.GCPComputeInstanceWorkflowParams{ProjectID: params.ProjectID})
+
+	diskFuture := workflow.ExecuteChildWorkflow(childCtx, disk.GCPComputeDiskWorkflow,
+		disk.GCPComputeDiskWorkflowParams{ProjectID: params.ProjectID})
+
+	networkFuture := workflow.ExecuteChildWorkflow(childCtx, network.GCPComputeNetworkWorkflow,
+		network.GCPComputeNetworkWorkflowParams{ProjectID: params.ProjectID})
+
+	subnetworkFuture := workflow.ExecuteChildWorkflow(childCtx, subnetwork.GCPComputeSubnetworkWorkflow,
+		subnetwork.GCPComputeSubnetworkWorkflowParams{ProjectID: params.ProjectID})
+
+	instanceGroupFuture := workflow.ExecuteChildWorkflow(childCtx, instancegroup.GCPComputeInstanceGroupWorkflow,
+		instancegroup.GCPComputeInstanceGroupWorkflowParams{ProjectID: params.ProjectID})
+
+	targetInstanceFuture := workflow.ExecuteChildWorkflow(childCtx, targetinstance.GCPComputeTargetInstanceWorkflow,
+		targetinstance.GCPComputeTargetInstanceWorkflowParams{ProjectID: params.ProjectID})
+
+	addressFuture := workflow.ExecuteChildWorkflow(childCtx, address.GCPComputeAddressWorkflow,
+		address.GCPComputeAddressWorkflowParams{ProjectID: params.ProjectID})
+
+	globalAddressFuture := workflow.ExecuteChildWorkflow(childCtx, globaladdress.GCPComputeGlobalAddressWorkflow,
+		globaladdress.GCPComputeGlobalAddressWorkflowParams{ProjectID: params.ProjectID})
+
+	forwardingRuleFuture := workflow.ExecuteChildWorkflow(childCtx, forwardingrule.GCPComputeForwardingRuleWorkflow,
+		forwardingrule.GCPComputeForwardingRuleWorkflowParams{ProjectID: params.ProjectID})
+
+	globalForwardingRuleFuture := workflow.ExecuteChildWorkflow(childCtx, globalforwardingrule.GCPComputeGlobalForwardingRuleWorkflow,
+		globalforwardingrule.GCPComputeGlobalForwardingRuleWorkflowParams{ProjectID: params.ProjectID})
+
+	snapshotFuture := workflow.ExecuteChildWorkflow(childCtx, snapshot.GCPComputeSnapshotWorkflow,
+		snapshot.GCPComputeSnapshotWorkflowParams{ProjectID: params.ProjectID})
+
+	imageFuture := workflow.ExecuteChildWorkflow(childCtx, image.GCPComputeImageWorkflow,
+		image.GCPComputeImageWorkflowParams{ProjectID: params.ProjectID})
+
+	healthCheckFuture := workflow.ExecuteChildWorkflow(childCtx, healthcheck.GCPComputeHealthCheckWorkflow,
+		healthcheck.GCPComputeHealthCheckWorkflowParams{ProjectID: params.ProjectID})
+
+	vpnGatewayFuture := workflow.ExecuteChildWorkflow(childCtx, vpngateway.GCPComputeVpnGatewayWorkflow,
+		vpngateway.GCPComputeVpnGatewayWorkflowParams{ProjectID: params.ProjectID})
+
+	targetVpnGatewayFuture := workflow.ExecuteChildWorkflow(childCtx, targetvpngateway.GCPComputeTargetVpnGatewayWorkflow,
+		targetvpngateway.GCPComputeTargetVpnGatewayWorkflowParams{ProjectID: params.ProjectID})
+
+	vpnTunnelFuture := workflow.ExecuteChildWorkflow(childCtx, vpntunnel.GCPComputeVpnTunnelWorkflow,
+		vpntunnel.GCPComputeVpnTunnelWorkflowParams{ProjectID: params.ProjectID})
+
+	targetHttpProxyFuture := workflow.ExecuteChildWorkflow(childCtx, targethttpproxy.GCPComputeTargetHttpProxyWorkflow,
+		targethttpproxy.GCPComputeTargetHttpProxyWorkflowParams{ProjectID: params.ProjectID})
+
+	targetTcpProxyFuture := workflow.ExecuteChildWorkflow(childCtx, targettcpproxy.GCPComputeTargetTcpProxyWorkflow,
+		targettcpproxy.GCPComputeTargetTcpProxyWorkflowParams{ProjectID: params.ProjectID})
+
+	targetSslProxyFuture := workflow.ExecuteChildWorkflow(childCtx, targetsslproxy.GCPComputeTargetSslProxyWorkflow,
+		targetsslproxy.GCPComputeTargetSslProxyWorkflowParams{ProjectID: params.ProjectID})
+
+	targetHttpsProxyFuture := workflow.ExecuteChildWorkflow(childCtx, targethttpsproxy.GCPComputeTargetHttpsProxyWorkflow,
+		targethttpsproxy.GCPComputeTargetHttpsProxyWorkflowParams{ProjectID: params.ProjectID})
+
+	urlMapFuture := workflow.ExecuteChildWorkflow(childCtx, urlmap.GCPComputeUrlMapWorkflow,
+		urlmap.GCPComputeUrlMapWorkflowParams{ProjectID: params.ProjectID})
+
+	targetPoolFuture := workflow.ExecuteChildWorkflow(childCtx, targetpool.GCPComputeTargetPoolWorkflow,
+		targetpool.GCPComputeTargetPoolWorkflowParams{ProjectID: params.ProjectID})
+
+	negFuture := workflow.ExecuteChildWorkflow(childCtx, neg.GCPComputeNegWorkflow,
+		neg.GCPComputeNegWorkflowParams{ProjectID: params.ProjectID})
+
+	backendServiceFuture := workflow.ExecuteChildWorkflow(childCtx, backendservice.GCPComputeBackendServiceWorkflow,
+		backendservice.GCPComputeBackendServiceWorkflowParams{ProjectID: params.ProjectID})
+
+	firewallFuture := workflow.ExecuteChildWorkflow(childCtx, firewall.GCPComputeFirewallWorkflow,
+		firewall.GCPComputeFirewallWorkflowParams{ProjectID: params.ProjectID})
+
+	sslPolicyFuture := workflow.ExecuteChildWorkflow(childCtx, sslpolicy.GCPComputeSslPolicyWorkflow,
+		sslpolicy.GCPComputeSslPolicyWorkflowParams{ProjectID: params.ProjectID})
+
+	routerFuture := workflow.ExecuteChildWorkflow(childCtx, router.GCPComputeRouterWorkflow,
+		router.GCPComputeRouterWorkflowParams{ProjectID: params.ProjectID})
+
+	securityPolicyFuture := workflow.ExecuteChildWorkflow(childCtx, securitypolicy.GCPComputeSecurityPolicyWorkflow,
+		securitypolicy.GCPComputeSecurityPolicyWorkflowParams{ProjectID: params.ProjectID})
+
+	interconnectFuture := workflow.ExecuteChildWorkflow(childCtx, interconnect.GCPComputeInterconnectWorkflow,
+		interconnect.GCPComputeInterconnectWorkflowParams{ProjectID: params.ProjectID})
+
+	packetMirroringFuture := workflow.ExecuteChildWorkflow(childCtx, packetmirroring.GCPComputePacketMirroringWorkflow,
+		packetmirroring.GCPComputePacketMirroringWorkflowParams{ProjectID: params.ProjectID})
+
+	projectMetadataFuture := workflow.ExecuteChildWorkflow(childCtx, projectmetadata.GCPComputeProjectMetadataWorkflow,
+		projectmetadata.GCPComputeProjectMetadataWorkflowParams{ProjectID: params.ProjectID})
+
+	// Phase 2: Collect all phase 1 results (continue on error to avoid killing parallel workflows)
+	var errs []error
+
 	var instanceResult instance.GCPComputeInstanceWorkflowResult
-	err := workflow.ExecuteChildWorkflow(childCtx, instance.GCPComputeInstanceWorkflow,
-		instance.GCPComputeInstanceWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &instanceResult)
-	if err != nil {
+	if err := instanceFuture.Get(ctx, &instanceResult); err != nil {
 		logger.Error("Failed to ingest instances", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.InstanceCount = instanceResult.InstanceCount
 	}
-	result.InstanceCount = instanceResult.InstanceCount
 
-	// Execute disk workflow
 	var diskResult disk.GCPComputeDiskWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, disk.GCPComputeDiskWorkflow,
-		disk.GCPComputeDiskWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &diskResult)
-	if err != nil {
+	if err := diskFuture.Get(ctx, &diskResult); err != nil {
 		logger.Error("Failed to ingest disks", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.DiskCount = diskResult.DiskCount
 	}
-	result.DiskCount = diskResult.DiskCount
 
-	// Execute network workflow
 	var networkResult network.GCPComputeNetworkWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, network.GCPComputeNetworkWorkflow,
-		network.GCPComputeNetworkWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &networkResult)
-	if err != nil {
+	if err := networkFuture.Get(ctx, &networkResult); err != nil {
 		logger.Error("Failed to ingest networks", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.NetworkCount = networkResult.NetworkCount
 	}
-	result.NetworkCount = networkResult.NetworkCount
 
-	// Execute subnetwork workflow
 	var subnetworkResult subnetwork.GCPComputeSubnetworkWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, subnetwork.GCPComputeSubnetworkWorkflow,
-		subnetwork.GCPComputeSubnetworkWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &subnetworkResult)
-	if err != nil {
+	if err := subnetworkFuture.Get(ctx, &subnetworkResult); err != nil {
 		logger.Error("Failed to ingest subnetworks", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.SubnetworkCount = subnetworkResult.SubnetworkCount
 	}
-	result.SubnetworkCount = subnetworkResult.SubnetworkCount
 
-	// Execute instance group workflow
 	var instanceGroupResult instancegroup.GCPComputeInstanceGroupWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, instancegroup.GCPComputeInstanceGroupWorkflow,
-		instancegroup.GCPComputeInstanceGroupWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &instanceGroupResult)
-	if err != nil {
+	if err := instanceGroupFuture.Get(ctx, &instanceGroupResult); err != nil {
 		logger.Error("Failed to ingest instance groups", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.InstanceGroupCount = instanceGroupResult.InstanceGroupCount
 	}
-	result.InstanceGroupCount = instanceGroupResult.InstanceGroupCount
 
-	// Execute target instance workflow
 	var targetInstanceResult targetinstance.GCPComputeTargetInstanceWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, targetinstance.GCPComputeTargetInstanceWorkflow,
-		targetinstance.GCPComputeTargetInstanceWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetInstanceResult)
-	if err != nil {
+	if err := targetInstanceFuture.Get(ctx, &targetInstanceResult); err != nil {
 		logger.Error("Failed to ingest target instances", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.TargetInstanceCount = targetInstanceResult.TargetInstanceCount
 	}
-	result.TargetInstanceCount = targetInstanceResult.TargetInstanceCount
 
-	// Execute address workflow
 	var addressResult address.GCPComputeAddressWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, address.GCPComputeAddressWorkflow,
-		address.GCPComputeAddressWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &addressResult)
-	if err != nil {
+	if err := addressFuture.Get(ctx, &addressResult); err != nil {
 		logger.Error("Failed to ingest addresses", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.AddressCount = addressResult.AddressCount
 	}
-	result.AddressCount = addressResult.AddressCount
 
-	// Execute global address workflow
 	var globalAddressResult globaladdress.GCPComputeGlobalAddressWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, globaladdress.GCPComputeGlobalAddressWorkflow,
-		globaladdress.GCPComputeGlobalAddressWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &globalAddressResult)
-	if err != nil {
+	if err := globalAddressFuture.Get(ctx, &globalAddressResult); err != nil {
 		logger.Error("Failed to ingest global addresses", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.GlobalAddressCount = globalAddressResult.GlobalAddressCount
 	}
-	result.GlobalAddressCount = globalAddressResult.GlobalAddressCount
 
-	// Execute forwarding rule workflow
 	var forwardingRuleResult forwardingrule.GCPComputeForwardingRuleWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, forwardingrule.GCPComputeForwardingRuleWorkflow,
-		forwardingrule.GCPComputeForwardingRuleWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &forwardingRuleResult)
-	if err != nil {
+	if err := forwardingRuleFuture.Get(ctx, &forwardingRuleResult); err != nil {
 		logger.Error("Failed to ingest forwarding rules", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.ForwardingRuleCount = forwardingRuleResult.ForwardingRuleCount
 	}
-	result.ForwardingRuleCount = forwardingRuleResult.ForwardingRuleCount
 
-	// Execute global forwarding rule workflow
 	var globalForwardingRuleResult globalforwardingrule.GCPComputeGlobalForwardingRuleWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, globalforwardingrule.GCPComputeGlobalForwardingRuleWorkflow,
-		globalforwardingrule.GCPComputeGlobalForwardingRuleWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &globalForwardingRuleResult)
-	if err != nil {
+	if err := globalForwardingRuleFuture.Get(ctx, &globalForwardingRuleResult); err != nil {
 		logger.Error("Failed to ingest global forwarding rules", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.GlobalForwardingRuleCount = globalForwardingRuleResult.GlobalForwardingRuleCount
 	}
-	result.GlobalForwardingRuleCount = globalForwardingRuleResult.GlobalForwardingRuleCount
 
-	// Execute snapshot workflow
 	var snapshotResult snapshot.GCPComputeSnapshotWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, snapshot.GCPComputeSnapshotWorkflow,
-		snapshot.GCPComputeSnapshotWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &snapshotResult)
-	if err != nil {
+	if err := snapshotFuture.Get(ctx, &snapshotResult); err != nil {
 		logger.Error("Failed to ingest snapshots", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.SnapshotCount = snapshotResult.SnapshotCount
 	}
-	result.SnapshotCount = snapshotResult.SnapshotCount
 
-	// Execute image workflow
 	var imageResult image.GCPComputeImageWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, image.GCPComputeImageWorkflow,
-		image.GCPComputeImageWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &imageResult)
-	if err != nil {
+	if err := imageFuture.Get(ctx, &imageResult); err != nil {
 		logger.Error("Failed to ingest images", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.ImageCount = imageResult.ImageCount
 	}
-	result.ImageCount = imageResult.ImageCount
 
-	// Execute health check workflow
 	var healthCheckResult healthcheck.GCPComputeHealthCheckWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, healthcheck.GCPComputeHealthCheckWorkflow,
-		healthcheck.GCPComputeHealthCheckWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &healthCheckResult)
-	if err != nil {
+	if err := healthCheckFuture.Get(ctx, &healthCheckResult); err != nil {
 		logger.Error("Failed to ingest health checks", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.HealthCheckCount = healthCheckResult.HealthCheckCount
 	}
-	result.HealthCheckCount = healthCheckResult.HealthCheckCount
 
-	// Execute VPN gateway workflow
 	var vpnGatewayResult vpngateway.GCPComputeVpnGatewayWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, vpngateway.GCPComputeVpnGatewayWorkflow,
-		vpngateway.GCPComputeVpnGatewayWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &vpnGatewayResult)
-	if err != nil {
+	if err := vpnGatewayFuture.Get(ctx, &vpnGatewayResult); err != nil {
 		logger.Error("Failed to ingest vpn gateways", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.VpnGatewayCount = vpnGatewayResult.VpnGatewayCount
 	}
-	result.VpnGatewayCount = vpnGatewayResult.VpnGatewayCount
 
-	// Execute target VPN gateway workflow
 	var targetVpnGatewayResult targetvpngateway.GCPComputeTargetVpnGatewayWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, targetvpngateway.GCPComputeTargetVpnGatewayWorkflow,
-		targetvpngateway.GCPComputeTargetVpnGatewayWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetVpnGatewayResult)
-	if err != nil {
+	if err := targetVpnGatewayFuture.Get(ctx, &targetVpnGatewayResult); err != nil {
 		logger.Error("Failed to ingest target vpn gateways", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.TargetVpnGatewayCount = targetVpnGatewayResult.TargetVpnGatewayCount
 	}
-	result.TargetVpnGatewayCount = targetVpnGatewayResult.TargetVpnGatewayCount
 
-	// Execute VPN tunnel workflow
 	var vpnTunnelResult vpntunnel.GCPComputeVpnTunnelWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, vpntunnel.GCPComputeVpnTunnelWorkflow,
-		vpntunnel.GCPComputeVpnTunnelWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &vpnTunnelResult)
-	if err != nil {
+	if err := vpnTunnelFuture.Get(ctx, &vpnTunnelResult); err != nil {
 		logger.Error("Failed to ingest vpn tunnels", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.VpnTunnelCount = vpnTunnelResult.VpnTunnelCount
 	}
-	result.VpnTunnelCount = vpnTunnelResult.VpnTunnelCount
 
-	// Execute target HTTP proxy workflow
 	var targetHttpProxyResult targethttpproxy.GCPComputeTargetHttpProxyWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, targethttpproxy.GCPComputeTargetHttpProxyWorkflow,
-		targethttpproxy.GCPComputeTargetHttpProxyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetHttpProxyResult)
-	if err != nil {
+	if err := targetHttpProxyFuture.Get(ctx, &targetHttpProxyResult); err != nil {
 		logger.Error("Failed to ingest target HTTP proxies", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.TargetHttpProxyCount = targetHttpProxyResult.TargetHttpProxyCount
 	}
-	result.TargetHttpProxyCount = targetHttpProxyResult.TargetHttpProxyCount
 
-	// Execute target TCP proxy workflow
 	var targetTcpProxyResult targettcpproxy.GCPComputeTargetTcpProxyWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, targettcpproxy.GCPComputeTargetTcpProxyWorkflow,
-		targettcpproxy.GCPComputeTargetTcpProxyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetTcpProxyResult)
-	if err != nil {
+	if err := targetTcpProxyFuture.Get(ctx, &targetTcpProxyResult); err != nil {
 		logger.Error("Failed to ingest target TCP proxies", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.TargetTcpProxyCount = targetTcpProxyResult.TargetTcpProxyCount
 	}
-	result.TargetTcpProxyCount = targetTcpProxyResult.TargetTcpProxyCount
 
-	// Execute target SSL proxy workflow
 	var targetSslProxyResult targetsslproxy.GCPComputeTargetSslProxyWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, targetsslproxy.GCPComputeTargetSslProxyWorkflow,
-		targetsslproxy.GCPComputeTargetSslProxyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetSslProxyResult)
-	if err != nil {
+	if err := targetSslProxyFuture.Get(ctx, &targetSslProxyResult); err != nil {
 		logger.Error("Failed to ingest target SSL proxies", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.TargetSslProxyCount = targetSslProxyResult.TargetSslProxyCount
 	}
-	result.TargetSslProxyCount = targetSslProxyResult.TargetSslProxyCount
 
-	// Execute target HTTPS proxy workflow
 	var targetHttpsProxyResult targethttpsproxy.GCPComputeTargetHttpsProxyWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, targethttpsproxy.GCPComputeTargetHttpsProxyWorkflow,
-		targethttpsproxy.GCPComputeTargetHttpsProxyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetHttpsProxyResult)
-	if err != nil {
+	if err := targetHttpsProxyFuture.Get(ctx, &targetHttpsProxyResult); err != nil {
 		logger.Error("Failed to ingest target HTTPS proxies", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.TargetHttpsProxyCount = targetHttpsProxyResult.TargetHttpsProxyCount
 	}
-	result.TargetHttpsProxyCount = targetHttpsProxyResult.TargetHttpsProxyCount
 
-	// Execute URL map workflow
 	var urlMapResult urlmap.GCPComputeUrlMapWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, urlmap.GCPComputeUrlMapWorkflow,
-		urlmap.GCPComputeUrlMapWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &urlMapResult)
-	if err != nil {
+	if err := urlMapFuture.Get(ctx, &urlMapResult); err != nil {
 		logger.Error("Failed to ingest URL maps", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.UrlMapCount = urlMapResult.UrlMapCount
 	}
-	result.UrlMapCount = urlMapResult.UrlMapCount
 
-	// Execute target pool workflow
 	var targetPoolResult targetpool.GCPComputeTargetPoolWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, targetpool.GCPComputeTargetPoolWorkflow,
-		targetpool.GCPComputeTargetPoolWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetPoolResult)
-	if err != nil {
+	if err := targetPoolFuture.Get(ctx, &targetPoolResult); err != nil {
 		logger.Error("Failed to ingest target pools", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.TargetPoolCount = targetPoolResult.TargetPoolCount
 	}
-	result.TargetPoolCount = targetPoolResult.TargetPoolCount
 
-	// Execute NEG workflow
 	var negResult neg.GCPComputeNegWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, neg.GCPComputeNegWorkflow,
-		neg.GCPComputeNegWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &negResult)
-	if err != nil {
+	if err := negFuture.Get(ctx, &negResult); err != nil {
 		logger.Error("Failed to ingest NEGs", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.NegCount = negResult.NegCount
 	}
-	result.NegCount = negResult.NegCount
 
-	// Execute backend service workflow
 	var backendServiceResult backendservice.GCPComputeBackendServiceWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, backendservice.GCPComputeBackendServiceWorkflow,
-		backendservice.GCPComputeBackendServiceWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &backendServiceResult)
-	if err != nil {
+	if err := backendServiceFuture.Get(ctx, &backendServiceResult); err != nil {
 		logger.Error("Failed to ingest backend services", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.BackendServiceCount = backendServiceResult.BackendServiceCount
 	}
-	result.BackendServiceCount = backendServiceResult.BackendServiceCount
 
-	// Execute firewall workflow
 	var firewallResult firewall.GCPComputeFirewallWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, firewall.GCPComputeFirewallWorkflow,
-		firewall.GCPComputeFirewallWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &firewallResult)
-	if err != nil {
+	if err := firewallFuture.Get(ctx, &firewallResult); err != nil {
 		logger.Error("Failed to ingest firewalls", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.FirewallCount = firewallResult.FirewallCount
 	}
-	result.FirewallCount = firewallResult.FirewallCount
 
-	// Execute SSL policy workflow
 	var sslPolicyResult sslpolicy.GCPComputeSslPolicyWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, sslpolicy.GCPComputeSslPolicyWorkflow,
-		sslpolicy.GCPComputeSslPolicyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &sslPolicyResult)
-	if err != nil {
+	if err := sslPolicyFuture.Get(ctx, &sslPolicyResult); err != nil {
 		logger.Error("Failed to ingest SSL policies", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.SslPolicyCount = sslPolicyResult.SslPolicyCount
 	}
-	result.SslPolicyCount = sslPolicyResult.SslPolicyCount
 
-	// Execute router workflow
 	var routerResult router.GCPComputeRouterWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, router.GCPComputeRouterWorkflow,
-		router.GCPComputeRouterWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &routerResult)
-	if err != nil {
+	if err := routerFuture.Get(ctx, &routerResult); err != nil {
 		logger.Error("Failed to ingest routers", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.RouterCount = routerResult.RouterCount
 	}
-	result.RouterCount = routerResult.RouterCount
 
-	// Execute security policy workflow
 	var securityPolicyResult securitypolicy.GCPComputeSecurityPolicyWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, securitypolicy.GCPComputeSecurityPolicyWorkflow,
-		securitypolicy.GCPComputeSecurityPolicyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &securityPolicyResult)
-	if err != nil {
+	if err := securityPolicyFuture.Get(ctx, &securityPolicyResult); err != nil {
 		logger.Error("Failed to ingest security policies", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.SecurityPolicyCount = securityPolicyResult.SecurityPolicyCount
 	}
-	result.SecurityPolicyCount = securityPolicyResult.SecurityPolicyCount
 
-	// Execute interconnect workflow
 	var interconnectResult interconnect.GCPComputeInterconnectWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, interconnect.GCPComputeInterconnectWorkflow,
-		interconnect.GCPComputeInterconnectWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &interconnectResult)
-	if err != nil {
+	if err := interconnectFuture.Get(ctx, &interconnectResult); err != nil {
 		logger.Error("Failed to ingest interconnects", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.InterconnectCount = interconnectResult.InterconnectCount
 	}
-	result.InterconnectCount = interconnectResult.InterconnectCount
 
-	// Execute packet mirroring workflow
 	var packetMirroringResult packetmirroring.GCPComputePacketMirroringWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, packetmirroring.GCPComputePacketMirroringWorkflow,
-		packetmirroring.GCPComputePacketMirroringWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &packetMirroringResult)
-	if err != nil {
+	if err := packetMirroringFuture.Get(ctx, &packetMirroringResult); err != nil {
 		logger.Error("Failed to ingest packet mirrorings", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.PacketMirroringCount = packetMirroringResult.PacketMirroringCount
 	}
-	result.PacketMirroringCount = packetMirroringResult.PacketMirroringCount
 
-	// Execute project metadata workflow
 	var projectMetadataResult projectmetadata.GCPComputeProjectMetadataWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, projectmetadata.GCPComputeProjectMetadataWorkflow,
-		projectmetadata.GCPComputeProjectMetadataWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &projectMetadataResult)
-	if err != nil {
+	if err := projectMetadataFuture.Get(ctx, &projectMetadataResult); err != nil {
 		logger.Error("Failed to ingest project metadata", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.ProjectMetadataCount = projectMetadataResult.MetadataCount
 	}
-	result.ProjectMetadataCount = projectMetadataResult.MetadataCount
 
-	// Execute NEG endpoint workflow (must run after NEG workflow since it queries NEGs from database)
+	// Phase 3: NEG endpoints depend on NEGs being in DB
 	var negEndpointResult negendpoint.GCPComputeNegEndpointWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, negendpoint.GCPComputeNegEndpointWorkflow,
-		negendpoint.GCPComputeNegEndpointWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &negEndpointResult)
-	if err != nil {
+	if err := workflow.ExecuteChildWorkflow(childCtx, negendpoint.GCPComputeNegEndpointWorkflow,
+		negendpoint.GCPComputeNegEndpointWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &negEndpointResult); err != nil {
 		logger.Error("Failed to ingest NEG endpoints", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+		errs = append(errs, err)
+	} else {
+		result.NegEndpointCount = negEndpointResult.NegEndpointCount
 	}
-	result.NegEndpointCount = negEndpointResult.NegEndpointCount
+
+	if len(errs) > 0 {
+		logger.Warn("GCPComputeWorkflow completed with errors",
+			"projectID", params.ProjectID, "errorCount", len(errs))
+	}
 
 	logger.Info("Completed GCPComputeWorkflow",
 		"projectID", params.ProjectID,

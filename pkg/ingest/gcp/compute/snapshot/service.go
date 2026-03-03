@@ -74,7 +74,13 @@ func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResul
 	}, nil
 }
 
+// saveBatchSize is the number of items to process per transaction batch.
+// This avoids holding a single massive transaction lock when processing
+// thousands of items (e.g. 26K+ snapshots in one project).
+const saveBatchSize = 500
+
 // saveSnapshots saves snapshots to the database with history tracking.
+// Items are processed in batches to limit transaction size and lock duration.
 func (s *Service) saveSnapshots(ctx context.Context, snapshots []*SnapshotData) error {
 	if len(snapshots) == 0 {
 		return nil
@@ -82,6 +88,21 @@ func (s *Service) saveSnapshots(ctx context.Context, snapshots []*SnapshotData) 
 
 	now := time.Now()
 
+	for i := 0; i < len(snapshots); i += saveBatchSize {
+		end := i + saveBatchSize
+		if end > len(snapshots) {
+			end = len(snapshots)
+		}
+		if err := s.saveSnapshotBatch(ctx, snapshots[i:end], now); err != nil {
+			return fmt.Errorf("failed to save snapshot batch %d: %w", i/saveBatchSize, err)
+		}
+	}
+
+	return nil
+}
+
+// saveSnapshotBatch saves a batch of snapshots in a single transaction.
+func (s *Service) saveSnapshotBatch(ctx context.Context, snapshots []*SnapshotData, now time.Time) error {
 	tx, err := s.entClient.Tx(ctx)
 	if err != nil {
 		return fmt.Errorf("failed to start transaction: %w", err)

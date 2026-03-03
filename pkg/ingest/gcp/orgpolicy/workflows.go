@@ -24,7 +24,7 @@ type GCPOrgPolicyWorkflowResult struct {
 }
 
 // GCPOrgPolicyWorkflow ingests all Organization Policy resources.
-// Executes constraint and policy workflows sequentially.
+// Constraints and custom constraints run in parallel, then policies run after (they reference constraints).
 func GCPOrgPolicyWorkflow(ctx workflow.Context, params GCPOrgPolicyWorkflowParams) (*GCPOrgPolicyWorkflowResult, error) {
 	logger := workflow.GetLogger(ctx)
 	logger.Info("Starting GCPOrgPolicyWorkflow")
@@ -42,29 +42,32 @@ func GCPOrgPolicyWorkflow(ctx workflow.Context, params GCPOrgPolicyWorkflowParam
 
 	result := &GCPOrgPolicyWorkflowResult{}
 
-	// Phase 1: Ingest constraints
+	// Phase 1: Ingest constraints and custom constraints in parallel (independent)
+	constraintFuture := workflow.ExecuteChildWorkflow(childCtx, constraint.GCPOrgPolicyConstraintWorkflow,
+		constraint.GCPOrgPolicyConstraintWorkflowParams{})
+
+	customConstraintFuture := workflow.ExecuteChildWorkflow(childCtx, customconstraint.GCPOrgPolicyCustomConstraintWorkflow,
+		customconstraint.GCPOrgPolicyCustomConstraintWorkflowParams{})
+
+	// Collect constraint results
 	var constraintResult constraint.GCPOrgPolicyConstraintWorkflowResult
-	err := workflow.ExecuteChildWorkflow(childCtx, constraint.GCPOrgPolicyConstraintWorkflow,
-		constraint.GCPOrgPolicyConstraintWorkflowParams{}).Get(ctx, &constraintResult)
-	if err != nil {
+	if err := constraintFuture.Get(ctx, &constraintResult); err != nil {
 		logger.Error("Failed to ingest org policy constraints", "error", err)
 		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.ConstraintCount = constraintResult.ConstraintCount
 
-	// Phase 2: Ingest custom constraints
+	// Collect custom constraint results
 	var customConstraintResult customconstraint.GCPOrgPolicyCustomConstraintWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, customconstraint.GCPOrgPolicyCustomConstraintWorkflow,
-		customconstraint.GCPOrgPolicyCustomConstraintWorkflowParams{}).Get(ctx, &customConstraintResult)
-	if err != nil {
+	if err := customConstraintFuture.Get(ctx, &customConstraintResult); err != nil {
 		logger.Error("Failed to ingest org policy custom constraints", "error", err)
 		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.CustomConstraintCount = customConstraintResult.CustomConstraintCount
 
-	// Phase 3: Ingest policies
+	// Phase 2: Ingest policies (depends on constraints being in DB)
 	var policyResult policy.GCPOrgPolicyPolicyWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, policy.GCPOrgPolicyPolicyWorkflow,
+	err := workflow.ExecuteChildWorkflow(childCtx, policy.GCPOrgPolicyPolicyWorkflow,
 		policy.GCPOrgPolicyPolicyWorkflowParams{}).Get(ctx, &policyResult)
 	if err != nil {
 		logger.Error("Failed to ingest org policies", "error", err)

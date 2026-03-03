@@ -28,6 +28,7 @@ type GCPLoggingWorkflowResult struct {
 }
 
 // GCPLoggingWorkflow ingests all GCP Cloud Logging resources for a single project.
+// All four resources are independent and run in parallel.
 func GCPLoggingWorkflow(ctx workflow.Context, params GCPLoggingWorkflowParams) (*GCPLoggingWorkflowResult, error) {
 	logger := workflow.GetLogger(ctx)
 	logger.Info("Starting GCPLoggingWorkflow", "projectID", params.ProjectID)
@@ -47,41 +48,43 @@ func GCPLoggingWorkflow(ctx workflow.Context, params GCPLoggingWorkflowParams) (
 		ProjectID: params.ProjectID,
 	}
 
-	// Execute sink workflow
+	// Launch all four resources in parallel (they are independent)
+	sinkFuture := workflow.ExecuteChildWorkflow(childCtx, sink.GCPLoggingSinkWorkflow,
+		sink.GCPLoggingSinkWorkflowParams{ProjectID: params.ProjectID})
+
+	bucketFuture := workflow.ExecuteChildWorkflow(childCtx, logbucket.GCPLoggingBucketWorkflow,
+		logbucket.GCPLoggingBucketWorkflowParams{ProjectID: params.ProjectID})
+
+	logMetricFuture := workflow.ExecuteChildWorkflow(childCtx, logmetric.GCPLoggingLogMetricWorkflow,
+		logmetric.GCPLoggingLogMetricWorkflowParams{ProjectID: params.ProjectID})
+
+	logExclusionFuture := workflow.ExecuteChildWorkflow(childCtx, logexclusion.GCPLoggingLogExclusionWorkflow,
+		logexclusion.GCPLoggingLogExclusionWorkflowParams{ProjectID: params.ProjectID})
+
+	// Collect results
 	var sinkResult sink.GCPLoggingSinkWorkflowResult
-	err := workflow.ExecuteChildWorkflow(childCtx, sink.GCPLoggingSinkWorkflow,
-		sink.GCPLoggingSinkWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &sinkResult)
-	if err != nil {
+	if err := sinkFuture.Get(ctx, &sinkResult); err != nil {
 		logger.Error("Failed to ingest sinks", "error", err)
 		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.SinkCount = sinkResult.SinkCount
 
-	// Execute bucket workflow
 	var bucketResult logbucket.GCPLoggingBucketWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, logbucket.GCPLoggingBucketWorkflow,
-		logbucket.GCPLoggingBucketWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &bucketResult)
-	if err != nil {
+	if err := bucketFuture.Get(ctx, &bucketResult); err != nil {
 		logger.Error("Failed to ingest buckets", "error", err)
 		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.BucketCount = bucketResult.BucketCount
 
-	// Execute log metric workflow
 	var logMetricResult logmetric.GCPLoggingLogMetricWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, logmetric.GCPLoggingLogMetricWorkflow,
-		logmetric.GCPLoggingLogMetricWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &logMetricResult)
-	if err != nil {
+	if err := logMetricFuture.Get(ctx, &logMetricResult); err != nil {
 		logger.Error("Failed to ingest log metrics", "error", err)
 		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.LogMetricCount = logMetricResult.LogMetricCount
 
-	// Execute log exclusion workflow
 	var logExclusionResult logexclusion.GCPLoggingLogExclusionWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, logexclusion.GCPLoggingLogExclusionWorkflow,
-		logexclusion.GCPLoggingLogExclusionWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &logExclusionResult)
-	if err != nil {
+	if err := logExclusionFuture.Get(ctx, &logExclusionResult); err != nil {
 		logger.Error("Failed to ingest log exclusions", "error", err)
 		return nil, temporalerr.PropagateNonRetryable(err)
 	}

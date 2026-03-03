@@ -24,7 +24,7 @@ type GCPSecurityCenterWorkflowResult struct {
 }
 
 // GCPSecurityCenterWorkflow ingests all Security Command Center resources.
-// Executes source workflow first, then findings (findings reference sources).
+// Sources run first (findings reference sources), then findings and notification configs run in parallel.
 func GCPSecurityCenterWorkflow(ctx workflow.Context, params GCPSecurityCenterWorkflowParams) (*GCPSecurityCenterWorkflowResult, error) {
 	logger := workflow.GetLogger(ctx)
 	logger.Info("Starting GCPSecurityCenterWorkflow")
@@ -52,21 +52,24 @@ func GCPSecurityCenterWorkflow(ctx workflow.Context, params GCPSecurityCenterWor
 	}
 	result.SourceCount = sourceResult.SourceCount
 
-	// Phase 2: Ingest findings (depends on sources being in DB)
+	// Phase 2: Ingest findings and notification configs in parallel (both independent after sources)
+	findingFuture := workflow.ExecuteChildWorkflow(childCtx, finding.GCPSecurityCenterFindingWorkflow,
+		finding.GCPSecurityCenterFindingWorkflowParams{})
+
+	notificationConfigFuture := workflow.ExecuteChildWorkflow(childCtx, notificationconfig.GCPSecurityCenterNotificationConfigWorkflow,
+		notificationconfig.GCPSecurityCenterNotificationConfigWorkflowParams{})
+
+	// Collect finding results
 	var findingResult finding.GCPSecurityCenterFindingWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, finding.GCPSecurityCenterFindingWorkflow,
-		finding.GCPSecurityCenterFindingWorkflowParams{}).Get(ctx, &findingResult)
-	if err != nil {
+	if err := findingFuture.Get(ctx, &findingResult); err != nil {
 		logger.Error("Failed to ingest SCC findings", "error", err)
 		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.FindingCount = findingResult.FindingCount
 
-	// Phase 3: Ingest notification configs (independent of sources/findings)
+	// Collect notification config results
 	var notificationConfigResult notificationconfig.GCPSecurityCenterNotificationConfigWorkflowResult
-	err = workflow.ExecuteChildWorkflow(childCtx, notificationconfig.GCPSecurityCenterNotificationConfigWorkflow,
-		notificationconfig.GCPSecurityCenterNotificationConfigWorkflowParams{}).Get(ctx, &notificationConfigResult)
-	if err != nil {
+	if err := notificationConfigFuture.Get(ctx, &notificationConfigResult); err != nil {
 		logger.Error("Failed to ingest SCC notification configs", "error", err)
 		return nil, temporalerr.PropagateNonRetryable(err)
 	}

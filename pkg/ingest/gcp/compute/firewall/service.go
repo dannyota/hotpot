@@ -74,7 +74,11 @@ func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResul
 	}, nil
 }
 
+// saveBatchSize is the number of items to process per transaction batch.
+const saveBatchSize = 500
+
 // saveFirewalls saves firewalls to the database with history tracking.
+// Items are processed in batches to limit transaction size and lock duration.
 func (s *Service) saveFirewalls(ctx context.Context, firewalls []*FirewallData) error {
 	if len(firewalls) == 0 {
 		return nil
@@ -82,6 +86,21 @@ func (s *Service) saveFirewalls(ctx context.Context, firewalls []*FirewallData) 
 
 	now := time.Now()
 
+	for i := 0; i < len(firewalls); i += saveBatchSize {
+		end := i + saveBatchSize
+		if end > len(firewalls) {
+			end = len(firewalls)
+		}
+		if err := s.saveFirewallBatch(ctx, firewalls[i:end], now); err != nil {
+			return fmt.Errorf("failed to save firewall batch %d: %w", i/saveBatchSize, err)
+		}
+	}
+
+	return nil
+}
+
+// saveFirewallBatch saves a batch of firewalls in a single transaction.
+func (s *Service) saveFirewallBatch(ctx context.Context, firewalls []*FirewallData, now time.Time) error {
 	tx, err := s.entClient.Tx(ctx)
 	if err != nil {
 		return fmt.Errorf("failed to start transaction: %w", err)

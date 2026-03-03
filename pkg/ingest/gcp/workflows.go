@@ -248,6 +248,14 @@ type ProjectResult struct {
 // aggregateFunc is the function signature for merging a service result into the provider-level results.
 type aggregateFunc = func(*GCPInventoryWorkflowResult, *ProjectResult, any)
 
+// svcCall tracks a launched child workflow for later result collection.
+type svcCall struct {
+	projectID string
+	svc       ingest.ServiceRegistration
+	future    workflow.ChildWorkflowFuture
+	result    any
+}
+
 // GCPInventoryWorkflow ingests all GCP resources across multiple projects.
 // It orchestrates compute, GKE, IAM, and other GCP resource ingestion.
 func GCPInventoryWorkflow(ctx workflow.Context, _ GCPInventoryWorkflowParams) (*GCPInventoryWorkflowResult, error) {
@@ -294,63 +302,88 @@ func GCPInventoryWorkflow(ctx workflow.Context, _ GCPInventoryWorkflowParams) (*
 
 	services := ingest.Services("gcp")
 
-	// Per-project services (ScopeRegional)
-	for _, projectID := range discoverResult.ProjectIDs {
-		projectResult := ProjectResult{ProjectID: projectID}
+	// Phase 1: Discover enabled APIs for all projects in parallel
+	apiFutures := make(map[string]workflow.Future, len(discoverResult.ProjectIDs))
+	for _, pid := range discoverResult.ProjectIDs {
+		apiFutures[pid] = workflow.ExecuteActivity(activityCtx, DiscoverEnabledAPIsActivity,
+			DiscoverEnabledAPIsParams{ProjectID: pid})
+	}
 
-		// Discover which APIs are enabled for this project.
-		var enabledAPIs map[string]bool
-		var discoverAPIsResult DiscoverEnabledAPIsResult
-		err := workflow.ExecuteActivity(activityCtx, DiscoverEnabledAPIsActivity,
-			DiscoverEnabledAPIsParams{ProjectID: projectID}).Get(ctx, &discoverAPIsResult)
-		if err != nil {
+	enabledAPIs := make(map[string]map[string]bool, len(discoverResult.ProjectIDs))
+	for _, pid := range discoverResult.ProjectIDs {
+		var res DiscoverEnabledAPIsResult
+		if err := apiFutures[pid].Get(ctx, &res); err != nil {
 			logger.Error("Failed to discover enabled APIs; running all services",
-				"projectID", projectID, "error", err)
+				"projectID", pid, "error", err)
 		} else {
-			enabledAPIs = make(map[string]bool, len(discoverAPIsResult.EnabledAPIs))
-			for _, api := range discoverAPIsResult.EnabledAPIs {
-				enabledAPIs[api] = true
+			m := make(map[string]bool, len(res.EnabledAPIs))
+			for _, api := range res.EnabledAPIs {
+				m[api] = true
 			}
+			enabledAPIs[pid] = m
 		}
+	}
 
-		// Run regional services, skipping those whose API isn't enabled.
+	// Phase 2: Launch all (project x service) combinations + global services in parallel
+	var calls []svcCall
+	skippedCount := make(map[string]int, len(discoverResult.ProjectIDs))
+
+	// Regional services (per project)
+	for _, pid := range discoverResult.ProjectIDs {
+		apis := enabledAPIs[pid]
 		for _, svc := range services {
 			if svc.Scope != ingest.ScopeRegional {
 				continue
 			}
-			if enabledAPIs != nil && svc.APIName != "" && !enabledAPIs[svc.APIName] {
+			if apis != nil && svc.APIName != "" && !apis[svc.APIName] {
 				logger.Info("Skipping service: API not enabled",
-					"service", svc.Name, "api", svc.APIName, "projectID", projectID)
-				projectResult.SkippedServices++
+					"service", svc.Name, "api", svc.APIName, "projectID", pid)
+				skippedCount[pid]++
 				continue
 			}
 			res := svc.NewResult()
-			err := workflow.ExecuteChildWorkflow(ctx, svc.Workflow,
-				svc.NewParams(projectID, "")).Get(ctx, res)
-			if err != nil {
-				logger.Error("Failed ingestion", "service", svc.Name, "projectID", projectID, "error", err)
-				appendError(&projectResult, err)
-			} else {
-				svc.Aggregate.(aggregateFunc)(result, &projectResult, res)
-			}
+			f := workflow.ExecuteChildWorkflow(ctx, svc.Workflow, svc.NewParams(pid, ""))
+			calls = append(calls, svcCall{projectID: pid, svc: svc, future: f, result: res})
 		}
-
-		result.ProjectResults = append(result.ProjectResults, projectResult)
 	}
 
-	// Org-scoped services (ScopeGlobal) — run once, not per-project
+	// Global services (org-scoped, run once)
 	for _, svc := range services {
 		if svc.Scope != ingest.ScopeGlobal {
 			continue
 		}
 		res := svc.NewResult()
-		err := workflow.ExecuteChildWorkflow(ctx, svc.Workflow,
-			svc.NewParams("", "")).Get(ctx, res)
-		if err != nil {
-			logger.Error("Failed ingestion", "service", svc.Name, "error", err)
+		f := workflow.ExecuteChildWorkflow(ctx, svc.Workflow, svc.NewParams("", ""))
+		calls = append(calls, svcCall{projectID: "", svc: svc, future: f, result: res})
+	}
+
+	// Phase 3: Collect all results and aggregate
+	projectResults := make(map[string]*ProjectResult, len(discoverResult.ProjectIDs))
+	for _, pid := range discoverResult.ProjectIDs {
+		pr := &ProjectResult{ProjectID: pid, SkippedServices: skippedCount[pid]}
+		projectResults[pid] = pr
+	}
+
+	for _, c := range calls {
+		if err := c.future.Get(ctx, c.result); err != nil {
+			if c.projectID != "" {
+				logger.Error("Failed ingestion", "service", c.svc.Name, "projectID", c.projectID, "error", err)
+				appendError(projectResults[c.projectID], err)
+			} else {
+				logger.Error("Failed ingestion", "service", c.svc.Name, "error", err)
+			}
 		} else {
-			svc.Aggregate.(aggregateFunc)(result, nil, res)
+			var pr *ProjectResult
+			if c.projectID != "" {
+				pr = projectResults[c.projectID]
+			}
+			c.svc.Aggregate.(aggregateFunc)(result, pr, c.result)
 		}
+	}
+
+	// Build final project results slice (preserving original order)
+	for _, pid := range discoverResult.ProjectIDs {
+		result.ProjectResults = append(result.ProjectResults, *projectResults[pid])
 	}
 
 	logger.Info("Completed GCPInventoryWorkflow",

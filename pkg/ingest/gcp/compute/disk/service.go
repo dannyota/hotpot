@@ -74,7 +74,11 @@ func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResul
 	}, nil
 }
 
+// saveBatchSize is the number of items to process per transaction batch.
+const saveBatchSize = 500
+
 // saveDisks saves disks to the database with history tracking.
+// Items are processed in batches to limit transaction size and lock duration.
 func (s *Service) saveDisks(ctx context.Context, disks []*DiskData) error {
 	if len(disks) == 0 {
 		return nil
@@ -82,6 +86,21 @@ func (s *Service) saveDisks(ctx context.Context, disks []*DiskData) error {
 
 	now := time.Now()
 
+	for i := 0; i < len(disks); i += saveBatchSize {
+		end := i + saveBatchSize
+		if end > len(disks) {
+			end = len(disks)
+		}
+		if err := s.saveDiskBatch(ctx, disks[i:end], now); err != nil {
+			return fmt.Errorf("failed to save disk batch %d: %w", i/saveBatchSize, err)
+		}
+	}
+
+	return nil
+}
+
+// saveDiskBatch saves a batch of disks in a single transaction.
+func (s *Service) saveDiskBatch(ctx context.Context, disks []*DiskData, now time.Time) error {
 	tx, err := s.entClient.Tx(ctx)
 	if err != nil {
 		return fmt.Errorf("failed to start transaction: %w", err)
