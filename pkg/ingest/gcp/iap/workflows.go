@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/iap/iampolicy"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/iap/settings"
 )
@@ -46,7 +47,7 @@ func GCPIAPWorkflow(ctx workflow.Context, params GCPIAPWorkflowParams) (*GCPIAPW
 		settings.GCPIAPSettingsWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &settingsResult)
 	if err != nil {
 		logger.Error("Failed to ingest IAP settings", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.SettingsCount = settingsResult.SettingsCount
 
@@ -56,7 +57,7 @@ func GCPIAPWorkflow(ctx workflow.Context, params GCPIAPWorkflowParams) (*GCPIAPW
 		iampolicy.GCPIAPIAMPolicyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &policyResult)
 	if err != nil {
 		logger.Error("Failed to ingest IAP IAM policy", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.PolicyCount = policyResult.PolicyCount
 

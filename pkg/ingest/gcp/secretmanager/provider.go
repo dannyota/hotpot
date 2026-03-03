@@ -10,6 +10,7 @@ func init() {
 		Provider:  "gcp",
 		Name:      "secretmanager",
 		Scope:     ingest.ScopeRegional,
+		APIName:   "secretmanager.googleapis.com",
 		Register:  Register,
 		Workflow:  GCPSecretManagerWorkflow,
 		NewParams: func(projectID, _ string) any {

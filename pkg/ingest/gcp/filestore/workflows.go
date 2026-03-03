@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/filestore/instance"
 )
 
@@ -45,7 +46,7 @@ func GCPFilestoreWorkflow(ctx workflow.Context, params GCPFilestoreWorkflowParam
 		instance.GCPFilestoreInstanceWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &instanceResult)
 	if err != nil {
 		logger.Error("Failed to ingest Filestore instances", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.InstanceCount = instanceResult.InstanceCount
 

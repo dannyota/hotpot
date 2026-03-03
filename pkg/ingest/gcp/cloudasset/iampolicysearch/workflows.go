@@ -3,6 +3,7 @@ package iampolicysearch
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -36,7 +37,7 @@ func GCPCloudAssetIAMPolicySearchWorkflow(ctx workflow.Context, params GCPCloudA
 	err := workflow.ExecuteActivity(activityCtx, IngestIAMPolicySearchActivity, IngestIAMPolicySearchParams{}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest IAM policy search results", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPCloudAssetIAMPolicySearchWorkflow",

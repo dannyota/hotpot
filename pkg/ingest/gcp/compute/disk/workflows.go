@@ -3,6 +3,7 @@ package disk
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -43,7 +44,7 @@ func GCPComputeDiskWorkflow(ctx workflow.Context, params GCPComputeDiskWorkflowP
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest disks", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPComputeDiskWorkflow",

@@ -3,6 +3,7 @@ package targetpool
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -43,7 +44,7 @@ func GCPComputeTargetPoolWorkflow(ctx workflow.Context, params GCPComputeTargetP
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest target pools", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPComputeTargetPoolWorkflow",

@@ -3,6 +3,7 @@ package policy
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -41,7 +42,7 @@ func GCPBinaryAuthorizationPolicyWorkflow(ctx workflow.Context, params GCPBinary
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest binary authorization policies", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPBinaryAuthorizationPolicyWorkflow",

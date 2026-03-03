@@ -3,6 +3,7 @@ package enabledservice
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -41,7 +42,7 @@ func GCPServiceUsageEnabledServiceWorkflow(ctx workflow.Context, params GCPServi
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest enabled services", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPServiceUsageEnabledServiceWorkflow",

@@ -43,6 +43,7 @@ type ServiceRegistration struct {
 	Provider string
 	Name     string
 	Scope    ServiceScope
+	APIName  string // e.g. "compute.googleapis.com"; empty = always run
 
 	// Register is the provider-specific registration function.
 	// Called via type assertion by the provider's register.go.

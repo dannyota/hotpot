@@ -3,6 +3,7 @@ package policy
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -33,7 +34,7 @@ func GCPOrgPolicyPolicyWorkflow(ctx workflow.Context, params GCPOrgPolicyPolicyW
 	err := workflow.ExecuteActivity(activityCtx, IngestPoliciesActivity, IngestPoliciesParams{}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest org policies", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPOrgPolicyPolicyWorkflow",

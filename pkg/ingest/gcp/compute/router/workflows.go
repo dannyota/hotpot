@@ -3,6 +3,7 @@ package router
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -43,7 +44,7 @@ func GCPComputeRouterWorkflow(ctx workflow.Context, params GCPComputeRouterWorkf
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest routers", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPComputeRouterWorkflow",

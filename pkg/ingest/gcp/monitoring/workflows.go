@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/monitoring/alertpolicy"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/monitoring/uptimecheck"
 )
@@ -54,7 +55,7 @@ func GCPMonitoringWorkflow(ctx workflow.Context, params GCPMonitoringWorkflowPar
 	var alertPolicyResult alertpolicy.GCPMonitoringAlertPolicyWorkflowResult
 	if err := alertPolicyFuture.Get(ctx, &alertPolicyResult); err != nil {
 		logger.Error("Failed to ingest alert policies", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.AlertPolicyCount = alertPolicyResult.AlertPolicyCount
 
@@ -62,7 +63,7 @@ func GCPMonitoringWorkflow(ctx workflow.Context, params GCPMonitoringWorkflowPar
 	var uptimeCheckResult uptimecheck.GCPMonitoringUptimeCheckWorkflowResult
 	if err := uptimeCheckFuture.Get(ctx, &uptimeCheckResult); err != nil {
 		logger.Error("Failed to ingest uptime check configs", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.UptimeCheckCount = uptimeCheckResult.UptimeCheckCount
 

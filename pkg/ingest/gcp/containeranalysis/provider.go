@@ -10,6 +10,7 @@ func init() {
 		Provider:  "gcp",
 		Name:      "containeranalysis",
 		Scope:     ingest.ScopeRegional,
+		APIName:   "containeranalysis.googleapis.com",
 		Register:  Register,
 		Workflow:  GCPContainerAnalysisWorkflow,
 		NewParams: func(projectID, _ string) any {

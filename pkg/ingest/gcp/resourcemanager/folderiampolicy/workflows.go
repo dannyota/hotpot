@@ -3,6 +3,7 @@ package folderiampolicy
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -36,7 +37,7 @@ func GCPResourceManagerFolderIamPolicyWorkflow(ctx workflow.Context, params GCPR
 	err := workflow.ExecuteActivity(activityCtx, IngestResourceManagerFolderIamPoliciesActivity, IngestResourceManagerFolderIamPoliciesParams{}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest folder IAM policies", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPResourceManagerFolderIamPolicyWorkflow",

@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/accesscontextmanager/accesslevel"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/accesscontextmanager/accesspolicy"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/accesscontextmanager/serviceperimeter"
@@ -48,7 +49,7 @@ func GCPAccessContextManagerWorkflow(ctx workflow.Context, params GCPAccessConte
 		accesspolicy.GCPAccessContextManagerAccessPolicyWorkflowParams{}).Get(ctx, &policyResult)
 	if err != nil {
 		logger.Error("Failed to ingest access policies", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.PolicyCount = policyResult.PolicyCount
 
@@ -63,7 +64,7 @@ func GCPAccessContextManagerWorkflow(ctx workflow.Context, params GCPAccessConte
 	err = levelFuture.Get(ctx, &levelResult)
 	if err != nil {
 		logger.Error("Failed to ingest access levels", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.LevelCount = levelResult.LevelCount
 
@@ -71,7 +72,7 @@ func GCPAccessContextManagerWorkflow(ctx workflow.Context, params GCPAccessConte
 	err = perimeterFuture.Get(ctx, &perimeterResult)
 	if err != nil {
 		logger.Error("Failed to ingest service perimeters", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.PerimeterCount = perimeterResult.PerimeterCount
 

@@ -3,6 +3,7 @@ package database
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -46,7 +47,7 @@ func GCPSpannerDatabaseWorkflow(ctx workflow.Context, params GCPSpannerDatabaseW
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest Spanner databases", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPSpannerDatabaseWorkflow",

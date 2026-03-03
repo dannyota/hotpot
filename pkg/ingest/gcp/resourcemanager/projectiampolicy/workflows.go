@@ -3,6 +3,7 @@ package projectiampolicy
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -40,7 +41,7 @@ func GCPResourceManagerProjectIamPolicyWorkflow(ctx workflow.Context, params GCP
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest project IAM policy", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPResourceManagerProjectIamPolicyWorkflow",

@@ -3,6 +3,7 @@ package finding
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -36,7 +37,7 @@ func GCPSecurityCenterFindingWorkflow(ctx workflow.Context, params GCPSecurityCe
 	err := workflow.ExecuteActivity(activityCtx, IngestFindingsActivity, IngestFindingsParams{}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest SCC findings", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPSecurityCenterFindingWorkflow",

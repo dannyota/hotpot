@@ -3,6 +3,7 @@ package serviceaccountkey
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -38,7 +39,7 @@ func GCPIAMServiceAccountKeyWorkflow(ctx workflow.Context, params GCPIAMServiceA
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest service account keys", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPIAMServiceAccountKeyWorkflow",

@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/spanner/database"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/spanner/instance"
 )
@@ -49,7 +50,7 @@ func GCPSpannerWorkflow(ctx workflow.Context, params GCPSpannerWorkflowParams) (
 		instance.GCPSpannerInstanceWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &instanceResult)
 	if err != nil {
 		logger.Error("Failed to ingest Spanner instances", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.InstanceCount = instanceResult.InstanceCount
 
@@ -63,7 +64,7 @@ func GCPSpannerWorkflow(ctx workflow.Context, params GCPSpannerWorkflowParams) (
 			}).Get(ctx, &databaseResult)
 		if err != nil {
 			logger.Error("Failed to ingest Spanner databases", "error", err)
-			return nil, err
+			return nil, temporalerr.PropagateNonRetryable(err)
 		}
 		result.DatabaseCount = databaseResult.DatabaseCount
 	}

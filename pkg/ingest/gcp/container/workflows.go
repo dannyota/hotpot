@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/container/cluster"
 )
 
@@ -48,7 +49,7 @@ func GCPContainerWorkflow(ctx workflow.Context, params GCPContainerWorkflowParam
 		cluster.GCPContainerClusterWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &clusterResult)
 	if err != nil {
 		logger.Error("Failed to ingest clusters", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.ClusterCount = clusterResult.ClusterCount
 

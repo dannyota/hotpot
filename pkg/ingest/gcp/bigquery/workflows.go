@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/bigquery/dataset"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/bigquery/table"
 )
@@ -49,7 +50,7 @@ func GCPBigQueryWorkflow(ctx workflow.Context, params GCPBigQueryWorkflowParams)
 		dataset.GCPBigQueryDatasetWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &datasetResult)
 	if err != nil {
 		logger.Error("Failed to ingest BigQuery datasets", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.DatasetCount = datasetResult.DatasetCount
 
@@ -62,7 +63,7 @@ func GCPBigQueryWorkflow(ctx workflow.Context, params GCPBigQueryWorkflowParams)
 		}).Get(ctx, &tableResult)
 	if err != nil {
 		logger.Error("Failed to ingest BigQuery tables", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.TableCount = tableResult.TableCount
 

@@ -23,6 +23,11 @@ func Register(w worker.Worker, configService *config.Service, driver dialect.Dri
 	})
 	limiter := rateLimitSvc.Limiter()
 
+	// Register provider-level activities (project discovery, API discovery)
+	activities := NewActivities(configService, limiter)
+	w.RegisterActivity(activities.DiscoverProjects)
+	w.RegisterActivity(activities.DiscoverEnabledAPIs)
+
 	for _, svc := range ingest.Services("gcp") {
 		svc.Register.(serviceRegFunc)(w, configService, driver, limiter)
 	}

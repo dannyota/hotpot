@@ -10,6 +10,7 @@ func init() {
 		Provider:  "gcp",
 		Name:      "dataproc",
 		Scope:     ingest.ScopeRegional,
+		APIName:   "dataproc.googleapis.com",
 		Register:  Register,
 		Workflow:  GCPDataprocWorkflow,
 		NewParams: func(projectID, _ string) any {

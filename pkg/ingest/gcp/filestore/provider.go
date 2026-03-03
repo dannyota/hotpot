@@ -10,6 +10,7 @@ func init() {
 		Provider:  "gcp",
 		Name:      "filestore",
 		Scope:     ingest.ScopeRegional,
+		APIName:   "file.googleapis.com",
 		Register:  Register,
 		Workflow:  GCPFilestoreWorkflow,
 		NewParams: func(projectID, _ string) any {

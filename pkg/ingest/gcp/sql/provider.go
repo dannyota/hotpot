@@ -10,6 +10,7 @@ func init() {
 		Provider:  "gcp",
 		Name:      "sql",
 		Scope:     ingest.ScopeRegional,
+		APIName:   "sqladmin.googleapis.com",
 		Register:  Register,
 		Workflow:  GCPSQLWorkflow,
 		NewParams: func(projectID, _ string) any {

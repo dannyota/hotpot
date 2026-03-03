@@ -10,6 +10,7 @@ func init() {
 		Provider:  "gcp",
 		Name:      "vpcaccess",
 		Scope:     ingest.ScopeRegional,
+		APIName:   "vpcaccess.googleapis.com",
 		Register:  Register,
 		Workflow:  GCPVpcAccessWorkflow,
 		NewParams: func(projectID, _ string) any {

@@ -3,6 +3,7 @@ package sink
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -41,7 +42,7 @@ func GCPLoggingSinkWorkflow(ctx workflow.Context, params GCPLoggingSinkWorkflowP
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest sinks", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPLoggingSinkWorkflow",

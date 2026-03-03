@@ -6,13 +6,12 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest"
 )
 
 // GCPInventoryWorkflowParams contains parameters for the GCP inventory workflow.
-type GCPInventoryWorkflowParams struct {
-	ProjectIDs []string
-}
+type GCPInventoryWorkflowParams struct{}
 
 // GCPInventoryWorkflowResult contains the result of the GCP inventory workflow.
 type GCPInventoryWorkflowResult struct {
@@ -144,8 +143,9 @@ type GCPInventoryWorkflowResult struct {
 
 // ProjectResult contains the ingestion result for a single project.
 type ProjectResult struct {
-	ProjectID string
-	Error     string
+	ProjectID       string
+	Error           string
+	SkippedServices int
 
 	// Compute
 	InstanceCount        int
@@ -250,9 +250,31 @@ type aggregateFunc = func(*GCPInventoryWorkflowResult, *ProjectResult, any)
 
 // GCPInventoryWorkflow ingests all GCP resources across multiple projects.
 // It orchestrates compute, GKE, IAM, and other GCP resource ingestion.
-func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParams) (*GCPInventoryWorkflowResult, error) {
+func GCPInventoryWorkflow(ctx workflow.Context, _ GCPInventoryWorkflowParams) (*GCPInventoryWorkflowResult, error) {
 	logger := workflow.GetLogger(ctx)
-	logger.Info("Starting GCPInventoryWorkflow", "projectCount", len(params.ProjectIDs))
+	logger.Info("Starting GCPInventoryWorkflow")
+
+	// Discover projects
+	activityOpts := workflow.ActivityOptions{
+		StartToCloseTimeout: 2 * time.Minute,
+		RetryPolicy: &temporal.RetryPolicy{
+			InitialInterval:    time.Second,
+			BackoffCoefficient: 2.0,
+			MaximumInterval:    time.Minute,
+			MaximumAttempts:    3,
+		},
+	}
+	activityCtx := workflow.WithActivityOptions(ctx, activityOpts)
+
+	var discoverResult DiscoverProjectsResult
+	err := workflow.ExecuteActivity(activityCtx, DiscoverProjectsActivity, DiscoverProjectsParams{}).
+		Get(ctx, &discoverResult)
+	if err != nil {
+		logger.Error("Failed to discover projects", "error", err)
+		return nil, temporalerr.PropagateNonRetryable(err)
+	}
+
+	logger.Info("Discovered projects", "count", len(discoverResult.ProjectIDs))
 
 	// Child workflow options
 	childOpts := workflow.ChildWorkflowOptions{
@@ -267,17 +289,39 @@ func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParam
 	ctx = workflow.WithChildOptions(ctx, childOpts)
 
 	result := &GCPInventoryWorkflowResult{
-		ProjectResults: make([]ProjectResult, 0, len(params.ProjectIDs)),
+		ProjectResults: make([]ProjectResult, 0, len(discoverResult.ProjectIDs)),
 	}
 
 	services := ingest.Services("gcp")
 
 	// Per-project services (ScopeRegional)
-	for _, projectID := range params.ProjectIDs {
+	for _, projectID := range discoverResult.ProjectIDs {
 		projectResult := ProjectResult{ProjectID: projectID}
 
+		// Discover which APIs are enabled for this project.
+		var enabledAPIs map[string]bool
+		var discoverAPIsResult DiscoverEnabledAPIsResult
+		err := workflow.ExecuteActivity(activityCtx, DiscoverEnabledAPIsActivity,
+			DiscoverEnabledAPIsParams{ProjectID: projectID}).Get(ctx, &discoverAPIsResult)
+		if err != nil {
+			logger.Error("Failed to discover enabled APIs; running all services",
+				"projectID", projectID, "error", err)
+		} else {
+			enabledAPIs = make(map[string]bool, len(discoverAPIsResult.EnabledAPIs))
+			for _, api := range discoverAPIsResult.EnabledAPIs {
+				enabledAPIs[api] = true
+			}
+		}
+
+		// Run regional services, skipping those whose API isn't enabled.
 		for _, svc := range services {
 			if svc.Scope != ingest.ScopeRegional {
+				continue
+			}
+			if enabledAPIs != nil && svc.APIName != "" && !enabledAPIs[svc.APIName] {
+				logger.Info("Skipping service: API not enabled",
+					"service", svc.Name, "api", svc.APIName, "projectID", projectID)
+				projectResult.SkippedServices++
 				continue
 			}
 			res := svc.NewResult()
@@ -310,7 +354,7 @@ func GCPInventoryWorkflow(ctx workflow.Context, params GCPInventoryWorkflowParam
 	}
 
 	logger.Info("Completed GCPInventoryWorkflow",
-		"projectCount", len(params.ProjectIDs),
+		"projectCount", len(discoverResult.ProjectIDs),
 		"totalInstances", result.TotalInstances,
 		"totalClusters", result.TotalClusters,
 		"totalServiceAccounts", result.TotalServiceAccounts,

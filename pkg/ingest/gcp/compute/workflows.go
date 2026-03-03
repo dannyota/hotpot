@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/address"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/backendservice"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/disk"
@@ -16,8 +17,8 @@ import (
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/healthcheck"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/image"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/instance"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/interconnect"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/instancegroup"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/interconnect"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/neg"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/negendpoint"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/compute/network"
@@ -47,13 +48,13 @@ type GCPComputeWorkflowParams struct {
 
 // GCPComputeWorkflowResult contains the result of the compute workflow.
 type GCPComputeWorkflowResult struct {
-	ProjectID           string
-	InstanceCount       int
-	DiskCount           int
-	NetworkCount        int
-	SubnetworkCount     int
-	InstanceGroupCount  int
-	TargetInstanceCount int
+	ProjectID                 string
+	InstanceCount             int
+	DiskCount                 int
+	NetworkCount              int
+	SubnetworkCount           int
+	InstanceGroupCount        int
+	TargetInstanceCount       int
 	AddressCount              int
 	GlobalAddressCount        int
 	SnapshotCount             int
@@ -110,7 +111,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		instance.GCPComputeInstanceWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &instanceResult)
 	if err != nil {
 		logger.Error("Failed to ingest instances", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.InstanceCount = instanceResult.InstanceCount
 
@@ -120,7 +121,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		disk.GCPComputeDiskWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &diskResult)
 	if err != nil {
 		logger.Error("Failed to ingest disks", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.DiskCount = diskResult.DiskCount
 
@@ -130,7 +131,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		network.GCPComputeNetworkWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &networkResult)
 	if err != nil {
 		logger.Error("Failed to ingest networks", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.NetworkCount = networkResult.NetworkCount
 
@@ -140,7 +141,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		subnetwork.GCPComputeSubnetworkWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &subnetworkResult)
 	if err != nil {
 		logger.Error("Failed to ingest subnetworks", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.SubnetworkCount = subnetworkResult.SubnetworkCount
 
@@ -150,7 +151,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		instancegroup.GCPComputeInstanceGroupWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &instanceGroupResult)
 	if err != nil {
 		logger.Error("Failed to ingest instance groups", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.InstanceGroupCount = instanceGroupResult.InstanceGroupCount
 
@@ -160,7 +161,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		targetinstance.GCPComputeTargetInstanceWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetInstanceResult)
 	if err != nil {
 		logger.Error("Failed to ingest target instances", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.TargetInstanceCount = targetInstanceResult.TargetInstanceCount
 
@@ -170,7 +171,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		address.GCPComputeAddressWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &addressResult)
 	if err != nil {
 		logger.Error("Failed to ingest addresses", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.AddressCount = addressResult.AddressCount
 
@@ -180,7 +181,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		globaladdress.GCPComputeGlobalAddressWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &globalAddressResult)
 	if err != nil {
 		logger.Error("Failed to ingest global addresses", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.GlobalAddressCount = globalAddressResult.GlobalAddressCount
 
@@ -190,7 +191,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		forwardingrule.GCPComputeForwardingRuleWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &forwardingRuleResult)
 	if err != nil {
 		logger.Error("Failed to ingest forwarding rules", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.ForwardingRuleCount = forwardingRuleResult.ForwardingRuleCount
 
@@ -200,7 +201,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		globalforwardingrule.GCPComputeGlobalForwardingRuleWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &globalForwardingRuleResult)
 	if err != nil {
 		logger.Error("Failed to ingest global forwarding rules", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.GlobalForwardingRuleCount = globalForwardingRuleResult.GlobalForwardingRuleCount
 
@@ -210,7 +211,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		snapshot.GCPComputeSnapshotWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &snapshotResult)
 	if err != nil {
 		logger.Error("Failed to ingest snapshots", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.SnapshotCount = snapshotResult.SnapshotCount
 
@@ -220,7 +221,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		image.GCPComputeImageWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &imageResult)
 	if err != nil {
 		logger.Error("Failed to ingest images", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.ImageCount = imageResult.ImageCount
 
@@ -230,7 +231,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		healthcheck.GCPComputeHealthCheckWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &healthCheckResult)
 	if err != nil {
 		logger.Error("Failed to ingest health checks", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.HealthCheckCount = healthCheckResult.HealthCheckCount
 
@@ -240,7 +241,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		vpngateway.GCPComputeVpnGatewayWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &vpnGatewayResult)
 	if err != nil {
 		logger.Error("Failed to ingest vpn gateways", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.VpnGatewayCount = vpnGatewayResult.VpnGatewayCount
 
@@ -250,7 +251,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		targetvpngateway.GCPComputeTargetVpnGatewayWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetVpnGatewayResult)
 	if err != nil {
 		logger.Error("Failed to ingest target vpn gateways", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.TargetVpnGatewayCount = targetVpnGatewayResult.TargetVpnGatewayCount
 
@@ -260,7 +261,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		vpntunnel.GCPComputeVpnTunnelWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &vpnTunnelResult)
 	if err != nil {
 		logger.Error("Failed to ingest vpn tunnels", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.VpnTunnelCount = vpnTunnelResult.VpnTunnelCount
 
@@ -270,7 +271,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		targethttpproxy.GCPComputeTargetHttpProxyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetHttpProxyResult)
 	if err != nil {
 		logger.Error("Failed to ingest target HTTP proxies", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.TargetHttpProxyCount = targetHttpProxyResult.TargetHttpProxyCount
 
@@ -280,7 +281,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		targettcpproxy.GCPComputeTargetTcpProxyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetTcpProxyResult)
 	if err != nil {
 		logger.Error("Failed to ingest target TCP proxies", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.TargetTcpProxyCount = targetTcpProxyResult.TargetTcpProxyCount
 
@@ -290,7 +291,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		targetsslproxy.GCPComputeTargetSslProxyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetSslProxyResult)
 	if err != nil {
 		logger.Error("Failed to ingest target SSL proxies", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.TargetSslProxyCount = targetSslProxyResult.TargetSslProxyCount
 
@@ -300,7 +301,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		targethttpsproxy.GCPComputeTargetHttpsProxyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetHttpsProxyResult)
 	if err != nil {
 		logger.Error("Failed to ingest target HTTPS proxies", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.TargetHttpsProxyCount = targetHttpsProxyResult.TargetHttpsProxyCount
 
@@ -310,7 +311,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		urlmap.GCPComputeUrlMapWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &urlMapResult)
 	if err != nil {
 		logger.Error("Failed to ingest URL maps", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.UrlMapCount = urlMapResult.UrlMapCount
 
@@ -320,7 +321,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		targetpool.GCPComputeTargetPoolWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &targetPoolResult)
 	if err != nil {
 		logger.Error("Failed to ingest target pools", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.TargetPoolCount = targetPoolResult.TargetPoolCount
 
@@ -330,7 +331,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		neg.GCPComputeNegWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &negResult)
 	if err != nil {
 		logger.Error("Failed to ingest NEGs", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.NegCount = negResult.NegCount
 
@@ -340,7 +341,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		backendservice.GCPComputeBackendServiceWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &backendServiceResult)
 	if err != nil {
 		logger.Error("Failed to ingest backend services", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.BackendServiceCount = backendServiceResult.BackendServiceCount
 
@@ -350,7 +351,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		firewall.GCPComputeFirewallWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &firewallResult)
 	if err != nil {
 		logger.Error("Failed to ingest firewalls", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.FirewallCount = firewallResult.FirewallCount
 
@@ -360,7 +361,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		sslpolicy.GCPComputeSslPolicyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &sslPolicyResult)
 	if err != nil {
 		logger.Error("Failed to ingest SSL policies", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.SslPolicyCount = sslPolicyResult.SslPolicyCount
 
@@ -370,7 +371,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		router.GCPComputeRouterWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &routerResult)
 	if err != nil {
 		logger.Error("Failed to ingest routers", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.RouterCount = routerResult.RouterCount
 
@@ -380,7 +381,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		securitypolicy.GCPComputeSecurityPolicyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &securityPolicyResult)
 	if err != nil {
 		logger.Error("Failed to ingest security policies", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.SecurityPolicyCount = securityPolicyResult.SecurityPolicyCount
 
@@ -390,7 +391,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		interconnect.GCPComputeInterconnectWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &interconnectResult)
 	if err != nil {
 		logger.Error("Failed to ingest interconnects", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.InterconnectCount = interconnectResult.InterconnectCount
 
@@ -400,7 +401,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		packetmirroring.GCPComputePacketMirroringWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &packetMirroringResult)
 	if err != nil {
 		logger.Error("Failed to ingest packet mirrorings", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.PacketMirroringCount = packetMirroringResult.PacketMirroringCount
 
@@ -410,7 +411,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		projectmetadata.GCPComputeProjectMetadataWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &projectMetadataResult)
 	if err != nil {
 		logger.Error("Failed to ingest project metadata", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.ProjectMetadataCount = projectMetadataResult.MetadataCount
 
@@ -420,7 +421,7 @@ func GCPComputeWorkflow(ctx workflow.Context, params GCPComputeWorkflowParams) (
 		negendpoint.GCPComputeNegEndpointWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &negEndpointResult)
 	if err != nil {
 		logger.Error("Failed to ingest NEG endpoints", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.NegEndpointCount = negEndpointResult.NegEndpointCount
 

@@ -10,6 +10,7 @@ func init() {
 		Provider:  "gcp",
 		Name:      "appengine",
 		Scope:     ingest.ScopeRegional,
+		APIName:   "appengine.googleapis.com",
 		Register:  Register,
 		Workflow:  GCPAppEngineWorkflow,
 		NewParams: func(projectID, _ string) any {

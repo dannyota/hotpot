@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/cloudfunctions/function"
 )
 
@@ -45,7 +46,7 @@ func GCPCloudFunctionsWorkflow(ctx workflow.Context, params GCPCloudFunctionsWor
 		function.GCPCloudFunctionsFunctionWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &functionResult)
 	if err != nil {
 		logger.Error("Failed to ingest Cloud Functions", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.FunctionCount = functionResult.FunctionCount
 

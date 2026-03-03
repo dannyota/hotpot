@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/securitycenter/finding"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/securitycenter/notificationconfig"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/securitycenter/source"
@@ -47,7 +48,7 @@ func GCPSecurityCenterWorkflow(ctx workflow.Context, params GCPSecurityCenterWor
 		source.GCPSecurityCenterSourceWorkflowParams{}).Get(ctx, &sourceResult)
 	if err != nil {
 		logger.Error("Failed to ingest SCC sources", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.SourceCount = sourceResult.SourceCount
 
@@ -57,7 +58,7 @@ func GCPSecurityCenterWorkflow(ctx workflow.Context, params GCPSecurityCenterWor
 		finding.GCPSecurityCenterFindingWorkflowParams{}).Get(ctx, &findingResult)
 	if err != nil {
 		logger.Error("Failed to ingest SCC findings", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.FindingCount = findingResult.FindingCount
 
@@ -67,7 +68,7 @@ func GCPSecurityCenterWorkflow(ctx workflow.Context, params GCPSecurityCenterWor
 		notificationconfig.GCPSecurityCenterNotificationConfigWorkflowParams{}).Get(ctx, &notificationConfigResult)
 	if err != nil {
 		logger.Error("Failed to ingest SCC notification configs", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.NotificationConfigCount = notificationConfigResult.NotificationConfigCount
 

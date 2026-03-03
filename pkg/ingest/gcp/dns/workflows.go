@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/dns/dnspolicy"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/dns/managedzone"
 )
@@ -48,7 +49,7 @@ func GCPDNSWorkflow(ctx workflow.Context, params GCPDNSWorkflowParams) (*GCPDNSW
 		managedzone.GCPDNSManagedZoneWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &managedZoneResult)
 	if err != nil {
 		logger.Error("Failed to ingest managed zones", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.ManagedZoneCount = managedZoneResult.ManagedZoneCount
 
@@ -58,7 +59,7 @@ func GCPDNSWorkflow(ctx workflow.Context, params GCPDNSWorkflowParams) (*GCPDNSW
 		dnspolicy.GCPDNSPolicyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &policyResult)
 	if err != nil {
 		logger.Error("Failed to ingest DNS policies", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.PolicyCount = policyResult.PolicyCount
 

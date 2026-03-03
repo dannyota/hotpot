@@ -10,6 +10,7 @@ func init() {
 		Provider:  "gcp",
 		Name:      "kms",
 		Scope:     ingest.ScopeRegional,
+		APIName:   "cloudkms.googleapis.com",
 		Register:  Register,
 		Workflow:  GCPKMSWorkflow,
 		NewParams: func(projectID, _ string) any {

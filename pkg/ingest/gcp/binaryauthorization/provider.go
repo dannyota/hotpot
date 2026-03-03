@@ -10,6 +10,7 @@ func init() {
 		Provider:  "gcp",
 		Name:      "binaryauthorization",
 		Scope:     ingest.ScopeRegional,
+		APIName:   "binaryauthorization.googleapis.com",
 		Register:  Register,
 		Workflow:  GCPBinaryAuthorizationWorkflow,
 		NewParams: func(projectID, _ string) any {

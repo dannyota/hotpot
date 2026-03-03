@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/cloudasset/asset"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/cloudasset/iampolicysearch"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/cloudasset/resourcesearch"
@@ -53,7 +54,7 @@ func GCPCloudAssetWorkflow(ctx workflow.Context, params GCPCloudAssetWorkflowPar
 	var assetResult asset.GCPCloudAssetAssetWorkflowResult
 	if err := assetFuture.Get(ctx, &assetResult); err != nil {
 		logger.Error("Failed to ingest Cloud Asset assets", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.AssetCount = assetResult.AssetCount
 
@@ -61,7 +62,7 @@ func GCPCloudAssetWorkflow(ctx workflow.Context, params GCPCloudAssetWorkflowPar
 	var iamPolicyResult iampolicysearch.GCPCloudAssetIAMPolicySearchWorkflowResult
 	if err := iamPolicyFuture.Get(ctx, &iamPolicyResult); err != nil {
 		logger.Error("Failed to ingest Cloud Asset IAM policy searches", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.PolicyCount = iamPolicyResult.PolicyCount
 
@@ -69,7 +70,7 @@ func GCPCloudAssetWorkflow(ctx workflow.Context, params GCPCloudAssetWorkflowPar
 	var resourceSearchResult resourcesearch.GCPCloudAssetResourceSearchWorkflowResult
 	if err := resourceSearchFuture.Get(ctx, &resourceSearchResult); err != nil {
 		logger.Error("Failed to ingest Cloud Asset resource searches", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.ResourceCount = resourceSearchResult.ResourceCount
 

@@ -3,6 +3,7 @@ package targetvpngateway
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -43,7 +44,7 @@ func GCPComputeTargetVpnGatewayWorkflow(ctx workflow.Context, params GCPComputeT
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest target vpn gateways", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPComputeTargetVpnGatewayWorkflow",

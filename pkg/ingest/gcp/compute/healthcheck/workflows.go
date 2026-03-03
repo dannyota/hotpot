@@ -3,6 +3,7 @@ package healthcheck
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -43,7 +44,7 @@ func GCPComputeHealthCheckWorkflow(ctx workflow.Context, params GCPComputeHealth
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest health checks", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPComputeHealthCheckWorkflow",

@@ -3,6 +3,7 @@ package serviceperimeter
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -36,7 +37,7 @@ func GCPAccessContextManagerServicePerimeterWorkflow(ctx workflow.Context, param
 	err := workflow.ExecuteActivity(activityCtx, IngestServicePerimetersActivity, IngestServicePerimetersParams{}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest service perimeters", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPAccessContextManagerServicePerimeterWorkflow",

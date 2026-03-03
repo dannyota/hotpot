@@ -3,6 +3,7 @@ package organization
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -40,7 +41,7 @@ func GCPResourceManagerOrganizationWorkflow(ctx workflow.Context, params GCPReso
 	err := workflow.ExecuteActivity(activityCtx, IngestOrganizationsActivity, IngestOrganizationsParams{}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to discover organizations", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPResourceManagerOrganizationWorkflow",

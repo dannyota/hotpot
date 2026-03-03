@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/vpcaccess/connector"
 )
 
@@ -46,7 +47,7 @@ func GCPVpcAccessWorkflow(ctx workflow.Context, params GCPVpcAccessWorkflowParam
 		connector.GCPVpcAccessConnectorWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &connectorResult)
 	if err != nil {
 		logger.Error("Failed to ingest VPC Access connectors", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.ConnectorCount = connectorResult.ConnectorCount
 

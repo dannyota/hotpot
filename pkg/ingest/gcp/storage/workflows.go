@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/storage/bucket"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/storage/bucketiam"
 )
@@ -17,8 +18,8 @@ type GCPStorageWorkflowParams struct {
 
 // GCPStorageWorkflowResult contains the result of the storage workflow.
 type GCPStorageWorkflowResult struct {
-	ProjectID          string
-	BucketCount        int
+	ProjectID            string
+	BucketCount          int
 	BucketIamPolicyCount int
 }
 
@@ -47,7 +48,7 @@ func GCPStorageWorkflow(ctx workflow.Context, params GCPStorageWorkflowParams) (
 		bucket.GCPStorageBucketWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &bucketResult)
 	if err != nil {
 		logger.Error("Failed to ingest buckets", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.BucketCount = bucketResult.BucketCount
 
@@ -57,7 +58,7 @@ func GCPStorageWorkflow(ctx workflow.Context, params GCPStorageWorkflowParams) (
 		bucketiam.GCPStorageBucketIamWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &bucketIamResult)
 	if err != nil {
 		logger.Error("Failed to ingest bucket IAM policies", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.BucketIamPolicyCount = bucketIamResult.PolicyCount
 

@@ -3,6 +3,7 @@ package occurrence
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -41,7 +42,7 @@ func GCPContainerAnalysisOccurrenceWorkflow(ctx workflow.Context, params GCPCont
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest occurrences", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPContainerAnalysisOccurrenceWorkflow",

@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/serviceusage/enabledservice"
 )
 
@@ -45,7 +46,7 @@ func GCPServiceUsageWorkflow(ctx workflow.Context, params GCPServiceUsageWorkflo
 		enabledservice.GCPServiceUsageEnabledServiceWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &enabledServiceResult)
 	if err != nil {
 		logger.Error("Failed to ingest enabled services", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.ServiceCount = enabledServiceResult.ServiceCount
 

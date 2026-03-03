@@ -3,6 +3,7 @@ package folder
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -41,7 +42,7 @@ func GCPResourceManagerFolderWorkflow(ctx workflow.Context, params GCPResourceMa
 	err := workflow.ExecuteActivity(activityCtx, IngestFoldersActivity, IngestFoldersParams{}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to discover folders", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPResourceManagerFolderWorkflow",

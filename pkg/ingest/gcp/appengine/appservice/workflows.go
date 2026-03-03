@@ -3,6 +3,7 @@ package appservice
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -41,7 +42,7 @@ func GCPAppEngineServiceWorkflow(ctx workflow.Context, params GCPAppEngineServic
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest App Engine services", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPAppEngineServiceWorkflow",

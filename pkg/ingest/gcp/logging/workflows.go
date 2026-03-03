@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/logging/logbucket"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/logging/logexclusion"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/logging/logmetric"
@@ -52,7 +53,7 @@ func GCPLoggingWorkflow(ctx workflow.Context, params GCPLoggingWorkflowParams) (
 		sink.GCPLoggingSinkWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &sinkResult)
 	if err != nil {
 		logger.Error("Failed to ingest sinks", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.SinkCount = sinkResult.SinkCount
 
@@ -62,7 +63,7 @@ func GCPLoggingWorkflow(ctx workflow.Context, params GCPLoggingWorkflowParams) (
 		logbucket.GCPLoggingBucketWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &bucketResult)
 	if err != nil {
 		logger.Error("Failed to ingest buckets", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.BucketCount = bucketResult.BucketCount
 
@@ -72,7 +73,7 @@ func GCPLoggingWorkflow(ctx workflow.Context, params GCPLoggingWorkflowParams) (
 		logmetric.GCPLoggingLogMetricWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &logMetricResult)
 	if err != nil {
 		logger.Error("Failed to ingest log metrics", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.LogMetricCount = logMetricResult.LogMetricCount
 
@@ -82,7 +83,7 @@ func GCPLoggingWorkflow(ctx workflow.Context, params GCPLoggingWorkflowParams) (
 		logexclusion.GCPLoggingLogExclusionWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &logExclusionResult)
 	if err != nil {
 		logger.Error("Failed to ingest log exclusions", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.ExclusionCount = logExclusionResult.ExclusionCount
 

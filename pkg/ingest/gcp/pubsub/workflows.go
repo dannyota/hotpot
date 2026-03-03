@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/pubsub/subscription"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/pubsub/topic"
 )
@@ -54,7 +55,7 @@ func GCPPubSubWorkflow(ctx workflow.Context, params GCPPubSubWorkflowParams) (*G
 	var topicResult topic.GCPPubSubTopicWorkflowResult
 	if err := topicFuture.Get(ctx, &topicResult); err != nil {
 		logger.Error("Failed to ingest Pub/Sub topics", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.TopicCount = topicResult.TopicCount
 
@@ -62,7 +63,7 @@ func GCPPubSubWorkflow(ctx workflow.Context, params GCPPubSubWorkflowParams) (*G
 	var subscriptionResult subscription.GCPPubSubSubscriptionWorkflowResult
 	if err := subscriptionFuture.Get(ctx, &subscriptionResult); err != nil {
 		logger.Error("Failed to ingest Pub/Sub subscriptions", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.SubscriptionCount = subscriptionResult.SubscriptionCount
 

@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/alloydb/cluster"
 )
 
@@ -45,7 +46,7 @@ func GCPAlloyDBWorkflow(ctx workflow.Context, params GCPAlloyDBWorkflowParams) (
 		cluster.GCPAlloyDBClusterWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &clusterResult)
 	if err != nil {
 		logger.Error("Failed to ingest AlloyDB clusters", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.ClusterCount = clusterResult.ClusterCount
 

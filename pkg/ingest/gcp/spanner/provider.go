@@ -10,6 +10,7 @@ func init() {
 		Provider:  "gcp",
 		Name:      "spanner",
 		Scope:     ingest.ScopeRegional,
+		APIName:   "spanner.googleapis.com",
 		Register:  Register,
 		Workflow:  GCPSpannerWorkflow,
 		NewParams: func(projectID, _ string) any {

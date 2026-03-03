@@ -10,6 +10,7 @@ func init() {
 		Provider:  "gcp",
 		Name:      "dns",
 		Scope:     ingest.ScopeRegional,
+		APIName:   "dns.googleapis.com",
 		Register:  Register,
 		Workflow:  GCPDNSWorkflow,
 		NewParams: func(projectID, _ string) any {

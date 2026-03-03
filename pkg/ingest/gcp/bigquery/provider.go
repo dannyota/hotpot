@@ -10,6 +10,7 @@ func init() {
 		Provider:  "gcp",
 		Name:      "bigquery",
 		Scope:     ingest.ScopeRegional,
+		APIName:   "bigquery.googleapis.com",
 		Register:  Register,
 		Workflow:  GCPBigQueryWorkflow,
 		NewParams: func(projectID, _ string) any {

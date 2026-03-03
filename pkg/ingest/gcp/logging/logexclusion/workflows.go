@@ -3,6 +3,7 @@ package logexclusion
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -41,7 +42,7 @@ func GCPLoggingLogExclusionWorkflow(ctx workflow.Context, params GCPLoggingLogEx
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest log exclusions", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPLoggingLogExclusionWorkflow",

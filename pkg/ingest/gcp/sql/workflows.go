@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/sql/instance"
 )
 
@@ -48,7 +49,7 @@ func GCPSQLWorkflow(ctx workflow.Context, params GCPSQLWorkflowParams) (*GCPSQLW
 		instance.GCPSQLInstanceWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &instanceResult)
 	if err != nil {
 		logger.Error("Failed to ingest SQL instances", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.InstanceCount = instanceResult.InstanceCount
 

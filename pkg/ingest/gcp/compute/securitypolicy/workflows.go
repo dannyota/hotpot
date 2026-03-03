@@ -3,6 +3,7 @@ package securitypolicy
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -43,7 +44,7 @@ func GCPComputeSecurityPolicyWorkflow(ctx workflow.Context, params GCPComputeSec
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest security policies", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPComputeSecurityPolicyWorkflow",

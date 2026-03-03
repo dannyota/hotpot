@@ -6,10 +6,11 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/resourcemanager/folder"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/resourcemanager/folderiampolicy"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/resourcemanager/orgiampolicy"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/resourcemanager/organization"
+	"github.com/dannyota/hotpot/pkg/ingest/gcp/resourcemanager/orgiampolicy"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/resourcemanager/project"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/resourcemanager/projectiampolicy"
 )
@@ -60,7 +61,7 @@ func GCPResourceManagerWorkflow(ctx workflow.Context, params GCPResourceManagerW
 		project.GCPResourceManagerProjectWorkflowParams{}).Get(ctx, &projectResult)
 	if err != nil {
 		logger.Error("Failed to ingest projects", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.ProjectCount = projectResult.ProjectCount
 	result.ProjectIDs = projectResult.ProjectIDs
@@ -71,7 +72,7 @@ func GCPResourceManagerWorkflow(ctx workflow.Context, params GCPResourceManagerW
 		organization.GCPResourceManagerOrganizationWorkflowParams{}).Get(ctx, &orgResult)
 	if err != nil {
 		logger.Error("Failed to ingest organizations", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.OrganizationCount = orgResult.OrganizationCount
 
@@ -81,7 +82,7 @@ func GCPResourceManagerWorkflow(ctx workflow.Context, params GCPResourceManagerW
 		folder.GCPResourceManagerFolderWorkflowParams{}).Get(ctx, &folderResult)
 	if err != nil {
 		logger.Error("Failed to ingest folders", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.FolderCount = folderResult.FolderCount
 
@@ -93,7 +94,7 @@ func GCPResourceManagerWorkflow(ctx workflow.Context, params GCPResourceManagerW
 		orgiampolicy.GCPResourceManagerOrgIamPolicyWorkflowParams{}).Get(ctx, &orgIamResult)
 	if err != nil {
 		logger.Error("Failed to ingest org IAM policies", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.OrgIamPolicyCount = orgIamResult.PolicyCount
 
@@ -103,7 +104,7 @@ func GCPResourceManagerWorkflow(ctx workflow.Context, params GCPResourceManagerW
 		folderiampolicy.GCPResourceManagerFolderIamPolicyWorkflowParams{}).Get(ctx, &folderIamResult)
 	if err != nil {
 		logger.Error("Failed to ingest folder IAM policies", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.FolderIamPolicyCount = folderIamResult.PolicyCount
 
@@ -114,7 +115,7 @@ func GCPResourceManagerWorkflow(ctx workflow.Context, params GCPResourceManagerW
 			projectiampolicy.GCPResourceManagerProjectIamPolicyWorkflowParams{ProjectID: pid}).Get(ctx, &projectIamResult)
 		if err != nil {
 			logger.Error("Failed to ingest project IAM policy", "projectID", pid, "error", err)
-			return nil, err
+			return nil, temporalerr.PropagateNonRetryable(err)
 		}
 		result.ProjectIamPolicyCount += projectIamResult.PolicyCount
 	}

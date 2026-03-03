@@ -3,6 +3,7 @@ package instance
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -41,7 +42,7 @@ func GCPRedisInstanceWorkflow(ctx workflow.Context, params GCPRedisInstanceWorkf
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest Redis instances", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPRedisInstanceWorkflow",

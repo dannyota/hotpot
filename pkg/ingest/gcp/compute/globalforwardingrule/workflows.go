@@ -3,6 +3,7 @@ package globalforwardingrule
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -14,9 +15,9 @@ type GCPComputeGlobalForwardingRuleWorkflowParams struct {
 
 // GCPComputeGlobalForwardingRuleWorkflowResult contains the result of the global forwarding rule workflow.
 type GCPComputeGlobalForwardingRuleWorkflowResult struct {
-	ProjectID                string
+	ProjectID                 string
 	GlobalForwardingRuleCount int
-	DurationMillis           int64
+	DurationMillis            int64
 }
 
 // GCPComputeGlobalForwardingRuleWorkflow ingests GCP Compute global forwarding rules for a single project.
@@ -43,7 +44,7 @@ func GCPComputeGlobalForwardingRuleWorkflow(ctx workflow.Context, params GCPComp
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest global forwarding rules", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPComputeGlobalForwardingRuleWorkflow",
@@ -52,8 +53,8 @@ func GCPComputeGlobalForwardingRuleWorkflow(ctx workflow.Context, params GCPComp
 	)
 
 	return &GCPComputeGlobalForwardingRuleWorkflowResult{
-		ProjectID:                result.ProjectID,
+		ProjectID:                 result.ProjectID,
 		GlobalForwardingRuleCount: result.GlobalForwardingRuleCount,
-		DurationMillis:           result.DurationMillis,
+		DurationMillis:            result.DurationMillis,
 	}, nil
 }

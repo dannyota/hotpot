@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/appengine/application"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/appengine/appservice"
 )
@@ -49,7 +50,7 @@ func GCPAppEngineWorkflow(ctx workflow.Context, params GCPAppEngineWorkflowParam
 		application.GCPAppEngineApplicationWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &appResult)
 	if err != nil {
 		logger.Error("Failed to ingest App Engine application", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.ApplicationCount = appResult.ApplicationCount
 
@@ -61,7 +62,7 @@ func GCPAppEngineWorkflow(ctx workflow.Context, params GCPAppEngineWorkflowParam
 			appservice.GCPAppEngineServiceWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &svcResult)
 		if err != nil {
 			logger.Error("Failed to ingest App Engine services", "error", err)
-			return nil, err
+			return nil, temporalerr.PropagateNonRetryable(err)
 		}
 		result.ServiceCount = svcResult.ServiceCount
 	}

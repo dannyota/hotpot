@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/bigtable/cluster"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/bigtable/instance"
 )
@@ -49,7 +50,7 @@ func GCPBigtableWorkflow(ctx workflow.Context, params GCPBigtableWorkflowParams)
 		instance.GCPBigtableInstanceWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &instanceResult)
 	if err != nil {
 		logger.Error("Failed to ingest Bigtable instances", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.InstanceCount = instanceResult.InstanceCount
 
@@ -59,7 +60,7 @@ func GCPBigtableWorkflow(ctx workflow.Context, params GCPBigtableWorkflowParams)
 		cluster.GCPBigtableClusterWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &clusterResult)
 	if err != nil {
 		logger.Error("Failed to ingest Bigtable clusters", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.ClusterCount = clusterResult.ClusterCount
 

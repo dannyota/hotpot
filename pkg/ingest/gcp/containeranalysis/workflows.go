@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/containeranalysis/note"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/containeranalysis/occurrence"
 )
@@ -54,7 +55,7 @@ func GCPContainerAnalysisWorkflow(ctx workflow.Context, params GCPContainerAnaly
 	var noteResult note.GCPContainerAnalysisNoteWorkflowResult
 	if err := noteFuture.Get(ctx, &noteResult); err != nil {
 		logger.Error("Failed to ingest notes", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.NoteCount = noteResult.NoteCount
 
@@ -62,7 +63,7 @@ func GCPContainerAnalysisWorkflow(ctx workflow.Context, params GCPContainerAnaly
 	var occurrenceResult occurrence.GCPContainerAnalysisOccurrenceWorkflowResult
 	if err := occurrenceFuture.Get(ctx, &occurrenceResult); err != nil {
 		logger.Error("Failed to ingest occurrences", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.OccurrenceCount = occurrenceResult.OccurrenceCount
 

@@ -3,6 +3,7 @@ package accesspolicy
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -36,7 +37,7 @@ func GCPAccessContextManagerAccessPolicyWorkflow(ctx workflow.Context, params GC
 	err := workflow.ExecuteActivity(activityCtx, IngestAccessPoliciesActivity, IngestAccessPoliciesParams{}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest access policies", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPAccessContextManagerAccessPolicyWorkflow",

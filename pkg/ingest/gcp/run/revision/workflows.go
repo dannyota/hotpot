@@ -3,6 +3,7 @@ package revision
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -40,7 +41,7 @@ func GCPRunRevisionWorkflow(ctx workflow.Context, params GCPRunRevisionWorkflowP
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest Cloud Run revisions", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPRunRevisionWorkflow",

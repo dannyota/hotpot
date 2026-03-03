@@ -10,6 +10,7 @@ func init() {
 		Provider:  "gcp",
 		Name:      "redis",
 		Scope:     ingest.ScopeRegional,
+		APIName:   "redis.googleapis.com",
 		Register:  Register,
 		Workflow:  GCPRedisWorkflow,
 		NewParams: func(projectID, _ string) any {

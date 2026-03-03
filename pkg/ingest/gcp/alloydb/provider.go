@@ -10,6 +10,7 @@ func init() {
 		Provider:  "gcp",
 		Name:      "alloydb",
 		Scope:     ingest.ScopeRegional,
+		APIName:   "alloydb.googleapis.com",
 		Register:  Register,
 		Workflow:  GCPAlloyDBWorkflow,
 		NewParams: func(projectID, _ string) any {

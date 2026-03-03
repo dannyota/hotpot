@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/run/revision"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/run/service"
 )
@@ -49,7 +50,7 @@ func GCPRunWorkflow(ctx workflow.Context, params GCPRunWorkflowParams) (*GCPRunW
 		service.GCPRunServiceWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &serviceResult)
 	if err != nil {
 		logger.Error("Failed to ingest Cloud Run services", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.ServiceCount = serviceResult.ServiceCount
 
@@ -59,7 +60,7 @@ func GCPRunWorkflow(ctx workflow.Context, params GCPRunWorkflowParams) (*GCPRunW
 		revision.GCPRunRevisionWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &revisionResult)
 	if err != nil {
 		logger.Error("Failed to ingest Cloud Run revisions", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.RevisionCount = revisionResult.RevisionCount
 

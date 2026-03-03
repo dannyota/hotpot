@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/orgpolicy/constraint"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/orgpolicy/customconstraint"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/orgpolicy/policy"
@@ -47,7 +48,7 @@ func GCPOrgPolicyWorkflow(ctx workflow.Context, params GCPOrgPolicyWorkflowParam
 		constraint.GCPOrgPolicyConstraintWorkflowParams{}).Get(ctx, &constraintResult)
 	if err != nil {
 		logger.Error("Failed to ingest org policy constraints", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.ConstraintCount = constraintResult.ConstraintCount
 
@@ -57,7 +58,7 @@ func GCPOrgPolicyWorkflow(ctx workflow.Context, params GCPOrgPolicyWorkflowParam
 		customconstraint.GCPOrgPolicyCustomConstraintWorkflowParams{}).Get(ctx, &customConstraintResult)
 	if err != nil {
 		logger.Error("Failed to ingest org policy custom constraints", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.CustomConstraintCount = customConstraintResult.CustomConstraintCount
 
@@ -67,7 +68,7 @@ func GCPOrgPolicyWorkflow(ctx workflow.Context, params GCPOrgPolicyWorkflowParam
 		policy.GCPOrgPolicyPolicyWorkflowParams{}).Get(ctx, &policyResult)
 	if err != nil {
 		logger.Error("Failed to ingest org policies", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.PolicyCount = policyResult.PolicyCount
 

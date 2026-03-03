@@ -3,6 +3,7 @@ package accesslevel
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -36,7 +37,7 @@ func GCPAccessContextManagerAccessLevelWorkflow(ctx workflow.Context, params GCP
 	err := workflow.ExecuteActivity(activityCtx, IngestAccessLevelsActivity, IngestAccessLevelsParams{}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest access levels", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPAccessContextManagerAccessLevelWorkflow",

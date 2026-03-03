@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/secretmanager/secret"
 )
 
@@ -45,7 +46,7 @@ func GCPSecretManagerWorkflow(ctx workflow.Context, params GCPSecretManagerWorkf
 		secret.GCPSecretManagerSecretWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &secretResult)
 	if err != nil {
 		logger.Error("Failed to ingest secrets", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.SecretCount = secretResult.SecretCount
 

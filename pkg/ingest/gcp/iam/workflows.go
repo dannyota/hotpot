@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/iam/serviceaccount"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/iam/serviceaccountkey"
 )
@@ -48,7 +49,7 @@ func GCPIAMWorkflow(ctx workflow.Context, params GCPIAMWorkflowParams) (*GCPIAMW
 		serviceaccount.GCPIAMServiceAccountWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &saResult)
 	if err != nil {
 		logger.Error("Failed to ingest service accounts", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.ServiceAccountCount = saResult.ServiceAccountCount
 
@@ -58,7 +59,7 @@ func GCPIAMWorkflow(ctx workflow.Context, params GCPIAMWorkflowParams) (*GCPIAMW
 		serviceaccountkey.GCPIAMServiceAccountKeyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &keyResult)
 	if err != nil {
 		logger.Error("Failed to ingest service account keys", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.ServiceAccountKeyCount = keyResult.ServiceAccountKeyCount
 

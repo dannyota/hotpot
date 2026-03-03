@@ -3,6 +3,7 @@ package packetmirroring
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -43,7 +44,7 @@ func GCPComputePacketMirroringWorkflow(ctx workflow.Context, params GCPComputePa
 	}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest packet mirrorings", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPComputePacketMirroringWorkflow",

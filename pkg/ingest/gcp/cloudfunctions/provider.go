@@ -10,6 +10,7 @@ func init() {
 		Provider:  "gcp",
 		Name:      "cloudfunctions",
 		Scope:     ingest.ScopeRegional,
+		APIName:   "cloudfunctions.googleapis.com",
 		Register:  Register,
 		Workflow:  GCPCloudFunctionsWorkflow,
 		NewParams: func(projectID, _ string) any {

@@ -6,6 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/binaryauthorization/attestor"
 	"github.com/dannyota/hotpot/pkg/ingest/gcp/binaryauthorization/policy"
 )
@@ -49,7 +50,7 @@ func GCPBinaryAuthorizationWorkflow(ctx workflow.Context, params GCPBinaryAuthor
 		policy.GCPBinaryAuthorizationPolicyWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &policyResult)
 	if err != nil {
 		logger.Error("Failed to ingest binary authorization policy", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.PolicyCount = policyResult.PolicyCount
 
@@ -59,7 +60,7 @@ func GCPBinaryAuthorizationWorkflow(ctx workflow.Context, params GCPBinaryAuthor
 		attestor.GCPBinaryAuthorizationAttestorWorkflowParams{ProjectID: params.ProjectID}).Get(ctx, &attestorResult)
 	if err != nil {
 		logger.Error("Failed to ingest binary authorization attestors", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 	result.AttestorCount = attestorResult.AttestorCount
 

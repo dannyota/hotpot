@@ -3,6 +3,7 @@ package asset
 import (
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
@@ -36,7 +37,7 @@ func GCPCloudAssetAssetWorkflow(ctx workflow.Context, params GCPCloudAssetAssetW
 	err := workflow.ExecuteActivity(activityCtx, IngestAssetsActivity, IngestAssetsParams{}).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Failed to ingest Cloud Asset assets", "error", err)
-		return nil, err
+		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
 	logger.Info("Completed GCPCloudAssetAssetWorkflow",
