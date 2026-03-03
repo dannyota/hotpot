@@ -35,6 +35,21 @@ var repos = []repoDef{
 		RepomdURL:  "https://dl.fedoraproject.org/pub/epel/9/Everything/x86_64/repodata/repomd.xml",
 		Compressed: "xz",
 	},
+	{
+		Name:       "rhel7-os",
+		RepomdURL:  "https://vault.centos.org/7.9.2009/os/x86_64/repodata/repomd.xml",
+		Compressed: "gz",
+	},
+	{
+		Name:       "rhel7-updates",
+		RepomdURL:  "https://vault.centos.org/7.9.2009/updates/x86_64/repodata/repomd.xml",
+		Compressed: "gz",
+	},
+	{
+		Name:       "epel7",
+		RepomdURL:  "https://dl.fedoraproject.org/pub/archive/epel/7/x86_64/repodata/repomd.xml",
+		Compressed: "gz",
+	},
 }
 
 // Client downloads and parses RPM repository metadata.

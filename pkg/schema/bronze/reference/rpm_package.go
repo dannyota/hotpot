@@ -31,7 +31,7 @@ func (BronzeReferenceRPMPackage) Fields() []ent.Field {
 		field.String("package_name").
 			Comment("RPM package name"),
 		field.String("repo").
-			Comment("Repository identifier (rhel9-baseos, rhel9-appstream, epel9)"),
+			Comment("Repository identifier (rhel9-baseos, rhel9-appstream, epel9, rhel7-os, rhel7-updates, epel7)"),
 		field.String("arch").
 			Comment("Architecture (e.g. x86_64, noarch)"),
 		field.String("version").

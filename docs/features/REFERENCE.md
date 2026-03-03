@@ -33,10 +33,22 @@ Sections: admin, utils, web, net, libs, devel, database, editors, shells, etc.
 
 Fields: package name, repo, arch, version, rpm_group, summary, url.
 
+## RHEL 7 / CentOS 7 Packages (`vault.centos.org` / `dl.fedoraproject.org`)
+
+| Resource | Source | Format | Status |
+|----------|--------|--------|:------:|
+| CentOS 7 OS | CentOS 7.9.2009 vault OS `primary.xml.gz` | gzip XML | ✅ |
+| CentOS 7 Updates | CentOS 7.9.2009 vault Updates `primary.xml.gz` | gzip XML | ✅ |
+| EPEL 7 | EPEL 7 archive `primary.xml.xz` | xz XML | ✅ |
+
+Fields: package name, repo, arch, version, rpm_group, summary, url.
+CentOS 7 reached EOL 2024-06-30; repos are archived at `vault.centos.org`.
+
 ## Summary
 
 | Source | Resources | Total |
 |--------|:---------:|:-----:|
 | NVD CPE | 1 | 1 |
 | Ubuntu | 4 | 4 |
-| RHEL | 3 | 3 |
+| RHEL 9 | 3 | 3 |
+| RHEL 7 | 3 | 3 |
