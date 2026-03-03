@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"time"
 
+	"cloud.google.com/go/compute/apiv1/computepb"
+
 	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesnapshot"
 	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesnapshotlabel"
@@ -27,78 +29,22 @@ func NewService(client *Client, entClient *entcompute.Client) *Service {
 	}
 }
 
-// IngestParams contains parameters for snapshot ingestion.
-type IngestParams struct {
-	ProjectID string
-}
-
-// IngestResult contains the result of snapshot ingestion.
-type IngestResult struct {
-	ProjectID      string
-	SnapshotCount  int
-	CollectedAt    time.Time
-	DurationMillis int64
-}
-
-// Ingest fetches snapshots from GCP and stores them in the bronze layer.
-func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResult, error) {
-	startTime := time.Now()
-	collectedAt := startTime
-
-	// Fetch snapshots from GCP
-	snapshots, err := s.client.ListSnapshots(ctx, params.ProjectID)
-	if err != nil {
-		return nil, fmt.Errorf("failed to list snapshots: %w", err)
-	}
-
-	// Convert to data structs
-	snapshotDataList := make([]*SnapshotData, 0, len(snapshots))
+// IngestPage converts raw proto snapshots and saves them as one batch.
+func (s *Service) IngestPage(ctx context.Context, snapshots []*computepb.Snapshot, projectID string, collectedAt time.Time) (int, error) {
+	dataList := make([]*SnapshotData, 0, len(snapshots))
 	for _, snap := range snapshots {
-		data, err := ConvertSnapshot(snap, params.ProjectID, collectedAt)
+		data, err := ConvertSnapshot(snap, projectID, collectedAt)
 		if err != nil {
-			return nil, fmt.Errorf("failed to convert snapshot: %w", err)
+			return 0, fmt.Errorf("convert snapshot: %w", err)
 		}
-		snapshotDataList = append(snapshotDataList, data)
+		dataList = append(dataList, data)
 	}
 
-	// Save to database
-	if err := s.saveSnapshots(ctx, snapshotDataList); err != nil {
-		return nil, fmt.Errorf("failed to save snapshots: %w", err)
+	if err := s.saveSnapshotBatch(ctx, dataList, time.Now()); err != nil {
+		return 0, fmt.Errorf("save snapshot page: %w", err)
 	}
 
-	return &IngestResult{
-		ProjectID:      params.ProjectID,
-		SnapshotCount:  len(snapshotDataList),
-		CollectedAt:    collectedAt,
-		DurationMillis: time.Since(startTime).Milliseconds(),
-	}, nil
-}
-
-// saveBatchSize is the number of items to process per transaction batch.
-// This avoids holding a single massive transaction lock when processing
-// thousands of items (e.g. 26K+ snapshots in one project).
-const saveBatchSize = 500
-
-// saveSnapshots saves snapshots to the database with history tracking.
-// Items are processed in batches to limit transaction size and lock duration.
-func (s *Service) saveSnapshots(ctx context.Context, snapshots []*SnapshotData) error {
-	if len(snapshots) == 0 {
-		return nil
-	}
-
-	now := time.Now()
-
-	for i := 0; i < len(snapshots); i += saveBatchSize {
-		end := i + saveBatchSize
-		if end > len(snapshots) {
-			end = len(snapshots)
-		}
-		if err := s.saveSnapshotBatch(ctx, snapshots[i:end], now); err != nil {
-			return fmt.Errorf("failed to save snapshot batch %d: %w", i/saveBatchSize, err)
-		}
-	}
-
-	return nil
+	return len(dataList), nil
 }
 
 // saveSnapshotBatch saves a batch of snapshots in a single transaction.

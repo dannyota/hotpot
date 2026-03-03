@@ -20,6 +20,11 @@ type Service struct {
 
 	onReload  []func(*Config)
 	stopWatch func()
+
+	// temporalClient holds the Temporal client for activities that need to
+	// signal workflows. Set once at startup via SetTemporalClient. Typed as
+	// any to avoid importing the Temporal SDK in the config package.
+	temporalClient any
 }
 
 // ServiceOptions configures the Service.
@@ -752,4 +757,16 @@ func (s *Service) RedisConfig() *RedisConfig {
 	}
 	cfg := s.config.Redis
 	return &cfg
+}
+
+// SetTemporalClient stores the Temporal client for activities that need it.
+// Must be called once at startup before workers start.
+func (s *Service) SetTemporalClient(c any) {
+	s.temporalClient = c
+}
+
+// TemporalClient returns the stored Temporal client.
+// Caller must type-assert to client.Client.
+func (s *Service) TemporalClient() any {
+	return s.temporalClient
 }

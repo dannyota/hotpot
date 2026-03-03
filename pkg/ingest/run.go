@@ -44,6 +44,9 @@ func Run(ctx context.Context, configService *config.Service, driver dialect.Driv
 	}
 	defer temporalClient.Close()
 
+	// Store client for activities that need to signal workflows.
+	configService.SetTemporalClient(temporalClient)
+
 	// Create paused daily schedules for enabled providers.
 	ensureSchedules(ctx, temporalClient, allProviders, configService)
 

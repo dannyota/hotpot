@@ -35,26 +35,18 @@ func (c *Client) Close() error {
 	return nil
 }
 
-// ListSnapshots lists all snapshots in a project (global resource).
-func (c *Client) ListSnapshots(ctx context.Context, projectID string) ([]*computepb.Snapshot, error) {
-	req := &computepb.ListSnapshotsRequest{
+// ListSnapshotsPage fetches a single page of snapshots from GCP.
+func (c *Client) ListSnapshotsPage(ctx context.Context, projectID string, pageSize int, pageToken string) ([]*computepb.Snapshot, string, error) {
+	it := c.snapshotsClient.List(ctx, &computepb.ListSnapshotsRequest{
 		Project: projectID,
-	}
+	})
+	p := iterator.NewPager(it, pageSize, pageToken)
 
 	var snapshots []*computepb.Snapshot
-	it := c.snapshotsClient.List(ctx, req)
-
-	for {
-		snap, err := it.Next()
-		if err == iterator.Done {
-			break
-		}
-		if err != nil {
-			return nil, fmt.Errorf("failed to list snapshots in project %s: %w", projectID, err)
-		}
-
-		snapshots = append(snapshots, snap)
+	nextToken, err := p.NextPage(&snapshots)
+	if err != nil {
+		return nil, "", fmt.Errorf("list snapshots page: %w", err)
 	}
 
-	return snapshots, nil
+	return snapshots, nextToken, nil
 }

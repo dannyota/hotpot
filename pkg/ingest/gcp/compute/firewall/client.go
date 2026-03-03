@@ -35,27 +35,18 @@ func (c *Client) Close() error {
 	return nil
 }
 
-// ListFirewalls lists all firewalls in a project.
-// Firewalls are global resources (not regional/zonal).
-func (c *Client) ListFirewalls(ctx context.Context, projectID string) ([]*computepb.Firewall, error) {
-	req := &computepb.ListFirewallsRequest{
+// ListFirewallsPage fetches a single page of firewalls from GCP.
+func (c *Client) ListFirewallsPage(ctx context.Context, projectID string, pageSize int, pageToken string) ([]*computepb.Firewall, string, error) {
+	it := c.firewallsClient.List(ctx, &computepb.ListFirewallsRequest{
 		Project: projectID,
-	}
+	})
+	p := iterator.NewPager(it, pageSize, pageToken)
 
 	var firewalls []*computepb.Firewall
-	it := c.firewallsClient.List(ctx, req)
-
-	for {
-		firewall, err := it.Next()
-		if err == iterator.Done {
-			break
-		}
-		if err != nil {
-			return nil, fmt.Errorf("failed to list firewalls in project %s: %w", projectID, err)
-		}
-
-		firewalls = append(firewalls, firewall)
+	nextToken, err := p.NextPage(&firewalls)
+	if err != nil {
+		return nil, "", fmt.Errorf("list firewalls page: %w", err)
 	}
 
-	return firewalls, nil
+	return firewalls, nextToken, nil
 }

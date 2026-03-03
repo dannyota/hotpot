@@ -3,94 +3,117 @@ package snapshot
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"go.temporal.io/sdk/activity"
-	"google.golang.org/api/option"
+	"go.temporal.io/sdk/client"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/gcpauth"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
 	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
+const snapshotNextPageSignal = "snapshot-next-page"
+
+// NextPageTokenSignal is the signal payload sent from activity to workflow.
+type NextPageTokenSignal struct {
+	NextPageToken string
+}
+
 // Activities holds dependencies for Temporal activities.
 type Activities struct {
-	configService *config.Service
-	entClient     *entcompute.Client
-	limiter       ratelimit.Limiter
+	client         *Client
+	entClient      *entcompute.Client
+	temporalClient client.Client
 }
 
 // NewActivities creates a new Activities instance.
-func NewActivities(configService *config.Service, entClient *entcompute.Client, limiter ratelimit.Limiter) *Activities {
+func NewActivities(client *Client, entClient *entcompute.Client, temporalClient client.Client) *Activities {
 	return &Activities{
-		configService: configService,
-		entClient:     entClient,
-		limiter:       limiter,
+		client:         client,
+		entClient:      entClient,
+		temporalClient: temporalClient,
 	}
 }
 
-// createClient creates a rate-limited GCP client with credentials.
-func (a *Activities) createClient(ctx context.Context) (*Client, error) {
-	httpClient, err := gcpauth.NewHTTPClient(ctx, a.configService.GCPCredentialsJSON(), a.limiter)
-	if err != nil {
-		return nil, err
-	}
-	return NewClient(ctx, option.WithHTTPClient(httpClient))
+// FetchAndSaveSnapshotsPageParams contains parameters for the page activity.
+type FetchAndSaveSnapshotsPageParams struct {
+	ProjectID   string
+	PageToken   string
+	PageSize    int
+	CollectedAt time.Time
+	WorkflowID  string
+	RunID       string
 }
 
-// IngestComputeSnapshotsParams contains parameters for the ingest activity.
-type IngestComputeSnapshotsParams struct {
-	ProjectID string
+// FetchAndSaveSnapshotsPageResult contains the result of the page activity.
+type FetchAndSaveSnapshotsPageResult struct {
+	Count         int
+	NextPageToken string
 }
 
-// IngestComputeSnapshotsResult contains the result of the ingest activity.
-type IngestComputeSnapshotsResult struct {
-	ProjectID      string
-	SnapshotCount  int
-	DurationMillis int64
-}
+// FetchAndSaveSnapshotsPageActivity is the activity function reference for workflow registration.
+var FetchAndSaveSnapshotsPageActivity = (*Activities).FetchAndSaveSnapshotsPage
 
-// IngestComputeSnapshotsActivity is the activity function reference for workflow registration.
-var IngestComputeSnapshotsActivity = (*Activities).IngestComputeSnapshots
-
-// IngestComputeSnapshots is a Temporal activity that ingests GCP Compute snapshots.
-func (a *Activities) IngestComputeSnapshots(ctx context.Context, params IngestComputeSnapshotsParams) (*IngestComputeSnapshotsResult, error) {
+// FetchAndSaveSnapshotsPage fetches one page of snapshots from GCP and saves to DB.
+// After the GCP fetch, it signals the workflow with the next page token so the
+// workflow can start the next fetch while this activity saves to DB.
+func (a *Activities) FetchAndSaveSnapshotsPage(ctx context.Context, params FetchAndSaveSnapshotsPageParams) (*FetchAndSaveSnapshotsPageResult, error) {
 	logger := activity.GetLogger(ctx)
-	logger.Info("Starting GCP Compute snapshot ingestion",
+	logger.Info("Fetching snapshot page",
 		"projectID", params.ProjectID,
+		"pageSize", params.PageSize,
+		"hasPageToken", params.PageToken != "",
 	)
 
-	// Create client for this activity
-	client, err := a.createClient(ctx)
+	snapshots, nextToken, err := a.client.ListSnapshotsPage(ctx, params.ProjectID, params.PageSize, params.PageToken)
 	if err != nil {
-		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("create client: %w", err))
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("list snapshots page: %w", err))
 	}
-	defer client.Close()
 
-	// Create service
-	service := NewService(client, a.entClient)
-	result, err := service.Ingest(ctx, IngestParams{
-		ProjectID: params.ProjectID,
-	})
+	// Signal workflow with next page token BEFORE saving to DB.
+	// This lets the workflow start the next GCP fetch while we save.
+	if err := a.temporalClient.SignalWorkflow(ctx, params.WorkflowID, params.RunID,
+		snapshotNextPageSignal, NextPageTokenSignal{NextPageToken: nextToken}); err != nil {
+		logger.Warn("Failed to signal next page token", "error", err)
+		// Non-fatal: workflow will fall back to reading token from result.
+	}
+
+	service := NewService(nil, a.entClient)
+	count, err := service.IngestPage(ctx, snapshots, params.ProjectID, params.CollectedAt)
 	if err != nil {
-		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("failed to ingest snapshots: %w", err))
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest snapshots page: %w", err))
 	}
 
-	// Delete stale snapshots
-	if err := service.DeleteStaleSnapshots(ctx, params.ProjectID, result.CollectedAt); err != nil {
-		logger.Warn("Failed to delete stale snapshots", "error", err)
-	}
-
-	logger.Info("Completed GCP Compute snapshot ingestion",
+	logger.Info("Saved snapshot page",
 		"projectID", params.ProjectID,
-		"snapshotCount", result.SnapshotCount,
-		"durationMillis", result.DurationMillis,
+		"count", count,
+		"hasNextPage", nextToken != "",
 	)
 
-	return &IngestComputeSnapshotsResult{
-		ProjectID:      result.ProjectID,
-		SnapshotCount:  result.SnapshotCount,
-		DurationMillis: result.DurationMillis,
+	return &FetchAndSaveSnapshotsPageResult{
+		Count:         count,
+		NextPageToken: nextToken,
 	}, nil
+}
+
+// DeleteStaleSnapshotsParams contains parameters for the delete stale activity.
+type DeleteStaleSnapshotsParams struct {
+	ProjectID   string
+	CollectedAt time.Time
+}
+
+// DeleteStaleSnapshotsActivity is the activity function reference for workflow registration.
+var DeleteStaleSnapshotsActivity = (*Activities).DeleteStaleSnapshots
+
+// DeleteStaleSnapshots removes snapshots not seen in this collection run.
+func (a *Activities) DeleteStaleSnapshots(ctx context.Context, params DeleteStaleSnapshotsParams) error {
+	logger := activity.GetLogger(ctx)
+	logger.Info("Deleting stale snapshots", "projectID", params.ProjectID)
+
+	service := NewService(nil, a.entClient)
+	if err := service.DeleteStaleSnapshots(ctx, params.ProjectID, params.CollectedAt); err != nil {
+		return temporalerr.MaybeNonRetryable(fmt.Errorf("delete stale snapshots: %w", err))
+	}
+
+	return nil
 }

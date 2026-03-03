@@ -3,94 +3,117 @@ package firewall
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"go.temporal.io/sdk/activity"
-	"google.golang.org/api/option"
+	"go.temporal.io/sdk/client"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/gcpauth"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
 	"github.com/dannyota/hotpot/pkg/base/temporalerr"
 	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 )
 
+const firewallNextPageSignal = "firewall-next-page"
+
+// NextPageTokenSignal is the signal payload sent from activity to workflow.
+type NextPageTokenSignal struct {
+	NextPageToken string
+}
+
 // Activities holds dependencies for Temporal activities.
 type Activities struct {
-	configService *config.Service
-	entClient     *entcompute.Client
-	limiter       ratelimit.Limiter
+	client         *Client
+	entClient      *entcompute.Client
+	temporalClient client.Client
 }
 
 // NewActivities creates a new Activities instance.
-func NewActivities(configService *config.Service, entClient *entcompute.Client, limiter ratelimit.Limiter) *Activities {
+func NewActivities(client *Client, entClient *entcompute.Client, temporalClient client.Client) *Activities {
 	return &Activities{
-		configService: configService,
-		entClient:     entClient,
-		limiter:       limiter,
+		client:         client,
+		entClient:      entClient,
+		temporalClient: temporalClient,
 	}
 }
 
-// createClient creates a rate-limited GCP client with credentials.
-func (a *Activities) createClient(ctx context.Context) (*Client, error) {
-	httpClient, err := gcpauth.NewHTTPClient(ctx, a.configService.GCPCredentialsJSON(), a.limiter)
-	if err != nil {
-		return nil, err
-	}
-	return NewClient(ctx, option.WithHTTPClient(httpClient))
+// FetchAndSaveFirewallsPageParams contains parameters for the page activity.
+type FetchAndSaveFirewallsPageParams struct {
+	ProjectID   string
+	PageToken   string
+	PageSize    int
+	CollectedAt time.Time
+	WorkflowID  string
+	RunID       string
 }
 
-// IngestComputeFirewallsParams contains parameters for the ingest activity.
-type IngestComputeFirewallsParams struct {
-	ProjectID string
+// FetchAndSaveFirewallsPageResult contains the result of the page activity.
+type FetchAndSaveFirewallsPageResult struct {
+	Count         int
+	NextPageToken string
 }
 
-// IngestComputeFirewallsResult contains the result of the ingest activity.
-type IngestComputeFirewallsResult struct {
-	ProjectID      string
-	FirewallCount  int
-	DurationMillis int64
-}
+// FetchAndSaveFirewallsPageActivity is the activity function reference for workflow registration.
+var FetchAndSaveFirewallsPageActivity = (*Activities).FetchAndSaveFirewallsPage
 
-// IngestComputeFirewallsActivity is the activity function reference for workflow registration.
-var IngestComputeFirewallsActivity = (*Activities).IngestComputeFirewalls
-
-// IngestComputeFirewalls is a Temporal activity that ingests GCP Compute firewalls.
-func (a *Activities) IngestComputeFirewalls(ctx context.Context, params IngestComputeFirewallsParams) (*IngestComputeFirewallsResult, error) {
+// FetchAndSaveFirewallsPage fetches one page of firewalls from GCP and saves to DB.
+// After the GCP fetch, it signals the workflow with the next page token so the
+// workflow can start the next fetch while this activity saves to DB.
+func (a *Activities) FetchAndSaveFirewallsPage(ctx context.Context, params FetchAndSaveFirewallsPageParams) (*FetchAndSaveFirewallsPageResult, error) {
 	logger := activity.GetLogger(ctx)
-	logger.Info("Starting GCP Compute firewall ingestion",
+	logger.Info("Fetching firewall page",
 		"projectID", params.ProjectID,
+		"pageSize", params.PageSize,
+		"hasPageToken", params.PageToken != "",
 	)
 
-	// Create client for this activity
-	client, err := a.createClient(ctx)
+	firewalls, nextToken, err := a.client.ListFirewallsPage(ctx, params.ProjectID, params.PageSize, params.PageToken)
 	if err != nil {
-		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("create client: %w", err))
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("list firewalls page: %w", err))
 	}
-	defer client.Close()
 
-	// Create service
-	service := NewService(client, a.entClient)
-	result, err := service.Ingest(ctx, IngestParams{
-		ProjectID: params.ProjectID,
-	})
+	// Signal workflow with next page token BEFORE saving to DB.
+	// This lets the workflow start the next GCP fetch while we save.
+	if err := a.temporalClient.SignalWorkflow(ctx, params.WorkflowID, params.RunID,
+		firewallNextPageSignal, NextPageTokenSignal{NextPageToken: nextToken}); err != nil {
+		logger.Warn("Failed to signal next page token", "error", err)
+		// Non-fatal: workflow will fall back to reading token from result.
+	}
+
+	service := NewService(nil, a.entClient)
+	count, err := service.IngestPage(ctx, firewalls, params.ProjectID, params.CollectedAt)
 	if err != nil {
-		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("failed to ingest firewalls: %w", err))
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest firewalls page: %w", err))
 	}
 
-	// Delete stale firewalls
-	if err := service.DeleteStaleFirewalls(ctx, params.ProjectID, result.CollectedAt); err != nil {
-		logger.Warn("Failed to delete stale firewalls", "error", err)
-	}
-
-	logger.Info("Completed GCP Compute firewall ingestion",
+	logger.Info("Saved firewall page",
 		"projectID", params.ProjectID,
-		"firewallCount", result.FirewallCount,
-		"durationMillis", result.DurationMillis,
+		"count", count,
+		"hasNextPage", nextToken != "",
 	)
 
-	return &IngestComputeFirewallsResult{
-		ProjectID:      result.ProjectID,
-		FirewallCount:  result.FirewallCount,
-		DurationMillis: result.DurationMillis,
+	return &FetchAndSaveFirewallsPageResult{
+		Count:         count,
+		NextPageToken: nextToken,
 	}, nil
+}
+
+// DeleteStaleFirewallsParams contains parameters for the delete stale activity.
+type DeleteStaleFirewallsParams struct {
+	ProjectID   string
+	CollectedAt time.Time
+}
+
+// DeleteStaleFirewallsActivity is the activity function reference for workflow registration.
+var DeleteStaleFirewallsActivity = (*Activities).DeleteStaleFirewalls
+
+// DeleteStaleFirewalls removes firewalls not seen in this collection run.
+func (a *Activities) DeleteStaleFirewalls(ctx context.Context, params DeleteStaleFirewallsParams) error {
+	logger := activity.GetLogger(ctx)
+	logger.Info("Deleting stale firewalls", "projectID", params.ProjectID)
+
+	service := NewService(nil, a.entClient)
+	if err := service.DeleteStaleFirewalls(ctx, params.ProjectID, params.CollectedAt); err != nil {
+		return temporalerr.MaybeNonRetryable(fmt.Errorf("delete stale firewalls: %w", err))
+	}
+
+	return nil
 }

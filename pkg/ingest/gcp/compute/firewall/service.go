@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"time"
 
+	"cloud.google.com/go/compute/apiv1/computepb"
+
 	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
 	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputefirewall"
 	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputefirewallallowed"
@@ -27,76 +29,22 @@ func NewService(client *Client, entClient *entcompute.Client) *Service {
 	}
 }
 
-// IngestParams contains parameters for firewall ingestion.
-type IngestParams struct {
-	ProjectID string
-}
-
-// IngestResult contains the result of firewall ingestion.
-type IngestResult struct {
-	ProjectID      string
-	FirewallCount  int
-	CollectedAt    time.Time
-	DurationMillis int64
-}
-
-// Ingest fetches firewalls from GCP and stores them in the bronze layer.
-func (s *Service) Ingest(ctx context.Context, params IngestParams) (*IngestResult, error) {
-	startTime := time.Now()
-	collectedAt := startTime
-
-	// Fetch firewalls from GCP
-	firewalls, err := s.client.ListFirewalls(ctx, params.ProjectID)
-	if err != nil {
-		return nil, fmt.Errorf("failed to list firewalls: %w", err)
-	}
-
-	// Convert to data structs
-	firewallDataList := make([]*FirewallData, 0, len(firewalls))
+// IngestPage converts raw proto firewalls and saves them as one batch.
+func (s *Service) IngestPage(ctx context.Context, firewalls []*computepb.Firewall, projectID string, collectedAt time.Time) (int, error) {
+	dataList := make([]*FirewallData, 0, len(firewalls))
 	for _, fw := range firewalls {
-		data, err := ConvertFirewall(fw, params.ProjectID, collectedAt)
+		data, err := ConvertFirewall(fw, projectID, collectedAt)
 		if err != nil {
-			return nil, fmt.Errorf("failed to convert firewall: %w", err)
+			return 0, fmt.Errorf("convert firewall: %w", err)
 		}
-		firewallDataList = append(firewallDataList, data)
+		dataList = append(dataList, data)
 	}
 
-	// Save to database
-	if err := s.saveFirewalls(ctx, firewallDataList); err != nil {
-		return nil, fmt.Errorf("failed to save firewalls: %w", err)
+	if err := s.saveFirewallBatch(ctx, dataList, time.Now()); err != nil {
+		return 0, fmt.Errorf("save firewall page: %w", err)
 	}
 
-	return &IngestResult{
-		ProjectID:      params.ProjectID,
-		FirewallCount:  len(firewallDataList),
-		CollectedAt:    collectedAt,
-		DurationMillis: time.Since(startTime).Milliseconds(),
-	}, nil
-}
-
-// saveBatchSize is the number of items to process per transaction batch.
-const saveBatchSize = 500
-
-// saveFirewalls saves firewalls to the database with history tracking.
-// Items are processed in batches to limit transaction size and lock duration.
-func (s *Service) saveFirewalls(ctx context.Context, firewalls []*FirewallData) error {
-	if len(firewalls) == 0 {
-		return nil
-	}
-
-	now := time.Now()
-
-	for i := 0; i < len(firewalls); i += saveBatchSize {
-		end := i + saveBatchSize
-		if end > len(firewalls) {
-			end = len(firewalls)
-		}
-		if err := s.saveFirewallBatch(ctx, firewalls[i:end], now); err != nil {
-			return fmt.Errorf("failed to save firewall batch %d: %w", i/saveBatchSize, err)
-		}
-	}
-
-	return nil
+	return len(dataList), nil
 }
 
 // saveFirewallBatch saves a batch of firewalls in a single transaction.
