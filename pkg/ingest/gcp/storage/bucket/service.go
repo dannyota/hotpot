@@ -104,6 +104,9 @@ func (s *Service) saveBuckets(ctx context.Context, buckets []*BucketData) error 
 		if !diff.HasAnyChange() && existing != nil {
 			if err := tx.BronzeGCPStorageBucket.UpdateOneID(bucketData.ID).
 				SetCollectedAt(bucketData.CollectedAt).
+				SetUpdated(bucketData.Updated).
+				SetMetageneration(bucketData.Metageneration).
+				SetEtag(bucketData.Etag).
 				Exec(ctx); err != nil {
 				tx.Rollback()
 				return fmt.Errorf("failed to update collected_at for bucket %s: %w", bucketData.Name, err)

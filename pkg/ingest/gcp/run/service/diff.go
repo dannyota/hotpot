@@ -26,23 +26,21 @@ func DiffServiceData(old *entrun.BronzeGCPRunService, new *ServiceData) *Service
 		return diff
 	}
 
+	// NOTE: UpdateTime, ObservedGeneration, Reconciling, Etag excluded — volatile
+	// GCP fields. They are still updated on the bronze record (see service.go no-change path).
 	if old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.UID != new.UID ||
 		old.Generation != new.Generation ||
 		old.CreateTime != new.CreateTime ||
-		old.UpdateTime != new.UpdateTime ||
 		old.DeleteTime != new.DeleteTime ||
 		old.Creator != new.Creator ||
 		old.LastModifier != new.LastModifier ||
 		old.Ingress != new.Ingress ||
 		old.LaunchStage != new.LaunchStage ||
 		old.URI != new.URI ||
-		old.ObservedGeneration != new.ObservedGeneration ||
 		old.LatestReadyRevision != new.LatestReadyRevision ||
 		old.LatestCreatedRevision != new.LatestCreatedRevision ||
-		old.Reconciling != new.Reconciling ||
-		old.Etag != new.Etag ||
 		!bytes.Equal(old.LabelsJSON, new.LabelsJSON) ||
 		!bytes.Equal(old.AnnotationsJSON, new.AnnotationsJSON) ||
 		!bytes.Equal(old.TemplateJSON, new.TemplateJSON) ||

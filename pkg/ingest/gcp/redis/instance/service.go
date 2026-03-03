@@ -100,9 +100,16 @@ func (s *Service) saveInstances(ctx context.Context, instances []*InstanceData) 
 		diff := DiffInstanceData(existing, instData)
 
 		if !diff.HasAnyChange() && existing != nil {
-			if err := tx.BronzeGCPRedisInstance.UpdateOneID(instData.ID).
+			update := tx.BronzeGCPRedisInstance.UpdateOneID(instData.ID).
 				SetCollectedAt(instData.CollectedAt).
-				Exec(ctx); err != nil {
+				SetMaintenanceVersion(instData.MaintenanceVersion)
+			if instData.MaintenanceScheduleJSON != nil {
+				update.SetMaintenanceScheduleJSON(instData.MaintenanceScheduleJSON)
+			}
+			if instData.AvailableMaintenanceVersionsJSON != nil {
+				update.SetAvailableMaintenanceVersionsJSON(instData.AvailableMaintenanceVersionsJSON)
+			}
+			if err := update.Exec(ctx); err != nil {
 				tx.Rollback()
 				return fmt.Errorf("failed to update collected_at for Redis instance %s: %w", instData.ID, err)
 			}

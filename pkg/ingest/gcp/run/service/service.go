@@ -105,11 +105,21 @@ func (s *Service) saveServices(ctx context.Context, services []*ServiceData) err
 		// Compute diff
 		diff := DiffServiceData(existing, serviceData)
 
-		// Skip if no changes
+		// Skip if no changes — still update collected_at and volatile fields
 		if !diff.HasAnyChange() && existing != nil {
-			if err := tx.BronzeGCPRunService.UpdateOneID(serviceData.ID).
+			update := tx.BronzeGCPRunService.UpdateOneID(serviceData.ID).
 				SetCollectedAt(serviceData.CollectedAt).
-				Exec(ctx); err != nil {
+				SetReconciling(serviceData.Reconciling)
+			if serviceData.UpdateTime != "" {
+				update.SetUpdateTime(serviceData.UpdateTime)
+			}
+			if serviceData.ObservedGeneration != 0 {
+				update.SetObservedGeneration(serviceData.ObservedGeneration)
+			}
+			if serviceData.Etag != "" {
+				update.SetEtag(serviceData.Etag)
+			}
+			if err := update.Exec(ctx); err != nil {
 				tx.Rollback()
 				return fmt.Errorf("failed to update collected_at for Cloud Run service %s: %w", serviceData.ID, err)
 			}

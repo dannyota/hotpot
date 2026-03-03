@@ -47,15 +47,14 @@ func (d *BucketDiff) HasAnyChange() bool {
 }
 
 func hasBucketFieldsChanged(old *entstorage.BronzeGCPStorageBucket, new *BucketData) bool {
+	// NOTE: Updated, Metageneration, Etag excluded — volatile GCP fields.
+	// They are still updated on the bronze record (see service.go no-change path).
 	return old.Name != new.Name ||
 		old.Location != new.Location ||
 		old.StorageClass != new.StorageClass ||
 		old.ProjectNumber != new.ProjectNumber ||
 		old.TimeCreated != new.TimeCreated ||
-		old.Updated != new.Updated ||
 		old.DefaultEventBasedHold != new.DefaultEventBasedHold ||
-		old.Metageneration != new.Metageneration ||
-		old.Etag != new.Etag ||
 		!bytes.Equal(old.IamConfigurationJSON, new.IamConfigurationJSON) ||
 		!bytes.Equal(old.EncryptionJSON, new.EncryptionJSON) ||
 		!bytes.Equal(old.LifecycleJSON, new.LifecycleJSON) ||

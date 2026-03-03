@@ -50,7 +50,6 @@ func DiffInstanceData(old *entredis.BronzeGCPRedisInstance, new *InstanceData) *
 		!bytes.Equal(old.ServerCaCertsJSON, new.ServerCaCertsJSON) ||
 		old.TransitEncryptionMode != new.TransitEncryptionMode ||
 		!bytes.Equal(old.MaintenancePolicyJSON, new.MaintenancePolicyJSON) ||
-		!bytes.Equal(old.MaintenanceScheduleJSON, new.MaintenanceScheduleJSON) ||
 		old.ReplicaCount != new.ReplicaCount ||
 		!bytes.Equal(old.NodesJSON, new.NodesJSON) ||
 		old.ReadEndpoint != new.ReadEndpoint ||
@@ -58,9 +57,9 @@ func DiffInstanceData(old *entredis.BronzeGCPRedisInstance, new *InstanceData) *
 		old.ReadReplicasMode != new.ReadReplicasMode ||
 		old.CustomerManagedKey != new.CustomerManagedKey ||
 		!bytes.Equal(old.PersistenceConfigJSON, new.PersistenceConfigJSON) ||
-		!bytes.Equal(old.SuspensionReasonsJSON, new.SuspensionReasonsJSON) ||
-		old.MaintenanceVersion != new.MaintenanceVersion ||
-		!bytes.Equal(old.AvailableMaintenanceVersionsJSON, new.AvailableMaintenanceVersionsJSON) {
+		!bytes.Equal(old.SuspensionReasonsJSON, new.SuspensionReasonsJSON) {
+		// NOTE: MaintenanceScheduleJSON, MaintenanceVersion, AvailableMaintenanceVersionsJSON
+		// excluded — volatile GCP fields updated on bronze record (see service.go no-change path).
 		diff.IsChanged = true
 	}
 

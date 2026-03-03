@@ -26,18 +26,17 @@ func DiffClusterData(old *entalloydb.BronzeGCPAlloyDBCluster, new *ClusterData) 
 		return diff
 	}
 
+	// NOTE: UpdateTime, Etag, Reconciling excluded — volatile GCP fields.
+	// They are still updated on the bronze record (see service.go no-change path).
 	if old.Name != new.Name ||
 		old.DisplayName != new.DisplayName ||
 		old.UID != new.UID ||
 		old.CreateTime != new.CreateTime ||
-		old.UpdateTime != new.UpdateTime ||
 		old.DeleteTime != new.DeleteTime ||
 		old.State != new.State ||
 		old.ClusterType != new.ClusterType ||
 		old.DatabaseVersion != new.DatabaseVersion ||
 		old.Network != new.Network ||
-		old.Etag != new.Etag ||
-		old.Reconciling != new.Reconciling ||
 		old.SatisfiesPzs != new.SatisfiesPzs ||
 		old.SubscriptionType != new.SubscriptionType ||
 		old.Location != new.Location ||

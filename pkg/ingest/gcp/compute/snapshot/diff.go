@@ -52,13 +52,13 @@ func (d *SnapshotDiff) HasAnyChange() bool {
 
 // hasSnapshotFieldsChanged compares snapshot-level fields (excluding children).
 func hasSnapshotFieldsChanged(old *entcompute.BronzeGCPComputeSnapshot, new *SnapshotData) bool {
+	// NOTE: StorageBytes, StorageBytesStatus, DownloadBytes excluded — volatile
+	// GCP fields that change every collection cycle without meaningful resource change.
+	// They are still updated on the bronze record (see service.go no-change path).
 	return old.Name != new.Name ||
 		old.Description != new.Description ||
 		old.Status != new.Status ||
 		old.DiskSizeGB != new.DiskSizeGB ||
-		old.StorageBytes != new.StorageBytes ||
-		old.StorageBytesStatus != new.StorageBytesStatus ||
-		old.DownloadBytes != new.DownloadBytes ||
 		old.SnapshotType != new.SnapshotType ||
 		old.Architecture != new.Architecture ||
 		old.LabelFingerprint != new.LabelFingerprint ||

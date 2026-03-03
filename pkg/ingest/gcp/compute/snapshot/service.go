@@ -130,11 +130,13 @@ func (s *Service) saveSnapshotBatch(ctx context.Context, snapshots []*SnapshotDa
 		// Compute diff
 		diff := DiffSnapshotData(existing, snapshotData)
 
-		// Skip if no changes
+		// Skip if no changes — still update collected_at and volatile fields
 		if !diff.HasAnyChange() && existing != nil {
-			// Update collected_at only
 			if err := tx.BronzeGCPComputeSnapshot.UpdateOneID(snapshotData.ID).
 				SetCollectedAt(snapshotData.CollectedAt).
+				SetStorageBytes(snapshotData.StorageBytes).
+				SetStorageBytesStatus(snapshotData.StorageBytesStatus).
+				SetDownloadBytes(snapshotData.DownloadBytes).
 				Exec(ctx); err != nil {
 				tx.Rollback()
 				return fmt.Errorf("failed to update collected_at for snapshot %s: %w", snapshotData.Name, err)

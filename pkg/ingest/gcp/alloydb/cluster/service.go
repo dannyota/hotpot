@@ -100,9 +100,16 @@ func (s *Service) saveClusters(ctx context.Context, clusters []*ClusterData) err
 		diff := DiffClusterData(existing, clusterData)
 
 		if !diff.HasAnyChange() && existing != nil {
-			if err := tx.BronzeGCPAlloyDBCluster.UpdateOneID(clusterData.ID).
+			update := tx.BronzeGCPAlloyDBCluster.UpdateOneID(clusterData.ID).
 				SetCollectedAt(clusterData.CollectedAt).
-				Exec(ctx); err != nil {
+				SetReconciling(clusterData.Reconciling)
+			if clusterData.UpdateTime != "" {
+				update.SetUpdateTime(clusterData.UpdateTime)
+			}
+			if clusterData.Etag != "" {
+				update.SetEtag(clusterData.Etag)
+			}
+			if err := update.Exec(ctx); err != nil {
 				tx.Rollback()
 				return fmt.Errorf("failed to update collected_at for cluster %s: %w", clusterData.ID, err)
 			}
