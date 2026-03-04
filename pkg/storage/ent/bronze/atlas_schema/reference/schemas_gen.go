@@ -103,12 +103,60 @@ func (BronzeReferenceUbuntuPackage) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze"})
 }
 
+type BronzeReferenceXeolCycle struct {
+	bronze_reference.BronzeReferenceXeolCycle
+}
+
+func (BronzeReferenceXeolCycle) Annotations() []schema.Annotation {
+	anns := bronze_reference.BronzeReferenceXeolCycle{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
 type BronzeReferenceXeolProduct struct {
 	bronze_reference.BronzeReferenceXeolProduct
 }
 
 func (BronzeReferenceXeolProduct) Annotations() []schema.Annotation {
 	anns := bronze_reference.BronzeReferenceXeolProduct{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeReferenceXeolPurl struct {
+	bronze_reference.BronzeReferenceXeolPurl
+}
+
+func (BronzeReferenceXeolPurl) Annotations() []schema.Annotation {
+	anns := bronze_reference.BronzeReferenceXeolPurl{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeReferenceXeolVuln struct {
+	bronze_reference.BronzeReferenceXeolVuln
+}
+
+func (BronzeReferenceXeolVuln) Annotations() []schema.Annotation {
+	anns := bronze_reference.BronzeReferenceXeolVuln{}.Annotations()
 	for i, a := range anns {
 		if v, ok := a.(entsql.Annotation); ok {
 			v.Schema = "bronze"

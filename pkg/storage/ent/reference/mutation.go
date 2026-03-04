@@ -17,7 +17,10 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolproduct"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencerpmpackage"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceubuntupackage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolcycle"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolproduct"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolpurl"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolvuln"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/predicate"
 )
 
@@ -36,7 +39,10 @@ const (
 	TypeBronzeReferenceEOLProduct    = "BronzeReferenceEOLProduct"
 	TypeBronzeReferenceRPMPackage    = "BronzeReferenceRPMPackage"
 	TypeBronzeReferenceUbuntuPackage = "BronzeReferenceUbuntuPackage"
+	TypeBronzeReferenceXeolCycle     = "BronzeReferenceXeolCycle"
 	TypeBronzeReferenceXeolProduct   = "BronzeReferenceXeolProduct"
+	TypeBronzeReferenceXeolPurl      = "BronzeReferenceXeolPurl"
+	TypeBronzeReferenceXeolVuln      = "BronzeReferenceXeolVuln"
 )
 
 // BronzeReferenceCPEMutation represents an operation that mutates the BronzeReferenceCPE nodes in the graph.
@@ -4435,6 +4441,849 @@ func (m *BronzeReferenceUbuntuPackageMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown BronzeReferenceUbuntuPackage edge %s", name)
 }
 
+// BronzeReferenceXeolCycleMutation represents an operation that mutates the BronzeReferenceXeolCycle nodes in the graph.
+type BronzeReferenceXeolCycleMutation struct {
+	config
+	op                  Op
+	typ                 string
+	id                  *string
+	collected_at        *time.Time
+	first_collected_at  *time.Time
+	product_id          *string
+	release_cycle       *string
+	eol                 *time.Time
+	eol_bool            *bool
+	latest_release      *string
+	latest_release_date *time.Time
+	release_date        *time.Time
+	clearedFields       map[string]struct{}
+	done                bool
+	oldValue            func(context.Context) (*BronzeReferenceXeolCycle, error)
+	predicates          []predicate.BronzeReferenceXeolCycle
+}
+
+var _ ent.Mutation = (*BronzeReferenceXeolCycleMutation)(nil)
+
+// bronzereferencexeolcycleOption allows management of the mutation configuration using functional options.
+type bronzereferencexeolcycleOption func(*BronzeReferenceXeolCycleMutation)
+
+// newBronzeReferenceXeolCycleMutation creates new mutation for the BronzeReferenceXeolCycle entity.
+func newBronzeReferenceXeolCycleMutation(c config, op Op, opts ...bronzereferencexeolcycleOption) *BronzeReferenceXeolCycleMutation {
+	m := &BronzeReferenceXeolCycleMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeBronzeReferenceXeolCycle,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withBronzeReferenceXeolCycleID sets the ID field of the mutation.
+func withBronzeReferenceXeolCycleID(id string) bronzereferencexeolcycleOption {
+	return func(m *BronzeReferenceXeolCycleMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *BronzeReferenceXeolCycle
+		)
+		m.oldValue = func(ctx context.Context) (*BronzeReferenceXeolCycle, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().BronzeReferenceXeolCycle.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withBronzeReferenceXeolCycle sets the old BronzeReferenceXeolCycle of the mutation.
+func withBronzeReferenceXeolCycle(node *BronzeReferenceXeolCycle) bronzereferencexeolcycleOption {
+	return func(m *BronzeReferenceXeolCycleMutation) {
+		m.oldValue = func(context.Context) (*BronzeReferenceXeolCycle, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m BronzeReferenceXeolCycleMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m BronzeReferenceXeolCycleMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("reference: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of BronzeReferenceXeolCycle entities.
+func (m *BronzeReferenceXeolCycleMutation) SetID(id string) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *BronzeReferenceXeolCycleMutation) ID() (id string, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *BronzeReferenceXeolCycleMutation) IDs(ctx context.Context) ([]string, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []string{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().BronzeReferenceXeolCycle.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCollectedAt sets the "collected_at" field.
+func (m *BronzeReferenceXeolCycleMutation) SetCollectedAt(t time.Time) {
+	m.collected_at = &t
+}
+
+// CollectedAt returns the value of the "collected_at" field in the mutation.
+func (m *BronzeReferenceXeolCycleMutation) CollectedAt() (r time.Time, exists bool) {
+	v := m.collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCollectedAt returns the old "collected_at" field's value of the BronzeReferenceXeolCycle entity.
+// If the BronzeReferenceXeolCycle object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceXeolCycleMutation) OldCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCollectedAt: %w", err)
+	}
+	return oldValue.CollectedAt, nil
+}
+
+// ResetCollectedAt resets all changes to the "collected_at" field.
+func (m *BronzeReferenceXeolCycleMutation) ResetCollectedAt() {
+	m.collected_at = nil
+}
+
+// SetFirstCollectedAt sets the "first_collected_at" field.
+func (m *BronzeReferenceXeolCycleMutation) SetFirstCollectedAt(t time.Time) {
+	m.first_collected_at = &t
+}
+
+// FirstCollectedAt returns the value of the "first_collected_at" field in the mutation.
+func (m *BronzeReferenceXeolCycleMutation) FirstCollectedAt() (r time.Time, exists bool) {
+	v := m.first_collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFirstCollectedAt returns the old "first_collected_at" field's value of the BronzeReferenceXeolCycle entity.
+// If the BronzeReferenceXeolCycle object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceXeolCycleMutation) OldFirstCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFirstCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFirstCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFirstCollectedAt: %w", err)
+	}
+	return oldValue.FirstCollectedAt, nil
+}
+
+// ResetFirstCollectedAt resets all changes to the "first_collected_at" field.
+func (m *BronzeReferenceXeolCycleMutation) ResetFirstCollectedAt() {
+	m.first_collected_at = nil
+}
+
+// SetProductID sets the "product_id" field.
+func (m *BronzeReferenceXeolCycleMutation) SetProductID(s string) {
+	m.product_id = &s
+}
+
+// ProductID returns the value of the "product_id" field in the mutation.
+func (m *BronzeReferenceXeolCycleMutation) ProductID() (r string, exists bool) {
+	v := m.product_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldProductID returns the old "product_id" field's value of the BronzeReferenceXeolCycle entity.
+// If the BronzeReferenceXeolCycle object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceXeolCycleMutation) OldProductID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldProductID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldProductID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldProductID: %w", err)
+	}
+	return oldValue.ProductID, nil
+}
+
+// ResetProductID resets all changes to the "product_id" field.
+func (m *BronzeReferenceXeolCycleMutation) ResetProductID() {
+	m.product_id = nil
+}
+
+// SetReleaseCycle sets the "release_cycle" field.
+func (m *BronzeReferenceXeolCycleMutation) SetReleaseCycle(s string) {
+	m.release_cycle = &s
+}
+
+// ReleaseCycle returns the value of the "release_cycle" field in the mutation.
+func (m *BronzeReferenceXeolCycleMutation) ReleaseCycle() (r string, exists bool) {
+	v := m.release_cycle
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldReleaseCycle returns the old "release_cycle" field's value of the BronzeReferenceXeolCycle entity.
+// If the BronzeReferenceXeolCycle object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceXeolCycleMutation) OldReleaseCycle(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldReleaseCycle is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldReleaseCycle requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldReleaseCycle: %w", err)
+	}
+	return oldValue.ReleaseCycle, nil
+}
+
+// ResetReleaseCycle resets all changes to the "release_cycle" field.
+func (m *BronzeReferenceXeolCycleMutation) ResetReleaseCycle() {
+	m.release_cycle = nil
+}
+
+// SetEol sets the "eol" field.
+func (m *BronzeReferenceXeolCycleMutation) SetEol(t time.Time) {
+	m.eol = &t
+}
+
+// Eol returns the value of the "eol" field in the mutation.
+func (m *BronzeReferenceXeolCycleMutation) Eol() (r time.Time, exists bool) {
+	v := m.eol
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEol returns the old "eol" field's value of the BronzeReferenceXeolCycle entity.
+// If the BronzeReferenceXeolCycle object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceXeolCycleMutation) OldEol(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEol is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEol requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEol: %w", err)
+	}
+	return oldValue.Eol, nil
+}
+
+// ClearEol clears the value of the "eol" field.
+func (m *BronzeReferenceXeolCycleMutation) ClearEol() {
+	m.eol = nil
+	m.clearedFields[bronzereferencexeolcycle.FieldEol] = struct{}{}
+}
+
+// EolCleared returns if the "eol" field was cleared in this mutation.
+func (m *BronzeReferenceXeolCycleMutation) EolCleared() bool {
+	_, ok := m.clearedFields[bronzereferencexeolcycle.FieldEol]
+	return ok
+}
+
+// ResetEol resets all changes to the "eol" field.
+func (m *BronzeReferenceXeolCycleMutation) ResetEol() {
+	m.eol = nil
+	delete(m.clearedFields, bronzereferencexeolcycle.FieldEol)
+}
+
+// SetEolBool sets the "eol_bool" field.
+func (m *BronzeReferenceXeolCycleMutation) SetEolBool(b bool) {
+	m.eol_bool = &b
+}
+
+// EolBool returns the value of the "eol_bool" field in the mutation.
+func (m *BronzeReferenceXeolCycleMutation) EolBool() (r bool, exists bool) {
+	v := m.eol_bool
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEolBool returns the old "eol_bool" field's value of the BronzeReferenceXeolCycle entity.
+// If the BronzeReferenceXeolCycle object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceXeolCycleMutation) OldEolBool(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEolBool is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEolBool requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEolBool: %w", err)
+	}
+	return oldValue.EolBool, nil
+}
+
+// ResetEolBool resets all changes to the "eol_bool" field.
+func (m *BronzeReferenceXeolCycleMutation) ResetEolBool() {
+	m.eol_bool = nil
+}
+
+// SetLatestRelease sets the "latest_release" field.
+func (m *BronzeReferenceXeolCycleMutation) SetLatestRelease(s string) {
+	m.latest_release = &s
+}
+
+// LatestRelease returns the value of the "latest_release" field in the mutation.
+func (m *BronzeReferenceXeolCycleMutation) LatestRelease() (r string, exists bool) {
+	v := m.latest_release
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLatestRelease returns the old "latest_release" field's value of the BronzeReferenceXeolCycle entity.
+// If the BronzeReferenceXeolCycle object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceXeolCycleMutation) OldLatestRelease(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLatestRelease is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLatestRelease requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLatestRelease: %w", err)
+	}
+	return oldValue.LatestRelease, nil
+}
+
+// ClearLatestRelease clears the value of the "latest_release" field.
+func (m *BronzeReferenceXeolCycleMutation) ClearLatestRelease() {
+	m.latest_release = nil
+	m.clearedFields[bronzereferencexeolcycle.FieldLatestRelease] = struct{}{}
+}
+
+// LatestReleaseCleared returns if the "latest_release" field was cleared in this mutation.
+func (m *BronzeReferenceXeolCycleMutation) LatestReleaseCleared() bool {
+	_, ok := m.clearedFields[bronzereferencexeolcycle.FieldLatestRelease]
+	return ok
+}
+
+// ResetLatestRelease resets all changes to the "latest_release" field.
+func (m *BronzeReferenceXeolCycleMutation) ResetLatestRelease() {
+	m.latest_release = nil
+	delete(m.clearedFields, bronzereferencexeolcycle.FieldLatestRelease)
+}
+
+// SetLatestReleaseDate sets the "latest_release_date" field.
+func (m *BronzeReferenceXeolCycleMutation) SetLatestReleaseDate(t time.Time) {
+	m.latest_release_date = &t
+}
+
+// LatestReleaseDate returns the value of the "latest_release_date" field in the mutation.
+func (m *BronzeReferenceXeolCycleMutation) LatestReleaseDate() (r time.Time, exists bool) {
+	v := m.latest_release_date
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLatestReleaseDate returns the old "latest_release_date" field's value of the BronzeReferenceXeolCycle entity.
+// If the BronzeReferenceXeolCycle object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceXeolCycleMutation) OldLatestReleaseDate(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLatestReleaseDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLatestReleaseDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLatestReleaseDate: %w", err)
+	}
+	return oldValue.LatestReleaseDate, nil
+}
+
+// ClearLatestReleaseDate clears the value of the "latest_release_date" field.
+func (m *BronzeReferenceXeolCycleMutation) ClearLatestReleaseDate() {
+	m.latest_release_date = nil
+	m.clearedFields[bronzereferencexeolcycle.FieldLatestReleaseDate] = struct{}{}
+}
+
+// LatestReleaseDateCleared returns if the "latest_release_date" field was cleared in this mutation.
+func (m *BronzeReferenceXeolCycleMutation) LatestReleaseDateCleared() bool {
+	_, ok := m.clearedFields[bronzereferencexeolcycle.FieldLatestReleaseDate]
+	return ok
+}
+
+// ResetLatestReleaseDate resets all changes to the "latest_release_date" field.
+func (m *BronzeReferenceXeolCycleMutation) ResetLatestReleaseDate() {
+	m.latest_release_date = nil
+	delete(m.clearedFields, bronzereferencexeolcycle.FieldLatestReleaseDate)
+}
+
+// SetReleaseDate sets the "release_date" field.
+func (m *BronzeReferenceXeolCycleMutation) SetReleaseDate(t time.Time) {
+	m.release_date = &t
+}
+
+// ReleaseDate returns the value of the "release_date" field in the mutation.
+func (m *BronzeReferenceXeolCycleMutation) ReleaseDate() (r time.Time, exists bool) {
+	v := m.release_date
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldReleaseDate returns the old "release_date" field's value of the BronzeReferenceXeolCycle entity.
+// If the BronzeReferenceXeolCycle object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceXeolCycleMutation) OldReleaseDate(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldReleaseDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldReleaseDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldReleaseDate: %w", err)
+	}
+	return oldValue.ReleaseDate, nil
+}
+
+// ClearReleaseDate clears the value of the "release_date" field.
+func (m *BronzeReferenceXeolCycleMutation) ClearReleaseDate() {
+	m.release_date = nil
+	m.clearedFields[bronzereferencexeolcycle.FieldReleaseDate] = struct{}{}
+}
+
+// ReleaseDateCleared returns if the "release_date" field was cleared in this mutation.
+func (m *BronzeReferenceXeolCycleMutation) ReleaseDateCleared() bool {
+	_, ok := m.clearedFields[bronzereferencexeolcycle.FieldReleaseDate]
+	return ok
+}
+
+// ResetReleaseDate resets all changes to the "release_date" field.
+func (m *BronzeReferenceXeolCycleMutation) ResetReleaseDate() {
+	m.release_date = nil
+	delete(m.clearedFields, bronzereferencexeolcycle.FieldReleaseDate)
+}
+
+// Where appends a list predicates to the BronzeReferenceXeolCycleMutation builder.
+func (m *BronzeReferenceXeolCycleMutation) Where(ps ...predicate.BronzeReferenceXeolCycle) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the BronzeReferenceXeolCycleMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *BronzeReferenceXeolCycleMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.BronzeReferenceXeolCycle, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *BronzeReferenceXeolCycleMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *BronzeReferenceXeolCycleMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (BronzeReferenceXeolCycle).
+func (m *BronzeReferenceXeolCycleMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *BronzeReferenceXeolCycleMutation) Fields() []string {
+	fields := make([]string, 0, 9)
+	if m.collected_at != nil {
+		fields = append(fields, bronzereferencexeolcycle.FieldCollectedAt)
+	}
+	if m.first_collected_at != nil {
+		fields = append(fields, bronzereferencexeolcycle.FieldFirstCollectedAt)
+	}
+	if m.product_id != nil {
+		fields = append(fields, bronzereferencexeolcycle.FieldProductID)
+	}
+	if m.release_cycle != nil {
+		fields = append(fields, bronzereferencexeolcycle.FieldReleaseCycle)
+	}
+	if m.eol != nil {
+		fields = append(fields, bronzereferencexeolcycle.FieldEol)
+	}
+	if m.eol_bool != nil {
+		fields = append(fields, bronzereferencexeolcycle.FieldEolBool)
+	}
+	if m.latest_release != nil {
+		fields = append(fields, bronzereferencexeolcycle.FieldLatestRelease)
+	}
+	if m.latest_release_date != nil {
+		fields = append(fields, bronzereferencexeolcycle.FieldLatestReleaseDate)
+	}
+	if m.release_date != nil {
+		fields = append(fields, bronzereferencexeolcycle.FieldReleaseDate)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *BronzeReferenceXeolCycleMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case bronzereferencexeolcycle.FieldCollectedAt:
+		return m.CollectedAt()
+	case bronzereferencexeolcycle.FieldFirstCollectedAt:
+		return m.FirstCollectedAt()
+	case bronzereferencexeolcycle.FieldProductID:
+		return m.ProductID()
+	case bronzereferencexeolcycle.FieldReleaseCycle:
+		return m.ReleaseCycle()
+	case bronzereferencexeolcycle.FieldEol:
+		return m.Eol()
+	case bronzereferencexeolcycle.FieldEolBool:
+		return m.EolBool()
+	case bronzereferencexeolcycle.FieldLatestRelease:
+		return m.LatestRelease()
+	case bronzereferencexeolcycle.FieldLatestReleaseDate:
+		return m.LatestReleaseDate()
+	case bronzereferencexeolcycle.FieldReleaseDate:
+		return m.ReleaseDate()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *BronzeReferenceXeolCycleMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case bronzereferencexeolcycle.FieldCollectedAt:
+		return m.OldCollectedAt(ctx)
+	case bronzereferencexeolcycle.FieldFirstCollectedAt:
+		return m.OldFirstCollectedAt(ctx)
+	case bronzereferencexeolcycle.FieldProductID:
+		return m.OldProductID(ctx)
+	case bronzereferencexeolcycle.FieldReleaseCycle:
+		return m.OldReleaseCycle(ctx)
+	case bronzereferencexeolcycle.FieldEol:
+		return m.OldEol(ctx)
+	case bronzereferencexeolcycle.FieldEolBool:
+		return m.OldEolBool(ctx)
+	case bronzereferencexeolcycle.FieldLatestRelease:
+		return m.OldLatestRelease(ctx)
+	case bronzereferencexeolcycle.FieldLatestReleaseDate:
+		return m.OldLatestReleaseDate(ctx)
+	case bronzereferencexeolcycle.FieldReleaseDate:
+		return m.OldReleaseDate(ctx)
+	}
+	return nil, fmt.Errorf("unknown BronzeReferenceXeolCycle field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeReferenceXeolCycleMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case bronzereferencexeolcycle.FieldCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCollectedAt(v)
+		return nil
+	case bronzereferencexeolcycle.FieldFirstCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFirstCollectedAt(v)
+		return nil
+	case bronzereferencexeolcycle.FieldProductID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetProductID(v)
+		return nil
+	case bronzereferencexeolcycle.FieldReleaseCycle:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetReleaseCycle(v)
+		return nil
+	case bronzereferencexeolcycle.FieldEol:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEol(v)
+		return nil
+	case bronzereferencexeolcycle.FieldEolBool:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEolBool(v)
+		return nil
+	case bronzereferencexeolcycle.FieldLatestRelease:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLatestRelease(v)
+		return nil
+	case bronzereferencexeolcycle.FieldLatestReleaseDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLatestReleaseDate(v)
+		return nil
+	case bronzereferencexeolcycle.FieldReleaseDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetReleaseDate(v)
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeReferenceXeolCycle field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *BronzeReferenceXeolCycleMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *BronzeReferenceXeolCycleMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeReferenceXeolCycleMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown BronzeReferenceXeolCycle numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *BronzeReferenceXeolCycleMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(bronzereferencexeolcycle.FieldEol) {
+		fields = append(fields, bronzereferencexeolcycle.FieldEol)
+	}
+	if m.FieldCleared(bronzereferencexeolcycle.FieldLatestRelease) {
+		fields = append(fields, bronzereferencexeolcycle.FieldLatestRelease)
+	}
+	if m.FieldCleared(bronzereferencexeolcycle.FieldLatestReleaseDate) {
+		fields = append(fields, bronzereferencexeolcycle.FieldLatestReleaseDate)
+	}
+	if m.FieldCleared(bronzereferencexeolcycle.FieldReleaseDate) {
+		fields = append(fields, bronzereferencexeolcycle.FieldReleaseDate)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *BronzeReferenceXeolCycleMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *BronzeReferenceXeolCycleMutation) ClearField(name string) error {
+	switch name {
+	case bronzereferencexeolcycle.FieldEol:
+		m.ClearEol()
+		return nil
+	case bronzereferencexeolcycle.FieldLatestRelease:
+		m.ClearLatestRelease()
+		return nil
+	case bronzereferencexeolcycle.FieldLatestReleaseDate:
+		m.ClearLatestReleaseDate()
+		return nil
+	case bronzereferencexeolcycle.FieldReleaseDate:
+		m.ClearReleaseDate()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeReferenceXeolCycle nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *BronzeReferenceXeolCycleMutation) ResetField(name string) error {
+	switch name {
+	case bronzereferencexeolcycle.FieldCollectedAt:
+		m.ResetCollectedAt()
+		return nil
+	case bronzereferencexeolcycle.FieldFirstCollectedAt:
+		m.ResetFirstCollectedAt()
+		return nil
+	case bronzereferencexeolcycle.FieldProductID:
+		m.ResetProductID()
+		return nil
+	case bronzereferencexeolcycle.FieldReleaseCycle:
+		m.ResetReleaseCycle()
+		return nil
+	case bronzereferencexeolcycle.FieldEol:
+		m.ResetEol()
+		return nil
+	case bronzereferencexeolcycle.FieldEolBool:
+		m.ResetEolBool()
+		return nil
+	case bronzereferencexeolcycle.FieldLatestRelease:
+		m.ResetLatestRelease()
+		return nil
+	case bronzereferencexeolcycle.FieldLatestReleaseDate:
+		m.ResetLatestReleaseDate()
+		return nil
+	case bronzereferencexeolcycle.FieldReleaseDate:
+		m.ResetReleaseDate()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeReferenceXeolCycle field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *BronzeReferenceXeolCycleMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *BronzeReferenceXeolCycleMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *BronzeReferenceXeolCycleMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *BronzeReferenceXeolCycleMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *BronzeReferenceXeolCycleMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *BronzeReferenceXeolCycleMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *BronzeReferenceXeolCycleMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown BronzeReferenceXeolCycle unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *BronzeReferenceXeolCycleMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown BronzeReferenceXeolCycle edge %s", name)
+}
+
 // BronzeReferenceXeolProductMutation represents an operation that mutates the BronzeReferenceXeolProduct nodes in the graph.
 type BronzeReferenceXeolProductMutation struct {
 	config
@@ -4444,13 +5293,7 @@ type BronzeReferenceXeolProductMutation struct {
 	collected_at       *time.Time
 	first_collected_at *time.Time
 	name               *string
-	purl               *string
 	permalink          *string
-	eol                *time.Time
-	eol_bool           *bool
-	latest_cycle       *string
-	release_date       *time.Time
-	latest             *string
 	clearedFields      map[string]struct{}
 	done               bool
 	oldValue           func(context.Context) (*BronzeReferenceXeolProduct, error)
@@ -4669,55 +5512,6 @@ func (m *BronzeReferenceXeolProductMutation) ResetName() {
 	m.name = nil
 }
 
-// SetPurl sets the "purl" field.
-func (m *BronzeReferenceXeolProductMutation) SetPurl(s string) {
-	m.purl = &s
-}
-
-// Purl returns the value of the "purl" field in the mutation.
-func (m *BronzeReferenceXeolProductMutation) Purl() (r string, exists bool) {
-	v := m.purl
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldPurl returns the old "purl" field's value of the BronzeReferenceXeolProduct entity.
-// If the BronzeReferenceXeolProduct object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *BronzeReferenceXeolProductMutation) OldPurl(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldPurl is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldPurl requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldPurl: %w", err)
-	}
-	return oldValue.Purl, nil
-}
-
-// ClearPurl clears the value of the "purl" field.
-func (m *BronzeReferenceXeolProductMutation) ClearPurl() {
-	m.purl = nil
-	m.clearedFields[bronzereferencexeolproduct.FieldPurl] = struct{}{}
-}
-
-// PurlCleared returns if the "purl" field was cleared in this mutation.
-func (m *BronzeReferenceXeolProductMutation) PurlCleared() bool {
-	_, ok := m.clearedFields[bronzereferencexeolproduct.FieldPurl]
-	return ok
-}
-
-// ResetPurl resets all changes to the "purl" field.
-func (m *BronzeReferenceXeolProductMutation) ResetPurl() {
-	m.purl = nil
-	delete(m.clearedFields, bronzereferencexeolproduct.FieldPurl)
-}
-
 // SetPermalink sets the "permalink" field.
 func (m *BronzeReferenceXeolProductMutation) SetPermalink(s string) {
 	m.permalink = &s
@@ -4767,238 +5561,6 @@ func (m *BronzeReferenceXeolProductMutation) ResetPermalink() {
 	delete(m.clearedFields, bronzereferencexeolproduct.FieldPermalink)
 }
 
-// SetEol sets the "eol" field.
-func (m *BronzeReferenceXeolProductMutation) SetEol(t time.Time) {
-	m.eol = &t
-}
-
-// Eol returns the value of the "eol" field in the mutation.
-func (m *BronzeReferenceXeolProductMutation) Eol() (r time.Time, exists bool) {
-	v := m.eol
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldEol returns the old "eol" field's value of the BronzeReferenceXeolProduct entity.
-// If the BronzeReferenceXeolProduct object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *BronzeReferenceXeolProductMutation) OldEol(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldEol is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldEol requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldEol: %w", err)
-	}
-	return oldValue.Eol, nil
-}
-
-// ClearEol clears the value of the "eol" field.
-func (m *BronzeReferenceXeolProductMutation) ClearEol() {
-	m.eol = nil
-	m.clearedFields[bronzereferencexeolproduct.FieldEol] = struct{}{}
-}
-
-// EolCleared returns if the "eol" field was cleared in this mutation.
-func (m *BronzeReferenceXeolProductMutation) EolCleared() bool {
-	_, ok := m.clearedFields[bronzereferencexeolproduct.FieldEol]
-	return ok
-}
-
-// ResetEol resets all changes to the "eol" field.
-func (m *BronzeReferenceXeolProductMutation) ResetEol() {
-	m.eol = nil
-	delete(m.clearedFields, bronzereferencexeolproduct.FieldEol)
-}
-
-// SetEolBool sets the "eol_bool" field.
-func (m *BronzeReferenceXeolProductMutation) SetEolBool(b bool) {
-	m.eol_bool = &b
-}
-
-// EolBool returns the value of the "eol_bool" field in the mutation.
-func (m *BronzeReferenceXeolProductMutation) EolBool() (r bool, exists bool) {
-	v := m.eol_bool
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldEolBool returns the old "eol_bool" field's value of the BronzeReferenceXeolProduct entity.
-// If the BronzeReferenceXeolProduct object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *BronzeReferenceXeolProductMutation) OldEolBool(ctx context.Context) (v bool, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldEolBool is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldEolBool requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldEolBool: %w", err)
-	}
-	return oldValue.EolBool, nil
-}
-
-// ResetEolBool resets all changes to the "eol_bool" field.
-func (m *BronzeReferenceXeolProductMutation) ResetEolBool() {
-	m.eol_bool = nil
-}
-
-// SetLatestCycle sets the "latest_cycle" field.
-func (m *BronzeReferenceXeolProductMutation) SetLatestCycle(s string) {
-	m.latest_cycle = &s
-}
-
-// LatestCycle returns the value of the "latest_cycle" field in the mutation.
-func (m *BronzeReferenceXeolProductMutation) LatestCycle() (r string, exists bool) {
-	v := m.latest_cycle
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldLatestCycle returns the old "latest_cycle" field's value of the BronzeReferenceXeolProduct entity.
-// If the BronzeReferenceXeolProduct object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *BronzeReferenceXeolProductMutation) OldLatestCycle(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldLatestCycle is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldLatestCycle requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldLatestCycle: %w", err)
-	}
-	return oldValue.LatestCycle, nil
-}
-
-// ClearLatestCycle clears the value of the "latest_cycle" field.
-func (m *BronzeReferenceXeolProductMutation) ClearLatestCycle() {
-	m.latest_cycle = nil
-	m.clearedFields[bronzereferencexeolproduct.FieldLatestCycle] = struct{}{}
-}
-
-// LatestCycleCleared returns if the "latest_cycle" field was cleared in this mutation.
-func (m *BronzeReferenceXeolProductMutation) LatestCycleCleared() bool {
-	_, ok := m.clearedFields[bronzereferencexeolproduct.FieldLatestCycle]
-	return ok
-}
-
-// ResetLatestCycle resets all changes to the "latest_cycle" field.
-func (m *BronzeReferenceXeolProductMutation) ResetLatestCycle() {
-	m.latest_cycle = nil
-	delete(m.clearedFields, bronzereferencexeolproduct.FieldLatestCycle)
-}
-
-// SetReleaseDate sets the "release_date" field.
-func (m *BronzeReferenceXeolProductMutation) SetReleaseDate(t time.Time) {
-	m.release_date = &t
-}
-
-// ReleaseDate returns the value of the "release_date" field in the mutation.
-func (m *BronzeReferenceXeolProductMutation) ReleaseDate() (r time.Time, exists bool) {
-	v := m.release_date
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldReleaseDate returns the old "release_date" field's value of the BronzeReferenceXeolProduct entity.
-// If the BronzeReferenceXeolProduct object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *BronzeReferenceXeolProductMutation) OldReleaseDate(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldReleaseDate is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldReleaseDate requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldReleaseDate: %w", err)
-	}
-	return oldValue.ReleaseDate, nil
-}
-
-// ClearReleaseDate clears the value of the "release_date" field.
-func (m *BronzeReferenceXeolProductMutation) ClearReleaseDate() {
-	m.release_date = nil
-	m.clearedFields[bronzereferencexeolproduct.FieldReleaseDate] = struct{}{}
-}
-
-// ReleaseDateCleared returns if the "release_date" field was cleared in this mutation.
-func (m *BronzeReferenceXeolProductMutation) ReleaseDateCleared() bool {
-	_, ok := m.clearedFields[bronzereferencexeolproduct.FieldReleaseDate]
-	return ok
-}
-
-// ResetReleaseDate resets all changes to the "release_date" field.
-func (m *BronzeReferenceXeolProductMutation) ResetReleaseDate() {
-	m.release_date = nil
-	delete(m.clearedFields, bronzereferencexeolproduct.FieldReleaseDate)
-}
-
-// SetLatest sets the "latest" field.
-func (m *BronzeReferenceXeolProductMutation) SetLatest(s string) {
-	m.latest = &s
-}
-
-// Latest returns the value of the "latest" field in the mutation.
-func (m *BronzeReferenceXeolProductMutation) Latest() (r string, exists bool) {
-	v := m.latest
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldLatest returns the old "latest" field's value of the BronzeReferenceXeolProduct entity.
-// If the BronzeReferenceXeolProduct object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *BronzeReferenceXeolProductMutation) OldLatest(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldLatest is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldLatest requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldLatest: %w", err)
-	}
-	return oldValue.Latest, nil
-}
-
-// ClearLatest clears the value of the "latest" field.
-func (m *BronzeReferenceXeolProductMutation) ClearLatest() {
-	m.latest = nil
-	m.clearedFields[bronzereferencexeolproduct.FieldLatest] = struct{}{}
-}
-
-// LatestCleared returns if the "latest" field was cleared in this mutation.
-func (m *BronzeReferenceXeolProductMutation) LatestCleared() bool {
-	_, ok := m.clearedFields[bronzereferencexeolproduct.FieldLatest]
-	return ok
-}
-
-// ResetLatest resets all changes to the "latest" field.
-func (m *BronzeReferenceXeolProductMutation) ResetLatest() {
-	m.latest = nil
-	delete(m.clearedFields, bronzereferencexeolproduct.FieldLatest)
-}
-
 // Where appends a list predicates to the BronzeReferenceXeolProductMutation builder.
 func (m *BronzeReferenceXeolProductMutation) Where(ps ...predicate.BronzeReferenceXeolProduct) {
 	m.predicates = append(m.predicates, ps...)
@@ -5033,7 +5595,7 @@ func (m *BronzeReferenceXeolProductMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *BronzeReferenceXeolProductMutation) Fields() []string {
-	fields := make([]string, 0, 10)
+	fields := make([]string, 0, 4)
 	if m.collected_at != nil {
 		fields = append(fields, bronzereferencexeolproduct.FieldCollectedAt)
 	}
@@ -5043,26 +5605,8 @@ func (m *BronzeReferenceXeolProductMutation) Fields() []string {
 	if m.name != nil {
 		fields = append(fields, bronzereferencexeolproduct.FieldName)
 	}
-	if m.purl != nil {
-		fields = append(fields, bronzereferencexeolproduct.FieldPurl)
-	}
 	if m.permalink != nil {
 		fields = append(fields, bronzereferencexeolproduct.FieldPermalink)
-	}
-	if m.eol != nil {
-		fields = append(fields, bronzereferencexeolproduct.FieldEol)
-	}
-	if m.eol_bool != nil {
-		fields = append(fields, bronzereferencexeolproduct.FieldEolBool)
-	}
-	if m.latest_cycle != nil {
-		fields = append(fields, bronzereferencexeolproduct.FieldLatestCycle)
-	}
-	if m.release_date != nil {
-		fields = append(fields, bronzereferencexeolproduct.FieldReleaseDate)
-	}
-	if m.latest != nil {
-		fields = append(fields, bronzereferencexeolproduct.FieldLatest)
 	}
 	return fields
 }
@@ -5078,20 +5622,8 @@ func (m *BronzeReferenceXeolProductMutation) Field(name string) (ent.Value, bool
 		return m.FirstCollectedAt()
 	case bronzereferencexeolproduct.FieldName:
 		return m.Name()
-	case bronzereferencexeolproduct.FieldPurl:
-		return m.Purl()
 	case bronzereferencexeolproduct.FieldPermalink:
 		return m.Permalink()
-	case bronzereferencexeolproduct.FieldEol:
-		return m.Eol()
-	case bronzereferencexeolproduct.FieldEolBool:
-		return m.EolBool()
-	case bronzereferencexeolproduct.FieldLatestCycle:
-		return m.LatestCycle()
-	case bronzereferencexeolproduct.FieldReleaseDate:
-		return m.ReleaseDate()
-	case bronzereferencexeolproduct.FieldLatest:
-		return m.Latest()
 	}
 	return nil, false
 }
@@ -5107,20 +5639,8 @@ func (m *BronzeReferenceXeolProductMutation) OldField(ctx context.Context, name 
 		return m.OldFirstCollectedAt(ctx)
 	case bronzereferencexeolproduct.FieldName:
 		return m.OldName(ctx)
-	case bronzereferencexeolproduct.FieldPurl:
-		return m.OldPurl(ctx)
 	case bronzereferencexeolproduct.FieldPermalink:
 		return m.OldPermalink(ctx)
-	case bronzereferencexeolproduct.FieldEol:
-		return m.OldEol(ctx)
-	case bronzereferencexeolproduct.FieldEolBool:
-		return m.OldEolBool(ctx)
-	case bronzereferencexeolproduct.FieldLatestCycle:
-		return m.OldLatestCycle(ctx)
-	case bronzereferencexeolproduct.FieldReleaseDate:
-		return m.OldReleaseDate(ctx)
-	case bronzereferencexeolproduct.FieldLatest:
-		return m.OldLatest(ctx)
 	}
 	return nil, fmt.Errorf("unknown BronzeReferenceXeolProduct field %s", name)
 }
@@ -5151,54 +5671,12 @@ func (m *BronzeReferenceXeolProductMutation) SetField(name string, value ent.Val
 		}
 		m.SetName(v)
 		return nil
-	case bronzereferencexeolproduct.FieldPurl:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetPurl(v)
-		return nil
 	case bronzereferencexeolproduct.FieldPermalink:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetPermalink(v)
-		return nil
-	case bronzereferencexeolproduct.FieldEol:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetEol(v)
-		return nil
-	case bronzereferencexeolproduct.FieldEolBool:
-		v, ok := value.(bool)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetEolBool(v)
-		return nil
-	case bronzereferencexeolproduct.FieldLatestCycle:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetLatestCycle(v)
-		return nil
-	case bronzereferencexeolproduct.FieldReleaseDate:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetReleaseDate(v)
-		return nil
-	case bronzereferencexeolproduct.FieldLatest:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetLatest(v)
 		return nil
 	}
 	return fmt.Errorf("unknown BronzeReferenceXeolProduct field %s", name)
@@ -5230,23 +5708,8 @@ func (m *BronzeReferenceXeolProductMutation) AddField(name string, value ent.Val
 // mutation.
 func (m *BronzeReferenceXeolProductMutation) ClearedFields() []string {
 	var fields []string
-	if m.FieldCleared(bronzereferencexeolproduct.FieldPurl) {
-		fields = append(fields, bronzereferencexeolproduct.FieldPurl)
-	}
 	if m.FieldCleared(bronzereferencexeolproduct.FieldPermalink) {
 		fields = append(fields, bronzereferencexeolproduct.FieldPermalink)
-	}
-	if m.FieldCleared(bronzereferencexeolproduct.FieldEol) {
-		fields = append(fields, bronzereferencexeolproduct.FieldEol)
-	}
-	if m.FieldCleared(bronzereferencexeolproduct.FieldLatestCycle) {
-		fields = append(fields, bronzereferencexeolproduct.FieldLatestCycle)
-	}
-	if m.FieldCleared(bronzereferencexeolproduct.FieldReleaseDate) {
-		fields = append(fields, bronzereferencexeolproduct.FieldReleaseDate)
-	}
-	if m.FieldCleared(bronzereferencexeolproduct.FieldLatest) {
-		fields = append(fields, bronzereferencexeolproduct.FieldLatest)
 	}
 	return fields
 }
@@ -5262,23 +5725,8 @@ func (m *BronzeReferenceXeolProductMutation) FieldCleared(name string) bool {
 // error if the field is not defined in the schema.
 func (m *BronzeReferenceXeolProductMutation) ClearField(name string) error {
 	switch name {
-	case bronzereferencexeolproduct.FieldPurl:
-		m.ClearPurl()
-		return nil
 	case bronzereferencexeolproduct.FieldPermalink:
 		m.ClearPermalink()
-		return nil
-	case bronzereferencexeolproduct.FieldEol:
-		m.ClearEol()
-		return nil
-	case bronzereferencexeolproduct.FieldLatestCycle:
-		m.ClearLatestCycle()
-		return nil
-	case bronzereferencexeolproduct.FieldReleaseDate:
-		m.ClearReleaseDate()
-		return nil
-	case bronzereferencexeolproduct.FieldLatest:
-		m.ClearLatest()
 		return nil
 	}
 	return fmt.Errorf("unknown BronzeReferenceXeolProduct nullable field %s", name)
@@ -5297,26 +5745,8 @@ func (m *BronzeReferenceXeolProductMutation) ResetField(name string) error {
 	case bronzereferencexeolproduct.FieldName:
 		m.ResetName()
 		return nil
-	case bronzereferencexeolproduct.FieldPurl:
-		m.ResetPurl()
-		return nil
 	case bronzereferencexeolproduct.FieldPermalink:
 		m.ResetPermalink()
-		return nil
-	case bronzereferencexeolproduct.FieldEol:
-		m.ResetEol()
-		return nil
-	case bronzereferencexeolproduct.FieldEolBool:
-		m.ResetEolBool()
-		return nil
-	case bronzereferencexeolproduct.FieldLatestCycle:
-		m.ResetLatestCycle()
-		return nil
-	case bronzereferencexeolproduct.FieldReleaseDate:
-		m.ResetReleaseDate()
-		return nil
-	case bronzereferencexeolproduct.FieldLatest:
-		m.ResetLatest()
 		return nil
 	}
 	return fmt.Errorf("unknown BronzeReferenceXeolProduct field %s", name)
@@ -5368,4 +5798,1136 @@ func (m *BronzeReferenceXeolProductMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *BronzeReferenceXeolProductMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown BronzeReferenceXeolProduct edge %s", name)
+}
+
+// BronzeReferenceXeolPurlMutation represents an operation that mutates the BronzeReferenceXeolPurl nodes in the graph.
+type BronzeReferenceXeolPurlMutation struct {
+	config
+	op                 Op
+	typ                string
+	id                 *string
+	collected_at       *time.Time
+	first_collected_at *time.Time
+	product_id         *string
+	purl               *string
+	clearedFields      map[string]struct{}
+	done               bool
+	oldValue           func(context.Context) (*BronzeReferenceXeolPurl, error)
+	predicates         []predicate.BronzeReferenceXeolPurl
+}
+
+var _ ent.Mutation = (*BronzeReferenceXeolPurlMutation)(nil)
+
+// bronzereferencexeolpurlOption allows management of the mutation configuration using functional options.
+type bronzereferencexeolpurlOption func(*BronzeReferenceXeolPurlMutation)
+
+// newBronzeReferenceXeolPurlMutation creates new mutation for the BronzeReferenceXeolPurl entity.
+func newBronzeReferenceXeolPurlMutation(c config, op Op, opts ...bronzereferencexeolpurlOption) *BronzeReferenceXeolPurlMutation {
+	m := &BronzeReferenceXeolPurlMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeBronzeReferenceXeolPurl,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withBronzeReferenceXeolPurlID sets the ID field of the mutation.
+func withBronzeReferenceXeolPurlID(id string) bronzereferencexeolpurlOption {
+	return func(m *BronzeReferenceXeolPurlMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *BronzeReferenceXeolPurl
+		)
+		m.oldValue = func(ctx context.Context) (*BronzeReferenceXeolPurl, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().BronzeReferenceXeolPurl.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withBronzeReferenceXeolPurl sets the old BronzeReferenceXeolPurl of the mutation.
+func withBronzeReferenceXeolPurl(node *BronzeReferenceXeolPurl) bronzereferencexeolpurlOption {
+	return func(m *BronzeReferenceXeolPurlMutation) {
+		m.oldValue = func(context.Context) (*BronzeReferenceXeolPurl, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m BronzeReferenceXeolPurlMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m BronzeReferenceXeolPurlMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("reference: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of BronzeReferenceXeolPurl entities.
+func (m *BronzeReferenceXeolPurlMutation) SetID(id string) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *BronzeReferenceXeolPurlMutation) ID() (id string, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *BronzeReferenceXeolPurlMutation) IDs(ctx context.Context) ([]string, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []string{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().BronzeReferenceXeolPurl.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCollectedAt sets the "collected_at" field.
+func (m *BronzeReferenceXeolPurlMutation) SetCollectedAt(t time.Time) {
+	m.collected_at = &t
+}
+
+// CollectedAt returns the value of the "collected_at" field in the mutation.
+func (m *BronzeReferenceXeolPurlMutation) CollectedAt() (r time.Time, exists bool) {
+	v := m.collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCollectedAt returns the old "collected_at" field's value of the BronzeReferenceXeolPurl entity.
+// If the BronzeReferenceXeolPurl object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceXeolPurlMutation) OldCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCollectedAt: %w", err)
+	}
+	return oldValue.CollectedAt, nil
+}
+
+// ResetCollectedAt resets all changes to the "collected_at" field.
+func (m *BronzeReferenceXeolPurlMutation) ResetCollectedAt() {
+	m.collected_at = nil
+}
+
+// SetFirstCollectedAt sets the "first_collected_at" field.
+func (m *BronzeReferenceXeolPurlMutation) SetFirstCollectedAt(t time.Time) {
+	m.first_collected_at = &t
+}
+
+// FirstCollectedAt returns the value of the "first_collected_at" field in the mutation.
+func (m *BronzeReferenceXeolPurlMutation) FirstCollectedAt() (r time.Time, exists bool) {
+	v := m.first_collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFirstCollectedAt returns the old "first_collected_at" field's value of the BronzeReferenceXeolPurl entity.
+// If the BronzeReferenceXeolPurl object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceXeolPurlMutation) OldFirstCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFirstCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFirstCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFirstCollectedAt: %w", err)
+	}
+	return oldValue.FirstCollectedAt, nil
+}
+
+// ResetFirstCollectedAt resets all changes to the "first_collected_at" field.
+func (m *BronzeReferenceXeolPurlMutation) ResetFirstCollectedAt() {
+	m.first_collected_at = nil
+}
+
+// SetProductID sets the "product_id" field.
+func (m *BronzeReferenceXeolPurlMutation) SetProductID(s string) {
+	m.product_id = &s
+}
+
+// ProductID returns the value of the "product_id" field in the mutation.
+func (m *BronzeReferenceXeolPurlMutation) ProductID() (r string, exists bool) {
+	v := m.product_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldProductID returns the old "product_id" field's value of the BronzeReferenceXeolPurl entity.
+// If the BronzeReferenceXeolPurl object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceXeolPurlMutation) OldProductID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldProductID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldProductID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldProductID: %w", err)
+	}
+	return oldValue.ProductID, nil
+}
+
+// ResetProductID resets all changes to the "product_id" field.
+func (m *BronzeReferenceXeolPurlMutation) ResetProductID() {
+	m.product_id = nil
+}
+
+// SetPurl sets the "purl" field.
+func (m *BronzeReferenceXeolPurlMutation) SetPurl(s string) {
+	m.purl = &s
+}
+
+// Purl returns the value of the "purl" field in the mutation.
+func (m *BronzeReferenceXeolPurlMutation) Purl() (r string, exists bool) {
+	v := m.purl
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPurl returns the old "purl" field's value of the BronzeReferenceXeolPurl entity.
+// If the BronzeReferenceXeolPurl object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceXeolPurlMutation) OldPurl(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPurl is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPurl requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPurl: %w", err)
+	}
+	return oldValue.Purl, nil
+}
+
+// ResetPurl resets all changes to the "purl" field.
+func (m *BronzeReferenceXeolPurlMutation) ResetPurl() {
+	m.purl = nil
+}
+
+// Where appends a list predicates to the BronzeReferenceXeolPurlMutation builder.
+func (m *BronzeReferenceXeolPurlMutation) Where(ps ...predicate.BronzeReferenceXeolPurl) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the BronzeReferenceXeolPurlMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *BronzeReferenceXeolPurlMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.BronzeReferenceXeolPurl, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *BronzeReferenceXeolPurlMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *BronzeReferenceXeolPurlMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (BronzeReferenceXeolPurl).
+func (m *BronzeReferenceXeolPurlMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *BronzeReferenceXeolPurlMutation) Fields() []string {
+	fields := make([]string, 0, 4)
+	if m.collected_at != nil {
+		fields = append(fields, bronzereferencexeolpurl.FieldCollectedAt)
+	}
+	if m.first_collected_at != nil {
+		fields = append(fields, bronzereferencexeolpurl.FieldFirstCollectedAt)
+	}
+	if m.product_id != nil {
+		fields = append(fields, bronzereferencexeolpurl.FieldProductID)
+	}
+	if m.purl != nil {
+		fields = append(fields, bronzereferencexeolpurl.FieldPurl)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *BronzeReferenceXeolPurlMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case bronzereferencexeolpurl.FieldCollectedAt:
+		return m.CollectedAt()
+	case bronzereferencexeolpurl.FieldFirstCollectedAt:
+		return m.FirstCollectedAt()
+	case bronzereferencexeolpurl.FieldProductID:
+		return m.ProductID()
+	case bronzereferencexeolpurl.FieldPurl:
+		return m.Purl()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *BronzeReferenceXeolPurlMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case bronzereferencexeolpurl.FieldCollectedAt:
+		return m.OldCollectedAt(ctx)
+	case bronzereferencexeolpurl.FieldFirstCollectedAt:
+		return m.OldFirstCollectedAt(ctx)
+	case bronzereferencexeolpurl.FieldProductID:
+		return m.OldProductID(ctx)
+	case bronzereferencexeolpurl.FieldPurl:
+		return m.OldPurl(ctx)
+	}
+	return nil, fmt.Errorf("unknown BronzeReferenceXeolPurl field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeReferenceXeolPurlMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case bronzereferencexeolpurl.FieldCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCollectedAt(v)
+		return nil
+	case bronzereferencexeolpurl.FieldFirstCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFirstCollectedAt(v)
+		return nil
+	case bronzereferencexeolpurl.FieldProductID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetProductID(v)
+		return nil
+	case bronzereferencexeolpurl.FieldPurl:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPurl(v)
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeReferenceXeolPurl field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *BronzeReferenceXeolPurlMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *BronzeReferenceXeolPurlMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeReferenceXeolPurlMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown BronzeReferenceXeolPurl numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *BronzeReferenceXeolPurlMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *BronzeReferenceXeolPurlMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *BronzeReferenceXeolPurlMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown BronzeReferenceXeolPurl nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *BronzeReferenceXeolPurlMutation) ResetField(name string) error {
+	switch name {
+	case bronzereferencexeolpurl.FieldCollectedAt:
+		m.ResetCollectedAt()
+		return nil
+	case bronzereferencexeolpurl.FieldFirstCollectedAt:
+		m.ResetFirstCollectedAt()
+		return nil
+	case bronzereferencexeolpurl.FieldProductID:
+		m.ResetProductID()
+		return nil
+	case bronzereferencexeolpurl.FieldPurl:
+		m.ResetPurl()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeReferenceXeolPurl field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *BronzeReferenceXeolPurlMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *BronzeReferenceXeolPurlMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *BronzeReferenceXeolPurlMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *BronzeReferenceXeolPurlMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *BronzeReferenceXeolPurlMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *BronzeReferenceXeolPurlMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *BronzeReferenceXeolPurlMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown BronzeReferenceXeolPurl unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *BronzeReferenceXeolPurlMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown BronzeReferenceXeolPurl edge %s", name)
+}
+
+// BronzeReferenceXeolVulnMutation represents an operation that mutates the BronzeReferenceXeolVuln nodes in the graph.
+type BronzeReferenceXeolVulnMutation struct {
+	config
+	op                 Op
+	typ                string
+	id                 *string
+	collected_at       *time.Time
+	first_collected_at *time.Time
+	product_id         *string
+	version            *string
+	issue_count        *int
+	addissue_count     *int
+	issues             *string
+	clearedFields      map[string]struct{}
+	done               bool
+	oldValue           func(context.Context) (*BronzeReferenceXeolVuln, error)
+	predicates         []predicate.BronzeReferenceXeolVuln
+}
+
+var _ ent.Mutation = (*BronzeReferenceXeolVulnMutation)(nil)
+
+// bronzereferencexeolvulnOption allows management of the mutation configuration using functional options.
+type bronzereferencexeolvulnOption func(*BronzeReferenceXeolVulnMutation)
+
+// newBronzeReferenceXeolVulnMutation creates new mutation for the BronzeReferenceXeolVuln entity.
+func newBronzeReferenceXeolVulnMutation(c config, op Op, opts ...bronzereferencexeolvulnOption) *BronzeReferenceXeolVulnMutation {
+	m := &BronzeReferenceXeolVulnMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeBronzeReferenceXeolVuln,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withBronzeReferenceXeolVulnID sets the ID field of the mutation.
+func withBronzeReferenceXeolVulnID(id string) bronzereferencexeolvulnOption {
+	return func(m *BronzeReferenceXeolVulnMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *BronzeReferenceXeolVuln
+		)
+		m.oldValue = func(ctx context.Context) (*BronzeReferenceXeolVuln, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().BronzeReferenceXeolVuln.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withBronzeReferenceXeolVuln sets the old BronzeReferenceXeolVuln of the mutation.
+func withBronzeReferenceXeolVuln(node *BronzeReferenceXeolVuln) bronzereferencexeolvulnOption {
+	return func(m *BronzeReferenceXeolVulnMutation) {
+		m.oldValue = func(context.Context) (*BronzeReferenceXeolVuln, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m BronzeReferenceXeolVulnMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m BronzeReferenceXeolVulnMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("reference: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of BronzeReferenceXeolVuln entities.
+func (m *BronzeReferenceXeolVulnMutation) SetID(id string) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *BronzeReferenceXeolVulnMutation) ID() (id string, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *BronzeReferenceXeolVulnMutation) IDs(ctx context.Context) ([]string, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []string{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().BronzeReferenceXeolVuln.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCollectedAt sets the "collected_at" field.
+func (m *BronzeReferenceXeolVulnMutation) SetCollectedAt(t time.Time) {
+	m.collected_at = &t
+}
+
+// CollectedAt returns the value of the "collected_at" field in the mutation.
+func (m *BronzeReferenceXeolVulnMutation) CollectedAt() (r time.Time, exists bool) {
+	v := m.collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCollectedAt returns the old "collected_at" field's value of the BronzeReferenceXeolVuln entity.
+// If the BronzeReferenceXeolVuln object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceXeolVulnMutation) OldCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCollectedAt: %w", err)
+	}
+	return oldValue.CollectedAt, nil
+}
+
+// ResetCollectedAt resets all changes to the "collected_at" field.
+func (m *BronzeReferenceXeolVulnMutation) ResetCollectedAt() {
+	m.collected_at = nil
+}
+
+// SetFirstCollectedAt sets the "first_collected_at" field.
+func (m *BronzeReferenceXeolVulnMutation) SetFirstCollectedAt(t time.Time) {
+	m.first_collected_at = &t
+}
+
+// FirstCollectedAt returns the value of the "first_collected_at" field in the mutation.
+func (m *BronzeReferenceXeolVulnMutation) FirstCollectedAt() (r time.Time, exists bool) {
+	v := m.first_collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFirstCollectedAt returns the old "first_collected_at" field's value of the BronzeReferenceXeolVuln entity.
+// If the BronzeReferenceXeolVuln object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceXeolVulnMutation) OldFirstCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFirstCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFirstCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFirstCollectedAt: %w", err)
+	}
+	return oldValue.FirstCollectedAt, nil
+}
+
+// ResetFirstCollectedAt resets all changes to the "first_collected_at" field.
+func (m *BronzeReferenceXeolVulnMutation) ResetFirstCollectedAt() {
+	m.first_collected_at = nil
+}
+
+// SetProductID sets the "product_id" field.
+func (m *BronzeReferenceXeolVulnMutation) SetProductID(s string) {
+	m.product_id = &s
+}
+
+// ProductID returns the value of the "product_id" field in the mutation.
+func (m *BronzeReferenceXeolVulnMutation) ProductID() (r string, exists bool) {
+	v := m.product_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldProductID returns the old "product_id" field's value of the BronzeReferenceXeolVuln entity.
+// If the BronzeReferenceXeolVuln object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceXeolVulnMutation) OldProductID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldProductID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldProductID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldProductID: %w", err)
+	}
+	return oldValue.ProductID, nil
+}
+
+// ResetProductID resets all changes to the "product_id" field.
+func (m *BronzeReferenceXeolVulnMutation) ResetProductID() {
+	m.product_id = nil
+}
+
+// SetVersion sets the "version" field.
+func (m *BronzeReferenceXeolVulnMutation) SetVersion(s string) {
+	m.version = &s
+}
+
+// Version returns the value of the "version" field in the mutation.
+func (m *BronzeReferenceXeolVulnMutation) Version() (r string, exists bool) {
+	v := m.version
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldVersion returns the old "version" field's value of the BronzeReferenceXeolVuln entity.
+// If the BronzeReferenceXeolVuln object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceXeolVulnMutation) OldVersion(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldVersion is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldVersion requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldVersion: %w", err)
+	}
+	return oldValue.Version, nil
+}
+
+// ResetVersion resets all changes to the "version" field.
+func (m *BronzeReferenceXeolVulnMutation) ResetVersion() {
+	m.version = nil
+}
+
+// SetIssueCount sets the "issue_count" field.
+func (m *BronzeReferenceXeolVulnMutation) SetIssueCount(i int) {
+	m.issue_count = &i
+	m.addissue_count = nil
+}
+
+// IssueCount returns the value of the "issue_count" field in the mutation.
+func (m *BronzeReferenceXeolVulnMutation) IssueCount() (r int, exists bool) {
+	v := m.issue_count
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIssueCount returns the old "issue_count" field's value of the BronzeReferenceXeolVuln entity.
+// If the BronzeReferenceXeolVuln object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceXeolVulnMutation) OldIssueCount(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIssueCount is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIssueCount requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIssueCount: %w", err)
+	}
+	return oldValue.IssueCount, nil
+}
+
+// AddIssueCount adds i to the "issue_count" field.
+func (m *BronzeReferenceXeolVulnMutation) AddIssueCount(i int) {
+	if m.addissue_count != nil {
+		*m.addissue_count += i
+	} else {
+		m.addissue_count = &i
+	}
+}
+
+// AddedIssueCount returns the value that was added to the "issue_count" field in this mutation.
+func (m *BronzeReferenceXeolVulnMutation) AddedIssueCount() (r int, exists bool) {
+	v := m.addissue_count
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetIssueCount resets all changes to the "issue_count" field.
+func (m *BronzeReferenceXeolVulnMutation) ResetIssueCount() {
+	m.issue_count = nil
+	m.addissue_count = nil
+}
+
+// SetIssues sets the "issues" field.
+func (m *BronzeReferenceXeolVulnMutation) SetIssues(s string) {
+	m.issues = &s
+}
+
+// Issues returns the value of the "issues" field in the mutation.
+func (m *BronzeReferenceXeolVulnMutation) Issues() (r string, exists bool) {
+	v := m.issues
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIssues returns the old "issues" field's value of the BronzeReferenceXeolVuln entity.
+// If the BronzeReferenceXeolVuln object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceXeolVulnMutation) OldIssues(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIssues is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIssues requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIssues: %w", err)
+	}
+	return oldValue.Issues, nil
+}
+
+// ResetIssues resets all changes to the "issues" field.
+func (m *BronzeReferenceXeolVulnMutation) ResetIssues() {
+	m.issues = nil
+}
+
+// Where appends a list predicates to the BronzeReferenceXeolVulnMutation builder.
+func (m *BronzeReferenceXeolVulnMutation) Where(ps ...predicate.BronzeReferenceXeolVuln) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the BronzeReferenceXeolVulnMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *BronzeReferenceXeolVulnMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.BronzeReferenceXeolVuln, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *BronzeReferenceXeolVulnMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *BronzeReferenceXeolVulnMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (BronzeReferenceXeolVuln).
+func (m *BronzeReferenceXeolVulnMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *BronzeReferenceXeolVulnMutation) Fields() []string {
+	fields := make([]string, 0, 6)
+	if m.collected_at != nil {
+		fields = append(fields, bronzereferencexeolvuln.FieldCollectedAt)
+	}
+	if m.first_collected_at != nil {
+		fields = append(fields, bronzereferencexeolvuln.FieldFirstCollectedAt)
+	}
+	if m.product_id != nil {
+		fields = append(fields, bronzereferencexeolvuln.FieldProductID)
+	}
+	if m.version != nil {
+		fields = append(fields, bronzereferencexeolvuln.FieldVersion)
+	}
+	if m.issue_count != nil {
+		fields = append(fields, bronzereferencexeolvuln.FieldIssueCount)
+	}
+	if m.issues != nil {
+		fields = append(fields, bronzereferencexeolvuln.FieldIssues)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *BronzeReferenceXeolVulnMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case bronzereferencexeolvuln.FieldCollectedAt:
+		return m.CollectedAt()
+	case bronzereferencexeolvuln.FieldFirstCollectedAt:
+		return m.FirstCollectedAt()
+	case bronzereferencexeolvuln.FieldProductID:
+		return m.ProductID()
+	case bronzereferencexeolvuln.FieldVersion:
+		return m.Version()
+	case bronzereferencexeolvuln.FieldIssueCount:
+		return m.IssueCount()
+	case bronzereferencexeolvuln.FieldIssues:
+		return m.Issues()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *BronzeReferenceXeolVulnMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case bronzereferencexeolvuln.FieldCollectedAt:
+		return m.OldCollectedAt(ctx)
+	case bronzereferencexeolvuln.FieldFirstCollectedAt:
+		return m.OldFirstCollectedAt(ctx)
+	case bronzereferencexeolvuln.FieldProductID:
+		return m.OldProductID(ctx)
+	case bronzereferencexeolvuln.FieldVersion:
+		return m.OldVersion(ctx)
+	case bronzereferencexeolvuln.FieldIssueCount:
+		return m.OldIssueCount(ctx)
+	case bronzereferencexeolvuln.FieldIssues:
+		return m.OldIssues(ctx)
+	}
+	return nil, fmt.Errorf("unknown BronzeReferenceXeolVuln field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeReferenceXeolVulnMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case bronzereferencexeolvuln.FieldCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCollectedAt(v)
+		return nil
+	case bronzereferencexeolvuln.FieldFirstCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFirstCollectedAt(v)
+		return nil
+	case bronzereferencexeolvuln.FieldProductID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetProductID(v)
+		return nil
+	case bronzereferencexeolvuln.FieldVersion:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetVersion(v)
+		return nil
+	case bronzereferencexeolvuln.FieldIssueCount:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIssueCount(v)
+		return nil
+	case bronzereferencexeolvuln.FieldIssues:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIssues(v)
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeReferenceXeolVuln field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *BronzeReferenceXeolVulnMutation) AddedFields() []string {
+	var fields []string
+	if m.addissue_count != nil {
+		fields = append(fields, bronzereferencexeolvuln.FieldIssueCount)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *BronzeReferenceXeolVulnMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case bronzereferencexeolvuln.FieldIssueCount:
+		return m.AddedIssueCount()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeReferenceXeolVulnMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case bronzereferencexeolvuln.FieldIssueCount:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddIssueCount(v)
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeReferenceXeolVuln numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *BronzeReferenceXeolVulnMutation) ClearedFields() []string {
+	return nil
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *BronzeReferenceXeolVulnMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *BronzeReferenceXeolVulnMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown BronzeReferenceXeolVuln nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *BronzeReferenceXeolVulnMutation) ResetField(name string) error {
+	switch name {
+	case bronzereferencexeolvuln.FieldCollectedAt:
+		m.ResetCollectedAt()
+		return nil
+	case bronzereferencexeolvuln.FieldFirstCollectedAt:
+		m.ResetFirstCollectedAt()
+		return nil
+	case bronzereferencexeolvuln.FieldProductID:
+		m.ResetProductID()
+		return nil
+	case bronzereferencexeolvuln.FieldVersion:
+		m.ResetVersion()
+		return nil
+	case bronzereferencexeolvuln.FieldIssueCount:
+		m.ResetIssueCount()
+		return nil
+	case bronzereferencexeolvuln.FieldIssues:
+		m.ResetIssues()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeReferenceXeolVuln field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *BronzeReferenceXeolVulnMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *BronzeReferenceXeolVulnMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *BronzeReferenceXeolVulnMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *BronzeReferenceXeolVulnMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *BronzeReferenceXeolVulnMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *BronzeReferenceXeolVulnMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *BronzeReferenceXeolVulnMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown BronzeReferenceXeolVuln unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *BronzeReferenceXeolVulnMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown BronzeReferenceXeolVuln edge %s", name)
 }

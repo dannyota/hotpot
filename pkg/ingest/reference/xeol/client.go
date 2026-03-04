@@ -31,17 +31,47 @@ func NewClient(httpClient *http.Client) *Client {
 	return &Client{httpClient: httpClient}
 }
 
-// XeolProductData holds a parsed xeol product entry.
-type XeolProductData struct {
-	ID          string
-	Name        string
-	PURL        string
-	Permalink   string
-	EOL         *time.Time
-	EOLBool     bool
-	LatestCycle string
-	ReleaseDate *time.Time
-	Latest      string
+// XeolData contains all parsed data from the xeol database.
+type XeolData struct {
+	Products []XeolProduct
+	Cycles   []XeolCycle
+	Purls    []XeolPurl
+	Vulns    []XeolVuln
+}
+
+// XeolProduct holds a parsed xeol product entry.
+type XeolProduct struct {
+	ID        string
+	Name      string
+	Permalink string
+}
+
+// XeolCycle holds a parsed xeol cycle entry.
+type XeolCycle struct {
+	ID                string
+	ProductID         string
+	ReleaseCycle      string
+	EOL               *time.Time
+	EOLBool           bool
+	LatestRelease     string
+	LatestReleaseDate *time.Time
+	ReleaseDate       *time.Time
+}
+
+// XeolPurl holds a parsed xeol purl entry.
+type XeolPurl struct {
+	ID        string
+	ProductID string
+	PURL      string
+}
+
+// XeolVuln holds a parsed xeol vulnerability entry.
+type XeolVuln struct {
+	ID         string
+	ProductID  string
+	Version    string
+	IssueCount int
+	Issues     string
 }
 
 // listingJSON is the top-level listing response.
@@ -55,8 +85,8 @@ type listingEntry struct {
 	Checksum string `json:"checksum"`
 }
 
-// Download fetches the latest xeol database and extracts product data.
-func (c *Client) Download(heartbeat func(string)) ([]XeolProductData, error) {
+// Download fetches the latest xeol database and extracts all data.
+func (c *Client) Download(heartbeat func(string)) (*XeolData, error) {
 	// Step 1: Find latest DB URL
 	heartbeat("fetching xeol database listing")
 	dbURL, err := c.findLatestDBURL()
@@ -75,13 +105,18 @@ func (c *Client) Download(heartbeat func(string)) ([]XeolProductData, error) {
 
 	// Step 3: Query SQLite
 	heartbeat("querying xeol database")
-	products, err := queryDB(dbPath)
+	data, err := queryDB(dbPath)
 	if err != nil {
 		return nil, fmt.Errorf("query xeol DB: %w", err)
 	}
 
-	slog.Info("Parsed xeol products", "count", len(products))
-	return products, nil
+	slog.Info("Parsed xeol data",
+		"products", len(data.Products),
+		"cycles", len(data.Cycles),
+		"purls", len(data.Purls),
+		"vulns", len(data.Vulns),
+	)
+	return data, nil
 }
 
 func (c *Client) findLatestDBURL() (string, error) {
@@ -201,64 +236,68 @@ func (c *Client) downloadDB(dbURL string, heartbeat func(string)) (string, error
 	}
 }
 
-func queryDB(dbPath string) ([]XeolProductData, error) {
+func queryDB(dbPath string) (*XeolData, error) {
 	db, err := sql.Open("sqlite", dbPath)
 	if err != nil {
 		return nil, fmt.Errorf("open sqlite: %w", err)
 	}
 	defer db.Close()
 
-	// Query products with optional PURL and best cycle data.
-	// LEFT JOIN purls: pick first PURL per product.
-	// LEFT JOIN cycles: pick the cycle with the latest release_date.
-	rows, err := db.Query(`
-		SELECT
-			p.id,
-			p.name,
-			p.permalink,
-			pu.purl,
-			c.release_cycle,
-			c.eol,
-			c.eol_bool,
-			c.release_date,
-			c.latest_release
-		FROM products p
-		LEFT JOIN (
-			SELECT product_id, MIN(purl) as purl
-			FROM purls
-			GROUP BY product_id
-		) pu ON pu.product_id = p.id
-		LEFT JOIN (
-			SELECT DISTINCT product_id, release_cycle, eol, eol_bool, release_date, latest_release,
-				ROW_NUMBER() OVER (PARTITION BY product_id ORDER BY release_date DESC) as rn
-			FROM cycles
-		) c ON c.product_id = p.id AND c.rn = 1
-	`)
+	products, idMap, err := queryProducts(db)
 	if err != nil {
 		return nil, fmt.Errorf("query products: %w", err)
+	}
+
+	cycles, err := queryCycles(db, idMap)
+	if err != nil {
+		return nil, fmt.Errorf("query cycles: %w", err)
+	}
+
+	purls, err := queryPurls(db, idMap)
+	if err != nil {
+		return nil, fmt.Errorf("query purls: %w", err)
+	}
+
+	vulns, err := queryVulns(db, idMap)
+	if err != nil {
+		return nil, fmt.Errorf("query vulns: %w", err)
+	}
+
+	return &XeolData{
+		Products: products,
+		Cycles:   cycles,
+		Purls:    purls,
+		Vulns:    vulns,
+	}, nil
+}
+
+// queryProducts returns products and a map of SQLite product ID -> composite ID for child lookups.
+func queryProducts(db *sql.DB) ([]XeolProduct, map[int64]string, error) {
+	rows, err := db.Query(`SELECT id, name, permalink FROM products`)
+	if err != nil {
+		return nil, nil, fmt.Errorf("query: %w", err)
 	}
 	defer rows.Close()
 
 	seen := make(map[string]bool)
-	var products []XeolProductData
+	idMap := make(map[int64]string)
+	var products []XeolProduct
+
 	for rows.Next() {
 		var (
-			productID                   int64
-			name, permalink             string
-			purl, cycle, latest         sql.NullString
-			eolStr, releaseDateStr      sql.NullString
-			eolBool                     sql.NullBool
+			productID int64
+			name      string
+			permalink string
 		)
 
-		if err := rows.Scan(&productID, &name, &permalink, &purl, &cycle, &eolStr, &eolBool, &releaseDateStr, &latest); err != nil {
-			return nil, fmt.Errorf("scan row: %w", err)
+		if err := rows.Scan(&productID, &name, &permalink); err != nil {
+			return nil, nil, fmt.Errorf("scan: %w", err)
 		}
 
 		ecosystem := deriveEcosystem(permalink)
 		id := ecosystem + ":" + name
 
 		// Deduplicate: same ecosystem+name can appear if permalink domains overlap.
-		// Use SQLite product_id as tiebreaker — keep first seen.
 		if seen[id] {
 			id = fmt.Sprintf("%s:%s:%d", ecosystem, name, productID)
 		}
@@ -266,45 +305,166 @@ func queryDB(dbPath string) ([]XeolProductData, error) {
 			continue
 		}
 		seen[id] = true
+		idMap[productID] = id
 
-		p := XeolProductData{
+		products = append(products, XeolProduct{
 			ID:        id,
 			Name:      name,
 			Permalink: permalink,
+		})
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, nil, fmt.Errorf("iterate: %w", err)
+	}
+
+	return products, idMap, nil
+}
+
+func queryCycles(db *sql.DB, idMap map[int64]string) ([]XeolCycle, error) {
+	rows, err := db.Query(`
+		SELECT id, product_id, release_cycle, eol, eol_bool, latest_release, latest_release_date, release_date
+		FROM cycles
+	`)
+	if err != nil {
+		return nil, fmt.Errorf("query: %w", err)
+	}
+	defer rows.Close()
+
+	var cycles []XeolCycle
+	for rows.Next() {
+		var (
+			cycleID                                    int64
+			productID                                  int64
+			releaseCycle                               string
+			eolStr, latestRelease                      sql.NullString
+			latestReleaseDateStr, releaseDateStr        sql.NullString
+			eolBool                                    sql.NullBool
+		)
+
+		if err := rows.Scan(&cycleID, &productID, &releaseCycle, &eolStr, &eolBool, &latestRelease, &latestReleaseDateStr, &releaseDateStr); err != nil {
+			return nil, fmt.Errorf("scan: %w", err)
 		}
 
-		if purl.Valid {
-			p.PURL = purl.String
+		parentID, ok := idMap[productID]
+		if !ok {
+			continue // orphan cycle
 		}
-		if cycle.Valid {
-			p.LatestCycle = cycle.String
+
+		c := XeolCycle{
+			ID:           fmt.Sprintf("%s:%d", parentID, cycleID),
+			ProductID:    parentID,
+			ReleaseCycle: releaseCycle,
 		}
-		if latest.Valid {
-			p.Latest = latest.String
-		}
+
 		if eolBool.Valid && eolBool.Bool {
-			p.EOLBool = true
+			c.EOLBool = true
 		}
-
 		if eolStr.Valid && eolStr.String != "" {
 			if t, err := time.Parse(time.RFC3339, eolStr.String); err == nil {
-				p.EOL = &t
+				c.EOL = &t
+			}
+		}
+		if latestRelease.Valid {
+			c.LatestRelease = latestRelease.String
+		}
+		if latestReleaseDateStr.Valid && latestReleaseDateStr.String != "" {
+			if t, err := time.Parse(time.RFC3339, latestReleaseDateStr.String); err == nil {
+				c.LatestReleaseDate = &t
 			}
 		}
 		if releaseDateStr.Valid && releaseDateStr.String != "" {
 			if t, err := time.Parse(time.RFC3339, releaseDateStr.String); err == nil {
-				p.ReleaseDate = &t
+				c.ReleaseDate = &t
 			}
 		}
 
-		products = append(products, p)
+		cycles = append(cycles, c)
 	}
 
 	if err := rows.Err(); err != nil {
-		return nil, fmt.Errorf("iterate rows: %w", err)
+		return nil, fmt.Errorf("iterate: %w", err)
 	}
 
-	return products, nil
+	return cycles, nil
+}
+
+func queryPurls(db *sql.DB, idMap map[int64]string) ([]XeolPurl, error) {
+	rows, err := db.Query(`SELECT product_id, purl FROM purls`)
+	if err != nil {
+		return nil, fmt.Errorf("query: %w", err)
+	}
+	defer rows.Close()
+
+	var purls []XeolPurl
+	for rows.Next() {
+		var (
+			productID int64
+			purl      string
+		)
+
+		if err := rows.Scan(&productID, &purl); err != nil {
+			return nil, fmt.Errorf("scan: %w", err)
+		}
+
+		parentID, ok := idMap[productID]
+		if !ok {
+			continue // orphan purl
+		}
+
+		purls = append(purls, XeolPurl{
+			ID:        parentID + ":" + purl,
+			ProductID: parentID,
+			PURL:      purl,
+		})
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("iterate: %w", err)
+	}
+
+	return purls, nil
+}
+
+func queryVulns(db *sql.DB, idMap map[int64]string) ([]XeolVuln, error) {
+	rows, err := db.Query(`SELECT product_id, version, issue_count, issues FROM vulns`)
+	if err != nil {
+		return nil, fmt.Errorf("query: %w", err)
+	}
+	defer rows.Close()
+
+	var vulns []XeolVuln
+	for rows.Next() {
+		var (
+			productID  int64
+			version    string
+			issueCount int
+			issues     string
+		)
+
+		if err := rows.Scan(&productID, &version, &issueCount, &issues); err != nil {
+			return nil, fmt.Errorf("scan: %w", err)
+		}
+
+		parentID, ok := idMap[productID]
+		if !ok {
+			continue // orphan vuln
+		}
+
+		vulns = append(vulns, XeolVuln{
+			ID:         parentID + ":" + version,
+			ProductID:  parentID,
+			Version:    version,
+			IssueCount: issueCount,
+			Issues:     issues,
+		})
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("iterate: %w", err)
+	}
+
+	return vulns, nil
 }
 
 // deriveEcosystem maps a permalink URL to an ecosystem identifier.

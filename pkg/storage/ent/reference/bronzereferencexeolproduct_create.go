@@ -38,20 +38,6 @@ func (_c *BronzeReferenceXeolProductCreate) SetName(v string) *BronzeReferenceXe
 	return _c
 }
 
-// SetPurl sets the "purl" field.
-func (_c *BronzeReferenceXeolProductCreate) SetPurl(v string) *BronzeReferenceXeolProductCreate {
-	_c.mutation.SetPurl(v)
-	return _c
-}
-
-// SetNillablePurl sets the "purl" field if the given value is not nil.
-func (_c *BronzeReferenceXeolProductCreate) SetNillablePurl(v *string) *BronzeReferenceXeolProductCreate {
-	if v != nil {
-		_c.SetPurl(*v)
-	}
-	return _c
-}
-
 // SetPermalink sets the "permalink" field.
 func (_c *BronzeReferenceXeolProductCreate) SetPermalink(v string) *BronzeReferenceXeolProductCreate {
 	_c.mutation.SetPermalink(v)
@@ -62,76 +48,6 @@ func (_c *BronzeReferenceXeolProductCreate) SetPermalink(v string) *BronzeRefere
 func (_c *BronzeReferenceXeolProductCreate) SetNillablePermalink(v *string) *BronzeReferenceXeolProductCreate {
 	if v != nil {
 		_c.SetPermalink(*v)
-	}
-	return _c
-}
-
-// SetEol sets the "eol" field.
-func (_c *BronzeReferenceXeolProductCreate) SetEol(v time.Time) *BronzeReferenceXeolProductCreate {
-	_c.mutation.SetEol(v)
-	return _c
-}
-
-// SetNillableEol sets the "eol" field if the given value is not nil.
-func (_c *BronzeReferenceXeolProductCreate) SetNillableEol(v *time.Time) *BronzeReferenceXeolProductCreate {
-	if v != nil {
-		_c.SetEol(*v)
-	}
-	return _c
-}
-
-// SetEolBool sets the "eol_bool" field.
-func (_c *BronzeReferenceXeolProductCreate) SetEolBool(v bool) *BronzeReferenceXeolProductCreate {
-	_c.mutation.SetEolBool(v)
-	return _c
-}
-
-// SetNillableEolBool sets the "eol_bool" field if the given value is not nil.
-func (_c *BronzeReferenceXeolProductCreate) SetNillableEolBool(v *bool) *BronzeReferenceXeolProductCreate {
-	if v != nil {
-		_c.SetEolBool(*v)
-	}
-	return _c
-}
-
-// SetLatestCycle sets the "latest_cycle" field.
-func (_c *BronzeReferenceXeolProductCreate) SetLatestCycle(v string) *BronzeReferenceXeolProductCreate {
-	_c.mutation.SetLatestCycle(v)
-	return _c
-}
-
-// SetNillableLatestCycle sets the "latest_cycle" field if the given value is not nil.
-func (_c *BronzeReferenceXeolProductCreate) SetNillableLatestCycle(v *string) *BronzeReferenceXeolProductCreate {
-	if v != nil {
-		_c.SetLatestCycle(*v)
-	}
-	return _c
-}
-
-// SetReleaseDate sets the "release_date" field.
-func (_c *BronzeReferenceXeolProductCreate) SetReleaseDate(v time.Time) *BronzeReferenceXeolProductCreate {
-	_c.mutation.SetReleaseDate(v)
-	return _c
-}
-
-// SetNillableReleaseDate sets the "release_date" field if the given value is not nil.
-func (_c *BronzeReferenceXeolProductCreate) SetNillableReleaseDate(v *time.Time) *BronzeReferenceXeolProductCreate {
-	if v != nil {
-		_c.SetReleaseDate(*v)
-	}
-	return _c
-}
-
-// SetLatest sets the "latest" field.
-func (_c *BronzeReferenceXeolProductCreate) SetLatest(v string) *BronzeReferenceXeolProductCreate {
-	_c.mutation.SetLatest(v)
-	return _c
-}
-
-// SetNillableLatest sets the "latest" field if the given value is not nil.
-func (_c *BronzeReferenceXeolProductCreate) SetNillableLatest(v *string) *BronzeReferenceXeolProductCreate {
-	if v != nil {
-		_c.SetLatest(*v)
 	}
 	return _c
 }
@@ -149,7 +65,6 @@ func (_c *BronzeReferenceXeolProductCreate) Mutation() *BronzeReferenceXeolProdu
 
 // Save creates the BronzeReferenceXeolProduct in the database.
 func (_c *BronzeReferenceXeolProductCreate) Save(ctx context.Context) (*BronzeReferenceXeolProduct, error) {
-	_c.defaults()
 	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
@@ -175,14 +90,6 @@ func (_c *BronzeReferenceXeolProductCreate) ExecX(ctx context.Context) {
 	}
 }
 
-// defaults sets the default values of the builder before save.
-func (_c *BronzeReferenceXeolProductCreate) defaults() {
-	if _, ok := _c.mutation.EolBool(); !ok {
-		v := bronzereferencexeolproduct.DefaultEolBool
-		_c.mutation.SetEolBool(v)
-	}
-}
-
 // check runs all checks and user-defined validators on the builder.
 func (_c *BronzeReferenceXeolProductCreate) check() error {
 	if _, ok := _c.mutation.CollectedAt(); !ok {
@@ -193,9 +100,6 @@ func (_c *BronzeReferenceXeolProductCreate) check() error {
 	}
 	if _, ok := _c.mutation.Name(); !ok {
 		return &ValidationError{Name: "name", err: errors.New(`reference: missing required field "BronzeReferenceXeolProduct.name"`)}
-	}
-	if _, ok := _c.mutation.EolBool(); !ok {
-		return &ValidationError{Name: "eol_bool", err: errors.New(`reference: missing required field "BronzeReferenceXeolProduct.eol_bool"`)}
 	}
 	return nil
 }
@@ -245,33 +149,9 @@ func (_c *BronzeReferenceXeolProductCreate) createSpec() (*BronzeReferenceXeolPr
 		_spec.SetField(bronzereferencexeolproduct.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := _c.mutation.Purl(); ok {
-		_spec.SetField(bronzereferencexeolproduct.FieldPurl, field.TypeString, value)
-		_node.Purl = value
-	}
 	if value, ok := _c.mutation.Permalink(); ok {
 		_spec.SetField(bronzereferencexeolproduct.FieldPermalink, field.TypeString, value)
 		_node.Permalink = value
-	}
-	if value, ok := _c.mutation.Eol(); ok {
-		_spec.SetField(bronzereferencexeolproduct.FieldEol, field.TypeTime, value)
-		_node.Eol = value
-	}
-	if value, ok := _c.mutation.EolBool(); ok {
-		_spec.SetField(bronzereferencexeolproduct.FieldEolBool, field.TypeBool, value)
-		_node.EolBool = value
-	}
-	if value, ok := _c.mutation.LatestCycle(); ok {
-		_spec.SetField(bronzereferencexeolproduct.FieldLatestCycle, field.TypeString, value)
-		_node.LatestCycle = value
-	}
-	if value, ok := _c.mutation.ReleaseDate(); ok {
-		_spec.SetField(bronzereferencexeolproduct.FieldReleaseDate, field.TypeTime, value)
-		_node.ReleaseDate = value
-	}
-	if value, ok := _c.mutation.Latest(); ok {
-		_spec.SetField(bronzereferencexeolproduct.FieldLatest, field.TypeString, value)
-		_node.Latest = value
 	}
 	return _node, _spec
 }
@@ -294,7 +174,6 @@ func (_c *BronzeReferenceXeolProductCreateBulk) Save(ctx context.Context) ([]*Br
 	for i := range _c.builders {
 		func(i int, root context.Context) {
 			builder := _c.builders[i]
-			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*BronzeReferenceXeolProductMutation)
 				if !ok {

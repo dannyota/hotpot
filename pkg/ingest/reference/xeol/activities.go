@@ -39,6 +39,9 @@ func (a *Activities) createClient() *Client {
 // IngestXeolResult contains the result of the xeol ingest activity.
 type IngestXeolResult struct {
 	ProductCount   int
+	CycleCount     int
+	PurlCount      int
+	VulnCount      int
 	DurationMillis int64
 }
 
@@ -62,11 +65,17 @@ func (a *Activities) IngestXeol(ctx context.Context) (*IngestXeolResult, error) 
 
 	logger.Info("Completed xeol ingestion",
 		"productCount", result.ProductCount,
+		"cycleCount", result.CycleCount,
+		"purlCount", result.PurlCount,
+		"vulnCount", result.VulnCount,
 		"durationMillis", result.DurationMillis,
 	)
 
 	return &IngestXeolResult{
 		ProductCount:   result.ProductCount,
+		CycleCount:     result.CycleCount,
+		PurlCount:      result.PurlCount,
+		VulnCount:      result.VulnCount,
 		DurationMillis: result.DurationMillis,
 	}, nil
 }

@@ -30,34 +30,15 @@ func (BronzeReferenceXeolProduct) Fields() []ent.Field {
 			Comment("Composite key: {ecosystem}:{name} (e.g. maven:com.h2database:h2)"),
 		field.String("name").
 			Comment("Product name (e.g. com.h2database:h2)"),
-		field.String("purl").
-			Optional().
-			Comment("Package URL (e.g. pkg:maven/com.h2database/h2)"),
 		field.String("permalink").
 			Optional().
 			Comment("External URL (e.g. https://central.sonatype.com/artifact/com.h2database/h2)"),
-		field.Time("eol").
-			Optional().
-			Comment("End of Life date from latest cycle"),
-		field.Bool("eol_bool").
-			Default(false).
-			Comment("True when EOL status is boolean (no date available)"),
-		field.String("latest_cycle").
-			Optional().
-			Comment("Release cycle identifier"),
-		field.Time("release_date").
-			Optional().
-			Comment("Release date from cycle"),
-		field.String("latest").
-			Optional().
-			Comment("Latest release version"),
 	}
 }
 
 func (BronzeReferenceXeolProduct) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("name"),
-		index.Fields("purl"),
 		index.Fields("collected_at"),
 	}
 }

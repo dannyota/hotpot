@@ -29,6 +29,18 @@ type BronzeReferenceUbuntuPackage struct {
 	bronze_reference.BronzeReferenceUbuntuPackage
 }
 
+type BronzeReferenceXeolCycle struct {
+	bronze_reference.BronzeReferenceXeolCycle
+}
+
 type BronzeReferenceXeolProduct struct {
 	bronze_reference.BronzeReferenceXeolProduct
+}
+
+type BronzeReferenceXeolPurl struct {
+	bronze_reference.BronzeReferenceXeolPurl
+}
+
+type BronzeReferenceXeolVuln struct {
+	bronze_reference.BronzeReferenceXeolVuln
 }

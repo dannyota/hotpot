@@ -15,6 +15,9 @@ func init() {
 		Aggregate: func(parent *reference.ReferenceInventoryWorkflowResult, child any) {
 			r := child.(*XeolWorkflowResult)
 			parent.XeolProductCount = r.ProductCount
+			parent.XeolCycleCount = r.CycleCount
+			parent.XeolPurlCount = r.PurlCount
+			parent.XeolVulnCount = r.VulnCount
 		},
 	})
 }

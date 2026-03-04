@@ -10,6 +10,9 @@ func DefaultSchemaConfig() SchemaConfig {
 		BronzeReferenceEOLProduct:    "bronze",
 		BronzeReferenceRPMPackage:    "bronze",
 		BronzeReferenceUbuntuPackage: "bronze",
+		BronzeReferenceXeolCycle:     "bronze",
 		BronzeReferenceXeolProduct:   "bronze",
+		BronzeReferenceXeolPurl:      "bronze",
+		BronzeReferenceXeolVuln:      "bronze",
 	}
 }

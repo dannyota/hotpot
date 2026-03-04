@@ -4,7 +4,7 @@ package reference
 
 import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencecpe"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolproduct"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolcycle"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/schema"
 )
 
@@ -18,10 +18,10 @@ func init() {
 	bronzereferencecpeDescDeprecated := bronzereferencecpeFields[6].Descriptor()
 	// bronzereferencecpe.DefaultDeprecated holds the default value on creation for the deprecated field.
 	bronzereferencecpe.DefaultDeprecated = bronzereferencecpeDescDeprecated.Default.(bool)
-	bronzereferencexeolproductFields := schema.BronzeReferenceXeolProduct{}.Fields()
-	_ = bronzereferencexeolproductFields
-	// bronzereferencexeolproductDescEolBool is the schema descriptor for eol_bool field.
-	bronzereferencexeolproductDescEolBool := bronzereferencexeolproductFields[5].Descriptor()
-	// bronzereferencexeolproduct.DefaultEolBool holds the default value on creation for the eol_bool field.
-	bronzereferencexeolproduct.DefaultEolBool = bronzereferencexeolproductDescEolBool.Default.(bool)
+	bronzereferencexeolcycleFields := schema.BronzeReferenceXeolCycle{}.Fields()
+	_ = bronzereferencexeolcycleFields
+	// bronzereferencexeolcycleDescEolBool is the schema descriptor for eol_bool field.
+	bronzereferencexeolcycleDescEolBool := bronzereferencexeolcycleFields[4].Descriptor()
+	// bronzereferencexeolcycle.DefaultEolBool holds the default value on creation for the eol_bool field.
+	bronzereferencexeolcycle.DefaultEolBool = bronzereferencexeolcycleDescEolBool.Default.(bool)
 }

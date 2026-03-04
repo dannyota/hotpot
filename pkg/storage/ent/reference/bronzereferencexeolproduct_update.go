@@ -57,26 +57,6 @@ func (_u *BronzeReferenceXeolProductUpdate) SetNillableName(v *string) *BronzeRe
 	return _u
 }
 
-// SetPurl sets the "purl" field.
-func (_u *BronzeReferenceXeolProductUpdate) SetPurl(v string) *BronzeReferenceXeolProductUpdate {
-	_u.mutation.SetPurl(v)
-	return _u
-}
-
-// SetNillablePurl sets the "purl" field if the given value is not nil.
-func (_u *BronzeReferenceXeolProductUpdate) SetNillablePurl(v *string) *BronzeReferenceXeolProductUpdate {
-	if v != nil {
-		_u.SetPurl(*v)
-	}
-	return _u
-}
-
-// ClearPurl clears the value of the "purl" field.
-func (_u *BronzeReferenceXeolProductUpdate) ClearPurl() *BronzeReferenceXeolProductUpdate {
-	_u.mutation.ClearPurl()
-	return _u
-}
-
 // SetPermalink sets the "permalink" field.
 func (_u *BronzeReferenceXeolProductUpdate) SetPermalink(v string) *BronzeReferenceXeolProductUpdate {
 	_u.mutation.SetPermalink(v)
@@ -94,100 +74,6 @@ func (_u *BronzeReferenceXeolProductUpdate) SetNillablePermalink(v *string) *Bro
 // ClearPermalink clears the value of the "permalink" field.
 func (_u *BronzeReferenceXeolProductUpdate) ClearPermalink() *BronzeReferenceXeolProductUpdate {
 	_u.mutation.ClearPermalink()
-	return _u
-}
-
-// SetEol sets the "eol" field.
-func (_u *BronzeReferenceXeolProductUpdate) SetEol(v time.Time) *BronzeReferenceXeolProductUpdate {
-	_u.mutation.SetEol(v)
-	return _u
-}
-
-// SetNillableEol sets the "eol" field if the given value is not nil.
-func (_u *BronzeReferenceXeolProductUpdate) SetNillableEol(v *time.Time) *BronzeReferenceXeolProductUpdate {
-	if v != nil {
-		_u.SetEol(*v)
-	}
-	return _u
-}
-
-// ClearEol clears the value of the "eol" field.
-func (_u *BronzeReferenceXeolProductUpdate) ClearEol() *BronzeReferenceXeolProductUpdate {
-	_u.mutation.ClearEol()
-	return _u
-}
-
-// SetEolBool sets the "eol_bool" field.
-func (_u *BronzeReferenceXeolProductUpdate) SetEolBool(v bool) *BronzeReferenceXeolProductUpdate {
-	_u.mutation.SetEolBool(v)
-	return _u
-}
-
-// SetNillableEolBool sets the "eol_bool" field if the given value is not nil.
-func (_u *BronzeReferenceXeolProductUpdate) SetNillableEolBool(v *bool) *BronzeReferenceXeolProductUpdate {
-	if v != nil {
-		_u.SetEolBool(*v)
-	}
-	return _u
-}
-
-// SetLatestCycle sets the "latest_cycle" field.
-func (_u *BronzeReferenceXeolProductUpdate) SetLatestCycle(v string) *BronzeReferenceXeolProductUpdate {
-	_u.mutation.SetLatestCycle(v)
-	return _u
-}
-
-// SetNillableLatestCycle sets the "latest_cycle" field if the given value is not nil.
-func (_u *BronzeReferenceXeolProductUpdate) SetNillableLatestCycle(v *string) *BronzeReferenceXeolProductUpdate {
-	if v != nil {
-		_u.SetLatestCycle(*v)
-	}
-	return _u
-}
-
-// ClearLatestCycle clears the value of the "latest_cycle" field.
-func (_u *BronzeReferenceXeolProductUpdate) ClearLatestCycle() *BronzeReferenceXeolProductUpdate {
-	_u.mutation.ClearLatestCycle()
-	return _u
-}
-
-// SetReleaseDate sets the "release_date" field.
-func (_u *BronzeReferenceXeolProductUpdate) SetReleaseDate(v time.Time) *BronzeReferenceXeolProductUpdate {
-	_u.mutation.SetReleaseDate(v)
-	return _u
-}
-
-// SetNillableReleaseDate sets the "release_date" field if the given value is not nil.
-func (_u *BronzeReferenceXeolProductUpdate) SetNillableReleaseDate(v *time.Time) *BronzeReferenceXeolProductUpdate {
-	if v != nil {
-		_u.SetReleaseDate(*v)
-	}
-	return _u
-}
-
-// ClearReleaseDate clears the value of the "release_date" field.
-func (_u *BronzeReferenceXeolProductUpdate) ClearReleaseDate() *BronzeReferenceXeolProductUpdate {
-	_u.mutation.ClearReleaseDate()
-	return _u
-}
-
-// SetLatest sets the "latest" field.
-func (_u *BronzeReferenceXeolProductUpdate) SetLatest(v string) *BronzeReferenceXeolProductUpdate {
-	_u.mutation.SetLatest(v)
-	return _u
-}
-
-// SetNillableLatest sets the "latest" field if the given value is not nil.
-func (_u *BronzeReferenceXeolProductUpdate) SetNillableLatest(v *string) *BronzeReferenceXeolProductUpdate {
-	if v != nil {
-		_u.SetLatest(*v)
-	}
-	return _u
-}
-
-// ClearLatest clears the value of the "latest" field.
-func (_u *BronzeReferenceXeolProductUpdate) ClearLatest() *BronzeReferenceXeolProductUpdate {
-	_u.mutation.ClearLatest()
 	return _u
 }
 
@@ -238,44 +124,11 @@ func (_u *BronzeReferenceXeolProductUpdate) sqlSave(ctx context.Context) (_node 
 	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(bronzereferencexeolproduct.FieldName, field.TypeString, value)
 	}
-	if value, ok := _u.mutation.Purl(); ok {
-		_spec.SetField(bronzereferencexeolproduct.FieldPurl, field.TypeString, value)
-	}
-	if _u.mutation.PurlCleared() {
-		_spec.ClearField(bronzereferencexeolproduct.FieldPurl, field.TypeString)
-	}
 	if value, ok := _u.mutation.Permalink(); ok {
 		_spec.SetField(bronzereferencexeolproduct.FieldPermalink, field.TypeString, value)
 	}
 	if _u.mutation.PermalinkCleared() {
 		_spec.ClearField(bronzereferencexeolproduct.FieldPermalink, field.TypeString)
-	}
-	if value, ok := _u.mutation.Eol(); ok {
-		_spec.SetField(bronzereferencexeolproduct.FieldEol, field.TypeTime, value)
-	}
-	if _u.mutation.EolCleared() {
-		_spec.ClearField(bronzereferencexeolproduct.FieldEol, field.TypeTime)
-	}
-	if value, ok := _u.mutation.EolBool(); ok {
-		_spec.SetField(bronzereferencexeolproduct.FieldEolBool, field.TypeBool, value)
-	}
-	if value, ok := _u.mutation.LatestCycle(); ok {
-		_spec.SetField(bronzereferencexeolproduct.FieldLatestCycle, field.TypeString, value)
-	}
-	if _u.mutation.LatestCycleCleared() {
-		_spec.ClearField(bronzereferencexeolproduct.FieldLatestCycle, field.TypeString)
-	}
-	if value, ok := _u.mutation.ReleaseDate(); ok {
-		_spec.SetField(bronzereferencexeolproduct.FieldReleaseDate, field.TypeTime, value)
-	}
-	if _u.mutation.ReleaseDateCleared() {
-		_spec.ClearField(bronzereferencexeolproduct.FieldReleaseDate, field.TypeTime)
-	}
-	if value, ok := _u.mutation.Latest(); ok {
-		_spec.SetField(bronzereferencexeolproduct.FieldLatest, field.TypeString, value)
-	}
-	if _u.mutation.LatestCleared() {
-		_spec.ClearField(bronzereferencexeolproduct.FieldLatest, field.TypeString)
 	}
 	_spec.Node.Schema = _u.schemaConfig.BronzeReferenceXeolProduct
 	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)
@@ -327,26 +180,6 @@ func (_u *BronzeReferenceXeolProductUpdateOne) SetNillableName(v *string) *Bronz
 	return _u
 }
 
-// SetPurl sets the "purl" field.
-func (_u *BronzeReferenceXeolProductUpdateOne) SetPurl(v string) *BronzeReferenceXeolProductUpdateOne {
-	_u.mutation.SetPurl(v)
-	return _u
-}
-
-// SetNillablePurl sets the "purl" field if the given value is not nil.
-func (_u *BronzeReferenceXeolProductUpdateOne) SetNillablePurl(v *string) *BronzeReferenceXeolProductUpdateOne {
-	if v != nil {
-		_u.SetPurl(*v)
-	}
-	return _u
-}
-
-// ClearPurl clears the value of the "purl" field.
-func (_u *BronzeReferenceXeolProductUpdateOne) ClearPurl() *BronzeReferenceXeolProductUpdateOne {
-	_u.mutation.ClearPurl()
-	return _u
-}
-
 // SetPermalink sets the "permalink" field.
 func (_u *BronzeReferenceXeolProductUpdateOne) SetPermalink(v string) *BronzeReferenceXeolProductUpdateOne {
 	_u.mutation.SetPermalink(v)
@@ -364,100 +197,6 @@ func (_u *BronzeReferenceXeolProductUpdateOne) SetNillablePermalink(v *string) *
 // ClearPermalink clears the value of the "permalink" field.
 func (_u *BronzeReferenceXeolProductUpdateOne) ClearPermalink() *BronzeReferenceXeolProductUpdateOne {
 	_u.mutation.ClearPermalink()
-	return _u
-}
-
-// SetEol sets the "eol" field.
-func (_u *BronzeReferenceXeolProductUpdateOne) SetEol(v time.Time) *BronzeReferenceXeolProductUpdateOne {
-	_u.mutation.SetEol(v)
-	return _u
-}
-
-// SetNillableEol sets the "eol" field if the given value is not nil.
-func (_u *BronzeReferenceXeolProductUpdateOne) SetNillableEol(v *time.Time) *BronzeReferenceXeolProductUpdateOne {
-	if v != nil {
-		_u.SetEol(*v)
-	}
-	return _u
-}
-
-// ClearEol clears the value of the "eol" field.
-func (_u *BronzeReferenceXeolProductUpdateOne) ClearEol() *BronzeReferenceXeolProductUpdateOne {
-	_u.mutation.ClearEol()
-	return _u
-}
-
-// SetEolBool sets the "eol_bool" field.
-func (_u *BronzeReferenceXeolProductUpdateOne) SetEolBool(v bool) *BronzeReferenceXeolProductUpdateOne {
-	_u.mutation.SetEolBool(v)
-	return _u
-}
-
-// SetNillableEolBool sets the "eol_bool" field if the given value is not nil.
-func (_u *BronzeReferenceXeolProductUpdateOne) SetNillableEolBool(v *bool) *BronzeReferenceXeolProductUpdateOne {
-	if v != nil {
-		_u.SetEolBool(*v)
-	}
-	return _u
-}
-
-// SetLatestCycle sets the "latest_cycle" field.
-func (_u *BronzeReferenceXeolProductUpdateOne) SetLatestCycle(v string) *BronzeReferenceXeolProductUpdateOne {
-	_u.mutation.SetLatestCycle(v)
-	return _u
-}
-
-// SetNillableLatestCycle sets the "latest_cycle" field if the given value is not nil.
-func (_u *BronzeReferenceXeolProductUpdateOne) SetNillableLatestCycle(v *string) *BronzeReferenceXeolProductUpdateOne {
-	if v != nil {
-		_u.SetLatestCycle(*v)
-	}
-	return _u
-}
-
-// ClearLatestCycle clears the value of the "latest_cycle" field.
-func (_u *BronzeReferenceXeolProductUpdateOne) ClearLatestCycle() *BronzeReferenceXeolProductUpdateOne {
-	_u.mutation.ClearLatestCycle()
-	return _u
-}
-
-// SetReleaseDate sets the "release_date" field.
-func (_u *BronzeReferenceXeolProductUpdateOne) SetReleaseDate(v time.Time) *BronzeReferenceXeolProductUpdateOne {
-	_u.mutation.SetReleaseDate(v)
-	return _u
-}
-
-// SetNillableReleaseDate sets the "release_date" field if the given value is not nil.
-func (_u *BronzeReferenceXeolProductUpdateOne) SetNillableReleaseDate(v *time.Time) *BronzeReferenceXeolProductUpdateOne {
-	if v != nil {
-		_u.SetReleaseDate(*v)
-	}
-	return _u
-}
-
-// ClearReleaseDate clears the value of the "release_date" field.
-func (_u *BronzeReferenceXeolProductUpdateOne) ClearReleaseDate() *BronzeReferenceXeolProductUpdateOne {
-	_u.mutation.ClearReleaseDate()
-	return _u
-}
-
-// SetLatest sets the "latest" field.
-func (_u *BronzeReferenceXeolProductUpdateOne) SetLatest(v string) *BronzeReferenceXeolProductUpdateOne {
-	_u.mutation.SetLatest(v)
-	return _u
-}
-
-// SetNillableLatest sets the "latest" field if the given value is not nil.
-func (_u *BronzeReferenceXeolProductUpdateOne) SetNillableLatest(v *string) *BronzeReferenceXeolProductUpdateOne {
-	if v != nil {
-		_u.SetLatest(*v)
-	}
-	return _u
-}
-
-// ClearLatest clears the value of the "latest" field.
-func (_u *BronzeReferenceXeolProductUpdateOne) ClearLatest() *BronzeReferenceXeolProductUpdateOne {
-	_u.mutation.ClearLatest()
 	return _u
 }
 
@@ -538,44 +277,11 @@ func (_u *BronzeReferenceXeolProductUpdateOne) sqlSave(ctx context.Context) (_no
 	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(bronzereferencexeolproduct.FieldName, field.TypeString, value)
 	}
-	if value, ok := _u.mutation.Purl(); ok {
-		_spec.SetField(bronzereferencexeolproduct.FieldPurl, field.TypeString, value)
-	}
-	if _u.mutation.PurlCleared() {
-		_spec.ClearField(bronzereferencexeolproduct.FieldPurl, field.TypeString)
-	}
 	if value, ok := _u.mutation.Permalink(); ok {
 		_spec.SetField(bronzereferencexeolproduct.FieldPermalink, field.TypeString, value)
 	}
 	if _u.mutation.PermalinkCleared() {
 		_spec.ClearField(bronzereferencexeolproduct.FieldPermalink, field.TypeString)
-	}
-	if value, ok := _u.mutation.Eol(); ok {
-		_spec.SetField(bronzereferencexeolproduct.FieldEol, field.TypeTime, value)
-	}
-	if _u.mutation.EolCleared() {
-		_spec.ClearField(bronzereferencexeolproduct.FieldEol, field.TypeTime)
-	}
-	if value, ok := _u.mutation.EolBool(); ok {
-		_spec.SetField(bronzereferencexeolproduct.FieldEolBool, field.TypeBool, value)
-	}
-	if value, ok := _u.mutation.LatestCycle(); ok {
-		_spec.SetField(bronzereferencexeolproduct.FieldLatestCycle, field.TypeString, value)
-	}
-	if _u.mutation.LatestCycleCleared() {
-		_spec.ClearField(bronzereferencexeolproduct.FieldLatestCycle, field.TypeString)
-	}
-	if value, ok := _u.mutation.ReleaseDate(); ok {
-		_spec.SetField(bronzereferencexeolproduct.FieldReleaseDate, field.TypeTime, value)
-	}
-	if _u.mutation.ReleaseDateCleared() {
-		_spec.ClearField(bronzereferencexeolproduct.FieldReleaseDate, field.TypeTime)
-	}
-	if value, ok := _u.mutation.Latest(); ok {
-		_spec.SetField(bronzereferencexeolproduct.FieldLatest, field.TypeString, value)
-	}
-	if _u.mutation.LatestCleared() {
-		_spec.ClearField(bronzereferencexeolproduct.FieldLatest, field.TypeString)
 	}
 	_spec.Node.Schema = _u.schemaConfig.BronzeReferenceXeolProduct
 	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)

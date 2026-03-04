@@ -24,8 +24,14 @@ type Tx struct {
 	BronzeReferenceRPMPackage *BronzeReferenceRPMPackageClient
 	// BronzeReferenceUbuntuPackage is the client for interacting with the BronzeReferenceUbuntuPackage builders.
 	BronzeReferenceUbuntuPackage *BronzeReferenceUbuntuPackageClient
+	// BronzeReferenceXeolCycle is the client for interacting with the BronzeReferenceXeolCycle builders.
+	BronzeReferenceXeolCycle *BronzeReferenceXeolCycleClient
 	// BronzeReferenceXeolProduct is the client for interacting with the BronzeReferenceXeolProduct builders.
 	BronzeReferenceXeolProduct *BronzeReferenceXeolProductClient
+	// BronzeReferenceXeolPurl is the client for interacting with the BronzeReferenceXeolPurl builders.
+	BronzeReferenceXeolPurl *BronzeReferenceXeolPurlClient
+	// BronzeReferenceXeolVuln is the client for interacting with the BronzeReferenceXeolVuln builders.
+	BronzeReferenceXeolVuln *BronzeReferenceXeolVulnClient
 
 	// lazily loaded.
 	client     *Client
@@ -163,7 +169,10 @@ func (tx *Tx) init() {
 	tx.BronzeReferenceEOLProduct = NewBronzeReferenceEOLProductClient(tx.config)
 	tx.BronzeReferenceRPMPackage = NewBronzeReferenceRPMPackageClient(tx.config)
 	tx.BronzeReferenceUbuntuPackage = NewBronzeReferenceUbuntuPackageClient(tx.config)
+	tx.BronzeReferenceXeolCycle = NewBronzeReferenceXeolCycleClient(tx.config)
 	tx.BronzeReferenceXeolProduct = NewBronzeReferenceXeolProductClient(tx.config)
+	tx.BronzeReferenceXeolPurl = NewBronzeReferenceXeolPurlClient(tx.config)
+	tx.BronzeReferenceXeolVuln = NewBronzeReferenceXeolVulnClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

@@ -13,7 +13,10 @@ type SchemaConfig struct {
 	BronzeReferenceEOLProduct    string // BronzeReferenceEOLProduct table.
 	BronzeReferenceRPMPackage    string // BronzeReferenceRPMPackage table.
 	BronzeReferenceUbuntuPackage string // BronzeReferenceUbuntuPackage table.
+	BronzeReferenceXeolCycle     string // BronzeReferenceXeolCycle table.
 	BronzeReferenceXeolProduct   string // BronzeReferenceXeolProduct table.
+	BronzeReferenceXeolPurl      string // BronzeReferenceXeolPurl table.
+	BronzeReferenceXeolVuln      string // BronzeReferenceXeolVuln table.
 }
 
 type schemaCtxKey struct{}

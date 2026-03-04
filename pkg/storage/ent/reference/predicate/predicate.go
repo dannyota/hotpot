@@ -24,5 +24,14 @@ type BronzeReferenceRPMPackage func(*sql.Selector)
 // BronzeReferenceUbuntuPackage is the predicate function for bronzereferenceubuntupackage builders.
 type BronzeReferenceUbuntuPackage func(*sql.Selector)
 
+// BronzeReferenceXeolCycle is the predicate function for bronzereferencexeolcycle builders.
+type BronzeReferenceXeolCycle func(*sql.Selector)
+
 // BronzeReferenceXeolProduct is the predicate function for bronzereferencexeolproduct builders.
 type BronzeReferenceXeolProduct func(*sql.Selector)
+
+// BronzeReferenceXeolPurl is the predicate function for bronzereferencexeolpurl builders.
+type BronzeReferenceXeolPurl func(*sql.Selector)
+
+// BronzeReferenceXeolVuln is the predicate function for bronzereferencexeolvuln builders.
+type BronzeReferenceXeolVuln func(*sql.Selector)

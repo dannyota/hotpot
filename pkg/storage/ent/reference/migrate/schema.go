@@ -206,19 +206,44 @@ var (
 			},
 		},
 	}
+	// ReferenceXeolCyclesColumns holds the columns for the "reference_xeol_cycles" table.
+	ReferenceXeolCyclesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "product_id", Type: field.TypeString},
+		{Name: "release_cycle", Type: field.TypeString},
+		{Name: "eol", Type: field.TypeTime, Nullable: true},
+		{Name: "eol_bool", Type: field.TypeBool, Default: false},
+		{Name: "latest_release", Type: field.TypeString, Nullable: true},
+		{Name: "latest_release_date", Type: field.TypeTime, Nullable: true},
+		{Name: "release_date", Type: field.TypeTime, Nullable: true},
+	}
+	// ReferenceXeolCyclesTable holds the schema information for the "reference_xeol_cycles" table.
+	ReferenceXeolCyclesTable = &schema.Table{
+		Name:       "reference_xeol_cycles",
+		Columns:    ReferenceXeolCyclesColumns,
+		PrimaryKey: []*schema.Column{ReferenceXeolCyclesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzereferencexeolcycle_product_id",
+				Unique:  false,
+				Columns: []*schema.Column{ReferenceXeolCyclesColumns[3]},
+			},
+			{
+				Name:    "bronzereferencexeolcycle_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{ReferenceXeolCyclesColumns[1]},
+			},
+		},
+	}
 	// ReferenceXeolProductsColumns holds the columns for the "reference_xeol_products" table.
 	ReferenceXeolProductsColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
 		{Name: "collected_at", Type: field.TypeTime},
 		{Name: "first_collected_at", Type: field.TypeTime},
 		{Name: "name", Type: field.TypeString},
-		{Name: "purl", Type: field.TypeString, Nullable: true},
 		{Name: "permalink", Type: field.TypeString, Nullable: true},
-		{Name: "eol", Type: field.TypeTime, Nullable: true},
-		{Name: "eol_bool", Type: field.TypeBool, Default: false},
-		{Name: "latest_cycle", Type: field.TypeString, Nullable: true},
-		{Name: "release_date", Type: field.TypeTime, Nullable: true},
-		{Name: "latest", Type: field.TypeString, Nullable: true},
 	}
 	// ReferenceXeolProductsTable holds the schema information for the "reference_xeol_products" table.
 	ReferenceXeolProductsTable = &schema.Table{
@@ -232,14 +257,68 @@ var (
 				Columns: []*schema.Column{ReferenceXeolProductsColumns[3]},
 			},
 			{
-				Name:    "bronzereferencexeolproduct_purl",
-				Unique:  false,
-				Columns: []*schema.Column{ReferenceXeolProductsColumns[4]},
-			},
-			{
 				Name:    "bronzereferencexeolproduct_collected_at",
 				Unique:  false,
 				Columns: []*schema.Column{ReferenceXeolProductsColumns[1]},
+			},
+		},
+	}
+	// ReferenceXeolPurlsColumns holds the columns for the "reference_xeol_purls" table.
+	ReferenceXeolPurlsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "product_id", Type: field.TypeString},
+		{Name: "purl", Type: field.TypeString},
+	}
+	// ReferenceXeolPurlsTable holds the schema information for the "reference_xeol_purls" table.
+	ReferenceXeolPurlsTable = &schema.Table{
+		Name:       "reference_xeol_purls",
+		Columns:    ReferenceXeolPurlsColumns,
+		PrimaryKey: []*schema.Column{ReferenceXeolPurlsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzereferencexeolpurl_product_id",
+				Unique:  false,
+				Columns: []*schema.Column{ReferenceXeolPurlsColumns[3]},
+			},
+			{
+				Name:    "bronzereferencexeolpurl_purl",
+				Unique:  false,
+				Columns: []*schema.Column{ReferenceXeolPurlsColumns[4]},
+			},
+			{
+				Name:    "bronzereferencexeolpurl_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{ReferenceXeolPurlsColumns[1]},
+			},
+		},
+	}
+	// ReferenceXeolVulnsColumns holds the columns for the "reference_xeol_vulns" table.
+	ReferenceXeolVulnsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "product_id", Type: field.TypeString},
+		{Name: "version", Type: field.TypeString},
+		{Name: "issue_count", Type: field.TypeInt},
+		{Name: "issues", Type: field.TypeString, Size: 2147483647},
+	}
+	// ReferenceXeolVulnsTable holds the schema information for the "reference_xeol_vulns" table.
+	ReferenceXeolVulnsTable = &schema.Table{
+		Name:       "reference_xeol_vulns",
+		Columns:    ReferenceXeolVulnsColumns,
+		PrimaryKey: []*schema.Column{ReferenceXeolVulnsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzereferencexeolvuln_product_id",
+				Unique:  false,
+				Columns: []*schema.Column{ReferenceXeolVulnsColumns[3]},
+			},
+			{
+				Name:    "bronzereferencexeolvuln_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{ReferenceXeolVulnsColumns[1]},
 			},
 		},
 	}
@@ -251,7 +330,10 @@ var (
 		ReferenceEolProductsTable,
 		ReferenceRpmPackagesTable,
 		ReferenceUbuntuPackagesTable,
+		ReferenceXeolCyclesTable,
 		ReferenceXeolProductsTable,
+		ReferenceXeolPurlsTable,
+		ReferenceXeolVulnsTable,
 	}
 )
 
@@ -274,7 +356,16 @@ func init() {
 	ReferenceUbuntuPackagesTable.Annotation = &entsql.Annotation{
 		Table: "reference_ubuntu_packages",
 	}
+	ReferenceXeolCyclesTable.Annotation = &entsql.Annotation{
+		Table: "reference_xeol_cycles",
+	}
 	ReferenceXeolProductsTable.Annotation = &entsql.Annotation{
 		Table: "reference_xeol_products",
+	}
+	ReferenceXeolPurlsTable.Annotation = &entsql.Annotation{
+		Table: "reference_xeol_purls",
+	}
+	ReferenceXeolVulnsTable.Annotation = &entsql.Annotation{
+		Table: "reference_xeol_vulns",
 	}
 }

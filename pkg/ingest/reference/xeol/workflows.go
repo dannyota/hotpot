@@ -12,6 +12,9 @@ import (
 // XeolWorkflowResult contains the result of the xeol workflow.
 type XeolWorkflowResult struct {
 	ProductCount   int
+	CycleCount     int
+	PurlCount      int
+	VulnCount      int
 	DurationMillis int64
 }
 
@@ -39,10 +42,18 @@ func XeolWorkflow(ctx workflow.Context) (*XeolWorkflowResult, error) {
 		return nil, temporalerr.PropagateNonRetryable(err)
 	}
 
-	logger.Info("Completed XeolWorkflow", "productCount", result.ProductCount)
+	logger.Info("Completed XeolWorkflow",
+		"productCount", result.ProductCount,
+		"cycleCount", result.CycleCount,
+		"purlCount", result.PurlCount,
+		"vulnCount", result.VulnCount,
+	)
 
 	return &XeolWorkflowResult{
 		ProductCount:   result.ProductCount,
+		CycleCount:     result.CycleCount,
+		PurlCount:      result.PurlCount,
+		VulnCount:      result.VulnCount,
 		DurationMillis: result.DurationMillis,
 	}, nil
 }

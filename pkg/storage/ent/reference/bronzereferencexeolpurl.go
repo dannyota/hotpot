@@ -9,34 +9,34 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolproduct"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolpurl"
 )
 
-// BronzeReferenceXeolProduct is the model entity for the BronzeReferenceXeolProduct schema.
-type BronzeReferenceXeolProduct struct {
+// BronzeReferenceXeolPurl is the model entity for the BronzeReferenceXeolPurl schema.
+type BronzeReferenceXeolPurl struct {
 	config `json:"-"`
 	// ID of the ent.
-	// Composite key: {ecosystem}:{name} (e.g. maven:com.h2database:h2)
+	// Composite key: {product_id}:{purl}
 	ID string `json:"id,omitempty"`
 	// CollectedAt holds the value of the "collected_at" field.
 	CollectedAt time.Time `json:"collected_at,omitempty"`
 	// FirstCollectedAt holds the value of the "first_collected_at" field.
 	FirstCollectedAt time.Time `json:"first_collected_at,omitempty"`
-	// Product name (e.g. com.h2database:h2)
-	Name string `json:"name,omitempty"`
-	// External URL (e.g. https://central.sonatype.com/artifact/com.h2database/h2)
-	Permalink    string `json:"permalink,omitempty"`
+	// Reference to xeol product ID
+	ProductID string `json:"product_id,omitempty"`
+	// Package URL (e.g. pkg:maven/com.h2database/h2)
+	Purl         string `json:"purl,omitempty"`
 	selectValues sql.SelectValues
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
-func (*BronzeReferenceXeolProduct) scanValues(columns []string) ([]any, error) {
+func (*BronzeReferenceXeolPurl) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case bronzereferencexeolproduct.FieldID, bronzereferencexeolproduct.FieldName, bronzereferencexeolproduct.FieldPermalink:
+		case bronzereferencexeolpurl.FieldID, bronzereferencexeolpurl.FieldProductID, bronzereferencexeolpurl.FieldPurl:
 			values[i] = new(sql.NullString)
-		case bronzereferencexeolproduct.FieldCollectedAt, bronzereferencexeolproduct.FieldFirstCollectedAt:
+		case bronzereferencexeolpurl.FieldCollectedAt, bronzereferencexeolpurl.FieldFirstCollectedAt:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -46,42 +46,42 @@ func (*BronzeReferenceXeolProduct) scanValues(columns []string) ([]any, error) {
 }
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
-// to the BronzeReferenceXeolProduct fields.
-func (_m *BronzeReferenceXeolProduct) assignValues(columns []string, values []any) error {
+// to the BronzeReferenceXeolPurl fields.
+func (_m *BronzeReferenceXeolPurl) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
 	for i := range columns {
 		switch columns[i] {
-		case bronzereferencexeolproduct.FieldID:
+		case bronzereferencexeolpurl.FieldID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value.Valid {
 				_m.ID = value.String
 			}
-		case bronzereferencexeolproduct.FieldCollectedAt:
+		case bronzereferencexeolpurl.FieldCollectedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field collected_at", values[i])
 			} else if value.Valid {
 				_m.CollectedAt = value.Time
 			}
-		case bronzereferencexeolproduct.FieldFirstCollectedAt:
+		case bronzereferencexeolpurl.FieldFirstCollectedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field first_collected_at", values[i])
 			} else if value.Valid {
 				_m.FirstCollectedAt = value.Time
 			}
-		case bronzereferencexeolproduct.FieldName:
+		case bronzereferencexeolpurl.FieldProductID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field name", values[i])
+				return fmt.Errorf("unexpected type %T for field product_id", values[i])
 			} else if value.Valid {
-				_m.Name = value.String
+				_m.ProductID = value.String
 			}
-		case bronzereferencexeolproduct.FieldPermalink:
+		case bronzereferencexeolpurl.FieldPurl:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field permalink", values[i])
+				return fmt.Errorf("unexpected type %T for field purl", values[i])
 			} else if value.Valid {
-				_m.Permalink = value.String
+				_m.Purl = value.String
 			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
@@ -90,34 +90,34 @@ func (_m *BronzeReferenceXeolProduct) assignValues(columns []string, values []an
 	return nil
 }
 
-// Value returns the ent.Value that was dynamically selected and assigned to the BronzeReferenceXeolProduct.
+// Value returns the ent.Value that was dynamically selected and assigned to the BronzeReferenceXeolPurl.
 // This includes values selected through modifiers, order, etc.
-func (_m *BronzeReferenceXeolProduct) Value(name string) (ent.Value, error) {
+func (_m *BronzeReferenceXeolPurl) Value(name string) (ent.Value, error) {
 	return _m.selectValues.Get(name)
 }
 
-// Update returns a builder for updating this BronzeReferenceXeolProduct.
-// Note that you need to call BronzeReferenceXeolProduct.Unwrap() before calling this method if this BronzeReferenceXeolProduct
+// Update returns a builder for updating this BronzeReferenceXeolPurl.
+// Note that you need to call BronzeReferenceXeolPurl.Unwrap() before calling this method if this BronzeReferenceXeolPurl
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (_m *BronzeReferenceXeolProduct) Update() *BronzeReferenceXeolProductUpdateOne {
-	return NewBronzeReferenceXeolProductClient(_m.config).UpdateOne(_m)
+func (_m *BronzeReferenceXeolPurl) Update() *BronzeReferenceXeolPurlUpdateOne {
+	return NewBronzeReferenceXeolPurlClient(_m.config).UpdateOne(_m)
 }
 
-// Unwrap unwraps the BronzeReferenceXeolProduct entity that was returned from a transaction after it was closed,
+// Unwrap unwraps the BronzeReferenceXeolPurl entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (_m *BronzeReferenceXeolProduct) Unwrap() *BronzeReferenceXeolProduct {
+func (_m *BronzeReferenceXeolPurl) Unwrap() *BronzeReferenceXeolPurl {
 	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
-		panic("reference: BronzeReferenceXeolProduct is not a transactional entity")
+		panic("reference: BronzeReferenceXeolPurl is not a transactional entity")
 	}
 	_m.config.driver = _tx.drv
 	return _m
 }
 
 // String implements the fmt.Stringer.
-func (_m *BronzeReferenceXeolProduct) String() string {
+func (_m *BronzeReferenceXeolPurl) String() string {
 	var builder strings.Builder
-	builder.WriteString("BronzeReferenceXeolProduct(")
+	builder.WriteString("BronzeReferenceXeolPurl(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("collected_at=")
 	builder.WriteString(_m.CollectedAt.Format(time.ANSIC))
@@ -125,14 +125,14 @@ func (_m *BronzeReferenceXeolProduct) String() string {
 	builder.WriteString("first_collected_at=")
 	builder.WriteString(_m.FirstCollectedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
-	builder.WriteString("name=")
-	builder.WriteString(_m.Name)
+	builder.WriteString("product_id=")
+	builder.WriteString(_m.ProductID)
 	builder.WriteString(", ")
-	builder.WriteString("permalink=")
-	builder.WriteString(_m.Permalink)
+	builder.WriteString("purl=")
+	builder.WriteString(_m.Purl)
 	builder.WriteByte(')')
 	return builder.String()
 }
 
-// BronzeReferenceXeolProducts is a parsable slice of BronzeReferenceXeolProduct.
-type BronzeReferenceXeolProducts []*BronzeReferenceXeolProduct
+// BronzeReferenceXeolPurls is a parsable slice of BronzeReferenceXeolPurl.
+type BronzeReferenceXeolPurls []*BronzeReferenceXeolPurl

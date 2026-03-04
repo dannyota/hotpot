@@ -18,7 +18,10 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolproduct"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencerpmpackage"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceubuntupackage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolcycle"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolproduct"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolpurl"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolvuln"
 )
 
 // ent aliases to avoid import conflicts in user's code.
@@ -85,7 +88,10 @@ func checkColumn(t, c string) error {
 			bronzereferenceeolproduct.Table:    bronzereferenceeolproduct.ValidColumn,
 			bronzereferencerpmpackage.Table:    bronzereferencerpmpackage.ValidColumn,
 			bronzereferenceubuntupackage.Table: bronzereferenceubuntupackage.ValidColumn,
+			bronzereferencexeolcycle.Table:     bronzereferencexeolcycle.ValidColumn,
 			bronzereferencexeolproduct.Table:   bronzereferencexeolproduct.ValidColumn,
+			bronzereferencexeolpurl.Table:      bronzereferencexeolpurl.ValidColumn,
+			bronzereferencexeolvuln.Table:      bronzereferencexeolvuln.ValidColumn,
 		})
 	})
 	return columnCheck(t, c)
