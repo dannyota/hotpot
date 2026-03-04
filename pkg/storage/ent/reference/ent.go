@@ -13,8 +13,11 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencecpe"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolcycle"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolproduct"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencerpmpackage"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceubuntupackage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolproduct"
 )
 
 // ent aliases to avoid import conflicts in user's code.
@@ -76,8 +79,11 @@ func checkColumn(t, c string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
 			bronzereferencecpe.Table:           bronzereferencecpe.ValidColumn,
+			bronzereferenceeolcycle.Table:      bronzereferenceeolcycle.ValidColumn,
+			bronzereferenceeolproduct.Table:    bronzereferenceeolproduct.ValidColumn,
 			bronzereferencerpmpackage.Table:    bronzereferencerpmpackage.ValidColumn,
 			bronzereferenceubuntupackage.Table: bronzereferenceubuntupackage.ValidColumn,
+			bronzereferencexeolproduct.Table:   bronzereferencexeolproduct.ValidColumn,
 		})
 	})
 	return columnCheck(t, c)

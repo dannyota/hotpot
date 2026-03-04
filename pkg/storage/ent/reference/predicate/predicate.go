@@ -9,8 +9,17 @@ import (
 // BronzeReferenceCPE is the predicate function for bronzereferencecpe builders.
 type BronzeReferenceCPE func(*sql.Selector)
 
+// BronzeReferenceEOLCycle is the predicate function for bronzereferenceeolcycle builders.
+type BronzeReferenceEOLCycle func(*sql.Selector)
+
+// BronzeReferenceEOLProduct is the predicate function for bronzereferenceeolproduct builders.
+type BronzeReferenceEOLProduct func(*sql.Selector)
+
 // BronzeReferenceRPMPackage is the predicate function for bronzereferencerpmpackage builders.
 type BronzeReferenceRPMPackage func(*sql.Selector)
 
 // BronzeReferenceUbuntuPackage is the predicate function for bronzereferenceubuntupackage builders.
 type BronzeReferenceUbuntuPackage func(*sql.Selector)
+
+// BronzeReferenceXeolProduct is the predicate function for bronzereferencexeolproduct builders.
+type BronzeReferenceXeolProduct func(*sql.Selector)

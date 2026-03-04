@@ -14,10 +14,16 @@ type Tx struct {
 	config
 	// BronzeReferenceCPE is the client for interacting with the BronzeReferenceCPE builders.
 	BronzeReferenceCPE *BronzeReferenceCPEClient
+	// BronzeReferenceEOLCycle is the client for interacting with the BronzeReferenceEOLCycle builders.
+	BronzeReferenceEOLCycle *BronzeReferenceEOLCycleClient
+	// BronzeReferenceEOLProduct is the client for interacting with the BronzeReferenceEOLProduct builders.
+	BronzeReferenceEOLProduct *BronzeReferenceEOLProductClient
 	// BronzeReferenceRPMPackage is the client for interacting with the BronzeReferenceRPMPackage builders.
 	BronzeReferenceRPMPackage *BronzeReferenceRPMPackageClient
 	// BronzeReferenceUbuntuPackage is the client for interacting with the BronzeReferenceUbuntuPackage builders.
 	BronzeReferenceUbuntuPackage *BronzeReferenceUbuntuPackageClient
+	// BronzeReferenceXeolProduct is the client for interacting with the BronzeReferenceXeolProduct builders.
+	BronzeReferenceXeolProduct *BronzeReferenceXeolProductClient
 
 	// lazily loaded.
 	client     *Client
@@ -150,8 +156,11 @@ func (tx *Tx) Client() *Client {
 
 func (tx *Tx) init() {
 	tx.BronzeReferenceCPE = NewBronzeReferenceCPEClient(tx.config)
+	tx.BronzeReferenceEOLCycle = NewBronzeReferenceEOLCycleClient(tx.config)
+	tx.BronzeReferenceEOLProduct = NewBronzeReferenceEOLProductClient(tx.config)
 	tx.BronzeReferenceRPMPackage = NewBronzeReferenceRPMPackageClient(tx.config)
 	tx.BronzeReferenceUbuntuPackage = NewBronzeReferenceUbuntuPackageClient(tx.config)
+	tx.BronzeReferenceXeolProduct = NewBronzeReferenceXeolProductClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

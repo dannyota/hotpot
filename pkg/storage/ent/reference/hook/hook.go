@@ -21,6 +21,30 @@ func (f BronzeReferenceCPEFunc) Mutate(ctx context.Context, m reference.Mutation
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *reference.BronzeReferenceCPEMutation", m)
 }
 
+// The BronzeReferenceEOLCycleFunc type is an adapter to allow the use of ordinary
+// function as BronzeReferenceEOLCycle mutator.
+type BronzeReferenceEOLCycleFunc func(context.Context, *reference.BronzeReferenceEOLCycleMutation) (reference.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeReferenceEOLCycleFunc) Mutate(ctx context.Context, m reference.Mutation) (reference.Value, error) {
+	if mv, ok := m.(*reference.BronzeReferenceEOLCycleMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *reference.BronzeReferenceEOLCycleMutation", m)
+}
+
+// The BronzeReferenceEOLProductFunc type is an adapter to allow the use of ordinary
+// function as BronzeReferenceEOLProduct mutator.
+type BronzeReferenceEOLProductFunc func(context.Context, *reference.BronzeReferenceEOLProductMutation) (reference.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeReferenceEOLProductFunc) Mutate(ctx context.Context, m reference.Mutation) (reference.Value, error) {
+	if mv, ok := m.(*reference.BronzeReferenceEOLProductMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *reference.BronzeReferenceEOLProductMutation", m)
+}
+
 // The BronzeReferenceRPMPackageFunc type is an adapter to allow the use of ordinary
 // function as BronzeReferenceRPMPackage mutator.
 type BronzeReferenceRPMPackageFunc func(context.Context, *reference.BronzeReferenceRPMPackageMutation) (reference.Value, error)
@@ -43,6 +67,18 @@ func (f BronzeReferenceUbuntuPackageFunc) Mutate(ctx context.Context, m referenc
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *reference.BronzeReferenceUbuntuPackageMutation", m)
+}
+
+// The BronzeReferenceXeolProductFunc type is an adapter to allow the use of ordinary
+// function as BronzeReferenceXeolProduct mutator.
+type BronzeReferenceXeolProductFunc func(context.Context, *reference.BronzeReferenceXeolProductMutation) (reference.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeReferenceXeolProductFunc) Mutate(ctx context.Context, m reference.Mutation) (reference.Value, error) {
+	if mv, ok := m.(*reference.BronzeReferenceXeolProductMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *reference.BronzeReferenceXeolProductMutation", m)
 }
 
 // Condition is a hook condition function.

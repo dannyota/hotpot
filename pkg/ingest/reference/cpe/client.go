@@ -1,8 +1,7 @@
 package cpe
 
 import (
-	"archive/tar"
-	"compress/gzip"
+	"archive/zip"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -14,7 +13,7 @@ import (
 	"github.com/dannyota/hotpot/pkg/base/httputil"
 )
 
-const cpeFeedURL = "https://nvd.nist.gov/feeds/json/cpe/2.0/nvdcpe-2.0.tar.gz"
+const cpeFeedURL = "https://nvd.nist.gov/feeds/json/cpe/2.0/nvdcpe-2.0.zip"
 
 // Client downloads and parses the NVD CPE Dictionary.
 type Client struct {
@@ -68,7 +67,7 @@ func (c *Client) LastModified() (string, error) {
 	return resp.Header.Get("Last-Modified"), nil
 }
 
-// Download fetches the CPE tar.gz, extracts and parses all chunk files.
+// Download fetches the CPE zip, extracts and parses all JSON files inside.
 // Filters out hardware entries (part=h). Calls heartbeat periodically.
 func (c *Client) Download(heartbeat func(string)) ([]CPEData, error) {
 	resp, err := c.httpClient.Get(cpeFeedURL)
@@ -81,8 +80,8 @@ func (c *Client) Download(heartbeat func(string)) ([]CPEData, error) {
 		return nil, fmt.Errorf("GET %s: status %d", cpeFeedURL, resp.StatusCode)
 	}
 
-	// Download to temp file to avoid holding ~71MB in memory during tar extraction
-	tmpFile, err := os.CreateTemp("", "nvdcpe-*.tar.gz")
+	// Download to temp file (zip requires random access)
+	tmpFile, err := os.CreateTemp("", "nvdcpe-*.zip")
 	if err != nil {
 		return nil, fmt.Errorf("create temp file: %w", err)
 	}
@@ -90,42 +89,34 @@ func (c *Client) Download(heartbeat func(string)) ([]CPEData, error) {
 	defer tmpFile.Close()
 
 	body := httputil.NewProgressReader(resp.Body, resp.ContentLength, "nvd-cpe", 5*time.Second, heartbeat)
-	if _, err := io.Copy(tmpFile, body); err != nil {
+	size, err := io.Copy(tmpFile, body)
+	if err != nil {
 		return nil, fmt.Errorf("download to temp: %w", err)
-	}
-	if _, err := tmpFile.Seek(0, io.SeekStart); err != nil {
-		return nil, fmt.Errorf("seek temp file: %w", err)
 	}
 
 	heartbeat("parsing CPE data")
 
-	// Parse tar.gz
-	gz, err := gzip.NewReader(tmpFile)
+	// Open as zip
+	zr, err := zip.NewReader(tmpFile, size)
 	if err != nil {
-		return nil, fmt.Errorf("gzip reader: %w", err)
+		return nil, fmt.Errorf("zip reader: %w", err)
 	}
-	defer gz.Close()
 
-	tr := tar.NewReader(gz)
 	var all []CPEData
-
-	for {
-		hdr, err := tr.Next()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			return nil, fmt.Errorf("tar next: %w", err)
-		}
-
-		// Only process chunk JSON files
-		if !strings.HasSuffix(hdr.Name, ".json") {
+	for _, f := range zr.File {
+		if !strings.HasSuffix(f.Name, ".json") {
 			continue
 		}
 
-		chunk, err := parseChunk(tr)
+		rc, err := f.Open()
 		if err != nil {
-			return nil, fmt.Errorf("parse %s: %w", hdr.Name, err)
+			return nil, fmt.Errorf("open %s: %w", f.Name, err)
+		}
+
+		chunk, err := parseChunk(rc)
+		rc.Close()
+		if err != nil {
+			return nil, fmt.Errorf("parse %s: %w", f.Name, err)
 		}
 		all = append(all, chunk...)
 		heartbeat(fmt.Sprintf("parsed %d CPE entries", len(all)))

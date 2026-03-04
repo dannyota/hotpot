@@ -5,7 +5,10 @@ package reference
 func DefaultSchemaConfig() SchemaConfig {
 	return SchemaConfig{
 		BronzeReferenceCPE:           "bronze",
+		BronzeReferenceEOLCycle:      "bronze",
+		BronzeReferenceEOLProduct:    "bronze",
 		BronzeReferenceRPMPackage:    "bronze",
 		BronzeReferenceUbuntuPackage: "bronze",
+		BronzeReferenceXeolProduct:   "bronze",
 	}
 }

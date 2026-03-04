@@ -15,8 +15,11 @@ import (
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencecpe"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolcycle"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolproduct"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencerpmpackage"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceubuntupackage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolproduct"
 
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/internal"
 )
@@ -28,10 +31,16 @@ type Client struct {
 	Schema *migrate.Schema
 	// BronzeReferenceCPE is the client for interacting with the BronzeReferenceCPE builders.
 	BronzeReferenceCPE *BronzeReferenceCPEClient
+	// BronzeReferenceEOLCycle is the client for interacting with the BronzeReferenceEOLCycle builders.
+	BronzeReferenceEOLCycle *BronzeReferenceEOLCycleClient
+	// BronzeReferenceEOLProduct is the client for interacting with the BronzeReferenceEOLProduct builders.
+	BronzeReferenceEOLProduct *BronzeReferenceEOLProductClient
 	// BronzeReferenceRPMPackage is the client for interacting with the BronzeReferenceRPMPackage builders.
 	BronzeReferenceRPMPackage *BronzeReferenceRPMPackageClient
 	// BronzeReferenceUbuntuPackage is the client for interacting with the BronzeReferenceUbuntuPackage builders.
 	BronzeReferenceUbuntuPackage *BronzeReferenceUbuntuPackageClient
+	// BronzeReferenceXeolProduct is the client for interacting with the BronzeReferenceXeolProduct builders.
+	BronzeReferenceXeolProduct *BronzeReferenceXeolProductClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -44,8 +53,11 @@ func NewClient(opts ...Option) *Client {
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.BronzeReferenceCPE = NewBronzeReferenceCPEClient(c.config)
+	c.BronzeReferenceEOLCycle = NewBronzeReferenceEOLCycleClient(c.config)
+	c.BronzeReferenceEOLProduct = NewBronzeReferenceEOLProductClient(c.config)
 	c.BronzeReferenceRPMPackage = NewBronzeReferenceRPMPackageClient(c.config)
 	c.BronzeReferenceUbuntuPackage = NewBronzeReferenceUbuntuPackageClient(c.config)
+	c.BronzeReferenceXeolProduct = NewBronzeReferenceXeolProductClient(c.config)
 }
 
 type (
@@ -141,8 +153,11 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		ctx:                          ctx,
 		config:                       cfg,
 		BronzeReferenceCPE:           NewBronzeReferenceCPEClient(cfg),
+		BronzeReferenceEOLCycle:      NewBronzeReferenceEOLCycleClient(cfg),
+		BronzeReferenceEOLProduct:    NewBronzeReferenceEOLProductClient(cfg),
 		BronzeReferenceRPMPackage:    NewBronzeReferenceRPMPackageClient(cfg),
 		BronzeReferenceUbuntuPackage: NewBronzeReferenceUbuntuPackageClient(cfg),
+		BronzeReferenceXeolProduct:   NewBronzeReferenceXeolProductClient(cfg),
 	}, nil
 }
 
@@ -163,8 +178,11 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		ctx:                          ctx,
 		config:                       cfg,
 		BronzeReferenceCPE:           NewBronzeReferenceCPEClient(cfg),
+		BronzeReferenceEOLCycle:      NewBronzeReferenceEOLCycleClient(cfg),
+		BronzeReferenceEOLProduct:    NewBronzeReferenceEOLProductClient(cfg),
 		BronzeReferenceRPMPackage:    NewBronzeReferenceRPMPackageClient(cfg),
 		BronzeReferenceUbuntuPackage: NewBronzeReferenceUbuntuPackageClient(cfg),
+		BronzeReferenceXeolProduct:   NewBronzeReferenceXeolProductClient(cfg),
 	}, nil
 }
 
@@ -193,17 +211,25 @@ func (c *Client) Close() error {
 // Use adds the mutation hooks to all the entity clients.
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
-	c.BronzeReferenceCPE.Use(hooks...)
-	c.BronzeReferenceRPMPackage.Use(hooks...)
-	c.BronzeReferenceUbuntuPackage.Use(hooks...)
+	for _, n := range []interface{ Use(...Hook) }{
+		c.BronzeReferenceCPE, c.BronzeReferenceEOLCycle, c.BronzeReferenceEOLProduct,
+		c.BronzeReferenceRPMPackage, c.BronzeReferenceUbuntuPackage,
+		c.BronzeReferenceXeolProduct,
+	} {
+		n.Use(hooks...)
+	}
 }
 
 // Intercept adds the query interceptors to all the entity clients.
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
-	c.BronzeReferenceCPE.Intercept(interceptors...)
-	c.BronzeReferenceRPMPackage.Intercept(interceptors...)
-	c.BronzeReferenceUbuntuPackage.Intercept(interceptors...)
+	for _, n := range []interface{ Intercept(...Interceptor) }{
+		c.BronzeReferenceCPE, c.BronzeReferenceEOLCycle, c.BronzeReferenceEOLProduct,
+		c.BronzeReferenceRPMPackage, c.BronzeReferenceUbuntuPackage,
+		c.BronzeReferenceXeolProduct,
+	} {
+		n.Intercept(interceptors...)
+	}
 }
 
 // Mutate implements the ent.Mutator interface.
@@ -211,10 +237,16 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
 	case *BronzeReferenceCPEMutation:
 		return c.BronzeReferenceCPE.mutate(ctx, m)
+	case *BronzeReferenceEOLCycleMutation:
+		return c.BronzeReferenceEOLCycle.mutate(ctx, m)
+	case *BronzeReferenceEOLProductMutation:
+		return c.BronzeReferenceEOLProduct.mutate(ctx, m)
 	case *BronzeReferenceRPMPackageMutation:
 		return c.BronzeReferenceRPMPackage.mutate(ctx, m)
 	case *BronzeReferenceUbuntuPackageMutation:
 		return c.BronzeReferenceUbuntuPackage.mutate(ctx, m)
+	case *BronzeReferenceXeolProductMutation:
+		return c.BronzeReferenceXeolProduct.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("reference: unknown mutation type %T", m)
 	}
@@ -350,6 +382,272 @@ func (c *BronzeReferenceCPEClient) mutate(ctx context.Context, m *BronzeReferenc
 		return (&BronzeReferenceCPEDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("reference: unknown BronzeReferenceCPE mutation op: %q", m.Op())
+	}
+}
+
+// BronzeReferenceEOLCycleClient is a client for the BronzeReferenceEOLCycle schema.
+type BronzeReferenceEOLCycleClient struct {
+	config
+}
+
+// NewBronzeReferenceEOLCycleClient returns a client for the BronzeReferenceEOLCycle from the given config.
+func NewBronzeReferenceEOLCycleClient(c config) *BronzeReferenceEOLCycleClient {
+	return &BronzeReferenceEOLCycleClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzereferenceeolcycle.Hooks(f(g(h())))`.
+func (c *BronzeReferenceEOLCycleClient) Use(hooks ...Hook) {
+	c.hooks.BronzeReferenceEOLCycle = append(c.hooks.BronzeReferenceEOLCycle, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzereferenceeolcycle.Intercept(f(g(h())))`.
+func (c *BronzeReferenceEOLCycleClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeReferenceEOLCycle = append(c.inters.BronzeReferenceEOLCycle, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeReferenceEOLCycle entity.
+func (c *BronzeReferenceEOLCycleClient) Create() *BronzeReferenceEOLCycleCreate {
+	mutation := newBronzeReferenceEOLCycleMutation(c.config, OpCreate)
+	return &BronzeReferenceEOLCycleCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeReferenceEOLCycle entities.
+func (c *BronzeReferenceEOLCycleClient) CreateBulk(builders ...*BronzeReferenceEOLCycleCreate) *BronzeReferenceEOLCycleCreateBulk {
+	return &BronzeReferenceEOLCycleCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeReferenceEOLCycleClient) MapCreateBulk(slice any, setFunc func(*BronzeReferenceEOLCycleCreate, int)) *BronzeReferenceEOLCycleCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeReferenceEOLCycleCreateBulk{err: fmt.Errorf("calling to BronzeReferenceEOLCycleClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeReferenceEOLCycleCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeReferenceEOLCycleCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeReferenceEOLCycle.
+func (c *BronzeReferenceEOLCycleClient) Update() *BronzeReferenceEOLCycleUpdate {
+	mutation := newBronzeReferenceEOLCycleMutation(c.config, OpUpdate)
+	return &BronzeReferenceEOLCycleUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeReferenceEOLCycleClient) UpdateOne(_m *BronzeReferenceEOLCycle) *BronzeReferenceEOLCycleUpdateOne {
+	mutation := newBronzeReferenceEOLCycleMutation(c.config, OpUpdateOne, withBronzeReferenceEOLCycle(_m))
+	return &BronzeReferenceEOLCycleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeReferenceEOLCycleClient) UpdateOneID(id string) *BronzeReferenceEOLCycleUpdateOne {
+	mutation := newBronzeReferenceEOLCycleMutation(c.config, OpUpdateOne, withBronzeReferenceEOLCycleID(id))
+	return &BronzeReferenceEOLCycleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeReferenceEOLCycle.
+func (c *BronzeReferenceEOLCycleClient) Delete() *BronzeReferenceEOLCycleDelete {
+	mutation := newBronzeReferenceEOLCycleMutation(c.config, OpDelete)
+	return &BronzeReferenceEOLCycleDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeReferenceEOLCycleClient) DeleteOne(_m *BronzeReferenceEOLCycle) *BronzeReferenceEOLCycleDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeReferenceEOLCycleClient) DeleteOneID(id string) *BronzeReferenceEOLCycleDeleteOne {
+	builder := c.Delete().Where(bronzereferenceeolcycle.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeReferenceEOLCycleDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeReferenceEOLCycle.
+func (c *BronzeReferenceEOLCycleClient) Query() *BronzeReferenceEOLCycleQuery {
+	return &BronzeReferenceEOLCycleQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeReferenceEOLCycle},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeReferenceEOLCycle entity by its id.
+func (c *BronzeReferenceEOLCycleClient) Get(ctx context.Context, id string) (*BronzeReferenceEOLCycle, error) {
+	return c.Query().Where(bronzereferenceeolcycle.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeReferenceEOLCycleClient) GetX(ctx context.Context, id string) *BronzeReferenceEOLCycle {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeReferenceEOLCycleClient) Hooks() []Hook {
+	return c.hooks.BronzeReferenceEOLCycle
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeReferenceEOLCycleClient) Interceptors() []Interceptor {
+	return c.inters.BronzeReferenceEOLCycle
+}
+
+func (c *BronzeReferenceEOLCycleClient) mutate(ctx context.Context, m *BronzeReferenceEOLCycleMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeReferenceEOLCycleCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeReferenceEOLCycleUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeReferenceEOLCycleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeReferenceEOLCycleDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("reference: unknown BronzeReferenceEOLCycle mutation op: %q", m.Op())
+	}
+}
+
+// BronzeReferenceEOLProductClient is a client for the BronzeReferenceEOLProduct schema.
+type BronzeReferenceEOLProductClient struct {
+	config
+}
+
+// NewBronzeReferenceEOLProductClient returns a client for the BronzeReferenceEOLProduct from the given config.
+func NewBronzeReferenceEOLProductClient(c config) *BronzeReferenceEOLProductClient {
+	return &BronzeReferenceEOLProductClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzereferenceeolproduct.Hooks(f(g(h())))`.
+func (c *BronzeReferenceEOLProductClient) Use(hooks ...Hook) {
+	c.hooks.BronzeReferenceEOLProduct = append(c.hooks.BronzeReferenceEOLProduct, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzereferenceeolproduct.Intercept(f(g(h())))`.
+func (c *BronzeReferenceEOLProductClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeReferenceEOLProduct = append(c.inters.BronzeReferenceEOLProduct, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeReferenceEOLProduct entity.
+func (c *BronzeReferenceEOLProductClient) Create() *BronzeReferenceEOLProductCreate {
+	mutation := newBronzeReferenceEOLProductMutation(c.config, OpCreate)
+	return &BronzeReferenceEOLProductCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeReferenceEOLProduct entities.
+func (c *BronzeReferenceEOLProductClient) CreateBulk(builders ...*BronzeReferenceEOLProductCreate) *BronzeReferenceEOLProductCreateBulk {
+	return &BronzeReferenceEOLProductCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeReferenceEOLProductClient) MapCreateBulk(slice any, setFunc func(*BronzeReferenceEOLProductCreate, int)) *BronzeReferenceEOLProductCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeReferenceEOLProductCreateBulk{err: fmt.Errorf("calling to BronzeReferenceEOLProductClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeReferenceEOLProductCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeReferenceEOLProductCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeReferenceEOLProduct.
+func (c *BronzeReferenceEOLProductClient) Update() *BronzeReferenceEOLProductUpdate {
+	mutation := newBronzeReferenceEOLProductMutation(c.config, OpUpdate)
+	return &BronzeReferenceEOLProductUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeReferenceEOLProductClient) UpdateOne(_m *BronzeReferenceEOLProduct) *BronzeReferenceEOLProductUpdateOne {
+	mutation := newBronzeReferenceEOLProductMutation(c.config, OpUpdateOne, withBronzeReferenceEOLProduct(_m))
+	return &BronzeReferenceEOLProductUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeReferenceEOLProductClient) UpdateOneID(id string) *BronzeReferenceEOLProductUpdateOne {
+	mutation := newBronzeReferenceEOLProductMutation(c.config, OpUpdateOne, withBronzeReferenceEOLProductID(id))
+	return &BronzeReferenceEOLProductUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeReferenceEOLProduct.
+func (c *BronzeReferenceEOLProductClient) Delete() *BronzeReferenceEOLProductDelete {
+	mutation := newBronzeReferenceEOLProductMutation(c.config, OpDelete)
+	return &BronzeReferenceEOLProductDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeReferenceEOLProductClient) DeleteOne(_m *BronzeReferenceEOLProduct) *BronzeReferenceEOLProductDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeReferenceEOLProductClient) DeleteOneID(id string) *BronzeReferenceEOLProductDeleteOne {
+	builder := c.Delete().Where(bronzereferenceeolproduct.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeReferenceEOLProductDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeReferenceEOLProduct.
+func (c *BronzeReferenceEOLProductClient) Query() *BronzeReferenceEOLProductQuery {
+	return &BronzeReferenceEOLProductQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeReferenceEOLProduct},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeReferenceEOLProduct entity by its id.
+func (c *BronzeReferenceEOLProductClient) Get(ctx context.Context, id string) (*BronzeReferenceEOLProduct, error) {
+	return c.Query().Where(bronzereferenceeolproduct.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeReferenceEOLProductClient) GetX(ctx context.Context, id string) *BronzeReferenceEOLProduct {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeReferenceEOLProductClient) Hooks() []Hook {
+	return c.hooks.BronzeReferenceEOLProduct
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeReferenceEOLProductClient) Interceptors() []Interceptor {
+	return c.inters.BronzeReferenceEOLProduct
+}
+
+func (c *BronzeReferenceEOLProductClient) mutate(ctx context.Context, m *BronzeReferenceEOLProductMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeReferenceEOLProductCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeReferenceEOLProductUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeReferenceEOLProductUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeReferenceEOLProductDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("reference: unknown BronzeReferenceEOLProduct mutation op: %q", m.Op())
 	}
 }
 
@@ -619,15 +917,150 @@ func (c *BronzeReferenceUbuntuPackageClient) mutate(ctx context.Context, m *Bron
 	}
 }
 
+// BronzeReferenceXeolProductClient is a client for the BronzeReferenceXeolProduct schema.
+type BronzeReferenceXeolProductClient struct {
+	config
+}
+
+// NewBronzeReferenceXeolProductClient returns a client for the BronzeReferenceXeolProduct from the given config.
+func NewBronzeReferenceXeolProductClient(c config) *BronzeReferenceXeolProductClient {
+	return &BronzeReferenceXeolProductClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzereferencexeolproduct.Hooks(f(g(h())))`.
+func (c *BronzeReferenceXeolProductClient) Use(hooks ...Hook) {
+	c.hooks.BronzeReferenceXeolProduct = append(c.hooks.BronzeReferenceXeolProduct, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzereferencexeolproduct.Intercept(f(g(h())))`.
+func (c *BronzeReferenceXeolProductClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeReferenceXeolProduct = append(c.inters.BronzeReferenceXeolProduct, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeReferenceXeolProduct entity.
+func (c *BronzeReferenceXeolProductClient) Create() *BronzeReferenceXeolProductCreate {
+	mutation := newBronzeReferenceXeolProductMutation(c.config, OpCreate)
+	return &BronzeReferenceXeolProductCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeReferenceXeolProduct entities.
+func (c *BronzeReferenceXeolProductClient) CreateBulk(builders ...*BronzeReferenceXeolProductCreate) *BronzeReferenceXeolProductCreateBulk {
+	return &BronzeReferenceXeolProductCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeReferenceXeolProductClient) MapCreateBulk(slice any, setFunc func(*BronzeReferenceXeolProductCreate, int)) *BronzeReferenceXeolProductCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeReferenceXeolProductCreateBulk{err: fmt.Errorf("calling to BronzeReferenceXeolProductClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeReferenceXeolProductCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeReferenceXeolProductCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeReferenceXeolProduct.
+func (c *BronzeReferenceXeolProductClient) Update() *BronzeReferenceXeolProductUpdate {
+	mutation := newBronzeReferenceXeolProductMutation(c.config, OpUpdate)
+	return &BronzeReferenceXeolProductUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeReferenceXeolProductClient) UpdateOne(_m *BronzeReferenceXeolProduct) *BronzeReferenceXeolProductUpdateOne {
+	mutation := newBronzeReferenceXeolProductMutation(c.config, OpUpdateOne, withBronzeReferenceXeolProduct(_m))
+	return &BronzeReferenceXeolProductUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeReferenceXeolProductClient) UpdateOneID(id string) *BronzeReferenceXeolProductUpdateOne {
+	mutation := newBronzeReferenceXeolProductMutation(c.config, OpUpdateOne, withBronzeReferenceXeolProductID(id))
+	return &BronzeReferenceXeolProductUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeReferenceXeolProduct.
+func (c *BronzeReferenceXeolProductClient) Delete() *BronzeReferenceXeolProductDelete {
+	mutation := newBronzeReferenceXeolProductMutation(c.config, OpDelete)
+	return &BronzeReferenceXeolProductDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeReferenceXeolProductClient) DeleteOne(_m *BronzeReferenceXeolProduct) *BronzeReferenceXeolProductDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeReferenceXeolProductClient) DeleteOneID(id string) *BronzeReferenceXeolProductDeleteOne {
+	builder := c.Delete().Where(bronzereferencexeolproduct.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeReferenceXeolProductDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeReferenceXeolProduct.
+func (c *BronzeReferenceXeolProductClient) Query() *BronzeReferenceXeolProductQuery {
+	return &BronzeReferenceXeolProductQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeReferenceXeolProduct},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeReferenceXeolProduct entity by its id.
+func (c *BronzeReferenceXeolProductClient) Get(ctx context.Context, id string) (*BronzeReferenceXeolProduct, error) {
+	return c.Query().Where(bronzereferencexeolproduct.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeReferenceXeolProductClient) GetX(ctx context.Context, id string) *BronzeReferenceXeolProduct {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeReferenceXeolProductClient) Hooks() []Hook {
+	return c.hooks.BronzeReferenceXeolProduct
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeReferenceXeolProductClient) Interceptors() []Interceptor {
+	return c.inters.BronzeReferenceXeolProduct
+}
+
+func (c *BronzeReferenceXeolProductClient) mutate(ctx context.Context, m *BronzeReferenceXeolProductMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeReferenceXeolProductCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeReferenceXeolProductUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeReferenceXeolProductUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeReferenceXeolProductDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("reference: unknown BronzeReferenceXeolProduct mutation op: %q", m.Op())
+	}
+}
+
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		BronzeReferenceCPE, BronzeReferenceRPMPackage,
-		BronzeReferenceUbuntuPackage []ent.Hook
+		BronzeReferenceCPE, BronzeReferenceEOLCycle, BronzeReferenceEOLProduct,
+		BronzeReferenceRPMPackage, BronzeReferenceUbuntuPackage,
+		BronzeReferenceXeolProduct []ent.Hook
 	}
 	inters struct {
-		BronzeReferenceCPE, BronzeReferenceRPMPackage,
-		BronzeReferenceUbuntuPackage []ent.Interceptor
+		BronzeReferenceCPE, BronzeReferenceEOLCycle, BronzeReferenceEOLProduct,
+		BronzeReferenceRPMPackage, BronzeReferenceUbuntuPackage,
+		BronzeReferenceXeolProduct []ent.Interceptor
 	}
 )
 

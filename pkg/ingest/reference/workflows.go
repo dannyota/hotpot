@@ -14,6 +14,9 @@ type ReferenceInventoryWorkflowResult struct {
 	CPECount           int
 	UbuntuPackageCount int
 	RPMPackageCount    int
+	EOLProductCount    int
+	EOLCycleCount      int
+	XeolProductCount   int
 }
 
 // aggregateFunc is the function signature for merging a service result into the provider result.
@@ -51,6 +54,9 @@ func ReferenceInventoryWorkflow(ctx workflow.Context) (*ReferenceInventoryWorkfl
 		"cpeCount", result.CPECount,
 		"ubuntuPackages", result.UbuntuPackageCount,
 		"rpmPackages", result.RPMPackageCount,
+		"eolProducts", result.EOLProductCount,
+		"eolCycles", result.EOLCycleCount,
+		"xeolProducts", result.XeolProductCount,
 	)
 
 	return result, nil

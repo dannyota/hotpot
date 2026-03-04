@@ -4,6 +4,7 @@ package reference
 
 import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencecpe"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolproduct"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/schema"
 )
 
@@ -17,4 +18,10 @@ func init() {
 	bronzereferencecpeDescDeprecated := bronzereferencecpeFields[6].Descriptor()
 	// bronzereferencecpe.DefaultDeprecated holds the default value on creation for the deprecated field.
 	bronzereferencecpe.DefaultDeprecated = bronzereferencecpeDescDeprecated.Default.(bool)
+	bronzereferencexeolproductFields := schema.BronzeReferenceXeolProduct{}.Fields()
+	_ = bronzereferencexeolproductFields
+	// bronzereferencexeolproductDescEolBool is the schema descriptor for eol_bool field.
+	bronzereferencexeolproductDescEolBool := bronzereferencexeolproductFields[5].Descriptor()
+	// bronzereferencexeolproduct.DefaultEolBool holds the default value on creation for the eol_bool field.
+	bronzereferencexeolproduct.DefaultEolBool = bronzereferencexeolproductDescEolBool.Default.(bool)
 }

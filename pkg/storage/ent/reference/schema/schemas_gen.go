@@ -9,10 +9,22 @@ type BronzeReferenceCPE struct {
 	bronze_reference.BronzeReferenceCPE
 }
 
+type BronzeReferenceEOLCycle struct {
+	bronze_reference.BronzeReferenceEOLCycle
+}
+
+type BronzeReferenceEOLProduct struct {
+	bronze_reference.BronzeReferenceEOLProduct
+}
+
 type BronzeReferenceRPMPackage struct {
 	bronze_reference.BronzeReferenceRPMPackage
 }
 
 type BronzeReferenceUbuntuPackage struct {
 	bronze_reference.BronzeReferenceUbuntuPackage
+}
+
+type BronzeReferenceXeolProduct struct {
+	bronze_reference.BronzeReferenceXeolProduct
 }

@@ -8,8 +8,11 @@ import "context"
 // that can be passed at runtime.
 type SchemaConfig struct {
 	BronzeReferenceCPE           string // BronzeReferenceCPE table.
+	BronzeReferenceEOLCycle      string // BronzeReferenceEOLCycle table.
+	BronzeReferenceEOLProduct    string // BronzeReferenceEOLProduct table.
 	BronzeReferenceRPMPackage    string // BronzeReferenceRPMPackage table.
 	BronzeReferenceUbuntuPackage string // BronzeReferenceUbuntuPackage table.
+	BronzeReferenceXeolProduct   string // BronzeReferenceXeolProduct table.
 }
 
 type schemaCtxKey struct{}

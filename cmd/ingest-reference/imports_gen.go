@@ -5,6 +5,8 @@ package main
 import (
 	_ "github.com/dannyota/hotpot/pkg/ingest/reference"
 	_ "github.com/dannyota/hotpot/pkg/ingest/reference/cpe"
+	_ "github.com/dannyota/hotpot/pkg/ingest/reference/eol"
 	_ "github.com/dannyota/hotpot/pkg/ingest/reference/rpm"
 	_ "github.com/dannyota/hotpot/pkg/ingest/reference/ubuntu"
+	_ "github.com/dannyota/hotpot/pkg/ingest/reference/xeol"
 )

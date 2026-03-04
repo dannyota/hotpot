@@ -23,6 +23,38 @@ func (BronzeReferenceCPE) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze"})
 }
 
+type BronzeReferenceEOLCycle struct {
+	bronze_reference.BronzeReferenceEOLCycle
+}
+
+func (BronzeReferenceEOLCycle) Annotations() []schema.Annotation {
+	anns := bronze_reference.BronzeReferenceEOLCycle{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeReferenceEOLProduct struct {
+	bronze_reference.BronzeReferenceEOLProduct
+}
+
+func (BronzeReferenceEOLProduct) Annotations() []schema.Annotation {
+	anns := bronze_reference.BronzeReferenceEOLProduct{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
 type BronzeReferenceRPMPackage struct {
 	bronze_reference.BronzeReferenceRPMPackage
 }
@@ -45,6 +77,22 @@ type BronzeReferenceUbuntuPackage struct {
 
 func (BronzeReferenceUbuntuPackage) Annotations() []schema.Annotation {
 	anns := bronze_reference.BronzeReferenceUbuntuPackage{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeReferenceXeolProduct struct {
+	bronze_reference.BronzeReferenceXeolProduct
+}
+
+func (BronzeReferenceXeolProduct) Annotations() []schema.Annotation {
+	anns := bronze_reference.BronzeReferenceXeolProduct{}.Annotations()
 	for i, a := range anns {
 		if v, ok := a.(entsql.Annotation); ok {
 			v.Schema = "bronze"

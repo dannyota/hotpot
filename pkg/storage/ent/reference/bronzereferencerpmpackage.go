@@ -24,7 +24,7 @@ type BronzeReferenceRPMPackage struct {
 	FirstCollectedAt time.Time `json:"first_collected_at,omitempty"`
 	// RPM package name
 	PackageName string `json:"package_name,omitempty"`
-	// Repository identifier (rhel9-baseos, rhel9-appstream, epel9)
+	// Repository identifier (rhel9-baseos, rhel9-appstream, epel9, rhel7-os, rhel7-updates, epel7)
 	Repo string `json:"repo,omitempty"`
 	// Architecture (e.g. x86_64, noarch)
 	Arch string `json:"arch,omitempty"`
