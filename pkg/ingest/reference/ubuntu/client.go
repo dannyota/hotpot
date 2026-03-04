@@ -5,7 +5,6 @@ import (
 	"compress/gzip"
 	"fmt"
 	"io"
-	"log/slog"
 	"net/http"
 	"os"
 	"strings"
@@ -14,14 +13,15 @@ import (
 	"github.com/dannyota/hotpot/pkg/base/httputil"
 )
 
-// feedDef defines a single Ubuntu Packages.gz feed to download.
-type feedDef struct {
+// FeedDef defines a single Ubuntu Packages.gz feed to download.
+type FeedDef struct {
 	Release   string // e.g. "noble", "jammy"
 	Component string // e.g. "main", "universe"
 	URL       string
 }
 
-var feeds = []feedDef{
+// Feeds lists all Ubuntu Packages.gz feeds to ingest.
+var Feeds = []FeedDef{
 	{"noble", "main", "http://archive.ubuntu.com/ubuntu/dists/noble/main/binary-amd64/Packages.gz"},
 	{"noble", "universe", "http://archive.ubuntu.com/ubuntu/dists/noble/universe/binary-amd64/Packages.gz"},
 	{"jammy", "main", "http://archive.ubuntu.com/ubuntu/dists/jammy/main/binary-amd64/Packages.gz"},
@@ -47,28 +47,8 @@ type UbuntuPackageData struct {
 	Description string
 }
 
-// Download fetches all configured Ubuntu Packages.gz feeds and parses them.
-func (c *Client) Download(heartbeat func(string)) ([]UbuntuPackageData, error) {
-	var all []UbuntuPackageData
-
-	for i, feed := range feeds {
-		label := fmt.Sprintf("%s/%s", feed.Release, feed.Component)
-		slog.Info("Downloading Ubuntu feed", "feed", label, "progress", fmt.Sprintf("%d/%d", i+1, len(feeds)))
-		heartbeat(fmt.Sprintf("downloading %s (%d/%d feeds)", label, i+1, len(feeds)))
-
-		packages, err := c.downloadFeed(feed, heartbeat)
-		if err != nil {
-			return nil, fmt.Errorf("download %s: %w", label, err)
-		}
-
-		slog.Info("Downloaded Ubuntu feed", "feed", label, "packages", len(packages))
-		all = append(all, packages...)
-	}
-
-	return all, nil
-}
-
-func (c *Client) downloadFeed(feed feedDef, heartbeat func(string)) ([]UbuntuPackageData, error) {
+// DownloadFeed fetches a single Ubuntu Packages.gz feed and parses it.
+func (c *Client) DownloadFeed(feed FeedDef, heartbeat func(string)) ([]UbuntuPackageData, error) {
 	resp, err := c.httpClient.Get(feed.URL)
 	if err != nil {
 		return nil, fmt.Errorf("GET %s: %w", feed.URL, err)

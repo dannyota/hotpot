@@ -36,36 +36,68 @@ func (a *Activities) createClient() *Client {
 	return NewClient(httpClient)
 }
 
-// IngestUbuntuPackagesResult contains the result of the Ubuntu packages ingest activity.
-type IngestUbuntuPackagesResult struct {
+// IngestUbuntuFeedInput is the input for the per-feed ingest activity.
+type IngestUbuntuFeedInput struct {
+	Release   string
+	Component string
+}
+
+// IngestUbuntuFeedResult contains the result of a single Ubuntu feed ingest activity.
+type IngestUbuntuFeedResult struct {
+	Release        string
+	Component      string
 	PackageCount   int
 	DurationMillis int64
 }
 
-// IngestUbuntuPackagesActivity is the activity function reference for workflow registration.
-var IngestUbuntuPackagesActivity = (*Activities).IngestUbuntuPackages
+// IngestUbuntuFeedActivity is the activity function reference for workflow registration.
+var IngestUbuntuFeedActivity = (*Activities).IngestUbuntuFeed
 
-// IngestUbuntuPackages downloads and ingests Ubuntu package indexes.
-func (a *Activities) IngestUbuntuPackages(ctx context.Context) (*IngestUbuntuPackagesResult, error) {
+// IngestUbuntuFeed downloads and ingests a single Ubuntu Packages.gz feed.
+func (a *Activities) IngestUbuntuFeed(ctx context.Context, input IngestUbuntuFeedInput) (*IngestUbuntuFeedResult, error) {
 	logger := activity.GetLogger(ctx)
-	logger.Info("Starting Ubuntu packages ingestion")
+	label := input.Release + "/" + input.Component
+	logger.Info("Starting Ubuntu feed ingestion", "feed", label)
 
-	client := a.createClient()
-	service := NewService(client, a.entClient)
-
-	result, err := service.Ingest(ctx, func(details string) {
-		activity.RecordHeartbeat(ctx, details)
-	})
-	if err != nil {
-		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest Ubuntu packages: %w", err))
+	// Find feed definition
+	var feed FeedDef
+	var found bool
+	for _, f := range Feeds {
+		if f.Release == input.Release && f.Component == input.Component {
+			feed = f
+			found = true
+			break
+		}
+	}
+	if !found {
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("unknown Ubuntu feed: %s", label))
 	}
 
-	logger.Info("Completed Ubuntu packages ingestion",
+	heartbeat := func(details string) {
+		activity.RecordHeartbeat(ctx, details)
+	}
+
+	client := a.createClient()
+	packages, err := client.DownloadFeed(feed, heartbeat)
+	if err != nil {
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("download Ubuntu feed %s: %w", label, err))
+	}
+
+	service := NewService(a.entClient)
+	result, err := service.IngestFeed(ctx, input.Release, input.Component, packages, heartbeat)
+	if err != nil {
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest Ubuntu feed %s: %w", label, err))
+	}
+
+	logger.Info("Completed Ubuntu feed ingestion",
+		"feed", label,
 		"packageCount", result.PackageCount,
 		"durationMillis", result.DurationMillis,
 	)
 
-	return &IngestUbuntuPackagesResult{
+	return &IngestUbuntuFeedResult{
+		Release:        result.Release,
+		Component:      result.Component,
 		PackageCount:   result.PackageCount,
 		DurationMillis: result.DurationMillis,
 	}, nil
