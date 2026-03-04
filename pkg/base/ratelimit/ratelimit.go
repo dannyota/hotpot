@@ -2,10 +2,13 @@ package ratelimit
 
 import (
 	"context"
+	"errors"
 	"log/slog"
 	"math"
+	"net"
 	"net/http"
 	"strconv"
+	"sync"
 	"time"
 
 	"golang.org/x/time/rate"
@@ -27,10 +30,13 @@ func NewLimiter(reqPerMin int) *rate.Limiter {
 }
 
 // RateLimitedTransport wraps an http.RoundTripper with rate limiting.
+// Network errors automatically trigger an IPv4 fallback retry.
 // Use when a SDK accepts a custom http.Client.
 type RateLimitedTransport struct {
-	base    http.RoundTripper
-	limiter Limiter
+	base     http.RoundTripper
+	limiter  Limiter
+	ipv4Once sync.Once
+	ipv4     *http.Transport
 }
 
 // NewRateLimitedTransport creates a transport that calls limiter.Wait()
@@ -49,14 +55,15 @@ const (
 	maxBackoff       = 60 * time.Second
 )
 
-// RoundTrip implements http.RoundTripper with rate limiting and 429 retry.
+// RoundTrip implements http.RoundTripper with rate limiting, 429 retry,
+// and IPv4 fallback on network errors.
 func (t *RateLimitedTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	for attempt := 0; ; attempt++ {
 		if err := t.limiter.Wait(req.Context()); err != nil {
 			return nil, err
 		}
 
-		resp, err := t.base.RoundTrip(req)
+		resp, err := t.roundTripWithIPv4Fallback(req)
 		if err != nil {
 			return nil, err
 		}
@@ -80,6 +87,36 @@ func (t *RateLimitedTransport) RoundTrip(req *http.Request) (*http.Response, err
 			return nil, req.Context().Err()
 		}
 	}
+}
+
+// roundTripWithIPv4Fallback tries the base transport first. On network errors
+// (e.g. IPv6 connection reset by peer), it retries with an IPv4-only transport.
+func (t *RateLimitedTransport) roundTripWithIPv4Fallback(req *http.Request) (*http.Response, error) {
+	resp, err := t.base.RoundTrip(req)
+	if err == nil {
+		return resp, nil
+	}
+
+	var netErr *net.OpError
+	if !errors.As(err, &netErr) {
+		return nil, err
+	}
+
+	slog.Warn("request failed, retrying with IPv4",
+		"error", err,
+		"url", req.URL.String(),
+	)
+
+	t.ipv4Once.Do(func() {
+		t.ipv4 = &http.Transport{
+			DialContext: func(ctx context.Context, _, addr string) (net.Conn, error) {
+				return (&net.Dialer{Timeout: 30 * time.Second}).DialContext(ctx, "tcp4", addr)
+			},
+			TLSHandshakeTimeout: 10 * time.Second,
+		}
+	})
+
+	return t.ipv4.RoundTrip(req)
 }
 
 // retryAfter computes the backoff duration from a 429 response.

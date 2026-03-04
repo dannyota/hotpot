@@ -53,8 +53,8 @@ func (a *Activities) IngestUbuntuPackages(ctx context.Context) (*IngestUbuntuPac
 	client := a.createClient()
 	service := NewService(client, a.entClient)
 
-	result, err := service.Ingest(ctx, func() {
-		activity.RecordHeartbeat(ctx, nil)
+	result, err := service.Ingest(ctx, func(details string) {
+		activity.RecordHeartbeat(ctx, details)
 	})
 	if err != nil {
 		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest Ubuntu packages: %w", err))

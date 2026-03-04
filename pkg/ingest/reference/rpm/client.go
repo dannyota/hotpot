@@ -5,10 +5,13 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
+	"github.com/dannyota/hotpot/pkg/base/httputil"
 	"github.com/ulikunitz/xz"
 )
 
@@ -74,22 +77,26 @@ type RPMPackageData struct {
 }
 
 // Download fetches all configured RPM repos and parses their primary.xml metadata.
-func (c *Client) Download(heartbeat func()) ([]RPMPackageData, error) {
+func (c *Client) Download(heartbeat func(string)) ([]RPMPackageData, error) {
 	var all []RPMPackageData
 
-	for _, repo := range repos {
-		packages, err := c.downloadRepo(repo)
+	for i, repo := range repos {
+		slog.Info("Downloading RPM repo", "repo", repo.Name, "progress", fmt.Sprintf("%d/%d", i+1, len(repos)))
+		heartbeat(fmt.Sprintf("downloading %s (%d/%d repos)", repo.Name, i+1, len(repos)))
+
+		packages, err := c.downloadRepo(repo, heartbeat)
 		if err != nil {
 			return nil, fmt.Errorf("download %s: %w", repo.Name, err)
 		}
+
+		slog.Info("Downloaded RPM repo", "repo", repo.Name, "packages", len(packages))
 		all = append(all, packages...)
-		heartbeat()
 	}
 
 	return all, nil
 }
 
-func (c *Client) downloadRepo(repo repoDef) ([]RPMPackageData, error) {
+func (c *Client) downloadRepo(repo repoDef, heartbeat func(string)) ([]RPMPackageData, error) {
 	// Step 1: Fetch repomd.xml to find primary.xml location
 	primaryURL, err := c.discoverPrimaryURL(repo)
 	if err != nil {
@@ -114,7 +121,8 @@ func (c *Client) downloadRepo(repo repoDef) ([]RPMPackageData, error) {
 	defer os.Remove(tmpFile.Name())
 	defer tmpFile.Close()
 
-	if _, err := io.Copy(tmpFile, resp.Body); err != nil {
+	body := httputil.NewProgressReader(resp.Body, resp.ContentLength, repo.Name, 5*time.Second, heartbeat)
+	if _, err := io.Copy(tmpFile, body); err != nil {
 		return nil, fmt.Errorf("download to temp: %w", err)
 	}
 	if _, err := tmpFile.Seek(0, io.SeekStart); err != nil {

@@ -5,9 +5,13 @@ import (
 	"compress/gzip"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"os"
 	"strings"
+	"time"
+
+	"github.com/dannyota/hotpot/pkg/base/httputil"
 )
 
 // feedDef defines a single Ubuntu Packages.gz feed to download.
@@ -44,22 +48,27 @@ type UbuntuPackageData struct {
 }
 
 // Download fetches all configured Ubuntu Packages.gz feeds and parses them.
-func (c *Client) Download(heartbeat func()) ([]UbuntuPackageData, error) {
+func (c *Client) Download(heartbeat func(string)) ([]UbuntuPackageData, error) {
 	var all []UbuntuPackageData
 
-	for _, feed := range feeds {
-		packages, err := c.downloadFeed(feed)
+	for i, feed := range feeds {
+		label := fmt.Sprintf("%s/%s", feed.Release, feed.Component)
+		slog.Info("Downloading Ubuntu feed", "feed", label, "progress", fmt.Sprintf("%d/%d", i+1, len(feeds)))
+		heartbeat(fmt.Sprintf("downloading %s (%d/%d feeds)", label, i+1, len(feeds)))
+
+		packages, err := c.downloadFeed(feed, heartbeat)
 		if err != nil {
-			return nil, fmt.Errorf("download %s/%s: %w", feed.Release, feed.Component, err)
+			return nil, fmt.Errorf("download %s: %w", label, err)
 		}
+
+		slog.Info("Downloaded Ubuntu feed", "feed", label, "packages", len(packages))
 		all = append(all, packages...)
-		heartbeat()
 	}
 
 	return all, nil
 }
 
-func (c *Client) downloadFeed(feed feedDef) ([]UbuntuPackageData, error) {
+func (c *Client) downloadFeed(feed feedDef, heartbeat func(string)) ([]UbuntuPackageData, error) {
 	resp, err := c.httpClient.Get(feed.URL)
 	if err != nil {
 		return nil, fmt.Errorf("GET %s: %w", feed.URL, err)
@@ -78,7 +87,9 @@ func (c *Client) downloadFeed(feed feedDef) ([]UbuntuPackageData, error) {
 	defer os.Remove(tmpFile.Name())
 	defer tmpFile.Close()
 
-	if _, err := io.Copy(tmpFile, resp.Body); err != nil {
+	label := fmt.Sprintf("%s/%s", feed.Release, feed.Component)
+	body := httputil.NewProgressReader(resp.Body, resp.ContentLength, label, 5*time.Second, heartbeat)
+	if _, err := io.Copy(tmpFile, body); err != nil {
 		return nil, fmt.Errorf("download to temp: %w", err)
 	}
 	if _, err := tmpFile.Seek(0, io.SeekStart); err != nil {

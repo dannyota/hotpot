@@ -29,7 +29,7 @@ type IngestResult struct {
 }
 
 // Ingest downloads and replaces all CPE data.
-func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, error) {
+func (s *Service) Ingest(ctx context.Context, heartbeat func(string)) (*IngestResult, error) {
 	start := time.Now()
 
 	data, err := s.client.Download(heartbeat)
@@ -38,7 +38,7 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 	}
 
 	slog.Info("Downloaded CPE data", "count", len(data))
-	heartbeat()
+	heartbeat(fmt.Sprintf("saving %d CPE entries", len(data)))
 
 	now := time.Now()
 
@@ -84,7 +84,7 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 			return nil, fmt.Errorf("bulk insert CPE batch %d: %w", i/insertBatchSize, err)
 		}
 
-		heartbeat()
+		heartbeat(fmt.Sprintf("saved %d/%d CPE entries", end, len(data)))
 	}
 
 	if err := tx.Commit(); err != nil {

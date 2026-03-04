@@ -9,6 +9,9 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
+
+	"github.com/dannyota/hotpot/pkg/base/httputil"
 )
 
 const cpeFeedURL = "https://nvd.nist.gov/feeds/json/cpe/2.0/nvdcpe-2.0.tar.gz"
@@ -67,7 +70,7 @@ func (c *Client) LastModified() (string, error) {
 
 // Download fetches the CPE tar.gz, extracts and parses all chunk files.
 // Filters out hardware entries (part=h). Calls heartbeat periodically.
-func (c *Client) Download(heartbeat func()) ([]CPEData, error) {
+func (c *Client) Download(heartbeat func(string)) ([]CPEData, error) {
 	resp, err := c.httpClient.Get(cpeFeedURL)
 	if err != nil {
 		return nil, fmt.Errorf("GET %s: %w", cpeFeedURL, err)
@@ -86,14 +89,15 @@ func (c *Client) Download(heartbeat func()) ([]CPEData, error) {
 	defer os.Remove(tmpFile.Name())
 	defer tmpFile.Close()
 
-	if _, err := io.Copy(tmpFile, resp.Body); err != nil {
+	body := httputil.NewProgressReader(resp.Body, resp.ContentLength, "nvd-cpe", 5*time.Second, heartbeat)
+	if _, err := io.Copy(tmpFile, body); err != nil {
 		return nil, fmt.Errorf("download to temp: %w", err)
 	}
 	if _, err := tmpFile.Seek(0, io.SeekStart); err != nil {
 		return nil, fmt.Errorf("seek temp file: %w", err)
 	}
 
-	heartbeat()
+	heartbeat("parsing CPE data")
 
 	// Parse tar.gz
 	gz, err := gzip.NewReader(tmpFile)
@@ -124,7 +128,7 @@ func (c *Client) Download(heartbeat func()) ([]CPEData, error) {
 			return nil, fmt.Errorf("parse %s: %w", hdr.Name, err)
 		}
 		all = append(all, chunk...)
-		heartbeat()
+		heartbeat(fmt.Sprintf("parsed %d CPE entries", len(all)))
 	}
 
 	return all, nil

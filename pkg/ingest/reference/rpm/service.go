@@ -29,7 +29,7 @@ type IngestResult struct {
 }
 
 // Ingest downloads and replaces all RPM package data.
-func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, error) {
+func (s *Service) Ingest(ctx context.Context, heartbeat func(string)) (*IngestResult, error) {
 	start := time.Now()
 
 	data, err := s.client.Download(heartbeat)
@@ -37,8 +37,8 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 		return nil, fmt.Errorf("download RPM packages: %w", err)
 	}
 
-	slog.Info("Downloaded RPM packages", "count", len(data))
-	heartbeat()
+	slog.Info("Downloaded all RPM packages", "count", len(data))
+	heartbeat(fmt.Sprintf("saving %d packages", len(data)))
 
 	now := time.Now()
 
@@ -91,7 +91,7 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, 
 			return nil, fmt.Errorf("bulk insert RPM packages batch %d: %w", i/insertBatchSize, err)
 		}
 
-		heartbeat()
+		heartbeat(fmt.Sprintf("saved %d/%d packages", end, len(data)))
 	}
 
 	if err := tx.Commit(); err != nil {

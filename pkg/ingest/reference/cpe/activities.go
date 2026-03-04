@@ -53,8 +53,8 @@ func (a *Activities) IngestCPE(ctx context.Context) (*IngestCPEResult, error) {
 	client := a.createClient()
 	service := NewService(client, a.entClient)
 
-	result, err := service.Ingest(ctx, func() {
-		activity.RecordHeartbeat(ctx, nil)
+	result, err := service.Ingest(ctx, func(details string) {
+		activity.RecordHeartbeat(ctx, details)
 	})
 	if err != nil {
 		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest CPE: %w", err))
