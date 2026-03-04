@@ -15,6 +15,7 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/logger"
+	"github.com/dannyota/hotpot/pkg/normalize/k8snode"
 	"github.com/dannyota/hotpot/pkg/normalize/machine"
 )
 
@@ -63,19 +64,8 @@ func Run(ctx context.Context, configService *config.Service, driver dialect.Driv
 // ensureSchedules creates paused schedules for normalize workflows.
 // Existing schedules are left unchanged.
 func ensureSchedules(ctx context.Context, temporalClient client.Client) {
-	sc := temporalClient.ScheduleClient()
-
-	scheduleID := "hotpot-normalize-machines-daily"
-
-	// Skip if schedule already exists.
-	handle := sc.GetHandle(ctx, scheduleID)
-	if _, err := handle.Describe(ctx); err == nil {
-		slog.Info("Schedule already exists", "schedule", scheduleID)
-		return
-	}
-
-	_, err := sc.Create(ctx, client.ScheduleOptions{
-		ID: scheduleID,
+	ensureSchedule(ctx, temporalClient, client.ScheduleOptions{
+		ID: "hotpot-normalize-machines-daily",
 		Spec: client.ScheduleSpec{
 			Intervals: []client.ScheduleIntervalSpec{
 				{Every: 24 * time.Hour},
@@ -88,10 +78,38 @@ func ensureSchedules(ctx context.Context, temporalClient client.Client) {
 		},
 		Paused: true,
 	})
-	if err != nil {
-		slog.Error("Failed to create schedule", "schedule", scheduleID, "error", err)
+
+	ensureSchedule(ctx, temporalClient, client.ScheduleOptions{
+		ID: "hotpot-normalize-k8s-nodes-daily",
+		Spec: client.ScheduleSpec{
+			Intervals: []client.ScheduleIntervalSpec{
+				{Every: 24 * time.Hour},
+			},
+		},
+		Action: &client.ScheduleWorkflowAction{
+			ID:        "hotpot-normalize-k8s-nodes",
+			Workflow:  k8snode.NormalizeK8sNodesWorkflow,
+			TaskQueue: "normalize",
+		},
+		Paused: true,
+	})
+}
+
+func ensureSchedule(ctx context.Context, temporalClient client.Client, opts client.ScheduleOptions) {
+	sc := temporalClient.ScheduleClient()
+
+	// Skip if schedule already exists.
+	handle := sc.GetHandle(ctx, opts.ID)
+	if _, err := handle.Describe(ctx); err == nil {
+		slog.Info("Schedule already exists", "schedule", opts.ID)
 		return
 	}
 
-	slog.Info("Created paused schedule", "schedule", scheduleID)
+	_, err := sc.Create(ctx, opts)
+	if err != nil {
+		slog.Error("Failed to create schedule", "schedule", opts.ID, "error", err)
+		return
+	}
+
+	slog.Info("Created paused schedule", "schedule", opts.ID)
 }

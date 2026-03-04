@@ -7,6 +7,8 @@ import (
 	"go.temporal.io/sdk/worker"
 
 	"github.com/dannyota/hotpot/pkg/base/config"
+	"github.com/dannyota/hotpot/pkg/normalize/k8snode"
+	k8snodegcp "github.com/dannyota/hotpot/pkg/normalize/k8snode/gcp"
 	"github.com/dannyota/hotpot/pkg/normalize/machine"
 	"github.com/dannyota/hotpot/pkg/normalize/machine/gcp"
 	"github.com/dannyota/hotpot/pkg/normalize/machine/greennode"
@@ -24,4 +26,10 @@ func Register(w worker.Worker, configService *config.Service, driver dialect.Dri
 		gcp.Provider{},
 	}
 	machine.Register(w, configService, driver, db, providers)
+
+	// K8s node providers.
+	k8sProviders := []k8snode.Provider{
+		k8snodegcp.Provider{},
+	}
+	k8snode.Register(w, configService, driver, db, k8sProviders)
 }
