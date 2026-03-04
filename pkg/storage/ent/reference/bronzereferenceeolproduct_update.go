@@ -10,6 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolproduct"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/internal"
@@ -71,6 +72,24 @@ func (_u *BronzeReferenceEOLProductUpdate) SetNillableCategory(v *string) *Bronz
 	return _u
 }
 
+// SetTags sets the "tags" field.
+func (_u *BronzeReferenceEOLProductUpdate) SetTags(v []string) *BronzeReferenceEOLProductUpdate {
+	_u.mutation.SetTags(v)
+	return _u
+}
+
+// AppendTags appends value to the "tags" field.
+func (_u *BronzeReferenceEOLProductUpdate) AppendTags(v []string) *BronzeReferenceEOLProductUpdate {
+	_u.mutation.AppendTags(v)
+	return _u
+}
+
+// ClearTags clears the value of the "tags" field.
+func (_u *BronzeReferenceEOLProductUpdate) ClearTags() *BronzeReferenceEOLProductUpdate {
+	_u.mutation.ClearTags()
+	return _u
+}
+
 // Mutation returns the BronzeReferenceEOLProductMutation object of the builder.
 func (_u *BronzeReferenceEOLProductUpdate) Mutation() *BronzeReferenceEOLProductMutation {
 	return _u.mutation
@@ -120,6 +139,17 @@ func (_u *BronzeReferenceEOLProductUpdate) sqlSave(ctx context.Context) (_node i
 	}
 	if value, ok := _u.mutation.Category(); ok {
 		_spec.SetField(bronzereferenceeolproduct.FieldCategory, field.TypeString, value)
+	}
+	if value, ok := _u.mutation.Tags(); ok {
+		_spec.SetField(bronzereferenceeolproduct.FieldTags, field.TypeJSON, value)
+	}
+	if value, ok := _u.mutation.AppendedTags(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, bronzereferenceeolproduct.FieldTags, value)
+		})
+	}
+	if _u.mutation.TagsCleared() {
+		_spec.ClearField(bronzereferenceeolproduct.FieldTags, field.TypeJSON)
 	}
 	_spec.Node.Schema = _u.schemaConfig.BronzeReferenceEOLProduct
 	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)
@@ -182,6 +212,24 @@ func (_u *BronzeReferenceEOLProductUpdateOne) SetNillableCategory(v *string) *Br
 	if v != nil {
 		_u.SetCategory(*v)
 	}
+	return _u
+}
+
+// SetTags sets the "tags" field.
+func (_u *BronzeReferenceEOLProductUpdateOne) SetTags(v []string) *BronzeReferenceEOLProductUpdateOne {
+	_u.mutation.SetTags(v)
+	return _u
+}
+
+// AppendTags appends value to the "tags" field.
+func (_u *BronzeReferenceEOLProductUpdateOne) AppendTags(v []string) *BronzeReferenceEOLProductUpdateOne {
+	_u.mutation.AppendTags(v)
+	return _u
+}
+
+// ClearTags clears the value of the "tags" field.
+func (_u *BronzeReferenceEOLProductUpdateOne) ClearTags() *BronzeReferenceEOLProductUpdateOne {
+	_u.mutation.ClearTags()
 	return _u
 }
 
@@ -264,6 +312,17 @@ func (_u *BronzeReferenceEOLProductUpdateOne) sqlSave(ctx context.Context) (_nod
 	}
 	if value, ok := _u.mutation.Category(); ok {
 		_spec.SetField(bronzereferenceeolproduct.FieldCategory, field.TypeString, value)
+	}
+	if value, ok := _u.mutation.Tags(); ok {
+		_spec.SetField(bronzereferenceeolproduct.FieldTags, field.TypeJSON, value)
+	}
+	if value, ok := _u.mutation.AppendedTags(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, bronzereferenceeolproduct.FieldTags, value)
+		})
+	}
+	if _u.mutation.TagsCleared() {
+		_spec.ClearField(bronzereferenceeolproduct.FieldTags, field.TypeJSON)
 	}
 	_spec.Node.Schema = _u.schemaConfig.BronzeReferenceEOLProduct
 	ctx = internal.NewSchemaConfigContext(ctx, _u.schemaConfig)

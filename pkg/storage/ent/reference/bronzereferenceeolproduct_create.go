@@ -44,6 +44,12 @@ func (_c *BronzeReferenceEOLProductCreate) SetCategory(v string) *BronzeReferenc
 	return _c
 }
 
+// SetTags sets the "tags" field.
+func (_c *BronzeReferenceEOLProductCreate) SetTags(v []string) *BronzeReferenceEOLProductCreate {
+	_c.mutation.SetTags(v)
+	return _c
+}
+
 // SetID sets the "id" field.
 func (_c *BronzeReferenceEOLProductCreate) SetID(v string) *BronzeReferenceEOLProductCreate {
 	_c.mutation.SetID(v)
@@ -147,6 +153,10 @@ func (_c *BronzeReferenceEOLProductCreate) createSpec() (*BronzeReferenceEOLProd
 	if value, ok := _c.mutation.Category(); ok {
 		_spec.SetField(bronzereferenceeolproduct.FieldCategory, field.TypeString, value)
 		_node.Category = value
+	}
+	if value, ok := _c.mutation.Tags(); ok {
+		_spec.SetField(bronzereferenceeolproduct.FieldTags, field.TypeJSON, value)
+		_node.Tags = value
 	}
 	return _node, _spec
 }

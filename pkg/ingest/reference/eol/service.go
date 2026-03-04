@@ -24,9 +24,10 @@ func NewService(client *Client, entClient *entreference.Client) *Service {
 
 // IngestResult contains the result of an EOL ingestion.
 type IngestResult struct {
-	ProductCount   int
-	CycleCount     int
-	DurationMillis int64
+	ProductCount    int
+	CycleCount      int
+	IdentifierCount int
+	DurationMillis  int64
 }
 
 // Ingest downloads and replaces all EOL data.
@@ -62,6 +63,13 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func(string)) (*IngestRe
 	}
 	slog.Info("Deleted existing EOL cycles", "count", deletedCycles)
 
+	// Delete existing identifiers
+	deletedIdentifiers, err := tx.BronzeReferenceEOLIdentifier.Delete().Exec(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("delete existing EOL identifiers: %w", err)
+	}
+	slog.Info("Deleted existing EOL identifiers", "count", deletedIdentifiers)
+
 	// Delete existing products
 	deletedProducts, err := tx.BronzeReferenceEOLProduct.Delete().Exec(ctx)
 	if err != nil {
@@ -76,12 +84,16 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func(string)) (*IngestRe
 
 		builders := make([]*entreference.BronzeReferenceEOLProductCreate, len(batch))
 		for j, p := range batch {
-			builders[j] = tx.BronzeReferenceEOLProduct.Create().
+			b := tx.BronzeReferenceEOLProduct.Create().
 				SetID(p.Slug).
 				SetName(p.Name).
 				SetCategory(p.Category).
 				SetCollectedAt(now).
 				SetFirstCollectedAt(now)
+			if len(p.Tags) > 0 {
+				b.SetTags(p.Tags)
+			}
+			builders[j] = b
 		}
 
 		if err := tx.BronzeReferenceEOLProduct.CreateBulk(builders...).Exec(ctx); err != nil {
@@ -145,18 +157,55 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func(string)) (*IngestRe
 		heartbeat(fmt.Sprintf("saved %d/%d cycles", end, len(allCycles)))
 	}
 
+	// Bulk insert identifiers
+	var allIdentifiers []identifierWithProduct
+	for _, p := range products {
+		for _, id := range p.Identifiers {
+			allIdentifiers = append(allIdentifiers, identifierWithProduct{product: p.Slug, identifier: id})
+		}
+	}
+
+	for i := 0; i < len(allIdentifiers); i += insertBatchSize {
+		end := min(i+insertBatchSize, len(allIdentifiers))
+		batch := allIdentifiers[i:end]
+
+		builders := make([]*entreference.BronzeReferenceEOLIdentifierCreate, len(batch))
+		for j, item := range batch {
+			id := item.product + ":" + item.identifier.Type + ":" + item.identifier.Value
+			builders[j] = tx.BronzeReferenceEOLIdentifier.Create().
+				SetID(id).
+				SetProduct(item.product).
+				SetIdentifierType(item.identifier.Type).
+				SetValue(item.identifier.Value).
+				SetCollectedAt(now).
+				SetFirstCollectedAt(now)
+		}
+
+		if err := tx.BronzeReferenceEOLIdentifier.CreateBulk(builders...).Exec(ctx); err != nil {
+			return nil, fmt.Errorf("bulk insert EOL identifiers batch %d: %w", i/insertBatchSize, err)
+		}
+
+		heartbeat(fmt.Sprintf("saved %d/%d identifiers", end, len(allIdentifiers)))
+	}
+
 	if err := tx.Commit(); err != nil {
 		return nil, fmt.Errorf("commit tx: %w", err)
 	}
 
 	return &IngestResult{
-		ProductCount:   len(products),
-		CycleCount:     len(allCycles),
-		DurationMillis: time.Since(start).Milliseconds(),
+		ProductCount:    len(products),
+		CycleCount:      len(allCycles),
+		IdentifierCount: len(allIdentifiers),
+		DurationMillis:  time.Since(start).Milliseconds(),
 	}, nil
 }
 
 type cycleWithProduct struct {
 	product string
 	cycle   CycleData
+}
+
+type identifierWithProduct struct {
+	product    string
+	identifier IdentifierData
 }

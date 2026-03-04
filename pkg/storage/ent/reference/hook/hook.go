@@ -33,6 +33,18 @@ func (f BronzeReferenceEOLCycleFunc) Mutate(ctx context.Context, m reference.Mut
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *reference.BronzeReferenceEOLCycleMutation", m)
 }
 
+// The BronzeReferenceEOLIdentifierFunc type is an adapter to allow the use of ordinary
+// function as BronzeReferenceEOLIdentifier mutator.
+type BronzeReferenceEOLIdentifierFunc func(context.Context, *reference.BronzeReferenceEOLIdentifierMutation) (reference.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeReferenceEOLIdentifierFunc) Mutate(ctx context.Context, m reference.Mutation) (reference.Value, error) {
+	if mv, ok := m.(*reference.BronzeReferenceEOLIdentifierMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *reference.BronzeReferenceEOLIdentifierMutation", m)
+}
+
 // The BronzeReferenceEOLProductFunc type is an adapter to allow the use of ordinary
 // function as BronzeReferenceEOLProduct mutator.
 type BronzeReferenceEOLProductFunc func(context.Context, *reference.BronzeReferenceEOLProductMutation) (reference.Value, error)

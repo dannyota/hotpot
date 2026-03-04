@@ -13,6 +13,10 @@ type BronzeReferenceEOLCycle struct {
 	bronze_reference.BronzeReferenceEOLCycle
 }
 
+type BronzeReferenceEOLIdentifier struct {
+	bronze_reference.BronzeReferenceEOLIdentifier
+}
+
 type BronzeReferenceEOLProduct struct {
 	bronze_reference.BronzeReferenceEOLProduct
 }

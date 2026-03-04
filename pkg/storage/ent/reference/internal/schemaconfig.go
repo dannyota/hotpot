@@ -9,6 +9,7 @@ import "context"
 type SchemaConfig struct {
 	BronzeReferenceCPE           string // BronzeReferenceCPE table.
 	BronzeReferenceEOLCycle      string // BronzeReferenceEOLCycle table.
+	BronzeReferenceEOLIdentifier string // BronzeReferenceEOLIdentifier table.
 	BronzeReferenceEOLProduct    string // BronzeReferenceEOLProduct table.
 	BronzeReferenceRPMPackage    string // BronzeReferenceRPMPackage table.
 	BronzeReferenceUbuntuPackage string // BronzeReferenceUbuntuPackage table.

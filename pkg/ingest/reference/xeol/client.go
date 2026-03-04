@@ -2,6 +2,7 @@ package xeol
 
 import (
 	"archive/tar"
+	"compress/gzip"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -135,7 +136,7 @@ func (c *Client) downloadDB(dbURL string, heartbeat func(string)) (string, error
 	}
 
 	// Download to temp file
-	tmpArchive, err := os.CreateTemp("", "xeol-db-*.tar.xz")
+	tmpArchive, err := os.CreateTemp("", "xeol-db-*")
 	if err != nil {
 		return "", fmt.Errorf("create temp archive: %w", err)
 	}
@@ -150,14 +151,25 @@ func (c *Client) downloadDB(dbURL string, heartbeat func(string)) (string, error
 		return "", fmt.Errorf("seek temp file: %w", err)
 	}
 
-	// Decompress xz
-	xzReader, err := xz.NewReader(tmpArchive)
-	if err != nil {
-		return "", fmt.Errorf("xz reader: %w", err)
+	// Decompress: try xz first, fall back to gzip
+	var decompressed io.Reader
+	if strings.HasSuffix(dbURL, ".tar.xz") {
+		r, err := xz.NewReader(tmpArchive)
+		if err != nil {
+			return "", fmt.Errorf("xz reader: %w", err)
+		}
+		decompressed = r
+	} else {
+		r, err := gzip.NewReader(tmpArchive)
+		if err != nil {
+			return "", fmt.Errorf("gzip reader: %w", err)
+		}
+		defer r.Close()
+		decompressed = r
 	}
 
 	// Extract xeol.db from tar
-	tr := tar.NewReader(xzReader)
+	tr := tar.NewReader(decompressed)
 	tmpDB, err := os.CreateTemp("", "xeol-*.db")
 	if err != nil {
 		return "", fmt.Errorf("create temp DB: %w", err)
@@ -275,12 +287,12 @@ func queryDB(dbPath string) ([]XeolProductData, error) {
 		}
 
 		if eolStr.Valid && eolStr.String != "" {
-			if t, err := time.Parse("2006-01-02", eolStr.String); err == nil {
+			if t, err := time.Parse(time.RFC3339, eolStr.String); err == nil {
 				p.EOL = &t
 			}
 		}
 		if releaseDateStr.Valid && releaseDateStr.String != "" {
-			if t, err := time.Parse("2006-01-02", releaseDateStr.String); err == nil {
+			if t, err := time.Parse(time.RFC3339, releaseDateStr.String); err == nil {
 				p.ReleaseDate = &t
 			}
 		}

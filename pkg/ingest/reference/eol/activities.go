@@ -38,9 +38,10 @@ func (a *Activities) createClient() *Client {
 
 // IngestEOLResult contains the result of the EOL ingest activity.
 type IngestEOLResult struct {
-	ProductCount   int
-	CycleCount     int
-	DurationMillis int64
+	ProductCount    int
+	CycleCount      int
+	IdentifierCount int
+	DurationMillis  int64
 }
 
 // IngestEOLActivity is the activity function reference for workflow registration.
@@ -64,12 +65,14 @@ func (a *Activities) IngestEOL(ctx context.Context) (*IngestEOLResult, error) {
 	logger.Info("Completed EOL ingestion",
 		"productCount", result.ProductCount,
 		"cycleCount", result.CycleCount,
+		"identifierCount", result.IdentifierCount,
 		"durationMillis", result.DurationMillis,
 	)
 
 	return &IngestEOLResult{
-		ProductCount:   result.ProductCount,
-		CycleCount:     result.CycleCount,
-		DurationMillis: result.DurationMillis,
+		ProductCount:    result.ProductCount,
+		CycleCount:      result.CycleCount,
+		IdentifierCount: result.IdentifierCount,
+		DurationMillis:  result.DurationMillis,
 	}, nil
 }

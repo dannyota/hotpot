@@ -6,6 +6,7 @@ func DefaultSchemaConfig() SchemaConfig {
 	return SchemaConfig{
 		BronzeReferenceCPE:           "bronze",
 		BronzeReferenceEOLCycle:      "bronze",
+		BronzeReferenceEOLIdentifier: "bronze",
 		BronzeReferenceEOLProduct:    "bronze",
 		BronzeReferenceRPMPackage:    "bronze",
 		BronzeReferenceUbuntuPackage: "bronze",

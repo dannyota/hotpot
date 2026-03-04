@@ -19,6 +19,8 @@ const (
 	FieldName = "name"
 	// FieldCategory holds the string denoting the category field in the database.
 	FieldCategory = "category"
+	// FieldTags holds the string denoting the tags field in the database.
+	FieldTags = "tags"
 	// Table holds the table name of the bronzereferenceeolproduct in the database.
 	Table = "reference_eol_products"
 )
@@ -30,6 +32,7 @@ var Columns = []string{
 	FieldFirstCollectedAt,
 	FieldName,
 	FieldCategory,
+	FieldTags,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).

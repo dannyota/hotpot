@@ -39,6 +39,22 @@ func (BronzeReferenceEOLCycle) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze"})
 }
 
+type BronzeReferenceEOLIdentifier struct {
+	bronze_reference.BronzeReferenceEOLIdentifier
+}
+
+func (BronzeReferenceEOLIdentifier) Annotations() []schema.Annotation {
+	anns := bronze_reference.BronzeReferenceEOLIdentifier{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
 type BronzeReferenceEOLProduct struct {
 	bronze_reference.BronzeReferenceEOLProduct
 }

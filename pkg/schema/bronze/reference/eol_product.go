@@ -32,6 +32,9 @@ func (BronzeReferenceEOLProduct) Fields() []ent.Field {
 			Comment("Display name (e.g. Red Hat Enterprise Linux)"),
 		field.String("category").
 			Comment("Product category (os, db, framework, lang, library, server-app, service, standard, device, app)"),
+		field.Strings("tags").
+			Optional().
+			Comment("Tags from YAML frontmatter (e.g. erlang-runtime, linux-foundation)"),
 	}
 }
 

@@ -294,6 +294,16 @@ func CategoryContainsFold(v string) predicate.BronzeReferenceEOLProduct {
 	return predicate.BronzeReferenceEOLProduct(sql.FieldContainsFold(FieldCategory, v))
 }
 
+// TagsIsNil applies the IsNil predicate on the "tags" field.
+func TagsIsNil() predicate.BronzeReferenceEOLProduct {
+	return predicate.BronzeReferenceEOLProduct(sql.FieldIsNull(FieldTags))
+}
+
+// TagsNotNil applies the NotNil predicate on the "tags" field.
+func TagsNotNil() predicate.BronzeReferenceEOLProduct {
+	return predicate.BronzeReferenceEOLProduct(sql.FieldNotNull(FieldTags))
+}
+
 // And groups predicates with the AND operator between them.
 func And(predicates ...predicate.BronzeReferenceEOLProduct) predicate.BronzeReferenceEOLProduct {
 	return predicate.BronzeReferenceEOLProduct(sql.AndPredicates(predicates...))

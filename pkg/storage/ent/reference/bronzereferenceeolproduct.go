@@ -3,6 +3,7 @@
 package reference
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
@@ -25,7 +26,9 @@ type BronzeReferenceEOLProduct struct {
 	// Display name (e.g. Red Hat Enterprise Linux)
 	Name string `json:"name,omitempty"`
 	// Product category (os, db, framework, lang, library, server-app, service, standard, device, app)
-	Category     string `json:"category,omitempty"`
+	Category string `json:"category,omitempty"`
+	// Tags from YAML frontmatter (e.g. erlang-runtime, linux-foundation)
+	Tags         []string `json:"tags,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -34,6 +37,8 @@ func (*BronzeReferenceEOLProduct) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case bronzereferenceeolproduct.FieldTags:
+			values[i] = new([]byte)
 		case bronzereferenceeolproduct.FieldID, bronzereferenceeolproduct.FieldName, bronzereferenceeolproduct.FieldCategory:
 			values[i] = new(sql.NullString)
 		case bronzereferenceeolproduct.FieldCollectedAt, bronzereferenceeolproduct.FieldFirstCollectedAt:
@@ -83,6 +88,14 @@ func (_m *BronzeReferenceEOLProduct) assignValues(columns []string, values []any
 			} else if value.Valid {
 				_m.Category = value.String
 			}
+		case bronzereferenceeolproduct.FieldTags:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field tags", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &_m.Tags); err != nil {
+					return fmt.Errorf("unmarshal field tags: %w", err)
+				}
+			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
 		}
@@ -130,6 +143,9 @@ func (_m *BronzeReferenceEOLProduct) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("category=")
 	builder.WriteString(_m.Category)
+	builder.WriteString(", ")
+	builder.WriteString("tags=")
+	builder.WriteString(fmt.Sprintf("%v", _m.Tags))
 	builder.WriteByte(')')
 	return builder.String()
 }

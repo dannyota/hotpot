@@ -14,6 +14,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencecpe"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolcycle"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolidentifier"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolproduct"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencerpmpackage"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceubuntupackage"
@@ -80,6 +81,7 @@ func checkColumn(t, c string) error {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
 			bronzereferencecpe.Table:           bronzereferencecpe.ValidColumn,
 			bronzereferenceeolcycle.Table:      bronzereferenceeolcycle.ValidColumn,
+			bronzereferenceeolidentifier.Table: bronzereferenceeolidentifier.ValidColumn,
 			bronzereferenceeolproduct.Table:    bronzereferenceeolproduct.ValidColumn,
 			bronzereferencerpmpackage.Table:    bronzereferencerpmpackage.ValidColumn,
 			bronzereferenceubuntupackage.Table: bronzereferenceubuntupackage.ValidColumn,

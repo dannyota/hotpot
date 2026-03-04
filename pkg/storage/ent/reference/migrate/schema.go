@@ -77,6 +77,38 @@ var (
 			},
 		},
 	}
+	// ReferenceEolIdentifiersColumns holds the columns for the "reference_eol_identifiers" table.
+	ReferenceEolIdentifiersColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "product", Type: field.TypeString},
+		{Name: "identifier_type", Type: field.TypeString},
+		{Name: "value", Type: field.TypeString},
+	}
+	// ReferenceEolIdentifiersTable holds the schema information for the "reference_eol_identifiers" table.
+	ReferenceEolIdentifiersTable = &schema.Table{
+		Name:       "reference_eol_identifiers",
+		Columns:    ReferenceEolIdentifiersColumns,
+		PrimaryKey: []*schema.Column{ReferenceEolIdentifiersColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzereferenceeolidentifier_product",
+				Unique:  false,
+				Columns: []*schema.Column{ReferenceEolIdentifiersColumns[3]},
+			},
+			{
+				Name:    "bronzereferenceeolidentifier_identifier_type",
+				Unique:  false,
+				Columns: []*schema.Column{ReferenceEolIdentifiersColumns[4]},
+			},
+			{
+				Name:    "bronzereferenceeolidentifier_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{ReferenceEolIdentifiersColumns[1]},
+			},
+		},
+	}
 	// ReferenceEolProductsColumns holds the columns for the "reference_eol_products" table.
 	ReferenceEolProductsColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -84,6 +116,7 @@ var (
 		{Name: "first_collected_at", Type: field.TypeTime},
 		{Name: "name", Type: field.TypeString},
 		{Name: "category", Type: field.TypeString},
+		{Name: "tags", Type: field.TypeJSON, Nullable: true},
 	}
 	// ReferenceEolProductsTable holds the schema information for the "reference_eol_products" table.
 	ReferenceEolProductsTable = &schema.Table{
@@ -214,6 +247,7 @@ var (
 	Tables = []*schema.Table{
 		ReferenceCpeTable,
 		ReferenceEolCyclesTable,
+		ReferenceEolIdentifiersTable,
 		ReferenceEolProductsTable,
 		ReferenceRpmPackagesTable,
 		ReferenceUbuntuPackagesTable,
@@ -227,6 +261,9 @@ func init() {
 	}
 	ReferenceEolCyclesTable.Annotation = &entsql.Annotation{
 		Table: "reference_eol_cycles",
+	}
+	ReferenceEolIdentifiersTable.Annotation = &entsql.Annotation{
+		Table: "reference_eol_identifiers",
 	}
 	ReferenceEolProductsTable.Annotation = &entsql.Annotation{
 		Table: "reference_eol_products",

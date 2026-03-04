@@ -16,6 +16,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencecpe"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolcycle"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolidentifier"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolproduct"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencerpmpackage"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceubuntupackage"
@@ -33,6 +34,8 @@ type Client struct {
 	BronzeReferenceCPE *BronzeReferenceCPEClient
 	// BronzeReferenceEOLCycle is the client for interacting with the BronzeReferenceEOLCycle builders.
 	BronzeReferenceEOLCycle *BronzeReferenceEOLCycleClient
+	// BronzeReferenceEOLIdentifier is the client for interacting with the BronzeReferenceEOLIdentifier builders.
+	BronzeReferenceEOLIdentifier *BronzeReferenceEOLIdentifierClient
 	// BronzeReferenceEOLProduct is the client for interacting with the BronzeReferenceEOLProduct builders.
 	BronzeReferenceEOLProduct *BronzeReferenceEOLProductClient
 	// BronzeReferenceRPMPackage is the client for interacting with the BronzeReferenceRPMPackage builders.
@@ -54,6 +57,7 @@ func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.BronzeReferenceCPE = NewBronzeReferenceCPEClient(c.config)
 	c.BronzeReferenceEOLCycle = NewBronzeReferenceEOLCycleClient(c.config)
+	c.BronzeReferenceEOLIdentifier = NewBronzeReferenceEOLIdentifierClient(c.config)
 	c.BronzeReferenceEOLProduct = NewBronzeReferenceEOLProductClient(c.config)
 	c.BronzeReferenceRPMPackage = NewBronzeReferenceRPMPackageClient(c.config)
 	c.BronzeReferenceUbuntuPackage = NewBronzeReferenceUbuntuPackageClient(c.config)
@@ -154,6 +158,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		config:                       cfg,
 		BronzeReferenceCPE:           NewBronzeReferenceCPEClient(cfg),
 		BronzeReferenceEOLCycle:      NewBronzeReferenceEOLCycleClient(cfg),
+		BronzeReferenceEOLIdentifier: NewBronzeReferenceEOLIdentifierClient(cfg),
 		BronzeReferenceEOLProduct:    NewBronzeReferenceEOLProductClient(cfg),
 		BronzeReferenceRPMPackage:    NewBronzeReferenceRPMPackageClient(cfg),
 		BronzeReferenceUbuntuPackage: NewBronzeReferenceUbuntuPackageClient(cfg),
@@ -179,6 +184,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		config:                       cfg,
 		BronzeReferenceCPE:           NewBronzeReferenceCPEClient(cfg),
 		BronzeReferenceEOLCycle:      NewBronzeReferenceEOLCycleClient(cfg),
+		BronzeReferenceEOLIdentifier: NewBronzeReferenceEOLIdentifierClient(cfg),
 		BronzeReferenceEOLProduct:    NewBronzeReferenceEOLProductClient(cfg),
 		BronzeReferenceRPMPackage:    NewBronzeReferenceRPMPackageClient(cfg),
 		BronzeReferenceUbuntuPackage: NewBronzeReferenceUbuntuPackageClient(cfg),
@@ -212,9 +218,9 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.BronzeReferenceCPE, c.BronzeReferenceEOLCycle, c.BronzeReferenceEOLProduct,
-		c.BronzeReferenceRPMPackage, c.BronzeReferenceUbuntuPackage,
-		c.BronzeReferenceXeolProduct,
+		c.BronzeReferenceCPE, c.BronzeReferenceEOLCycle, c.BronzeReferenceEOLIdentifier,
+		c.BronzeReferenceEOLProduct, c.BronzeReferenceRPMPackage,
+		c.BronzeReferenceUbuntuPackage, c.BronzeReferenceXeolProduct,
 	} {
 		n.Use(hooks...)
 	}
@@ -224,9 +230,9 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.BronzeReferenceCPE, c.BronzeReferenceEOLCycle, c.BronzeReferenceEOLProduct,
-		c.BronzeReferenceRPMPackage, c.BronzeReferenceUbuntuPackage,
-		c.BronzeReferenceXeolProduct,
+		c.BronzeReferenceCPE, c.BronzeReferenceEOLCycle, c.BronzeReferenceEOLIdentifier,
+		c.BronzeReferenceEOLProduct, c.BronzeReferenceRPMPackage,
+		c.BronzeReferenceUbuntuPackage, c.BronzeReferenceXeolProduct,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -239,6 +245,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeReferenceCPE.mutate(ctx, m)
 	case *BronzeReferenceEOLCycleMutation:
 		return c.BronzeReferenceEOLCycle.mutate(ctx, m)
+	case *BronzeReferenceEOLIdentifierMutation:
+		return c.BronzeReferenceEOLIdentifier.mutate(ctx, m)
 	case *BronzeReferenceEOLProductMutation:
 		return c.BronzeReferenceEOLProduct.mutate(ctx, m)
 	case *BronzeReferenceRPMPackageMutation:
@@ -515,6 +523,139 @@ func (c *BronzeReferenceEOLCycleClient) mutate(ctx context.Context, m *BronzeRef
 		return (&BronzeReferenceEOLCycleDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("reference: unknown BronzeReferenceEOLCycle mutation op: %q", m.Op())
+	}
+}
+
+// BronzeReferenceEOLIdentifierClient is a client for the BronzeReferenceEOLIdentifier schema.
+type BronzeReferenceEOLIdentifierClient struct {
+	config
+}
+
+// NewBronzeReferenceEOLIdentifierClient returns a client for the BronzeReferenceEOLIdentifier from the given config.
+func NewBronzeReferenceEOLIdentifierClient(c config) *BronzeReferenceEOLIdentifierClient {
+	return &BronzeReferenceEOLIdentifierClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzereferenceeolidentifier.Hooks(f(g(h())))`.
+func (c *BronzeReferenceEOLIdentifierClient) Use(hooks ...Hook) {
+	c.hooks.BronzeReferenceEOLIdentifier = append(c.hooks.BronzeReferenceEOLIdentifier, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzereferenceeolidentifier.Intercept(f(g(h())))`.
+func (c *BronzeReferenceEOLIdentifierClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeReferenceEOLIdentifier = append(c.inters.BronzeReferenceEOLIdentifier, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeReferenceEOLIdentifier entity.
+func (c *BronzeReferenceEOLIdentifierClient) Create() *BronzeReferenceEOLIdentifierCreate {
+	mutation := newBronzeReferenceEOLIdentifierMutation(c.config, OpCreate)
+	return &BronzeReferenceEOLIdentifierCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeReferenceEOLIdentifier entities.
+func (c *BronzeReferenceEOLIdentifierClient) CreateBulk(builders ...*BronzeReferenceEOLIdentifierCreate) *BronzeReferenceEOLIdentifierCreateBulk {
+	return &BronzeReferenceEOLIdentifierCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeReferenceEOLIdentifierClient) MapCreateBulk(slice any, setFunc func(*BronzeReferenceEOLIdentifierCreate, int)) *BronzeReferenceEOLIdentifierCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeReferenceEOLIdentifierCreateBulk{err: fmt.Errorf("calling to BronzeReferenceEOLIdentifierClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeReferenceEOLIdentifierCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeReferenceEOLIdentifierCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeReferenceEOLIdentifier.
+func (c *BronzeReferenceEOLIdentifierClient) Update() *BronzeReferenceEOLIdentifierUpdate {
+	mutation := newBronzeReferenceEOLIdentifierMutation(c.config, OpUpdate)
+	return &BronzeReferenceEOLIdentifierUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeReferenceEOLIdentifierClient) UpdateOne(_m *BronzeReferenceEOLIdentifier) *BronzeReferenceEOLIdentifierUpdateOne {
+	mutation := newBronzeReferenceEOLIdentifierMutation(c.config, OpUpdateOne, withBronzeReferenceEOLIdentifier(_m))
+	return &BronzeReferenceEOLIdentifierUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeReferenceEOLIdentifierClient) UpdateOneID(id string) *BronzeReferenceEOLIdentifierUpdateOne {
+	mutation := newBronzeReferenceEOLIdentifierMutation(c.config, OpUpdateOne, withBronzeReferenceEOLIdentifierID(id))
+	return &BronzeReferenceEOLIdentifierUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeReferenceEOLIdentifier.
+func (c *BronzeReferenceEOLIdentifierClient) Delete() *BronzeReferenceEOLIdentifierDelete {
+	mutation := newBronzeReferenceEOLIdentifierMutation(c.config, OpDelete)
+	return &BronzeReferenceEOLIdentifierDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeReferenceEOLIdentifierClient) DeleteOne(_m *BronzeReferenceEOLIdentifier) *BronzeReferenceEOLIdentifierDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeReferenceEOLIdentifierClient) DeleteOneID(id string) *BronzeReferenceEOLIdentifierDeleteOne {
+	builder := c.Delete().Where(bronzereferenceeolidentifier.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeReferenceEOLIdentifierDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeReferenceEOLIdentifier.
+func (c *BronzeReferenceEOLIdentifierClient) Query() *BronzeReferenceEOLIdentifierQuery {
+	return &BronzeReferenceEOLIdentifierQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeReferenceEOLIdentifier},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeReferenceEOLIdentifier entity by its id.
+func (c *BronzeReferenceEOLIdentifierClient) Get(ctx context.Context, id string) (*BronzeReferenceEOLIdentifier, error) {
+	return c.Query().Where(bronzereferenceeolidentifier.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeReferenceEOLIdentifierClient) GetX(ctx context.Context, id string) *BronzeReferenceEOLIdentifier {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeReferenceEOLIdentifierClient) Hooks() []Hook {
+	return c.hooks.BronzeReferenceEOLIdentifier
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeReferenceEOLIdentifierClient) Interceptors() []Interceptor {
+	return c.inters.BronzeReferenceEOLIdentifier
+}
+
+func (c *BronzeReferenceEOLIdentifierClient) mutate(ctx context.Context, m *BronzeReferenceEOLIdentifierMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeReferenceEOLIdentifierCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeReferenceEOLIdentifierUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeReferenceEOLIdentifierUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeReferenceEOLIdentifierDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("reference: unknown BronzeReferenceEOLIdentifier mutation op: %q", m.Op())
 	}
 }
 
@@ -1053,14 +1194,14 @@ func (c *BronzeReferenceXeolProductClient) mutate(ctx context.Context, m *Bronze
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		BronzeReferenceCPE, BronzeReferenceEOLCycle, BronzeReferenceEOLProduct,
-		BronzeReferenceRPMPackage, BronzeReferenceUbuntuPackage,
-		BronzeReferenceXeolProduct []ent.Hook
+		BronzeReferenceCPE, BronzeReferenceEOLCycle, BronzeReferenceEOLIdentifier,
+		BronzeReferenceEOLProduct, BronzeReferenceRPMPackage,
+		BronzeReferenceUbuntuPackage, BronzeReferenceXeolProduct []ent.Hook
 	}
 	inters struct {
-		BronzeReferenceCPE, BronzeReferenceEOLCycle, BronzeReferenceEOLProduct,
-		BronzeReferenceRPMPackage, BronzeReferenceUbuntuPackage,
-		BronzeReferenceXeolProduct []ent.Interceptor
+		BronzeReferenceCPE, BronzeReferenceEOLCycle, BronzeReferenceEOLIdentifier,
+		BronzeReferenceEOLProduct, BronzeReferenceRPMPackage,
+		BronzeReferenceUbuntuPackage, BronzeReferenceXeolProduct []ent.Interceptor
 	}
 )
 

@@ -16,6 +16,8 @@ type Tx struct {
 	BronzeReferenceCPE *BronzeReferenceCPEClient
 	// BronzeReferenceEOLCycle is the client for interacting with the BronzeReferenceEOLCycle builders.
 	BronzeReferenceEOLCycle *BronzeReferenceEOLCycleClient
+	// BronzeReferenceEOLIdentifier is the client for interacting with the BronzeReferenceEOLIdentifier builders.
+	BronzeReferenceEOLIdentifier *BronzeReferenceEOLIdentifierClient
 	// BronzeReferenceEOLProduct is the client for interacting with the BronzeReferenceEOLProduct builders.
 	BronzeReferenceEOLProduct *BronzeReferenceEOLProductClient
 	// BronzeReferenceRPMPackage is the client for interacting with the BronzeReferenceRPMPackage builders.
@@ -157,6 +159,7 @@ func (tx *Tx) Client() *Client {
 func (tx *Tx) init() {
 	tx.BronzeReferenceCPE = NewBronzeReferenceCPEClient(tx.config)
 	tx.BronzeReferenceEOLCycle = NewBronzeReferenceEOLCycleClient(tx.config)
+	tx.BronzeReferenceEOLIdentifier = NewBronzeReferenceEOLIdentifierClient(tx.config)
 	tx.BronzeReferenceEOLProduct = NewBronzeReferenceEOLProductClient(tx.config)
 	tx.BronzeReferenceRPMPackage = NewBronzeReferenceRPMPackageClient(tx.config)
 	tx.BronzeReferenceUbuntuPackage = NewBronzeReferenceUbuntuPackageClient(tx.config)

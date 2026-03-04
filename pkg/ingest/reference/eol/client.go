@@ -32,10 +32,18 @@ func NewClient(httpClient *http.Client) *Client {
 
 // ProductData holds a parsed product with its release cycles.
 type ProductData struct {
-	Slug     string
-	Name     string
-	Category string
-	Cycles   []CycleData
+	Slug        string
+	Name        string
+	Category    string
+	Tags        []string
+	Identifiers []IdentifierData
+	Cycles      []CycleData
+}
+
+// IdentifierData holds a parsed product identifier (purl, repology, cpe).
+type IdentifierData struct {
+	Type  string // "purl", "repology", "cpe"
+	Value string
 }
 
 // CycleData holds a parsed release cycle.
@@ -52,10 +60,33 @@ type CycleData struct {
 
 // yamlFrontmatter maps the YAML structure in products/*.md files.
 type yamlFrontmatter struct {
-	Title    string        `yaml:"title"`
-	Category string        `yaml:"category"`
-	Permalink string       `yaml:"permalink"`
-	Releases []yamlRelease `yaml:"releases"`
+	Title       string              `yaml:"title"`
+	Category    string              `yaml:"category"`
+	Permalink   string              `yaml:"permalink"`
+	Tags        yamlTags            `yaml:"tags"`
+	Identifiers []map[string]string `yaml:"identifiers"`
+	Releases    []yamlRelease       `yaml:"releases"`
+}
+
+// yamlTags handles the tags field which can be a single string or a list.
+type yamlTags []string
+
+func (t *yamlTags) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	// Try as a list first.
+	var list []string
+	if err := unmarshal(&list); err == nil {
+		*t = list
+		return nil
+	}
+	// Fall back to a single string.
+	var s string
+	if err := unmarshal(&s); err == nil {
+		if s != "" {
+			*t = []string{s}
+		}
+		return nil
+	}
+	return nil
 }
 
 type yamlRelease struct {
@@ -174,6 +205,17 @@ func parseProductFile(filename string, content []byte) (*ProductData, error) {
 		Slug:     slug,
 		Name:     fm.Title,
 		Category: fm.Category,
+		Tags:     []string(fm.Tags),
+	}
+
+	// Parse identifiers: each entry is a single-key map like {"purl": "pkg:deb/ubuntu/nginx"}.
+	for _, m := range fm.Identifiers {
+		for idType, idValue := range m {
+			product.Identifiers = append(product.Identifiers, IdentifierData{
+				Type:  idType,
+				Value: idValue,
+			})
+		}
 	}
 
 	for _, rel := range fm.Releases {

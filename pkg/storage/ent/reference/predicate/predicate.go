@@ -12,6 +12,9 @@ type BronzeReferenceCPE func(*sql.Selector)
 // BronzeReferenceEOLCycle is the predicate function for bronzereferenceeolcycle builders.
 type BronzeReferenceEOLCycle func(*sql.Selector)
 
+// BronzeReferenceEOLIdentifier is the predicate function for bronzereferenceeolidentifier builders.
+type BronzeReferenceEOLIdentifier func(*sql.Selector)
+
 // BronzeReferenceEOLProduct is the predicate function for bronzereferenceeolproduct builders.
 type BronzeReferenceEOLProduct func(*sql.Selector)
 
