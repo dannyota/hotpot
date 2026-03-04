@@ -36,36 +36,64 @@ func (a *Activities) createClient() *Client {
 	return NewClient(httpClient)
 }
 
-// IngestRPMPackagesResult contains the result of the RPM packages ingest activity.
-type IngestRPMPackagesResult struct {
+// IngestRPMRepoInput is the input for the per-repo ingest activity.
+type IngestRPMRepoInput struct {
+	RepoName string
+}
+
+// IngestRPMRepoResult contains the result of a single RPM repo ingest activity.
+type IngestRPMRepoResult struct {
+	RepoName       string
 	PackageCount   int
 	DurationMillis int64
 }
 
-// IngestRPMPackagesActivity is the activity function reference for workflow registration.
-var IngestRPMPackagesActivity = (*Activities).IngestRPMPackages
+// IngestRPMRepoActivity is the activity function reference for workflow registration.
+var IngestRPMRepoActivity = (*Activities).IngestRPMRepo
 
-// IngestRPMPackages downloads and ingests RPM repository metadata.
-func (a *Activities) IngestRPMPackages(ctx context.Context) (*IngestRPMPackagesResult, error) {
+// IngestRPMRepo downloads and ingests a single RPM repository.
+func (a *Activities) IngestRPMRepo(ctx context.Context, input IngestRPMRepoInput) (*IngestRPMRepoResult, error) {
 	logger := activity.GetLogger(ctx)
-	logger.Info("Starting RPM packages ingestion")
+	logger.Info("Starting RPM repo ingestion", "repo", input.RepoName)
 
-	client := a.createClient()
-	service := NewService(client, a.entClient)
-
-	result, err := service.Ingest(ctx, func(details string) {
-		activity.RecordHeartbeat(ctx, details)
-	})
-	if err != nil {
-		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest RPM packages: %w", err))
+	// Find repo definition
+	var repo RepoDef
+	var found bool
+	for _, r := range Repos {
+		if r.Name == input.RepoName {
+			repo = r
+			found = true
+			break
+		}
+	}
+	if !found {
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("unknown RPM repo: %s", input.RepoName))
 	}
 
-	logger.Info("Completed RPM packages ingestion",
+	heartbeat := func(details string) {
+		activity.RecordHeartbeat(ctx, details)
+	}
+
+	client := a.createClient()
+	packages, err := client.DownloadRepo(repo, heartbeat)
+	if err != nil {
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("download RPM repo %s: %w", input.RepoName, err))
+	}
+
+	service := NewService(a.entClient)
+	result, err := service.IngestRepo(ctx, input.RepoName, packages, heartbeat)
+	if err != nil {
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest RPM repo %s: %w", input.RepoName, err))
+	}
+
+	logger.Info("Completed RPM repo ingestion",
+		"repo", result.RepoName,
 		"packageCount", result.PackageCount,
 		"durationMillis", result.DurationMillis,
 	)
 
-	return &IngestRPMPackagesResult{
+	return &IngestRPMRepoResult{
+		RepoName:       result.RepoName,
 		PackageCount:   result.PackageCount,
 		DurationMillis: result.DurationMillis,
 	}, nil

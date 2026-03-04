@@ -12,7 +12,7 @@ import (
 func Register(w worker.Worker, configService *config.Service, entClient *entreference.Client, limiter ratelimit.Limiter) {
 	activities := NewActivities(configService, entClient, limiter)
 
-	w.RegisterActivity(activities.IngestRPMPackages)
+	w.RegisterActivity(activities.IngestRPMRepo)
 
 	w.RegisterWorkflow(RPMPackagesWorkflow)
 }

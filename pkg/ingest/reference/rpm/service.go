@@ -6,6 +6,8 @@ import (
 	"log/slog"
 	"time"
 
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencerpmpackage"
+
 	entreference "github.com/dannyota/hotpot/pkg/storage/ent/reference"
 )
 
@@ -13,32 +15,26 @@ const insertBatchSize = 1000
 
 // Service handles RPM package data persistence.
 type Service struct {
-	client    *Client
 	entClient *entreference.Client
 }
 
 // NewService creates a new RPM service.
-func NewService(client *Client, entClient *entreference.Client) *Service {
-	return &Service{client: client, entClient: entClient}
+func NewService(entClient *entreference.Client) *Service {
+	return &Service{entClient: entClient}
 }
 
-// IngestResult contains the result of an RPM package ingestion.
-type IngestResult struct {
+// IngestRepoResult contains the result of a single RPM repo ingestion.
+type IngestRepoResult struct {
+	RepoName       string
 	PackageCount   int
 	DurationMillis int64
 }
 
-// Ingest downloads and replaces all RPM package data.
-func (s *Service) Ingest(ctx context.Context, heartbeat func(string)) (*IngestResult, error) {
+// IngestRepo deletes existing packages for the given repo and inserts the new data.
+func (s *Service) IngestRepo(ctx context.Context, repoName string, packages []RPMPackageData, heartbeat func(string)) (*IngestRepoResult, error) {
 	start := time.Now()
 
-	data, err := s.client.Download(heartbeat)
-	if err != nil {
-		return nil, fmt.Errorf("download RPM packages: %w", err)
-	}
-
-	slog.Info("Downloaded all RPM packages", "count", len(data))
-	heartbeat(fmt.Sprintf("saving %d packages", len(data)))
+	heartbeat(fmt.Sprintf("saving %d packages for %s", len(packages), repoName))
 
 	now := time.Now()
 
@@ -48,17 +44,19 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func(string)) (*IngestRe
 	}
 	defer tx.Rollback()
 
-	// Delete all existing entries
-	deleted, err := tx.BronzeReferenceRPMPackage.Delete().Exec(ctx)
+	// Delete existing entries for this repo only
+	deleted, err := tx.BronzeReferenceRPMPackage.Delete().
+		Where(bronzereferencerpmpackage.Repo(repoName)).
+		Exec(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("delete existing RPM packages: %w", err)
+		return nil, fmt.Errorf("delete existing RPM packages for %s: %w", repoName, err)
 	}
-	slog.Info("Deleted existing RPM packages", "count", deleted)
+	slog.Info("Deleted existing RPM packages", "repo", repoName, "count", deleted)
 
 	// Bulk insert in batches
-	for i := 0; i < len(data); i += insertBatchSize {
-		end := min(i+insertBatchSize, len(data))
-		batch := data[i:end]
+	for i := 0; i < len(packages); i += insertBatchSize {
+		end := min(i+insertBatchSize, len(packages))
+		batch := packages[i:end]
 
 		builders := make([]*entreference.BronzeReferenceRPMPackageCreate, len(batch))
 		for j, d := range batch {
@@ -88,18 +86,19 @@ func (s *Service) Ingest(ctx context.Context, heartbeat func(string)) (*IngestRe
 		}
 
 		if err := tx.BronzeReferenceRPMPackage.CreateBulk(builders...).Exec(ctx); err != nil {
-			return nil, fmt.Errorf("bulk insert RPM packages batch %d: %w", i/insertBatchSize, err)
+			return nil, fmt.Errorf("bulk insert RPM packages batch %d for %s: %w", i/insertBatchSize, repoName, err)
 		}
 
-		heartbeat(fmt.Sprintf("saved %d/%d packages", end, len(data)))
+		heartbeat(fmt.Sprintf("saved %d/%d packages for %s", end, len(packages), repoName))
 	}
 
 	if err := tx.Commit(); err != nil {
-		return nil, fmt.Errorf("commit tx: %w", err)
+		return nil, fmt.Errorf("commit tx for %s: %w", repoName, err)
 	}
 
-	return &IngestResult{
-		PackageCount:   len(data),
+	return &IngestRepoResult{
+		RepoName:       repoName,
+		PackageCount:   len(packages),
 		DurationMillis: time.Since(start).Milliseconds(),
 	}, nil
 }

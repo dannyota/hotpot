@@ -1,6 +1,7 @@
 package rpm
 
 import (
+	"fmt"
 	"time"
 
 	"go.temporal.io/sdk/temporal"
@@ -15,10 +16,10 @@ type RPMPackagesWorkflowResult struct {
 	DurationMillis int64
 }
 
-// RPMPackagesWorkflow ingests RPM repository metadata.
+// RPMPackagesWorkflow ingests RPM repository metadata, one activity per repo.
 func RPMPackagesWorkflow(ctx workflow.Context) (*RPMPackagesWorkflowResult, error) {
 	logger := workflow.GetLogger(ctx)
-	logger.Info("Starting RPMPackagesWorkflow")
+	logger.Info("Starting RPMPackagesWorkflow", "repoCount", len(Repos))
 
 	activityOpts := workflow.ActivityOptions{
 		StartToCloseTimeout: 30 * time.Minute,
@@ -32,17 +33,38 @@ func RPMPackagesWorkflow(ctx workflow.Context) (*RPMPackagesWorkflowResult, erro
 	}
 	activityCtx := workflow.WithActivityOptions(ctx, activityOpts)
 
-	var result IngestRPMPackagesResult
-	err := workflow.ExecuteActivity(activityCtx, IngestRPMPackagesActivity).Get(ctx, &result)
-	if err != nil {
-		logger.Error("Failed to ingest RPM packages", "error", err)
-		return nil, temporalerr.PropagateNonRetryable(err)
+	start := workflow.Now(ctx)
+	totalPackages := 0
+	failures := 0
+
+	for i, repo := range Repos {
+		logger.Info("Ingesting RPM repo", "repo", repo.Name, "progress", fmt.Sprintf("%d/%d", i+1, len(Repos)))
+
+		var result IngestRPMRepoResult
+		err := workflow.ExecuteActivity(activityCtx, IngestRPMRepoActivity, IngestRPMRepoInput{
+			RepoName: repo.Name,
+		}).Get(ctx, &result)
+		if err != nil {
+			logger.Error("Failed to ingest RPM repo", "repo", repo.Name, "error", err)
+			failures++
+			continue
+		}
+
+		totalPackages += result.PackageCount
+		logger.Info("Completed RPM repo", "repo", repo.Name, "packageCount", result.PackageCount)
 	}
 
-	logger.Info("Completed RPMPackagesWorkflow", "packageCount", result.PackageCount)
+	if failures == len(Repos) {
+		return nil, temporalerr.PropagateNonRetryable(fmt.Errorf("all %d RPM repos failed", failures))
+	}
+
+	logger.Info("Completed RPMPackagesWorkflow",
+		"packageCount", totalPackages,
+		"failures", failures,
+	)
 
 	return &RPMPackagesWorkflowResult{
-		PackageCount:   result.PackageCount,
-		DurationMillis: result.DurationMillis,
+		PackageCount:   totalPackages,
+		DurationMillis: workflow.Now(ctx).Sub(start).Milliseconds(),
 	}, nil
 }

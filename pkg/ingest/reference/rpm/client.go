@@ -5,7 +5,6 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
-	"log/slog"
 	"net/http"
 	"os"
 	"strings"
@@ -15,14 +14,15 @@ import (
 	"github.com/ulikunitz/xz"
 )
 
-// repoDef defines a single RPM repository to ingest.
-type repoDef struct {
+// RepoDef defines a single RPM repository to ingest.
+type RepoDef struct {
 	Name       string // e.g. "rhel9-baseos"
 	RepomdURL  string // URL to repomd.xml
 	Compressed string // "gz" or "xz"
 }
 
-var repos = []repoDef{
+// Repos lists all RPM repositories to ingest.
+var Repos = []RepoDef{
 	{
 		Name:       "rhel9-baseos",
 		RepomdURL:  "https://mirror.stream.centos.org/9-stream/BaseOS/x86_64/os/repodata/repomd.xml",
@@ -53,6 +53,26 @@ var repos = []repoDef{
 		RepomdURL:  "https://dl.fedoraproject.org/pub/archive/epel/7/x86_64/repodata/repomd.xml",
 		Compressed: "gz",
 	},
+	{
+		Name:       "rhel9-ha",
+		RepomdURL:  "https://mirror.stream.centos.org/9-stream/HighAvailability/x86_64/os/repodata/repomd.xml",
+		Compressed: "gz",
+	},
+	{
+		Name:       "rhel9-crb",
+		RepomdURL:  "https://mirror.stream.centos.org/9-stream/CRB/x86_64/os/repodata/repomd.xml",
+		Compressed: "gz",
+	},
+	{
+		Name:       "rhel7-sclo",
+		RepomdURL:  "https://vault.centos.org/7.9.2009/sclo/x86_64/rh/repodata/repomd.xml",
+		Compressed: "gz",
+	},
+	{
+		Name:       "rhel7-extras",
+		RepomdURL:  "https://vault.centos.org/7.9.2009/extras/x86_64/repodata/repomd.xml",
+		Compressed: "gz",
+	},
 }
 
 // Client downloads and parses RPM repository metadata.
@@ -76,27 +96,8 @@ type RPMPackageData struct {
 	URL         string
 }
 
-// Download fetches all configured RPM repos and parses their primary.xml metadata.
-func (c *Client) Download(heartbeat func(string)) ([]RPMPackageData, error) {
-	var all []RPMPackageData
-
-	for i, repo := range repos {
-		slog.Info("Downloading RPM repo", "repo", repo.Name, "progress", fmt.Sprintf("%d/%d", i+1, len(repos)))
-		heartbeat(fmt.Sprintf("downloading %s (%d/%d repos)", repo.Name, i+1, len(repos)))
-
-		packages, err := c.downloadRepo(repo, heartbeat)
-		if err != nil {
-			return nil, fmt.Errorf("download %s: %w", repo.Name, err)
-		}
-
-		slog.Info("Downloaded RPM repo", "repo", repo.Name, "packages", len(packages))
-		all = append(all, packages...)
-	}
-
-	return all, nil
-}
-
-func (c *Client) downloadRepo(repo repoDef, heartbeat func(string)) ([]RPMPackageData, error) {
+// DownloadRepo fetches a single RPM repo and parses its primary.xml metadata.
+func (c *Client) DownloadRepo(repo RepoDef, heartbeat func(string)) ([]RPMPackageData, error) {
 	// Step 1: Fetch repomd.xml to find primary.xml location
 	primaryURL, err := c.discoverPrimaryURL(repo)
 	if err != nil {
@@ -169,7 +170,7 @@ type repomdLocation struct {
 	Href string `xml:"href,attr"`
 }
 
-func (c *Client) discoverPrimaryURL(repo repoDef) (string, error) {
+func (c *Client) discoverPrimaryURL(repo RepoDef) (string, error) {
 	resp, err := c.httpClient.Get(repo.RepomdURL)
 	if err != nil {
 		return "", fmt.Errorf("GET %s: %w", repo.RepomdURL, err)
