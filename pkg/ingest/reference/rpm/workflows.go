@@ -34,24 +34,35 @@ func RPMPackagesWorkflow(ctx workflow.Context) (*RPMPackagesWorkflowResult, erro
 	activityCtx := workflow.WithActivityOptions(ctx, activityOpts)
 
 	start := workflow.Now(ctx)
+
+	// Fan out: launch all repo activities in parallel.
+	type repoFuture struct {
+		name   string
+		future workflow.Future
+	}
+	futures := make([]repoFuture, len(Repos))
+	for i, repo := range Repos {
+		logger.Info("Launching RPM repo activity", "repo", repo.Name, "index", fmt.Sprintf("%d/%d", i+1, len(Repos)))
+		futures[i] = repoFuture{
+			name: repo.Name,
+			future: workflow.ExecuteActivity(activityCtx, IngestRPMRepoActivity, IngestRPMRepoInput{
+				RepoName: repo.Name,
+			}),
+		}
+	}
+
+	// Fan in: collect results.
 	totalPackages := 0
 	failures := 0
-
-	for i, repo := range Repos {
-		logger.Info("Ingesting RPM repo", "repo", repo.Name, "progress", fmt.Sprintf("%d/%d", i+1, len(Repos)))
-
+	for _, rf := range futures {
 		var result IngestRPMRepoResult
-		err := workflow.ExecuteActivity(activityCtx, IngestRPMRepoActivity, IngestRPMRepoInput{
-			RepoName: repo.Name,
-		}).Get(ctx, &result)
-		if err != nil {
-			logger.Error("Failed to ingest RPM repo", "repo", repo.Name, "error", err)
+		if err := rf.future.Get(ctx, &result); err != nil {
+			logger.Error("Failed to ingest RPM repo", "repo", rf.name, "error", err)
 			failures++
 			continue
 		}
-
 		totalPackages += result.PackageCount
-		logger.Info("Completed RPM repo", "repo", repo.Name, "packageCount", result.PackageCount)
+		logger.Info("Completed RPM repo", "repo", rf.name, "packageCount", result.PackageCount)
 	}
 
 	if failures == len(Repos) {

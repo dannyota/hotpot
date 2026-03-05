@@ -31,9 +31,23 @@ func NewActivities(configService *config.Service, entClient *entreference.Client
 
 func (a *Activities) createClient() *Client {
 	httpClient := &http.Client{
-		Transport: ratelimit.NewRateLimitedTransport(a.limiter, nil),
+		Transport: &userAgentTransport{
+			base: ratelimit.NewRateLimitedTransport(a.limiter, nil),
+		},
 	}
 	return NewClient(httpClient)
+}
+
+// userAgentTransport wraps an http.RoundTripper to set a DNF-like User-Agent,
+// so RPM mirror servers treat us as a normal package manager client.
+type userAgentTransport struct {
+	base http.RoundTripper
+}
+
+func (t *userAgentTransport) RoundTrip(req *http.Request) (*http.Response, error) {
+	req = req.Clone(req.Context())
+	req.Header.Set("User-Agent", "dnf/4.14.0")
+	return t.base.RoundTrip(req)
 }
 
 // IngestRPMRepoInput is the input for the per-repo ingest activity.

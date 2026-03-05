@@ -50,7 +50,7 @@ var Repos = []RepoDef{
 	},
 	{
 		Name:       "epel7",
-		RepomdURL:  "https://dl.fedoraproject.org/pub/archive/epel/7/x86_64/repodata/repomd.xml",
+		RepomdURL:  "https://archives.fedoraproject.org/pub/archive/epel/7/x86_64/repodata/repomd.xml",
 		Compressed: "gz",
 	},
 	{
