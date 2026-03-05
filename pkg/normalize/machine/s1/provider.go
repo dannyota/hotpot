@@ -87,12 +87,24 @@ func (Provider) Load(ctx context.Context, db *sql.DB) ([]machine.NormalizedMachi
 		return nil, fmt.Errorf("iterate s1 agents: %w", err)
 	}
 
-	// Load NICs for merge keys.
+	// Load NICs for merge keys, excluding:
+	// 1. Virtual/bridge interfaces by name (ap*, awdl*, bridge*, docker*, veth*, etc.)
+	// 2. MACs shared across 3+ agents (dynamically detected — e.g., GCP internal, VMware, macOS Thunderbolt dummy)
 	nicRows, err := db.QueryContext(ctx, `
 		SELECT n.bronze_s1agent_nics, COALESCE(n.physical, ''),
 			COALESCE(n.inet_json::text, '[]')
 		FROM bronze.s1_agent_nics n
-		JOIN bronze.s1_agents a ON n.bronze_s1agent_nics = a.resource_id`)
+		JOIN bronze.s1_agents a ON n.bronze_s1agent_nics = a.resource_id
+		WHERE LOWER(n.name) NOT LIKE ANY(ARRAY[
+			'ap%', 'awdl%', 'llw%', 'p2p%', 'bridge%', 'vmenet%', 'vmnet%', 'utun%',
+			'docker%', 'br-%', 'veth%', 'virbr%', 'cni%', 'flannel%', 'calico%', 'tun%', 'tap%',
+			'hyper-v%', 'vethernet%', 'lo', 'loopback', 'stf%'
+		])
+		AND UPPER(n.physical) NOT IN (
+			SELECT UPPER(n2.physical) FROM bronze.s1_agent_nics n2
+			WHERE n2.physical IS NOT NULL AND n2.physical != ''
+			GROUP BY UPPER(n2.physical) HAVING COUNT(DISTINCT n2.bronze_s1agent_nics) >= 3
+		)`)
 	if err != nil {
 		return nil, fmt.Errorf("query s1 agent nics: %w", err)
 	}
@@ -154,8 +166,7 @@ func (Provider) Load(ctx context.Context, db *sql.DB) ([]machine.NormalizedMachi
 			CollectedAt:      a.collectedAt.Time,
 			FirstCollectedAt: a.firstCollectedAt.Time,
 			MergeKeys: map[string][]string{
-				"mac":         a.macs,
-				"internal_ip": a.ips,
+				"mac": a.macs,
 			},
 		})
 	}
