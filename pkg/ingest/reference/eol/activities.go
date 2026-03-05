@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"time"
 
 	"go.temporal.io/sdk/activity"
 
@@ -47,6 +48,9 @@ type IngestEOLResult struct {
 // IngestEOLActivity is the activity function reference for workflow registration.
 var IngestEOLActivity = (*Activities).IngestEOL
 
+// IngestRHELEUSActivity is the activity function reference for workflow registration.
+var IngestRHELEUSActivity = (*Activities).IngestRHELEUS
+
 // IngestEOL downloads and ingests the endoflife.date database.
 func (a *Activities) IngestEOL(ctx context.Context) (*IngestEOLResult, error) {
 	logger := activity.GetLogger(ctx)
@@ -74,5 +78,85 @@ func (a *Activities) IngestEOL(ctx context.Context) (*IngestEOLResult, error) {
 		CycleCount:      result.CycleCount,
 		IdentifierCount: result.IdentifierCount,
 		DurationMillis:  result.DurationMillis,
+	}, nil
+}
+
+// IngestRHELEUSResult contains the result of the RHEL EUS ingest activity.
+type IngestRHELEUSResult struct {
+	CycleCount     int
+	DurationMillis int64
+}
+
+// IngestRHELEUS fetches RHEL EUS data from Red Hat and inserts cycles into the EOL table.
+func (a *Activities) IngestRHELEUS(ctx context.Context) (*IngestRHELEUSResult, error) {
+	logger := activity.GetLogger(ctx)
+	logger.Info("Starting RHEL EUS ingestion")
+
+	start := time.Now()
+
+	httpClient := &http.Client{
+		Transport: ratelimit.NewRateLimitedTransport(a.limiter, nil),
+	}
+
+	activity.RecordHeartbeat(ctx, "fetching Red Hat errata page")
+
+	data, err := FetchRHELEUS(httpClient)
+	if err != nil {
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("fetch RHEL EUS: %w", err))
+	}
+
+	logger.Info("Parsed RHEL EUS data", "eus", len(data.EUSCycles), "enhanced", len(data.EnhancedEUSCycles))
+	activity.RecordHeartbeat(ctx, fmt.Sprintf("parsed %d EUS + %d Enhanced EUS cycles", len(data.EUSCycles), len(data.EnhancedEUSCycles)))
+
+	// Build a map of cycle -> EUS end date and Enhanced EUS end date.
+	type eusDates struct {
+		eol  *time.Time // Standard EUS end date
+		eoes *time.Time // Enhanced EUS end date
+	}
+	cycleMap := make(map[string]*eusDates)
+	for _, c := range data.EUSCycles {
+		if _, ok := cycleMap[c.Cycle]; !ok {
+			cycleMap[c.Cycle] = &eusDates{}
+		}
+		cycleMap[c.Cycle].eol = c.EndDate
+	}
+	for _, c := range data.EnhancedEUSCycles {
+		if _, ok := cycleMap[c.Cycle]; !ok {
+			cycleMap[c.Cycle] = &eusDates{}
+		}
+		cycleMap[c.Cycle].eoes = c.EndDate
+	}
+
+	now := time.Now()
+	count := 0
+
+	for cycle, dates := range cycleMap {
+		id := "rhel:" + cycle
+		b := a.entClient.BronzeReferenceEOLCycle.Create().
+			SetID(id).
+			SetProduct("rhel").
+			SetCycle(cycle).
+			SetLatest(cycle).
+			SetCollectedAt(now).
+			SetFirstCollectedAt(now)
+
+		if dates.eol != nil {
+			b.SetEol(*dates.eol)
+		}
+		if dates.eoes != nil {
+			b.SetEoes(*dates.eoes)
+		}
+
+		if err := b.Exec(ctx); err != nil {
+			return nil, fmt.Errorf("insert RHEL EUS cycle %s: %w", cycle, err)
+		}
+		count++
+	}
+
+	logger.Info("Completed RHEL EUS ingestion", "cycles", count, "durationMillis", time.Since(start).Milliseconds())
+
+	return &IngestRHELEUSResult{
+		CycleCount:     count,
+		DurationMillis: time.Since(start).Milliseconds(),
 	}, nil
 }

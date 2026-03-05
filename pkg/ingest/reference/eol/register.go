@@ -13,6 +13,7 @@ func Register(w worker.Worker, configService *config.Service, entClient *entrefe
 	activities := NewActivities(configService, entClient, limiter)
 
 	w.RegisterActivity(activities.IngestEOL)
+	w.RegisterActivity(activities.IngestRHELEUS)
 
 	w.RegisterWorkflow(EOLWorkflow)
 }
