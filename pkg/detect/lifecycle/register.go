@@ -23,4 +23,8 @@ func Register(w worker.Worker, configService *config.Service, driver dialect.Dri
 	w.RegisterActivity(activities.MarkUnmatched)
 	w.RegisterActivity(activities.CleanupStale)
 	w.RegisterWorkflow(SoftwareLifecycleWorkflow)
+
+	w.RegisterActivity(activities.MatchOSLifecycle)
+	w.RegisterActivity(activities.CleanupStaleOS)
+	w.RegisterWorkflow(OSLifecycleWorkflow)
 }

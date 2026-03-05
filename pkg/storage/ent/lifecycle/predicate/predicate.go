@@ -6,5 +6,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
+// GoldLifecycleOS is the predicate function for goldlifecycleos builders.
+type GoldLifecycleOS func(*sql.Selector)
+
 // GoldLifecycleSoftware is the predicate function for goldlifecyclesoftware builders.
 type GoldLifecycleSoftware func(*sql.Selector)

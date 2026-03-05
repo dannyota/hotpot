@@ -12,6 +12,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/goldlifecycleos"
 	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/goldlifecyclesoftware"
 )
 
@@ -73,6 +74,7 @@ var (
 func checkColumn(t, c string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
+			goldlifecycleos.Table:       goldlifecycleos.ValidColumn,
 			goldlifecyclesoftware.Table: goldlifecyclesoftware.ValidColumn,
 		})
 	})

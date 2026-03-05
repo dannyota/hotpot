@@ -11,6 +11,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
+	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/goldlifecycleos"
 	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/goldlifecyclesoftware"
 	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/predicate"
 )
@@ -24,8 +25,1236 @@ const (
 	OpUpdateOne = ent.OpUpdateOne
 
 	// Node types.
+	TypeGoldLifecycleOS       = "GoldLifecycleOS"
 	TypeGoldLifecycleSoftware = "GoldLifecycleSoftware"
 )
+
+// GoldLifecycleOSMutation represents an operation that mutates the GoldLifecycleOS nodes in the graph.
+type GoldLifecycleOSMutation struct {
+	config
+	op                Op
+	typ               string
+	id                *string
+	detected_at       *time.Time
+	first_detected_at *time.Time
+	machine_id        *string
+	hostname          *string
+	os_type           *string
+	os_name           *string
+	eol_product_slug  *string
+	eol_product_name  *string
+	eol_cycle         *string
+	eol_date          *time.Time
+	eoas_date         *time.Time
+	eoes_date         *time.Time
+	eol_status        *string
+	latest_version    *string
+	clearedFields     map[string]struct{}
+	done              bool
+	oldValue          func(context.Context) (*GoldLifecycleOS, error)
+	predicates        []predicate.GoldLifecycleOS
+}
+
+var _ ent.Mutation = (*GoldLifecycleOSMutation)(nil)
+
+// goldlifecycleosOption allows management of the mutation configuration using functional options.
+type goldlifecycleosOption func(*GoldLifecycleOSMutation)
+
+// newGoldLifecycleOSMutation creates new mutation for the GoldLifecycleOS entity.
+func newGoldLifecycleOSMutation(c config, op Op, opts ...goldlifecycleosOption) *GoldLifecycleOSMutation {
+	m := &GoldLifecycleOSMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeGoldLifecycleOS,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withGoldLifecycleOSID sets the ID field of the mutation.
+func withGoldLifecycleOSID(id string) goldlifecycleosOption {
+	return func(m *GoldLifecycleOSMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *GoldLifecycleOS
+		)
+		m.oldValue = func(ctx context.Context) (*GoldLifecycleOS, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().GoldLifecycleOS.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withGoldLifecycleOS sets the old GoldLifecycleOS of the mutation.
+func withGoldLifecycleOS(node *GoldLifecycleOS) goldlifecycleosOption {
+	return func(m *GoldLifecycleOSMutation) {
+		m.oldValue = func(context.Context) (*GoldLifecycleOS, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m GoldLifecycleOSMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m GoldLifecycleOSMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("lifecycle: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of GoldLifecycleOS entities.
+func (m *GoldLifecycleOSMutation) SetID(id string) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *GoldLifecycleOSMutation) ID() (id string, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *GoldLifecycleOSMutation) IDs(ctx context.Context) ([]string, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []string{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().GoldLifecycleOS.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetDetectedAt sets the "detected_at" field.
+func (m *GoldLifecycleOSMutation) SetDetectedAt(t time.Time) {
+	m.detected_at = &t
+}
+
+// DetectedAt returns the value of the "detected_at" field in the mutation.
+func (m *GoldLifecycleOSMutation) DetectedAt() (r time.Time, exists bool) {
+	v := m.detected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDetectedAt returns the old "detected_at" field's value of the GoldLifecycleOS entity.
+// If the GoldLifecycleOS object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *GoldLifecycleOSMutation) OldDetectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDetectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDetectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDetectedAt: %w", err)
+	}
+	return oldValue.DetectedAt, nil
+}
+
+// ResetDetectedAt resets all changes to the "detected_at" field.
+func (m *GoldLifecycleOSMutation) ResetDetectedAt() {
+	m.detected_at = nil
+}
+
+// SetFirstDetectedAt sets the "first_detected_at" field.
+func (m *GoldLifecycleOSMutation) SetFirstDetectedAt(t time.Time) {
+	m.first_detected_at = &t
+}
+
+// FirstDetectedAt returns the value of the "first_detected_at" field in the mutation.
+func (m *GoldLifecycleOSMutation) FirstDetectedAt() (r time.Time, exists bool) {
+	v := m.first_detected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFirstDetectedAt returns the old "first_detected_at" field's value of the GoldLifecycleOS entity.
+// If the GoldLifecycleOS object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *GoldLifecycleOSMutation) OldFirstDetectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFirstDetectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFirstDetectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFirstDetectedAt: %w", err)
+	}
+	return oldValue.FirstDetectedAt, nil
+}
+
+// ResetFirstDetectedAt resets all changes to the "first_detected_at" field.
+func (m *GoldLifecycleOSMutation) ResetFirstDetectedAt() {
+	m.first_detected_at = nil
+}
+
+// SetMachineID sets the "machine_id" field.
+func (m *GoldLifecycleOSMutation) SetMachineID(s string) {
+	m.machine_id = &s
+}
+
+// MachineID returns the value of the "machine_id" field in the mutation.
+func (m *GoldLifecycleOSMutation) MachineID() (r string, exists bool) {
+	v := m.machine_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMachineID returns the old "machine_id" field's value of the GoldLifecycleOS entity.
+// If the GoldLifecycleOS object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *GoldLifecycleOSMutation) OldMachineID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMachineID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMachineID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMachineID: %w", err)
+	}
+	return oldValue.MachineID, nil
+}
+
+// ResetMachineID resets all changes to the "machine_id" field.
+func (m *GoldLifecycleOSMutation) ResetMachineID() {
+	m.machine_id = nil
+}
+
+// SetHostname sets the "hostname" field.
+func (m *GoldLifecycleOSMutation) SetHostname(s string) {
+	m.hostname = &s
+}
+
+// Hostname returns the value of the "hostname" field in the mutation.
+func (m *GoldLifecycleOSMutation) Hostname() (r string, exists bool) {
+	v := m.hostname
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldHostname returns the old "hostname" field's value of the GoldLifecycleOS entity.
+// If the GoldLifecycleOS object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *GoldLifecycleOSMutation) OldHostname(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldHostname is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldHostname requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldHostname: %w", err)
+	}
+	return oldValue.Hostname, nil
+}
+
+// ClearHostname clears the value of the "hostname" field.
+func (m *GoldLifecycleOSMutation) ClearHostname() {
+	m.hostname = nil
+	m.clearedFields[goldlifecycleos.FieldHostname] = struct{}{}
+}
+
+// HostnameCleared returns if the "hostname" field was cleared in this mutation.
+func (m *GoldLifecycleOSMutation) HostnameCleared() bool {
+	_, ok := m.clearedFields[goldlifecycleos.FieldHostname]
+	return ok
+}
+
+// ResetHostname resets all changes to the "hostname" field.
+func (m *GoldLifecycleOSMutation) ResetHostname() {
+	m.hostname = nil
+	delete(m.clearedFields, goldlifecycleos.FieldHostname)
+}
+
+// SetOsType sets the "os_type" field.
+func (m *GoldLifecycleOSMutation) SetOsType(s string) {
+	m.os_type = &s
+}
+
+// OsType returns the value of the "os_type" field in the mutation.
+func (m *GoldLifecycleOSMutation) OsType() (r string, exists bool) {
+	v := m.os_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOsType returns the old "os_type" field's value of the GoldLifecycleOS entity.
+// If the GoldLifecycleOS object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *GoldLifecycleOSMutation) OldOsType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOsType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOsType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOsType: %w", err)
+	}
+	return oldValue.OsType, nil
+}
+
+// ClearOsType clears the value of the "os_type" field.
+func (m *GoldLifecycleOSMutation) ClearOsType() {
+	m.os_type = nil
+	m.clearedFields[goldlifecycleos.FieldOsType] = struct{}{}
+}
+
+// OsTypeCleared returns if the "os_type" field was cleared in this mutation.
+func (m *GoldLifecycleOSMutation) OsTypeCleared() bool {
+	_, ok := m.clearedFields[goldlifecycleos.FieldOsType]
+	return ok
+}
+
+// ResetOsType resets all changes to the "os_type" field.
+func (m *GoldLifecycleOSMutation) ResetOsType() {
+	m.os_type = nil
+	delete(m.clearedFields, goldlifecycleos.FieldOsType)
+}
+
+// SetOsName sets the "os_name" field.
+func (m *GoldLifecycleOSMutation) SetOsName(s string) {
+	m.os_name = &s
+}
+
+// OsName returns the value of the "os_name" field in the mutation.
+func (m *GoldLifecycleOSMutation) OsName() (r string, exists bool) {
+	v := m.os_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOsName returns the old "os_name" field's value of the GoldLifecycleOS entity.
+// If the GoldLifecycleOS object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *GoldLifecycleOSMutation) OldOsName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOsName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOsName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOsName: %w", err)
+	}
+	return oldValue.OsName, nil
+}
+
+// ClearOsName clears the value of the "os_name" field.
+func (m *GoldLifecycleOSMutation) ClearOsName() {
+	m.os_name = nil
+	m.clearedFields[goldlifecycleos.FieldOsName] = struct{}{}
+}
+
+// OsNameCleared returns if the "os_name" field was cleared in this mutation.
+func (m *GoldLifecycleOSMutation) OsNameCleared() bool {
+	_, ok := m.clearedFields[goldlifecycleos.FieldOsName]
+	return ok
+}
+
+// ResetOsName resets all changes to the "os_name" field.
+func (m *GoldLifecycleOSMutation) ResetOsName() {
+	m.os_name = nil
+	delete(m.clearedFields, goldlifecycleos.FieldOsName)
+}
+
+// SetEolProductSlug sets the "eol_product_slug" field.
+func (m *GoldLifecycleOSMutation) SetEolProductSlug(s string) {
+	m.eol_product_slug = &s
+}
+
+// EolProductSlug returns the value of the "eol_product_slug" field in the mutation.
+func (m *GoldLifecycleOSMutation) EolProductSlug() (r string, exists bool) {
+	v := m.eol_product_slug
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEolProductSlug returns the old "eol_product_slug" field's value of the GoldLifecycleOS entity.
+// If the GoldLifecycleOS object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *GoldLifecycleOSMutation) OldEolProductSlug(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEolProductSlug is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEolProductSlug requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEolProductSlug: %w", err)
+	}
+	return oldValue.EolProductSlug, nil
+}
+
+// ClearEolProductSlug clears the value of the "eol_product_slug" field.
+func (m *GoldLifecycleOSMutation) ClearEolProductSlug() {
+	m.eol_product_slug = nil
+	m.clearedFields[goldlifecycleos.FieldEolProductSlug] = struct{}{}
+}
+
+// EolProductSlugCleared returns if the "eol_product_slug" field was cleared in this mutation.
+func (m *GoldLifecycleOSMutation) EolProductSlugCleared() bool {
+	_, ok := m.clearedFields[goldlifecycleos.FieldEolProductSlug]
+	return ok
+}
+
+// ResetEolProductSlug resets all changes to the "eol_product_slug" field.
+func (m *GoldLifecycleOSMutation) ResetEolProductSlug() {
+	m.eol_product_slug = nil
+	delete(m.clearedFields, goldlifecycleos.FieldEolProductSlug)
+}
+
+// SetEolProductName sets the "eol_product_name" field.
+func (m *GoldLifecycleOSMutation) SetEolProductName(s string) {
+	m.eol_product_name = &s
+}
+
+// EolProductName returns the value of the "eol_product_name" field in the mutation.
+func (m *GoldLifecycleOSMutation) EolProductName() (r string, exists bool) {
+	v := m.eol_product_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEolProductName returns the old "eol_product_name" field's value of the GoldLifecycleOS entity.
+// If the GoldLifecycleOS object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *GoldLifecycleOSMutation) OldEolProductName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEolProductName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEolProductName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEolProductName: %w", err)
+	}
+	return oldValue.EolProductName, nil
+}
+
+// ClearEolProductName clears the value of the "eol_product_name" field.
+func (m *GoldLifecycleOSMutation) ClearEolProductName() {
+	m.eol_product_name = nil
+	m.clearedFields[goldlifecycleos.FieldEolProductName] = struct{}{}
+}
+
+// EolProductNameCleared returns if the "eol_product_name" field was cleared in this mutation.
+func (m *GoldLifecycleOSMutation) EolProductNameCleared() bool {
+	_, ok := m.clearedFields[goldlifecycleos.FieldEolProductName]
+	return ok
+}
+
+// ResetEolProductName resets all changes to the "eol_product_name" field.
+func (m *GoldLifecycleOSMutation) ResetEolProductName() {
+	m.eol_product_name = nil
+	delete(m.clearedFields, goldlifecycleos.FieldEolProductName)
+}
+
+// SetEolCycle sets the "eol_cycle" field.
+func (m *GoldLifecycleOSMutation) SetEolCycle(s string) {
+	m.eol_cycle = &s
+}
+
+// EolCycle returns the value of the "eol_cycle" field in the mutation.
+func (m *GoldLifecycleOSMutation) EolCycle() (r string, exists bool) {
+	v := m.eol_cycle
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEolCycle returns the old "eol_cycle" field's value of the GoldLifecycleOS entity.
+// If the GoldLifecycleOS object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *GoldLifecycleOSMutation) OldEolCycle(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEolCycle is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEolCycle requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEolCycle: %w", err)
+	}
+	return oldValue.EolCycle, nil
+}
+
+// ClearEolCycle clears the value of the "eol_cycle" field.
+func (m *GoldLifecycleOSMutation) ClearEolCycle() {
+	m.eol_cycle = nil
+	m.clearedFields[goldlifecycleos.FieldEolCycle] = struct{}{}
+}
+
+// EolCycleCleared returns if the "eol_cycle" field was cleared in this mutation.
+func (m *GoldLifecycleOSMutation) EolCycleCleared() bool {
+	_, ok := m.clearedFields[goldlifecycleos.FieldEolCycle]
+	return ok
+}
+
+// ResetEolCycle resets all changes to the "eol_cycle" field.
+func (m *GoldLifecycleOSMutation) ResetEolCycle() {
+	m.eol_cycle = nil
+	delete(m.clearedFields, goldlifecycleos.FieldEolCycle)
+}
+
+// SetEolDate sets the "eol_date" field.
+func (m *GoldLifecycleOSMutation) SetEolDate(t time.Time) {
+	m.eol_date = &t
+}
+
+// EolDate returns the value of the "eol_date" field in the mutation.
+func (m *GoldLifecycleOSMutation) EolDate() (r time.Time, exists bool) {
+	v := m.eol_date
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEolDate returns the old "eol_date" field's value of the GoldLifecycleOS entity.
+// If the GoldLifecycleOS object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *GoldLifecycleOSMutation) OldEolDate(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEolDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEolDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEolDate: %w", err)
+	}
+	return oldValue.EolDate, nil
+}
+
+// ClearEolDate clears the value of the "eol_date" field.
+func (m *GoldLifecycleOSMutation) ClearEolDate() {
+	m.eol_date = nil
+	m.clearedFields[goldlifecycleos.FieldEolDate] = struct{}{}
+}
+
+// EolDateCleared returns if the "eol_date" field was cleared in this mutation.
+func (m *GoldLifecycleOSMutation) EolDateCleared() bool {
+	_, ok := m.clearedFields[goldlifecycleos.FieldEolDate]
+	return ok
+}
+
+// ResetEolDate resets all changes to the "eol_date" field.
+func (m *GoldLifecycleOSMutation) ResetEolDate() {
+	m.eol_date = nil
+	delete(m.clearedFields, goldlifecycleos.FieldEolDate)
+}
+
+// SetEoasDate sets the "eoas_date" field.
+func (m *GoldLifecycleOSMutation) SetEoasDate(t time.Time) {
+	m.eoas_date = &t
+}
+
+// EoasDate returns the value of the "eoas_date" field in the mutation.
+func (m *GoldLifecycleOSMutation) EoasDate() (r time.Time, exists bool) {
+	v := m.eoas_date
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEoasDate returns the old "eoas_date" field's value of the GoldLifecycleOS entity.
+// If the GoldLifecycleOS object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *GoldLifecycleOSMutation) OldEoasDate(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEoasDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEoasDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEoasDate: %w", err)
+	}
+	return oldValue.EoasDate, nil
+}
+
+// ClearEoasDate clears the value of the "eoas_date" field.
+func (m *GoldLifecycleOSMutation) ClearEoasDate() {
+	m.eoas_date = nil
+	m.clearedFields[goldlifecycleos.FieldEoasDate] = struct{}{}
+}
+
+// EoasDateCleared returns if the "eoas_date" field was cleared in this mutation.
+func (m *GoldLifecycleOSMutation) EoasDateCleared() bool {
+	_, ok := m.clearedFields[goldlifecycleos.FieldEoasDate]
+	return ok
+}
+
+// ResetEoasDate resets all changes to the "eoas_date" field.
+func (m *GoldLifecycleOSMutation) ResetEoasDate() {
+	m.eoas_date = nil
+	delete(m.clearedFields, goldlifecycleos.FieldEoasDate)
+}
+
+// SetEoesDate sets the "eoes_date" field.
+func (m *GoldLifecycleOSMutation) SetEoesDate(t time.Time) {
+	m.eoes_date = &t
+}
+
+// EoesDate returns the value of the "eoes_date" field in the mutation.
+func (m *GoldLifecycleOSMutation) EoesDate() (r time.Time, exists bool) {
+	v := m.eoes_date
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEoesDate returns the old "eoes_date" field's value of the GoldLifecycleOS entity.
+// If the GoldLifecycleOS object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *GoldLifecycleOSMutation) OldEoesDate(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEoesDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEoesDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEoesDate: %w", err)
+	}
+	return oldValue.EoesDate, nil
+}
+
+// ClearEoesDate clears the value of the "eoes_date" field.
+func (m *GoldLifecycleOSMutation) ClearEoesDate() {
+	m.eoes_date = nil
+	m.clearedFields[goldlifecycleos.FieldEoesDate] = struct{}{}
+}
+
+// EoesDateCleared returns if the "eoes_date" field was cleared in this mutation.
+func (m *GoldLifecycleOSMutation) EoesDateCleared() bool {
+	_, ok := m.clearedFields[goldlifecycleos.FieldEoesDate]
+	return ok
+}
+
+// ResetEoesDate resets all changes to the "eoes_date" field.
+func (m *GoldLifecycleOSMutation) ResetEoesDate() {
+	m.eoes_date = nil
+	delete(m.clearedFields, goldlifecycleos.FieldEoesDate)
+}
+
+// SetEolStatus sets the "eol_status" field.
+func (m *GoldLifecycleOSMutation) SetEolStatus(s string) {
+	m.eol_status = &s
+}
+
+// EolStatus returns the value of the "eol_status" field in the mutation.
+func (m *GoldLifecycleOSMutation) EolStatus() (r string, exists bool) {
+	v := m.eol_status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEolStatus returns the old "eol_status" field's value of the GoldLifecycleOS entity.
+// If the GoldLifecycleOS object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *GoldLifecycleOSMutation) OldEolStatus(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEolStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEolStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEolStatus: %w", err)
+	}
+	return oldValue.EolStatus, nil
+}
+
+// ResetEolStatus resets all changes to the "eol_status" field.
+func (m *GoldLifecycleOSMutation) ResetEolStatus() {
+	m.eol_status = nil
+}
+
+// SetLatestVersion sets the "latest_version" field.
+func (m *GoldLifecycleOSMutation) SetLatestVersion(s string) {
+	m.latest_version = &s
+}
+
+// LatestVersion returns the value of the "latest_version" field in the mutation.
+func (m *GoldLifecycleOSMutation) LatestVersion() (r string, exists bool) {
+	v := m.latest_version
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLatestVersion returns the old "latest_version" field's value of the GoldLifecycleOS entity.
+// If the GoldLifecycleOS object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *GoldLifecycleOSMutation) OldLatestVersion(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLatestVersion is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLatestVersion requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLatestVersion: %w", err)
+	}
+	return oldValue.LatestVersion, nil
+}
+
+// ClearLatestVersion clears the value of the "latest_version" field.
+func (m *GoldLifecycleOSMutation) ClearLatestVersion() {
+	m.latest_version = nil
+	m.clearedFields[goldlifecycleos.FieldLatestVersion] = struct{}{}
+}
+
+// LatestVersionCleared returns if the "latest_version" field was cleared in this mutation.
+func (m *GoldLifecycleOSMutation) LatestVersionCleared() bool {
+	_, ok := m.clearedFields[goldlifecycleos.FieldLatestVersion]
+	return ok
+}
+
+// ResetLatestVersion resets all changes to the "latest_version" field.
+func (m *GoldLifecycleOSMutation) ResetLatestVersion() {
+	m.latest_version = nil
+	delete(m.clearedFields, goldlifecycleos.FieldLatestVersion)
+}
+
+// Where appends a list predicates to the GoldLifecycleOSMutation builder.
+func (m *GoldLifecycleOSMutation) Where(ps ...predicate.GoldLifecycleOS) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the GoldLifecycleOSMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *GoldLifecycleOSMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.GoldLifecycleOS, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *GoldLifecycleOSMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *GoldLifecycleOSMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (GoldLifecycleOS).
+func (m *GoldLifecycleOSMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *GoldLifecycleOSMutation) Fields() []string {
+	fields := make([]string, 0, 14)
+	if m.detected_at != nil {
+		fields = append(fields, goldlifecycleos.FieldDetectedAt)
+	}
+	if m.first_detected_at != nil {
+		fields = append(fields, goldlifecycleos.FieldFirstDetectedAt)
+	}
+	if m.machine_id != nil {
+		fields = append(fields, goldlifecycleos.FieldMachineID)
+	}
+	if m.hostname != nil {
+		fields = append(fields, goldlifecycleos.FieldHostname)
+	}
+	if m.os_type != nil {
+		fields = append(fields, goldlifecycleos.FieldOsType)
+	}
+	if m.os_name != nil {
+		fields = append(fields, goldlifecycleos.FieldOsName)
+	}
+	if m.eol_product_slug != nil {
+		fields = append(fields, goldlifecycleos.FieldEolProductSlug)
+	}
+	if m.eol_product_name != nil {
+		fields = append(fields, goldlifecycleos.FieldEolProductName)
+	}
+	if m.eol_cycle != nil {
+		fields = append(fields, goldlifecycleos.FieldEolCycle)
+	}
+	if m.eol_date != nil {
+		fields = append(fields, goldlifecycleos.FieldEolDate)
+	}
+	if m.eoas_date != nil {
+		fields = append(fields, goldlifecycleos.FieldEoasDate)
+	}
+	if m.eoes_date != nil {
+		fields = append(fields, goldlifecycleos.FieldEoesDate)
+	}
+	if m.eol_status != nil {
+		fields = append(fields, goldlifecycleos.FieldEolStatus)
+	}
+	if m.latest_version != nil {
+		fields = append(fields, goldlifecycleos.FieldLatestVersion)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *GoldLifecycleOSMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case goldlifecycleos.FieldDetectedAt:
+		return m.DetectedAt()
+	case goldlifecycleos.FieldFirstDetectedAt:
+		return m.FirstDetectedAt()
+	case goldlifecycleos.FieldMachineID:
+		return m.MachineID()
+	case goldlifecycleos.FieldHostname:
+		return m.Hostname()
+	case goldlifecycleos.FieldOsType:
+		return m.OsType()
+	case goldlifecycleos.FieldOsName:
+		return m.OsName()
+	case goldlifecycleos.FieldEolProductSlug:
+		return m.EolProductSlug()
+	case goldlifecycleos.FieldEolProductName:
+		return m.EolProductName()
+	case goldlifecycleos.FieldEolCycle:
+		return m.EolCycle()
+	case goldlifecycleos.FieldEolDate:
+		return m.EolDate()
+	case goldlifecycleos.FieldEoasDate:
+		return m.EoasDate()
+	case goldlifecycleos.FieldEoesDate:
+		return m.EoesDate()
+	case goldlifecycleos.FieldEolStatus:
+		return m.EolStatus()
+	case goldlifecycleos.FieldLatestVersion:
+		return m.LatestVersion()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *GoldLifecycleOSMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case goldlifecycleos.FieldDetectedAt:
+		return m.OldDetectedAt(ctx)
+	case goldlifecycleos.FieldFirstDetectedAt:
+		return m.OldFirstDetectedAt(ctx)
+	case goldlifecycleos.FieldMachineID:
+		return m.OldMachineID(ctx)
+	case goldlifecycleos.FieldHostname:
+		return m.OldHostname(ctx)
+	case goldlifecycleos.FieldOsType:
+		return m.OldOsType(ctx)
+	case goldlifecycleos.FieldOsName:
+		return m.OldOsName(ctx)
+	case goldlifecycleos.FieldEolProductSlug:
+		return m.OldEolProductSlug(ctx)
+	case goldlifecycleos.FieldEolProductName:
+		return m.OldEolProductName(ctx)
+	case goldlifecycleos.FieldEolCycle:
+		return m.OldEolCycle(ctx)
+	case goldlifecycleos.FieldEolDate:
+		return m.OldEolDate(ctx)
+	case goldlifecycleos.FieldEoasDate:
+		return m.OldEoasDate(ctx)
+	case goldlifecycleos.FieldEoesDate:
+		return m.OldEoesDate(ctx)
+	case goldlifecycleos.FieldEolStatus:
+		return m.OldEolStatus(ctx)
+	case goldlifecycleos.FieldLatestVersion:
+		return m.OldLatestVersion(ctx)
+	}
+	return nil, fmt.Errorf("unknown GoldLifecycleOS field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *GoldLifecycleOSMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case goldlifecycleos.FieldDetectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDetectedAt(v)
+		return nil
+	case goldlifecycleos.FieldFirstDetectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFirstDetectedAt(v)
+		return nil
+	case goldlifecycleos.FieldMachineID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMachineID(v)
+		return nil
+	case goldlifecycleos.FieldHostname:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetHostname(v)
+		return nil
+	case goldlifecycleos.FieldOsType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOsType(v)
+		return nil
+	case goldlifecycleos.FieldOsName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOsName(v)
+		return nil
+	case goldlifecycleos.FieldEolProductSlug:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEolProductSlug(v)
+		return nil
+	case goldlifecycleos.FieldEolProductName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEolProductName(v)
+		return nil
+	case goldlifecycleos.FieldEolCycle:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEolCycle(v)
+		return nil
+	case goldlifecycleos.FieldEolDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEolDate(v)
+		return nil
+	case goldlifecycleos.FieldEoasDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEoasDate(v)
+		return nil
+	case goldlifecycleos.FieldEoesDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEoesDate(v)
+		return nil
+	case goldlifecycleos.FieldEolStatus:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEolStatus(v)
+		return nil
+	case goldlifecycleos.FieldLatestVersion:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLatestVersion(v)
+		return nil
+	}
+	return fmt.Errorf("unknown GoldLifecycleOS field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *GoldLifecycleOSMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *GoldLifecycleOSMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *GoldLifecycleOSMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown GoldLifecycleOS numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *GoldLifecycleOSMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(goldlifecycleos.FieldHostname) {
+		fields = append(fields, goldlifecycleos.FieldHostname)
+	}
+	if m.FieldCleared(goldlifecycleos.FieldOsType) {
+		fields = append(fields, goldlifecycleos.FieldOsType)
+	}
+	if m.FieldCleared(goldlifecycleos.FieldOsName) {
+		fields = append(fields, goldlifecycleos.FieldOsName)
+	}
+	if m.FieldCleared(goldlifecycleos.FieldEolProductSlug) {
+		fields = append(fields, goldlifecycleos.FieldEolProductSlug)
+	}
+	if m.FieldCleared(goldlifecycleos.FieldEolProductName) {
+		fields = append(fields, goldlifecycleos.FieldEolProductName)
+	}
+	if m.FieldCleared(goldlifecycleos.FieldEolCycle) {
+		fields = append(fields, goldlifecycleos.FieldEolCycle)
+	}
+	if m.FieldCleared(goldlifecycleos.FieldEolDate) {
+		fields = append(fields, goldlifecycleos.FieldEolDate)
+	}
+	if m.FieldCleared(goldlifecycleos.FieldEoasDate) {
+		fields = append(fields, goldlifecycleos.FieldEoasDate)
+	}
+	if m.FieldCleared(goldlifecycleos.FieldEoesDate) {
+		fields = append(fields, goldlifecycleos.FieldEoesDate)
+	}
+	if m.FieldCleared(goldlifecycleos.FieldLatestVersion) {
+		fields = append(fields, goldlifecycleos.FieldLatestVersion)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *GoldLifecycleOSMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *GoldLifecycleOSMutation) ClearField(name string) error {
+	switch name {
+	case goldlifecycleos.FieldHostname:
+		m.ClearHostname()
+		return nil
+	case goldlifecycleos.FieldOsType:
+		m.ClearOsType()
+		return nil
+	case goldlifecycleos.FieldOsName:
+		m.ClearOsName()
+		return nil
+	case goldlifecycleos.FieldEolProductSlug:
+		m.ClearEolProductSlug()
+		return nil
+	case goldlifecycleos.FieldEolProductName:
+		m.ClearEolProductName()
+		return nil
+	case goldlifecycleos.FieldEolCycle:
+		m.ClearEolCycle()
+		return nil
+	case goldlifecycleos.FieldEolDate:
+		m.ClearEolDate()
+		return nil
+	case goldlifecycleos.FieldEoasDate:
+		m.ClearEoasDate()
+		return nil
+	case goldlifecycleos.FieldEoesDate:
+		m.ClearEoesDate()
+		return nil
+	case goldlifecycleos.FieldLatestVersion:
+		m.ClearLatestVersion()
+		return nil
+	}
+	return fmt.Errorf("unknown GoldLifecycleOS nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *GoldLifecycleOSMutation) ResetField(name string) error {
+	switch name {
+	case goldlifecycleos.FieldDetectedAt:
+		m.ResetDetectedAt()
+		return nil
+	case goldlifecycleos.FieldFirstDetectedAt:
+		m.ResetFirstDetectedAt()
+		return nil
+	case goldlifecycleos.FieldMachineID:
+		m.ResetMachineID()
+		return nil
+	case goldlifecycleos.FieldHostname:
+		m.ResetHostname()
+		return nil
+	case goldlifecycleos.FieldOsType:
+		m.ResetOsType()
+		return nil
+	case goldlifecycleos.FieldOsName:
+		m.ResetOsName()
+		return nil
+	case goldlifecycleos.FieldEolProductSlug:
+		m.ResetEolProductSlug()
+		return nil
+	case goldlifecycleos.FieldEolProductName:
+		m.ResetEolProductName()
+		return nil
+	case goldlifecycleos.FieldEolCycle:
+		m.ResetEolCycle()
+		return nil
+	case goldlifecycleos.FieldEolDate:
+		m.ResetEolDate()
+		return nil
+	case goldlifecycleos.FieldEoasDate:
+		m.ResetEoasDate()
+		return nil
+	case goldlifecycleos.FieldEoesDate:
+		m.ResetEoesDate()
+		return nil
+	case goldlifecycleos.FieldEolStatus:
+		m.ResetEolStatus()
+		return nil
+	case goldlifecycleos.FieldLatestVersion:
+		m.ResetLatestVersion()
+		return nil
+	}
+	return fmt.Errorf("unknown GoldLifecycleOS field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *GoldLifecycleOSMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *GoldLifecycleOSMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *GoldLifecycleOSMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *GoldLifecycleOSMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *GoldLifecycleOSMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *GoldLifecycleOSMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *GoldLifecycleOSMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown GoldLifecycleOS unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *GoldLifecycleOSMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown GoldLifecycleOS edge %s", name)
+}
 
 // GoldLifecycleSoftwareMutation represents an operation that mutates the GoldLifecycleSoftware nodes in the graph.
 type GoldLifecycleSoftwareMutation struct {

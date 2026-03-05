@@ -14,6 +14,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
+	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/goldlifecycleos"
 	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/goldlifecyclesoftware"
 
 	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/internal"
@@ -24,6 +25,8 @@ type Client struct {
 	config
 	// Schema is the client for creating, migrating and dropping schema.
 	Schema *migrate.Schema
+	// GoldLifecycleOS is the client for interacting with the GoldLifecycleOS builders.
+	GoldLifecycleOS *GoldLifecycleOSClient
 	// GoldLifecycleSoftware is the client for interacting with the GoldLifecycleSoftware builders.
 	GoldLifecycleSoftware *GoldLifecycleSoftwareClient
 }
@@ -37,6 +40,7 @@ func NewClient(opts ...Option) *Client {
 
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
+	c.GoldLifecycleOS = NewGoldLifecycleOSClient(c.config)
 	c.GoldLifecycleSoftware = NewGoldLifecycleSoftwareClient(c.config)
 }
 
@@ -132,6 +136,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	return &Tx{
 		ctx:                   ctx,
 		config:                cfg,
+		GoldLifecycleOS:       NewGoldLifecycleOSClient(cfg),
 		GoldLifecycleSoftware: NewGoldLifecycleSoftwareClient(cfg),
 	}, nil
 }
@@ -152,6 +157,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	return &Tx{
 		ctx:                   ctx,
 		config:                cfg,
+		GoldLifecycleOS:       NewGoldLifecycleOSClient(cfg),
 		GoldLifecycleSoftware: NewGoldLifecycleSoftwareClient(cfg),
 	}, nil
 }
@@ -159,7 +165,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 // Debug returns a new debug-client. It's used to get verbose logging on specific operations.
 //
 //	client.Debug().
-//		GoldLifecycleSoftware.
+//		GoldLifecycleOS.
 //		Query().
 //		Count(ctx)
 func (c *Client) Debug() *Client {
@@ -181,22 +187,159 @@ func (c *Client) Close() error {
 // Use adds the mutation hooks to all the entity clients.
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
+	c.GoldLifecycleOS.Use(hooks...)
 	c.GoldLifecycleSoftware.Use(hooks...)
 }
 
 // Intercept adds the query interceptors to all the entity clients.
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
+	c.GoldLifecycleOS.Intercept(interceptors...)
 	c.GoldLifecycleSoftware.Intercept(interceptors...)
 }
 
 // Mutate implements the ent.Mutator interface.
 func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
+	case *GoldLifecycleOSMutation:
+		return c.GoldLifecycleOS.mutate(ctx, m)
 	case *GoldLifecycleSoftwareMutation:
 		return c.GoldLifecycleSoftware.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("lifecycle: unknown mutation type %T", m)
+	}
+}
+
+// GoldLifecycleOSClient is a client for the GoldLifecycleOS schema.
+type GoldLifecycleOSClient struct {
+	config
+}
+
+// NewGoldLifecycleOSClient returns a client for the GoldLifecycleOS from the given config.
+func NewGoldLifecycleOSClient(c config) *GoldLifecycleOSClient {
+	return &GoldLifecycleOSClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `goldlifecycleos.Hooks(f(g(h())))`.
+func (c *GoldLifecycleOSClient) Use(hooks ...Hook) {
+	c.hooks.GoldLifecycleOS = append(c.hooks.GoldLifecycleOS, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `goldlifecycleos.Intercept(f(g(h())))`.
+func (c *GoldLifecycleOSClient) Intercept(interceptors ...Interceptor) {
+	c.inters.GoldLifecycleOS = append(c.inters.GoldLifecycleOS, interceptors...)
+}
+
+// Create returns a builder for creating a GoldLifecycleOS entity.
+func (c *GoldLifecycleOSClient) Create() *GoldLifecycleOSCreate {
+	mutation := newGoldLifecycleOSMutation(c.config, OpCreate)
+	return &GoldLifecycleOSCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of GoldLifecycleOS entities.
+func (c *GoldLifecycleOSClient) CreateBulk(builders ...*GoldLifecycleOSCreate) *GoldLifecycleOSCreateBulk {
+	return &GoldLifecycleOSCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *GoldLifecycleOSClient) MapCreateBulk(slice any, setFunc func(*GoldLifecycleOSCreate, int)) *GoldLifecycleOSCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &GoldLifecycleOSCreateBulk{err: fmt.Errorf("calling to GoldLifecycleOSClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*GoldLifecycleOSCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &GoldLifecycleOSCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for GoldLifecycleOS.
+func (c *GoldLifecycleOSClient) Update() *GoldLifecycleOSUpdate {
+	mutation := newGoldLifecycleOSMutation(c.config, OpUpdate)
+	return &GoldLifecycleOSUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *GoldLifecycleOSClient) UpdateOne(_m *GoldLifecycleOS) *GoldLifecycleOSUpdateOne {
+	mutation := newGoldLifecycleOSMutation(c.config, OpUpdateOne, withGoldLifecycleOS(_m))
+	return &GoldLifecycleOSUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *GoldLifecycleOSClient) UpdateOneID(id string) *GoldLifecycleOSUpdateOne {
+	mutation := newGoldLifecycleOSMutation(c.config, OpUpdateOne, withGoldLifecycleOSID(id))
+	return &GoldLifecycleOSUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for GoldLifecycleOS.
+func (c *GoldLifecycleOSClient) Delete() *GoldLifecycleOSDelete {
+	mutation := newGoldLifecycleOSMutation(c.config, OpDelete)
+	return &GoldLifecycleOSDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *GoldLifecycleOSClient) DeleteOne(_m *GoldLifecycleOS) *GoldLifecycleOSDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *GoldLifecycleOSClient) DeleteOneID(id string) *GoldLifecycleOSDeleteOne {
+	builder := c.Delete().Where(goldlifecycleos.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &GoldLifecycleOSDeleteOne{builder}
+}
+
+// Query returns a query builder for GoldLifecycleOS.
+func (c *GoldLifecycleOSClient) Query() *GoldLifecycleOSQuery {
+	return &GoldLifecycleOSQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeGoldLifecycleOS},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a GoldLifecycleOS entity by its id.
+func (c *GoldLifecycleOSClient) Get(ctx context.Context, id string) (*GoldLifecycleOS, error) {
+	return c.Query().Where(goldlifecycleos.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *GoldLifecycleOSClient) GetX(ctx context.Context, id string) *GoldLifecycleOS {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *GoldLifecycleOSClient) Hooks() []Hook {
+	return c.hooks.GoldLifecycleOS
+}
+
+// Interceptors returns the client interceptors.
+func (c *GoldLifecycleOSClient) Interceptors() []Interceptor {
+	return c.inters.GoldLifecycleOS
+}
+
+func (c *GoldLifecycleOSClient) mutate(ctx context.Context, m *GoldLifecycleOSMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&GoldLifecycleOSCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&GoldLifecycleOSUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&GoldLifecycleOSUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&GoldLifecycleOSDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("lifecycle: unknown GoldLifecycleOS mutation op: %q", m.Op())
 	}
 }
 
@@ -336,10 +479,10 @@ func (c *GoldLifecycleSoftwareClient) mutate(ctx context.Context, m *GoldLifecyc
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		GoldLifecycleSoftware []ent.Hook
+		GoldLifecycleOS, GoldLifecycleSoftware []ent.Hook
 	}
 	inters struct {
-		GoldLifecycleSoftware []ent.Interceptor
+		GoldLifecycleOS, GoldLifecycleSoftware []ent.Interceptor
 	}
 )
 

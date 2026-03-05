@@ -4,6 +4,7 @@ package lifecycle
 // DefaultSchemaConfig returns the schema config mapping each type to its PG schema.
 func DefaultSchemaConfig() SchemaConfig {
 	return SchemaConfig{
+		GoldLifecycleOS:       "gold",
 		GoldLifecycleSoftware: "gold",
 	}
 }

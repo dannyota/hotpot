@@ -3,6 +3,7 @@
 package lifecycle
 
 import (
+	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/goldlifecycleos"
 	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/goldlifecyclesoftware"
 	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/schema"
 )
@@ -11,6 +12,16 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	goldlifecycleosFields := schema.GoldLifecycleOS{}.Fields()
+	_ = goldlifecycleosFields
+	// goldlifecycleosDescMachineID is the schema descriptor for machine_id field.
+	goldlifecycleosDescMachineID := goldlifecycleosFields[1].Descriptor()
+	// goldlifecycleos.MachineIDValidator is a validator for the "machine_id" field. It is called by the builders before save.
+	goldlifecycleos.MachineIDValidator = goldlifecycleosDescMachineID.Validators[0].(func(string) error)
+	// goldlifecycleosDescEolStatus is the schema descriptor for eol_status field.
+	goldlifecycleosDescEolStatus := goldlifecycleosFields[11].Descriptor()
+	// goldlifecycleos.EolStatusValidator is a validator for the "eol_status" field. It is called by the builders before save.
+	goldlifecycleos.EolStatusValidator = goldlifecycleosDescEolStatus.Validators[0].(func(string) error)
 	goldlifecyclesoftwareFields := schema.GoldLifecycleSoftware{}.Fields()
 	_ = goldlifecyclesoftwareFields
 	// goldlifecyclesoftwareDescMachineID is the schema descriptor for machine_id field.

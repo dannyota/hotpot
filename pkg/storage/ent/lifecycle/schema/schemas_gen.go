@@ -5,6 +5,10 @@ import (
 	gold_lifecycle "github.com/dannyota/hotpot/pkg/schema/gold/lifecycle"
 )
 
+type GoldLifecycleOS struct {
+	gold_lifecycle.GoldLifecycleOS
+}
+
 type GoldLifecycleSoftware struct {
 	gold_lifecycle.GoldLifecycleSoftware
 }

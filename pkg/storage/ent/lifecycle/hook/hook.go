@@ -9,6 +9,18 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle"
 )
 
+// The GoldLifecycleOSFunc type is an adapter to allow the use of ordinary
+// function as GoldLifecycleOS mutator.
+type GoldLifecycleOSFunc func(context.Context, *lifecycle.GoldLifecycleOSMutation) (lifecycle.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f GoldLifecycleOSFunc) Mutate(ctx context.Context, m lifecycle.Mutation) (lifecycle.Value, error) {
+	if mv, ok := m.(*lifecycle.GoldLifecycleOSMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *lifecycle.GoldLifecycleOSMutation", m)
+}
+
 // The GoldLifecycleSoftwareFunc type is an adapter to allow the use of ordinary
 // function as GoldLifecycleSoftware mutator.
 type GoldLifecycleSoftwareFunc func(context.Context, *lifecycle.GoldLifecycleSoftwareMutation) (lifecycle.Value, error)

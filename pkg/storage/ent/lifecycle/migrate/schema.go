@@ -9,6 +9,47 @@ import (
 )
 
 var (
+	// LifecycleOsColumns holds the columns for the "lifecycle_os" table.
+	LifecycleOsColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "detected_at", Type: field.TypeTime},
+		{Name: "first_detected_at", Type: field.TypeTime},
+		{Name: "machine_id", Type: field.TypeString},
+		{Name: "hostname", Type: field.TypeString, Nullable: true},
+		{Name: "os_type", Type: field.TypeString, Nullable: true},
+		{Name: "os_name", Type: field.TypeString, Nullable: true},
+		{Name: "eol_product_slug", Type: field.TypeString, Nullable: true},
+		{Name: "eol_product_name", Type: field.TypeString, Nullable: true},
+		{Name: "eol_cycle", Type: field.TypeString, Nullable: true},
+		{Name: "eol_date", Type: field.TypeTime, Nullable: true},
+		{Name: "eoas_date", Type: field.TypeTime, Nullable: true},
+		{Name: "eoes_date", Type: field.TypeTime, Nullable: true},
+		{Name: "eol_status", Type: field.TypeString},
+		{Name: "latest_version", Type: field.TypeString, Nullable: true},
+	}
+	// LifecycleOsTable holds the schema information for the "lifecycle_os" table.
+	LifecycleOsTable = &schema.Table{
+		Name:       "lifecycle_os",
+		Columns:    LifecycleOsColumns,
+		PrimaryKey: []*schema.Column{LifecycleOsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "goldlifecycleos_machine_id",
+				Unique:  true,
+				Columns: []*schema.Column{LifecycleOsColumns[3]},
+			},
+			{
+				Name:    "goldlifecycleos_eol_status",
+				Unique:  false,
+				Columns: []*schema.Column{LifecycleOsColumns[13]},
+			},
+			{
+				Name:    "goldlifecycleos_eol_product_slug",
+				Unique:  false,
+				Columns: []*schema.Column{LifecycleOsColumns[7]},
+			},
+		},
+	}
 	// LifecycleSoftwareColumns holds the columns for the "lifecycle_software" table.
 	LifecycleSoftwareColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -63,11 +104,15 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
+		LifecycleOsTable,
 		LifecycleSoftwareTable,
 	}
 )
 
 func init() {
+	LifecycleOsTable.Annotation = &entsql.Annotation{
+		Table: "lifecycle_os",
+	}
 	LifecycleSoftwareTable.Annotation = &entsql.Annotation{
 		Table: "lifecycle_software",
 	}

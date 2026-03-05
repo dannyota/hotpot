@@ -7,6 +7,22 @@ import (
 	gold_lifecycle "github.com/dannyota/hotpot/pkg/schema/gold/lifecycle"
 )
 
+type GoldLifecycleOS struct {
+	gold_lifecycle.GoldLifecycleOS
+}
+
+func (GoldLifecycleOS) Annotations() []schema.Annotation {
+	anns := gold_lifecycle.GoldLifecycleOS{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "gold"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "gold"})
+}
+
 type GoldLifecycleSoftware struct {
 	gold_lifecycle.GoldLifecycleSoftware
 }

@@ -74,6 +74,21 @@ func ensureSchedules(ctx context.Context, temporalClient client.Client) {
 		},
 		Paused: true,
 	})
+
+	ensureSchedule(ctx, temporalClient, client.ScheduleOptions{
+		ID: "hotpot-detect-lifecycle-os-daily",
+		Spec: client.ScheduleSpec{
+			Intervals: []client.ScheduleIntervalSpec{
+				{Every: 24 * time.Hour},
+			},
+		},
+		Action: &client.ScheduleWorkflowAction{
+			ID:        "hotpot-detect-lifecycle-os",
+			Workflow:  lifecycle.OSLifecycleWorkflow,
+			TaskQueue: "detect",
+		},
+		Paused: true,
+	})
 }
 
 func ensureSchedule(ctx context.Context, temporalClient client.Client, opts client.ScheduleOptions) {
