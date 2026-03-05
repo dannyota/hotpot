@@ -43,13 +43,28 @@ func ReferenceInventoryWorkflow(ctx workflow.Context) (*ReferenceInventoryWorkfl
 
 	result := &ReferenceInventoryWorkflowResult{}
 
-	for _, svc := range ingest.Services("reference") {
-		res := svc.NewResult()
-		err := workflow.ExecuteChildWorkflow(ctx, svc.Workflow).Get(ctx, res)
-		if err != nil {
-			logger.Error("Failed ingestion", "service", svc.Name, "error", err)
+	services := ingest.Services("reference")
+
+	// Fan out: launch all child workflows in parallel.
+	type svcFuture struct {
+		svc    ingest.ServiceRegistration
+		future workflow.ChildWorkflowFuture
+	}
+	futures := make([]svcFuture, len(services))
+	for i, svc := range services {
+		futures[i] = svcFuture{
+			svc:    svc,
+			future: workflow.ExecuteChildWorkflow(ctx, svc.Workflow),
+		}
+	}
+
+	// Fan in: collect results.
+	for _, sf := range futures {
+		res := sf.svc.NewResult()
+		if err := sf.future.Get(ctx, res); err != nil {
+			logger.Error("Failed ingestion", "service", sf.svc.Name, "error", err)
 		} else {
-			svc.Aggregate.(aggregateFunc)(result, res)
+			sf.svc.Aggregate.(aggregateFunc)(result, res)
 		}
 	}
 
