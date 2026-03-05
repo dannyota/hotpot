@@ -19,7 +19,7 @@ func Register(w worker.Worker, configService *config.Service, driver dialect.Dri
 	)
 
 	activities := NewActivities(configService, entClient, db, providers)
-	w.RegisterActivity(activities.NormalizeProvider)
+	w.RegisterActivity(activities.NormalizeMachineProvider)
 	w.RegisterActivity(activities.MergeMachines)
 	w.RegisterWorkflow(NormalizeMachinesWorkflow)
 }

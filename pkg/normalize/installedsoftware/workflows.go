@@ -1,4 +1,4 @@
-package machine
+package installedsoftware
 
 import (
 	"time"
@@ -7,19 +7,20 @@ import (
 	"go.temporal.io/sdk/workflow"
 )
 
-// NormalizeMachinesWorkflowResult holds the final result.
-type NormalizeMachinesWorkflowResult struct {
+// NormalizeInstalledSoftwareWorkflowResult holds the final result.
+type NormalizeInstalledSoftwareWorkflowResult struct {
 	NormalizeResults []NormalizeProviderResult
-	MergeResult      MergeMachinesResult
+	MergeResult      MergeInstalledSoftwareResult
 }
 
-// NormalizeMachinesWorkflow runs the two-phase normalize+merge pipeline.
-func NormalizeMachinesWorkflow(ctx workflow.Context) (*NormalizeMachinesWorkflowResult, error) {
+// NormalizeInstalledSoftwareWorkflow runs the two-phase normalize+merge pipeline.
+func NormalizeInstalledSoftwareWorkflow(ctx workflow.Context) (*NormalizeInstalledSoftwareWorkflowResult, error) {
 	logger := workflow.GetLogger(ctx)
-	logger.Info("Starting NormalizeMachinesWorkflow")
+	logger.Info("Starting NormalizeInstalledSoftwareWorkflow")
 
 	activityOpts := workflow.ActivityOptions{
-		StartToCloseTimeout: 10 * time.Minute,
+		StartToCloseTimeout: 30 * time.Minute,
+		HeartbeatTimeout:    2 * time.Minute,
 		RetryPolicy: &temporal.RetryPolicy{
 			InitialInterval:    time.Second,
 			BackoffCoefficient: 2.0,
@@ -30,15 +31,15 @@ func NormalizeMachinesWorkflow(ctx workflow.Context) (*NormalizeMachinesWorkflow
 	activityCtx := workflow.WithActivityOptions(ctx, activityOpts)
 
 	// Phase 1: Normalize all providers in parallel.
-	providerKeys := []string{"s1", "meec", "gcp", "greennode"}
+	providerKeys := []string{"s1", "meec"}
 	futures := make([]workflow.Future, len(providerKeys))
 	for i, key := range providerKeys {
-		futures[i] = workflow.ExecuteActivity(activityCtx, NormalizeMachineProviderActivity,
+		futures[i] = workflow.ExecuteActivity(activityCtx, NormalizeInstalledSoftwareProviderActivity,
 			NormalizeProviderParams{ProviderKey: key})
 	}
 
 	// Wait for all normalizations.
-	result := &NormalizeMachinesWorkflowResult{
+	result := &NormalizeInstalledSoftwareWorkflowResult{
 		NormalizeResults: make([]NormalizeProviderResult, 0, len(providerKeys)),
 	}
 	var errs []error
@@ -52,21 +53,21 @@ func NormalizeMachinesWorkflow(ctx workflow.Context) (*NormalizeMachinesWorkflow
 		}
 	}
 
-	// Phase 2: Merge normalized rows into final machines.
-	var mergeResult MergeMachinesResult
-	if err := workflow.ExecuteActivity(activityCtx, MergeMachinesActivity).Get(ctx, &mergeResult); err != nil {
-		logger.Error("Failed to merge machines", "error", err)
+	// Phase 2: Merge normalized rows into final installed_software.
+	var mergeResult MergeInstalledSoftwareResult
+	if err := workflow.ExecuteActivity(activityCtx, MergeInstalledSoftwareActivity).Get(ctx, &mergeResult); err != nil {
+		logger.Error("Failed to merge installed software", "error", err)
 		return result, err
 	}
 	result.MergeResult = mergeResult
 
-	logger.Info("Completed NormalizeMachinesWorkflow",
+	logger.Info("Completed NormalizeInstalledSoftwareWorkflow",
 		"created", mergeResult.Created,
 		"updated", mergeResult.Updated,
 		"deleted", mergeResult.Deleted)
 
 	if len(errs) > 0 {
-		logger.Warn("NormalizeMachinesWorkflow completed with provider errors", "errorCount", len(errs))
+		logger.Warn("NormalizeInstalledSoftwareWorkflow completed with provider errors", "errorCount", len(errs))
 	}
 
 	return result, nil

@@ -15,6 +15,7 @@ import (
 
 	"github.com/dannyota/hotpot/pkg/base/config"
 	"github.com/dannyota/hotpot/pkg/base/logger"
+	"github.com/dannyota/hotpot/pkg/normalize/installedsoftware"
 	"github.com/dannyota/hotpot/pkg/normalize/k8snode"
 	"github.com/dannyota/hotpot/pkg/normalize/machine"
 )
@@ -89,6 +90,21 @@ func ensureSchedules(ctx context.Context, temporalClient client.Client) {
 		Action: &client.ScheduleWorkflowAction{
 			ID:        "hotpot-normalize-k8s-nodes",
 			Workflow:  k8snode.NormalizeK8sNodesWorkflow,
+			TaskQueue: "normalize",
+		},
+		Paused: true,
+	})
+
+	ensureSchedule(ctx, temporalClient, client.ScheduleOptions{
+		ID: "hotpot-normalize-installed-software-daily",
+		Spec: client.ScheduleSpec{
+			Intervals: []client.ScheduleIntervalSpec{
+				{Every: 24 * time.Hour},
+			},
+		},
+		Action: &client.ScheduleWorkflowAction{
+			ID:        "hotpot-normalize-installed-software",
+			Workflow:  installedsoftware.NormalizeInstalledSoftwareWorkflow,
 			TaskQueue: "normalize",
 		},
 		Paused: true,

@@ -47,8 +47,8 @@ func NewActivities(configService *config.Service, entClient *entmachine.Client, 
 	}
 }
 
-// NormalizeProviderActivity function reference for Temporal registration.
-var NormalizeProviderActivity = (*Activities).NormalizeProvider
+// NormalizeMachineProviderActivity function reference for Temporal registration.
+var NormalizeMachineProviderActivity = (*Activities).NormalizeMachineProvider
 
 // MergeMachinesActivity function reference for Temporal registration.
 var MergeMachinesActivity = (*Activities).MergeMachines
@@ -67,7 +67,7 @@ type NormalizeProviderResult struct {
 
 // NormalizeProvider loads bronze data for one provider, creates/updates machine_normalized,
 // and deletes stale rows.
-func (a *Activities) NormalizeProvider(ctx context.Context, params NormalizeProviderParams) (*NormalizeProviderResult, error) {
+func (a *Activities) NormalizeMachineProvider(ctx context.Context, params NormalizeProviderParams) (*NormalizeProviderResult, error) {
 	logger := activity.GetLogger(ctx)
 	logger.Info("Normalizing provider", "provider", params.ProviderKey)
 

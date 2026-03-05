@@ -20,7 +20,7 @@ import (
 var _ = migrate.ProviderSet("gcp", "greennode", "jenkins", "meec", "s1", "vault", "reference")
 
 // Silver providers.
-var _ = migrate.ProviderSet("k8snode", "machine")
+var _ = migrate.ProviderSet("installedsoftware", "k8snode", "machine")
 
 func main() {
 	ctx := context.Background()

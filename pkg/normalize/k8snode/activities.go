@@ -47,8 +47,8 @@ func NewActivities(configService *config.Service, entClient *entk8snode.Client, 
 	}
 }
 
-// NormalizeProviderActivity function reference for Temporal registration.
-var NormalizeProviderActivity = (*Activities).NormalizeProvider
+// NormalizeK8sNodeProviderActivity function reference for Temporal registration.
+var NormalizeK8sNodeProviderActivity = (*Activities).NormalizeK8sNodeProvider
 
 // MergeK8sNodesActivity function reference for Temporal registration.
 var MergeK8sNodesActivity = (*Activities).MergeK8sNodes
@@ -67,7 +67,7 @@ type NormalizeProviderResult struct {
 
 // NormalizeProvider loads bronze data for one provider, creates/updates k8s_node_normalized,
 // and deletes stale rows.
-func (a *Activities) NormalizeProvider(ctx context.Context, params NormalizeProviderParams) (*NormalizeProviderResult, error) {
+func (a *Activities) NormalizeK8sNodeProvider(ctx context.Context, params NormalizeProviderParams) (*NormalizeProviderResult, error) {
 	logger := activity.GetLogger(ctx)
 	logger.Info("Normalizing provider", "provider", params.ProviderKey)
 

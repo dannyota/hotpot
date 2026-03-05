@@ -33,7 +33,7 @@ func NormalizeK8sNodesWorkflow(ctx workflow.Context) (*NormalizeK8sNodesWorkflow
 	providerKeys := []string{"gcp"}
 	futures := make([]workflow.Future, len(providerKeys))
 	for i, key := range providerKeys {
-		futures[i] = workflow.ExecuteActivity(activityCtx, NormalizeProviderActivity,
+		futures[i] = workflow.ExecuteActivity(activityCtx, NormalizeK8sNodeProviderActivity,
 			NormalizeProviderParams{ProviderKey: key})
 	}
 
