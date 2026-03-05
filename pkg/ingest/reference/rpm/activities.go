@@ -89,7 +89,7 @@ func (a *Activities) IngestRPMRepo(ctx context.Context, input IngestRPMRepoInput
 	}
 
 	client := a.createClient()
-	packages, err := client.DownloadRepo(repo, heartbeat)
+	packages, err := client.DownloadRepo(ctx, repo, heartbeat)
 	if err != nil {
 		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("download RPM repo %s: %w", input.RepoName, err))
 	}

@@ -2,6 +2,7 @@ package rpm
 
 import (
 	"compress/gzip"
+	"context"
 	"encoding/xml"
 	"fmt"
 	"io"
@@ -97,15 +98,19 @@ type RPMPackageData struct {
 }
 
 // DownloadRepo fetches a single RPM repo and parses its primary.xml metadata.
-func (c *Client) DownloadRepo(repo RepoDef, heartbeat func(string)) ([]RPMPackageData, error) {
+func (c *Client) DownloadRepo(ctx context.Context, repo RepoDef, heartbeat func(string)) ([]RPMPackageData, error) {
 	// Step 1: Fetch repomd.xml to find primary.xml location
-	primaryURL, err := c.discoverPrimaryURL(repo)
+	primaryURL, err := c.discoverPrimaryURL(ctx, repo)
 	if err != nil {
 		return nil, fmt.Errorf("discover primary URL: %w", err)
 	}
 
 	// Step 2: Download primary.xml.gz/.xz to temp
-	resp, err := c.httpClient.Get(primaryURL)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, primaryURL, nil)
+	if err != nil {
+		return nil, fmt.Errorf("create request for %s: %w", primaryURL, err)
+	}
+	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("GET %s: %w", primaryURL, err)
 	}
@@ -170,8 +175,12 @@ type repomdLocation struct {
 	Href string `xml:"href,attr"`
 }
 
-func (c *Client) discoverPrimaryURL(repo RepoDef) (string, error) {
-	resp, err := c.httpClient.Get(repo.RepomdURL)
+func (c *Client) discoverPrimaryURL(ctx context.Context, repo RepoDef) (string, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, repo.RepomdURL, nil)
+	if err != nil {
+		return "", fmt.Errorf("create request for %s: %w", repo.RepomdURL, err)
+	}
+	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return "", fmt.Errorf("GET %s: %w", repo.RepomdURL, err)
 	}

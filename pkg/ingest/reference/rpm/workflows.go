@@ -22,7 +22,7 @@ func RPMPackagesWorkflow(ctx workflow.Context) (*RPMPackagesWorkflowResult, erro
 	logger.Info("Starting RPMPackagesWorkflow", "repoCount", len(Repos))
 
 	activityOpts := workflow.ActivityOptions{
-		StartToCloseTimeout: 30 * time.Minute,
+		StartToCloseTimeout: 4 * time.Hour,
 		HeartbeatTimeout:    5 * time.Minute,
 		RetryPolicy: &temporal.RetryPolicy{
 			InitialInterval:    time.Second,
