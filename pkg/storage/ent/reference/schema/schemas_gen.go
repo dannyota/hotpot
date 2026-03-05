@@ -21,8 +21,16 @@ type BronzeReferenceEOLProduct struct {
 	bronze_reference.BronzeReferenceEOLProduct
 }
 
+type BronzeReferenceOSCoreRule struct {
+	bronze_reference.BronzeReferenceOSCoreRule
+}
+
 type BronzeReferenceRPMPackage struct {
 	bronze_reference.BronzeReferenceRPMPackage
+}
+
+type BronzeReferenceSoftwareMatchRule struct {
+	bronze_reference.BronzeReferenceSoftwareMatchRule
 }
 
 type BronzeReferenceUbuntuPackage struct {

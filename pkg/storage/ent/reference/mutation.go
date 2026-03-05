@@ -15,7 +15,9 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolcycle"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolidentifier"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolproduct"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceoscorerule"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencerpmpackage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencesoftwarematchrule"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceubuntupackage"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolcycle"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolproduct"
@@ -33,16 +35,18 @@ const (
 	OpUpdateOne = ent.OpUpdateOne
 
 	// Node types.
-	TypeBronzeReferenceCPE           = "BronzeReferenceCPE"
-	TypeBronzeReferenceEOLCycle      = "BronzeReferenceEOLCycle"
-	TypeBronzeReferenceEOLIdentifier = "BronzeReferenceEOLIdentifier"
-	TypeBronzeReferenceEOLProduct    = "BronzeReferenceEOLProduct"
-	TypeBronzeReferenceRPMPackage    = "BronzeReferenceRPMPackage"
-	TypeBronzeReferenceUbuntuPackage = "BronzeReferenceUbuntuPackage"
-	TypeBronzeReferenceXeolCycle     = "BronzeReferenceXeolCycle"
-	TypeBronzeReferenceXeolProduct   = "BronzeReferenceXeolProduct"
-	TypeBronzeReferenceXeolPurl      = "BronzeReferenceXeolPurl"
-	TypeBronzeReferenceXeolVuln      = "BronzeReferenceXeolVuln"
+	TypeBronzeReferenceCPE               = "BronzeReferenceCPE"
+	TypeBronzeReferenceEOLCycle          = "BronzeReferenceEOLCycle"
+	TypeBronzeReferenceEOLIdentifier     = "BronzeReferenceEOLIdentifier"
+	TypeBronzeReferenceEOLProduct        = "BronzeReferenceEOLProduct"
+	TypeBronzeReferenceOSCoreRule        = "BronzeReferenceOSCoreRule"
+	TypeBronzeReferenceRPMPackage        = "BronzeReferenceRPMPackage"
+	TypeBronzeReferenceSoftwareMatchRule = "BronzeReferenceSoftwareMatchRule"
+	TypeBronzeReferenceUbuntuPackage     = "BronzeReferenceUbuntuPackage"
+	TypeBronzeReferenceXeolCycle         = "BronzeReferenceXeolCycle"
+	TypeBronzeReferenceXeolProduct       = "BronzeReferenceXeolProduct"
+	TypeBronzeReferenceXeolPurl          = "BronzeReferenceXeolPurl"
+	TypeBronzeReferenceXeolVuln          = "BronzeReferenceXeolVuln"
 )
 
 // BronzeReferenceCPEMutation represents an operation that mutates the BronzeReferenceCPE nodes in the graph.
@@ -2920,6 +2924,649 @@ func (m *BronzeReferenceEOLProductMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown BronzeReferenceEOLProduct edge %s", name)
 }
 
+// BronzeReferenceOSCoreRuleMutation represents an operation that mutates the BronzeReferenceOSCoreRule nodes in the graph.
+type BronzeReferenceOSCoreRuleMutation struct {
+	config
+	op                 Op
+	typ                string
+	id                 *string
+	collected_at       *time.Time
+	first_collected_at *time.Time
+	rule_type          *string
+	os_type            *string
+	value              *string
+	description        *string
+	clearedFields      map[string]struct{}
+	done               bool
+	oldValue           func(context.Context) (*BronzeReferenceOSCoreRule, error)
+	predicates         []predicate.BronzeReferenceOSCoreRule
+}
+
+var _ ent.Mutation = (*BronzeReferenceOSCoreRuleMutation)(nil)
+
+// bronzereferenceoscoreruleOption allows management of the mutation configuration using functional options.
+type bronzereferenceoscoreruleOption func(*BronzeReferenceOSCoreRuleMutation)
+
+// newBronzeReferenceOSCoreRuleMutation creates new mutation for the BronzeReferenceOSCoreRule entity.
+func newBronzeReferenceOSCoreRuleMutation(c config, op Op, opts ...bronzereferenceoscoreruleOption) *BronzeReferenceOSCoreRuleMutation {
+	m := &BronzeReferenceOSCoreRuleMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeBronzeReferenceOSCoreRule,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withBronzeReferenceOSCoreRuleID sets the ID field of the mutation.
+func withBronzeReferenceOSCoreRuleID(id string) bronzereferenceoscoreruleOption {
+	return func(m *BronzeReferenceOSCoreRuleMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *BronzeReferenceOSCoreRule
+		)
+		m.oldValue = func(ctx context.Context) (*BronzeReferenceOSCoreRule, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().BronzeReferenceOSCoreRule.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withBronzeReferenceOSCoreRule sets the old BronzeReferenceOSCoreRule of the mutation.
+func withBronzeReferenceOSCoreRule(node *BronzeReferenceOSCoreRule) bronzereferenceoscoreruleOption {
+	return func(m *BronzeReferenceOSCoreRuleMutation) {
+		m.oldValue = func(context.Context) (*BronzeReferenceOSCoreRule, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m BronzeReferenceOSCoreRuleMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m BronzeReferenceOSCoreRuleMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("reference: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of BronzeReferenceOSCoreRule entities.
+func (m *BronzeReferenceOSCoreRuleMutation) SetID(id string) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *BronzeReferenceOSCoreRuleMutation) ID() (id string, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *BronzeReferenceOSCoreRuleMutation) IDs(ctx context.Context) ([]string, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []string{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().BronzeReferenceOSCoreRule.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCollectedAt sets the "collected_at" field.
+func (m *BronzeReferenceOSCoreRuleMutation) SetCollectedAt(t time.Time) {
+	m.collected_at = &t
+}
+
+// CollectedAt returns the value of the "collected_at" field in the mutation.
+func (m *BronzeReferenceOSCoreRuleMutation) CollectedAt() (r time.Time, exists bool) {
+	v := m.collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCollectedAt returns the old "collected_at" field's value of the BronzeReferenceOSCoreRule entity.
+// If the BronzeReferenceOSCoreRule object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceOSCoreRuleMutation) OldCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCollectedAt: %w", err)
+	}
+	return oldValue.CollectedAt, nil
+}
+
+// ResetCollectedAt resets all changes to the "collected_at" field.
+func (m *BronzeReferenceOSCoreRuleMutation) ResetCollectedAt() {
+	m.collected_at = nil
+}
+
+// SetFirstCollectedAt sets the "first_collected_at" field.
+func (m *BronzeReferenceOSCoreRuleMutation) SetFirstCollectedAt(t time.Time) {
+	m.first_collected_at = &t
+}
+
+// FirstCollectedAt returns the value of the "first_collected_at" field in the mutation.
+func (m *BronzeReferenceOSCoreRuleMutation) FirstCollectedAt() (r time.Time, exists bool) {
+	v := m.first_collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFirstCollectedAt returns the old "first_collected_at" field's value of the BronzeReferenceOSCoreRule entity.
+// If the BronzeReferenceOSCoreRule object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceOSCoreRuleMutation) OldFirstCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFirstCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFirstCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFirstCollectedAt: %w", err)
+	}
+	return oldValue.FirstCollectedAt, nil
+}
+
+// ResetFirstCollectedAt resets all changes to the "first_collected_at" field.
+func (m *BronzeReferenceOSCoreRuleMutation) ResetFirstCollectedAt() {
+	m.first_collected_at = nil
+}
+
+// SetRuleType sets the "rule_type" field.
+func (m *BronzeReferenceOSCoreRuleMutation) SetRuleType(s string) {
+	m.rule_type = &s
+}
+
+// RuleType returns the value of the "rule_type" field in the mutation.
+func (m *BronzeReferenceOSCoreRuleMutation) RuleType() (r string, exists bool) {
+	v := m.rule_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRuleType returns the old "rule_type" field's value of the BronzeReferenceOSCoreRule entity.
+// If the BronzeReferenceOSCoreRule object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceOSCoreRuleMutation) OldRuleType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRuleType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRuleType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRuleType: %w", err)
+	}
+	return oldValue.RuleType, nil
+}
+
+// ResetRuleType resets all changes to the "rule_type" field.
+func (m *BronzeReferenceOSCoreRuleMutation) ResetRuleType() {
+	m.rule_type = nil
+}
+
+// SetOsType sets the "os_type" field.
+func (m *BronzeReferenceOSCoreRuleMutation) SetOsType(s string) {
+	m.os_type = &s
+}
+
+// OsType returns the value of the "os_type" field in the mutation.
+func (m *BronzeReferenceOSCoreRuleMutation) OsType() (r string, exists bool) {
+	v := m.os_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOsType returns the old "os_type" field's value of the BronzeReferenceOSCoreRule entity.
+// If the BronzeReferenceOSCoreRule object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceOSCoreRuleMutation) OldOsType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOsType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOsType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOsType: %w", err)
+	}
+	return oldValue.OsType, nil
+}
+
+// ClearOsType clears the value of the "os_type" field.
+func (m *BronzeReferenceOSCoreRuleMutation) ClearOsType() {
+	m.os_type = nil
+	m.clearedFields[bronzereferenceoscorerule.FieldOsType] = struct{}{}
+}
+
+// OsTypeCleared returns if the "os_type" field was cleared in this mutation.
+func (m *BronzeReferenceOSCoreRuleMutation) OsTypeCleared() bool {
+	_, ok := m.clearedFields[bronzereferenceoscorerule.FieldOsType]
+	return ok
+}
+
+// ResetOsType resets all changes to the "os_type" field.
+func (m *BronzeReferenceOSCoreRuleMutation) ResetOsType() {
+	m.os_type = nil
+	delete(m.clearedFields, bronzereferenceoscorerule.FieldOsType)
+}
+
+// SetValue sets the "value" field.
+func (m *BronzeReferenceOSCoreRuleMutation) SetValue(s string) {
+	m.value = &s
+}
+
+// Value returns the value of the "value" field in the mutation.
+func (m *BronzeReferenceOSCoreRuleMutation) Value() (r string, exists bool) {
+	v := m.value
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldValue returns the old "value" field's value of the BronzeReferenceOSCoreRule entity.
+// If the BronzeReferenceOSCoreRule object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceOSCoreRuleMutation) OldValue(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldValue is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldValue requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldValue: %w", err)
+	}
+	return oldValue.Value, nil
+}
+
+// ResetValue resets all changes to the "value" field.
+func (m *BronzeReferenceOSCoreRuleMutation) ResetValue() {
+	m.value = nil
+}
+
+// SetDescription sets the "description" field.
+func (m *BronzeReferenceOSCoreRuleMutation) SetDescription(s string) {
+	m.description = &s
+}
+
+// Description returns the value of the "description" field in the mutation.
+func (m *BronzeReferenceOSCoreRuleMutation) Description() (r string, exists bool) {
+	v := m.description
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDescription returns the old "description" field's value of the BronzeReferenceOSCoreRule entity.
+// If the BronzeReferenceOSCoreRule object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceOSCoreRuleMutation) OldDescription(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDescription is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDescription requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDescription: %w", err)
+	}
+	return oldValue.Description, nil
+}
+
+// ClearDescription clears the value of the "description" field.
+func (m *BronzeReferenceOSCoreRuleMutation) ClearDescription() {
+	m.description = nil
+	m.clearedFields[bronzereferenceoscorerule.FieldDescription] = struct{}{}
+}
+
+// DescriptionCleared returns if the "description" field was cleared in this mutation.
+func (m *BronzeReferenceOSCoreRuleMutation) DescriptionCleared() bool {
+	_, ok := m.clearedFields[bronzereferenceoscorerule.FieldDescription]
+	return ok
+}
+
+// ResetDescription resets all changes to the "description" field.
+func (m *BronzeReferenceOSCoreRuleMutation) ResetDescription() {
+	m.description = nil
+	delete(m.clearedFields, bronzereferenceoscorerule.FieldDescription)
+}
+
+// Where appends a list predicates to the BronzeReferenceOSCoreRuleMutation builder.
+func (m *BronzeReferenceOSCoreRuleMutation) Where(ps ...predicate.BronzeReferenceOSCoreRule) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the BronzeReferenceOSCoreRuleMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *BronzeReferenceOSCoreRuleMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.BronzeReferenceOSCoreRule, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *BronzeReferenceOSCoreRuleMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *BronzeReferenceOSCoreRuleMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (BronzeReferenceOSCoreRule).
+func (m *BronzeReferenceOSCoreRuleMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *BronzeReferenceOSCoreRuleMutation) Fields() []string {
+	fields := make([]string, 0, 6)
+	if m.collected_at != nil {
+		fields = append(fields, bronzereferenceoscorerule.FieldCollectedAt)
+	}
+	if m.first_collected_at != nil {
+		fields = append(fields, bronzereferenceoscorerule.FieldFirstCollectedAt)
+	}
+	if m.rule_type != nil {
+		fields = append(fields, bronzereferenceoscorerule.FieldRuleType)
+	}
+	if m.os_type != nil {
+		fields = append(fields, bronzereferenceoscorerule.FieldOsType)
+	}
+	if m.value != nil {
+		fields = append(fields, bronzereferenceoscorerule.FieldValue)
+	}
+	if m.description != nil {
+		fields = append(fields, bronzereferenceoscorerule.FieldDescription)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *BronzeReferenceOSCoreRuleMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case bronzereferenceoscorerule.FieldCollectedAt:
+		return m.CollectedAt()
+	case bronzereferenceoscorerule.FieldFirstCollectedAt:
+		return m.FirstCollectedAt()
+	case bronzereferenceoscorerule.FieldRuleType:
+		return m.RuleType()
+	case bronzereferenceoscorerule.FieldOsType:
+		return m.OsType()
+	case bronzereferenceoscorerule.FieldValue:
+		return m.Value()
+	case bronzereferenceoscorerule.FieldDescription:
+		return m.Description()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *BronzeReferenceOSCoreRuleMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case bronzereferenceoscorerule.FieldCollectedAt:
+		return m.OldCollectedAt(ctx)
+	case bronzereferenceoscorerule.FieldFirstCollectedAt:
+		return m.OldFirstCollectedAt(ctx)
+	case bronzereferenceoscorerule.FieldRuleType:
+		return m.OldRuleType(ctx)
+	case bronzereferenceoscorerule.FieldOsType:
+		return m.OldOsType(ctx)
+	case bronzereferenceoscorerule.FieldValue:
+		return m.OldValue(ctx)
+	case bronzereferenceoscorerule.FieldDescription:
+		return m.OldDescription(ctx)
+	}
+	return nil, fmt.Errorf("unknown BronzeReferenceOSCoreRule field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeReferenceOSCoreRuleMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case bronzereferenceoscorerule.FieldCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCollectedAt(v)
+		return nil
+	case bronzereferenceoscorerule.FieldFirstCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFirstCollectedAt(v)
+		return nil
+	case bronzereferenceoscorerule.FieldRuleType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRuleType(v)
+		return nil
+	case bronzereferenceoscorerule.FieldOsType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOsType(v)
+		return nil
+	case bronzereferenceoscorerule.FieldValue:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetValue(v)
+		return nil
+	case bronzereferenceoscorerule.FieldDescription:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDescription(v)
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeReferenceOSCoreRule field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *BronzeReferenceOSCoreRuleMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *BronzeReferenceOSCoreRuleMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeReferenceOSCoreRuleMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown BronzeReferenceOSCoreRule numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *BronzeReferenceOSCoreRuleMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(bronzereferenceoscorerule.FieldOsType) {
+		fields = append(fields, bronzereferenceoscorerule.FieldOsType)
+	}
+	if m.FieldCleared(bronzereferenceoscorerule.FieldDescription) {
+		fields = append(fields, bronzereferenceoscorerule.FieldDescription)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *BronzeReferenceOSCoreRuleMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *BronzeReferenceOSCoreRuleMutation) ClearField(name string) error {
+	switch name {
+	case bronzereferenceoscorerule.FieldOsType:
+		m.ClearOsType()
+		return nil
+	case bronzereferenceoscorerule.FieldDescription:
+		m.ClearDescription()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeReferenceOSCoreRule nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *BronzeReferenceOSCoreRuleMutation) ResetField(name string) error {
+	switch name {
+	case bronzereferenceoscorerule.FieldCollectedAt:
+		m.ResetCollectedAt()
+		return nil
+	case bronzereferenceoscorerule.FieldFirstCollectedAt:
+		m.ResetFirstCollectedAt()
+		return nil
+	case bronzereferenceoscorerule.FieldRuleType:
+		m.ResetRuleType()
+		return nil
+	case bronzereferenceoscorerule.FieldOsType:
+		m.ResetOsType()
+		return nil
+	case bronzereferenceoscorerule.FieldValue:
+		m.ResetValue()
+		return nil
+	case bronzereferenceoscorerule.FieldDescription:
+		m.ResetDescription()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeReferenceOSCoreRule field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *BronzeReferenceOSCoreRuleMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *BronzeReferenceOSCoreRuleMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *BronzeReferenceOSCoreRuleMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *BronzeReferenceOSCoreRuleMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *BronzeReferenceOSCoreRuleMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *BronzeReferenceOSCoreRuleMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *BronzeReferenceOSCoreRuleMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown BronzeReferenceOSCoreRule unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *BronzeReferenceOSCoreRuleMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown BronzeReferenceOSCoreRule edge %s", name)
+}
+
 // BronzeReferenceRPMPackageMutation represents an operation that mutates the BronzeReferenceRPMPackage nodes in the graph.
 type BronzeReferenceRPMPackageMutation struct {
 	config
@@ -3761,6 +4408,703 @@ func (m *BronzeReferenceRPMPackageMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *BronzeReferenceRPMPackageMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown BronzeReferenceRPMPackage edge %s", name)
+}
+
+// BronzeReferenceSoftwareMatchRuleMutation represents an operation that mutates the BronzeReferenceSoftwareMatchRule nodes in the graph.
+type BronzeReferenceSoftwareMatchRuleMutation struct {
+	config
+	op                 Op
+	typ                string
+	id                 *string
+	collected_at       *time.Time
+	first_collected_at *time.Time
+	product_slug       *string
+	rule_type          *string
+	os_type            *string
+	value              *string
+	extra_value        *string
+	clearedFields      map[string]struct{}
+	done               bool
+	oldValue           func(context.Context) (*BronzeReferenceSoftwareMatchRule, error)
+	predicates         []predicate.BronzeReferenceSoftwareMatchRule
+}
+
+var _ ent.Mutation = (*BronzeReferenceSoftwareMatchRuleMutation)(nil)
+
+// bronzereferencesoftwarematchruleOption allows management of the mutation configuration using functional options.
+type bronzereferencesoftwarematchruleOption func(*BronzeReferenceSoftwareMatchRuleMutation)
+
+// newBronzeReferenceSoftwareMatchRuleMutation creates new mutation for the BronzeReferenceSoftwareMatchRule entity.
+func newBronzeReferenceSoftwareMatchRuleMutation(c config, op Op, opts ...bronzereferencesoftwarematchruleOption) *BronzeReferenceSoftwareMatchRuleMutation {
+	m := &BronzeReferenceSoftwareMatchRuleMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeBronzeReferenceSoftwareMatchRule,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withBronzeReferenceSoftwareMatchRuleID sets the ID field of the mutation.
+func withBronzeReferenceSoftwareMatchRuleID(id string) bronzereferencesoftwarematchruleOption {
+	return func(m *BronzeReferenceSoftwareMatchRuleMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *BronzeReferenceSoftwareMatchRule
+		)
+		m.oldValue = func(ctx context.Context) (*BronzeReferenceSoftwareMatchRule, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().BronzeReferenceSoftwareMatchRule.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withBronzeReferenceSoftwareMatchRule sets the old BronzeReferenceSoftwareMatchRule of the mutation.
+func withBronzeReferenceSoftwareMatchRule(node *BronzeReferenceSoftwareMatchRule) bronzereferencesoftwarematchruleOption {
+	return func(m *BronzeReferenceSoftwareMatchRuleMutation) {
+		m.oldValue = func(context.Context) (*BronzeReferenceSoftwareMatchRule, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m BronzeReferenceSoftwareMatchRuleMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m BronzeReferenceSoftwareMatchRuleMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("reference: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of BronzeReferenceSoftwareMatchRule entities.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) SetID(id string) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) ID() (id string, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) IDs(ctx context.Context) ([]string, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []string{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().BronzeReferenceSoftwareMatchRule.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCollectedAt sets the "collected_at" field.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) SetCollectedAt(t time.Time) {
+	m.collected_at = &t
+}
+
+// CollectedAt returns the value of the "collected_at" field in the mutation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) CollectedAt() (r time.Time, exists bool) {
+	v := m.collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCollectedAt returns the old "collected_at" field's value of the BronzeReferenceSoftwareMatchRule entity.
+// If the BronzeReferenceSoftwareMatchRule object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) OldCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCollectedAt: %w", err)
+	}
+	return oldValue.CollectedAt, nil
+}
+
+// ResetCollectedAt resets all changes to the "collected_at" field.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) ResetCollectedAt() {
+	m.collected_at = nil
+}
+
+// SetFirstCollectedAt sets the "first_collected_at" field.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) SetFirstCollectedAt(t time.Time) {
+	m.first_collected_at = &t
+}
+
+// FirstCollectedAt returns the value of the "first_collected_at" field in the mutation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) FirstCollectedAt() (r time.Time, exists bool) {
+	v := m.first_collected_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFirstCollectedAt returns the old "first_collected_at" field's value of the BronzeReferenceSoftwareMatchRule entity.
+// If the BronzeReferenceSoftwareMatchRule object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) OldFirstCollectedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFirstCollectedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFirstCollectedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFirstCollectedAt: %w", err)
+	}
+	return oldValue.FirstCollectedAt, nil
+}
+
+// ResetFirstCollectedAt resets all changes to the "first_collected_at" field.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) ResetFirstCollectedAt() {
+	m.first_collected_at = nil
+}
+
+// SetProductSlug sets the "product_slug" field.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) SetProductSlug(s string) {
+	m.product_slug = &s
+}
+
+// ProductSlug returns the value of the "product_slug" field in the mutation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) ProductSlug() (r string, exists bool) {
+	v := m.product_slug
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldProductSlug returns the old "product_slug" field's value of the BronzeReferenceSoftwareMatchRule entity.
+// If the BronzeReferenceSoftwareMatchRule object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) OldProductSlug(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldProductSlug is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldProductSlug requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldProductSlug: %w", err)
+	}
+	return oldValue.ProductSlug, nil
+}
+
+// ResetProductSlug resets all changes to the "product_slug" field.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) ResetProductSlug() {
+	m.product_slug = nil
+}
+
+// SetRuleType sets the "rule_type" field.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) SetRuleType(s string) {
+	m.rule_type = &s
+}
+
+// RuleType returns the value of the "rule_type" field in the mutation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) RuleType() (r string, exists bool) {
+	v := m.rule_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRuleType returns the old "rule_type" field's value of the BronzeReferenceSoftwareMatchRule entity.
+// If the BronzeReferenceSoftwareMatchRule object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) OldRuleType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRuleType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRuleType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRuleType: %w", err)
+	}
+	return oldValue.RuleType, nil
+}
+
+// ResetRuleType resets all changes to the "rule_type" field.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) ResetRuleType() {
+	m.rule_type = nil
+}
+
+// SetOsType sets the "os_type" field.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) SetOsType(s string) {
+	m.os_type = &s
+}
+
+// OsType returns the value of the "os_type" field in the mutation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) OsType() (r string, exists bool) {
+	v := m.os_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOsType returns the old "os_type" field's value of the BronzeReferenceSoftwareMatchRule entity.
+// If the BronzeReferenceSoftwareMatchRule object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) OldOsType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOsType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOsType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOsType: %w", err)
+	}
+	return oldValue.OsType, nil
+}
+
+// ClearOsType clears the value of the "os_type" field.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) ClearOsType() {
+	m.os_type = nil
+	m.clearedFields[bronzereferencesoftwarematchrule.FieldOsType] = struct{}{}
+}
+
+// OsTypeCleared returns if the "os_type" field was cleared in this mutation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) OsTypeCleared() bool {
+	_, ok := m.clearedFields[bronzereferencesoftwarematchrule.FieldOsType]
+	return ok
+}
+
+// ResetOsType resets all changes to the "os_type" field.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) ResetOsType() {
+	m.os_type = nil
+	delete(m.clearedFields, bronzereferencesoftwarematchrule.FieldOsType)
+}
+
+// SetValue sets the "value" field.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) SetValue(s string) {
+	m.value = &s
+}
+
+// Value returns the value of the "value" field in the mutation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) Value() (r string, exists bool) {
+	v := m.value
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldValue returns the old "value" field's value of the BronzeReferenceSoftwareMatchRule entity.
+// If the BronzeReferenceSoftwareMatchRule object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) OldValue(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldValue is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldValue requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldValue: %w", err)
+	}
+	return oldValue.Value, nil
+}
+
+// ResetValue resets all changes to the "value" field.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) ResetValue() {
+	m.value = nil
+}
+
+// SetExtraValue sets the "extra_value" field.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) SetExtraValue(s string) {
+	m.extra_value = &s
+}
+
+// ExtraValue returns the value of the "extra_value" field in the mutation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) ExtraValue() (r string, exists bool) {
+	v := m.extra_value
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldExtraValue returns the old "extra_value" field's value of the BronzeReferenceSoftwareMatchRule entity.
+// If the BronzeReferenceSoftwareMatchRule object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) OldExtraValue(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldExtraValue is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldExtraValue requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldExtraValue: %w", err)
+	}
+	return oldValue.ExtraValue, nil
+}
+
+// ClearExtraValue clears the value of the "extra_value" field.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) ClearExtraValue() {
+	m.extra_value = nil
+	m.clearedFields[bronzereferencesoftwarematchrule.FieldExtraValue] = struct{}{}
+}
+
+// ExtraValueCleared returns if the "extra_value" field was cleared in this mutation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) ExtraValueCleared() bool {
+	_, ok := m.clearedFields[bronzereferencesoftwarematchrule.FieldExtraValue]
+	return ok
+}
+
+// ResetExtraValue resets all changes to the "extra_value" field.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) ResetExtraValue() {
+	m.extra_value = nil
+	delete(m.clearedFields, bronzereferencesoftwarematchrule.FieldExtraValue)
+}
+
+// Where appends a list predicates to the BronzeReferenceSoftwareMatchRuleMutation builder.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) Where(ps ...predicate.BronzeReferenceSoftwareMatchRule) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the BronzeReferenceSoftwareMatchRuleMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.BronzeReferenceSoftwareMatchRule, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (BronzeReferenceSoftwareMatchRule).
+func (m *BronzeReferenceSoftwareMatchRuleMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *BronzeReferenceSoftwareMatchRuleMutation) Fields() []string {
+	fields := make([]string, 0, 7)
+	if m.collected_at != nil {
+		fields = append(fields, bronzereferencesoftwarematchrule.FieldCollectedAt)
+	}
+	if m.first_collected_at != nil {
+		fields = append(fields, bronzereferencesoftwarematchrule.FieldFirstCollectedAt)
+	}
+	if m.product_slug != nil {
+		fields = append(fields, bronzereferencesoftwarematchrule.FieldProductSlug)
+	}
+	if m.rule_type != nil {
+		fields = append(fields, bronzereferencesoftwarematchrule.FieldRuleType)
+	}
+	if m.os_type != nil {
+		fields = append(fields, bronzereferencesoftwarematchrule.FieldOsType)
+	}
+	if m.value != nil {
+		fields = append(fields, bronzereferencesoftwarematchrule.FieldValue)
+	}
+	if m.extra_value != nil {
+		fields = append(fields, bronzereferencesoftwarematchrule.FieldExtraValue)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case bronzereferencesoftwarematchrule.FieldCollectedAt:
+		return m.CollectedAt()
+	case bronzereferencesoftwarematchrule.FieldFirstCollectedAt:
+		return m.FirstCollectedAt()
+	case bronzereferencesoftwarematchrule.FieldProductSlug:
+		return m.ProductSlug()
+	case bronzereferencesoftwarematchrule.FieldRuleType:
+		return m.RuleType()
+	case bronzereferencesoftwarematchrule.FieldOsType:
+		return m.OsType()
+	case bronzereferencesoftwarematchrule.FieldValue:
+		return m.Value()
+	case bronzereferencesoftwarematchrule.FieldExtraValue:
+		return m.ExtraValue()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case bronzereferencesoftwarematchrule.FieldCollectedAt:
+		return m.OldCollectedAt(ctx)
+	case bronzereferencesoftwarematchrule.FieldFirstCollectedAt:
+		return m.OldFirstCollectedAt(ctx)
+	case bronzereferencesoftwarematchrule.FieldProductSlug:
+		return m.OldProductSlug(ctx)
+	case bronzereferencesoftwarematchrule.FieldRuleType:
+		return m.OldRuleType(ctx)
+	case bronzereferencesoftwarematchrule.FieldOsType:
+		return m.OldOsType(ctx)
+	case bronzereferencesoftwarematchrule.FieldValue:
+		return m.OldValue(ctx)
+	case bronzereferencesoftwarematchrule.FieldExtraValue:
+		return m.OldExtraValue(ctx)
+	}
+	return nil, fmt.Errorf("unknown BronzeReferenceSoftwareMatchRule field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case bronzereferencesoftwarematchrule.FieldCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCollectedAt(v)
+		return nil
+	case bronzereferencesoftwarematchrule.FieldFirstCollectedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFirstCollectedAt(v)
+		return nil
+	case bronzereferencesoftwarematchrule.FieldProductSlug:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetProductSlug(v)
+		return nil
+	case bronzereferencesoftwarematchrule.FieldRuleType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRuleType(v)
+		return nil
+	case bronzereferencesoftwarematchrule.FieldOsType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOsType(v)
+		return nil
+	case bronzereferencesoftwarematchrule.FieldValue:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetValue(v)
+		return nil
+	case bronzereferencesoftwarematchrule.FieldExtraValue:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetExtraValue(v)
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeReferenceSoftwareMatchRule field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown BronzeReferenceSoftwareMatchRule numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(bronzereferencesoftwarematchrule.FieldOsType) {
+		fields = append(fields, bronzereferencesoftwarematchrule.FieldOsType)
+	}
+	if m.FieldCleared(bronzereferencesoftwarematchrule.FieldExtraValue) {
+		fields = append(fields, bronzereferencesoftwarematchrule.FieldExtraValue)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) ClearField(name string) error {
+	switch name {
+	case bronzereferencesoftwarematchrule.FieldOsType:
+		m.ClearOsType()
+		return nil
+	case bronzereferencesoftwarematchrule.FieldExtraValue:
+		m.ClearExtraValue()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeReferenceSoftwareMatchRule nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) ResetField(name string) error {
+	switch name {
+	case bronzereferencesoftwarematchrule.FieldCollectedAt:
+		m.ResetCollectedAt()
+		return nil
+	case bronzereferencesoftwarematchrule.FieldFirstCollectedAt:
+		m.ResetFirstCollectedAt()
+		return nil
+	case bronzereferencesoftwarematchrule.FieldProductSlug:
+		m.ResetProductSlug()
+		return nil
+	case bronzereferencesoftwarematchrule.FieldRuleType:
+		m.ResetRuleType()
+		return nil
+	case bronzereferencesoftwarematchrule.FieldOsType:
+		m.ResetOsType()
+		return nil
+	case bronzereferencesoftwarematchrule.FieldValue:
+		m.ResetValue()
+		return nil
+	case bronzereferencesoftwarematchrule.FieldExtraValue:
+		m.ResetExtraValue()
+		return nil
+	}
+	return fmt.Errorf("unknown BronzeReferenceSoftwareMatchRule field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown BronzeReferenceSoftwareMatchRule unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *BronzeReferenceSoftwareMatchRuleMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown BronzeReferenceSoftwareMatchRule edge %s", name)
 }
 
 // BronzeReferenceUbuntuPackageMutation represents an operation that mutates the BronzeReferenceUbuntuPackage nodes in the graph.

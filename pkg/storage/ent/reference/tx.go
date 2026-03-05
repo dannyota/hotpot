@@ -20,8 +20,12 @@ type Tx struct {
 	BronzeReferenceEOLIdentifier *BronzeReferenceEOLIdentifierClient
 	// BronzeReferenceEOLProduct is the client for interacting with the BronzeReferenceEOLProduct builders.
 	BronzeReferenceEOLProduct *BronzeReferenceEOLProductClient
+	// BronzeReferenceOSCoreRule is the client for interacting with the BronzeReferenceOSCoreRule builders.
+	BronzeReferenceOSCoreRule *BronzeReferenceOSCoreRuleClient
 	// BronzeReferenceRPMPackage is the client for interacting with the BronzeReferenceRPMPackage builders.
 	BronzeReferenceRPMPackage *BronzeReferenceRPMPackageClient
+	// BronzeReferenceSoftwareMatchRule is the client for interacting with the BronzeReferenceSoftwareMatchRule builders.
+	BronzeReferenceSoftwareMatchRule *BronzeReferenceSoftwareMatchRuleClient
 	// BronzeReferenceUbuntuPackage is the client for interacting with the BronzeReferenceUbuntuPackage builders.
 	BronzeReferenceUbuntuPackage *BronzeReferenceUbuntuPackageClient
 	// BronzeReferenceXeolCycle is the client for interacting with the BronzeReferenceXeolCycle builders.
@@ -167,7 +171,9 @@ func (tx *Tx) init() {
 	tx.BronzeReferenceEOLCycle = NewBronzeReferenceEOLCycleClient(tx.config)
 	tx.BronzeReferenceEOLIdentifier = NewBronzeReferenceEOLIdentifierClient(tx.config)
 	tx.BronzeReferenceEOLProduct = NewBronzeReferenceEOLProductClient(tx.config)
+	tx.BronzeReferenceOSCoreRule = NewBronzeReferenceOSCoreRuleClient(tx.config)
 	tx.BronzeReferenceRPMPackage = NewBronzeReferenceRPMPackageClient(tx.config)
+	tx.BronzeReferenceSoftwareMatchRule = NewBronzeReferenceSoftwareMatchRuleClient(tx.config)
 	tx.BronzeReferenceUbuntuPackage = NewBronzeReferenceUbuntuPackageClient(tx.config)
 	tx.BronzeReferenceXeolCycle = NewBronzeReferenceXeolCycleClient(tx.config)
 	tx.BronzeReferenceXeolProduct = NewBronzeReferenceXeolProductClient(tx.config)

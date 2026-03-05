@@ -1,4 +1,4 @@
-.PHONY: help build build-migrate clean test vet generate genmigrate migrate dev-up dev-down dev-reset
+.PHONY: help build build-normalize build-detect build-migrate clean test vet generate genmigrate migrate dev-up dev-down dev-reset
 
 NAME    ?= auto
 SCHEMA  ?= pkg/storage/ent
@@ -8,12 +8,12 @@ DB      ?= hotpot_dev
 ifeq ($(OS),Windows_NT)
   MKDIR_BIN = if not exist bin mkdir bin
   RM_BIN = if exist bin rmdir /s /q bin
-  RM_LOOSE = if exist ingest.exe del /q ingest.exe & if exist migrate.exe del /q migrate.exe & if exist genmigrate.exe del /q genmigrate.exe
+  RM_LOOSE = if exist ingest.exe del /q ingest.exe & if exist normalize.exe del /q normalize.exe & if exist detect.exe del /q detect.exe & if exist migrate.exe del /q migrate.exe & if exist genmigrate.exe del /q genmigrate.exe
   BIN_EXT = .exe
 else
   MKDIR_BIN = mkdir -p bin
   RM_BIN = rm -rf bin/
-  RM_LOOSE = rm -f ingest migrate genmigrate
+  RM_LOOSE = rm -f ingest normalize detect migrate genmigrate
   BIN_EXT =
 endif
 
@@ -33,7 +33,19 @@ build: ## Build all ingest binaries
 	done
 	@echo "Production binaries built in bin/"
 
-build-migrate:
+build-normalize: ## Build normalize binary
+	@$(MKDIR_BIN)
+	@echo "Building normalize..."
+	@go build -o bin/normalize$(BIN_EXT) ./cmd/normalize
+	@echo "normalize built in bin/"
+
+build-detect: ## Build detect binary
+	@$(MKDIR_BIN)
+	@echo "Building detect..."
+	@go build -o bin/detect$(BIN_EXT) ./cmd/detect
+	@echo "detect built in bin/"
+
+build-migrate: ## Build migrate binary
 	@$(MKDIR_BIN)
 	@echo "Building migrate..."
 	@go build -o bin/migrate$(BIN_EXT) ./cmd/migrate

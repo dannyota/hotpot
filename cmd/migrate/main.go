@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"io/fs"
 	"log"
@@ -10,9 +11,12 @@ import (
 	"sort"
 	"strings"
 
+	_ "github.com/jackc/pgx/v5/stdlib"
+
 	"github.com/dannyota/hotpot/deploy/migrations"
 	"github.com/dannyota/hotpot/internal/atlascfg"
 	"github.com/dannyota/hotpot/pkg/base/app"
+	"github.com/dannyota/hotpot/pkg/detect/lifecycle"
 	"github.com/dannyota/hotpot/pkg/migrate"
 )
 
@@ -22,7 +26,17 @@ var _ = migrate.ProviderSet("gcp", "greennode", "jenkins", "meec", "s1", "vault"
 // Silver providers.
 var _ = migrate.ProviderSet("installedsoftware", "k8snode", "machine")
 
+// Gold providers.
+var _ = migrate.ProviderSet("lifecycle")
+
 func main() {
+	seedRules := false
+	for _, arg := range os.Args[1:] {
+		if arg == "--seed-rules" {
+			seedRules = true
+		}
+	}
+
 	ctx := context.Background()
 
 	application, err := app.New(app.Options{})
@@ -88,6 +102,21 @@ func main() {
 	}
 
 	fmt.Println("\n✅ Migration complete")
+
+	if seedRules {
+		fmt.Println("\n==> Seeding lifecycle classification rules...")
+		dsn := application.ConfigService().DatabaseDSN()
+		db, err := sql.Open("pgx", dsn)
+		if err != nil {
+			log.Fatalf("Failed to open database for seeding: %v", err)
+		}
+		defer db.Close()
+
+		if err := lifecycle.SeedRules(ctx, db); err != nil {
+			log.Fatalf("Failed to seed rules: %v", err)
+		}
+		fmt.Println("✅ Seed rules complete")
+	}
 }
 
 type layerProvider struct {

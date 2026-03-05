@@ -1,5 +1,6 @@
-h1:WXIx6g3dabdeY3F/AlGE/NQSQYvSBYfn8PWA3OH0vwY=
+h1:WQKYm7BauApwSG0r9mNaEXyMs3BAYUtTFb/5O9jsweY=
 0001_update.sql h1:0jKNwHieOePKiQ3kdK9f4NKZnHGhe4Nnt1+Sv0ZoSVU=
 0002_update.sql h1:Dp2LaFQ44JBqCV0XQ/vEt8y4tESMeKXFC106qLaTx0o=
 0003_update.sql h1:iswxWEiKEuRq6jVKFWs75HofehKTY/qs1Q0UxopClA4=
 0004_auto.sql h1:9TWB4dOonJKXM3XhpFKeScMY1kVDLRvy2HpgyWArkeA=
+0005_add_lifecycle_tables.sql h1:vI+sLRrHloxdc9UH2b9Q1J6156Ufb/QeIMOnUTarkVc=

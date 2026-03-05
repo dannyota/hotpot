@@ -4,15 +4,17 @@ package reference
 // DefaultSchemaConfig returns the schema config mapping each type to its PG schema.
 func DefaultSchemaConfig() SchemaConfig {
 	return SchemaConfig{
-		BronzeReferenceCPE:           "bronze",
-		BronzeReferenceEOLCycle:      "bronze",
-		BronzeReferenceEOLIdentifier: "bronze",
-		BronzeReferenceEOLProduct:    "bronze",
-		BronzeReferenceRPMPackage:    "bronze",
-		BronzeReferenceUbuntuPackage: "bronze",
-		BronzeReferenceXeolCycle:     "bronze",
-		BronzeReferenceXeolProduct:   "bronze",
-		BronzeReferenceXeolPurl:      "bronze",
-		BronzeReferenceXeolVuln:      "bronze",
+		BronzeReferenceCPE:               "bronze",
+		BronzeReferenceEOLCycle:          "bronze",
+		BronzeReferenceEOLIdentifier:     "bronze",
+		BronzeReferenceEOLProduct:        "bronze",
+		BronzeReferenceOSCoreRule:        "bronze",
+		BronzeReferenceRPMPackage:        "bronze",
+		BronzeReferenceSoftwareMatchRule: "bronze",
+		BronzeReferenceUbuntuPackage:     "bronze",
+		BronzeReferenceXeolCycle:         "bronze",
+		BronzeReferenceXeolProduct:       "bronze",
+		BronzeReferenceXeolPurl:          "bronze",
+		BronzeReferenceXeolVuln:          "bronze",
 	}
 }

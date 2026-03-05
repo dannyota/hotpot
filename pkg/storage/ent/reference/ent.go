@@ -16,7 +16,9 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolcycle"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolidentifier"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolproduct"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceoscorerule"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencerpmpackage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencesoftwarematchrule"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceubuntupackage"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolcycle"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolproduct"
@@ -82,16 +84,18 @@ var (
 func checkColumn(t, c string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			bronzereferencecpe.Table:           bronzereferencecpe.ValidColumn,
-			bronzereferenceeolcycle.Table:      bronzereferenceeolcycle.ValidColumn,
-			bronzereferenceeolidentifier.Table: bronzereferenceeolidentifier.ValidColumn,
-			bronzereferenceeolproduct.Table:    bronzereferenceeolproduct.ValidColumn,
-			bronzereferencerpmpackage.Table:    bronzereferencerpmpackage.ValidColumn,
-			bronzereferenceubuntupackage.Table: bronzereferenceubuntupackage.ValidColumn,
-			bronzereferencexeolcycle.Table:     bronzereferencexeolcycle.ValidColumn,
-			bronzereferencexeolproduct.Table:   bronzereferencexeolproduct.ValidColumn,
-			bronzereferencexeolpurl.Table:      bronzereferencexeolpurl.ValidColumn,
-			bronzereferencexeolvuln.Table:      bronzereferencexeolvuln.ValidColumn,
+			bronzereferencecpe.Table:               bronzereferencecpe.ValidColumn,
+			bronzereferenceeolcycle.Table:          bronzereferenceeolcycle.ValidColumn,
+			bronzereferenceeolidentifier.Table:     bronzereferenceeolidentifier.ValidColumn,
+			bronzereferenceeolproduct.Table:        bronzereferenceeolproduct.ValidColumn,
+			bronzereferenceoscorerule.Table:        bronzereferenceoscorerule.ValidColumn,
+			bronzereferencerpmpackage.Table:        bronzereferencerpmpackage.ValidColumn,
+			bronzereferencesoftwarematchrule.Table: bronzereferencesoftwarematchrule.ValidColumn,
+			bronzereferenceubuntupackage.Table:     bronzereferenceubuntupackage.ValidColumn,
+			bronzereferencexeolcycle.Table:         bronzereferencexeolcycle.ValidColumn,
+			bronzereferencexeolproduct.Table:       bronzereferencexeolproduct.ValidColumn,
+			bronzereferencexeolpurl.Table:          bronzereferencexeolpurl.ValidColumn,
+			bronzereferencexeolvuln.Table:          bronzereferencexeolvuln.ValidColumn,
 		})
 	})
 	return columnCheck(t, c)

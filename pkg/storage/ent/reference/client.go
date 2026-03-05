@@ -18,7 +18,9 @@ import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolcycle"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolidentifier"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolproduct"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceoscorerule"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencerpmpackage"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencesoftwarematchrule"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceubuntupackage"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolcycle"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolproduct"
@@ -41,8 +43,12 @@ type Client struct {
 	BronzeReferenceEOLIdentifier *BronzeReferenceEOLIdentifierClient
 	// BronzeReferenceEOLProduct is the client for interacting with the BronzeReferenceEOLProduct builders.
 	BronzeReferenceEOLProduct *BronzeReferenceEOLProductClient
+	// BronzeReferenceOSCoreRule is the client for interacting with the BronzeReferenceOSCoreRule builders.
+	BronzeReferenceOSCoreRule *BronzeReferenceOSCoreRuleClient
 	// BronzeReferenceRPMPackage is the client for interacting with the BronzeReferenceRPMPackage builders.
 	BronzeReferenceRPMPackage *BronzeReferenceRPMPackageClient
+	// BronzeReferenceSoftwareMatchRule is the client for interacting with the BronzeReferenceSoftwareMatchRule builders.
+	BronzeReferenceSoftwareMatchRule *BronzeReferenceSoftwareMatchRuleClient
 	// BronzeReferenceUbuntuPackage is the client for interacting with the BronzeReferenceUbuntuPackage builders.
 	BronzeReferenceUbuntuPackage *BronzeReferenceUbuntuPackageClient
 	// BronzeReferenceXeolCycle is the client for interacting with the BronzeReferenceXeolCycle builders.
@@ -68,7 +74,9 @@ func (c *Client) init() {
 	c.BronzeReferenceEOLCycle = NewBronzeReferenceEOLCycleClient(c.config)
 	c.BronzeReferenceEOLIdentifier = NewBronzeReferenceEOLIdentifierClient(c.config)
 	c.BronzeReferenceEOLProduct = NewBronzeReferenceEOLProductClient(c.config)
+	c.BronzeReferenceOSCoreRule = NewBronzeReferenceOSCoreRuleClient(c.config)
 	c.BronzeReferenceRPMPackage = NewBronzeReferenceRPMPackageClient(c.config)
+	c.BronzeReferenceSoftwareMatchRule = NewBronzeReferenceSoftwareMatchRuleClient(c.config)
 	c.BronzeReferenceUbuntuPackage = NewBronzeReferenceUbuntuPackageClient(c.config)
 	c.BronzeReferenceXeolCycle = NewBronzeReferenceXeolCycleClient(c.config)
 	c.BronzeReferenceXeolProduct = NewBronzeReferenceXeolProductClient(c.config)
@@ -166,18 +174,20 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:                          ctx,
-		config:                       cfg,
-		BronzeReferenceCPE:           NewBronzeReferenceCPEClient(cfg),
-		BronzeReferenceEOLCycle:      NewBronzeReferenceEOLCycleClient(cfg),
-		BronzeReferenceEOLIdentifier: NewBronzeReferenceEOLIdentifierClient(cfg),
-		BronzeReferenceEOLProduct:    NewBronzeReferenceEOLProductClient(cfg),
-		BronzeReferenceRPMPackage:    NewBronzeReferenceRPMPackageClient(cfg),
-		BronzeReferenceUbuntuPackage: NewBronzeReferenceUbuntuPackageClient(cfg),
-		BronzeReferenceXeolCycle:     NewBronzeReferenceXeolCycleClient(cfg),
-		BronzeReferenceXeolProduct:   NewBronzeReferenceXeolProductClient(cfg),
-		BronzeReferenceXeolPurl:      NewBronzeReferenceXeolPurlClient(cfg),
-		BronzeReferenceXeolVuln:      NewBronzeReferenceXeolVulnClient(cfg),
+		ctx:                              ctx,
+		config:                           cfg,
+		BronzeReferenceCPE:               NewBronzeReferenceCPEClient(cfg),
+		BronzeReferenceEOLCycle:          NewBronzeReferenceEOLCycleClient(cfg),
+		BronzeReferenceEOLIdentifier:     NewBronzeReferenceEOLIdentifierClient(cfg),
+		BronzeReferenceEOLProduct:        NewBronzeReferenceEOLProductClient(cfg),
+		BronzeReferenceOSCoreRule:        NewBronzeReferenceOSCoreRuleClient(cfg),
+		BronzeReferenceRPMPackage:        NewBronzeReferenceRPMPackageClient(cfg),
+		BronzeReferenceSoftwareMatchRule: NewBronzeReferenceSoftwareMatchRuleClient(cfg),
+		BronzeReferenceUbuntuPackage:     NewBronzeReferenceUbuntuPackageClient(cfg),
+		BronzeReferenceXeolCycle:         NewBronzeReferenceXeolCycleClient(cfg),
+		BronzeReferenceXeolProduct:       NewBronzeReferenceXeolProductClient(cfg),
+		BronzeReferenceXeolPurl:          NewBronzeReferenceXeolPurlClient(cfg),
+		BronzeReferenceXeolVuln:          NewBronzeReferenceXeolVulnClient(cfg),
 	}, nil
 }
 
@@ -195,18 +205,20 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:                          ctx,
-		config:                       cfg,
-		BronzeReferenceCPE:           NewBronzeReferenceCPEClient(cfg),
-		BronzeReferenceEOLCycle:      NewBronzeReferenceEOLCycleClient(cfg),
-		BronzeReferenceEOLIdentifier: NewBronzeReferenceEOLIdentifierClient(cfg),
-		BronzeReferenceEOLProduct:    NewBronzeReferenceEOLProductClient(cfg),
-		BronzeReferenceRPMPackage:    NewBronzeReferenceRPMPackageClient(cfg),
-		BronzeReferenceUbuntuPackage: NewBronzeReferenceUbuntuPackageClient(cfg),
-		BronzeReferenceXeolCycle:     NewBronzeReferenceXeolCycleClient(cfg),
-		BronzeReferenceXeolProduct:   NewBronzeReferenceXeolProductClient(cfg),
-		BronzeReferenceXeolPurl:      NewBronzeReferenceXeolPurlClient(cfg),
-		BronzeReferenceXeolVuln:      NewBronzeReferenceXeolVulnClient(cfg),
+		ctx:                              ctx,
+		config:                           cfg,
+		BronzeReferenceCPE:               NewBronzeReferenceCPEClient(cfg),
+		BronzeReferenceEOLCycle:          NewBronzeReferenceEOLCycleClient(cfg),
+		BronzeReferenceEOLIdentifier:     NewBronzeReferenceEOLIdentifierClient(cfg),
+		BronzeReferenceEOLProduct:        NewBronzeReferenceEOLProductClient(cfg),
+		BronzeReferenceOSCoreRule:        NewBronzeReferenceOSCoreRuleClient(cfg),
+		BronzeReferenceRPMPackage:        NewBronzeReferenceRPMPackageClient(cfg),
+		BronzeReferenceSoftwareMatchRule: NewBronzeReferenceSoftwareMatchRuleClient(cfg),
+		BronzeReferenceUbuntuPackage:     NewBronzeReferenceUbuntuPackageClient(cfg),
+		BronzeReferenceXeolCycle:         NewBronzeReferenceXeolCycleClient(cfg),
+		BronzeReferenceXeolProduct:       NewBronzeReferenceXeolProductClient(cfg),
+		BronzeReferenceXeolPurl:          NewBronzeReferenceXeolPurlClient(cfg),
+		BronzeReferenceXeolVuln:          NewBronzeReferenceXeolVulnClient(cfg),
 	}, nil
 }
 
@@ -237,7 +249,8 @@ func (c *Client) Close() error {
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
 		c.BronzeReferenceCPE, c.BronzeReferenceEOLCycle, c.BronzeReferenceEOLIdentifier,
-		c.BronzeReferenceEOLProduct, c.BronzeReferenceRPMPackage,
+		c.BronzeReferenceEOLProduct, c.BronzeReferenceOSCoreRule,
+		c.BronzeReferenceRPMPackage, c.BronzeReferenceSoftwareMatchRule,
 		c.BronzeReferenceUbuntuPackage, c.BronzeReferenceXeolCycle,
 		c.BronzeReferenceXeolProduct, c.BronzeReferenceXeolPurl,
 		c.BronzeReferenceXeolVuln,
@@ -251,7 +264,8 @@ func (c *Client) Use(hooks ...Hook) {
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
 		c.BronzeReferenceCPE, c.BronzeReferenceEOLCycle, c.BronzeReferenceEOLIdentifier,
-		c.BronzeReferenceEOLProduct, c.BronzeReferenceRPMPackage,
+		c.BronzeReferenceEOLProduct, c.BronzeReferenceOSCoreRule,
+		c.BronzeReferenceRPMPackage, c.BronzeReferenceSoftwareMatchRule,
 		c.BronzeReferenceUbuntuPackage, c.BronzeReferenceXeolCycle,
 		c.BronzeReferenceXeolProduct, c.BronzeReferenceXeolPurl,
 		c.BronzeReferenceXeolVuln,
@@ -271,8 +285,12 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.BronzeReferenceEOLIdentifier.mutate(ctx, m)
 	case *BronzeReferenceEOLProductMutation:
 		return c.BronzeReferenceEOLProduct.mutate(ctx, m)
+	case *BronzeReferenceOSCoreRuleMutation:
+		return c.BronzeReferenceOSCoreRule.mutate(ctx, m)
 	case *BronzeReferenceRPMPackageMutation:
 		return c.BronzeReferenceRPMPackage.mutate(ctx, m)
+	case *BronzeReferenceSoftwareMatchRuleMutation:
+		return c.BronzeReferenceSoftwareMatchRule.mutate(ctx, m)
 	case *BronzeReferenceUbuntuPackageMutation:
 		return c.BronzeReferenceUbuntuPackage.mutate(ctx, m)
 	case *BronzeReferenceXeolCycleMutation:
@@ -820,6 +838,139 @@ func (c *BronzeReferenceEOLProductClient) mutate(ctx context.Context, m *BronzeR
 	}
 }
 
+// BronzeReferenceOSCoreRuleClient is a client for the BronzeReferenceOSCoreRule schema.
+type BronzeReferenceOSCoreRuleClient struct {
+	config
+}
+
+// NewBronzeReferenceOSCoreRuleClient returns a client for the BronzeReferenceOSCoreRule from the given config.
+func NewBronzeReferenceOSCoreRuleClient(c config) *BronzeReferenceOSCoreRuleClient {
+	return &BronzeReferenceOSCoreRuleClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzereferenceoscorerule.Hooks(f(g(h())))`.
+func (c *BronzeReferenceOSCoreRuleClient) Use(hooks ...Hook) {
+	c.hooks.BronzeReferenceOSCoreRule = append(c.hooks.BronzeReferenceOSCoreRule, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzereferenceoscorerule.Intercept(f(g(h())))`.
+func (c *BronzeReferenceOSCoreRuleClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeReferenceOSCoreRule = append(c.inters.BronzeReferenceOSCoreRule, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeReferenceOSCoreRule entity.
+func (c *BronzeReferenceOSCoreRuleClient) Create() *BronzeReferenceOSCoreRuleCreate {
+	mutation := newBronzeReferenceOSCoreRuleMutation(c.config, OpCreate)
+	return &BronzeReferenceOSCoreRuleCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeReferenceOSCoreRule entities.
+func (c *BronzeReferenceOSCoreRuleClient) CreateBulk(builders ...*BronzeReferenceOSCoreRuleCreate) *BronzeReferenceOSCoreRuleCreateBulk {
+	return &BronzeReferenceOSCoreRuleCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeReferenceOSCoreRuleClient) MapCreateBulk(slice any, setFunc func(*BronzeReferenceOSCoreRuleCreate, int)) *BronzeReferenceOSCoreRuleCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeReferenceOSCoreRuleCreateBulk{err: fmt.Errorf("calling to BronzeReferenceOSCoreRuleClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeReferenceOSCoreRuleCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeReferenceOSCoreRuleCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeReferenceOSCoreRule.
+func (c *BronzeReferenceOSCoreRuleClient) Update() *BronzeReferenceOSCoreRuleUpdate {
+	mutation := newBronzeReferenceOSCoreRuleMutation(c.config, OpUpdate)
+	return &BronzeReferenceOSCoreRuleUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeReferenceOSCoreRuleClient) UpdateOne(_m *BronzeReferenceOSCoreRule) *BronzeReferenceOSCoreRuleUpdateOne {
+	mutation := newBronzeReferenceOSCoreRuleMutation(c.config, OpUpdateOne, withBronzeReferenceOSCoreRule(_m))
+	return &BronzeReferenceOSCoreRuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeReferenceOSCoreRuleClient) UpdateOneID(id string) *BronzeReferenceOSCoreRuleUpdateOne {
+	mutation := newBronzeReferenceOSCoreRuleMutation(c.config, OpUpdateOne, withBronzeReferenceOSCoreRuleID(id))
+	return &BronzeReferenceOSCoreRuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeReferenceOSCoreRule.
+func (c *BronzeReferenceOSCoreRuleClient) Delete() *BronzeReferenceOSCoreRuleDelete {
+	mutation := newBronzeReferenceOSCoreRuleMutation(c.config, OpDelete)
+	return &BronzeReferenceOSCoreRuleDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeReferenceOSCoreRuleClient) DeleteOne(_m *BronzeReferenceOSCoreRule) *BronzeReferenceOSCoreRuleDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeReferenceOSCoreRuleClient) DeleteOneID(id string) *BronzeReferenceOSCoreRuleDeleteOne {
+	builder := c.Delete().Where(bronzereferenceoscorerule.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeReferenceOSCoreRuleDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeReferenceOSCoreRule.
+func (c *BronzeReferenceOSCoreRuleClient) Query() *BronzeReferenceOSCoreRuleQuery {
+	return &BronzeReferenceOSCoreRuleQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeReferenceOSCoreRule},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeReferenceOSCoreRule entity by its id.
+func (c *BronzeReferenceOSCoreRuleClient) Get(ctx context.Context, id string) (*BronzeReferenceOSCoreRule, error) {
+	return c.Query().Where(bronzereferenceoscorerule.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeReferenceOSCoreRuleClient) GetX(ctx context.Context, id string) *BronzeReferenceOSCoreRule {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeReferenceOSCoreRuleClient) Hooks() []Hook {
+	return c.hooks.BronzeReferenceOSCoreRule
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeReferenceOSCoreRuleClient) Interceptors() []Interceptor {
+	return c.inters.BronzeReferenceOSCoreRule
+}
+
+func (c *BronzeReferenceOSCoreRuleClient) mutate(ctx context.Context, m *BronzeReferenceOSCoreRuleMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeReferenceOSCoreRuleCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeReferenceOSCoreRuleUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeReferenceOSCoreRuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeReferenceOSCoreRuleDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("reference: unknown BronzeReferenceOSCoreRule mutation op: %q", m.Op())
+	}
+}
+
 // BronzeReferenceRPMPackageClient is a client for the BronzeReferenceRPMPackage schema.
 type BronzeReferenceRPMPackageClient struct {
 	config
@@ -950,6 +1101,139 @@ func (c *BronzeReferenceRPMPackageClient) mutate(ctx context.Context, m *BronzeR
 		return (&BronzeReferenceRPMPackageDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("reference: unknown BronzeReferenceRPMPackage mutation op: %q", m.Op())
+	}
+}
+
+// BronzeReferenceSoftwareMatchRuleClient is a client for the BronzeReferenceSoftwareMatchRule schema.
+type BronzeReferenceSoftwareMatchRuleClient struct {
+	config
+}
+
+// NewBronzeReferenceSoftwareMatchRuleClient returns a client for the BronzeReferenceSoftwareMatchRule from the given config.
+func NewBronzeReferenceSoftwareMatchRuleClient(c config) *BronzeReferenceSoftwareMatchRuleClient {
+	return &BronzeReferenceSoftwareMatchRuleClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `bronzereferencesoftwarematchrule.Hooks(f(g(h())))`.
+func (c *BronzeReferenceSoftwareMatchRuleClient) Use(hooks ...Hook) {
+	c.hooks.BronzeReferenceSoftwareMatchRule = append(c.hooks.BronzeReferenceSoftwareMatchRule, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `bronzereferencesoftwarematchrule.Intercept(f(g(h())))`.
+func (c *BronzeReferenceSoftwareMatchRuleClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BronzeReferenceSoftwareMatchRule = append(c.inters.BronzeReferenceSoftwareMatchRule, interceptors...)
+}
+
+// Create returns a builder for creating a BronzeReferenceSoftwareMatchRule entity.
+func (c *BronzeReferenceSoftwareMatchRuleClient) Create() *BronzeReferenceSoftwareMatchRuleCreate {
+	mutation := newBronzeReferenceSoftwareMatchRuleMutation(c.config, OpCreate)
+	return &BronzeReferenceSoftwareMatchRuleCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BronzeReferenceSoftwareMatchRule entities.
+func (c *BronzeReferenceSoftwareMatchRuleClient) CreateBulk(builders ...*BronzeReferenceSoftwareMatchRuleCreate) *BronzeReferenceSoftwareMatchRuleCreateBulk {
+	return &BronzeReferenceSoftwareMatchRuleCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *BronzeReferenceSoftwareMatchRuleClient) MapCreateBulk(slice any, setFunc func(*BronzeReferenceSoftwareMatchRuleCreate, int)) *BronzeReferenceSoftwareMatchRuleCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &BronzeReferenceSoftwareMatchRuleCreateBulk{err: fmt.Errorf("calling to BronzeReferenceSoftwareMatchRuleClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*BronzeReferenceSoftwareMatchRuleCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &BronzeReferenceSoftwareMatchRuleCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BronzeReferenceSoftwareMatchRule.
+func (c *BronzeReferenceSoftwareMatchRuleClient) Update() *BronzeReferenceSoftwareMatchRuleUpdate {
+	mutation := newBronzeReferenceSoftwareMatchRuleMutation(c.config, OpUpdate)
+	return &BronzeReferenceSoftwareMatchRuleUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BronzeReferenceSoftwareMatchRuleClient) UpdateOne(_m *BronzeReferenceSoftwareMatchRule) *BronzeReferenceSoftwareMatchRuleUpdateOne {
+	mutation := newBronzeReferenceSoftwareMatchRuleMutation(c.config, OpUpdateOne, withBronzeReferenceSoftwareMatchRule(_m))
+	return &BronzeReferenceSoftwareMatchRuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BronzeReferenceSoftwareMatchRuleClient) UpdateOneID(id string) *BronzeReferenceSoftwareMatchRuleUpdateOne {
+	mutation := newBronzeReferenceSoftwareMatchRuleMutation(c.config, OpUpdateOne, withBronzeReferenceSoftwareMatchRuleID(id))
+	return &BronzeReferenceSoftwareMatchRuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BronzeReferenceSoftwareMatchRule.
+func (c *BronzeReferenceSoftwareMatchRuleClient) Delete() *BronzeReferenceSoftwareMatchRuleDelete {
+	mutation := newBronzeReferenceSoftwareMatchRuleMutation(c.config, OpDelete)
+	return &BronzeReferenceSoftwareMatchRuleDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BronzeReferenceSoftwareMatchRuleClient) DeleteOne(_m *BronzeReferenceSoftwareMatchRule) *BronzeReferenceSoftwareMatchRuleDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BronzeReferenceSoftwareMatchRuleClient) DeleteOneID(id string) *BronzeReferenceSoftwareMatchRuleDeleteOne {
+	builder := c.Delete().Where(bronzereferencesoftwarematchrule.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BronzeReferenceSoftwareMatchRuleDeleteOne{builder}
+}
+
+// Query returns a query builder for BronzeReferenceSoftwareMatchRule.
+func (c *BronzeReferenceSoftwareMatchRuleClient) Query() *BronzeReferenceSoftwareMatchRuleQuery {
+	return &BronzeReferenceSoftwareMatchRuleQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBronzeReferenceSoftwareMatchRule},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BronzeReferenceSoftwareMatchRule entity by its id.
+func (c *BronzeReferenceSoftwareMatchRuleClient) Get(ctx context.Context, id string) (*BronzeReferenceSoftwareMatchRule, error) {
+	return c.Query().Where(bronzereferencesoftwarematchrule.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BronzeReferenceSoftwareMatchRuleClient) GetX(ctx context.Context, id string) *BronzeReferenceSoftwareMatchRule {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BronzeReferenceSoftwareMatchRuleClient) Hooks() []Hook {
+	return c.hooks.BronzeReferenceSoftwareMatchRule
+}
+
+// Interceptors returns the client interceptors.
+func (c *BronzeReferenceSoftwareMatchRuleClient) Interceptors() []Interceptor {
+	return c.inters.BronzeReferenceSoftwareMatchRule
+}
+
+func (c *BronzeReferenceSoftwareMatchRuleClient) mutate(ctx context.Context, m *BronzeReferenceSoftwareMatchRuleMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BronzeReferenceSoftwareMatchRuleCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BronzeReferenceSoftwareMatchRuleUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BronzeReferenceSoftwareMatchRuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BronzeReferenceSoftwareMatchRuleDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("reference: unknown BronzeReferenceSoftwareMatchRule mutation op: %q", m.Op())
 	}
 }
 
@@ -1622,14 +1906,16 @@ func (c *BronzeReferenceXeolVulnClient) mutate(ctx context.Context, m *BronzeRef
 type (
 	hooks struct {
 		BronzeReferenceCPE, BronzeReferenceEOLCycle, BronzeReferenceEOLIdentifier,
-		BronzeReferenceEOLProduct, BronzeReferenceRPMPackage,
+		BronzeReferenceEOLProduct, BronzeReferenceOSCoreRule,
+		BronzeReferenceRPMPackage, BronzeReferenceSoftwareMatchRule,
 		BronzeReferenceUbuntuPackage, BronzeReferenceXeolCycle,
 		BronzeReferenceXeolProduct, BronzeReferenceXeolPurl,
 		BronzeReferenceXeolVuln []ent.Hook
 	}
 	inters struct {
 		BronzeReferenceCPE, BronzeReferenceEOLCycle, BronzeReferenceEOLIdentifier,
-		BronzeReferenceEOLProduct, BronzeReferenceRPMPackage,
+		BronzeReferenceEOLProduct, BronzeReferenceOSCoreRule,
+		BronzeReferenceRPMPackage, BronzeReferenceSoftwareMatchRule,
 		BronzeReferenceUbuntuPackage, BronzeReferenceXeolCycle,
 		BronzeReferenceXeolProduct, BronzeReferenceXeolPurl,
 		BronzeReferenceXeolVuln []ent.Interceptor

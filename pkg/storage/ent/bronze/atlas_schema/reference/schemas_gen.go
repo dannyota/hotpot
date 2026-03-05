@@ -71,12 +71,44 @@ func (BronzeReferenceEOLProduct) Annotations() []schema.Annotation {
 	return append(anns, entsql.Annotation{Schema: "bronze"})
 }
 
+type BronzeReferenceOSCoreRule struct {
+	bronze_reference.BronzeReferenceOSCoreRule
+}
+
+func (BronzeReferenceOSCoreRule) Annotations() []schema.Annotation {
+	anns := bronze_reference.BronzeReferenceOSCoreRule{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
 type BronzeReferenceRPMPackage struct {
 	bronze_reference.BronzeReferenceRPMPackage
 }
 
 func (BronzeReferenceRPMPackage) Annotations() []schema.Annotation {
 	anns := bronze_reference.BronzeReferenceRPMPackage{}.Annotations()
+	for i, a := range anns {
+		if v, ok := a.(entsql.Annotation); ok {
+			v.Schema = "bronze"
+			anns[i] = v
+			return anns
+		}
+	}
+	return append(anns, entsql.Annotation{Schema: "bronze"})
+}
+
+type BronzeReferenceSoftwareMatchRule struct {
+	bronze_reference.BronzeReferenceSoftwareMatchRule
+}
+
+func (BronzeReferenceSoftwareMatchRule) Annotations() []schema.Annotation {
+	anns := bronze_reference.BronzeReferenceSoftwareMatchRule{}.Annotations()
 	for i, a := range anns {
 		if v, ok := a.(entsql.Annotation); ok {
 			v.Schema = "bronze"

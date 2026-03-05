@@ -7,16 +7,18 @@ import "context"
 // SchemaConfig represents alternative schema names for all tables
 // that can be passed at runtime.
 type SchemaConfig struct {
-	BronzeReferenceCPE           string // BronzeReferenceCPE table.
-	BronzeReferenceEOLCycle      string // BronzeReferenceEOLCycle table.
-	BronzeReferenceEOLIdentifier string // BronzeReferenceEOLIdentifier table.
-	BronzeReferenceEOLProduct    string // BronzeReferenceEOLProduct table.
-	BronzeReferenceRPMPackage    string // BronzeReferenceRPMPackage table.
-	BronzeReferenceUbuntuPackage string // BronzeReferenceUbuntuPackage table.
-	BronzeReferenceXeolCycle     string // BronzeReferenceXeolCycle table.
-	BronzeReferenceXeolProduct   string // BronzeReferenceXeolProduct table.
-	BronzeReferenceXeolPurl      string // BronzeReferenceXeolPurl table.
-	BronzeReferenceXeolVuln      string // BronzeReferenceXeolVuln table.
+	BronzeReferenceCPE               string // BronzeReferenceCPE table.
+	BronzeReferenceEOLCycle          string // BronzeReferenceEOLCycle table.
+	BronzeReferenceEOLIdentifier     string // BronzeReferenceEOLIdentifier table.
+	BronzeReferenceEOLProduct        string // BronzeReferenceEOLProduct table.
+	BronzeReferenceOSCoreRule        string // BronzeReferenceOSCoreRule table.
+	BronzeReferenceRPMPackage        string // BronzeReferenceRPMPackage table.
+	BronzeReferenceSoftwareMatchRule string // BronzeReferenceSoftwareMatchRule table.
+	BronzeReferenceUbuntuPackage     string // BronzeReferenceUbuntuPackage table.
+	BronzeReferenceXeolCycle         string // BronzeReferenceXeolCycle table.
+	BronzeReferenceXeolProduct       string // BronzeReferenceXeolProduct table.
+	BronzeReferenceXeolPurl          string // BronzeReferenceXeolPurl table.
+	BronzeReferenceXeolVuln          string // BronzeReferenceXeolVuln table.
 }
 
 type schemaCtxKey struct{}

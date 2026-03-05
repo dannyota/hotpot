@@ -18,8 +18,14 @@ type BronzeReferenceEOLIdentifier func(*sql.Selector)
 // BronzeReferenceEOLProduct is the predicate function for bronzereferenceeolproduct builders.
 type BronzeReferenceEOLProduct func(*sql.Selector)
 
+// BronzeReferenceOSCoreRule is the predicate function for bronzereferenceoscorerule builders.
+type BronzeReferenceOSCoreRule func(*sql.Selector)
+
 // BronzeReferenceRPMPackage is the predicate function for bronzereferencerpmpackage builders.
 type BronzeReferenceRPMPackage func(*sql.Selector)
+
+// BronzeReferenceSoftwareMatchRule is the predicate function for bronzereferencesoftwarematchrule builders.
+type BronzeReferenceSoftwareMatchRule func(*sql.Selector)
 
 // BronzeReferenceUbuntuPackage is the predicate function for bronzereferenceubuntupackage builders.
 type BronzeReferenceUbuntuPackage func(*sql.Selector)

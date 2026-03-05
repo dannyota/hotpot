@@ -136,6 +136,39 @@ var (
 			},
 		},
 	}
+	// ReferenceOsCoreRulesColumns holds the columns for the "reference_os_core_rules" table.
+	ReferenceOsCoreRulesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "rule_type", Type: field.TypeString},
+		{Name: "os_type", Type: field.TypeString, Nullable: true},
+		{Name: "value", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+	}
+	// ReferenceOsCoreRulesTable holds the schema information for the "reference_os_core_rules" table.
+	ReferenceOsCoreRulesTable = &schema.Table{
+		Name:       "reference_os_core_rules",
+		Columns:    ReferenceOsCoreRulesColumns,
+		PrimaryKey: []*schema.Column{ReferenceOsCoreRulesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzereferenceoscorerule_rule_type",
+				Unique:  false,
+				Columns: []*schema.Column{ReferenceOsCoreRulesColumns[3]},
+			},
+			{
+				Name:    "bronzereferenceoscorerule_os_type",
+				Unique:  false,
+				Columns: []*schema.Column{ReferenceOsCoreRulesColumns[4]},
+			},
+			{
+				Name:    "bronzereferenceoscorerule_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{ReferenceOsCoreRulesColumns[1]},
+			},
+		},
+	}
 	// ReferenceRpmPackagesColumns holds the columns for the "reference_rpm_packages" table.
 	ReferenceRpmPackagesColumns = []*schema.Column{
 		{Name: "resource_id", Type: field.TypeString, Unique: true},
@@ -169,6 +202,40 @@ var (
 				Name:    "bronzereferencerpmpackage_collected_at",
 				Unique:  false,
 				Columns: []*schema.Column{ReferenceRpmPackagesColumns[1]},
+			},
+		},
+	}
+	// ReferenceSoftwareMatchRulesColumns holds the columns for the "reference_software_match_rules" table.
+	ReferenceSoftwareMatchRulesColumns = []*schema.Column{
+		{Name: "resource_id", Type: field.TypeString, Unique: true},
+		{Name: "collected_at", Type: field.TypeTime},
+		{Name: "first_collected_at", Type: field.TypeTime},
+		{Name: "product_slug", Type: field.TypeString},
+		{Name: "rule_type", Type: field.TypeString},
+		{Name: "os_type", Type: field.TypeString, Nullable: true},
+		{Name: "value", Type: field.TypeString},
+		{Name: "extra_value", Type: field.TypeString, Nullable: true},
+	}
+	// ReferenceSoftwareMatchRulesTable holds the schema information for the "reference_software_match_rules" table.
+	ReferenceSoftwareMatchRulesTable = &schema.Table{
+		Name:       "reference_software_match_rules",
+		Columns:    ReferenceSoftwareMatchRulesColumns,
+		PrimaryKey: []*schema.Column{ReferenceSoftwareMatchRulesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "bronzereferencesoftwarematchrule_product_slug",
+				Unique:  false,
+				Columns: []*schema.Column{ReferenceSoftwareMatchRulesColumns[3]},
+			},
+			{
+				Name:    "bronzereferencesoftwarematchrule_rule_type",
+				Unique:  false,
+				Columns: []*schema.Column{ReferenceSoftwareMatchRulesColumns[4]},
+			},
+			{
+				Name:    "bronzereferencesoftwarematchrule_collected_at",
+				Unique:  false,
+				Columns: []*schema.Column{ReferenceSoftwareMatchRulesColumns[1]},
 			},
 		},
 	}
@@ -328,7 +395,9 @@ var (
 		ReferenceEolCyclesTable,
 		ReferenceEolIdentifiersTable,
 		ReferenceEolProductsTable,
+		ReferenceOsCoreRulesTable,
 		ReferenceRpmPackagesTable,
+		ReferenceSoftwareMatchRulesTable,
 		ReferenceUbuntuPackagesTable,
 		ReferenceXeolCyclesTable,
 		ReferenceXeolProductsTable,
@@ -350,8 +419,14 @@ func init() {
 	ReferenceEolProductsTable.Annotation = &entsql.Annotation{
 		Table: "reference_eol_products",
 	}
+	ReferenceOsCoreRulesTable.Annotation = &entsql.Annotation{
+		Table: "reference_os_core_rules",
+	}
 	ReferenceRpmPackagesTable.Annotation = &entsql.Annotation{
 		Table: "reference_rpm_packages",
+	}
+	ReferenceSoftwareMatchRulesTable.Annotation = &entsql.Annotation{
+		Table: "reference_software_match_rules",
 	}
 	ReferenceUbuntuPackagesTable.Annotation = &entsql.Annotation{
 		Table: "reference_ubuntu_packages",

@@ -4,6 +4,8 @@ package reference
 
 import (
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencecpe"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceoscorerule"
+	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencesoftwarematchrule"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolcycle"
 	"github.com/dannyota/hotpot/pkg/storage/ent/reference/schema"
 )
@@ -18,6 +20,30 @@ func init() {
 	bronzereferencecpeDescDeprecated := bronzereferencecpeFields[6].Descriptor()
 	// bronzereferencecpe.DefaultDeprecated holds the default value on creation for the deprecated field.
 	bronzereferencecpe.DefaultDeprecated = bronzereferencecpeDescDeprecated.Default.(bool)
+	bronzereferenceoscoreruleFields := schema.BronzeReferenceOSCoreRule{}.Fields()
+	_ = bronzereferenceoscoreruleFields
+	// bronzereferenceoscoreruleDescRuleType is the schema descriptor for rule_type field.
+	bronzereferenceoscoreruleDescRuleType := bronzereferenceoscoreruleFields[1].Descriptor()
+	// bronzereferenceoscorerule.RuleTypeValidator is a validator for the "rule_type" field. It is called by the builders before save.
+	bronzereferenceoscorerule.RuleTypeValidator = bronzereferenceoscoreruleDescRuleType.Validators[0].(func(string) error)
+	// bronzereferenceoscoreruleDescValue is the schema descriptor for value field.
+	bronzereferenceoscoreruleDescValue := bronzereferenceoscoreruleFields[3].Descriptor()
+	// bronzereferenceoscorerule.ValueValidator is a validator for the "value" field. It is called by the builders before save.
+	bronzereferenceoscorerule.ValueValidator = bronzereferenceoscoreruleDescValue.Validators[0].(func(string) error)
+	bronzereferencesoftwarematchruleFields := schema.BronzeReferenceSoftwareMatchRule{}.Fields()
+	_ = bronzereferencesoftwarematchruleFields
+	// bronzereferencesoftwarematchruleDescProductSlug is the schema descriptor for product_slug field.
+	bronzereferencesoftwarematchruleDescProductSlug := bronzereferencesoftwarematchruleFields[1].Descriptor()
+	// bronzereferencesoftwarematchrule.ProductSlugValidator is a validator for the "product_slug" field. It is called by the builders before save.
+	bronzereferencesoftwarematchrule.ProductSlugValidator = bronzereferencesoftwarematchruleDescProductSlug.Validators[0].(func(string) error)
+	// bronzereferencesoftwarematchruleDescRuleType is the schema descriptor for rule_type field.
+	bronzereferencesoftwarematchruleDescRuleType := bronzereferencesoftwarematchruleFields[2].Descriptor()
+	// bronzereferencesoftwarematchrule.RuleTypeValidator is a validator for the "rule_type" field. It is called by the builders before save.
+	bronzereferencesoftwarematchrule.RuleTypeValidator = bronzereferencesoftwarematchruleDescRuleType.Validators[0].(func(string) error)
+	// bronzereferencesoftwarematchruleDescValue is the schema descriptor for value field.
+	bronzereferencesoftwarematchruleDescValue := bronzereferencesoftwarematchruleFields[4].Descriptor()
+	// bronzereferencesoftwarematchrule.ValueValidator is a validator for the "value" field. It is called by the builders before save.
+	bronzereferencesoftwarematchrule.ValueValidator = bronzereferencesoftwarematchruleDescValue.Validators[0].(func(string) error)
 	bronzereferencexeolcycleFields := schema.BronzeReferenceXeolCycle{}.Fields()
 	_ = bronzereferencexeolcycleFields
 	// bronzereferencexeolcycleDescEolBool is the schema descriptor for eol_bool field.

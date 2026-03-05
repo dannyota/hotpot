@@ -57,6 +57,18 @@ func (f BronzeReferenceEOLProductFunc) Mutate(ctx context.Context, m reference.M
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *reference.BronzeReferenceEOLProductMutation", m)
 }
 
+// The BronzeReferenceOSCoreRuleFunc type is an adapter to allow the use of ordinary
+// function as BronzeReferenceOSCoreRule mutator.
+type BronzeReferenceOSCoreRuleFunc func(context.Context, *reference.BronzeReferenceOSCoreRuleMutation) (reference.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeReferenceOSCoreRuleFunc) Mutate(ctx context.Context, m reference.Mutation) (reference.Value, error) {
+	if mv, ok := m.(*reference.BronzeReferenceOSCoreRuleMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *reference.BronzeReferenceOSCoreRuleMutation", m)
+}
+
 // The BronzeReferenceRPMPackageFunc type is an adapter to allow the use of ordinary
 // function as BronzeReferenceRPMPackage mutator.
 type BronzeReferenceRPMPackageFunc func(context.Context, *reference.BronzeReferenceRPMPackageMutation) (reference.Value, error)
@@ -67,6 +79,18 @@ func (f BronzeReferenceRPMPackageFunc) Mutate(ctx context.Context, m reference.M
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *reference.BronzeReferenceRPMPackageMutation", m)
+}
+
+// The BronzeReferenceSoftwareMatchRuleFunc type is an adapter to allow the use of ordinary
+// function as BronzeReferenceSoftwareMatchRule mutator.
+type BronzeReferenceSoftwareMatchRuleFunc func(context.Context, *reference.BronzeReferenceSoftwareMatchRuleMutation) (reference.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f BronzeReferenceSoftwareMatchRuleFunc) Mutate(ctx context.Context, m reference.Mutation) (reference.Value, error) {
+	if mv, ok := m.(*reference.BronzeReferenceSoftwareMatchRuleMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *reference.BronzeReferenceSoftwareMatchRuleMutation", m)
 }
 
 // The BronzeReferenceUbuntuPackageFunc type is an adapter to allow the use of ordinary
