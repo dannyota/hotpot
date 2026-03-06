@@ -4,7 +4,7 @@ go 1.25.7
 
 require (
 	cloud.google.com/go/accesscontextmanager v1.9.7
-	cloud.google.com/go/alloydb v1.20.0
+	cloud.google.com/go/alloydb v1.21.0
 	cloud.google.com/go/appengine v1.9.7
 	cloud.google.com/go/asset v1.22.1
 	cloud.google.com/go/bigquery v1.73.1
