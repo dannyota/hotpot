@@ -3,9 +3,9 @@
 package dataproc
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dataproc/bronzegcpdataproccluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dataproc/bronzehistorygcpdataproccluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dataproc/schema"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dataproc/bronzegcpdataproccluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dataproc/bronzehistorygcpdataproccluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dataproc/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

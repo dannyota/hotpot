@@ -9,20 +9,20 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnsmanagedzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnsmanagedzonelabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnspolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzehistorygcpdnsmanagedzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzehistorygcpdnsmanagedzonelabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzehistorygcpdnspolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnsmanagedzone"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnsmanagedzonelabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnspolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/bronzehistorygcpdnsmanagedzone"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/bronzehistorygcpdnsmanagedzonelabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/bronzehistorygcpdnspolicy"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/internal"
 )
 
 // Client is the client that holds all ent builders.

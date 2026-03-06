@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_vault_pki "github.com/dannyota/hotpot/pkg/schema/bronze/vault/pki"
-	bronzehistory_vault_pki "github.com/dannyota/hotpot/pkg/schema/bronzehistory/vault/pki"
+	bronze_vault_pki "danny.vn/hotpot/pkg/schema/bronze/vault/pki"
+	bronzehistory_vault_pki "danny.vn/hotpot/pkg/schema/bronzehistory/vault/pki"
 )
 
 type BronzeVaultPKICertificate struct {

@@ -4,7 +4,7 @@ package schema
 import (
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
-	bronzehistory_jenkins "github.com/dannyota/hotpot/pkg/schema/bronzehistory/jenkins"
+	bronzehistory_jenkins "danny.vn/hotpot/pkg/schema/bronzehistory/jenkins"
 )
 
 type BronzeHistoryJenkinsJob struct {

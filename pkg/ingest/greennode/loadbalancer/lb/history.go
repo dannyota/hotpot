@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	entlb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzehistorygreennodeloadbalancerlb"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzehistorygreennodeloadbalancerlistener"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzehistorygreennodeloadbalancerpool"
+	entlb "danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzehistorygreennodeloadbalancerlb"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzehistorygreennodeloadbalancerlistener"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzehistorygreennodeloadbalancerpool"
 )
 
 // HistoryService handles history tracking for load balancers.

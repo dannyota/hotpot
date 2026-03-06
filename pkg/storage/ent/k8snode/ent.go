@@ -12,9 +12,9 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/k8snode/silverk8snode"
-	"github.com/dannyota/hotpot/pkg/storage/ent/k8snode/silverk8snodebronzelink"
-	"github.com/dannyota/hotpot/pkg/storage/ent/k8snode/silverk8snodenormalized"
+	"danny.vn/hotpot/pkg/storage/ent/k8snode/inventoryk8snode"
+	"danny.vn/hotpot/pkg/storage/ent/k8snode/inventoryk8snodebronzelink"
+	"danny.vn/hotpot/pkg/storage/ent/k8snode/inventoryk8snodenormalized"
 )
 
 // ent aliases to avoid import conflicts in user's code.
@@ -75,9 +75,9 @@ var (
 func checkColumn(t, c string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			silverk8snode.Table:           silverk8snode.ValidColumn,
-			silverk8snodebronzelink.Table: silverk8snodebronzelink.ValidColumn,
-			silverk8snodenormalized.Table: silverk8snodenormalized.ValidColumn,
+			inventoryk8snode.Table:           inventoryk8snode.ValidColumn,
+			inventoryk8snodebronzelink.Table: inventoryk8snodebronzelink.ValidColumn,
+			inventoryk8snodenormalized.Table: inventoryk8snodenormalized.ValidColumn,
 		})
 	})
 	return columnCheck(t, c)

@@ -3,7 +3,7 @@ package resourcesearch
 import (
 	"bytes"
 
-	entcloudasset "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset"
+	entcloudasset "danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset"
 )
 
 // ResourceSearchDiff represents changes between old and new resource search state.

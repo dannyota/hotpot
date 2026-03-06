@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/bronzehistorygcpsecretmanagersecret"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/bronzehistorygcpsecretmanagersecret"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/predicate"
 )
 
 // BronzeHistoryGCPSecretManagerSecretUpdate is the builder for updating BronzeHistoryGCPSecretManagerSecret entities.

@@ -3,14 +3,14 @@ package accesscontextmanager
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/accesscontextmanager/accesslevel"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/accesscontextmanager/accesspolicy"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/accesscontextmanager/serviceperimeter"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/gcp/accesscontextmanager/accesslevel"
+	"danny.vn/hotpot/pkg/ingest/gcp/accesscontextmanager/accesspolicy"
+	"danny.vn/hotpot/pkg/ingest/gcp/accesscontextmanager/serviceperimeter"
 	"entgo.io/ent/dialect"
-	entaccesscontextmanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager"
-	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	entaccesscontextmanager "danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager"
+	entresourcemanager "danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // Register registers all Access Context Manager activities and workflows.

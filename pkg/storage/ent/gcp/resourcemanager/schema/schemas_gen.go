@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_resourcemanager "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/resourcemanager"
-	bronzehistory_gcp_resourcemanager "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/resourcemanager"
+	bronze_gcp_resourcemanager "danny.vn/hotpot/pkg/schema/bronze/gcp/resourcemanager"
+	bronzehistory_gcp_resourcemanager "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/resourcemanager"
 )
 
 type BronzeGCPFolder struct {

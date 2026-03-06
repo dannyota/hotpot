@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entcloudfunctions "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzegcpcloudfunctionsfunction"
+	entcloudfunctions "danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzegcpcloudfunctionsfunction"
 )
 
 // Service handles Cloud Function ingestion.

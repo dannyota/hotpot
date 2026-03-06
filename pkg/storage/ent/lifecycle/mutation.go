@@ -11,9 +11,9 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/goldlifecycleos"
-	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/goldlifecyclesoftware"
-	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/lifecycle/goldlifecycleos"
+	"danny.vn/hotpot/pkg/storage/ent/lifecycle/goldlifecyclesoftware"
+	"danny.vn/hotpot/pkg/storage/ent/lifecycle/predicate"
 )
 
 const (

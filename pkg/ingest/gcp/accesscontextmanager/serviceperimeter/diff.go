@@ -3,7 +3,7 @@ package serviceperimeter
 import (
 	"bytes"
 
-	entaccesscontextmanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager"
+	entaccesscontextmanager "danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager"
 )
 
 // ServicePerimeterDiff represents changes between old and new service perimeter state.

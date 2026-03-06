@@ -11,7 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzegcpcloudfunctionsfunction"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzegcpcloudfunctionsfunction"
 )
 
 // BronzeGCPCloudFunctionsFunctionCreate is the builder for creating a BronzeGCPCloudFunctionsFunction entity.

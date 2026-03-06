@@ -13,10 +13,10 @@ import (
 	"google.golang.org/api/option"
 	"google.golang.org/grpc"
 
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
+	"danny.vn/hotpot/pkg/base/temporalerr"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
 )
 
 // Activities holds dependencies for GCP provider-level Temporal activities.

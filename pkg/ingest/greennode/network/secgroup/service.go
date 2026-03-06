@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworksecgroup"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworksecgrouprule"
+	entnet "danny.vn/hotpot/pkg/storage/ent/greennode/network"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworksecgroup"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworksecgrouprule"
 )
 
 // Service handles GreenNode security group ingestion.

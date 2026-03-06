@@ -3,11 +3,11 @@
 package bigquery
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery/bronzegcpbigquerydataset"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery/bronzegcpbigquerytable"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery/bronzehistorygcpbigquerydataset"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery/bronzehistorygcpbigquerytable"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery/schema"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigquery/bronzegcpbigquerydataset"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigquery/bronzegcpbigquerytable"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigquery/bronzehistorygcpbigquerydataset"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigquery/bronzehistorygcpbigquerytable"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigquery/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

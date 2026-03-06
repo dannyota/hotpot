@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entspanner "github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/bronzehistorygcpspannerdatabase"
+	entspanner "danny.vn/hotpot/pkg/storage/ent/gcp/spanner"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/spanner/bronzehistorygcpspannerdatabase"
 )
 
 // HistoryService manages Spanner database history tracking.

@@ -3,7 +3,7 @@ package glbresource
 import (
 	"bytes"
 
-	entglb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb"
+	entglb "danny.vn/hotpot/pkg/storage/ent/greennode/glb"
 )
 
 // GLBDiff represents changes between old and new GLB states.

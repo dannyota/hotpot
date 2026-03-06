@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"time"
 
-	entcontainer "github.com/dannyota/hotpot/pkg/storage/ent/gcp/container"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainercluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusteraddon"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclustercondition"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusterlabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusternodepool"
+	entcontainer "danny.vn/hotpot/pkg/storage/ent/gcp/container"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainercluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusteraddon"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclustercondition"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusterlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusternodepool"
 )
 
 // HistoryService handles history tracking for clusters.

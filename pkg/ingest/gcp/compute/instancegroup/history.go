@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancegroup"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancegroupmember"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancegroupnamedport"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancegroup"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancegroupmember"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancegroupnamedport"
 )
 
 // HistoryService manages instance group history tracking.

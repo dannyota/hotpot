@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceubuntupackage"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/reference/bronzereferenceubuntupackage"
+	"danny.vn/hotpot/pkg/storage/ent/reference/internal"
+	"danny.vn/hotpot/pkg/storage/ent/reference/predicate"
 )
 
 // BronzeReferenceUbuntuPackageQuery is the builder for querying BronzeReferenceUbuntuPackage entities.

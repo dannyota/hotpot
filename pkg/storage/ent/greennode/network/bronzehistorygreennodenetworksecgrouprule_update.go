@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworksecgrouprule"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworksecgrouprule"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/predicate"
 )
 
 // BronzeHistoryGreenNodeNetworkSecgroupRuleUpdate is the builder for updating BronzeHistoryGreenNodeNetworkSecgroupRule entities.

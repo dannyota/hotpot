@@ -12,9 +12,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeosimage"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeosimage"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/predicate"
 )
 
 // BronzeGreenNodeComputeOSImageUpdate is the builder for updating BronzeGreenNodeComputeOSImage entities.

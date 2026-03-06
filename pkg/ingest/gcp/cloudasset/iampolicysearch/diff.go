@@ -3,7 +3,7 @@ package iampolicysearch
 import (
 	"bytes"
 
-	entcloudasset "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset"
+	entcloudasset "danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset"
 )
 
 // IAMPolicySearchDiff represents changes between old and new IAM policy search state.

@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeimage"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeimage"
 )
 
 // BronzeGCPComputeImage is the model entity for the BronzeGCPComputeImage schema.

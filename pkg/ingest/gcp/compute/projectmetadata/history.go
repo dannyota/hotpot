@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeprojectmetadata"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeprojectmetadataitem"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeprojectmetadata"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeprojectmetadataitem"
 )
 
 // HistoryService handles history tracking for project metadata.

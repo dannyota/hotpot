@@ -3,9 +3,9 @@ package logmetric
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entlogging "github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entlogging "danny.vn/hotpot/pkg/storage/ent/gcp/logging"
 )
 
 // Register registers log metric workflows and activities with the Temporal worker.

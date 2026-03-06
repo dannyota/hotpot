@@ -3,9 +3,9 @@ package cluster
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entalloydb "github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entalloydb "danny.vn/hotpot/pkg/storage/ent/gcp/alloydb"
 )
 
 // Register registers AlloyDB cluster workflows and activities with the Temporal worker.

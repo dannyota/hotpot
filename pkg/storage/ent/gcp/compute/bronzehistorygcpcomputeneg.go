@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeneg"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeneg"
 )
 
 // BronzeHistoryGCPComputeNeg is the model entity for the BronzeHistoryGCPComputeNeg schema.

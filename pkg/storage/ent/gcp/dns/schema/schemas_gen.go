@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_dns "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/dns"
-	bronzehistory_gcp_dns "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/dns"
+	bronze_gcp_dns "danny.vn/hotpot/pkg/schema/bronze/gcp/dns"
+	bronzehistory_gcp_dns "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/dns"
 )
 
 type BronzeGCPDNSPolicy struct {

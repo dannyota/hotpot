@@ -8,8 +8,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancedisk"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancedisklicense"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancedisk"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancedisklicense"
 )
 
 // BronzeGCPComputeInstanceDiskLicense is the model entity for the BronzeGCPComputeInstanceDiskLicense schema.

@@ -3,7 +3,7 @@ package vpngateway
 import (
 	"bytes"
 
-	entvpn "github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn"
+	entvpn "danny.vn/hotpot/pkg/storage/ent/gcp/vpn"
 )
 
 // VpnGatewayDiff represents changes between old and new VPN gateway states.

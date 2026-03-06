@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucket"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucket"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/predicate"
 )
 
 // BronzeHistoryGCPStorageBucketDelete is the builder for deleting a BronzeHistoryGCPStorageBucket entity.

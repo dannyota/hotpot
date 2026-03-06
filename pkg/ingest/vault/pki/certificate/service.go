@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entpki "github.com/dannyota/hotpot/pkg/storage/ent/vault/pki"
-	"github.com/dannyota/hotpot/pkg/storage/ent/vault/pki/bronzevaultpkicertificate"
+	entpki "danny.vn/hotpot/pkg/storage/ent/vault/pki"
+	"danny.vn/hotpot/pkg/storage/ent/vault/pki/bronzevaultpkicertificate"
 )
 
 // Service handles Vault PKI certificate ingestion.

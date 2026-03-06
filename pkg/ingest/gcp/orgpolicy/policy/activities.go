@@ -8,11 +8,11 @@ import (
 	"google.golang.org/api/option"
 	"google.golang.org/grpc"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	entorgpolicy "github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy"
-	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	entorgpolicy "danny.vn/hotpot/pkg/storage/ent/gcp/orgpolicy"
+	entresourcemanager "danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 type Activities struct {

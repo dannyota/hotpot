@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencesoftwarematchrule"
+	"danny.vn/hotpot/pkg/storage/ent/reference/bronzereferencesoftwarematchrule"
 )
 
 // BronzeReferenceSoftwareMatchRule is the model entity for the BronzeReferenceSoftwareMatchRule schema.

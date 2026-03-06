@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedovpc"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzedovpc"
 )
 
 // BronzeDOVpcCreate is the builder for creating a BronzeDOVpc entity.

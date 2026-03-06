@@ -12,8 +12,8 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/goldlifecycleos"
-	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/goldlifecyclesoftware"
+	"danny.vn/hotpot/pkg/storage/ent/lifecycle/goldlifecycleos"
+	"danny.vn/hotpot/pkg/storage/ent/lifecycle/goldlifecyclesoftware"
 )
 
 // ent aliases to avoid import conflicts in user's code.

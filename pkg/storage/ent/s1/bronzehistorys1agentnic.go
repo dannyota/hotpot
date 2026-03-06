@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1agentnic"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzehistorys1agentnic"
 )
 
 // BronzeHistoryS1AgentNIC is the model entity for the BronzeHistoryS1AgentNIC schema.

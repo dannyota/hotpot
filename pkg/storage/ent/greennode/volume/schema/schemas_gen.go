@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_greennode_volume "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/volume"
-	bronzehistory_greennode_volume "github.com/dannyota/hotpot/pkg/schema/bronzehistory/greennode/volume"
+	bronze_greennode_volume "danny.vn/hotpot/pkg/schema/bronze/greennode/volume"
+	bronzehistory_greennode_volume "danny.vn/hotpot/pkg/schema/bronzehistory/greennode/volume"
 )
 
 type BronzeGreenNodeVolumeBlockVolume struct {

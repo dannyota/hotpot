@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydoloadbalancer"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydoloadbalancer"
 )
 
 // BronzeHistoryDOLoadBalancer is the model entity for the BronzeHistoryDOLoadBalancer schema.

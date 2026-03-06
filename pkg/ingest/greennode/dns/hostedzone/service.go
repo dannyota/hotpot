@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entdns "github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzegreennodednshostedzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzegreennodednsrecord"
+	entdns "danny.vn/hotpot/pkg/storage/ent/greennode/dns"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/bronzegreennodednshostedzone"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/bronzegreennodednsrecord"
 )
 
 // Service handles GreenNode DNS hosted zone ingestion.

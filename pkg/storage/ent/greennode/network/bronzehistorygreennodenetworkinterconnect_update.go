@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworkinterconnect"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworkinterconnect"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/predicate"
 )
 
 // BronzeHistoryGreenNodeNetworkInterconnectUpdate is the builder for updating BronzeHistoryGreenNodeNetworkInterconnect entities.

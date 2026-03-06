@@ -7,7 +7,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 
-	"github.com/dannyota/hotpot/pkg/schema/bronze/mixin"
+	"danny.vn/hotpot/pkg/schema/bronze/mixin"
 )
 
 // BronzeMEECInventorySoftware represents a global software entry in the MEEC inventory catalog.

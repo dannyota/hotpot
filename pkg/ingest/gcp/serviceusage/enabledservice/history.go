@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entserviceusage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/serviceusage"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/serviceusage/bronzehistorygcpserviceusageenabledservice"
+	entserviceusage "danny.vn/hotpot/pkg/storage/ent/gcp/serviceusage"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/serviceusage/bronzehistorygcpserviceusageenabledservice"
 )
 
 // HistoryService manages enabled service history tracking.

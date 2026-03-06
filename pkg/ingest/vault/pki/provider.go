@@ -1,8 +1,8 @@
 package pki
 
 import (
-	"github.com/dannyota/hotpot/pkg/ingest"
-	"github.com/dannyota/hotpot/pkg/ingest/vault"
+	"danny.vn/hotpot/pkg/ingest"
+	"danny.vn/hotpot/pkg/ingest/vault"
 )
 
 func init() {

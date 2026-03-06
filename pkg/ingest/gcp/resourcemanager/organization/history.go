@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcporganization"
+	entresourcemanager "danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcporganization"
 )
 
 // HistoryService manages organization history tracking.

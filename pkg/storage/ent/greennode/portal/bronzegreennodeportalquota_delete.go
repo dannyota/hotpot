@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/bronzegreennodeportalquota"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/portal/bronzegreennodeportalquota"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/portal/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/portal/predicate"
 )
 
 // BronzeGreenNodePortalQuotaDelete is the builder for deleting a BronzeGreenNodePortalQuota entity.

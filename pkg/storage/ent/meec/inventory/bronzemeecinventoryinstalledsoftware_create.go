@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/bronzemeecinventoryinstalledsoftware"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/bronzemeecinventoryinstalledsoftware"
 )
 
 // BronzeMEECInventoryInstalledSoftwareCreate is the builder for creating a BronzeMEECInventoryInstalledSoftware entity.

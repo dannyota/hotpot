@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entportal "github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/bronzehistorygreennodeportalregion"
+	entportal "danny.vn/hotpot/pkg/storage/ent/greennode/portal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/portal/bronzehistorygreennodeportalregion"
 )
 
 // HistoryService handles history tracking for regions.

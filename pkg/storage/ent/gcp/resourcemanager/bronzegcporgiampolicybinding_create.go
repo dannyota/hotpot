@@ -10,8 +10,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcporgiampolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcporgiampolicybinding"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcporgiampolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcporgiampolicybinding"
 )
 
 // BronzeGCPOrgIamPolicyBindingCreate is the builder for creating a BronzeGCPOrgIamPolicyBinding entity.

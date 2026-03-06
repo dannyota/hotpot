@@ -4,7 +4,7 @@ package schema
 import (
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
-	bronze_do "github.com/dannyota/hotpot/pkg/schema/bronze/do"
+	bronze_do "danny.vn/hotpot/pkg/schema/bronze/do"
 )
 
 type BronzeDOAccount struct {

@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeprojectmetadata"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeprojectmetadata"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/predicate"
 )
 
 // BronzeGCPComputeProjectMetadataDelete is the builder for deleting a BronzeGCPComputeProjectMetadata entity.

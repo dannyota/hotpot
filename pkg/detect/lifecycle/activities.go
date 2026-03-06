@@ -10,8 +10,8 @@ import (
 
 	"go.temporal.io/sdk/activity"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	entlifecycle "github.com/dannyota/hotpot/pkg/storage/ent/lifecycle"
+	"danny.vn/hotpot/pkg/base/config"
+	entlifecycle "danny.vn/hotpot/pkg/storage/ent/lifecycle"
 )
 
 const batchSize = 1000
@@ -602,7 +602,7 @@ func (a *Activities) loadEOLCycles(ctx context.Context, slugs []string) (map[str
 func (a *Activities) loadInstalledApps(ctx context.Context) ([]installedApp, error) {
 	rows, err := a.db.QueryContext(ctx, `
 		SELECT s.machine_id, s.name, COALESCE(s.version, '')
-		FROM silver.installed_software s
+		FROM inventory.software s
 		WHERE s.version IS NOT NULL AND s.version != ''`)
 	if err != nil {
 		return nil, fmt.Errorf("query installed_software: %w", err)

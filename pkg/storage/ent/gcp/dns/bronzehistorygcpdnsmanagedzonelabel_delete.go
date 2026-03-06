@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzehistorygcpdnsmanagedzonelabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/bronzehistorygcpdnsmanagedzonelabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/predicate"
 )
 
 // BronzeHistoryGCPDNSManagedZoneLabelDelete is the builder for deleting a BronzeHistoryGCPDNSManagedZoneLabel entity.

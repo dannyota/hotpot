@@ -11,7 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzegcploggingbucket"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/bronzegcploggingbucket"
 )
 
 // BronzeGCPLoggingBucketCreate is the builder for creating a BronzeGCPLoggingBucket entity.

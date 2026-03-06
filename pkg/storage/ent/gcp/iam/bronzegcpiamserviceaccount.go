@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam/bronzegcpiamserviceaccount"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iam/bronzegcpiamserviceaccount"
 )
 
 // BronzeGCPIAMServiceAccount is the model entity for the BronzeGCPIAMServiceAccount schema.

@@ -3,11 +3,11 @@
 package iam
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam/bronzegcpiamserviceaccount"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam/bronzegcpiamserviceaccountkey"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam/bronzehistorygcpiamserviceaccount"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam/bronzehistorygcpiamserviceaccountkey"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam/schema"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iam/bronzegcpiamserviceaccount"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iam/bronzegcpiamserviceaccountkey"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iam/bronzehistorygcpiamserviceaccount"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iam/bronzehistorygcpiamserviceaccountkey"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iam/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

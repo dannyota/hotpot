@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entkms "github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms/bronzehistorygcpkmscryptokey"
+	entkms "danny.vn/hotpot/pkg/storage/ent/gcp/kms"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/kms/bronzehistorygcpkmscryptokey"
 )
 
 // HistoryService handles history tracking for crypto keys.

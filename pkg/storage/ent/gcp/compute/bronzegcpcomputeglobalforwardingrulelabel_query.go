@@ -11,10 +11,10 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeglobalforwardingrule"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeglobalforwardingrulelabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeglobalforwardingrule"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeglobalforwardingrulelabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/predicate"
 )
 
 // BronzeGCPComputeGlobalForwardingRuleLabelQuery is the builder for querying BronzeGCPComputeGlobalForwardingRuleLabel entities.

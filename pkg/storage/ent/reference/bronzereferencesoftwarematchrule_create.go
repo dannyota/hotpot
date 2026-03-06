@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencesoftwarematchrule"
+	"danny.vn/hotpot/pkg/storage/ent/reference/bronzereferencesoftwarematchrule"
 )
 
 // BronzeReferenceSoftwareMatchRuleCreate is the builder for creating a BronzeReferenceSoftwareMatchRule entity.

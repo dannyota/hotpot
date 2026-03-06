@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzehistoryawsec2instance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/bronzehistoryawsec2instance"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/internal"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/predicate"
 )
 
 // BronzeHistoryAWSEC2InstanceQuery is the builder for querying BronzeHistoryAWSEC2Instance entities.

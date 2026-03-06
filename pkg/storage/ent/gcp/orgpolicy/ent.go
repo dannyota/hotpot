@@ -12,12 +12,12 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzegcporgpolicyconstraint"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzegcporgpolicycustomconstraint"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzegcporgpolicypolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzehistorygcporgpolicyconstraint"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzehistorygcporgpolicycustomconstraint"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzehistorygcporgpolicypolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzegcporgpolicyconstraint"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzegcporgpolicycustomconstraint"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzegcporgpolicypolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzehistorygcporgpolicyconstraint"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzehistorygcporgpolicycustomconstraint"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzehistorygcporgpolicypolicy"
 )
 
 // ent aliases to avoid import conflicts in user's code.

@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery/bronzegcpbigquerydataset"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigquery/bronzegcpbigquerydataset"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigquery/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigquery/predicate"
 )
 
 // BronzeGCPBigQueryDatasetUpdate is the builder for updating BronzeGCPBigQueryDataset entities.

@@ -3,11 +3,11 @@ package compute
 import (
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/compute/osimage"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/compute/server"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/compute/servergroup"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/compute/sshkey"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/compute/userimage"
+	"danny.vn/hotpot/pkg/ingest/greennode/compute/osimage"
+	"danny.vn/hotpot/pkg/ingest/greennode/compute/server"
+	"danny.vn/hotpot/pkg/ingest/greennode/compute/servergroup"
+	"danny.vn/hotpot/pkg/ingest/greennode/compute/sshkey"
+	"danny.vn/hotpot/pkg/ingest/greennode/compute/userimage"
 )
 
 // GreenNodeComputeWorkflowParams contains parameters for the compute workflow.

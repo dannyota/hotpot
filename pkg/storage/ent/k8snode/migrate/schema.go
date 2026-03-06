@@ -33,12 +33,12 @@ var (
 		PrimaryKey: []*schema.Column{K8sNodesColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "silverk8snode_cluster_name",
+				Name:    "inventoryk8snode_cluster_name",
 				Unique:  false,
 				Columns: []*schema.Column{K8sNodesColumns[5]},
 			},
 			{
-				Name:    "silverk8snode_collected_at",
+				Name:    "inventoryk8snode_collected_at",
 				Unique:  false,
 				Columns: []*schema.Column{K8sNodesColumns[1]},
 			},
@@ -50,7 +50,7 @@ var (
 		{Name: "provider", Type: field.TypeString},
 		{Name: "bronze_table", Type: field.TypeString},
 		{Name: "bronze_resource_id", Type: field.TypeString},
-		{Name: "silver_k8s_node_bronze_links", Type: field.TypeString},
+		{Name: "inventory_k8s_node_bronze_links", Type: field.TypeString},
 	}
 	// K8sNodeBronzeLinksTable holds the schema information for the "k8s_node_bronze_links" table.
 	K8sNodeBronzeLinksTable = &schema.Table{
@@ -95,12 +95,12 @@ var (
 		PrimaryKey: []*schema.Column{K8sNodeNormalizedColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "silverk8snodenormalized_provider",
+				Name:    "inventoryk8snodenormalized_provider",
 				Unique:  false,
 				Columns: []*schema.Column{K8sNodeNormalizedColumns[1]},
 			},
 			{
-				Name:    "silverk8snodenormalized_provider_bronze_resource_id",
+				Name:    "inventoryk8snodenormalized_provider_bronze_resource_id",
 				Unique:  true,
 				Columns: []*schema.Column{K8sNodeNormalizedColumns[1], K8sNodeNormalizedColumns[4]},
 			},

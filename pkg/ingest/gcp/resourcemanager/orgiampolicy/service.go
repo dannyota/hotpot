@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcporgiampolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcporgiampolicybinding"
+	entresourcemanager "danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcporgiampolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcporgiampolicybinding"
 )
 
 // Service handles GCP organization IAM policy ingestion.

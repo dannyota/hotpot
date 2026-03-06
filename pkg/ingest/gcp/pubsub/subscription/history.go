@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entpubsub "github.com/dannyota/hotpot/pkg/storage/ent/gcp/pubsub"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/pubsub/bronzehistorygcppubsubsubscription"
+	entpubsub "danny.vn/hotpot/pkg/storage/ent/gcp/pubsub"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/pubsub/bronzehistorygcppubsubsubscription"
 )
 
 // HistoryService manages Pub/Sub subscription history tracking.

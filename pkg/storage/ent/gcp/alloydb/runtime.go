@@ -3,9 +3,9 @@
 package alloydb
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/bronzegcpalloydbcluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/bronzehistorygcpalloydbcluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/schema"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/bronzegcpalloydbcluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/bronzehistorygcpalloydbcluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

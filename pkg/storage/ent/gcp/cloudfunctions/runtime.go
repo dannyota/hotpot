@@ -3,9 +3,9 @@
 package cloudfunctions
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzegcpcloudfunctionsfunction"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzehistorygcpcloudfunctionsfunction"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/schema"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzegcpcloudfunctionsfunction"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzehistorygcpcloudfunctionsfunction"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

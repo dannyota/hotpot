@@ -1,7 +1,7 @@
 package region
 
 import (
-	entportal "github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal"
+	entportal "danny.vn/hotpot/pkg/storage/ent/greennode/portal"
 )
 
 // RegionDiff represents changes between old and new region states.

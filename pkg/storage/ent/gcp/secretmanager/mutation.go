@@ -12,11 +12,11 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/bronzegcpsecretmanagersecret"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/bronzegcpsecretmanagersecretlabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/bronzehistorygcpsecretmanagersecret"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/bronzehistorygcpsecretmanagersecretlabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/bronzegcpsecretmanagersecret"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/bronzegcpsecretmanagersecretlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/bronzehistorygcpsecretmanagersecret"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/bronzehistorygcpsecretmanagersecretlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/predicate"
 )
 
 const (

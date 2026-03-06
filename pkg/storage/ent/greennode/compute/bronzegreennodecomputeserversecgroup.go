@@ -8,8 +8,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeserver"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeserversecgroup"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeserver"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeserversecgroup"
 )
 
 // BronzeGreenNodeComputeServerSecGroup is the model entity for the BronzeGreenNodeComputeServerSecGroup schema.

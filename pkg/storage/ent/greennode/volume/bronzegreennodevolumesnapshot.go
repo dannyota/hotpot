@@ -8,8 +8,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumeblockvolume"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumesnapshot"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumeblockvolume"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumesnapshot"
 )
 
 // BronzeGreenNodeVolumeSnapshot is the model entity for the BronzeGreenNodeVolumeSnapshot schema.

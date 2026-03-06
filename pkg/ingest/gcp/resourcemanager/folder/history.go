@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcpfolder"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcpfolderlabel"
+	entresourcemanager "danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcpfolder"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcpfolderlabel"
 )
 
 // HistoryService manages folder history tracking.

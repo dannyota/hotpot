@@ -1,7 +1,7 @@
 package targettcpproxy
 
 import (
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // TargetTcpProxyDiff represents changes between old and new target TCP proxy states.

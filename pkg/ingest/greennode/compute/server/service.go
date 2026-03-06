@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeserver"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeserversecgroup"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/greennode/compute"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeserver"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeserversecgroup"
 )
 
 // Service handles GreenNode server ingestion.

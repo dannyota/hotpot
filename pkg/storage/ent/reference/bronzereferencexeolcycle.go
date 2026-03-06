@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolcycle"
+	"danny.vn/hotpot/pkg/storage/ent/reference/bronzereferencexeolcycle"
 )
 
 // BronzeReferenceXeolCycle is the model entity for the BronzeReferenceXeolCycle schema.

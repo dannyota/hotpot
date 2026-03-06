@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1account"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzes1account"
+	"danny.vn/hotpot/pkg/storage/ent/s1/internal"
+	"danny.vn/hotpot/pkg/storage/ent/s1/predicate"
 )
 
 // BronzeS1AccountQuery is the builder for querying BronzeS1Account entities.

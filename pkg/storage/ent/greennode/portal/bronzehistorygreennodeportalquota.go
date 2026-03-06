@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/bronzehistorygreennodeportalquota"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/portal/bronzehistorygreennodeportalquota"
 )
 
 // BronzeHistoryGreenNodePortalQuota is the model entity for the BronzeHistoryGreenNodePortalQuota schema.

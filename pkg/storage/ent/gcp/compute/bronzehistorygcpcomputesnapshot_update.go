@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputesnapshot"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputesnapshot"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/predicate"
 )
 
 // BronzeHistoryGCPComputeSnapshotUpdate is the builder for updating BronzeHistoryGCPComputeSnapshot entities.

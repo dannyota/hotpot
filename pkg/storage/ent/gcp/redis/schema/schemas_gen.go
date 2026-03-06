@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_redis "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/redis"
-	bronzehistory_gcp_redis "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/redis"
+	bronze_gcp_redis "danny.vn/hotpot/pkg/schema/bronze/gcp/redis"
+	bronzehistory_gcp_redis "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/redis"
 )
 
 type BronzeGCPRedisInstance struct {

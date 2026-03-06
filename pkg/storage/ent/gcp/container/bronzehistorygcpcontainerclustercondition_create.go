@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclustercondition"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclustercondition"
 )
 
 // BronzeHistoryGCPContainerClusterConditionCreate is the builder for creating a BronzeHistoryGCPContainerClusterCondition entity.

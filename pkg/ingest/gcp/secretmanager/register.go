@@ -3,11 +3,11 @@ package secretmanager
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/secretmanager/secret"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/gcp/secretmanager/secret"
 	"entgo.io/ent/dialect"
-	entsecretmanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager"
+	entsecretmanager "danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager"
 )
 
 // Register registers all Secret Manager activities and workflows.

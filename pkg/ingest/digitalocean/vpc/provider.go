@@ -1,8 +1,8 @@
 package vpc
 
 import (
-	"github.com/dannyota/hotpot/pkg/ingest"
-	"github.com/dannyota/hotpot/pkg/ingest/digitalocean"
+	"danny.vn/hotpot/pkg/ingest"
+	"danny.vn/hotpot/pkg/ingest/digitalocean"
 )
 
 func init() {

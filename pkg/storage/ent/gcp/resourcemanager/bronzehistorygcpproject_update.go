@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcpproject"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcpproject"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/predicate"
 )
 
 // BronzeHistoryGCPProjectUpdate is the builder for updating BronzeHistoryGCPProject entities.

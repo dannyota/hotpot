@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancedisklicense"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancedisklicense"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/predicate"
 )
 
 // BronzeHistoryGCPComputeInstanceDiskLicenseQuery is the builder for querying BronzeHistoryGCPComputeInstanceDiskLicense entities.

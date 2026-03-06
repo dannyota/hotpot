@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputenegendpoint"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputenegendpoint"
 )
 
 // BronzeGCPComputeNegEndpointCreate is the builder for creating a BronzeGCPComputeNegEndpoint entity.

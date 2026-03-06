@@ -10,10 +10,10 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnsmanagedzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnsmanagedzonelabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnsmanagedzone"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnsmanagedzonelabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/predicate"
 )
 
 // BronzeGCPDNSManagedZoneLabelUpdate is the builder for updating BronzeGCPDNSManagedZoneLabel entities.

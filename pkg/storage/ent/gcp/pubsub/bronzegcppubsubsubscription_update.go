@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/pubsub/bronzegcppubsubsubscription"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/pubsub/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/pubsub/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/pubsub/bronzegcppubsubsubscription"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/pubsub/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/pubsub/predicate"
 )
 
 // BronzeGCPPubSubSubscriptionUpdate is the builder for updating BronzeGCPPubSubSubscription entities.

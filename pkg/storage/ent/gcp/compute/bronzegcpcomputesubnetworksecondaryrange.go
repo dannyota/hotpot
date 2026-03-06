@@ -8,8 +8,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesubnetwork"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesubnetworksecondaryrange"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesubnetwork"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesubnetworksecondaryrange"
 )
 
 // BronzeGCPComputeSubnetworkSecondaryRange is the model entity for the BronzeGCPComputeSubnetworkSecondaryRange schema.

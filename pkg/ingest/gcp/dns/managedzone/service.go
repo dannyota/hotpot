@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entdns "github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnsmanagedzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnsmanagedzonelabel"
+	entdns "danny.vn/hotpot/pkg/storage/ent/gcp/dns"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnsmanagedzone"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnsmanagedzonelabel"
 )
 
 // Service handles GCP DNS managed zone ingestion.

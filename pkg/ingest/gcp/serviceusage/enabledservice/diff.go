@@ -3,7 +3,7 @@ package enabledservice
 import (
 	"bytes"
 
-	entserviceusage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/serviceusage"
+	entserviceusage "danny.vn/hotpot/pkg/storage/ent/gcp/serviceusage"
 )
 
 // EnabledServiceDiff represents changes between old and new enabled service states.

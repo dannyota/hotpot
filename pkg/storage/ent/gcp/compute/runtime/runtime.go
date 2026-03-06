@@ -2,7 +2,7 @@
 
 package runtime
 
-// The schema-stitching logic is generated in github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/runtime.go
+// The schema-stitching logic is generated in danny.vn/hotpot/pkg/storage/ent/gcp/compute/runtime.go
 
 const (
 	Version = "v0.14.5"                                         // Version of ent codegen.

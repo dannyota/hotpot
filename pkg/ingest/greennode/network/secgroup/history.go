@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworksecgroup"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworksecgrouprule"
+	entnet "danny.vn/hotpot/pkg/storage/ent/greennode/network"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworksecgroup"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworksecgrouprule"
 )
 
 // HistoryService handles history tracking for security groups.

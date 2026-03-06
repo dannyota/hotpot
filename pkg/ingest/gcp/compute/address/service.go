@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeaddress"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeaddresslabel"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeaddress"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeaddresslabel"
 )
 
 // Service handles GCP Compute address ingestion.

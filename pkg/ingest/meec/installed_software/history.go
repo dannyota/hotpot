@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entinventory "github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/bronzehistorymeecinventoryinstalledsoftware"
+	entinventory "danny.vn/hotpot/pkg/storage/ent/meec/inventory"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/bronzehistorymeecinventoryinstalledsoftware"
 )
 
 // HistoryService handles history tracking for installed software.

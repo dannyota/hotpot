@@ -8,7 +8,7 @@ import (
 	"cloud.google.com/go/iam/apiv1/iampb"
 	"google.golang.org/api/option"
 
-	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	entresourcemanager "danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // FolderIamPolicyRaw holds raw API data for a folder IAM policy.

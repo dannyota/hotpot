@@ -7,11 +7,11 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 
-	goldmixin "github.com/dannyota/hotpot/pkg/schema/gold/mixin"
+	goldmixin "danny.vn/hotpot/pkg/schema/gold/mixin"
 )
 
 // GoldLifecycleSoftware holds per-machine software EOL classification and status.
-// Each row represents one (machine_id, name) pair from silver.installed_software,
+// Each row represents one (machine_id, name) pair from inventory.software,
 // classified as matched (with EOL data), os_core, or unmatched.
 type GoldLifecycleSoftware struct {
 	ent.Schema

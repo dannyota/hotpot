@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_s1 "github.com/dannyota/hotpot/pkg/schema/bronze/s1"
-	bronzehistory_s1 "github.com/dannyota/hotpot/pkg/schema/bronzehistory/s1"
+	bronze_s1 "danny.vn/hotpot/pkg/schema/bronze/s1"
+	bronzehistory_s1 "danny.vn/hotpot/pkg/schema/bronzehistory/s1"
 )
 
 type BronzeS1Account struct {

@@ -11,8 +11,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/bronzegcpappengineapplication"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/bronzegcpappengineservice"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/appengine/bronzegcpappengineapplication"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/appengine/bronzegcpappengineservice"
 )
 
 // BronzeGCPAppEngineApplicationCreate is the builder for creating a BronzeGCPAppEngineApplication entity.

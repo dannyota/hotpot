@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputesnapshot"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputesnapshotlabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputesnapshotlicense"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputesnapshot"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputesnapshotlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputesnapshotlicense"
 )
 
 // HistoryService handles history tracking for snapshots.

@@ -11,11 +11,11 @@ import (
 	"go.temporal.io/sdk/activity"
 	"golang.org/x/sync/errgroup"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1agent"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	ents1 "danny.vn/hotpot/pkg/storage/ent/s1"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzes1agent"
 )
 
 // Activities holds dependencies for Temporal activities.

@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnsmanagedzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnsmanagedzonelabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnsmanagedzone"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnsmanagedzonelabel"
 )
 
 // BronzeGCPDNSManagedZoneLabelCreate is the builder for creating a BronzeGCPDNSManagedZoneLabel entity.

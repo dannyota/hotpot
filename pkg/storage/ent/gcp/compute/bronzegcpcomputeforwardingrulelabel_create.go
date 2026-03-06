@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeforwardingrule"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeforwardingrulelabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeforwardingrule"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeforwardingrulelabel"
 )
 
 // BronzeGCPComputeForwardingRuleLabelCreate is the builder for creating a BronzeGCPComputeForwardingRuleLabel entity.

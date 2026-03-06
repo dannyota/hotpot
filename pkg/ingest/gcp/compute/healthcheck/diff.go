@@ -3,7 +3,7 @@ package healthcheck
 import (
 	"reflect"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // HealthCheckDiff represents changes between old and new health check states.

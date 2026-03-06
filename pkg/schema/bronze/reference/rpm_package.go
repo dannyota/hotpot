@@ -7,7 +7,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 
-	"github.com/dannyota/hotpot/pkg/schema/bronze/mixin"
+	"danny.vn/hotpot/pkg/schema/bronze/mixin"
 )
 
 // BronzeReferenceRPMPackage represents an RPM package from CentOS Stream or EPEL repositories.

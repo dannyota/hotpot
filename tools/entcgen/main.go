@@ -18,11 +18,11 @@ import (
 	"entgo.io/ent/entc/gen"
 )
 
-const hotpotModule = "github.com/dannyota/hotpot"
+const hotpotModule = "danny.vn/hotpot"
 
 type schemaInfo struct {
 	TypeName   string // e.g. "BronzeGCPComputeInstance"
-	ImportPath string // e.g. "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/compute"
+	ImportPath string // e.g. "danny.vn/hotpot/pkg/schema/bronze/gcp/compute"
 	Alias      string // e.g. "bronze_gcp_compute"
 	Layer      string // e.g. "bronze", "bronzehistory"
 }
@@ -31,7 +31,7 @@ type schemaInfo struct {
 var layerToSchema = map[string]string{
 	"bronze":        "bronze",
 	"bronzehistory": "bronze_history",
-	"silver":        "silver",
+	"inventory":     "inventory",
 	"gold":          "gold",
 }
 

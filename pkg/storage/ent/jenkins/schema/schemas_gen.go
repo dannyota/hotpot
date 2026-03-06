@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_jenkins "github.com/dannyota/hotpot/pkg/schema/bronze/jenkins"
-	bronzehistory_jenkins "github.com/dannyota/hotpot/pkg/schema/bronzehistory/jenkins"
+	bronze_jenkins "danny.vn/hotpot/pkg/schema/bronze/jenkins"
+	bronzehistory_jenkins "danny.vn/hotpot/pkg/schema/bronzehistory/jenkins"
 )
 
 type BronzeJenkinsJob struct {

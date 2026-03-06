@@ -11,7 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery/bronzegcpbigquerydataset"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigquery/bronzegcpbigquerydataset"
 )
 
 // BronzeGCPBigQueryDatasetCreate is the builder for creating a BronzeGCPBigQueryDataset entity.

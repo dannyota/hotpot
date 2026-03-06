@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1site"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzehistorys1site"
+	"danny.vn/hotpot/pkg/storage/ent/s1/internal"
+	"danny.vn/hotpot/pkg/storage/ent/s1/predicate"
 )
 
 // BronzeHistoryS1SiteUpdate is the builder for updating BronzeHistoryS1Site entities.

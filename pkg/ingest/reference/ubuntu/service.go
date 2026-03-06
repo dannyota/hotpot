@@ -6,9 +6,9 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceubuntupackage"
+	"danny.vn/hotpot/pkg/storage/ent/reference/bronzereferenceubuntupackage"
 
-	entreference "github.com/dannyota/hotpot/pkg/storage/ent/reference"
+	entreference "danny.vn/hotpot/pkg/storage/ent/reference"
 )
 
 const insertBatchSize = 1000

@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodroplet"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydodroplet"
+	"danny.vn/hotpot/pkg/storage/ent/do/internal"
+	"danny.vn/hotpot/pkg/storage/ent/do/predicate"
 )
 
 // BronzeHistoryDODropletUpdate is the builder for updating BronzeHistoryDODroplet entities.

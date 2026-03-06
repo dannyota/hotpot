@@ -3,7 +3,7 @@ package bucketiam
 import (
 	"bytes"
 
-	entstorage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage"
+	entstorage "danny.vn/hotpot/pkg/storage/ent/gcp/storage"
 )
 
 // BucketIamPolicyDiff represents changes between old and new bucket IAM policy state.

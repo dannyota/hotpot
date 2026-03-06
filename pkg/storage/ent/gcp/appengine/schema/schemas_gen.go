@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_appengine "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/appengine"
-	bronzehistory_gcp_appengine "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/appengine"
+	bronze_gcp_appengine "danny.vn/hotpot/pkg/schema/bronze/gcp/appengine"
+	bronzehistory_gcp_appengine "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/appengine"
 )
 
 type BronzeGCPAppEngineApplication struct {

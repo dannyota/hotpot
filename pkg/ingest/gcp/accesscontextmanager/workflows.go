@@ -6,10 +6,10 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/accesscontextmanager/accesslevel"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/accesscontextmanager/accesspolicy"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/accesscontextmanager/serviceperimeter"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	"danny.vn/hotpot/pkg/ingest/gcp/accesscontextmanager/accesslevel"
+	"danny.vn/hotpot/pkg/ingest/gcp/accesscontextmanager/accesspolicy"
+	"danny.vn/hotpot/pkg/ingest/gcp/accesscontextmanager/serviceperimeter"
 )
 
 // GCPAccessContextManagerWorkflowParams contains parameters for the Access Context Manager workflow.

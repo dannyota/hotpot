@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entlogging "github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzegcplogginglogmetric"
+	entlogging "danny.vn/hotpot/pkg/storage/ent/gcp/logging"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/bronzegcplogginglogmetric"
 )
 
 // Service handles GCP Cloud Logging log metric ingestion.

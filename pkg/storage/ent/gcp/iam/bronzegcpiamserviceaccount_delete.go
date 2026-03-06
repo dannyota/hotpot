@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam/bronzegcpiamserviceaccount"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iam/bronzegcpiamserviceaccount"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iam/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iam/predicate"
 )
 
 // BronzeGCPIAMServiceAccountDelete is the builder for deleting a BronzeGCPIAMServiceAccount entity.

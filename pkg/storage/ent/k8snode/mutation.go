@@ -11,10 +11,10 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/k8snode/predicate"
-	"github.com/dannyota/hotpot/pkg/storage/ent/k8snode/silverk8snode"
-	"github.com/dannyota/hotpot/pkg/storage/ent/k8snode/silverk8snodebronzelink"
-	"github.com/dannyota/hotpot/pkg/storage/ent/k8snode/silverk8snodenormalized"
+	"danny.vn/hotpot/pkg/storage/ent/k8snode/inventoryk8snode"
+	"danny.vn/hotpot/pkg/storage/ent/k8snode/inventoryk8snodebronzelink"
+	"danny.vn/hotpot/pkg/storage/ent/k8snode/inventoryk8snodenormalized"
+	"danny.vn/hotpot/pkg/storage/ent/k8snode/predicate"
 )
 
 const (
@@ -26,13 +26,13 @@ const (
 	OpUpdateOne = ent.OpUpdateOne
 
 	// Node types.
-	TypeSilverK8sNode           = "SilverK8sNode"
-	TypeSilverK8sNodeBronzeLink = "SilverK8sNodeBronzeLink"
-	TypeSilverK8sNodeNormalized = "SilverK8sNodeNormalized"
+	TypeInventoryK8sNode           = "InventoryK8sNode"
+	TypeInventoryK8sNodeBronzeLink = "InventoryK8sNodeBronzeLink"
+	TypeInventoryK8sNodeNormalized = "InventoryK8sNodeNormalized"
 )
 
-// SilverK8sNodeMutation represents an operation that mutates the SilverK8sNode nodes in the graph.
-type SilverK8sNodeMutation struct {
+// InventoryK8sNodeMutation represents an operation that mutates the InventoryK8sNode nodes in the graph.
+type InventoryK8sNodeMutation struct {
 	config
 	op                  Op
 	typ                 string
@@ -55,21 +55,21 @@ type SilverK8sNodeMutation struct {
 	removedbronze_links map[int]struct{}
 	clearedbronze_links bool
 	done                bool
-	oldValue            func(context.Context) (*SilverK8sNode, error)
-	predicates          []predicate.SilverK8sNode
+	oldValue            func(context.Context) (*InventoryK8sNode, error)
+	predicates          []predicate.InventoryK8sNode
 }
 
-var _ ent.Mutation = (*SilverK8sNodeMutation)(nil)
+var _ ent.Mutation = (*InventoryK8sNodeMutation)(nil)
 
-// silverk8snodeOption allows management of the mutation configuration using functional options.
-type silverk8snodeOption func(*SilverK8sNodeMutation)
+// inventoryk8snodeOption allows management of the mutation configuration using functional options.
+type inventoryk8snodeOption func(*InventoryK8sNodeMutation)
 
-// newSilverK8sNodeMutation creates new mutation for the SilverK8sNode entity.
-func newSilverK8sNodeMutation(c config, op Op, opts ...silverk8snodeOption) *SilverK8sNodeMutation {
-	m := &SilverK8sNodeMutation{
+// newInventoryK8sNodeMutation creates new mutation for the InventoryK8sNode entity.
+func newInventoryK8sNodeMutation(c config, op Op, opts ...inventoryk8snodeOption) *InventoryK8sNodeMutation {
+	m := &InventoryK8sNodeMutation{
 		config:        c,
 		op:            op,
-		typ:           TypeSilverK8sNode,
+		typ:           TypeInventoryK8sNode,
 		clearedFields: make(map[string]struct{}),
 	}
 	for _, opt := range opts {
@@ -78,20 +78,20 @@ func newSilverK8sNodeMutation(c config, op Op, opts ...silverk8snodeOption) *Sil
 	return m
 }
 
-// withSilverK8sNodeID sets the ID field of the mutation.
-func withSilverK8sNodeID(id string) silverk8snodeOption {
-	return func(m *SilverK8sNodeMutation) {
+// withInventoryK8sNodeID sets the ID field of the mutation.
+func withInventoryK8sNodeID(id string) inventoryk8snodeOption {
+	return func(m *InventoryK8sNodeMutation) {
 		var (
 			err   error
 			once  sync.Once
-			value *SilverK8sNode
+			value *InventoryK8sNode
 		)
-		m.oldValue = func(ctx context.Context) (*SilverK8sNode, error) {
+		m.oldValue = func(ctx context.Context) (*InventoryK8sNode, error) {
 			once.Do(func() {
 				if m.done {
 					err = errors.New("querying old values post mutation is not allowed")
 				} else {
-					value, err = m.Client().SilverK8sNode.Get(ctx, id)
+					value, err = m.Client().InventoryK8sNode.Get(ctx, id)
 				}
 			})
 			return value, err
@@ -100,10 +100,10 @@ func withSilverK8sNodeID(id string) silverk8snodeOption {
 	}
 }
 
-// withSilverK8sNode sets the old SilverK8sNode of the mutation.
-func withSilverK8sNode(node *SilverK8sNode) silverk8snodeOption {
-	return func(m *SilverK8sNodeMutation) {
-		m.oldValue = func(context.Context) (*SilverK8sNode, error) {
+// withInventoryK8sNode sets the old InventoryK8sNode of the mutation.
+func withInventoryK8sNode(node *InventoryK8sNode) inventoryk8snodeOption {
+	return func(m *InventoryK8sNodeMutation) {
+		m.oldValue = func(context.Context) (*InventoryK8sNode, error) {
 			return node, nil
 		}
 		m.id = &node.ID
@@ -112,7 +112,7 @@ func withSilverK8sNode(node *SilverK8sNode) silverk8snodeOption {
 
 // Client returns a new `ent.Client` from the mutation. If the mutation was
 // executed in a transaction (ent.Tx), a transactional client is returned.
-func (m SilverK8sNodeMutation) Client() *Client {
+func (m InventoryK8sNodeMutation) Client() *Client {
 	client := &Client{config: m.config}
 	client.init()
 	return client
@@ -120,7 +120,7 @@ func (m SilverK8sNodeMutation) Client() *Client {
 
 // Tx returns an `ent.Tx` for mutations that were executed in transactions;
 // it returns an error otherwise.
-func (m SilverK8sNodeMutation) Tx() (*Tx, error) {
+func (m InventoryK8sNodeMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
 		return nil, errors.New("k8snode: mutation is not running in a transaction")
 	}
@@ -130,14 +130,14 @@ func (m SilverK8sNodeMutation) Tx() (*Tx, error) {
 }
 
 // SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of SilverK8sNode entities.
-func (m *SilverK8sNodeMutation) SetID(id string) {
+// operation is only accepted on creation of InventoryK8sNode entities.
+func (m *InventoryK8sNodeMutation) SetID(id string) {
 	m.id = &id
 }
 
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *SilverK8sNodeMutation) ID() (id string, exists bool) {
+func (m *InventoryK8sNodeMutation) ID() (id string, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -148,7 +148,7 @@ func (m *SilverK8sNodeMutation) ID() (id string, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *SilverK8sNodeMutation) IDs(ctx context.Context) ([]string, error) {
+func (m *InventoryK8sNodeMutation) IDs(ctx context.Context) ([]string, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
@@ -157,19 +157,19 @@ func (m *SilverK8sNodeMutation) IDs(ctx context.Context) ([]string, error) {
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().SilverK8sNode.Query().Where(m.predicates...).IDs(ctx)
+		return m.Client().InventoryK8sNode.Query().Where(m.predicates...).IDs(ctx)
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
 }
 
 // SetCollectedAt sets the "collected_at" field.
-func (m *SilverK8sNodeMutation) SetCollectedAt(t time.Time) {
+func (m *InventoryK8sNodeMutation) SetCollectedAt(t time.Time) {
 	m.collected_at = &t
 }
 
 // CollectedAt returns the value of the "collected_at" field in the mutation.
-func (m *SilverK8sNodeMutation) CollectedAt() (r time.Time, exists bool) {
+func (m *InventoryK8sNodeMutation) CollectedAt() (r time.Time, exists bool) {
 	v := m.collected_at
 	if v == nil {
 		return
@@ -177,10 +177,10 @@ func (m *SilverK8sNodeMutation) CollectedAt() (r time.Time, exists bool) {
 	return *v, true
 }
 
-// OldCollectedAt returns the old "collected_at" field's value of the SilverK8sNode entity.
-// If the SilverK8sNode object wasn't provided to the builder, the object is fetched from the database.
+// OldCollectedAt returns the old "collected_at" field's value of the InventoryK8sNode entity.
+// If the InventoryK8sNode object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeMutation) OldCollectedAt(ctx context.Context) (v time.Time, err error) {
+func (m *InventoryK8sNodeMutation) OldCollectedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCollectedAt is only allowed on UpdateOne operations")
 	}
@@ -195,17 +195,17 @@ func (m *SilverK8sNodeMutation) OldCollectedAt(ctx context.Context) (v time.Time
 }
 
 // ResetCollectedAt resets all changes to the "collected_at" field.
-func (m *SilverK8sNodeMutation) ResetCollectedAt() {
+func (m *InventoryK8sNodeMutation) ResetCollectedAt() {
 	m.collected_at = nil
 }
 
 // SetFirstCollectedAt sets the "first_collected_at" field.
-func (m *SilverK8sNodeMutation) SetFirstCollectedAt(t time.Time) {
+func (m *InventoryK8sNodeMutation) SetFirstCollectedAt(t time.Time) {
 	m.first_collected_at = &t
 }
 
 // FirstCollectedAt returns the value of the "first_collected_at" field in the mutation.
-func (m *SilverK8sNodeMutation) FirstCollectedAt() (r time.Time, exists bool) {
+func (m *InventoryK8sNodeMutation) FirstCollectedAt() (r time.Time, exists bool) {
 	v := m.first_collected_at
 	if v == nil {
 		return
@@ -213,10 +213,10 @@ func (m *SilverK8sNodeMutation) FirstCollectedAt() (r time.Time, exists bool) {
 	return *v, true
 }
 
-// OldFirstCollectedAt returns the old "first_collected_at" field's value of the SilverK8sNode entity.
-// If the SilverK8sNode object wasn't provided to the builder, the object is fetched from the database.
+// OldFirstCollectedAt returns the old "first_collected_at" field's value of the InventoryK8sNode entity.
+// If the InventoryK8sNode object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeMutation) OldFirstCollectedAt(ctx context.Context) (v time.Time, err error) {
+func (m *InventoryK8sNodeMutation) OldFirstCollectedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldFirstCollectedAt is only allowed on UpdateOne operations")
 	}
@@ -231,17 +231,17 @@ func (m *SilverK8sNodeMutation) OldFirstCollectedAt(ctx context.Context) (v time
 }
 
 // ResetFirstCollectedAt resets all changes to the "first_collected_at" field.
-func (m *SilverK8sNodeMutation) ResetFirstCollectedAt() {
+func (m *InventoryK8sNodeMutation) ResetFirstCollectedAt() {
 	m.first_collected_at = nil
 }
 
 // SetNormalizedAt sets the "normalized_at" field.
-func (m *SilverK8sNodeMutation) SetNormalizedAt(t time.Time) {
+func (m *InventoryK8sNodeMutation) SetNormalizedAt(t time.Time) {
 	m.normalized_at = &t
 }
 
 // NormalizedAt returns the value of the "normalized_at" field in the mutation.
-func (m *SilverK8sNodeMutation) NormalizedAt() (r time.Time, exists bool) {
+func (m *InventoryK8sNodeMutation) NormalizedAt() (r time.Time, exists bool) {
 	v := m.normalized_at
 	if v == nil {
 		return
@@ -249,10 +249,10 @@ func (m *SilverK8sNodeMutation) NormalizedAt() (r time.Time, exists bool) {
 	return *v, true
 }
 
-// OldNormalizedAt returns the old "normalized_at" field's value of the SilverK8sNode entity.
-// If the SilverK8sNode object wasn't provided to the builder, the object is fetched from the database.
+// OldNormalizedAt returns the old "normalized_at" field's value of the InventoryK8sNode entity.
+// If the InventoryK8sNode object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeMutation) OldNormalizedAt(ctx context.Context) (v time.Time, err error) {
+func (m *InventoryK8sNodeMutation) OldNormalizedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldNormalizedAt is only allowed on UpdateOne operations")
 	}
@@ -267,17 +267,17 @@ func (m *SilverK8sNodeMutation) OldNormalizedAt(ctx context.Context) (v time.Tim
 }
 
 // ResetNormalizedAt resets all changes to the "normalized_at" field.
-func (m *SilverK8sNodeMutation) ResetNormalizedAt() {
+func (m *InventoryK8sNodeMutation) ResetNormalizedAt() {
 	m.normalized_at = nil
 }
 
 // SetNodeName sets the "node_name" field.
-func (m *SilverK8sNodeMutation) SetNodeName(s string) {
+func (m *InventoryK8sNodeMutation) SetNodeName(s string) {
 	m.node_name = &s
 }
 
 // NodeName returns the value of the "node_name" field in the mutation.
-func (m *SilverK8sNodeMutation) NodeName() (r string, exists bool) {
+func (m *InventoryK8sNodeMutation) NodeName() (r string, exists bool) {
 	v := m.node_name
 	if v == nil {
 		return
@@ -285,10 +285,10 @@ func (m *SilverK8sNodeMutation) NodeName() (r string, exists bool) {
 	return *v, true
 }
 
-// OldNodeName returns the old "node_name" field's value of the SilverK8sNode entity.
-// If the SilverK8sNode object wasn't provided to the builder, the object is fetched from the database.
+// OldNodeName returns the old "node_name" field's value of the InventoryK8sNode entity.
+// If the InventoryK8sNode object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeMutation) OldNodeName(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeMutation) OldNodeName(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldNodeName is only allowed on UpdateOne operations")
 	}
@@ -303,17 +303,17 @@ func (m *SilverK8sNodeMutation) OldNodeName(ctx context.Context) (v string, err 
 }
 
 // ResetNodeName resets all changes to the "node_name" field.
-func (m *SilverK8sNodeMutation) ResetNodeName() {
+func (m *InventoryK8sNodeMutation) ResetNodeName() {
 	m.node_name = nil
 }
 
 // SetClusterName sets the "cluster_name" field.
-func (m *SilverK8sNodeMutation) SetClusterName(s string) {
+func (m *InventoryK8sNodeMutation) SetClusterName(s string) {
 	m.cluster_name = &s
 }
 
 // ClusterName returns the value of the "cluster_name" field in the mutation.
-func (m *SilverK8sNodeMutation) ClusterName() (r string, exists bool) {
+func (m *InventoryK8sNodeMutation) ClusterName() (r string, exists bool) {
 	v := m.cluster_name
 	if v == nil {
 		return
@@ -321,10 +321,10 @@ func (m *SilverK8sNodeMutation) ClusterName() (r string, exists bool) {
 	return *v, true
 }
 
-// OldClusterName returns the old "cluster_name" field's value of the SilverK8sNode entity.
-// If the SilverK8sNode object wasn't provided to the builder, the object is fetched from the database.
+// OldClusterName returns the old "cluster_name" field's value of the InventoryK8sNode entity.
+// If the InventoryK8sNode object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeMutation) OldClusterName(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeMutation) OldClusterName(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldClusterName is only allowed on UpdateOne operations")
 	}
@@ -339,17 +339,17 @@ func (m *SilverK8sNodeMutation) OldClusterName(ctx context.Context) (v string, e
 }
 
 // ResetClusterName resets all changes to the "cluster_name" field.
-func (m *SilverK8sNodeMutation) ResetClusterName() {
+func (m *InventoryK8sNodeMutation) ResetClusterName() {
 	m.cluster_name = nil
 }
 
 // SetNodePool sets the "node_pool" field.
-func (m *SilverK8sNodeMutation) SetNodePool(s string) {
+func (m *InventoryK8sNodeMutation) SetNodePool(s string) {
 	m.node_pool = &s
 }
 
 // NodePool returns the value of the "node_pool" field in the mutation.
-func (m *SilverK8sNodeMutation) NodePool() (r string, exists bool) {
+func (m *InventoryK8sNodeMutation) NodePool() (r string, exists bool) {
 	v := m.node_pool
 	if v == nil {
 		return
@@ -357,10 +357,10 @@ func (m *SilverK8sNodeMutation) NodePool() (r string, exists bool) {
 	return *v, true
 }
 
-// OldNodePool returns the old "node_pool" field's value of the SilverK8sNode entity.
-// If the SilverK8sNode object wasn't provided to the builder, the object is fetched from the database.
+// OldNodePool returns the old "node_pool" field's value of the InventoryK8sNode entity.
+// If the InventoryK8sNode object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeMutation) OldNodePool(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeMutation) OldNodePool(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldNodePool is only allowed on UpdateOne operations")
 	}
@@ -375,17 +375,17 @@ func (m *SilverK8sNodeMutation) OldNodePool(ctx context.Context) (v string, err 
 }
 
 // ResetNodePool resets all changes to the "node_pool" field.
-func (m *SilverK8sNodeMutation) ResetNodePool() {
+func (m *InventoryK8sNodeMutation) ResetNodePool() {
 	m.node_pool = nil
 }
 
 // SetStatus sets the "status" field.
-func (m *SilverK8sNodeMutation) SetStatus(s string) {
+func (m *InventoryK8sNodeMutation) SetStatus(s string) {
 	m.status = &s
 }
 
 // Status returns the value of the "status" field in the mutation.
-func (m *SilverK8sNodeMutation) Status() (r string, exists bool) {
+func (m *InventoryK8sNodeMutation) Status() (r string, exists bool) {
 	v := m.status
 	if v == nil {
 		return
@@ -393,10 +393,10 @@ func (m *SilverK8sNodeMutation) Status() (r string, exists bool) {
 	return *v, true
 }
 
-// OldStatus returns the old "status" field's value of the SilverK8sNode entity.
-// If the SilverK8sNode object wasn't provided to the builder, the object is fetched from the database.
+// OldStatus returns the old "status" field's value of the InventoryK8sNode entity.
+// If the InventoryK8sNode object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeMutation) OldStatus(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeMutation) OldStatus(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
 	}
@@ -411,17 +411,17 @@ func (m *SilverK8sNodeMutation) OldStatus(ctx context.Context) (v string, err er
 }
 
 // ResetStatus resets all changes to the "status" field.
-func (m *SilverK8sNodeMutation) ResetStatus() {
+func (m *InventoryK8sNodeMutation) ResetStatus() {
 	m.status = nil
 }
 
 // SetProvisioning sets the "provisioning" field.
-func (m *SilverK8sNodeMutation) SetProvisioning(s string) {
+func (m *InventoryK8sNodeMutation) SetProvisioning(s string) {
 	m.provisioning = &s
 }
 
 // Provisioning returns the value of the "provisioning" field in the mutation.
-func (m *SilverK8sNodeMutation) Provisioning() (r string, exists bool) {
+func (m *InventoryK8sNodeMutation) Provisioning() (r string, exists bool) {
 	v := m.provisioning
 	if v == nil {
 		return
@@ -429,10 +429,10 @@ func (m *SilverK8sNodeMutation) Provisioning() (r string, exists bool) {
 	return *v, true
 }
 
-// OldProvisioning returns the old "provisioning" field's value of the SilverK8sNode entity.
-// If the SilverK8sNode object wasn't provided to the builder, the object is fetched from the database.
+// OldProvisioning returns the old "provisioning" field's value of the InventoryK8sNode entity.
+// If the InventoryK8sNode object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeMutation) OldProvisioning(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeMutation) OldProvisioning(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldProvisioning is only allowed on UpdateOne operations")
 	}
@@ -447,30 +447,30 @@ func (m *SilverK8sNodeMutation) OldProvisioning(ctx context.Context) (v string, 
 }
 
 // ClearProvisioning clears the value of the "provisioning" field.
-func (m *SilverK8sNodeMutation) ClearProvisioning() {
+func (m *InventoryK8sNodeMutation) ClearProvisioning() {
 	m.provisioning = nil
-	m.clearedFields[silverk8snode.FieldProvisioning] = struct{}{}
+	m.clearedFields[inventoryk8snode.FieldProvisioning] = struct{}{}
 }
 
 // ProvisioningCleared returns if the "provisioning" field was cleared in this mutation.
-func (m *SilverK8sNodeMutation) ProvisioningCleared() bool {
-	_, ok := m.clearedFields[silverk8snode.FieldProvisioning]
+func (m *InventoryK8sNodeMutation) ProvisioningCleared() bool {
+	_, ok := m.clearedFields[inventoryk8snode.FieldProvisioning]
 	return ok
 }
 
 // ResetProvisioning resets all changes to the "provisioning" field.
-func (m *SilverK8sNodeMutation) ResetProvisioning() {
+func (m *InventoryK8sNodeMutation) ResetProvisioning() {
 	m.provisioning = nil
-	delete(m.clearedFields, silverk8snode.FieldProvisioning)
+	delete(m.clearedFields, inventoryk8snode.FieldProvisioning)
 }
 
 // SetCloudProject sets the "cloud_project" field.
-func (m *SilverK8sNodeMutation) SetCloudProject(s string) {
+func (m *InventoryK8sNodeMutation) SetCloudProject(s string) {
 	m.cloud_project = &s
 }
 
 // CloudProject returns the value of the "cloud_project" field in the mutation.
-func (m *SilverK8sNodeMutation) CloudProject() (r string, exists bool) {
+func (m *InventoryK8sNodeMutation) CloudProject() (r string, exists bool) {
 	v := m.cloud_project
 	if v == nil {
 		return
@@ -478,10 +478,10 @@ func (m *SilverK8sNodeMutation) CloudProject() (r string, exists bool) {
 	return *v, true
 }
 
-// OldCloudProject returns the old "cloud_project" field's value of the SilverK8sNode entity.
-// If the SilverK8sNode object wasn't provided to the builder, the object is fetched from the database.
+// OldCloudProject returns the old "cloud_project" field's value of the InventoryK8sNode entity.
+// If the InventoryK8sNode object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeMutation) OldCloudProject(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeMutation) OldCloudProject(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCloudProject is only allowed on UpdateOne operations")
 	}
@@ -496,30 +496,30 @@ func (m *SilverK8sNodeMutation) OldCloudProject(ctx context.Context) (v string, 
 }
 
 // ClearCloudProject clears the value of the "cloud_project" field.
-func (m *SilverK8sNodeMutation) ClearCloudProject() {
+func (m *InventoryK8sNodeMutation) ClearCloudProject() {
 	m.cloud_project = nil
-	m.clearedFields[silverk8snode.FieldCloudProject] = struct{}{}
+	m.clearedFields[inventoryk8snode.FieldCloudProject] = struct{}{}
 }
 
 // CloudProjectCleared returns if the "cloud_project" field was cleared in this mutation.
-func (m *SilverK8sNodeMutation) CloudProjectCleared() bool {
-	_, ok := m.clearedFields[silverk8snode.FieldCloudProject]
+func (m *InventoryK8sNodeMutation) CloudProjectCleared() bool {
+	_, ok := m.clearedFields[inventoryk8snode.FieldCloudProject]
 	return ok
 }
 
 // ResetCloudProject resets all changes to the "cloud_project" field.
-func (m *SilverK8sNodeMutation) ResetCloudProject() {
+func (m *InventoryK8sNodeMutation) ResetCloudProject() {
 	m.cloud_project = nil
-	delete(m.clearedFields, silverk8snode.FieldCloudProject)
+	delete(m.clearedFields, inventoryk8snode.FieldCloudProject)
 }
 
 // SetCloudZone sets the "cloud_zone" field.
-func (m *SilverK8sNodeMutation) SetCloudZone(s string) {
+func (m *InventoryK8sNodeMutation) SetCloudZone(s string) {
 	m.cloud_zone = &s
 }
 
 // CloudZone returns the value of the "cloud_zone" field in the mutation.
-func (m *SilverK8sNodeMutation) CloudZone() (r string, exists bool) {
+func (m *InventoryK8sNodeMutation) CloudZone() (r string, exists bool) {
 	v := m.cloud_zone
 	if v == nil {
 		return
@@ -527,10 +527,10 @@ func (m *SilverK8sNodeMutation) CloudZone() (r string, exists bool) {
 	return *v, true
 }
 
-// OldCloudZone returns the old "cloud_zone" field's value of the SilverK8sNode entity.
-// If the SilverK8sNode object wasn't provided to the builder, the object is fetched from the database.
+// OldCloudZone returns the old "cloud_zone" field's value of the InventoryK8sNode entity.
+// If the InventoryK8sNode object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeMutation) OldCloudZone(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeMutation) OldCloudZone(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCloudZone is only allowed on UpdateOne operations")
 	}
@@ -545,30 +545,30 @@ func (m *SilverK8sNodeMutation) OldCloudZone(ctx context.Context) (v string, err
 }
 
 // ClearCloudZone clears the value of the "cloud_zone" field.
-func (m *SilverK8sNodeMutation) ClearCloudZone() {
+func (m *InventoryK8sNodeMutation) ClearCloudZone() {
 	m.cloud_zone = nil
-	m.clearedFields[silverk8snode.FieldCloudZone] = struct{}{}
+	m.clearedFields[inventoryk8snode.FieldCloudZone] = struct{}{}
 }
 
 // CloudZoneCleared returns if the "cloud_zone" field was cleared in this mutation.
-func (m *SilverK8sNodeMutation) CloudZoneCleared() bool {
-	_, ok := m.clearedFields[silverk8snode.FieldCloudZone]
+func (m *InventoryK8sNodeMutation) CloudZoneCleared() bool {
+	_, ok := m.clearedFields[inventoryk8snode.FieldCloudZone]
 	return ok
 }
 
 // ResetCloudZone resets all changes to the "cloud_zone" field.
-func (m *SilverK8sNodeMutation) ResetCloudZone() {
+func (m *InventoryK8sNodeMutation) ResetCloudZone() {
 	m.cloud_zone = nil
-	delete(m.clearedFields, silverk8snode.FieldCloudZone)
+	delete(m.clearedFields, inventoryk8snode.FieldCloudZone)
 }
 
 // SetCloudMachineType sets the "cloud_machine_type" field.
-func (m *SilverK8sNodeMutation) SetCloudMachineType(s string) {
+func (m *InventoryK8sNodeMutation) SetCloudMachineType(s string) {
 	m.cloud_machine_type = &s
 }
 
 // CloudMachineType returns the value of the "cloud_machine_type" field in the mutation.
-func (m *SilverK8sNodeMutation) CloudMachineType() (r string, exists bool) {
+func (m *InventoryK8sNodeMutation) CloudMachineType() (r string, exists bool) {
 	v := m.cloud_machine_type
 	if v == nil {
 		return
@@ -576,10 +576,10 @@ func (m *SilverK8sNodeMutation) CloudMachineType() (r string, exists bool) {
 	return *v, true
 }
 
-// OldCloudMachineType returns the old "cloud_machine_type" field's value of the SilverK8sNode entity.
-// If the SilverK8sNode object wasn't provided to the builder, the object is fetched from the database.
+// OldCloudMachineType returns the old "cloud_machine_type" field's value of the InventoryK8sNode entity.
+// If the InventoryK8sNode object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeMutation) OldCloudMachineType(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeMutation) OldCloudMachineType(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCloudMachineType is only allowed on UpdateOne operations")
 	}
@@ -594,30 +594,30 @@ func (m *SilverK8sNodeMutation) OldCloudMachineType(ctx context.Context) (v stri
 }
 
 // ClearCloudMachineType clears the value of the "cloud_machine_type" field.
-func (m *SilverK8sNodeMutation) ClearCloudMachineType() {
+func (m *InventoryK8sNodeMutation) ClearCloudMachineType() {
 	m.cloud_machine_type = nil
-	m.clearedFields[silverk8snode.FieldCloudMachineType] = struct{}{}
+	m.clearedFields[inventoryk8snode.FieldCloudMachineType] = struct{}{}
 }
 
 // CloudMachineTypeCleared returns if the "cloud_machine_type" field was cleared in this mutation.
-func (m *SilverK8sNodeMutation) CloudMachineTypeCleared() bool {
-	_, ok := m.clearedFields[silverk8snode.FieldCloudMachineType]
+func (m *InventoryK8sNodeMutation) CloudMachineTypeCleared() bool {
+	_, ok := m.clearedFields[inventoryk8snode.FieldCloudMachineType]
 	return ok
 }
 
 // ResetCloudMachineType resets all changes to the "cloud_machine_type" field.
-func (m *SilverK8sNodeMutation) ResetCloudMachineType() {
+func (m *InventoryK8sNodeMutation) ResetCloudMachineType() {
 	m.cloud_machine_type = nil
-	delete(m.clearedFields, silverk8snode.FieldCloudMachineType)
+	delete(m.clearedFields, inventoryk8snode.FieldCloudMachineType)
 }
 
 // SetInternalIP sets the "internal_ip" field.
-func (m *SilverK8sNodeMutation) SetInternalIP(s string) {
+func (m *InventoryK8sNodeMutation) SetInternalIP(s string) {
 	m.internal_ip = &s
 }
 
 // InternalIP returns the value of the "internal_ip" field in the mutation.
-func (m *SilverK8sNodeMutation) InternalIP() (r string, exists bool) {
+func (m *InventoryK8sNodeMutation) InternalIP() (r string, exists bool) {
 	v := m.internal_ip
 	if v == nil {
 		return
@@ -625,10 +625,10 @@ func (m *SilverK8sNodeMutation) InternalIP() (r string, exists bool) {
 	return *v, true
 }
 
-// OldInternalIP returns the old "internal_ip" field's value of the SilverK8sNode entity.
-// If the SilverK8sNode object wasn't provided to the builder, the object is fetched from the database.
+// OldInternalIP returns the old "internal_ip" field's value of the InventoryK8sNode entity.
+// If the InventoryK8sNode object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeMutation) OldInternalIP(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeMutation) OldInternalIP(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldInternalIP is only allowed on UpdateOne operations")
 	}
@@ -643,30 +643,30 @@ func (m *SilverK8sNodeMutation) OldInternalIP(ctx context.Context) (v string, er
 }
 
 // ClearInternalIP clears the value of the "internal_ip" field.
-func (m *SilverK8sNodeMutation) ClearInternalIP() {
+func (m *InventoryK8sNodeMutation) ClearInternalIP() {
 	m.internal_ip = nil
-	m.clearedFields[silverk8snode.FieldInternalIP] = struct{}{}
+	m.clearedFields[inventoryk8snode.FieldInternalIP] = struct{}{}
 }
 
 // InternalIPCleared returns if the "internal_ip" field was cleared in this mutation.
-func (m *SilverK8sNodeMutation) InternalIPCleared() bool {
-	_, ok := m.clearedFields[silverk8snode.FieldInternalIP]
+func (m *InventoryK8sNodeMutation) InternalIPCleared() bool {
+	_, ok := m.clearedFields[inventoryk8snode.FieldInternalIP]
 	return ok
 }
 
 // ResetInternalIP resets all changes to the "internal_ip" field.
-func (m *SilverK8sNodeMutation) ResetInternalIP() {
+func (m *InventoryK8sNodeMutation) ResetInternalIP() {
 	m.internal_ip = nil
-	delete(m.clearedFields, silverk8snode.FieldInternalIP)
+	delete(m.clearedFields, inventoryk8snode.FieldInternalIP)
 }
 
 // SetExternalIP sets the "external_ip" field.
-func (m *SilverK8sNodeMutation) SetExternalIP(s string) {
+func (m *InventoryK8sNodeMutation) SetExternalIP(s string) {
 	m.external_ip = &s
 }
 
 // ExternalIP returns the value of the "external_ip" field in the mutation.
-func (m *SilverK8sNodeMutation) ExternalIP() (r string, exists bool) {
+func (m *InventoryK8sNodeMutation) ExternalIP() (r string, exists bool) {
 	v := m.external_ip
 	if v == nil {
 		return
@@ -674,10 +674,10 @@ func (m *SilverK8sNodeMutation) ExternalIP() (r string, exists bool) {
 	return *v, true
 }
 
-// OldExternalIP returns the old "external_ip" field's value of the SilverK8sNode entity.
-// If the SilverK8sNode object wasn't provided to the builder, the object is fetched from the database.
+// OldExternalIP returns the old "external_ip" field's value of the InventoryK8sNode entity.
+// If the InventoryK8sNode object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeMutation) OldExternalIP(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeMutation) OldExternalIP(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldExternalIP is only allowed on UpdateOne operations")
 	}
@@ -692,25 +692,25 @@ func (m *SilverK8sNodeMutation) OldExternalIP(ctx context.Context) (v string, er
 }
 
 // ClearExternalIP clears the value of the "external_ip" field.
-func (m *SilverK8sNodeMutation) ClearExternalIP() {
+func (m *InventoryK8sNodeMutation) ClearExternalIP() {
 	m.external_ip = nil
-	m.clearedFields[silverk8snode.FieldExternalIP] = struct{}{}
+	m.clearedFields[inventoryk8snode.FieldExternalIP] = struct{}{}
 }
 
 // ExternalIPCleared returns if the "external_ip" field was cleared in this mutation.
-func (m *SilverK8sNodeMutation) ExternalIPCleared() bool {
-	_, ok := m.clearedFields[silverk8snode.FieldExternalIP]
+func (m *InventoryK8sNodeMutation) ExternalIPCleared() bool {
+	_, ok := m.clearedFields[inventoryk8snode.FieldExternalIP]
 	return ok
 }
 
 // ResetExternalIP resets all changes to the "external_ip" field.
-func (m *SilverK8sNodeMutation) ResetExternalIP() {
+func (m *InventoryK8sNodeMutation) ResetExternalIP() {
 	m.external_ip = nil
-	delete(m.clearedFields, silverk8snode.FieldExternalIP)
+	delete(m.clearedFields, inventoryk8snode.FieldExternalIP)
 }
 
-// AddBronzeLinkIDs adds the "bronze_links" edge to the SilverK8sNodeBronzeLink entity by ids.
-func (m *SilverK8sNodeMutation) AddBronzeLinkIDs(ids ...int) {
+// AddBronzeLinkIDs adds the "bronze_links" edge to the InventoryK8sNodeBronzeLink entity by ids.
+func (m *InventoryK8sNodeMutation) AddBronzeLinkIDs(ids ...int) {
 	if m.bronze_links == nil {
 		m.bronze_links = make(map[int]struct{})
 	}
@@ -719,18 +719,18 @@ func (m *SilverK8sNodeMutation) AddBronzeLinkIDs(ids ...int) {
 	}
 }
 
-// ClearBronzeLinks clears the "bronze_links" edge to the SilverK8sNodeBronzeLink entity.
-func (m *SilverK8sNodeMutation) ClearBronzeLinks() {
+// ClearBronzeLinks clears the "bronze_links" edge to the InventoryK8sNodeBronzeLink entity.
+func (m *InventoryK8sNodeMutation) ClearBronzeLinks() {
 	m.clearedbronze_links = true
 }
 
-// BronzeLinksCleared reports if the "bronze_links" edge to the SilverK8sNodeBronzeLink entity was cleared.
-func (m *SilverK8sNodeMutation) BronzeLinksCleared() bool {
+// BronzeLinksCleared reports if the "bronze_links" edge to the InventoryK8sNodeBronzeLink entity was cleared.
+func (m *InventoryK8sNodeMutation) BronzeLinksCleared() bool {
 	return m.clearedbronze_links
 }
 
-// RemoveBronzeLinkIDs removes the "bronze_links" edge to the SilverK8sNodeBronzeLink entity by IDs.
-func (m *SilverK8sNodeMutation) RemoveBronzeLinkIDs(ids ...int) {
+// RemoveBronzeLinkIDs removes the "bronze_links" edge to the InventoryK8sNodeBronzeLink entity by IDs.
+func (m *InventoryK8sNodeMutation) RemoveBronzeLinkIDs(ids ...int) {
 	if m.removedbronze_links == nil {
 		m.removedbronze_links = make(map[int]struct{})
 	}
@@ -740,8 +740,8 @@ func (m *SilverK8sNodeMutation) RemoveBronzeLinkIDs(ids ...int) {
 	}
 }
 
-// RemovedBronzeLinks returns the removed IDs of the "bronze_links" edge to the SilverK8sNodeBronzeLink entity.
-func (m *SilverK8sNodeMutation) RemovedBronzeLinksIDs() (ids []int) {
+// RemovedBronzeLinks returns the removed IDs of the "bronze_links" edge to the InventoryK8sNodeBronzeLink entity.
+func (m *InventoryK8sNodeMutation) RemovedBronzeLinksIDs() (ids []int) {
 	for id := range m.removedbronze_links {
 		ids = append(ids, id)
 	}
@@ -749,7 +749,7 @@ func (m *SilverK8sNodeMutation) RemovedBronzeLinksIDs() (ids []int) {
 }
 
 // BronzeLinksIDs returns the "bronze_links" edge IDs in the mutation.
-func (m *SilverK8sNodeMutation) BronzeLinksIDs() (ids []int) {
+func (m *InventoryK8sNodeMutation) BronzeLinksIDs() (ids []int) {
 	for id := range m.bronze_links {
 		ids = append(ids, id)
 	}
@@ -757,21 +757,21 @@ func (m *SilverK8sNodeMutation) BronzeLinksIDs() (ids []int) {
 }
 
 // ResetBronzeLinks resets all changes to the "bronze_links" edge.
-func (m *SilverK8sNodeMutation) ResetBronzeLinks() {
+func (m *InventoryK8sNodeMutation) ResetBronzeLinks() {
 	m.bronze_links = nil
 	m.clearedbronze_links = false
 	m.removedbronze_links = nil
 }
 
-// Where appends a list predicates to the SilverK8sNodeMutation builder.
-func (m *SilverK8sNodeMutation) Where(ps ...predicate.SilverK8sNode) {
+// Where appends a list predicates to the InventoryK8sNodeMutation builder.
+func (m *InventoryK8sNodeMutation) Where(ps ...predicate.InventoryK8sNode) {
 	m.predicates = append(m.predicates, ps...)
 }
 
-// WhereP appends storage-level predicates to the SilverK8sNodeMutation builder. Using this method,
+// WhereP appends storage-level predicates to the InventoryK8sNodeMutation builder. Using this method,
 // users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *SilverK8sNodeMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.SilverK8sNode, len(ps))
+func (m *InventoryK8sNodeMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.InventoryK8sNode, len(ps))
 	for i := range ps {
 		p[i] = ps[i]
 	}
@@ -779,63 +779,63 @@ func (m *SilverK8sNodeMutation) WhereP(ps ...func(*sql.Selector)) {
 }
 
 // Op returns the operation name.
-func (m *SilverK8sNodeMutation) Op() Op {
+func (m *InventoryK8sNodeMutation) Op() Op {
 	return m.op
 }
 
 // SetOp allows setting the mutation operation.
-func (m *SilverK8sNodeMutation) SetOp(op Op) {
+func (m *InventoryK8sNodeMutation) SetOp(op Op) {
 	m.op = op
 }
 
-// Type returns the node type of this mutation (SilverK8sNode).
-func (m *SilverK8sNodeMutation) Type() string {
+// Type returns the node type of this mutation (InventoryK8sNode).
+func (m *InventoryK8sNodeMutation) Type() string {
 	return m.typ
 }
 
 // Fields returns all fields that were changed during this mutation. Note that in
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
-func (m *SilverK8sNodeMutation) Fields() []string {
+func (m *InventoryK8sNodeMutation) Fields() []string {
 	fields := make([]string, 0, 13)
 	if m.collected_at != nil {
-		fields = append(fields, silverk8snode.FieldCollectedAt)
+		fields = append(fields, inventoryk8snode.FieldCollectedAt)
 	}
 	if m.first_collected_at != nil {
-		fields = append(fields, silverk8snode.FieldFirstCollectedAt)
+		fields = append(fields, inventoryk8snode.FieldFirstCollectedAt)
 	}
 	if m.normalized_at != nil {
-		fields = append(fields, silverk8snode.FieldNormalizedAt)
+		fields = append(fields, inventoryk8snode.FieldNormalizedAt)
 	}
 	if m.node_name != nil {
-		fields = append(fields, silverk8snode.FieldNodeName)
+		fields = append(fields, inventoryk8snode.FieldNodeName)
 	}
 	if m.cluster_name != nil {
-		fields = append(fields, silverk8snode.FieldClusterName)
+		fields = append(fields, inventoryk8snode.FieldClusterName)
 	}
 	if m.node_pool != nil {
-		fields = append(fields, silverk8snode.FieldNodePool)
+		fields = append(fields, inventoryk8snode.FieldNodePool)
 	}
 	if m.status != nil {
-		fields = append(fields, silverk8snode.FieldStatus)
+		fields = append(fields, inventoryk8snode.FieldStatus)
 	}
 	if m.provisioning != nil {
-		fields = append(fields, silverk8snode.FieldProvisioning)
+		fields = append(fields, inventoryk8snode.FieldProvisioning)
 	}
 	if m.cloud_project != nil {
-		fields = append(fields, silverk8snode.FieldCloudProject)
+		fields = append(fields, inventoryk8snode.FieldCloudProject)
 	}
 	if m.cloud_zone != nil {
-		fields = append(fields, silverk8snode.FieldCloudZone)
+		fields = append(fields, inventoryk8snode.FieldCloudZone)
 	}
 	if m.cloud_machine_type != nil {
-		fields = append(fields, silverk8snode.FieldCloudMachineType)
+		fields = append(fields, inventoryk8snode.FieldCloudMachineType)
 	}
 	if m.internal_ip != nil {
-		fields = append(fields, silverk8snode.FieldInternalIP)
+		fields = append(fields, inventoryk8snode.FieldInternalIP)
 	}
 	if m.external_ip != nil {
-		fields = append(fields, silverk8snode.FieldExternalIP)
+		fields = append(fields, inventoryk8snode.FieldExternalIP)
 	}
 	return fields
 }
@@ -843,33 +843,33 @@ func (m *SilverK8sNodeMutation) Fields() []string {
 // Field returns the value of a field with the given name. The second boolean
 // return value indicates that this field was not set, or was not defined in the
 // schema.
-func (m *SilverK8sNodeMutation) Field(name string) (ent.Value, bool) {
+func (m *InventoryK8sNodeMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case silverk8snode.FieldCollectedAt:
+	case inventoryk8snode.FieldCollectedAt:
 		return m.CollectedAt()
-	case silverk8snode.FieldFirstCollectedAt:
+	case inventoryk8snode.FieldFirstCollectedAt:
 		return m.FirstCollectedAt()
-	case silverk8snode.FieldNormalizedAt:
+	case inventoryk8snode.FieldNormalizedAt:
 		return m.NormalizedAt()
-	case silverk8snode.FieldNodeName:
+	case inventoryk8snode.FieldNodeName:
 		return m.NodeName()
-	case silverk8snode.FieldClusterName:
+	case inventoryk8snode.FieldClusterName:
 		return m.ClusterName()
-	case silverk8snode.FieldNodePool:
+	case inventoryk8snode.FieldNodePool:
 		return m.NodePool()
-	case silverk8snode.FieldStatus:
+	case inventoryk8snode.FieldStatus:
 		return m.Status()
-	case silverk8snode.FieldProvisioning:
+	case inventoryk8snode.FieldProvisioning:
 		return m.Provisioning()
-	case silverk8snode.FieldCloudProject:
+	case inventoryk8snode.FieldCloudProject:
 		return m.CloudProject()
-	case silverk8snode.FieldCloudZone:
+	case inventoryk8snode.FieldCloudZone:
 		return m.CloudZone()
-	case silverk8snode.FieldCloudMachineType:
+	case inventoryk8snode.FieldCloudMachineType:
 		return m.CloudMachineType()
-	case silverk8snode.FieldInternalIP:
+	case inventoryk8snode.FieldInternalIP:
 		return m.InternalIP()
-	case silverk8snode.FieldExternalIP:
+	case inventoryk8snode.FieldExternalIP:
 		return m.ExternalIP()
 	}
 	return nil, false
@@ -878,128 +878,128 @@ func (m *SilverK8sNodeMutation) Field(name string) (ent.Value, bool) {
 // OldField returns the old value of the field from the database. An error is
 // returned if the mutation operation is not UpdateOne, or the query to the
 // database failed.
-func (m *SilverK8sNodeMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+func (m *InventoryK8sNodeMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case silverk8snode.FieldCollectedAt:
+	case inventoryk8snode.FieldCollectedAt:
 		return m.OldCollectedAt(ctx)
-	case silverk8snode.FieldFirstCollectedAt:
+	case inventoryk8snode.FieldFirstCollectedAt:
 		return m.OldFirstCollectedAt(ctx)
-	case silverk8snode.FieldNormalizedAt:
+	case inventoryk8snode.FieldNormalizedAt:
 		return m.OldNormalizedAt(ctx)
-	case silverk8snode.FieldNodeName:
+	case inventoryk8snode.FieldNodeName:
 		return m.OldNodeName(ctx)
-	case silverk8snode.FieldClusterName:
+	case inventoryk8snode.FieldClusterName:
 		return m.OldClusterName(ctx)
-	case silverk8snode.FieldNodePool:
+	case inventoryk8snode.FieldNodePool:
 		return m.OldNodePool(ctx)
-	case silverk8snode.FieldStatus:
+	case inventoryk8snode.FieldStatus:
 		return m.OldStatus(ctx)
-	case silverk8snode.FieldProvisioning:
+	case inventoryk8snode.FieldProvisioning:
 		return m.OldProvisioning(ctx)
-	case silverk8snode.FieldCloudProject:
+	case inventoryk8snode.FieldCloudProject:
 		return m.OldCloudProject(ctx)
-	case silverk8snode.FieldCloudZone:
+	case inventoryk8snode.FieldCloudZone:
 		return m.OldCloudZone(ctx)
-	case silverk8snode.FieldCloudMachineType:
+	case inventoryk8snode.FieldCloudMachineType:
 		return m.OldCloudMachineType(ctx)
-	case silverk8snode.FieldInternalIP:
+	case inventoryk8snode.FieldInternalIP:
 		return m.OldInternalIP(ctx)
-	case silverk8snode.FieldExternalIP:
+	case inventoryk8snode.FieldExternalIP:
 		return m.OldExternalIP(ctx)
 	}
-	return nil, fmt.Errorf("unknown SilverK8sNode field %s", name)
+	return nil, fmt.Errorf("unknown InventoryK8sNode field %s", name)
 }
 
 // SetField sets the value of a field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *SilverK8sNodeMutation) SetField(name string, value ent.Value) error {
+func (m *InventoryK8sNodeMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case silverk8snode.FieldCollectedAt:
+	case inventoryk8snode.FieldCollectedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCollectedAt(v)
 		return nil
-	case silverk8snode.FieldFirstCollectedAt:
+	case inventoryk8snode.FieldFirstCollectedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetFirstCollectedAt(v)
 		return nil
-	case silverk8snode.FieldNormalizedAt:
+	case inventoryk8snode.FieldNormalizedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetNormalizedAt(v)
 		return nil
-	case silverk8snode.FieldNodeName:
+	case inventoryk8snode.FieldNodeName:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetNodeName(v)
 		return nil
-	case silverk8snode.FieldClusterName:
+	case inventoryk8snode.FieldClusterName:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetClusterName(v)
 		return nil
-	case silverk8snode.FieldNodePool:
+	case inventoryk8snode.FieldNodePool:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetNodePool(v)
 		return nil
-	case silverk8snode.FieldStatus:
+	case inventoryk8snode.FieldStatus:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetStatus(v)
 		return nil
-	case silverk8snode.FieldProvisioning:
+	case inventoryk8snode.FieldProvisioning:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetProvisioning(v)
 		return nil
-	case silverk8snode.FieldCloudProject:
+	case inventoryk8snode.FieldCloudProject:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCloudProject(v)
 		return nil
-	case silverk8snode.FieldCloudZone:
+	case inventoryk8snode.FieldCloudZone:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCloudZone(v)
 		return nil
-	case silverk8snode.FieldCloudMachineType:
+	case inventoryk8snode.FieldCloudMachineType:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCloudMachineType(v)
 		return nil
-	case silverk8snode.FieldInternalIP:
+	case inventoryk8snode.FieldInternalIP:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetInternalIP(v)
 		return nil
-	case silverk8snode.FieldExternalIP:
+	case inventoryk8snode.FieldExternalIP:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
@@ -1007,150 +1007,150 @@ func (m *SilverK8sNodeMutation) SetField(name string, value ent.Value) error {
 		m.SetExternalIP(v)
 		return nil
 	}
-	return fmt.Errorf("unknown SilverK8sNode field %s", name)
+	return fmt.Errorf("unknown InventoryK8sNode field %s", name)
 }
 
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
-func (m *SilverK8sNodeMutation) AddedFields() []string {
+func (m *InventoryK8sNodeMutation) AddedFields() []string {
 	return nil
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
-func (m *SilverK8sNodeMutation) AddedField(name string) (ent.Value, bool) {
+func (m *InventoryK8sNodeMutation) AddedField(name string) (ent.Value, bool) {
 	return nil, false
 }
 
 // AddField adds the value to the field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *SilverK8sNodeMutation) AddField(name string, value ent.Value) error {
+func (m *InventoryK8sNodeMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	}
-	return fmt.Errorf("unknown SilverK8sNode numeric field %s", name)
+	return fmt.Errorf("unknown InventoryK8sNode numeric field %s", name)
 }
 
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
-func (m *SilverK8sNodeMutation) ClearedFields() []string {
+func (m *InventoryK8sNodeMutation) ClearedFields() []string {
 	var fields []string
-	if m.FieldCleared(silverk8snode.FieldProvisioning) {
-		fields = append(fields, silverk8snode.FieldProvisioning)
+	if m.FieldCleared(inventoryk8snode.FieldProvisioning) {
+		fields = append(fields, inventoryk8snode.FieldProvisioning)
 	}
-	if m.FieldCleared(silverk8snode.FieldCloudProject) {
-		fields = append(fields, silverk8snode.FieldCloudProject)
+	if m.FieldCleared(inventoryk8snode.FieldCloudProject) {
+		fields = append(fields, inventoryk8snode.FieldCloudProject)
 	}
-	if m.FieldCleared(silverk8snode.FieldCloudZone) {
-		fields = append(fields, silverk8snode.FieldCloudZone)
+	if m.FieldCleared(inventoryk8snode.FieldCloudZone) {
+		fields = append(fields, inventoryk8snode.FieldCloudZone)
 	}
-	if m.FieldCleared(silverk8snode.FieldCloudMachineType) {
-		fields = append(fields, silverk8snode.FieldCloudMachineType)
+	if m.FieldCleared(inventoryk8snode.FieldCloudMachineType) {
+		fields = append(fields, inventoryk8snode.FieldCloudMachineType)
 	}
-	if m.FieldCleared(silverk8snode.FieldInternalIP) {
-		fields = append(fields, silverk8snode.FieldInternalIP)
+	if m.FieldCleared(inventoryk8snode.FieldInternalIP) {
+		fields = append(fields, inventoryk8snode.FieldInternalIP)
 	}
-	if m.FieldCleared(silverk8snode.FieldExternalIP) {
-		fields = append(fields, silverk8snode.FieldExternalIP)
+	if m.FieldCleared(inventoryk8snode.FieldExternalIP) {
+		fields = append(fields, inventoryk8snode.FieldExternalIP)
 	}
 	return fields
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
 // cleared in this mutation.
-func (m *SilverK8sNodeMutation) FieldCleared(name string) bool {
+func (m *InventoryK8sNodeMutation) FieldCleared(name string) bool {
 	_, ok := m.clearedFields[name]
 	return ok
 }
 
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
-func (m *SilverK8sNodeMutation) ClearField(name string) error {
+func (m *InventoryK8sNodeMutation) ClearField(name string) error {
 	switch name {
-	case silverk8snode.FieldProvisioning:
+	case inventoryk8snode.FieldProvisioning:
 		m.ClearProvisioning()
 		return nil
-	case silverk8snode.FieldCloudProject:
+	case inventoryk8snode.FieldCloudProject:
 		m.ClearCloudProject()
 		return nil
-	case silverk8snode.FieldCloudZone:
+	case inventoryk8snode.FieldCloudZone:
 		m.ClearCloudZone()
 		return nil
-	case silverk8snode.FieldCloudMachineType:
+	case inventoryk8snode.FieldCloudMachineType:
 		m.ClearCloudMachineType()
 		return nil
-	case silverk8snode.FieldInternalIP:
+	case inventoryk8snode.FieldInternalIP:
 		m.ClearInternalIP()
 		return nil
-	case silverk8snode.FieldExternalIP:
+	case inventoryk8snode.FieldExternalIP:
 		m.ClearExternalIP()
 		return nil
 	}
-	return fmt.Errorf("unknown SilverK8sNode nullable field %s", name)
+	return fmt.Errorf("unknown InventoryK8sNode nullable field %s", name)
 }
 
 // ResetField resets all changes in the mutation for the field with the given name.
 // It returns an error if the field is not defined in the schema.
-func (m *SilverK8sNodeMutation) ResetField(name string) error {
+func (m *InventoryK8sNodeMutation) ResetField(name string) error {
 	switch name {
-	case silverk8snode.FieldCollectedAt:
+	case inventoryk8snode.FieldCollectedAt:
 		m.ResetCollectedAt()
 		return nil
-	case silverk8snode.FieldFirstCollectedAt:
+	case inventoryk8snode.FieldFirstCollectedAt:
 		m.ResetFirstCollectedAt()
 		return nil
-	case silverk8snode.FieldNormalizedAt:
+	case inventoryk8snode.FieldNormalizedAt:
 		m.ResetNormalizedAt()
 		return nil
-	case silverk8snode.FieldNodeName:
+	case inventoryk8snode.FieldNodeName:
 		m.ResetNodeName()
 		return nil
-	case silverk8snode.FieldClusterName:
+	case inventoryk8snode.FieldClusterName:
 		m.ResetClusterName()
 		return nil
-	case silverk8snode.FieldNodePool:
+	case inventoryk8snode.FieldNodePool:
 		m.ResetNodePool()
 		return nil
-	case silverk8snode.FieldStatus:
+	case inventoryk8snode.FieldStatus:
 		m.ResetStatus()
 		return nil
-	case silverk8snode.FieldProvisioning:
+	case inventoryk8snode.FieldProvisioning:
 		m.ResetProvisioning()
 		return nil
-	case silverk8snode.FieldCloudProject:
+	case inventoryk8snode.FieldCloudProject:
 		m.ResetCloudProject()
 		return nil
-	case silverk8snode.FieldCloudZone:
+	case inventoryk8snode.FieldCloudZone:
 		m.ResetCloudZone()
 		return nil
-	case silverk8snode.FieldCloudMachineType:
+	case inventoryk8snode.FieldCloudMachineType:
 		m.ResetCloudMachineType()
 		return nil
-	case silverk8snode.FieldInternalIP:
+	case inventoryk8snode.FieldInternalIP:
 		m.ResetInternalIP()
 		return nil
-	case silverk8snode.FieldExternalIP:
+	case inventoryk8snode.FieldExternalIP:
 		m.ResetExternalIP()
 		return nil
 	}
-	return fmt.Errorf("unknown SilverK8sNode field %s", name)
+	return fmt.Errorf("unknown InventoryK8sNode field %s", name)
 }
 
 // AddedEdges returns all edge names that were set/added in this mutation.
-func (m *SilverK8sNodeMutation) AddedEdges() []string {
+func (m *InventoryK8sNodeMutation) AddedEdges() []string {
 	edges := make([]string, 0, 1)
 	if m.bronze_links != nil {
-		edges = append(edges, silverk8snode.EdgeBronzeLinks)
+		edges = append(edges, inventoryk8snode.EdgeBronzeLinks)
 	}
 	return edges
 }
 
 // AddedIDs returns all IDs (to other nodes) that were added for the given edge
 // name in this mutation.
-func (m *SilverK8sNodeMutation) AddedIDs(name string) []ent.Value {
+func (m *InventoryK8sNodeMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case silverk8snode.EdgeBronzeLinks:
+	case inventoryk8snode.EdgeBronzeLinks:
 		ids := make([]ent.Value, 0, len(m.bronze_links))
 		for id := range m.bronze_links {
 			ids = append(ids, id)
@@ -1161,19 +1161,19 @@ func (m *SilverK8sNodeMutation) AddedIDs(name string) []ent.Value {
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
-func (m *SilverK8sNodeMutation) RemovedEdges() []string {
+func (m *InventoryK8sNodeMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 1)
 	if m.removedbronze_links != nil {
-		edges = append(edges, silverk8snode.EdgeBronzeLinks)
+		edges = append(edges, inventoryk8snode.EdgeBronzeLinks)
 	}
 	return edges
 }
 
 // RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
 // the given name in this mutation.
-func (m *SilverK8sNodeMutation) RemovedIDs(name string) []ent.Value {
+func (m *InventoryK8sNodeMutation) RemovedIDs(name string) []ent.Value {
 	switch name {
-	case silverk8snode.EdgeBronzeLinks:
+	case inventoryk8snode.EdgeBronzeLinks:
 		ids := make([]ent.Value, 0, len(m.removedbronze_links))
 		for id := range m.removedbronze_links {
 			ids = append(ids, id)
@@ -1184,19 +1184,19 @@ func (m *SilverK8sNodeMutation) RemovedIDs(name string) []ent.Value {
 }
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *SilverK8sNodeMutation) ClearedEdges() []string {
+func (m *InventoryK8sNodeMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 1)
 	if m.clearedbronze_links {
-		edges = append(edges, silverk8snode.EdgeBronzeLinks)
+		edges = append(edges, inventoryk8snode.EdgeBronzeLinks)
 	}
 	return edges
 }
 
 // EdgeCleared returns a boolean which indicates if the edge with the given name
 // was cleared in this mutation.
-func (m *SilverK8sNodeMutation) EdgeCleared(name string) bool {
+func (m *InventoryK8sNodeMutation) EdgeCleared(name string) bool {
 	switch name {
-	case silverk8snode.EdgeBronzeLinks:
+	case inventoryk8snode.EdgeBronzeLinks:
 		return m.clearedbronze_links
 	}
 	return false
@@ -1204,25 +1204,25 @@ func (m *SilverK8sNodeMutation) EdgeCleared(name string) bool {
 
 // ClearEdge clears the value of the edge with the given name. It returns an error
 // if that edge is not defined in the schema.
-func (m *SilverK8sNodeMutation) ClearEdge(name string) error {
+func (m *InventoryK8sNodeMutation) ClearEdge(name string) error {
 	switch name {
 	}
-	return fmt.Errorf("unknown SilverK8sNode unique edge %s", name)
+	return fmt.Errorf("unknown InventoryK8sNode unique edge %s", name)
 }
 
 // ResetEdge resets all changes to the edge with the given name in this mutation.
 // It returns an error if the edge is not defined in the schema.
-func (m *SilverK8sNodeMutation) ResetEdge(name string) error {
+func (m *InventoryK8sNodeMutation) ResetEdge(name string) error {
 	switch name {
-	case silverk8snode.EdgeBronzeLinks:
+	case inventoryk8snode.EdgeBronzeLinks:
 		m.ResetBronzeLinks()
 		return nil
 	}
-	return fmt.Errorf("unknown SilverK8sNode edge %s", name)
+	return fmt.Errorf("unknown InventoryK8sNode edge %s", name)
 }
 
-// SilverK8sNodeBronzeLinkMutation represents an operation that mutates the SilverK8sNodeBronzeLink nodes in the graph.
-type SilverK8sNodeBronzeLinkMutation struct {
+// InventoryK8sNodeBronzeLinkMutation represents an operation that mutates the InventoryK8sNodeBronzeLink nodes in the graph.
+type InventoryK8sNodeBronzeLinkMutation struct {
 	config
 	op                 Op
 	typ                string
@@ -1234,21 +1234,21 @@ type SilverK8sNodeBronzeLinkMutation struct {
 	k8s_node           *string
 	clearedk8s_node    bool
 	done               bool
-	oldValue           func(context.Context) (*SilverK8sNodeBronzeLink, error)
-	predicates         []predicate.SilverK8sNodeBronzeLink
+	oldValue           func(context.Context) (*InventoryK8sNodeBronzeLink, error)
+	predicates         []predicate.InventoryK8sNodeBronzeLink
 }
 
-var _ ent.Mutation = (*SilverK8sNodeBronzeLinkMutation)(nil)
+var _ ent.Mutation = (*InventoryK8sNodeBronzeLinkMutation)(nil)
 
-// silverk8snodebronzelinkOption allows management of the mutation configuration using functional options.
-type silverk8snodebronzelinkOption func(*SilverK8sNodeBronzeLinkMutation)
+// inventoryk8snodebronzelinkOption allows management of the mutation configuration using functional options.
+type inventoryk8snodebronzelinkOption func(*InventoryK8sNodeBronzeLinkMutation)
 
-// newSilverK8sNodeBronzeLinkMutation creates new mutation for the SilverK8sNodeBronzeLink entity.
-func newSilverK8sNodeBronzeLinkMutation(c config, op Op, opts ...silverk8snodebronzelinkOption) *SilverK8sNodeBronzeLinkMutation {
-	m := &SilverK8sNodeBronzeLinkMutation{
+// newInventoryK8sNodeBronzeLinkMutation creates new mutation for the InventoryK8sNodeBronzeLink entity.
+func newInventoryK8sNodeBronzeLinkMutation(c config, op Op, opts ...inventoryk8snodebronzelinkOption) *InventoryK8sNodeBronzeLinkMutation {
+	m := &InventoryK8sNodeBronzeLinkMutation{
 		config:        c,
 		op:            op,
-		typ:           TypeSilverK8sNodeBronzeLink,
+		typ:           TypeInventoryK8sNodeBronzeLink,
 		clearedFields: make(map[string]struct{}),
 	}
 	for _, opt := range opts {
@@ -1257,20 +1257,20 @@ func newSilverK8sNodeBronzeLinkMutation(c config, op Op, opts ...silverk8snodebr
 	return m
 }
 
-// withSilverK8sNodeBronzeLinkID sets the ID field of the mutation.
-func withSilverK8sNodeBronzeLinkID(id int) silverk8snodebronzelinkOption {
-	return func(m *SilverK8sNodeBronzeLinkMutation) {
+// withInventoryK8sNodeBronzeLinkID sets the ID field of the mutation.
+func withInventoryK8sNodeBronzeLinkID(id int) inventoryk8snodebronzelinkOption {
+	return func(m *InventoryK8sNodeBronzeLinkMutation) {
 		var (
 			err   error
 			once  sync.Once
-			value *SilverK8sNodeBronzeLink
+			value *InventoryK8sNodeBronzeLink
 		)
-		m.oldValue = func(ctx context.Context) (*SilverK8sNodeBronzeLink, error) {
+		m.oldValue = func(ctx context.Context) (*InventoryK8sNodeBronzeLink, error) {
 			once.Do(func() {
 				if m.done {
 					err = errors.New("querying old values post mutation is not allowed")
 				} else {
-					value, err = m.Client().SilverK8sNodeBronzeLink.Get(ctx, id)
+					value, err = m.Client().InventoryK8sNodeBronzeLink.Get(ctx, id)
 				}
 			})
 			return value, err
@@ -1279,10 +1279,10 @@ func withSilverK8sNodeBronzeLinkID(id int) silverk8snodebronzelinkOption {
 	}
 }
 
-// withSilverK8sNodeBronzeLink sets the old SilverK8sNodeBronzeLink of the mutation.
-func withSilverK8sNodeBronzeLink(node *SilverK8sNodeBronzeLink) silverk8snodebronzelinkOption {
-	return func(m *SilverK8sNodeBronzeLinkMutation) {
-		m.oldValue = func(context.Context) (*SilverK8sNodeBronzeLink, error) {
+// withInventoryK8sNodeBronzeLink sets the old InventoryK8sNodeBronzeLink of the mutation.
+func withInventoryK8sNodeBronzeLink(node *InventoryK8sNodeBronzeLink) inventoryk8snodebronzelinkOption {
+	return func(m *InventoryK8sNodeBronzeLinkMutation) {
+		m.oldValue = func(context.Context) (*InventoryK8sNodeBronzeLink, error) {
 			return node, nil
 		}
 		m.id = &node.ID
@@ -1291,7 +1291,7 @@ func withSilverK8sNodeBronzeLink(node *SilverK8sNodeBronzeLink) silverk8snodebro
 
 // Client returns a new `ent.Client` from the mutation. If the mutation was
 // executed in a transaction (ent.Tx), a transactional client is returned.
-func (m SilverK8sNodeBronzeLinkMutation) Client() *Client {
+func (m InventoryK8sNodeBronzeLinkMutation) Client() *Client {
 	client := &Client{config: m.config}
 	client.init()
 	return client
@@ -1299,7 +1299,7 @@ func (m SilverK8sNodeBronzeLinkMutation) Client() *Client {
 
 // Tx returns an `ent.Tx` for mutations that were executed in transactions;
 // it returns an error otherwise.
-func (m SilverK8sNodeBronzeLinkMutation) Tx() (*Tx, error) {
+func (m InventoryK8sNodeBronzeLinkMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
 		return nil, errors.New("k8snode: mutation is not running in a transaction")
 	}
@@ -1310,7 +1310,7 @@ func (m SilverK8sNodeBronzeLinkMutation) Tx() (*Tx, error) {
 
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *SilverK8sNodeBronzeLinkMutation) ID() (id int, exists bool) {
+func (m *InventoryK8sNodeBronzeLinkMutation) ID() (id int, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -1321,7 +1321,7 @@ func (m *SilverK8sNodeBronzeLinkMutation) ID() (id int, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *SilverK8sNodeBronzeLinkMutation) IDs(ctx context.Context) ([]int, error) {
+func (m *InventoryK8sNodeBronzeLinkMutation) IDs(ctx context.Context) ([]int, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
@@ -1330,19 +1330,19 @@ func (m *SilverK8sNodeBronzeLinkMutation) IDs(ctx context.Context) ([]int, error
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().SilverK8sNodeBronzeLink.Query().Where(m.predicates...).IDs(ctx)
+		return m.Client().InventoryK8sNodeBronzeLink.Query().Where(m.predicates...).IDs(ctx)
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
 }
 
 // SetProvider sets the "provider" field.
-func (m *SilverK8sNodeBronzeLinkMutation) SetProvider(s string) {
+func (m *InventoryK8sNodeBronzeLinkMutation) SetProvider(s string) {
 	m.provider = &s
 }
 
 // Provider returns the value of the "provider" field in the mutation.
-func (m *SilverK8sNodeBronzeLinkMutation) Provider() (r string, exists bool) {
+func (m *InventoryK8sNodeBronzeLinkMutation) Provider() (r string, exists bool) {
 	v := m.provider
 	if v == nil {
 		return
@@ -1350,10 +1350,10 @@ func (m *SilverK8sNodeBronzeLinkMutation) Provider() (r string, exists bool) {
 	return *v, true
 }
 
-// OldProvider returns the old "provider" field's value of the SilverK8sNodeBronzeLink entity.
-// If the SilverK8sNodeBronzeLink object wasn't provided to the builder, the object is fetched from the database.
+// OldProvider returns the old "provider" field's value of the InventoryK8sNodeBronzeLink entity.
+// If the InventoryK8sNodeBronzeLink object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeBronzeLinkMutation) OldProvider(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeBronzeLinkMutation) OldProvider(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldProvider is only allowed on UpdateOne operations")
 	}
@@ -1368,17 +1368,17 @@ func (m *SilverK8sNodeBronzeLinkMutation) OldProvider(ctx context.Context) (v st
 }
 
 // ResetProvider resets all changes to the "provider" field.
-func (m *SilverK8sNodeBronzeLinkMutation) ResetProvider() {
+func (m *InventoryK8sNodeBronzeLinkMutation) ResetProvider() {
 	m.provider = nil
 }
 
 // SetBronzeTable sets the "bronze_table" field.
-func (m *SilverK8sNodeBronzeLinkMutation) SetBronzeTable(s string) {
+func (m *InventoryK8sNodeBronzeLinkMutation) SetBronzeTable(s string) {
 	m.bronze_table = &s
 }
 
 // BronzeTable returns the value of the "bronze_table" field in the mutation.
-func (m *SilverK8sNodeBronzeLinkMutation) BronzeTable() (r string, exists bool) {
+func (m *InventoryK8sNodeBronzeLinkMutation) BronzeTable() (r string, exists bool) {
 	v := m.bronze_table
 	if v == nil {
 		return
@@ -1386,10 +1386,10 @@ func (m *SilverK8sNodeBronzeLinkMutation) BronzeTable() (r string, exists bool) 
 	return *v, true
 }
 
-// OldBronzeTable returns the old "bronze_table" field's value of the SilverK8sNodeBronzeLink entity.
-// If the SilverK8sNodeBronzeLink object wasn't provided to the builder, the object is fetched from the database.
+// OldBronzeTable returns the old "bronze_table" field's value of the InventoryK8sNodeBronzeLink entity.
+// If the InventoryK8sNodeBronzeLink object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeBronzeLinkMutation) OldBronzeTable(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeBronzeLinkMutation) OldBronzeTable(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldBronzeTable is only allowed on UpdateOne operations")
 	}
@@ -1404,17 +1404,17 @@ func (m *SilverK8sNodeBronzeLinkMutation) OldBronzeTable(ctx context.Context) (v
 }
 
 // ResetBronzeTable resets all changes to the "bronze_table" field.
-func (m *SilverK8sNodeBronzeLinkMutation) ResetBronzeTable() {
+func (m *InventoryK8sNodeBronzeLinkMutation) ResetBronzeTable() {
 	m.bronze_table = nil
 }
 
 // SetBronzeResourceID sets the "bronze_resource_id" field.
-func (m *SilverK8sNodeBronzeLinkMutation) SetBronzeResourceID(s string) {
+func (m *InventoryK8sNodeBronzeLinkMutation) SetBronzeResourceID(s string) {
 	m.bronze_resource_id = &s
 }
 
 // BronzeResourceID returns the value of the "bronze_resource_id" field in the mutation.
-func (m *SilverK8sNodeBronzeLinkMutation) BronzeResourceID() (r string, exists bool) {
+func (m *InventoryK8sNodeBronzeLinkMutation) BronzeResourceID() (r string, exists bool) {
 	v := m.bronze_resource_id
 	if v == nil {
 		return
@@ -1422,10 +1422,10 @@ func (m *SilverK8sNodeBronzeLinkMutation) BronzeResourceID() (r string, exists b
 	return *v, true
 }
 
-// OldBronzeResourceID returns the old "bronze_resource_id" field's value of the SilverK8sNodeBronzeLink entity.
-// If the SilverK8sNodeBronzeLink object wasn't provided to the builder, the object is fetched from the database.
+// OldBronzeResourceID returns the old "bronze_resource_id" field's value of the InventoryK8sNodeBronzeLink entity.
+// If the InventoryK8sNodeBronzeLink object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeBronzeLinkMutation) OldBronzeResourceID(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeBronzeLinkMutation) OldBronzeResourceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldBronzeResourceID is only allowed on UpdateOne operations")
 	}
@@ -1440,27 +1440,27 @@ func (m *SilverK8sNodeBronzeLinkMutation) OldBronzeResourceID(ctx context.Contex
 }
 
 // ResetBronzeResourceID resets all changes to the "bronze_resource_id" field.
-func (m *SilverK8sNodeBronzeLinkMutation) ResetBronzeResourceID() {
+func (m *InventoryK8sNodeBronzeLinkMutation) ResetBronzeResourceID() {
 	m.bronze_resource_id = nil
 }
 
-// SetK8sNodeID sets the "k8s_node" edge to the SilverK8sNode entity by id.
-func (m *SilverK8sNodeBronzeLinkMutation) SetK8sNodeID(id string) {
+// SetK8sNodeID sets the "k8s_node" edge to the InventoryK8sNode entity by id.
+func (m *InventoryK8sNodeBronzeLinkMutation) SetK8sNodeID(id string) {
 	m.k8s_node = &id
 }
 
-// ClearK8sNode clears the "k8s_node" edge to the SilverK8sNode entity.
-func (m *SilverK8sNodeBronzeLinkMutation) ClearK8sNode() {
+// ClearK8sNode clears the "k8s_node" edge to the InventoryK8sNode entity.
+func (m *InventoryK8sNodeBronzeLinkMutation) ClearK8sNode() {
 	m.clearedk8s_node = true
 }
 
-// K8sNodeCleared reports if the "k8s_node" edge to the SilverK8sNode entity was cleared.
-func (m *SilverK8sNodeBronzeLinkMutation) K8sNodeCleared() bool {
+// K8sNodeCleared reports if the "k8s_node" edge to the InventoryK8sNode entity was cleared.
+func (m *InventoryK8sNodeBronzeLinkMutation) K8sNodeCleared() bool {
 	return m.clearedk8s_node
 }
 
 // K8sNodeID returns the "k8s_node" edge ID in the mutation.
-func (m *SilverK8sNodeBronzeLinkMutation) K8sNodeID() (id string, exists bool) {
+func (m *InventoryK8sNodeBronzeLinkMutation) K8sNodeID() (id string, exists bool) {
 	if m.k8s_node != nil {
 		return *m.k8s_node, true
 	}
@@ -1470,7 +1470,7 @@ func (m *SilverK8sNodeBronzeLinkMutation) K8sNodeID() (id string, exists bool) {
 // K8sNodeIDs returns the "k8s_node" edge IDs in the mutation.
 // Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
 // K8sNodeID instead. It exists only for internal usage by the builders.
-func (m *SilverK8sNodeBronzeLinkMutation) K8sNodeIDs() (ids []string) {
+func (m *InventoryK8sNodeBronzeLinkMutation) K8sNodeIDs() (ids []string) {
 	if id := m.k8s_node; id != nil {
 		ids = append(ids, *id)
 	}
@@ -1478,20 +1478,20 @@ func (m *SilverK8sNodeBronzeLinkMutation) K8sNodeIDs() (ids []string) {
 }
 
 // ResetK8sNode resets all changes to the "k8s_node" edge.
-func (m *SilverK8sNodeBronzeLinkMutation) ResetK8sNode() {
+func (m *InventoryK8sNodeBronzeLinkMutation) ResetK8sNode() {
 	m.k8s_node = nil
 	m.clearedk8s_node = false
 }
 
-// Where appends a list predicates to the SilverK8sNodeBronzeLinkMutation builder.
-func (m *SilverK8sNodeBronzeLinkMutation) Where(ps ...predicate.SilverK8sNodeBronzeLink) {
+// Where appends a list predicates to the InventoryK8sNodeBronzeLinkMutation builder.
+func (m *InventoryK8sNodeBronzeLinkMutation) Where(ps ...predicate.InventoryK8sNodeBronzeLink) {
 	m.predicates = append(m.predicates, ps...)
 }
 
-// WhereP appends storage-level predicates to the SilverK8sNodeBronzeLinkMutation builder. Using this method,
+// WhereP appends storage-level predicates to the InventoryK8sNodeBronzeLinkMutation builder. Using this method,
 // users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *SilverK8sNodeBronzeLinkMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.SilverK8sNodeBronzeLink, len(ps))
+func (m *InventoryK8sNodeBronzeLinkMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.InventoryK8sNodeBronzeLink, len(ps))
 	for i := range ps {
 		p[i] = ps[i]
 	}
@@ -1499,33 +1499,33 @@ func (m *SilverK8sNodeBronzeLinkMutation) WhereP(ps ...func(*sql.Selector)) {
 }
 
 // Op returns the operation name.
-func (m *SilverK8sNodeBronzeLinkMutation) Op() Op {
+func (m *InventoryK8sNodeBronzeLinkMutation) Op() Op {
 	return m.op
 }
 
 // SetOp allows setting the mutation operation.
-func (m *SilverK8sNodeBronzeLinkMutation) SetOp(op Op) {
+func (m *InventoryK8sNodeBronzeLinkMutation) SetOp(op Op) {
 	m.op = op
 }
 
-// Type returns the node type of this mutation (SilverK8sNodeBronzeLink).
-func (m *SilverK8sNodeBronzeLinkMutation) Type() string {
+// Type returns the node type of this mutation (InventoryK8sNodeBronzeLink).
+func (m *InventoryK8sNodeBronzeLinkMutation) Type() string {
 	return m.typ
 }
 
 // Fields returns all fields that were changed during this mutation. Note that in
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
-func (m *SilverK8sNodeBronzeLinkMutation) Fields() []string {
+func (m *InventoryK8sNodeBronzeLinkMutation) Fields() []string {
 	fields := make([]string, 0, 3)
 	if m.provider != nil {
-		fields = append(fields, silverk8snodebronzelink.FieldProvider)
+		fields = append(fields, inventoryk8snodebronzelink.FieldProvider)
 	}
 	if m.bronze_table != nil {
-		fields = append(fields, silverk8snodebronzelink.FieldBronzeTable)
+		fields = append(fields, inventoryk8snodebronzelink.FieldBronzeTable)
 	}
 	if m.bronze_resource_id != nil {
-		fields = append(fields, silverk8snodebronzelink.FieldBronzeResourceID)
+		fields = append(fields, inventoryk8snodebronzelink.FieldBronzeResourceID)
 	}
 	return fields
 }
@@ -1533,13 +1533,13 @@ func (m *SilverK8sNodeBronzeLinkMutation) Fields() []string {
 // Field returns the value of a field with the given name. The second boolean
 // return value indicates that this field was not set, or was not defined in the
 // schema.
-func (m *SilverK8sNodeBronzeLinkMutation) Field(name string) (ent.Value, bool) {
+func (m *InventoryK8sNodeBronzeLinkMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case silverk8snodebronzelink.FieldProvider:
+	case inventoryk8snodebronzelink.FieldProvider:
 		return m.Provider()
-	case silverk8snodebronzelink.FieldBronzeTable:
+	case inventoryk8snodebronzelink.FieldBronzeTable:
 		return m.BronzeTable()
-	case silverk8snodebronzelink.FieldBronzeResourceID:
+	case inventoryk8snodebronzelink.FieldBronzeResourceID:
 		return m.BronzeResourceID()
 	}
 	return nil, false
@@ -1548,38 +1548,38 @@ func (m *SilverK8sNodeBronzeLinkMutation) Field(name string) (ent.Value, bool) {
 // OldField returns the old value of the field from the database. An error is
 // returned if the mutation operation is not UpdateOne, or the query to the
 // database failed.
-func (m *SilverK8sNodeBronzeLinkMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+func (m *InventoryK8sNodeBronzeLinkMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case silverk8snodebronzelink.FieldProvider:
+	case inventoryk8snodebronzelink.FieldProvider:
 		return m.OldProvider(ctx)
-	case silverk8snodebronzelink.FieldBronzeTable:
+	case inventoryk8snodebronzelink.FieldBronzeTable:
 		return m.OldBronzeTable(ctx)
-	case silverk8snodebronzelink.FieldBronzeResourceID:
+	case inventoryk8snodebronzelink.FieldBronzeResourceID:
 		return m.OldBronzeResourceID(ctx)
 	}
-	return nil, fmt.Errorf("unknown SilverK8sNodeBronzeLink field %s", name)
+	return nil, fmt.Errorf("unknown InventoryK8sNodeBronzeLink field %s", name)
 }
 
 // SetField sets the value of a field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *SilverK8sNodeBronzeLinkMutation) SetField(name string, value ent.Value) error {
+func (m *InventoryK8sNodeBronzeLinkMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case silverk8snodebronzelink.FieldProvider:
+	case inventoryk8snodebronzelink.FieldProvider:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetProvider(v)
 		return nil
-	case silverk8snodebronzelink.FieldBronzeTable:
+	case inventoryk8snodebronzelink.FieldBronzeTable:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetBronzeTable(v)
 		return nil
-	case silverk8snodebronzelink.FieldBronzeResourceID:
+	case inventoryk8snodebronzelink.FieldBronzeResourceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
@@ -1587,81 +1587,81 @@ func (m *SilverK8sNodeBronzeLinkMutation) SetField(name string, value ent.Value)
 		m.SetBronzeResourceID(v)
 		return nil
 	}
-	return fmt.Errorf("unknown SilverK8sNodeBronzeLink field %s", name)
+	return fmt.Errorf("unknown InventoryK8sNodeBronzeLink field %s", name)
 }
 
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
-func (m *SilverK8sNodeBronzeLinkMutation) AddedFields() []string {
+func (m *InventoryK8sNodeBronzeLinkMutation) AddedFields() []string {
 	return nil
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
-func (m *SilverK8sNodeBronzeLinkMutation) AddedField(name string) (ent.Value, bool) {
+func (m *InventoryK8sNodeBronzeLinkMutation) AddedField(name string) (ent.Value, bool) {
 	return nil, false
 }
 
 // AddField adds the value to the field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *SilverK8sNodeBronzeLinkMutation) AddField(name string, value ent.Value) error {
+func (m *InventoryK8sNodeBronzeLinkMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	}
-	return fmt.Errorf("unknown SilverK8sNodeBronzeLink numeric field %s", name)
+	return fmt.Errorf("unknown InventoryK8sNodeBronzeLink numeric field %s", name)
 }
 
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
-func (m *SilverK8sNodeBronzeLinkMutation) ClearedFields() []string {
+func (m *InventoryK8sNodeBronzeLinkMutation) ClearedFields() []string {
 	return nil
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
 // cleared in this mutation.
-func (m *SilverK8sNodeBronzeLinkMutation) FieldCleared(name string) bool {
+func (m *InventoryK8sNodeBronzeLinkMutation) FieldCleared(name string) bool {
 	_, ok := m.clearedFields[name]
 	return ok
 }
 
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
-func (m *SilverK8sNodeBronzeLinkMutation) ClearField(name string) error {
-	return fmt.Errorf("unknown SilverK8sNodeBronzeLink nullable field %s", name)
+func (m *InventoryK8sNodeBronzeLinkMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown InventoryK8sNodeBronzeLink nullable field %s", name)
 }
 
 // ResetField resets all changes in the mutation for the field with the given name.
 // It returns an error if the field is not defined in the schema.
-func (m *SilverK8sNodeBronzeLinkMutation) ResetField(name string) error {
+func (m *InventoryK8sNodeBronzeLinkMutation) ResetField(name string) error {
 	switch name {
-	case silverk8snodebronzelink.FieldProvider:
+	case inventoryk8snodebronzelink.FieldProvider:
 		m.ResetProvider()
 		return nil
-	case silverk8snodebronzelink.FieldBronzeTable:
+	case inventoryk8snodebronzelink.FieldBronzeTable:
 		m.ResetBronzeTable()
 		return nil
-	case silverk8snodebronzelink.FieldBronzeResourceID:
+	case inventoryk8snodebronzelink.FieldBronzeResourceID:
 		m.ResetBronzeResourceID()
 		return nil
 	}
-	return fmt.Errorf("unknown SilverK8sNodeBronzeLink field %s", name)
+	return fmt.Errorf("unknown InventoryK8sNodeBronzeLink field %s", name)
 }
 
 // AddedEdges returns all edge names that were set/added in this mutation.
-func (m *SilverK8sNodeBronzeLinkMutation) AddedEdges() []string {
+func (m *InventoryK8sNodeBronzeLinkMutation) AddedEdges() []string {
 	edges := make([]string, 0, 1)
 	if m.k8s_node != nil {
-		edges = append(edges, silverk8snodebronzelink.EdgeK8sNode)
+		edges = append(edges, inventoryk8snodebronzelink.EdgeK8sNode)
 	}
 	return edges
 }
 
 // AddedIDs returns all IDs (to other nodes) that were added for the given edge
 // name in this mutation.
-func (m *SilverK8sNodeBronzeLinkMutation) AddedIDs(name string) []ent.Value {
+func (m *InventoryK8sNodeBronzeLinkMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case silverk8snodebronzelink.EdgeK8sNode:
+	case inventoryk8snodebronzelink.EdgeK8sNode:
 		if id := m.k8s_node; id != nil {
 			return []ent.Value{*id}
 		}
@@ -1670,31 +1670,31 @@ func (m *SilverK8sNodeBronzeLinkMutation) AddedIDs(name string) []ent.Value {
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
-func (m *SilverK8sNodeBronzeLinkMutation) RemovedEdges() []string {
+func (m *InventoryK8sNodeBronzeLinkMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 1)
 	return edges
 }
 
 // RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
 // the given name in this mutation.
-func (m *SilverK8sNodeBronzeLinkMutation) RemovedIDs(name string) []ent.Value {
+func (m *InventoryK8sNodeBronzeLinkMutation) RemovedIDs(name string) []ent.Value {
 	return nil
 }
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *SilverK8sNodeBronzeLinkMutation) ClearedEdges() []string {
+func (m *InventoryK8sNodeBronzeLinkMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 1)
 	if m.clearedk8s_node {
-		edges = append(edges, silverk8snodebronzelink.EdgeK8sNode)
+		edges = append(edges, inventoryk8snodebronzelink.EdgeK8sNode)
 	}
 	return edges
 }
 
 // EdgeCleared returns a boolean which indicates if the edge with the given name
 // was cleared in this mutation.
-func (m *SilverK8sNodeBronzeLinkMutation) EdgeCleared(name string) bool {
+func (m *InventoryK8sNodeBronzeLinkMutation) EdgeCleared(name string) bool {
 	switch name {
-	case silverk8snodebronzelink.EdgeK8sNode:
+	case inventoryk8snodebronzelink.EdgeK8sNode:
 		return m.clearedk8s_node
 	}
 	return false
@@ -1702,28 +1702,28 @@ func (m *SilverK8sNodeBronzeLinkMutation) EdgeCleared(name string) bool {
 
 // ClearEdge clears the value of the edge with the given name. It returns an error
 // if that edge is not defined in the schema.
-func (m *SilverK8sNodeBronzeLinkMutation) ClearEdge(name string) error {
+func (m *InventoryK8sNodeBronzeLinkMutation) ClearEdge(name string) error {
 	switch name {
-	case silverk8snodebronzelink.EdgeK8sNode:
+	case inventoryk8snodebronzelink.EdgeK8sNode:
 		m.ClearK8sNode()
 		return nil
 	}
-	return fmt.Errorf("unknown SilverK8sNodeBronzeLink unique edge %s", name)
+	return fmt.Errorf("unknown InventoryK8sNodeBronzeLink unique edge %s", name)
 }
 
 // ResetEdge resets all changes to the edge with the given name in this mutation.
 // It returns an error if the edge is not defined in the schema.
-func (m *SilverK8sNodeBronzeLinkMutation) ResetEdge(name string) error {
+func (m *InventoryK8sNodeBronzeLinkMutation) ResetEdge(name string) error {
 	switch name {
-	case silverk8snodebronzelink.EdgeK8sNode:
+	case inventoryk8snodebronzelink.EdgeK8sNode:
 		m.ResetK8sNode()
 		return nil
 	}
-	return fmt.Errorf("unknown SilverK8sNodeBronzeLink edge %s", name)
+	return fmt.Errorf("unknown InventoryK8sNodeBronzeLink edge %s", name)
 }
 
-// SilverK8sNodeNormalizedMutation represents an operation that mutates the SilverK8sNodeNormalized nodes in the graph.
-type SilverK8sNodeNormalizedMutation struct {
+// InventoryK8sNodeNormalizedMutation represents an operation that mutates the InventoryK8sNodeNormalized nodes in the graph.
+type InventoryK8sNodeNormalizedMutation struct {
 	config
 	op                 Op
 	typ                string
@@ -1748,21 +1748,21 @@ type SilverK8sNodeNormalizedMutation struct {
 	normalized_at      *time.Time
 	clearedFields      map[string]struct{}
 	done               bool
-	oldValue           func(context.Context) (*SilverK8sNodeNormalized, error)
-	predicates         []predicate.SilverK8sNodeNormalized
+	oldValue           func(context.Context) (*InventoryK8sNodeNormalized, error)
+	predicates         []predicate.InventoryK8sNodeNormalized
 }
 
-var _ ent.Mutation = (*SilverK8sNodeNormalizedMutation)(nil)
+var _ ent.Mutation = (*InventoryK8sNodeNormalizedMutation)(nil)
 
-// silverk8snodenormalizedOption allows management of the mutation configuration using functional options.
-type silverk8snodenormalizedOption func(*SilverK8sNodeNormalizedMutation)
+// inventoryk8snodenormalizedOption allows management of the mutation configuration using functional options.
+type inventoryk8snodenormalizedOption func(*InventoryK8sNodeNormalizedMutation)
 
-// newSilverK8sNodeNormalizedMutation creates new mutation for the SilverK8sNodeNormalized entity.
-func newSilverK8sNodeNormalizedMutation(c config, op Op, opts ...silverk8snodenormalizedOption) *SilverK8sNodeNormalizedMutation {
-	m := &SilverK8sNodeNormalizedMutation{
+// newInventoryK8sNodeNormalizedMutation creates new mutation for the InventoryK8sNodeNormalized entity.
+func newInventoryK8sNodeNormalizedMutation(c config, op Op, opts ...inventoryk8snodenormalizedOption) *InventoryK8sNodeNormalizedMutation {
+	m := &InventoryK8sNodeNormalizedMutation{
 		config:        c,
 		op:            op,
-		typ:           TypeSilverK8sNodeNormalized,
+		typ:           TypeInventoryK8sNodeNormalized,
 		clearedFields: make(map[string]struct{}),
 	}
 	for _, opt := range opts {
@@ -1771,20 +1771,20 @@ func newSilverK8sNodeNormalizedMutation(c config, op Op, opts ...silverk8snodeno
 	return m
 }
 
-// withSilverK8sNodeNormalizedID sets the ID field of the mutation.
-func withSilverK8sNodeNormalizedID(id string) silverk8snodenormalizedOption {
-	return func(m *SilverK8sNodeNormalizedMutation) {
+// withInventoryK8sNodeNormalizedID sets the ID field of the mutation.
+func withInventoryK8sNodeNormalizedID(id string) inventoryk8snodenormalizedOption {
+	return func(m *InventoryK8sNodeNormalizedMutation) {
 		var (
 			err   error
 			once  sync.Once
-			value *SilverK8sNodeNormalized
+			value *InventoryK8sNodeNormalized
 		)
-		m.oldValue = func(ctx context.Context) (*SilverK8sNodeNormalized, error) {
+		m.oldValue = func(ctx context.Context) (*InventoryK8sNodeNormalized, error) {
 			once.Do(func() {
 				if m.done {
 					err = errors.New("querying old values post mutation is not allowed")
 				} else {
-					value, err = m.Client().SilverK8sNodeNormalized.Get(ctx, id)
+					value, err = m.Client().InventoryK8sNodeNormalized.Get(ctx, id)
 				}
 			})
 			return value, err
@@ -1793,10 +1793,10 @@ func withSilverK8sNodeNormalizedID(id string) silverk8snodenormalizedOption {
 	}
 }
 
-// withSilverK8sNodeNormalized sets the old SilverK8sNodeNormalized of the mutation.
-func withSilverK8sNodeNormalized(node *SilverK8sNodeNormalized) silverk8snodenormalizedOption {
-	return func(m *SilverK8sNodeNormalizedMutation) {
-		m.oldValue = func(context.Context) (*SilverK8sNodeNormalized, error) {
+// withInventoryK8sNodeNormalized sets the old InventoryK8sNodeNormalized of the mutation.
+func withInventoryK8sNodeNormalized(node *InventoryK8sNodeNormalized) inventoryk8snodenormalizedOption {
+	return func(m *InventoryK8sNodeNormalizedMutation) {
+		m.oldValue = func(context.Context) (*InventoryK8sNodeNormalized, error) {
 			return node, nil
 		}
 		m.id = &node.ID
@@ -1805,7 +1805,7 @@ func withSilverK8sNodeNormalized(node *SilverK8sNodeNormalized) silverk8snodenor
 
 // Client returns a new `ent.Client` from the mutation. If the mutation was
 // executed in a transaction (ent.Tx), a transactional client is returned.
-func (m SilverK8sNodeNormalizedMutation) Client() *Client {
+func (m InventoryK8sNodeNormalizedMutation) Client() *Client {
 	client := &Client{config: m.config}
 	client.init()
 	return client
@@ -1813,7 +1813,7 @@ func (m SilverK8sNodeNormalizedMutation) Client() *Client {
 
 // Tx returns an `ent.Tx` for mutations that were executed in transactions;
 // it returns an error otherwise.
-func (m SilverK8sNodeNormalizedMutation) Tx() (*Tx, error) {
+func (m InventoryK8sNodeNormalizedMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
 		return nil, errors.New("k8snode: mutation is not running in a transaction")
 	}
@@ -1823,14 +1823,14 @@ func (m SilverK8sNodeNormalizedMutation) Tx() (*Tx, error) {
 }
 
 // SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of SilverK8sNodeNormalized entities.
-func (m *SilverK8sNodeNormalizedMutation) SetID(id string) {
+// operation is only accepted on creation of InventoryK8sNodeNormalized entities.
+func (m *InventoryK8sNodeNormalizedMutation) SetID(id string) {
 	m.id = &id
 }
 
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *SilverK8sNodeNormalizedMutation) ID() (id string, exists bool) {
+func (m *InventoryK8sNodeNormalizedMutation) ID() (id string, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -1841,7 +1841,7 @@ func (m *SilverK8sNodeNormalizedMutation) ID() (id string, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *SilverK8sNodeNormalizedMutation) IDs(ctx context.Context) ([]string, error) {
+func (m *InventoryK8sNodeNormalizedMutation) IDs(ctx context.Context) ([]string, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
@@ -1850,19 +1850,19 @@ func (m *SilverK8sNodeNormalizedMutation) IDs(ctx context.Context) ([]string, er
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().SilverK8sNodeNormalized.Query().Where(m.predicates...).IDs(ctx)
+		return m.Client().InventoryK8sNodeNormalized.Query().Where(m.predicates...).IDs(ctx)
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
 }
 
 // SetProvider sets the "provider" field.
-func (m *SilverK8sNodeNormalizedMutation) SetProvider(s string) {
+func (m *InventoryK8sNodeNormalizedMutation) SetProvider(s string) {
 	m.provider = &s
 }
 
 // Provider returns the value of the "provider" field in the mutation.
-func (m *SilverK8sNodeNormalizedMutation) Provider() (r string, exists bool) {
+func (m *InventoryK8sNodeNormalizedMutation) Provider() (r string, exists bool) {
 	v := m.provider
 	if v == nil {
 		return
@@ -1870,10 +1870,10 @@ func (m *SilverK8sNodeNormalizedMutation) Provider() (r string, exists bool) {
 	return *v, true
 }
 
-// OldProvider returns the old "provider" field's value of the SilverK8sNodeNormalized entity.
-// If the SilverK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldProvider returns the old "provider" field's value of the InventoryK8sNodeNormalized entity.
+// If the InventoryK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeNormalizedMutation) OldProvider(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeNormalizedMutation) OldProvider(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldProvider is only allowed on UpdateOne operations")
 	}
@@ -1888,17 +1888,17 @@ func (m *SilverK8sNodeNormalizedMutation) OldProvider(ctx context.Context) (v st
 }
 
 // ResetProvider resets all changes to the "provider" field.
-func (m *SilverK8sNodeNormalizedMutation) ResetProvider() {
+func (m *InventoryK8sNodeNormalizedMutation) ResetProvider() {
 	m.provider = nil
 }
 
 // SetIsBase sets the "is_base" field.
-func (m *SilverK8sNodeNormalizedMutation) SetIsBase(b bool) {
+func (m *InventoryK8sNodeNormalizedMutation) SetIsBase(b bool) {
 	m.is_base = &b
 }
 
 // IsBase returns the value of the "is_base" field in the mutation.
-func (m *SilverK8sNodeNormalizedMutation) IsBase() (r bool, exists bool) {
+func (m *InventoryK8sNodeNormalizedMutation) IsBase() (r bool, exists bool) {
 	v := m.is_base
 	if v == nil {
 		return
@@ -1906,10 +1906,10 @@ func (m *SilverK8sNodeNormalizedMutation) IsBase() (r bool, exists bool) {
 	return *v, true
 }
 
-// OldIsBase returns the old "is_base" field's value of the SilverK8sNodeNormalized entity.
-// If the SilverK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldIsBase returns the old "is_base" field's value of the InventoryK8sNodeNormalized entity.
+// If the InventoryK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeNormalizedMutation) OldIsBase(ctx context.Context) (v bool, err error) {
+func (m *InventoryK8sNodeNormalizedMutation) OldIsBase(ctx context.Context) (v bool, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldIsBase is only allowed on UpdateOne operations")
 	}
@@ -1924,17 +1924,17 @@ func (m *SilverK8sNodeNormalizedMutation) OldIsBase(ctx context.Context) (v bool
 }
 
 // ResetIsBase resets all changes to the "is_base" field.
-func (m *SilverK8sNodeNormalizedMutation) ResetIsBase() {
+func (m *InventoryK8sNodeNormalizedMutation) ResetIsBase() {
 	m.is_base = nil
 }
 
 // SetBronzeTable sets the "bronze_table" field.
-func (m *SilverK8sNodeNormalizedMutation) SetBronzeTable(s string) {
+func (m *InventoryK8sNodeNormalizedMutation) SetBronzeTable(s string) {
 	m.bronze_table = &s
 }
 
 // BronzeTable returns the value of the "bronze_table" field in the mutation.
-func (m *SilverK8sNodeNormalizedMutation) BronzeTable() (r string, exists bool) {
+func (m *InventoryK8sNodeNormalizedMutation) BronzeTable() (r string, exists bool) {
 	v := m.bronze_table
 	if v == nil {
 		return
@@ -1942,10 +1942,10 @@ func (m *SilverK8sNodeNormalizedMutation) BronzeTable() (r string, exists bool) 
 	return *v, true
 }
 
-// OldBronzeTable returns the old "bronze_table" field's value of the SilverK8sNodeNormalized entity.
-// If the SilverK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldBronzeTable returns the old "bronze_table" field's value of the InventoryK8sNodeNormalized entity.
+// If the InventoryK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeNormalizedMutation) OldBronzeTable(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeNormalizedMutation) OldBronzeTable(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldBronzeTable is only allowed on UpdateOne operations")
 	}
@@ -1960,17 +1960,17 @@ func (m *SilverK8sNodeNormalizedMutation) OldBronzeTable(ctx context.Context) (v
 }
 
 // ResetBronzeTable resets all changes to the "bronze_table" field.
-func (m *SilverK8sNodeNormalizedMutation) ResetBronzeTable() {
+func (m *InventoryK8sNodeNormalizedMutation) ResetBronzeTable() {
 	m.bronze_table = nil
 }
 
 // SetBronzeResourceID sets the "bronze_resource_id" field.
-func (m *SilverK8sNodeNormalizedMutation) SetBronzeResourceID(s string) {
+func (m *InventoryK8sNodeNormalizedMutation) SetBronzeResourceID(s string) {
 	m.bronze_resource_id = &s
 }
 
 // BronzeResourceID returns the value of the "bronze_resource_id" field in the mutation.
-func (m *SilverK8sNodeNormalizedMutation) BronzeResourceID() (r string, exists bool) {
+func (m *InventoryK8sNodeNormalizedMutation) BronzeResourceID() (r string, exists bool) {
 	v := m.bronze_resource_id
 	if v == nil {
 		return
@@ -1978,10 +1978,10 @@ func (m *SilverK8sNodeNormalizedMutation) BronzeResourceID() (r string, exists b
 	return *v, true
 }
 
-// OldBronzeResourceID returns the old "bronze_resource_id" field's value of the SilverK8sNodeNormalized entity.
-// If the SilverK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldBronzeResourceID returns the old "bronze_resource_id" field's value of the InventoryK8sNodeNormalized entity.
+// If the InventoryK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeNormalizedMutation) OldBronzeResourceID(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeNormalizedMutation) OldBronzeResourceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldBronzeResourceID is only allowed on UpdateOne operations")
 	}
@@ -1996,17 +1996,17 @@ func (m *SilverK8sNodeNormalizedMutation) OldBronzeResourceID(ctx context.Contex
 }
 
 // ResetBronzeResourceID resets all changes to the "bronze_resource_id" field.
-func (m *SilverK8sNodeNormalizedMutation) ResetBronzeResourceID() {
+func (m *InventoryK8sNodeNormalizedMutation) ResetBronzeResourceID() {
 	m.bronze_resource_id = nil
 }
 
 // SetNodeName sets the "node_name" field.
-func (m *SilverK8sNodeNormalizedMutation) SetNodeName(s string) {
+func (m *InventoryK8sNodeNormalizedMutation) SetNodeName(s string) {
 	m.node_name = &s
 }
 
 // NodeName returns the value of the "node_name" field in the mutation.
-func (m *SilverK8sNodeNormalizedMutation) NodeName() (r string, exists bool) {
+func (m *InventoryK8sNodeNormalizedMutation) NodeName() (r string, exists bool) {
 	v := m.node_name
 	if v == nil {
 		return
@@ -2014,10 +2014,10 @@ func (m *SilverK8sNodeNormalizedMutation) NodeName() (r string, exists bool) {
 	return *v, true
 }
 
-// OldNodeName returns the old "node_name" field's value of the SilverK8sNodeNormalized entity.
-// If the SilverK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldNodeName returns the old "node_name" field's value of the InventoryK8sNodeNormalized entity.
+// If the InventoryK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeNormalizedMutation) OldNodeName(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeNormalizedMutation) OldNodeName(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldNodeName is only allowed on UpdateOne operations")
 	}
@@ -2032,30 +2032,30 @@ func (m *SilverK8sNodeNormalizedMutation) OldNodeName(ctx context.Context) (v st
 }
 
 // ClearNodeName clears the value of the "node_name" field.
-func (m *SilverK8sNodeNormalizedMutation) ClearNodeName() {
+func (m *InventoryK8sNodeNormalizedMutation) ClearNodeName() {
 	m.node_name = nil
-	m.clearedFields[silverk8snodenormalized.FieldNodeName] = struct{}{}
+	m.clearedFields[inventoryk8snodenormalized.FieldNodeName] = struct{}{}
 }
 
 // NodeNameCleared returns if the "node_name" field was cleared in this mutation.
-func (m *SilverK8sNodeNormalizedMutation) NodeNameCleared() bool {
-	_, ok := m.clearedFields[silverk8snodenormalized.FieldNodeName]
+func (m *InventoryK8sNodeNormalizedMutation) NodeNameCleared() bool {
+	_, ok := m.clearedFields[inventoryk8snodenormalized.FieldNodeName]
 	return ok
 }
 
 // ResetNodeName resets all changes to the "node_name" field.
-func (m *SilverK8sNodeNormalizedMutation) ResetNodeName() {
+func (m *InventoryK8sNodeNormalizedMutation) ResetNodeName() {
 	m.node_name = nil
-	delete(m.clearedFields, silverk8snodenormalized.FieldNodeName)
+	delete(m.clearedFields, inventoryk8snodenormalized.FieldNodeName)
 }
 
 // SetClusterName sets the "cluster_name" field.
-func (m *SilverK8sNodeNormalizedMutation) SetClusterName(s string) {
+func (m *InventoryK8sNodeNormalizedMutation) SetClusterName(s string) {
 	m.cluster_name = &s
 }
 
 // ClusterName returns the value of the "cluster_name" field in the mutation.
-func (m *SilverK8sNodeNormalizedMutation) ClusterName() (r string, exists bool) {
+func (m *InventoryK8sNodeNormalizedMutation) ClusterName() (r string, exists bool) {
 	v := m.cluster_name
 	if v == nil {
 		return
@@ -2063,10 +2063,10 @@ func (m *SilverK8sNodeNormalizedMutation) ClusterName() (r string, exists bool) 
 	return *v, true
 }
 
-// OldClusterName returns the old "cluster_name" field's value of the SilverK8sNodeNormalized entity.
-// If the SilverK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldClusterName returns the old "cluster_name" field's value of the InventoryK8sNodeNormalized entity.
+// If the InventoryK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeNormalizedMutation) OldClusterName(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeNormalizedMutation) OldClusterName(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldClusterName is only allowed on UpdateOne operations")
 	}
@@ -2081,30 +2081,30 @@ func (m *SilverK8sNodeNormalizedMutation) OldClusterName(ctx context.Context) (v
 }
 
 // ClearClusterName clears the value of the "cluster_name" field.
-func (m *SilverK8sNodeNormalizedMutation) ClearClusterName() {
+func (m *InventoryK8sNodeNormalizedMutation) ClearClusterName() {
 	m.cluster_name = nil
-	m.clearedFields[silverk8snodenormalized.FieldClusterName] = struct{}{}
+	m.clearedFields[inventoryk8snodenormalized.FieldClusterName] = struct{}{}
 }
 
 // ClusterNameCleared returns if the "cluster_name" field was cleared in this mutation.
-func (m *SilverK8sNodeNormalizedMutation) ClusterNameCleared() bool {
-	_, ok := m.clearedFields[silverk8snodenormalized.FieldClusterName]
+func (m *InventoryK8sNodeNormalizedMutation) ClusterNameCleared() bool {
+	_, ok := m.clearedFields[inventoryk8snodenormalized.FieldClusterName]
 	return ok
 }
 
 // ResetClusterName resets all changes to the "cluster_name" field.
-func (m *SilverK8sNodeNormalizedMutation) ResetClusterName() {
+func (m *InventoryK8sNodeNormalizedMutation) ResetClusterName() {
 	m.cluster_name = nil
-	delete(m.clearedFields, silverk8snodenormalized.FieldClusterName)
+	delete(m.clearedFields, inventoryk8snodenormalized.FieldClusterName)
 }
 
 // SetNodePool sets the "node_pool" field.
-func (m *SilverK8sNodeNormalizedMutation) SetNodePool(s string) {
+func (m *InventoryK8sNodeNormalizedMutation) SetNodePool(s string) {
 	m.node_pool = &s
 }
 
 // NodePool returns the value of the "node_pool" field in the mutation.
-func (m *SilverK8sNodeNormalizedMutation) NodePool() (r string, exists bool) {
+func (m *InventoryK8sNodeNormalizedMutation) NodePool() (r string, exists bool) {
 	v := m.node_pool
 	if v == nil {
 		return
@@ -2112,10 +2112,10 @@ func (m *SilverK8sNodeNormalizedMutation) NodePool() (r string, exists bool) {
 	return *v, true
 }
 
-// OldNodePool returns the old "node_pool" field's value of the SilverK8sNodeNormalized entity.
-// If the SilverK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldNodePool returns the old "node_pool" field's value of the InventoryK8sNodeNormalized entity.
+// If the InventoryK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeNormalizedMutation) OldNodePool(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeNormalizedMutation) OldNodePool(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldNodePool is only allowed on UpdateOne operations")
 	}
@@ -2130,30 +2130,30 @@ func (m *SilverK8sNodeNormalizedMutation) OldNodePool(ctx context.Context) (v st
 }
 
 // ClearNodePool clears the value of the "node_pool" field.
-func (m *SilverK8sNodeNormalizedMutation) ClearNodePool() {
+func (m *InventoryK8sNodeNormalizedMutation) ClearNodePool() {
 	m.node_pool = nil
-	m.clearedFields[silverk8snodenormalized.FieldNodePool] = struct{}{}
+	m.clearedFields[inventoryk8snodenormalized.FieldNodePool] = struct{}{}
 }
 
 // NodePoolCleared returns if the "node_pool" field was cleared in this mutation.
-func (m *SilverK8sNodeNormalizedMutation) NodePoolCleared() bool {
-	_, ok := m.clearedFields[silverk8snodenormalized.FieldNodePool]
+func (m *InventoryK8sNodeNormalizedMutation) NodePoolCleared() bool {
+	_, ok := m.clearedFields[inventoryk8snodenormalized.FieldNodePool]
 	return ok
 }
 
 // ResetNodePool resets all changes to the "node_pool" field.
-func (m *SilverK8sNodeNormalizedMutation) ResetNodePool() {
+func (m *InventoryK8sNodeNormalizedMutation) ResetNodePool() {
 	m.node_pool = nil
-	delete(m.clearedFields, silverk8snodenormalized.FieldNodePool)
+	delete(m.clearedFields, inventoryk8snodenormalized.FieldNodePool)
 }
 
 // SetStatus sets the "status" field.
-func (m *SilverK8sNodeNormalizedMutation) SetStatus(s string) {
+func (m *InventoryK8sNodeNormalizedMutation) SetStatus(s string) {
 	m.status = &s
 }
 
 // Status returns the value of the "status" field in the mutation.
-func (m *SilverK8sNodeNormalizedMutation) Status() (r string, exists bool) {
+func (m *InventoryK8sNodeNormalizedMutation) Status() (r string, exists bool) {
 	v := m.status
 	if v == nil {
 		return
@@ -2161,10 +2161,10 @@ func (m *SilverK8sNodeNormalizedMutation) Status() (r string, exists bool) {
 	return *v, true
 }
 
-// OldStatus returns the old "status" field's value of the SilverK8sNodeNormalized entity.
-// If the SilverK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldStatus returns the old "status" field's value of the InventoryK8sNodeNormalized entity.
+// If the InventoryK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeNormalizedMutation) OldStatus(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeNormalizedMutation) OldStatus(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
 	}
@@ -2179,17 +2179,17 @@ func (m *SilverK8sNodeNormalizedMutation) OldStatus(ctx context.Context) (v stri
 }
 
 // ResetStatus resets all changes to the "status" field.
-func (m *SilverK8sNodeNormalizedMutation) ResetStatus() {
+func (m *InventoryK8sNodeNormalizedMutation) ResetStatus() {
 	m.status = nil
 }
 
 // SetProvisioning sets the "provisioning" field.
-func (m *SilverK8sNodeNormalizedMutation) SetProvisioning(s string) {
+func (m *InventoryK8sNodeNormalizedMutation) SetProvisioning(s string) {
 	m.provisioning = &s
 }
 
 // Provisioning returns the value of the "provisioning" field in the mutation.
-func (m *SilverK8sNodeNormalizedMutation) Provisioning() (r string, exists bool) {
+func (m *InventoryK8sNodeNormalizedMutation) Provisioning() (r string, exists bool) {
 	v := m.provisioning
 	if v == nil {
 		return
@@ -2197,10 +2197,10 @@ func (m *SilverK8sNodeNormalizedMutation) Provisioning() (r string, exists bool)
 	return *v, true
 }
 
-// OldProvisioning returns the old "provisioning" field's value of the SilverK8sNodeNormalized entity.
-// If the SilverK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldProvisioning returns the old "provisioning" field's value of the InventoryK8sNodeNormalized entity.
+// If the InventoryK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeNormalizedMutation) OldProvisioning(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeNormalizedMutation) OldProvisioning(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldProvisioning is only allowed on UpdateOne operations")
 	}
@@ -2215,30 +2215,30 @@ func (m *SilverK8sNodeNormalizedMutation) OldProvisioning(ctx context.Context) (
 }
 
 // ClearProvisioning clears the value of the "provisioning" field.
-func (m *SilverK8sNodeNormalizedMutation) ClearProvisioning() {
+func (m *InventoryK8sNodeNormalizedMutation) ClearProvisioning() {
 	m.provisioning = nil
-	m.clearedFields[silverk8snodenormalized.FieldProvisioning] = struct{}{}
+	m.clearedFields[inventoryk8snodenormalized.FieldProvisioning] = struct{}{}
 }
 
 // ProvisioningCleared returns if the "provisioning" field was cleared in this mutation.
-func (m *SilverK8sNodeNormalizedMutation) ProvisioningCleared() bool {
-	_, ok := m.clearedFields[silverk8snodenormalized.FieldProvisioning]
+func (m *InventoryK8sNodeNormalizedMutation) ProvisioningCleared() bool {
+	_, ok := m.clearedFields[inventoryk8snodenormalized.FieldProvisioning]
 	return ok
 }
 
 // ResetProvisioning resets all changes to the "provisioning" field.
-func (m *SilverK8sNodeNormalizedMutation) ResetProvisioning() {
+func (m *InventoryK8sNodeNormalizedMutation) ResetProvisioning() {
 	m.provisioning = nil
-	delete(m.clearedFields, silverk8snodenormalized.FieldProvisioning)
+	delete(m.clearedFields, inventoryk8snodenormalized.FieldProvisioning)
 }
 
 // SetCloudProject sets the "cloud_project" field.
-func (m *SilverK8sNodeNormalizedMutation) SetCloudProject(s string) {
+func (m *InventoryK8sNodeNormalizedMutation) SetCloudProject(s string) {
 	m.cloud_project = &s
 }
 
 // CloudProject returns the value of the "cloud_project" field in the mutation.
-func (m *SilverK8sNodeNormalizedMutation) CloudProject() (r string, exists bool) {
+func (m *InventoryK8sNodeNormalizedMutation) CloudProject() (r string, exists bool) {
 	v := m.cloud_project
 	if v == nil {
 		return
@@ -2246,10 +2246,10 @@ func (m *SilverK8sNodeNormalizedMutation) CloudProject() (r string, exists bool)
 	return *v, true
 }
 
-// OldCloudProject returns the old "cloud_project" field's value of the SilverK8sNodeNormalized entity.
-// If the SilverK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldCloudProject returns the old "cloud_project" field's value of the InventoryK8sNodeNormalized entity.
+// If the InventoryK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeNormalizedMutation) OldCloudProject(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeNormalizedMutation) OldCloudProject(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCloudProject is only allowed on UpdateOne operations")
 	}
@@ -2264,30 +2264,30 @@ func (m *SilverK8sNodeNormalizedMutation) OldCloudProject(ctx context.Context) (
 }
 
 // ClearCloudProject clears the value of the "cloud_project" field.
-func (m *SilverK8sNodeNormalizedMutation) ClearCloudProject() {
+func (m *InventoryK8sNodeNormalizedMutation) ClearCloudProject() {
 	m.cloud_project = nil
-	m.clearedFields[silverk8snodenormalized.FieldCloudProject] = struct{}{}
+	m.clearedFields[inventoryk8snodenormalized.FieldCloudProject] = struct{}{}
 }
 
 // CloudProjectCleared returns if the "cloud_project" field was cleared in this mutation.
-func (m *SilverK8sNodeNormalizedMutation) CloudProjectCleared() bool {
-	_, ok := m.clearedFields[silverk8snodenormalized.FieldCloudProject]
+func (m *InventoryK8sNodeNormalizedMutation) CloudProjectCleared() bool {
+	_, ok := m.clearedFields[inventoryk8snodenormalized.FieldCloudProject]
 	return ok
 }
 
 // ResetCloudProject resets all changes to the "cloud_project" field.
-func (m *SilverK8sNodeNormalizedMutation) ResetCloudProject() {
+func (m *InventoryK8sNodeNormalizedMutation) ResetCloudProject() {
 	m.cloud_project = nil
-	delete(m.clearedFields, silverk8snodenormalized.FieldCloudProject)
+	delete(m.clearedFields, inventoryk8snodenormalized.FieldCloudProject)
 }
 
 // SetCloudZone sets the "cloud_zone" field.
-func (m *SilverK8sNodeNormalizedMutation) SetCloudZone(s string) {
+func (m *InventoryK8sNodeNormalizedMutation) SetCloudZone(s string) {
 	m.cloud_zone = &s
 }
 
 // CloudZone returns the value of the "cloud_zone" field in the mutation.
-func (m *SilverK8sNodeNormalizedMutation) CloudZone() (r string, exists bool) {
+func (m *InventoryK8sNodeNormalizedMutation) CloudZone() (r string, exists bool) {
 	v := m.cloud_zone
 	if v == nil {
 		return
@@ -2295,10 +2295,10 @@ func (m *SilverK8sNodeNormalizedMutation) CloudZone() (r string, exists bool) {
 	return *v, true
 }
 
-// OldCloudZone returns the old "cloud_zone" field's value of the SilverK8sNodeNormalized entity.
-// If the SilverK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldCloudZone returns the old "cloud_zone" field's value of the InventoryK8sNodeNormalized entity.
+// If the InventoryK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeNormalizedMutation) OldCloudZone(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeNormalizedMutation) OldCloudZone(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCloudZone is only allowed on UpdateOne operations")
 	}
@@ -2313,30 +2313,30 @@ func (m *SilverK8sNodeNormalizedMutation) OldCloudZone(ctx context.Context) (v s
 }
 
 // ClearCloudZone clears the value of the "cloud_zone" field.
-func (m *SilverK8sNodeNormalizedMutation) ClearCloudZone() {
+func (m *InventoryK8sNodeNormalizedMutation) ClearCloudZone() {
 	m.cloud_zone = nil
-	m.clearedFields[silverk8snodenormalized.FieldCloudZone] = struct{}{}
+	m.clearedFields[inventoryk8snodenormalized.FieldCloudZone] = struct{}{}
 }
 
 // CloudZoneCleared returns if the "cloud_zone" field was cleared in this mutation.
-func (m *SilverK8sNodeNormalizedMutation) CloudZoneCleared() bool {
-	_, ok := m.clearedFields[silverk8snodenormalized.FieldCloudZone]
+func (m *InventoryK8sNodeNormalizedMutation) CloudZoneCleared() bool {
+	_, ok := m.clearedFields[inventoryk8snodenormalized.FieldCloudZone]
 	return ok
 }
 
 // ResetCloudZone resets all changes to the "cloud_zone" field.
-func (m *SilverK8sNodeNormalizedMutation) ResetCloudZone() {
+func (m *InventoryK8sNodeNormalizedMutation) ResetCloudZone() {
 	m.cloud_zone = nil
-	delete(m.clearedFields, silverk8snodenormalized.FieldCloudZone)
+	delete(m.clearedFields, inventoryk8snodenormalized.FieldCloudZone)
 }
 
 // SetCloudMachineType sets the "cloud_machine_type" field.
-func (m *SilverK8sNodeNormalizedMutation) SetCloudMachineType(s string) {
+func (m *InventoryK8sNodeNormalizedMutation) SetCloudMachineType(s string) {
 	m.cloud_machine_type = &s
 }
 
 // CloudMachineType returns the value of the "cloud_machine_type" field in the mutation.
-func (m *SilverK8sNodeNormalizedMutation) CloudMachineType() (r string, exists bool) {
+func (m *InventoryK8sNodeNormalizedMutation) CloudMachineType() (r string, exists bool) {
 	v := m.cloud_machine_type
 	if v == nil {
 		return
@@ -2344,10 +2344,10 @@ func (m *SilverK8sNodeNormalizedMutation) CloudMachineType() (r string, exists b
 	return *v, true
 }
 
-// OldCloudMachineType returns the old "cloud_machine_type" field's value of the SilverK8sNodeNormalized entity.
-// If the SilverK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldCloudMachineType returns the old "cloud_machine_type" field's value of the InventoryK8sNodeNormalized entity.
+// If the InventoryK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeNormalizedMutation) OldCloudMachineType(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeNormalizedMutation) OldCloudMachineType(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCloudMachineType is only allowed on UpdateOne operations")
 	}
@@ -2362,30 +2362,30 @@ func (m *SilverK8sNodeNormalizedMutation) OldCloudMachineType(ctx context.Contex
 }
 
 // ClearCloudMachineType clears the value of the "cloud_machine_type" field.
-func (m *SilverK8sNodeNormalizedMutation) ClearCloudMachineType() {
+func (m *InventoryK8sNodeNormalizedMutation) ClearCloudMachineType() {
 	m.cloud_machine_type = nil
-	m.clearedFields[silverk8snodenormalized.FieldCloudMachineType] = struct{}{}
+	m.clearedFields[inventoryk8snodenormalized.FieldCloudMachineType] = struct{}{}
 }
 
 // CloudMachineTypeCleared returns if the "cloud_machine_type" field was cleared in this mutation.
-func (m *SilverK8sNodeNormalizedMutation) CloudMachineTypeCleared() bool {
-	_, ok := m.clearedFields[silverk8snodenormalized.FieldCloudMachineType]
+func (m *InventoryK8sNodeNormalizedMutation) CloudMachineTypeCleared() bool {
+	_, ok := m.clearedFields[inventoryk8snodenormalized.FieldCloudMachineType]
 	return ok
 }
 
 // ResetCloudMachineType resets all changes to the "cloud_machine_type" field.
-func (m *SilverK8sNodeNormalizedMutation) ResetCloudMachineType() {
+func (m *InventoryK8sNodeNormalizedMutation) ResetCloudMachineType() {
 	m.cloud_machine_type = nil
-	delete(m.clearedFields, silverk8snodenormalized.FieldCloudMachineType)
+	delete(m.clearedFields, inventoryk8snodenormalized.FieldCloudMachineType)
 }
 
 // SetInternalIP sets the "internal_ip" field.
-func (m *SilverK8sNodeNormalizedMutation) SetInternalIP(s string) {
+func (m *InventoryK8sNodeNormalizedMutation) SetInternalIP(s string) {
 	m.internal_ip = &s
 }
 
 // InternalIP returns the value of the "internal_ip" field in the mutation.
-func (m *SilverK8sNodeNormalizedMutation) InternalIP() (r string, exists bool) {
+func (m *InventoryK8sNodeNormalizedMutation) InternalIP() (r string, exists bool) {
 	v := m.internal_ip
 	if v == nil {
 		return
@@ -2393,10 +2393,10 @@ func (m *SilverK8sNodeNormalizedMutation) InternalIP() (r string, exists bool) {
 	return *v, true
 }
 
-// OldInternalIP returns the old "internal_ip" field's value of the SilverK8sNodeNormalized entity.
-// If the SilverK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldInternalIP returns the old "internal_ip" field's value of the InventoryK8sNodeNormalized entity.
+// If the InventoryK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeNormalizedMutation) OldInternalIP(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeNormalizedMutation) OldInternalIP(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldInternalIP is only allowed on UpdateOne operations")
 	}
@@ -2411,30 +2411,30 @@ func (m *SilverK8sNodeNormalizedMutation) OldInternalIP(ctx context.Context) (v 
 }
 
 // ClearInternalIP clears the value of the "internal_ip" field.
-func (m *SilverK8sNodeNormalizedMutation) ClearInternalIP() {
+func (m *InventoryK8sNodeNormalizedMutation) ClearInternalIP() {
 	m.internal_ip = nil
-	m.clearedFields[silverk8snodenormalized.FieldInternalIP] = struct{}{}
+	m.clearedFields[inventoryk8snodenormalized.FieldInternalIP] = struct{}{}
 }
 
 // InternalIPCleared returns if the "internal_ip" field was cleared in this mutation.
-func (m *SilverK8sNodeNormalizedMutation) InternalIPCleared() bool {
-	_, ok := m.clearedFields[silverk8snodenormalized.FieldInternalIP]
+func (m *InventoryK8sNodeNormalizedMutation) InternalIPCleared() bool {
+	_, ok := m.clearedFields[inventoryk8snodenormalized.FieldInternalIP]
 	return ok
 }
 
 // ResetInternalIP resets all changes to the "internal_ip" field.
-func (m *SilverK8sNodeNormalizedMutation) ResetInternalIP() {
+func (m *InventoryK8sNodeNormalizedMutation) ResetInternalIP() {
 	m.internal_ip = nil
-	delete(m.clearedFields, silverk8snodenormalized.FieldInternalIP)
+	delete(m.clearedFields, inventoryk8snodenormalized.FieldInternalIP)
 }
 
 // SetExternalIP sets the "external_ip" field.
-func (m *SilverK8sNodeNormalizedMutation) SetExternalIP(s string) {
+func (m *InventoryK8sNodeNormalizedMutation) SetExternalIP(s string) {
 	m.external_ip = &s
 }
 
 // ExternalIP returns the value of the "external_ip" field in the mutation.
-func (m *SilverK8sNodeNormalizedMutation) ExternalIP() (r string, exists bool) {
+func (m *InventoryK8sNodeNormalizedMutation) ExternalIP() (r string, exists bool) {
 	v := m.external_ip
 	if v == nil {
 		return
@@ -2442,10 +2442,10 @@ func (m *SilverK8sNodeNormalizedMutation) ExternalIP() (r string, exists bool) {
 	return *v, true
 }
 
-// OldExternalIP returns the old "external_ip" field's value of the SilverK8sNodeNormalized entity.
-// If the SilverK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldExternalIP returns the old "external_ip" field's value of the InventoryK8sNodeNormalized entity.
+// If the InventoryK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeNormalizedMutation) OldExternalIP(ctx context.Context) (v string, err error) {
+func (m *InventoryK8sNodeNormalizedMutation) OldExternalIP(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldExternalIP is only allowed on UpdateOne operations")
 	}
@@ -2460,30 +2460,30 @@ func (m *SilverK8sNodeNormalizedMutation) OldExternalIP(ctx context.Context) (v 
 }
 
 // ClearExternalIP clears the value of the "external_ip" field.
-func (m *SilverK8sNodeNormalizedMutation) ClearExternalIP() {
+func (m *InventoryK8sNodeNormalizedMutation) ClearExternalIP() {
 	m.external_ip = nil
-	m.clearedFields[silverk8snodenormalized.FieldExternalIP] = struct{}{}
+	m.clearedFields[inventoryk8snodenormalized.FieldExternalIP] = struct{}{}
 }
 
 // ExternalIPCleared returns if the "external_ip" field was cleared in this mutation.
-func (m *SilverK8sNodeNormalizedMutation) ExternalIPCleared() bool {
-	_, ok := m.clearedFields[silverk8snodenormalized.FieldExternalIP]
+func (m *InventoryK8sNodeNormalizedMutation) ExternalIPCleared() bool {
+	_, ok := m.clearedFields[inventoryk8snodenormalized.FieldExternalIP]
 	return ok
 }
 
 // ResetExternalIP resets all changes to the "external_ip" field.
-func (m *SilverK8sNodeNormalizedMutation) ResetExternalIP() {
+func (m *InventoryK8sNodeNormalizedMutation) ResetExternalIP() {
 	m.external_ip = nil
-	delete(m.clearedFields, silverk8snodenormalized.FieldExternalIP)
+	delete(m.clearedFields, inventoryk8snodenormalized.FieldExternalIP)
 }
 
 // SetMergeKeysJSON sets the "merge_keys_json" field.
-func (m *SilverK8sNodeNormalizedMutation) SetMergeKeysJSON(value map[string][]string) {
+func (m *InventoryK8sNodeNormalizedMutation) SetMergeKeysJSON(value map[string][]string) {
 	m.merge_keys_json = &value
 }
 
 // MergeKeysJSON returns the value of the "merge_keys_json" field in the mutation.
-func (m *SilverK8sNodeNormalizedMutation) MergeKeysJSON() (r map[string][]string, exists bool) {
+func (m *InventoryK8sNodeNormalizedMutation) MergeKeysJSON() (r map[string][]string, exists bool) {
 	v := m.merge_keys_json
 	if v == nil {
 		return
@@ -2491,10 +2491,10 @@ func (m *SilverK8sNodeNormalizedMutation) MergeKeysJSON() (r map[string][]string
 	return *v, true
 }
 
-// OldMergeKeysJSON returns the old "merge_keys_json" field's value of the SilverK8sNodeNormalized entity.
-// If the SilverK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldMergeKeysJSON returns the old "merge_keys_json" field's value of the InventoryK8sNodeNormalized entity.
+// If the InventoryK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeNormalizedMutation) OldMergeKeysJSON(ctx context.Context) (v map[string][]string, err error) {
+func (m *InventoryK8sNodeNormalizedMutation) OldMergeKeysJSON(ctx context.Context) (v map[string][]string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldMergeKeysJSON is only allowed on UpdateOne operations")
 	}
@@ -2509,17 +2509,17 @@ func (m *SilverK8sNodeNormalizedMutation) OldMergeKeysJSON(ctx context.Context) 
 }
 
 // ResetMergeKeysJSON resets all changes to the "merge_keys_json" field.
-func (m *SilverK8sNodeNormalizedMutation) ResetMergeKeysJSON() {
+func (m *InventoryK8sNodeNormalizedMutation) ResetMergeKeysJSON() {
 	m.merge_keys_json = nil
 }
 
 // SetCollectedAt sets the "collected_at" field.
-func (m *SilverK8sNodeNormalizedMutation) SetCollectedAt(t time.Time) {
+func (m *InventoryK8sNodeNormalizedMutation) SetCollectedAt(t time.Time) {
 	m.collected_at = &t
 }
 
 // CollectedAt returns the value of the "collected_at" field in the mutation.
-func (m *SilverK8sNodeNormalizedMutation) CollectedAt() (r time.Time, exists bool) {
+func (m *InventoryK8sNodeNormalizedMutation) CollectedAt() (r time.Time, exists bool) {
 	v := m.collected_at
 	if v == nil {
 		return
@@ -2527,10 +2527,10 @@ func (m *SilverK8sNodeNormalizedMutation) CollectedAt() (r time.Time, exists boo
 	return *v, true
 }
 
-// OldCollectedAt returns the old "collected_at" field's value of the SilverK8sNodeNormalized entity.
-// If the SilverK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldCollectedAt returns the old "collected_at" field's value of the InventoryK8sNodeNormalized entity.
+// If the InventoryK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeNormalizedMutation) OldCollectedAt(ctx context.Context) (v time.Time, err error) {
+func (m *InventoryK8sNodeNormalizedMutation) OldCollectedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCollectedAt is only allowed on UpdateOne operations")
 	}
@@ -2545,17 +2545,17 @@ func (m *SilverK8sNodeNormalizedMutation) OldCollectedAt(ctx context.Context) (v
 }
 
 // ResetCollectedAt resets all changes to the "collected_at" field.
-func (m *SilverK8sNodeNormalizedMutation) ResetCollectedAt() {
+func (m *InventoryK8sNodeNormalizedMutation) ResetCollectedAt() {
 	m.collected_at = nil
 }
 
 // SetFirstCollectedAt sets the "first_collected_at" field.
-func (m *SilverK8sNodeNormalizedMutation) SetFirstCollectedAt(t time.Time) {
+func (m *InventoryK8sNodeNormalizedMutation) SetFirstCollectedAt(t time.Time) {
 	m.first_collected_at = &t
 }
 
 // FirstCollectedAt returns the value of the "first_collected_at" field in the mutation.
-func (m *SilverK8sNodeNormalizedMutation) FirstCollectedAt() (r time.Time, exists bool) {
+func (m *InventoryK8sNodeNormalizedMutation) FirstCollectedAt() (r time.Time, exists bool) {
 	v := m.first_collected_at
 	if v == nil {
 		return
@@ -2563,10 +2563,10 @@ func (m *SilverK8sNodeNormalizedMutation) FirstCollectedAt() (r time.Time, exist
 	return *v, true
 }
 
-// OldFirstCollectedAt returns the old "first_collected_at" field's value of the SilverK8sNodeNormalized entity.
-// If the SilverK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldFirstCollectedAt returns the old "first_collected_at" field's value of the InventoryK8sNodeNormalized entity.
+// If the InventoryK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeNormalizedMutation) OldFirstCollectedAt(ctx context.Context) (v time.Time, err error) {
+func (m *InventoryK8sNodeNormalizedMutation) OldFirstCollectedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldFirstCollectedAt is only allowed on UpdateOne operations")
 	}
@@ -2581,17 +2581,17 @@ func (m *SilverK8sNodeNormalizedMutation) OldFirstCollectedAt(ctx context.Contex
 }
 
 // ResetFirstCollectedAt resets all changes to the "first_collected_at" field.
-func (m *SilverK8sNodeNormalizedMutation) ResetFirstCollectedAt() {
+func (m *InventoryK8sNodeNormalizedMutation) ResetFirstCollectedAt() {
 	m.first_collected_at = nil
 }
 
 // SetNormalizedAt sets the "normalized_at" field.
-func (m *SilverK8sNodeNormalizedMutation) SetNormalizedAt(t time.Time) {
+func (m *InventoryK8sNodeNormalizedMutation) SetNormalizedAt(t time.Time) {
 	m.normalized_at = &t
 }
 
 // NormalizedAt returns the value of the "normalized_at" field in the mutation.
-func (m *SilverK8sNodeNormalizedMutation) NormalizedAt() (r time.Time, exists bool) {
+func (m *InventoryK8sNodeNormalizedMutation) NormalizedAt() (r time.Time, exists bool) {
 	v := m.normalized_at
 	if v == nil {
 		return
@@ -2599,10 +2599,10 @@ func (m *SilverK8sNodeNormalizedMutation) NormalizedAt() (r time.Time, exists bo
 	return *v, true
 }
 
-// OldNormalizedAt returns the old "normalized_at" field's value of the SilverK8sNodeNormalized entity.
-// If the SilverK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldNormalizedAt returns the old "normalized_at" field's value of the InventoryK8sNodeNormalized entity.
+// If the InventoryK8sNodeNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverK8sNodeNormalizedMutation) OldNormalizedAt(ctx context.Context) (v time.Time, err error) {
+func (m *InventoryK8sNodeNormalizedMutation) OldNormalizedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldNormalizedAt is only allowed on UpdateOne operations")
 	}
@@ -2617,19 +2617,19 @@ func (m *SilverK8sNodeNormalizedMutation) OldNormalizedAt(ctx context.Context) (
 }
 
 // ResetNormalizedAt resets all changes to the "normalized_at" field.
-func (m *SilverK8sNodeNormalizedMutation) ResetNormalizedAt() {
+func (m *InventoryK8sNodeNormalizedMutation) ResetNormalizedAt() {
 	m.normalized_at = nil
 }
 
-// Where appends a list predicates to the SilverK8sNodeNormalizedMutation builder.
-func (m *SilverK8sNodeNormalizedMutation) Where(ps ...predicate.SilverK8sNodeNormalized) {
+// Where appends a list predicates to the InventoryK8sNodeNormalizedMutation builder.
+func (m *InventoryK8sNodeNormalizedMutation) Where(ps ...predicate.InventoryK8sNodeNormalized) {
 	m.predicates = append(m.predicates, ps...)
 }
 
-// WhereP appends storage-level predicates to the SilverK8sNodeNormalizedMutation builder. Using this method,
+// WhereP appends storage-level predicates to the InventoryK8sNodeNormalizedMutation builder. Using this method,
 // users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *SilverK8sNodeNormalizedMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.SilverK8sNodeNormalized, len(ps))
+func (m *InventoryK8sNodeNormalizedMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.InventoryK8sNodeNormalized, len(ps))
 	for i := range ps {
 		p[i] = ps[i]
 	}
@@ -2637,78 +2637,78 @@ func (m *SilverK8sNodeNormalizedMutation) WhereP(ps ...func(*sql.Selector)) {
 }
 
 // Op returns the operation name.
-func (m *SilverK8sNodeNormalizedMutation) Op() Op {
+func (m *InventoryK8sNodeNormalizedMutation) Op() Op {
 	return m.op
 }
 
 // SetOp allows setting the mutation operation.
-func (m *SilverK8sNodeNormalizedMutation) SetOp(op Op) {
+func (m *InventoryK8sNodeNormalizedMutation) SetOp(op Op) {
 	m.op = op
 }
 
-// Type returns the node type of this mutation (SilverK8sNodeNormalized).
-func (m *SilverK8sNodeNormalizedMutation) Type() string {
+// Type returns the node type of this mutation (InventoryK8sNodeNormalized).
+func (m *InventoryK8sNodeNormalizedMutation) Type() string {
 	return m.typ
 }
 
 // Fields returns all fields that were changed during this mutation. Note that in
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
-func (m *SilverK8sNodeNormalizedMutation) Fields() []string {
+func (m *InventoryK8sNodeNormalizedMutation) Fields() []string {
 	fields := make([]string, 0, 18)
 	if m.provider != nil {
-		fields = append(fields, silverk8snodenormalized.FieldProvider)
+		fields = append(fields, inventoryk8snodenormalized.FieldProvider)
 	}
 	if m.is_base != nil {
-		fields = append(fields, silverk8snodenormalized.FieldIsBase)
+		fields = append(fields, inventoryk8snodenormalized.FieldIsBase)
 	}
 	if m.bronze_table != nil {
-		fields = append(fields, silverk8snodenormalized.FieldBronzeTable)
+		fields = append(fields, inventoryk8snodenormalized.FieldBronzeTable)
 	}
 	if m.bronze_resource_id != nil {
-		fields = append(fields, silverk8snodenormalized.FieldBronzeResourceID)
+		fields = append(fields, inventoryk8snodenormalized.FieldBronzeResourceID)
 	}
 	if m.node_name != nil {
-		fields = append(fields, silverk8snodenormalized.FieldNodeName)
+		fields = append(fields, inventoryk8snodenormalized.FieldNodeName)
 	}
 	if m.cluster_name != nil {
-		fields = append(fields, silverk8snodenormalized.FieldClusterName)
+		fields = append(fields, inventoryk8snodenormalized.FieldClusterName)
 	}
 	if m.node_pool != nil {
-		fields = append(fields, silverk8snodenormalized.FieldNodePool)
+		fields = append(fields, inventoryk8snodenormalized.FieldNodePool)
 	}
 	if m.status != nil {
-		fields = append(fields, silverk8snodenormalized.FieldStatus)
+		fields = append(fields, inventoryk8snodenormalized.FieldStatus)
 	}
 	if m.provisioning != nil {
-		fields = append(fields, silverk8snodenormalized.FieldProvisioning)
+		fields = append(fields, inventoryk8snodenormalized.FieldProvisioning)
 	}
 	if m.cloud_project != nil {
-		fields = append(fields, silverk8snodenormalized.FieldCloudProject)
+		fields = append(fields, inventoryk8snodenormalized.FieldCloudProject)
 	}
 	if m.cloud_zone != nil {
-		fields = append(fields, silverk8snodenormalized.FieldCloudZone)
+		fields = append(fields, inventoryk8snodenormalized.FieldCloudZone)
 	}
 	if m.cloud_machine_type != nil {
-		fields = append(fields, silverk8snodenormalized.FieldCloudMachineType)
+		fields = append(fields, inventoryk8snodenormalized.FieldCloudMachineType)
 	}
 	if m.internal_ip != nil {
-		fields = append(fields, silverk8snodenormalized.FieldInternalIP)
+		fields = append(fields, inventoryk8snodenormalized.FieldInternalIP)
 	}
 	if m.external_ip != nil {
-		fields = append(fields, silverk8snodenormalized.FieldExternalIP)
+		fields = append(fields, inventoryk8snodenormalized.FieldExternalIP)
 	}
 	if m.merge_keys_json != nil {
-		fields = append(fields, silverk8snodenormalized.FieldMergeKeysJSON)
+		fields = append(fields, inventoryk8snodenormalized.FieldMergeKeysJSON)
 	}
 	if m.collected_at != nil {
-		fields = append(fields, silverk8snodenormalized.FieldCollectedAt)
+		fields = append(fields, inventoryk8snodenormalized.FieldCollectedAt)
 	}
 	if m.first_collected_at != nil {
-		fields = append(fields, silverk8snodenormalized.FieldFirstCollectedAt)
+		fields = append(fields, inventoryk8snodenormalized.FieldFirstCollectedAt)
 	}
 	if m.normalized_at != nil {
-		fields = append(fields, silverk8snodenormalized.FieldNormalizedAt)
+		fields = append(fields, inventoryk8snodenormalized.FieldNormalizedAt)
 	}
 	return fields
 }
@@ -2716,43 +2716,43 @@ func (m *SilverK8sNodeNormalizedMutation) Fields() []string {
 // Field returns the value of a field with the given name. The second boolean
 // return value indicates that this field was not set, or was not defined in the
 // schema.
-func (m *SilverK8sNodeNormalizedMutation) Field(name string) (ent.Value, bool) {
+func (m *InventoryK8sNodeNormalizedMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case silverk8snodenormalized.FieldProvider:
+	case inventoryk8snodenormalized.FieldProvider:
 		return m.Provider()
-	case silverk8snodenormalized.FieldIsBase:
+	case inventoryk8snodenormalized.FieldIsBase:
 		return m.IsBase()
-	case silverk8snodenormalized.FieldBronzeTable:
+	case inventoryk8snodenormalized.FieldBronzeTable:
 		return m.BronzeTable()
-	case silverk8snodenormalized.FieldBronzeResourceID:
+	case inventoryk8snodenormalized.FieldBronzeResourceID:
 		return m.BronzeResourceID()
-	case silverk8snodenormalized.FieldNodeName:
+	case inventoryk8snodenormalized.FieldNodeName:
 		return m.NodeName()
-	case silverk8snodenormalized.FieldClusterName:
+	case inventoryk8snodenormalized.FieldClusterName:
 		return m.ClusterName()
-	case silverk8snodenormalized.FieldNodePool:
+	case inventoryk8snodenormalized.FieldNodePool:
 		return m.NodePool()
-	case silverk8snodenormalized.FieldStatus:
+	case inventoryk8snodenormalized.FieldStatus:
 		return m.Status()
-	case silverk8snodenormalized.FieldProvisioning:
+	case inventoryk8snodenormalized.FieldProvisioning:
 		return m.Provisioning()
-	case silverk8snodenormalized.FieldCloudProject:
+	case inventoryk8snodenormalized.FieldCloudProject:
 		return m.CloudProject()
-	case silverk8snodenormalized.FieldCloudZone:
+	case inventoryk8snodenormalized.FieldCloudZone:
 		return m.CloudZone()
-	case silverk8snodenormalized.FieldCloudMachineType:
+	case inventoryk8snodenormalized.FieldCloudMachineType:
 		return m.CloudMachineType()
-	case silverk8snodenormalized.FieldInternalIP:
+	case inventoryk8snodenormalized.FieldInternalIP:
 		return m.InternalIP()
-	case silverk8snodenormalized.FieldExternalIP:
+	case inventoryk8snodenormalized.FieldExternalIP:
 		return m.ExternalIP()
-	case silverk8snodenormalized.FieldMergeKeysJSON:
+	case inventoryk8snodenormalized.FieldMergeKeysJSON:
 		return m.MergeKeysJSON()
-	case silverk8snodenormalized.FieldCollectedAt:
+	case inventoryk8snodenormalized.FieldCollectedAt:
 		return m.CollectedAt()
-	case silverk8snodenormalized.FieldFirstCollectedAt:
+	case inventoryk8snodenormalized.FieldFirstCollectedAt:
 		return m.FirstCollectedAt()
-	case silverk8snodenormalized.FieldNormalizedAt:
+	case inventoryk8snodenormalized.FieldNormalizedAt:
 		return m.NormalizedAt()
 	}
 	return nil, false
@@ -2761,173 +2761,173 @@ func (m *SilverK8sNodeNormalizedMutation) Field(name string) (ent.Value, bool) {
 // OldField returns the old value of the field from the database. An error is
 // returned if the mutation operation is not UpdateOne, or the query to the
 // database failed.
-func (m *SilverK8sNodeNormalizedMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+func (m *InventoryK8sNodeNormalizedMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case silverk8snodenormalized.FieldProvider:
+	case inventoryk8snodenormalized.FieldProvider:
 		return m.OldProvider(ctx)
-	case silverk8snodenormalized.FieldIsBase:
+	case inventoryk8snodenormalized.FieldIsBase:
 		return m.OldIsBase(ctx)
-	case silverk8snodenormalized.FieldBronzeTable:
+	case inventoryk8snodenormalized.FieldBronzeTable:
 		return m.OldBronzeTable(ctx)
-	case silverk8snodenormalized.FieldBronzeResourceID:
+	case inventoryk8snodenormalized.FieldBronzeResourceID:
 		return m.OldBronzeResourceID(ctx)
-	case silverk8snodenormalized.FieldNodeName:
+	case inventoryk8snodenormalized.FieldNodeName:
 		return m.OldNodeName(ctx)
-	case silverk8snodenormalized.FieldClusterName:
+	case inventoryk8snodenormalized.FieldClusterName:
 		return m.OldClusterName(ctx)
-	case silverk8snodenormalized.FieldNodePool:
+	case inventoryk8snodenormalized.FieldNodePool:
 		return m.OldNodePool(ctx)
-	case silverk8snodenormalized.FieldStatus:
+	case inventoryk8snodenormalized.FieldStatus:
 		return m.OldStatus(ctx)
-	case silverk8snodenormalized.FieldProvisioning:
+	case inventoryk8snodenormalized.FieldProvisioning:
 		return m.OldProvisioning(ctx)
-	case silverk8snodenormalized.FieldCloudProject:
+	case inventoryk8snodenormalized.FieldCloudProject:
 		return m.OldCloudProject(ctx)
-	case silverk8snodenormalized.FieldCloudZone:
+	case inventoryk8snodenormalized.FieldCloudZone:
 		return m.OldCloudZone(ctx)
-	case silverk8snodenormalized.FieldCloudMachineType:
+	case inventoryk8snodenormalized.FieldCloudMachineType:
 		return m.OldCloudMachineType(ctx)
-	case silverk8snodenormalized.FieldInternalIP:
+	case inventoryk8snodenormalized.FieldInternalIP:
 		return m.OldInternalIP(ctx)
-	case silverk8snodenormalized.FieldExternalIP:
+	case inventoryk8snodenormalized.FieldExternalIP:
 		return m.OldExternalIP(ctx)
-	case silverk8snodenormalized.FieldMergeKeysJSON:
+	case inventoryk8snodenormalized.FieldMergeKeysJSON:
 		return m.OldMergeKeysJSON(ctx)
-	case silverk8snodenormalized.FieldCollectedAt:
+	case inventoryk8snodenormalized.FieldCollectedAt:
 		return m.OldCollectedAt(ctx)
-	case silverk8snodenormalized.FieldFirstCollectedAt:
+	case inventoryk8snodenormalized.FieldFirstCollectedAt:
 		return m.OldFirstCollectedAt(ctx)
-	case silverk8snodenormalized.FieldNormalizedAt:
+	case inventoryk8snodenormalized.FieldNormalizedAt:
 		return m.OldNormalizedAt(ctx)
 	}
-	return nil, fmt.Errorf("unknown SilverK8sNodeNormalized field %s", name)
+	return nil, fmt.Errorf("unknown InventoryK8sNodeNormalized field %s", name)
 }
 
 // SetField sets the value of a field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *SilverK8sNodeNormalizedMutation) SetField(name string, value ent.Value) error {
+func (m *InventoryK8sNodeNormalizedMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case silverk8snodenormalized.FieldProvider:
+	case inventoryk8snodenormalized.FieldProvider:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetProvider(v)
 		return nil
-	case silverk8snodenormalized.FieldIsBase:
+	case inventoryk8snodenormalized.FieldIsBase:
 		v, ok := value.(bool)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetIsBase(v)
 		return nil
-	case silverk8snodenormalized.FieldBronzeTable:
+	case inventoryk8snodenormalized.FieldBronzeTable:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetBronzeTable(v)
 		return nil
-	case silverk8snodenormalized.FieldBronzeResourceID:
+	case inventoryk8snodenormalized.FieldBronzeResourceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetBronzeResourceID(v)
 		return nil
-	case silverk8snodenormalized.FieldNodeName:
+	case inventoryk8snodenormalized.FieldNodeName:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetNodeName(v)
 		return nil
-	case silverk8snodenormalized.FieldClusterName:
+	case inventoryk8snodenormalized.FieldClusterName:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetClusterName(v)
 		return nil
-	case silverk8snodenormalized.FieldNodePool:
+	case inventoryk8snodenormalized.FieldNodePool:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetNodePool(v)
 		return nil
-	case silverk8snodenormalized.FieldStatus:
+	case inventoryk8snodenormalized.FieldStatus:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetStatus(v)
 		return nil
-	case silverk8snodenormalized.FieldProvisioning:
+	case inventoryk8snodenormalized.FieldProvisioning:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetProvisioning(v)
 		return nil
-	case silverk8snodenormalized.FieldCloudProject:
+	case inventoryk8snodenormalized.FieldCloudProject:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCloudProject(v)
 		return nil
-	case silverk8snodenormalized.FieldCloudZone:
+	case inventoryk8snodenormalized.FieldCloudZone:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCloudZone(v)
 		return nil
-	case silverk8snodenormalized.FieldCloudMachineType:
+	case inventoryk8snodenormalized.FieldCloudMachineType:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCloudMachineType(v)
 		return nil
-	case silverk8snodenormalized.FieldInternalIP:
+	case inventoryk8snodenormalized.FieldInternalIP:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetInternalIP(v)
 		return nil
-	case silverk8snodenormalized.FieldExternalIP:
+	case inventoryk8snodenormalized.FieldExternalIP:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetExternalIP(v)
 		return nil
-	case silverk8snodenormalized.FieldMergeKeysJSON:
+	case inventoryk8snodenormalized.FieldMergeKeysJSON:
 		v, ok := value.(map[string][]string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetMergeKeysJSON(v)
 		return nil
-	case silverk8snodenormalized.FieldCollectedAt:
+	case inventoryk8snodenormalized.FieldCollectedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCollectedAt(v)
 		return nil
-	case silverk8snodenormalized.FieldFirstCollectedAt:
+	case inventoryk8snodenormalized.FieldFirstCollectedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetFirstCollectedAt(v)
 		return nil
-	case silverk8snodenormalized.FieldNormalizedAt:
+	case inventoryk8snodenormalized.FieldNormalizedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
@@ -2935,213 +2935,213 @@ func (m *SilverK8sNodeNormalizedMutation) SetField(name string, value ent.Value)
 		m.SetNormalizedAt(v)
 		return nil
 	}
-	return fmt.Errorf("unknown SilverK8sNodeNormalized field %s", name)
+	return fmt.Errorf("unknown InventoryK8sNodeNormalized field %s", name)
 }
 
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
-func (m *SilverK8sNodeNormalizedMutation) AddedFields() []string {
+func (m *InventoryK8sNodeNormalizedMutation) AddedFields() []string {
 	return nil
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
-func (m *SilverK8sNodeNormalizedMutation) AddedField(name string) (ent.Value, bool) {
+func (m *InventoryK8sNodeNormalizedMutation) AddedField(name string) (ent.Value, bool) {
 	return nil, false
 }
 
 // AddField adds the value to the field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *SilverK8sNodeNormalizedMutation) AddField(name string, value ent.Value) error {
+func (m *InventoryK8sNodeNormalizedMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	}
-	return fmt.Errorf("unknown SilverK8sNodeNormalized numeric field %s", name)
+	return fmt.Errorf("unknown InventoryK8sNodeNormalized numeric field %s", name)
 }
 
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
-func (m *SilverK8sNodeNormalizedMutation) ClearedFields() []string {
+func (m *InventoryK8sNodeNormalizedMutation) ClearedFields() []string {
 	var fields []string
-	if m.FieldCleared(silverk8snodenormalized.FieldNodeName) {
-		fields = append(fields, silverk8snodenormalized.FieldNodeName)
+	if m.FieldCleared(inventoryk8snodenormalized.FieldNodeName) {
+		fields = append(fields, inventoryk8snodenormalized.FieldNodeName)
 	}
-	if m.FieldCleared(silverk8snodenormalized.FieldClusterName) {
-		fields = append(fields, silverk8snodenormalized.FieldClusterName)
+	if m.FieldCleared(inventoryk8snodenormalized.FieldClusterName) {
+		fields = append(fields, inventoryk8snodenormalized.FieldClusterName)
 	}
-	if m.FieldCleared(silverk8snodenormalized.FieldNodePool) {
-		fields = append(fields, silverk8snodenormalized.FieldNodePool)
+	if m.FieldCleared(inventoryk8snodenormalized.FieldNodePool) {
+		fields = append(fields, inventoryk8snodenormalized.FieldNodePool)
 	}
-	if m.FieldCleared(silverk8snodenormalized.FieldProvisioning) {
-		fields = append(fields, silverk8snodenormalized.FieldProvisioning)
+	if m.FieldCleared(inventoryk8snodenormalized.FieldProvisioning) {
+		fields = append(fields, inventoryk8snodenormalized.FieldProvisioning)
 	}
-	if m.FieldCleared(silverk8snodenormalized.FieldCloudProject) {
-		fields = append(fields, silverk8snodenormalized.FieldCloudProject)
+	if m.FieldCleared(inventoryk8snodenormalized.FieldCloudProject) {
+		fields = append(fields, inventoryk8snodenormalized.FieldCloudProject)
 	}
-	if m.FieldCleared(silverk8snodenormalized.FieldCloudZone) {
-		fields = append(fields, silverk8snodenormalized.FieldCloudZone)
+	if m.FieldCleared(inventoryk8snodenormalized.FieldCloudZone) {
+		fields = append(fields, inventoryk8snodenormalized.FieldCloudZone)
 	}
-	if m.FieldCleared(silverk8snodenormalized.FieldCloudMachineType) {
-		fields = append(fields, silverk8snodenormalized.FieldCloudMachineType)
+	if m.FieldCleared(inventoryk8snodenormalized.FieldCloudMachineType) {
+		fields = append(fields, inventoryk8snodenormalized.FieldCloudMachineType)
 	}
-	if m.FieldCleared(silverk8snodenormalized.FieldInternalIP) {
-		fields = append(fields, silverk8snodenormalized.FieldInternalIP)
+	if m.FieldCleared(inventoryk8snodenormalized.FieldInternalIP) {
+		fields = append(fields, inventoryk8snodenormalized.FieldInternalIP)
 	}
-	if m.FieldCleared(silverk8snodenormalized.FieldExternalIP) {
-		fields = append(fields, silverk8snodenormalized.FieldExternalIP)
+	if m.FieldCleared(inventoryk8snodenormalized.FieldExternalIP) {
+		fields = append(fields, inventoryk8snodenormalized.FieldExternalIP)
 	}
 	return fields
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
 // cleared in this mutation.
-func (m *SilverK8sNodeNormalizedMutation) FieldCleared(name string) bool {
+func (m *InventoryK8sNodeNormalizedMutation) FieldCleared(name string) bool {
 	_, ok := m.clearedFields[name]
 	return ok
 }
 
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
-func (m *SilverK8sNodeNormalizedMutation) ClearField(name string) error {
+func (m *InventoryK8sNodeNormalizedMutation) ClearField(name string) error {
 	switch name {
-	case silverk8snodenormalized.FieldNodeName:
+	case inventoryk8snodenormalized.FieldNodeName:
 		m.ClearNodeName()
 		return nil
-	case silverk8snodenormalized.FieldClusterName:
+	case inventoryk8snodenormalized.FieldClusterName:
 		m.ClearClusterName()
 		return nil
-	case silverk8snodenormalized.FieldNodePool:
+	case inventoryk8snodenormalized.FieldNodePool:
 		m.ClearNodePool()
 		return nil
-	case silverk8snodenormalized.FieldProvisioning:
+	case inventoryk8snodenormalized.FieldProvisioning:
 		m.ClearProvisioning()
 		return nil
-	case silverk8snodenormalized.FieldCloudProject:
+	case inventoryk8snodenormalized.FieldCloudProject:
 		m.ClearCloudProject()
 		return nil
-	case silverk8snodenormalized.FieldCloudZone:
+	case inventoryk8snodenormalized.FieldCloudZone:
 		m.ClearCloudZone()
 		return nil
-	case silverk8snodenormalized.FieldCloudMachineType:
+	case inventoryk8snodenormalized.FieldCloudMachineType:
 		m.ClearCloudMachineType()
 		return nil
-	case silverk8snodenormalized.FieldInternalIP:
+	case inventoryk8snodenormalized.FieldInternalIP:
 		m.ClearInternalIP()
 		return nil
-	case silverk8snodenormalized.FieldExternalIP:
+	case inventoryk8snodenormalized.FieldExternalIP:
 		m.ClearExternalIP()
 		return nil
 	}
-	return fmt.Errorf("unknown SilverK8sNodeNormalized nullable field %s", name)
+	return fmt.Errorf("unknown InventoryK8sNodeNormalized nullable field %s", name)
 }
 
 // ResetField resets all changes in the mutation for the field with the given name.
 // It returns an error if the field is not defined in the schema.
-func (m *SilverK8sNodeNormalizedMutation) ResetField(name string) error {
+func (m *InventoryK8sNodeNormalizedMutation) ResetField(name string) error {
 	switch name {
-	case silverk8snodenormalized.FieldProvider:
+	case inventoryk8snodenormalized.FieldProvider:
 		m.ResetProvider()
 		return nil
-	case silverk8snodenormalized.FieldIsBase:
+	case inventoryk8snodenormalized.FieldIsBase:
 		m.ResetIsBase()
 		return nil
-	case silverk8snodenormalized.FieldBronzeTable:
+	case inventoryk8snodenormalized.FieldBronzeTable:
 		m.ResetBronzeTable()
 		return nil
-	case silverk8snodenormalized.FieldBronzeResourceID:
+	case inventoryk8snodenormalized.FieldBronzeResourceID:
 		m.ResetBronzeResourceID()
 		return nil
-	case silverk8snodenormalized.FieldNodeName:
+	case inventoryk8snodenormalized.FieldNodeName:
 		m.ResetNodeName()
 		return nil
-	case silverk8snodenormalized.FieldClusterName:
+	case inventoryk8snodenormalized.FieldClusterName:
 		m.ResetClusterName()
 		return nil
-	case silverk8snodenormalized.FieldNodePool:
+	case inventoryk8snodenormalized.FieldNodePool:
 		m.ResetNodePool()
 		return nil
-	case silverk8snodenormalized.FieldStatus:
+	case inventoryk8snodenormalized.FieldStatus:
 		m.ResetStatus()
 		return nil
-	case silverk8snodenormalized.FieldProvisioning:
+	case inventoryk8snodenormalized.FieldProvisioning:
 		m.ResetProvisioning()
 		return nil
-	case silverk8snodenormalized.FieldCloudProject:
+	case inventoryk8snodenormalized.FieldCloudProject:
 		m.ResetCloudProject()
 		return nil
-	case silverk8snodenormalized.FieldCloudZone:
+	case inventoryk8snodenormalized.FieldCloudZone:
 		m.ResetCloudZone()
 		return nil
-	case silverk8snodenormalized.FieldCloudMachineType:
+	case inventoryk8snodenormalized.FieldCloudMachineType:
 		m.ResetCloudMachineType()
 		return nil
-	case silverk8snodenormalized.FieldInternalIP:
+	case inventoryk8snodenormalized.FieldInternalIP:
 		m.ResetInternalIP()
 		return nil
-	case silverk8snodenormalized.FieldExternalIP:
+	case inventoryk8snodenormalized.FieldExternalIP:
 		m.ResetExternalIP()
 		return nil
-	case silverk8snodenormalized.FieldMergeKeysJSON:
+	case inventoryk8snodenormalized.FieldMergeKeysJSON:
 		m.ResetMergeKeysJSON()
 		return nil
-	case silverk8snodenormalized.FieldCollectedAt:
+	case inventoryk8snodenormalized.FieldCollectedAt:
 		m.ResetCollectedAt()
 		return nil
-	case silverk8snodenormalized.FieldFirstCollectedAt:
+	case inventoryk8snodenormalized.FieldFirstCollectedAt:
 		m.ResetFirstCollectedAt()
 		return nil
-	case silverk8snodenormalized.FieldNormalizedAt:
+	case inventoryk8snodenormalized.FieldNormalizedAt:
 		m.ResetNormalizedAt()
 		return nil
 	}
-	return fmt.Errorf("unknown SilverK8sNodeNormalized field %s", name)
+	return fmt.Errorf("unknown InventoryK8sNodeNormalized field %s", name)
 }
 
 // AddedEdges returns all edge names that were set/added in this mutation.
-func (m *SilverK8sNodeNormalizedMutation) AddedEdges() []string {
+func (m *InventoryK8sNodeNormalizedMutation) AddedEdges() []string {
 	edges := make([]string, 0, 0)
 	return edges
 }
 
 // AddedIDs returns all IDs (to other nodes) that were added for the given edge
 // name in this mutation.
-func (m *SilverK8sNodeNormalizedMutation) AddedIDs(name string) []ent.Value {
+func (m *InventoryK8sNodeNormalizedMutation) AddedIDs(name string) []ent.Value {
 	return nil
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
-func (m *SilverK8sNodeNormalizedMutation) RemovedEdges() []string {
+func (m *InventoryK8sNodeNormalizedMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 0)
 	return edges
 }
 
 // RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
 // the given name in this mutation.
-func (m *SilverK8sNodeNormalizedMutation) RemovedIDs(name string) []ent.Value {
+func (m *InventoryK8sNodeNormalizedMutation) RemovedIDs(name string) []ent.Value {
 	return nil
 }
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *SilverK8sNodeNormalizedMutation) ClearedEdges() []string {
+func (m *InventoryK8sNodeNormalizedMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 0)
 	return edges
 }
 
 // EdgeCleared returns a boolean which indicates if the edge with the given name
 // was cleared in this mutation.
-func (m *SilverK8sNodeNormalizedMutation) EdgeCleared(name string) bool {
+func (m *InventoryK8sNodeNormalizedMutation) EdgeCleared(name string) bool {
 	return false
 }
 
 // ClearEdge clears the value of the edge with the given name. It returns an error
 // if that edge is not defined in the schema.
-func (m *SilverK8sNodeNormalizedMutation) ClearEdge(name string) error {
-	return fmt.Errorf("unknown SilverK8sNodeNormalized unique edge %s", name)
+func (m *InventoryK8sNodeNormalizedMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown InventoryK8sNodeNormalized unique edge %s", name)
 }
 
 // ResetEdge resets all changes to the edge with the given name in this mutation.
 // It returns an error if the edge is not defined in the schema.
-func (m *SilverK8sNodeNormalizedMutation) ResetEdge(name string) error {
-	return fmt.Errorf("unknown SilverK8sNodeNormalized edge %s", name)
+func (m *InventoryK8sNodeNormalizedMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown InventoryK8sNodeNormalized edge %s", name)
 }

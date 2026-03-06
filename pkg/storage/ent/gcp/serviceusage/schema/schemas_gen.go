@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_serviceusage "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/serviceusage"
-	bronzehistory_gcp_serviceusage "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/serviceusage"
+	bronze_gcp_serviceusage "danny.vn/hotpot/pkg/schema/bronze/gcp/serviceusage"
+	bronzehistory_gcp_serviceusage "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/serviceusage"
 )
 
 type BronzeGCPServiceUsageEnabledService struct {

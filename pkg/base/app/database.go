@@ -11,7 +11,7 @@ import (
 	entsql "entgo.io/ent/dialect/sql"
 	_ "github.com/jackc/pgx/v5/stdlib"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/config"
 )
 
 // dbManager handles database connections with hot-reload support.

@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/bronzegcpsqlinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/sql/bronzegcpsqlinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/sql/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/sql/predicate"
 )
 
 // BronzeGCPSQLInstanceDelete is the builder for deleting a BronzeGCPSQLInstance entity.

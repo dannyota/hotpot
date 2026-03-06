@@ -3,10 +3,10 @@ package source
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
-	entsecuritycenter "github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entresourcemanager "danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	entsecuritycenter "danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter"
 )
 
 // Register registers all SCC source activities and workflows.

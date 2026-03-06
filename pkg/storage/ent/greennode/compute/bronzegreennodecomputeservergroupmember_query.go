@@ -11,10 +11,10 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeservergroup"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeservergroupmember"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeservergroup"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeservergroupmember"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/predicate"
 )
 
 // BronzeGreenNodeComputeServerGroupMemberQuery is the builder for querying BronzeGreenNodeComputeServerGroupMember entities.

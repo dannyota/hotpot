@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzehistorygcpvpngatewaylabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/bronzehistorygcpvpngatewaylabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/predicate"
 )
 
 // BronzeHistoryGCPVPNGatewayLabelDelete is the builder for deleting a BronzeHistoryGCPVPNGatewayLabel entity.

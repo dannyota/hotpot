@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputeservergroup"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputeservergroupmember"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/greennode/compute"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputeservergroup"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputeservergroupmember"
 )
 
 // HistoryService handles history tracking for server groups.

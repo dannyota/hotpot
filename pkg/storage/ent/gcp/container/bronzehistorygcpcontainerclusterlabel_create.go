@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusterlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusterlabel"
 )
 
 // BronzeHistoryGCPContainerClusterLabelCreate is the builder for creating a BronzeHistoryGCPContainerClusterLabel entity.

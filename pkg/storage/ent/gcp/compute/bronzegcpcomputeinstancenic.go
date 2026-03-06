@@ -8,8 +8,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancenic"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancenic"
 )
 
 // BronzeGCPComputeInstanceNIC is the model entity for the BronzeGCPComputeInstanceNIC schema.

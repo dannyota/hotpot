@@ -9,17 +9,17 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/binaryauthorization/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization/bronzegcpbinaryauthorizationattestor"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization/bronzegcpbinaryauthorizationpolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization/bronzehistorygcpbinaryauthorizationattestor"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization/bronzehistorygcpbinaryauthorizationpolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/binaryauthorization/bronzegcpbinaryauthorizationattestor"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/binaryauthorization/bronzegcpbinaryauthorizationpolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/binaryauthorization/bronzehistorygcpbinaryauthorizationattestor"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/binaryauthorization/bronzehistorygcpbinaryauthorizationpolicy"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/binaryauthorization/internal"
 )
 
 // Client is the client that holds all ent builders.

@@ -3,10 +3,10 @@ package asset
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entcloudasset "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset"
-	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entcloudasset "danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset"
+	entresourcemanager "danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // Register registers all Cloud Asset asset activities and workflows.

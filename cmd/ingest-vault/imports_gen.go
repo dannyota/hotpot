@@ -3,6 +3,6 @@
 package main
 
 import (
-	_ "github.com/dannyota/hotpot/pkg/ingest/vault"
-	_ "github.com/dannyota/hotpot/pkg/ingest/vault/pki"
+	_ "danny.vn/hotpot/pkg/ingest/vault"
+	_ "danny.vn/hotpot/pkg/ingest/vault/pki"
 )

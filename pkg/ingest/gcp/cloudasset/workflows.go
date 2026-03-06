@@ -6,10 +6,10 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/cloudasset/asset"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/cloudasset/iampolicysearch"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/cloudasset/resourcesearch"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	"danny.vn/hotpot/pkg/ingest/gcp/cloudasset/asset"
+	"danny.vn/hotpot/pkg/ingest/gcp/cloudasset/iampolicysearch"
+	"danny.vn/hotpot/pkg/ingest/gcp/cloudasset/resourcesearch"
 )
 
 // GCPCloudAssetWorkflowParams contains parameters for the Cloud Asset workflow.

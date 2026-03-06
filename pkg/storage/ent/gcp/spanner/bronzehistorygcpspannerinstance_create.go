@@ -11,7 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/bronzehistorygcpspannerinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/spanner/bronzehistorygcpspannerinstance"
 )
 
 // BronzeHistoryGCPSpannerInstanceCreate is the builder for creating a BronzeHistoryGCPSpannerInstance entity.

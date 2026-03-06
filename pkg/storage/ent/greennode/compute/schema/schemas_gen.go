@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_greennode_compute "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/compute"
-	bronzehistory_greennode_compute "github.com/dannyota/hotpot/pkg/schema/bronzehistory/greennode/compute"
+	bronze_greennode_compute "danny.vn/hotpot/pkg/schema/bronze/greennode/compute"
+	bronzehistory_greennode_compute "danny.vn/hotpot/pkg/schema/bronzehistory/greennode/compute"
 )
 
 type BronzeGreenNodeComputeOSImage struct {

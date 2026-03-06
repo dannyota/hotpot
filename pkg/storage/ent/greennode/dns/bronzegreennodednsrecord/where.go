@@ -5,8 +5,8 @@ package bronzegreennodednsrecord
 import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/predicate"
 )
 
 // ID filters vertices based on their ID field.

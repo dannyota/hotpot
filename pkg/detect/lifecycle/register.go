@@ -6,8 +6,8 @@ import (
 	"entgo.io/ent/dialect"
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	entlifecycle "github.com/dannyota/hotpot/pkg/storage/ent/lifecycle"
+	"danny.vn/hotpot/pkg/base/config"
+	entlifecycle "danny.vn/hotpot/pkg/storage/ent/lifecycle"
 )
 
 // Register wires lifecycle detection activities and workflow to the worker.

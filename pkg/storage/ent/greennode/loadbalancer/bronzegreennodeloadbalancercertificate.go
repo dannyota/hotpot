@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzegreennodeloadbalancercertificate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzegreennodeloadbalancercertificate"
 )
 
 // BronzeGreenNodeLoadBalancerCertificate is the model entity for the BronzeGreenNodeLoadBalancerCertificate schema.

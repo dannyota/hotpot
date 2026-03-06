@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeserver"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeserver"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/predicate"
 )
 
 // BronzeGreenNodeComputeServerDelete is the builder for deleting a BronzeGreenNodeComputeServer entity.

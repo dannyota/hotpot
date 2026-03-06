@@ -4,7 +4,7 @@ package schema
 import (
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
-	bronzehistory_aws_ec2 "github.com/dannyota/hotpot/pkg/schema/bronzehistory/aws/ec2"
+	bronzehistory_aws_ec2 "danny.vn/hotpot/pkg/schema/bronzehistory/aws/ec2"
 )
 
 type BronzeHistoryAWSEC2Instance struct {

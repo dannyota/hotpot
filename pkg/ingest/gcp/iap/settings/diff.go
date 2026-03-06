@@ -3,7 +3,7 @@ package settings
 import (
 	"bytes"
 
-	entiap "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap"
+	entiap "danny.vn/hotpot/pkg/storage/ent/gcp/iap"
 )
 
 // SettingsDiff represents changes between old and new IAP settings state.

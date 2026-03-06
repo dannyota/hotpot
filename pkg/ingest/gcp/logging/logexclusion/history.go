@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entlogging "github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzehistorygcplogginglogexclusion"
+	entlogging "danny.vn/hotpot/pkg/storage/ent/gcp/logging"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/bronzehistorygcplogginglogexclusion"
 )
 
 // HistoryService handles history tracking for log exclusions.

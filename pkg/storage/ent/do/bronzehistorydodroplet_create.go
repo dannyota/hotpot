@@ -11,7 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodroplet"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydodroplet"
 )
 
 // BronzeHistoryDODropletCreate is the builder for creating a BronzeHistoryDODroplet entity.

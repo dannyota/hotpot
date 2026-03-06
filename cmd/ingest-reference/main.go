@@ -5,12 +5,12 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/dannyota/hotpot/pkg/base/app"
-	"github.com/dannyota/hotpot/pkg/base/logger"
-	"github.com/dannyota/hotpot/pkg/ingest"
+	"danny.vn/hotpot/pkg/base/app"
+	"danny.vn/hotpot/pkg/base/logger"
+	"danny.vn/hotpot/pkg/ingest"
 )
 
-//go:generate go run github.com/dannyota/hotpot/tools/ingestgen
+//go:generate go run danny.vn/hotpot/tools/ingestgen
 
 var _ = ingest.ProviderSet("reference")
 

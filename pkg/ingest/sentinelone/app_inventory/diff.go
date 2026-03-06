@@ -1,6 +1,6 @@
 package app_inventory
 
-import ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
+import ents1 "danny.vn/hotpot/pkg/storage/ent/s1"
 
 // AppInventoryDiff represents changes between old and new app inventory states.
 type AppInventoryDiff struct {

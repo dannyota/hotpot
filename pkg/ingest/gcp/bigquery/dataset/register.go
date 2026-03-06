@@ -3,9 +3,9 @@ package dataset
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entbigquery "github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entbigquery "danny.vn/hotpot/pkg/storage/ent/gcp/bigquery"
 )
 
 // Register registers all BigQuery dataset activities and workflows.

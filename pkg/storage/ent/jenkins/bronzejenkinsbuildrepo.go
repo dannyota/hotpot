@@ -8,8 +8,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzejenkinsbuild"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzejenkinsbuildrepo"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzejenkinsbuild"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzejenkinsbuildrepo"
 )
 
 // BronzeJenkinsBuildRepo is the model entity for the BronzeJenkinsBuildRepo schema.

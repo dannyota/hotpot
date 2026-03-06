@@ -2,17 +2,17 @@
 package schema
 
 import (
-	silver_k8snode "github.com/dannyota/hotpot/pkg/schema/silver/k8snode"
+	inventory_k8snode "danny.vn/hotpot/pkg/schema/inventory/k8snode"
 )
 
-type SilverK8sNode struct {
-	silver_k8snode.SilverK8sNode
+type InventoryK8sNode struct {
+	inventory_k8snode.InventoryK8sNode
 }
 
-type SilverK8sNodeBronzeLink struct {
-	silver_k8snode.SilverK8sNodeBronzeLink
+type InventoryK8sNodeBronzeLink struct {
+	inventory_k8snode.InventoryK8sNodeBronzeLink
 }
 
-type SilverK8sNodeNormalized struct {
-	silver_k8snode.SilverK8sNodeNormalized
+type InventoryK8sNodeNormalized struct {
+	inventory_k8snode.InventoryK8sNodeNormalized
 }

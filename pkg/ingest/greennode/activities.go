@@ -11,9 +11,9 @@ import (
 	"danny.vn/greennode/option"
 	portalv1 "danny.vn/greennode/services/portal/v1"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/base/temporalerr"
 )
 
 // Activities holds dependencies for top-level GreenNode activities.

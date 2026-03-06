@@ -8,8 +8,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpproject"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpprojectlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpproject"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpprojectlabel"
 )
 
 // BronzeGCPProjectLabel is the model entity for the BronzeGCPProjectLabel schema.

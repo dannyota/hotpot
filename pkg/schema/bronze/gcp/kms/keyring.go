@@ -7,7 +7,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 
-	"github.com/dannyota/hotpot/pkg/schema/bronze/mixin"
+	"danny.vn/hotpot/pkg/schema/bronze/mixin"
 )
 
 // BronzeGCPKMSKeyRing represents a GCP Cloud KMS key ring in the bronze layer.

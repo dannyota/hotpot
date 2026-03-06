@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entvol "github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumeblockvolume"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumesnapshot"
+	entvol "danny.vn/hotpot/pkg/storage/ent/greennode/volume"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumeblockvolume"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumesnapshot"
 )
 
 // HistoryService handles history tracking for block volumes.

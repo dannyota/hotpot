@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/bronzegcpcloudassetresourcesearch"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/bronzegcpcloudassetresourcesearch"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/predicate"
 )
 
 // BronzeGCPCloudAssetResourceSearchDelete is the builder for deleting a BronzeGCPCloudAssetResourceSearch entity.

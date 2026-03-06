@@ -11,7 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesslpolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesslpolicy"
 )
 
 // BronzeGCPComputeSslPolicyCreate is the builder for creating a BronzeGCPComputeSslPolicy entity.

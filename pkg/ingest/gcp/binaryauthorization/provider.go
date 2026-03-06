@@ -1,8 +1,8 @@
 package binaryauthorization
 
 import (
-	"github.com/dannyota/hotpot/pkg/ingest"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp"
+	"danny.vn/hotpot/pkg/ingest"
+	"danny.vn/hotpot/pkg/ingest/gcp"
 )
 
 func init() {

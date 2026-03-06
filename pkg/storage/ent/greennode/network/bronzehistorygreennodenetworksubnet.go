@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworksubnet"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworksubnet"
 )
 
 // BronzeHistoryGreenNodeNetworkSubnet is the model entity for the BronzeHistoryGreenNodeNetworkSubnet schema.

@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumevolumetypezone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumevolumetypezone"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/predicate"
 )
 
 // BronzeHistoryGreenNodeVolumeVolumeTypeZoneUpdate is the builder for updating BronzeHistoryGreenNodeVolumeVolumeTypeZone entities.

@@ -3,7 +3,7 @@ package instance
 import (
 	"bytes"
 
-	entspanner "github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner"
+	entspanner "danny.vn/hotpot/pkg/storage/ent/gcp/spanner"
 )
 
 // InstanceDiff represents changes between old and new Spanner instance state.

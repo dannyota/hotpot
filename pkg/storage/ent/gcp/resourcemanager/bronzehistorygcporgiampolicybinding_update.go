@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcporgiampolicybinding"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcporgiampolicybinding"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/predicate"
 )
 
 // BronzeHistoryGCPOrgIamPolicyBindingUpdate is the builder for updating BronzeHistoryGCPOrgIamPolicyBinding entities.

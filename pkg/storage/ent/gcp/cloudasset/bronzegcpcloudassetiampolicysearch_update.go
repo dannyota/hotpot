@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/bronzegcpcloudassetiampolicysearch"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/bronzegcpcloudassetiampolicysearch"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/predicate"
 )
 
 // BronzeGCPCloudAssetIAMPolicySearchUpdate is the builder for updating BronzeGCPCloudAssetIAMPolicySearch entities.

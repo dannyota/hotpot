@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization/bronzehistorygcpbinaryauthorizationpolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/binaryauthorization/bronzehistorygcpbinaryauthorizationpolicy"
 )
 
 // BronzeHistoryGCPBinaryAuthorizationPolicy is the model entity for the BronzeHistoryGCPBinaryAuthorizationPolicy schema.

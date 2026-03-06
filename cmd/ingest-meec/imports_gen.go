@@ -3,8 +3,8 @@
 package main
 
 import (
-	_ "github.com/dannyota/hotpot/pkg/ingest/meec"
-	_ "github.com/dannyota/hotpot/pkg/ingest/meec/computer"
-	_ "github.com/dannyota/hotpot/pkg/ingest/meec/installed_software"
-	_ "github.com/dannyota/hotpot/pkg/ingest/meec/software"
+	_ "danny.vn/hotpot/pkg/ingest/meec"
+	_ "danny.vn/hotpot/pkg/ingest/meec/computer"
+	_ "danny.vn/hotpot/pkg/ingest/meec/installed_software"
+	_ "danny.vn/hotpot/pkg/ingest/meec/software"
 )

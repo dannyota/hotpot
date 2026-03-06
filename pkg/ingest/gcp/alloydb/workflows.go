@@ -6,8 +6,8 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/alloydb/cluster"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	"danny.vn/hotpot/pkg/ingest/gcp/alloydb/cluster"
 )
 
 // GCPAlloyDBWorkflowParams contains parameters for the AlloyDB workflow.

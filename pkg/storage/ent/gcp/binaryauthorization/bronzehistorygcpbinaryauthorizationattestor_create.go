@@ -11,7 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization/bronzehistorygcpbinaryauthorizationattestor"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/binaryauthorization/bronzehistorygcpbinaryauthorizationattestor"
 )
 
 // BronzeHistoryGCPBinaryAuthorizationAttestorCreate is the builder for creating a BronzeHistoryGCPBinaryAuthorizationAttestor entity.

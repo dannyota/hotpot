@@ -1,8 +1,8 @@
 package ec2
 
 import (
-	"github.com/dannyota/hotpot/pkg/ingest"
-	"github.com/dannyota/hotpot/pkg/ingest/aws"
+	"danny.vn/hotpot/pkg/ingest"
+	"danny.vn/hotpot/pkg/ingest/aws"
 )
 
 func init() {

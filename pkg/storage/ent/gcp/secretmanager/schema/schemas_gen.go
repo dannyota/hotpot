@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_secretmanager "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/secretmanager"
-	bronzehistory_gcp_secretmanager "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/secretmanager"
+	bronze_gcp_secretmanager "danny.vn/hotpot/pkg/schema/bronze/gcp/secretmanager"
+	bronzehistory_gcp_secretmanager "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/secretmanager"
 )
 
 type BronzeGCPSecretManagerSecret struct {

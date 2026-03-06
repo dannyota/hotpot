@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedovolume"
+	entdo "danny.vn/hotpot/pkg/storage/ent/do"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzedovolume"
 )
 
 // Service handles DigitalOcean Volume ingestion.

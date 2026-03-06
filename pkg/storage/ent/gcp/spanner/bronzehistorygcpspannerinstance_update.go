@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/bronzehistorygcpspannerinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/spanner/bronzehistorygcpspannerinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/spanner/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/spanner/predicate"
 )
 
 // BronzeHistoryGCPSpannerInstanceUpdate is the builder for updating BronzeHistoryGCPSpannerInstance entities.

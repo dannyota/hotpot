@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_greennode_loadbalancer "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/loadbalancer"
-	bronzehistory_greennode_loadbalancer "github.com/dannyota/hotpot/pkg/schema/bronzehistory/greennode/loadbalancer"
+	bronze_greennode_loadbalancer "danny.vn/hotpot/pkg/schema/bronze/greennode/loadbalancer"
+	bronzehistory_greennode_loadbalancer "danny.vn/hotpot/pkg/schema/bronzehistory/greennode/loadbalancer"
 )
 
 type BronzeGreenNodeLoadBalancerCertificate struct {

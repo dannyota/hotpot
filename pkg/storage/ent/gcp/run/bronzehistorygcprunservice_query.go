@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/run/bronzehistorygcprunservice"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/run/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/run/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/run/bronzehistorygcprunservice"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/run/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/run/predicate"
 )
 
 // BronzeHistoryGCPRunServiceQuery is the builder for querying BronzeHistoryGCPRunService entities.

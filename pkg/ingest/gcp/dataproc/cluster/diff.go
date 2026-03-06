@@ -3,7 +3,7 @@ package cluster
 import (
 	"bytes"
 
-	entdataproc "github.com/dannyota/hotpot/pkg/storage/ent/gcp/dataproc"
+	entdataproc "danny.vn/hotpot/pkg/storage/ent/gcp/dataproc"
 )
 
 // ClusterDiff represents changes between old and new Dataproc cluster state.

@@ -9,18 +9,18 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzegreennodednshostedzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzegreennodednsrecord"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzehistorygreennodednshostedzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzehistorygreennodednsrecord"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/bronzegreennodednshostedzone"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/bronzegreennodednsrecord"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/bronzehistorygreennodednshostedzone"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/bronzehistorygreennodednsrecord"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/internal"
 )
 
 // Client is the client that holds all ent builders.

@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzejenkinsbuild"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzejenkinsjob"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzejenkinsbuild"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzejenkinsjob"
 )
 
 // BronzeJenkinsBuild is the model entity for the BronzeJenkinsBuild schema.

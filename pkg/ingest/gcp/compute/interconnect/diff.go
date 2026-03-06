@@ -3,7 +3,7 @@ package interconnect
 import (
 	"bytes"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // InterconnectDiff represents changes between old and new interconnect states.

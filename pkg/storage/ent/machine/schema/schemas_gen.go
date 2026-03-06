@@ -2,17 +2,17 @@
 package schema
 
 import (
-	silver_machine "github.com/dannyota/hotpot/pkg/schema/silver/machine"
+	inventory_machine "danny.vn/hotpot/pkg/schema/inventory/machine"
 )
 
-type SilverMachine struct {
-	silver_machine.SilverMachine
+type InventoryMachine struct {
+	inventory_machine.InventoryMachine
 }
 
-type SilverMachineBronzeLink struct {
-	silver_machine.SilverMachineBronzeLink
+type InventoryMachineBronzeLink struct {
+	inventory_machine.InventoryMachineBronzeLink
 }
 
-type SilverMachineNormalized struct {
-	silver_machine.SilverMachineNormalized
+type InventoryMachineNormalized struct {
+	inventory_machine.InventoryMachineNormalized
 }

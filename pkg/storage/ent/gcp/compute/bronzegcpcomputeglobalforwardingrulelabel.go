@@ -8,8 +8,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeglobalforwardingrule"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeglobalforwardingrulelabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeglobalforwardingrule"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeglobalforwardingrulelabel"
 )
 
 // BronzeGCPComputeGlobalForwardingRuleLabel is the model entity for the BronzeGCPComputeGlobalForwardingRuleLabel schema.

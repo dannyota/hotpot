@@ -12,10 +12,10 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpproject"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpprojectlabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpproject"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpprojectlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/predicate"
 )
 
 // BronzeGCPProjectQuery is the builder for querying BronzeGCPProject entities.

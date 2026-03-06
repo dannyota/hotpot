@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputeserversecgroup"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputeserversecgroup"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/predicate"
 )
 
 // BronzeHistoryGreenNodeComputeServerSecGroupDelete is the builder for deleting a BronzeHistoryGreenNodeComputeServerSecGroup entity.

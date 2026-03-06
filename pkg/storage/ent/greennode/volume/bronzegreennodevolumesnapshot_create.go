@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumeblockvolume"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumesnapshot"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumeblockvolume"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumesnapshot"
 )
 
 // BronzeGreenNodeVolumeSnapshotCreate is the builder for creating a BronzeGreenNodeVolumeSnapshot entity.

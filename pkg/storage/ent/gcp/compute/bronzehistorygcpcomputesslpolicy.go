@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputesslpolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputesslpolicy"
 )
 
 // BronzeHistoryGCPComputeSslPolicy is the model entity for the BronzeHistoryGCPComputeSslPolicy schema.

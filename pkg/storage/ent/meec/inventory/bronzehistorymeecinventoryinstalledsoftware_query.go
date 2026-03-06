@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/bronzehistorymeecinventoryinstalledsoftware"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/bronzehistorymeecinventoryinstalledsoftware"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/internal"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/predicate"
 )
 
 // BronzeHistoryMEECInventoryInstalledSoftwareQuery is the builder for querying BronzeHistoryMEECInventoryInstalledSoftware entities.

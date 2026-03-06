@@ -9,15 +9,15 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/lifecycle/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/goldlifecycleos"
-	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/goldlifecyclesoftware"
+	"danny.vn/hotpot/pkg/storage/ent/lifecycle/goldlifecycleos"
+	"danny.vn/hotpot/pkg/storage/ent/lifecycle/goldlifecyclesoftware"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/internal"
+	"danny.vn/hotpot/pkg/storage/ent/lifecycle/internal"
 )
 
 // Client is the client that holds all ent builders.

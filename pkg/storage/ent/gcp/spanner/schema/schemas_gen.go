@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_spanner "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/spanner"
-	bronzehistory_gcp_spanner "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/spanner"
+	bronze_gcp_spanner "danny.vn/hotpot/pkg/schema/bronze/gcp/spanner"
+	bronzehistory_gcp_spanner "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/spanner"
 )
 
 type BronzeGCPSpannerDatabase struct {

@@ -8,8 +8,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputenetwork"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputenetworkpeering"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputenetwork"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputenetworkpeering"
 )
 
 // BronzeGCPComputeNetworkPeering is the model entity for the BronzeGCPComputeNetworkPeering schema.

@@ -3,7 +3,7 @@ package logmetric
 import (
 	"bytes"
 
-	entlogging "github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging"
+	entlogging "danny.vn/hotpot/pkg/storage/ent/gcp/logging"
 )
 
 // LogMetricDiff represents changes between old and new log metric states.

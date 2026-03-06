@@ -3,7 +3,7 @@ package instance
 import (
 	"bytes"
 
-	entec2 "github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2"
+	entec2 "danny.vn/hotpot/pkg/storage/ent/aws/ec2"
 )
 
 // InstanceDiff represents changes between old and new instance states.

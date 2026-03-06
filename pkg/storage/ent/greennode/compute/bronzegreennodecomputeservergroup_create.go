@@ -10,8 +10,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeservergroup"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeservergroupmember"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeservergroup"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeservergroupmember"
 )
 
 // BronzeGreenNodeComputeServerGroupCreate is the builder for creating a BronzeGreenNodeComputeServerGroup entity.

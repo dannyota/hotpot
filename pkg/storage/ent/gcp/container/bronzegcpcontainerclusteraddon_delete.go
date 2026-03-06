@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusteraddon"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusteraddon"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/predicate"
 )
 
 // BronzeGCPContainerClusterAddonDelete is the builder for deleting a BronzeGCPContainerClusterAddon entity.

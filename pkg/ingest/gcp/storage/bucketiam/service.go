@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entstorage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucketiampolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucketiampolicybinding"
+	entstorage "danny.vn/hotpot/pkg/storage/ent/gcp/storage"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucketiampolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucketiampolicybinding"
 )
 
 // Service handles GCP Storage bucket IAM policy ingestion.

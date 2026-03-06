@@ -3,7 +3,7 @@ package securitypolicy
 import (
 	"bytes"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // SecurityPolicyDiff represents changes between old and new security policy states.

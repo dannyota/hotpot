@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring/bronzehistorygcpmonitoringalertpolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/monitoring/bronzehistorygcpmonitoringalertpolicy"
 )
 
 // BronzeHistoryGCPMonitoringAlertPolicy is the model entity for the BronzeHistoryGCPMonitoringAlertPolicy schema.

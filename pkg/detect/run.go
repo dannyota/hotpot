@@ -13,9 +13,9 @@ import (
 	sdklog "go.temporal.io/sdk/log"
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/logger"
-	"github.com/dannyota/hotpot/pkg/detect/lifecycle"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/logger"
+	"danny.vn/hotpot/pkg/detect/lifecycle"
 )
 
 // Run starts the detect worker.

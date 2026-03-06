@@ -3,14 +3,14 @@ package cloudasset
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/cloudasset/asset"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/cloudasset/iampolicysearch"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/cloudasset/resourcesearch"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/gcp/cloudasset/asset"
+	"danny.vn/hotpot/pkg/ingest/gcp/cloudasset/iampolicysearch"
+	"danny.vn/hotpot/pkg/ingest/gcp/cloudasset/resourcesearch"
 	"entgo.io/ent/dialect"
-	entcloudasset "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset"
-	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	entcloudasset "danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset"
+	entresourcemanager "danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // Register registers all Cloud Asset Inventory activities and workflows.

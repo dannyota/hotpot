@@ -2,7 +2,7 @@ package globaladdress
 
 import (
 	"bytes"
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // GlobalAddressDiff represents changes between old and new global address states.

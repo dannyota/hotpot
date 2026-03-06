@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1site"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzes1site"
+	"danny.vn/hotpot/pkg/storage/ent/s1/internal"
+	"danny.vn/hotpot/pkg/storage/ent/s1/predicate"
 )
 
 // BronzeS1SiteDelete is the builder for deleting a BronzeS1Site entity.

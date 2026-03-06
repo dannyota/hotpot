@@ -12,12 +12,12 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancenic"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancenicaccessconfig"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancenicaliasrange"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancenic"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancenicaccessconfig"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeinstancenicaliasrange"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/predicate"
 )
 
 // BronzeGCPComputeInstanceNICQuery is the builder for querying BronzeGCPComputeInstanceNIC entities.

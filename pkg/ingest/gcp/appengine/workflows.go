@@ -6,9 +6,9 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/appengine/application"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/appengine/appservice"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	"danny.vn/hotpot/pkg/ingest/gcp/appengine/application"
+	"danny.vn/hotpot/pkg/ingest/gcp/appengine/appservice"
 )
 
 // GCPAppEngineWorkflowParams contains parameters for the App Engine workflow.

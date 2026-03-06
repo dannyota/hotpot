@@ -10,10 +10,10 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbgloballistener"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbgloballoadbalancer"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbgloballistener"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbgloballoadbalancer"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/predicate"
 )
 
 // BronzeGreenNodeGLBGlobalListenerUpdate is the builder for updating BronzeGreenNodeGLBGlobalListener entities.

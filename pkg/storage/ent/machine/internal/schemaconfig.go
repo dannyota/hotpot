@@ -7,9 +7,9 @@ import "context"
 // SchemaConfig represents alternative schema names for all tables
 // that can be passed at runtime.
 type SchemaConfig struct {
-	SilverMachine           string // SilverMachine table.
-	SilverMachineBronzeLink string // SilverMachineBronzeLink table.
-	SilverMachineNormalized string // SilverMachineNormalized table.
+	InventoryMachine           string // InventoryMachine table.
+	InventoryMachineBronzeLink string // InventoryMachineBronzeLink table.
+	InventoryMachineNormalized string // InventoryMachineNormalized table.
 }
 
 type schemaCtxKey struct{}

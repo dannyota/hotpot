@@ -12,17 +12,17 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainercluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusteraddon"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclustercondition"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusterlabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusternodepool"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainercluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusteraddon"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclustercondition"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusterlabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusternodepool"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainercluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusteraddon"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclustercondition"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusterlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusternodepool"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainercluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusteraddon"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclustercondition"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusterlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusternodepool"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/predicate"
 )
 
 const (

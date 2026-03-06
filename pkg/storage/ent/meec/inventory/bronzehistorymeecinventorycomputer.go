@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/bronzehistorymeecinventorycomputer"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/bronzehistorymeecinventorycomputer"
 )
 
 // BronzeHistoryMEECInventoryComputer is the model entity for the BronzeHistoryMEECInventoryComputer schema.

@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2"
 )
 
 // The BronzeAWSEC2InstanceFunc type is an adapter to allow the use of ordinary

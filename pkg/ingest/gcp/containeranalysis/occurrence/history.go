@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entcontaineranalysis "github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzehistorygcpcontaineranalysisoccurrence"
+	entcontaineranalysis "danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzehistorygcpcontaineranalysisoccurrence"
 )
 
 // HistoryService manages Grafeas occurrence history tracking.

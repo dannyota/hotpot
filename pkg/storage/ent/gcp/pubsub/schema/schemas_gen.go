@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_pubsub "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/pubsub"
-	bronzehistory_gcp_pubsub "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/pubsub"
+	bronze_gcp_pubsub "danny.vn/hotpot/pkg/schema/bronze/gcp/pubsub"
+	bronzehistory_gcp_pubsub "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/pubsub"
 )
 
 type BronzeGCPPubSubSubscription struct {

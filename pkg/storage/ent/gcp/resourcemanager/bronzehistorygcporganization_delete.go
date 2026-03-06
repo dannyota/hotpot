@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcporganization"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzehistorygcporganization"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/predicate"
 )
 
 // BronzeHistoryGCPOrganizationDelete is the builder for deleting a BronzeHistoryGCPOrganization entity.

@@ -3,12 +3,12 @@ package iam
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/iam/serviceaccount"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/iam/serviceaccountkey"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/gcp/iam/serviceaccount"
+	"danny.vn/hotpot/pkg/ingest/gcp/iam/serviceaccountkey"
 	"entgo.io/ent/dialect"
-	entiam "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam"
+	entiam "danny.vn/hotpot/pkg/storage/ent/gcp/iam"
 )
 
 // Register registers all IAM activities and workflows.

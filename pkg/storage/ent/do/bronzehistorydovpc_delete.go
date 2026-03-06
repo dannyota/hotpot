@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydovpc"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydovpc"
+	"danny.vn/hotpot/pkg/storage/ent/do/internal"
+	"danny.vn/hotpot/pkg/storage/ent/do/predicate"
 )
 
 // BronzeHistoryDOVpcDelete is the builder for deleting a BronzeHistoryDOVpc entity.

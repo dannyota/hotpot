@@ -3,7 +3,7 @@ package dnspolicy
 import (
 	"bytes"
 
-	entdns "github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns"
+	entdns "danny.vn/hotpot/pkg/storage/ent/gcp/dns"
 )
 
 // PolicyDiff represents changes between old and new DNS policy states.

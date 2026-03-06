@@ -12,10 +12,10 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpprojectiampolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpprojectiampolicybinding"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpprojectiampolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpprojectiampolicybinding"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/predicate"
 )
 
 // BronzeGCPProjectIamPolicyBindingUpdate is the builder for updating BronzeGCPProjectIamPolicyBinding entities.

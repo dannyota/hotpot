@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1networkdiscovery"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzes1networkdiscovery"
 )
 
 // BronzeS1NetworkDiscovery is the model entity for the BronzeS1NetworkDiscovery schema.

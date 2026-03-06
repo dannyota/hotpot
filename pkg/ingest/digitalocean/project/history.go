@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydoproject"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydoprojectresource"
+	entdo "danny.vn/hotpot/pkg/storage/ent/do"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydoproject"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydoprojectresource"
 )
 
 // ProjectHistoryService handles history tracking for Projects.

@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis/bronzegcpredisinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/redis/bronzegcpredisinstance"
 )
 
 // BronzeGCPRedisInstance is the model entity for the BronzeGCPRedisInstance schema.

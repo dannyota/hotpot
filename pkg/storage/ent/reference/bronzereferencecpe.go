@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencecpe"
+	"danny.vn/hotpot/pkg/storage/ent/reference/bronzereferencecpe"
 )
 
 // BronzeReferenceCPE is the model entity for the BronzeReferenceCPE schema.

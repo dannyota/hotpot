@@ -6,9 +6,9 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/bigtable/cluster"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/bigtable/instance"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	"danny.vn/hotpot/pkg/ingest/gcp/bigtable/cluster"
+	"danny.vn/hotpot/pkg/ingest/gcp/bigtable/instance"
 )
 
 // GCPBigtableWorkflowParams contains parameters for the Bigtable workflow.

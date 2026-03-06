@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"time"
 
-	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodatabase"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodatabasebackup"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodatabaseconfig"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodatabasefirewallrule"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodatabasepool"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodatabasereplica"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodatabaseuser"
+	entdo "danny.vn/hotpot/pkg/storage/ent/do"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydodatabase"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydodatabasebackup"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydodatabaseconfig"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydodatabasefirewallrule"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydodatabasepool"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydodatabasereplica"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydodatabaseuser"
 )
 
 // DatabaseHistoryService handles history tracking for Database clusters.

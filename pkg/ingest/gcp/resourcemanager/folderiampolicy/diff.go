@@ -1,7 +1,7 @@
 package folderiampolicy
 
 import (
-	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	entresourcemanager "danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // FolderIamPolicyDiff represents changes between old and new folder IAM policy state.

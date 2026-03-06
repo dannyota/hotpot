@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodatabasereplica"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydodatabasereplica"
 )
 
 // BronzeHistoryDODatabaseReplica is the model entity for the BronzeHistoryDODatabaseReplica schema.

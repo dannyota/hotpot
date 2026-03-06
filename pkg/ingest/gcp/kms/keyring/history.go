@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entkms "github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms/bronzehistorygcpkmskeyring"
+	entkms "danny.vn/hotpot/pkg/storage/ent/gcp/kms"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/kms/bronzehistorygcpkmskeyring"
 )
 
 // HistoryService handles history tracking for key rings.

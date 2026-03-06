@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/base/httperr"
+	"danny.vn/hotpot/pkg/base/httperr"
 )
 
 // Client wraps the MEEC Inventory Installed Software API.

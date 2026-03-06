@@ -3,7 +3,7 @@ package loadbalancer
 import (
 	"bytes"
 
-	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	entdo "danny.vn/hotpot/pkg/storage/ent/do"
 )
 
 // LoadBalancerDiff represents changes between old and new Load Balancer states.

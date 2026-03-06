@@ -8,8 +8,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeservergroup"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeservergroupmember"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeservergroup"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputeservergroupmember"
 )
 
 // BronzeGreenNodeComputeServerGroupMember is the model entity for the BronzeGreenNodeComputeServerGroupMember schema.

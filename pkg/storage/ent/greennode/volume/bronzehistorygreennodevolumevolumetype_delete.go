@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumevolumetype"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumevolumetype"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/predicate"
 )
 
 // BronzeHistoryGreenNodeVolumeVolumeTypeDelete is the builder for deleting a BronzeHistoryGreenNodeVolumeVolumeType entity.

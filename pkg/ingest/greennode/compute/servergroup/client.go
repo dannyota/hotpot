@@ -9,8 +9,8 @@ import (
 	"danny.vn/greennode/option"
 	computev2 "danny.vn/greennode/services/compute/v2"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
 )
 
 // Client wraps the GreenNode SDK for server group operations.

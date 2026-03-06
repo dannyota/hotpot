@@ -9,19 +9,19 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/bronzegcpsecuritycenterfinding"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/bronzegcpsecuritycenternotificationconfig"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/bronzegcpsecuritycentersource"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/bronzehistorygcpsecuritycenterfinding"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/bronzehistorygcpsecuritycenternotificationconfig"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/bronzehistorygcpsecuritycentersource"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/bronzegcpsecuritycenterfinding"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/bronzegcpsecuritycenternotificationconfig"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/bronzegcpsecuritycentersource"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/bronzehistorygcpsecuritycenterfinding"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/bronzehistorygcpsecuritycenternotificationconfig"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/bronzehistorygcpsecuritycentersource"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/internal"
 )
 
 // Client is the client that holds all ent builders.

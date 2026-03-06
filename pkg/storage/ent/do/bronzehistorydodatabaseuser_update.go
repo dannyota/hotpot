@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodatabaseuser"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydodatabaseuser"
+	"danny.vn/hotpot/pkg/storage/ent/do/internal"
+	"danny.vn/hotpot/pkg/storage/ent/do/predicate"
 )
 
 // BronzeHistoryDODatabaseUserUpdate is the builder for updating BronzeHistoryDODatabaseUser entities.

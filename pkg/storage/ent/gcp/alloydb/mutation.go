@@ -12,9 +12,9 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/bronzegcpalloydbcluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/bronzehistorygcpalloydbcluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/bronzegcpalloydbcluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/bronzehistorygcpalloydbcluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/predicate"
 )
 
 const (

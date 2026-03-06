@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entserviceusage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/serviceusage"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/serviceusage/bronzegcpserviceusageenabledservice"
+	entserviceusage "danny.vn/hotpot/pkg/storage/ent/gcp/serviceusage"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/serviceusage/bronzegcpserviceusageenabledservice"
 )
 
 // Service handles GCP Service Usage enabled service ingestion.

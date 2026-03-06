@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring/bronzegcpmonitoringuptimecheckconfig"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/monitoring/bronzegcpmonitoringuptimecheckconfig"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/monitoring/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/monitoring/predicate"
 )
 
 // BronzeGCPMonitoringUptimeCheckConfigUpdate is the builder for updating BronzeGCPMonitoringUptimeCheckConfig entities.

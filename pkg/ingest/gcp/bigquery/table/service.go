@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entbigquery "github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery/bronzegcpbigquerytable"
+	entbigquery "danny.vn/hotpot/pkg/storage/ent/gcp/bigquery"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigquery/bronzegcpbigquerytable"
 )
 
 // Service handles BigQuery table ingestion.

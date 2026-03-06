@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap/bronzegcpiapsettings"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iap/bronzegcpiapsettings"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iap/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iap/predicate"
 )
 
 // BronzeGCPIAPSettingsDelete is the builder for deleting a BronzeGCPIAPSettings entity.

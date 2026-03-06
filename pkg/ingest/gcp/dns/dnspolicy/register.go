@@ -3,9 +3,9 @@ package dnspolicy
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entdns "github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entdns "danny.vn/hotpot/pkg/storage/ent/gcp/dns"
 )
 
 // Register registers DNS policy workflows and activities with the Temporal worker.

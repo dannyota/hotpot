@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputetargetsslproxy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputetargetsslproxy"
 )
 
 // BronzeHistoryGCPComputeTargetSslProxy is the model entity for the BronzeHistoryGCPComputeTargetSslProxy schema.

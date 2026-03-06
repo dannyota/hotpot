@@ -3,9 +3,9 @@ package application
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entappengine "github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entappengine "danny.vn/hotpot/pkg/storage/ent/gcp/appengine"
 )
 
 // Register registers all App Engine application activities and workflows.

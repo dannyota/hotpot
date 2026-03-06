@@ -9,15 +9,15 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/vault/pki/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/vault/pki/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/vault/pki/bronzehistoryvaultpkicertificate"
-	"github.com/dannyota/hotpot/pkg/storage/ent/vault/pki/bronzevaultpkicertificate"
+	"danny.vn/hotpot/pkg/storage/ent/vault/pki/bronzehistoryvaultpkicertificate"
+	"danny.vn/hotpot/pkg/storage/ent/vault/pki/bronzevaultpkicertificate"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/vault/pki/internal"
+	"danny.vn/hotpot/pkg/storage/ent/vault/pki/internal"
 )
 
 // Client is the client that holds all ent builders.

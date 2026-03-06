@@ -6,9 +6,9 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/binaryauthorization/attestor"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/binaryauthorization/policy"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	"danny.vn/hotpot/pkg/ingest/gcp/binaryauthorization/attestor"
+	"danny.vn/hotpot/pkg/ingest/gcp/binaryauthorization/policy"
 )
 
 // GCPBinaryAuthorizationWorkflowParams contains parameters for the Binary Authorization workflow.

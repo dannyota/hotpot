@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzegcpcontaineranalysisoccurrence"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzegcpcontaineranalysisoccurrence"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/predicate"
 )
 
 // BronzeGCPContainerAnalysisOccurrenceDelete is the builder for deleting a BronzeGCPContainerAnalysisOccurrence entity.

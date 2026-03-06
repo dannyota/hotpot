@@ -2,7 +2,7 @@ package disk
 
 import (
 	"bytes"
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // DiskDiff represents changes between old and new disk states.

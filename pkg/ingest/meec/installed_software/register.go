@@ -3,10 +3,10 @@ package installed_software
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/meec"
-	entinventory "github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/meec"
+	entinventory "danny.vn/hotpot/pkg/storage/ent/meec/inventory"
 )
 
 // Register registers installed software activities and workflows with the Temporal worker.

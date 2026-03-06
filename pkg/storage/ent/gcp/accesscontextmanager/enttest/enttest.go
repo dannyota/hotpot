@@ -5,12 +5,12 @@ package enttest
 import (
 	"context"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager"
 	// required by schema hooks.
-	_ "github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager/runtime"
+	_ "danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager/migrate"
 )
 
 type (

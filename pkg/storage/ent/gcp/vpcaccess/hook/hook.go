@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpcaccess"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpcaccess"
 )
 
 // The BronzeGCPVPCAccessConnectorFunc type is an adapter to allow the use of ordinary

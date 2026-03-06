@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzehistorygcpdnsmanagedzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/bronzehistorygcpdnsmanagedzone"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/predicate"
 )
 
 // BronzeHistoryGCPDNSManagedZoneQuery is the builder for querying BronzeHistoryGCPDNSManagedZone entities.

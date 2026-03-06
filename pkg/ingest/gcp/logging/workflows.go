@@ -6,11 +6,11 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/logging/logbucket"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/logging/logexclusion"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/logging/logmetric"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/logging/sink"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	"danny.vn/hotpot/pkg/ingest/gcp/logging/logbucket"
+	"danny.vn/hotpot/pkg/ingest/gcp/logging/logexclusion"
+	"danny.vn/hotpot/pkg/ingest/gcp/logging/logmetric"
+	"danny.vn/hotpot/pkg/ingest/gcp/logging/sink"
 )
 
 // GCPLoggingWorkflowParams contains parameters for the logging workflow.

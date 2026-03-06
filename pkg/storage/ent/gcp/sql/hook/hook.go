@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/sql"
 )
 
 // The BronzeGCPSQLInstanceFunc type is an adapter to allow the use of ordinary

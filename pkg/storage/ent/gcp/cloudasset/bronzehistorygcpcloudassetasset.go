@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/bronzehistorygcpcloudassetasset"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/bronzehistorygcpcloudassetasset"
 )
 
 // BronzeHistoryGCPCloudAssetAsset is the model entity for the BronzeHistoryGCPCloudAssetAsset schema.

@@ -11,7 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery/bronzehistorygcpbigquerytable"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigquery/bronzehistorygcpbigquerytable"
 )
 
 // BronzeHistoryGCPBigQueryTableCreate is the builder for creating a BronzeHistoryGCPBigQueryTable entity.

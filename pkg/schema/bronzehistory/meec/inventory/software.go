@@ -7,7 +7,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 
-	historymixin "github.com/dannyota/hotpot/pkg/schema/bronzehistory/mixin"
+	historymixin "danny.vn/hotpot/pkg/schema/bronzehistory/mixin"
 )
 
 // BronzeHistoryMEECInventorySoftware stores historical snapshots of MEEC software catalog.

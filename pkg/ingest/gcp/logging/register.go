@@ -3,14 +3,14 @@ package logging
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/logging/logbucket"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/logging/logexclusion"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/logging/logmetric"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/logging/sink"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/gcp/logging/logbucket"
+	"danny.vn/hotpot/pkg/ingest/gcp/logging/logexclusion"
+	"danny.vn/hotpot/pkg/ingest/gcp/logging/logmetric"
+	"danny.vn/hotpot/pkg/ingest/gcp/logging/sink"
 	"entgo.io/ent/dialect"
-	entlogging "github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging"
+	entlogging "danny.vn/hotpot/pkg/storage/ent/gcp/logging"
 )
 
 // Register registers all Logging activities and workflows.

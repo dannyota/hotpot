@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_greennode_glb "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/glb"
-	bronzehistory_greennode_glb "github.com/dannyota/hotpot/pkg/schema/bronzehistory/greennode/glb"
+	bronze_greennode_glb "danny.vn/hotpot/pkg/schema/bronze/greennode/glb"
+	bronzehistory_greennode_glb "danny.vn/hotpot/pkg/schema/bronzehistory/greennode/glb"
 )
 
 type BronzeGreenNodeGLBGlobalLoadBalancer struct {

@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzehistorygreennodednsrecord"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/bronzehistorygreennodednsrecord"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/predicate"
 )
 
 // BronzeHistoryGreenNodeDNSRecordQuery is the builder for querying BronzeHistoryGreenNodeDNSRecord entities.

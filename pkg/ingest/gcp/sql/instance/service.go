@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entgcpsql "github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/bronzegcpsqlinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/bronzegcpsqlinstancelabel"
+	entgcpsql "danny.vn/hotpot/pkg/storage/ent/gcp/sql"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/sql/bronzegcpsqlinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/sql/bronzegcpsqlinstancelabel"
 )
 
 // Service handles GCP Cloud SQL instance ingestion.

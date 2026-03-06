@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entdns "github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzehistorygcpdnspolicy"
+	entdns "danny.vn/hotpot/pkg/storage/ent/gcp/dns"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/bronzehistorygcpdnspolicy"
 )
 
 // HistoryService handles history tracking for DNS policies.

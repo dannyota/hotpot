@@ -3,11 +3,11 @@
 package spanner
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/bronzegcpspannerdatabase"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/bronzegcpspannerinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/bronzehistorygcpspannerdatabase"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/bronzehistorygcpspannerinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/schema"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/spanner/bronzegcpspannerdatabase"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/spanner/bronzegcpspannerinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/spanner/bronzehistorygcpspannerdatabase"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/spanner/bronzehistorygcpspannerinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/spanner/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

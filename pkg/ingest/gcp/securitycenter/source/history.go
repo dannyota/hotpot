@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entsecuritycenter "github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/bronzehistorygcpsecuritycentersource"
+	entsecuritycenter "danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/bronzehistorygcpsecuritycentersource"
 )
 
 // HistoryService manages SCC source history tracking.

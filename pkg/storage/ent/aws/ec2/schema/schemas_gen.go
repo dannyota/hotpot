@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_aws_ec2 "github.com/dannyota/hotpot/pkg/schema/bronze/aws/ec2"
-	bronzehistory_aws_ec2 "github.com/dannyota/hotpot/pkg/schema/bronzehistory/aws/ec2"
+	bronze_aws_ec2 "danny.vn/hotpot/pkg/schema/bronze/aws/ec2"
+	bronzehistory_aws_ec2 "danny.vn/hotpot/pkg/schema/bronzehistory/aws/ec2"
 )
 
 type BronzeAWSEC2Instance struct {

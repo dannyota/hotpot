@@ -1,7 +1,7 @@
 package installed_software
 
 import (
-	entinventory "github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory"
+	entinventory "danny.vn/hotpot/pkg/storage/ent/meec/inventory"
 )
 
 // InstalledSoftwareDiff represents changes between old and new installed software states.

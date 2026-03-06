@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzehistoryawsec2instance"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/bronzehistoryawsec2instance"
 )
 
 // BronzeHistoryAWSEC2Instance is the model entity for the BronzeHistoryAWSEC2Instance schema.

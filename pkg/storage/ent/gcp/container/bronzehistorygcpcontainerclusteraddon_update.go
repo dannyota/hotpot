@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusteraddon"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusteraddon"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/predicate"
 )
 
 // BronzeHistoryGCPContainerClusterAddonUpdate is the builder for updating BronzeHistoryGCPContainerClusterAddon entities.

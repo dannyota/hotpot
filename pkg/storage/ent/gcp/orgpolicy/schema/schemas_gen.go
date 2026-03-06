@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_orgpolicy "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/orgpolicy"
-	bronzehistory_gcp_orgpolicy "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/orgpolicy"
+	bronze_gcp_orgpolicy "danny.vn/hotpot/pkg/schema/bronze/gcp/orgpolicy"
+	bronzehistory_gcp_orgpolicy "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/orgpolicy"
 )
 
 type BronzeGCPOrgPolicyConstraint struct {

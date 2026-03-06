@@ -11,7 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedodatabasereplica"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzedodatabasereplica"
 )
 
 // BronzeDODatabaseReplicaCreate is the builder for creating a BronzeDODatabaseReplica entity.

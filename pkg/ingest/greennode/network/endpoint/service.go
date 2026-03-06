@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworkendpoint"
+	entnet "danny.vn/hotpot/pkg/storage/ent/greennode/network"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworkendpoint"
 )
 
 // Service handles GreenNode endpoint ingestion.

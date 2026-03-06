@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entaccesscontextmanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager/bronzegcpaccesscontextmanageraccesslevel"
+	entaccesscontextmanager "danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager/bronzegcpaccesscontextmanageraccesslevel"
 )
 
 // Service handles access level ingestion.

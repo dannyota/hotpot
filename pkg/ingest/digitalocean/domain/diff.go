@@ -1,7 +1,7 @@
 package domain
 
 import (
-	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	entdo "danny.vn/hotpot/pkg/storage/ent/do"
 )
 
 // DomainDiff represents changes between old and new Domain states.

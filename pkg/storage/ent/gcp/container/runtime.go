@@ -3,13 +3,13 @@
 package container
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainercluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusteraddon"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusterlabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusternodepool"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainercluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusteraddon"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/schema"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainercluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusteraddon"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusterlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusternodepool"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainercluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclusteraddon"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

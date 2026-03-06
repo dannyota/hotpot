@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/bronzegcpalloydbcluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/bronzegcpalloydbcluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/predicate"
 )
 
 // BronzeGCPAlloyDBClusterUpdate is the builder for updating BronzeGCPAlloyDBCluster entities.

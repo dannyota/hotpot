@@ -13,10 +13,10 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/bronzegcpappengineapplication"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/bronzegcpappengineservice"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/appengine/bronzegcpappengineapplication"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/appengine/bronzegcpappengineservice"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/appengine/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/appengine/predicate"
 )
 
 // BronzeGCPAppEngineApplicationUpdate is the builder for updating BronzeGCPAppEngineApplication entities.

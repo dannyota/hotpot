@@ -10,8 +10,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/bronzegcpspannerdatabase"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/bronzegcpspannerinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/spanner/bronzegcpspannerdatabase"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/spanner/bronzegcpspannerinstance"
 )
 
 // BronzeGCPSpannerDatabase is the model entity for the BronzeGCPSpannerDatabase schema.

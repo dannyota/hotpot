@@ -3,7 +3,7 @@ package table
 import (
 	"bytes"
 
-	entbigquery "github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery"
+	entbigquery "danny.vn/hotpot/pkg/storage/ent/gcp/bigquery"
 )
 
 // TableDiff represents changes between old and new BigQuery table state.

@@ -3,13 +3,13 @@ package network
 import (
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/network/endpoint"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/network/interconnect"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/network/peering"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/network/routetable"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/network/secgroup"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/network/subnet"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/network/vpc"
+	"danny.vn/hotpot/pkg/ingest/greennode/network/endpoint"
+	"danny.vn/hotpot/pkg/ingest/greennode/network/interconnect"
+	"danny.vn/hotpot/pkg/ingest/greennode/network/peering"
+	"danny.vn/hotpot/pkg/ingest/greennode/network/routetable"
+	"danny.vn/hotpot/pkg/ingest/greennode/network/secgroup"
+	"danny.vn/hotpot/pkg/ingest/greennode/network/subnet"
+	"danny.vn/hotpot/pkg/ingest/greennode/network/vpc"
 )
 
 // GreenNodeNetworkWorkflowParams contains parameters for the network workflow.

@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancegroupmember"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancegroupmember"
 )
 
 // BronzeHistoryGCPComputeInstanceGroupMember is the model entity for the BronzeHistoryGCPComputeInstanceGroupMember schema.

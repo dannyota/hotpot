@@ -10,8 +10,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainercluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusteraddon"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainercluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusteraddon"
 )
 
 // BronzeGCPContainerClusterAddonCreate is the builder for creating a BronzeGCPContainerClusterAddon entity.

@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/base/httputil"
+	"danny.vn/hotpot/pkg/base/httputil"
 )
 
 const cpeFeedURL = "https://nvd.nist.gov/feeds/json/cpe/2.0/nvdcpe-2.0.zip"

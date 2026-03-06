@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeprojectmetadata"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeprojectmetadataitem"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeprojectmetadata"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeprojectmetadataitem"
 )
 
 // BronzeGCPComputeProjectMetadataItemCreate is the builder for creating a BronzeGCPComputeProjectMetadataItem entity.

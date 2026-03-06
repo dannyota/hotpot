@@ -7,7 +7,7 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/config"
 )
 
 // Service manages rate limiter lifecycle.

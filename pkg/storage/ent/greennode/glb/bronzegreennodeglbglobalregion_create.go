@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbglobalregion"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbglobalregion"
 )
 
 // BronzeGreenNodeGLBGlobalRegionCreate is the builder for creating a BronzeGreenNodeGLBGlobalRegion entity.

@@ -8,8 +8,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeimage"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeimagelabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeimage"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeimagelabel"
 )
 
 // BronzeGCPComputeImageLabel is the model entity for the BronzeGCPComputeImageLabel schema.

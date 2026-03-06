@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery/bronzehistorygcpbigquerytable"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigquery/bronzehistorygcpbigquerytable"
 )
 
 // BronzeHistoryGCPBigQueryTable is the model entity for the BronzeHistoryGCPBigQueryTable schema.

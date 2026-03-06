@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_greennode_network "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/network"
-	bronzehistory_greennode_network "github.com/dannyota/hotpot/pkg/schema/bronzehistory/greennode/network"
+	bronze_greennode_network "danny.vn/hotpot/pkg/schema/bronze/greennode/network"
+	bronzehistory_greennode_network "danny.vn/hotpot/pkg/schema/bronzehistory/greennode/network"
 )
 
 type BronzeGreenNodeNetworkEndpoint struct {

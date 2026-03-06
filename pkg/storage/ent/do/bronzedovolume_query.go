@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedovolume"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzedovolume"
+	"danny.vn/hotpot/pkg/storage/ent/do/internal"
+	"danny.vn/hotpot/pkg/storage/ent/do/predicate"
 )
 
 // BronzeDOVolumeQuery is the builder for querying BronzeDOVolume entities.

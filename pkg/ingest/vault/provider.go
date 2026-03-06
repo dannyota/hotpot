@@ -6,8 +6,8 @@ import (
 	"entgo.io/ent/dialect"
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/ingest"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/ingest"
 )
 
 func init() {

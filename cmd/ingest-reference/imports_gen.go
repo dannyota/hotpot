@@ -3,10 +3,10 @@
 package main
 
 import (
-	_ "github.com/dannyota/hotpot/pkg/ingest/reference"
-	_ "github.com/dannyota/hotpot/pkg/ingest/reference/cpe"
-	_ "github.com/dannyota/hotpot/pkg/ingest/reference/eol"
-	_ "github.com/dannyota/hotpot/pkg/ingest/reference/rpm"
-	_ "github.com/dannyota/hotpot/pkg/ingest/reference/ubuntu"
-	_ "github.com/dannyota/hotpot/pkg/ingest/reference/xeol"
+	_ "danny.vn/hotpot/pkg/ingest/reference"
+	_ "danny.vn/hotpot/pkg/ingest/reference/cpe"
+	_ "danny.vn/hotpot/pkg/ingest/reference/eol"
+	_ "danny.vn/hotpot/pkg/ingest/reference/rpm"
+	_ "danny.vn/hotpot/pkg/ingest/reference/ubuntu"
+	_ "danny.vn/hotpot/pkg/ingest/reference/xeol"
 )

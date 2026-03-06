@@ -12,9 +12,9 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpcaccess/bronzegcpvpcaccessconnector"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpcaccess/bronzehistorygcpvpcaccessconnector"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpcaccess/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpcaccess/bronzegcpvpcaccessconnector"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpcaccess/bronzehistorygcpvpcaccessconnector"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpcaccess/predicate"
 )
 
 const (

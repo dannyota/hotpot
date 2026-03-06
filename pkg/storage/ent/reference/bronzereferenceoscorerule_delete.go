@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceoscorerule"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/reference/bronzereferenceoscorerule"
+	"danny.vn/hotpot/pkg/storage/ent/reference/internal"
+	"danny.vn/hotpot/pkg/storage/ent/reference/predicate"
 )
 
 // BronzeReferenceOSCoreRuleDelete is the builder for deleting a BronzeReferenceOSCoreRule entity.

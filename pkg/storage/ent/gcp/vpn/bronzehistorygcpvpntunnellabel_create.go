@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzehistorygcpvpntunnellabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/bronzehistorygcpvpntunnellabel"
 )
 
 // BronzeHistoryGCPVPNTunnelLabelCreate is the builder for creating a BronzeHistoryGCPVPNTunnelLabel entity.

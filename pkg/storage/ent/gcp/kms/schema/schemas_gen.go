@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_kms "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/kms"
-	bronzehistory_gcp_kms "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/kms"
+	bronze_gcp_kms "danny.vn/hotpot/pkg/schema/bronze/gcp/kms"
+	bronzehistory_gcp_kms "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/kms"
 )
 
 type BronzeGCPKMSCryptoKey struct {

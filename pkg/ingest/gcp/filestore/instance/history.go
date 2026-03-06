@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entfilestore "github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore/bronzehistorygcpfilestoreinstance"
+	entfilestore "danny.vn/hotpot/pkg/storage/ent/gcp/filestore"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/filestore/bronzehistorygcpfilestoreinstance"
 )
 
 // HistoryService manages Filestore instance history tracking.

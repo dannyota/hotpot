@@ -1,7 +1,7 @@
 package constraint
 
 import (
-	entorgpolicy "github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy"
+	entorgpolicy "danny.vn/hotpot/pkg/storage/ent/gcp/orgpolicy"
 )
 
 type ConstraintDiff struct {

@@ -9,9 +9,9 @@ import (
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"go.temporal.io/sdk/activity"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entec2 "github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entec2 "danny.vn/hotpot/pkg/storage/ent/aws/ec2"
 )
 
 // Activities holds dependencies for Temporal activities.

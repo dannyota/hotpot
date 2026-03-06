@@ -5,12 +5,12 @@ package enttest
 import (
 	"context"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb"
 	// required by schema hooks.
-	_ "github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/runtime"
+	_ "danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/migrate"
 )
 
 type (

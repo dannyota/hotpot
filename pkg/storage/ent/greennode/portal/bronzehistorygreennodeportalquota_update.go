@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/bronzehistorygreennodeportalquota"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/portal/bronzehistorygreennodeportalquota"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/portal/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/portal/predicate"
 )
 
 // BronzeHistoryGreenNodePortalQuotaUpdate is the builder for updating BronzeHistoryGreenNodePortalQuota entities.

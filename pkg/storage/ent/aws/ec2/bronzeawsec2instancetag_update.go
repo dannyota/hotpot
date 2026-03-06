@@ -10,10 +10,10 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instancetag"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instance"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instancetag"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/internal"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/predicate"
 )
 
 // BronzeAWSEC2InstanceTagUpdate is the builder for updating BronzeAWSEC2InstanceTag entities.

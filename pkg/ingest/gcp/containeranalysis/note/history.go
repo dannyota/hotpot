@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entcontaineranalysis "github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzehistorygcpcontaineranalysisnote"
+	entcontaineranalysis "danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzehistorygcpcontaineranalysisnote"
 )
 
 // HistoryService manages Grafeas note history tracking.

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entportal "github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/bronzehistorygreennodeportalquota"
+	entportal "danny.vn/hotpot/pkg/storage/ent/greennode/portal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/portal/bronzehistorygreennodeportalquota"
 )
 
 // HistoryService handles history tracking for quotas.

@@ -9,17 +9,17 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/machine/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/machine/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/machine/silvermachine"
-	"github.com/dannyota/hotpot/pkg/storage/ent/machine/silvermachinebronzelink"
-	"github.com/dannyota/hotpot/pkg/storage/ent/machine/silvermachinenormalized"
+	"danny.vn/hotpot/pkg/storage/ent/machine/inventorymachine"
+	"danny.vn/hotpot/pkg/storage/ent/machine/inventorymachinebronzelink"
+	"danny.vn/hotpot/pkg/storage/ent/machine/inventorymachinenormalized"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/machine/internal"
+	"danny.vn/hotpot/pkg/storage/ent/machine/internal"
 )
 
 // Client is the client that holds all ent builders.
@@ -27,12 +27,12 @@ type Client struct {
 	config
 	// Schema is the client for creating, migrating and dropping schema.
 	Schema *migrate.Schema
-	// SilverMachine is the client for interacting with the SilverMachine builders.
-	SilverMachine *SilverMachineClient
-	// SilverMachineBronzeLink is the client for interacting with the SilverMachineBronzeLink builders.
-	SilverMachineBronzeLink *SilverMachineBronzeLinkClient
-	// SilverMachineNormalized is the client for interacting with the SilverMachineNormalized builders.
-	SilverMachineNormalized *SilverMachineNormalizedClient
+	// InventoryMachine is the client for interacting with the InventoryMachine builders.
+	InventoryMachine *InventoryMachineClient
+	// InventoryMachineBronzeLink is the client for interacting with the InventoryMachineBronzeLink builders.
+	InventoryMachineBronzeLink *InventoryMachineBronzeLinkClient
+	// InventoryMachineNormalized is the client for interacting with the InventoryMachineNormalized builders.
+	InventoryMachineNormalized *InventoryMachineNormalizedClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -44,9 +44,9 @@ func NewClient(opts ...Option) *Client {
 
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
-	c.SilverMachine = NewSilverMachineClient(c.config)
-	c.SilverMachineBronzeLink = NewSilverMachineBronzeLinkClient(c.config)
-	c.SilverMachineNormalized = NewSilverMachineNormalizedClient(c.config)
+	c.InventoryMachine = NewInventoryMachineClient(c.config)
+	c.InventoryMachineBronzeLink = NewInventoryMachineBronzeLinkClient(c.config)
+	c.InventoryMachineNormalized = NewInventoryMachineNormalizedClient(c.config)
 }
 
 type (
@@ -139,11 +139,11 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:                     ctx,
-		config:                  cfg,
-		SilverMachine:           NewSilverMachineClient(cfg),
-		SilverMachineBronzeLink: NewSilverMachineBronzeLinkClient(cfg),
-		SilverMachineNormalized: NewSilverMachineNormalizedClient(cfg),
+		ctx:                        ctx,
+		config:                     cfg,
+		InventoryMachine:           NewInventoryMachineClient(cfg),
+		InventoryMachineBronzeLink: NewInventoryMachineBronzeLinkClient(cfg),
+		InventoryMachineNormalized: NewInventoryMachineNormalizedClient(cfg),
 	}, nil
 }
 
@@ -161,18 +161,18 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:                     ctx,
-		config:                  cfg,
-		SilverMachine:           NewSilverMachineClient(cfg),
-		SilverMachineBronzeLink: NewSilverMachineBronzeLinkClient(cfg),
-		SilverMachineNormalized: NewSilverMachineNormalizedClient(cfg),
+		ctx:                        ctx,
+		config:                     cfg,
+		InventoryMachine:           NewInventoryMachineClient(cfg),
+		InventoryMachineBronzeLink: NewInventoryMachineBronzeLinkClient(cfg),
+		InventoryMachineNormalized: NewInventoryMachineNormalizedClient(cfg),
 	}, nil
 }
 
 // Debug returns a new debug-client. It's used to get verbose logging on specific operations.
 //
 //	client.Debug().
-//		SilverMachine.
+//		InventoryMachine.
 //		Query().
 //		Count(ctx)
 func (c *Client) Debug() *Client {
@@ -194,134 +194,134 @@ func (c *Client) Close() error {
 // Use adds the mutation hooks to all the entity clients.
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
-	c.SilverMachine.Use(hooks...)
-	c.SilverMachineBronzeLink.Use(hooks...)
-	c.SilverMachineNormalized.Use(hooks...)
+	c.InventoryMachine.Use(hooks...)
+	c.InventoryMachineBronzeLink.Use(hooks...)
+	c.InventoryMachineNormalized.Use(hooks...)
 }
 
 // Intercept adds the query interceptors to all the entity clients.
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
-	c.SilverMachine.Intercept(interceptors...)
-	c.SilverMachineBronzeLink.Intercept(interceptors...)
-	c.SilverMachineNormalized.Intercept(interceptors...)
+	c.InventoryMachine.Intercept(interceptors...)
+	c.InventoryMachineBronzeLink.Intercept(interceptors...)
+	c.InventoryMachineNormalized.Intercept(interceptors...)
 }
 
 // Mutate implements the ent.Mutator interface.
 func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
-	case *SilverMachineMutation:
-		return c.SilverMachine.mutate(ctx, m)
-	case *SilverMachineBronzeLinkMutation:
-		return c.SilverMachineBronzeLink.mutate(ctx, m)
-	case *SilverMachineNormalizedMutation:
-		return c.SilverMachineNormalized.mutate(ctx, m)
+	case *InventoryMachineMutation:
+		return c.InventoryMachine.mutate(ctx, m)
+	case *InventoryMachineBronzeLinkMutation:
+		return c.InventoryMachineBronzeLink.mutate(ctx, m)
+	case *InventoryMachineNormalizedMutation:
+		return c.InventoryMachineNormalized.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("machine: unknown mutation type %T", m)
 	}
 }
 
-// SilverMachineClient is a client for the SilverMachine schema.
-type SilverMachineClient struct {
+// InventoryMachineClient is a client for the InventoryMachine schema.
+type InventoryMachineClient struct {
 	config
 }
 
-// NewSilverMachineClient returns a client for the SilverMachine from the given config.
-func NewSilverMachineClient(c config) *SilverMachineClient {
-	return &SilverMachineClient{config: c}
+// NewInventoryMachineClient returns a client for the InventoryMachine from the given config.
+func NewInventoryMachineClient(c config) *InventoryMachineClient {
+	return &InventoryMachineClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `silvermachine.Hooks(f(g(h())))`.
-func (c *SilverMachineClient) Use(hooks ...Hook) {
-	c.hooks.SilverMachine = append(c.hooks.SilverMachine, hooks...)
+// A call to `Use(f, g, h)` equals to `inventorymachine.Hooks(f(g(h())))`.
+func (c *InventoryMachineClient) Use(hooks ...Hook) {
+	c.hooks.InventoryMachine = append(c.hooks.InventoryMachine, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `silvermachine.Intercept(f(g(h())))`.
-func (c *SilverMachineClient) Intercept(interceptors ...Interceptor) {
-	c.inters.SilverMachine = append(c.inters.SilverMachine, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `inventorymachine.Intercept(f(g(h())))`.
+func (c *InventoryMachineClient) Intercept(interceptors ...Interceptor) {
+	c.inters.InventoryMachine = append(c.inters.InventoryMachine, interceptors...)
 }
 
-// Create returns a builder for creating a SilverMachine entity.
-func (c *SilverMachineClient) Create() *SilverMachineCreate {
-	mutation := newSilverMachineMutation(c.config, OpCreate)
-	return &SilverMachineCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a InventoryMachine entity.
+func (c *InventoryMachineClient) Create() *InventoryMachineCreate {
+	mutation := newInventoryMachineMutation(c.config, OpCreate)
+	return &InventoryMachineCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of SilverMachine entities.
-func (c *SilverMachineClient) CreateBulk(builders ...*SilverMachineCreate) *SilverMachineCreateBulk {
-	return &SilverMachineCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of InventoryMachine entities.
+func (c *InventoryMachineClient) CreateBulk(builders ...*InventoryMachineCreate) *InventoryMachineCreateBulk {
+	return &InventoryMachineCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *SilverMachineClient) MapCreateBulk(slice any, setFunc func(*SilverMachineCreate, int)) *SilverMachineCreateBulk {
+func (c *InventoryMachineClient) MapCreateBulk(slice any, setFunc func(*InventoryMachineCreate, int)) *InventoryMachineCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &SilverMachineCreateBulk{err: fmt.Errorf("calling to SilverMachineClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &InventoryMachineCreateBulk{err: fmt.Errorf("calling to InventoryMachineClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*SilverMachineCreate, rv.Len())
+	builders := make([]*InventoryMachineCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &SilverMachineCreateBulk{config: c.config, builders: builders}
+	return &InventoryMachineCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for SilverMachine.
-func (c *SilverMachineClient) Update() *SilverMachineUpdate {
-	mutation := newSilverMachineMutation(c.config, OpUpdate)
-	return &SilverMachineUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for InventoryMachine.
+func (c *InventoryMachineClient) Update() *InventoryMachineUpdate {
+	mutation := newInventoryMachineMutation(c.config, OpUpdate)
+	return &InventoryMachineUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *SilverMachineClient) UpdateOne(_m *SilverMachine) *SilverMachineUpdateOne {
-	mutation := newSilverMachineMutation(c.config, OpUpdateOne, withSilverMachine(_m))
-	return &SilverMachineUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *InventoryMachineClient) UpdateOne(_m *InventoryMachine) *InventoryMachineUpdateOne {
+	mutation := newInventoryMachineMutation(c.config, OpUpdateOne, withInventoryMachine(_m))
+	return &InventoryMachineUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *SilverMachineClient) UpdateOneID(id string) *SilverMachineUpdateOne {
-	mutation := newSilverMachineMutation(c.config, OpUpdateOne, withSilverMachineID(id))
-	return &SilverMachineUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *InventoryMachineClient) UpdateOneID(id string) *InventoryMachineUpdateOne {
+	mutation := newInventoryMachineMutation(c.config, OpUpdateOne, withInventoryMachineID(id))
+	return &InventoryMachineUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for SilverMachine.
-func (c *SilverMachineClient) Delete() *SilverMachineDelete {
-	mutation := newSilverMachineMutation(c.config, OpDelete)
-	return &SilverMachineDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for InventoryMachine.
+func (c *InventoryMachineClient) Delete() *InventoryMachineDelete {
+	mutation := newInventoryMachineMutation(c.config, OpDelete)
+	return &InventoryMachineDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *SilverMachineClient) DeleteOne(_m *SilverMachine) *SilverMachineDeleteOne {
+func (c *InventoryMachineClient) DeleteOne(_m *InventoryMachine) *InventoryMachineDeleteOne {
 	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *SilverMachineClient) DeleteOneID(id string) *SilverMachineDeleteOne {
-	builder := c.Delete().Where(silvermachine.ID(id))
+func (c *InventoryMachineClient) DeleteOneID(id string) *InventoryMachineDeleteOne {
+	builder := c.Delete().Where(inventorymachine.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &SilverMachineDeleteOne{builder}
+	return &InventoryMachineDeleteOne{builder}
 }
 
-// Query returns a query builder for SilverMachine.
-func (c *SilverMachineClient) Query() *SilverMachineQuery {
-	return &SilverMachineQuery{
+// Query returns a query builder for InventoryMachine.
+func (c *InventoryMachineClient) Query() *InventoryMachineQuery {
+	return &InventoryMachineQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeSilverMachine},
+		ctx:    &QueryContext{Type: TypeInventoryMachine},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a SilverMachine entity by its id.
-func (c *SilverMachineClient) Get(ctx context.Context, id string) (*SilverMachine, error) {
-	return c.Query().Where(silvermachine.ID(id)).Only(ctx)
+// Get returns a InventoryMachine entity by its id.
+func (c *InventoryMachineClient) Get(ctx context.Context, id string) (*InventoryMachine, error) {
+	return c.Query().Where(inventorymachine.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *SilverMachineClient) GetX(ctx context.Context, id string) *SilverMachine {
+func (c *InventoryMachineClient) GetX(ctx context.Context, id string) *InventoryMachine {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -329,19 +329,19 @@ func (c *SilverMachineClient) GetX(ctx context.Context, id string) *SilverMachin
 	return obj
 }
 
-// QueryBronzeLinks queries the bronze_links edge of a SilverMachine.
-func (c *SilverMachineClient) QueryBronzeLinks(_m *SilverMachine) *SilverMachineBronzeLinkQuery {
-	query := (&SilverMachineBronzeLinkClient{config: c.config}).Query()
+// QueryBronzeLinks queries the bronze_links edge of a InventoryMachine.
+func (c *InventoryMachineClient) QueryBronzeLinks(_m *InventoryMachine) *InventoryMachineBronzeLinkQuery {
+	query := (&InventoryMachineBronzeLinkClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
 		id := _m.ID
 		step := sqlgraph.NewStep(
-			sqlgraph.From(silvermachine.Table, silvermachine.FieldID, id),
-			sqlgraph.To(silvermachinebronzelink.Table, silvermachinebronzelink.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, silvermachine.BronzeLinksTable, silvermachine.BronzeLinksColumn),
+			sqlgraph.From(inventorymachine.Table, inventorymachine.FieldID, id),
+			sqlgraph.To(inventorymachinebronzelink.Table, inventorymachinebronzelink.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, inventorymachine.BronzeLinksTable, inventorymachine.BronzeLinksColumn),
 		)
 		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.SilverMachineBronzeLink
-		step.Edge.Schema = schemaConfig.SilverMachineBronzeLink
+		step.To.Schema = schemaConfig.InventoryMachineBronzeLink
+		step.Edge.Schema = schemaConfig.InventoryMachineBronzeLink
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -349,131 +349,131 @@ func (c *SilverMachineClient) QueryBronzeLinks(_m *SilverMachine) *SilverMachine
 }
 
 // Hooks returns the client hooks.
-func (c *SilverMachineClient) Hooks() []Hook {
-	return c.hooks.SilverMachine
+func (c *InventoryMachineClient) Hooks() []Hook {
+	return c.hooks.InventoryMachine
 }
 
 // Interceptors returns the client interceptors.
-func (c *SilverMachineClient) Interceptors() []Interceptor {
-	return c.inters.SilverMachine
+func (c *InventoryMachineClient) Interceptors() []Interceptor {
+	return c.inters.InventoryMachine
 }
 
-func (c *SilverMachineClient) mutate(ctx context.Context, m *SilverMachineMutation) (Value, error) {
+func (c *InventoryMachineClient) mutate(ctx context.Context, m *InventoryMachineMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&SilverMachineCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&InventoryMachineCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&SilverMachineUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&InventoryMachineUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&SilverMachineUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&InventoryMachineUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&SilverMachineDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&InventoryMachineDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("machine: unknown SilverMachine mutation op: %q", m.Op())
+		return nil, fmt.Errorf("machine: unknown InventoryMachine mutation op: %q", m.Op())
 	}
 }
 
-// SilverMachineBronzeLinkClient is a client for the SilverMachineBronzeLink schema.
-type SilverMachineBronzeLinkClient struct {
+// InventoryMachineBronzeLinkClient is a client for the InventoryMachineBronzeLink schema.
+type InventoryMachineBronzeLinkClient struct {
 	config
 }
 
-// NewSilverMachineBronzeLinkClient returns a client for the SilverMachineBronzeLink from the given config.
-func NewSilverMachineBronzeLinkClient(c config) *SilverMachineBronzeLinkClient {
-	return &SilverMachineBronzeLinkClient{config: c}
+// NewInventoryMachineBronzeLinkClient returns a client for the InventoryMachineBronzeLink from the given config.
+func NewInventoryMachineBronzeLinkClient(c config) *InventoryMachineBronzeLinkClient {
+	return &InventoryMachineBronzeLinkClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `silvermachinebronzelink.Hooks(f(g(h())))`.
-func (c *SilverMachineBronzeLinkClient) Use(hooks ...Hook) {
-	c.hooks.SilverMachineBronzeLink = append(c.hooks.SilverMachineBronzeLink, hooks...)
+// A call to `Use(f, g, h)` equals to `inventorymachinebronzelink.Hooks(f(g(h())))`.
+func (c *InventoryMachineBronzeLinkClient) Use(hooks ...Hook) {
+	c.hooks.InventoryMachineBronzeLink = append(c.hooks.InventoryMachineBronzeLink, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `silvermachinebronzelink.Intercept(f(g(h())))`.
-func (c *SilverMachineBronzeLinkClient) Intercept(interceptors ...Interceptor) {
-	c.inters.SilverMachineBronzeLink = append(c.inters.SilverMachineBronzeLink, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `inventorymachinebronzelink.Intercept(f(g(h())))`.
+func (c *InventoryMachineBronzeLinkClient) Intercept(interceptors ...Interceptor) {
+	c.inters.InventoryMachineBronzeLink = append(c.inters.InventoryMachineBronzeLink, interceptors...)
 }
 
-// Create returns a builder for creating a SilverMachineBronzeLink entity.
-func (c *SilverMachineBronzeLinkClient) Create() *SilverMachineBronzeLinkCreate {
-	mutation := newSilverMachineBronzeLinkMutation(c.config, OpCreate)
-	return &SilverMachineBronzeLinkCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a InventoryMachineBronzeLink entity.
+func (c *InventoryMachineBronzeLinkClient) Create() *InventoryMachineBronzeLinkCreate {
+	mutation := newInventoryMachineBronzeLinkMutation(c.config, OpCreate)
+	return &InventoryMachineBronzeLinkCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of SilverMachineBronzeLink entities.
-func (c *SilverMachineBronzeLinkClient) CreateBulk(builders ...*SilverMachineBronzeLinkCreate) *SilverMachineBronzeLinkCreateBulk {
-	return &SilverMachineBronzeLinkCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of InventoryMachineBronzeLink entities.
+func (c *InventoryMachineBronzeLinkClient) CreateBulk(builders ...*InventoryMachineBronzeLinkCreate) *InventoryMachineBronzeLinkCreateBulk {
+	return &InventoryMachineBronzeLinkCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *SilverMachineBronzeLinkClient) MapCreateBulk(slice any, setFunc func(*SilverMachineBronzeLinkCreate, int)) *SilverMachineBronzeLinkCreateBulk {
+func (c *InventoryMachineBronzeLinkClient) MapCreateBulk(slice any, setFunc func(*InventoryMachineBronzeLinkCreate, int)) *InventoryMachineBronzeLinkCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &SilverMachineBronzeLinkCreateBulk{err: fmt.Errorf("calling to SilverMachineBronzeLinkClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &InventoryMachineBronzeLinkCreateBulk{err: fmt.Errorf("calling to InventoryMachineBronzeLinkClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*SilverMachineBronzeLinkCreate, rv.Len())
+	builders := make([]*InventoryMachineBronzeLinkCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &SilverMachineBronzeLinkCreateBulk{config: c.config, builders: builders}
+	return &InventoryMachineBronzeLinkCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for SilverMachineBronzeLink.
-func (c *SilverMachineBronzeLinkClient) Update() *SilverMachineBronzeLinkUpdate {
-	mutation := newSilverMachineBronzeLinkMutation(c.config, OpUpdate)
-	return &SilverMachineBronzeLinkUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for InventoryMachineBronzeLink.
+func (c *InventoryMachineBronzeLinkClient) Update() *InventoryMachineBronzeLinkUpdate {
+	mutation := newInventoryMachineBronzeLinkMutation(c.config, OpUpdate)
+	return &InventoryMachineBronzeLinkUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *SilverMachineBronzeLinkClient) UpdateOne(_m *SilverMachineBronzeLink) *SilverMachineBronzeLinkUpdateOne {
-	mutation := newSilverMachineBronzeLinkMutation(c.config, OpUpdateOne, withSilverMachineBronzeLink(_m))
-	return &SilverMachineBronzeLinkUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *InventoryMachineBronzeLinkClient) UpdateOne(_m *InventoryMachineBronzeLink) *InventoryMachineBronzeLinkUpdateOne {
+	mutation := newInventoryMachineBronzeLinkMutation(c.config, OpUpdateOne, withInventoryMachineBronzeLink(_m))
+	return &InventoryMachineBronzeLinkUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *SilverMachineBronzeLinkClient) UpdateOneID(id int) *SilverMachineBronzeLinkUpdateOne {
-	mutation := newSilverMachineBronzeLinkMutation(c.config, OpUpdateOne, withSilverMachineBronzeLinkID(id))
-	return &SilverMachineBronzeLinkUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *InventoryMachineBronzeLinkClient) UpdateOneID(id int) *InventoryMachineBronzeLinkUpdateOne {
+	mutation := newInventoryMachineBronzeLinkMutation(c.config, OpUpdateOne, withInventoryMachineBronzeLinkID(id))
+	return &InventoryMachineBronzeLinkUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for SilverMachineBronzeLink.
-func (c *SilverMachineBronzeLinkClient) Delete() *SilverMachineBronzeLinkDelete {
-	mutation := newSilverMachineBronzeLinkMutation(c.config, OpDelete)
-	return &SilverMachineBronzeLinkDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for InventoryMachineBronzeLink.
+func (c *InventoryMachineBronzeLinkClient) Delete() *InventoryMachineBronzeLinkDelete {
+	mutation := newInventoryMachineBronzeLinkMutation(c.config, OpDelete)
+	return &InventoryMachineBronzeLinkDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *SilverMachineBronzeLinkClient) DeleteOne(_m *SilverMachineBronzeLink) *SilverMachineBronzeLinkDeleteOne {
+func (c *InventoryMachineBronzeLinkClient) DeleteOne(_m *InventoryMachineBronzeLink) *InventoryMachineBronzeLinkDeleteOne {
 	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *SilverMachineBronzeLinkClient) DeleteOneID(id int) *SilverMachineBronzeLinkDeleteOne {
-	builder := c.Delete().Where(silvermachinebronzelink.ID(id))
+func (c *InventoryMachineBronzeLinkClient) DeleteOneID(id int) *InventoryMachineBronzeLinkDeleteOne {
+	builder := c.Delete().Where(inventorymachinebronzelink.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &SilverMachineBronzeLinkDeleteOne{builder}
+	return &InventoryMachineBronzeLinkDeleteOne{builder}
 }
 
-// Query returns a query builder for SilverMachineBronzeLink.
-func (c *SilverMachineBronzeLinkClient) Query() *SilverMachineBronzeLinkQuery {
-	return &SilverMachineBronzeLinkQuery{
+// Query returns a query builder for InventoryMachineBronzeLink.
+func (c *InventoryMachineBronzeLinkClient) Query() *InventoryMachineBronzeLinkQuery {
+	return &InventoryMachineBronzeLinkQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeSilverMachineBronzeLink},
+		ctx:    &QueryContext{Type: TypeInventoryMachineBronzeLink},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a SilverMachineBronzeLink entity by its id.
-func (c *SilverMachineBronzeLinkClient) Get(ctx context.Context, id int) (*SilverMachineBronzeLink, error) {
-	return c.Query().Where(silvermachinebronzelink.ID(id)).Only(ctx)
+// Get returns a InventoryMachineBronzeLink entity by its id.
+func (c *InventoryMachineBronzeLinkClient) Get(ctx context.Context, id int) (*InventoryMachineBronzeLink, error) {
+	return c.Query().Where(inventorymachinebronzelink.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *SilverMachineBronzeLinkClient) GetX(ctx context.Context, id int) *SilverMachineBronzeLink {
+func (c *InventoryMachineBronzeLinkClient) GetX(ctx context.Context, id int) *InventoryMachineBronzeLink {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -481,19 +481,19 @@ func (c *SilverMachineBronzeLinkClient) GetX(ctx context.Context, id int) *Silve
 	return obj
 }
 
-// QueryMachine queries the machine edge of a SilverMachineBronzeLink.
-func (c *SilverMachineBronzeLinkClient) QueryMachine(_m *SilverMachineBronzeLink) *SilverMachineQuery {
-	query := (&SilverMachineClient{config: c.config}).Query()
+// QueryMachine queries the machine edge of a InventoryMachineBronzeLink.
+func (c *InventoryMachineBronzeLinkClient) QueryMachine(_m *InventoryMachineBronzeLink) *InventoryMachineQuery {
+	query := (&InventoryMachineClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
 		id := _m.ID
 		step := sqlgraph.NewStep(
-			sqlgraph.From(silvermachinebronzelink.Table, silvermachinebronzelink.FieldID, id),
-			sqlgraph.To(silvermachine.Table, silvermachine.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, silvermachinebronzelink.MachineTable, silvermachinebronzelink.MachineColumn),
+			sqlgraph.From(inventorymachinebronzelink.Table, inventorymachinebronzelink.FieldID, id),
+			sqlgraph.To(inventorymachine.Table, inventorymachine.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, inventorymachinebronzelink.MachineTable, inventorymachinebronzelink.MachineColumn),
 		)
 		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.SilverMachine
-		step.Edge.Schema = schemaConfig.SilverMachineBronzeLink
+		step.To.Schema = schemaConfig.InventoryMachine
+		step.Edge.Schema = schemaConfig.InventoryMachineBronzeLink
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -501,131 +501,131 @@ func (c *SilverMachineBronzeLinkClient) QueryMachine(_m *SilverMachineBronzeLink
 }
 
 // Hooks returns the client hooks.
-func (c *SilverMachineBronzeLinkClient) Hooks() []Hook {
-	return c.hooks.SilverMachineBronzeLink
+func (c *InventoryMachineBronzeLinkClient) Hooks() []Hook {
+	return c.hooks.InventoryMachineBronzeLink
 }
 
 // Interceptors returns the client interceptors.
-func (c *SilverMachineBronzeLinkClient) Interceptors() []Interceptor {
-	return c.inters.SilverMachineBronzeLink
+func (c *InventoryMachineBronzeLinkClient) Interceptors() []Interceptor {
+	return c.inters.InventoryMachineBronzeLink
 }
 
-func (c *SilverMachineBronzeLinkClient) mutate(ctx context.Context, m *SilverMachineBronzeLinkMutation) (Value, error) {
+func (c *InventoryMachineBronzeLinkClient) mutate(ctx context.Context, m *InventoryMachineBronzeLinkMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&SilverMachineBronzeLinkCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&InventoryMachineBronzeLinkCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&SilverMachineBronzeLinkUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&InventoryMachineBronzeLinkUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&SilverMachineBronzeLinkUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&InventoryMachineBronzeLinkUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&SilverMachineBronzeLinkDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&InventoryMachineBronzeLinkDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("machine: unknown SilverMachineBronzeLink mutation op: %q", m.Op())
+		return nil, fmt.Errorf("machine: unknown InventoryMachineBronzeLink mutation op: %q", m.Op())
 	}
 }
 
-// SilverMachineNormalizedClient is a client for the SilverMachineNormalized schema.
-type SilverMachineNormalizedClient struct {
+// InventoryMachineNormalizedClient is a client for the InventoryMachineNormalized schema.
+type InventoryMachineNormalizedClient struct {
 	config
 }
 
-// NewSilverMachineNormalizedClient returns a client for the SilverMachineNormalized from the given config.
-func NewSilverMachineNormalizedClient(c config) *SilverMachineNormalizedClient {
-	return &SilverMachineNormalizedClient{config: c}
+// NewInventoryMachineNormalizedClient returns a client for the InventoryMachineNormalized from the given config.
+func NewInventoryMachineNormalizedClient(c config) *InventoryMachineNormalizedClient {
+	return &InventoryMachineNormalizedClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `silvermachinenormalized.Hooks(f(g(h())))`.
-func (c *SilverMachineNormalizedClient) Use(hooks ...Hook) {
-	c.hooks.SilverMachineNormalized = append(c.hooks.SilverMachineNormalized, hooks...)
+// A call to `Use(f, g, h)` equals to `inventorymachinenormalized.Hooks(f(g(h())))`.
+func (c *InventoryMachineNormalizedClient) Use(hooks ...Hook) {
+	c.hooks.InventoryMachineNormalized = append(c.hooks.InventoryMachineNormalized, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `silvermachinenormalized.Intercept(f(g(h())))`.
-func (c *SilverMachineNormalizedClient) Intercept(interceptors ...Interceptor) {
-	c.inters.SilverMachineNormalized = append(c.inters.SilverMachineNormalized, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `inventorymachinenormalized.Intercept(f(g(h())))`.
+func (c *InventoryMachineNormalizedClient) Intercept(interceptors ...Interceptor) {
+	c.inters.InventoryMachineNormalized = append(c.inters.InventoryMachineNormalized, interceptors...)
 }
 
-// Create returns a builder for creating a SilverMachineNormalized entity.
-func (c *SilverMachineNormalizedClient) Create() *SilverMachineNormalizedCreate {
-	mutation := newSilverMachineNormalizedMutation(c.config, OpCreate)
-	return &SilverMachineNormalizedCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a InventoryMachineNormalized entity.
+func (c *InventoryMachineNormalizedClient) Create() *InventoryMachineNormalizedCreate {
+	mutation := newInventoryMachineNormalizedMutation(c.config, OpCreate)
+	return &InventoryMachineNormalizedCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of SilverMachineNormalized entities.
-func (c *SilverMachineNormalizedClient) CreateBulk(builders ...*SilverMachineNormalizedCreate) *SilverMachineNormalizedCreateBulk {
-	return &SilverMachineNormalizedCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of InventoryMachineNormalized entities.
+func (c *InventoryMachineNormalizedClient) CreateBulk(builders ...*InventoryMachineNormalizedCreate) *InventoryMachineNormalizedCreateBulk {
+	return &InventoryMachineNormalizedCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *SilverMachineNormalizedClient) MapCreateBulk(slice any, setFunc func(*SilverMachineNormalizedCreate, int)) *SilverMachineNormalizedCreateBulk {
+func (c *InventoryMachineNormalizedClient) MapCreateBulk(slice any, setFunc func(*InventoryMachineNormalizedCreate, int)) *InventoryMachineNormalizedCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &SilverMachineNormalizedCreateBulk{err: fmt.Errorf("calling to SilverMachineNormalizedClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &InventoryMachineNormalizedCreateBulk{err: fmt.Errorf("calling to InventoryMachineNormalizedClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*SilverMachineNormalizedCreate, rv.Len())
+	builders := make([]*InventoryMachineNormalizedCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &SilverMachineNormalizedCreateBulk{config: c.config, builders: builders}
+	return &InventoryMachineNormalizedCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for SilverMachineNormalized.
-func (c *SilverMachineNormalizedClient) Update() *SilverMachineNormalizedUpdate {
-	mutation := newSilverMachineNormalizedMutation(c.config, OpUpdate)
-	return &SilverMachineNormalizedUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for InventoryMachineNormalized.
+func (c *InventoryMachineNormalizedClient) Update() *InventoryMachineNormalizedUpdate {
+	mutation := newInventoryMachineNormalizedMutation(c.config, OpUpdate)
+	return &InventoryMachineNormalizedUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *SilverMachineNormalizedClient) UpdateOne(_m *SilverMachineNormalized) *SilverMachineNormalizedUpdateOne {
-	mutation := newSilverMachineNormalizedMutation(c.config, OpUpdateOne, withSilverMachineNormalized(_m))
-	return &SilverMachineNormalizedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *InventoryMachineNormalizedClient) UpdateOne(_m *InventoryMachineNormalized) *InventoryMachineNormalizedUpdateOne {
+	mutation := newInventoryMachineNormalizedMutation(c.config, OpUpdateOne, withInventoryMachineNormalized(_m))
+	return &InventoryMachineNormalizedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *SilverMachineNormalizedClient) UpdateOneID(id string) *SilverMachineNormalizedUpdateOne {
-	mutation := newSilverMachineNormalizedMutation(c.config, OpUpdateOne, withSilverMachineNormalizedID(id))
-	return &SilverMachineNormalizedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *InventoryMachineNormalizedClient) UpdateOneID(id string) *InventoryMachineNormalizedUpdateOne {
+	mutation := newInventoryMachineNormalizedMutation(c.config, OpUpdateOne, withInventoryMachineNormalizedID(id))
+	return &InventoryMachineNormalizedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for SilverMachineNormalized.
-func (c *SilverMachineNormalizedClient) Delete() *SilverMachineNormalizedDelete {
-	mutation := newSilverMachineNormalizedMutation(c.config, OpDelete)
-	return &SilverMachineNormalizedDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for InventoryMachineNormalized.
+func (c *InventoryMachineNormalizedClient) Delete() *InventoryMachineNormalizedDelete {
+	mutation := newInventoryMachineNormalizedMutation(c.config, OpDelete)
+	return &InventoryMachineNormalizedDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *SilverMachineNormalizedClient) DeleteOne(_m *SilverMachineNormalized) *SilverMachineNormalizedDeleteOne {
+func (c *InventoryMachineNormalizedClient) DeleteOne(_m *InventoryMachineNormalized) *InventoryMachineNormalizedDeleteOne {
 	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *SilverMachineNormalizedClient) DeleteOneID(id string) *SilverMachineNormalizedDeleteOne {
-	builder := c.Delete().Where(silvermachinenormalized.ID(id))
+func (c *InventoryMachineNormalizedClient) DeleteOneID(id string) *InventoryMachineNormalizedDeleteOne {
+	builder := c.Delete().Where(inventorymachinenormalized.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &SilverMachineNormalizedDeleteOne{builder}
+	return &InventoryMachineNormalizedDeleteOne{builder}
 }
 
-// Query returns a query builder for SilverMachineNormalized.
-func (c *SilverMachineNormalizedClient) Query() *SilverMachineNormalizedQuery {
-	return &SilverMachineNormalizedQuery{
+// Query returns a query builder for InventoryMachineNormalized.
+func (c *InventoryMachineNormalizedClient) Query() *InventoryMachineNormalizedQuery {
+	return &InventoryMachineNormalizedQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeSilverMachineNormalized},
+		ctx:    &QueryContext{Type: TypeInventoryMachineNormalized},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a SilverMachineNormalized entity by its id.
-func (c *SilverMachineNormalizedClient) Get(ctx context.Context, id string) (*SilverMachineNormalized, error) {
-	return c.Query().Where(silvermachinenormalized.ID(id)).Only(ctx)
+// Get returns a InventoryMachineNormalized entity by its id.
+func (c *InventoryMachineNormalizedClient) Get(ctx context.Context, id string) (*InventoryMachineNormalized, error) {
+	return c.Query().Where(inventorymachinenormalized.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *SilverMachineNormalizedClient) GetX(ctx context.Context, id string) *SilverMachineNormalized {
+func (c *InventoryMachineNormalizedClient) GetX(ctx context.Context, id string) *InventoryMachineNormalized {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -634,38 +634,39 @@ func (c *SilverMachineNormalizedClient) GetX(ctx context.Context, id string) *Si
 }
 
 // Hooks returns the client hooks.
-func (c *SilverMachineNormalizedClient) Hooks() []Hook {
-	return c.hooks.SilverMachineNormalized
+func (c *InventoryMachineNormalizedClient) Hooks() []Hook {
+	return c.hooks.InventoryMachineNormalized
 }
 
 // Interceptors returns the client interceptors.
-func (c *SilverMachineNormalizedClient) Interceptors() []Interceptor {
-	return c.inters.SilverMachineNormalized
+func (c *InventoryMachineNormalizedClient) Interceptors() []Interceptor {
+	return c.inters.InventoryMachineNormalized
 }
 
-func (c *SilverMachineNormalizedClient) mutate(ctx context.Context, m *SilverMachineNormalizedMutation) (Value, error) {
+func (c *InventoryMachineNormalizedClient) mutate(ctx context.Context, m *InventoryMachineNormalizedMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&SilverMachineNormalizedCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&InventoryMachineNormalizedCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&SilverMachineNormalizedUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&InventoryMachineNormalizedUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&SilverMachineNormalizedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&InventoryMachineNormalizedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&SilverMachineNormalizedDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&InventoryMachineNormalizedDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("machine: unknown SilverMachineNormalized mutation op: %q", m.Op())
+		return nil, fmt.Errorf("machine: unknown InventoryMachineNormalized mutation op: %q", m.Op())
 	}
 }
 
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		SilverMachine, SilverMachineBronzeLink, SilverMachineNormalized []ent.Hook
+		InventoryMachine, InventoryMachineBronzeLink,
+		InventoryMachineNormalized []ent.Hook
 	}
 	inters struct {
-		SilverMachine, SilverMachineBronzeLink,
-		SilverMachineNormalized []ent.Interceptor
+		InventoryMachine, InventoryMachineBronzeLink,
+		InventoryMachineNormalized []ent.Interceptor
 	}
 )
 

@@ -7,8 +7,8 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/internal"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/predicate"
 )
 
 // ID filters vertices based on their ID field.

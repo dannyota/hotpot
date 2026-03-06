@@ -3,9 +3,9 @@ package function
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entcloudfunctions "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entcloudfunctions "danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions"
 )
 
 // Register registers Cloud Functions function workflows and activities with the Temporal worker.

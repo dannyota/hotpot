@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entstorage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucket"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucketlabel"
+	entstorage "danny.vn/hotpot/pkg/storage/ent/gcp/storage"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucket"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucketlabel"
 )
 
 // Service handles GCP Storage bucket ingestion.

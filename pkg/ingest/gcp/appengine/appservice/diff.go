@@ -3,7 +3,7 @@ package appservice
 import (
 	"bytes"
 
-	entappengine "github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine"
+	entappengine "danny.vn/hotpot/pkg/storage/ent/gcp/appengine"
 )
 
 // ServiceDiff represents changes between old and new App Engine service state.

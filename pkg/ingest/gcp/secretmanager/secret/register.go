@@ -3,9 +3,9 @@ package secret
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entsecretmanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entsecretmanager "danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager"
 )
 
 // Register registers secret workflows and activities with the Temporal worker.

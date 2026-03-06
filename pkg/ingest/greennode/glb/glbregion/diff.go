@@ -1,7 +1,7 @@
 package glbregion
 
 import (
-	entglb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb"
+	entglb "danny.vn/hotpot/pkg/storage/ent/greennode/glb"
 )
 
 // GLBRegionDiff represents changes between old and new region states.

@@ -12,11 +12,11 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzegreennodednshostedzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzegreennodednsrecord"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzehistorygreennodednshostedzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzehistorygreennodednsrecord"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/bronzegreennodednshostedzone"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/bronzegreennodednsrecord"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/bronzehistorygreennodednshostedzone"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/bronzehistorygreennodednsrecord"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/predicate"
 )
 
 const (

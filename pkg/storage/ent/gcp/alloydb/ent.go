@@ -12,8 +12,8 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/bronzegcpalloydbcluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/bronzehistorygcpalloydbcluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/bronzegcpalloydbcluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/bronzehistorygcpalloydbcluster"
 )
 
 // ent aliases to avoid import conflicts in user's code.

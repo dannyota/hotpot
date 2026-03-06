@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entvpn "github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpntargetgateway"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpntargetgatewaylabel"
+	entvpn "danny.vn/hotpot/pkg/storage/ent/gcp/vpn"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpntargetgateway"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpntargetgatewaylabel"
 )
 
 // Service handles GCP Compute Classic VPN gateway ingestion.

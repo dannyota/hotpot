@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeaddress"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeaddresslabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeaddress"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeaddresslabel"
 )
 
 // BronzeGCPComputeAddressLabelCreate is the builder for creating a BronzeGCPComputeAddressLabel entity.

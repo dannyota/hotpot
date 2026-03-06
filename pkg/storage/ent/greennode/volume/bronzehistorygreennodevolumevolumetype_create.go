@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumevolumetype"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumevolumetype"
 )
 
 // BronzeHistoryGreenNodeVolumeVolumeTypeCreate is the builder for creating a BronzeHistoryGreenNodeVolumeVolumeType entity.

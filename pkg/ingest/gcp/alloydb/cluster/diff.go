@@ -3,7 +3,7 @@ package cluster
 import (
 	"bytes"
 
-	entalloydb "github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb"
+	entalloydb "danny.vn/hotpot/pkg/storage/ent/gcp/alloydb"
 )
 
 // ClusterDiff represents changes between old and new AlloyDB cluster states.

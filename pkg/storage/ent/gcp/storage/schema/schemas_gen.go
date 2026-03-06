@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_storage "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/storage"
-	bronzehistory_gcp_storage "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/storage"
+	bronze_gcp_storage "danny.vn/hotpot/pkg/schema/bronze/gcp/storage"
+	bronzehistory_gcp_storage "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/storage"
 )
 
 type BronzeGCPStorageBucket struct {

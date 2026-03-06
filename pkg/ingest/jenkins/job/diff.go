@@ -1,7 +1,7 @@
 package job
 
 import (
-	entjenkins "github.com/dannyota/hotpot/pkg/storage/ent/jenkins"
+	entjenkins "danny.vn/hotpot/pkg/storage/ent/jenkins"
 )
 
 // JobDiff represents changes between old and new job states.

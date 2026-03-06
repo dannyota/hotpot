@@ -2,7 +2,7 @@ package snapshot
 
 import (
 	"bytes"
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // SnapshotDiff represents changes between old and new snapshot states.

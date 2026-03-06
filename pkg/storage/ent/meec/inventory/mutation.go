@@ -11,13 +11,13 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/bronzehistorymeecinventorycomputer"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/bronzehistorymeecinventoryinstalledsoftware"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/bronzehistorymeecinventorysoftware"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/bronzemeecinventorycomputer"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/bronzemeecinventoryinstalledsoftware"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/bronzemeecinventorysoftware"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/bronzehistorymeecinventorycomputer"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/bronzehistorymeecinventoryinstalledsoftware"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/bronzehistorymeecinventorysoftware"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/bronzemeecinventorycomputer"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/bronzemeecinventoryinstalledsoftware"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/bronzemeecinventorysoftware"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/predicate"
 )
 
 const (

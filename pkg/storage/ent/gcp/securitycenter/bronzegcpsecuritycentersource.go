@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/bronzegcpsecuritycentersource"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/bronzegcpsecuritycentersource"
 )
 
 // BronzeGCPSecurityCenterSource is the model entity for the BronzeGCPSecurityCenterSource schema.

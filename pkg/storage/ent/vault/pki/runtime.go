@@ -3,9 +3,9 @@
 package pki
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/vault/pki/bronzehistoryvaultpkicertificate"
-	"github.com/dannyota/hotpot/pkg/storage/ent/vault/pki/bronzevaultpkicertificate"
-	"github.com/dannyota/hotpot/pkg/storage/ent/vault/pki/schema"
+	"danny.vn/hotpot/pkg/storage/ent/vault/pki/bronzehistoryvaultpkicertificate"
+	"danny.vn/hotpot/pkg/storage/ent/vault/pki/bronzevaultpkicertificate"
+	"danny.vn/hotpot/pkg/storage/ent/vault/pki/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

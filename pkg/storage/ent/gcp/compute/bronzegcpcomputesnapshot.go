@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesnapshot"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesnapshot"
 )
 
 // BronzeGCPComputeSnapshot is the model entity for the BronzeGCPComputeSnapshot schema.

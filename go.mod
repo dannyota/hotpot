@@ -1,4 +1,4 @@
-module github.com/dannyota/hotpot
+module danny.vn/hotpot
 
 go 1.25.7
 

@@ -1,7 +1,7 @@
 package computer
 
 import (
-	entinventory "github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory"
+	entinventory "danny.vn/hotpot/pkg/storage/ent/meec/inventory"
 )
 
 // ComputerDiff represents changes between old and new computer states.

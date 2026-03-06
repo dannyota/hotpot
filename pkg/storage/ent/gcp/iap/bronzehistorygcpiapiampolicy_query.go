@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap/bronzehistorygcpiapiampolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iap/bronzehistorygcpiapiampolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iap/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iap/predicate"
 )
 
 // BronzeHistoryGCPIAPIAMPolicyQuery is the builder for querying BronzeHistoryGCPIAPIAMPolicy entities.

@@ -12,8 +12,8 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzegcpcloudfunctionsfunction"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzehistorygcpcloudfunctionsfunction"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzegcpcloudfunctionsfunction"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzehistorygcpcloudfunctionsfunction"
 )
 
 // ent aliases to avoid import conflicts in user's code.

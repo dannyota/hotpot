@@ -12,12 +12,12 @@ import (
 // Tx is a transactional client that is created by calling Client.Tx().
 type Tx struct {
 	config
-	// SilverK8sNode is the client for interacting with the SilverK8sNode builders.
-	SilverK8sNode *SilverK8sNodeClient
-	// SilverK8sNodeBronzeLink is the client for interacting with the SilverK8sNodeBronzeLink builders.
-	SilverK8sNodeBronzeLink *SilverK8sNodeBronzeLinkClient
-	// SilverK8sNodeNormalized is the client for interacting with the SilverK8sNodeNormalized builders.
-	SilverK8sNodeNormalized *SilverK8sNodeNormalizedClient
+	// InventoryK8sNode is the client for interacting with the InventoryK8sNode builders.
+	InventoryK8sNode *InventoryK8sNodeClient
+	// InventoryK8sNodeBronzeLink is the client for interacting with the InventoryK8sNodeBronzeLink builders.
+	InventoryK8sNodeBronzeLink *InventoryK8sNodeBronzeLinkClient
+	// InventoryK8sNodeNormalized is the client for interacting with the InventoryK8sNodeNormalized builders.
+	InventoryK8sNodeNormalized *InventoryK8sNodeNormalizedClient
 
 	// lazily loaded.
 	client     *Client
@@ -149,9 +149,9 @@ func (tx *Tx) Client() *Client {
 }
 
 func (tx *Tx) init() {
-	tx.SilverK8sNode = NewSilverK8sNodeClient(tx.config)
-	tx.SilverK8sNodeBronzeLink = NewSilverK8sNodeBronzeLinkClient(tx.config)
-	tx.SilverK8sNodeNormalized = NewSilverK8sNodeNormalizedClient(tx.config)
+	tx.InventoryK8sNode = NewInventoryK8sNodeClient(tx.config)
+	tx.InventoryK8sNodeBronzeLink = NewInventoryK8sNodeBronzeLinkClient(tx.config)
+	tx.InventoryK8sNodeNormalized = NewInventoryK8sNodeNormalizedClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.
@@ -161,7 +161,7 @@ func (tx *Tx) init() {
 // of them in order to commit or rollback the transaction.
 //
 // If a closed transaction is embedded in one of the generated entities, and the entity
-// applies a query, for example: SilverK8sNode.QueryXXX(), the query will be executed
+// applies a query, for example: InventoryK8sNode.QueryXXX(), the query will be executed
 // through the driver which created this transaction.
 //
 // Note that txDriver is not goroutine safe.

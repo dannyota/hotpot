@@ -3,12 +3,12 @@ package spanner
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/spanner/database"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/spanner/instance"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/gcp/spanner/database"
+	"danny.vn/hotpot/pkg/ingest/gcp/spanner/instance"
 	"entgo.io/ent/dialect"
-	entspanner "github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner"
+	entspanner "danny.vn/hotpot/pkg/storage/ent/gcp/spanner"
 )
 
 // Register registers all Spanner activities and workflows.

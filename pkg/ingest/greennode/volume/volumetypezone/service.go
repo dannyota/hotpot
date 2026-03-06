@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entvol "github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumevolumetypezone"
+	entvol "danny.vn/hotpot/pkg/storage/ent/greennode/volume"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumevolumetypezone"
 )
 
 // Service handles GreenNode volume type zone ingestion.

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesubnetwork"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesubnetworksecondaryrange"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesubnetwork"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesubnetworksecondaryrange"
 )
 
 // Service handles GCP Compute subnetwork ingestion.

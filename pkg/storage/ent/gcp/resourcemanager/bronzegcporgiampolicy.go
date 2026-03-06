@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcporgiampolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcporgiampolicy"
 )
 
 // BronzeGCPOrgIamPolicy is the model entity for the BronzeGCPOrgIamPolicy schema.

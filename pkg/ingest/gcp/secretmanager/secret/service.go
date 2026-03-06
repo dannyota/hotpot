@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entsecretmanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/bronzegcpsecretmanagersecret"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/bronzegcpsecretmanagersecretlabel"
+	entsecretmanager "danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/bronzegcpsecretmanagersecret"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/bronzegcpsecretmanagersecretlabel"
 )
 
 // Service handles GCP Secret Manager secret ingestion.

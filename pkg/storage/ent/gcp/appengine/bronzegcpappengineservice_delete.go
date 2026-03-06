@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/bronzegcpappengineservice"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/appengine/bronzegcpappengineservice"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/appengine/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/appengine/predicate"
 )
 
 // BronzeGCPAppEngineServiceDelete is the builder for deleting a BronzeGCPAppEngineService entity.

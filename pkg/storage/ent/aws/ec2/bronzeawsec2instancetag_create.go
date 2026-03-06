@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instancetag"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instance"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instancetag"
 )
 
 // BronzeAWSEC2InstanceTagCreate is the builder for creating a BronzeAWSEC2InstanceTag entity.

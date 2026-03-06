@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/bronzegcpsqlinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/bronzegcpsqlinstancelabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/sql/bronzegcpsqlinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/sql/bronzegcpsqlinstancelabel"
 )
 
 // BronzeGCPSQLInstanceLabelCreate is the builder for creating a BronzeGCPSQLInstanceLabel entity.

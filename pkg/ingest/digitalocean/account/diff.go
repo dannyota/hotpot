@@ -1,7 +1,7 @@
 package account
 
 import (
-	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	entdo "danny.vn/hotpot/pkg/storage/ent/do"
 )
 
 // AccountDiff represents changes between old and new Account states.

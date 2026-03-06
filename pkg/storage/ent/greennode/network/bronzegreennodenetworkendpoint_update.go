@@ -12,9 +12,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworkendpoint"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworkendpoint"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/predicate"
 )
 
 // BronzeGreenNodeNetworkEndpointUpdate is the builder for updating BronzeGreenNodeNetworkEndpoint entities.

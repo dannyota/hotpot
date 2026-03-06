@@ -1,7 +1,7 @@
 package routetable
 
 import (
-	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
+	entnet "danny.vn/hotpot/pkg/storage/ent/greennode/network"
 )
 
 // RouteTableDiff represents changes between old and new route table states.

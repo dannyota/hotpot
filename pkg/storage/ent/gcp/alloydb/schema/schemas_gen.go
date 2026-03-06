@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_alloydb "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/alloydb"
-	bronzehistory_gcp_alloydb "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/alloydb"
+	bronze_gcp_alloydb "danny.vn/hotpot/pkg/schema/bronze/gcp/alloydb"
+	bronzehistory_gcp_alloydb "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/alloydb"
 )
 
 type BronzeGCPAlloyDBCluster struct {

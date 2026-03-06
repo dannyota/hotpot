@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputeosimage"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputeosimage"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/predicate"
 )
 
 // BronzeHistoryGreenNodeComputeOSImageDelete is the builder for deleting a BronzeHistoryGreenNodeComputeOSImage entity.

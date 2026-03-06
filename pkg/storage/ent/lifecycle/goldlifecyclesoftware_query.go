@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/goldlifecyclesoftware"
-	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/lifecycle/goldlifecyclesoftware"
+	"danny.vn/hotpot/pkg/storage/ent/lifecycle/internal"
+	"danny.vn/hotpot/pkg/storage/ent/lifecycle/predicate"
 )
 
 // GoldLifecycleSoftwareQuery is the builder for querying GoldLifecycleSoftware entities.

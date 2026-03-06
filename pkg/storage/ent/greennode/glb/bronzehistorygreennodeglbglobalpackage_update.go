@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbglobalpackage"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbglobalpackage"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/predicate"
 )
 
 // BronzeHistoryGreenNodeGLBGlobalPackageUpdate is the builder for updating BronzeHistoryGreenNodeGLBGlobalPackage entities.

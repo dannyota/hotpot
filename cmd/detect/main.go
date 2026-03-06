@@ -5,9 +5,9 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/dannyota/hotpot/pkg/base/app"
-	"github.com/dannyota/hotpot/pkg/base/logger"
-	"github.com/dannyota/hotpot/pkg/detect"
+	"danny.vn/hotpot/pkg/base/app"
+	"danny.vn/hotpot/pkg/base/logger"
+	"danny.vn/hotpot/pkg/detect"
 )
 
 func main() {

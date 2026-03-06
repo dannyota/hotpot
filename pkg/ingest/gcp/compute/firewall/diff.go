@@ -3,7 +3,7 @@ package firewall
 import (
 	"bytes"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // FirewallDiff represents changes between old and new firewall states.

@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputetargetinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputetargetinstance"
 )
 
 // BronzeGCPComputeTargetInstanceCreate is the builder for creating a BronzeGCPComputeTargetInstance entity.

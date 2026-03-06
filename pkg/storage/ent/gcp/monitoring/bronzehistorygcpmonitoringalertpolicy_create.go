@@ -11,7 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring/bronzehistorygcpmonitoringalertpolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/monitoring/bronzehistorygcpmonitoringalertpolicy"
 )
 
 // BronzeHistoryGCPMonitoringAlertPolicyCreate is the builder for creating a BronzeHistoryGCPMonitoringAlertPolicy entity.

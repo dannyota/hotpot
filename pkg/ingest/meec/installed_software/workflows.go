@@ -6,7 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
+	"danny.vn/hotpot/pkg/base/temporalerr"
 )
 
 const batchSize = 50

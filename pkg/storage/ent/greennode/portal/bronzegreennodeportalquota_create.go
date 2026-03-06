@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/bronzegreennodeportalquota"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/portal/bronzegreennodeportalquota"
 )
 
 // BronzeGreenNodePortalQuotaCreate is the builder for creating a BronzeGreenNodePortalQuota entity.

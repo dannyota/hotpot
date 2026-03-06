@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeurlmap"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeurlmap"
 )
 
 // BronzeGCPComputeUrlMap is the model entity for the BronzeGCPComputeUrlMap schema.

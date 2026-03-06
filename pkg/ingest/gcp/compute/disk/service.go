@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputedisk"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputedisklabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputedisklicense"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputedisk"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputedisklabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputedisklicense"
 )
 
 // Service handles GCP Compute disk ingestion.

@@ -8,8 +8,8 @@ import (
 	"cloud.google.com/go/iam/apiv1/iampb"
 	"google.golang.org/api/option"
 
-	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpproject"
+	entresourcemanager "danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpproject"
 )
 
 // ProjectIamPolicyRaw holds raw API data for a project IAM policy.

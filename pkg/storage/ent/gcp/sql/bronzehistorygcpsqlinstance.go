@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/bronzehistorygcpsqlinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/sql/bronzehistorygcpsqlinstance"
 )
 
 // BronzeHistoryGCPSQLInstance is the model entity for the BronzeHistoryGCPSQLInstance schema.

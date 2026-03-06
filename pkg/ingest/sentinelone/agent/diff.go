@@ -3,7 +3,7 @@ package agent
 import (
 	"bytes"
 
-	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
+	ents1 "danny.vn/hotpot/pkg/storage/ent/s1"
 )
 
 // AgentDiff represents changes between old and new agent states.

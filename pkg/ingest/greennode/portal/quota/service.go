@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entportal "github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/bronzegreennodeportalquota"
+	entportal "danny.vn/hotpot/pkg/storage/ent/greennode/portal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/portal/bronzegreennodeportalquota"
 )
 
 // Service handles GreenNode quota ingestion.

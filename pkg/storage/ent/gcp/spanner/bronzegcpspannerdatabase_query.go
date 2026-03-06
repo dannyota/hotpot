@@ -11,10 +11,10 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/bronzegcpspannerdatabase"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/bronzegcpspannerinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/spanner/bronzegcpspannerdatabase"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/spanner/bronzegcpspannerinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/spanner/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/spanner/predicate"
 )
 
 // BronzeGCPSpannerDatabaseQuery is the builder for querying BronzeGCPSpannerDatabase entities.

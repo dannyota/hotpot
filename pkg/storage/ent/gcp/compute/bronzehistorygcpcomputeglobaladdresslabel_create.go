@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeglobaladdresslabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeglobaladdresslabel"
 )
 
 // BronzeHistoryGCPComputeGlobalAddressLabelCreate is the builder for creating a BronzeHistoryGCPComputeGlobalAddressLabel entity.

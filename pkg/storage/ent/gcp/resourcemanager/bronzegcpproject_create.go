@@ -10,8 +10,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpproject"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpprojectlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpproject"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/bronzegcpprojectlabel"
 )
 
 // BronzeGCPProjectCreate is the builder for creating a BronzeGCPProject entity.

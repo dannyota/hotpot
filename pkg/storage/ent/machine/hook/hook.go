@@ -6,43 +6,43 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/machine"
+	"danny.vn/hotpot/pkg/storage/ent/machine"
 )
 
-// The SilverMachineFunc type is an adapter to allow the use of ordinary
-// function as SilverMachine mutator.
-type SilverMachineFunc func(context.Context, *machine.SilverMachineMutation) (machine.Value, error)
+// The InventoryMachineFunc type is an adapter to allow the use of ordinary
+// function as InventoryMachine mutator.
+type InventoryMachineFunc func(context.Context, *machine.InventoryMachineMutation) (machine.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f SilverMachineFunc) Mutate(ctx context.Context, m machine.Mutation) (machine.Value, error) {
-	if mv, ok := m.(*machine.SilverMachineMutation); ok {
+func (f InventoryMachineFunc) Mutate(ctx context.Context, m machine.Mutation) (machine.Value, error) {
+	if mv, ok := m.(*machine.InventoryMachineMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *machine.SilverMachineMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *machine.InventoryMachineMutation", m)
 }
 
-// The SilverMachineBronzeLinkFunc type is an adapter to allow the use of ordinary
-// function as SilverMachineBronzeLink mutator.
-type SilverMachineBronzeLinkFunc func(context.Context, *machine.SilverMachineBronzeLinkMutation) (machine.Value, error)
+// The InventoryMachineBronzeLinkFunc type is an adapter to allow the use of ordinary
+// function as InventoryMachineBronzeLink mutator.
+type InventoryMachineBronzeLinkFunc func(context.Context, *machine.InventoryMachineBronzeLinkMutation) (machine.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f SilverMachineBronzeLinkFunc) Mutate(ctx context.Context, m machine.Mutation) (machine.Value, error) {
-	if mv, ok := m.(*machine.SilverMachineBronzeLinkMutation); ok {
+func (f InventoryMachineBronzeLinkFunc) Mutate(ctx context.Context, m machine.Mutation) (machine.Value, error) {
+	if mv, ok := m.(*machine.InventoryMachineBronzeLinkMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *machine.SilverMachineBronzeLinkMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *machine.InventoryMachineBronzeLinkMutation", m)
 }
 
-// The SilverMachineNormalizedFunc type is an adapter to allow the use of ordinary
-// function as SilverMachineNormalized mutator.
-type SilverMachineNormalizedFunc func(context.Context, *machine.SilverMachineNormalizedMutation) (machine.Value, error)
+// The InventoryMachineNormalizedFunc type is an adapter to allow the use of ordinary
+// function as InventoryMachineNormalized mutator.
+type InventoryMachineNormalizedFunc func(context.Context, *machine.InventoryMachineNormalizedMutation) (machine.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f SilverMachineNormalizedFunc) Mutate(ctx context.Context, m machine.Mutation) (machine.Value, error) {
-	if mv, ok := m.(*machine.SilverMachineNormalizedMutation); ok {
+func (f InventoryMachineNormalizedFunc) Mutate(ctx context.Context, m machine.Mutation) (machine.Value, error) {
+	if mv, ok := m.(*machine.InventoryMachineNormalizedMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *machine.SilverMachineNormalizedMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *machine.InventoryMachineNormalizedMutation", m)
 }
 
 // Condition is a hook condition function.

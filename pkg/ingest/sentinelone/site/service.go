@@ -6,8 +6,8 @@ import (
 	"log/slog"
 	"time"
 
-	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1site"
+	ents1 "danny.vn/hotpot/pkg/storage/ent/s1"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzes1site"
 )
 
 // Service handles SentinelOne site ingestion.

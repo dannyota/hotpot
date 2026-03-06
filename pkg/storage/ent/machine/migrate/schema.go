@@ -33,17 +33,17 @@ var (
 		PrimaryKey: []*schema.Column{MachinesColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "silvermachine_os_type",
+				Name:    "inventorymachine_os_type",
 				Unique:  false,
 				Columns: []*schema.Column{MachinesColumns[5]},
 			},
 			{
-				Name:    "silvermachine_environment",
+				Name:    "inventorymachine_environment",
 				Unique:  false,
 				Columns: []*schema.Column{MachinesColumns[10]},
 			},
 			{
-				Name:    "silvermachine_collected_at",
+				Name:    "inventorymachine_collected_at",
 				Unique:  false,
 				Columns: []*schema.Column{MachinesColumns[1]},
 			},
@@ -55,7 +55,7 @@ var (
 		{Name: "provider", Type: field.TypeString},
 		{Name: "bronze_table", Type: field.TypeString},
 		{Name: "bronze_resource_id", Type: field.TypeString},
-		{Name: "silver_machine_bronze_links", Type: field.TypeString},
+		{Name: "inventory_machine_bronze_links", Type: field.TypeString},
 	}
 	// MachineBronzeLinksTable holds the schema information for the "machine_bronze_links" table.
 	MachineBronzeLinksTable = &schema.Table{
@@ -100,12 +100,12 @@ var (
 		PrimaryKey: []*schema.Column{MachineNormalizedColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "silvermachinenormalized_provider",
+				Name:    "inventorymachinenormalized_provider",
 				Unique:  false,
 				Columns: []*schema.Column{MachineNormalizedColumns[1]},
 			},
 			{
-				Name:    "silvermachinenormalized_provider_bronze_resource_id",
+				Name:    "inventorymachinenormalized_provider_bronze_resource_id",
 				Unique:  true,
 				Columns: []*schema.Column{MachineNormalizedColumns[1], MachineNormalizedColumns[4]},
 			},

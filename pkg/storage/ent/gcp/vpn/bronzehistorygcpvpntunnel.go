@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzehistorygcpvpntunnel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/bronzehistorygcpvpntunnel"
 )
 
 // BronzeHistoryGCPVPNTunnel is the model entity for the BronzeHistoryGCPVPNTunnel schema.

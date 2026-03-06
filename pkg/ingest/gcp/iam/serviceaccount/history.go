@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entiam "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam/bronzehistorygcpiamserviceaccount"
+	entiam "danny.vn/hotpot/pkg/storage/ent/gcp/iam"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iam/bronzehistorygcpiamserviceaccount"
 )
 
 type HistoryService struct {

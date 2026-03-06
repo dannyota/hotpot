@@ -8,7 +8,7 @@ import (
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/base/ratelimit"
 )
 
 // Scope is the OAuth2 scope for GCP API access.

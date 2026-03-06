@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainercluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainercluster"
 )
 
 // BronzeHistoryGCPContainerCluster is the model entity for the BronzeHistoryGCPContainerCluster schema.

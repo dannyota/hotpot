@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucketlabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucketlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/predicate"
 )
 
 // BronzeHistoryGCPStorageBucketLabelUpdate is the builder for updating BronzeHistoryGCPStorageBucketLabel entities.

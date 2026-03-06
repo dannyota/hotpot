@@ -3,11 +3,11 @@
 package appengine
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/bronzegcpappengineapplication"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/bronzegcpappengineservice"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/bronzehistorygcpappengineapplication"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/bronzehistorygcpappengineservice"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/schema"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/appengine/bronzegcpappengineapplication"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/appengine/bronzegcpappengineservice"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/appengine/bronzehistorygcpappengineapplication"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/appengine/bronzehistorygcpappengineservice"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/appengine/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

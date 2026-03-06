@@ -3,12 +3,12 @@ package run
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/run/revision"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/run/service"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/gcp/run/revision"
+	"danny.vn/hotpot/pkg/ingest/gcp/run/service"
 	"entgo.io/ent/dialect"
-	entrun "github.com/dannyota/hotpot/pkg/storage/ent/gcp/run"
+	entrun "danny.vn/hotpot/pkg/storage/ent/gcp/run"
 )
 
 // Register registers all Cloud Run activities and workflows.

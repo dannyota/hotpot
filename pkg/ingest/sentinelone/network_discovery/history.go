@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1networkdiscovery"
+	ents1 "danny.vn/hotpot/pkg/storage/ent/s1"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzehistorys1networkdiscovery"
 )
 
 // HistoryService handles history tracking for network discovery devices.

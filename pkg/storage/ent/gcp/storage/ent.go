@@ -12,14 +12,14 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucket"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucketiampolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucketiampolicybinding"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucketlabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucket"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucketiampolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucketiampolicybinding"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucketlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucket"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucketiampolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucketiampolicybinding"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucketlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucket"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucketiampolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucketiampolicybinding"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucketlabel"
 )
 
 // ent aliases to avoid import conflicts in user's code.

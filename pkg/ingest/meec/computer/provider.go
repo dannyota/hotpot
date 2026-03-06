@@ -1,8 +1,8 @@
 package computer
 
 import (
-	"github.com/dannyota/hotpot/pkg/ingest"
-	"github.com/dannyota/hotpot/pkg/ingest/meec"
+	"danny.vn/hotpot/pkg/ingest"
+	"danny.vn/hotpot/pkg/ingest/meec"
 )
 
 func init() {

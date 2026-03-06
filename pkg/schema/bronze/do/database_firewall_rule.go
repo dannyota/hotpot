@@ -7,7 +7,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 
-	"github.com/dannyota/hotpot/pkg/schema/bronze/mixin"
+	"danny.vn/hotpot/pkg/schema/bronze/mixin"
 )
 
 // BronzeDODatabaseFirewallRule represents a DigitalOcean Database Firewall Rule in the bronze layer.

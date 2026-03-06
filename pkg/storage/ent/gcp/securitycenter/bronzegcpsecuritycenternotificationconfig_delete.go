@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/bronzegcpsecuritycenternotificationconfig"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/bronzegcpsecuritycenternotificationconfig"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/predicate"
 )
 
 // BronzeGCPSecurityCenterNotificationConfigDelete is the builder for deleting a BronzeGCPSecurityCenterNotificationConfig entity.

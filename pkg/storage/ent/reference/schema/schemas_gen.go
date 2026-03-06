@@ -2,7 +2,7 @@
 package schema
 
 import (
-	bronze_reference "github.com/dannyota/hotpot/pkg/schema/bronze/reference"
+	bronze_reference "danny.vn/hotpot/pkg/schema/bronze/reference"
 )
 
 type BronzeReferenceCPE struct {

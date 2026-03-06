@@ -11,7 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangersetting"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzes1rangersetting"
 )
 
 // BronzeS1RangerSettingCreate is the builder for creating a BronzeS1RangerSetting entity.

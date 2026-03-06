@@ -3,7 +3,7 @@ package occurrence
 import (
 	"bytes"
 
-	entcontaineranalysis "github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis"
+	entcontaineranalysis "danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis"
 )
 
 // OccurrenceDiff represents changes between old and new Grafeas occurrence state.

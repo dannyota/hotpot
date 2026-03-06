@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entinventory "github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/bronzehistorymeecinventorycomputer"
+	entinventory "danny.vn/hotpot/pkg/storage/ent/meec/inventory"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/bronzehistorymeecinventorycomputer"
 )
 
 // HistoryService handles history tracking for computers.

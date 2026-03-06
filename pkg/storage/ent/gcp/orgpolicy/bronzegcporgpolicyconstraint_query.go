@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzegcporgpolicyconstraint"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzegcporgpolicyconstraint"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/orgpolicy/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/orgpolicy/predicate"
 )
 
 // BronzeGCPOrgPolicyConstraintQuery is the builder for querying BronzeGCPOrgPolicyConstraint entities.

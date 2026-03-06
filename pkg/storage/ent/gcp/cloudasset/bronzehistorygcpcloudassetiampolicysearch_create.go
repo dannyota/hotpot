@@ -11,7 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/bronzehistorygcpcloudassetiampolicysearch"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/bronzehistorygcpcloudassetiampolicysearch"
 )
 
 // BronzeHistoryGCPCloudAssetIAMPolicySearchCreate is the builder for creating a BronzeHistoryGCPCloudAssetIAMPolicySearch entity.

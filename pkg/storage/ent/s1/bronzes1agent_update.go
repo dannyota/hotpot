@@ -13,10 +13,10 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1agent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1agentnic"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzes1agent"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzes1agentnic"
+	"danny.vn/hotpot/pkg/storage/ent/s1/internal"
+	"danny.vn/hotpot/pkg/storage/ent/s1/predicate"
 )
 
 // BronzeS1AgentUpdate is the builder for updating BronzeS1Agent entities.

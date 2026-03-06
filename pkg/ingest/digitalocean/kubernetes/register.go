@@ -3,9 +3,9 @@ package kubernetes
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entdo "danny.vn/hotpot/pkg/storage/ent/do"
 )
 
 // Register registers Kubernetes activities and workflows with the Temporal worker.

@@ -11,8 +11,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/bronzegcpsecretmanagersecret"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/bronzegcpsecretmanagersecretlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/bronzegcpsecretmanagersecret"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/bronzegcpsecretmanagersecretlabel"
 )
 
 // BronzeGCPSecretManagerSecretCreate is the builder for creating a BronzeGCPSecretManagerSecret entity.

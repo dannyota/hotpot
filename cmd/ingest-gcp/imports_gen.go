@@ -3,8 +3,8 @@
 package main
 
 import (
-	_ "github.com/dannyota/hotpot/pkg/ingest/gcp"
-	_ "github.com/dannyota/hotpot/pkg/ingest/gcp/compute"
-	_ "github.com/dannyota/hotpot/pkg/ingest/gcp/container"
-	_ "github.com/dannyota/hotpot/pkg/ingest/gcp/vpcaccess"
+	_ "danny.vn/hotpot/pkg/ingest/gcp"
+	_ "danny.vn/hotpot/pkg/ingest/gcp/compute"
+	_ "danny.vn/hotpot/pkg/ingest/gcp/container"
+	_ "danny.vn/hotpot/pkg/ingest/gcp/vpcaccess"
 )

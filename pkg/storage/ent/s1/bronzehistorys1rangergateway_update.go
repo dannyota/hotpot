@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangergateway"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzehistorys1rangergateway"
+	"danny.vn/hotpot/pkg/storage/ent/s1/internal"
+	"danny.vn/hotpot/pkg/storage/ent/s1/predicate"
 )
 
 // BronzeHistoryS1RangerGatewayUpdate is the builder for updating BronzeHistoryS1RangerGateway entities.

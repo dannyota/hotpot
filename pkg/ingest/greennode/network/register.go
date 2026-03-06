@@ -5,16 +5,16 @@ import (
 	"danny.vn/greennode/auth"
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/network/endpoint"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/network/interconnect"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/network/peering"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/network/routetable"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/network/secgroup"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/network/subnet"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/network/vpc"
-	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/greennode/network/endpoint"
+	"danny.vn/hotpot/pkg/ingest/greennode/network/interconnect"
+	"danny.vn/hotpot/pkg/ingest/greennode/network/peering"
+	"danny.vn/hotpot/pkg/ingest/greennode/network/routetable"
+	"danny.vn/hotpot/pkg/ingest/greennode/network/secgroup"
+	"danny.vn/hotpot/pkg/ingest/greennode/network/subnet"
+	"danny.vn/hotpot/pkg/ingest/greennode/network/vpc"
+	entnet "danny.vn/hotpot/pkg/storage/ent/greennode/network"
 )
 
 // Register registers all GreenNode network activities and workflows.

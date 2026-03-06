@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbgloballistener"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbgloballistener"
 )
 
 // BronzeHistoryGreenNodeGLBGlobalListenerCreate is the builder for creating a BronzeHistoryGreenNodeGLBGlobalListener entity.

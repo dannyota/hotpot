@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable/bronzehistorygcpbigtableinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigtable/bronzehistorygcpbigtableinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigtable/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigtable/predicate"
 )
 
 // BronzeHistoryGCPBigtableInstanceUpdate is the builder for updating BronzeHistoryGCPBigtableInstance entities.

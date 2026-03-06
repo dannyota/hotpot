@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzehistorygcpvpntargetgateway"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/bronzehistorygcpvpntargetgateway"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/predicate"
 )
 
 // BronzeHistoryGCPVPNTargetGatewayUpdate is the builder for updating BronzeHistoryGCPVPNTargetGateway entities.

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1account"
+	ents1 "danny.vn/hotpot/pkg/storage/ent/s1"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzehistorys1account"
 )
 
 // HistoryService handles history tracking for accounts.

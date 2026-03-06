@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzegreennodeloadbalancerpackage"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzegreennodeloadbalancerpackage"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer/predicate"
 )
 
 // BronzeGreenNodeLoadBalancerPackageDelete is the builder for deleting a BronzeGreenNodeLoadBalancerPackage entity.

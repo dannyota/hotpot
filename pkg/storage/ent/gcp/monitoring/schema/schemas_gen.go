@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_monitoring "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/monitoring"
-	bronzehistory_gcp_monitoring "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/monitoring"
+	bronze_gcp_monitoring "danny.vn/hotpot/pkg/schema/bronze/gcp/monitoring"
+	bronzehistory_gcp_monitoring "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/monitoring"
 )
 
 type BronzeGCPMonitoringAlertPolicy struct {

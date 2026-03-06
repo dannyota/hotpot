@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entmonitoring "github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring/bronzegcpmonitoringalertpolicy"
+	entmonitoring "danny.vn/hotpot/pkg/storage/ent/gcp/monitoring"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/monitoring/bronzegcpmonitoringalertpolicy"
 )
 
 // Service handles alert policy ingestion.

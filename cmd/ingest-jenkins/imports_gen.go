@@ -3,6 +3,6 @@
 package main
 
 import (
-	_ "github.com/dannyota/hotpot/pkg/ingest/jenkins"
-	_ "github.com/dannyota/hotpot/pkg/ingest/jenkins/job"
+	_ "danny.vn/hotpot/pkg/ingest/jenkins"
+	_ "danny.vn/hotpot/pkg/ingest/jenkins/job"
 )

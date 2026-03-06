@@ -9,18 +9,18 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instancetag"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzehistoryawsec2instance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzehistoryawsec2instancetag"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instance"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instancetag"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/bronzehistoryawsec2instance"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/bronzehistoryawsec2instancetag"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/internal"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/internal"
 )
 
 // Client is the client that holds all ent builders.

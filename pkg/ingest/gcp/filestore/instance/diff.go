@@ -3,7 +3,7 @@ package instance
 import (
 	"bytes"
 
-	entfilestore "github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore"
+	entfilestore "danny.vn/hotpot/pkg/storage/ent/gcp/filestore"
 )
 
 // InstanceDiff represents changes between old and new Filestore instance state.

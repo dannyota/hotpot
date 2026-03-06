@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworkpeering"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworkpeering"
 )
 
 // BronzeGreenNodeNetworkPeeringCreate is the builder for creating a BronzeGreenNodeNetworkPeering entity.

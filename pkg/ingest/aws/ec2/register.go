@@ -4,10 +4,10 @@ import (
 	"entgo.io/ent/dialect"
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/aws/ec2/instance"
-	entec2 "github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/aws/ec2/instance"
+	entec2 "danny.vn/hotpot/pkg/storage/ent/aws/ec2"
 )
 
 // Register registers all EC2 activities and workflows.

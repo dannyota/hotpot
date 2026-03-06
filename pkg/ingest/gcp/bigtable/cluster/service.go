@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entbigtable "github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable/bronzegcpbigtablecluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable/bronzegcpbigtableinstance"
+	entbigtable "danny.vn/hotpot/pkg/storage/ent/gcp/bigtable"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigtable/bronzegcpbigtablecluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigtable/bronzegcpbigtableinstance"
 )
 
 // Service handles Bigtable cluster ingestion.

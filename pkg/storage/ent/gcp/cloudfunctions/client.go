@@ -9,15 +9,15 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzegcpcloudfunctionsfunction"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzehistorygcpcloudfunctionsfunction"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzegcpcloudfunctionsfunction"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzehistorygcpcloudfunctionsfunction"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions/internal"
 )
 
 // Client is the client that holds all ent builders.

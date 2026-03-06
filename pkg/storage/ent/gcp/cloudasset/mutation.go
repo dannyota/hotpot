@@ -12,13 +12,13 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/bronzegcpcloudassetasset"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/bronzegcpcloudassetiampolicysearch"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/bronzegcpcloudassetresourcesearch"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/bronzehistorygcpcloudassetasset"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/bronzehistorygcpcloudassetiampolicysearch"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/bronzehistorygcpcloudassetresourcesearch"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/bronzegcpcloudassetasset"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/bronzegcpcloudassetiampolicysearch"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/bronzegcpcloudassetresourcesearch"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/bronzehistorygcpcloudassetasset"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/bronzehistorygcpcloudassetiampolicysearch"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/bronzehistorygcpcloudassetresourcesearch"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/predicate"
 )
 
 const (

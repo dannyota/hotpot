@@ -16,7 +16,7 @@ import (
 	"github.com/ulikunitz/xz"
 	_ "modernc.org/sqlite"
 
-	"github.com/dannyota/hotpot/pkg/base/httputil"
+	"danny.vn/hotpot/pkg/base/httputil"
 )
 
 const listingURL = "https://data.xeol.io/xeol/databases/listing.json"

@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/filestore"
 )
 
 // The BronzeGCPFilestoreInstanceFunc type is an adapter to allow the use of ordinary

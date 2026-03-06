@@ -9,7 +9,7 @@ import (
 
 	"encoding/json"
 
-	historymixin "github.com/dannyota/hotpot/pkg/schema/bronzehistory/mixin"
+	historymixin "danny.vn/hotpot/pkg/schema/bronzehistory/mixin"
 )
 
 // BronzeHistoryGCPStorageBucket stores historical snapshots of GCP Storage buckets.

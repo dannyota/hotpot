@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/bronzehistorygcpsecretmanagersecretlabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/bronzehistorygcpsecretmanagersecretlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/predicate"
 )
 
 // BronzeHistoryGCPSecretManagerSecretLabelUpdate is the builder for updating BronzeHistoryGCPSecretManagerSecretLabel entities.

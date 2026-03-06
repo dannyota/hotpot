@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencesoftwarematchrule"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/reference/bronzereferencesoftwarematchrule"
+	"danny.vn/hotpot/pkg/storage/ent/reference/internal"
+	"danny.vn/hotpot/pkg/storage/ent/reference/predicate"
 )
 
 // BronzeReferenceSoftwareMatchRuleUpdate is the builder for updating BronzeReferenceSoftwareMatchRule entities.

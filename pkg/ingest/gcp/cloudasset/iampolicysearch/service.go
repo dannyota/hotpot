@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entcloudasset "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/bronzegcpcloudassetiampolicysearch"
+	entcloudasset "danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/bronzegcpcloudassetiampolicysearch"
 )
 
 // Service handles IAM policy search ingestion.

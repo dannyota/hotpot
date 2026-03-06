@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedovolume"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzedovolume"
 )
 
 // BronzeDOVolumeCreate is the builder for creating a BronzeDOVolume entity.

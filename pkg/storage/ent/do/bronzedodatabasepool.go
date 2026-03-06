@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedodatabasepool"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzedodatabasepool"
 )
 
 // BronzeDODatabasePool is the model entity for the BronzeDODatabasePool schema.

@@ -3,9 +3,9 @@
 package filestore
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore/bronzegcpfilestoreinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore/bronzehistorygcpfilestoreinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore/schema"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/filestore/bronzegcpfilestoreinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/filestore/bronzehistorygcpfilestoreinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/filestore/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

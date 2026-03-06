@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeforwardingrule"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeforwardingrule"
 )
 
 // BronzeHistoryGCPComputeForwardingRule is the model entity for the BronzeHistoryGCPComputeForwardingRule schema.

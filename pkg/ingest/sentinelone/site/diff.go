@@ -3,7 +3,7 @@ package site
 import (
 	"bytes"
 
-	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
+	ents1 "danny.vn/hotpot/pkg/storage/ent/s1"
 )
 
 // SiteDiff represents changes between old and new site states.

@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputesnapshotlicense"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputesnapshotlicense"
 )
 
 // BronzeHistoryGCPComputeSnapshotLicense is the model entity for the BronzeHistoryGCPComputeSnapshotLicense schema.

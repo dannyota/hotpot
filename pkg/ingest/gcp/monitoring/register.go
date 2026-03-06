@@ -3,12 +3,12 @@ package monitoring
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/monitoring/alertpolicy"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/monitoring/uptimecheck"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/gcp/monitoring/alertpolicy"
+	"danny.vn/hotpot/pkg/ingest/gcp/monitoring/uptimecheck"
 	"entgo.io/ent/dialect"
-	entmonitoring "github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring"
+	entmonitoring "danny.vn/hotpot/pkg/storage/ent/gcp/monitoring"
 )
 
 // Register registers all Monitoring activities and workflows.

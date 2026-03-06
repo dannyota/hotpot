@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworkinterconnect"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworkinterconnect"
 )
 
 // BronzeHistoryGreenNodeNetworkInterconnectCreate is the builder for creating a BronzeHistoryGreenNodeNetworkInterconnect entity.

@@ -5,8 +5,8 @@ package bronzegreennodeglbglobalpool
 import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/predicate"
 )
 
 // ID filters vertices based on their ID field.

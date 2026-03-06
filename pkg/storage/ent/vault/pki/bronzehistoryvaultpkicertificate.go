@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/vault/pki/bronzehistoryvaultpkicertificate"
+	"danny.vn/hotpot/pkg/storage/ent/vault/pki/bronzehistoryvaultpkicertificate"
 )
 
 // BronzeHistoryVaultPKICertificate is the model entity for the BronzeHistoryVaultPKICertificate schema.

@@ -7,10 +7,10 @@ import (
 
 	"cloud.google.com/go/compute/apiv1/computepb"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesnapshot"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesnapshotlabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesnapshotlicense"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesnapshot"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesnapshotlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesnapshotlicense"
 )
 
 // Service handles GCP Compute snapshot ingestion.

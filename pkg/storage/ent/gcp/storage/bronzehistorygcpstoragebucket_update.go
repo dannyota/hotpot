@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucket"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucket"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/predicate"
 )
 
 // BronzeHistoryGCPStorageBucketUpdate is the builder for updating BronzeHistoryGCPStorageBucket entities.

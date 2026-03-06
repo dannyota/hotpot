@@ -2,7 +2,7 @@ package instance
 
 import (
 	"bytes"
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // InstanceDiff represents changes between old and new instance states.

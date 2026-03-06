@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancenicaccessconfig"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancenicaccessconfig"
 )
 
 // BronzeHistoryGCPComputeInstanceNICAccessConfig is the model entity for the BronzeHistoryGCPComputeInstanceNICAccessConfig schema.

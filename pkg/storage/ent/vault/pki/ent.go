@@ -12,8 +12,8 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/vault/pki/bronzehistoryvaultpkicertificate"
-	"github.com/dannyota/hotpot/pkg/storage/ent/vault/pki/bronzevaultpkicertificate"
+	"danny.vn/hotpot/pkg/storage/ent/vault/pki/bronzehistoryvaultpkicertificate"
+	"danny.vn/hotpot/pkg/storage/ent/vault/pki/bronzevaultpkicertificate"
 )
 
 // ent aliases to avoid import conflicts in user's code.

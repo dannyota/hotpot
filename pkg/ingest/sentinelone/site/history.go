@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1site"
+	ents1 "danny.vn/hotpot/pkg/storage/ent/s1"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzehistorys1site"
 )
 
 // HistoryService handles history tracking for sites.

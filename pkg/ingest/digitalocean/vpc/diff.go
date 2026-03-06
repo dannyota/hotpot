@@ -1,7 +1,7 @@
 package vpc
 
 import (
-	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	entdo "danny.vn/hotpot/pkg/storage/ent/do"
 )
 
 // VpcDiff represents changes between old and new VPC states.

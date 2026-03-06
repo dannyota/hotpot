@@ -6,7 +6,7 @@ import (
 
 	"github.com/alicebob/miniredis/v2"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/config"
 )
 
 func TestNewService_NoRedis(t *testing.T) {

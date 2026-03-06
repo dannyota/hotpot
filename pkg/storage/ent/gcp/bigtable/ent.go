@@ -12,10 +12,10 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable/bronzegcpbigtablecluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable/bronzegcpbigtableinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable/bronzehistorygcpbigtablecluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable/bronzehistorygcpbigtableinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigtable/bronzegcpbigtablecluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigtable/bronzegcpbigtableinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigtable/bronzehistorygcpbigtablecluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigtable/bronzehistorygcpbigtableinstance"
 )
 
 // ent aliases to avoid import conflicts in user's code.

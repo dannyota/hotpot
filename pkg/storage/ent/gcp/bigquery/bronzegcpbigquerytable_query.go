@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery/bronzegcpbigquerytable"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigquery/bronzegcpbigquerytable"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigquery/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigquery/predicate"
 )
 
 // BronzeGCPBigQueryTableQuery is the builder for querying BronzeGCPBigQueryTable entities.

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputeosimage"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/greennode/compute"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputeosimage"
 )
 
 // HistoryService handles history tracking for OS images.

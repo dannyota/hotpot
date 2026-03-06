@@ -8,8 +8,8 @@ import (
 	"google.golang.org/api/option"
 	storagev1 "google.golang.org/api/storage/v1"
 
-	entstorage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucket"
+	entstorage "danny.vn/hotpot/pkg/storage/ent/gcp/storage"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucket"
 )
 
 // BucketIamPolicyRaw holds raw API data for a bucket IAM policy.

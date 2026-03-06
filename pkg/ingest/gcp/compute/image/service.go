@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeimage"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeimagelabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeimagelicense"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeimage"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeimagelabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeimagelicense"
 )
 
 // Service handles GCP Compute image ingestion.

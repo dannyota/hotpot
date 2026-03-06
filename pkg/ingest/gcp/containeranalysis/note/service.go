@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entcontaineranalysis "github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzegcpcontaineranalysisnote"
+	entcontaineranalysis "danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzegcpcontaineranalysisnote"
 )
 
 // Service handles Grafeas note ingestion.

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedoloadbalancer"
+	entdo "danny.vn/hotpot/pkg/storage/ent/do"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzedoloadbalancer"
 )
 
 // Service handles DigitalOcean Load Balancer ingestion.

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entrun "github.com/dannyota/hotpot/pkg/storage/ent/gcp/run"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/run/bronzehistorygcprunrevision"
+	entrun "danny.vn/hotpot/pkg/storage/ent/gcp/run"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/run/bronzehistorygcprunrevision"
 )
 
 // HistoryService manages Cloud Run revision history tracking.

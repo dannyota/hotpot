@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entorgpolicy "github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzehistorygcporgpolicypolicy"
+	entorgpolicy "danny.vn/hotpot/pkg/storage/ent/gcp/orgpolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzehistorygcporgpolicypolicy"
 )
 
 type HistoryService struct {

@@ -9,15 +9,15 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/filestore/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore/bronzegcpfilestoreinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore/bronzehistorygcpfilestoreinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/filestore/bronzegcpfilestoreinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/filestore/bronzehistorygcpfilestoreinstance"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/filestore/internal"
 )
 
 // Client is the client that holds all ent builders.

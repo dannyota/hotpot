@@ -11,9 +11,9 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbgloballistener"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbgloballoadbalancer"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbglobalpool"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbgloballistener"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbgloballoadbalancer"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbglobalpool"
 )
 
 // BronzeGreenNodeGLBGlobalLoadBalancerCreate is the builder for creating a BronzeGreenNodeGLBGlobalLoadBalancer entity.

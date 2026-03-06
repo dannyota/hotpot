@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzehistorygcploggingbucket"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/bronzehistorygcploggingbucket"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/predicate"
 )
 
 // BronzeHistoryGCPLoggingBucketQuery is the builder for querying BronzeHistoryGCPLoggingBucket entities.

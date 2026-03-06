@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnspolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnspolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/predicate"
 )
 
 // BronzeGCPDNSPolicyUpdate is the builder for updating BronzeGCPDNSPolicy entities.

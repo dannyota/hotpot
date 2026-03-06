@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolvuln"
+	"danny.vn/hotpot/pkg/storage/ent/reference/bronzereferencexeolvuln"
 )
 
 // BronzeReferenceXeolVulnCreate is the builder for creating a BronzeReferenceXeolVuln entity.

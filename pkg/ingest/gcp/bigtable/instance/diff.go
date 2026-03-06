@@ -3,7 +3,7 @@ package instance
 import (
 	"bytes"
 
-	entbigtable "github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable"
+	entbigtable "danny.vn/hotpot/pkg/storage/ent/gcp/bigtable"
 )
 
 // InstanceDiff represents changes between old and new Bigtable instance state.

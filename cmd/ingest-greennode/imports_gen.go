@@ -3,9 +3,9 @@
 package main
 
 import (
-	_ "github.com/dannyota/hotpot/pkg/ingest/greennode"
-	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/compute"
-	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/network"
-	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/portal"
-	_ "github.com/dannyota/hotpot/pkg/ingest/greennode/volume"
+	_ "danny.vn/hotpot/pkg/ingest/greennode"
+	_ "danny.vn/hotpot/pkg/ingest/greennode/compute"
+	_ "danny.vn/hotpot/pkg/ingest/greennode/network"
+	_ "danny.vn/hotpot/pkg/ingest/greennode/portal"
+	_ "danny.vn/hotpot/pkg/ingest/greennode/volume"
 )

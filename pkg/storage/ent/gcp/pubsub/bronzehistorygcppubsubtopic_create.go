@@ -11,7 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/pubsub/bronzehistorygcppubsubtopic"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/pubsub/bronzehistorygcppubsubtopic"
 )
 
 // BronzeHistoryGCPPubSubTopicCreate is the builder for creating a BronzeHistoryGCPPubSubTopic entity.

@@ -6,7 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/ingest"
+	"danny.vn/hotpot/pkg/ingest"
 )
 
 // ReferenceInventoryWorkflowResult contains the result of reference data collection.

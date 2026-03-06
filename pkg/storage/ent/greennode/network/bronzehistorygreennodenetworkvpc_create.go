@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworkvpc"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworkvpc"
 )
 
 // BronzeHistoryGreenNodeNetworkVpcCreate is the builder for creating a BronzeHistoryGreenNodeNetworkVpc entity.

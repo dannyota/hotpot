@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_do "github.com/dannyota/hotpot/pkg/schema/bronze/do"
-	bronzehistory_do "github.com/dannyota/hotpot/pkg/schema/bronzehistory/do"
+	bronze_do "danny.vn/hotpot/pkg/schema/bronze/do"
+	bronzehistory_do "danny.vn/hotpot/pkg/schema/bronzehistory/do"
 )
 
 type BronzeDOAccount struct {

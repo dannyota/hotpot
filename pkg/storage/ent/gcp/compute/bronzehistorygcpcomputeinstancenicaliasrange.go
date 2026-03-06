@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancenicaliasrange"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinstancenicaliasrange"
 )
 
 // BronzeHistoryGCPComputeInstanceNICAliasRange is the model entity for the BronzeHistoryGCPComputeInstanceNICAliasRange schema.

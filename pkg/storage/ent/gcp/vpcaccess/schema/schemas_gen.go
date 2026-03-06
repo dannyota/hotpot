@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_vpcaccess "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/vpcaccess"
-	bronzehistory_gcp_vpcaccess "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/vpcaccess"
+	bronze_gcp_vpcaccess "danny.vn/hotpot/pkg/schema/bronze/gcp/vpcaccess"
+	bronzehistory_gcp_vpcaccess "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/vpcaccess"
 )
 
 type BronzeGCPVPCAccessConnector struct {

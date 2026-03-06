@@ -1,7 +1,7 @@
 package targetinstance
 
 import (
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // TargetInstanceDiff represents changes between old and new target instance states.

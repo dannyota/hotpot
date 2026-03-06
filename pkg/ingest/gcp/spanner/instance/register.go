@@ -3,9 +3,9 @@ package instance
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entspanner "github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entspanner "danny.vn/hotpot/pkg/storage/ent/gcp/spanner"
 )
 
 // Register registers all Spanner instance activities and workflows.

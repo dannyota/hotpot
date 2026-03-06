@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_bigquery "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/bigquery"
-	bronzehistory_gcp_bigquery "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/bigquery"
+	bronze_gcp_bigquery "danny.vn/hotpot/pkg/schema/bronze/gcp/bigquery"
+	bronzehistory_gcp_bigquery "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/bigquery"
 )
 
 type BronzeGCPBigQueryDataset struct {

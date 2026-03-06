@@ -10,8 +10,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworksecgroup"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworksecgrouprule"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworksecgroup"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworksecgrouprule"
 )
 
 // BronzeGreenNodeNetworkSecgroupCreate is the builder for creating a BronzeGreenNodeNetworkSecgroup entity.

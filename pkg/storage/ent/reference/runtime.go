@@ -3,11 +3,11 @@
 package reference
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencecpe"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceoscorerule"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencesoftwarematchrule"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolcycle"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/schema"
+	"danny.vn/hotpot/pkg/storage/ent/reference/bronzereferencecpe"
+	"danny.vn/hotpot/pkg/storage/ent/reference/bronzereferenceoscorerule"
+	"danny.vn/hotpot/pkg/storage/ent/reference/bronzereferencesoftwarematchrule"
+	"danny.vn/hotpot/pkg/storage/ent/reference/bronzereferencexeolcycle"
+	"danny.vn/hotpot/pkg/storage/ent/reference/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

@@ -1,7 +1,7 @@
 package lbpackage
 
 import (
-	entlb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer"
+	entlb "danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer"
 )
 
 // PackageDiff represents changes between old and new package states.

@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclustercondition"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainerclustercondition"
 )
 
 // BronzeHistoryGCPContainerClusterCondition is the model entity for the BronzeHistoryGCPContainerClusterCondition schema.

@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/bronzehistorymeecinventorysoftware"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/bronzehistorymeecinventorysoftware"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/internal"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/predicate"
 )
 
 // BronzeHistoryMEECInventorySoftwareUpdate is the builder for updating BronzeHistoryMEECInventorySoftware entities.

@@ -6,9 +6,9 @@ import (
 	"log/slog"
 	"time"
 
-	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1agent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1agentnic"
+	ents1 "danny.vn/hotpot/pkg/storage/ent/s1"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzes1agent"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzes1agentnic"
 )
 
 // Service handles SentinelOne agent ingestion.

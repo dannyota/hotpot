@@ -11,8 +11,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/run/bronzegcprunrevision"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/run/bronzegcprunservice"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/run/bronzegcprunrevision"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/run/bronzegcprunservice"
 )
 
 // BronzeGCPRunRevisionCreate is the builder for creating a BronzeGCPRunRevision entity.

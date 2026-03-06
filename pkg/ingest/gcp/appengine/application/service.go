@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entappengine "github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/bronzegcpappengineapplication"
+	entappengine "danny.vn/hotpot/pkg/storage/ent/gcp/appengine"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/appengine/bronzegcpappengineapplication"
 )
 
 // Service handles App Engine application ingestion.

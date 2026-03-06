@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzehistoryjenkinsjob"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzehistoryjenkinsjob"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/internal"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/predicate"
 )
 
 // BronzeHistoryJenkinsJobQuery is the builder for querying BronzeHistoryJenkinsJob entities.

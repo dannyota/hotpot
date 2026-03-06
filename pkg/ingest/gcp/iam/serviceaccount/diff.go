@@ -1,6 +1,6 @@
 package serviceaccount
 
-import entiam "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam"
+import entiam "danny.vn/hotpot/pkg/storage/ent/gcp/iam"
 
 type ServiceAccountDiff struct {
 	IsNew     bool

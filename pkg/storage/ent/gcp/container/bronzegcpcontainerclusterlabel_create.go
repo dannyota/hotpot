@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainercluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusterlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainercluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusterlabel"
 )
 
 // BronzeGCPContainerClusterLabelCreate is the builder for creating a BronzeGCPContainerClusterLabel entity.

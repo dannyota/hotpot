@@ -3,7 +3,7 @@ package revision
 import (
 	"bytes"
 
-	entrun "github.com/dannyota/hotpot/pkg/storage/ent/gcp/run"
+	entrun "danny.vn/hotpot/pkg/storage/ent/gcp/run"
 )
 
 // RevisionDiff represents changes between old and new Cloud Run revision state.

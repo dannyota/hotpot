@@ -3,9 +3,9 @@ package serviceaccountkey
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entiam "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entiam "danny.vn/hotpot/pkg/storage/ent/gcp/iam"
 )
 
 func Register(w worker.Worker, configService *config.Service, entClient *entiam.Client, limiter ratelimit.Limiter) {

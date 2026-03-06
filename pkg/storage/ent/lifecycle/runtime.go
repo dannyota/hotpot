@@ -3,9 +3,9 @@
 package lifecycle
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/goldlifecycleos"
-	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/goldlifecyclesoftware"
-	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle/schema"
+	"danny.vn/hotpot/pkg/storage/ent/lifecycle/goldlifecycleos"
+	"danny.vn/hotpot/pkg/storage/ent/lifecycle/goldlifecyclesoftware"
+	"danny.vn/hotpot/pkg/storage/ent/lifecycle/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

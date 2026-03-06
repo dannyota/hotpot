@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpcaccess/bronzegcpvpcaccessconnector"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpcaccess/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpcaccess/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpcaccess/bronzegcpvpcaccessconnector"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpcaccess/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpcaccess/predicate"
 )
 
 // BronzeGCPVPCAccessConnectorUpdate is the builder for updating BronzeGCPVPCAccessConnector entities.

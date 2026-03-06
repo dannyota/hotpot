@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodomain"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodomainrecord"
+	entdo "danny.vn/hotpot/pkg/storage/ent/do"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydodomain"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydodomainrecord"
 )
 
 // DomainHistoryService handles history tracking for Domains.

@@ -7,9 +7,9 @@ import "context"
 // SchemaConfig represents alternative schema names for all tables
 // that can be passed at runtime.
 type SchemaConfig struct {
-	SilverK8sNode           string // SilverK8sNode table.
-	SilverK8sNodeBronzeLink string // SilverK8sNodeBronzeLink table.
-	SilverK8sNodeNormalized string // SilverK8sNodeNormalized table.
+	InventoryK8sNode           string // InventoryK8sNode table.
+	InventoryK8sNodeBronzeLink string // InventoryK8sNodeBronzeLink table.
+	InventoryK8sNodeNormalized string // InventoryK8sNodeNormalized table.
 }
 
 type schemaCtxKey struct{}

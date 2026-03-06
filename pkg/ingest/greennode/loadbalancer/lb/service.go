@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	entlb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzegreennodeloadbalancerlb"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzegreennodeloadbalancerlistener"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzegreennodeloadbalancerpool"
+	entlb "danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzegreennodeloadbalancerlb"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzegreennodeloadbalancerlistener"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzegreennodeloadbalancerpool"
 )
 
 // Service handles GreenNode load balancer ingestion.

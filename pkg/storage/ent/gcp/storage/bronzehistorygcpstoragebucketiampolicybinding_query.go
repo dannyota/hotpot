@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucketiampolicybinding"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucketiampolicybinding"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/predicate"
 )
 
 // BronzeHistoryGCPStorageBucketIamPolicyBindingQuery is the builder for querying BronzeHistoryGCPStorageBucketIamPolicyBinding entities.

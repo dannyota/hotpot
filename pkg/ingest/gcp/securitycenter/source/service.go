@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entsecuritycenter "github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/bronzegcpsecuritycentersource"
+	entsecuritycenter "danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/bronzegcpsecuritycentersource"
 )
 
 // Service handles SCC source ingestion.

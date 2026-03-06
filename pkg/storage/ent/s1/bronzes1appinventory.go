@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1appinventory"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzes1appinventory"
 )
 
 // BronzeS1AppInventory is the model entity for the BronzeS1AppInventory schema.

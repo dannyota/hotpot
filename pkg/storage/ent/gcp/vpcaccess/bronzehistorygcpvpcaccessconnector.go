@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpcaccess/bronzehistorygcpvpcaccessconnector"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpcaccess/bronzehistorygcpvpcaccessconnector"
 )
 
 // BronzeHistoryGCPVPCAccessConnector is the model entity for the BronzeHistoryGCPVPCAccessConnector schema.

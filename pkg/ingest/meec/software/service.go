@@ -6,8 +6,8 @@ import (
 	"log/slog"
 	"time"
 
-	entinventory "github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/bronzemeecinventorysoftware"
+	entinventory "danny.vn/hotpot/pkg/storage/ent/meec/inventory"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/bronzemeecinventorysoftware"
 )
 
 // Service handles MEEC software ingestion.

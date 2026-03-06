@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1rangersetting"
+	ents1 "danny.vn/hotpot/pkg/storage/ent/s1"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzehistorys1rangersetting"
 )
 
 // HistoryService handles history tracking for ranger settings.

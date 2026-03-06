@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedokubernetescluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedokubernetesnodepool"
+	entdo "danny.vn/hotpot/pkg/storage/ent/do"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzedokubernetescluster"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzedokubernetesnodepool"
 )
 
 // Service handles DigitalOcean Kubernetes ingestion.

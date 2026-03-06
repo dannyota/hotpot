@@ -3,7 +3,7 @@ package globalforwardingrule
 import (
 	"encoding/json"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // GlobalForwardingRuleDiff represents changes between old and new global forwarding rule states.

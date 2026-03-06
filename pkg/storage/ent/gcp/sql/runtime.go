@@ -3,11 +3,11 @@
 package sql
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/bronzegcpsqlinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/bronzegcpsqlinstancelabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/bronzehistorygcpsqlinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/bronzehistorygcpsqlinstancelabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/schema"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/sql/bronzegcpsqlinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/sql/bronzegcpsqlinstancelabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/sql/bronzehistorygcpsqlinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/sql/bronzehistorygcpsqlinstancelabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/sql/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

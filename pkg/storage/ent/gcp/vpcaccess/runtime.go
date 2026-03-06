@@ -3,9 +3,9 @@
 package vpcaccess
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpcaccess/bronzegcpvpcaccessconnector"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpcaccess/bronzehistorygcpvpcaccessconnector"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpcaccess/schema"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpcaccess/bronzegcpvpcaccessconnector"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpcaccess/bronzehistorygcpvpcaccessconnector"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpcaccess/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

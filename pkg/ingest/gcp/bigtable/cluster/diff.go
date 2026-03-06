@@ -3,7 +3,7 @@ package cluster
 import (
 	"bytes"
 
-	entbigtable "github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable"
+	entbigtable "danny.vn/hotpot/pkg/storage/ent/gcp/bigtable"
 )
 
 // ClusterDiff represents changes between old and new Bigtable cluster state.

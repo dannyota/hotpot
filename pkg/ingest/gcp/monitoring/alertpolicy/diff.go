@@ -3,7 +3,7 @@ package alertpolicy
 import (
 	"bytes"
 
-	entmonitoring "github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring"
+	entmonitoring "danny.vn/hotpot/pkg/storage/ent/gcp/monitoring"
 )
 
 // AlertPolicyDiff represents changes between old and new alert policy state.

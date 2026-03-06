@@ -5,14 +5,14 @@ import (
 	"danny.vn/greennode/auth"
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/compute/osimage"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/compute/server"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/compute/servergroup"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/compute/sshkey"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/compute/userimage"
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/greennode/compute/osimage"
+	"danny.vn/hotpot/pkg/ingest/greennode/compute/server"
+	"danny.vn/hotpot/pkg/ingest/greennode/compute/servergroup"
+	"danny.vn/hotpot/pkg/ingest/greennode/compute/sshkey"
+	"danny.vn/hotpot/pkg/ingest/greennode/compute/userimage"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/greennode/compute"
 )
 
 // Register registers all GreenNode compute activities and workflows.

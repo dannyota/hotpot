@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization/bronzegcpbinaryauthorizationpolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/binaryauthorization/bronzegcpbinaryauthorizationpolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/binaryauthorization/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/binaryauthorization/predicate"
 )
 
 // BronzeGCPBinaryAuthorizationPolicyDelete is the builder for deleting a BronzeGCPBinaryAuthorizationPolicy entity.

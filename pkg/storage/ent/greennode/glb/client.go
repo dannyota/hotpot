@@ -9,24 +9,24 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbgloballistener"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbgloballoadbalancer"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbglobalpackage"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbglobalpool"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbglobalregion"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbgloballistener"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbgloballoadbalancer"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbglobalpackage"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbglobalpool"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbglobalregion"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbgloballistener"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbgloballoadbalancer"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbglobalpackage"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbglobalpool"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbglobalregion"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbgloballistener"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbgloballoadbalancer"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbglobalpackage"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbglobalpool"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbglobalregion"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/internal"
 )
 
 // Client is the client that holds all ent builders.

@@ -4,8 +4,8 @@ package k8snode
 // DefaultSchemaConfig returns the schema config mapping each type to its PG schema.
 func DefaultSchemaConfig() SchemaConfig {
 	return SchemaConfig{
-		SilverK8sNode:           "silver",
-		SilverK8sNodeBronzeLink: "silver",
-		SilverK8sNodeNormalized: "silver",
+		InventoryK8sNode:           "inventory",
+		InventoryK8sNodeBronzeLink: "inventory",
+		InventoryK8sNodeNormalized: "inventory",
 	}
 }

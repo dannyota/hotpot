@@ -3,11 +3,11 @@ package dataproc
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/dataproc/cluster"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/gcp/dataproc/cluster"
 	"entgo.io/ent/dialect"
-	entdataproc "github.com/dannyota/hotpot/pkg/storage/ent/gcp/dataproc"
+	entdataproc "danny.vn/hotpot/pkg/storage/ent/gcp/dataproc"
 )
 
 // Register registers all Dataproc activities and workflows.

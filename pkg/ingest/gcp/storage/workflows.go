@@ -6,9 +6,9 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/storage/bucket"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/storage/bucketiam"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	"danny.vn/hotpot/pkg/ingest/gcp/storage/bucket"
+	"danny.vn/hotpot/pkg/ingest/gcp/storage/bucketiam"
 )
 
 // GCPStorageWorkflowParams contains parameters for the storage workflow.

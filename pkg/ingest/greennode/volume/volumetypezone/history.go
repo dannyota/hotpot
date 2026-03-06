@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entvol "github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumevolumetypezone"
+	entvol "danny.vn/hotpot/pkg/storage/ent/greennode/volume"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumevolumetypezone"
 )
 
 // HistoryService handles history tracking for volume type zones.

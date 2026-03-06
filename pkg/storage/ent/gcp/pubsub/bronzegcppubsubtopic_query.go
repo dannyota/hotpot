@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/pubsub/bronzegcppubsubtopic"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/pubsub/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/pubsub/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/pubsub/bronzegcppubsubtopic"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/pubsub/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/pubsub/predicate"
 )
 
 // BronzeGCPPubSubTopicQuery is the builder for querying BronzeGCPPubSubTopic entities.

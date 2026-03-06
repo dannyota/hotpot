@@ -3,7 +3,7 @@ package topic
 import (
 	"bytes"
 
-	entpubsub "github.com/dannyota/hotpot/pkg/storage/ent/gcp/pubsub"
+	entpubsub "danny.vn/hotpot/pkg/storage/ent/gcp/pubsub"
 )
 
 // TopicDiff represents changes between old and new topic state.

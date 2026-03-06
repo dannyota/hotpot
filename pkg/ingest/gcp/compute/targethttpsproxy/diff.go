@@ -3,7 +3,7 @@ package targethttpsproxy
 import (
 	"encoding/json"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // TargetHttpsProxyDiff represents changes between old and new target HTTPS proxy states.

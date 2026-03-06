@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_containeranalysis "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/containeranalysis"
-	bronzehistory_gcp_containeranalysis "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/containeranalysis"
+	bronze_gcp_containeranalysis "danny.vn/hotpot/pkg/schema/bronze/gcp/containeranalysis"
+	bronzehistory_gcp_containeranalysis "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/containeranalysis"
 )
 
 type BronzeGCPContainerAnalysisNote struct {

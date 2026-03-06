@@ -4,7 +4,7 @@ package schema
 import (
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
-	bronze_vault_pki "github.com/dannyota/hotpot/pkg/schema/bronze/vault/pki"
+	bronze_vault_pki "danny.vn/hotpot/pkg/schema/bronze/vault/pki"
 )
 
 type BronzeVaultPKICertificate struct {

@@ -8,8 +8,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworksecgroup"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworksecgrouprule"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworksecgroup"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworksecgrouprule"
 )
 
 // BronzeGreenNodeNetworkSecgroupRule is the model entity for the BronzeGreenNodeNetworkSecgroupRule schema.

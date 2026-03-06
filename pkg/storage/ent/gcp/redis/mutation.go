@@ -12,9 +12,9 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis/bronzegcpredisinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis/bronzehistorygcpredisinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/redis/bronzegcpredisinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/redis/bronzehistorygcpredisinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/redis/predicate"
 )
 
 const (

@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_binaryauthorization "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/binaryauthorization"
-	bronzehistory_gcp_binaryauthorization "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/binaryauthorization"
+	bronze_gcp_binaryauthorization "danny.vn/hotpot/pkg/schema/bronze/gcp/binaryauthorization"
+	bronzehistory_gcp_binaryauthorization "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/binaryauthorization"
 )
 
 type BronzeGCPBinaryAuthorizationAttestor struct {

@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzegcploggingsink"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/bronzegcploggingsink"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/predicate"
 )
 
 // BronzeGCPLoggingSinkUpdate is the builder for updating BronzeGCPLoggingSink entities.

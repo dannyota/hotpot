@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/bronzehistorygcpappengineapplication"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/appengine/bronzehistorygcpappengineapplication"
 )
 
 // BronzeHistoryGCPAppEngineApplication is the model entity for the BronzeHistoryGCPAppEngineApplication schema.

@@ -12,8 +12,8 @@ import (
 	"go.temporal.io/sdk/worker"
 	"golang.org/x/sync/errgroup"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/logger"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/logger"
 )
 
 // Run starts the ingest workers.

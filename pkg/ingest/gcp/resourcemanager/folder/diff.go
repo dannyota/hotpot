@@ -1,7 +1,7 @@
 package folder
 
 import (
-	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	entresourcemanager "danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // FolderDiff represents changes between old and new folder state.

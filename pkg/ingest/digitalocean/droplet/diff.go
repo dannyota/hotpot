@@ -3,7 +3,7 @@ package droplet
 import (
 	"bytes"
 
-	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	entdo "danny.vn/hotpot/pkg/storage/ent/do"
 )
 
 // DropletDiff represents changes between old and new Droplet states.

@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbgloballoadbalancer"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbgloballoadbalancer"
 )
 
 // BronzeHistoryGreenNodeGLBGlobalLoadBalancer is the model entity for the BronzeHistoryGreenNodeGLBGlobalLoadBalancer schema.

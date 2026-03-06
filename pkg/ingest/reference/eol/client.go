@@ -15,7 +15,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/dannyota/hotpot/pkg/base/httputil"
+	"danny.vn/hotpot/pkg/base/httputil"
 )
 
 const tarballURL = "https://github.com/endoflife-date/endoflife.date/archive/refs/heads/master.tar.gz"

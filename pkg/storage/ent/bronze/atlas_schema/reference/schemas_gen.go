@@ -4,7 +4,7 @@ package schema
 import (
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
-	bronze_reference "github.com/dannyota/hotpot/pkg/schema/bronze/reference"
+	bronze_reference "danny.vn/hotpot/pkg/schema/bronze/reference"
 )
 
 type BronzeReferenceCPE struct {

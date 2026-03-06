@@ -6,9 +6,9 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/pubsub/subscription"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/pubsub/topic"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	"danny.vn/hotpot/pkg/ingest/gcp/pubsub/subscription"
+	"danny.vn/hotpot/pkg/ingest/gcp/pubsub/topic"
 )
 
 // GCPPubSubWorkflowParams contains parameters for the Pub/Sub workflow.

@@ -3,7 +3,7 @@ package attestor
 import (
 	"bytes"
 
-	entbinaryauthorization "github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization"
+	entbinaryauthorization "danny.vn/hotpot/pkg/storage/ent/gcp/binaryauthorization"
 )
 
 // AttestorDiff represents changes between old and new Binary Authorization attestor state.

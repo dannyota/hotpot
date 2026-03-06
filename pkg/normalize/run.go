@@ -13,11 +13,11 @@ import (
 	sdklog "go.temporal.io/sdk/log"
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/logger"
-	"github.com/dannyota/hotpot/pkg/normalize/installedsoftware"
-	"github.com/dannyota/hotpot/pkg/normalize/k8snode"
-	"github.com/dannyota/hotpot/pkg/normalize/machine"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/logger"
+	"danny.vn/hotpot/pkg/normalize/inventory/k8snode"
+	"danny.vn/hotpot/pkg/normalize/inventory/machine"
+	"danny.vn/hotpot/pkg/normalize/inventory/software"
 )
 
 // Run starts the normalize worker.
@@ -96,15 +96,15 @@ func ensureSchedules(ctx context.Context, temporalClient client.Client) {
 	})
 
 	ensureSchedule(ctx, temporalClient, client.ScheduleOptions{
-		ID: "hotpot-normalize-installed-software-daily",
+		ID: "hotpot-normalize-software-daily",
 		Spec: client.ScheduleSpec{
 			Intervals: []client.ScheduleIntervalSpec{
 				{Every: 24 * time.Hour},
 			},
 		},
 		Action: &client.ScheduleWorkflowAction{
-			ID:        "hotpot-normalize-installed-software",
-			Workflow:  installedsoftware.NormalizeInstalledSoftwareWorkflow,
+			ID:        "hotpot-normalize-software",
+			Workflow:  software.NormalizeSoftwareWorkflow,
 			TaskQueue: "normalize",
 		},
 		Paused: true,

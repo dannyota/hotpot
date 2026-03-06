@@ -11,7 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1site"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzehistorys1site"
 )
 
 // BronzeHistoryS1SiteCreate is the builder for creating a BronzeHistoryS1Site entity.

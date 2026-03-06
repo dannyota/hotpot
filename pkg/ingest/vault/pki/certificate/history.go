@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entpki "github.com/dannyota/hotpot/pkg/storage/ent/vault/pki"
-	"github.com/dannyota/hotpot/pkg/storage/ent/vault/pki/bronzehistoryvaultpkicertificate"
+	entpki "danny.vn/hotpot/pkg/storage/ent/vault/pki"
+	"danny.vn/hotpot/pkg/storage/ent/vault/pki/bronzehistoryvaultpkicertificate"
 )
 
 // HistoryService handles history tracking for certificates.

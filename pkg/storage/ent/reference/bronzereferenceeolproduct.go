@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceeolproduct"
+	"danny.vn/hotpot/pkg/storage/ent/reference/bronzereferenceeolproduct"
 )
 
 // BronzeReferenceEOLProduct is the model entity for the BronzeReferenceEOLProduct schema.

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworksubnet"
+	entnet "danny.vn/hotpot/pkg/storage/ent/greennode/network"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworksubnet"
 )
 
 // HistoryService handles history tracking for subnets.

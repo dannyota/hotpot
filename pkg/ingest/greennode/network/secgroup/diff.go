@@ -1,7 +1,7 @@
 package secgroup
 
 import (
-	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
+	entnet "danny.vn/hotpot/pkg/storage/ent/greennode/network"
 )
 
 // SecgroupDiff represents changes between old and new security group states.

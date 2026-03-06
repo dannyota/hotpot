@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_securitycenter "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/securitycenter"
-	bronzehistory_gcp_securitycenter "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/securitycenter"
+	bronze_gcp_securitycenter "danny.vn/hotpot/pkg/schema/bronze/gcp/securitycenter"
+	bronzehistory_gcp_securitycenter "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/securitycenter"
 )
 
 type BronzeGCPSecurityCenterFinding struct {

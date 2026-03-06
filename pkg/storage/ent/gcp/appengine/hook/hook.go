@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/appengine"
 )
 
 // The BronzeGCPAppEngineApplicationFunc type is an adapter to allow the use of ordinary

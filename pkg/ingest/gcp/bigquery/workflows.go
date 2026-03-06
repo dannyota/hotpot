@@ -6,9 +6,9 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/bigquery/dataset"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/bigquery/table"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	"danny.vn/hotpot/pkg/ingest/gcp/bigquery/dataset"
+	"danny.vn/hotpot/pkg/ingest/gcp/bigquery/table"
 )
 
 // GCPBigQueryWorkflowParams contains parameters for the BigQuery workflow.

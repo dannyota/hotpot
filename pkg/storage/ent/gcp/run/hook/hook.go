@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/run"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/run"
 )
 
 // The BronzeGCPRunRevisionFunc type is an adapter to allow the use of ordinary

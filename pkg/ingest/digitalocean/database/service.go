@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"time"
 
-	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedodatabase"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedodatabasebackup"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedodatabaseconfig"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedodatabasefirewallrule"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedodatabasepool"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedodatabasereplica"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedodatabaseuser"
+	entdo "danny.vn/hotpot/pkg/storage/ent/do"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzedodatabase"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzedodatabasebackup"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzedodatabaseconfig"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzedodatabasefirewallrule"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzedodatabasepool"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzedodatabasereplica"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzedodatabaseuser"
 )
 
 // Service handles DigitalOcean Database ingestion.

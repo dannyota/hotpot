@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeaddress"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeaddress"
 )
 
 // BronzeGCPComputeAddress is the model entity for the BronzeGCPComputeAddress schema.

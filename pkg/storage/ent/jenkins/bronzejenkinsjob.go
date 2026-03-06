@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzejenkinsjob"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzejenkinsjob"
 )
 
 // BronzeJenkinsJob is the model entity for the BronzeJenkinsJob schema.

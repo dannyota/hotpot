@@ -3,9 +3,9 @@ package settings
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entiap "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entiap "danny.vn/hotpot/pkg/storage/ent/gcp/iap"
 )
 
 // Register registers all IAP settings activities and workflows.

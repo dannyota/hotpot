@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_compute "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/compute"
-	bronzehistory_gcp_compute "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/compute"
+	bronze_gcp_compute "danny.vn/hotpot/pkg/schema/bronze/gcp/compute"
+	bronzehistory_gcp_compute "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/compute"
 )
 
 type BronzeGCPComputeAddress struct {

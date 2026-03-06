@@ -2,7 +2,7 @@ package image
 
 import (
 	"bytes"
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // ImageDiff represents changes between old and new image states.

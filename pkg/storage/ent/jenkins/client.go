@@ -9,20 +9,20 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzehistoryjenkinsbuild"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzehistoryjenkinsbuildrepo"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzehistoryjenkinsjob"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzejenkinsbuild"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzejenkinsbuildrepo"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzejenkinsjob"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzehistoryjenkinsbuild"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzehistoryjenkinsbuildrepo"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzehistoryjenkinsjob"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzejenkinsbuild"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzejenkinsbuildrepo"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzejenkinsjob"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/internal"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/internal"
 )
 
 // Client is the client that holds all ent builders.

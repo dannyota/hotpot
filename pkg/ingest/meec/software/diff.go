@@ -1,6 +1,6 @@
 package software
 
-import entinventory "github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory"
+import entinventory "danny.vn/hotpot/pkg/storage/ent/meec/inventory"
 
 // SoftwareDiff represents changes between old and new software states.
 type SoftwareDiff struct {

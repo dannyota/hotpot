@@ -3,7 +3,7 @@ package lb
 import (
 	"bytes"
 
-	entlb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer"
+	entlb "danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer"
 )
 
 // LBDiff represents changes between old and new load balancer states.

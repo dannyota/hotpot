@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager/bronzehistorygcpaccesscontextmanagerserviceperimeter"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager/bronzehistorygcpaccesscontextmanagerserviceperimeter"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager/predicate"
 )
 
 // BronzeHistoryGCPAccessContextManagerServicePerimeterDelete is the builder for deleting a BronzeHistoryGCPAccessContextManagerServicePerimeter entity.

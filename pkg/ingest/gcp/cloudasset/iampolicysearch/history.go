@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entcloudasset "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/bronzehistorygcpcloudassetiampolicysearch"
+	entcloudasset "danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/bronzehistorygcpcloudassetiampolicysearch"
 )
 
 // HistoryService manages IAM policy search history tracking.

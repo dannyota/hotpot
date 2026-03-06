@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entec2 "github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzehistoryawsec2instance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzehistoryawsec2instancetag"
+	entec2 "danny.vn/hotpot/pkg/storage/ent/aws/ec2"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/bronzehistoryawsec2instance"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/bronzehistoryawsec2instancetag"
 )
 
 // HistoryService handles history tracking for instances.

@@ -3,14 +3,14 @@ package orgpolicy
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/orgpolicy/constraint"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/orgpolicy/customconstraint"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/orgpolicy/policy"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/gcp/orgpolicy/constraint"
+	"danny.vn/hotpot/pkg/ingest/gcp/orgpolicy/customconstraint"
+	"danny.vn/hotpot/pkg/ingest/gcp/orgpolicy/policy"
 	"entgo.io/ent/dialect"
-	entorgpolicy "github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy"
-	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	entorgpolicy "danny.vn/hotpot/pkg/storage/ent/gcp/orgpolicy"
+	entresourcemanager "danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // Register registers all Organization Policy activities and workflows.

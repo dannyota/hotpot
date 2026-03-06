@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entredis "github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis/bronzegcpredisinstance"
+	entredis "danny.vn/hotpot/pkg/storage/ent/gcp/redis"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/redis/bronzegcpredisinstance"
 )
 
 // Service handles GCP Memorystore Redis instance ingestion.

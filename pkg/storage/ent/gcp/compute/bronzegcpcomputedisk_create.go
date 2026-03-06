@@ -11,9 +11,9 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputedisk"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputedisklabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputedisklicense"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputedisk"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputedisklabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputedisklicense"
 )
 
 // BronzeGCPComputeDiskCreate is the builder for creating a BronzeGCPComputeDisk entity.

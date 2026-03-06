@@ -8,7 +8,7 @@ import (
 
 	"go.temporal.io/sdk/client"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/config"
 )
 
 // ensureSchedules creates paused daily schedules for all enabled providers.

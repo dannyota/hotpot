@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms/bronzehistorygcpkmskeyring"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/kms/bronzehistorygcpkmskeyring"
 )
 
 // BronzeHistoryGCPKMSKeyRingCreate is the builder for creating a BronzeHistoryGCPKMSKeyRing entity.

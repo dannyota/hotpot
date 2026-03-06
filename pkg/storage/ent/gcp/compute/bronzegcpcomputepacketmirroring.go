@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputepacketmirroring"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputepacketmirroring"
 )
 
 // BronzeGCPComputePacketMirroring is the model entity for the BronzeGCPComputePacketMirroring schema.

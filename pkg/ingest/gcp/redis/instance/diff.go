@@ -3,7 +3,7 @@ package instance
 import (
 	"bytes"
 
-	entredis "github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis"
+	entredis "danny.vn/hotpot/pkg/storage/ent/gcp/redis"
 )
 
 // InstanceDiff represents changes between old and new Redis instance state.

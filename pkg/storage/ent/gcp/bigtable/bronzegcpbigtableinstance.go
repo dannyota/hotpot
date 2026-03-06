@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable/bronzegcpbigtableinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigtable/bronzegcpbigtableinstance"
 )
 
 // BronzeGCPBigtableInstance is the model entity for the BronzeGCPBigtableInstance schema.

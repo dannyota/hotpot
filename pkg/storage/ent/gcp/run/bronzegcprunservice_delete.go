@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/run/bronzegcprunservice"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/run/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/run/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/run/bronzegcprunservice"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/run/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/run/predicate"
 )
 
 // BronzeGCPRunServiceDelete is the builder for deleting a BronzeGCPRunService entity.

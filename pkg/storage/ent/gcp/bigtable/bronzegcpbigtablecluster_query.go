@@ -11,10 +11,10 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable/bronzegcpbigtablecluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable/bronzegcpbigtableinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigtable/bronzegcpbigtablecluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigtable/bronzegcpbigtableinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigtable/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigtable/predicate"
 )
 
 // BronzeGCPBigtableClusterQuery is the builder for querying BronzeGCPBigtableCluster entities.

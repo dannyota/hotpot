@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworkroutetable"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworkroutetable"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/predicate"
 )
 
 // BronzeGreenNodeNetworkRouteTableDelete is the builder for deleting a BronzeGreenNodeNetworkRouteTable entity.

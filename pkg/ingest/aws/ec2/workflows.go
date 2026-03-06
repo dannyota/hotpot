@@ -6,7 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/ingest/aws/ec2/instance"
+	"danny.vn/hotpot/pkg/ingest/aws/ec2/instance"
 )
 
 // AWSEC2WorkflowParams contains parameters for the EC2 workflow.

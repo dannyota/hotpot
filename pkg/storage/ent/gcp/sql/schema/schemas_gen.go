@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_sql "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/sql"
-	bronzehistory_gcp_sql "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/sql"
+	bronze_gcp_sql "danny.vn/hotpot/pkg/schema/bronze/gcp/sql"
+	bronzehistory_gcp_sql "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/sql"
 )
 
 type BronzeGCPSQLInstance struct {

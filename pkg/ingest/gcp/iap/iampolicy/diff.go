@@ -3,7 +3,7 @@ package iampolicy
 import (
 	"bytes"
 
-	entiap "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap"
+	entiap "danny.vn/hotpot/pkg/storage/ent/gcp/iap"
 )
 
 // IAMPolicyDiff represents changes between old and new IAP IAM policy state.

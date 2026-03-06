@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputesshkey"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/greennode/compute"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputesshkey"
 )
 
 // HistoryService handles history tracking for SSH keys.

@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager/bronzehistorygcpaccesscontextmanageraccesspolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager/bronzehistorygcpaccesscontextmanageraccesspolicy"
 )
 
 // BronzeHistoryGCPAccessContextManagerAccessPolicy is the model entity for the BronzeHistoryGCPAccessContextManagerAccessPolicy schema.

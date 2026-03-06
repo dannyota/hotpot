@@ -11,10 +11,10 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzegreennodeloadbalancerlb"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzegreennodeloadbalancerpool"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzegreennodeloadbalancerlb"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzegreennodeloadbalancerpool"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer/predicate"
 )
 
 // BronzeGreenNodeLoadBalancerPoolQuery is the builder for querying BronzeGreenNodeLoadBalancerPool entities.

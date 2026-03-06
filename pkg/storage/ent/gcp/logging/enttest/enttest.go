@@ -5,12 +5,12 @@ package enttest
 import (
 	"context"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging"
 	// required by schema hooks.
-	_ "github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/runtime"
+	_ "danny.vn/hotpot/pkg/storage/ent/gcp/logging/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/migrate"
 )
 
 type (

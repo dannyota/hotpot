@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference"
+	"danny.vn/hotpot/pkg/storage/ent/reference"
 )
 
 // The BronzeReferenceCPEFunc type is an adapter to allow the use of ordinary

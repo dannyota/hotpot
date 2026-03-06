@@ -8,8 +8,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeaddress"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeaddresslabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeaddress"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputeaddresslabel"
 )
 
 // BronzeGCPComputeAddressLabel is the model entity for the BronzeGCPComputeAddressLabel schema.

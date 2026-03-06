@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dataproc/bronzehistorygcpdataproccluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dataproc/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dataproc/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dataproc/bronzehistorygcpdataproccluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dataproc/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dataproc/predicate"
 )
 
 // BronzeHistoryGCPDataprocClusterDelete is the builder for deleting a BronzeHistoryGCPDataprocCluster entity.

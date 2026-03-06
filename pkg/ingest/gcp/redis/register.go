@@ -3,11 +3,11 @@ package redis
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/redis/instance"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/gcp/redis/instance"
 	"entgo.io/ent/dialect"
-	entredis "github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis"
+	entredis "danny.vn/hotpot/pkg/storage/ent/gcp/redis"
 )
 
 // Register registers all Memorystore Redis activities and workflows.

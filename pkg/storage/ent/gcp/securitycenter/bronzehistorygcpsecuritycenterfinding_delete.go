@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/bronzehistorygcpsecuritycenterfinding"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/bronzehistorygcpsecuritycenterfinding"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/predicate"
 )
 
 // BronzeHistoryGCPSecurityCenterFindingDelete is the builder for deleting a BronzeHistoryGCPSecurityCenterFinding entity.

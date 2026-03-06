@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_cloudasset "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/cloudasset"
-	bronzehistory_gcp_cloudasset "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/cloudasset"
+	bronze_gcp_cloudasset "danny.vn/hotpot/pkg/schema/bronze/gcp/cloudasset"
+	bronzehistory_gcp_cloudasset "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/cloudasset"
 )
 
 type BronzeGCPCloudAssetAsset struct {

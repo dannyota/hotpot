@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/bronzehistorygcpcloudassetiampolicysearch"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/bronzehistorygcpcloudassetiampolicysearch"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/predicate"
 )
 
 // BronzeHistoryGCPCloudAssetIAMPolicySearchQuery is the builder for querying BronzeHistoryGCPCloudAssetIAMPolicySearch entities.

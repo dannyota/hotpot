@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins"
 )
 
 // The BronzeHistoryJenkinsBuildFunc type is an adapter to allow the use of ordinary

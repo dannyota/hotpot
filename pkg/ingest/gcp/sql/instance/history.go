@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entgcpsql "github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/bronzehistorygcpsqlinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/bronzehistorygcpsqlinstancelabel"
+	entgcpsql "danny.vn/hotpot/pkg/storage/ent/gcp/sql"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/sql/bronzehistorygcpsqlinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/sql/bronzehistorygcpsqlinstancelabel"
 )
 
 // HistoryService handles history tracking for SQL instances.

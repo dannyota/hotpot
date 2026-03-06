@@ -3,9 +3,9 @@ package cluster
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entcontainer "github.com/dannyota/hotpot/pkg/storage/ent/gcp/container"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entcontainer "danny.vn/hotpot/pkg/storage/ent/gcp/container"
 )
 
 // Register registers cluster activities and workflows with the Temporal worker.

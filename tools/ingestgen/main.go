@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-const hotpotModule = "github.com/dannyota/hotpot"
+const hotpotModule = "danny.vn/hotpot"
 
 func main() {
 	cwd, err := os.Getwd()

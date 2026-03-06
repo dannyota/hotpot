@@ -3,7 +3,7 @@ package database
 import (
 	"bytes"
 
-	entspanner "github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner"
+	entspanner "danny.vn/hotpot/pkg/storage/ent/gcp/spanner"
 )
 
 // DatabaseDiff represents changes between old and new Spanner database state.

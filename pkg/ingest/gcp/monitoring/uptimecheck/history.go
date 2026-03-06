@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entmonitoring "github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring/bronzehistorygcpmonitoringuptimecheckconfig"
+	entmonitoring "danny.vn/hotpot/pkg/storage/ent/gcp/monitoring"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/monitoring/bronzehistorygcpmonitoringuptimecheckconfig"
 )
 
 // HistoryService manages uptime check config history tracking.

@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzegcpcontaineranalysisnote"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzegcpcontaineranalysisnote"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/predicate"
 )
 
 // BronzeGCPContainerAnalysisNoteUpdate is the builder for updating BronzeGCPContainerAnalysisNote entities.

@@ -3,9 +3,9 @@ package bucketiam
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entstorage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entstorage "danny.vn/hotpot/pkg/storage/ent/gcp/storage"
 )
 
 // Register registers all bucket IAM policy activities and workflows.

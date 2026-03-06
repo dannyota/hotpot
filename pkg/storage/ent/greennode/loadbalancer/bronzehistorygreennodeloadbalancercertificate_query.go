@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzehistorygreennodeloadbalancercertificate"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer/bronzehistorygreennodeloadbalancercertificate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer/predicate"
 )
 
 // BronzeHistoryGreenNodeLoadBalancerCertificateQuery is the builder for querying BronzeHistoryGreenNodeLoadBalancerCertificate entities.

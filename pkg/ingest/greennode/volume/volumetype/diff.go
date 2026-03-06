@@ -1,7 +1,7 @@
 package volumetype
 
 import (
-	entvol "github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume"
+	entvol "danny.vn/hotpot/pkg/storage/ent/greennode/volume"
 )
 
 // VolumeTypeDiff represents changes between old and new volume type states.

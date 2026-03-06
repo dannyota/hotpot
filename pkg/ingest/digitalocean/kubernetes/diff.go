@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"time"
 
-	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	entdo "danny.vn/hotpot/pkg/storage/ent/do"
 )
 
 // ClusterDiff represents changes between old and new Kubernetes cluster states.

@@ -3,9 +3,9 @@ package volume
 import (
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/volume/blockvolume"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/volume/volumetype"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/volume/volumetypezone"
+	"danny.vn/hotpot/pkg/ingest/greennode/volume/blockvolume"
+	"danny.vn/hotpot/pkg/ingest/greennode/volume/volumetype"
+	"danny.vn/hotpot/pkg/ingest/greennode/volume/volumetypezone"
 )
 
 // GreenNodeVolumeWorkflowParams contains parameters for the volume workflow.

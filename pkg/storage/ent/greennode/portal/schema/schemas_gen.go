@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_greennode_portal "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/portal"
-	bronzehistory_greennode_portal "github.com/dannyota/hotpot/pkg/schema/bronzehistory/greennode/portal"
+	bronze_greennode_portal "danny.vn/hotpot/pkg/schema/bronze/greennode/portal"
+	bronzehistory_greennode_portal "danny.vn/hotpot/pkg/schema/bronzehistory/greennode/portal"
 )
 
 type BronzeGreenNodePortalQuota struct {

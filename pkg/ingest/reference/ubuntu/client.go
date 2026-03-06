@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/base/httputil"
+	"danny.vn/hotpot/pkg/base/httputil"
 )
 
 // FeedDef defines a single Ubuntu Packages.gz feed to download.

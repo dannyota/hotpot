@@ -6,9 +6,9 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/monitoring/alertpolicy"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/monitoring/uptimecheck"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	"danny.vn/hotpot/pkg/ingest/gcp/monitoring/alertpolicy"
+	"danny.vn/hotpot/pkg/ingest/gcp/monitoring/uptimecheck"
 )
 
 // GCPMonitoringWorkflowParams contains parameters for the monitoring workflow.

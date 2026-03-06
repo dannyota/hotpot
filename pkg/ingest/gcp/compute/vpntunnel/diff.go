@@ -3,7 +3,7 @@ package vpntunnel
 import (
 	"bytes"
 
-	entvpn "github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn"
+	entvpn "danny.vn/hotpot/pkg/storage/ent/gcp/vpn"
 )
 
 // VpnTunnelDiff represents changes between old and new VPN tunnel states.

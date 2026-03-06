@@ -11,7 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1account"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzes1account"
 )
 
 // BronzeS1AccountCreate is the builder for creating a BronzeS1Account entity.

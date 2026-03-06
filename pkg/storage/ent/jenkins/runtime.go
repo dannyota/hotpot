@@ -3,11 +3,11 @@
 package jenkins
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzehistoryjenkinsbuild"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzehistoryjenkinsjob"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzejenkinsbuild"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzejenkinsjob"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/schema"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzehistoryjenkinsbuild"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzehistoryjenkinsjob"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzejenkinsbuild"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzejenkinsjob"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

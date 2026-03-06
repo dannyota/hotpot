@@ -9,17 +9,17 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzegcpcontaineranalysisnote"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzegcpcontaineranalysisoccurrence"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzehistorygcpcontaineranalysisnote"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzehistorygcpcontaineranalysisoccurrence"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzegcpcontaineranalysisnote"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzegcpcontaineranalysisoccurrence"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzehistorygcpcontaineranalysisnote"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzehistorygcpcontaineranalysisoccurrence"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/internal"
 )
 
 // Client is the client that holds all ent builders.

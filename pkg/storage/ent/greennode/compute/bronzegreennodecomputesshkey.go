@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputesshkey"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzegreennodecomputesshkey"
 )
 
 // BronzeGreenNodeComputeSSHKey is the model entity for the BronzeGreenNodeComputeSSHKey schema.

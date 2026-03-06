@@ -3,9 +3,9 @@ package cluster
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entdataproc "github.com/dannyota/hotpot/pkg/storage/ent/gcp/dataproc"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entdataproc "danny.vn/hotpot/pkg/storage/ent/gcp/dataproc"
 )
 
 // Register registers Dataproc cluster workflows and activities with the Temporal worker.

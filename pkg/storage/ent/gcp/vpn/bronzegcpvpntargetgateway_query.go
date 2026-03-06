@@ -12,10 +12,10 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpntargetgateway"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpntargetgatewaylabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpntargetgateway"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpntargetgatewaylabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/predicate"
 )
 
 // BronzeGCPVPNTargetGatewayQuery is the builder for querying BronzeGCPVPNTargetGateway entities.

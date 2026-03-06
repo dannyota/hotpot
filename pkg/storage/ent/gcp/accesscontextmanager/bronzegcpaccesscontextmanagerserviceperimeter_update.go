@@ -13,10 +13,10 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager/bronzegcpaccesscontextmanageraccesspolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager/bronzegcpaccesscontextmanagerserviceperimeter"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager/bronzegcpaccesscontextmanageraccesspolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager/bronzegcpaccesscontextmanagerserviceperimeter"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager/predicate"
 )
 
 // BronzeGCPAccessContextManagerServicePerimeterUpdate is the builder for updating BronzeGCPAccessContextManagerServicePerimeter entities.

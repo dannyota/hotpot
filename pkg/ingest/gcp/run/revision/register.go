@@ -3,9 +3,9 @@ package revision
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entrun "github.com/dannyota/hotpot/pkg/storage/ent/gcp/run"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entrun "danny.vn/hotpot/pkg/storage/ent/gcp/run"
 )
 
 // Register registers all Cloud Run revision activities and workflows.

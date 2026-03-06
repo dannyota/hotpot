@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entsecuritycenter "github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/bronzehistorygcpsecuritycenternotificationconfig"
+	entsecuritycenter "danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/bronzehistorygcpsecuritycenternotificationconfig"
 )
 
 // HistoryService manages SCC notification config history tracking.

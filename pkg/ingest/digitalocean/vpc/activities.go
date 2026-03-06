@@ -9,9 +9,9 @@ import (
 	"go.temporal.io/sdk/activity"
 	"golang.org/x/oauth2"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entdo "danny.vn/hotpot/pkg/storage/ent/do"
 )
 
 // Activities holds dependencies for Temporal activities.

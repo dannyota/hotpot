@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworkroutetable"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworkroutetable"
 )
 
 // BronzeHistoryGreenNodeNetworkRouteTable is the model entity for the BronzeHistoryGreenNodeNetworkRouteTable schema.

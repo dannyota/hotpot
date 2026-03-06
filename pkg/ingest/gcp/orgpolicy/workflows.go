@@ -6,10 +6,10 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/orgpolicy/constraint"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/orgpolicy/customconstraint"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/orgpolicy/policy"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	"danny.vn/hotpot/pkg/ingest/gcp/orgpolicy/constraint"
+	"danny.vn/hotpot/pkg/ingest/gcp/orgpolicy/customconstraint"
+	"danny.vn/hotpot/pkg/ingest/gcp/orgpolicy/policy"
 )
 
 // GCPOrgPolicyWorkflowParams contains parameters for the org policy workflow.

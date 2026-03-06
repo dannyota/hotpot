@@ -3,7 +3,7 @@ package packetmirroring
 import (
 	"bytes"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // PacketMirroringDiff represents changes between old and new packet mirroring states.

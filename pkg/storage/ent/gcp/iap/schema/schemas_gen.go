@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_iap "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/iap"
-	bronzehistory_gcp_iap "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/iap"
+	bronze_gcp_iap "danny.vn/hotpot/pkg/schema/bronze/gcp/iap"
+	bronzehistory_gcp_iap "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/iap"
 )
 
 type BronzeGCPIAPIAMPolicy struct {

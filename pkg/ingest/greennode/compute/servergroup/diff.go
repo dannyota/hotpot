@@ -1,7 +1,7 @@
 package servergroup
 
 import (
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/greennode/compute"
 )
 
 // ServerGroupDiff represents changes between old and new server group states.

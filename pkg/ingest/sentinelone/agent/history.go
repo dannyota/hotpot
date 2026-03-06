@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1agent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1agentnic"
+	ents1 "danny.vn/hotpot/pkg/storage/ent/s1"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzehistorys1agent"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzehistorys1agentnic"
 )
 
 // HistoryService handles history tracking for agents.

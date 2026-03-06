@@ -11,8 +11,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1agent"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1agentnic"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzes1agent"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzes1agentnic"
 )
 
 // BronzeS1AgentCreate is the builder for creating a BronzeS1Agent entity.

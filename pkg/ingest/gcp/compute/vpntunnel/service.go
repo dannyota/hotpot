@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entvpn "github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpntunnel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpntunnellabel"
+	entvpn "danny.vn/hotpot/pkg/storage/ent/gcp/vpn"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpntunnel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpntunnellabel"
 )
 
 // Service handles GCP Compute VPN tunnel ingestion.

@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzegcpcontaineranalysisoccurrence"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzegcpcontaineranalysisoccurrence"
 )
 
 // BronzeGCPContainerAnalysisOccurrence is the model entity for the BronzeGCPContainerAnalysisOccurrence schema.

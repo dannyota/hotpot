@@ -5,12 +5,12 @@ package enttest
 import (
 	"context"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager"
 	// required by schema hooks.
-	_ "github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/runtime"
+	_ "danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/migrate"
 )
 
 type (

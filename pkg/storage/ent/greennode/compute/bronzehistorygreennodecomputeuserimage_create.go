@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputeuserimage"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute/bronzehistorygreennodecomputeuserimage"
 )
 
 // BronzeHistoryGreenNodeComputeUserImageCreate is the builder for creating a BronzeHistoryGreenNodeComputeUserImage entity.

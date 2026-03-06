@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"time"
 
-	entcontainer "github.com/dannyota/hotpot/pkg/storage/ent/gcp/container"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainercluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusteraddon"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclustercondition"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusterlabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusternodepool"
+	entcontainer "danny.vn/hotpot/pkg/storage/ent/gcp/container"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainercluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusteraddon"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclustercondition"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusterlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzegcpcontainerclusternodepool"
 )
 
 // Service handles GCP Container cluster ingestion.

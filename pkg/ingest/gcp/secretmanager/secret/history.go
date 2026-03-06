@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entsecretmanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/bronzehistorygcpsecretmanagersecret"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/bronzehistorygcpsecretmanagersecretlabel"
+	entsecretmanager "danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/bronzehistorygcpsecretmanagersecret"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/bronzehistorygcpsecretmanagersecretlabel"
 )
 
 // HistoryService handles history tracking for secrets.

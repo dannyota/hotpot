@@ -11,7 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydodatabaseuser"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydodatabaseuser"
 )
 
 // BronzeHistoryDODatabaseUserCreate is the builder for creating a BronzeHistoryDODatabaseUser entity.

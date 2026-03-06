@@ -6,17 +6,17 @@ import (
 	"entgo.io/ent/dialect"
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/normalize/installedsoftware"
-	ismeec "github.com/dannyota/hotpot/pkg/normalize/installedsoftware/meec"
-	iss1 "github.com/dannyota/hotpot/pkg/normalize/installedsoftware/s1"
-	"github.com/dannyota/hotpot/pkg/normalize/k8snode"
-	k8snodegcp "github.com/dannyota/hotpot/pkg/normalize/k8snode/gcp"
-	"github.com/dannyota/hotpot/pkg/normalize/machine"
-	"github.com/dannyota/hotpot/pkg/normalize/machine/gcp"
-	"github.com/dannyota/hotpot/pkg/normalize/machine/greennode"
-	"github.com/dannyota/hotpot/pkg/normalize/machine/meec"
-	"github.com/dannyota/hotpot/pkg/normalize/machine/s1"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/normalize/inventory/k8snode"
+	k8snodegcp "danny.vn/hotpot/pkg/normalize/inventory/k8snode/gcp"
+	"danny.vn/hotpot/pkg/normalize/inventory/machine"
+	"danny.vn/hotpot/pkg/normalize/inventory/machine/gcp"
+	"danny.vn/hotpot/pkg/normalize/inventory/machine/greennode"
+	"danny.vn/hotpot/pkg/normalize/inventory/machine/meec"
+	"danny.vn/hotpot/pkg/normalize/inventory/machine/s1"
+	"danny.vn/hotpot/pkg/normalize/inventory/software"
+	swmeec "danny.vn/hotpot/pkg/normalize/inventory/software/meec"
+	sws1 "danny.vn/hotpot/pkg/normalize/inventory/software/s1"
 )
 
 // Register wires all normalize domains to the worker.
@@ -36,10 +36,10 @@ func Register(w worker.Worker, configService *config.Service, driver dialect.Dri
 	}
 	k8snode.Register(w, configService, driver, db, k8sProviders)
 
-	// Installed software providers.
-	isProviders := []installedsoftware.Provider{
-		iss1.Provider{},
-		ismeec.Provider{},
+	// Software providers.
+	swProviders := []software.Provider{
+		sws1.Provider{},
+		swmeec.Provider{},
 	}
-	installedsoftware.Register(w, configService, driver, db, isProviders)
+	software.Register(w, configService, driver, db, swProviders)
 }

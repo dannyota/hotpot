@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"time"
 
-	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
+	ents1 "danny.vn/hotpot/pkg/storage/ent/s1"
 )
 
 // NetworkDiscoveryDiff represents changes between old and new network discovery device states.

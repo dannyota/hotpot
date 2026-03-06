@@ -3,7 +3,7 @@ package targetinstance
 import (
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
+	"danny.vn/hotpot/pkg/base/temporalerr"
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )

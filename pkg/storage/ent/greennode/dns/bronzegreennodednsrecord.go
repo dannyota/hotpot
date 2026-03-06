@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzegreennodednshostedzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzegreennodednsrecord"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/bronzegreennodednshostedzone"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/bronzegreennodednsrecord"
 )
 
 // BronzeGreenNodeDNSRecord is the model entity for the BronzeGreenNodeDNSRecord schema.

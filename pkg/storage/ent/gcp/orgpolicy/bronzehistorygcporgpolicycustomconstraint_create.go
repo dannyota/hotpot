@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzehistorygcporgpolicycustomconstraint"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzehistorygcporgpolicycustomconstraint"
 )
 
 // BronzeHistoryGCPOrgPolicyCustomConstraintCreate is the builder for creating a BronzeHistoryGCPOrgPolicyCustomConstraint entity.

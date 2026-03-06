@@ -11,7 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzehistorygcpvpntargetgateway"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/bronzehistorygcpvpntargetgateway"
 )
 
 // BronzeHistoryGCPVPNTargetGatewayCreate is the builder for creating a BronzeHistoryGCPVPNTargetGateway entity.

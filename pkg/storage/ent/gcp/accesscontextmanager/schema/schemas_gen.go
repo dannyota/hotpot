@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_accesscontextmanager "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/accesscontextmanager"
-	bronzehistory_gcp_accesscontextmanager "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/accesscontextmanager"
+	bronze_gcp_accesscontextmanager "danny.vn/hotpot/pkg/schema/bronze/gcp/accesscontextmanager"
+	bronzehistory_gcp_accesscontextmanager "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/accesscontextmanager"
 )
 
 type BronzeGCPAccessContextManagerAccessLevel struct {

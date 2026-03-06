@@ -5,12 +5,12 @@ import (
 	"danny.vn/greennode/auth"
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/loadbalancer/certificate"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/loadbalancer/lb"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/loadbalancer/lbpackage"
-	entlb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/greennode/loadbalancer/certificate"
+	"danny.vn/hotpot/pkg/ingest/greennode/loadbalancer/lb"
+	"danny.vn/hotpot/pkg/ingest/greennode/loadbalancer/lbpackage"
+	entlb "danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer"
 )
 
 // Register registers all GreenNode load balancer activities and workflows.

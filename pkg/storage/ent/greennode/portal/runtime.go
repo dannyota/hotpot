@@ -3,13 +3,13 @@
 package portal
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/bronzegreennodeportalquota"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/bronzegreennodeportalregion"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/bronzegreennodeportalzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/bronzehistorygreennodeportalquota"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/bronzehistorygreennodeportalregion"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/bronzehistorygreennodeportalzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal/schema"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/portal/bronzegreennodeportalquota"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/portal/bronzegreennodeportalregion"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/portal/bronzegreennodeportalzone"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/portal/bronzehistorygreennodeportalquota"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/portal/bronzehistorygreennodeportalregion"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/portal/bronzehistorygreennodeportalzone"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/portal/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

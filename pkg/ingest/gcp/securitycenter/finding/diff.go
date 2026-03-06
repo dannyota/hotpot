@@ -1,7 +1,7 @@
 package finding
 
 import (
-	entsecuritycenter "github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter"
+	entsecuritycenter "danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter"
 )
 
 // FindingDiff represents changes between old and new SCC finding state.

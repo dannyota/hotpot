@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entfilestore "github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore/bronzegcpfilestoreinstance"
+	entfilestore "danny.vn/hotpot/pkg/storage/ent/gcp/filestore"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/filestore/bronzegcpfilestoreinstance"
 )
 
 // Service handles Filestore instance ingestion.

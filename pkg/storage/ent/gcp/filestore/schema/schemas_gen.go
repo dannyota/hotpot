@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_filestore "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/filestore"
-	bronzehistory_gcp_filestore "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/filestore"
+	bronze_gcp_filestore "danny.vn/hotpot/pkg/schema/bronze/gcp/filestore"
+	bronzehistory_gcp_filestore "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/filestore"
 )
 
 type BronzeGCPFilestoreInstance struct {

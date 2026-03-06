@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entdataproc "github.com/dannyota/hotpot/pkg/storage/ent/gcp/dataproc"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dataproc/bronzegcpdataproccluster"
+	entdataproc "danny.vn/hotpot/pkg/storage/ent/gcp/dataproc"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dataproc/bronzegcpdataproccluster"
 )
 
 // Service handles Dataproc cluster ingestion.

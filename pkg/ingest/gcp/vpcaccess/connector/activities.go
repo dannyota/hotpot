@@ -7,13 +7,13 @@ import (
 	"go.temporal.io/sdk/activity"
 	"google.golang.org/api/option"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/gcpauth"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesubnetwork"
-	entvpcaccess "github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpcaccess"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/gcpauth"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesubnetwork"
+	entvpcaccess "danny.vn/hotpot/pkg/storage/ent/gcp/vpcaccess"
 )
 
 // Activities holds dependencies for Temporal activities.

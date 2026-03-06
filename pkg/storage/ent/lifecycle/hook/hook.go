@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/lifecycle"
+	"danny.vn/hotpot/pkg/storage/ent/lifecycle"
 )
 
 // The GoldLifecycleOSFunc type is an adapter to allow the use of ordinary

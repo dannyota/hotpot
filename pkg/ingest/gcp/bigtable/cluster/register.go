@@ -3,9 +3,9 @@ package cluster
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entbigtable "github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entbigtable "danny.vn/hotpot/pkg/storage/ent/gcp/bigtable"
 )
 
 // Register registers all Bigtable cluster activities and workflows.

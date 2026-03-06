@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	entglb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbgloballistener"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbgloballoadbalancer"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbglobalpool"
+	entglb "danny.vn/hotpot/pkg/storage/ent/greennode/glb"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbgloballistener"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbgloballoadbalancer"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbglobalpool"
 )
 
 // HistoryService handles history tracking for GLBs.

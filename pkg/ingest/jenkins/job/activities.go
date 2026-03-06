@@ -9,9 +9,9 @@ import (
 
 	"go.temporal.io/sdk/activity"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entjenkins "github.com/dannyota/hotpot/pkg/storage/ent/jenkins"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entjenkins "danny.vn/hotpot/pkg/storage/ent/jenkins"
 )
 
 // Activities holds dependencies for Temporal activities.

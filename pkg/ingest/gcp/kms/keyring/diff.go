@@ -1,7 +1,7 @@
 package keyring
 
 import (
-	entkms "github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms"
+	entkms "danny.vn/hotpot/pkg/storage/ent/gcp/kms"
 )
 
 // KeyRingDiff represents changes between old and new key ring states.

@@ -12,15 +12,15 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumeblockvolume"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumesnapshot"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumevolumetype"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumevolumetypezone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumeblockvolume"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumesnapshot"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumevolumetype"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumevolumetypezone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumeblockvolume"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumesnapshot"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumevolumetype"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumevolumetypezone"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumeblockvolume"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumesnapshot"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumevolumetype"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumevolumetypezone"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/predicate"
 )
 
 const (

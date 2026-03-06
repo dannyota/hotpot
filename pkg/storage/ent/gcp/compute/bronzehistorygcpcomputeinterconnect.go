@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinterconnect"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeinterconnect"
 )
 
 // BronzeHistoryGCPComputeInterconnect is the model entity for the BronzeHistoryGCPComputeInterconnect schema.

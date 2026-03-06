@@ -3,7 +3,7 @@ package hostedzone
 import (
 	"bytes"
 
-	entdns "github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns"
+	entdns "danny.vn/hotpot/pkg/storage/ent/greennode/dns"
 )
 
 // HostedZoneDiff represents changes between old and new hosted zone states.

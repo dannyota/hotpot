@@ -3,12 +3,12 @@ package iap
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/iap/iampolicy"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/iap/settings"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/gcp/iap/iampolicy"
+	"danny.vn/hotpot/pkg/ingest/gcp/iap/settings"
 	"entgo.io/ent/dialect"
-	entiap "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap"
+	entiap "danny.vn/hotpot/pkg/storage/ent/gcp/iap"
 )
 
 // Register registers all Identity-Aware Proxy activities and workflows.

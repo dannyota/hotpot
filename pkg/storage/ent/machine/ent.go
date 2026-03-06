@@ -12,9 +12,9 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/machine/silvermachine"
-	"github.com/dannyota/hotpot/pkg/storage/ent/machine/silvermachinebronzelink"
-	"github.com/dannyota/hotpot/pkg/storage/ent/machine/silvermachinenormalized"
+	"danny.vn/hotpot/pkg/storage/ent/machine/inventorymachine"
+	"danny.vn/hotpot/pkg/storage/ent/machine/inventorymachinebronzelink"
+	"danny.vn/hotpot/pkg/storage/ent/machine/inventorymachinenormalized"
 )
 
 // ent aliases to avoid import conflicts in user's code.
@@ -75,9 +75,9 @@ var (
 func checkColumn(t, c string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			silvermachine.Table:           silvermachine.ValidColumn,
-			silvermachinebronzelink.Table: silvermachinebronzelink.ValidColumn,
-			silvermachinenormalized.Table: silvermachinenormalized.ValidColumn,
+			inventorymachine.Table:           inventorymachine.ValidColumn,
+			inventorymachinebronzelink.Table: inventorymachinebronzelink.ValidColumn,
+			inventorymachinenormalized.Table: inventorymachinenormalized.ValidColumn,
 		})
 	})
 	return columnCheck(t, c)

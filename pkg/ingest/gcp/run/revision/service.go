@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entrun "github.com/dannyota/hotpot/pkg/storage/ent/gcp/run"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/run/bronzegcprunrevision"
+	entrun "danny.vn/hotpot/pkg/storage/ent/gcp/run"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/run/bronzegcprunrevision"
 )
 
 // Service handles Cloud Run revision ingestion.

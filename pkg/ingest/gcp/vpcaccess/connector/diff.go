@@ -3,7 +3,7 @@ package connector
 import (
 	"bytes"
 
-	entvpcaccess "github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpcaccess"
+	entvpcaccess "danny.vn/hotpot/pkg/storage/ent/gcp/vpcaccess"
 )
 
 // ConnectorDiff represents changes between old and new connector states.

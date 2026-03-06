@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entvpcaccess "github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpcaccess"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpcaccess/bronzehistorygcpvpcaccessconnector"
+	entvpcaccess "danny.vn/hotpot/pkg/storage/ent/gcp/vpcaccess"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpcaccess/bronzehistorygcpvpcaccessconnector"
 )
 
 // HistoryService manages VPC Access connector history tracking.

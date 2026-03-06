@@ -1,6 +1,6 @@
 package serviceaccountkey
 
-import entiam "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam"
+import entiam "danny.vn/hotpot/pkg/storage/ent/gcp/iam"
 
 // ServiceAccountKeyDiff represents changes between old and new service account key states.
 type ServiceAccountKeyDiff struct {

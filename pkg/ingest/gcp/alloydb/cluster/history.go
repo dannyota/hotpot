@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entalloydb "github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/bronzehistorygcpalloydbcluster"
+	entalloydb "danny.vn/hotpot/pkg/storage/ent/gcp/alloydb"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/bronzehistorygcpalloydbcluster"
 )
 
 // HistoryService manages AlloyDB cluster history tracking.

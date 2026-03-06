@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entglb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbglobalregion"
+	entglb "danny.vn/hotpot/pkg/storage/ent/greennode/glb"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbglobalregion"
 )
 
 // Service handles GreenNode global region ingestion.

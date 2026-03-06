@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entiap "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap/bronzegcpiapiampolicy"
+	entiap "danny.vn/hotpot/pkg/storage/ent/gcp/iap"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iap/bronzegcpiapiampolicy"
 )
 
 // Service handles IAP IAM policy ingestion.

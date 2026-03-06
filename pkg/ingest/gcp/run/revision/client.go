@@ -9,8 +9,8 @@ import (
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 
-	entrun "github.com/dannyota/hotpot/pkg/storage/ent/gcp/run"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/run/bronzegcprunservice"
+	entrun "danny.vn/hotpot/pkg/storage/ent/gcp/run"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/run/bronzegcprunservice"
 )
 
 // Client wraps the GCP Cloud Run API for revisions.

@@ -5,12 +5,12 @@ package enttest
 import (
 	"context"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network"
 	// required by schema hooks.
-	_ "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/runtime"
+	_ "danny.vn/hotpot/pkg/storage/ent/greennode/network/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/migrate"
 )
 
 type (

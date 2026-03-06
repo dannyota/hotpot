@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entstorage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucketiampolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucketiampolicybinding"
+	entstorage "danny.vn/hotpot/pkg/storage/ent/gcp/storage"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucketiampolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucketiampolicybinding"
 )
 
 // HistoryService manages bucket IAM policy history tracking.

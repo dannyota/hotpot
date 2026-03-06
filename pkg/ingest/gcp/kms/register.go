@@ -3,12 +3,12 @@ package kms
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/kms/cryptokey"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/kms/keyring"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/gcp/kms/cryptokey"
+	"danny.vn/hotpot/pkg/ingest/gcp/kms/keyring"
 	"entgo.io/ent/dialect"
-	entkms "github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms"
+	entkms "danny.vn/hotpot/pkg/storage/ent/gcp/kms"
 )
 
 // Register registers all KMS activities and workflows.

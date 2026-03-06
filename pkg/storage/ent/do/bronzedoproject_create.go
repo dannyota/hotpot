@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedoproject"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzedoproject"
 )
 
 // BronzeDOProjectCreate is the builder for creating a BronzeDOProject entity.

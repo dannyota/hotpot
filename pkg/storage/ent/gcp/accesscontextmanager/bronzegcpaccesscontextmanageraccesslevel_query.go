@@ -11,10 +11,10 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager/bronzegcpaccesscontextmanageraccesslevel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager/bronzegcpaccesscontextmanageraccesspolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager/bronzegcpaccesscontextmanageraccesslevel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager/bronzegcpaccesscontextmanageraccesspolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager/predicate"
 )
 
 // BronzeGCPAccessContextManagerAccessLevelQuery is the builder for querying BronzeGCPAccessContextManagerAccessLevel entities.

@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/pubsub"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/pubsub"
 )
 
 // The BronzeGCPPubSubSubscriptionFunc type is an adapter to allow the use of ordinary

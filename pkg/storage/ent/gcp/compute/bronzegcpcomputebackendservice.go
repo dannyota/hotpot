@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputebackendservice"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputebackendservice"
 )
 
 // BronzeGCPComputeBackendService is the model entity for the BronzeGCPComputeBackendService schema.

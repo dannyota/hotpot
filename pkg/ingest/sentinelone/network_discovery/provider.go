@@ -1,8 +1,8 @@
 package network_discovery
 
 import (
-	"github.com/dannyota/hotpot/pkg/ingest"
-	"github.com/dannyota/hotpot/pkg/ingest/sentinelone"
+	"danny.vn/hotpot/pkg/ingest"
+	"danny.vn/hotpot/pkg/ingest/sentinelone"
 )
 
 func init() {

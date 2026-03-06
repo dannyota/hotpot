@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/base/httputil"
+	"danny.vn/hotpot/pkg/base/httputil"
 	"github.com/ulikunitz/xz"
 )
 

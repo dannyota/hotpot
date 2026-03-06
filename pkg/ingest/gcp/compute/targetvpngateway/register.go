@@ -3,9 +3,9 @@ package targetvpngateway
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entvpn "github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entvpn "danny.vn/hotpot/pkg/storage/ent/gcp/vpn"
 )
 
 // Register registers target VPN gateway activities and workflows with a Temporal worker.

@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucketiampolicybinding"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzehistorygcpstoragebucketiampolicybinding"
 )
 
 // BronzeHistoryGCPStorageBucketIamPolicyBinding is the model entity for the BronzeHistoryGCPStorageBucketIamPolicyBinding schema.

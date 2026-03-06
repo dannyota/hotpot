@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_vpn "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/vpn"
-	bronzehistory_gcp_vpn "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/vpn"
+	bronze_gcp_vpn "danny.vn/hotpot/pkg/schema/bronze/gcp/vpn"
+	bronzehistory_gcp_vpn "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/vpn"
 )
 
 type BronzeGCPVPNGateway struct {

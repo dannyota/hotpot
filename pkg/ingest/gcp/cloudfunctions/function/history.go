@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entcloudfunctions "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzehistorygcpcloudfunctionsfunction"
+	entcloudfunctions "danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzehistorygcpcloudfunctionsfunction"
 )
 
 // HistoryService manages Cloud Function history tracking.

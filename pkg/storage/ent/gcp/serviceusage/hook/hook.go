@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/serviceusage"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/serviceusage"
 )
 
 // The BronzeGCPServiceUsageEnabledServiceFunc type is an adapter to allow the use of ordinary

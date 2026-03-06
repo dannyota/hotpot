@@ -3,7 +3,7 @@ package cryptokey
 import (
 	"bytes"
 
-	entkms "github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms"
+	entkms "danny.vn/hotpot/pkg/storage/ent/gcp/kms"
 )
 
 // CryptoKeyDiff represents changes between old and new crypto key states.

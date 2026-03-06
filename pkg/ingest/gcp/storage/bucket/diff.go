@@ -3,7 +3,7 @@ package bucket
 import (
 	"bytes"
 
-	entstorage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage"
+	entstorage "danny.vn/hotpot/pkg/storage/ent/gcp/storage"
 )
 
 // BucketDiff represents changes between old and new bucket states.

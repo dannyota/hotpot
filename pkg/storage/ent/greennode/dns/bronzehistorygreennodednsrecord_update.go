@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzehistorygreennodednsrecord"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/bronzehistorygreennodednsrecord"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/predicate"
 )
 
 // BronzeHistoryGreenNodeDNSRecordUpdate is the builder for updating BronzeHistoryGreenNodeDNSRecord entities.

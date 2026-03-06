@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/accesscontextmanager"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/accesscontextmanager"
 )
 
 // The BronzeGCPAccessContextManagerAccessLevelFunc type is an adapter to allow the use of ordinary

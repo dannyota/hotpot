@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainercluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/container/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/bronzehistorygcpcontainercluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/container/predicate"
 )
 
 // BronzeHistoryGCPContainerClusterQuery is the builder for querying BronzeHistoryGCPContainerCluster entities.

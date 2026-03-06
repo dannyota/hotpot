@@ -3,7 +3,7 @@ package volume
 import (
 	"reflect"
 
-	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	entdo "danny.vn/hotpot/pkg/storage/ent/do"
 )
 
 // VolumeDiff represents changes between old and new Volume states.

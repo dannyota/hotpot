@@ -3,7 +3,7 @@ package managedzone
 import (
 	"bytes"
 
-	entdns "github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns"
+	entdns "danny.vn/hotpot/pkg/storage/ent/gcp/dns"
 )
 
 // ManagedZoneDiff represents changes between old and new managed zone states.

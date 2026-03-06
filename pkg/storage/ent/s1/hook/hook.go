@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1"
+	"danny.vn/hotpot/pkg/storage/ent/s1"
 )
 
 // The BronzeHistoryS1AccountFunc type is an adapter to allow the use of ordinary

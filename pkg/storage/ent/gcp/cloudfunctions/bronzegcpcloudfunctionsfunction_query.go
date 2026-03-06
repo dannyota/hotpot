@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzegcpcloudfunctionsfunction"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzegcpcloudfunctionsfunction"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions/predicate"
 )
 
 // BronzeGCPCloudFunctionsFunctionQuery is the builder for querying BronzeGCPCloudFunctionsFunction entities.

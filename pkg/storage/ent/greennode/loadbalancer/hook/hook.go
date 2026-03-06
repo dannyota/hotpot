@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer"
 )
 
 // The BronzeGreenNodeLoadBalancerCertificateFunc type is an adapter to allow the use of ordinary

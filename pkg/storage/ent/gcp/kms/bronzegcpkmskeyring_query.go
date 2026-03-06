@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms/bronzegcpkmskeyring"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/kms/bronzegcpkmskeyring"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/kms/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/kms/predicate"
 )
 
 // BronzeGCPKMSKeyRingQuery is the builder for querying BronzeGCPKMSKeyRing entities.

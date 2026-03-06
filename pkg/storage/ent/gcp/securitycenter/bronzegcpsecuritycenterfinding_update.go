@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/bronzegcpsecuritycenterfinding"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/bronzegcpsecuritycenterfinding"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter/predicate"
 )
 
 // BronzeGCPSecurityCenterFindingUpdate is the builder for updating BronzeGCPSecurityCenterFinding entities.

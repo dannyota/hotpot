@@ -3,7 +3,7 @@ package glbpackage
 import (
 	"bytes"
 
-	entglb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb"
+	entglb "danny.vn/hotpot/pkg/storage/ent/greennode/glb"
 )
 
 // GLBPackageDiff represents changes between old and new package states.

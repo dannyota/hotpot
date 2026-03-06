@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entbigtable "github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable/bronzehistorygcpbigtablecluster"
+	entbigtable "danny.vn/hotpot/pkg/storage/ent/gcp/bigtable"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigtable/bronzehistorygcpbigtablecluster"
 )
 
 // HistoryService manages Bigtable cluster history tracking.

@@ -8,8 +8,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucket"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucketlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucket"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/storage/bronzegcpstoragebucketlabel"
 )
 
 // BronzeGCPStorageBucketLabel is the model entity for the BronzeGCPStorageBucketLabel schema.

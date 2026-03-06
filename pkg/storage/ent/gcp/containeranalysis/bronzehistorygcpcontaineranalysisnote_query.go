@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzehistorygcpcontaineranalysisnote"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzehistorygcpcontaineranalysisnote"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/predicate"
 )
 
 // BronzeHistoryGCPContainerAnalysisNoteQuery is the builder for querying BronzeHistoryGCPContainerAnalysisNote entities.

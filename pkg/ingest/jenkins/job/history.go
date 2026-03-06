@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	entjenkins "github.com/dannyota/hotpot/pkg/storage/ent/jenkins"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzehistoryjenkinsbuild"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzehistoryjenkinsbuildrepo"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzehistoryjenkinsjob"
+	entjenkins "danny.vn/hotpot/pkg/storage/ent/jenkins"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzehistoryjenkinsbuild"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzehistoryjenkinsbuildrepo"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzehistoryjenkinsjob"
 )
 
 // HistoryService handles history tracking for Jenkins jobs.

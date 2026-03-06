@@ -8,8 +8,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesnapshot"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesnapshotlicense"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesnapshot"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputesnapshotlicense"
 )
 
 // BronzeGCPComputeSnapshotLicense is the model entity for the BronzeGCPComputeSnapshotLicense schema.

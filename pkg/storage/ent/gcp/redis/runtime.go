@@ -3,9 +3,9 @@
 package redis
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis/bronzegcpredisinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis/bronzehistorygcpredisinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis/schema"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/redis/bronzegcpredisinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/redis/bronzehistorygcpredisinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/redis/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

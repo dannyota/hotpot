@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis/bronzegcpredisinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/redis/bronzegcpredisinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/redis/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/redis/predicate"
 )
 
 // BronzeGCPRedisInstanceDelete is the builder for deleting a BronzeGCPRedisInstance entity.

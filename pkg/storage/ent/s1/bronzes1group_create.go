@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1group"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzes1group"
 )
 
 // BronzeS1GroupCreate is the builder for creating a BronzeS1Group entity.

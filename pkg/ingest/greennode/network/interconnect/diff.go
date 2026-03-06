@@ -1,7 +1,7 @@
 package interconnect
 
 import (
-	entnet "github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
+	entnet "danny.vn/hotpot/pkg/storage/ent/greennode/network"
 )
 
 // InterconnectDiff represents changes between old and new interconnect states.

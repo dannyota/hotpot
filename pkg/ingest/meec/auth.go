@@ -17,7 +17,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/base/httperr"
+	"danny.vn/hotpot/pkg/base/httperr"
 )
 
 // TokenSource authenticates with the MEEC API and caches the token.

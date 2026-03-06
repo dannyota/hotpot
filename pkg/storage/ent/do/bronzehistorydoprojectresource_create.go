@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydoprojectresource"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydoprojectresource"
 )
 
 // BronzeHistoryDOProjectResourceCreate is the builder for creating a BronzeHistoryDOProjectResource entity.

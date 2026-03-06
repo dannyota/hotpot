@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzegcploggingbucket"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/bronzegcploggingbucket"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/predicate"
 )
 
 // BronzeGCPLoggingBucketDelete is the builder for deleting a BronzeGCPLoggingBucket entity.

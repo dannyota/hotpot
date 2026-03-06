@@ -3,10 +3,10 @@ package connector
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
-	entvpcaccess "github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpcaccess"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
+	entvpcaccess "danny.vn/hotpot/pkg/storage/ent/gcp/vpcaccess"
 )
 
 // Register registers connector activities and workflows with a Temporal worker.

@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/serviceusage/bronzehistorygcpserviceusageenabledservice"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/serviceusage/bronzehistorygcpserviceusageenabledservice"
 )
 
 // BronzeHistoryGCPServiceUsageEnabledService is the model entity for the BronzeHistoryGCPServiceUsageEnabledService schema.

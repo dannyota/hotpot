@@ -1,7 +1,7 @@
 package key
 
 import (
-	entdo "github.com/dannyota/hotpot/pkg/storage/ent/do"
+	entdo "danny.vn/hotpot/pkg/storage/ent/do"
 )
 
 // KeyDiff represents changes between old and new SSH key states.

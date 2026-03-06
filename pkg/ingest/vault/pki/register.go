@@ -4,10 +4,10 @@ import (
 	"entgo.io/ent/dialect"
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/vault/pki/certificate"
-	entpki "github.com/dannyota/hotpot/pkg/storage/ent/vault/pki"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/vault/pki/certificate"
+	entpki "danny.vn/hotpot/pkg/storage/ent/vault/pki"
 )
 
 // Register registers PKI activities and workflows with the Temporal worker.

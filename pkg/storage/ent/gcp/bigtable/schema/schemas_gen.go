@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_bigtable "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/bigtable"
-	bronzehistory_gcp_bigtable "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/bigtable"
+	bronze_gcp_bigtable "danny.vn/hotpot/pkg/schema/bronze/gcp/bigtable"
+	bronzehistory_gcp_bigtable "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/bigtable"
 )
 
 type BronzeGCPBigtableCluster struct {

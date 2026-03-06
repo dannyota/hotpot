@@ -3,7 +3,7 @@ package secret
 import (
 	"bytes"
 
-	entsecretmanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager"
+	entsecretmanager "danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager"
 )
 
 // SecretDiff represents changes between old and new secret states.

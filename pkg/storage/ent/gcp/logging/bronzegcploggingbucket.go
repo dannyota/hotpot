@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzegcploggingbucket"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/bronzegcploggingbucket"
 )
 
 // BronzeGCPLoggingBucket is the model entity for the BronzeGCPLoggingBucket schema.

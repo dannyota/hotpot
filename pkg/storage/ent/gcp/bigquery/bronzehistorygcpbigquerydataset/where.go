@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigquery/predicate"
 )
 
 // ID filters vertices based on their ID field.

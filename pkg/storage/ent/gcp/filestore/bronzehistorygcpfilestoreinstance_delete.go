@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore/bronzehistorygcpfilestoreinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/filestore/bronzehistorygcpfilestoreinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/filestore/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/filestore/predicate"
 )
 
 // BronzeHistoryGCPFilestoreInstanceDelete is the builder for deleting a BronzeHistoryGCPFilestoreInstance entity.

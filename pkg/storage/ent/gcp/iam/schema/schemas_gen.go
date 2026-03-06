@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_iam "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/iam"
-	bronzehistory_gcp_iam "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/iam"
+	bronze_gcp_iam "danny.vn/hotpot/pkg/schema/bronze/gcp/iam"
+	bronzehistory_gcp_iam "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/iam"
 )
 
 type BronzeGCPIAMServiceAccount struct {

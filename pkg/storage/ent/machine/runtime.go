@@ -3,48 +3,48 @@
 package machine
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/machine/schema"
-	"github.com/dannyota/hotpot/pkg/storage/ent/machine/silvermachine"
-	"github.com/dannyota/hotpot/pkg/storage/ent/machine/silvermachinebronzelink"
-	"github.com/dannyota/hotpot/pkg/storage/ent/machine/silvermachinenormalized"
+	"danny.vn/hotpot/pkg/storage/ent/machine/inventorymachine"
+	"danny.vn/hotpot/pkg/storage/ent/machine/inventorymachinebronzelink"
+	"danny.vn/hotpot/pkg/storage/ent/machine/inventorymachinenormalized"
+	"danny.vn/hotpot/pkg/storage/ent/machine/schema"
 )
 
 // The init function reads all schema descriptors with runtime code
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
-	silvermachineFields := schema.SilverMachine{}.Fields()
-	_ = silvermachineFields
-	// silvermachineDescHostname is the schema descriptor for hostname field.
-	silvermachineDescHostname := silvermachineFields[1].Descriptor()
-	// silvermachine.HostnameValidator is a validator for the "hostname" field. It is called by the builders before save.
-	silvermachine.HostnameValidator = silvermachineDescHostname.Validators[0].(func(string) error)
-	silvermachinebronzelinkFields := schema.SilverMachineBronzeLink{}.Fields()
-	_ = silvermachinebronzelinkFields
-	// silvermachinebronzelinkDescProvider is the schema descriptor for provider field.
-	silvermachinebronzelinkDescProvider := silvermachinebronzelinkFields[0].Descriptor()
-	// silvermachinebronzelink.ProviderValidator is a validator for the "provider" field. It is called by the builders before save.
-	silvermachinebronzelink.ProviderValidator = silvermachinebronzelinkDescProvider.Validators[0].(func(string) error)
-	// silvermachinebronzelinkDescBronzeTable is the schema descriptor for bronze_table field.
-	silvermachinebronzelinkDescBronzeTable := silvermachinebronzelinkFields[1].Descriptor()
-	// silvermachinebronzelink.BronzeTableValidator is a validator for the "bronze_table" field. It is called by the builders before save.
-	silvermachinebronzelink.BronzeTableValidator = silvermachinebronzelinkDescBronzeTable.Validators[0].(func(string) error)
-	// silvermachinebronzelinkDescBronzeResourceID is the schema descriptor for bronze_resource_id field.
-	silvermachinebronzelinkDescBronzeResourceID := silvermachinebronzelinkFields[2].Descriptor()
-	// silvermachinebronzelink.BronzeResourceIDValidator is a validator for the "bronze_resource_id" field. It is called by the builders before save.
-	silvermachinebronzelink.BronzeResourceIDValidator = silvermachinebronzelinkDescBronzeResourceID.Validators[0].(func(string) error)
-	silvermachinenormalizedFields := schema.SilverMachineNormalized{}.Fields()
-	_ = silvermachinenormalizedFields
-	// silvermachinenormalizedDescProvider is the schema descriptor for provider field.
-	silvermachinenormalizedDescProvider := silvermachinenormalizedFields[1].Descriptor()
-	// silvermachinenormalized.ProviderValidator is a validator for the "provider" field. It is called by the builders before save.
-	silvermachinenormalized.ProviderValidator = silvermachinenormalizedDescProvider.Validators[0].(func(string) error)
-	// silvermachinenormalizedDescBronzeTable is the schema descriptor for bronze_table field.
-	silvermachinenormalizedDescBronzeTable := silvermachinenormalizedFields[3].Descriptor()
-	// silvermachinenormalized.BronzeTableValidator is a validator for the "bronze_table" field. It is called by the builders before save.
-	silvermachinenormalized.BronzeTableValidator = silvermachinenormalizedDescBronzeTable.Validators[0].(func(string) error)
-	// silvermachinenormalizedDescBronzeResourceID is the schema descriptor for bronze_resource_id field.
-	silvermachinenormalizedDescBronzeResourceID := silvermachinenormalizedFields[4].Descriptor()
-	// silvermachinenormalized.BronzeResourceIDValidator is a validator for the "bronze_resource_id" field. It is called by the builders before save.
-	silvermachinenormalized.BronzeResourceIDValidator = silvermachinenormalizedDescBronzeResourceID.Validators[0].(func(string) error)
+	inventorymachineFields := schema.InventoryMachine{}.Fields()
+	_ = inventorymachineFields
+	// inventorymachineDescHostname is the schema descriptor for hostname field.
+	inventorymachineDescHostname := inventorymachineFields[1].Descriptor()
+	// inventorymachine.HostnameValidator is a validator for the "hostname" field. It is called by the builders before save.
+	inventorymachine.HostnameValidator = inventorymachineDescHostname.Validators[0].(func(string) error)
+	inventorymachinebronzelinkFields := schema.InventoryMachineBronzeLink{}.Fields()
+	_ = inventorymachinebronzelinkFields
+	// inventorymachinebronzelinkDescProvider is the schema descriptor for provider field.
+	inventorymachinebronzelinkDescProvider := inventorymachinebronzelinkFields[0].Descriptor()
+	// inventorymachinebronzelink.ProviderValidator is a validator for the "provider" field. It is called by the builders before save.
+	inventorymachinebronzelink.ProviderValidator = inventorymachinebronzelinkDescProvider.Validators[0].(func(string) error)
+	// inventorymachinebronzelinkDescBronzeTable is the schema descriptor for bronze_table field.
+	inventorymachinebronzelinkDescBronzeTable := inventorymachinebronzelinkFields[1].Descriptor()
+	// inventorymachinebronzelink.BronzeTableValidator is a validator for the "bronze_table" field. It is called by the builders before save.
+	inventorymachinebronzelink.BronzeTableValidator = inventorymachinebronzelinkDescBronzeTable.Validators[0].(func(string) error)
+	// inventorymachinebronzelinkDescBronzeResourceID is the schema descriptor for bronze_resource_id field.
+	inventorymachinebronzelinkDescBronzeResourceID := inventorymachinebronzelinkFields[2].Descriptor()
+	// inventorymachinebronzelink.BronzeResourceIDValidator is a validator for the "bronze_resource_id" field. It is called by the builders before save.
+	inventorymachinebronzelink.BronzeResourceIDValidator = inventorymachinebronzelinkDescBronzeResourceID.Validators[0].(func(string) error)
+	inventorymachinenormalizedFields := schema.InventoryMachineNormalized{}.Fields()
+	_ = inventorymachinenormalizedFields
+	// inventorymachinenormalizedDescProvider is the schema descriptor for provider field.
+	inventorymachinenormalizedDescProvider := inventorymachinenormalizedFields[1].Descriptor()
+	// inventorymachinenormalized.ProviderValidator is a validator for the "provider" field. It is called by the builders before save.
+	inventorymachinenormalized.ProviderValidator = inventorymachinenormalizedDescProvider.Validators[0].(func(string) error)
+	// inventorymachinenormalizedDescBronzeTable is the schema descriptor for bronze_table field.
+	inventorymachinenormalizedDescBronzeTable := inventorymachinenormalizedFields[3].Descriptor()
+	// inventorymachinenormalized.BronzeTableValidator is a validator for the "bronze_table" field. It is called by the builders before save.
+	inventorymachinenormalized.BronzeTableValidator = inventorymachinenormalizedDescBronzeTable.Validators[0].(func(string) error)
+	// inventorymachinenormalizedDescBronzeResourceID is the schema descriptor for bronze_resource_id field.
+	inventorymachinenormalizedDescBronzeResourceID := inventorymachinenormalizedFields[4].Descriptor()
+	// inventorymachinenormalized.BronzeResourceIDValidator is a validator for the "bronze_resource_id" field. It is called by the builders before save.
+	inventorymachinenormalized.BronzeResourceIDValidator = inventorymachinenormalizedDescBronzeResourceID.Validators[0].(func(string) error)
 }

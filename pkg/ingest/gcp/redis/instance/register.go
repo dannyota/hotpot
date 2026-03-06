@@ -3,9 +3,9 @@ package instance
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entredis "github.com/dannyota/hotpot/pkg/storage/ent/gcp/redis"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entredis "danny.vn/hotpot/pkg/storage/ent/gcp/redis"
 )
 
 // Register registers Redis instance workflows and activities with the Temporal worker.

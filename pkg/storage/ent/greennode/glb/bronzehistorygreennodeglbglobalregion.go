@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbglobalregion"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbglobalregion"
 )
 
 // BronzeHistoryGreenNodeGLBGlobalRegion is the model entity for the BronzeHistoryGreenNodeGLBGlobalRegion schema.

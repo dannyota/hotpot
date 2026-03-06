@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms/bronzehistorygcpkmskeyring"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/kms/bronzehistorygcpkmskeyring"
 )
 
 // BronzeHistoryGCPKMSKeyRing is the model entity for the BronzeHistoryGCPKMSKeyRing schema.

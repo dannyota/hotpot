@@ -3,7 +3,7 @@ package volumetypezone
 import (
 	"bytes"
 
-	entvol "github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume"
+	entvol "danny.vn/hotpot/pkg/storage/ent/greennode/volume"
 )
 
 // VolumeTypeZoneDiff represents changes between old and new volume type zone states.

@@ -9,17 +9,17 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/k8snode/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/k8snode/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/k8snode/silverk8snode"
-	"github.com/dannyota/hotpot/pkg/storage/ent/k8snode/silverk8snodebronzelink"
-	"github.com/dannyota/hotpot/pkg/storage/ent/k8snode/silverk8snodenormalized"
+	"danny.vn/hotpot/pkg/storage/ent/k8snode/inventoryk8snode"
+	"danny.vn/hotpot/pkg/storage/ent/k8snode/inventoryk8snodebronzelink"
+	"danny.vn/hotpot/pkg/storage/ent/k8snode/inventoryk8snodenormalized"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/k8snode/internal"
+	"danny.vn/hotpot/pkg/storage/ent/k8snode/internal"
 )
 
 // Client is the client that holds all ent builders.
@@ -27,12 +27,12 @@ type Client struct {
 	config
 	// Schema is the client for creating, migrating and dropping schema.
 	Schema *migrate.Schema
-	// SilverK8sNode is the client for interacting with the SilverK8sNode builders.
-	SilverK8sNode *SilverK8sNodeClient
-	// SilverK8sNodeBronzeLink is the client for interacting with the SilverK8sNodeBronzeLink builders.
-	SilverK8sNodeBronzeLink *SilverK8sNodeBronzeLinkClient
-	// SilverK8sNodeNormalized is the client for interacting with the SilverK8sNodeNormalized builders.
-	SilverK8sNodeNormalized *SilverK8sNodeNormalizedClient
+	// InventoryK8sNode is the client for interacting with the InventoryK8sNode builders.
+	InventoryK8sNode *InventoryK8sNodeClient
+	// InventoryK8sNodeBronzeLink is the client for interacting with the InventoryK8sNodeBronzeLink builders.
+	InventoryK8sNodeBronzeLink *InventoryK8sNodeBronzeLinkClient
+	// InventoryK8sNodeNormalized is the client for interacting with the InventoryK8sNodeNormalized builders.
+	InventoryK8sNodeNormalized *InventoryK8sNodeNormalizedClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -44,9 +44,9 @@ func NewClient(opts ...Option) *Client {
 
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
-	c.SilverK8sNode = NewSilverK8sNodeClient(c.config)
-	c.SilverK8sNodeBronzeLink = NewSilverK8sNodeBronzeLinkClient(c.config)
-	c.SilverK8sNodeNormalized = NewSilverK8sNodeNormalizedClient(c.config)
+	c.InventoryK8sNode = NewInventoryK8sNodeClient(c.config)
+	c.InventoryK8sNodeBronzeLink = NewInventoryK8sNodeBronzeLinkClient(c.config)
+	c.InventoryK8sNodeNormalized = NewInventoryK8sNodeNormalizedClient(c.config)
 }
 
 type (
@@ -139,11 +139,11 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:                     ctx,
-		config:                  cfg,
-		SilverK8sNode:           NewSilverK8sNodeClient(cfg),
-		SilverK8sNodeBronzeLink: NewSilverK8sNodeBronzeLinkClient(cfg),
-		SilverK8sNodeNormalized: NewSilverK8sNodeNormalizedClient(cfg),
+		ctx:                        ctx,
+		config:                     cfg,
+		InventoryK8sNode:           NewInventoryK8sNodeClient(cfg),
+		InventoryK8sNodeBronzeLink: NewInventoryK8sNodeBronzeLinkClient(cfg),
+		InventoryK8sNodeNormalized: NewInventoryK8sNodeNormalizedClient(cfg),
 	}, nil
 }
 
@@ -161,18 +161,18 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:                     ctx,
-		config:                  cfg,
-		SilverK8sNode:           NewSilverK8sNodeClient(cfg),
-		SilverK8sNodeBronzeLink: NewSilverK8sNodeBronzeLinkClient(cfg),
-		SilverK8sNodeNormalized: NewSilverK8sNodeNormalizedClient(cfg),
+		ctx:                        ctx,
+		config:                     cfg,
+		InventoryK8sNode:           NewInventoryK8sNodeClient(cfg),
+		InventoryK8sNodeBronzeLink: NewInventoryK8sNodeBronzeLinkClient(cfg),
+		InventoryK8sNodeNormalized: NewInventoryK8sNodeNormalizedClient(cfg),
 	}, nil
 }
 
 // Debug returns a new debug-client. It's used to get verbose logging on specific operations.
 //
 //	client.Debug().
-//		SilverK8sNode.
+//		InventoryK8sNode.
 //		Query().
 //		Count(ctx)
 func (c *Client) Debug() *Client {
@@ -194,134 +194,134 @@ func (c *Client) Close() error {
 // Use adds the mutation hooks to all the entity clients.
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
-	c.SilverK8sNode.Use(hooks...)
-	c.SilverK8sNodeBronzeLink.Use(hooks...)
-	c.SilverK8sNodeNormalized.Use(hooks...)
+	c.InventoryK8sNode.Use(hooks...)
+	c.InventoryK8sNodeBronzeLink.Use(hooks...)
+	c.InventoryK8sNodeNormalized.Use(hooks...)
 }
 
 // Intercept adds the query interceptors to all the entity clients.
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
-	c.SilverK8sNode.Intercept(interceptors...)
-	c.SilverK8sNodeBronzeLink.Intercept(interceptors...)
-	c.SilverK8sNodeNormalized.Intercept(interceptors...)
+	c.InventoryK8sNode.Intercept(interceptors...)
+	c.InventoryK8sNodeBronzeLink.Intercept(interceptors...)
+	c.InventoryK8sNodeNormalized.Intercept(interceptors...)
 }
 
 // Mutate implements the ent.Mutator interface.
 func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
-	case *SilverK8sNodeMutation:
-		return c.SilverK8sNode.mutate(ctx, m)
-	case *SilverK8sNodeBronzeLinkMutation:
-		return c.SilverK8sNodeBronzeLink.mutate(ctx, m)
-	case *SilverK8sNodeNormalizedMutation:
-		return c.SilverK8sNodeNormalized.mutate(ctx, m)
+	case *InventoryK8sNodeMutation:
+		return c.InventoryK8sNode.mutate(ctx, m)
+	case *InventoryK8sNodeBronzeLinkMutation:
+		return c.InventoryK8sNodeBronzeLink.mutate(ctx, m)
+	case *InventoryK8sNodeNormalizedMutation:
+		return c.InventoryK8sNodeNormalized.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("k8snode: unknown mutation type %T", m)
 	}
 }
 
-// SilverK8sNodeClient is a client for the SilverK8sNode schema.
-type SilverK8sNodeClient struct {
+// InventoryK8sNodeClient is a client for the InventoryK8sNode schema.
+type InventoryK8sNodeClient struct {
 	config
 }
 
-// NewSilverK8sNodeClient returns a client for the SilverK8sNode from the given config.
-func NewSilverK8sNodeClient(c config) *SilverK8sNodeClient {
-	return &SilverK8sNodeClient{config: c}
+// NewInventoryK8sNodeClient returns a client for the InventoryK8sNode from the given config.
+func NewInventoryK8sNodeClient(c config) *InventoryK8sNodeClient {
+	return &InventoryK8sNodeClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `silverk8snode.Hooks(f(g(h())))`.
-func (c *SilverK8sNodeClient) Use(hooks ...Hook) {
-	c.hooks.SilverK8sNode = append(c.hooks.SilverK8sNode, hooks...)
+// A call to `Use(f, g, h)` equals to `inventoryk8snode.Hooks(f(g(h())))`.
+func (c *InventoryK8sNodeClient) Use(hooks ...Hook) {
+	c.hooks.InventoryK8sNode = append(c.hooks.InventoryK8sNode, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `silverk8snode.Intercept(f(g(h())))`.
-func (c *SilverK8sNodeClient) Intercept(interceptors ...Interceptor) {
-	c.inters.SilverK8sNode = append(c.inters.SilverK8sNode, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `inventoryk8snode.Intercept(f(g(h())))`.
+func (c *InventoryK8sNodeClient) Intercept(interceptors ...Interceptor) {
+	c.inters.InventoryK8sNode = append(c.inters.InventoryK8sNode, interceptors...)
 }
 
-// Create returns a builder for creating a SilverK8sNode entity.
-func (c *SilverK8sNodeClient) Create() *SilverK8sNodeCreate {
-	mutation := newSilverK8sNodeMutation(c.config, OpCreate)
-	return &SilverK8sNodeCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a InventoryK8sNode entity.
+func (c *InventoryK8sNodeClient) Create() *InventoryK8sNodeCreate {
+	mutation := newInventoryK8sNodeMutation(c.config, OpCreate)
+	return &InventoryK8sNodeCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of SilverK8sNode entities.
-func (c *SilverK8sNodeClient) CreateBulk(builders ...*SilverK8sNodeCreate) *SilverK8sNodeCreateBulk {
-	return &SilverK8sNodeCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of InventoryK8sNode entities.
+func (c *InventoryK8sNodeClient) CreateBulk(builders ...*InventoryK8sNodeCreate) *InventoryK8sNodeCreateBulk {
+	return &InventoryK8sNodeCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *SilverK8sNodeClient) MapCreateBulk(slice any, setFunc func(*SilverK8sNodeCreate, int)) *SilverK8sNodeCreateBulk {
+func (c *InventoryK8sNodeClient) MapCreateBulk(slice any, setFunc func(*InventoryK8sNodeCreate, int)) *InventoryK8sNodeCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &SilverK8sNodeCreateBulk{err: fmt.Errorf("calling to SilverK8sNodeClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &InventoryK8sNodeCreateBulk{err: fmt.Errorf("calling to InventoryK8sNodeClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*SilverK8sNodeCreate, rv.Len())
+	builders := make([]*InventoryK8sNodeCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &SilverK8sNodeCreateBulk{config: c.config, builders: builders}
+	return &InventoryK8sNodeCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for SilverK8sNode.
-func (c *SilverK8sNodeClient) Update() *SilverK8sNodeUpdate {
-	mutation := newSilverK8sNodeMutation(c.config, OpUpdate)
-	return &SilverK8sNodeUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for InventoryK8sNode.
+func (c *InventoryK8sNodeClient) Update() *InventoryK8sNodeUpdate {
+	mutation := newInventoryK8sNodeMutation(c.config, OpUpdate)
+	return &InventoryK8sNodeUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *SilverK8sNodeClient) UpdateOne(_m *SilverK8sNode) *SilverK8sNodeUpdateOne {
-	mutation := newSilverK8sNodeMutation(c.config, OpUpdateOne, withSilverK8sNode(_m))
-	return &SilverK8sNodeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *InventoryK8sNodeClient) UpdateOne(_m *InventoryK8sNode) *InventoryK8sNodeUpdateOne {
+	mutation := newInventoryK8sNodeMutation(c.config, OpUpdateOne, withInventoryK8sNode(_m))
+	return &InventoryK8sNodeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *SilverK8sNodeClient) UpdateOneID(id string) *SilverK8sNodeUpdateOne {
-	mutation := newSilverK8sNodeMutation(c.config, OpUpdateOne, withSilverK8sNodeID(id))
-	return &SilverK8sNodeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *InventoryK8sNodeClient) UpdateOneID(id string) *InventoryK8sNodeUpdateOne {
+	mutation := newInventoryK8sNodeMutation(c.config, OpUpdateOne, withInventoryK8sNodeID(id))
+	return &InventoryK8sNodeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for SilverK8sNode.
-func (c *SilverK8sNodeClient) Delete() *SilverK8sNodeDelete {
-	mutation := newSilverK8sNodeMutation(c.config, OpDelete)
-	return &SilverK8sNodeDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for InventoryK8sNode.
+func (c *InventoryK8sNodeClient) Delete() *InventoryK8sNodeDelete {
+	mutation := newInventoryK8sNodeMutation(c.config, OpDelete)
+	return &InventoryK8sNodeDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *SilverK8sNodeClient) DeleteOne(_m *SilverK8sNode) *SilverK8sNodeDeleteOne {
+func (c *InventoryK8sNodeClient) DeleteOne(_m *InventoryK8sNode) *InventoryK8sNodeDeleteOne {
 	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *SilverK8sNodeClient) DeleteOneID(id string) *SilverK8sNodeDeleteOne {
-	builder := c.Delete().Where(silverk8snode.ID(id))
+func (c *InventoryK8sNodeClient) DeleteOneID(id string) *InventoryK8sNodeDeleteOne {
+	builder := c.Delete().Where(inventoryk8snode.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &SilverK8sNodeDeleteOne{builder}
+	return &InventoryK8sNodeDeleteOne{builder}
 }
 
-// Query returns a query builder for SilverK8sNode.
-func (c *SilverK8sNodeClient) Query() *SilverK8sNodeQuery {
-	return &SilverK8sNodeQuery{
+// Query returns a query builder for InventoryK8sNode.
+func (c *InventoryK8sNodeClient) Query() *InventoryK8sNodeQuery {
+	return &InventoryK8sNodeQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeSilverK8sNode},
+		ctx:    &QueryContext{Type: TypeInventoryK8sNode},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a SilverK8sNode entity by its id.
-func (c *SilverK8sNodeClient) Get(ctx context.Context, id string) (*SilverK8sNode, error) {
-	return c.Query().Where(silverk8snode.ID(id)).Only(ctx)
+// Get returns a InventoryK8sNode entity by its id.
+func (c *InventoryK8sNodeClient) Get(ctx context.Context, id string) (*InventoryK8sNode, error) {
+	return c.Query().Where(inventoryk8snode.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *SilverK8sNodeClient) GetX(ctx context.Context, id string) *SilverK8sNode {
+func (c *InventoryK8sNodeClient) GetX(ctx context.Context, id string) *InventoryK8sNode {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -329,19 +329,19 @@ func (c *SilverK8sNodeClient) GetX(ctx context.Context, id string) *SilverK8sNod
 	return obj
 }
 
-// QueryBronzeLinks queries the bronze_links edge of a SilverK8sNode.
-func (c *SilverK8sNodeClient) QueryBronzeLinks(_m *SilverK8sNode) *SilverK8sNodeBronzeLinkQuery {
-	query := (&SilverK8sNodeBronzeLinkClient{config: c.config}).Query()
+// QueryBronzeLinks queries the bronze_links edge of a InventoryK8sNode.
+func (c *InventoryK8sNodeClient) QueryBronzeLinks(_m *InventoryK8sNode) *InventoryK8sNodeBronzeLinkQuery {
+	query := (&InventoryK8sNodeBronzeLinkClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
 		id := _m.ID
 		step := sqlgraph.NewStep(
-			sqlgraph.From(silverk8snode.Table, silverk8snode.FieldID, id),
-			sqlgraph.To(silverk8snodebronzelink.Table, silverk8snodebronzelink.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, silverk8snode.BronzeLinksTable, silverk8snode.BronzeLinksColumn),
+			sqlgraph.From(inventoryk8snode.Table, inventoryk8snode.FieldID, id),
+			sqlgraph.To(inventoryk8snodebronzelink.Table, inventoryk8snodebronzelink.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, inventoryk8snode.BronzeLinksTable, inventoryk8snode.BronzeLinksColumn),
 		)
 		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.SilverK8sNodeBronzeLink
-		step.Edge.Schema = schemaConfig.SilverK8sNodeBronzeLink
+		step.To.Schema = schemaConfig.InventoryK8sNodeBronzeLink
+		step.Edge.Schema = schemaConfig.InventoryK8sNodeBronzeLink
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -349,131 +349,131 @@ func (c *SilverK8sNodeClient) QueryBronzeLinks(_m *SilverK8sNode) *SilverK8sNode
 }
 
 // Hooks returns the client hooks.
-func (c *SilverK8sNodeClient) Hooks() []Hook {
-	return c.hooks.SilverK8sNode
+func (c *InventoryK8sNodeClient) Hooks() []Hook {
+	return c.hooks.InventoryK8sNode
 }
 
 // Interceptors returns the client interceptors.
-func (c *SilverK8sNodeClient) Interceptors() []Interceptor {
-	return c.inters.SilverK8sNode
+func (c *InventoryK8sNodeClient) Interceptors() []Interceptor {
+	return c.inters.InventoryK8sNode
 }
 
-func (c *SilverK8sNodeClient) mutate(ctx context.Context, m *SilverK8sNodeMutation) (Value, error) {
+func (c *InventoryK8sNodeClient) mutate(ctx context.Context, m *InventoryK8sNodeMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&SilverK8sNodeCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&InventoryK8sNodeCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&SilverK8sNodeUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&InventoryK8sNodeUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&SilverK8sNodeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&InventoryK8sNodeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&SilverK8sNodeDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&InventoryK8sNodeDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("k8snode: unknown SilverK8sNode mutation op: %q", m.Op())
+		return nil, fmt.Errorf("k8snode: unknown InventoryK8sNode mutation op: %q", m.Op())
 	}
 }
 
-// SilverK8sNodeBronzeLinkClient is a client for the SilverK8sNodeBronzeLink schema.
-type SilverK8sNodeBronzeLinkClient struct {
+// InventoryK8sNodeBronzeLinkClient is a client for the InventoryK8sNodeBronzeLink schema.
+type InventoryK8sNodeBronzeLinkClient struct {
 	config
 }
 
-// NewSilverK8sNodeBronzeLinkClient returns a client for the SilverK8sNodeBronzeLink from the given config.
-func NewSilverK8sNodeBronzeLinkClient(c config) *SilverK8sNodeBronzeLinkClient {
-	return &SilverK8sNodeBronzeLinkClient{config: c}
+// NewInventoryK8sNodeBronzeLinkClient returns a client for the InventoryK8sNodeBronzeLink from the given config.
+func NewInventoryK8sNodeBronzeLinkClient(c config) *InventoryK8sNodeBronzeLinkClient {
+	return &InventoryK8sNodeBronzeLinkClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `silverk8snodebronzelink.Hooks(f(g(h())))`.
-func (c *SilverK8sNodeBronzeLinkClient) Use(hooks ...Hook) {
-	c.hooks.SilverK8sNodeBronzeLink = append(c.hooks.SilverK8sNodeBronzeLink, hooks...)
+// A call to `Use(f, g, h)` equals to `inventoryk8snodebronzelink.Hooks(f(g(h())))`.
+func (c *InventoryK8sNodeBronzeLinkClient) Use(hooks ...Hook) {
+	c.hooks.InventoryK8sNodeBronzeLink = append(c.hooks.InventoryK8sNodeBronzeLink, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `silverk8snodebronzelink.Intercept(f(g(h())))`.
-func (c *SilverK8sNodeBronzeLinkClient) Intercept(interceptors ...Interceptor) {
-	c.inters.SilverK8sNodeBronzeLink = append(c.inters.SilverK8sNodeBronzeLink, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `inventoryk8snodebronzelink.Intercept(f(g(h())))`.
+func (c *InventoryK8sNodeBronzeLinkClient) Intercept(interceptors ...Interceptor) {
+	c.inters.InventoryK8sNodeBronzeLink = append(c.inters.InventoryK8sNodeBronzeLink, interceptors...)
 }
 
-// Create returns a builder for creating a SilverK8sNodeBronzeLink entity.
-func (c *SilverK8sNodeBronzeLinkClient) Create() *SilverK8sNodeBronzeLinkCreate {
-	mutation := newSilverK8sNodeBronzeLinkMutation(c.config, OpCreate)
-	return &SilverK8sNodeBronzeLinkCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a InventoryK8sNodeBronzeLink entity.
+func (c *InventoryK8sNodeBronzeLinkClient) Create() *InventoryK8sNodeBronzeLinkCreate {
+	mutation := newInventoryK8sNodeBronzeLinkMutation(c.config, OpCreate)
+	return &InventoryK8sNodeBronzeLinkCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of SilverK8sNodeBronzeLink entities.
-func (c *SilverK8sNodeBronzeLinkClient) CreateBulk(builders ...*SilverK8sNodeBronzeLinkCreate) *SilverK8sNodeBronzeLinkCreateBulk {
-	return &SilverK8sNodeBronzeLinkCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of InventoryK8sNodeBronzeLink entities.
+func (c *InventoryK8sNodeBronzeLinkClient) CreateBulk(builders ...*InventoryK8sNodeBronzeLinkCreate) *InventoryK8sNodeBronzeLinkCreateBulk {
+	return &InventoryK8sNodeBronzeLinkCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *SilverK8sNodeBronzeLinkClient) MapCreateBulk(slice any, setFunc func(*SilverK8sNodeBronzeLinkCreate, int)) *SilverK8sNodeBronzeLinkCreateBulk {
+func (c *InventoryK8sNodeBronzeLinkClient) MapCreateBulk(slice any, setFunc func(*InventoryK8sNodeBronzeLinkCreate, int)) *InventoryK8sNodeBronzeLinkCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &SilverK8sNodeBronzeLinkCreateBulk{err: fmt.Errorf("calling to SilverK8sNodeBronzeLinkClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &InventoryK8sNodeBronzeLinkCreateBulk{err: fmt.Errorf("calling to InventoryK8sNodeBronzeLinkClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*SilverK8sNodeBronzeLinkCreate, rv.Len())
+	builders := make([]*InventoryK8sNodeBronzeLinkCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &SilverK8sNodeBronzeLinkCreateBulk{config: c.config, builders: builders}
+	return &InventoryK8sNodeBronzeLinkCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for SilverK8sNodeBronzeLink.
-func (c *SilverK8sNodeBronzeLinkClient) Update() *SilverK8sNodeBronzeLinkUpdate {
-	mutation := newSilverK8sNodeBronzeLinkMutation(c.config, OpUpdate)
-	return &SilverK8sNodeBronzeLinkUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for InventoryK8sNodeBronzeLink.
+func (c *InventoryK8sNodeBronzeLinkClient) Update() *InventoryK8sNodeBronzeLinkUpdate {
+	mutation := newInventoryK8sNodeBronzeLinkMutation(c.config, OpUpdate)
+	return &InventoryK8sNodeBronzeLinkUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *SilverK8sNodeBronzeLinkClient) UpdateOne(_m *SilverK8sNodeBronzeLink) *SilverK8sNodeBronzeLinkUpdateOne {
-	mutation := newSilverK8sNodeBronzeLinkMutation(c.config, OpUpdateOne, withSilverK8sNodeBronzeLink(_m))
-	return &SilverK8sNodeBronzeLinkUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *InventoryK8sNodeBronzeLinkClient) UpdateOne(_m *InventoryK8sNodeBronzeLink) *InventoryK8sNodeBronzeLinkUpdateOne {
+	mutation := newInventoryK8sNodeBronzeLinkMutation(c.config, OpUpdateOne, withInventoryK8sNodeBronzeLink(_m))
+	return &InventoryK8sNodeBronzeLinkUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *SilverK8sNodeBronzeLinkClient) UpdateOneID(id int) *SilverK8sNodeBronzeLinkUpdateOne {
-	mutation := newSilverK8sNodeBronzeLinkMutation(c.config, OpUpdateOne, withSilverK8sNodeBronzeLinkID(id))
-	return &SilverK8sNodeBronzeLinkUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *InventoryK8sNodeBronzeLinkClient) UpdateOneID(id int) *InventoryK8sNodeBronzeLinkUpdateOne {
+	mutation := newInventoryK8sNodeBronzeLinkMutation(c.config, OpUpdateOne, withInventoryK8sNodeBronzeLinkID(id))
+	return &InventoryK8sNodeBronzeLinkUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for SilverK8sNodeBronzeLink.
-func (c *SilverK8sNodeBronzeLinkClient) Delete() *SilverK8sNodeBronzeLinkDelete {
-	mutation := newSilverK8sNodeBronzeLinkMutation(c.config, OpDelete)
-	return &SilverK8sNodeBronzeLinkDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for InventoryK8sNodeBronzeLink.
+func (c *InventoryK8sNodeBronzeLinkClient) Delete() *InventoryK8sNodeBronzeLinkDelete {
+	mutation := newInventoryK8sNodeBronzeLinkMutation(c.config, OpDelete)
+	return &InventoryK8sNodeBronzeLinkDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *SilverK8sNodeBronzeLinkClient) DeleteOne(_m *SilverK8sNodeBronzeLink) *SilverK8sNodeBronzeLinkDeleteOne {
+func (c *InventoryK8sNodeBronzeLinkClient) DeleteOne(_m *InventoryK8sNodeBronzeLink) *InventoryK8sNodeBronzeLinkDeleteOne {
 	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *SilverK8sNodeBronzeLinkClient) DeleteOneID(id int) *SilverK8sNodeBronzeLinkDeleteOne {
-	builder := c.Delete().Where(silverk8snodebronzelink.ID(id))
+func (c *InventoryK8sNodeBronzeLinkClient) DeleteOneID(id int) *InventoryK8sNodeBronzeLinkDeleteOne {
+	builder := c.Delete().Where(inventoryk8snodebronzelink.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &SilverK8sNodeBronzeLinkDeleteOne{builder}
+	return &InventoryK8sNodeBronzeLinkDeleteOne{builder}
 }
 
-// Query returns a query builder for SilverK8sNodeBronzeLink.
-func (c *SilverK8sNodeBronzeLinkClient) Query() *SilverK8sNodeBronzeLinkQuery {
-	return &SilverK8sNodeBronzeLinkQuery{
+// Query returns a query builder for InventoryK8sNodeBronzeLink.
+func (c *InventoryK8sNodeBronzeLinkClient) Query() *InventoryK8sNodeBronzeLinkQuery {
+	return &InventoryK8sNodeBronzeLinkQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeSilverK8sNodeBronzeLink},
+		ctx:    &QueryContext{Type: TypeInventoryK8sNodeBronzeLink},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a SilverK8sNodeBronzeLink entity by its id.
-func (c *SilverK8sNodeBronzeLinkClient) Get(ctx context.Context, id int) (*SilverK8sNodeBronzeLink, error) {
-	return c.Query().Where(silverk8snodebronzelink.ID(id)).Only(ctx)
+// Get returns a InventoryK8sNodeBronzeLink entity by its id.
+func (c *InventoryK8sNodeBronzeLinkClient) Get(ctx context.Context, id int) (*InventoryK8sNodeBronzeLink, error) {
+	return c.Query().Where(inventoryk8snodebronzelink.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *SilverK8sNodeBronzeLinkClient) GetX(ctx context.Context, id int) *SilverK8sNodeBronzeLink {
+func (c *InventoryK8sNodeBronzeLinkClient) GetX(ctx context.Context, id int) *InventoryK8sNodeBronzeLink {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -481,19 +481,19 @@ func (c *SilverK8sNodeBronzeLinkClient) GetX(ctx context.Context, id int) *Silve
 	return obj
 }
 
-// QueryK8sNode queries the k8s_node edge of a SilverK8sNodeBronzeLink.
-func (c *SilverK8sNodeBronzeLinkClient) QueryK8sNode(_m *SilverK8sNodeBronzeLink) *SilverK8sNodeQuery {
-	query := (&SilverK8sNodeClient{config: c.config}).Query()
+// QueryK8sNode queries the k8s_node edge of a InventoryK8sNodeBronzeLink.
+func (c *InventoryK8sNodeBronzeLinkClient) QueryK8sNode(_m *InventoryK8sNodeBronzeLink) *InventoryK8sNodeQuery {
+	query := (&InventoryK8sNodeClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
 		id := _m.ID
 		step := sqlgraph.NewStep(
-			sqlgraph.From(silverk8snodebronzelink.Table, silverk8snodebronzelink.FieldID, id),
-			sqlgraph.To(silverk8snode.Table, silverk8snode.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, silverk8snodebronzelink.K8sNodeTable, silverk8snodebronzelink.K8sNodeColumn),
+			sqlgraph.From(inventoryk8snodebronzelink.Table, inventoryk8snodebronzelink.FieldID, id),
+			sqlgraph.To(inventoryk8snode.Table, inventoryk8snode.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, inventoryk8snodebronzelink.K8sNodeTable, inventoryk8snodebronzelink.K8sNodeColumn),
 		)
 		schemaConfig := _m.schemaConfig
-		step.To.Schema = schemaConfig.SilverK8sNode
-		step.Edge.Schema = schemaConfig.SilverK8sNodeBronzeLink
+		step.To.Schema = schemaConfig.InventoryK8sNode
+		step.Edge.Schema = schemaConfig.InventoryK8sNodeBronzeLink
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
@@ -501,131 +501,131 @@ func (c *SilverK8sNodeBronzeLinkClient) QueryK8sNode(_m *SilverK8sNodeBronzeLink
 }
 
 // Hooks returns the client hooks.
-func (c *SilverK8sNodeBronzeLinkClient) Hooks() []Hook {
-	return c.hooks.SilverK8sNodeBronzeLink
+func (c *InventoryK8sNodeBronzeLinkClient) Hooks() []Hook {
+	return c.hooks.InventoryK8sNodeBronzeLink
 }
 
 // Interceptors returns the client interceptors.
-func (c *SilverK8sNodeBronzeLinkClient) Interceptors() []Interceptor {
-	return c.inters.SilverK8sNodeBronzeLink
+func (c *InventoryK8sNodeBronzeLinkClient) Interceptors() []Interceptor {
+	return c.inters.InventoryK8sNodeBronzeLink
 }
 
-func (c *SilverK8sNodeBronzeLinkClient) mutate(ctx context.Context, m *SilverK8sNodeBronzeLinkMutation) (Value, error) {
+func (c *InventoryK8sNodeBronzeLinkClient) mutate(ctx context.Context, m *InventoryK8sNodeBronzeLinkMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&SilverK8sNodeBronzeLinkCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&InventoryK8sNodeBronzeLinkCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&SilverK8sNodeBronzeLinkUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&InventoryK8sNodeBronzeLinkUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&SilverK8sNodeBronzeLinkUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&InventoryK8sNodeBronzeLinkUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&SilverK8sNodeBronzeLinkDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&InventoryK8sNodeBronzeLinkDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("k8snode: unknown SilverK8sNodeBronzeLink mutation op: %q", m.Op())
+		return nil, fmt.Errorf("k8snode: unknown InventoryK8sNodeBronzeLink mutation op: %q", m.Op())
 	}
 }
 
-// SilverK8sNodeNormalizedClient is a client for the SilverK8sNodeNormalized schema.
-type SilverK8sNodeNormalizedClient struct {
+// InventoryK8sNodeNormalizedClient is a client for the InventoryK8sNodeNormalized schema.
+type InventoryK8sNodeNormalizedClient struct {
 	config
 }
 
-// NewSilverK8sNodeNormalizedClient returns a client for the SilverK8sNodeNormalized from the given config.
-func NewSilverK8sNodeNormalizedClient(c config) *SilverK8sNodeNormalizedClient {
-	return &SilverK8sNodeNormalizedClient{config: c}
+// NewInventoryK8sNodeNormalizedClient returns a client for the InventoryK8sNodeNormalized from the given config.
+func NewInventoryK8sNodeNormalizedClient(c config) *InventoryK8sNodeNormalizedClient {
+	return &InventoryK8sNodeNormalizedClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `silverk8snodenormalized.Hooks(f(g(h())))`.
-func (c *SilverK8sNodeNormalizedClient) Use(hooks ...Hook) {
-	c.hooks.SilverK8sNodeNormalized = append(c.hooks.SilverK8sNodeNormalized, hooks...)
+// A call to `Use(f, g, h)` equals to `inventoryk8snodenormalized.Hooks(f(g(h())))`.
+func (c *InventoryK8sNodeNormalizedClient) Use(hooks ...Hook) {
+	c.hooks.InventoryK8sNodeNormalized = append(c.hooks.InventoryK8sNodeNormalized, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `silverk8snodenormalized.Intercept(f(g(h())))`.
-func (c *SilverK8sNodeNormalizedClient) Intercept(interceptors ...Interceptor) {
-	c.inters.SilverK8sNodeNormalized = append(c.inters.SilverK8sNodeNormalized, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `inventoryk8snodenormalized.Intercept(f(g(h())))`.
+func (c *InventoryK8sNodeNormalizedClient) Intercept(interceptors ...Interceptor) {
+	c.inters.InventoryK8sNodeNormalized = append(c.inters.InventoryK8sNodeNormalized, interceptors...)
 }
 
-// Create returns a builder for creating a SilverK8sNodeNormalized entity.
-func (c *SilverK8sNodeNormalizedClient) Create() *SilverK8sNodeNormalizedCreate {
-	mutation := newSilverK8sNodeNormalizedMutation(c.config, OpCreate)
-	return &SilverK8sNodeNormalizedCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a InventoryK8sNodeNormalized entity.
+func (c *InventoryK8sNodeNormalizedClient) Create() *InventoryK8sNodeNormalizedCreate {
+	mutation := newInventoryK8sNodeNormalizedMutation(c.config, OpCreate)
+	return &InventoryK8sNodeNormalizedCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of SilverK8sNodeNormalized entities.
-func (c *SilverK8sNodeNormalizedClient) CreateBulk(builders ...*SilverK8sNodeNormalizedCreate) *SilverK8sNodeNormalizedCreateBulk {
-	return &SilverK8sNodeNormalizedCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of InventoryK8sNodeNormalized entities.
+func (c *InventoryK8sNodeNormalizedClient) CreateBulk(builders ...*InventoryK8sNodeNormalizedCreate) *InventoryK8sNodeNormalizedCreateBulk {
+	return &InventoryK8sNodeNormalizedCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *SilverK8sNodeNormalizedClient) MapCreateBulk(slice any, setFunc func(*SilverK8sNodeNormalizedCreate, int)) *SilverK8sNodeNormalizedCreateBulk {
+func (c *InventoryK8sNodeNormalizedClient) MapCreateBulk(slice any, setFunc func(*InventoryK8sNodeNormalizedCreate, int)) *InventoryK8sNodeNormalizedCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &SilverK8sNodeNormalizedCreateBulk{err: fmt.Errorf("calling to SilverK8sNodeNormalizedClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &InventoryK8sNodeNormalizedCreateBulk{err: fmt.Errorf("calling to InventoryK8sNodeNormalizedClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*SilverK8sNodeNormalizedCreate, rv.Len())
+	builders := make([]*InventoryK8sNodeNormalizedCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &SilverK8sNodeNormalizedCreateBulk{config: c.config, builders: builders}
+	return &InventoryK8sNodeNormalizedCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for SilverK8sNodeNormalized.
-func (c *SilverK8sNodeNormalizedClient) Update() *SilverK8sNodeNormalizedUpdate {
-	mutation := newSilverK8sNodeNormalizedMutation(c.config, OpUpdate)
-	return &SilverK8sNodeNormalizedUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for InventoryK8sNodeNormalized.
+func (c *InventoryK8sNodeNormalizedClient) Update() *InventoryK8sNodeNormalizedUpdate {
+	mutation := newInventoryK8sNodeNormalizedMutation(c.config, OpUpdate)
+	return &InventoryK8sNodeNormalizedUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *SilverK8sNodeNormalizedClient) UpdateOne(_m *SilverK8sNodeNormalized) *SilverK8sNodeNormalizedUpdateOne {
-	mutation := newSilverK8sNodeNormalizedMutation(c.config, OpUpdateOne, withSilverK8sNodeNormalized(_m))
-	return &SilverK8sNodeNormalizedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *InventoryK8sNodeNormalizedClient) UpdateOne(_m *InventoryK8sNodeNormalized) *InventoryK8sNodeNormalizedUpdateOne {
+	mutation := newInventoryK8sNodeNormalizedMutation(c.config, OpUpdateOne, withInventoryK8sNodeNormalized(_m))
+	return &InventoryK8sNodeNormalizedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *SilverK8sNodeNormalizedClient) UpdateOneID(id string) *SilverK8sNodeNormalizedUpdateOne {
-	mutation := newSilverK8sNodeNormalizedMutation(c.config, OpUpdateOne, withSilverK8sNodeNormalizedID(id))
-	return &SilverK8sNodeNormalizedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *InventoryK8sNodeNormalizedClient) UpdateOneID(id string) *InventoryK8sNodeNormalizedUpdateOne {
+	mutation := newInventoryK8sNodeNormalizedMutation(c.config, OpUpdateOne, withInventoryK8sNodeNormalizedID(id))
+	return &InventoryK8sNodeNormalizedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for SilverK8sNodeNormalized.
-func (c *SilverK8sNodeNormalizedClient) Delete() *SilverK8sNodeNormalizedDelete {
-	mutation := newSilverK8sNodeNormalizedMutation(c.config, OpDelete)
-	return &SilverK8sNodeNormalizedDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for InventoryK8sNodeNormalized.
+func (c *InventoryK8sNodeNormalizedClient) Delete() *InventoryK8sNodeNormalizedDelete {
+	mutation := newInventoryK8sNodeNormalizedMutation(c.config, OpDelete)
+	return &InventoryK8sNodeNormalizedDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *SilverK8sNodeNormalizedClient) DeleteOne(_m *SilverK8sNodeNormalized) *SilverK8sNodeNormalizedDeleteOne {
+func (c *InventoryK8sNodeNormalizedClient) DeleteOne(_m *InventoryK8sNodeNormalized) *InventoryK8sNodeNormalizedDeleteOne {
 	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *SilverK8sNodeNormalizedClient) DeleteOneID(id string) *SilverK8sNodeNormalizedDeleteOne {
-	builder := c.Delete().Where(silverk8snodenormalized.ID(id))
+func (c *InventoryK8sNodeNormalizedClient) DeleteOneID(id string) *InventoryK8sNodeNormalizedDeleteOne {
+	builder := c.Delete().Where(inventoryk8snodenormalized.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &SilverK8sNodeNormalizedDeleteOne{builder}
+	return &InventoryK8sNodeNormalizedDeleteOne{builder}
 }
 
-// Query returns a query builder for SilverK8sNodeNormalized.
-func (c *SilverK8sNodeNormalizedClient) Query() *SilverK8sNodeNormalizedQuery {
-	return &SilverK8sNodeNormalizedQuery{
+// Query returns a query builder for InventoryK8sNodeNormalized.
+func (c *InventoryK8sNodeNormalizedClient) Query() *InventoryK8sNodeNormalizedQuery {
+	return &InventoryK8sNodeNormalizedQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeSilverK8sNodeNormalized},
+		ctx:    &QueryContext{Type: TypeInventoryK8sNodeNormalized},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a SilverK8sNodeNormalized entity by its id.
-func (c *SilverK8sNodeNormalizedClient) Get(ctx context.Context, id string) (*SilverK8sNodeNormalized, error) {
-	return c.Query().Where(silverk8snodenormalized.ID(id)).Only(ctx)
+// Get returns a InventoryK8sNodeNormalized entity by its id.
+func (c *InventoryK8sNodeNormalizedClient) Get(ctx context.Context, id string) (*InventoryK8sNodeNormalized, error) {
+	return c.Query().Where(inventoryk8snodenormalized.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *SilverK8sNodeNormalizedClient) GetX(ctx context.Context, id string) *SilverK8sNodeNormalized {
+func (c *InventoryK8sNodeNormalizedClient) GetX(ctx context.Context, id string) *InventoryK8sNodeNormalized {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -634,38 +634,39 @@ func (c *SilverK8sNodeNormalizedClient) GetX(ctx context.Context, id string) *Si
 }
 
 // Hooks returns the client hooks.
-func (c *SilverK8sNodeNormalizedClient) Hooks() []Hook {
-	return c.hooks.SilverK8sNodeNormalized
+func (c *InventoryK8sNodeNormalizedClient) Hooks() []Hook {
+	return c.hooks.InventoryK8sNodeNormalized
 }
 
 // Interceptors returns the client interceptors.
-func (c *SilverK8sNodeNormalizedClient) Interceptors() []Interceptor {
-	return c.inters.SilverK8sNodeNormalized
+func (c *InventoryK8sNodeNormalizedClient) Interceptors() []Interceptor {
+	return c.inters.InventoryK8sNodeNormalized
 }
 
-func (c *SilverK8sNodeNormalizedClient) mutate(ctx context.Context, m *SilverK8sNodeNormalizedMutation) (Value, error) {
+func (c *InventoryK8sNodeNormalizedClient) mutate(ctx context.Context, m *InventoryK8sNodeNormalizedMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&SilverK8sNodeNormalizedCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&InventoryK8sNodeNormalizedCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&SilverK8sNodeNormalizedUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&InventoryK8sNodeNormalizedUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&SilverK8sNodeNormalizedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&InventoryK8sNodeNormalizedUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&SilverK8sNodeNormalizedDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&InventoryK8sNodeNormalizedDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("k8snode: unknown SilverK8sNodeNormalized mutation op: %q", m.Op())
+		return nil, fmt.Errorf("k8snode: unknown InventoryK8sNodeNormalized mutation op: %q", m.Op())
 	}
 }
 
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		SilverK8sNode, SilverK8sNodeBronzeLink, SilverK8sNodeNormalized []ent.Hook
+		InventoryK8sNode, InventoryK8sNodeBronzeLink,
+		InventoryK8sNodeNormalized []ent.Hook
 	}
 	inters struct {
-		SilverK8sNode, SilverK8sNodeBronzeLink,
-		SilverK8sNodeNormalized []ent.Interceptor
+		InventoryK8sNode, InventoryK8sNodeBronzeLink,
+		InventoryK8sNodeNormalized []ent.Interceptor
 	}
 )
 

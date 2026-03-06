@@ -3,7 +3,7 @@ package projectmetadata
 import (
 	"bytes"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // ProjectMetadataDiff represents changes between old and new project metadata states.

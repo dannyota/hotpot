@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnspolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/bronzegcpdnspolicy"
 )
 
 // BronzeGCPDNSPolicy is the model entity for the BronzeGCPDNSPolicy schema.

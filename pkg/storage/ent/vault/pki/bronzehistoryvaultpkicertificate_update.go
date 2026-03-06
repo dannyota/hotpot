@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/vault/pki/bronzehistoryvaultpkicertificate"
-	"github.com/dannyota/hotpot/pkg/storage/ent/vault/pki/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/vault/pki/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/vault/pki/bronzehistoryvaultpkicertificate"
+	"danny.vn/hotpot/pkg/storage/ent/vault/pki/internal"
+	"danny.vn/hotpot/pkg/storage/ent/vault/pki/predicate"
 )
 
 // BronzeHistoryVaultPKICertificateUpdate is the builder for updating BronzeHistoryVaultPKICertificate entities.

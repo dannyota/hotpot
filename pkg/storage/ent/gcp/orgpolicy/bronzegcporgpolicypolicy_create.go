@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzegcporgpolicypolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzegcporgpolicypolicy"
 )
 
 // BronzeGCPOrgPolicyPolicyCreate is the builder for creating a BronzeGCPOrgPolicyPolicy entity.

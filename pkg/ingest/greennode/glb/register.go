@@ -5,12 +5,12 @@ import (
 	"entgo.io/ent/dialect"
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/glb/glbpackage"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/glb/glbregion"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/glb/glbresource"
-	entglb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/greennode/glb/glbpackage"
+	"danny.vn/hotpot/pkg/ingest/greennode/glb/glbregion"
+	"danny.vn/hotpot/pkg/ingest/greennode/glb/glbresource"
+	entglb "danny.vn/hotpot/pkg/storage/ent/greennode/glb"
 )
 
 // Register registers all GreenNode GLB activities and workflows.

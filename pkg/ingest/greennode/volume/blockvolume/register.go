@@ -4,9 +4,9 @@ import (
 	"danny.vn/greennode/auth"
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entvol "github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entvol "danny.vn/hotpot/pkg/storage/ent/greennode/volume"
 )
 
 // Register registers block volume workflows and activities with the Temporal worker.

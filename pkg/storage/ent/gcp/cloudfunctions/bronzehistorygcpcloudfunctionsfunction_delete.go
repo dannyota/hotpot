@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzehistorygcpcloudfunctionsfunction"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions/bronzehistorygcpcloudfunctionsfunction"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions/predicate"
 )
 
 // BronzeHistoryGCPCloudFunctionsFunctionDelete is the builder for deleting a BronzeHistoryGCPCloudFunctionsFunction entity.

@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputedisk"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputedisklabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputedisk"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputedisklabel"
 )
 
 // BronzeGCPComputeDiskLabelCreate is the builder for creating a BronzeGCPComputeDiskLabel entity.

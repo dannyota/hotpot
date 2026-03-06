@@ -12,10 +12,10 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/bronzegcpsecretmanagersecret"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/bronzegcpsecretmanagersecretlabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/secretmanager/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/bronzegcpsecretmanagersecret"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/bronzegcpsecretmanagersecretlabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/secretmanager/predicate"
 )
 
 // BronzeGCPSecretManagerSecretQuery is the builder for querying BronzeGCPSecretManagerSecret entities.

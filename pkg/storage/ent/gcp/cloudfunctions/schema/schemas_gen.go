@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_cloudfunctions "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/cloudfunctions"
-	bronzehistory_gcp_cloudfunctions "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/cloudfunctions"
+	bronze_gcp_cloudfunctions "danny.vn/hotpot/pkg/schema/bronze/gcp/cloudfunctions"
+	bronzehistory_gcp_cloudfunctions "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/cloudfunctions"
 )
 
 type BronzeGCPCloudFunctionsFunction struct {

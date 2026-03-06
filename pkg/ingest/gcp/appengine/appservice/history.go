@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entappengine "github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine/bronzehistorygcpappengineservice"
+	entappengine "danny.vn/hotpot/pkg/storage/ent/gcp/appengine"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/appengine/bronzehistorygcpappengineservice"
 )
 
 // HistoryService manages App Engine service history tracking.

@@ -4,8 +4,8 @@ package machine
 // DefaultSchemaConfig returns the schema config mapping each type to its PG schema.
 func DefaultSchemaConfig() SchemaConfig {
 	return SchemaConfig{
-		SilverMachine:           "silver",
-		SilverMachineBronzeLink: "silver",
-		SilverMachineNormalized: "silver",
+		InventoryMachine:           "inventory",
+		InventoryMachineBronzeLink: "inventory",
+		InventoryMachineNormalized: "inventory",
 	}
 }

@@ -12,15 +12,15 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzegcploggingbucket"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzegcplogginglogexclusion"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzegcplogginglogmetric"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzegcploggingsink"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzehistorygcploggingbucket"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzehistorygcplogginglogexclusion"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzehistorygcplogginglogmetric"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzehistorygcploggingsink"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/bronzegcploggingbucket"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/bronzegcplogginglogexclusion"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/bronzegcplogginglogmetric"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/bronzegcploggingsink"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/bronzehistorygcploggingbucket"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/bronzehistorygcplogginglogexclusion"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/bronzehistorygcplogginglogmetric"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/bronzehistorygcploggingsink"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/predicate"
 )
 
 const (

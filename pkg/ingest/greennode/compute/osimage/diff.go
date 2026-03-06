@@ -1,7 +1,7 @@
 package osimage
 
 import (
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/greennode/compute"
 )
 
 // OSImageDiff represents changes between old and new OS image states.

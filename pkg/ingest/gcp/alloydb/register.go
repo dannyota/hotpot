@@ -3,11 +3,11 @@ package alloydb
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/alloydb/cluster"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/gcp/alloydb/cluster"
 	"entgo.io/ent/dialect"
-	entalloydb "github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb"
+	entalloydb "danny.vn/hotpot/pkg/storage/ent/gcp/alloydb"
 )
 
 // Register registers all AlloyDB activities and workflows.

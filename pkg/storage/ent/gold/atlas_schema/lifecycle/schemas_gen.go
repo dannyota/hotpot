@@ -4,7 +4,7 @@ package schema
 import (
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
-	gold_lifecycle "github.com/dannyota/hotpot/pkg/schema/gold/lifecycle"
+	gold_lifecycle "danny.vn/hotpot/pkg/schema/gold/lifecycle"
 )
 
 type GoldLifecycleOS struct {

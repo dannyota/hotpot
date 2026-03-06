@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/bronzehistorygcplogginglogmetric"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/bronzehistorygcplogginglogmetric"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging/predicate"
 )
 
 // BronzeHistoryGCPLoggingLogMetricQuery is the builder for querying BronzeHistoryGCPLoggingLogMetric entities.

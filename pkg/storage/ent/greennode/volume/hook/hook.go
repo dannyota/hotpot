@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume"
 )
 
 // The BronzeGreenNodeVolumeBlockVolumeFunc type is an adapter to allow the use of ordinary

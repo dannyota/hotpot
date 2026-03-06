@@ -1,7 +1,7 @@
 package certificate
 
 import (
-	entlb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/loadbalancer"
+	entlb "danny.vn/hotpot/pkg/storage/ent/greennode/loadbalancer"
 )
 
 // CertificateDiff represents changes between old and new certificate states.

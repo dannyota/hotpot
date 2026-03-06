@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore/bronzehistorygcpfilestoreinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/filestore/bronzehistorygcpfilestoreinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/filestore/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/filestore/predicate"
 )
 
 // BronzeHistoryGCPFilestoreInstanceUpdate is the builder for updating BronzeHistoryGCPFilestoreInstance entities.

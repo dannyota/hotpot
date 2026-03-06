@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferenceubuntupackage"
+	"danny.vn/hotpot/pkg/storage/ent/reference/bronzereferenceubuntupackage"
 )
 
 // BronzeReferenceUbuntuPackage is the model entity for the BronzeReferenceUbuntuPackage schema.

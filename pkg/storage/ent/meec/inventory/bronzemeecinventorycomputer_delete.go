@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/bronzemeecinventorycomputer"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/meec/inventory/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/bronzemeecinventorycomputer"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/internal"
+	"danny.vn/hotpot/pkg/storage/ent/meec/inventory/predicate"
 )
 
 // BronzeMEECInventoryComputerDelete is the builder for deleting a BronzeMEECInventoryComputer entity.

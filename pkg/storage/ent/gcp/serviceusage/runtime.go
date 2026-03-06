@@ -3,9 +3,9 @@
 package serviceusage
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/serviceusage/bronzegcpserviceusageenabledservice"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/serviceusage/bronzehistorygcpserviceusageenabledservice"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/serviceusage/schema"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/serviceusage/bronzegcpserviceusageenabledservice"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/serviceusage/bronzehistorygcpserviceusageenabledservice"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/serviceusage/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

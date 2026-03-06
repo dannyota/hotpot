@@ -7,10 +7,10 @@ import (
 
 	"cloud.google.com/go/compute/apiv1/computepb"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputefirewall"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputefirewallallowed"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputefirewalldenied"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputefirewall"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputefirewallallowed"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputefirewalldenied"
 )
 
 // Service handles GCP Compute firewall ingestion.

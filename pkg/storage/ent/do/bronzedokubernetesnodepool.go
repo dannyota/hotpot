@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedokubernetesnodepool"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzedokubernetesnodepool"
 )
 
 // BronzeDOKubernetesNodePool is the model entity for the BronzeDOKubernetesNodePool schema.

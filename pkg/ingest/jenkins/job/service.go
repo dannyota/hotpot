@@ -6,10 +6,10 @@ import (
 	"log/slog"
 	"time"
 
-	entjenkins "github.com/dannyota/hotpot/pkg/storage/ent/jenkins"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzejenkinsbuild"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzejenkinsbuildrepo"
-	"github.com/dannyota/hotpot/pkg/storage/ent/jenkins/bronzejenkinsjob"
+	entjenkins "danny.vn/hotpot/pkg/storage/ent/jenkins"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzejenkinsbuild"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzejenkinsbuildrepo"
+	"danny.vn/hotpot/pkg/storage/ent/jenkins/bronzejenkinsjob"
 )
 
 // Service handles Jenkins job ingestion.

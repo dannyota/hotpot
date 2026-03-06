@@ -3,7 +3,7 @@ package function
 import (
 	"bytes"
 
-	entcloudfunctions "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudfunctions"
+	entcloudfunctions "danny.vn/hotpot/pkg/storage/ent/gcp/cloudfunctions"
 )
 
 // FunctionDiff represents changes between old and new Cloud Function state.

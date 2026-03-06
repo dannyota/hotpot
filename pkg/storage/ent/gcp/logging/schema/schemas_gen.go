@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_logging "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/logging"
-	bronzehistory_gcp_logging "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/logging"
+	bronze_gcp_logging "danny.vn/hotpot/pkg/schema/bronze/gcp/logging"
+	bronzehistory_gcp_logging "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/logging"
 )
 
 type BronzeGCPLoggingBucket struct {

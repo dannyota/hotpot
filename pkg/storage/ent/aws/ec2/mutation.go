@@ -12,11 +12,11 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instancetag"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzehistoryawsec2instance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzehistoryawsec2instancetag"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instance"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instancetag"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/bronzehistoryawsec2instance"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/bronzehistoryawsec2instancetag"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/predicate"
 )
 
 const (

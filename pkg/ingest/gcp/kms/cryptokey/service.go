@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entkms "github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms/bronzegcpkmscryptokey"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms/bronzegcpkmskeyring"
+	entkms "danny.vn/hotpot/pkg/storage/ent/gcp/kms"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/kms/bronzegcpkmscryptokey"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/kms/bronzegcpkmskeyring"
 )
 
 // Service handles GCP KMS crypto key ingestion.

@@ -7,8 +7,8 @@ import (
 	"cloud.google.com/go/bigtable"
 	"google.golang.org/api/option"
 
-	entbigtable "github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigtable/bronzegcpbigtableinstance"
+	entbigtable "danny.vn/hotpot/pkg/storage/ent/gcp/bigtable"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/bigtable/bronzegcpbigtableinstance"
 )
 
 // ClusterRaw holds raw API data for a Bigtable cluster with its parent instance.

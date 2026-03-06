@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/bronzehistorygcpsqlinstancelabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/sql/bronzehistorygcpsqlinstancelabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/sql/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/sql/predicate"
 )
 
 // BronzeHistoryGCPSQLInstanceLabelQuery is the builder for querying BronzeHistoryGCPSQLInstanceLabel entities.

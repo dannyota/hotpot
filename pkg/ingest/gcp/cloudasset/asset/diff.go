@@ -3,7 +3,7 @@ package asset
 import (
 	"bytes"
 
-	entcloudasset "github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset"
+	entcloudasset "danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset"
 )
 
 // AssetDiff represents changes between old and new Cloud Asset state.

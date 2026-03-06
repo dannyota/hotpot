@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputetargettcpproxy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputetargettcpproxy"
 )
 
 // BronzeGCPComputeTargetTcpProxyCreate is the builder for creating a BronzeGCPComputeTargetTcpProxy entity.

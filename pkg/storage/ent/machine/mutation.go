@@ -11,10 +11,10 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/machine/predicate"
-	"github.com/dannyota/hotpot/pkg/storage/ent/machine/silvermachine"
-	"github.com/dannyota/hotpot/pkg/storage/ent/machine/silvermachinebronzelink"
-	"github.com/dannyota/hotpot/pkg/storage/ent/machine/silvermachinenormalized"
+	"danny.vn/hotpot/pkg/storage/ent/machine/inventorymachine"
+	"danny.vn/hotpot/pkg/storage/ent/machine/inventorymachinebronzelink"
+	"danny.vn/hotpot/pkg/storage/ent/machine/inventorymachinenormalized"
+	"danny.vn/hotpot/pkg/storage/ent/machine/predicate"
 )
 
 const (
@@ -26,13 +26,13 @@ const (
 	OpUpdateOne = ent.OpUpdateOne
 
 	// Node types.
-	TypeSilverMachine           = "SilverMachine"
-	TypeSilverMachineBronzeLink = "SilverMachineBronzeLink"
-	TypeSilverMachineNormalized = "SilverMachineNormalized"
+	TypeInventoryMachine           = "InventoryMachine"
+	TypeInventoryMachineBronzeLink = "InventoryMachineBronzeLink"
+	TypeInventoryMachineNormalized = "InventoryMachineNormalized"
 )
 
-// SilverMachineMutation represents an operation that mutates the SilverMachine nodes in the graph.
-type SilverMachineMutation struct {
+// InventoryMachineMutation represents an operation that mutates the InventoryMachine nodes in the graph.
+type InventoryMachineMutation struct {
 	config
 	op                  Op
 	typ                 string
@@ -55,21 +55,21 @@ type SilverMachineMutation struct {
 	removedbronze_links map[int]struct{}
 	clearedbronze_links bool
 	done                bool
-	oldValue            func(context.Context) (*SilverMachine, error)
-	predicates          []predicate.SilverMachine
+	oldValue            func(context.Context) (*InventoryMachine, error)
+	predicates          []predicate.InventoryMachine
 }
 
-var _ ent.Mutation = (*SilverMachineMutation)(nil)
+var _ ent.Mutation = (*InventoryMachineMutation)(nil)
 
-// silvermachineOption allows management of the mutation configuration using functional options.
-type silvermachineOption func(*SilverMachineMutation)
+// inventorymachineOption allows management of the mutation configuration using functional options.
+type inventorymachineOption func(*InventoryMachineMutation)
 
-// newSilverMachineMutation creates new mutation for the SilverMachine entity.
-func newSilverMachineMutation(c config, op Op, opts ...silvermachineOption) *SilverMachineMutation {
-	m := &SilverMachineMutation{
+// newInventoryMachineMutation creates new mutation for the InventoryMachine entity.
+func newInventoryMachineMutation(c config, op Op, opts ...inventorymachineOption) *InventoryMachineMutation {
+	m := &InventoryMachineMutation{
 		config:        c,
 		op:            op,
-		typ:           TypeSilverMachine,
+		typ:           TypeInventoryMachine,
 		clearedFields: make(map[string]struct{}),
 	}
 	for _, opt := range opts {
@@ -78,20 +78,20 @@ func newSilverMachineMutation(c config, op Op, opts ...silvermachineOption) *Sil
 	return m
 }
 
-// withSilverMachineID sets the ID field of the mutation.
-func withSilverMachineID(id string) silvermachineOption {
-	return func(m *SilverMachineMutation) {
+// withInventoryMachineID sets the ID field of the mutation.
+func withInventoryMachineID(id string) inventorymachineOption {
+	return func(m *InventoryMachineMutation) {
 		var (
 			err   error
 			once  sync.Once
-			value *SilverMachine
+			value *InventoryMachine
 		)
-		m.oldValue = func(ctx context.Context) (*SilverMachine, error) {
+		m.oldValue = func(ctx context.Context) (*InventoryMachine, error) {
 			once.Do(func() {
 				if m.done {
 					err = errors.New("querying old values post mutation is not allowed")
 				} else {
-					value, err = m.Client().SilverMachine.Get(ctx, id)
+					value, err = m.Client().InventoryMachine.Get(ctx, id)
 				}
 			})
 			return value, err
@@ -100,10 +100,10 @@ func withSilverMachineID(id string) silvermachineOption {
 	}
 }
 
-// withSilverMachine sets the old SilverMachine of the mutation.
-func withSilverMachine(node *SilverMachine) silvermachineOption {
-	return func(m *SilverMachineMutation) {
-		m.oldValue = func(context.Context) (*SilverMachine, error) {
+// withInventoryMachine sets the old InventoryMachine of the mutation.
+func withInventoryMachine(node *InventoryMachine) inventorymachineOption {
+	return func(m *InventoryMachineMutation) {
+		m.oldValue = func(context.Context) (*InventoryMachine, error) {
 			return node, nil
 		}
 		m.id = &node.ID
@@ -112,7 +112,7 @@ func withSilverMachine(node *SilverMachine) silvermachineOption {
 
 // Client returns a new `ent.Client` from the mutation. If the mutation was
 // executed in a transaction (ent.Tx), a transactional client is returned.
-func (m SilverMachineMutation) Client() *Client {
+func (m InventoryMachineMutation) Client() *Client {
 	client := &Client{config: m.config}
 	client.init()
 	return client
@@ -120,7 +120,7 @@ func (m SilverMachineMutation) Client() *Client {
 
 // Tx returns an `ent.Tx` for mutations that were executed in transactions;
 // it returns an error otherwise.
-func (m SilverMachineMutation) Tx() (*Tx, error) {
+func (m InventoryMachineMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
 		return nil, errors.New("machine: mutation is not running in a transaction")
 	}
@@ -130,14 +130,14 @@ func (m SilverMachineMutation) Tx() (*Tx, error) {
 }
 
 // SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of SilverMachine entities.
-func (m *SilverMachineMutation) SetID(id string) {
+// operation is only accepted on creation of InventoryMachine entities.
+func (m *InventoryMachineMutation) SetID(id string) {
 	m.id = &id
 }
 
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *SilverMachineMutation) ID() (id string, exists bool) {
+func (m *InventoryMachineMutation) ID() (id string, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -148,7 +148,7 @@ func (m *SilverMachineMutation) ID() (id string, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *SilverMachineMutation) IDs(ctx context.Context) ([]string, error) {
+func (m *InventoryMachineMutation) IDs(ctx context.Context) ([]string, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
@@ -157,19 +157,19 @@ func (m *SilverMachineMutation) IDs(ctx context.Context) ([]string, error) {
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().SilverMachine.Query().Where(m.predicates...).IDs(ctx)
+		return m.Client().InventoryMachine.Query().Where(m.predicates...).IDs(ctx)
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
 }
 
 // SetCollectedAt sets the "collected_at" field.
-func (m *SilverMachineMutation) SetCollectedAt(t time.Time) {
+func (m *InventoryMachineMutation) SetCollectedAt(t time.Time) {
 	m.collected_at = &t
 }
 
 // CollectedAt returns the value of the "collected_at" field in the mutation.
-func (m *SilverMachineMutation) CollectedAt() (r time.Time, exists bool) {
+func (m *InventoryMachineMutation) CollectedAt() (r time.Time, exists bool) {
 	v := m.collected_at
 	if v == nil {
 		return
@@ -177,10 +177,10 @@ func (m *SilverMachineMutation) CollectedAt() (r time.Time, exists bool) {
 	return *v, true
 }
 
-// OldCollectedAt returns the old "collected_at" field's value of the SilverMachine entity.
-// If the SilverMachine object wasn't provided to the builder, the object is fetched from the database.
+// OldCollectedAt returns the old "collected_at" field's value of the InventoryMachine entity.
+// If the InventoryMachine object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineMutation) OldCollectedAt(ctx context.Context) (v time.Time, err error) {
+func (m *InventoryMachineMutation) OldCollectedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCollectedAt is only allowed on UpdateOne operations")
 	}
@@ -195,17 +195,17 @@ func (m *SilverMachineMutation) OldCollectedAt(ctx context.Context) (v time.Time
 }
 
 // ResetCollectedAt resets all changes to the "collected_at" field.
-func (m *SilverMachineMutation) ResetCollectedAt() {
+func (m *InventoryMachineMutation) ResetCollectedAt() {
 	m.collected_at = nil
 }
 
 // SetFirstCollectedAt sets the "first_collected_at" field.
-func (m *SilverMachineMutation) SetFirstCollectedAt(t time.Time) {
+func (m *InventoryMachineMutation) SetFirstCollectedAt(t time.Time) {
 	m.first_collected_at = &t
 }
 
 // FirstCollectedAt returns the value of the "first_collected_at" field in the mutation.
-func (m *SilverMachineMutation) FirstCollectedAt() (r time.Time, exists bool) {
+func (m *InventoryMachineMutation) FirstCollectedAt() (r time.Time, exists bool) {
 	v := m.first_collected_at
 	if v == nil {
 		return
@@ -213,10 +213,10 @@ func (m *SilverMachineMutation) FirstCollectedAt() (r time.Time, exists bool) {
 	return *v, true
 }
 
-// OldFirstCollectedAt returns the old "first_collected_at" field's value of the SilverMachine entity.
-// If the SilverMachine object wasn't provided to the builder, the object is fetched from the database.
+// OldFirstCollectedAt returns the old "first_collected_at" field's value of the InventoryMachine entity.
+// If the InventoryMachine object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineMutation) OldFirstCollectedAt(ctx context.Context) (v time.Time, err error) {
+func (m *InventoryMachineMutation) OldFirstCollectedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldFirstCollectedAt is only allowed on UpdateOne operations")
 	}
@@ -231,17 +231,17 @@ func (m *SilverMachineMutation) OldFirstCollectedAt(ctx context.Context) (v time
 }
 
 // ResetFirstCollectedAt resets all changes to the "first_collected_at" field.
-func (m *SilverMachineMutation) ResetFirstCollectedAt() {
+func (m *InventoryMachineMutation) ResetFirstCollectedAt() {
 	m.first_collected_at = nil
 }
 
 // SetNormalizedAt sets the "normalized_at" field.
-func (m *SilverMachineMutation) SetNormalizedAt(t time.Time) {
+func (m *InventoryMachineMutation) SetNormalizedAt(t time.Time) {
 	m.normalized_at = &t
 }
 
 // NormalizedAt returns the value of the "normalized_at" field in the mutation.
-func (m *SilverMachineMutation) NormalizedAt() (r time.Time, exists bool) {
+func (m *InventoryMachineMutation) NormalizedAt() (r time.Time, exists bool) {
 	v := m.normalized_at
 	if v == nil {
 		return
@@ -249,10 +249,10 @@ func (m *SilverMachineMutation) NormalizedAt() (r time.Time, exists bool) {
 	return *v, true
 }
 
-// OldNormalizedAt returns the old "normalized_at" field's value of the SilverMachine entity.
-// If the SilverMachine object wasn't provided to the builder, the object is fetched from the database.
+// OldNormalizedAt returns the old "normalized_at" field's value of the InventoryMachine entity.
+// If the InventoryMachine object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineMutation) OldNormalizedAt(ctx context.Context) (v time.Time, err error) {
+func (m *InventoryMachineMutation) OldNormalizedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldNormalizedAt is only allowed on UpdateOne operations")
 	}
@@ -267,17 +267,17 @@ func (m *SilverMachineMutation) OldNormalizedAt(ctx context.Context) (v time.Tim
 }
 
 // ResetNormalizedAt resets all changes to the "normalized_at" field.
-func (m *SilverMachineMutation) ResetNormalizedAt() {
+func (m *InventoryMachineMutation) ResetNormalizedAt() {
 	m.normalized_at = nil
 }
 
 // SetHostname sets the "hostname" field.
-func (m *SilverMachineMutation) SetHostname(s string) {
+func (m *InventoryMachineMutation) SetHostname(s string) {
 	m.hostname = &s
 }
 
 // Hostname returns the value of the "hostname" field in the mutation.
-func (m *SilverMachineMutation) Hostname() (r string, exists bool) {
+func (m *InventoryMachineMutation) Hostname() (r string, exists bool) {
 	v := m.hostname
 	if v == nil {
 		return
@@ -285,10 +285,10 @@ func (m *SilverMachineMutation) Hostname() (r string, exists bool) {
 	return *v, true
 }
 
-// OldHostname returns the old "hostname" field's value of the SilverMachine entity.
-// If the SilverMachine object wasn't provided to the builder, the object is fetched from the database.
+// OldHostname returns the old "hostname" field's value of the InventoryMachine entity.
+// If the InventoryMachine object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineMutation) OldHostname(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineMutation) OldHostname(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldHostname is only allowed on UpdateOne operations")
 	}
@@ -303,17 +303,17 @@ func (m *SilverMachineMutation) OldHostname(ctx context.Context) (v string, err 
 }
 
 // ResetHostname resets all changes to the "hostname" field.
-func (m *SilverMachineMutation) ResetHostname() {
+func (m *InventoryMachineMutation) ResetHostname() {
 	m.hostname = nil
 }
 
 // SetOsType sets the "os_type" field.
-func (m *SilverMachineMutation) SetOsType(s string) {
+func (m *InventoryMachineMutation) SetOsType(s string) {
 	m.os_type = &s
 }
 
 // OsType returns the value of the "os_type" field in the mutation.
-func (m *SilverMachineMutation) OsType() (r string, exists bool) {
+func (m *InventoryMachineMutation) OsType() (r string, exists bool) {
 	v := m.os_type
 	if v == nil {
 		return
@@ -321,10 +321,10 @@ func (m *SilverMachineMutation) OsType() (r string, exists bool) {
 	return *v, true
 }
 
-// OldOsType returns the old "os_type" field's value of the SilverMachine entity.
-// If the SilverMachine object wasn't provided to the builder, the object is fetched from the database.
+// OldOsType returns the old "os_type" field's value of the InventoryMachine entity.
+// If the InventoryMachine object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineMutation) OldOsType(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineMutation) OldOsType(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldOsType is only allowed on UpdateOne operations")
 	}
@@ -339,17 +339,17 @@ func (m *SilverMachineMutation) OldOsType(ctx context.Context) (v string, err er
 }
 
 // ResetOsType resets all changes to the "os_type" field.
-func (m *SilverMachineMutation) ResetOsType() {
+func (m *InventoryMachineMutation) ResetOsType() {
 	m.os_type = nil
 }
 
 // SetOsName sets the "os_name" field.
-func (m *SilverMachineMutation) SetOsName(s string) {
+func (m *InventoryMachineMutation) SetOsName(s string) {
 	m.os_name = &s
 }
 
 // OsName returns the value of the "os_name" field in the mutation.
-func (m *SilverMachineMutation) OsName() (r string, exists bool) {
+func (m *InventoryMachineMutation) OsName() (r string, exists bool) {
 	v := m.os_name
 	if v == nil {
 		return
@@ -357,10 +357,10 @@ func (m *SilverMachineMutation) OsName() (r string, exists bool) {
 	return *v, true
 }
 
-// OldOsName returns the old "os_name" field's value of the SilverMachine entity.
-// If the SilverMachine object wasn't provided to the builder, the object is fetched from the database.
+// OldOsName returns the old "os_name" field's value of the InventoryMachine entity.
+// If the InventoryMachine object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineMutation) OldOsName(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineMutation) OldOsName(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldOsName is only allowed on UpdateOne operations")
 	}
@@ -375,30 +375,30 @@ func (m *SilverMachineMutation) OldOsName(ctx context.Context) (v string, err er
 }
 
 // ClearOsName clears the value of the "os_name" field.
-func (m *SilverMachineMutation) ClearOsName() {
+func (m *InventoryMachineMutation) ClearOsName() {
 	m.os_name = nil
-	m.clearedFields[silvermachine.FieldOsName] = struct{}{}
+	m.clearedFields[inventorymachine.FieldOsName] = struct{}{}
 }
 
 // OsNameCleared returns if the "os_name" field was cleared in this mutation.
-func (m *SilverMachineMutation) OsNameCleared() bool {
-	_, ok := m.clearedFields[silvermachine.FieldOsName]
+func (m *InventoryMachineMutation) OsNameCleared() bool {
+	_, ok := m.clearedFields[inventorymachine.FieldOsName]
 	return ok
 }
 
 // ResetOsName resets all changes to the "os_name" field.
-func (m *SilverMachineMutation) ResetOsName() {
+func (m *InventoryMachineMutation) ResetOsName() {
 	m.os_name = nil
-	delete(m.clearedFields, silvermachine.FieldOsName)
+	delete(m.clearedFields, inventorymachine.FieldOsName)
 }
 
 // SetStatus sets the "status" field.
-func (m *SilverMachineMutation) SetStatus(s string) {
+func (m *InventoryMachineMutation) SetStatus(s string) {
 	m.status = &s
 }
 
 // Status returns the value of the "status" field in the mutation.
-func (m *SilverMachineMutation) Status() (r string, exists bool) {
+func (m *InventoryMachineMutation) Status() (r string, exists bool) {
 	v := m.status
 	if v == nil {
 		return
@@ -406,10 +406,10 @@ func (m *SilverMachineMutation) Status() (r string, exists bool) {
 	return *v, true
 }
 
-// OldStatus returns the old "status" field's value of the SilverMachine entity.
-// If the SilverMachine object wasn't provided to the builder, the object is fetched from the database.
+// OldStatus returns the old "status" field's value of the InventoryMachine entity.
+// If the InventoryMachine object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineMutation) OldStatus(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineMutation) OldStatus(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
 	}
@@ -424,17 +424,17 @@ func (m *SilverMachineMutation) OldStatus(ctx context.Context) (v string, err er
 }
 
 // ResetStatus resets all changes to the "status" field.
-func (m *SilverMachineMutation) ResetStatus() {
+func (m *InventoryMachineMutation) ResetStatus() {
 	m.status = nil
 }
 
 // SetInternalIP sets the "internal_ip" field.
-func (m *SilverMachineMutation) SetInternalIP(s string) {
+func (m *InventoryMachineMutation) SetInternalIP(s string) {
 	m.internal_ip = &s
 }
 
 // InternalIP returns the value of the "internal_ip" field in the mutation.
-func (m *SilverMachineMutation) InternalIP() (r string, exists bool) {
+func (m *InventoryMachineMutation) InternalIP() (r string, exists bool) {
 	v := m.internal_ip
 	if v == nil {
 		return
@@ -442,10 +442,10 @@ func (m *SilverMachineMutation) InternalIP() (r string, exists bool) {
 	return *v, true
 }
 
-// OldInternalIP returns the old "internal_ip" field's value of the SilverMachine entity.
-// If the SilverMachine object wasn't provided to the builder, the object is fetched from the database.
+// OldInternalIP returns the old "internal_ip" field's value of the InventoryMachine entity.
+// If the InventoryMachine object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineMutation) OldInternalIP(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineMutation) OldInternalIP(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldInternalIP is only allowed on UpdateOne operations")
 	}
@@ -460,30 +460,30 @@ func (m *SilverMachineMutation) OldInternalIP(ctx context.Context) (v string, er
 }
 
 // ClearInternalIP clears the value of the "internal_ip" field.
-func (m *SilverMachineMutation) ClearInternalIP() {
+func (m *InventoryMachineMutation) ClearInternalIP() {
 	m.internal_ip = nil
-	m.clearedFields[silvermachine.FieldInternalIP] = struct{}{}
+	m.clearedFields[inventorymachine.FieldInternalIP] = struct{}{}
 }
 
 // InternalIPCleared returns if the "internal_ip" field was cleared in this mutation.
-func (m *SilverMachineMutation) InternalIPCleared() bool {
-	_, ok := m.clearedFields[silvermachine.FieldInternalIP]
+func (m *InventoryMachineMutation) InternalIPCleared() bool {
+	_, ok := m.clearedFields[inventorymachine.FieldInternalIP]
 	return ok
 }
 
 // ResetInternalIP resets all changes to the "internal_ip" field.
-func (m *SilverMachineMutation) ResetInternalIP() {
+func (m *InventoryMachineMutation) ResetInternalIP() {
 	m.internal_ip = nil
-	delete(m.clearedFields, silvermachine.FieldInternalIP)
+	delete(m.clearedFields, inventorymachine.FieldInternalIP)
 }
 
 // SetExternalIP sets the "external_ip" field.
-func (m *SilverMachineMutation) SetExternalIP(s string) {
+func (m *InventoryMachineMutation) SetExternalIP(s string) {
 	m.external_ip = &s
 }
 
 // ExternalIP returns the value of the "external_ip" field in the mutation.
-func (m *SilverMachineMutation) ExternalIP() (r string, exists bool) {
+func (m *InventoryMachineMutation) ExternalIP() (r string, exists bool) {
 	v := m.external_ip
 	if v == nil {
 		return
@@ -491,10 +491,10 @@ func (m *SilverMachineMutation) ExternalIP() (r string, exists bool) {
 	return *v, true
 }
 
-// OldExternalIP returns the old "external_ip" field's value of the SilverMachine entity.
-// If the SilverMachine object wasn't provided to the builder, the object is fetched from the database.
+// OldExternalIP returns the old "external_ip" field's value of the InventoryMachine entity.
+// If the InventoryMachine object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineMutation) OldExternalIP(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineMutation) OldExternalIP(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldExternalIP is only allowed on UpdateOne operations")
 	}
@@ -509,30 +509,30 @@ func (m *SilverMachineMutation) OldExternalIP(ctx context.Context) (v string, er
 }
 
 // ClearExternalIP clears the value of the "external_ip" field.
-func (m *SilverMachineMutation) ClearExternalIP() {
+func (m *InventoryMachineMutation) ClearExternalIP() {
 	m.external_ip = nil
-	m.clearedFields[silvermachine.FieldExternalIP] = struct{}{}
+	m.clearedFields[inventorymachine.FieldExternalIP] = struct{}{}
 }
 
 // ExternalIPCleared returns if the "external_ip" field was cleared in this mutation.
-func (m *SilverMachineMutation) ExternalIPCleared() bool {
-	_, ok := m.clearedFields[silvermachine.FieldExternalIP]
+func (m *InventoryMachineMutation) ExternalIPCleared() bool {
+	_, ok := m.clearedFields[inventorymachine.FieldExternalIP]
 	return ok
 }
 
 // ResetExternalIP resets all changes to the "external_ip" field.
-func (m *SilverMachineMutation) ResetExternalIP() {
+func (m *InventoryMachineMutation) ResetExternalIP() {
 	m.external_ip = nil
-	delete(m.clearedFields, silvermachine.FieldExternalIP)
+	delete(m.clearedFields, inventorymachine.FieldExternalIP)
 }
 
 // SetEnvironment sets the "environment" field.
-func (m *SilverMachineMutation) SetEnvironment(s string) {
+func (m *InventoryMachineMutation) SetEnvironment(s string) {
 	m.environment = &s
 }
 
 // Environment returns the value of the "environment" field in the mutation.
-func (m *SilverMachineMutation) Environment() (r string, exists bool) {
+func (m *InventoryMachineMutation) Environment() (r string, exists bool) {
 	v := m.environment
 	if v == nil {
 		return
@@ -540,10 +540,10 @@ func (m *SilverMachineMutation) Environment() (r string, exists bool) {
 	return *v, true
 }
 
-// OldEnvironment returns the old "environment" field's value of the SilverMachine entity.
-// If the SilverMachine object wasn't provided to the builder, the object is fetched from the database.
+// OldEnvironment returns the old "environment" field's value of the InventoryMachine entity.
+// If the InventoryMachine object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineMutation) OldEnvironment(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineMutation) OldEnvironment(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldEnvironment is only allowed on UpdateOne operations")
 	}
@@ -558,30 +558,30 @@ func (m *SilverMachineMutation) OldEnvironment(ctx context.Context) (v string, e
 }
 
 // ClearEnvironment clears the value of the "environment" field.
-func (m *SilverMachineMutation) ClearEnvironment() {
+func (m *InventoryMachineMutation) ClearEnvironment() {
 	m.environment = nil
-	m.clearedFields[silvermachine.FieldEnvironment] = struct{}{}
+	m.clearedFields[inventorymachine.FieldEnvironment] = struct{}{}
 }
 
 // EnvironmentCleared returns if the "environment" field was cleared in this mutation.
-func (m *SilverMachineMutation) EnvironmentCleared() bool {
-	_, ok := m.clearedFields[silvermachine.FieldEnvironment]
+func (m *InventoryMachineMutation) EnvironmentCleared() bool {
+	_, ok := m.clearedFields[inventorymachine.FieldEnvironment]
 	return ok
 }
 
 // ResetEnvironment resets all changes to the "environment" field.
-func (m *SilverMachineMutation) ResetEnvironment() {
+func (m *InventoryMachineMutation) ResetEnvironment() {
 	m.environment = nil
-	delete(m.clearedFields, silvermachine.FieldEnvironment)
+	delete(m.clearedFields, inventorymachine.FieldEnvironment)
 }
 
 // SetCloudProject sets the "cloud_project" field.
-func (m *SilverMachineMutation) SetCloudProject(s string) {
+func (m *InventoryMachineMutation) SetCloudProject(s string) {
 	m.cloud_project = &s
 }
 
 // CloudProject returns the value of the "cloud_project" field in the mutation.
-func (m *SilverMachineMutation) CloudProject() (r string, exists bool) {
+func (m *InventoryMachineMutation) CloudProject() (r string, exists bool) {
 	v := m.cloud_project
 	if v == nil {
 		return
@@ -589,10 +589,10 @@ func (m *SilverMachineMutation) CloudProject() (r string, exists bool) {
 	return *v, true
 }
 
-// OldCloudProject returns the old "cloud_project" field's value of the SilverMachine entity.
-// If the SilverMachine object wasn't provided to the builder, the object is fetched from the database.
+// OldCloudProject returns the old "cloud_project" field's value of the InventoryMachine entity.
+// If the InventoryMachine object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineMutation) OldCloudProject(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineMutation) OldCloudProject(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCloudProject is only allowed on UpdateOne operations")
 	}
@@ -607,30 +607,30 @@ func (m *SilverMachineMutation) OldCloudProject(ctx context.Context) (v string, 
 }
 
 // ClearCloudProject clears the value of the "cloud_project" field.
-func (m *SilverMachineMutation) ClearCloudProject() {
+func (m *InventoryMachineMutation) ClearCloudProject() {
 	m.cloud_project = nil
-	m.clearedFields[silvermachine.FieldCloudProject] = struct{}{}
+	m.clearedFields[inventorymachine.FieldCloudProject] = struct{}{}
 }
 
 // CloudProjectCleared returns if the "cloud_project" field was cleared in this mutation.
-func (m *SilverMachineMutation) CloudProjectCleared() bool {
-	_, ok := m.clearedFields[silvermachine.FieldCloudProject]
+func (m *InventoryMachineMutation) CloudProjectCleared() bool {
+	_, ok := m.clearedFields[inventorymachine.FieldCloudProject]
 	return ok
 }
 
 // ResetCloudProject resets all changes to the "cloud_project" field.
-func (m *SilverMachineMutation) ResetCloudProject() {
+func (m *InventoryMachineMutation) ResetCloudProject() {
 	m.cloud_project = nil
-	delete(m.clearedFields, silvermachine.FieldCloudProject)
+	delete(m.clearedFields, inventorymachine.FieldCloudProject)
 }
 
 // SetCloudZone sets the "cloud_zone" field.
-func (m *SilverMachineMutation) SetCloudZone(s string) {
+func (m *InventoryMachineMutation) SetCloudZone(s string) {
 	m.cloud_zone = &s
 }
 
 // CloudZone returns the value of the "cloud_zone" field in the mutation.
-func (m *SilverMachineMutation) CloudZone() (r string, exists bool) {
+func (m *InventoryMachineMutation) CloudZone() (r string, exists bool) {
 	v := m.cloud_zone
 	if v == nil {
 		return
@@ -638,10 +638,10 @@ func (m *SilverMachineMutation) CloudZone() (r string, exists bool) {
 	return *v, true
 }
 
-// OldCloudZone returns the old "cloud_zone" field's value of the SilverMachine entity.
-// If the SilverMachine object wasn't provided to the builder, the object is fetched from the database.
+// OldCloudZone returns the old "cloud_zone" field's value of the InventoryMachine entity.
+// If the InventoryMachine object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineMutation) OldCloudZone(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineMutation) OldCloudZone(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCloudZone is only allowed on UpdateOne operations")
 	}
@@ -656,30 +656,30 @@ func (m *SilverMachineMutation) OldCloudZone(ctx context.Context) (v string, err
 }
 
 // ClearCloudZone clears the value of the "cloud_zone" field.
-func (m *SilverMachineMutation) ClearCloudZone() {
+func (m *InventoryMachineMutation) ClearCloudZone() {
 	m.cloud_zone = nil
-	m.clearedFields[silvermachine.FieldCloudZone] = struct{}{}
+	m.clearedFields[inventorymachine.FieldCloudZone] = struct{}{}
 }
 
 // CloudZoneCleared returns if the "cloud_zone" field was cleared in this mutation.
-func (m *SilverMachineMutation) CloudZoneCleared() bool {
-	_, ok := m.clearedFields[silvermachine.FieldCloudZone]
+func (m *InventoryMachineMutation) CloudZoneCleared() bool {
+	_, ok := m.clearedFields[inventorymachine.FieldCloudZone]
 	return ok
 }
 
 // ResetCloudZone resets all changes to the "cloud_zone" field.
-func (m *SilverMachineMutation) ResetCloudZone() {
+func (m *InventoryMachineMutation) ResetCloudZone() {
 	m.cloud_zone = nil
-	delete(m.clearedFields, silvermachine.FieldCloudZone)
+	delete(m.clearedFields, inventorymachine.FieldCloudZone)
 }
 
 // SetCloudMachineType sets the "cloud_machine_type" field.
-func (m *SilverMachineMutation) SetCloudMachineType(s string) {
+func (m *InventoryMachineMutation) SetCloudMachineType(s string) {
 	m.cloud_machine_type = &s
 }
 
 // CloudMachineType returns the value of the "cloud_machine_type" field in the mutation.
-func (m *SilverMachineMutation) CloudMachineType() (r string, exists bool) {
+func (m *InventoryMachineMutation) CloudMachineType() (r string, exists bool) {
 	v := m.cloud_machine_type
 	if v == nil {
 		return
@@ -687,10 +687,10 @@ func (m *SilverMachineMutation) CloudMachineType() (r string, exists bool) {
 	return *v, true
 }
 
-// OldCloudMachineType returns the old "cloud_machine_type" field's value of the SilverMachine entity.
-// If the SilverMachine object wasn't provided to the builder, the object is fetched from the database.
+// OldCloudMachineType returns the old "cloud_machine_type" field's value of the InventoryMachine entity.
+// If the InventoryMachine object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineMutation) OldCloudMachineType(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineMutation) OldCloudMachineType(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCloudMachineType is only allowed on UpdateOne operations")
 	}
@@ -705,25 +705,25 @@ func (m *SilverMachineMutation) OldCloudMachineType(ctx context.Context) (v stri
 }
 
 // ClearCloudMachineType clears the value of the "cloud_machine_type" field.
-func (m *SilverMachineMutation) ClearCloudMachineType() {
+func (m *InventoryMachineMutation) ClearCloudMachineType() {
 	m.cloud_machine_type = nil
-	m.clearedFields[silvermachine.FieldCloudMachineType] = struct{}{}
+	m.clearedFields[inventorymachine.FieldCloudMachineType] = struct{}{}
 }
 
 // CloudMachineTypeCleared returns if the "cloud_machine_type" field was cleared in this mutation.
-func (m *SilverMachineMutation) CloudMachineTypeCleared() bool {
-	_, ok := m.clearedFields[silvermachine.FieldCloudMachineType]
+func (m *InventoryMachineMutation) CloudMachineTypeCleared() bool {
+	_, ok := m.clearedFields[inventorymachine.FieldCloudMachineType]
 	return ok
 }
 
 // ResetCloudMachineType resets all changes to the "cloud_machine_type" field.
-func (m *SilverMachineMutation) ResetCloudMachineType() {
+func (m *InventoryMachineMutation) ResetCloudMachineType() {
 	m.cloud_machine_type = nil
-	delete(m.clearedFields, silvermachine.FieldCloudMachineType)
+	delete(m.clearedFields, inventorymachine.FieldCloudMachineType)
 }
 
-// AddBronzeLinkIDs adds the "bronze_links" edge to the SilverMachineBronzeLink entity by ids.
-func (m *SilverMachineMutation) AddBronzeLinkIDs(ids ...int) {
+// AddBronzeLinkIDs adds the "bronze_links" edge to the InventoryMachineBronzeLink entity by ids.
+func (m *InventoryMachineMutation) AddBronzeLinkIDs(ids ...int) {
 	if m.bronze_links == nil {
 		m.bronze_links = make(map[int]struct{})
 	}
@@ -732,18 +732,18 @@ func (m *SilverMachineMutation) AddBronzeLinkIDs(ids ...int) {
 	}
 }
 
-// ClearBronzeLinks clears the "bronze_links" edge to the SilverMachineBronzeLink entity.
-func (m *SilverMachineMutation) ClearBronzeLinks() {
+// ClearBronzeLinks clears the "bronze_links" edge to the InventoryMachineBronzeLink entity.
+func (m *InventoryMachineMutation) ClearBronzeLinks() {
 	m.clearedbronze_links = true
 }
 
-// BronzeLinksCleared reports if the "bronze_links" edge to the SilverMachineBronzeLink entity was cleared.
-func (m *SilverMachineMutation) BronzeLinksCleared() bool {
+// BronzeLinksCleared reports if the "bronze_links" edge to the InventoryMachineBronzeLink entity was cleared.
+func (m *InventoryMachineMutation) BronzeLinksCleared() bool {
 	return m.clearedbronze_links
 }
 
-// RemoveBronzeLinkIDs removes the "bronze_links" edge to the SilverMachineBronzeLink entity by IDs.
-func (m *SilverMachineMutation) RemoveBronzeLinkIDs(ids ...int) {
+// RemoveBronzeLinkIDs removes the "bronze_links" edge to the InventoryMachineBronzeLink entity by IDs.
+func (m *InventoryMachineMutation) RemoveBronzeLinkIDs(ids ...int) {
 	if m.removedbronze_links == nil {
 		m.removedbronze_links = make(map[int]struct{})
 	}
@@ -753,8 +753,8 @@ func (m *SilverMachineMutation) RemoveBronzeLinkIDs(ids ...int) {
 	}
 }
 
-// RemovedBronzeLinks returns the removed IDs of the "bronze_links" edge to the SilverMachineBronzeLink entity.
-func (m *SilverMachineMutation) RemovedBronzeLinksIDs() (ids []int) {
+// RemovedBronzeLinks returns the removed IDs of the "bronze_links" edge to the InventoryMachineBronzeLink entity.
+func (m *InventoryMachineMutation) RemovedBronzeLinksIDs() (ids []int) {
 	for id := range m.removedbronze_links {
 		ids = append(ids, id)
 	}
@@ -762,7 +762,7 @@ func (m *SilverMachineMutation) RemovedBronzeLinksIDs() (ids []int) {
 }
 
 // BronzeLinksIDs returns the "bronze_links" edge IDs in the mutation.
-func (m *SilverMachineMutation) BronzeLinksIDs() (ids []int) {
+func (m *InventoryMachineMutation) BronzeLinksIDs() (ids []int) {
 	for id := range m.bronze_links {
 		ids = append(ids, id)
 	}
@@ -770,21 +770,21 @@ func (m *SilverMachineMutation) BronzeLinksIDs() (ids []int) {
 }
 
 // ResetBronzeLinks resets all changes to the "bronze_links" edge.
-func (m *SilverMachineMutation) ResetBronzeLinks() {
+func (m *InventoryMachineMutation) ResetBronzeLinks() {
 	m.bronze_links = nil
 	m.clearedbronze_links = false
 	m.removedbronze_links = nil
 }
 
-// Where appends a list predicates to the SilverMachineMutation builder.
-func (m *SilverMachineMutation) Where(ps ...predicate.SilverMachine) {
+// Where appends a list predicates to the InventoryMachineMutation builder.
+func (m *InventoryMachineMutation) Where(ps ...predicate.InventoryMachine) {
 	m.predicates = append(m.predicates, ps...)
 }
 
-// WhereP appends storage-level predicates to the SilverMachineMutation builder. Using this method,
+// WhereP appends storage-level predicates to the InventoryMachineMutation builder. Using this method,
 // users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *SilverMachineMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.SilverMachine, len(ps))
+func (m *InventoryMachineMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.InventoryMachine, len(ps))
 	for i := range ps {
 		p[i] = ps[i]
 	}
@@ -792,63 +792,63 @@ func (m *SilverMachineMutation) WhereP(ps ...func(*sql.Selector)) {
 }
 
 // Op returns the operation name.
-func (m *SilverMachineMutation) Op() Op {
+func (m *InventoryMachineMutation) Op() Op {
 	return m.op
 }
 
 // SetOp allows setting the mutation operation.
-func (m *SilverMachineMutation) SetOp(op Op) {
+func (m *InventoryMachineMutation) SetOp(op Op) {
 	m.op = op
 }
 
-// Type returns the node type of this mutation (SilverMachine).
-func (m *SilverMachineMutation) Type() string {
+// Type returns the node type of this mutation (InventoryMachine).
+func (m *InventoryMachineMutation) Type() string {
 	return m.typ
 }
 
 // Fields returns all fields that were changed during this mutation. Note that in
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
-func (m *SilverMachineMutation) Fields() []string {
+func (m *InventoryMachineMutation) Fields() []string {
 	fields := make([]string, 0, 13)
 	if m.collected_at != nil {
-		fields = append(fields, silvermachine.FieldCollectedAt)
+		fields = append(fields, inventorymachine.FieldCollectedAt)
 	}
 	if m.first_collected_at != nil {
-		fields = append(fields, silvermachine.FieldFirstCollectedAt)
+		fields = append(fields, inventorymachine.FieldFirstCollectedAt)
 	}
 	if m.normalized_at != nil {
-		fields = append(fields, silvermachine.FieldNormalizedAt)
+		fields = append(fields, inventorymachine.FieldNormalizedAt)
 	}
 	if m.hostname != nil {
-		fields = append(fields, silvermachine.FieldHostname)
+		fields = append(fields, inventorymachine.FieldHostname)
 	}
 	if m.os_type != nil {
-		fields = append(fields, silvermachine.FieldOsType)
+		fields = append(fields, inventorymachine.FieldOsType)
 	}
 	if m.os_name != nil {
-		fields = append(fields, silvermachine.FieldOsName)
+		fields = append(fields, inventorymachine.FieldOsName)
 	}
 	if m.status != nil {
-		fields = append(fields, silvermachine.FieldStatus)
+		fields = append(fields, inventorymachine.FieldStatus)
 	}
 	if m.internal_ip != nil {
-		fields = append(fields, silvermachine.FieldInternalIP)
+		fields = append(fields, inventorymachine.FieldInternalIP)
 	}
 	if m.external_ip != nil {
-		fields = append(fields, silvermachine.FieldExternalIP)
+		fields = append(fields, inventorymachine.FieldExternalIP)
 	}
 	if m.environment != nil {
-		fields = append(fields, silvermachine.FieldEnvironment)
+		fields = append(fields, inventorymachine.FieldEnvironment)
 	}
 	if m.cloud_project != nil {
-		fields = append(fields, silvermachine.FieldCloudProject)
+		fields = append(fields, inventorymachine.FieldCloudProject)
 	}
 	if m.cloud_zone != nil {
-		fields = append(fields, silvermachine.FieldCloudZone)
+		fields = append(fields, inventorymachine.FieldCloudZone)
 	}
 	if m.cloud_machine_type != nil {
-		fields = append(fields, silvermachine.FieldCloudMachineType)
+		fields = append(fields, inventorymachine.FieldCloudMachineType)
 	}
 	return fields
 }
@@ -856,33 +856,33 @@ func (m *SilverMachineMutation) Fields() []string {
 // Field returns the value of a field with the given name. The second boolean
 // return value indicates that this field was not set, or was not defined in the
 // schema.
-func (m *SilverMachineMutation) Field(name string) (ent.Value, bool) {
+func (m *InventoryMachineMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case silvermachine.FieldCollectedAt:
+	case inventorymachine.FieldCollectedAt:
 		return m.CollectedAt()
-	case silvermachine.FieldFirstCollectedAt:
+	case inventorymachine.FieldFirstCollectedAt:
 		return m.FirstCollectedAt()
-	case silvermachine.FieldNormalizedAt:
+	case inventorymachine.FieldNormalizedAt:
 		return m.NormalizedAt()
-	case silvermachine.FieldHostname:
+	case inventorymachine.FieldHostname:
 		return m.Hostname()
-	case silvermachine.FieldOsType:
+	case inventorymachine.FieldOsType:
 		return m.OsType()
-	case silvermachine.FieldOsName:
+	case inventorymachine.FieldOsName:
 		return m.OsName()
-	case silvermachine.FieldStatus:
+	case inventorymachine.FieldStatus:
 		return m.Status()
-	case silvermachine.FieldInternalIP:
+	case inventorymachine.FieldInternalIP:
 		return m.InternalIP()
-	case silvermachine.FieldExternalIP:
+	case inventorymachine.FieldExternalIP:
 		return m.ExternalIP()
-	case silvermachine.FieldEnvironment:
+	case inventorymachine.FieldEnvironment:
 		return m.Environment()
-	case silvermachine.FieldCloudProject:
+	case inventorymachine.FieldCloudProject:
 		return m.CloudProject()
-	case silvermachine.FieldCloudZone:
+	case inventorymachine.FieldCloudZone:
 		return m.CloudZone()
-	case silvermachine.FieldCloudMachineType:
+	case inventorymachine.FieldCloudMachineType:
 		return m.CloudMachineType()
 	}
 	return nil, false
@@ -891,128 +891,128 @@ func (m *SilverMachineMutation) Field(name string) (ent.Value, bool) {
 // OldField returns the old value of the field from the database. An error is
 // returned if the mutation operation is not UpdateOne, or the query to the
 // database failed.
-func (m *SilverMachineMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+func (m *InventoryMachineMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case silvermachine.FieldCollectedAt:
+	case inventorymachine.FieldCollectedAt:
 		return m.OldCollectedAt(ctx)
-	case silvermachine.FieldFirstCollectedAt:
+	case inventorymachine.FieldFirstCollectedAt:
 		return m.OldFirstCollectedAt(ctx)
-	case silvermachine.FieldNormalizedAt:
+	case inventorymachine.FieldNormalizedAt:
 		return m.OldNormalizedAt(ctx)
-	case silvermachine.FieldHostname:
+	case inventorymachine.FieldHostname:
 		return m.OldHostname(ctx)
-	case silvermachine.FieldOsType:
+	case inventorymachine.FieldOsType:
 		return m.OldOsType(ctx)
-	case silvermachine.FieldOsName:
+	case inventorymachine.FieldOsName:
 		return m.OldOsName(ctx)
-	case silvermachine.FieldStatus:
+	case inventorymachine.FieldStatus:
 		return m.OldStatus(ctx)
-	case silvermachine.FieldInternalIP:
+	case inventorymachine.FieldInternalIP:
 		return m.OldInternalIP(ctx)
-	case silvermachine.FieldExternalIP:
+	case inventorymachine.FieldExternalIP:
 		return m.OldExternalIP(ctx)
-	case silvermachine.FieldEnvironment:
+	case inventorymachine.FieldEnvironment:
 		return m.OldEnvironment(ctx)
-	case silvermachine.FieldCloudProject:
+	case inventorymachine.FieldCloudProject:
 		return m.OldCloudProject(ctx)
-	case silvermachine.FieldCloudZone:
+	case inventorymachine.FieldCloudZone:
 		return m.OldCloudZone(ctx)
-	case silvermachine.FieldCloudMachineType:
+	case inventorymachine.FieldCloudMachineType:
 		return m.OldCloudMachineType(ctx)
 	}
-	return nil, fmt.Errorf("unknown SilverMachine field %s", name)
+	return nil, fmt.Errorf("unknown InventoryMachine field %s", name)
 }
 
 // SetField sets the value of a field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *SilverMachineMutation) SetField(name string, value ent.Value) error {
+func (m *InventoryMachineMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case silvermachine.FieldCollectedAt:
+	case inventorymachine.FieldCollectedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCollectedAt(v)
 		return nil
-	case silvermachine.FieldFirstCollectedAt:
+	case inventorymachine.FieldFirstCollectedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetFirstCollectedAt(v)
 		return nil
-	case silvermachine.FieldNormalizedAt:
+	case inventorymachine.FieldNormalizedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetNormalizedAt(v)
 		return nil
-	case silvermachine.FieldHostname:
+	case inventorymachine.FieldHostname:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetHostname(v)
 		return nil
-	case silvermachine.FieldOsType:
+	case inventorymachine.FieldOsType:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetOsType(v)
 		return nil
-	case silvermachine.FieldOsName:
+	case inventorymachine.FieldOsName:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetOsName(v)
 		return nil
-	case silvermachine.FieldStatus:
+	case inventorymachine.FieldStatus:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetStatus(v)
 		return nil
-	case silvermachine.FieldInternalIP:
+	case inventorymachine.FieldInternalIP:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetInternalIP(v)
 		return nil
-	case silvermachine.FieldExternalIP:
+	case inventorymachine.FieldExternalIP:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetExternalIP(v)
 		return nil
-	case silvermachine.FieldEnvironment:
+	case inventorymachine.FieldEnvironment:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetEnvironment(v)
 		return nil
-	case silvermachine.FieldCloudProject:
+	case inventorymachine.FieldCloudProject:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCloudProject(v)
 		return nil
-	case silvermachine.FieldCloudZone:
+	case inventorymachine.FieldCloudZone:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCloudZone(v)
 		return nil
-	case silvermachine.FieldCloudMachineType:
+	case inventorymachine.FieldCloudMachineType:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
@@ -1020,156 +1020,156 @@ func (m *SilverMachineMutation) SetField(name string, value ent.Value) error {
 		m.SetCloudMachineType(v)
 		return nil
 	}
-	return fmt.Errorf("unknown SilverMachine field %s", name)
+	return fmt.Errorf("unknown InventoryMachine field %s", name)
 }
 
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
-func (m *SilverMachineMutation) AddedFields() []string {
+func (m *InventoryMachineMutation) AddedFields() []string {
 	return nil
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
-func (m *SilverMachineMutation) AddedField(name string) (ent.Value, bool) {
+func (m *InventoryMachineMutation) AddedField(name string) (ent.Value, bool) {
 	return nil, false
 }
 
 // AddField adds the value to the field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *SilverMachineMutation) AddField(name string, value ent.Value) error {
+func (m *InventoryMachineMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	}
-	return fmt.Errorf("unknown SilverMachine numeric field %s", name)
+	return fmt.Errorf("unknown InventoryMachine numeric field %s", name)
 }
 
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
-func (m *SilverMachineMutation) ClearedFields() []string {
+func (m *InventoryMachineMutation) ClearedFields() []string {
 	var fields []string
-	if m.FieldCleared(silvermachine.FieldOsName) {
-		fields = append(fields, silvermachine.FieldOsName)
+	if m.FieldCleared(inventorymachine.FieldOsName) {
+		fields = append(fields, inventorymachine.FieldOsName)
 	}
-	if m.FieldCleared(silvermachine.FieldInternalIP) {
-		fields = append(fields, silvermachine.FieldInternalIP)
+	if m.FieldCleared(inventorymachine.FieldInternalIP) {
+		fields = append(fields, inventorymachine.FieldInternalIP)
 	}
-	if m.FieldCleared(silvermachine.FieldExternalIP) {
-		fields = append(fields, silvermachine.FieldExternalIP)
+	if m.FieldCleared(inventorymachine.FieldExternalIP) {
+		fields = append(fields, inventorymachine.FieldExternalIP)
 	}
-	if m.FieldCleared(silvermachine.FieldEnvironment) {
-		fields = append(fields, silvermachine.FieldEnvironment)
+	if m.FieldCleared(inventorymachine.FieldEnvironment) {
+		fields = append(fields, inventorymachine.FieldEnvironment)
 	}
-	if m.FieldCleared(silvermachine.FieldCloudProject) {
-		fields = append(fields, silvermachine.FieldCloudProject)
+	if m.FieldCleared(inventorymachine.FieldCloudProject) {
+		fields = append(fields, inventorymachine.FieldCloudProject)
 	}
-	if m.FieldCleared(silvermachine.FieldCloudZone) {
-		fields = append(fields, silvermachine.FieldCloudZone)
+	if m.FieldCleared(inventorymachine.FieldCloudZone) {
+		fields = append(fields, inventorymachine.FieldCloudZone)
 	}
-	if m.FieldCleared(silvermachine.FieldCloudMachineType) {
-		fields = append(fields, silvermachine.FieldCloudMachineType)
+	if m.FieldCleared(inventorymachine.FieldCloudMachineType) {
+		fields = append(fields, inventorymachine.FieldCloudMachineType)
 	}
 	return fields
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
 // cleared in this mutation.
-func (m *SilverMachineMutation) FieldCleared(name string) bool {
+func (m *InventoryMachineMutation) FieldCleared(name string) bool {
 	_, ok := m.clearedFields[name]
 	return ok
 }
 
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
-func (m *SilverMachineMutation) ClearField(name string) error {
+func (m *InventoryMachineMutation) ClearField(name string) error {
 	switch name {
-	case silvermachine.FieldOsName:
+	case inventorymachine.FieldOsName:
 		m.ClearOsName()
 		return nil
-	case silvermachine.FieldInternalIP:
+	case inventorymachine.FieldInternalIP:
 		m.ClearInternalIP()
 		return nil
-	case silvermachine.FieldExternalIP:
+	case inventorymachine.FieldExternalIP:
 		m.ClearExternalIP()
 		return nil
-	case silvermachine.FieldEnvironment:
+	case inventorymachine.FieldEnvironment:
 		m.ClearEnvironment()
 		return nil
-	case silvermachine.FieldCloudProject:
+	case inventorymachine.FieldCloudProject:
 		m.ClearCloudProject()
 		return nil
-	case silvermachine.FieldCloudZone:
+	case inventorymachine.FieldCloudZone:
 		m.ClearCloudZone()
 		return nil
-	case silvermachine.FieldCloudMachineType:
+	case inventorymachine.FieldCloudMachineType:
 		m.ClearCloudMachineType()
 		return nil
 	}
-	return fmt.Errorf("unknown SilverMachine nullable field %s", name)
+	return fmt.Errorf("unknown InventoryMachine nullable field %s", name)
 }
 
 // ResetField resets all changes in the mutation for the field with the given name.
 // It returns an error if the field is not defined in the schema.
-func (m *SilverMachineMutation) ResetField(name string) error {
+func (m *InventoryMachineMutation) ResetField(name string) error {
 	switch name {
-	case silvermachine.FieldCollectedAt:
+	case inventorymachine.FieldCollectedAt:
 		m.ResetCollectedAt()
 		return nil
-	case silvermachine.FieldFirstCollectedAt:
+	case inventorymachine.FieldFirstCollectedAt:
 		m.ResetFirstCollectedAt()
 		return nil
-	case silvermachine.FieldNormalizedAt:
+	case inventorymachine.FieldNormalizedAt:
 		m.ResetNormalizedAt()
 		return nil
-	case silvermachine.FieldHostname:
+	case inventorymachine.FieldHostname:
 		m.ResetHostname()
 		return nil
-	case silvermachine.FieldOsType:
+	case inventorymachine.FieldOsType:
 		m.ResetOsType()
 		return nil
-	case silvermachine.FieldOsName:
+	case inventorymachine.FieldOsName:
 		m.ResetOsName()
 		return nil
-	case silvermachine.FieldStatus:
+	case inventorymachine.FieldStatus:
 		m.ResetStatus()
 		return nil
-	case silvermachine.FieldInternalIP:
+	case inventorymachine.FieldInternalIP:
 		m.ResetInternalIP()
 		return nil
-	case silvermachine.FieldExternalIP:
+	case inventorymachine.FieldExternalIP:
 		m.ResetExternalIP()
 		return nil
-	case silvermachine.FieldEnvironment:
+	case inventorymachine.FieldEnvironment:
 		m.ResetEnvironment()
 		return nil
-	case silvermachine.FieldCloudProject:
+	case inventorymachine.FieldCloudProject:
 		m.ResetCloudProject()
 		return nil
-	case silvermachine.FieldCloudZone:
+	case inventorymachine.FieldCloudZone:
 		m.ResetCloudZone()
 		return nil
-	case silvermachine.FieldCloudMachineType:
+	case inventorymachine.FieldCloudMachineType:
 		m.ResetCloudMachineType()
 		return nil
 	}
-	return fmt.Errorf("unknown SilverMachine field %s", name)
+	return fmt.Errorf("unknown InventoryMachine field %s", name)
 }
 
 // AddedEdges returns all edge names that were set/added in this mutation.
-func (m *SilverMachineMutation) AddedEdges() []string {
+func (m *InventoryMachineMutation) AddedEdges() []string {
 	edges := make([]string, 0, 1)
 	if m.bronze_links != nil {
-		edges = append(edges, silvermachine.EdgeBronzeLinks)
+		edges = append(edges, inventorymachine.EdgeBronzeLinks)
 	}
 	return edges
 }
 
 // AddedIDs returns all IDs (to other nodes) that were added for the given edge
 // name in this mutation.
-func (m *SilverMachineMutation) AddedIDs(name string) []ent.Value {
+func (m *InventoryMachineMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case silvermachine.EdgeBronzeLinks:
+	case inventorymachine.EdgeBronzeLinks:
 		ids := make([]ent.Value, 0, len(m.bronze_links))
 		for id := range m.bronze_links {
 			ids = append(ids, id)
@@ -1180,19 +1180,19 @@ func (m *SilverMachineMutation) AddedIDs(name string) []ent.Value {
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
-func (m *SilverMachineMutation) RemovedEdges() []string {
+func (m *InventoryMachineMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 1)
 	if m.removedbronze_links != nil {
-		edges = append(edges, silvermachine.EdgeBronzeLinks)
+		edges = append(edges, inventorymachine.EdgeBronzeLinks)
 	}
 	return edges
 }
 
 // RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
 // the given name in this mutation.
-func (m *SilverMachineMutation) RemovedIDs(name string) []ent.Value {
+func (m *InventoryMachineMutation) RemovedIDs(name string) []ent.Value {
 	switch name {
-	case silvermachine.EdgeBronzeLinks:
+	case inventorymachine.EdgeBronzeLinks:
 		ids := make([]ent.Value, 0, len(m.removedbronze_links))
 		for id := range m.removedbronze_links {
 			ids = append(ids, id)
@@ -1203,19 +1203,19 @@ func (m *SilverMachineMutation) RemovedIDs(name string) []ent.Value {
 }
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *SilverMachineMutation) ClearedEdges() []string {
+func (m *InventoryMachineMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 1)
 	if m.clearedbronze_links {
-		edges = append(edges, silvermachine.EdgeBronzeLinks)
+		edges = append(edges, inventorymachine.EdgeBronzeLinks)
 	}
 	return edges
 }
 
 // EdgeCleared returns a boolean which indicates if the edge with the given name
 // was cleared in this mutation.
-func (m *SilverMachineMutation) EdgeCleared(name string) bool {
+func (m *InventoryMachineMutation) EdgeCleared(name string) bool {
 	switch name {
-	case silvermachine.EdgeBronzeLinks:
+	case inventorymachine.EdgeBronzeLinks:
 		return m.clearedbronze_links
 	}
 	return false
@@ -1223,25 +1223,25 @@ func (m *SilverMachineMutation) EdgeCleared(name string) bool {
 
 // ClearEdge clears the value of the edge with the given name. It returns an error
 // if that edge is not defined in the schema.
-func (m *SilverMachineMutation) ClearEdge(name string) error {
+func (m *InventoryMachineMutation) ClearEdge(name string) error {
 	switch name {
 	}
-	return fmt.Errorf("unknown SilverMachine unique edge %s", name)
+	return fmt.Errorf("unknown InventoryMachine unique edge %s", name)
 }
 
 // ResetEdge resets all changes to the edge with the given name in this mutation.
 // It returns an error if the edge is not defined in the schema.
-func (m *SilverMachineMutation) ResetEdge(name string) error {
+func (m *InventoryMachineMutation) ResetEdge(name string) error {
 	switch name {
-	case silvermachine.EdgeBronzeLinks:
+	case inventorymachine.EdgeBronzeLinks:
 		m.ResetBronzeLinks()
 		return nil
 	}
-	return fmt.Errorf("unknown SilverMachine edge %s", name)
+	return fmt.Errorf("unknown InventoryMachine edge %s", name)
 }
 
-// SilverMachineBronzeLinkMutation represents an operation that mutates the SilverMachineBronzeLink nodes in the graph.
-type SilverMachineBronzeLinkMutation struct {
+// InventoryMachineBronzeLinkMutation represents an operation that mutates the InventoryMachineBronzeLink nodes in the graph.
+type InventoryMachineBronzeLinkMutation struct {
 	config
 	op                 Op
 	typ                string
@@ -1253,21 +1253,21 @@ type SilverMachineBronzeLinkMutation struct {
 	machine            *string
 	clearedmachine     bool
 	done               bool
-	oldValue           func(context.Context) (*SilverMachineBronzeLink, error)
-	predicates         []predicate.SilverMachineBronzeLink
+	oldValue           func(context.Context) (*InventoryMachineBronzeLink, error)
+	predicates         []predicate.InventoryMachineBronzeLink
 }
 
-var _ ent.Mutation = (*SilverMachineBronzeLinkMutation)(nil)
+var _ ent.Mutation = (*InventoryMachineBronzeLinkMutation)(nil)
 
-// silvermachinebronzelinkOption allows management of the mutation configuration using functional options.
-type silvermachinebronzelinkOption func(*SilverMachineBronzeLinkMutation)
+// inventorymachinebronzelinkOption allows management of the mutation configuration using functional options.
+type inventorymachinebronzelinkOption func(*InventoryMachineBronzeLinkMutation)
 
-// newSilverMachineBronzeLinkMutation creates new mutation for the SilverMachineBronzeLink entity.
-func newSilverMachineBronzeLinkMutation(c config, op Op, opts ...silvermachinebronzelinkOption) *SilverMachineBronzeLinkMutation {
-	m := &SilverMachineBronzeLinkMutation{
+// newInventoryMachineBronzeLinkMutation creates new mutation for the InventoryMachineBronzeLink entity.
+func newInventoryMachineBronzeLinkMutation(c config, op Op, opts ...inventorymachinebronzelinkOption) *InventoryMachineBronzeLinkMutation {
+	m := &InventoryMachineBronzeLinkMutation{
 		config:        c,
 		op:            op,
-		typ:           TypeSilverMachineBronzeLink,
+		typ:           TypeInventoryMachineBronzeLink,
 		clearedFields: make(map[string]struct{}),
 	}
 	for _, opt := range opts {
@@ -1276,20 +1276,20 @@ func newSilverMachineBronzeLinkMutation(c config, op Op, opts ...silvermachinebr
 	return m
 }
 
-// withSilverMachineBronzeLinkID sets the ID field of the mutation.
-func withSilverMachineBronzeLinkID(id int) silvermachinebronzelinkOption {
-	return func(m *SilverMachineBronzeLinkMutation) {
+// withInventoryMachineBronzeLinkID sets the ID field of the mutation.
+func withInventoryMachineBronzeLinkID(id int) inventorymachinebronzelinkOption {
+	return func(m *InventoryMachineBronzeLinkMutation) {
 		var (
 			err   error
 			once  sync.Once
-			value *SilverMachineBronzeLink
+			value *InventoryMachineBronzeLink
 		)
-		m.oldValue = func(ctx context.Context) (*SilverMachineBronzeLink, error) {
+		m.oldValue = func(ctx context.Context) (*InventoryMachineBronzeLink, error) {
 			once.Do(func() {
 				if m.done {
 					err = errors.New("querying old values post mutation is not allowed")
 				} else {
-					value, err = m.Client().SilverMachineBronzeLink.Get(ctx, id)
+					value, err = m.Client().InventoryMachineBronzeLink.Get(ctx, id)
 				}
 			})
 			return value, err
@@ -1298,10 +1298,10 @@ func withSilverMachineBronzeLinkID(id int) silvermachinebronzelinkOption {
 	}
 }
 
-// withSilverMachineBronzeLink sets the old SilverMachineBronzeLink of the mutation.
-func withSilverMachineBronzeLink(node *SilverMachineBronzeLink) silvermachinebronzelinkOption {
-	return func(m *SilverMachineBronzeLinkMutation) {
-		m.oldValue = func(context.Context) (*SilverMachineBronzeLink, error) {
+// withInventoryMachineBronzeLink sets the old InventoryMachineBronzeLink of the mutation.
+func withInventoryMachineBronzeLink(node *InventoryMachineBronzeLink) inventorymachinebronzelinkOption {
+	return func(m *InventoryMachineBronzeLinkMutation) {
+		m.oldValue = func(context.Context) (*InventoryMachineBronzeLink, error) {
 			return node, nil
 		}
 		m.id = &node.ID
@@ -1310,7 +1310,7 @@ func withSilverMachineBronzeLink(node *SilverMachineBronzeLink) silvermachinebro
 
 // Client returns a new `ent.Client` from the mutation. If the mutation was
 // executed in a transaction (ent.Tx), a transactional client is returned.
-func (m SilverMachineBronzeLinkMutation) Client() *Client {
+func (m InventoryMachineBronzeLinkMutation) Client() *Client {
 	client := &Client{config: m.config}
 	client.init()
 	return client
@@ -1318,7 +1318,7 @@ func (m SilverMachineBronzeLinkMutation) Client() *Client {
 
 // Tx returns an `ent.Tx` for mutations that were executed in transactions;
 // it returns an error otherwise.
-func (m SilverMachineBronzeLinkMutation) Tx() (*Tx, error) {
+func (m InventoryMachineBronzeLinkMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
 		return nil, errors.New("machine: mutation is not running in a transaction")
 	}
@@ -1329,7 +1329,7 @@ func (m SilverMachineBronzeLinkMutation) Tx() (*Tx, error) {
 
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *SilverMachineBronzeLinkMutation) ID() (id int, exists bool) {
+func (m *InventoryMachineBronzeLinkMutation) ID() (id int, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -1340,7 +1340,7 @@ func (m *SilverMachineBronzeLinkMutation) ID() (id int, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *SilverMachineBronzeLinkMutation) IDs(ctx context.Context) ([]int, error) {
+func (m *InventoryMachineBronzeLinkMutation) IDs(ctx context.Context) ([]int, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
@@ -1349,19 +1349,19 @@ func (m *SilverMachineBronzeLinkMutation) IDs(ctx context.Context) ([]int, error
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().SilverMachineBronzeLink.Query().Where(m.predicates...).IDs(ctx)
+		return m.Client().InventoryMachineBronzeLink.Query().Where(m.predicates...).IDs(ctx)
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
 }
 
 // SetProvider sets the "provider" field.
-func (m *SilverMachineBronzeLinkMutation) SetProvider(s string) {
+func (m *InventoryMachineBronzeLinkMutation) SetProvider(s string) {
 	m.provider = &s
 }
 
 // Provider returns the value of the "provider" field in the mutation.
-func (m *SilverMachineBronzeLinkMutation) Provider() (r string, exists bool) {
+func (m *InventoryMachineBronzeLinkMutation) Provider() (r string, exists bool) {
 	v := m.provider
 	if v == nil {
 		return
@@ -1369,10 +1369,10 @@ func (m *SilverMachineBronzeLinkMutation) Provider() (r string, exists bool) {
 	return *v, true
 }
 
-// OldProvider returns the old "provider" field's value of the SilverMachineBronzeLink entity.
-// If the SilverMachineBronzeLink object wasn't provided to the builder, the object is fetched from the database.
+// OldProvider returns the old "provider" field's value of the InventoryMachineBronzeLink entity.
+// If the InventoryMachineBronzeLink object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineBronzeLinkMutation) OldProvider(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineBronzeLinkMutation) OldProvider(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldProvider is only allowed on UpdateOne operations")
 	}
@@ -1387,17 +1387,17 @@ func (m *SilverMachineBronzeLinkMutation) OldProvider(ctx context.Context) (v st
 }
 
 // ResetProvider resets all changes to the "provider" field.
-func (m *SilverMachineBronzeLinkMutation) ResetProvider() {
+func (m *InventoryMachineBronzeLinkMutation) ResetProvider() {
 	m.provider = nil
 }
 
 // SetBronzeTable sets the "bronze_table" field.
-func (m *SilverMachineBronzeLinkMutation) SetBronzeTable(s string) {
+func (m *InventoryMachineBronzeLinkMutation) SetBronzeTable(s string) {
 	m.bronze_table = &s
 }
 
 // BronzeTable returns the value of the "bronze_table" field in the mutation.
-func (m *SilverMachineBronzeLinkMutation) BronzeTable() (r string, exists bool) {
+func (m *InventoryMachineBronzeLinkMutation) BronzeTable() (r string, exists bool) {
 	v := m.bronze_table
 	if v == nil {
 		return
@@ -1405,10 +1405,10 @@ func (m *SilverMachineBronzeLinkMutation) BronzeTable() (r string, exists bool) 
 	return *v, true
 }
 
-// OldBronzeTable returns the old "bronze_table" field's value of the SilverMachineBronzeLink entity.
-// If the SilverMachineBronzeLink object wasn't provided to the builder, the object is fetched from the database.
+// OldBronzeTable returns the old "bronze_table" field's value of the InventoryMachineBronzeLink entity.
+// If the InventoryMachineBronzeLink object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineBronzeLinkMutation) OldBronzeTable(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineBronzeLinkMutation) OldBronzeTable(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldBronzeTable is only allowed on UpdateOne operations")
 	}
@@ -1423,17 +1423,17 @@ func (m *SilverMachineBronzeLinkMutation) OldBronzeTable(ctx context.Context) (v
 }
 
 // ResetBronzeTable resets all changes to the "bronze_table" field.
-func (m *SilverMachineBronzeLinkMutation) ResetBronzeTable() {
+func (m *InventoryMachineBronzeLinkMutation) ResetBronzeTable() {
 	m.bronze_table = nil
 }
 
 // SetBronzeResourceID sets the "bronze_resource_id" field.
-func (m *SilverMachineBronzeLinkMutation) SetBronzeResourceID(s string) {
+func (m *InventoryMachineBronzeLinkMutation) SetBronzeResourceID(s string) {
 	m.bronze_resource_id = &s
 }
 
 // BronzeResourceID returns the value of the "bronze_resource_id" field in the mutation.
-func (m *SilverMachineBronzeLinkMutation) BronzeResourceID() (r string, exists bool) {
+func (m *InventoryMachineBronzeLinkMutation) BronzeResourceID() (r string, exists bool) {
 	v := m.bronze_resource_id
 	if v == nil {
 		return
@@ -1441,10 +1441,10 @@ func (m *SilverMachineBronzeLinkMutation) BronzeResourceID() (r string, exists b
 	return *v, true
 }
 
-// OldBronzeResourceID returns the old "bronze_resource_id" field's value of the SilverMachineBronzeLink entity.
-// If the SilverMachineBronzeLink object wasn't provided to the builder, the object is fetched from the database.
+// OldBronzeResourceID returns the old "bronze_resource_id" field's value of the InventoryMachineBronzeLink entity.
+// If the InventoryMachineBronzeLink object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineBronzeLinkMutation) OldBronzeResourceID(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineBronzeLinkMutation) OldBronzeResourceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldBronzeResourceID is only allowed on UpdateOne operations")
 	}
@@ -1459,27 +1459,27 @@ func (m *SilverMachineBronzeLinkMutation) OldBronzeResourceID(ctx context.Contex
 }
 
 // ResetBronzeResourceID resets all changes to the "bronze_resource_id" field.
-func (m *SilverMachineBronzeLinkMutation) ResetBronzeResourceID() {
+func (m *InventoryMachineBronzeLinkMutation) ResetBronzeResourceID() {
 	m.bronze_resource_id = nil
 }
 
-// SetMachineID sets the "machine" edge to the SilverMachine entity by id.
-func (m *SilverMachineBronzeLinkMutation) SetMachineID(id string) {
+// SetMachineID sets the "machine" edge to the InventoryMachine entity by id.
+func (m *InventoryMachineBronzeLinkMutation) SetMachineID(id string) {
 	m.machine = &id
 }
 
-// ClearMachine clears the "machine" edge to the SilverMachine entity.
-func (m *SilverMachineBronzeLinkMutation) ClearMachine() {
+// ClearMachine clears the "machine" edge to the InventoryMachine entity.
+func (m *InventoryMachineBronzeLinkMutation) ClearMachine() {
 	m.clearedmachine = true
 }
 
-// MachineCleared reports if the "machine" edge to the SilverMachine entity was cleared.
-func (m *SilverMachineBronzeLinkMutation) MachineCleared() bool {
+// MachineCleared reports if the "machine" edge to the InventoryMachine entity was cleared.
+func (m *InventoryMachineBronzeLinkMutation) MachineCleared() bool {
 	return m.clearedmachine
 }
 
 // MachineID returns the "machine" edge ID in the mutation.
-func (m *SilverMachineBronzeLinkMutation) MachineID() (id string, exists bool) {
+func (m *InventoryMachineBronzeLinkMutation) MachineID() (id string, exists bool) {
 	if m.machine != nil {
 		return *m.machine, true
 	}
@@ -1489,7 +1489,7 @@ func (m *SilverMachineBronzeLinkMutation) MachineID() (id string, exists bool) {
 // MachineIDs returns the "machine" edge IDs in the mutation.
 // Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
 // MachineID instead. It exists only for internal usage by the builders.
-func (m *SilverMachineBronzeLinkMutation) MachineIDs() (ids []string) {
+func (m *InventoryMachineBronzeLinkMutation) MachineIDs() (ids []string) {
 	if id := m.machine; id != nil {
 		ids = append(ids, *id)
 	}
@@ -1497,20 +1497,20 @@ func (m *SilverMachineBronzeLinkMutation) MachineIDs() (ids []string) {
 }
 
 // ResetMachine resets all changes to the "machine" edge.
-func (m *SilverMachineBronzeLinkMutation) ResetMachine() {
+func (m *InventoryMachineBronzeLinkMutation) ResetMachine() {
 	m.machine = nil
 	m.clearedmachine = false
 }
 
-// Where appends a list predicates to the SilverMachineBronzeLinkMutation builder.
-func (m *SilverMachineBronzeLinkMutation) Where(ps ...predicate.SilverMachineBronzeLink) {
+// Where appends a list predicates to the InventoryMachineBronzeLinkMutation builder.
+func (m *InventoryMachineBronzeLinkMutation) Where(ps ...predicate.InventoryMachineBronzeLink) {
 	m.predicates = append(m.predicates, ps...)
 }
 
-// WhereP appends storage-level predicates to the SilverMachineBronzeLinkMutation builder. Using this method,
+// WhereP appends storage-level predicates to the InventoryMachineBronzeLinkMutation builder. Using this method,
 // users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *SilverMachineBronzeLinkMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.SilverMachineBronzeLink, len(ps))
+func (m *InventoryMachineBronzeLinkMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.InventoryMachineBronzeLink, len(ps))
 	for i := range ps {
 		p[i] = ps[i]
 	}
@@ -1518,33 +1518,33 @@ func (m *SilverMachineBronzeLinkMutation) WhereP(ps ...func(*sql.Selector)) {
 }
 
 // Op returns the operation name.
-func (m *SilverMachineBronzeLinkMutation) Op() Op {
+func (m *InventoryMachineBronzeLinkMutation) Op() Op {
 	return m.op
 }
 
 // SetOp allows setting the mutation operation.
-func (m *SilverMachineBronzeLinkMutation) SetOp(op Op) {
+func (m *InventoryMachineBronzeLinkMutation) SetOp(op Op) {
 	m.op = op
 }
 
-// Type returns the node type of this mutation (SilverMachineBronzeLink).
-func (m *SilverMachineBronzeLinkMutation) Type() string {
+// Type returns the node type of this mutation (InventoryMachineBronzeLink).
+func (m *InventoryMachineBronzeLinkMutation) Type() string {
 	return m.typ
 }
 
 // Fields returns all fields that were changed during this mutation. Note that in
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
-func (m *SilverMachineBronzeLinkMutation) Fields() []string {
+func (m *InventoryMachineBronzeLinkMutation) Fields() []string {
 	fields := make([]string, 0, 3)
 	if m.provider != nil {
-		fields = append(fields, silvermachinebronzelink.FieldProvider)
+		fields = append(fields, inventorymachinebronzelink.FieldProvider)
 	}
 	if m.bronze_table != nil {
-		fields = append(fields, silvermachinebronzelink.FieldBronzeTable)
+		fields = append(fields, inventorymachinebronzelink.FieldBronzeTable)
 	}
 	if m.bronze_resource_id != nil {
-		fields = append(fields, silvermachinebronzelink.FieldBronzeResourceID)
+		fields = append(fields, inventorymachinebronzelink.FieldBronzeResourceID)
 	}
 	return fields
 }
@@ -1552,13 +1552,13 @@ func (m *SilverMachineBronzeLinkMutation) Fields() []string {
 // Field returns the value of a field with the given name. The second boolean
 // return value indicates that this field was not set, or was not defined in the
 // schema.
-func (m *SilverMachineBronzeLinkMutation) Field(name string) (ent.Value, bool) {
+func (m *InventoryMachineBronzeLinkMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case silvermachinebronzelink.FieldProvider:
+	case inventorymachinebronzelink.FieldProvider:
 		return m.Provider()
-	case silvermachinebronzelink.FieldBronzeTable:
+	case inventorymachinebronzelink.FieldBronzeTable:
 		return m.BronzeTable()
-	case silvermachinebronzelink.FieldBronzeResourceID:
+	case inventorymachinebronzelink.FieldBronzeResourceID:
 		return m.BronzeResourceID()
 	}
 	return nil, false
@@ -1567,38 +1567,38 @@ func (m *SilverMachineBronzeLinkMutation) Field(name string) (ent.Value, bool) {
 // OldField returns the old value of the field from the database. An error is
 // returned if the mutation operation is not UpdateOne, or the query to the
 // database failed.
-func (m *SilverMachineBronzeLinkMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+func (m *InventoryMachineBronzeLinkMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case silvermachinebronzelink.FieldProvider:
+	case inventorymachinebronzelink.FieldProvider:
 		return m.OldProvider(ctx)
-	case silvermachinebronzelink.FieldBronzeTable:
+	case inventorymachinebronzelink.FieldBronzeTable:
 		return m.OldBronzeTable(ctx)
-	case silvermachinebronzelink.FieldBronzeResourceID:
+	case inventorymachinebronzelink.FieldBronzeResourceID:
 		return m.OldBronzeResourceID(ctx)
 	}
-	return nil, fmt.Errorf("unknown SilverMachineBronzeLink field %s", name)
+	return nil, fmt.Errorf("unknown InventoryMachineBronzeLink field %s", name)
 }
 
 // SetField sets the value of a field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *SilverMachineBronzeLinkMutation) SetField(name string, value ent.Value) error {
+func (m *InventoryMachineBronzeLinkMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case silvermachinebronzelink.FieldProvider:
+	case inventorymachinebronzelink.FieldProvider:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetProvider(v)
 		return nil
-	case silvermachinebronzelink.FieldBronzeTable:
+	case inventorymachinebronzelink.FieldBronzeTable:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetBronzeTable(v)
 		return nil
-	case silvermachinebronzelink.FieldBronzeResourceID:
+	case inventorymachinebronzelink.FieldBronzeResourceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
@@ -1606,81 +1606,81 @@ func (m *SilverMachineBronzeLinkMutation) SetField(name string, value ent.Value)
 		m.SetBronzeResourceID(v)
 		return nil
 	}
-	return fmt.Errorf("unknown SilverMachineBronzeLink field %s", name)
+	return fmt.Errorf("unknown InventoryMachineBronzeLink field %s", name)
 }
 
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
-func (m *SilverMachineBronzeLinkMutation) AddedFields() []string {
+func (m *InventoryMachineBronzeLinkMutation) AddedFields() []string {
 	return nil
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
-func (m *SilverMachineBronzeLinkMutation) AddedField(name string) (ent.Value, bool) {
+func (m *InventoryMachineBronzeLinkMutation) AddedField(name string) (ent.Value, bool) {
 	return nil, false
 }
 
 // AddField adds the value to the field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *SilverMachineBronzeLinkMutation) AddField(name string, value ent.Value) error {
+func (m *InventoryMachineBronzeLinkMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	}
-	return fmt.Errorf("unknown SilverMachineBronzeLink numeric field %s", name)
+	return fmt.Errorf("unknown InventoryMachineBronzeLink numeric field %s", name)
 }
 
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
-func (m *SilverMachineBronzeLinkMutation) ClearedFields() []string {
+func (m *InventoryMachineBronzeLinkMutation) ClearedFields() []string {
 	return nil
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
 // cleared in this mutation.
-func (m *SilverMachineBronzeLinkMutation) FieldCleared(name string) bool {
+func (m *InventoryMachineBronzeLinkMutation) FieldCleared(name string) bool {
 	_, ok := m.clearedFields[name]
 	return ok
 }
 
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
-func (m *SilverMachineBronzeLinkMutation) ClearField(name string) error {
-	return fmt.Errorf("unknown SilverMachineBronzeLink nullable field %s", name)
+func (m *InventoryMachineBronzeLinkMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown InventoryMachineBronzeLink nullable field %s", name)
 }
 
 // ResetField resets all changes in the mutation for the field with the given name.
 // It returns an error if the field is not defined in the schema.
-func (m *SilverMachineBronzeLinkMutation) ResetField(name string) error {
+func (m *InventoryMachineBronzeLinkMutation) ResetField(name string) error {
 	switch name {
-	case silvermachinebronzelink.FieldProvider:
+	case inventorymachinebronzelink.FieldProvider:
 		m.ResetProvider()
 		return nil
-	case silvermachinebronzelink.FieldBronzeTable:
+	case inventorymachinebronzelink.FieldBronzeTable:
 		m.ResetBronzeTable()
 		return nil
-	case silvermachinebronzelink.FieldBronzeResourceID:
+	case inventorymachinebronzelink.FieldBronzeResourceID:
 		m.ResetBronzeResourceID()
 		return nil
 	}
-	return fmt.Errorf("unknown SilverMachineBronzeLink field %s", name)
+	return fmt.Errorf("unknown InventoryMachineBronzeLink field %s", name)
 }
 
 // AddedEdges returns all edge names that were set/added in this mutation.
-func (m *SilverMachineBronzeLinkMutation) AddedEdges() []string {
+func (m *InventoryMachineBronzeLinkMutation) AddedEdges() []string {
 	edges := make([]string, 0, 1)
 	if m.machine != nil {
-		edges = append(edges, silvermachinebronzelink.EdgeMachine)
+		edges = append(edges, inventorymachinebronzelink.EdgeMachine)
 	}
 	return edges
 }
 
 // AddedIDs returns all IDs (to other nodes) that were added for the given edge
 // name in this mutation.
-func (m *SilverMachineBronzeLinkMutation) AddedIDs(name string) []ent.Value {
+func (m *InventoryMachineBronzeLinkMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case silvermachinebronzelink.EdgeMachine:
+	case inventorymachinebronzelink.EdgeMachine:
 		if id := m.machine; id != nil {
 			return []ent.Value{*id}
 		}
@@ -1689,31 +1689,31 @@ func (m *SilverMachineBronzeLinkMutation) AddedIDs(name string) []ent.Value {
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
-func (m *SilverMachineBronzeLinkMutation) RemovedEdges() []string {
+func (m *InventoryMachineBronzeLinkMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 1)
 	return edges
 }
 
 // RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
 // the given name in this mutation.
-func (m *SilverMachineBronzeLinkMutation) RemovedIDs(name string) []ent.Value {
+func (m *InventoryMachineBronzeLinkMutation) RemovedIDs(name string) []ent.Value {
 	return nil
 }
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *SilverMachineBronzeLinkMutation) ClearedEdges() []string {
+func (m *InventoryMachineBronzeLinkMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 1)
 	if m.clearedmachine {
-		edges = append(edges, silvermachinebronzelink.EdgeMachine)
+		edges = append(edges, inventorymachinebronzelink.EdgeMachine)
 	}
 	return edges
 }
 
 // EdgeCleared returns a boolean which indicates if the edge with the given name
 // was cleared in this mutation.
-func (m *SilverMachineBronzeLinkMutation) EdgeCleared(name string) bool {
+func (m *InventoryMachineBronzeLinkMutation) EdgeCleared(name string) bool {
 	switch name {
-	case silvermachinebronzelink.EdgeMachine:
+	case inventorymachinebronzelink.EdgeMachine:
 		return m.clearedmachine
 	}
 	return false
@@ -1721,28 +1721,28 @@ func (m *SilverMachineBronzeLinkMutation) EdgeCleared(name string) bool {
 
 // ClearEdge clears the value of the edge with the given name. It returns an error
 // if that edge is not defined in the schema.
-func (m *SilverMachineBronzeLinkMutation) ClearEdge(name string) error {
+func (m *InventoryMachineBronzeLinkMutation) ClearEdge(name string) error {
 	switch name {
-	case silvermachinebronzelink.EdgeMachine:
+	case inventorymachinebronzelink.EdgeMachine:
 		m.ClearMachine()
 		return nil
 	}
-	return fmt.Errorf("unknown SilverMachineBronzeLink unique edge %s", name)
+	return fmt.Errorf("unknown InventoryMachineBronzeLink unique edge %s", name)
 }
 
 // ResetEdge resets all changes to the edge with the given name in this mutation.
 // It returns an error if the edge is not defined in the schema.
-func (m *SilverMachineBronzeLinkMutation) ResetEdge(name string) error {
+func (m *InventoryMachineBronzeLinkMutation) ResetEdge(name string) error {
 	switch name {
-	case silvermachinebronzelink.EdgeMachine:
+	case inventorymachinebronzelink.EdgeMachine:
 		m.ResetMachine()
 		return nil
 	}
-	return fmt.Errorf("unknown SilverMachineBronzeLink edge %s", name)
+	return fmt.Errorf("unknown InventoryMachineBronzeLink edge %s", name)
 }
 
-// SilverMachineNormalizedMutation represents an operation that mutates the SilverMachineNormalized nodes in the graph.
-type SilverMachineNormalizedMutation struct {
+// InventoryMachineNormalizedMutation represents an operation that mutates the InventoryMachineNormalized nodes in the graph.
+type InventoryMachineNormalizedMutation struct {
 	config
 	op                 Op
 	typ                string
@@ -1767,21 +1767,21 @@ type SilverMachineNormalizedMutation struct {
 	normalized_at      *time.Time
 	clearedFields      map[string]struct{}
 	done               bool
-	oldValue           func(context.Context) (*SilverMachineNormalized, error)
-	predicates         []predicate.SilverMachineNormalized
+	oldValue           func(context.Context) (*InventoryMachineNormalized, error)
+	predicates         []predicate.InventoryMachineNormalized
 }
 
-var _ ent.Mutation = (*SilverMachineNormalizedMutation)(nil)
+var _ ent.Mutation = (*InventoryMachineNormalizedMutation)(nil)
 
-// silvermachinenormalizedOption allows management of the mutation configuration using functional options.
-type silvermachinenormalizedOption func(*SilverMachineNormalizedMutation)
+// inventorymachinenormalizedOption allows management of the mutation configuration using functional options.
+type inventorymachinenormalizedOption func(*InventoryMachineNormalizedMutation)
 
-// newSilverMachineNormalizedMutation creates new mutation for the SilverMachineNormalized entity.
-func newSilverMachineNormalizedMutation(c config, op Op, opts ...silvermachinenormalizedOption) *SilverMachineNormalizedMutation {
-	m := &SilverMachineNormalizedMutation{
+// newInventoryMachineNormalizedMutation creates new mutation for the InventoryMachineNormalized entity.
+func newInventoryMachineNormalizedMutation(c config, op Op, opts ...inventorymachinenormalizedOption) *InventoryMachineNormalizedMutation {
+	m := &InventoryMachineNormalizedMutation{
 		config:        c,
 		op:            op,
-		typ:           TypeSilverMachineNormalized,
+		typ:           TypeInventoryMachineNormalized,
 		clearedFields: make(map[string]struct{}),
 	}
 	for _, opt := range opts {
@@ -1790,20 +1790,20 @@ func newSilverMachineNormalizedMutation(c config, op Op, opts ...silvermachineno
 	return m
 }
 
-// withSilverMachineNormalizedID sets the ID field of the mutation.
-func withSilverMachineNormalizedID(id string) silvermachinenormalizedOption {
-	return func(m *SilverMachineNormalizedMutation) {
+// withInventoryMachineNormalizedID sets the ID field of the mutation.
+func withInventoryMachineNormalizedID(id string) inventorymachinenormalizedOption {
+	return func(m *InventoryMachineNormalizedMutation) {
 		var (
 			err   error
 			once  sync.Once
-			value *SilverMachineNormalized
+			value *InventoryMachineNormalized
 		)
-		m.oldValue = func(ctx context.Context) (*SilverMachineNormalized, error) {
+		m.oldValue = func(ctx context.Context) (*InventoryMachineNormalized, error) {
 			once.Do(func() {
 				if m.done {
 					err = errors.New("querying old values post mutation is not allowed")
 				} else {
-					value, err = m.Client().SilverMachineNormalized.Get(ctx, id)
+					value, err = m.Client().InventoryMachineNormalized.Get(ctx, id)
 				}
 			})
 			return value, err
@@ -1812,10 +1812,10 @@ func withSilverMachineNormalizedID(id string) silvermachinenormalizedOption {
 	}
 }
 
-// withSilverMachineNormalized sets the old SilverMachineNormalized of the mutation.
-func withSilverMachineNormalized(node *SilverMachineNormalized) silvermachinenormalizedOption {
-	return func(m *SilverMachineNormalizedMutation) {
-		m.oldValue = func(context.Context) (*SilverMachineNormalized, error) {
+// withInventoryMachineNormalized sets the old InventoryMachineNormalized of the mutation.
+func withInventoryMachineNormalized(node *InventoryMachineNormalized) inventorymachinenormalizedOption {
+	return func(m *InventoryMachineNormalizedMutation) {
+		m.oldValue = func(context.Context) (*InventoryMachineNormalized, error) {
 			return node, nil
 		}
 		m.id = &node.ID
@@ -1824,7 +1824,7 @@ func withSilverMachineNormalized(node *SilverMachineNormalized) silvermachinenor
 
 // Client returns a new `ent.Client` from the mutation. If the mutation was
 // executed in a transaction (ent.Tx), a transactional client is returned.
-func (m SilverMachineNormalizedMutation) Client() *Client {
+func (m InventoryMachineNormalizedMutation) Client() *Client {
 	client := &Client{config: m.config}
 	client.init()
 	return client
@@ -1832,7 +1832,7 @@ func (m SilverMachineNormalizedMutation) Client() *Client {
 
 // Tx returns an `ent.Tx` for mutations that were executed in transactions;
 // it returns an error otherwise.
-func (m SilverMachineNormalizedMutation) Tx() (*Tx, error) {
+func (m InventoryMachineNormalizedMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
 		return nil, errors.New("machine: mutation is not running in a transaction")
 	}
@@ -1842,14 +1842,14 @@ func (m SilverMachineNormalizedMutation) Tx() (*Tx, error) {
 }
 
 // SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of SilverMachineNormalized entities.
-func (m *SilverMachineNormalizedMutation) SetID(id string) {
+// operation is only accepted on creation of InventoryMachineNormalized entities.
+func (m *InventoryMachineNormalizedMutation) SetID(id string) {
 	m.id = &id
 }
 
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *SilverMachineNormalizedMutation) ID() (id string, exists bool) {
+func (m *InventoryMachineNormalizedMutation) ID() (id string, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -1860,7 +1860,7 @@ func (m *SilverMachineNormalizedMutation) ID() (id string, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *SilverMachineNormalizedMutation) IDs(ctx context.Context) ([]string, error) {
+func (m *InventoryMachineNormalizedMutation) IDs(ctx context.Context) ([]string, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
@@ -1869,19 +1869,19 @@ func (m *SilverMachineNormalizedMutation) IDs(ctx context.Context) ([]string, er
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().SilverMachineNormalized.Query().Where(m.predicates...).IDs(ctx)
+		return m.Client().InventoryMachineNormalized.Query().Where(m.predicates...).IDs(ctx)
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
 }
 
 // SetProvider sets the "provider" field.
-func (m *SilverMachineNormalizedMutation) SetProvider(s string) {
+func (m *InventoryMachineNormalizedMutation) SetProvider(s string) {
 	m.provider = &s
 }
 
 // Provider returns the value of the "provider" field in the mutation.
-func (m *SilverMachineNormalizedMutation) Provider() (r string, exists bool) {
+func (m *InventoryMachineNormalizedMutation) Provider() (r string, exists bool) {
 	v := m.provider
 	if v == nil {
 		return
@@ -1889,10 +1889,10 @@ func (m *SilverMachineNormalizedMutation) Provider() (r string, exists bool) {
 	return *v, true
 }
 
-// OldProvider returns the old "provider" field's value of the SilverMachineNormalized entity.
-// If the SilverMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldProvider returns the old "provider" field's value of the InventoryMachineNormalized entity.
+// If the InventoryMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineNormalizedMutation) OldProvider(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineNormalizedMutation) OldProvider(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldProvider is only allowed on UpdateOne operations")
 	}
@@ -1907,17 +1907,17 @@ func (m *SilverMachineNormalizedMutation) OldProvider(ctx context.Context) (v st
 }
 
 // ResetProvider resets all changes to the "provider" field.
-func (m *SilverMachineNormalizedMutation) ResetProvider() {
+func (m *InventoryMachineNormalizedMutation) ResetProvider() {
 	m.provider = nil
 }
 
 // SetIsBase sets the "is_base" field.
-func (m *SilverMachineNormalizedMutation) SetIsBase(b bool) {
+func (m *InventoryMachineNormalizedMutation) SetIsBase(b bool) {
 	m.is_base = &b
 }
 
 // IsBase returns the value of the "is_base" field in the mutation.
-func (m *SilverMachineNormalizedMutation) IsBase() (r bool, exists bool) {
+func (m *InventoryMachineNormalizedMutation) IsBase() (r bool, exists bool) {
 	v := m.is_base
 	if v == nil {
 		return
@@ -1925,10 +1925,10 @@ func (m *SilverMachineNormalizedMutation) IsBase() (r bool, exists bool) {
 	return *v, true
 }
 
-// OldIsBase returns the old "is_base" field's value of the SilverMachineNormalized entity.
-// If the SilverMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldIsBase returns the old "is_base" field's value of the InventoryMachineNormalized entity.
+// If the InventoryMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineNormalizedMutation) OldIsBase(ctx context.Context) (v bool, err error) {
+func (m *InventoryMachineNormalizedMutation) OldIsBase(ctx context.Context) (v bool, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldIsBase is only allowed on UpdateOne operations")
 	}
@@ -1943,17 +1943,17 @@ func (m *SilverMachineNormalizedMutation) OldIsBase(ctx context.Context) (v bool
 }
 
 // ResetIsBase resets all changes to the "is_base" field.
-func (m *SilverMachineNormalizedMutation) ResetIsBase() {
+func (m *InventoryMachineNormalizedMutation) ResetIsBase() {
 	m.is_base = nil
 }
 
 // SetBronzeTable sets the "bronze_table" field.
-func (m *SilverMachineNormalizedMutation) SetBronzeTable(s string) {
+func (m *InventoryMachineNormalizedMutation) SetBronzeTable(s string) {
 	m.bronze_table = &s
 }
 
 // BronzeTable returns the value of the "bronze_table" field in the mutation.
-func (m *SilverMachineNormalizedMutation) BronzeTable() (r string, exists bool) {
+func (m *InventoryMachineNormalizedMutation) BronzeTable() (r string, exists bool) {
 	v := m.bronze_table
 	if v == nil {
 		return
@@ -1961,10 +1961,10 @@ func (m *SilverMachineNormalizedMutation) BronzeTable() (r string, exists bool) 
 	return *v, true
 }
 
-// OldBronzeTable returns the old "bronze_table" field's value of the SilverMachineNormalized entity.
-// If the SilverMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldBronzeTable returns the old "bronze_table" field's value of the InventoryMachineNormalized entity.
+// If the InventoryMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineNormalizedMutation) OldBronzeTable(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineNormalizedMutation) OldBronzeTable(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldBronzeTable is only allowed on UpdateOne operations")
 	}
@@ -1979,17 +1979,17 @@ func (m *SilverMachineNormalizedMutation) OldBronzeTable(ctx context.Context) (v
 }
 
 // ResetBronzeTable resets all changes to the "bronze_table" field.
-func (m *SilverMachineNormalizedMutation) ResetBronzeTable() {
+func (m *InventoryMachineNormalizedMutation) ResetBronzeTable() {
 	m.bronze_table = nil
 }
 
 // SetBronzeResourceID sets the "bronze_resource_id" field.
-func (m *SilverMachineNormalizedMutation) SetBronzeResourceID(s string) {
+func (m *InventoryMachineNormalizedMutation) SetBronzeResourceID(s string) {
 	m.bronze_resource_id = &s
 }
 
 // BronzeResourceID returns the value of the "bronze_resource_id" field in the mutation.
-func (m *SilverMachineNormalizedMutation) BronzeResourceID() (r string, exists bool) {
+func (m *InventoryMachineNormalizedMutation) BronzeResourceID() (r string, exists bool) {
 	v := m.bronze_resource_id
 	if v == nil {
 		return
@@ -1997,10 +1997,10 @@ func (m *SilverMachineNormalizedMutation) BronzeResourceID() (r string, exists b
 	return *v, true
 }
 
-// OldBronzeResourceID returns the old "bronze_resource_id" field's value of the SilverMachineNormalized entity.
-// If the SilverMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldBronzeResourceID returns the old "bronze_resource_id" field's value of the InventoryMachineNormalized entity.
+// If the InventoryMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineNormalizedMutation) OldBronzeResourceID(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineNormalizedMutation) OldBronzeResourceID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldBronzeResourceID is only allowed on UpdateOne operations")
 	}
@@ -2015,17 +2015,17 @@ func (m *SilverMachineNormalizedMutation) OldBronzeResourceID(ctx context.Contex
 }
 
 // ResetBronzeResourceID resets all changes to the "bronze_resource_id" field.
-func (m *SilverMachineNormalizedMutation) ResetBronzeResourceID() {
+func (m *InventoryMachineNormalizedMutation) ResetBronzeResourceID() {
 	m.bronze_resource_id = nil
 }
 
 // SetHostname sets the "hostname" field.
-func (m *SilverMachineNormalizedMutation) SetHostname(s string) {
+func (m *InventoryMachineNormalizedMutation) SetHostname(s string) {
 	m.hostname = &s
 }
 
 // Hostname returns the value of the "hostname" field in the mutation.
-func (m *SilverMachineNormalizedMutation) Hostname() (r string, exists bool) {
+func (m *InventoryMachineNormalizedMutation) Hostname() (r string, exists bool) {
 	v := m.hostname
 	if v == nil {
 		return
@@ -2033,10 +2033,10 @@ func (m *SilverMachineNormalizedMutation) Hostname() (r string, exists bool) {
 	return *v, true
 }
 
-// OldHostname returns the old "hostname" field's value of the SilverMachineNormalized entity.
-// If the SilverMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldHostname returns the old "hostname" field's value of the InventoryMachineNormalized entity.
+// If the InventoryMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineNormalizedMutation) OldHostname(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineNormalizedMutation) OldHostname(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldHostname is only allowed on UpdateOne operations")
 	}
@@ -2051,30 +2051,30 @@ func (m *SilverMachineNormalizedMutation) OldHostname(ctx context.Context) (v st
 }
 
 // ClearHostname clears the value of the "hostname" field.
-func (m *SilverMachineNormalizedMutation) ClearHostname() {
+func (m *InventoryMachineNormalizedMutation) ClearHostname() {
 	m.hostname = nil
-	m.clearedFields[silvermachinenormalized.FieldHostname] = struct{}{}
+	m.clearedFields[inventorymachinenormalized.FieldHostname] = struct{}{}
 }
 
 // HostnameCleared returns if the "hostname" field was cleared in this mutation.
-func (m *SilverMachineNormalizedMutation) HostnameCleared() bool {
-	_, ok := m.clearedFields[silvermachinenormalized.FieldHostname]
+func (m *InventoryMachineNormalizedMutation) HostnameCleared() bool {
+	_, ok := m.clearedFields[inventorymachinenormalized.FieldHostname]
 	return ok
 }
 
 // ResetHostname resets all changes to the "hostname" field.
-func (m *SilverMachineNormalizedMutation) ResetHostname() {
+func (m *InventoryMachineNormalizedMutation) ResetHostname() {
 	m.hostname = nil
-	delete(m.clearedFields, silvermachinenormalized.FieldHostname)
+	delete(m.clearedFields, inventorymachinenormalized.FieldHostname)
 }
 
 // SetOsType sets the "os_type" field.
-func (m *SilverMachineNormalizedMutation) SetOsType(s string) {
+func (m *InventoryMachineNormalizedMutation) SetOsType(s string) {
 	m.os_type = &s
 }
 
 // OsType returns the value of the "os_type" field in the mutation.
-func (m *SilverMachineNormalizedMutation) OsType() (r string, exists bool) {
+func (m *InventoryMachineNormalizedMutation) OsType() (r string, exists bool) {
 	v := m.os_type
 	if v == nil {
 		return
@@ -2082,10 +2082,10 @@ func (m *SilverMachineNormalizedMutation) OsType() (r string, exists bool) {
 	return *v, true
 }
 
-// OldOsType returns the old "os_type" field's value of the SilverMachineNormalized entity.
-// If the SilverMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldOsType returns the old "os_type" field's value of the InventoryMachineNormalized entity.
+// If the InventoryMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineNormalizedMutation) OldOsType(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineNormalizedMutation) OldOsType(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldOsType is only allowed on UpdateOne operations")
 	}
@@ -2100,30 +2100,30 @@ func (m *SilverMachineNormalizedMutation) OldOsType(ctx context.Context) (v stri
 }
 
 // ClearOsType clears the value of the "os_type" field.
-func (m *SilverMachineNormalizedMutation) ClearOsType() {
+func (m *InventoryMachineNormalizedMutation) ClearOsType() {
 	m.os_type = nil
-	m.clearedFields[silvermachinenormalized.FieldOsType] = struct{}{}
+	m.clearedFields[inventorymachinenormalized.FieldOsType] = struct{}{}
 }
 
 // OsTypeCleared returns if the "os_type" field was cleared in this mutation.
-func (m *SilverMachineNormalizedMutation) OsTypeCleared() bool {
-	_, ok := m.clearedFields[silvermachinenormalized.FieldOsType]
+func (m *InventoryMachineNormalizedMutation) OsTypeCleared() bool {
+	_, ok := m.clearedFields[inventorymachinenormalized.FieldOsType]
 	return ok
 }
 
 // ResetOsType resets all changes to the "os_type" field.
-func (m *SilverMachineNormalizedMutation) ResetOsType() {
+func (m *InventoryMachineNormalizedMutation) ResetOsType() {
 	m.os_type = nil
-	delete(m.clearedFields, silvermachinenormalized.FieldOsType)
+	delete(m.clearedFields, inventorymachinenormalized.FieldOsType)
 }
 
 // SetOsName sets the "os_name" field.
-func (m *SilverMachineNormalizedMutation) SetOsName(s string) {
+func (m *InventoryMachineNormalizedMutation) SetOsName(s string) {
 	m.os_name = &s
 }
 
 // OsName returns the value of the "os_name" field in the mutation.
-func (m *SilverMachineNormalizedMutation) OsName() (r string, exists bool) {
+func (m *InventoryMachineNormalizedMutation) OsName() (r string, exists bool) {
 	v := m.os_name
 	if v == nil {
 		return
@@ -2131,10 +2131,10 @@ func (m *SilverMachineNormalizedMutation) OsName() (r string, exists bool) {
 	return *v, true
 }
 
-// OldOsName returns the old "os_name" field's value of the SilverMachineNormalized entity.
-// If the SilverMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldOsName returns the old "os_name" field's value of the InventoryMachineNormalized entity.
+// If the InventoryMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineNormalizedMutation) OldOsName(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineNormalizedMutation) OldOsName(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldOsName is only allowed on UpdateOne operations")
 	}
@@ -2149,30 +2149,30 @@ func (m *SilverMachineNormalizedMutation) OldOsName(ctx context.Context) (v stri
 }
 
 // ClearOsName clears the value of the "os_name" field.
-func (m *SilverMachineNormalizedMutation) ClearOsName() {
+func (m *InventoryMachineNormalizedMutation) ClearOsName() {
 	m.os_name = nil
-	m.clearedFields[silvermachinenormalized.FieldOsName] = struct{}{}
+	m.clearedFields[inventorymachinenormalized.FieldOsName] = struct{}{}
 }
 
 // OsNameCleared returns if the "os_name" field was cleared in this mutation.
-func (m *SilverMachineNormalizedMutation) OsNameCleared() bool {
-	_, ok := m.clearedFields[silvermachinenormalized.FieldOsName]
+func (m *InventoryMachineNormalizedMutation) OsNameCleared() bool {
+	_, ok := m.clearedFields[inventorymachinenormalized.FieldOsName]
 	return ok
 }
 
 // ResetOsName resets all changes to the "os_name" field.
-func (m *SilverMachineNormalizedMutation) ResetOsName() {
+func (m *InventoryMachineNormalizedMutation) ResetOsName() {
 	m.os_name = nil
-	delete(m.clearedFields, silvermachinenormalized.FieldOsName)
+	delete(m.clearedFields, inventorymachinenormalized.FieldOsName)
 }
 
 // SetStatus sets the "status" field.
-func (m *SilverMachineNormalizedMutation) SetStatus(s string) {
+func (m *InventoryMachineNormalizedMutation) SetStatus(s string) {
 	m.status = &s
 }
 
 // Status returns the value of the "status" field in the mutation.
-func (m *SilverMachineNormalizedMutation) Status() (r string, exists bool) {
+func (m *InventoryMachineNormalizedMutation) Status() (r string, exists bool) {
 	v := m.status
 	if v == nil {
 		return
@@ -2180,10 +2180,10 @@ func (m *SilverMachineNormalizedMutation) Status() (r string, exists bool) {
 	return *v, true
 }
 
-// OldStatus returns the old "status" field's value of the SilverMachineNormalized entity.
-// If the SilverMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldStatus returns the old "status" field's value of the InventoryMachineNormalized entity.
+// If the InventoryMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineNormalizedMutation) OldStatus(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineNormalizedMutation) OldStatus(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
 	}
@@ -2198,17 +2198,17 @@ func (m *SilverMachineNormalizedMutation) OldStatus(ctx context.Context) (v stri
 }
 
 // ResetStatus resets all changes to the "status" field.
-func (m *SilverMachineNormalizedMutation) ResetStatus() {
+func (m *InventoryMachineNormalizedMutation) ResetStatus() {
 	m.status = nil
 }
 
 // SetInternalIP sets the "internal_ip" field.
-func (m *SilverMachineNormalizedMutation) SetInternalIP(s string) {
+func (m *InventoryMachineNormalizedMutation) SetInternalIP(s string) {
 	m.internal_ip = &s
 }
 
 // InternalIP returns the value of the "internal_ip" field in the mutation.
-func (m *SilverMachineNormalizedMutation) InternalIP() (r string, exists bool) {
+func (m *InventoryMachineNormalizedMutation) InternalIP() (r string, exists bool) {
 	v := m.internal_ip
 	if v == nil {
 		return
@@ -2216,10 +2216,10 @@ func (m *SilverMachineNormalizedMutation) InternalIP() (r string, exists bool) {
 	return *v, true
 }
 
-// OldInternalIP returns the old "internal_ip" field's value of the SilverMachineNormalized entity.
-// If the SilverMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldInternalIP returns the old "internal_ip" field's value of the InventoryMachineNormalized entity.
+// If the InventoryMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineNormalizedMutation) OldInternalIP(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineNormalizedMutation) OldInternalIP(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldInternalIP is only allowed on UpdateOne operations")
 	}
@@ -2234,30 +2234,30 @@ func (m *SilverMachineNormalizedMutation) OldInternalIP(ctx context.Context) (v 
 }
 
 // ClearInternalIP clears the value of the "internal_ip" field.
-func (m *SilverMachineNormalizedMutation) ClearInternalIP() {
+func (m *InventoryMachineNormalizedMutation) ClearInternalIP() {
 	m.internal_ip = nil
-	m.clearedFields[silvermachinenormalized.FieldInternalIP] = struct{}{}
+	m.clearedFields[inventorymachinenormalized.FieldInternalIP] = struct{}{}
 }
 
 // InternalIPCleared returns if the "internal_ip" field was cleared in this mutation.
-func (m *SilverMachineNormalizedMutation) InternalIPCleared() bool {
-	_, ok := m.clearedFields[silvermachinenormalized.FieldInternalIP]
+func (m *InventoryMachineNormalizedMutation) InternalIPCleared() bool {
+	_, ok := m.clearedFields[inventorymachinenormalized.FieldInternalIP]
 	return ok
 }
 
 // ResetInternalIP resets all changes to the "internal_ip" field.
-func (m *SilverMachineNormalizedMutation) ResetInternalIP() {
+func (m *InventoryMachineNormalizedMutation) ResetInternalIP() {
 	m.internal_ip = nil
-	delete(m.clearedFields, silvermachinenormalized.FieldInternalIP)
+	delete(m.clearedFields, inventorymachinenormalized.FieldInternalIP)
 }
 
 // SetExternalIP sets the "external_ip" field.
-func (m *SilverMachineNormalizedMutation) SetExternalIP(s string) {
+func (m *InventoryMachineNormalizedMutation) SetExternalIP(s string) {
 	m.external_ip = &s
 }
 
 // ExternalIP returns the value of the "external_ip" field in the mutation.
-func (m *SilverMachineNormalizedMutation) ExternalIP() (r string, exists bool) {
+func (m *InventoryMachineNormalizedMutation) ExternalIP() (r string, exists bool) {
 	v := m.external_ip
 	if v == nil {
 		return
@@ -2265,10 +2265,10 @@ func (m *SilverMachineNormalizedMutation) ExternalIP() (r string, exists bool) {
 	return *v, true
 }
 
-// OldExternalIP returns the old "external_ip" field's value of the SilverMachineNormalized entity.
-// If the SilverMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldExternalIP returns the old "external_ip" field's value of the InventoryMachineNormalized entity.
+// If the InventoryMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineNormalizedMutation) OldExternalIP(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineNormalizedMutation) OldExternalIP(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldExternalIP is only allowed on UpdateOne operations")
 	}
@@ -2283,30 +2283,30 @@ func (m *SilverMachineNormalizedMutation) OldExternalIP(ctx context.Context) (v 
 }
 
 // ClearExternalIP clears the value of the "external_ip" field.
-func (m *SilverMachineNormalizedMutation) ClearExternalIP() {
+func (m *InventoryMachineNormalizedMutation) ClearExternalIP() {
 	m.external_ip = nil
-	m.clearedFields[silvermachinenormalized.FieldExternalIP] = struct{}{}
+	m.clearedFields[inventorymachinenormalized.FieldExternalIP] = struct{}{}
 }
 
 // ExternalIPCleared returns if the "external_ip" field was cleared in this mutation.
-func (m *SilverMachineNormalizedMutation) ExternalIPCleared() bool {
-	_, ok := m.clearedFields[silvermachinenormalized.FieldExternalIP]
+func (m *InventoryMachineNormalizedMutation) ExternalIPCleared() bool {
+	_, ok := m.clearedFields[inventorymachinenormalized.FieldExternalIP]
 	return ok
 }
 
 // ResetExternalIP resets all changes to the "external_ip" field.
-func (m *SilverMachineNormalizedMutation) ResetExternalIP() {
+func (m *InventoryMachineNormalizedMutation) ResetExternalIP() {
 	m.external_ip = nil
-	delete(m.clearedFields, silvermachinenormalized.FieldExternalIP)
+	delete(m.clearedFields, inventorymachinenormalized.FieldExternalIP)
 }
 
 // SetEnvironment sets the "environment" field.
-func (m *SilverMachineNormalizedMutation) SetEnvironment(s string) {
+func (m *InventoryMachineNormalizedMutation) SetEnvironment(s string) {
 	m.environment = &s
 }
 
 // Environment returns the value of the "environment" field in the mutation.
-func (m *SilverMachineNormalizedMutation) Environment() (r string, exists bool) {
+func (m *InventoryMachineNormalizedMutation) Environment() (r string, exists bool) {
 	v := m.environment
 	if v == nil {
 		return
@@ -2314,10 +2314,10 @@ func (m *SilverMachineNormalizedMutation) Environment() (r string, exists bool) 
 	return *v, true
 }
 
-// OldEnvironment returns the old "environment" field's value of the SilverMachineNormalized entity.
-// If the SilverMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldEnvironment returns the old "environment" field's value of the InventoryMachineNormalized entity.
+// If the InventoryMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineNormalizedMutation) OldEnvironment(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineNormalizedMutation) OldEnvironment(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldEnvironment is only allowed on UpdateOne operations")
 	}
@@ -2332,30 +2332,30 @@ func (m *SilverMachineNormalizedMutation) OldEnvironment(ctx context.Context) (v
 }
 
 // ClearEnvironment clears the value of the "environment" field.
-func (m *SilverMachineNormalizedMutation) ClearEnvironment() {
+func (m *InventoryMachineNormalizedMutation) ClearEnvironment() {
 	m.environment = nil
-	m.clearedFields[silvermachinenormalized.FieldEnvironment] = struct{}{}
+	m.clearedFields[inventorymachinenormalized.FieldEnvironment] = struct{}{}
 }
 
 // EnvironmentCleared returns if the "environment" field was cleared in this mutation.
-func (m *SilverMachineNormalizedMutation) EnvironmentCleared() bool {
-	_, ok := m.clearedFields[silvermachinenormalized.FieldEnvironment]
+func (m *InventoryMachineNormalizedMutation) EnvironmentCleared() bool {
+	_, ok := m.clearedFields[inventorymachinenormalized.FieldEnvironment]
 	return ok
 }
 
 // ResetEnvironment resets all changes to the "environment" field.
-func (m *SilverMachineNormalizedMutation) ResetEnvironment() {
+func (m *InventoryMachineNormalizedMutation) ResetEnvironment() {
 	m.environment = nil
-	delete(m.clearedFields, silvermachinenormalized.FieldEnvironment)
+	delete(m.clearedFields, inventorymachinenormalized.FieldEnvironment)
 }
 
 // SetCloudProject sets the "cloud_project" field.
-func (m *SilverMachineNormalizedMutation) SetCloudProject(s string) {
+func (m *InventoryMachineNormalizedMutation) SetCloudProject(s string) {
 	m.cloud_project = &s
 }
 
 // CloudProject returns the value of the "cloud_project" field in the mutation.
-func (m *SilverMachineNormalizedMutation) CloudProject() (r string, exists bool) {
+func (m *InventoryMachineNormalizedMutation) CloudProject() (r string, exists bool) {
 	v := m.cloud_project
 	if v == nil {
 		return
@@ -2363,10 +2363,10 @@ func (m *SilverMachineNormalizedMutation) CloudProject() (r string, exists bool)
 	return *v, true
 }
 
-// OldCloudProject returns the old "cloud_project" field's value of the SilverMachineNormalized entity.
-// If the SilverMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldCloudProject returns the old "cloud_project" field's value of the InventoryMachineNormalized entity.
+// If the InventoryMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineNormalizedMutation) OldCloudProject(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineNormalizedMutation) OldCloudProject(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCloudProject is only allowed on UpdateOne operations")
 	}
@@ -2381,30 +2381,30 @@ func (m *SilverMachineNormalizedMutation) OldCloudProject(ctx context.Context) (
 }
 
 // ClearCloudProject clears the value of the "cloud_project" field.
-func (m *SilverMachineNormalizedMutation) ClearCloudProject() {
+func (m *InventoryMachineNormalizedMutation) ClearCloudProject() {
 	m.cloud_project = nil
-	m.clearedFields[silvermachinenormalized.FieldCloudProject] = struct{}{}
+	m.clearedFields[inventorymachinenormalized.FieldCloudProject] = struct{}{}
 }
 
 // CloudProjectCleared returns if the "cloud_project" field was cleared in this mutation.
-func (m *SilverMachineNormalizedMutation) CloudProjectCleared() bool {
-	_, ok := m.clearedFields[silvermachinenormalized.FieldCloudProject]
+func (m *InventoryMachineNormalizedMutation) CloudProjectCleared() bool {
+	_, ok := m.clearedFields[inventorymachinenormalized.FieldCloudProject]
 	return ok
 }
 
 // ResetCloudProject resets all changes to the "cloud_project" field.
-func (m *SilverMachineNormalizedMutation) ResetCloudProject() {
+func (m *InventoryMachineNormalizedMutation) ResetCloudProject() {
 	m.cloud_project = nil
-	delete(m.clearedFields, silvermachinenormalized.FieldCloudProject)
+	delete(m.clearedFields, inventorymachinenormalized.FieldCloudProject)
 }
 
 // SetCloudZone sets the "cloud_zone" field.
-func (m *SilverMachineNormalizedMutation) SetCloudZone(s string) {
+func (m *InventoryMachineNormalizedMutation) SetCloudZone(s string) {
 	m.cloud_zone = &s
 }
 
 // CloudZone returns the value of the "cloud_zone" field in the mutation.
-func (m *SilverMachineNormalizedMutation) CloudZone() (r string, exists bool) {
+func (m *InventoryMachineNormalizedMutation) CloudZone() (r string, exists bool) {
 	v := m.cloud_zone
 	if v == nil {
 		return
@@ -2412,10 +2412,10 @@ func (m *SilverMachineNormalizedMutation) CloudZone() (r string, exists bool) {
 	return *v, true
 }
 
-// OldCloudZone returns the old "cloud_zone" field's value of the SilverMachineNormalized entity.
-// If the SilverMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldCloudZone returns the old "cloud_zone" field's value of the InventoryMachineNormalized entity.
+// If the InventoryMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineNormalizedMutation) OldCloudZone(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineNormalizedMutation) OldCloudZone(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCloudZone is only allowed on UpdateOne operations")
 	}
@@ -2430,30 +2430,30 @@ func (m *SilverMachineNormalizedMutation) OldCloudZone(ctx context.Context) (v s
 }
 
 // ClearCloudZone clears the value of the "cloud_zone" field.
-func (m *SilverMachineNormalizedMutation) ClearCloudZone() {
+func (m *InventoryMachineNormalizedMutation) ClearCloudZone() {
 	m.cloud_zone = nil
-	m.clearedFields[silvermachinenormalized.FieldCloudZone] = struct{}{}
+	m.clearedFields[inventorymachinenormalized.FieldCloudZone] = struct{}{}
 }
 
 // CloudZoneCleared returns if the "cloud_zone" field was cleared in this mutation.
-func (m *SilverMachineNormalizedMutation) CloudZoneCleared() bool {
-	_, ok := m.clearedFields[silvermachinenormalized.FieldCloudZone]
+func (m *InventoryMachineNormalizedMutation) CloudZoneCleared() bool {
+	_, ok := m.clearedFields[inventorymachinenormalized.FieldCloudZone]
 	return ok
 }
 
 // ResetCloudZone resets all changes to the "cloud_zone" field.
-func (m *SilverMachineNormalizedMutation) ResetCloudZone() {
+func (m *InventoryMachineNormalizedMutation) ResetCloudZone() {
 	m.cloud_zone = nil
-	delete(m.clearedFields, silvermachinenormalized.FieldCloudZone)
+	delete(m.clearedFields, inventorymachinenormalized.FieldCloudZone)
 }
 
 // SetCloudMachineType sets the "cloud_machine_type" field.
-func (m *SilverMachineNormalizedMutation) SetCloudMachineType(s string) {
+func (m *InventoryMachineNormalizedMutation) SetCloudMachineType(s string) {
 	m.cloud_machine_type = &s
 }
 
 // CloudMachineType returns the value of the "cloud_machine_type" field in the mutation.
-func (m *SilverMachineNormalizedMutation) CloudMachineType() (r string, exists bool) {
+func (m *InventoryMachineNormalizedMutation) CloudMachineType() (r string, exists bool) {
 	v := m.cloud_machine_type
 	if v == nil {
 		return
@@ -2461,10 +2461,10 @@ func (m *SilverMachineNormalizedMutation) CloudMachineType() (r string, exists b
 	return *v, true
 }
 
-// OldCloudMachineType returns the old "cloud_machine_type" field's value of the SilverMachineNormalized entity.
-// If the SilverMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldCloudMachineType returns the old "cloud_machine_type" field's value of the InventoryMachineNormalized entity.
+// If the InventoryMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineNormalizedMutation) OldCloudMachineType(ctx context.Context) (v string, err error) {
+func (m *InventoryMachineNormalizedMutation) OldCloudMachineType(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCloudMachineType is only allowed on UpdateOne operations")
 	}
@@ -2479,30 +2479,30 @@ func (m *SilverMachineNormalizedMutation) OldCloudMachineType(ctx context.Contex
 }
 
 // ClearCloudMachineType clears the value of the "cloud_machine_type" field.
-func (m *SilverMachineNormalizedMutation) ClearCloudMachineType() {
+func (m *InventoryMachineNormalizedMutation) ClearCloudMachineType() {
 	m.cloud_machine_type = nil
-	m.clearedFields[silvermachinenormalized.FieldCloudMachineType] = struct{}{}
+	m.clearedFields[inventorymachinenormalized.FieldCloudMachineType] = struct{}{}
 }
 
 // CloudMachineTypeCleared returns if the "cloud_machine_type" field was cleared in this mutation.
-func (m *SilverMachineNormalizedMutation) CloudMachineTypeCleared() bool {
-	_, ok := m.clearedFields[silvermachinenormalized.FieldCloudMachineType]
+func (m *InventoryMachineNormalizedMutation) CloudMachineTypeCleared() bool {
+	_, ok := m.clearedFields[inventorymachinenormalized.FieldCloudMachineType]
 	return ok
 }
 
 // ResetCloudMachineType resets all changes to the "cloud_machine_type" field.
-func (m *SilverMachineNormalizedMutation) ResetCloudMachineType() {
+func (m *InventoryMachineNormalizedMutation) ResetCloudMachineType() {
 	m.cloud_machine_type = nil
-	delete(m.clearedFields, silvermachinenormalized.FieldCloudMachineType)
+	delete(m.clearedFields, inventorymachinenormalized.FieldCloudMachineType)
 }
 
 // SetMergeKeysJSON sets the "merge_keys_json" field.
-func (m *SilverMachineNormalizedMutation) SetMergeKeysJSON(value map[string][]string) {
+func (m *InventoryMachineNormalizedMutation) SetMergeKeysJSON(value map[string][]string) {
 	m.merge_keys_json = &value
 }
 
 // MergeKeysJSON returns the value of the "merge_keys_json" field in the mutation.
-func (m *SilverMachineNormalizedMutation) MergeKeysJSON() (r map[string][]string, exists bool) {
+func (m *InventoryMachineNormalizedMutation) MergeKeysJSON() (r map[string][]string, exists bool) {
 	v := m.merge_keys_json
 	if v == nil {
 		return
@@ -2510,10 +2510,10 @@ func (m *SilverMachineNormalizedMutation) MergeKeysJSON() (r map[string][]string
 	return *v, true
 }
 
-// OldMergeKeysJSON returns the old "merge_keys_json" field's value of the SilverMachineNormalized entity.
-// If the SilverMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldMergeKeysJSON returns the old "merge_keys_json" field's value of the InventoryMachineNormalized entity.
+// If the InventoryMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineNormalizedMutation) OldMergeKeysJSON(ctx context.Context) (v map[string][]string, err error) {
+func (m *InventoryMachineNormalizedMutation) OldMergeKeysJSON(ctx context.Context) (v map[string][]string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldMergeKeysJSON is only allowed on UpdateOne operations")
 	}
@@ -2528,17 +2528,17 @@ func (m *SilverMachineNormalizedMutation) OldMergeKeysJSON(ctx context.Context) 
 }
 
 // ResetMergeKeysJSON resets all changes to the "merge_keys_json" field.
-func (m *SilverMachineNormalizedMutation) ResetMergeKeysJSON() {
+func (m *InventoryMachineNormalizedMutation) ResetMergeKeysJSON() {
 	m.merge_keys_json = nil
 }
 
 // SetCollectedAt sets the "collected_at" field.
-func (m *SilverMachineNormalizedMutation) SetCollectedAt(t time.Time) {
+func (m *InventoryMachineNormalizedMutation) SetCollectedAt(t time.Time) {
 	m.collected_at = &t
 }
 
 // CollectedAt returns the value of the "collected_at" field in the mutation.
-func (m *SilverMachineNormalizedMutation) CollectedAt() (r time.Time, exists bool) {
+func (m *InventoryMachineNormalizedMutation) CollectedAt() (r time.Time, exists bool) {
 	v := m.collected_at
 	if v == nil {
 		return
@@ -2546,10 +2546,10 @@ func (m *SilverMachineNormalizedMutation) CollectedAt() (r time.Time, exists boo
 	return *v, true
 }
 
-// OldCollectedAt returns the old "collected_at" field's value of the SilverMachineNormalized entity.
-// If the SilverMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldCollectedAt returns the old "collected_at" field's value of the InventoryMachineNormalized entity.
+// If the InventoryMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineNormalizedMutation) OldCollectedAt(ctx context.Context) (v time.Time, err error) {
+func (m *InventoryMachineNormalizedMutation) OldCollectedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCollectedAt is only allowed on UpdateOne operations")
 	}
@@ -2564,17 +2564,17 @@ func (m *SilverMachineNormalizedMutation) OldCollectedAt(ctx context.Context) (v
 }
 
 // ResetCollectedAt resets all changes to the "collected_at" field.
-func (m *SilverMachineNormalizedMutation) ResetCollectedAt() {
+func (m *InventoryMachineNormalizedMutation) ResetCollectedAt() {
 	m.collected_at = nil
 }
 
 // SetFirstCollectedAt sets the "first_collected_at" field.
-func (m *SilverMachineNormalizedMutation) SetFirstCollectedAt(t time.Time) {
+func (m *InventoryMachineNormalizedMutation) SetFirstCollectedAt(t time.Time) {
 	m.first_collected_at = &t
 }
 
 // FirstCollectedAt returns the value of the "first_collected_at" field in the mutation.
-func (m *SilverMachineNormalizedMutation) FirstCollectedAt() (r time.Time, exists bool) {
+func (m *InventoryMachineNormalizedMutation) FirstCollectedAt() (r time.Time, exists bool) {
 	v := m.first_collected_at
 	if v == nil {
 		return
@@ -2582,10 +2582,10 @@ func (m *SilverMachineNormalizedMutation) FirstCollectedAt() (r time.Time, exist
 	return *v, true
 }
 
-// OldFirstCollectedAt returns the old "first_collected_at" field's value of the SilverMachineNormalized entity.
-// If the SilverMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldFirstCollectedAt returns the old "first_collected_at" field's value of the InventoryMachineNormalized entity.
+// If the InventoryMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineNormalizedMutation) OldFirstCollectedAt(ctx context.Context) (v time.Time, err error) {
+func (m *InventoryMachineNormalizedMutation) OldFirstCollectedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldFirstCollectedAt is only allowed on UpdateOne operations")
 	}
@@ -2600,17 +2600,17 @@ func (m *SilverMachineNormalizedMutation) OldFirstCollectedAt(ctx context.Contex
 }
 
 // ResetFirstCollectedAt resets all changes to the "first_collected_at" field.
-func (m *SilverMachineNormalizedMutation) ResetFirstCollectedAt() {
+func (m *InventoryMachineNormalizedMutation) ResetFirstCollectedAt() {
 	m.first_collected_at = nil
 }
 
 // SetNormalizedAt sets the "normalized_at" field.
-func (m *SilverMachineNormalizedMutation) SetNormalizedAt(t time.Time) {
+func (m *InventoryMachineNormalizedMutation) SetNormalizedAt(t time.Time) {
 	m.normalized_at = &t
 }
 
 // NormalizedAt returns the value of the "normalized_at" field in the mutation.
-func (m *SilverMachineNormalizedMutation) NormalizedAt() (r time.Time, exists bool) {
+func (m *InventoryMachineNormalizedMutation) NormalizedAt() (r time.Time, exists bool) {
 	v := m.normalized_at
 	if v == nil {
 		return
@@ -2618,10 +2618,10 @@ func (m *SilverMachineNormalizedMutation) NormalizedAt() (r time.Time, exists bo
 	return *v, true
 }
 
-// OldNormalizedAt returns the old "normalized_at" field's value of the SilverMachineNormalized entity.
-// If the SilverMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
+// OldNormalizedAt returns the old "normalized_at" field's value of the InventoryMachineNormalized entity.
+// If the InventoryMachineNormalized object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SilverMachineNormalizedMutation) OldNormalizedAt(ctx context.Context) (v time.Time, err error) {
+func (m *InventoryMachineNormalizedMutation) OldNormalizedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldNormalizedAt is only allowed on UpdateOne operations")
 	}
@@ -2636,19 +2636,19 @@ func (m *SilverMachineNormalizedMutation) OldNormalizedAt(ctx context.Context) (
 }
 
 // ResetNormalizedAt resets all changes to the "normalized_at" field.
-func (m *SilverMachineNormalizedMutation) ResetNormalizedAt() {
+func (m *InventoryMachineNormalizedMutation) ResetNormalizedAt() {
 	m.normalized_at = nil
 }
 
-// Where appends a list predicates to the SilverMachineNormalizedMutation builder.
-func (m *SilverMachineNormalizedMutation) Where(ps ...predicate.SilverMachineNormalized) {
+// Where appends a list predicates to the InventoryMachineNormalizedMutation builder.
+func (m *InventoryMachineNormalizedMutation) Where(ps ...predicate.InventoryMachineNormalized) {
 	m.predicates = append(m.predicates, ps...)
 }
 
-// WhereP appends storage-level predicates to the SilverMachineNormalizedMutation builder. Using this method,
+// WhereP appends storage-level predicates to the InventoryMachineNormalizedMutation builder. Using this method,
 // users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *SilverMachineNormalizedMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.SilverMachineNormalized, len(ps))
+func (m *InventoryMachineNormalizedMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.InventoryMachineNormalized, len(ps))
 	for i := range ps {
 		p[i] = ps[i]
 	}
@@ -2656,78 +2656,78 @@ func (m *SilverMachineNormalizedMutation) WhereP(ps ...func(*sql.Selector)) {
 }
 
 // Op returns the operation name.
-func (m *SilverMachineNormalizedMutation) Op() Op {
+func (m *InventoryMachineNormalizedMutation) Op() Op {
 	return m.op
 }
 
 // SetOp allows setting the mutation operation.
-func (m *SilverMachineNormalizedMutation) SetOp(op Op) {
+func (m *InventoryMachineNormalizedMutation) SetOp(op Op) {
 	m.op = op
 }
 
-// Type returns the node type of this mutation (SilverMachineNormalized).
-func (m *SilverMachineNormalizedMutation) Type() string {
+// Type returns the node type of this mutation (InventoryMachineNormalized).
+func (m *InventoryMachineNormalizedMutation) Type() string {
 	return m.typ
 }
 
 // Fields returns all fields that were changed during this mutation. Note that in
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
-func (m *SilverMachineNormalizedMutation) Fields() []string {
+func (m *InventoryMachineNormalizedMutation) Fields() []string {
 	fields := make([]string, 0, 18)
 	if m.provider != nil {
-		fields = append(fields, silvermachinenormalized.FieldProvider)
+		fields = append(fields, inventorymachinenormalized.FieldProvider)
 	}
 	if m.is_base != nil {
-		fields = append(fields, silvermachinenormalized.FieldIsBase)
+		fields = append(fields, inventorymachinenormalized.FieldIsBase)
 	}
 	if m.bronze_table != nil {
-		fields = append(fields, silvermachinenormalized.FieldBronzeTable)
+		fields = append(fields, inventorymachinenormalized.FieldBronzeTable)
 	}
 	if m.bronze_resource_id != nil {
-		fields = append(fields, silvermachinenormalized.FieldBronzeResourceID)
+		fields = append(fields, inventorymachinenormalized.FieldBronzeResourceID)
 	}
 	if m.hostname != nil {
-		fields = append(fields, silvermachinenormalized.FieldHostname)
+		fields = append(fields, inventorymachinenormalized.FieldHostname)
 	}
 	if m.os_type != nil {
-		fields = append(fields, silvermachinenormalized.FieldOsType)
+		fields = append(fields, inventorymachinenormalized.FieldOsType)
 	}
 	if m.os_name != nil {
-		fields = append(fields, silvermachinenormalized.FieldOsName)
+		fields = append(fields, inventorymachinenormalized.FieldOsName)
 	}
 	if m.status != nil {
-		fields = append(fields, silvermachinenormalized.FieldStatus)
+		fields = append(fields, inventorymachinenormalized.FieldStatus)
 	}
 	if m.internal_ip != nil {
-		fields = append(fields, silvermachinenormalized.FieldInternalIP)
+		fields = append(fields, inventorymachinenormalized.FieldInternalIP)
 	}
 	if m.external_ip != nil {
-		fields = append(fields, silvermachinenormalized.FieldExternalIP)
+		fields = append(fields, inventorymachinenormalized.FieldExternalIP)
 	}
 	if m.environment != nil {
-		fields = append(fields, silvermachinenormalized.FieldEnvironment)
+		fields = append(fields, inventorymachinenormalized.FieldEnvironment)
 	}
 	if m.cloud_project != nil {
-		fields = append(fields, silvermachinenormalized.FieldCloudProject)
+		fields = append(fields, inventorymachinenormalized.FieldCloudProject)
 	}
 	if m.cloud_zone != nil {
-		fields = append(fields, silvermachinenormalized.FieldCloudZone)
+		fields = append(fields, inventorymachinenormalized.FieldCloudZone)
 	}
 	if m.cloud_machine_type != nil {
-		fields = append(fields, silvermachinenormalized.FieldCloudMachineType)
+		fields = append(fields, inventorymachinenormalized.FieldCloudMachineType)
 	}
 	if m.merge_keys_json != nil {
-		fields = append(fields, silvermachinenormalized.FieldMergeKeysJSON)
+		fields = append(fields, inventorymachinenormalized.FieldMergeKeysJSON)
 	}
 	if m.collected_at != nil {
-		fields = append(fields, silvermachinenormalized.FieldCollectedAt)
+		fields = append(fields, inventorymachinenormalized.FieldCollectedAt)
 	}
 	if m.first_collected_at != nil {
-		fields = append(fields, silvermachinenormalized.FieldFirstCollectedAt)
+		fields = append(fields, inventorymachinenormalized.FieldFirstCollectedAt)
 	}
 	if m.normalized_at != nil {
-		fields = append(fields, silvermachinenormalized.FieldNormalizedAt)
+		fields = append(fields, inventorymachinenormalized.FieldNormalizedAt)
 	}
 	return fields
 }
@@ -2735,43 +2735,43 @@ func (m *SilverMachineNormalizedMutation) Fields() []string {
 // Field returns the value of a field with the given name. The second boolean
 // return value indicates that this field was not set, or was not defined in the
 // schema.
-func (m *SilverMachineNormalizedMutation) Field(name string) (ent.Value, bool) {
+func (m *InventoryMachineNormalizedMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case silvermachinenormalized.FieldProvider:
+	case inventorymachinenormalized.FieldProvider:
 		return m.Provider()
-	case silvermachinenormalized.FieldIsBase:
+	case inventorymachinenormalized.FieldIsBase:
 		return m.IsBase()
-	case silvermachinenormalized.FieldBronzeTable:
+	case inventorymachinenormalized.FieldBronzeTable:
 		return m.BronzeTable()
-	case silvermachinenormalized.FieldBronzeResourceID:
+	case inventorymachinenormalized.FieldBronzeResourceID:
 		return m.BronzeResourceID()
-	case silvermachinenormalized.FieldHostname:
+	case inventorymachinenormalized.FieldHostname:
 		return m.Hostname()
-	case silvermachinenormalized.FieldOsType:
+	case inventorymachinenormalized.FieldOsType:
 		return m.OsType()
-	case silvermachinenormalized.FieldOsName:
+	case inventorymachinenormalized.FieldOsName:
 		return m.OsName()
-	case silvermachinenormalized.FieldStatus:
+	case inventorymachinenormalized.FieldStatus:
 		return m.Status()
-	case silvermachinenormalized.FieldInternalIP:
+	case inventorymachinenormalized.FieldInternalIP:
 		return m.InternalIP()
-	case silvermachinenormalized.FieldExternalIP:
+	case inventorymachinenormalized.FieldExternalIP:
 		return m.ExternalIP()
-	case silvermachinenormalized.FieldEnvironment:
+	case inventorymachinenormalized.FieldEnvironment:
 		return m.Environment()
-	case silvermachinenormalized.FieldCloudProject:
+	case inventorymachinenormalized.FieldCloudProject:
 		return m.CloudProject()
-	case silvermachinenormalized.FieldCloudZone:
+	case inventorymachinenormalized.FieldCloudZone:
 		return m.CloudZone()
-	case silvermachinenormalized.FieldCloudMachineType:
+	case inventorymachinenormalized.FieldCloudMachineType:
 		return m.CloudMachineType()
-	case silvermachinenormalized.FieldMergeKeysJSON:
+	case inventorymachinenormalized.FieldMergeKeysJSON:
 		return m.MergeKeysJSON()
-	case silvermachinenormalized.FieldCollectedAt:
+	case inventorymachinenormalized.FieldCollectedAt:
 		return m.CollectedAt()
-	case silvermachinenormalized.FieldFirstCollectedAt:
+	case inventorymachinenormalized.FieldFirstCollectedAt:
 		return m.FirstCollectedAt()
-	case silvermachinenormalized.FieldNormalizedAt:
+	case inventorymachinenormalized.FieldNormalizedAt:
 		return m.NormalizedAt()
 	}
 	return nil, false
@@ -2780,173 +2780,173 @@ func (m *SilverMachineNormalizedMutation) Field(name string) (ent.Value, bool) {
 // OldField returns the old value of the field from the database. An error is
 // returned if the mutation operation is not UpdateOne, or the query to the
 // database failed.
-func (m *SilverMachineNormalizedMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+func (m *InventoryMachineNormalizedMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case silvermachinenormalized.FieldProvider:
+	case inventorymachinenormalized.FieldProvider:
 		return m.OldProvider(ctx)
-	case silvermachinenormalized.FieldIsBase:
+	case inventorymachinenormalized.FieldIsBase:
 		return m.OldIsBase(ctx)
-	case silvermachinenormalized.FieldBronzeTable:
+	case inventorymachinenormalized.FieldBronzeTable:
 		return m.OldBronzeTable(ctx)
-	case silvermachinenormalized.FieldBronzeResourceID:
+	case inventorymachinenormalized.FieldBronzeResourceID:
 		return m.OldBronzeResourceID(ctx)
-	case silvermachinenormalized.FieldHostname:
+	case inventorymachinenormalized.FieldHostname:
 		return m.OldHostname(ctx)
-	case silvermachinenormalized.FieldOsType:
+	case inventorymachinenormalized.FieldOsType:
 		return m.OldOsType(ctx)
-	case silvermachinenormalized.FieldOsName:
+	case inventorymachinenormalized.FieldOsName:
 		return m.OldOsName(ctx)
-	case silvermachinenormalized.FieldStatus:
+	case inventorymachinenormalized.FieldStatus:
 		return m.OldStatus(ctx)
-	case silvermachinenormalized.FieldInternalIP:
+	case inventorymachinenormalized.FieldInternalIP:
 		return m.OldInternalIP(ctx)
-	case silvermachinenormalized.FieldExternalIP:
+	case inventorymachinenormalized.FieldExternalIP:
 		return m.OldExternalIP(ctx)
-	case silvermachinenormalized.FieldEnvironment:
+	case inventorymachinenormalized.FieldEnvironment:
 		return m.OldEnvironment(ctx)
-	case silvermachinenormalized.FieldCloudProject:
+	case inventorymachinenormalized.FieldCloudProject:
 		return m.OldCloudProject(ctx)
-	case silvermachinenormalized.FieldCloudZone:
+	case inventorymachinenormalized.FieldCloudZone:
 		return m.OldCloudZone(ctx)
-	case silvermachinenormalized.FieldCloudMachineType:
+	case inventorymachinenormalized.FieldCloudMachineType:
 		return m.OldCloudMachineType(ctx)
-	case silvermachinenormalized.FieldMergeKeysJSON:
+	case inventorymachinenormalized.FieldMergeKeysJSON:
 		return m.OldMergeKeysJSON(ctx)
-	case silvermachinenormalized.FieldCollectedAt:
+	case inventorymachinenormalized.FieldCollectedAt:
 		return m.OldCollectedAt(ctx)
-	case silvermachinenormalized.FieldFirstCollectedAt:
+	case inventorymachinenormalized.FieldFirstCollectedAt:
 		return m.OldFirstCollectedAt(ctx)
-	case silvermachinenormalized.FieldNormalizedAt:
+	case inventorymachinenormalized.FieldNormalizedAt:
 		return m.OldNormalizedAt(ctx)
 	}
-	return nil, fmt.Errorf("unknown SilverMachineNormalized field %s", name)
+	return nil, fmt.Errorf("unknown InventoryMachineNormalized field %s", name)
 }
 
 // SetField sets the value of a field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *SilverMachineNormalizedMutation) SetField(name string, value ent.Value) error {
+func (m *InventoryMachineNormalizedMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case silvermachinenormalized.FieldProvider:
+	case inventorymachinenormalized.FieldProvider:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetProvider(v)
 		return nil
-	case silvermachinenormalized.FieldIsBase:
+	case inventorymachinenormalized.FieldIsBase:
 		v, ok := value.(bool)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetIsBase(v)
 		return nil
-	case silvermachinenormalized.FieldBronzeTable:
+	case inventorymachinenormalized.FieldBronzeTable:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetBronzeTable(v)
 		return nil
-	case silvermachinenormalized.FieldBronzeResourceID:
+	case inventorymachinenormalized.FieldBronzeResourceID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetBronzeResourceID(v)
 		return nil
-	case silvermachinenormalized.FieldHostname:
+	case inventorymachinenormalized.FieldHostname:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetHostname(v)
 		return nil
-	case silvermachinenormalized.FieldOsType:
+	case inventorymachinenormalized.FieldOsType:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetOsType(v)
 		return nil
-	case silvermachinenormalized.FieldOsName:
+	case inventorymachinenormalized.FieldOsName:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetOsName(v)
 		return nil
-	case silvermachinenormalized.FieldStatus:
+	case inventorymachinenormalized.FieldStatus:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetStatus(v)
 		return nil
-	case silvermachinenormalized.FieldInternalIP:
+	case inventorymachinenormalized.FieldInternalIP:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetInternalIP(v)
 		return nil
-	case silvermachinenormalized.FieldExternalIP:
+	case inventorymachinenormalized.FieldExternalIP:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetExternalIP(v)
 		return nil
-	case silvermachinenormalized.FieldEnvironment:
+	case inventorymachinenormalized.FieldEnvironment:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetEnvironment(v)
 		return nil
-	case silvermachinenormalized.FieldCloudProject:
+	case inventorymachinenormalized.FieldCloudProject:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCloudProject(v)
 		return nil
-	case silvermachinenormalized.FieldCloudZone:
+	case inventorymachinenormalized.FieldCloudZone:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCloudZone(v)
 		return nil
-	case silvermachinenormalized.FieldCloudMachineType:
+	case inventorymachinenormalized.FieldCloudMachineType:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCloudMachineType(v)
 		return nil
-	case silvermachinenormalized.FieldMergeKeysJSON:
+	case inventorymachinenormalized.FieldMergeKeysJSON:
 		v, ok := value.(map[string][]string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetMergeKeysJSON(v)
 		return nil
-	case silvermachinenormalized.FieldCollectedAt:
+	case inventorymachinenormalized.FieldCollectedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCollectedAt(v)
 		return nil
-	case silvermachinenormalized.FieldFirstCollectedAt:
+	case inventorymachinenormalized.FieldFirstCollectedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetFirstCollectedAt(v)
 		return nil
-	case silvermachinenormalized.FieldNormalizedAt:
+	case inventorymachinenormalized.FieldNormalizedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
@@ -2954,213 +2954,213 @@ func (m *SilverMachineNormalizedMutation) SetField(name string, value ent.Value)
 		m.SetNormalizedAt(v)
 		return nil
 	}
-	return fmt.Errorf("unknown SilverMachineNormalized field %s", name)
+	return fmt.Errorf("unknown InventoryMachineNormalized field %s", name)
 }
 
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
-func (m *SilverMachineNormalizedMutation) AddedFields() []string {
+func (m *InventoryMachineNormalizedMutation) AddedFields() []string {
 	return nil
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
-func (m *SilverMachineNormalizedMutation) AddedField(name string) (ent.Value, bool) {
+func (m *InventoryMachineNormalizedMutation) AddedField(name string) (ent.Value, bool) {
 	return nil, false
 }
 
 // AddField adds the value to the field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *SilverMachineNormalizedMutation) AddField(name string, value ent.Value) error {
+func (m *InventoryMachineNormalizedMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	}
-	return fmt.Errorf("unknown SilverMachineNormalized numeric field %s", name)
+	return fmt.Errorf("unknown InventoryMachineNormalized numeric field %s", name)
 }
 
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
-func (m *SilverMachineNormalizedMutation) ClearedFields() []string {
+func (m *InventoryMachineNormalizedMutation) ClearedFields() []string {
 	var fields []string
-	if m.FieldCleared(silvermachinenormalized.FieldHostname) {
-		fields = append(fields, silvermachinenormalized.FieldHostname)
+	if m.FieldCleared(inventorymachinenormalized.FieldHostname) {
+		fields = append(fields, inventorymachinenormalized.FieldHostname)
 	}
-	if m.FieldCleared(silvermachinenormalized.FieldOsType) {
-		fields = append(fields, silvermachinenormalized.FieldOsType)
+	if m.FieldCleared(inventorymachinenormalized.FieldOsType) {
+		fields = append(fields, inventorymachinenormalized.FieldOsType)
 	}
-	if m.FieldCleared(silvermachinenormalized.FieldOsName) {
-		fields = append(fields, silvermachinenormalized.FieldOsName)
+	if m.FieldCleared(inventorymachinenormalized.FieldOsName) {
+		fields = append(fields, inventorymachinenormalized.FieldOsName)
 	}
-	if m.FieldCleared(silvermachinenormalized.FieldInternalIP) {
-		fields = append(fields, silvermachinenormalized.FieldInternalIP)
+	if m.FieldCleared(inventorymachinenormalized.FieldInternalIP) {
+		fields = append(fields, inventorymachinenormalized.FieldInternalIP)
 	}
-	if m.FieldCleared(silvermachinenormalized.FieldExternalIP) {
-		fields = append(fields, silvermachinenormalized.FieldExternalIP)
+	if m.FieldCleared(inventorymachinenormalized.FieldExternalIP) {
+		fields = append(fields, inventorymachinenormalized.FieldExternalIP)
 	}
-	if m.FieldCleared(silvermachinenormalized.FieldEnvironment) {
-		fields = append(fields, silvermachinenormalized.FieldEnvironment)
+	if m.FieldCleared(inventorymachinenormalized.FieldEnvironment) {
+		fields = append(fields, inventorymachinenormalized.FieldEnvironment)
 	}
-	if m.FieldCleared(silvermachinenormalized.FieldCloudProject) {
-		fields = append(fields, silvermachinenormalized.FieldCloudProject)
+	if m.FieldCleared(inventorymachinenormalized.FieldCloudProject) {
+		fields = append(fields, inventorymachinenormalized.FieldCloudProject)
 	}
-	if m.FieldCleared(silvermachinenormalized.FieldCloudZone) {
-		fields = append(fields, silvermachinenormalized.FieldCloudZone)
+	if m.FieldCleared(inventorymachinenormalized.FieldCloudZone) {
+		fields = append(fields, inventorymachinenormalized.FieldCloudZone)
 	}
-	if m.FieldCleared(silvermachinenormalized.FieldCloudMachineType) {
-		fields = append(fields, silvermachinenormalized.FieldCloudMachineType)
+	if m.FieldCleared(inventorymachinenormalized.FieldCloudMachineType) {
+		fields = append(fields, inventorymachinenormalized.FieldCloudMachineType)
 	}
 	return fields
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
 // cleared in this mutation.
-func (m *SilverMachineNormalizedMutation) FieldCleared(name string) bool {
+func (m *InventoryMachineNormalizedMutation) FieldCleared(name string) bool {
 	_, ok := m.clearedFields[name]
 	return ok
 }
 
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
-func (m *SilverMachineNormalizedMutation) ClearField(name string) error {
+func (m *InventoryMachineNormalizedMutation) ClearField(name string) error {
 	switch name {
-	case silvermachinenormalized.FieldHostname:
+	case inventorymachinenormalized.FieldHostname:
 		m.ClearHostname()
 		return nil
-	case silvermachinenormalized.FieldOsType:
+	case inventorymachinenormalized.FieldOsType:
 		m.ClearOsType()
 		return nil
-	case silvermachinenormalized.FieldOsName:
+	case inventorymachinenormalized.FieldOsName:
 		m.ClearOsName()
 		return nil
-	case silvermachinenormalized.FieldInternalIP:
+	case inventorymachinenormalized.FieldInternalIP:
 		m.ClearInternalIP()
 		return nil
-	case silvermachinenormalized.FieldExternalIP:
+	case inventorymachinenormalized.FieldExternalIP:
 		m.ClearExternalIP()
 		return nil
-	case silvermachinenormalized.FieldEnvironment:
+	case inventorymachinenormalized.FieldEnvironment:
 		m.ClearEnvironment()
 		return nil
-	case silvermachinenormalized.FieldCloudProject:
+	case inventorymachinenormalized.FieldCloudProject:
 		m.ClearCloudProject()
 		return nil
-	case silvermachinenormalized.FieldCloudZone:
+	case inventorymachinenormalized.FieldCloudZone:
 		m.ClearCloudZone()
 		return nil
-	case silvermachinenormalized.FieldCloudMachineType:
+	case inventorymachinenormalized.FieldCloudMachineType:
 		m.ClearCloudMachineType()
 		return nil
 	}
-	return fmt.Errorf("unknown SilverMachineNormalized nullable field %s", name)
+	return fmt.Errorf("unknown InventoryMachineNormalized nullable field %s", name)
 }
 
 // ResetField resets all changes in the mutation for the field with the given name.
 // It returns an error if the field is not defined in the schema.
-func (m *SilverMachineNormalizedMutation) ResetField(name string) error {
+func (m *InventoryMachineNormalizedMutation) ResetField(name string) error {
 	switch name {
-	case silvermachinenormalized.FieldProvider:
+	case inventorymachinenormalized.FieldProvider:
 		m.ResetProvider()
 		return nil
-	case silvermachinenormalized.FieldIsBase:
+	case inventorymachinenormalized.FieldIsBase:
 		m.ResetIsBase()
 		return nil
-	case silvermachinenormalized.FieldBronzeTable:
+	case inventorymachinenormalized.FieldBronzeTable:
 		m.ResetBronzeTable()
 		return nil
-	case silvermachinenormalized.FieldBronzeResourceID:
+	case inventorymachinenormalized.FieldBronzeResourceID:
 		m.ResetBronzeResourceID()
 		return nil
-	case silvermachinenormalized.FieldHostname:
+	case inventorymachinenormalized.FieldHostname:
 		m.ResetHostname()
 		return nil
-	case silvermachinenormalized.FieldOsType:
+	case inventorymachinenormalized.FieldOsType:
 		m.ResetOsType()
 		return nil
-	case silvermachinenormalized.FieldOsName:
+	case inventorymachinenormalized.FieldOsName:
 		m.ResetOsName()
 		return nil
-	case silvermachinenormalized.FieldStatus:
+	case inventorymachinenormalized.FieldStatus:
 		m.ResetStatus()
 		return nil
-	case silvermachinenormalized.FieldInternalIP:
+	case inventorymachinenormalized.FieldInternalIP:
 		m.ResetInternalIP()
 		return nil
-	case silvermachinenormalized.FieldExternalIP:
+	case inventorymachinenormalized.FieldExternalIP:
 		m.ResetExternalIP()
 		return nil
-	case silvermachinenormalized.FieldEnvironment:
+	case inventorymachinenormalized.FieldEnvironment:
 		m.ResetEnvironment()
 		return nil
-	case silvermachinenormalized.FieldCloudProject:
+	case inventorymachinenormalized.FieldCloudProject:
 		m.ResetCloudProject()
 		return nil
-	case silvermachinenormalized.FieldCloudZone:
+	case inventorymachinenormalized.FieldCloudZone:
 		m.ResetCloudZone()
 		return nil
-	case silvermachinenormalized.FieldCloudMachineType:
+	case inventorymachinenormalized.FieldCloudMachineType:
 		m.ResetCloudMachineType()
 		return nil
-	case silvermachinenormalized.FieldMergeKeysJSON:
+	case inventorymachinenormalized.FieldMergeKeysJSON:
 		m.ResetMergeKeysJSON()
 		return nil
-	case silvermachinenormalized.FieldCollectedAt:
+	case inventorymachinenormalized.FieldCollectedAt:
 		m.ResetCollectedAt()
 		return nil
-	case silvermachinenormalized.FieldFirstCollectedAt:
+	case inventorymachinenormalized.FieldFirstCollectedAt:
 		m.ResetFirstCollectedAt()
 		return nil
-	case silvermachinenormalized.FieldNormalizedAt:
+	case inventorymachinenormalized.FieldNormalizedAt:
 		m.ResetNormalizedAt()
 		return nil
 	}
-	return fmt.Errorf("unknown SilverMachineNormalized field %s", name)
+	return fmt.Errorf("unknown InventoryMachineNormalized field %s", name)
 }
 
 // AddedEdges returns all edge names that were set/added in this mutation.
-func (m *SilverMachineNormalizedMutation) AddedEdges() []string {
+func (m *InventoryMachineNormalizedMutation) AddedEdges() []string {
 	edges := make([]string, 0, 0)
 	return edges
 }
 
 // AddedIDs returns all IDs (to other nodes) that were added for the given edge
 // name in this mutation.
-func (m *SilverMachineNormalizedMutation) AddedIDs(name string) []ent.Value {
+func (m *InventoryMachineNormalizedMutation) AddedIDs(name string) []ent.Value {
 	return nil
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
-func (m *SilverMachineNormalizedMutation) RemovedEdges() []string {
+func (m *InventoryMachineNormalizedMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 0)
 	return edges
 }
 
 // RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
 // the given name in this mutation.
-func (m *SilverMachineNormalizedMutation) RemovedIDs(name string) []ent.Value {
+func (m *InventoryMachineNormalizedMutation) RemovedIDs(name string) []ent.Value {
 	return nil
 }
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *SilverMachineNormalizedMutation) ClearedEdges() []string {
+func (m *InventoryMachineNormalizedMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 0)
 	return edges
 }
 
 // EdgeCleared returns a boolean which indicates if the edge with the given name
 // was cleared in this mutation.
-func (m *SilverMachineNormalizedMutation) EdgeCleared(name string) bool {
+func (m *InventoryMachineNormalizedMutation) EdgeCleared(name string) bool {
 	return false
 }
 
 // ClearEdge clears the value of the edge with the given name. It returns an error
 // if that edge is not defined in the schema.
-func (m *SilverMachineNormalizedMutation) ClearEdge(name string) error {
-	return fmt.Errorf("unknown SilverMachineNormalized unique edge %s", name)
+func (m *InventoryMachineNormalizedMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown InventoryMachineNormalized unique edge %s", name)
 }
 
 // ResetEdge resets all changes to the edge with the given name in this mutation.
 // It returns an error if the edge is not defined in the schema.
-func (m *SilverMachineNormalizedMutation) ResetEdge(name string) error {
-	return fmt.Errorf("unknown SilverMachineNormalized edge %s", name)
+func (m *InventoryMachineNormalizedMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown InventoryMachineNormalized edge %s", name)
 }

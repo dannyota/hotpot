@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzegcpcontaineranalysisoccurrence"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/bronzegcpcontaineranalysisoccurrence"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis/predicate"
 )
 
 // BronzeGCPContainerAnalysisOccurrenceUpdate is the builder for updating BronzeGCPContainerAnalysisOccurrence entities.

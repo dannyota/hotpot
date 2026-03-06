@@ -3,7 +3,7 @@ package sslpolicy
 import (
 	"bytes"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // SslPolicyDiff represents changes between old and new SSL policy states.

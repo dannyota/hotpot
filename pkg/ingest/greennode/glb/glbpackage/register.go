@@ -4,9 +4,9 @@ import (
 	"danny.vn/greennode/auth"
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entglb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entglb "danny.vn/hotpot/pkg/storage/ent/greennode/glb"
 )
 
 // Register registers global package workflows and activities with the Temporal worker.

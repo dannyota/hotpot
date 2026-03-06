@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzehistorydofirewall"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzehistorydofirewall"
 )
 
 // BronzeHistoryDOFirewall is the model entity for the BronzeHistoryDOFirewall schema.

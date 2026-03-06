@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/logging"
 )
 
 // The BronzeGCPLoggingBucketFunc type is an adapter to allow the use of ordinary

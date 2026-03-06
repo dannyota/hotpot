@@ -3,7 +3,7 @@ package instance
 import (
 	"bytes"
 
-	entgcpsql "github.com/dannyota/hotpot/pkg/storage/ent/gcp/sql"
+	entgcpsql "danny.vn/hotpot/pkg/storage/ent/gcp/sql"
 )
 
 // InstanceDiff represents changes between old and new instance states.

@@ -1,7 +1,7 @@
 package source
 
 import (
-	entsecuritycenter "github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter"
+	entsecuritycenter "danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter"
 )
 
 // SourceDiff represents changes between old and new SCC source state.

@@ -3,7 +3,7 @@ package note
 import (
 	"bytes"
 
-	entcontaineranalysis "github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis"
+	entcontaineranalysis "danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis"
 )
 
 // NoteDiff represents changes between old and new Grafeas note state.

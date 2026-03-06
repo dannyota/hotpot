@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/run/bronzehistorygcprunservice"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/run/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/run/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/run/bronzehistorygcprunservice"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/run/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/run/predicate"
 )
 
 // BronzeHistoryGCPRunServiceUpdate is the builder for updating BronzeHistoryGCPRunService entities.

@@ -6,7 +6,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/ingest/vault/pki/certificate"
+	"danny.vn/hotpot/pkg/ingest/vault/pki/certificate"
 )
 
 // VaultPKIWorkflowParams contains parameters for the PKI workflow.

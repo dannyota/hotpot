@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_greennode_dns "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/dns"
-	bronzehistory_greennode_dns "github.com/dannyota/hotpot/pkg/schema/bronzehistory/greennode/dns"
+	bronze_greennode_dns "danny.vn/hotpot/pkg/schema/bronze/greennode/dns"
+	bronzehistory_greennode_dns "danny.vn/hotpot/pkg/schema/bronzehistory/greennode/dns"
 )
 
 type BronzeGreenNodeDNSHostedZone struct {

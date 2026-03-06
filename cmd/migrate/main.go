@@ -13,18 +13,18 @@ import (
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 
-	"github.com/dannyota/hotpot/deploy/migrations"
-	"github.com/dannyota/hotpot/internal/atlascfg"
-	"github.com/dannyota/hotpot/pkg/base/app"
-	"github.com/dannyota/hotpot/pkg/detect/lifecycle"
-	"github.com/dannyota/hotpot/pkg/migrate"
+	"danny.vn/hotpot/deploy/migrations"
+	"danny.vn/hotpot/internal/atlascfg"
+	"danny.vn/hotpot/pkg/base/app"
+	"danny.vn/hotpot/pkg/detect/lifecycle"
+	"danny.vn/hotpot/pkg/migrate"
 )
 
 // Bronze providers.
 var _ = migrate.ProviderSet("gcp", "greennode", "jenkins", "meec", "s1", "vault", "reference")
 
-// Silver providers.
-var _ = migrate.ProviderSet("installedsoftware", "k8snode", "machine")
+// Inventory providers.
+var _ = migrate.ProviderSet("k8snode", "machine", "software")
 
 // Gold providers.
 var _ = migrate.ProviderSet("lifecycle")

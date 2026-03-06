@@ -3,9 +3,9 @@ package topic
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entpubsub "github.com/dannyota/hotpot/pkg/storage/ent/gcp/pubsub"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entpubsub "danny.vn/hotpot/pkg/storage/ent/gcp/pubsub"
 )
 
 // Register registers all Pub/Sub topic activities and workflows.

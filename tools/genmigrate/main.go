@@ -18,8 +18,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/dannyota/hotpot/internal/atlascfg"
-	"github.com/dannyota/hotpot/pkg/base/app"
+	"danny.vn/hotpot/internal/atlascfg"
+	"danny.vn/hotpot/pkg/base/app"
 )
 
 func main() {

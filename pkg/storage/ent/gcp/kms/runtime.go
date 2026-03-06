@@ -3,11 +3,11 @@
 package kms
 
 import (
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms/bronzegcpkmscryptokey"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms/bronzegcpkmskeyring"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms/bronzehistorygcpkmscryptokey"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms/bronzehistorygcpkmskeyring"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms/schema"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/kms/bronzegcpkmscryptokey"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/kms/bronzegcpkmskeyring"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/kms/bronzehistorygcpkmscryptokey"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/kms/bronzehistorygcpkmskeyring"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/kms/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

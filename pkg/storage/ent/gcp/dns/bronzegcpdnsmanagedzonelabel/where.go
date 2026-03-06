@@ -5,8 +5,8 @@ package bronzegcpdnsmanagedzonelabel
 import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/predicate"
 )
 
 // ID filters vertices based on their ID field.

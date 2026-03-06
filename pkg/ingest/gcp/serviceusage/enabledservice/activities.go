@@ -8,10 +8,10 @@ import (
 	"google.golang.org/api/option"
 	"google.golang.org/grpc"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	entserviceusage "github.com/dannyota/hotpot/pkg/storage/ent/gcp/serviceusage"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	entserviceusage "danny.vn/hotpot/pkg/storage/ent/gcp/serviceusage"
 )
 
 // Activities holds dependencies for Temporal activities.

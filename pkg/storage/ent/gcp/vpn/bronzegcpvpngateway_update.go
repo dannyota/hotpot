@@ -13,10 +13,10 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpngateway"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpngatewaylabel"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpngateway"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/bronzegcpvpngatewaylabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/predicate"
 )
 
 // BronzeGCPVPNGatewayUpdate is the builder for updating BronzeGCPVPNGateway entities.

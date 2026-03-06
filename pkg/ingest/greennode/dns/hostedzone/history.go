@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entdns "github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzehistorygreennodednshostedzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/dns/bronzehistorygreennodednsrecord"
+	entdns "danny.vn/hotpot/pkg/storage/ent/greennode/dns"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/bronzehistorygreennodednshostedzone"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/dns/bronzehistorygreennodednsrecord"
 )
 
 // HistoryService handles history tracking for DNS hosted zones.

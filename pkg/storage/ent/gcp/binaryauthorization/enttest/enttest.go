@@ -5,12 +5,12 @@ package enttest
 import (
 	"context"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/binaryauthorization"
 	// required by schema hooks.
-	_ "github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization/runtime"
+	_ "danny.vn/hotpot/pkg/storage/ent/gcp/binaryauthorization/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/binaryauthorization/migrate"
 )
 
 type (

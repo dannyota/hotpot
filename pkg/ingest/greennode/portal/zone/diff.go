@@ -1,7 +1,7 @@
 package zone
 
 import (
-	entportal "github.com/dannyota/hotpot/pkg/storage/ent/greennode/portal"
+	entportal "danny.vn/hotpot/pkg/storage/ent/greennode/portal"
 )
 
 // ZoneDiff represents changes between old and new zone states.

@@ -6,9 +6,9 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/containeranalysis/note"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/containeranalysis/occurrence"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	"danny.vn/hotpot/pkg/ingest/gcp/containeranalysis/note"
+	"danny.vn/hotpot/pkg/ingest/gcp/containeranalysis/occurrence"
 )
 
 // GCPContainerAnalysisWorkflowParams contains parameters for the Container Analysis workflow.

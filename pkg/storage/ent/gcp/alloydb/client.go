@@ -9,15 +9,15 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/bronzegcpalloydbcluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/bronzehistorygcpalloydbcluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/bronzegcpalloydbcluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/bronzehistorygcpalloydbcluster"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/internal"
 )
 
 // Client is the client that holds all ent builders.

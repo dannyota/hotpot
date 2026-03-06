@@ -3,9 +3,9 @@ package instance
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	entfilestore "github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	entfilestore "danny.vn/hotpot/pkg/storage/ent/gcp/filestore"
 )
 
 // Register registers Filestore instance workflows and activities with the Temporal worker.

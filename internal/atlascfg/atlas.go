@@ -5,12 +5,12 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/config"
 )
 
 // LayerOrder defines the order in which migration layers are processed.
 // Bronze tables must exist before bronze_history tables can reference them.
-var LayerOrder = []string{"bronze", "bronzehistory", "silver", "gold"}
+var LayerOrder = []string{"bronze", "bronzehistory", "inventory", "gold"}
 
 // EnvName returns the Atlas environment name for a layer/provider pair.
 func EnvName(layer, provider string) string {
@@ -27,7 +27,7 @@ func RevisionsSchema(layer, provider string) string {
 var layerPGSchema = map[string]string{
 	"bronze":        "bronze",
 	"bronzehistory": "bronze_history",
-	"silver":        "silver",
+	"inventory":     "inventory",
 	"gold":          "gold",
 }
 

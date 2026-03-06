@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_run "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/run"
-	bronzehistory_gcp_run "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/run"
+	bronze_gcp_run "danny.vn/hotpot/pkg/schema/bronze/gcp/run"
+	bronzehistory_gcp_run "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/run"
 )
 
 type BronzeGCPRunRevision struct {

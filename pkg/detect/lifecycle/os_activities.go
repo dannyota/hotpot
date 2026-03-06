@@ -210,7 +210,7 @@ func (a *Activities) loadMachinesForOS(ctx context.Context) ([]machineForOS, err
 	rows, err := a.db.QueryContext(ctx, `
 		SELECT resource_id, COALESCE(hostname, ''), COALESCE(os_type, ''),
 		       COALESCE(os_name, '')
-		FROM silver.machines`)
+		FROM inventory.machines`)
 	if err != nil {
 		return nil, fmt.Errorf("query machines: %w", err)
 	}

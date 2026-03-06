@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbgloballistener"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzehistorygreennodeglbgloballistener"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/predicate"
 )
 
 // BronzeHistoryGreenNodeGLBGlobalListenerDelete is the builder for deleting a BronzeHistoryGreenNodeGLBGlobalListener entity.

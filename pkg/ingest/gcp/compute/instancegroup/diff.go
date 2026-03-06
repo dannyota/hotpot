@@ -1,7 +1,7 @@
 package instancegroup
 
 import (
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // InstanceGroupDiff represents changes between old and new instance group states.

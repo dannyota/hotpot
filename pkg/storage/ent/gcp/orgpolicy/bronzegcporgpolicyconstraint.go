@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzegcporgpolicyconstraint"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/orgpolicy/bronzegcporgpolicyconstraint"
 )
 
 // BronzeGCPOrgPolicyConstraint is the model entity for the BronzeGCPOrgPolicyConstraint schema.

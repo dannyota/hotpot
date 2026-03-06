@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/serviceusage/bronzegcpserviceusageenabledservice"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/serviceusage/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/serviceusage/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/serviceusage/bronzegcpserviceusageenabledservice"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/serviceusage/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/serviceusage/predicate"
 )
 
 // BronzeGCPServiceUsageEnabledServiceUpdate is the builder for updating BronzeGCPServiceUsageEnabledService entities.

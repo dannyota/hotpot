@@ -6,8 +6,8 @@ import (
 	"log/slog"
 	"time"
 
-	ents1 "github.com/dannyota/hotpot/pkg/storage/ent/s1"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzes1rangerdevice"
+	ents1 "danny.vn/hotpot/pkg/storage/ent/s1"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzes1rangerdevice"
 )
 
 // Service handles SentinelOne ranger device ingestion.

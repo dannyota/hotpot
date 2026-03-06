@@ -1,7 +1,7 @@
 package logexclusion
 
 import (
-	entlogging "github.com/dannyota/hotpot/pkg/storage/ent/gcp/logging"
+	entlogging "danny.vn/hotpot/pkg/storage/ent/gcp/logging"
 )
 
 // ExclusionDiff represents changes between old and new log exclusion states.

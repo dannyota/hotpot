@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeglobalforwardingrule"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputeglobalforwardingrule"
 )
 
 // BronzeHistoryGCPComputeGlobalForwardingRuleCreate is the builder for creating a BronzeHistoryGCPComputeGlobalForwardingRule entity.

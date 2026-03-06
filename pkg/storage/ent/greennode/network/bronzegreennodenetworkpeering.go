@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworkpeering"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzegreennodenetworkpeering"
 )
 
 // BronzeGreenNodeNetworkPeering is the model entity for the BronzeGreenNodeNetworkPeering schema.

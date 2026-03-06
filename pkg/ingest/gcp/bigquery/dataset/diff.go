@@ -3,7 +3,7 @@ package dataset
 import (
 	"bytes"
 
-	entbigquery "github.com/dannyota/hotpot/pkg/storage/ent/gcp/bigquery"
+	entbigquery "danny.vn/hotpot/pkg/storage/ent/gcp/bigquery"
 )
 
 // DatasetDiff represents changes between old and new BigQuery dataset state.

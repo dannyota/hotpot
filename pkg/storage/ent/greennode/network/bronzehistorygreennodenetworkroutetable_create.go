@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworkroutetable"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network/bronzehistorygreennodenetworkroutetable"
 )
 
 // BronzeHistoryGreenNodeNetworkRouteTableCreate is the builder for creating a BronzeHistoryGreenNodeNetworkRouteTable entity.

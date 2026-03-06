@@ -6,11 +6,11 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// SilverK8sNode is the predicate function for silverk8snode builders.
-type SilverK8sNode func(*sql.Selector)
+// InventoryK8sNode is the predicate function for inventoryk8snode builders.
+type InventoryK8sNode func(*sql.Selector)
 
-// SilverK8sNodeBronzeLink is the predicate function for silverk8snodebronzelink builders.
-type SilverK8sNodeBronzeLink func(*sql.Selector)
+// InventoryK8sNodeBronzeLink is the predicate function for inventoryk8snodebronzelink builders.
+type InventoryK8sNodeBronzeLink func(*sql.Selector)
 
-// SilverK8sNodeNormalized is the predicate function for silverk8snodenormalized builders.
-type SilverK8sNodeNormalized func(*sql.Selector)
+// InventoryK8sNodeNormalized is the predicate function for inventoryk8snodenormalized builders.
+type InventoryK8sNodeNormalized func(*sql.Selector)

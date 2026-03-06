@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputenetwork"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputenetworkpeering"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputenetwork"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputenetworkpeering"
 )
 
 // BronzeGCPComputeNetworkPeeringCreate is the builder for creating a BronzeGCPComputeNetworkPeering entity.

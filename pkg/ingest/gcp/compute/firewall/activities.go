@@ -8,8 +8,8 @@ import (
 	"go.temporal.io/sdk/activity"
 	"go.temporal.io/sdk/client"
 
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 const firewallNextPageSignal = "firewall-next-page"

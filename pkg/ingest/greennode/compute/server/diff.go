@@ -3,7 +3,7 @@ package server
 import (
 	"bytes"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/greennode/compute"
 )
 
 // ServerDiff represents changes between old and new server states.

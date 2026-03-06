@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/vpn/bronzehistorygcpvpngatewaylabel"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/vpn/bronzehistorygcpvpngatewaylabel"
 )
 
 // BronzeHistoryGCPVPNGatewayLabel is the model entity for the BronzeHistoryGCPVPNGatewayLabel schema.

@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/bronzegcpalloydbcluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/bronzegcpalloydbcluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/predicate"
 )
 
 // BronzeGCPAlloyDBClusterQuery is the builder for querying BronzeGCPAlloyDBCluster entities.

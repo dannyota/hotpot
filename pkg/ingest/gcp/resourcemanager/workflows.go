@@ -6,13 +6,13 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/base/temporalerr"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/resourcemanager/folder"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/resourcemanager/folderiampolicy"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/resourcemanager/organization"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/resourcemanager/orgiampolicy"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/resourcemanager/project"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/resourcemanager/projectiampolicy"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	"danny.vn/hotpot/pkg/ingest/gcp/resourcemanager/folder"
+	"danny.vn/hotpot/pkg/ingest/gcp/resourcemanager/folderiampolicy"
+	"danny.vn/hotpot/pkg/ingest/gcp/resourcemanager/organization"
+	"danny.vn/hotpot/pkg/ingest/gcp/resourcemanager/orgiampolicy"
+	"danny.vn/hotpot/pkg/ingest/gcp/resourcemanager/project"
+	"danny.vn/hotpot/pkg/ingest/gcp/resourcemanager/projectiampolicy"
 )
 
 // GCPResourceManagerWorkflowParams contains parameters for the resource manager workflow.

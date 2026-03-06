@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumevolumetype"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzehistorygreennodevolumevolumetype"
 )
 
 // BronzeHistoryGreenNodeVolumeVolumeType is the model entity for the BronzeHistoryGreenNodeVolumeVolumeType schema.

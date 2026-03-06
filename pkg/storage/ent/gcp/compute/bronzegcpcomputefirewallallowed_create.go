@@ -10,8 +10,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputefirewall"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputefirewallallowed"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputefirewall"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzegcpcomputefirewallallowed"
 )
 
 // BronzeGCPComputeFirewallAllowedCreate is the builder for creating a BronzeGCPComputeFirewallAllowed entity.

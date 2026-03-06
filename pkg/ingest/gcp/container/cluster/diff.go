@@ -2,7 +2,7 @@ package cluster
 
 import (
 	"bytes"
-	entcontainer "github.com/dannyota/hotpot/pkg/storage/ent/gcp/container"
+	entcontainer "danny.vn/hotpot/pkg/storage/ent/gcp/container"
 )
 
 // ClusterDiff represents changes between old and new cluster states.

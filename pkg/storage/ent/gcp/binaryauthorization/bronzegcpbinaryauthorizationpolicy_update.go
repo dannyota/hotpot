@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization/bronzegcpbinaryauthorizationpolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/binaryauthorization/bronzegcpbinaryauthorizationpolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/binaryauthorization/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/binaryauthorization/predicate"
 )
 
 // BronzeGCPBinaryAuthorizationPolicyUpdate is the builder for updating BronzeGCPBinaryAuthorizationPolicy entities.

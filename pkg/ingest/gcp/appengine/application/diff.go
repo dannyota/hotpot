@@ -3,7 +3,7 @@ package application
 import (
 	"bytes"
 
-	entappengine "github.com/dannyota/hotpot/pkg/storage/ent/gcp/appengine"
+	entappengine "danny.vn/hotpot/pkg/storage/ent/gcp/appengine"
 )
 
 // ApplicationDiff represents changes between old and new App Engine application state.

@@ -1,7 +1,7 @@
 package orgiampolicy
 
 import (
-	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	entresourcemanager "danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager"
 )
 
 // OrgIamPolicyDiff represents changes between old and new organization IAM policy state.

@@ -3,12 +3,12 @@
 package main
 
 import (
-	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone"
-	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/account"
-	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/agent"
-	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/app_inventory"
-	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/endpoint_app"
-	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/group"
-	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/network_discovery"
-	_ "github.com/dannyota/hotpot/pkg/ingest/sentinelone/site"
+	_ "danny.vn/hotpot/pkg/ingest/sentinelone"
+	_ "danny.vn/hotpot/pkg/ingest/sentinelone/account"
+	_ "danny.vn/hotpot/pkg/ingest/sentinelone/agent"
+	_ "danny.vn/hotpot/pkg/ingest/sentinelone/app_inventory"
+	_ "danny.vn/hotpot/pkg/ingest/sentinelone/endpoint_app"
+	_ "danny.vn/hotpot/pkg/ingest/sentinelone/group"
+	_ "danny.vn/hotpot/pkg/ingest/sentinelone/network_discovery"
+	_ "danny.vn/hotpot/pkg/ingest/sentinelone/site"
 )

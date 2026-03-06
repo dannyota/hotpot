@@ -4,13 +4,13 @@ package schema
 import (
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
-	bronze_greennode_compute "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/compute"
-	bronze_greennode_dns "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/dns"
-	bronze_greennode_glb "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/glb"
-	bronze_greennode_loadbalancer "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/loadbalancer"
-	bronze_greennode_network "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/network"
-	bronze_greennode_portal "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/portal"
-	bronze_greennode_volume "github.com/dannyota/hotpot/pkg/schema/bronze/greennode/volume"
+	bronze_greennode_compute "danny.vn/hotpot/pkg/schema/bronze/greennode/compute"
+	bronze_greennode_dns "danny.vn/hotpot/pkg/schema/bronze/greennode/dns"
+	bronze_greennode_glb "danny.vn/hotpot/pkg/schema/bronze/greennode/glb"
+	bronze_greennode_loadbalancer "danny.vn/hotpot/pkg/schema/bronze/greennode/loadbalancer"
+	bronze_greennode_network "danny.vn/hotpot/pkg/schema/bronze/greennode/network"
+	bronze_greennode_portal "danny.vn/hotpot/pkg/schema/bronze/greennode/portal"
+	bronze_greennode_volume "danny.vn/hotpot/pkg/schema/bronze/greennode/volume"
 )
 
 type BronzeGreenNodeComputeOSImage struct {

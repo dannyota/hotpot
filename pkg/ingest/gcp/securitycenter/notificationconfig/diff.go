@@ -1,7 +1,7 @@
 package notificationconfig
 
 import (
-	entsecuritycenter "github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter"
+	entsecuritycenter "danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter"
 )
 
 // NotificationConfigDiff represents changes between old and new SCC notification config state.

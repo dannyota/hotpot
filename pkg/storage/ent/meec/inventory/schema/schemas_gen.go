@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_meec_inventory "github.com/dannyota/hotpot/pkg/schema/bronze/meec/inventory"
-	bronzehistory_meec_inventory "github.com/dannyota/hotpot/pkg/schema/bronzehistory/meec/inventory"
+	bronze_meec_inventory "danny.vn/hotpot/pkg/schema/bronze/meec/inventory"
+	bronzehistory_meec_inventory "danny.vn/hotpot/pkg/schema/bronzehistory/meec/inventory"
 )
 
 type BronzeMEECInventoryComputer struct {

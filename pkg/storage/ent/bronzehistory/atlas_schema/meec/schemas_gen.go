@@ -4,7 +4,7 @@ package schema
 import (
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
-	bronzehistory_meec_inventory "github.com/dannyota/hotpot/pkg/schema/bronzehistory/meec/inventory"
+	bronzehistory_meec_inventory "danny.vn/hotpot/pkg/schema/bronzehistory/meec/inventory"
 )
 
 type BronzeHistoryMEECInventoryComputer struct {

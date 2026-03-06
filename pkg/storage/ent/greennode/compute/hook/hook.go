@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/compute"
 )
 
 // The BronzeGreenNodeComputeOSImageFunc type is an adapter to allow the use of ordinary

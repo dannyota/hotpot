@@ -5,12 +5,12 @@ package enttest
 import (
 	"context"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager"
 	// required by schema hooks.
-	_ "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/runtime"
+	_ "danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager/migrate"
 )
 
 type (

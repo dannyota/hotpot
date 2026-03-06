@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entalloydb "github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/alloydb/bronzegcpalloydbcluster"
+	entalloydb "danny.vn/hotpot/pkg/storage/ent/gcp/alloydb"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/alloydb/bronzegcpalloydbcluster"
 )
 
 // Service handles AlloyDB cluster ingestion.

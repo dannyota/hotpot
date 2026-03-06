@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencexeolpurl"
+	"danny.vn/hotpot/pkg/storage/ent/reference/bronzereferencexeolpurl"
 )
 
 // BronzeReferenceXeolPurl is the model entity for the BronzeReferenceXeolPurl schema.

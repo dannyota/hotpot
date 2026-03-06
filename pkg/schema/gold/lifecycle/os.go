@@ -7,11 +7,11 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 
-	goldmixin "github.com/dannyota/hotpot/pkg/schema/gold/mixin"
+	goldmixin "danny.vn/hotpot/pkg/schema/gold/mixin"
 )
 
 // GoldLifecycleOS holds per-machine OS EOL classification and status.
-// Each row represents one machine from silver.machines, matched against
+// Each row represents one machine from inventory.machines, matched against
 // endoflife.date OS products (or unmatched with eol_status=unknown).
 type GoldLifecycleOS struct {
 	ent.Schema

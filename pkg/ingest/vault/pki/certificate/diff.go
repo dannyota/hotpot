@@ -3,7 +3,7 @@ package certificate
 import (
 	"time"
 
-	entpki "github.com/dannyota/hotpot/pkg/storage/ent/vault/pki"
+	entpki "danny.vn/hotpot/pkg/storage/ent/vault/pki"
 )
 
 // CertDiff represents changes between old and new certificate states.

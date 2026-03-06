@@ -3,7 +3,7 @@ package urlmap
 import (
 	"reflect"
 
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
 )
 
 // UrlMapDiff represents changes between old and new URL map states.

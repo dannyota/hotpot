@@ -3,7 +3,7 @@ package dns
 import (
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/dns/hostedzone"
+	"danny.vn/hotpot/pkg/ingest/greennode/dns/hostedzone"
 )
 
 // GreenNodeDNSWorkflowParams contains parameters for the DNS workflow.

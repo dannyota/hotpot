@@ -1,7 +1,7 @@
 package sshkey
 
 import (
-	entcompute "github.com/dannyota/hotpot/pkg/storage/ent/greennode/compute"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/greennode/compute"
 )
 
 // SSHKeyDiff represents changes between old and new SSH key states.

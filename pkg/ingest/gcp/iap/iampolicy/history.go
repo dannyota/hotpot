@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	entiap "github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap/bronzehistorygcpiapiampolicy"
+	entiap "danny.vn/hotpot/pkg/storage/ent/gcp/iap"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iap/bronzehistorygcpiapiampolicy"
 )
 
 // HistoryService manages IAP IAM policy history tracking.

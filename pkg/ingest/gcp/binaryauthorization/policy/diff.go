@@ -3,7 +3,7 @@ package policy
 import (
 	"bytes"
 
-	entbinaryauthorization "github.com/dannyota/hotpot/pkg/storage/ent/gcp/binaryauthorization"
+	entbinaryauthorization "danny.vn/hotpot/pkg/storage/ent/gcp/binaryauthorization"
 )
 
 // PolicyDiff represents changes between old and new Binary Authorization policy state.

@@ -6,11 +6,11 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// SilverMachine is the predicate function for silvermachine builders.
-type SilverMachine func(*sql.Selector)
+// InventoryMachine is the predicate function for inventorymachine builders.
+type InventoryMachine func(*sql.Selector)
 
-// SilverMachineBronzeLink is the predicate function for silvermachinebronzelink builders.
-type SilverMachineBronzeLink func(*sql.Selector)
+// InventoryMachineBronzeLink is the predicate function for inventorymachinebronzelink builders.
+type InventoryMachineBronzeLink func(*sql.Selector)
 
-// SilverMachineNormalized is the predicate function for silvermachinenormalized builders.
-type SilverMachineNormalized func(*sql.Selector)
+// InventoryMachineNormalized is the predicate function for inventorymachinenormalized builders.
+type InventoryMachineNormalized func(*sql.Selector)

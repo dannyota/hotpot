@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/config"
 )
 
 // App provides a unified interface for config and database with hot-reload.

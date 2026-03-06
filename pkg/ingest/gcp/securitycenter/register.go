@@ -5,13 +5,13 @@ import (
 
 	"entgo.io/ent/dialect"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/securitycenter/finding"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/securitycenter/notificationconfig"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/securitycenter/source"
-	entresourcemanager "github.com/dannyota/hotpot/pkg/storage/ent/gcp/resourcemanager"
-	entsecuritycenter "github.com/dannyota/hotpot/pkg/storage/ent/gcp/securitycenter"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/gcp/securitycenter/finding"
+	"danny.vn/hotpot/pkg/ingest/gcp/securitycenter/notificationconfig"
+	"danny.vn/hotpot/pkg/ingest/gcp/securitycenter/source"
+	entresourcemanager "danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager"
+	entsecuritycenter "danny.vn/hotpot/pkg/storage/ent/gcp/securitycenter"
 )
 
 // Register registers all Security Command Center activities and workflows.

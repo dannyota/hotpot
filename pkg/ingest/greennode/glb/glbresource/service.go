@@ -7,10 +7,10 @@ import (
 
 	glbv1 "danny.vn/greennode/services/glb/v1"
 
-	entglb "github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbgloballistener"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbgloballoadbalancer"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbglobalpool"
+	entglb "danny.vn/hotpot/pkg/storage/ent/greennode/glb"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbgloballistener"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbgloballoadbalancer"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/glb/bronzegreennodeglbglobalpool"
 )
 
 // Service handles GreenNode GLB ingestion.

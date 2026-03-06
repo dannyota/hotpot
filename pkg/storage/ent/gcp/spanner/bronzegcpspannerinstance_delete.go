@@ -8,9 +8,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/bronzegcpspannerinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/spanner/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/spanner/bronzegcpspannerinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/spanner/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/spanner/predicate"
 )
 
 // BronzeGCPSpannerInstanceDelete is the builder for deleting a BronzeGCPSpannerInstance entity.

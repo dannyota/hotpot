@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/s1/bronzehistorys1endpointapp"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzehistorys1endpointapp"
 )
 
 // BronzeHistoryS1EndpointAppCreate is the builder for creating a BronzeHistoryS1EndpointApp entity.

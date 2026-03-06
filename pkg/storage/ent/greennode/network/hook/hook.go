@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/network"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/network"
 )
 
 // The BronzeGreenNodeNetworkEndpointFunc type is an adapter to allow the use of ordinary

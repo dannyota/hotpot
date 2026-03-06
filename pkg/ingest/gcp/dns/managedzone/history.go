@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entdns "github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzehistorygcpdnsmanagedzone"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dns/bronzehistorygcpdnsmanagedzonelabel"
+	entdns "danny.vn/hotpot/pkg/storage/ent/gcp/dns"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/bronzehistorygcpdnsmanagedzone"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dns/bronzehistorygcpdnsmanagedzonelabel"
 )
 
 // HistoryService handles history tracking for managed zones.

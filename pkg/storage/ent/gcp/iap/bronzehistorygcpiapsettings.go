@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iap/bronzehistorygcpiapsettings"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iap/bronzehistorygcpiapsettings"
 )
 
 // BronzeHistoryGCPIAPSettings is the model entity for the BronzeHistoryGCPIAPSettings schema.

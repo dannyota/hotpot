@@ -3,12 +3,12 @@ package containeranalysis
 import (
 	"go.temporal.io/sdk/worker"
 
-	"github.com/dannyota/hotpot/pkg/base/config"
-	"github.com/dannyota/hotpot/pkg/base/ratelimit"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/containeranalysis/note"
-	"github.com/dannyota/hotpot/pkg/ingest/gcp/containeranalysis/occurrence"
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/ingest/gcp/containeranalysis/note"
+	"danny.vn/hotpot/pkg/ingest/gcp/containeranalysis/occurrence"
 	"entgo.io/ent/dialect"
-	entcontaineranalysis "github.com/dannyota/hotpot/pkg/storage/ent/gcp/containeranalysis"
+	entcontaineranalysis "danny.vn/hotpot/pkg/storage/ent/gcp/containeranalysis"
 )
 
 // Register registers all Container Analysis activities and workflows.

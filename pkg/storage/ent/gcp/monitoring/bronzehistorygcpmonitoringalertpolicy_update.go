@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring/bronzehistorygcpmonitoringalertpolicy"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/monitoring/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/monitoring/bronzehistorygcpmonitoringalertpolicy"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/monitoring/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/monitoring/predicate"
 )
 
 // BronzeHistoryGCPMonitoringAlertPolicyUpdate is the builder for updating BronzeHistoryGCPMonitoringAlertPolicy entities.

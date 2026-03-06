@@ -9,15 +9,15 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dataproc/migrate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dataproc/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dataproc/bronzegcpdataproccluster"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dataproc/bronzehistorygcpdataproccluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dataproc/bronzegcpdataproccluster"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dataproc/bronzehistorygcpdataproccluster"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/dataproc/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/dataproc/internal"
 )
 
 // Client is the client that holds all ent builders.

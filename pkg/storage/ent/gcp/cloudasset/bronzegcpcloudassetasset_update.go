@@ -13,9 +13,9 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/bronzegcpcloudassetasset"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/bronzegcpcloudassetasset"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/predicate"
 )
 
 // BronzeGCPCloudAssetAssetUpdate is the builder for updating BronzeGCPCloudAssetAsset entities.

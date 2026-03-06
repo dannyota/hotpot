@@ -3,9 +3,9 @@ package glb
 import (
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/glb/glbpackage"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/glb/glbregion"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/glb/glbresource"
+	"danny.vn/hotpot/pkg/ingest/greennode/glb/glbpackage"
+	"danny.vn/hotpot/pkg/ingest/greennode/glb/glbregion"
+	"danny.vn/hotpot/pkg/ingest/greennode/glb/glbresource"
 )
 
 // GreenNodeGLBWorkflowParams contains parameters for the GLB workflow.

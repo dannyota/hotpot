@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	entec2 "github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instancetag"
+	entec2 "danny.vn/hotpot/pkg/storage/ent/aws/ec2"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instance"
+	"danny.vn/hotpot/pkg/storage/ent/aws/ec2/bronzeawsec2instancetag"
 )
 
 // Service handles AWS EC2 instance ingestion.

@@ -11,7 +11,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/kms/bronzehistorygcpkmscryptokey"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/kms/bronzehistorygcpkmscryptokey"
 )
 
 // BronzeHistoryGCPKMSCryptoKeyCreate is the builder for creating a BronzeHistoryGCPKMSCryptoKey entity.

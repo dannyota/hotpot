@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumevolumetype"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/greennode/volume/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/bronzegreennodevolumevolumetype"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/internal"
+	"danny.vn/hotpot/pkg/storage/ent/greennode/volume/predicate"
 )
 
 // BronzeGreenNodeVolumeVolumeTypeQuery is the builder for querying BronzeGreenNodeVolumeVolumeType entities.

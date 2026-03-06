@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputebackendservicebackend"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/compute/bronzehistorygcpcomputebackendservicebackend"
 )
 
 // BronzeHistoryGCPComputeBackendServiceBackendCreate is the builder for creating a BronzeHistoryGCPComputeBackendServiceBackend entity.

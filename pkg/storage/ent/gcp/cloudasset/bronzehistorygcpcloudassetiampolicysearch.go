@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/cloudasset/bronzehistorygcpcloudassetiampolicysearch"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/cloudasset/bronzehistorygcpcloudassetiampolicysearch"
 )
 
 // BronzeHistoryGCPCloudAssetIAMPolicySearch is the model entity for the BronzeHistoryGCPCloudAssetIAMPolicySearch schema.

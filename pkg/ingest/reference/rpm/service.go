@@ -6,9 +6,9 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/reference/bronzereferencerpmpackage"
+	"danny.vn/hotpot/pkg/storage/ent/reference/bronzereferencerpmpackage"
 
-	entreference "github.com/dannyota/hotpot/pkg/storage/ent/reference"
+	entreference "danny.vn/hotpot/pkg/storage/ent/reference"
 )
 
 const insertBatchSize = 1000

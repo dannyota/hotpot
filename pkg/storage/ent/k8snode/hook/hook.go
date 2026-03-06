@@ -6,43 +6,43 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/dannyota/hotpot/pkg/storage/ent/k8snode"
+	"danny.vn/hotpot/pkg/storage/ent/k8snode"
 )
 
-// The SilverK8sNodeFunc type is an adapter to allow the use of ordinary
-// function as SilverK8sNode mutator.
-type SilverK8sNodeFunc func(context.Context, *k8snode.SilverK8sNodeMutation) (k8snode.Value, error)
+// The InventoryK8sNodeFunc type is an adapter to allow the use of ordinary
+// function as InventoryK8sNode mutator.
+type InventoryK8sNodeFunc func(context.Context, *k8snode.InventoryK8sNodeMutation) (k8snode.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f SilverK8sNodeFunc) Mutate(ctx context.Context, m k8snode.Mutation) (k8snode.Value, error) {
-	if mv, ok := m.(*k8snode.SilverK8sNodeMutation); ok {
+func (f InventoryK8sNodeFunc) Mutate(ctx context.Context, m k8snode.Mutation) (k8snode.Value, error) {
+	if mv, ok := m.(*k8snode.InventoryK8sNodeMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *k8snode.SilverK8sNodeMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *k8snode.InventoryK8sNodeMutation", m)
 }
 
-// The SilverK8sNodeBronzeLinkFunc type is an adapter to allow the use of ordinary
-// function as SilverK8sNodeBronzeLink mutator.
-type SilverK8sNodeBronzeLinkFunc func(context.Context, *k8snode.SilverK8sNodeBronzeLinkMutation) (k8snode.Value, error)
+// The InventoryK8sNodeBronzeLinkFunc type is an adapter to allow the use of ordinary
+// function as InventoryK8sNodeBronzeLink mutator.
+type InventoryK8sNodeBronzeLinkFunc func(context.Context, *k8snode.InventoryK8sNodeBronzeLinkMutation) (k8snode.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f SilverK8sNodeBronzeLinkFunc) Mutate(ctx context.Context, m k8snode.Mutation) (k8snode.Value, error) {
-	if mv, ok := m.(*k8snode.SilverK8sNodeBronzeLinkMutation); ok {
+func (f InventoryK8sNodeBronzeLinkFunc) Mutate(ctx context.Context, m k8snode.Mutation) (k8snode.Value, error) {
+	if mv, ok := m.(*k8snode.InventoryK8sNodeBronzeLinkMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *k8snode.SilverK8sNodeBronzeLinkMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *k8snode.InventoryK8sNodeBronzeLinkMutation", m)
 }
 
-// The SilverK8sNodeNormalizedFunc type is an adapter to allow the use of ordinary
-// function as SilverK8sNodeNormalized mutator.
-type SilverK8sNodeNormalizedFunc func(context.Context, *k8snode.SilverK8sNodeNormalizedMutation) (k8snode.Value, error)
+// The InventoryK8sNodeNormalizedFunc type is an adapter to allow the use of ordinary
+// function as InventoryK8sNodeNormalized mutator.
+type InventoryK8sNodeNormalizedFunc func(context.Context, *k8snode.InventoryK8sNodeNormalizedMutation) (k8snode.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f SilverK8sNodeNormalizedFunc) Mutate(ctx context.Context, m k8snode.Mutation) (k8snode.Value, error) {
-	if mv, ok := m.(*k8snode.SilverK8sNodeNormalizedMutation); ok {
+func (f InventoryK8sNodeNormalizedFunc) Mutate(ctx context.Context, m k8snode.Mutation) (k8snode.Value, error) {
+	if mv, ok := m.(*k8snode.InventoryK8sNodeNormalizedMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *k8snode.SilverK8sNodeNormalizedMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *k8snode.InventoryK8sNodeNormalizedMutation", m)
 }
 
 // Condition is a hook condition function.

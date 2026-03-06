@@ -2,8 +2,8 @@
 package schema
 
 import (
-	bronze_gcp_dataproc "github.com/dannyota/hotpot/pkg/schema/bronze/gcp/dataproc"
-	bronzehistory_gcp_dataproc "github.com/dannyota/hotpot/pkg/schema/bronzehistory/gcp/dataproc"
+	bronze_gcp_dataproc "danny.vn/hotpot/pkg/schema/bronze/gcp/dataproc"
+	bronzehistory_gcp_dataproc "danny.vn/hotpot/pkg/schema/bronzehistory/gcp/dataproc"
 )
 
 type BronzeGCPDataprocCluster struct {

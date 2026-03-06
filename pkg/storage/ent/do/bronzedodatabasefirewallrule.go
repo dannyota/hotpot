@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/dannyota/hotpot/pkg/storage/ent/do/bronzedodatabasefirewallrule"
+	"danny.vn/hotpot/pkg/storage/ent/do/bronzedodatabasefirewallrule"
 )
 
 // BronzeDODatabaseFirewallRule is the model entity for the BronzeDODatabaseFirewallRule schema.

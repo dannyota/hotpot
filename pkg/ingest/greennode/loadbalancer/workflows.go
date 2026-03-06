@@ -3,9 +3,9 @@ package loadbalancer
 import (
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/loadbalancer/certificate"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/loadbalancer/lb"
-	"github.com/dannyota/hotpot/pkg/ingest/greennode/loadbalancer/lbpackage"
+	"danny.vn/hotpot/pkg/ingest/greennode/loadbalancer/certificate"
+	"danny.vn/hotpot/pkg/ingest/greennode/loadbalancer/lb"
+	"danny.vn/hotpot/pkg/ingest/greennode/loadbalancer/lbpackage"
 )
 
 // GreenNodeLoadBalancerWorkflowParams contains parameters for the load balancer workflow.

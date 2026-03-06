@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam/bronzehistorygcpiamserviceaccount"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/iam/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iam/bronzehistorygcpiamserviceaccount"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iam/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/iam/predicate"
 )
 
 // BronzeHistoryGCPIAMServiceAccountQuery is the builder for querying BronzeHistoryGCPIAMServiceAccount entities.

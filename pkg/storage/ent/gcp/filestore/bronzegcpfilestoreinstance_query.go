@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore/bronzegcpfilestoreinstance"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore/internal"
-	"github.com/dannyota/hotpot/pkg/storage/ent/gcp/filestore/predicate"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/filestore/bronzegcpfilestoreinstance"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/filestore/internal"
+	"danny.vn/hotpot/pkg/storage/ent/gcp/filestore/predicate"
 )
 
 // BronzeGCPFilestoreInstanceQuery is the builder for querying BronzeGCPFilestoreInstance entities.
