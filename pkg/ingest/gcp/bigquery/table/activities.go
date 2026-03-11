@@ -1,0 +1,96 @@
+package table
+
+import (
+	"context"
+	"fmt"
+
+	"go.temporal.io/sdk/activity"
+	"google.golang.org/api/option"
+
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/gcpauth"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	entbigquery "danny.vn/hotpot/pkg/storage/ent/gcp/bigquery"
+)
+
+// Activities holds dependencies for Temporal activities.
+type Activities struct {
+	configService *config.Service
+	entClient     *entbigquery.Client
+	limiter       ratelimit.Limiter
+}
+
+// NewActivities creates a new Activities instance.
+func NewActivities(configService *config.Service, entClient *entbigquery.Client, limiter ratelimit.Limiter) *Activities {
+	return &Activities{
+		configService: configService,
+		entClient:     entClient,
+		limiter:       limiter,
+	}
+}
+
+// createClient creates a rate-limited GCP client with credentials.
+func (a *Activities) createClient(ctx context.Context, projectID string) (*Client, error) {
+	httpClient, err := gcpauth.NewHTTPClient(ctx, a.configService.GCPCredentialsJSON(), a.limiter)
+	if err != nil {
+		return nil, err
+	}
+	return NewClient(ctx, projectID, option.WithHTTPClient(httpClient))
+}
+
+// IngestBigQueryTablesParams contains parameters for the ingest activity.
+type IngestBigQueryTablesParams struct {
+	ProjectID  string
+	DatasetIDs []string
+}
+
+// IngestBigQueryTablesResult contains the result of the ingest activity.
+type IngestBigQueryTablesResult struct {
+	ProjectID      string
+	TableCount     int
+	DurationMillis int64
+}
+
+// IngestBigQueryTablesActivity is the activity function reference for workflow registration.
+var IngestBigQueryTablesActivity = (*Activities).IngestBigQueryTables
+
+// IngestBigQueryTables is a Temporal activity that ingests BigQuery tables.
+func (a *Activities) IngestBigQueryTables(ctx context.Context, params IngestBigQueryTablesParams) (*IngestBigQueryTablesResult, error) {
+	logger := activity.GetLogger(ctx)
+	logger.Info("Starting BigQuery table ingestion",
+		"projectID", params.ProjectID,
+		"datasetCount", len(params.DatasetIDs),
+	)
+
+	client, err := a.createClient(ctx, params.ProjectID)
+	if err != nil {
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("create client: %w", err))
+	}
+	defer client.Close()
+
+	service := NewService(client, a.entClient)
+	result, err := service.Ingest(ctx, IngestParams{
+		ProjectID:  params.ProjectID,
+		DatasetIDs: params.DatasetIDs,
+	})
+	if err != nil {
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("failed to ingest BigQuery tables: %w", err))
+	}
+
+	if err := service.DeleteStaleTables(ctx, params.ProjectID, result.CollectedAt); err != nil {
+		logger.Warn("Failed to delete stale BigQuery tables", "error", err)
+	}
+
+	logger.Info("Completed BigQuery table ingestion",
+		"projectID", params.ProjectID,
+		"tableCount", result.TableCount,
+		"durationMillis", result.DurationMillis,
+	)
+
+	return &IngestBigQueryTablesResult{
+		ProjectID:      result.ProjectID,
+		TableCount:     result.TableCount,
+		DurationMillis: result.DurationMillis,
+	}, nil
+}

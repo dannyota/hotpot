@@ -1,0 +1,261 @@
+package site
+
+import (
+	"context"
+	"fmt"
+	"log/slog"
+	"time"
+
+	ents1 "danny.vn/hotpot/pkg/storage/ent/s1"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzes1site"
+)
+
+// Service handles SentinelOne site ingestion.
+type Service struct {
+	client    *Client
+	entClient *ents1.Client
+	history   *HistoryService
+}
+
+// NewService creates a new site ingestion service.
+func NewService(client *Client, entClient *ents1.Client) *Service {
+	return &Service{
+		client:    client,
+		entClient: entClient,
+		history:   NewHistoryService(entClient),
+	}
+}
+
+// IngestResult contains the result of site ingestion.
+type IngestResult struct {
+	SiteCount      int
+	CollectedAt    time.Time
+	DurationMillis int64
+}
+
+// Ingest fetches all sites from SentinelOne using cursor pagination.
+func (s *Service) Ingest(ctx context.Context, heartbeat func()) (*IngestResult, error) {
+	startTime := time.Now()
+	collectedAt := startTime
+
+	totalExpected, err := s.client.GetCount()
+	if err != nil {
+		slog.Warn("s1 sites: failed to get count, continuing without total", "error", err)
+	}
+
+	var allSites []*SiteData
+	cursor := ""
+	batchNum := 0
+
+	for {
+		batchNum++
+		batch, err := s.client.GetSitesBatch(cursor)
+		if err != nil {
+			slog.Error("s1 sites batch failed", "batch", batchNum, "totalSoFar", len(allSites), "error", err)
+			return nil, fmt.Errorf("get sites batch: %w", err)
+		}
+
+		for _, apiSite := range batch.Sites {
+			allSites = append(allSites, ConvertSite(apiSite, collectedAt))
+		}
+
+		slog.Info("s1 sites batch fetched", "batch", batchNum, "batchItems", len(batch.Sites), "totalFetched", len(allSites), "totalExpected", totalExpected, "hasMore", batch.HasMore)
+
+		if heartbeat != nil {
+			heartbeat()
+		}
+
+		if !batch.HasMore {
+			break
+		}
+		cursor = batch.NextCursor
+	}
+
+	if err := s.saveSites(ctx, allSites); err != nil {
+		return nil, fmt.Errorf("save sites: %w", err)
+	}
+
+	return &IngestResult{
+		SiteCount:      len(allSites),
+		CollectedAt:    collectedAt,
+		DurationMillis: time.Since(startTime).Milliseconds(),
+	}, nil
+}
+
+func (s *Service) saveSites(ctx context.Context, sites []*SiteData) error {
+	if len(sites) == 0 {
+		return nil
+	}
+
+	now := time.Now()
+
+	tx, err := s.entClient.Tx(ctx)
+	if err != nil {
+		return fmt.Errorf("start transaction: %w", err)
+	}
+
+	defer func() {
+		if v := recover(); v != nil {
+			tx.Rollback()
+			panic(v)
+		}
+	}()
+
+	activeIDs := make(map[string]struct{}, len(sites))
+
+	for _, data := range sites {
+		existing, err := tx.BronzeS1Site.Query().
+			Where(bronzes1site.ID(data.ResourceID)).
+			First(ctx)
+		if err != nil && !ents1.IsNotFound(err) {
+			tx.Rollback()
+			return fmt.Errorf("load existing site %s: %w", data.ResourceID, err)
+		}
+
+		diff := DiffSiteData(existing, data)
+
+		if !diff.IsNew && !diff.IsChanged {
+			if err := tx.BronzeS1Site.UpdateOneID(data.ResourceID).
+				SetCollectedAt(data.CollectedAt).
+				Exec(ctx); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("update collected_at for site %s: %w", data.ResourceID, err)
+			}
+			activeIDs[data.ResourceID] = struct{}{}
+			continue
+		}
+
+		if existing == nil {
+			create := tx.BronzeS1Site.Create().
+				SetID(data.ResourceID).
+				SetName(data.Name).
+				SetAccountID(data.AccountID).
+				SetAccountName(data.AccountName).
+				SetState(data.State).
+				SetSiteType(data.SiteType).
+				SetSuite(data.Suite).
+				SetCreator(data.Creator).
+				SetCreatorID(data.CreatorID).
+				SetHealthStatus(data.HealthStatus).
+				SetActiveLicenses(data.ActiveLicenses).
+				SetTotalLicenses(data.TotalLicenses).
+				SetUnlimitedLicenses(data.UnlimitedLicenses).
+				SetIsDefault(data.IsDefault).
+				SetDescription(data.Description).
+				SetExternalID(data.ExternalID).
+				SetSku(data.SKU).
+				SetUsageType(data.UsageType).
+				SetUnlimitedExpiration(data.UnlimitedExpiration).
+				SetInheritAccountExpiration(data.InheritAccountExpiration).
+				SetCollectedAt(data.CollectedAt).
+				SetFirstCollectedAt(data.CollectedAt)
+
+			if data.APICreatedAt != nil {
+				create.SetAPICreatedAt(*data.APICreatedAt)
+			}
+			if data.Expiration != nil {
+				create.SetExpiration(*data.Expiration)
+			}
+			if data.APIUpdatedAt != nil {
+				create.SetAPIUpdatedAt(*data.APIUpdatedAt)
+			}
+			if data.LicensesJSON != nil {
+				create.SetLicensesJSON(data.LicensesJSON)
+			}
+
+			if _, err := create.Save(ctx); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("create site %s: %w", data.ResourceID, err)
+			}
+
+			if err := s.history.CreateHistory(ctx, tx, data, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("create history for site %s: %w", data.ResourceID, err)
+			}
+		} else {
+			update := tx.BronzeS1Site.UpdateOneID(data.ResourceID).
+				SetName(data.Name).
+				SetAccountID(data.AccountID).
+				SetAccountName(data.AccountName).
+				SetState(data.State).
+				SetSiteType(data.SiteType).
+				SetSuite(data.Suite).
+				SetCreator(data.Creator).
+				SetCreatorID(data.CreatorID).
+				SetHealthStatus(data.HealthStatus).
+				SetActiveLicenses(data.ActiveLicenses).
+				SetTotalLicenses(data.TotalLicenses).
+				SetUnlimitedLicenses(data.UnlimitedLicenses).
+				SetIsDefault(data.IsDefault).
+				SetDescription(data.Description).
+				SetExternalID(data.ExternalID).
+				SetSku(data.SKU).
+				SetUsageType(data.UsageType).
+				SetUnlimitedExpiration(data.UnlimitedExpiration).
+				SetInheritAccountExpiration(data.InheritAccountExpiration).
+				SetCollectedAt(data.CollectedAt)
+
+			if data.APICreatedAt != nil {
+				update.SetAPICreatedAt(*data.APICreatedAt)
+			}
+			if data.Expiration != nil {
+				update.SetExpiration(*data.Expiration)
+			}
+			if data.APIUpdatedAt != nil {
+				update.SetAPIUpdatedAt(*data.APIUpdatedAt)
+			}
+			if data.LicensesJSON != nil {
+				update.SetLicensesJSON(data.LicensesJSON)
+			}
+
+			if _, err := update.Save(ctx); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("update site %s: %w", data.ResourceID, err)
+			}
+
+			if err := s.history.UpdateHistory(ctx, tx, existing, data, now); err != nil {
+				tx.Rollback()
+				return fmt.Errorf("update history for site %s: %w", data.ResourceID, err)
+			}
+		}
+
+		activeIDs[data.ResourceID] = struct{}{}
+	}
+
+	// Delete stale sites not returned by the API.
+	allDBIDs, err := tx.BronzeS1Site.Query().
+		Select(bronzes1site.FieldID).
+		Strings(ctx)
+	if err != nil {
+		tx.Rollback()
+		return fmt.Errorf("query all site IDs: %w", err)
+	}
+
+	staleCount := 0
+	for _, id := range allDBIDs {
+		if _, ok := activeIDs[id]; ok {
+			continue
+		}
+
+		if err := s.history.CloseHistory(ctx, tx, id, now); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("close history for stale site %s: %w", id, err)
+		}
+
+		if err := tx.BronzeS1Site.DeleteOneID(id).Exec(ctx); err != nil {
+			tx.Rollback()
+			return fmt.Errorf("delete stale site %s: %w", id, err)
+		}
+		staleCount++
+	}
+
+	if staleCount > 0 {
+		slog.Info("s1 sites: deleted stale", "count", staleCount)
+	}
+
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("commit transaction: %w", err)
+	}
+
+	return nil
+}

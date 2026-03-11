@@ -1,0 +1,101 @@
+package instancegroup
+
+import (
+	"context"
+	"fmt"
+
+	"go.temporal.io/sdk/activity"
+	"google.golang.org/api/option"
+
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/gcpauth"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
+)
+
+// Activities holds dependencies for Temporal activities.
+type Activities struct {
+	configService *config.Service
+	entClient     *entcompute.Client
+	limiter       ratelimit.Limiter
+}
+
+// NewActivities creates a new Activities instance.
+func NewActivities(configService *config.Service, entClient *entcompute.Client, limiter ratelimit.Limiter) *Activities {
+	return &Activities{
+		configService: configService,
+		entClient:     entClient,
+		limiter:       limiter,
+	}
+}
+
+// createClient creates a rate-limited GCP client with credentials.
+func (a *Activities) createClient(ctx context.Context, quotaProjectID string) (*Client, error) {
+	httpClient, err := gcpauth.NewHTTPClient(ctx, a.configService.GCPCredentialsJSON(), a.limiter)
+	if err != nil {
+		return nil, err
+	}
+	opts := []option.ClientOption{option.WithHTTPClient(httpClient)}
+	if quotaProjectID != "" {
+		opts = append(opts, option.WithQuotaProject(quotaProjectID))
+	}
+	return NewClient(ctx, opts...)
+}
+
+// IngestComputeInstanceGroupsParams contains parameters for the ingest activity.
+type IngestComputeInstanceGroupsParams struct {
+	ProjectID      string
+	QuotaProjectID string
+}
+
+// IngestComputeInstanceGroupsResult contains the result of the ingest activity.
+type IngestComputeInstanceGroupsResult struct {
+	ProjectID          string
+	InstanceGroupCount int
+	DurationMillis     int64
+}
+
+// IngestComputeInstanceGroupsActivity is the activity function reference for workflow registration.
+var IngestComputeInstanceGroupsActivity = (*Activities).IngestComputeInstanceGroups
+
+// IngestComputeInstanceGroups is a Temporal activity that ingests GCP Compute instance groups.
+func (a *Activities) IngestComputeInstanceGroups(ctx context.Context, params IngestComputeInstanceGroupsParams) (*IngestComputeInstanceGroupsResult, error) {
+	logger := activity.GetLogger(ctx)
+	logger.Info("Starting GCP Compute instance group ingestion",
+		"projectID", params.ProjectID,
+	)
+
+	// Create client for this activity
+	client, err := a.createClient(ctx, params.QuotaProjectID)
+	if err != nil {
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("create client: %w", err))
+	}
+	defer client.Close()
+
+	// Create service
+	service := NewService(client, a.entClient)
+	result, err := service.Ingest(ctx, IngestParams{
+		ProjectID: params.ProjectID,
+	})
+	if err != nil {
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("failed to ingest instance groups: %w", err))
+	}
+
+	// Delete stale instance groups
+	if err := service.DeleteStaleInstanceGroups(ctx, params.ProjectID, result.CollectedAt); err != nil {
+		logger.Warn("Failed to delete stale instance groups", "error", err)
+	}
+
+	logger.Info("Completed GCP Compute instance group ingestion",
+		"projectID", params.ProjectID,
+		"instanceGroupCount", result.InstanceGroupCount,
+		"durationMillis", result.DurationMillis,
+	)
+
+	return &IngestComputeInstanceGroupsResult{
+		ProjectID:          result.ProjectID,
+		InstanceGroupCount: result.InstanceGroupCount,
+		DurationMillis:     result.DurationMillis,
+	}, nil
+}

@@ -1,0 +1,21 @@
+# Gitleaks configuration - exclude example files from secret scanning
+# https://github.com/gitleaks/gitleaks
+
+[allowlist]
+description = "Allowlist for example and template files"
+
+# Exclude example config files (contain placeholders, not real secrets)
+paths = [
+  '''config\.yaml\.example$''',
+  '''\.example$''',
+  '''example\.yaml$''',
+  '''sample\.yaml$''',
+]
+
+# Exclude test files
+regexes = [
+  '''<REPLACE_WITH_.*>''',
+  '''<YOUR_.*>''',
+  '''CHANGEME''',
+  '''your-password-here''',
+]

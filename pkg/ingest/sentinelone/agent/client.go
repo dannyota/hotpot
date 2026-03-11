@@ -1,0 +1,213 @@
+package agent
+
+import (
+	"encoding/json"
+	"fmt"
+	"io"
+	"log/slog"
+	"net/http"
+	"net/url"
+	"time"
+
+	"danny.vn/hotpot/pkg/base/httperr"
+)
+
+// Client wraps the SentinelOne Agents API.
+type Client struct {
+	baseURL    string
+	apiToken   string
+	batchSize  int
+	httpClient *http.Client
+}
+
+// NewClient creates a new SentinelOne agents client.
+func NewClient(baseURL, apiToken string, batchSize int, httpClient *http.Client) *Client {
+	return &Client{
+		baseURL:    baseURL,
+		apiToken:   apiToken,
+		batchSize:  batchSize,
+		httpClient: httpClient,
+	}
+}
+
+// APINetworkInterface represents a network interface from the SentinelOne API response.
+type APINetworkInterface struct {
+	ID          string   `json:"id"`
+	Name        string   `json:"name"`
+	Description string   `json:"description"`
+	Type        string   `json:"type"`
+	Inet        []string `json:"inet"`
+	Inet6       []string `json:"inet6"`
+	Physical    string   `json:"physical"`
+	GatewayIP   string   `json:"gatewayIp"`
+	GatewayMac  string   `json:"gatewayMacAddress"`
+}
+
+// APIAgent represents the agent data from the SentinelOne API response.
+type APIAgent struct {
+	ID                      string                `json:"id"`
+	ComputerName            string                `json:"computerName"`
+	ExternalIP              string                `json:"externalIp"`
+	SiteName                string                `json:"siteName"`
+	AccountID               string                `json:"accountId"`
+	AccountName             string                `json:"accountName"`
+	AgentVersion            string                `json:"agentVersion"`
+	OSType                  string                `json:"osType"`
+	OSName                  string                `json:"osName"`
+	OSRevision              string                `json:"osRevision"`
+	OSArch                  string                `json:"osArch"`
+	IsActive                bool                  `json:"isActive"`
+	IsInfected              bool                  `json:"infected"`
+	IsDecommissioned        bool                  `json:"isDecommissioned"`
+	MachineType             string                `json:"machineType"`
+	Domain                  string                `json:"domain"`
+	UUID                    string                `json:"uuid"`
+	NetworkStatus           string                `json:"networkStatus"`
+	LastActiveDate          *time.Time            `json:"lastActiveDate"`
+	RegisteredAt            *time.Time            `json:"registeredAt"`
+	UpdatedAt               *time.Time            `json:"updatedAt"`
+	OSStartTime             *time.Time            `json:"osStartTime"`
+	ActiveThreats           int                   `json:"activeThreats"`
+	EncryptedApplications   bool                  `json:"encryptedApplications"`
+	GroupName               string                `json:"groupName"`
+	GroupID                 string                `json:"groupId"`
+	CPUCount                int                   `json:"cpuCount"`
+	CoreCount               int                   `json:"coreCount"`
+	CPUId                   string                `json:"cpuId"`
+	TotalMemory             int64                 `json:"totalMemory"`
+	ModelName               string                `json:"modelName"`
+	SerialNumber            string                `json:"serialNumber"`
+	StorageEncryptionStatus string                `json:"storageEncryptionStatus"`
+	NetworkInterfaces       []APINetworkInterface `json:"networkInterfaces"`
+	SiteID                   string          `json:"siteId"`
+	CreatedAt                *time.Time      `json:"createdAt"`
+	OSUsername               string          `json:"osUsername"`
+	GroupIP                  string          `json:"groupIp"`
+	ScanStatus               string          `json:"scanStatus"`
+	ScanStartedAt            *time.Time      `json:"scanStartedAt"`
+	ScanFinishedAt           *time.Time      `json:"scanFinishedAt"`
+	MitigationMode           string          `json:"mitigationMode"`
+	MitigationModeSuspicious string          `json:"mitigationModeSuspicious"`
+	LastLoggedInUserName     string          `json:"lastLoggedInUserName"`
+	InstallerType            string          `json:"installerType"`
+	ExternalID               string          `json:"externalId"`
+	LastIpToMgmt             string          `json:"lastIpToMgmt"`
+	IsUpToDate               bool            `json:"isUpToDate"`
+	IsPendingUninstall       bool            `json:"isPendingUninstall"`
+	IsUninstalled            bool            `json:"isUninstalled"`
+	AppsVulnerabilityStatus  string          `json:"appsVulnerabilityStatus"`
+	ConsoleMigrationStatus   string          `json:"consoleMigrationStatus"`
+	RangerVersion            string          `json:"rangerVersion"`
+	RangerStatus             string          `json:"rangerStatus"`
+	ActiveDirectory          json.RawMessage `json:"activeDirectory"`
+	Locations                json.RawMessage `json:"locations"`
+	UserActionsNeeded        json.RawMessage `json:"userActionsNeeded"`
+	MissingPermissions       json.RawMessage `json:"missingPermissions"`
+}
+
+// AgentBatchResult contains a batch of agents and pagination info.
+type AgentBatchResult struct {
+	Agents     []APIAgent
+	NextCursor string
+	HasMore    bool
+	TotalItems int
+}
+
+// GetAgentsBatch retrieves a batch of agents with cursor pagination.
+func (c *Client) GetAgentsBatch(cursor string) (*AgentBatchResult, error) {
+	params := url.Values{}
+	params.Set("limit", fmt.Sprintf("%d", c.batchSize))
+	if cursor != "" {
+		params.Set("cursor", cursor)
+	}
+
+	body, err := c.doRequest("GET", "/web/api/v2.1/agents", params)
+	if err != nil {
+		return nil, fmt.Errorf("get agents: %w", err)
+	}
+
+	var response struct {
+		Data       []APIAgent `json:"data"`
+		Pagination struct {
+			NextCursor string `json:"nextCursor"`
+			TotalItems int    `json:"totalItems"`
+		} `json:"pagination"`
+	}
+
+	if err := json.Unmarshal(body, &response); err != nil {
+		return nil, fmt.Errorf("parse agents response: %w", err)
+	}
+
+	return &AgentBatchResult{
+		Agents:     response.Data,
+		NextCursor: response.Pagination.NextCursor,
+		HasMore:    response.Pagination.NextCursor != "",
+		TotalItems: response.Pagination.TotalItems,
+	}, nil
+}
+
+// GetCount returns the total number of agents using countOnly mode.
+func (c *Client) GetCount() (int, error) {
+	params := url.Values{}
+	params.Set("countOnly", "true")
+
+	body, err := c.doRequest("GET", "/web/api/v2.1/agents", params)
+	if err != nil {
+		return 0, fmt.Errorf("get agents count: %w", err)
+	}
+
+	var response struct {
+		Pagination struct {
+			TotalItems int `json:"totalItems"`
+		} `json:"pagination"`
+	}
+
+	if err := json.Unmarshal(body, &response); err != nil {
+		return 0, fmt.Errorf("parse agents count response: %w", err)
+	}
+
+	return response.Pagination.TotalItems, nil
+}
+
+func (c *Client) doRequest(method, endpoint string, params url.Values) ([]byte, error) {
+	requestURL := fmt.Sprintf("%s%s", c.baseURL, endpoint)
+	if params != nil {
+		requestURL = fmt.Sprintf("%s?%s", requestURL, params.Encode())
+	}
+
+	start := time.Now()
+
+	req, err := http.NewRequest(method, requestURL, nil)
+	if err != nil {
+		return nil, fmt.Errorf("create request: %w", err)
+	}
+
+	req.Header.Set("Authorization", fmt.Sprintf("ApiToken %s", c.apiToken))
+	req.Header.Set("Content-Type", "application/json")
+
+	slog.Debug("s1 api request", "method", method, "endpoint", endpoint)
+
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		slog.Error("s1 api request failed", "method", method, "endpoint", endpoint, "error", err, "durationMs", time.Since(start).Milliseconds())
+		return nil, fmt.Errorf("execute request: %w", err)
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("read response body: %w", err)
+	}
+
+	slog.Info("s1 api response", "method", method, "endpoint", endpoint, "status", resp.StatusCode, "responseBytes", len(body), "durationMs", time.Since(start).Milliseconds())
+
+	if resp.StatusCode == http.StatusUnauthorized || resp.StatusCode == http.StatusForbidden {
+		return nil, &httperr.APIError{Code: resp.StatusCode}
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("API request failed with status %d: %s", resp.StatusCode, string(body))
+	}
+
+	return body, nil
+}

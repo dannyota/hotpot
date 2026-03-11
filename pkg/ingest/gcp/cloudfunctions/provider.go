@@ -1,0 +1,26 @@
+package cloudfunctions
+
+import (
+	"danny.vn/hotpot/pkg/ingest"
+	"danny.vn/hotpot/pkg/ingest/gcp"
+)
+
+func init() {
+	ingest.RegisterService(ingest.ServiceRegistration{
+		Provider:  "gcp",
+		Name:      "cloudfunctions",
+		Scope:     ingest.ScopeRegional,
+		APIName:   "cloudfunctions.googleapis.com",
+		Register:  Register,
+		Workflow:  GCPCloudFunctionsWorkflow,
+		NewParams: func(projectID, _, _ string) any {
+			return GCPCloudFunctionsWorkflowParams{ProjectID: projectID}
+		},
+		NewResult: func() any { return &GCPCloudFunctionsWorkflowResult{} },
+		Aggregate: func(result *gcp.GCPInventoryWorkflowResult, pr *gcp.ProjectResult, child any) {
+			r := child.(*GCPCloudFunctionsWorkflowResult)
+			pr.FunctionCount = r.FunctionCount
+			result.TotalFunctions += r.FunctionCount
+		},
+	})
+}

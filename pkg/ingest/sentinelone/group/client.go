@@ -1,0 +1,163 @@
+package group
+
+import (
+	"encoding/json"
+	"fmt"
+	"io"
+	"log/slog"
+	"net/http"
+	"net/url"
+	"time"
+
+	"danny.vn/hotpot/pkg/base/httperr"
+)
+
+// Client wraps the SentinelOne Groups API.
+type Client struct {
+	baseURL    string
+	apiToken   string
+	batchSize  int
+	httpClient *http.Client
+}
+
+// maxGroupsBatchSize is the maximum limit accepted by the SentinelOne Groups API.
+const maxGroupsBatchSize = 200
+
+// NewClient creates a new SentinelOne groups client.
+func NewClient(baseURL, apiToken string, batchSize int, httpClient *http.Client) *Client {
+	if batchSize > maxGroupsBatchSize {
+		batchSize = maxGroupsBatchSize
+	}
+	return &Client{
+		baseURL:    baseURL,
+		apiToken:   apiToken,
+		batchSize:  batchSize,
+		httpClient: httpClient,
+	}
+}
+
+// APIGroup represents the group data from the SentinelOne API response.
+type APIGroup struct {
+	ID          string  `json:"id"`
+	Name        string  `json:"name"`
+	SiteID      string  `json:"siteId"`
+	Type        string  `json:"type"`
+	IsDefault   bool    `json:"isDefault"`
+	Inherits    bool    `json:"inherits"`
+	Rank        *int    `json:"rank"`
+	TotalAgents int     `json:"totalAgents"`
+	Creator     string  `json:"creator"`
+	CreatorID   string  `json:"creatorId"`
+	FilterName  string  `json:"filterName"`
+	FilterID    string  `json:"filterId"`
+	CreatedAt         *string `json:"createdAt"`
+	UpdatedAt         *string `json:"updatedAt"`
+	RegistrationToken string  `json:"registrationToken"`
+}
+
+// GroupBatchResult contains a batch of groups and pagination info.
+type GroupBatchResult struct {
+	Groups     []APIGroup
+	NextCursor string
+	HasMore    bool
+	TotalItems int
+}
+
+// GetGroupsBatch retrieves a batch of groups with cursor pagination.
+func (c *Client) GetGroupsBatch(cursor string) (*GroupBatchResult, error) {
+	params := url.Values{}
+	params.Set("limit", fmt.Sprintf("%d", c.batchSize))
+	if cursor != "" {
+		params.Set("cursor", cursor)
+	}
+
+	body, err := c.doRequest("GET", "/web/api/v2.1/groups", params)
+	if err != nil {
+		return nil, fmt.Errorf("get groups: %w", err)
+	}
+
+	var response struct {
+		Data       []APIGroup `json:"data"`
+		Pagination struct {
+			NextCursor string `json:"nextCursor"`
+			TotalItems int    `json:"totalItems"`
+		} `json:"pagination"`
+	}
+
+	if err := json.Unmarshal(body, &response); err != nil {
+		return nil, fmt.Errorf("parse groups response: %w", err)
+	}
+
+	return &GroupBatchResult{
+		Groups:     response.Data,
+		NextCursor: response.Pagination.NextCursor,
+		HasMore:    response.Pagination.NextCursor != "",
+		TotalItems: response.Pagination.TotalItems,
+	}, nil
+}
+
+// GetCount returns the total number of groups using countOnly mode.
+func (c *Client) GetCount() (int, error) {
+	params := url.Values{}
+	params.Set("countOnly", "true")
+
+	body, err := c.doRequest("GET", "/web/api/v2.1/groups", params)
+	if err != nil {
+		return 0, fmt.Errorf("get groups count: %w", err)
+	}
+
+	var response struct {
+		Pagination struct {
+			TotalItems int `json:"totalItems"`
+		} `json:"pagination"`
+	}
+
+	if err := json.Unmarshal(body, &response); err != nil {
+		return 0, fmt.Errorf("parse groups count response: %w", err)
+	}
+
+	return response.Pagination.TotalItems, nil
+}
+
+func (c *Client) doRequest(method, endpoint string, params url.Values) ([]byte, error) {
+	requestURL := fmt.Sprintf("%s%s", c.baseURL, endpoint)
+	if params != nil {
+		requestURL = fmt.Sprintf("%s?%s", requestURL, params.Encode())
+	}
+
+	start := time.Now()
+
+	req, err := http.NewRequest(method, requestURL, nil)
+	if err != nil {
+		return nil, fmt.Errorf("create request: %w", err)
+	}
+
+	req.Header.Set("Authorization", fmt.Sprintf("ApiToken %s", c.apiToken))
+	req.Header.Set("Content-Type", "application/json")
+
+	slog.Debug("s1 api request", "method", method, "endpoint", endpoint)
+
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		slog.Error("s1 api request failed", "method", method, "endpoint", endpoint, "error", err, "durationMs", time.Since(start).Milliseconds())
+		return nil, fmt.Errorf("execute request: %w", err)
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("read response body: %w", err)
+	}
+
+	slog.Info("s1 api response", "method", method, "endpoint", endpoint, "status", resp.StatusCode, "responseBytes", len(body), "durationMs", time.Since(start).Milliseconds())
+
+	if resp.StatusCode == http.StatusUnauthorized || resp.StatusCode == http.StatusForbidden {
+		return nil, &httperr.APIError{Code: resp.StatusCode}
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("API request failed with status %d: %s", resp.StatusCode, string(body))
+	}
+
+	return body, nil
+}

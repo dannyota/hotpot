@@ -1,0 +1,28 @@
+# Temporal Dynamic Configuration for Development
+# See: https://docs.temporal.io/references/dynamic-configuration
+
+# Frontend settings
+frontend.keepAliveMaxConnectionAge:
+  - value: 5m
+
+# History settings
+history.maximumSignalNameLength:
+  - value: 256
+
+# Matching settings (task queue partitions)
+matching.numTaskqueueReadPartitions:
+  - value: 5
+matching.numTaskqueueWritePartitions:
+  - value: 5
+
+# Schedule settings
+worker.maxScheduleActionPerSecond:
+  - value: 10
+
+# Feature flags
+system.enableScheduler:
+  - value: true
+system.enableActivityEagerExecution:
+  - value: true
+system.enableEagerWorkflowStart:
+  - value: true

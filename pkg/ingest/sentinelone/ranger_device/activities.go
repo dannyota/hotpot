@@ -1,0 +1,77 @@
+package ranger_device
+
+import (
+	"context"
+	"fmt"
+	"net/http"
+
+	"go.temporal.io/sdk/activity"
+
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	ents1 "danny.vn/hotpot/pkg/storage/ent/s1"
+)
+
+// Activities holds dependencies for Temporal activities.
+type Activities struct {
+	configService *config.Service
+	entClient     *ents1.Client
+	limiter       ratelimit.Limiter
+}
+
+// NewActivities creates a new Activities instance.
+func NewActivities(configService *config.Service, entClient *ents1.Client, limiter ratelimit.Limiter) *Activities {
+	return &Activities{
+		configService: configService,
+		entClient:     entClient,
+		limiter:       limiter,
+	}
+}
+
+func (a *Activities) createClient() *Client {
+	httpClient := &http.Client{
+		Transport: ratelimit.NewRateLimitedTransport(a.limiter, nil),
+	}
+	return NewClient(
+		a.configService.S1BaseURL(),
+		a.configService.S1APIToken(),
+		a.configService.S1BatchSize(),
+		httpClient,
+	)
+}
+
+// IngestS1RangerDevicesResult contains the result of the ingest activity.
+type IngestS1RangerDevicesResult struct {
+	DeviceCount    int
+	DurationMillis int64
+}
+
+// IngestS1RangerDevicesActivity is the activity function reference for workflow registration.
+var IngestS1RangerDevicesActivity = (*Activities).IngestS1RangerDevices
+
+// IngestS1RangerDevices is a Temporal activity that ingests SentinelOne ranger devices with cursor pagination.
+func (a *Activities) IngestS1RangerDevices(ctx context.Context) (*IngestS1RangerDevicesResult, error) {
+	logger := activity.GetLogger(ctx)
+	logger.Info("Starting SentinelOne ranger device ingestion")
+
+	client := a.createClient()
+	service := NewService(client, a.entClient)
+
+	result, err := service.Ingest(ctx, func() {
+		activity.RecordHeartbeat(ctx, nil)
+	})
+	if err != nil {
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest ranger devices: %w", err))
+	}
+
+	logger.Info("Completed SentinelOne ranger device ingestion",
+		"deviceCount", result.DeviceCount,
+		"durationMillis", result.DurationMillis,
+	)
+
+	return &IngestS1RangerDevicesResult{
+		DeviceCount:    result.DeviceCount,
+		DurationMillis: result.DurationMillis,
+	}, nil
+}

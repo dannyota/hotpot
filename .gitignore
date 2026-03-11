@@ -1,0 +1,69 @@
+# Binaries
+bin/
+
+# Local-only commands
+cmd/debug-*/
+cmd/ingest-*/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test artifacts
+*.test
+*.out
+coverage.*
+*.coverprofile
+profile.cov
+
+# Go
+vendor/
+go.work
+go.work.sum
+
+# Secrets & credentials
+.env
+.env.*
+*.pem
+*.key
+*-credentials.json
+*-key.json
+service-account*.json
+credentials/
+secrets/
+config.yaml
+config.yml
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Claude Code
+.claude/
+
+# Air configs (hot reload)
+.air/
+
+# Admin UI
+admin/ui/node_modules/
+admin/ui/dist/
+admin/ui/.vite/
+
+# Air (hot reload)
+tmp/
+
+# OS
+.DS_Store
+Thumbs.db

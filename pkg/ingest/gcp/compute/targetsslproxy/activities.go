@@ -1,0 +1,95 @@
+package targetsslproxy
+
+import (
+	"context"
+	"fmt"
+
+	"go.temporal.io/sdk/activity"
+	"google.golang.org/api/option"
+
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/gcpauth"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	entcompute "danny.vn/hotpot/pkg/storage/ent/gcp/compute"
+)
+
+// Activities holds dependencies for Temporal activities.
+type Activities struct {
+	configService *config.Service
+	entClient     *entcompute.Client
+	limiter       ratelimit.Limiter
+}
+
+// NewActivities creates a new Activities instance.
+func NewActivities(configService *config.Service, entClient *entcompute.Client, limiter ratelimit.Limiter) *Activities {
+	return &Activities{
+		configService: configService,
+		entClient:     entClient,
+		limiter:       limiter,
+	}
+}
+
+// createClient creates a rate-limited GCP client with credentials.
+func (a *Activities) createClient(ctx context.Context, quotaProjectID string) (*Client, error) {
+	httpClient, err := gcpauth.NewHTTPClient(ctx, a.configService.GCPCredentialsJSON(), a.limiter)
+	if err != nil {
+		return nil, err
+	}
+	var opts []option.ClientOption
+	opts = append(opts, option.WithHTTPClient(httpClient))
+	if quotaProjectID != "" {
+		opts = append(opts, option.WithQuotaProject(quotaProjectID))
+	}
+	return NewClient(ctx, opts...)
+}
+
+// IngestComputeTargetSslProxiesParams contains parameters for the ingest activity.
+type IngestComputeTargetSslProxiesParams struct {
+	ProjectID      string
+	QuotaProjectID string
+}
+
+// IngestComputeTargetSslProxiesResult contains the result of the ingest activity.
+type IngestComputeTargetSslProxiesResult struct {
+	ProjectID           string
+	TargetSslProxyCount int
+	DurationMillis      int64
+}
+
+// IngestComputeTargetSslProxiesActivity is the activity function reference.
+var IngestComputeTargetSslProxiesActivity = (*Activities).IngestComputeTargetSslProxies
+
+// IngestComputeTargetSslProxies is a Temporal activity that ingests GCP Compute target SSL proxies.
+func (a *Activities) IngestComputeTargetSslProxies(ctx context.Context, params IngestComputeTargetSslProxiesParams) (*IngestComputeTargetSslProxiesResult, error) {
+	logger := activity.GetLogger(ctx)
+	logger.Info("Starting GCP Compute target SSL proxy ingestion", "projectID", params.ProjectID)
+
+	client, err := a.createClient(ctx, params.QuotaProjectID)
+	if err != nil {
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("create client: %w", err))
+	}
+	defer client.Close()
+
+	service := NewService(client, a.entClient)
+	result, err := service.Ingest(ctx, IngestParams{ProjectID: params.ProjectID})
+	if err != nil {
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("failed to ingest target SSL proxies: %w", err))
+	}
+
+	if err := service.DeleteStaleTargetSslProxies(ctx, params.ProjectID, result.CollectedAt); err != nil {
+		logger.Warn("Failed to delete stale target SSL proxies", "error", err)
+	}
+
+	logger.Info("Completed GCP Compute target SSL proxy ingestion",
+		"projectID", params.ProjectID,
+		"targetSslProxyCount", result.TargetSslProxyCount,
+		"durationMillis", result.DurationMillis,
+	)
+
+	return &IngestComputeTargetSslProxiesResult{
+		ProjectID:           result.ProjectID,
+		TargetSslProxyCount: result.TargetSslProxyCount,
+		DurationMillis:      result.DurationMillis,
+	}, nil
+}

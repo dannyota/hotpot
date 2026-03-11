@@ -1,0 +1,77 @@
+package agent
+
+import (
+	"context"
+	"fmt"
+	"net/http"
+
+	"go.temporal.io/sdk/activity"
+
+	"danny.vn/hotpot/pkg/base/config"
+	"danny.vn/hotpot/pkg/base/ratelimit"
+	"danny.vn/hotpot/pkg/base/temporalerr"
+	ents1 "danny.vn/hotpot/pkg/storage/ent/s1"
+)
+
+// Activities holds dependencies for Temporal activities.
+type Activities struct {
+	configService *config.Service
+	entClient     *ents1.Client
+	limiter       ratelimit.Limiter
+}
+
+// NewActivities creates a new Activities instance.
+func NewActivities(configService *config.Service, entClient *ents1.Client, limiter ratelimit.Limiter) *Activities {
+	return &Activities{
+		configService: configService,
+		entClient:     entClient,
+		limiter:       limiter,
+	}
+}
+
+func (a *Activities) createClient() *Client {
+	httpClient := &http.Client{
+		Transport: ratelimit.NewRateLimitedTransport(a.limiter, nil),
+	}
+	return NewClient(
+		a.configService.S1BaseURL(),
+		a.configService.S1APIToken(),
+		a.configService.S1BatchSize(),
+		httpClient,
+	)
+}
+
+// IngestS1AgentsResult contains the result of the ingest activity.
+type IngestS1AgentsResult struct {
+	AgentCount     int
+	DurationMillis int64
+}
+
+// IngestS1AgentsActivity is the activity function reference for workflow registration.
+var IngestS1AgentsActivity = (*Activities).IngestS1Agents
+
+// IngestS1Agents is a Temporal activity that ingests SentinelOne agents with cursor pagination.
+func (a *Activities) IngestS1Agents(ctx context.Context) (*IngestS1AgentsResult, error) {
+	logger := activity.GetLogger(ctx)
+	logger.Info("Starting SentinelOne agent ingestion")
+
+	client := a.createClient()
+	service := NewService(client, a.entClient)
+
+	result, err := service.Ingest(ctx, func() {
+		activity.RecordHeartbeat(ctx, nil)
+	})
+	if err != nil {
+		return nil, temporalerr.MaybeNonRetryable(fmt.Errorf("ingest agents: %w", err))
+	}
+
+	logger.Info("Completed SentinelOne agent ingestion",
+		"agentCount", result.AgentCount,
+		"durationMillis", result.DurationMillis,
+	)
+
+	return &IngestS1AgentsResult{
+		AgentCount:     result.AgentCount,
+		DurationMillis: result.DurationMillis,
+	}, nil
+}

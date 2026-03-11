@@ -1,0 +1,222 @@
+# Hotpot Configuration Example
+#
+# ⚠️  WARNING: This is an EXAMPLE file with PLACEHOLDER values
+# ⚠️  DO NOT use these values in production
+# ⚠️  Copy to config.yaml and replace ALL placeholders
+#
+# Quick start with docker compose (deploy/dev/):
+#   make dev-up
+#   cp config.yaml.example config.yaml
+# The defaults below match the dev docker-compose services.
+#
+# Usage:
+#   1. cp config.yaml.example config.yaml
+#   2. Replace all <PLACEHOLDER> values
+#   3. CONFIG_SOURCE=file CONFIG_FILE=config.yaml ./bin/ingest
+
+# Log level: debug, info, warn, error (default: info)
+# log_level: info
+
+# GCP Configuration
+gcp:
+  # Enable GCP ingestion (default: false)
+  enabled: true
+
+  # Service account credentials (JSON format)
+  # Optional - falls back to Application Default Credentials (ADC) if not set
+  # nosemgrep: generic.secrets.security.detected-generic-secret
+  # credentials_json: '{"type":"service_account","project_id":"...","private_key":"..."}'
+
+  # Quota project overrides which project is used for API billing and quota checks.
+  # Useful when the credentials project doesn't have all APIs enabled.
+  # If omitted, auto-detected from discovery data per API; falls back to credentials project.
+  # quota_project: my-hub-project
+
+  # API rate limiting (requests per minute across all GCP clients)
+  # Default: 600 if not set
+  rate_limit_per_minute: 600
+
+# SentinelOne Configuration
+# nosemgrep: generic.secrets.security.detected-generic-secret
+s1:
+  # Enable SentinelOne ingestion (default: false)
+  enabled: false
+  # base_url: "https://<YOUR_S1_CONSOLE>.sentinelone.net"
+  # api_token: "<YOUR_S1_API_TOKEN>"
+  # rate_limit_per_minute: 180  # Default: 180 (S1 has undocumented nginx rate limits)
+  # batch_size: 1000            # Default: 1000 (API max)
+
+# AWS Configuration
+# nosemgrep: generic.secrets.security.detected-generic-secret
+aws:
+  # Enable AWS ingestion (default: false)
+  enabled: false
+  # access_key_id: "<YOUR_AWS_ACCESS_KEY_ID>"       # Optional - falls back to default credential chain
+  # secret_access_key: "<YOUR_AWS_SECRET_ACCESS_KEY>"
+  # regions: ["us-east-1", "ap-southeast-1"]  # Optional - discovers all regions if not set
+  # rate_limit_per_minute: 600  # Default: 600
+
+# DigitalOcean Configuration
+# nosemgrep: generic.secrets.security.detected-generic-secret
+do:
+  # Enable DigitalOcean ingestion (default: false)
+  enabled: false
+  # api_token: "<YOUR_DO_API_TOKEN>"
+  # rate_limit_per_minute: 300  # Default: 300
+
+# GreenNode Configuration
+# nosemgrep: generic.secrets.security.detected-generic-secret
+greennode:
+  # Enable GreenNode ingestion (default: false)
+  enabled: false
+  # regions: ["hcm-3", "han-1"]
+  # project_id: "<YOUR_PROJECT_ID>"
+  #
+  # Auth option 1: Service account (client_id + client_secret)
+  # client_id: "<YOUR_CLIENT_ID>"
+  # client_secret: "<YOUR_CLIENT_SECRET>"
+  #
+  # Auth option 2: IAM user (takes priority over service account when username is set)
+  # root_email: "<YOUR_ROOT_EMAIL>"
+  # username: "<YOUR_USERNAME>"
+  # password: "<YOUR_PASSWORD>"
+  # totp_secret: "<YOUR_BASE32_TOTP_SECRET>"  # Optional, for accounts with 2FA
+  #
+  # rate_limit_per_minute: 300  # Default: 300
+
+# ManageEngine Endpoint Central Configuration
+# nosemgrep: generic.secrets.security.detected-generic-secret
+meec:
+  # Enable MEEC ingestion (default: false)
+  enabled: false
+  # base_url: "https://<MEEC_HOST>:8383"
+  # username: "<YOUR_MEEC_USERNAME>"
+  # password: "<YOUR_MEEC_PASSWORD>"
+  # auth_type: "local_authentication"     # Default: local_authentication (or "ad_authentication")
+  # totp_secret: "<YOUR_BASE32_TOTP_SECRET>"  # Optional, for accounts with 2FA
+  # api_version: "1.4"                    # Default: 1.4
+  # verify_ssl: false                     # Default: true (set false for self-signed certs)
+  # rate_limit_per_minute: 120            # Default: 120
+
+# Vault Configuration (PKI certificate ingestion)
+# nosemgrep: generic.secrets.security.detected-generic-secret
+vault:
+  # Enable Vault ingestion (default: false)
+  enabled: false
+  # rate_limit_per_minute: 60  # Default: 60
+  # instances:
+  #   - name: "prod-vault"
+  #     address: "https://vault.example.com"
+  #     token: "<YOUR_VAULT_TOKEN>"
+  #     verify_ssl: true  # Default: true
+
+# Jenkins Configuration
+# nosemgrep: generic.secrets.security.detected-generic-secret
+jenkins:
+  # Enable Jenkins ingestion (default: false)
+  enabled: false
+  # base_url: "https://jenkins.example.com"
+  # username: "<YOUR_JENKINS_USERNAME>"
+  # api_token: "<YOUR_JENKINS_API_TOKEN>"
+  # verify_ssl: true              # Default: true
+  # timeout: 30                   # Seconds, default: 30
+  # since: "2024-01-01"           # Only process jobs with builds since this date
+  # max_builds_per_job: 1000      # Safety cap per run, default: 1000
+  # exclude_repos: []             # Repo URL patterns to exclude
+  # rate_limit_per_minute: 120    # Default: 120
+
+# Reference Data Configuration (NVD CPE, Ubuntu/RHEL packages)
+reference:
+  # Enable reference data ingestion (default: false)
+  enabled: false
+  # rate_limit_per_minute: 30  # Default: 30 (gentle on public servers)
+
+# Access Log Monitoring Configuration
+# Ingests HTTP access logs via BigQuery Log Analytics (server-side aggregation).
+accesslog:
+  # Enable access log monitoring (default: false)
+  enabled: false
+
+  # How many days to keep access log data (bronze + silver). Default: 90
+  # retention_days: 90
+
+  # How far back to ingest on first run (no existing cursor). Default: 0 (1 hour).
+  # Capped to retention_days automatically.
+  # 30 days @ 60-min windows = ~720 BQ queries, completes in minutes.
+  # backfill_days: 30
+
+  # Window size (minutes) during backfill. Larger = fewer queries, coarser data.
+  # Normal collection uses source interval_minutes (default 5). Default: 60
+  # backfill_interval_minutes: 60
+
+  # GeoIP city database path. Optional - auto-downloaded if missing.
+  # Default: "data/geoip/dbip-city.mmdb" relative to the binary
+  # geoip_city_path: "data/geoip/dbip-city.mmdb"
+
+  # GeoIP ASN database path. Optional - auto-downloaded if missing.
+  # Default: "data/geoip/ipinfo-asn.mmdb" relative to the binary
+  # geoip_asn_path: "data/geoip/ipinfo-asn.mmdb"
+
+  # IPinfo API token for downloading IPinfo ASN database.
+  # Optional - falls back to free DB-IP ASN database if not set.
+  # nosemgrep: generic.secrets.security.detected-generic-secret
+  # ipinfo_token: "<YOUR_IPINFO_TOKEN>"
+
+  # Access log sources. Each source defines where to ingest logs from.
+  # Requires: GCP log bucket upgraded to Log Analytics with a linked BigQuery dataset.
+  # Currently supported types: gcplogging (BigQuery Log Analytics)
+  # nosemgrep: generic.secrets.security.detected-generic-secret
+  # sources:
+  #   - name: "prod-dmz-nginx"              # Unique identifier for this source
+  #     type: gcplogging
+  #     role: primary                       # primary = owns counts; enrichment = adds fields only
+  #     project_id: "my-gcp-project"        # GCP project ID
+  #     bigquery_table: "my-gcp-project.my_dataset._AllLogs"  # Log Analytics linked dataset table
+  #     bq_filter: >-                       # BigQuery SQL WHERE clause fragment
+  #       resource.type = 'gce_instance'
+  #       AND REGEXP_CONTAINS(resource.labels['compute.googleapis.com/resource_name'], r'^vmx-dmz-nginx-')
+  #     field_mapping:                      # Map nginx JSON log keys to standard names
+  #       uri: uri
+  #       method: method
+  #       status: status
+  #       request_time: request_time
+  #       body_bytes_sent: body_bytes_sent
+  #       remote_addr: remote_addr
+  #       http_user_agent: http_user_agent
+  #       http_host: http_host
+  #     # interval_minutes: 5              # Optional, default: 5
+  #     # credentials_json: '{"type":"service_account",...}'  # Optional - falls back to ADC
+  #
+  #   - name: "prod-kong-gateway"
+  #     type: gcplogging
+  #     role: enrichment
+  #     project_id: "my-gcp-project"
+  #     bigquery_table: "my-gcp-project.my_dataset._AllLogs"
+  #     bq_filter: >-
+  #       resource.type = 'k8s_container'
+  #       AND resource.labels.container_name = 'kong'
+  #     # No credentials_json - uses ADC
+
+# Database Configuration (REQUIRED)
+# nosemgrep: generic.secrets.security.detected-generic-secret
+database:
+  host: localhost  # or <YOUR_DATABASE_HOST>
+  port: 5432
+  user: postgres   # Replace with your database user
+  password: postgres  # CHANGEME: Use strong password or Vault in production
+  dbname: hotpot_dev
+  sslmode: disable  # SECURITY: Use 'require' or 'verify-full' in production
+  # sslmode options: disable (dev only), require, verify-ca, verify-full
+
+# Temporal Configuration (REQUIRED)
+temporal:
+  host_port: localhost:7233  # REQUIRED - Replace with your Temporal server
+  namespace: default         # Optional - defaults to "default"
+
+# Redis Configuration (for rate limiting)
+# Optional - falls back to in-memory rate limiting if not set
+# nosemgrep: generic.secrets.security.detected-generic-secret
+redis:
+  address: localhost:6379  # or <YOUR_REDIS_HOST>:6379
+  password: ""  # No password for dev; set for production
+  db: 0  # Optional - defaults to 0

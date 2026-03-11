@@ -1,0 +1,28 @@
+package spanner
+
+import (
+	"danny.vn/hotpot/pkg/ingest"
+	"danny.vn/hotpot/pkg/ingest/gcp"
+)
+
+func init() {
+	ingest.RegisterService(ingest.ServiceRegistration{
+		Provider:  "gcp",
+		Name:      "spanner",
+		Scope:     ingest.ScopeRegional,
+		APIName:   "spanner.googleapis.com",
+		Register:  Register,
+		Workflow:  GCPSpannerWorkflow,
+		NewParams: func(projectID, _, _ string) any {
+			return GCPSpannerWorkflowParams{ProjectID: projectID}
+		},
+		NewResult: func() any { return &GCPSpannerWorkflowResult{} },
+		Aggregate: func(result *gcp.GCPInventoryWorkflowResult, pr *gcp.ProjectResult, child any) {
+			r := child.(*GCPSpannerWorkflowResult)
+			pr.SpannerInstanceCount = r.InstanceCount
+			pr.SpannerDatabaseCount = r.DatabaseCount
+			result.TotalSpannerInstances += r.InstanceCount
+			result.TotalSpannerDatabases += r.DatabaseCount
+		},
+	})
+}

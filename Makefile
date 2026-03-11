@@ -1,0 +1,115 @@
+.PHONY: help build build-normalize build-detect build-migrate build-admin admin-dev admin-api-dev clean test vet generate genmigrate migrate dev-up dev-down dev-reset
+
+NAME    ?= auto
+SCHEMA  ?= pkg/storage/ent
+MIGDIR  ?= deploy/migrations
+DB      ?= hotpot_dev
+
+ifeq ($(OS),Windows_NT)
+  MKDIR_BIN = if not exist bin mkdir bin
+  RM_BIN = if exist bin rmdir /s /q bin
+  RM_LOOSE = if exist ingest.exe del /q ingest.exe & if exist normalize.exe del /q normalize.exe & if exist detect.exe del /q detect.exe & if exist migrate.exe del /q migrate.exe & if exist genmigrate.exe del /q genmigrate.exe
+  BIN_EXT = .exe
+else
+  MKDIR_BIN = mkdir -p bin
+  RM_BIN = rm -rf bin/
+  RM_LOOSE = rm -f ingest normalize detect migrate genmigrate
+  BIN_EXT =
+endif
+
+help: ## Show this help
+ifeq ($(OS),Windows_NT)
+	@echo Available targets: help build build-migrate clean test vet generate genmigrate migrate dev-up dev-down dev-reset
+else
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+endif
+
+build: ## Build all ingest binaries
+	@$(MKDIR_BIN)
+	@for dir in cmd/ingest*/; do \
+		name=$$(basename $$dir); \
+		echo "Building $$name..."; \
+		go build -o bin/$$name$(BIN_EXT) ./$$dir; \
+	done
+	@echo "Production binaries built in bin/"
+
+build-normalize: ## Build normalize binary
+	@$(MKDIR_BIN)
+	@echo "Building normalize..."
+	@go build -o bin/normalize$(BIN_EXT) ./cmd/normalize
+	@echo "normalize built in bin/"
+
+build-detect: ## Build detect binary
+	@$(MKDIR_BIN)
+	@echo "Building detect..."
+	@go build -o bin/detect$(BIN_EXT) ./cmd/detect
+	@echo "detect built in bin/"
+
+build-migrate: ## Build migrate binary
+	@$(MKDIR_BIN)
+	@echo "Building migrate..."
+	@go build -o bin/migrate$(BIN_EXT) ./cmd/migrate
+	@echo "migrate built in bin/"
+
+build-genmigrate:
+	@$(MKDIR_BIN)
+	@echo "Building genmigrate..."
+	@go build -o bin/genmigrate$(BIN_EXT) ./tools/genmigrate
+	@echo "genmigrate built in bin/"
+
+build-admin: ## Build admin binary (includes Vue UI)
+	@cd admin/ui && pnpm run build
+	@$(MKDIR_BIN)
+	@echo "Building admin..."
+	@go build -o bin/admin$(BIN_EXT) ./cmd/admin
+	@echo "admin built in bin/"
+
+admin-dev: ## Run admin API with hot reload + Vite HMR
+	@echo "Starting API (air) on :8080 and Vite on :5173..."
+	@cd admin/ui && npx vite &
+	@air -c .air/admin-api.toml
+
+admin-api-dev: ## Run admin API with hot reload (no frontend)
+	@air -c .air/admin-api.toml
+
+clean: ## Remove built binaries
+	@$(RM_BIN)
+	@$(RM_LOOSE)
+	@echo "Cleaned"
+
+test: ## Run tests
+	@go test ./... -v
+
+vet: ## Run go vet
+	@go vet ./...
+
+generate: ## Generate ent code
+	@cd pkg/storage && go generate
+	@echo "Ent code generated"
+
+## ── Migrations ────────────────────────────────────────────
+
+genmigrate: ## Generate migration SQL (NAME=description DB=dbname)
+	@go run ./tools/genmigrate --schema $(SCHEMA) --out $(MIGDIR) --db $(DB) $(NAME)
+
+migrate: ## Apply pending migrations (use SEED=1 to seed data)
+	@$(MKDIR_BIN)
+	@echo "Building migrate..."
+	@go build -o bin/migrate$(BIN_EXT) ./cmd/migrate
+	@echo "migrate built in bin/"
+	@go run ./cmd/migrate $(if $(SEED),--seed,)
+
+## ── Dev Infrastructure ──────────────────────────────────────
+
+dev-up: ## Start dev infrastructure (PostgreSQL, Redis, Temporal, Metabase)
+	@docker compose -f deploy/dev/docker-compose.yml up -d
+	@echo "Dev infrastructure starting... use 'docker compose -f deploy/dev/docker-compose.yml ps' to check status"
+
+dev-down: ## Stop dev infrastructure
+	@docker compose -f deploy/dev/docker-compose.yml down
+
+dev-reset: ## Stop dev infrastructure and destroy all data
+	@docker compose -f deploy/dev/docker-compose.yml down -v
+	@echo "Dev infrastructure stopped and volumes removed"
+
+.DEFAULT_GOAL := help

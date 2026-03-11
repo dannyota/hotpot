@@ -1,0 +1,115 @@
+package account
+
+import (
+	"encoding/json"
+	"fmt"
+	"io"
+	"log/slog"
+	"net/http"
+	"net/url"
+	"time"
+
+	"danny.vn/hotpot/pkg/base/httperr"
+)
+
+// Client wraps the SentinelOne Accounts API.
+type Client struct {
+	baseURL    string
+	apiToken   string
+	batchSize  int
+	httpClient *http.Client
+}
+
+// NewClient creates a new SentinelOne accounts client.
+func NewClient(baseURL, apiToken string, batchSize int, httpClient *http.Client) *Client {
+	return &Client{
+		baseURL:    baseURL,
+		apiToken:   apiToken,
+		batchSize:  batchSize,
+		httpClient: httpClient,
+	}
+}
+
+// APIAccount represents the account data from the SentinelOne API response.
+type APIAccount struct {
+	ID                  string          `json:"id"`
+	Name                string          `json:"name"`
+	State               string          `json:"state"`
+	AccountType         string          `json:"accountType"`
+	CreatedAt           *time.Time      `json:"createdAt"`
+	UpdatedAt           *time.Time      `json:"updatedAt"`
+	Expiration          *string         `json:"expiration"`
+	UnlimitedExpiration bool            `json:"unlimitedExpiration"`
+	ActiveAgents        int             `json:"activeAgents"`
+	TotalLicenses       int             `json:"totalLicenses"`
+	UsageType           string          `json:"usageType"`
+	BillingMode         string          `json:"billingMode"`
+	Creator             string          `json:"creator"`
+	CreatorID           string          `json:"creatorId"`
+	NumberOfSites       int             `json:"numberOfSites"`
+	ExternalID          string          `json:"externalId"`
+	Licenses            json.RawMessage `json:"licenses"`
+}
+
+// GetAccounts retrieves all accounts.
+func (c *Client) GetAccounts() ([]APIAccount, error) {
+	params := url.Values{}
+	params.Set("limit", fmt.Sprintf("%d", c.batchSize))
+
+	body, err := c.doRequest("GET", "/web/api/v2.1/accounts", params)
+	if err != nil {
+		return nil, fmt.Errorf("get accounts: %w", err)
+	}
+
+	var response struct {
+		Data []APIAccount `json:"data"`
+	}
+
+	if err := json.Unmarshal(body, &response); err != nil {
+		return nil, fmt.Errorf("parse accounts response: %w", err)
+	}
+
+	return response.Data, nil
+}
+
+func (c *Client) doRequest(method, endpoint string, params url.Values) ([]byte, error) {
+	requestURL := fmt.Sprintf("%s%s", c.baseURL, endpoint)
+	if params != nil {
+		requestURL = fmt.Sprintf("%s?%s", requestURL, params.Encode())
+	}
+	start := time.Now()
+
+	req, err := http.NewRequest(method, requestURL, nil)
+	if err != nil {
+		return nil, fmt.Errorf("create request: %w", err)
+	}
+
+	req.Header.Set("Authorization", fmt.Sprintf("ApiToken %s", c.apiToken))
+	req.Header.Set("Content-Type", "application/json")
+
+	slog.Debug("s1 api request", "method", method, "endpoint", endpoint)
+
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		slog.Error("s1 api request failed", "method", method, "endpoint", endpoint, "error", err, "durationMs", time.Since(start).Milliseconds())
+		return nil, fmt.Errorf("execute request: %w", err)
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("read response body: %w", err)
+	}
+
+	slog.Info("s1 api response", "method", method, "endpoint", endpoint, "status", resp.StatusCode, "responseBytes", len(body), "durationMs", time.Since(start).Milliseconds())
+
+	if resp.StatusCode == http.StatusUnauthorized || resp.StatusCode == http.StatusForbidden {
+		return nil, &httperr.APIError{Code: resp.StatusCode}
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("API request failed with status %d: %s", resp.StatusCode, string(body))
+	}
+
+	return body, nil
+}

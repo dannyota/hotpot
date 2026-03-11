@@ -1,0 +1,74 @@
+package project
+
+import (
+	entresourcemanager "danny.vn/hotpot/pkg/storage/ent/gcp/resourcemanager"
+)
+
+// ProjectDiff represents changes between old and new project state.
+type ProjectDiff struct {
+	IsNew      bool
+	IsChanged  bool
+	LabelsDiff ChildDiff
+}
+
+// ChildDiff represents changes in a child collection.
+type ChildDiff struct {
+	HasChanges bool
+}
+
+// HasAnyChange returns true if there are any changes.
+func (d *ProjectDiff) HasAnyChange() bool {
+	return d.IsNew || d.IsChanged || d.LabelsDiff.HasChanges
+}
+
+// DiffProjectData compares existing Ent entity with new ProjectData and returns differences.
+func DiffProjectData(old *entresourcemanager.BronzeGCPProject, new *ProjectData) *ProjectDiff {
+	diff := &ProjectDiff{}
+
+	// New project
+	if old == nil {
+		diff.IsNew = true
+		return diff
+	}
+
+	// Compare core fields
+	if old.DisplayName != new.DisplayName ||
+		old.State != new.State ||
+		old.Parent != new.Parent ||
+		old.UpdateTime != new.UpdateTime ||
+		old.DeleteTime != new.DeleteTime ||
+		old.Etag != new.Etag {
+		diff.IsChanged = true
+	}
+
+	// Compare labels
+	diff.LabelsDiff = diffLabelsData(old.Edges.Labels, new.Labels)
+
+	return diff
+}
+
+// diffLabelsData compares Ent labels with new label data.
+func diffLabelsData(old []*entresourcemanager.BronzeGCPProjectLabel, new []LabelData) ChildDiff {
+	diff := ChildDiff{}
+
+	if len(old) != len(new) {
+		diff.HasChanges = true
+		return diff
+	}
+
+	// Build map of old labels
+	oldMap := make(map[string]string, len(old))
+	for _, l := range old {
+		oldMap[l.Key] = l.Value
+	}
+
+	// Compare with new labels
+	for _, l := range new {
+		if oldValue, ok := oldMap[l.Key]; !ok || oldValue != l.Value {
+			diff.HasChanges = true
+			return diff
+		}
+	}
+
+	return diff
+}

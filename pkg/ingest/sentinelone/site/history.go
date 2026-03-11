@@ -1,0 +1,126 @@
+package site
+
+import (
+	"context"
+	"fmt"
+	"time"
+
+	ents1 "danny.vn/hotpot/pkg/storage/ent/s1"
+	"danny.vn/hotpot/pkg/storage/ent/s1/bronzehistorys1site"
+)
+
+// HistoryService handles history tracking for sites.
+type HistoryService struct {
+	entClient *ents1.Client
+}
+
+// NewHistoryService creates a new history service.
+func NewHistoryService(entClient *ents1.Client) *HistoryService {
+	return &HistoryService{entClient: entClient}
+}
+
+func (h *HistoryService) buildCreate(tx *ents1.Tx, data *SiteData) *ents1.BronzeHistoryS1SiteCreate {
+	create := tx.BronzeHistoryS1Site.Create().
+		SetResourceID(data.ResourceID).
+		SetName(data.Name).
+		SetAccountID(data.AccountID).
+		SetAccountName(data.AccountName).
+		SetState(data.State).
+		SetSiteType(data.SiteType).
+		SetSuite(data.Suite).
+		SetCreator(data.Creator).
+		SetCreatorID(data.CreatorID).
+		SetHealthStatus(data.HealthStatus).
+		SetActiveLicenses(data.ActiveLicenses).
+		SetTotalLicenses(data.TotalLicenses).
+		SetUnlimitedLicenses(data.UnlimitedLicenses).
+		SetIsDefault(data.IsDefault).
+		SetDescription(data.Description).
+		SetExternalID(data.ExternalID).
+		SetSku(data.SKU).
+		SetUsageType(data.UsageType).
+		SetUnlimitedExpiration(data.UnlimitedExpiration).
+		SetInheritAccountExpiration(data.InheritAccountExpiration)
+
+	if data.APICreatedAt != nil {
+		create.SetAPICreatedAt(*data.APICreatedAt)
+	}
+	if data.Expiration != nil {
+		create.SetExpiration(*data.Expiration)
+	}
+	if data.APIUpdatedAt != nil {
+		create.SetAPIUpdatedAt(*data.APIUpdatedAt)
+	}
+	if data.LicensesJSON != nil {
+		create.SetLicensesJSON(data.LicensesJSON)
+	}
+
+	return create
+}
+
+// CreateHistory creates a history record for a new site.
+func (h *HistoryService) CreateHistory(ctx context.Context, tx *ents1.Tx, data *SiteData, now time.Time) error {
+	_, err := h.buildCreate(tx, data).
+		SetValidFrom(now).
+		SetCollectedAt(data.CollectedAt).
+		SetFirstCollectedAt(data.CollectedAt).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("create site history: %w", err)
+	}
+	return nil
+}
+
+// UpdateHistory closes old history and creates new for a changed site.
+func (h *HistoryService) UpdateHistory(ctx context.Context, tx *ents1.Tx, old *ents1.BronzeS1Site, new *SiteData, now time.Time) error {
+	currentHist, err := tx.BronzeHistoryS1Site.Query().
+		Where(
+			bronzehistorys1site.ResourceID(old.ID),
+			bronzehistorys1site.ValidToIsNil(),
+		).
+		First(ctx)
+	if err != nil {
+		return fmt.Errorf("find current site history: %w", err)
+	}
+
+	if err := tx.BronzeHistoryS1Site.UpdateOne(currentHist).
+		SetValidTo(now).
+		Exec(ctx); err != nil {
+		return fmt.Errorf("close site history: %w", err)
+	}
+
+	_, err = h.buildCreate(tx, new).
+		SetValidFrom(now).
+		SetCollectedAt(new.CollectedAt).
+		SetFirstCollectedAt(old.FirstCollectedAt).
+		Save(ctx)
+	if err != nil {
+		return fmt.Errorf("create new site history: %w", err)
+	}
+
+	return nil
+}
+
+// CloseHistory closes history records for a deleted site.
+func (h *HistoryService) CloseHistory(ctx context.Context, tx *ents1.Tx, resourceID string, now time.Time) error {
+	currentHist, err := tx.BronzeHistoryS1Site.Query().
+		Where(
+			bronzehistorys1site.ResourceID(resourceID),
+			bronzehistorys1site.ValidToIsNil(),
+		).
+		First(ctx)
+	if err != nil {
+		if ents1.IsNotFound(err) {
+			return nil
+		}
+		return fmt.Errorf("find current site history: %w", err)
+	}
+
+	if err := tx.BronzeHistoryS1Site.UpdateOne(currentHist).
+		SetValidTo(now).
+		Exec(ctx); err != nil {
+		return fmt.Errorf("close site history: %w", err)
+	}
+
+	return nil
+}
